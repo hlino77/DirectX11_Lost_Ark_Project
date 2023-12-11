@@ -46,9 +46,9 @@ HRESULT CBackGround_Server::Initialize(void* pArg)
 
 void CBackGround_Server::Tick(_float fTimeDelta)
 {
-	if(149 > m_fFrame)
+	if(148.f > m_fFrame)
 		m_fFrame += (fTimeDelta * 20.f);
-	else if(149 <= m_fFrame)
+	else if(148.f <= m_fFrame)
 		m_fFrame = 0.f;
 }
 
@@ -89,7 +89,7 @@ HRESULT CBackGround_Server::Ready_Components()
 		return E_FAIL;
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_Select"),
+	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Select_BackGround"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 

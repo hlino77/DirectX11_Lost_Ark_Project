@@ -57,8 +57,6 @@ HRESULT CUI::Render()
 
 	m_pVIBufferCom->Render();
 
-	//CGameInstance::GetInstance()->DrawFont(L"125", szString, Vec2(0.0f, 0.0f), Vec4(0.0f, 0.0f, 0.0f, 1.0f), 0.0f, Vec2(0.0f, 0.0f), Vec2(0.5f, 0.5f));
-
 	return S_OK;
 }
 
@@ -86,35 +84,39 @@ void CUI::Disappear()
 	m_eState = UISTATE::DISAPPEAR;
 }
 
+void CUI::Picking_UI()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);  // 클라이언트 내에 마우스 포인터 가져오기 
+
+	_uint ViewPortIndex = 1;
+	CD3D11_VIEWPORT ViewPort;
+
+	m_pContext->RSGetViewports(&ViewPortIndex, &ViewPort); // 뷰포트 가져오기 
+
+	if (PtInRect(&m_rcUI, pt))   //  PtInRect(네모주소, 마우스 포인트) 이 함수가 개꿀 함수입니다 그냥 네모 구역에 마우스 있는지 바로 인식해줌
+		m_bPick = true;
+	else
+		m_bPick = false;
+}
+
+void CUI::Create_Rect()
+{
+	m_rcUI.left = LONG(m_fX - (m_fSizeX / 2));
+	m_rcUI.top = LONG(m_fY - (m_fSizeY / 2));
+	m_rcUI.right = LONG(m_fX + (m_fSizeX / 2));
+	m_rcUI.bottom = LONG(m_fY + (m_fSizeY / 2));
+}
+
+void CUI::RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec)
+{
+	auto newEnd = std::remove_if(vec.begin(), vec.end(), [](CGameObject* item) { return item->Is_Die(); });
+	vec.erase(newEnd, vec.end());
+}
+
 HRESULT CUI::Ready_Components()
 {
-	/* Com_Renderer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
-
-	/* Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
-
-
-	/* Com_Transform */
-	CTransform::tagTransformDesc		TransformDesc;
-	ZeroMemory(&TransformDesc, sizeof TransformDesc);	
-
-	TransformDesc.fSpeedPerSec = 5.f;
-	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -135,7 +137,7 @@ HRESULT CUI::Bind_ShaderResources()
 		return E_FAIL;
 
 
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	//m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 
 	return S_OK;
 }

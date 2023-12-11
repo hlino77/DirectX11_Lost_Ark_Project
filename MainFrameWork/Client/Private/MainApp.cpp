@@ -13,7 +13,6 @@
 #include "MainLogo.h"
 #include "BackGround_Loading.h"
 #include "BackGround_MainLogo.h"
-#include "BackGround_Server.h"
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
 #include "NavigationMgr.h"
@@ -231,10 +230,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/MainLogo/Login_Logo%d.png", 36))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_Select"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/Server_BackGround/%d.jpg", 149))))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_MainLogo"),
 		CMainLogo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -245,10 +240,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_LostArk_MainLogo"),
 		CBackGround_MainLogo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Server"),
-		CBackGround_Server::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_Model */

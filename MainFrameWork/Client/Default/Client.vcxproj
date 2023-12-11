@@ -199,6 +199,10 @@
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UI_ServerGrid.h" />
+    <ClInclude Include="..\Public\UI_ServerLogo.h" />
+    <ClInclude Include="..\Public\UI_ServerWnd.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -244,6 +248,10 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
+    <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
+    <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

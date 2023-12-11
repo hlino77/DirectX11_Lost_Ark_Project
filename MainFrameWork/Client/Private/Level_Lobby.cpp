@@ -94,7 +94,7 @@ HRESULT CLevel_Lobby::Ready_Layer_BackGround()
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-
+	//캐릭터 선택창 백그라운드
 	if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOGO, _uint(LAYER_TYPE::LAYER_BACKGROUND), TEXT("Prototype_GameObject_BackGround_MainLogo")))
 		return E_FAIL;
 

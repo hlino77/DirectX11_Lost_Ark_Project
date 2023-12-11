@@ -1,5 +1,3 @@
-
-
 //// xcopy /옵션 .복사할파일이 있는 경로			.복사받을경로
 
 xcopy /y/s .\Engine\Public\*.*				.\Reference\Headers\
@@ -11,3 +9,5 @@ xcopy /y .\Engine\Bin\ShaderFiles\*.hlsl	.\Client\Bin\ShaderFiles\
 
 xcopy /y .\Engine\Bin\*.dll					.\Server\Bin\
 
+xcopy /y .\Engine\ThirdPartyLib\Physxd\*.dll					.\Server\Bin\
+xcopy /y .\Engine\ThirdPartyLib\Physxd\*.dll					.\Client\Bin\
