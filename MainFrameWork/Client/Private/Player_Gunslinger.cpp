@@ -44,8 +44,6 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 			return E_FAIL;
 	}
 
-
-
 	return S_OK;
 }
 
@@ -171,6 +169,23 @@ void CPlayer_Gunslinger::Set_Colliders(_float fTimeDelta)
 HRESULT CPlayer_Gunslinger::Ready_Components()
 {
 	__super::Ready_Components();
+
+	wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
+		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_GN_Legend_Body";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
+		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_GN_Lengend_Leg";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Leg"), (CComponent**)&m_pModelPartCom[(_uint)PART::LEG])))
+		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_GN_Face";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
+		return E_FAIL;
+
 	return S_OK;
 }
 

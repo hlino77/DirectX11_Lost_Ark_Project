@@ -124,26 +124,29 @@ HRESULT CPlayer::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
+	for (size_t i = 0; i < (_uint)PART::_END; i++)
 	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
+		if (nullptr == m_pModelPartCom[i]) continue;
 
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+		_uint		iNumMeshes = m_pModelPartCom[i]->Get_NumMeshes();
+
+		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return S_OK;
+
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
+			{
+				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
+					return S_OK;
+			}
+			else
+			{
+				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 2)))
+					return S_OK;
+			}
 		}
 	}
-
 	Safe_Release(pGameInstance);
 
 
@@ -765,6 +768,11 @@ void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iSta
 void CPlayer::Free()
 {
 	__super::Free();
+
+	for (size_t i = 0; i < (_uint)PART::_END; i++)
+	{
+		Safe_Release(m_pModelPartCom[i]);
+	}
 
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
