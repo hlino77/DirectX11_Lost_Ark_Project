@@ -5,7 +5,6 @@ BEGIN(Client)
 
 class CLineCircle;
 
-
 class CPlayer_Gunslinger : public CPlayer
 {
 public:
@@ -35,11 +34,11 @@ public:
 
 
 public:
-	void				Send_PlayerInfo();
+	void			Send_PlayerInfo();
 
-	void				Set_Colliders(_float fTimeDelta);
+	void			Set_Colliders(_float fTimeDelta);
 
-protected:
+private:
 	virtual HRESULT Ready_Components() override;
 	HRESULT			Ready_State();
 	HRESULT			Ready_Coliders();
@@ -50,7 +49,7 @@ private:
 
 
 private:
-	_float	m_fSendInfoTime = 0.0f;
+	_float			m_fSendInfoTime = 0.0f;
 
 
 public:

@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "StateMachine.h"
+#include "PartObject.h"
 
 BEGIN(Engine)
 class CModel;
@@ -22,6 +23,9 @@ BEGIN(Client)
 class CPlayer : public CGameObject
 {
 public:
+	enum class PART { FACE, HELMET, SHOULDER, BODY, ARM, LEG, _END };
+
+public:
 	typedef struct ModelDesc
 	{
 		wstring strFileName;
@@ -38,9 +42,6 @@ public:
 		_float m_fCurrCoolTime;
 		_bool m_bReady;
 	}SKILLINFO;
-
-
-
 
 protected:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -136,8 +137,8 @@ public:
 protected:
 	virtual HRESULT Ready_Components();
 	
-	void					CullingObject();
-	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
+	void			CullingObject();
+	void			Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
@@ -161,6 +162,8 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CShader* m_pShaderCom = nullptr;
 	CRenderer* m_pRendererCom = nullptr;
 
+	/* 파츠 모델컴 */
+	CModel* m_pModelPartCom[(_uint)PART::_END] = { nullptr };
 
 	//Culling
 	BoundingSphere m_tCullingSphere;
@@ -172,6 +175,7 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	wstring m_szNickName;
 	wstring m_VoiceSoundKey;
 	_float m_fVoiceSoundDelay;
+
 public:
 	virtual void Free();
 
