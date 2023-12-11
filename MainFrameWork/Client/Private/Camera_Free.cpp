@@ -1,6 +1,8 @@
 #include "stdafx.h"
-#include "..\Public\Camera_Free.h"
+#include "Camera_Free.h"
+#include "Engine_Defines.h"
 #include "GameInstance.h"
+
 
 CCamera_Free::CCamera_Free(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag)
 	: CCamera(pDevice, pContext, strObjTag)

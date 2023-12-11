@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "BackGround_MainLogo.h"
-
 #include "GameInstance.h"
 
 CBackGround_MainLogo::CBackGround_MainLogo(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

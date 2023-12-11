@@ -178,7 +178,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
 		return E_FAIL;
 
-	strComName = L"Prototype_Component_Model_GN_Lengend_Leg";
+	strComName = L"Prototype_Component_Model_GN_Legend_Leg";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Leg"), (CComponent**)&m_pModelPartCom[(_uint)PART::LEG])))
 		return E_FAIL;
 

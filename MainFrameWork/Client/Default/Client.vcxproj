@@ -168,10 +168,24 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\BackGround_Loading.h" />
+    <ClInclude Include="..\Public\BackGround_MainLogo.h" />
+    <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Boss.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
     <ClInclude Include="..\Public\Effect.h" />
+    <ClInclude Include="..\Public\EffectTool.h" />
+    <ClInclude Include="..\Public\ImGUI\imconfig.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h" />
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h" />
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
+    <ClInclude Include="..\Public\Level_Lobby.h" />
+    <ClInclude Include="..\Public\Level_ServerSelect.h" />
+    <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\MainLogo.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Player.h" />
@@ -194,7 +208,12 @@
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
+    <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UI_ServerGrid.h" />
+    <ClInclude Include="..\Public\UI_ServerLogo.h" />
+    <ClInclude Include="..\Public\UI_ServerWnd.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\Zombie_BT_Chase.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack1.h" />
@@ -218,10 +237,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround_Loading.cpp" />
+    <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
+    <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Boss.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
+    <ClCompile Include="..\Private\EffectTool.cpp" />
+    <ClCompile Include="..\Private\Level_Lobby.cpp" />
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
+    <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Player.cpp" />
@@ -251,7 +276,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
+    <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
+    <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
+    <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
@@ -262,6 +292,34 @@
     <ClCompile Include="..\Private\Zombie_BT_Maz.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Move.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Spawn.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

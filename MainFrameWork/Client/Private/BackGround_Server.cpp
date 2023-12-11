@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "BackGround_Server.h"
-
 #include "GameInstance.h"
-
 #include "Text_Manager.h"
+
+
 
 CBackGround_Server::CBackGround_Server(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext, L"MainLogo", OBJ_TYPE::UI)

@@ -12,7 +12,6 @@
 #include "RigidBody.h"
 #include "MainLogo.h"
 #include "BackGround_Loading.h"
-#include "BackGround_MainLogo.h"
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
 #include "NavigationMgr.h"
@@ -24,6 +23,8 @@
 #include "Camera_Free.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "BackGround_MainLogo.h"
+
 
 _float g_fVolume;
 
@@ -117,7 +118,7 @@ HRESULT CMainApp::Open_Level(LEVELID eLevelID)
 
 	/* 로고레베릉ㄹ 할당하고 싶었지만. 로고레벨을 위한 로딩레벨을 먼저 생성하여 로딩작업을 수행할꺼야. */
 	/* 로딩객체에게 eLevelID라는 내가 실제 할당ㅎ아고 싶었던 레벨열거체를 준거지?! 실제할당하고싶었던 레벨에 자원을 준비라하라고 */
-	if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID, L"MainLogo"))))
+	if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID, L"None"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -204,12 +205,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/BackGround_Loading.png"))))
 		return E_FAIL;
 
+
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LostArk_MainLogo"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/MainLogo/Login_Logo%d.png", 36))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_MainLogo"),
-		CMainLogo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),

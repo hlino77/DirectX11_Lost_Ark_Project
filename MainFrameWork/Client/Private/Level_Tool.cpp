@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "Level_Tool.h"
-#include "GameInstance.h"
-#include "Level_Loading.h"
 #include "UI.h"
-
-#include "GameInstance.h"
 #include "EffectTool.h"
+#include "GameInstance.h"
 
 CLevel_Tool::CLevel_Tool(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -106,7 +103,6 @@ HRESULT CLevel_Tool::Ready_Layer_BackGround()
 	/* 원형객체를 복제하여 사본객체를 생성하고 레이어에 추가한다. */
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-
 
 	Safe_Release(pGameInstance);
 
