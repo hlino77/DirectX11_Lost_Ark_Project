@@ -33,7 +33,7 @@ HRESULT CLevel_Logo::Tick(_float fTimeDelta)
 {
 	if (KEY_TAP(KEY::ENTER))
 	{
-		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SERVERSELECT, L"MainLogo"))))
+		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SERVERSELECT, L"None"))))
 			return E_FAIL;
 	}
 

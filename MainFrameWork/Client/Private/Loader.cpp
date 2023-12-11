@@ -62,8 +62,17 @@ _int CLoader::Loading()
 
 	switch (m_eNextLevel)
 	{
+	case LEVEL_TOOL:
+		hr = Loading_For_Level_Tool();
+		break;
 	case LEVEL_LOGO:
 		hr = Loading_For_Level_Logo();
+		break;
+	case LEVEL_SERVERSELECT:
+		hr = Loading_For_Level_ServerSelect();
+		break;
+	case LEVEL_LOBBY:
+		hr = Loading_For_Level_Lobby();
 		break;
 	case LEVEL_BERN:
 		hr = Loading_For_Level_Bern();
@@ -86,13 +95,29 @@ HRESULT CLoader::Loading_For_Level_Logo()
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
-	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_NickNameDialog"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/NickNameDialog.png"))))
-		return E_FAIL;
+	/* For.Shader */
+	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_NickNameInput"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/NickNameInput.png"))))
-		return E_FAIL;*/
+	/* For.GameObject */
+	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
+
+
+
+	Safe_Release(pGameInstance);
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_Tool()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	/* For.Texture */
+	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
@@ -100,10 +125,54 @@ HRESULT CLoader::Loading_For_Level_Logo()
 	/* For.GameObject */
 	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
 
-	///* For.Prototype_GameObject_BackGround */
-	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"), CBackGround::Create(m_pDevice, m_pContext))))
-	//	return E_FAIL;
-	
+
+
+	Safe_Release(pGameInstance);
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_ServerSelect()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	/* For.Texture */
+	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
+
+	/* For.Shader */
+	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
+
+	/* For.GameObject */
+	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
+
+
+
+	Safe_Release(pGameInstance);
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_Lobby()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	/* For.Texture */
+	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
+
+	/* For.Shader */
+	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
+
+	/* For.GameObject */
+	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
+
 
 
 	Safe_Release(pGameInstance);
@@ -337,6 +406,18 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			return E_FAIL;
 	}
 
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Model_For_Level_Lobby()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 	Safe_Release(pGameInstance);
 	return S_OK;

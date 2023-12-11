@@ -63,7 +63,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 1-4. 게임내에서 사용할 레벨(씬)을 생성한다.   */
-	if (FAILED(Open_Level(LEVEL_TOOL)))
+	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
 
@@ -239,9 +239,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CMainLogo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/*if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
 		CBackGround_Loading::Create(m_pDevice, m_pContext))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_LostArk_MainLogo"),
 		CBackGround_MainLogo::Create(m_pDevice, m_pContext))))
