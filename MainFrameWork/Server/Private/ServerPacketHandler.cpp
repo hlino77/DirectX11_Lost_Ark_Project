@@ -195,33 +195,7 @@ bool Handel_S_CREATEOBJECT_Server(PacketSessionRef& session, Protocol::S_CREATE_
 	return true;
 }
 
-bool Handel_S_CHARACTERNAME_Server(PacketSessionRef& session, Protocol::S_CHARACTER_NAME& pkt)
-{
-	return true;
-}
 
-bool Handel_S_MATRIX_Server(PacketSessionRef& session, Protocol::S_MATRIX& pkt)
-{
-	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast_Others(pBuffer, session->GetSessionID());
-
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
-	CTransform* pTransform = dynamic_cast<CTransform*>(pObject->Get_Component(L"Com_Transform"));
-
-	Matrix matWorld;
-
-	memcpy(&matWorld.m[0], &pkt.matrix()[0], sizeof(_float) * 16);
-
-
-	pTransform->Set_WorldMatrix(matWorld);
-	Safe_Release(pGameInstance);
-
-	return true;
-}
 
 bool Handel_S_ANIMATION_Server(PacketSessionRef& session, Protocol::S_ANIMATION& pkt)
 {
@@ -376,17 +350,6 @@ bool Handel_S_COLLISION_Server(PacketSessionRef& session, Protocol::S_COLLISION&
 	return true;
 }
 
-bool Handel_S_NICKNAME_Server(PacketSessionRef& session, Protocol::S_NICKNAME& pkt)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	
-	Safe_Release(pGameInstance);
-
-	return true;
-}
-
 bool Handel_S_USERINFO_Server(PacketSessionRef& session, Protocol::S_USERINFO& pkt)
 {
 
@@ -406,46 +369,6 @@ bool Handel_S_NEARTARGET_Server(PacketSessionRef& session, Protocol::S_NEARTARGE
 	return true;
 }
 
-bool Handel_S_SETSKILL_Server(PacketSessionRef& session, Protocol::S_SETSKILL& pkt)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
-
-	if (pObject == nullptr)
-	{
-		Safe_Release(pGameInstance);
-		return true;
-	}
-
-	pkt.set_iskillobjectid(g_iObjectID++);
-
-	CSkill_Server::MODELDESC Desc;
-	Desc.strFileName = CAsUtils::ToWString(pkt.szskillname());
-	Desc.iObjectID = pkt.iskillobjectid();
-	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
-	Desc.pSkillOwner = pObject;
-
-	wstring szProtoName = L"Prototype_GameObject_Skill_";
-	szProtoName += Desc.strFileName;
-
-	CGameObject* pSkill = pGameInstance->Add_GameObject(pkt.ilevel(), Desc.iLayer, szProtoName, &Desc);
-	if (pSkill == nullptr)
-	{
-		Safe_Release(pGameInstance);
-		return true;
-	}
-
-
-	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast(pBuffer);
-
-
-	Safe_Release(pGameInstance);
-	return true;
-}
-
 bool Handel_S_SLOWMOTION_Server(PacketSessionRef& session, Protocol::S_SLOWMOTION& pkt)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -459,47 +382,11 @@ bool Handel_S_SLOWMOTION_Server(PacketSessionRef& session, Protocol::S_SLOWMOTIO
 	return true;
 }
 
-bool Handel_S_CAMSHAKE_Server(PacketSessionRef& session, Protocol::S_CAMSHAKE& pkt)
-{
-
-	return true;
-}
 
 bool Handel_S_EVENT_Server(PacketSessionRef& session, Protocol::S_EVENT& pkt)
 {
 	dynamic_cast<CServerEvent*>(CEventMgr::GetInstance()->Get_Event(pkt.ieventid()))->Set_ClientState(session->GetSessionID(), (EVENTSTATE)pkt.istate());
 
-	return true;
-}
-
-bool Handel_S_SKILLEXPLOSION_Server(PacketSessionRef& session, Protocol::S_SKILLEXPLOSION& pkt)
-{
-	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast_Others(pBuffer, session->GetSessionID());
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-
-	auto tObject = pkt.mutable_tobject();
-
-	_uint iObjectID = tObject->iobjectid();
-
-	CGameObject* pObject = pGameInstance->Find_GameObejct(tObject->ilevel(), tObject->ilayer(), iObjectID);
-	CSkill_Server* pSkill = dynamic_cast<CSkill_Server*>(pObject);
-
-	if (pSkill == nullptr)
-	{
-		Safe_Release(pGameInstance);
-		return true;
-	}
-
-	pSkill->Set_TargetPos(Vec3(tObject->mutable_vtargetpos()->mutable_data()));
-	pSkill->Get_TransformCom()->Set_WorldMatrix(Matrix(tObject->mutable_matworld()->mutable_data()));
-
-	pSkill->Explosion();
-
-	Safe_Release(pGameInstance);
 	return true;
 }
 

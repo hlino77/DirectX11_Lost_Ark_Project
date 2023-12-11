@@ -126,16 +126,6 @@ void CPlayer_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 	Safe_Release(pGameInstance);
 }
 
-void CPlayer_Server::Send_CamShake(_float fShakeForce, _float fShakeTime)
-{
-	Protocol::S_CAMSHAKE pkt;
-
-	pkt.set_fcamshake(fShakeForce);
-	pkt.set_fshaketime(fShakeTime);
-
-	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	m_pGameSession->Send(pSendBuffer);
-}
 
 void CPlayer_Server::Set_Colliders(_float fTimeDelta)
 {

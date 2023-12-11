@@ -35,7 +35,7 @@ public:
 	void					SetUp_OnCell(CGameObject* pObject, _uint iCount);
 
 
-	_bool					Intersects(Vec3 vOrigin, Vec3 vDir);
+	_bool					Intersects(Vec3 vOrigin, Vec3 vDir, _float& fDist);
 private:
 	vector<Vec3> m_Points;
 	vector<Vec3> m_OriginPoint;

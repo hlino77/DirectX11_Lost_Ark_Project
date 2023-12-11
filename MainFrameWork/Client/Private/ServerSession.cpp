@@ -12,13 +12,6 @@ CServerSession::CServerSession()
 void CServerSession::OnConnected()
 {
 	CServerSessionManager::GetInstance()->Set_ServerSession(static_pointer_cast<CServerSession>(shared_from_this()));
-
-	Protocol::S_NICKNAME pkt;
-
-	pkt.set_strnickname(CAsUtils::ToString(CServerSessionManager::GetInstance()->Get_NickName()));
-
-	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
-	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
 void CServerSession::OnRecvPacket(BYTE* buffer, int32 len)

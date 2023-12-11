@@ -40,7 +40,6 @@ HRESULT CBackGround_Loading::Initialize(void* pArg)
 	m_ProjMatrix = XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 
 
-
 	return S_OK;
 }
 

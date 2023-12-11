@@ -43,6 +43,9 @@ private:
 
 private:
 	HRESULT Loading_For_Level_Logo();
+	HRESULT Loading_For_Level_Tool();
+	HRESULT Loading_For_Level_ServerSelect();
+	HRESULT Loading_For_Level_Lobby();
 	HRESULT Loading_For_Level_Bern();
 
 	
@@ -51,6 +54,7 @@ private:
 
 
 	HRESULT Loading_Model_For_Level_Bern();
+	HRESULT Loading_Model_For_Level_Lobby();
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVELID eNextLevel);
 	virtual void Free() override;

@@ -38,9 +38,6 @@ public:
 	_bool	IsActive() { return m_bActive; }
 	void	Set_Active(_bool bActive) { m_bActive = bActive; }
 
-	_bool	IsPhysX() { return m_bPhysX; }
-	void	Set_PhysX(_bool bPhysX) { m_bPhysX = bPhysX; }
-
 	_bool	UseGravity()	const						{ return m_UseGravity; }
 	void	UseGravity(_bool UseGravity);
 
@@ -125,7 +122,6 @@ private:
 	_bool	m_bCompareGround = true;
 	_bool	m_bDrag = true;
 	_bool	m_bActive = true;
-	_bool	m_bPhysX = false;
 
 	_float	m_fMass;
 	_float	m_fDrag;

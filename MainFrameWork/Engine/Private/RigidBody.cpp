@@ -130,7 +130,7 @@ void CRigidBody::KineticUpdate(const _float& fTimeDelta)
 
 
 
-	if(m_bCompareGround && m_bPhysX == false)
+	if(m_bCompareGround)
 		UpdateGround(fTimeDelta);
 }
 

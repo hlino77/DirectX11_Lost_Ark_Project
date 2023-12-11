@@ -103,33 +103,6 @@ void CSkill_Server::Send_Collision(_uint iColLayer, CCollider* pOther, _bool bEn
 	Safe_Release(pGameInstance);
 }
 
-void CSkill_Server::Send_Explosion()
-{
-	Protocol::S_SKILLEXPLOSION pkt;
-
-	auto tObjectInfo = pkt.mutable_tobject();
-
-	tObjectInfo->set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
-	tObjectInfo->set_ilayer((_uint)LAYER_TYPE::LAYER_SKILL);
-	tObjectInfo->set_iobjectid(m_iObjectID);
-
-
-	auto vTargetPos = tObjectInfo->mutable_vtargetpos();
-	vTargetPos->Resize(3, 0.0f);
-	Vec3 vPlayerTargetPos = m_vTargetPos.load();
-	memcpy(vTargetPos->mutable_data(), &vPlayerTargetPos, sizeof(Vec3));
-
-
-	auto matWorld = tObjectInfo->mutable_matworld();
-	matWorld->Resize(16, 0.0f);
-	Matrix matPlayerWorld = m_pTransformCom->Get_WorldMatrix();
-	memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
-
-
-	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-}
-
 
 
 HRESULT CSkill_Server::Ready_Components()

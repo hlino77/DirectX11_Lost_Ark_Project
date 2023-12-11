@@ -133,10 +133,6 @@ public:
 
 	void						Set_Navi(_bool bNavi) { m_bNavi = bNavi; }
 	_bool						Is_Navi() { return m_bNavi; }
-
-
-	void						Set_Gravity(_bool bGravity) { m_bGravity = bGravity; }
-	_bool						Is_Gravity() { return m_bGravity; }
 	
 
 	void			Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
@@ -184,7 +180,6 @@ protected:
 	_bool				m_bActive = true;
 	_bool				m_bDie = false;
 	_bool				m_bNavi = true;
-	_bool				m_bGravity = false;
 	_bool				m_bInvincible = false;
 
 	atomic<Vec3>		m_vTargetPos;

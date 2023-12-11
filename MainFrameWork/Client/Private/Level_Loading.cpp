@@ -6,7 +6,9 @@
 
 #include "Level_Logo.h"
 #include "Level_Bern.h"
-
+#include "Level_Lobby.h"
+#include "Level_ServerSelect.h"
+#include "Level_Tool.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -72,8 +74,17 @@ HRESULT CLevel_Loading::LateTick(_float fTimeDelta)
 
 		switch (m_eNextLevel)
 		{
+		case LEVEL_TOOL:
+			pNewLevel = CLevel_Tool::Create(m_pDevice, m_pContext);
+			break;
 		case LEVEL_LOGO:
 			pNewLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_SERVERSELECT:
+			pNewLevel = CLevel_ServerSelect::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_LOBBY:
+			pNewLevel = CLevel_Lobby::Create(m_pDevice, m_pContext);
 			break;
 		case LEVEL_BERN:
 			pNewLevel = CLevel_Bern::Create(m_pDevice, m_pContext);

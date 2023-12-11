@@ -55,9 +55,16 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
-	//Vec3 vPos = m_vTargetPos.load();
 
-	//cout << vPos.x << "  " << vPos.y << "  " << vPos.z << endl;
+	if (KEY_TAP(KEY::RBTN))
+	{
+		Vec3 vPos;
+		if (Get_CellPickingPos(vPos))
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		}
+	}
+
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)

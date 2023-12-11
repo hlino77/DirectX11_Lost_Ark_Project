@@ -96,11 +96,11 @@ void CNavigation::Find_FirstCell(CGameObject* pObject)
 	vPos.y += 1.0f;
 
 	Vec3 vDir(0.0f, -1.0f, 0.0f);
-
+	_float fDist = -1.0f;
 
 	for (auto& Cell : m_Cells)
 	{
-		if (Cell->Intersects(vPos, vDir))
+		if (Cell->Intersects(vPos, vDir, fDist))
 		{
 			pObject->Set_CurrCell(Cell->Get_CellIndex());
 			return;
@@ -115,17 +115,49 @@ _int CNavigation::Check_Pos_InCell(Vec3 vPos)
 	vPos.y += 1.0f;
 
 	Vec3 vDir(0.0f, -1.0f, 0.0f);
+	_float fDist = -1.0f;
 
 
 	for (auto& Cell : m_Cells)
 	{
-		if (Cell->Intersects(vPos, vDir))
+		if (Cell->Intersects(vPos, vDir, fDist))
 		{
 			return Cell->Get_CellIndex();
 		}
 	}
 
 	return -1;
+}
+
+_bool CNavigation::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist)
+{
+	_float fResultDist = -1.0f;
+	_bool bPick = false;
+
+
+	for (auto& Cell : m_Cells)
+	{
+		_float fCurrDist;
+		if (Cell->Intersects(vRayPos, vRayDir, fCurrDist))
+		{
+			if (fResultDist == -1.0f)
+				fResultDist = fCurrDist;
+			else
+			{
+				if (fResultDist > fCurrDist)
+					fResultDist = fCurrDist;
+			}
+		}
+	}
+
+
+	if (fResultDist != -1.0f)
+	{
+		fDist = fResultDist;
+		bPick = true;
+	}
+
+	return bPick;
 }
 
 

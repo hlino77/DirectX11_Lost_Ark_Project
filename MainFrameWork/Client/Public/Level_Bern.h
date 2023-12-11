@@ -56,7 +56,6 @@ private:
 	void			End_Picking();
 	void			End_Collision();
 
-
 private:
 	thread* m_pCollisionThread = nullptr;
 	thread* m_pPickingThread = nullptr;

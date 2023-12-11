@@ -7,7 +7,6 @@ BEGIN(Client)
 
 class CLevel_Logo final : public CLevel
 {
-	enum class LOGOSTATE {LOGO, ENTERGAME, TYPEEND};
 
 private:
 	CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -20,9 +19,6 @@ public:
 	virtual HRESULT Exit();
 
 	HRESULT Ready_SoundTrack();
-
-	void Tick_LOGO(_float fTimeDelta);
-	void Tick_ENTERGAME(_float fTimeDelta);
 private:
 	HRESULT Ready_Layer_BackGround();
 
@@ -33,10 +29,6 @@ public:
 	virtual void Free() override;
 
 
-private:
-	_bool m_bConnect = false;
-
-	LOGOSTATE m_eState;
 };
 
 END

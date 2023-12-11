@@ -187,9 +187,8 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 	pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPos);
 }
 
-_bool CCell::Intersects(Vec3 vOrigin, Vec3 vDir)
+_bool CCell::Intersects(Vec3 vOrigin, Vec3 vDir, _float& fDist)
 {
-	_float fDist;
 	return TriangleTests::Intersects(vOrigin, vDir, m_OriginPoint[0], m_OriginPoint[1], m_OriginPoint[2], fDist);
 }
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\Level_Logo.h"
-
+#include "Level_Lobby.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "ServerSession.h"
@@ -23,12 +23,6 @@ HRESULT CLevel_Logo::Initialize()
 		return E_FAIL;
 
 
-	m_bConnect = false;
-
-
-	m_eState = LOGOSTATE::LOGO;
-
-
 	if (FAILED(Ready_SoundTrack()))
 		return E_FAIL;
 
@@ -37,14 +31,10 @@ HRESULT CLevel_Logo::Initialize()
 
 HRESULT CLevel_Logo::Tick(_float fTimeDelta)
 {
-	switch (m_eState)
+	if (KEY_TAP(KEY::ENTER))
 	{
-	case LOGOSTATE::LOGO:
-		Tick_LOGO(fTimeDelta);
-		break;
-	case LOGOSTATE::ENTERGAME:
-		Tick_ENTERGAME(fTimeDelta);
-		break;
+		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SERVERSELECT, L"MainLogo"))))
+			return E_FAIL;
 	}
 
 	return S_OK;
@@ -73,55 +63,6 @@ HRESULT CLevel_Logo::Ready_SoundTrack()
 
 	Safe_Release(pGameInstance);
 	return S_OK;
-}
-
-void CLevel_Logo::Tick_LOGO(_float fTimeDelta)
-{
-	_bool bKey = false;
-
-	if (KEY_TAP(KEY::ENTER))
-	{
-		m_eState = LOGOSTATE::ENTERGAME;
-	}
-}
-
-
-void CLevel_Logo::Tick_ENTERGAME(_float fTimeDelta)
-{
-	if (m_bConnect == false)
-	{
-		m_bConnect = true;
-
-
-		CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::GUNSLINGER);
-		CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
-
-
-		SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));
-
-		CClientPacketHandler::Init();
-
-		this_thread::sleep_for(1s);
-
-		ClientServiceRef service = make_shared<ClientService>(
-			NetAddress(SERVER_IP, SERVER_PORT),
-			make_shared<IocpCore>(),
-			make_shared<CServerSession>, // TODO : SessionManager 등
-			1);
-
-		ASSERT_CRASH(service->Start());
-
-		for (int32 i = 0; i < 3; i++)
-		{
-			ThreadManager::GetInstance()->Launch([=]()
-				{
-					while (true)
-					{
-						service->GetIocpCore()->Dispatch();
-					}
-				});
-		}
-	}
 }
 
 HRESULT CLevel_Logo::Ready_Layer_BackGround()

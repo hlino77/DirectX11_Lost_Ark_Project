@@ -32,13 +32,15 @@ HRESULT CLight::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 			return E_FAIL;
 
 
-		if (m_pStaticShadowMap)
+		/*if (m_pStaticShadowMap)
 		{
 			if (FAILED(m_pStaticShadowMap->Set_SRV(pShader, "g_StaticShadowDepthTexture")))
 				return E_FAIL;
 
 			iPassIndex = 6;
-		}
+		}*/
+
+		iPassIndex = 6;
 	}
 	else
 	{

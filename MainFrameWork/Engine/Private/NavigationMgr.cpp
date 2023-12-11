@@ -51,6 +51,24 @@ void CNavigationMgr::Find_FirstCell(CGameObject* pObject)
 		m_pNavigation->Find_FirstCell(pObject);
 }
 
+_bool CNavigationMgr::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
+{
+	if (m_pNavigation == nullptr)
+		return false;
+
+	vRayDir.Normalize();
+
+	_bool bPick = false;
+	_float fDist = -1.0f;
+
+	if (m_pNavigation->Picking_Cell(vRayPos, vRayDir, fDist))
+	{
+		vResultPos = vRayPos + (vRayDir * fDist);
+		bPick = true;
+	}
+	return bPick;
+}
+
 _int CNavigationMgr::Check_Pos_InCell(Vec3 vPos)
 {
 	if (m_pNavigation == nullptr)

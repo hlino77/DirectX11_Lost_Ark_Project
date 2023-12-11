@@ -75,8 +75,6 @@ public:
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
-	void					Set_DoubleJump(_bool bJump) { m_bDoubleJump = bJump; }
-	_bool					Is_DoubleJump() { return m_bDoubleJump; }
 public:
 
 
@@ -85,7 +83,6 @@ public:
 	void			Send_State(const wstring& szName);
 	void			Send_ColliderState(const _uint& iLayer);
 	void			Send_SlowMotion(_bool bSlow);
-	void			Send_MakeSkill(const wstring& szSkillName);
 	void			Send_Hp();
 
 
@@ -96,17 +93,6 @@ public:
 	void			Find_NearTarget();
 	void			Send_NearTarget();
 
-	Vec3			Make_StraightDir();
-	Vec3			Make_RightDir();
-	Vec3			Make_BackDir();
-	Vec3			Make_LeftDir();
-
-	Vec3			Make_Straight_JumpDir();
-	Vec3			Make_Right_JumpDir();
-	Vec3			Make_Back_JumpDir();
-	Vec3			Make_Left_JumpDir();
-
-
 	void			Go_Straight(_float fSpeed, _float fTimeDelta);
 	void			Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
@@ -114,10 +100,6 @@ public:
 	void			Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 
 	void			Set_Picking(_bool bPicking) { m_bPicking = bPicking; }
-
-
-	void			Set_Wall(_bool bWall) { m_bWall = bWall; }
-	_bool			Is_Wall() { return m_bWall; }
 
 	void			Set_PlayerUp(_float fTimeDelta);
 
@@ -143,15 +125,16 @@ public:
 	void			Set_NickName(const wstring& szNickName);
 
 
-	void			Set_DefaultUp(_bool bUp) { m_bSetDefaultUp = bUp; }
-
-
 	const wstring& Get_VoiceSoundKey() { return m_VoiceSoundKey; }
 	void			Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
 	void			Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
 	_bool			Stop_VoiceSound();
 
 	void			Reset_SlowMotion() { m_iSlowMotionCount = 0; Set_SlowMotion(false); }
+
+
+	_bool			Get_CellPickingPos(Vec3& vPickPos);
+
 protected:
 	virtual HRESULT Ready_Components();
 	
@@ -167,23 +150,12 @@ protected:
 	_float							m_fAnimationSpeed = 1.0f;
 
 	unordered_map<wstring, _uint>	m_BoneIndex;
-	_bool							m_bDoubleJump = true;
-
-
-	_bool							m_bWall = false;
 	
 	_bool							m_bHitEffect = false;
 
-
 	std::future<HRESULT>			m_PlayAnimation;
 
-
-	_uint							m_iFootBoneIndex[2];
-
-
-
 	_bool							m_bEnemyBodyHit = false;
-	_bool							m_bSetDefaultUp = true;
 
 	atomic<_int>					m_iSlowMotionCount = 0;
 

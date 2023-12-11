@@ -46,8 +46,6 @@ public:
 	virtual void	Explosion() PURE;
 
 
-	void			Send_Explosion();
-
 	virtual HRESULT					Ready_Coliders() = 0;
 public:
 

@@ -15,6 +15,7 @@
 #include "Skill.h"
 #include "Pool.h"
 
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
 {
@@ -50,10 +51,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	Reset_Triangle();
 
 
-	m_iFootBoneIndex[0] = m_pModelCom->Find_BoneIndex(L"LeftToeBase_end");
-	m_iFootBoneIndex[1] = m_pModelCom->Find_BoneIndex(L"RightToeBase_end");
-
-
 	m_iHp = 100;
 	m_iMaxHp = 100;
 
@@ -70,7 +67,7 @@ void CPlayer::Tick(_float fTimeDelta)
 	//}
 
 
-	if(!m_bWall && m_bNavi)
+	if(m_bNavi)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
 	m_pRigidBody->Tick(fTimeDelta);
@@ -242,91 +239,6 @@ void CPlayer::Send_NearTarget()
 
 }
 
-Vec3 CPlayer::Make_StraightDir()
-{
-	Vec3 vCameraLook = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_LOOK);
-	Vec3 vUp = m_pTransformCom->Get_State(CTransform::STATE::STATE_UP);
-	vUp.Normalize();
-
-	Vec3 vRight = vUp.Cross(vCameraLook);
-	Vec3 vDir = vRight.Cross(vUp);
-	vDir.Normalize();
-
-	return vDir;
-}
-
-Vec3 CPlayer::Make_RightDir()
-{
-	Vec3 vCameraRight = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-
-	Vec3 vDir = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-	vDir.Normalize();
-
-	return vDir;
-}
-
-Vec3 CPlayer::Make_BackDir()
-{
-	Vec3 vCameraLook = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_LOOK);
-	Vec3 vUp = m_pTransformCom->Get_State(CTransform::STATE::STATE_UP);
-	vUp.Normalize();
-
-	Vec3 vRight = vUp.Cross(vCameraLook);
-	Vec3 vDir = vRight.Cross(vUp);
-	vDir.Normalize();
-
-	return -vDir;
-}
-
-Vec3 CPlayer::Make_LeftDir()
-{
-	Vec3 vCameraRight = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-
-	Vec3 vDir = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-	vDir.Normalize();
-
-	return -vDir;
-}
-
-Vec3 CPlayer::Make_Straight_JumpDir()
-{
-	Vec3 vCameraRight = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-
-	Vec3 vDir = vCameraRight.Cross(Vec3(0.0f, 1.0f, 0.0f));
-	vDir.Normalize();
-
-	return vDir;
-}
-
-Vec3 CPlayer::Make_Right_JumpDir()
-{
-	Vec3 vCameraRight = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-
-	Vec3 vDir = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-	vDir.Normalize();
-
-	return vDir;
-}
-
-Vec3 CPlayer::Make_Back_JumpDir()
-{
-	Vec3 vCameraRight = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-
-	Vec3 vDir = vCameraRight.Cross(Vec3(0.0f, 1.0f, 0.0f));
-	vDir.Normalize();
-
-	return -vDir;
-}
-
-Vec3 CPlayer::Make_Left_JumpDir()
-{
-	Vec3 vCameraRight = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-
-	Vec3 vDir = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_RIGHT);
-	vDir.Normalize();
-
-	return -vDir;
-}
 
 void CPlayer::Go_Straight(_float fSpeed, _float fTimeDelta)
 {
@@ -518,6 +430,37 @@ _bool CPlayer::Stop_VoiceSound()
 	}
 
 	return false;
+}
+
+
+
+_bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	SimpleMath::Vector3 vMousePos;
+	vMousePos.x = _float(pt.x / (g_iWinSizeX * .5f) - 1);
+	vMousePos.y = _float(pt.y / (g_iWinSizeY * -.5f) + 1);
+	vMousePos.z = 0.f;
+
+	Matrix matProjInv = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+	matProjInv = matProjInv.Invert();
+
+
+	vMousePos = XMVector3TransformCoord(vMousePos, matProjInv);
+
+	Vec3 vRayPos = Vec3(0.f, 0.f, 0.f);
+	Vec3 vRayDir = vMousePos - vRayPos;
+
+	Matrix matViewInv = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+	matViewInv = matViewInv.Invert();
+
+	vRayPos = XMVector3TransformCoord(vRayPos, matViewInv);
+	vRayDir = XMVector3TransformNormal(vRayDir, matViewInv);
+
+	return CNavigationMgr::GetInstance()->Picking_Cell(vRayPos, vRayDir, vPickPos);
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -785,25 +728,6 @@ void CPlayer::Send_SlowMotion(_bool bSlow)
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
-void CPlayer::Send_MakeSkill(const wstring& szSkillName)
-{
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	Protocol::S_SETSKILL pkt;
-
-	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
-	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
-	pkt.set_iobjectid(m_iObjectID);
-
-	pkt.set_szskillname(CAsUtils::ToString(szSkillName));
-
-	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
-	CServerSessionManager::GetInstance()->Send(pSendBuffer);
-
-	Safe_Release(pGameInstance);
-}
 
 void CPlayer::Send_Hp()
 {

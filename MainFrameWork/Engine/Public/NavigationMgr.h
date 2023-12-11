@@ -24,6 +24,7 @@ public:
 	void	Add_Navigation(const wstring& szFileName);
 	void	SetUp_OnCell(CGameObject * pObject);
 	void	Find_FirstCell(CGameObject * pObject);
+	_bool	Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos);
 	_int	Check_Pos_InCell(Vec3 vPos);
 
 

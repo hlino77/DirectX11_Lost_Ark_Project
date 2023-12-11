@@ -242,7 +242,7 @@ void CPhysXMgr::LateTick(_float fTimeDelta)
 		m_PlayerActors[iIndex]->setGlobalPose(PlayerTransform);
 		++iIndex;
 
-		if (!bCollision && Player->Is_Gravity())
+		if (!bCollision)
 		{
 			Player->Get_RigidBody()->UseGravity(true);
 			Player->Get_RigidBody()->Set_Ground(false);

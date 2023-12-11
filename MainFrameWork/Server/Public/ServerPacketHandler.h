@@ -14,23 +14,17 @@ enum : uint16
 	PKT_S_OPENLEVEL = 3,
 	PKT_S_LEVELSTATE = 4,
 	PKT_S_CREATEOBJECT = 5,
-	PKT_S_CHARACTERNAME = 6,
-	PKT_S_MATRIX = 7,
-	PKT_S_ANIMATION = 8,
-	PKT_S_OBJECTINFO = 9,
-	PKT_S_STATE = 10,
-	PKT_S_COLLIDERSTATE = 11,
-	PKT_S_COLLISION = 12,
-	PKT_S_NICKNAME = 13,
-	PKT_S_USERINFO = 14,
-	PKT_S_NEARTARGET = 15,
-	PKT_S_SETSKILL = 16,
-	PKT_S_SLOWMOTION = 17,
-	PKT_S_CAMSHAKE = 18,
-	PKT_S_EVENT = 19,
-	PKT_S_SKILLEXPLOSION = 20,
-	PKT_S_HP = 21,
-	PKT_S_CREATEPLAYER = 22,
+	PKT_S_ANIMATION = 6,
+	PKT_S_OBJECTINFO = 7,
+	PKT_S_STATE = 8,
+	PKT_S_COLLIDERSTATE = 9,
+	PKT_S_COLLISION = 10,
+	PKT_S_USERINFO = 11,
+	PKT_S_NEARTARGET = 12,
+	PKT_S_SLOWMOTION = 13,
+	PKT_S_EVENT = 14,
+	PKT_S_HP = 15,
+	PKT_S_CREATEPLAYER = 16,
 };
 
 //TODO
@@ -40,21 +34,15 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt);
 bool Handel_S_OPENLEVEL_Server(PacketSessionRef& session, Protocol::S_OPEN_LEVEL& pkt);
 bool Handel_S_LEVELSTATE_Server(PacketSessionRef& session, Protocol::S_LEVEL_STATE& pkt);
 bool Handel_S_CREATEOBJECT_Server(PacketSessionRef& session, Protocol::S_CREATE_OBJCECT& pkt);
-bool Handel_S_CHARACTERNAME_Server(PacketSessionRef& session, Protocol::S_CHARACTER_NAME& pkt);
-bool Handel_S_MATRIX_Server(PacketSessionRef& session, Protocol::S_MATRIX& pkt);
 bool Handel_S_ANIMATION_Server(PacketSessionRef& session, Protocol::S_ANIMATION& pkt);
 bool Handel_S_OBJECTINFO_Server(PacketSessionRef& session, Protocol::S_OBJECTINFO& pkt);
 bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt);
 bool Handel_S_COLLIDERSTATE_Server(PacketSessionRef& session, Protocol::S_COLLIDERSTATE& pkt);
 bool Handel_S_COLLISION_Server(PacketSessionRef& session, Protocol::S_COLLISION& pkt);
-bool Handel_S_NICKNAME_Server(PacketSessionRef& session, Protocol::S_NICKNAME& pkt);
 bool Handel_S_USERINFO_Server(PacketSessionRef& session, Protocol::S_USERINFO& pkt);
 bool Handel_S_NEARTARGET_Server(PacketSessionRef& session, Protocol::S_NEARTARGET& pkt);
-bool Handel_S_SETSKILL_Server(PacketSessionRef& session, Protocol::S_SETSKILL& pkt);
 bool Handel_S_SLOWMOTION_Server(PacketSessionRef& session, Protocol::S_SLOWMOTION& pkt);
-bool Handel_S_CAMSHAKE_Server(PacketSessionRef& session, Protocol::S_CAMSHAKE& pkt);
 bool Handel_S_EVENT_Server(PacketSessionRef& session, Protocol::S_EVENT& pkt);
-bool Handel_S_SKILLEXPLOSION_Server(PacketSessionRef& session, Protocol::S_SKILLEXPLOSION& pkt);
 bool Handel_S_HP_Server(PacketSessionRef& session, Protocol::S_HP& pkt);
 bool Handel_S_CREATEPLAYER_Server(PacketSessionRef& session, Protocol::S_CREATE_PLAYER& pkt);
 
@@ -74,21 +62,15 @@ public:
 		GPacketHandler[PKT_S_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LOGIN>(Handle_S_LOGIN_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_LEVELSTATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LEVEL_STATE>(Handel_S_LEVELSTATE_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_CREATEOBJECT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CREATE_OBJCECT>(Handel_S_CREATEOBJECT_Server, session, buffer, len); };
-		GPacketHandler[PKT_S_CHARACTERNAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CHARACTER_NAME>(Handel_S_CHARACTERNAME_Server, session, buffer, len); };
-		GPacketHandler[PKT_S_MATRIX] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_MATRIX>(Handel_S_MATRIX_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_ANIMATION] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ANIMATION>(Handel_S_ANIMATION_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_OBJECTINFO] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECTINFO>(Handel_S_OBJECTINFO_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_STATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_STATE>(Handel_S_STATE_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_COLLIDERSTATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_COLLIDERSTATE>(Handel_S_COLLIDERSTATE_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_COLLISION] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_COLLISION>(Handel_S_COLLISION_Server, session, buffer, len); };
-		GPacketHandler[PKT_S_NICKNAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_NICKNAME>(Handel_S_NICKNAME_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_USERINFO] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_USERINFO>(Handel_S_USERINFO_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_NEARTARGET] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_NEARTARGET>(Handel_S_NEARTARGET_Server, session, buffer, len); };
-		GPacketHandler[PKT_S_SETSKILL] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_SETSKILL>(Handel_S_SETSKILL_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_SLOWMOTION] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_SLOWMOTION>(Handel_S_SLOWMOTION_Server, session, buffer, len); };
-		GPacketHandler[PKT_S_CAMSHAKE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CAMSHAKE>(Handel_S_CAMSHAKE_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_EVENT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_EVENT>(Handel_S_EVENT_Server, session, buffer, len); };
-		GPacketHandler[PKT_S_SKILLEXPLOSION] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_SKILLEXPLOSION>(Handel_S_SKILLEXPLOSION_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_HP] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_HP>(Handel_S_HP_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_CREATEPLAYER] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CREATE_PLAYER>(Handel_S_CREATEPLAYER_Server, session, buffer, len); };
 		
@@ -106,21 +88,15 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_LEVEL_STATE& pkt) { return MakeSendBuffer(pkt, PKT_S_LEVELSTATE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_OBJCECT& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATEOBJECT); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_CHARACTER_NAME& pkt) { return MakeSendBuffer(pkt, PKT_S_CHARACTERNAME); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_MATRIX& pkt) { return MakeSendBuffer(pkt, PKT_S_MATRIX); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_ANIMATION& pkt) { return MakeSendBuffer(pkt, PKT_S_ANIMATION); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECTINFO& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECTINFO); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_STATE& pkt) { return MakeSendBuffer(pkt, PKT_S_STATE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_COLLIDERSTATE& pkt) { return MakeSendBuffer(pkt, PKT_S_COLLIDERSTATE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_COLLISION& pkt) { return MakeSendBuffer(pkt, PKT_S_COLLISION); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_NICKNAME& pkt) { return MakeSendBuffer(pkt, PKT_S_NICKNAME); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_USERINFO& pkt) { return MakeSendBuffer(pkt, PKT_S_USERINFO); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_NEARTARGET& pkt) { return MakeSendBuffer(pkt, PKT_S_NEARTARGET); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_SETSKILL& pkt) { return MakeSendBuffer(pkt, PKT_S_SETSKILL); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_SLOWMOTION& pkt) { return MakeSendBuffer(pkt, PKT_S_SLOWMOTION); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_CAMSHAKE& pkt) { return MakeSendBuffer(pkt, PKT_S_CAMSHAKE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_EVENT& pkt) { return MakeSendBuffer(pkt, PKT_S_EVENT); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_SKILLEXPLOSION& pkt) { return MakeSendBuffer(pkt, PKT_S_SKILLEXPLOSION); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_HP& pkt) { return MakeSendBuffer(pkt, PKT_S_HP); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_PLAYER& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATEPLAYER); }
 

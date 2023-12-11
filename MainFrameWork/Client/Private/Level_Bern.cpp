@@ -141,9 +141,9 @@ HRESULT CLevel_Bern::Ready_Lights()
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 
 
-	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/ArenaLight.dds");
+	//CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/ArenaLight.dds");
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 
 
@@ -158,7 +158,6 @@ HRESULT CLevel_Bern::Ready_Lights()
 	vOffset.Normalize();
 	vOffset *= 30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
-
 
 
 	Safe_Release(pGameInstance);
