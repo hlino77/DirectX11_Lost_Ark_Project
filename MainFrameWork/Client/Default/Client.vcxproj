@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\BackGround_Loading.h" />
+    <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Boss.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Gunslinger.h" />
@@ -201,6 +203,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround_Loading.cpp" />
+    <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
+    <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Boss.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />

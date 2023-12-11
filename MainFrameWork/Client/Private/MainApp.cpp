@@ -12,6 +12,8 @@
 #include "RigidBody.h"
 #include "MainLogo.h"
 #include "BackGround_Loading.h"
+#include "BackGround_MainLogo.h"
+#include "BackGround_Server.h"
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
 #include "NavigationMgr.h"
@@ -108,7 +110,7 @@ void CMainApp::Tick(_float fTimeDelta)
 HRESULT CMainApp::Render()
 {
 	/* 게임내에 존재하는 여러 객체들의 렌더링. */
-	m_pGameInstance->Clear_BackBuffer_View(Vec4(0.f, 0.f, 1.f, 1.f));
+	m_pGameInstance->Clear_BackBuffer_View(Vec4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	m_pRenderer_Com->Draw();
@@ -217,7 +219,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		COBBCollider::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
   	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MainLogo"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/MainLogo.png"))))
 		return E_FAIL;
@@ -226,14 +227,28 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/BackGround_Loading.png"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LostArk_MainLogo"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/MainLogo/Login_Logo%d.png", 36))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_Select"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/Server_BackGround/%d.jpg", 149))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_MainLogo"),
 		CMainLogo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
 		CBackGround_Loading::Create(m_pDevice, m_pContext))))
+		return E_FAIL;*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_LostArk_MainLogo"),
+		CBackGround_MainLogo::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Server"),
+		CBackGround_Server::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_Model */

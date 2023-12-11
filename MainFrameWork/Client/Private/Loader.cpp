@@ -86,13 +86,13 @@ HRESULT CLoader::Loading_For_Level_Logo()
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_NickNameDialog"),
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_NickNameDialog"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/NickNameDialog.png"))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_NickNameInput"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/NickNameInput.png"))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
