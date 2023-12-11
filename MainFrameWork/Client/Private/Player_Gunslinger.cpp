@@ -212,7 +212,7 @@ CPlayer_Gunslinger* CPlayer_Gunslinger::Create(ID3D11Device* pDevice, ID3D11Devi
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CPlayer_Naruto");
+		MSG_BOX("Failed To Created : CPlayer_Gunslinger");
 		Safe_Release(pInstance);
 	}
 
@@ -225,7 +225,7 @@ CGameObject* CPlayer_Gunslinger::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CPlayer_Naruto");
+		MSG_BOX("Failed To Cloned : CPlayer_Gunslinger");
 		Safe_Release(pInstance);
 	}
 

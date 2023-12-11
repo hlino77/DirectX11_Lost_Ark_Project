@@ -39,7 +39,7 @@ HRESULT CMainApp_Server::Initialize()
 	CServerPacketHandler::Init();
 
 	ServerServiceRef service = std::make_shared<ServerService>(
-		NetAddress(L"25.10.18.222", 7777),
+		NetAddress(L"127.0.0.1", 7777),
 		std::make_shared<IocpCore>(),
 		std::make_shared<CGameSession>, // TODO : SessionManager µî
 		10);

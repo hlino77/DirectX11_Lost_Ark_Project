@@ -80,6 +80,7 @@ void CPlayer::Tick(_float fTimeDelta)
 	{
 		Update_Skill(Skill, fTimeDelta);
 	}
+
 }
 
 void CPlayer::LateTick(_float fTimeDelta)

@@ -28,31 +28,31 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	virtual void Tick(_float fTimeDelta);
-	virtual void LateTick(_float fTimeDelta);
-	virtual HRESULT Render();
-	virtual HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize) { return S_OK; }
-	virtual HRESULT Render_ShadowDepth() { return S_OK; }
-	virtual HRESULT Render_MakeSRV() { return S_OK; }
+	virtual HRESULT				Initialize_Prototype();
+	virtual HRESULT				Initialize(void* pArg);
+	virtual void				Tick(_float fTimeDelta);
+	virtual void				LateTick(_float fTimeDelta);
+	virtual HRESULT				Render();
+	virtual HRESULT				Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize) { return S_OK; }
+	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
+	virtual HRESULT				Render_MakeSRV() { return S_OK; }
 
 
-	virtual void	Add_InstanceData(vector<Vec4>& BufferData) {};
+	virtual void				Add_InstanceData(vector<Vec4>& BufferData) {};
 
-	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) {};
-	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider * pOther) {};
-	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider * pOther) {};
+	virtual	void				OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) {};
+	virtual	void				OnCollisionStay(const _uint iColLayer, class CCollider * pOther) {};
+	virtual	void				OnCollisionExit(const _uint iColLayer, class CCollider * pOther) {};
 
-	virtual void	Set_Skill(CGameObject* pGameObject) {};
-	virtual void	Set_SlowMotion(_bool bSlow) {};
+	virtual void				Set_Skill(CGameObject* pGameObject) {};
+	virtual void				Set_SlowMotion(_bool bSlow) {};
 
 public:
-	class CComponent*				Get_Component(const wstring & strComponentTag);
+	class CComponent*			Get_Component(const wstring & strComponentTag);
 
-	class CTransform*	Get_TransformCom() { return m_pTransformCom; }
-	class CModel*		Get_ModelCom() { return m_pModelCom; }
-	class CRigidBody*	Get_RigidBody() { return m_pRigidBody; }
+	class CTransform*			Get_TransformCom() { return m_pTransformCom; }
+	class CModel*				Get_ModelCom() { return m_pModelCom; }
+	class CRigidBody*			Get_RigidBody() { return m_pRigidBody; }
 public:
 	virtual HRESULT				SetUp_State(Matrix StateMatrix) { return S_OK; }
 	void						Set_NoneControlState(const wstring& szName);
@@ -80,6 +80,7 @@ public:
 	_bool						Is_Die() { return m_bDie; }
 	void						Set_Die(_bool bDie) { m_bDie = bDie; }
 
+	/* 멀티스레드 */
 	CGameObject*				Get_NearTarget()
 	{
 		READ_LOCK
@@ -97,9 +98,6 @@ public:
 		WRITE_LOCK
 		m_pNearTarget = pObject;
 	}
-
-
-
 
 	CGameObject*				Get_HitObject() { return m_pHitObject; }
 	void						Reset_HitObject() { m_pHitObject = nullptr; }
@@ -139,13 +137,13 @@ public:
 	_bool						Is_Gravity() { return m_bGravity; }
 	
 
-	void			Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
-	_bool			Is_Invincible() { return m_bInvincible; }
+	void						Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
+	_bool						Is_Invincible() { return m_bInvincible; }
 
 
-	_int			Get_Hp() { return m_iHp; }
-	_uint			Get_MaxHp() { return m_iMaxHp; }
-	void			Set_Hp(_int iHp) { m_iHp = iHp; }
+	_int						Get_Hp() { return m_iHp; }
+	_uint						Get_MaxHp() { return m_iMaxHp; }
+	void						Set_Hp(_int iHp) { m_iHp = iHp; }
 
 protected:
 	virtual HRESULT Ready_Components() PURE;
@@ -155,16 +153,16 @@ protected:
 protected:
 	USE_LOCK
 
-	ID3D11Device*			m_pDevice = { nullptr };
-	ID3D11DeviceContext*	m_pContext = { nullptr };
+	ID3D11Device*					m_pDevice = { nullptr };
+	ID3D11DeviceContext*			m_pContext = { nullptr };
 
 protected:
 	map<wstring, class CComponent*> m_Components;
 
-	class CTransform* m_pTransformCom = nullptr;
-	class CModel* m_pModelCom = nullptr;
-	class CStateMachine* m_pStateMachine = nullptr;
-	class CRigidBody* m_pRigidBody = nullptr;
+	class CTransform*				m_pTransformCom = nullptr;
+	class CModel*					m_pModelCom = nullptr;
+	class CStateMachine*			m_pStateMachine = nullptr;
+	class CRigidBody*				m_pRigidBody = nullptr;
 
 
 	unordered_map<_uint, class CSphereCollider*> m_Coliders;
@@ -177,8 +175,6 @@ protected:
 	_int				m_iObjectID = -1;
 	_bool				m_bControl = false;
 	_uint				m_iLayer = 0;
-
-
 
 	_bool				m_bRender = true;
 	_bool				m_bActive = true;
