@@ -1,28 +1,28 @@
 #include "stdafx.h"
-#include "BackGround_Loading.h"
+#include "BackGround_Server.h"
 
 #include "GameInstance.h"
 
 #include "Text_Manager.h"
 
-CBackGround_Loading::CBackGround_Loading(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CBackGround_Server::CBackGround_Server(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext, L"MainLogo", OBJ_TYPE::UI)
 {
 
 }
 
-CBackGround_Loading::CBackGround_Loading(const CGameObject & rhs)
+CBackGround_Server::CBackGround_Server(const CGameObject & rhs)
 	: CGameObject(rhs)
 {
 
 }
 
-HRESULT CBackGround_Loading::Initialize_Prototype()
+HRESULT CBackGround_Server::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CBackGround_Loading::Initialize(void* pArg)
+HRESULT CBackGround_Server::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -40,19 +40,24 @@ HRESULT CBackGround_Loading::Initialize(void* pArg)
 	m_ProjMatrix = XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 
 
+
 	return S_OK;
 }
 
-void CBackGround_Loading::Tick(_float fTimeDelta)
+void CBackGround_Server::Tick(_float fTimeDelta)
 {
+	if(149 > m_fFrame)
+		m_fFrame += (fTimeDelta * 20.f);
+	else if(149 <= m_fFrame)
+		m_fFrame = 0.f;
 }
 
-void CBackGround_Loading::LateTick(_float fTimeDelta)
+void CBackGround_Server::LateTick(_float fTimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
 }
 
-HRESULT CBackGround_Loading::Render()
+HRESULT CBackGround_Server::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -61,10 +66,12 @@ HRESULT CBackGround_Loading::Render()
 
 	m_pVIBufferCom->Render();
 
+
+
 	return S_OK;
 }
 
-HRESULT CBackGround_Loading::Ready_Components()
+HRESULT CBackGround_Server::Ready_Components()
 {
 	/* Com_Renderer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
@@ -82,7 +89,7 @@ HRESULT CBackGround_Loading::Ready_Components()
 		return E_FAIL;
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Loading"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_Select"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
@@ -100,7 +107,7 @@ HRESULT CBackGround_Loading::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBackGround_Loading::Bind_ShaderResources()
+HRESULT CBackGround_Server::Bind_ShaderResources()
 {
 	/* 셰이더 전역변수로 던져야 할 값들을 던지자. */
 	//if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &IdentityMatrix)))
@@ -118,14 +125,14 @@ HRESULT CBackGround_Loading::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
 		return E_FAIL;
 
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fFrame);
 
 	return S_OK;
 }
 
-CBackGround_Loading * CBackGround_Loading::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CBackGround_Server * CBackGround_Server::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CBackGround_Loading*	pInstance = new CBackGround_Loading(pDevice, pContext);
+	CBackGround_Server*	pInstance = new CBackGround_Server(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -136,9 +143,9 @@ CBackGround_Loading * CBackGround_Loading::Create(ID3D11Device * pDevice, ID3D11
 	return pInstance;
 }
 
-CGameObject * CBackGround_Loading::Clone(void* pArg)
+CGameObject * CBackGround_Server::Clone(void* pArg)
 {
-	CBackGround_Loading*	pInstance = new CBackGround_Loading(*this);
+	CBackGround_Server*	pInstance = new CBackGround_Server(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -149,7 +156,7 @@ CGameObject * CBackGround_Loading::Clone(void* pArg)
 	return pInstance;
 }
 
-void CBackGround_Loading::Free()
+void CBackGround_Server::Free()
 {
 	__super::Free();
 
