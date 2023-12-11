@@ -66,9 +66,15 @@ public:
 
 
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
-
+	_float					Get_Target_Distance();
 
 	virtual void			Set_Die();
+public:
+	_bool						Is_Hit() { return m_IsHit; }
+	void						Set_Hit(_bool bHit) { m_IsHit = bHit; }
+
+	_bool						Is_Spawn() { return m_IsSpawn; }
+	void						Set_Spawn(_bool IsSpawn) { m_IsSpawn = IsSpawn; }
 
 	void	Effect_Die();
 protected:
@@ -83,13 +89,13 @@ protected:
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
-
+	_bool							m_IsHit = false;
+	_bool							m_IsSpawn = false;
 
 	unordered_map<wstring, _uint>	m_BoneIndex;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CShader* m_pShaderCom = nullptr;
 	CRenderer* m_pRendererCom = nullptr;
-
 
 
 	std::future<HRESULT>			m_PlayAnimation;

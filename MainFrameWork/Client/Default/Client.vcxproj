@@ -184,6 +184,7 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Monster_Zombie.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Gunslinger.h" />
     <ClInclude Include="..\Public\Pool.h" />
@@ -194,6 +195,22 @@
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Chase.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Attack1.h" />
+    <ClInclude Include="..\Public\Zombie_BT_DamageRight.h" />
+    <ClInclude Include="..\Public\Zombie_BT_DamageLeft.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Dead.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Idle.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Near.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Spawn.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Maz.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Hit.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Dead.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Maz.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Move.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Spawn.h" />
+    <ClInclude Include="..\Public\Zombie_BT_WHILE_Within_Range.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -219,6 +236,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Monster_Zombie.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Gunslinger.cpp" />
     <ClCompile Include="..\Private\Protocol.pb.cc">
@@ -234,6 +252,16 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Chase.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Attack1.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_DamageRight.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_DamageLeft.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Dead.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Idle.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Maz.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Move.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Spawn.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

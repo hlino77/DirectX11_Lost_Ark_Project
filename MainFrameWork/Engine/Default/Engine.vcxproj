@@ -161,6 +161,11 @@
     <ClInclude Include="..\Public\AsUtils.h" />
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\Public\Allocator.h" />
+    <ClInclude Include="..\Public\BehaviorTree.h" />
+    <ClInclude Include="..\Public\BT_Action.h" />
+    <ClInclude Include="..\Public\BT_Composite.h" />
+    <ClInclude Include="..\Public\BT_Decorator.h" />
+    <ClInclude Include="..\Public\BT_Node.h" />
     <ClInclude Include="..\Public\BufferReader.h" />
     <ClInclude Include="..\Public\BufferWriter.h" />
     <ClInclude Include="..\Public\Camera.h" />
@@ -245,6 +250,11 @@
     <ClCompile Include="..\Private\AsUtils.cpp" />
     <ClCompile Include="..\private\Base.cpp" />
     <ClCompile Include="..\Private\Allocator.cpp" />
+    <ClCompile Include="..\Private\BehaviorTree.cpp" />
+    <ClCompile Include="..\Private\BT_Action.cpp" />
+    <ClCompile Include="..\Private\BT_Composite.cpp" />
+    <ClCompile Include="..\Private\BT_Decorator.cpp" />
+    <ClCompile Include="..\Private\BT_Node.cpp" />
     <ClCompile Include="..\Private\BufferReader.cpp" />
     <ClCompile Include="..\Private\BufferWriter.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />

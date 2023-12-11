@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameInstance.h"
-#include "Monster.h"
+#include "Monster_Zombie.h"
 #include "ServerSessionManager.h"
 #include "ServerSession.h"
 #include "Camera_Player.h"
@@ -9,24 +9,38 @@
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 #include "Pool.h"
+#include "Zombie_BT_Attack1.h"
+#include "Zombie_BT_Attack2.h"
+#include "Zombie_BT_Chase.h"
+#include "Zombie_BT_DamageLeft.h"
+#include "Zombie_BT_DamageRight.h"
+#include "Zombie_BT_Dead.h"
+#include "Zombie_BT_Idle.h"
+#include "Zombie_BT_IF_Dead.h"
+#include "Zombie_BT_IF_Hit.h"
+#include "Zombie_BT_IF_Near.h"
+#include "Zombie_BT_IF_Spawn.h"
+#include "Zombie_BT_Move.h"
+#include "Zombie_BT_Spawn.h"
+#include "Zombie_BT_WHILE_Within_Range.h"
 
 
-CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject(pDevice, pContext, L"Monster", OBJ_TYPE::MONSTER)
+CMonster_Zombie::CMonster_Zombie(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	: CMonster(pDevice, pContext)
 {
 }
 
-CMonster::CMonster(const CMonster& rhs)
-	: CGameObject(rhs)
+CMonster_Zombie::CMonster_Zombie(const CMonster_Zombie& rhs)
+	: CMonster(rhs)
 {
 }
 
-HRESULT CMonster::Initialize_Prototype()
+HRESULT CMonster_Zombie::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CMonster::Initialize(void* pArg)
+HRESULT CMonster_Zombie::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_strObjectTag = Desc->strFileName;
@@ -49,14 +63,14 @@ HRESULT CMonster::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster::Tick(_float fTimeDelta)
+void CMonster_Zombie::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
 	m_pRigidBody->Tick(fTimeDelta);
 }
 
-void CMonster::LateTick(_float fTimeDelta)
+void CMonster_Zombie::LateTick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
@@ -66,7 +80,7 @@ void CMonster::LateTick(_float fTimeDelta)
 	CullingObject();
 }
 
-HRESULT CMonster::Render()
+HRESULT CMonster_Zombie::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
@@ -112,7 +126,7 @@ HRESULT CMonster::Render()
     return S_OK;
 }
 
-HRESULT CMonster::Render_ShadowDepth()
+HRESULT CMonster_Zombie::Render_ShadowDepth()
 {
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -155,7 +169,7 @@ HRESULT CMonster::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CMonster::Set_SlowMotion(_bool bSlow)
+void CMonster_Zombie::Set_SlowMotion(_bool bSlow)
 {
 	if (bSlow)
 	{
@@ -182,55 +196,9 @@ void CMonster::Set_SlowMotion(_bool bSlow)
 	}
 }
 
-void CMonster::Find_NearTarget()
-{
-	m_pNearTarget = nullptr;
-	m_pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER, this);
-}
 
 
-
-void CMonster::Follow_ServerPos(_float fDistance, _float fLerpSpeed)
-{
-	Vec3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
-	Matrix matTargetWorld = m_matTargetWorld;
-	Vec3 vServerPos(matTargetWorld.m[3]);
-
-	Vec3 vDistance = vServerPos - vCurrPos;
-	if (vDistance.Length() > fDistance)
-	{
-		vCurrPos = Vec3::Lerp(vCurrPos, vServerPos, fLerpSpeed);
-		m_pTransformCom->Set_State(CTransform::STATE::STATE_POSITION, vCurrPos);
-	}
-}
-
-void CMonster::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
-{
-	m_pTransformCom->LookAt_Lerp(vDir, 5.0f, fTimeDelta);
-	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
-}
-
-
-_float CMonster::Get_Target_Distance()
-{
-	if (m_pNearTarget == nullptr)
-		Find_NearTarget();
-
-	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	Vec3 vCurrentPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	
-	return (vTargetPosition - vCurrentPosition).Length();
-}
-
-void CMonster::Set_Die()
-{
-	for (auto& Collider : m_Coliders)
-		Collider.second->SetActive(false);
-
-	m_bDie = true;
-}
-
-HRESULT CMonster::Ready_Components()
+HRESULT CMonster_Zombie::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -305,54 +273,28 @@ HRESULT CMonster::Ready_Components()
     return S_OK;
 }
 
-HRESULT CMonster::Ready_HP_UI()
+HRESULT CMonster_Zombie::Ready_BehaviourTree()
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	//Prototype_GameObject_UI_HP_Monster
-
-	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-void CMonster::CullingObject()
+
+
+
+CGameObject* CMonster_Zombie::Clone(void* pArg)
 {
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_tCullingSphere.Center = vPos;
-
-	const BoundingFrustum& tCamFrustum = CGameInstance::GetInstance()->Get_CamFrustum();
-
-	if (tCamFrustum.Intersects(m_tCullingSphere) == false)
-		return;
-		
-	if (m_bRender)
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
-	}
-		
-}
-
-void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
-{
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
-}
-
-CGameObject* CMonster::Clone(void* pArg)
-{
-	CMonster* pInstance = new CMonster(*this);
+	CMonster_Zombie* pInstance = new CMonster_Zombie(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CPlayer");
+		MSG_BOX("Failed To Cloned : CMonster_Zombie");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonster::Free()
+void CMonster_Zombie::Free()
 {
 	__super::Free();
 
