@@ -168,23 +168,10 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\BackGround_Loading.h" />
-    <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Boss.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
     <ClInclude Include="..\Public\Effect.h" />
-    <ClInclude Include="..\Public\EffectTool.h" />
-    <ClInclude Include="..\Public\ImGUI\imconfig.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_internal.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
-    <ClInclude Include="..\Public\Level_Lobby.h" />
-    <ClInclude Include="..\Public\Level_ServerSelect.h" />
-    <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\MainLogo.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Player.h" />
@@ -196,8 +183,8 @@
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
-    <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Monster_Zombie.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Gunslinger.h" />
     <ClInclude Include="..\Public\Pool.h" />
@@ -207,8 +194,23 @@
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
-    <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Chase.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Attack1.h" />
+    <ClInclude Include="..\Public\Zombie_BT_DamageRight.h" />
+    <ClInclude Include="..\Public\Zombie_BT_DamageLeft.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Dead.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Idle.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Near.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Spawn.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Maz.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Hit.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Dead.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Maz.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Move.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Spawn.h" />
+    <ClInclude Include="..\Public\Zombie_BT_WHILE_Within_Range.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -216,16 +218,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround_Loading.cpp" />
-    <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
-    <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Boss.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
-    <ClCompile Include="..\Private\EffectTool.cpp" />
-    <ClCompile Include="..\Private\Level_Lobby.cpp" />
-    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
-    <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Player.cpp" />
@@ -240,6 +236,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Monster_Zombie.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Gunslinger.cpp" />
     <ClCompile Include="..\Private\Protocol.pb.cc">
@@ -254,36 +251,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
-    <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="..\Private\Zombie_BT_Chase.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Attack1.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_DamageRight.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_DamageLeft.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Dead.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Idle.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Maz.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Move.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Spawn.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

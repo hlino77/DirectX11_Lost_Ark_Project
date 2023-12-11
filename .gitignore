@@ -448,3 +448,5 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,c++
 *.ini
+MainFrameWork/CopyDebug.bat
+MainFrameWork/CopyRelease.bat
