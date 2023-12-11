@@ -18,11 +18,10 @@ public:
 	virtual void	Tick(const _float & fTimeDelta) {};
 	virtual void	LateTick(const _float & fTimeDelta) {};
 
-#ifdef _DEBUG
 public:
 	virtual HRESULT Render() { return S_OK; }
 	virtual void	DebugRender() {};
-#endif // DEBUG
+
 protected:
 	CGameObject* m_pOwner = nullptr;
 

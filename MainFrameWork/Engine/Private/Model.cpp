@@ -8,6 +8,7 @@
 #include <filesystem>
 #include "tinyxml2.h"
 #include "GameInstance.h"
+#include <iostream>
 
 CModel::CModel(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
@@ -134,7 +135,6 @@ _int CModel::Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed)
 HRESULT CModel::Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool bColMesh)
 {
 	XMStoreFloat4x4(&m_PivotMatrix, PivotMatrix);
-
 
 	if(FAILED(Load_AssetFile_FromBinary(strFilePath, strFileName, bClient, bColMesh)))
 		return E_FAIL;
@@ -347,10 +347,11 @@ HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstrin
 	m_strFilePath = pFilePath;
 
 
-
 	if (FAILED(Load_ModelData_FromFile(XMLoadFloat4x4(&m_PivotMatrix), bClient, bColMesh)))
+	{
 		return E_FAIL;
-
+	}
+		
 
 	if (bClient)
 	{
@@ -364,7 +365,7 @@ HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstrin
 		if (FAILED(Load_AnimationData_FromFile(XMLoadFloat4x4(&m_PivotMatrix), bClient)))
 			return E_FAIL;
 	}
-	
+
 
 	return S_OK;
 }
@@ -432,7 +433,6 @@ HRESULT CModel::Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool
 		}
 	}
 
-
 	return S_OK;
 }
 
@@ -443,7 +443,12 @@ HRESULT CModel::Load_MaterialData_FromFile()
 
 	tinyxml2::XMLDocument* Document = new tinyxml2::XMLDocument();
 	tinyxml2::XMLError error = Document->LoadFile(CAsUtils::ToString(strFullPath).c_str());
+
+#ifdef _DEBUG
 	assert(error == tinyxml2::XML_SUCCESS);
+#else
+#endif
+
 
 	tinyxml2::XMLElement* Root = Document->FirstChildElement();
 	tinyxml2::XMLElement* MaterialNode = Root->FirstChildElement();

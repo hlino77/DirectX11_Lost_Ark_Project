@@ -41,6 +41,9 @@ HRESULT CLevel_ServerSelect::Tick(_float fTimeDelta)
 
 HRESULT CLevel_ServerSelect::LateTick(_float fTimeDelta)
 {
+	
+
+
 	return S_OK;
 }
 
@@ -59,8 +62,6 @@ HRESULT CLevel_ServerSelect::Ready_Layer_BackGround()
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_BACKGROUND), TEXT("Prototype_GameObject_BackGround_Server")))
-		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -71,16 +72,6 @@ HRESULT CLevel_ServerSelect::Ready_Layer_UI()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerWnd")))
-		return E_FAIL;
-
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerGrid")))
-		return E_FAIL;
-
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerLogo")))
-		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 

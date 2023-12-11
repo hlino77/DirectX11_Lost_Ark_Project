@@ -23,13 +23,12 @@ public:
 	HRESULT Make_TextureFile(const wstring& szPath);
 
 
-#ifdef _DEBUG
+
 public:
 	HRESULT Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render(class CShader* pShader, class CVIBuffer_Rect* pBuffer);
 	HRESULT	Copy_SRV(ID3D11ShaderResourceView** pSRV);
 
-#endif
 
 private:
 	ID3D11Device*				m_pDevice = { nullptr };
@@ -49,10 +48,10 @@ private:
 	DXGI_FORMAT m_ePixelFormat;
 
 
-#ifdef _DEBUG
+
 private:
 	Matrix					m_WorldMatrix;
-#endif
+
 
 public:
 	static CRenderTarget* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const Vec4& vColor);

@@ -136,7 +136,8 @@ list<CGameObject*>& CObject_Manager::Find_GameObjects(_uint iLevelIndex, const _
 	if (nullptr == pLayer)
 	{
 		MSG_BOX("Find_GameObejcts Failed.");
-		assert(nullptr);
+		
+		(nullptr);
 	}
 
 	return m_pLayers[iLevelIndex][iLayerType]->Find_GameObjects();

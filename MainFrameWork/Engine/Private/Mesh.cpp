@@ -236,7 +236,7 @@ HRESULT CMesh::LoadData_FromConverter(CModel::TYPE eModelType, shared_ptr<asMesh
 
 HRESULT CMesh::Ready_Vertices(VTXANIMMODEL* pVertices, Matrix PivotMatrix)
 {
-	for (_uint i = 0; i < m_iNumVertices; ++i)
+	/*for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		{
 			_float fY = *&pVertices[i].vPosition.y;
@@ -259,7 +259,7 @@ HRESULT CMesh::Ready_Vertices(VTXANIMMODEL* pVertices, Matrix PivotMatrix)
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix));
 		XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), PivotMatrix));
-	}
+	}*/
 
 	return S_OK;
 }

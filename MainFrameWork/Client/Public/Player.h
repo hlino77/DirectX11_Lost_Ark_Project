@@ -114,11 +114,9 @@ public:
 
 
 
-	const SKILLINFO& Get_SkillInfo(_uint iSkill) { return m_SkillInfo[iSkill]; }
+	const SKILLINFO&	Get_SkillInfo(_uint iSkill) { return m_SkillInfo[iSkill]; }
 	_bool				Get_SkillReady(_uint iSkill) { return m_SkillInfo[iSkill].m_bReady; }
 	void				Set_SkillReady(_uint iSkill, _bool bReady) { m_SkillInfo[iSkill].m_bReady = bReady; }
-
-
 	
 
 	const wstring& Get_NickName() { return m_szNickName; }
