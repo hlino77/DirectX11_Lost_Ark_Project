@@ -178,6 +178,7 @@
     <ClInclude Include="..\Public\LockFree_Transform.h" />
     <ClInclude Include="..\Public\Navigation.h" />
     <ClInclude Include="..\Public\NavigationMgr.h" />
+    <ClInclude Include="..\Public\PartObject.h" />
     <ClInclude Include="..\Public\PhysXMgr.h" />
     <ClInclude Include="..\Public\PickingMgr.h" />
     <ClInclude Include="..\Public\DeadLockProfiler.h" />
@@ -262,6 +263,7 @@
     <ClCompile Include="..\Private\LockFree_Transform.cpp" />
     <ClCompile Include="..\Private\Navigation.cpp" />
     <ClCompile Include="..\Private\NavigationMgr.cpp" />
+    <ClCompile Include="..\Private\PartObject.cpp" />
     <ClCompile Include="..\Private\PhysXMgr.cpp" />
     <ClCompile Include="..\Private\PickingMgr.cpp" />
     <ClCompile Include="..\Private\DeadLockProfiler.cpp" />

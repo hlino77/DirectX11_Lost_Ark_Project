@@ -147,8 +147,6 @@ void CAnimation::Reset_Animation()
 	m_bEnd = false;
 }
 
-
-
 CAnimation * CAnimation::Create()
 {
 	CAnimation*			pInstance = new CAnimation();
