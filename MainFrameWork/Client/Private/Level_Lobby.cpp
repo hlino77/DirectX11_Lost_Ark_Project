@@ -95,9 +95,6 @@ HRESULT CLevel_Lobby::Ready_Layer_BackGround()
 	Safe_AddRef(pGameInstance);
 
 
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOGO, _uint(LAYER_TYPE::LAYER_BACKGROUND), TEXT("Prototype_GameObject_BackGround_MainLogo")))
-		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 

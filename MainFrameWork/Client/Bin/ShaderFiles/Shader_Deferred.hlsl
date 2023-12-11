@@ -315,25 +315,6 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 	
 
 
-
-	//외각선
-	vector		vModelNormalDesc = g_ModelNormalTexture.Sample(PointSampler, In.vTexcoord);
-	float4		vResultNormal = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	if (vModelNormalDesc.a != 1.0f)
-	{
-		float3 vCamPosition = g_CamPosition;
-		float3 vPixelPos = vWorldPos.xyz;
-		float3 vDir = vCamPosition - vPixelPos;
-		float3 vModelNormal = vModelNormalDesc.xyz * 2.f - 1.f;
-
-		float fNormalDot = dot(normalize(vDir), vModelNormal);
-
-		if (fNormalDot < 0.2f)
-			vResultNormal.xyz = pow(fNormalDot / 0.2f, 2.0f);
-		else
-			Out.vShade = saturate(Out.vShade * 1.5f);
-	}
-
 	//그림자
 
 	float fResultShadow = 1.0f;
@@ -367,7 +348,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 	fResultShadow = fShadow;
 	//
 
-	Out.vShade *= saturate(float4(fResultShadow, fResultShadow, fResultShadow, 1.f) * vResultNormal);
+	Out.vShade *= saturate(float4(fResultShadow, fResultShadow, fResultShadow, 1.f));
 
 	return Out;
 }

@@ -34,9 +34,76 @@ HRESULT CCamera_Free::Initialize(void * pArg)
 
 void CCamera_Free::Tick(_float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+
+	if (KEY_HOLD(KEY::UP_ARROW))
+	{
+		m_pTransformCom->Go_Straight(5.0f, fTimeDelta);
+	}
+
+	if (KEY_HOLD(KEY::DOWN_ARROW))
+	{
+		m_pTransformCom->Go_Backward(5.0f, fTimeDelta);
+	}
+
+	if (KEY_HOLD(KEY::LEFT_ARROW))
+	{
+		m_pTransformCom->Go_Left(5.0f, fTimeDelta);
+	}
+
+	if (KEY_HOLD(KEY::RIGHT_ARROW))
+	{
+		m_pTransformCom->Go_Right(5.0f, fTimeDelta);
+	}
+
+	if (KEY_HOLD(KEY::P))
+	{
+		m_pTransformCom->Go_Up(fTimeDelta * 5.f);
+	}
+
+	if (KEY_HOLD(KEY::O))
+	{
+		m_pTransformCom->Go_Down(fTimeDelta * 5.f);
+	}
+
+	if (KEY_TAP(KEY::F2))
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMLoadFloat4(&m_CameraDesc.vEye));
+		m_pTransformCom->LookAt(XMLoadFloat4(&m_CameraDesc.vAt));
+	}
+
+	if (KEY_TAP(KEY::TAB))
+	{
+		m_bMouse = !m_bMouse;
+		ShowCursor(m_bMouse);
+	}
+
+
+	if (!m_bMouse)
+	{
+
+		POINT MousePos;
+
+		MousePos.x = g_iWinSizeX / 2;
+		MousePos.y = g_iWinSizeY / 2;
+
+		ClientToScreen(g_hWnd, &MousePos);
+		SetCursorPos(MousePos.x, MousePos.y);
+
+		_long	MouseMove = 0;
+
+		if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
+		{
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), MouseMove * fTimeDelta * 0.05f);
+		}
+
+		if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
+		{
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), MouseMove * fTimeDelta * 0.05f);
+		}
+	}
 	
 	
 

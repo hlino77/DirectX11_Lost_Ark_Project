@@ -20,7 +20,12 @@ public:
 	void Write(const T& data)
 	{
 		DWORD numOfBytes = 0;
+
+#ifdef _DEBUG
 		assert(::WriteFile(_handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr));
+#else
+		::WriteFile(_handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr);
+#endif
 	}
 
 
@@ -40,7 +45,12 @@ public:
 	void Read(OUT T& data)
 	{
 		DWORD numOfBytes = 0;
+
+#ifdef _DEBUG
 		assert(::ReadFile(_handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr));
+#else
+		::ReadFile(_handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr);
+#endif
 	}
 
 	template<typename T>

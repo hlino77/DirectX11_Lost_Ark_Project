@@ -11,3 +11,5 @@ xcopy /y .\Engine\Bin\ShaderFiles\*.hlsl	.\Client\Bin\ShaderFiles\
 
 xcopy /y .\Engine\Bin\*.dll					.\Server\Bin\
 
+xcopy /y .\Engine\ThirdPartyLib\Physx\*.dll					.\Server\Bin\
+xcopy /y .\Engine\ThirdPartyLib\Physx\*.dll					.\Client\Bin\

@@ -134,7 +134,7 @@ HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 	return	S_OK;
 }
 
-#ifdef _DEBUG
+
 
 HRESULT CTarget_Manager::Ready_Debug(const wstring & strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {
@@ -160,7 +160,7 @@ HRESULT CTarget_Manager::Render(const wstring & strMRTTag, CShader * pShader, CV
 	return S_OK;
 }
 
-#endif
+
 
 
 CRenderTarget * CTarget_Manager::Find_RenderTarget(const wstring & strTargetTag)

@@ -22,7 +22,9 @@
 #include "PhysXMgr.h"
 #include "LockFree_Transform.h"
 #include "UseLock_Transform.h"
-
+#include "Camera_Free.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 _float g_fVolume;
 
@@ -72,10 +74,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_Font()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Camera_Free()))
+		return E_FAIL;
 
-	
-	m_bMouse = true;
-	//ShowCursor(false);
 
 	return S_OK;
 }
@@ -84,20 +85,8 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (KEY_TAP(KEY::F1))
 	{
-		m_bMouse = !m_bMouse;
-
-		if (m_bMouse)
-		{
-			ShowCursor(true);
-		}
-		else
-		{
-			ShowCursor(false);
-		}
+		Active_Camera_Free();
 	}
-
-	if(m_bMouse == false)
-		Set_Mouse();
 
 	CServerSessionManager::GetInstance()->Tick(fTimeDelta);
 
@@ -133,17 +122,6 @@ HRESULT CMainApp::Open_Level(LEVELID eLevelID)
 		return E_FAIL;
 
 	return S_OK;
-}
-
-void CMainApp::Set_Mouse()
-{
-	POINT MousePos;
-
-	MousePos.x = g_iWinSizeX / 2;
-	MousePos.y = g_iWinSizeY / 2;
-
-	ClientToScreen(g_hWnd, &MousePos);
-	SetCursorPos(MousePos.x, MousePos.y);
 }
 
 HRESULT CMainApp::Initialize_Client()
@@ -292,6 +270,11 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxSkyBox.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),
+		CCamera_Free::Create(m_pDevice, m_pContext, L"Free_Camera"))))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -307,6 +290,43 @@ HRESULT CMainApp::Ready_Prototype_Font()
 
 	Safe_Release(pGameInstance);
 	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Camera_Free()
+{
+	CCamera::CAMERADESC tCameraDesc;
+
+	tCameraDesc.iLayer = (_uint)LAYER_TYPE::LAYER_CAMERA;
+	tCameraDesc.vEye = Vec4(0.f, 10.f, -10.f, 1.f);
+	tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
+	tCameraDesc.fFovy = XMConvertToRadians(60.0f);
+	tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	tCameraDesc.fNear = 0.2f;
+	tCameraDesc.fFar = 1200.0f;
+	tCameraDesc.TransformDesc.fRotationPerSec = 10.0f;
+	tCameraDesc.TransformDesc.fSpeedPerSec = 10.0f;
+
+	CGameObject* pCamera = CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free", &tCameraDesc);
+
+	m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
+
+	return S_OK;
+}
+
+void CMainApp::Active_Camera_Free()
+{
+	if (m_pCamera->Is_Active())
+	{
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(true);
+		m_pCamera->Set_Active(false);
+	}
+	else
+	{
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(false);
+		m_pCamera->Get_TransformCom()->Set_WorldMatrix(CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Get_TransformCom()->Get_WorldMatrix());
+		m_pCamera->Set_Active(true);
+	}
+
 }
 
 CMainApp * CMainApp::Create()

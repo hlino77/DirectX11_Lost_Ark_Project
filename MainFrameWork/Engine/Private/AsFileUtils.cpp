@@ -48,7 +48,11 @@ void CAsFileUtils::Open(wstring filePath, FileMode mode)
 void CAsFileUtils::Write(void* data, _uint dataSize)
 {
 	_uint numOfBytes = 0;
+#ifdef _DEBUG
 	assert(::WriteFile(_handle, data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr));
+#else
+	::WriteFile(_handle, data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr);
+#endif
 }
 
 void CAsFileUtils::Write(const string& data)
@@ -67,7 +71,11 @@ void CAsFileUtils::Write(const string& data)
 void CAsFileUtils::Read(void** data, _uint dataSize)
 {
 	_uint numOfBytes = 0;
+#ifdef _DEBUG
 	assert(::ReadFile(_handle, *data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr));
+#else
+	::ReadFile(_handle, *data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr);
+#endif
 }
 
 void CAsFileUtils::Read(OUT string& data)

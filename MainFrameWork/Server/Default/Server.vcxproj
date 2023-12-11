@@ -138,14 +138,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_HAS_STD_BYTE=0;%(PreprocessorDefinitions);_SERVER</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../Reference/Headers/;../Public/;../../ThirdParty/;../../Reference/Include/;../Default/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Reference/Headers/;../Public/;../../ThirdParty/;../../Reference/Include/;../Default/;../../Reference/Headers/fmod/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Engine.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Engine.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Reference/Librarys/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
