@@ -529,41 +529,41 @@ void CLevel_Bern::Start_Collision()
 	Set_CheckGruop();
 
 	m_pCollisionThread = new thread([=]()
+	{
+		ThreadManager::GetInstance()->InitTLS();
+
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
+		Safe_AddRef(pGameInstance);
+
+		CCollisionManager* pCollisionManager = CCollisionManager::GetInstance();
+		pCollisionManager->AddRef();
+
+		if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Collision_Bern"))))
+			return FALSE;
+
+		if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Collision_60_Bern"))))
+			return FALSE;
+
+		_float		fTimeAcc = 0.f;
+
+
+		while (!pCollisionManager->Is_Stop())
 		{
-			ThreadManager::GetInstance()->InitTLS();
+			fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Collision_Bern"));
 
-			CGameInstance* pGameInstance = CGameInstance::GetInstance();
-			Safe_AddRef(pGameInstance);
-
-			CCollisionManager* pCollisionManager = CCollisionManager::GetInstance();
-			pCollisionManager->AddRef();
-
-			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Collision_Bern"))))
-				return FALSE;
-
-			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Collision_60_Bern"))))
-				return FALSE;
-
-			_float		fTimeAcc = 0.f;
-
-
-			while (!pCollisionManager->Is_Stop())
+			if (fTimeAcc >= 1.f / 60.0f)
 			{
-				fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Collision_Bern"));
-
-				if (fTimeAcc >= 1.f / 60.0f)
-				{
-					pCollisionManager->LateTick_Collision(pGameInstance->Compute_TimeDelta(TEXT("Timer_Collision_60_Bern")));
-					fTimeAcc = 0.f;
-				}
+				pCollisionManager->LateTick_Collision(pGameInstance->Compute_TimeDelta(TEXT("Timer_Collision_60_Bern")));
+				fTimeAcc = 0.f;
 			}
+		}
 
-			Safe_Release(pCollisionManager);
+		Safe_Release(pCollisionManager);
 
-			Safe_Release(pGameInstance);
+		Safe_Release(pGameInstance);
 
-			ThreadManager::GetInstance()->DestroyTLS();
-		});
+		ThreadManager::GetInstance()->DestroyTLS();
+	});
 }
 
 

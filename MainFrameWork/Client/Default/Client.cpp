@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Client.h"
 #include "../Public/Client_Defines.h"
+#include <ImGUI/imgui.h>
 
 #include "MainApp.h"
 #include "GameInstance.h"
@@ -13,11 +14,11 @@
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
-HINSTANCE hInst;                                // 현재 인스턴스입니다.
-HWND	g_hWnd;
-HINSTANCE g_hInstance;
-WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
-WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+HINSTANCE   hInst;                                // 현재 인스턴스입니다.
+HWND        g_hWnd;
+HINSTANCE   g_hInstance;
+WCHAR       szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
+WCHAR       szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -34,7 +35,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 #endif
-
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
@@ -60,7 +60,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 
     MSG msg;
-
 
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -99,7 +98,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
         fTimeFPS += pGameInstance->Compute_TimeDelta(TEXT("Timer_FPS"));
 
-
 		if (fTimeAcc >= 1.f / iMaxFrame)
 		{
 			pMainApp->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_60")));
@@ -113,7 +111,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             fNetDelay = CServerSessionManager::GetInstance()->Get_NetworkDelay();
             fTimeFPS = 0.0f;
-            wstring szFPS = L"FPS : " + to_wstring(iFrameCount) + L"    NetWorkDelay : " + to_wstring(fNetDelay);
+#ifdef _DEBUG
+            wstring szFPS = L"FPS : " + to_wstring(iFrameCount) + L"    NetWorkDelay : " + to_wstring(fNetDelay) + L" - DEBUG";
+#elif
+            wstring szFPS = L"FPS : " + to_wstring(iFrameCount) + L"    NetWorkDelay : " + to_wstring(fNetDelay) + L" - RELEASE";
+#endif
             SetWindowText(g_hWnd, szFPS.c_str());
             iFrameCount = 0;
         }
@@ -148,7 +150,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszMenuName   = NULL;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -167,15 +169,13 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-    
     hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
     RECT	rc{ 0, 0, g_iWinSizeX, g_iWinSizeY };
 
+    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
-    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, TRUE);
-
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW | WS_SYSMENU,
+    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0,
         rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr);
 
@@ -201,9 +201,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;
 
     switch (message)
     {

@@ -77,8 +77,6 @@ public:
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
 public:
-
-
 	//Send Packet
 	void			Send_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 	void			Send_State(const wstring& szName);
@@ -124,18 +122,18 @@ public:
 	void			Set_NickName(const wstring& szNickName);
 
 
-	const wstring& Get_VoiceSoundKey() { return m_VoiceSoundKey; }
-	void			Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
-	void			Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
-	_bool			Stop_VoiceSound();
+	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
+	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
+	void					Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
+	_bool					Stop_VoiceSound();
 
-	void			Reset_SlowMotion() { m_iSlowMotionCount = 0; Set_SlowMotion(false); }
+	void					Reset_SlowMotion() { m_iSlowMotionCount = 0; Set_SlowMotion(false); }
 
 
-	_bool			Get_CellPickingPos(Vec3& vPickPos);
+	_bool					Get_CellPickingPos(Vec3& vPickPos);
 
 protected:
-	virtual HRESULT Ready_Components();
+	virtual HRESULT			Ready_Components();
 	
 	void			CullingObject();
 	void			Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);

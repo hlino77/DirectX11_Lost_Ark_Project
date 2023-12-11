@@ -16,6 +16,29 @@
 #define ENGINE_DLL		_declspec(dllimport)
 #endif
 
+#define GET_INSTANCE(CLASSNAME)	[](){											\
+	CLASSNAME*	pInstance = CLASSNAME::GetInstance();							\
+	if(nullptr == pInstance) {													\
+	char	szMessage[MAX_PATH] = "";											\
+	strcpy_s(szMessage, typeid(CLASSNAME).name());								\
+	strcat_s(szMessage, "is nullptr");											\
+	MessageBoxA(0, szMessage, nullptr, MB_OK);}									\
+	else {																		\
+	pInstance->AddRef();}														\
+	return pInstance;															\
+	}();
+
+#define RELEASE_INSTANCE(CLASSNAME)	[](){										\
+	CLASSNAME*	pInstance = CLASSNAME::GetInstance();							\
+	if(nullptr == pInstance) {													\
+	char	szMessage[MAX_PATH] = "";											\
+	strcpy_s(szMessage, typeid(CLASSNAME).name());								\
+	strcat_s(szMessage, "is nullptr");											\
+	MessageBoxA(0, szMessage, nullptr, MB_OK);}									\
+	else {																		\
+	pInstance->Release();}														\
+	}();
+
 #define NULL_CHECK( _ptr)	\
 	{if( _ptr == 0){__asm { int 3 };return;}}
 

@@ -422,9 +422,6 @@ void CPlayer::Set_NickName(const wstring& szNickName)
 	m_szNickName = szNickName;
 }
 
-
-
-
 _bool CPlayer::Stop_VoiceSound()
 {
 	if (m_fVoiceSoundDelay == 0.0f)
@@ -435,8 +432,6 @@ _bool CPlayer::Stop_VoiceSound()
 
 	return false;
 }
-
-
 
 _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 {
@@ -451,7 +446,6 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 
 	Matrix matProjInv = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
 	matProjInv = matProjInv.Invert();
-
 
 	vMousePos = XMVector3TransformCoord(vMousePos, matProjInv);
 
