@@ -63,8 +63,6 @@ private:
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 	CRenderer*				m_pRenderer_Com = { nullptr };
 
-
-
 private:
 	HRESULT Open_Level(LEVELID eLevelID);
 
