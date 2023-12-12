@@ -2,6 +2,7 @@
 #include "Level_Tool.h"
 #include "UI.h"
 #include "EffectTool.h"
+
 #include "GameInstance.h"
 
 CLevel_Tool::CLevel_Tool(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -36,8 +37,6 @@ HRESULT CLevel_Tool::Initialize()
 	if (FAILED(Ready_Tools()))
 		return E_FAIL;
 
-	//if (FAILED(Ready_SoundTrack()))
-	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -53,7 +52,7 @@ HRESULT CLevel_Tool::Tick(_float fTimeDelta)
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	//
+	
 	if (m_pEffectTool)
 		m_pEffectTool->Tick();
 

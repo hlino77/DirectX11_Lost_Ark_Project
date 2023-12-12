@@ -2,6 +2,11 @@
 #include "Client_Defines.h"
 #include "Level.h"
 
+BEGIN(Engine)
+class CGameInstance;
+END
+
+
 BEGIN(Client)
 
 class CLevel_Tool final : public CLevel
@@ -32,7 +37,7 @@ private:
 	_bool	m_IsImGUIReady = false;
 	Vec4	clear_color = Vec4(0.f);
 
-	class CGameInstance* m_pGameInstance;
+	CGameInstance* m_pGameInstance = nullptr;
 
 public:
 	static class CLevel_Tool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

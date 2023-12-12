@@ -113,7 +113,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             fTimeFPS = 0.0f;
 #ifdef _DEBUG
             wstring szFPS = L"FPS : " + to_wstring(iFrameCount) + L"    NetWorkDelay : " + to_wstring(fNetDelay) + L" - DEBUG";
-#elif
+#else
             wstring szFPS = L"FPS : " + to_wstring(iFrameCount) + L"    NetWorkDelay : " + to_wstring(fNetDelay) + L" - RELEASE";
 #endif
             SetWindowText(g_hWnd, szFPS.c_str());
