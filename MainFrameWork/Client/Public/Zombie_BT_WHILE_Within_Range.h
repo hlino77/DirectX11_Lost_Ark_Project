@@ -19,6 +19,7 @@ private:
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
 		m_bCondition = Is_Within_Range();
+		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction(fTimeDelta);
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -30,7 +31,7 @@ private:
 private:
 	_bool	Is_Within_Range()
 	{
-		if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 30.f)
+		if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 10.f&& !static_cast<CMonster*>(m_pGameObject)->Is_Hit())
 			return true;
 
 		return false;

@@ -544,6 +544,12 @@ const wstring& CGameInstance::Get_RandomSoundKey(const wstring& strSoundTrack)
 	return m_pSoundMgr->Get_RandomSoundKey(strSoundTrack);
 }
 
+_float CGameInstance::Get_RandomFloat(_float fMin, _float fMax)
+{
+	m_RandomResult = uniform_real_distribution<float>(fMin, fMax);
+
+	return m_RandomResult(m_RandomDevice);
+}
 
 
 void CGameInstance::Release_Engine()

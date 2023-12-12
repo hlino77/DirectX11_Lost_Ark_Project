@@ -9,6 +9,7 @@ CZombie_BT_Dead::CZombie_BT_Dead()
 void CZombie_BT_Dead::OnStart()
 {
 	__super::OnStart(0);
+
 }
 
 CBT_Node::BT_RETURN CZombie_BT_Dead::OnUpdate(const _float& fTimeDelta)
@@ -16,7 +17,7 @@ CBT_Node::BT_RETURN CZombie_BT_Dead::OnUpdate(const _float& fTimeDelta)
 
 	
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
-		return BT_FAIL;
+		return BT_SUCCESS;
 
 	return BT_RUNNING;
 }
@@ -24,6 +25,9 @@ CBT_Node::BT_RETURN CZombie_BT_Dead::OnUpdate(const _float& fTimeDelta)
 void CZombie_BT_Dead::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CMonster*>(m_pGameObject)->Set_Hit(false);
+	static_cast<CMonster*>(m_pGameObject)->Set_Left(false);
+	static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.f);
 	static_cast<CMonster*>(m_pGameObject)->Set_Die();
 }
 

@@ -14,9 +14,10 @@ void CZombie_BT_Attack1::OnStart()
 CBT_Node::BT_RETURN CZombie_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 {
 
-	
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
+	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+		return BT_SUCCESS;
 
 	return BT_RUNNING;
 }
@@ -24,7 +25,7 @@ CBT_Node::BT_RETURN CZombie_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 void CZombie_BT_Attack1::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster*>(m_pGameObject)->Set_Die();
+
 }
 
 

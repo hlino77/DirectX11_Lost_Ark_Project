@@ -31,7 +31,7 @@ private:
 private:
 	_bool	IsZeroHP()
 	{
-		if (static_cast<CMonster*>(m_pGameObject)->Get_Hp()<0)
+		if (static_cast<CMonster*>(m_pGameObject)->Get_Hp()<1)
 			return true;
 
 		return false;

@@ -18,7 +18,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-		m_bCondition = Is_Within_Range();
+		m_bCondition = Is_Spawn();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -28,7 +28,7 @@ private:
 	}
 
 private:
-	_bool	Is_Within_Range()
+	_bool	Is_Spawn()
 	{
 		if (static_cast<CMonster*>(m_pGameObject)->Is_Spawn())
 			return true;

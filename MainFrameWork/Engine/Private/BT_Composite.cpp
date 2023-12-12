@@ -18,6 +18,8 @@ HRESULT CBT_Composite::Initialize(void* pArg)
 	if(pCompositeDesc == nullptr)
 		return E_FAIL;
 	m_eCompositeType = pCompositeDesc->eCompositeType;
+	m_eNodeType = BT_NODETYPE::COMPOSITE;
+
 	return S_OK;
 }
 

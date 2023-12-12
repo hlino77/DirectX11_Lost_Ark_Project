@@ -2,7 +2,7 @@
 #include "BT_Node.h"
 BEGIN(Engine)
 
-class ENGINE_DLL CBT_Composite :    public CBT_Node
+class ENGINE_DLL CBT_Composite :  public CBT_Node
 {
 public:
 	enum class CompositeType { SELECTOR, SEQUENCE, TYPE_END };

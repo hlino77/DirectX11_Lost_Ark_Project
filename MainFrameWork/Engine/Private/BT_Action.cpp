@@ -27,7 +27,7 @@ HRESULT CBT_Action::Initialize(void* pArg)
 
 		m_vecAnimIndexFrame.push_back(make_pair(AnimDesc, iAnimFrame));
 	}
-
+	m_eNodeType = BT_NODETYPE::ACTION;
 	return S_OK;
 }
 

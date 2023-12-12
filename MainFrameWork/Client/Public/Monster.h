@@ -9,6 +9,7 @@ BEGIN(Engine)
 class CModel;
 class CShader;
 class CTexture;
+class CBehaviorTree;
 class CRenderer;
 class CTransform;
 class CPipeLine;
@@ -22,7 +23,7 @@ BEGIN(Client)
 class CMonster : public CGameObject
 {
 public:
-	typedef struct ModelDesc
+	typedef struct MODELDESC
 	{
 		wstring strFileName;
 		_int	iObjectID;
@@ -64,18 +65,26 @@ public:
 
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 
-
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 	_float					Get_Target_Distance();
-
+	void					LookAt_Target_Direction(_float fTimeDelta);
+	Vec3					Get_Target_Direction();
+	void					Set_RandomPosition();
+	void					Move_to_RandomPosition(_float fTimeDelta);
+	_bool					Is_Close_To_RandomPosition();
 	virtual void			Set_Die();
 public:
 	_bool						Is_Hit() { return m_IsHit; }
 	void						Set_Hit(_bool bHit) { m_IsHit = bHit; }
 
+	_bool						Is_Left() { return m_IsLeft; }
+	void						Set_Left(_bool IsLeft) { m_IsLeft = IsLeft; }
+
 	_bool						Is_Spawn() { return m_IsSpawn; }
 	void						Set_Spawn(_bool IsSpawn) { m_IsSpawn = IsSpawn; }
 
+	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
+	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 	void	Effect_Die();
 protected:
 	virtual HRESULT Ready_Components();
@@ -89,14 +98,16 @@ protected:
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
+	_float							m_fScanCoolDown = 0.f;
 	_bool							m_IsHit = false;
-	_bool							m_IsSpawn = false;
-
+	_bool							m_IsLeft = false;
+	_bool							m_IsSpawn = true;
+	Vec3							m_vRandomPosition = {};
 	unordered_map<wstring, _uint>	m_BoneIndex;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CShader* m_pShaderCom = nullptr;
 	CRenderer* m_pRendererCom = nullptr;
-
+	CBehaviorTree* m_pBehaviorTree = nullptr;
 
 	std::future<HRESULT>			m_PlayAnimation;
 

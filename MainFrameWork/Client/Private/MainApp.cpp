@@ -24,7 +24,7 @@
 #include "Player.h"
 #include "Camera_Player.h"
 #include "BackGround_MainLogo.h"
-
+#include "BehaviorTree.h"
 
 _float g_fVolume;
 
@@ -188,6 +188,12 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_StateMachine"),
 		CStateMachine::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Behavior */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"),
+		CBehaviorTree::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"),
 		CSphereCollider::Create(m_pDevice, m_pContext))))

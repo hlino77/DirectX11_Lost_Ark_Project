@@ -23,7 +23,6 @@ CBT_Node::BT_RETURN CZombie_BT_Maz::OnUpdate(const _float& fTimeDelta)
 void CZombie_BT_Maz::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster*>(m_pGameObject)->Set_Die();
 }
 
 
