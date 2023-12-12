@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Hasher.h"
 
 /* 1. 화면에 그려져야하는 객체들을 그리는 순서대로 모아서 보관한다. */
 /* 2. 보관하고 있는 객체들의 렌더콜(드로우콜)을 수행한다. */
@@ -9,7 +10,6 @@ BEGIN(Engine)
 
 class CShader;
 class CTexture;
-
 
 class ENGINE_DLL CRenderer final : public CComponent
 {
@@ -86,9 +86,9 @@ private:
 
 
 	list<class CGameObject*>			m_RenderObjects[RENDER_END];
-	unordered_map<wstring, list<class CGameObject*>> m_StaticInstance;
-	unordered_map<wstring, list<class CGameObject*>> m_EffectInstance;
-	unordered_map<wstring, list<class CGameObject*>> m_ModelEffectInstance;
+	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_StaticInstance;
+	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_EffectInstance;
+	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
 private:
 	
 	CShader* m_pInstanceShader = nullptr;
@@ -108,8 +108,8 @@ private:
 	class CLight_Manager* m_pLight_Manager = { nullptr };
 
 	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
-	class CShader* m_pMRTShader = { nullptr };
-	class CShader* m_pEffectShader = { nullptr };
+	CShader* m_pMRTShader = { nullptr };
+	CShader* m_pEffectShader = { nullptr };
 
 	Matrix					m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
 

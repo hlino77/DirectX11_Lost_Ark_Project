@@ -14,6 +14,7 @@
 
 #endif
 
+#include <wrl.h>
 #include <random>
 
 #include <d3d11.h>
@@ -40,6 +41,8 @@
 
 #include <DirectXMath.h>
 using namespace DirectX;
+using namespace Microsoft::WRL;
+using namespace SimpleMath;
 
 #include <vector>
 #include <list>

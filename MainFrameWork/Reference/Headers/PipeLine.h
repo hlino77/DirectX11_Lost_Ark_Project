@@ -16,36 +16,30 @@ private:
 	virtual ~CPipeLine() = default;
 
 public:
-	void Set_Transform(TRANSFORMSTATE eTransformState, Matrix TransformMatrix);
+	void	Set_Transform(TRANSFORMSTATE eTransformState, Matrix TransformMatrix);
 
-	Matrix Get_TransformMatrix(TRANSFORMSTATE eTransformState) const {
-		return m_TransformMatrix[eTransformState];
-	}
+	Matrix	Get_TransformMatrix(TRANSFORMSTATE eTransformState) const			{ return m_TransformMatrix[eTransformState]; }
+	Matrix	Get_ViewProjMatrix() const											{ return m_ViewProjMatrix; }
+	Matrix	Get_LightViewProjMatrix() const										{ return m_LightViewProjMatrix; }
+	Matrix	Get_TransformFloat4x4_TP(TRANSFORMSTATE eTransformState) const		{ return Get_TransformMatrix(eTransformState).Transpose(); }
+	Matrix	Get_TransformMatrixInverse(TRANSFORMSTATE eTransformState) const	{ return m_TransformInverseMatrix[eTransformState]; }
+	Vec4	Get_CamPosition() const												{ return m_vCamPosition; }
 
+	const BoundingFrustum& Get_CamFrustum()										{ return m_tCamFrustum; }
+	void Set_Frustum(const BoundingFrustum& tBoundingFrustum)					{ m_tCamFrustum = tBoundingFrustum; }
 
-	Matrix Get_TransformFloat4x4_TP(TRANSFORMSTATE eTransformState) const {
-		return Get_TransformMatrix(eTransformState).Transpose();
-	}
-
-	Matrix Get_TransformMatrixInverse(TRANSFORMSTATE eTransformState) const {
-		return m_TransformInverseMatrix[eTransformState];
-	}
-
-	Vec4 Get_CamPosition() const {
-		return m_vCamPosition;
-	}
-
-	const BoundingFrustum& Get_CamFrustum() { return m_tCamFrustum; }
-	void	Set_Frustum(const BoundingFrustum& tBoundingFrustum) { m_tCamFrustum = tBoundingFrustum; }
 public:
 	void Update();
 	
 private:
 	Matrix				m_TransformMatrix[D3DTS_END];
+	Matrix				m_ViewProjMatrix = Matrix::Identity;
+	Matrix				m_LightViewProjMatrix = Matrix::Identity;
 	Matrix				m_TransformInverseMatrix[D3DTS_END];
-	Vec4					m_vCamPosition;
+	Vec4				m_vCamPosition;
 
 	BoundingFrustum		m_tCamFrustum;
+
 public:
 	virtual void Free() override;
 };

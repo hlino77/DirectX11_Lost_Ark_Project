@@ -1,11 +1,11 @@
+#include "Client_Shader_Defines.hlsl"
 
-#include "Client_Shader_Defines.hpp"
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-texture2D	g_DiffuseTexture;
-texture2D	g_NormalTexture;
-texture2D	g_MaskTexture;
-texture2D	g_MaskTexture2;
-texture2D	g_DisolveTexture;
+Texture2D	g_DiffuseTexture;
+Texture2D	g_NormalTexture;
+Texture2D	g_MaskTexture;
+Texture2D	g_MaskTexture2;
+Texture2D	g_DisolveTexture;
 
 matrix		g_ShadowViewMatrix;
 

@@ -1,14 +1,14 @@
 
-#include "Client_Shader_Defines.hpp"
+#include "Client_Shader_Defines.hlsl"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 
-texture2D		g_DiffuseTexture;
-texture2D		g_ShadeTexture;
-texture2D		g_BlurTexture;
+Texture2D	g_DiffuseTexture;
+Texture2D	g_ShadeTexture;
+Texture2D	g_BlurTexture;
 
-texture2D		g_Texture;
+Texture2D g_Texture;
 
 float2  g_PixelSize;
 int     g_KernelSize; //커널은 이미지 처리에서 필터 또는 윈도우라고도 불리는 작은 행렬 또는 마스크
@@ -86,7 +86,7 @@ PS_OUT PS_MAIN_EFFECT_SHADE(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector		vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
 
 	//if (vDiffuse.a > 0.0f)
 	//{
@@ -94,7 +94,7 @@ PS_OUT PS_MAIN_EFFECT_SHADE(PS_IN In)
 	//	return Out;
 	//}
 	//
-	//vector		vBlur = g_BlurTexture.Sample(LinearSampler, In.vTexcoord);
+	//vector		vBlur = g_BlurTexture.sample(LinearSampler, In.vTexcoord);
 
 	Out.vColor = vDiffuse;
 
@@ -107,7 +107,7 @@ PS_OUT PS_MAIN_EFFECT_BLUR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector		vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
 
 	//if (vDiffuse.a > 0.0f)
 	//{
@@ -115,7 +115,7 @@ PS_OUT PS_MAIN_EFFECT_BLUR(PS_IN In)
 	//	return Out;
 	//}
 	//
-	//vector		vBlur = g_BlurTexture.Sample(LinearSampler, In.vTexcoord);
+	//vector		vBlur = g_BlurTexture.sample(LinearSampler, In.vTexcoord);
 
 	//vDiffuse.a *= vDiffuse.a;
 
@@ -144,7 +144,7 @@ PS_OUT PS_MAIN_BLURX(PS_IN In)
 			float2 vTexcoord = In.vTexcoord;
 			vTexcoord.x += i * g_PixelSize.x;
 
-			vector vBloomPixel = g_BlurTexture.Sample(DefaultSampler, vTexcoord);
+            vector vBloomPixel = g_BlurTexture.Sample(DefaultSampler, vTexcoord);
 
 			if (vBloomPixel.a > 0.0f)
 			{
@@ -159,7 +159,7 @@ PS_OUT PS_MAIN_BLURX(PS_IN In)
 
 	Out.vColor = vFinalPixel;
 
-	//Out.vColor = g_BlurTexture.Sample(DefaultSampler, In.vTexcoord);
+	//Out.vColor = g_BlurTexture.sample(DefaultSampler, In.vTexcoord);
 
 	return Out;
 }
@@ -181,7 +181,7 @@ PS_OUT PS_MAIN_BLURY(PS_IN In)
 			float2 vTexcoord = In.vTexcoord;
 			vTexcoord.y += i * g_PixelSize.y;
 
-			vector vBloomPixel = g_BlurTexture.Sample(DefaultSampler, vTexcoord);
+            vector vBloomPixel = g_BlurTexture.Sample(DefaultSampler, vTexcoord);
 
 			if (vBloomPixel.a > 0.0f)
 			{

@@ -178,7 +178,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <FileType>Document</FileType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </EntryPointName>
+    </FxCompile>
     <ClInclude Include="..\Public\BackGround_Loading.h" />
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\BackGround_Server.h" />
@@ -255,10 +259,16 @@
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
-    <ClCompile Include="..\Private\EffectTool.cpp" />
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
-    <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Level_Tool.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+    </ClCompile>
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Player.cpp" />

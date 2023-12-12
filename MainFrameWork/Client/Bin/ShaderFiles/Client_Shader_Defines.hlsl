@@ -1,4 +1,5 @@
-
+#ifndef _CLIENT_SHADER_DEFINES_HLSL_
+#define _CLIENT_SHADER_DEFINES_HLSL_
 
 sampler LinearSampler = sampler_state{
 	Filter = MIN_MAG_MIP_LINEAR;
@@ -12,8 +13,6 @@ sampler PointSampler = sampler_state{
 	AddressV = wrap;
 };
 
-
-
 RasterizerState RS_Skybox
 {
 	FillMode = solid;
@@ -25,14 +24,12 @@ RasterizerState RS_Skybox
 	FrontCounterClockwise = false;
 };
 
-
 RasterizerState RS_Effect
 {
 	FillMode = Solid;
 	CullMode = None;
 	FrontCounterClockwise = false;
 };
-
 
 RasterizerState RS_Default
 {
@@ -62,8 +59,6 @@ DepthStencilState DSS_None
 	DepthEnable = false;
 	DepthWriteMask = zero;
 };
-
-
 
 BlendState BS_Default
 {
@@ -112,8 +107,6 @@ BlendState BS_BlendDestAlpha
 	BlendOpAlpha = Add;
 };
 
-
-
 BlendState BS_BlendDefault
 {
 	BlendEnable[0] = true;
@@ -128,7 +121,6 @@ RasterizerState RS_ShadowDepth
 	CullMode = None;
 };
 
-
 BlendState BS_AlphaBlendTest
 {
 	BlendEnable[0] = true;
@@ -137,7 +129,6 @@ BlendState BS_AlphaBlendTest
 	DestBlend = Inv_Src_Alpha;
 	BlendOp = Add;
 };
-
 
 BlendState BS_ModelEffect
 {
@@ -150,3 +141,5 @@ BlendState BS_ModelEffect
 	DestBlendAlpha = Zero;
 	BlendOpAlpha = Add;
 };
+
+#endif

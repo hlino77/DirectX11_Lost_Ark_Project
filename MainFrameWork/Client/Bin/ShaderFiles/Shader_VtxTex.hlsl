@@ -1,12 +1,12 @@
-#include "Client_Shader_Defines.hpp"
+#include "Client_Shader_Defines.hlsl"
 
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-texture2D	g_DiffuseTexture;
-texture2D	g_DepthTexture;
+Texture2D	g_DiffuseTexture;
+Texture2D	g_DepthTexture;
 float		g_Alpha = 1.0f;
 float4		g_Color;
-texture2D	g_MaskTexture;
-texture2D	g_MaskTexture2;
+Texture2D	g_MaskTexture;
+Texture2D	g_MaskTexture2;
 float2		g_vMaskUV;
 
 

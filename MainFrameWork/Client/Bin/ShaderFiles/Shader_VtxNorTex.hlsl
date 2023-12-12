@@ -1,11 +1,11 @@
-#include "Client_Shader_Defines.hpp"
+#include "Client_Shader_Defines.hlsl"
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
-texture2D	g_DiffuseTexture;
-texture2D	g_DiffuseTexture1;
-texture2D	g_FilterTexture;
+Texture2D	g_DiffuseTexture;
+Texture2D	g_DiffuseTexture1;
+Texture2D	g_FilterTexture;
 
-texture2D	g_BrushTexture;
+Texture2D	g_BrushTexture;
 vector		g_vBrushPos = vector(10.f, 0.f, 10.f, 1.f);
 float		g_fBrushRange = 5.f;
 
