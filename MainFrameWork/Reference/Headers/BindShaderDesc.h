@@ -7,15 +7,15 @@ class Shader;
 
 struct ENGINE_DLL GlobalDesc
 {
-	Matrix ViewMatrix = Matrix::Identity;
-	Matrix ProjMatrix = Matrix::Identity;
-	Matrix ViewProj = Matrix::Identity;
-	Matrix ViewInverse = Matrix::Identity;
+	Matrix ViewMatrix;// = Matrix::Identity;
+	Matrix ProjMatrix;// = Matrix::Identity;
+	Matrix ViewProj;// = Matrix::Identity;
+	Matrix ViewInverse;// = Matrix::Identity;
 };
 
 struct ENGINE_DLL TransformDesc
 {
-	Matrix W = Matrix::Identity;
+	Matrix WorldMatrix;// = Matrix::Identity;
 };
 
 // Light

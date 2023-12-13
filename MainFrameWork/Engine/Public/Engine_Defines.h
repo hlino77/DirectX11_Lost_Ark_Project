@@ -39,7 +39,6 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
-#include <DirectXMath.h>
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace SimpleMath;
@@ -54,12 +53,9 @@ using namespace SimpleMath;
 
 #include <process.h>
 
-
 #include "fmod.h"
 #include "fmod.hpp"
 #include <io.h>
-
-
 
 #include "Engine_Macro.h"
 #include "Engine_Typedef.h"

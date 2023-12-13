@@ -1,4 +1,5 @@
 #include "Client_Shader_Defines.hlsl"
+#include "Client_Shader_Global.hlsl"
 
 float		g_BlendRatio;
 float4		g_vBlurColor;
