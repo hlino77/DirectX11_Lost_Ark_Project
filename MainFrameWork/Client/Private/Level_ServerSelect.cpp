@@ -7,7 +7,8 @@
 #include "ThreadManager.h"
 #include "ServerSessionManager.h"
 #include "UI.h"
-
+#include "UI_ServerEntranceButton.h"
+#include "UI_ServerGrid.h"
 CLevel_ServerSelect::CLevel_ServerSelect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -30,12 +31,6 @@ HRESULT CLevel_ServerSelect::Initialize()
 
 HRESULT CLevel_ServerSelect::Tick(_float fTimeDelta)
 {
-	if (KEY_TAP(KEY::ENTER))
-	{
-		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_LOBBY, L"None"))))
-			return E_FAIL;
-	}
-
 	return S_OK;
 }
 
@@ -76,12 +71,14 @@ HRESULT CLevel_ServerSelect::Ready_Layer_UI()
 	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerWnd")))
 		return E_FAIL;
 
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerGrid")))
-		return E_FAIL;
-
 	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerLogo")))
 		return E_FAIL;
 
+	CUI_ServerEntranceButton* pServerEntranceButton = static_cast<CUI_ServerEntranceButton*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerEntranceButton")));
+	if (nullptr == pServerEntranceButton)
+		return E_FAIL;
+	else
+		pServerEntranceButton->Create_Rect();
 
 	Safe_Release(pGameInstance);
 

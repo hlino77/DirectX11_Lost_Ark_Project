@@ -30,14 +30,38 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 
 	m_szBackGruond = szBackGruond;
 
+	if (szBackGruond == L"LoadingWnd")
+	{
+		wstring szProtoName = L"Prototype_GameObject_BackGround_" + szBackGruond;
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+			return E_FAIL;
 
-	if (szBackGruond != L"None")
+		szProtoName = L"Prototype_GameObject_BackGround_LoadingLabel_Top";
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+			return E_FAIL;
+
+		szProtoName = L"Prototype_GameObject_BackGround_LoadingLabel_Bottom";
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+			return E_FAIL;
+
+		szProtoName = L"Prototype_GameObject_BackGround_Loading_EmptyBar";
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+			return E_FAIL;
+
+		szProtoName = L"Prototype_GameObject_BackGround_Loading_Fill";
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+			return E_FAIL;
+
+		szProtoName = L"Prototype_GameObject_BackGround_Loading_Arrow";
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+			return E_FAIL;
+	}
+	else if (szBackGruond != L"None")
 	{
  		wstring szProtoName = L"Prototype_GameObject_BackGround_" + szBackGruond;
 		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
 			return E_FAIL; 
 	}
-
 
 	pGameInstance->Set_Loading(true);
 	pGameInstance->Set_LoadingNext(eNextLevel);

@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_ServerWnd final:
+class CUI_LoadingLabelTop :
     public CUI
 {
 private:
-    CUI_ServerWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_ServerWnd(const CUI& rhs);
-    virtual ~CUI_ServerWnd() = default;
+    CUI_LoadingLabelTop(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_LoadingLabelTop(const CUI& rhs);
+    virtual ~CUI_LoadingLabelTop() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -25,8 +25,11 @@ private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
+private:
+    wstring m_strStage = TEXT("º£¸¥ ¼º");
+
 public:
-    static  CUI_ServerWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_LoadingLabelTop* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

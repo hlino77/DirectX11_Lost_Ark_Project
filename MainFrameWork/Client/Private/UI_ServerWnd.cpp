@@ -44,13 +44,12 @@ HRESULT CUI_ServerWnd::Initialize(void* pArg)
 
 void CUI_ServerWnd::Tick(_float fTimeDelta)
 {
-
+	__super::Tick(fTimeDelta);
 }
 
 void CUI_ServerWnd::LateTick(_float fTimeDelta)
 {
-	if (m_bActive)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_ServerWnd::Render()
@@ -67,29 +66,11 @@ HRESULT CUI_ServerWnd::Render()
 
 HRESULT CUI_ServerWnd::Ready_Components()
 {
-	/* Com_Renderer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
-
-	/* Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
+	__super::Ready_Components();
 
 	/* Com_Texture*/
 	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Select_GridWnd"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-	/* Com_Transform */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
 
 	return S_OK;

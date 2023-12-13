@@ -222,7 +222,13 @@
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UI_LoadingArrow.h" />
+    <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
+    <ClInclude Include="..\Public\UI_LoadingFill.h" />
+    <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
+    <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
@@ -243,6 +249,7 @@
     <ClInclude Include="..\Public\Zombie_BT_Spawn.h" />
     <ClInclude Include="..\Public\Zombie_BT_WHILE_Within_Range.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -293,7 +300,13 @@
     </ClCompile>
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingFill.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
@@ -343,6 +356,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

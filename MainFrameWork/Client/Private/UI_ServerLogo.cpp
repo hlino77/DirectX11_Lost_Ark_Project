@@ -44,52 +44,28 @@ HRESULT CUI_ServerLogo::Initialize(void* pArg)
 
 void CUI_ServerLogo::Tick(_float fTimeDelta)
 {
-
+	__super::Tick(fTimeDelta);
 }
 
 void CUI_ServerLogo::LateTick(_float fTimeDelta)
 {
-	if (m_bActive)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_ServerLogo::Render()
 {
-	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
-
-	m_pShaderCom->Begin(0);
-
-	m_pVIBufferCom->Render();
+	__super::Render();
 
 	return S_OK;
 }
 
 HRESULT CUI_ServerLogo::Ready_Components()
 {
-	/* Com_Renderer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
-
-	/* Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
+	__super::Ready_Components();
 
 	/* Com_Texture*/
 	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_LostArkLogo"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-	/* Com_Transform */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -97,15 +73,7 @@ HRESULT CUI_ServerLogo::Ready_Components()
 
 HRESULT CUI_ServerLogo::Bind_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
-		return E_FAIL;
-
-	_float fAlpha = 1.f;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
+	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
 	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");

@@ -38,7 +38,6 @@ protected:
 	CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	/* 사본을 생성할 때 */
 	CUI(const CGameObject& rhs); /* 복사 생성자. */
-
 	virtual ~CUI() = default;
 
 public:
@@ -48,7 +47,6 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
-	
 	virtual void Appear();
 	virtual void UI_Tick(_float fTimeDelta) PURE;
 	virtual void UI_AppearTick(_float fTimeDelta);
@@ -61,7 +59,8 @@ public:
 	_bool Get_Pick() { return m_bPick; }
 	_bool Set_Pick(_bool Pick) { m_bPick = Pick; }
 	virtual void	Picking_UI();
-	virtual void	Create_Rect();
+	virtual void	Create_Rect(void* pArg = nullptr);
+	virtual void	Create_Rect(UIDESC UIDesc);
 	virtual void	RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec);  // 벡터 정렬
 
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
@@ -79,8 +78,8 @@ protected:
 	Vec2					m_vUITargetSize;
 
 	_float					m_fAlpha = 1.0f;
+	Vec4					m_vColor;
 
-	Matrix	m_ColorMatrix;
 	_bool				m_bPick = false;            // 피킹 확인
 	RECT				m_rcUI = {};
 protected:
@@ -88,7 +87,6 @@ protected:
 	virtual HRESULT Bind_ShaderResources();
 
 public:
-	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
 };
 
