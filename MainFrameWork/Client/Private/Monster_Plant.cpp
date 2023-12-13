@@ -27,6 +27,7 @@
 #include "Zombie_BT_WHILE_Within_Range.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
+#include "BindShaderDesc.h"
 
 CMonster_Plant::CMonster_Plant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -114,11 +115,17 @@ HRESULT CMonster_Plant::Render()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
 		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
+
+	GlobalDesc gDesc = {
+		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
+		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		pGameInstance->Get_ViewProjMatrix(),
+		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
+	};
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
