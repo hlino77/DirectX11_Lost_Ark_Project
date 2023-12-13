@@ -27,30 +27,39 @@ HRESULT CUI_ServerGrid::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_fSizeX = 504;
-	m_fSizeY = 105;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = (g_iWinSizeY * 0.5f) - 320.f;
+	if(nullptr != pArg)
+	{
+		UIDESC* pDesc = static_cast<UIDESC*>(pArg);
 
-	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		m_fSizeX = pDesc->fSizeX;
+		m_fSizeY = pDesc->fSizeY;
+		m_fX = g_iWinSizeX * 0.5f;
+		m_fY = pDesc->fY;
+
+		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+	}
+
+	m_vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 	
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
-	return S_OK;
+		return S_OK;
 }
 
 void CUI_ServerGrid::Tick(_float fTimeDelta)
 {
-
+	__super::Tick(fTimeDelta);
+	//Picking_UI();
+	//Move_UI(fTimeDelta);
 }
 
 void CUI_ServerGrid::LateTick(_float fTimeDelta)
 {
-	if (m_bActive)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_ServerGrid::Render()
@@ -58,38 +67,30 @@ HRESULT CUI_ServerGrid::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(2);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
+void CUI_ServerGrid::UI_Tick(_float fTimeDelta)
+{
+	if ((GRID_PICKING == m_eState) && (KEY_TAP(KEY::LBTN)))
+		m_eState = GRID_SELECTED;
+	else if ((m_bPick) && (GRID_SELECTED != m_eState))
+		m_eState = GRID_PICKING;
+	else if ((!m_bPick) && (GRID_SELECTED != m_eState) && (GRID_PICKING == m_eState))
+		m_eState = GRID_NORMAL;
+}
+
 HRESULT CUI_ServerGrid::Ready_Components()
 {
-	/* Com_Renderer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
-
-	/* Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
+	__super::Ready_Components();
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Logo_Grid"),
+	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Logo_Grids"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-	/* Com_Transform */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -97,20 +98,71 @@ HRESULT CUI_ServerGrid::Ready_Components()
 
 HRESULT CUI_ServerGrid::Bind_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
-	_float fAlpha = 0.1f;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
-		return E_FAIL;
-
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture",(_uint)m_eState);
 
 	return S_OK;
+}
+
+Vec4 CUI_ServerGrid::Linear_Color(_float fTimeDelta)
+{
+	return m_vColor + (m_vEndColor - m_vColor) * fTimeDelta;
+}
+
+void CUI_ServerGrid::Move_UI(_float fTimeDelta)
+{
+	if (KEY_HOLD(KEY::LEFT_ARROW))
+	{
+		m_fX -= 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::RIGHT_ARROW))
+	{
+		m_fX += 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::UP_ARROW))
+	{
+		m_fY -= 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::DOWN_ARROW))
+	{
+		m_fY += 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::U))
+	{
+		m_fSizeX -= 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::I))
+	{
+		m_fSizeX += 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::O))
+	{
+		m_fSizeY -= 1.0f;
+	}
+
+	if (KEY_HOLD(KEY::P))
+	{
+		m_fSizeY += 1.0f;
+	}
+
+	if (KEY_TAP(KEY::Y))
+	{
+		cout << "Pos : " << m_fX << " " << m_fY << endl;
+		cout << "Size : " << m_fSizeX << " " << m_fSizeY << endl;
+	}
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, m_vUITargetPos.z));
+
 }
 
 CUI_ServerGrid* CUI_ServerGrid::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_ServerWnd final:
+class CUI_LoadingLabelBottom :
     public CUI
 {
 private:
-    CUI_ServerWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_ServerWnd(const CUI& rhs);
-    virtual ~CUI_ServerWnd() = default;
+    CUI_LoadingLabelBottom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_LoadingLabelBottom(const CUI& rhs);
+    virtual ~CUI_LoadingLabelBottom() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -25,8 +25,12 @@ private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
+private:
+    wstring m_strTip = TEXT("팁");
+    wstring m_strToolTips = TEXT("건슬링어가 아니라 건걸이빈다.");
+
 public:
-    static  CUI_ServerWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_LoadingLabelBottom* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

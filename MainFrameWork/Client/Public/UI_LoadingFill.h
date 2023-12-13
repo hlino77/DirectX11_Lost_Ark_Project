@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_ServerWnd final:
+class CUI_LoadingFill :
     public CUI
 {
 private:
-    CUI_ServerWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_ServerWnd(const CUI& rhs);
-    virtual ~CUI_ServerWnd() = default;
+    CUI_LoadingFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_LoadingFill(const CUI& rhs);
+    virtual ~CUI_LoadingFill() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -26,7 +26,7 @@ private:
     virtual HRESULT Bind_ShaderResources();
 
 public:
-    static  CUI_ServerWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_LoadingFill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

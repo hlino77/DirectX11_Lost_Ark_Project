@@ -101,12 +101,30 @@ void CUI::Picking_UI()
 		m_bPick = false;
 }
 
-void CUI::Create_Rect()
+void CUI::Create_Rect(void* pArg)
 {
-	m_rcUI.left = LONG(m_fX - (m_fSizeX / 2));
-	m_rcUI.top = LONG(m_fY - (m_fSizeY / 2));
-	m_rcUI.right = LONG(m_fX + (m_fSizeX / 2));
-	m_rcUI.bottom = LONG(m_fY + (m_fSizeY / 2));
+	if (nullptr != pArg)
+	{
+		UIDESC* pDesc = static_cast<UIDESC*>(pArg);
+
+		m_rcUI.left = LONG(pDesc->fX - (pDesc->fSizeX / 2));
+		m_rcUI.top = LONG(pDesc->fY - (pDesc->fSizeY / 2));
+		m_rcUI.right = LONG(pDesc->fX + (pDesc->fSizeX / 2));
+		m_rcUI.bottom = LONG(pDesc->fY + (pDesc->fSizeY / 2));
+	}
+	else
+	{
+		m_rcUI.left = LONG(m_fX - (m_fSizeX / 2));
+		m_rcUI.top = LONG(m_fY - (m_fSizeY / 2));
+		m_rcUI.right = LONG(m_fX + (m_fSizeX / 2));
+		m_rcUI.bottom = LONG(m_fY + (m_fSizeY / 2));
+	}
+}
+
+void CUI::Create_Rect(UIDESC UIDesc)
+{
+
+
 }
 
 void CUI::RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec)
@@ -117,15 +135,32 @@ void CUI::RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec)
 
 HRESULT CUI::Ready_Components()
 {
+	/* Com_Renderer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
+		return E_FAIL;
+
+	/* Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
+
+	/* Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
+		return E_FAIL;
+
+	/* Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CUI::Bind_ShaderResources()
 {
 	/* 셰이더 전역변수로 던져야 할 값들을 던지자. */
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &IdentityMatrix)))
-	//	return E_FAIL;
-
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return S_OK;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -135,9 +170,6 @@ HRESULT CUI::Bind_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
 		return E_FAIL;
-
-
-	//m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 
 	return S_OK;
 }

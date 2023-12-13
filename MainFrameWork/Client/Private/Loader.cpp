@@ -15,6 +15,7 @@
 #include "UI_ServerWnd.h"
 #include "UI_ServerGrid.h"
 #include "UI_ServerLogo.h"
+#include "UI_ServerEntranceButton.h"
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -187,6 +188,10 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Logo/LostArk_Logo.png"))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_EntranceButton"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Button_UI/Button%d.png",2))))
+		return E_FAIL;
+
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
 
@@ -210,6 +215,9 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CUI_ServerLogo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ServerEntranceButton"),
+		CUI_ServerEntranceButton::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
