@@ -18,7 +18,10 @@ public:
 
 
 	void	AddFont(const wstring& szTextName, const wstring& szFontPath);
+
+
 	void	DrawFont(const wstring& szTextName, const wstring& szString, const Vec2& vPosition, const Vec4& vColor, const _float& fRotation, const Vec2& vOrigin, const Vec2& vScale);
+
 
 	Vec2	MeasureString(const wstring& szTextName, const wstring& szString);
 
@@ -31,6 +34,7 @@ private:
 
 	SpriteBatch* m_pBatch;
 	unordered_map<wstring , SpriteFont*> m_Fonts;
+
 public:
 	virtual void Free() override;
 };

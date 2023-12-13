@@ -10,6 +10,7 @@
 #include "GameInstance.h"
 #include "ServerSessionManager.h"
 #include "ThreadManager.h"
+#include "Chat_Manager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -207,6 +208,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
         return true;
+
+
+    CChat_Manager::GetInstance()->Chat_WndProcHandler(hWnd, message, wParam, lParam);
+
 
     switch (message)
     {

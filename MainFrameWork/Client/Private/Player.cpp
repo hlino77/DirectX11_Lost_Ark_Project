@@ -14,6 +14,7 @@
 #include "NavigationMgr.h"
 #include "Skill.h"
 #include "Pool.h"
+#include "Chat_Manager.h"
 
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -65,6 +66,13 @@ void CPlayer::Tick(_float fTimeDelta)
 	//	m_pRigidBody->AddForce(Vec3(0.0f, 1000.0f, 0.0f), ForceMode::FORCE);
 	//	m_pRigidBody->UseGravity(true);
 	//}
+
+	if (KEY_TAP(KEY::ENTER))
+	{
+		if(CChat_Manager::GetInstance()->Is_Active() == false)
+			CChat_Manager::GetInstance()->OnOff();
+	}
+	
 
 
 	if(m_bNavi)

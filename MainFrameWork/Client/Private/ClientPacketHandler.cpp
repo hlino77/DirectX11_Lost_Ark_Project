@@ -15,6 +15,7 @@
 #include "EventMgr.h"
 #include "Event.h"
 #include "NavigationMgr.h"
+#include "Chat_Manager.h"
 
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
@@ -500,5 +501,19 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 
 	Safe_Release(pGameInstance);
 
+	return true;
+}
+
+bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+
+	CChat_Manager::CHAT tChat;
+	tChat.szChat = CChat_Manager::S2W(pkt.szchat());
+
+	CChat_Manager::GetInstance()->Add_Chat(tChat);
+
+	Safe_Release(pGameInstance);
 	return true;
 }

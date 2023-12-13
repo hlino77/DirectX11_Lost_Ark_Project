@@ -24,6 +24,7 @@
 #include "Player.h"
 #include "Camera_Player.h"
 #include "BackGround_MainLogo.h"
+#include "Chat_Manager.h"
 
 
 _float g_fVolume;
@@ -93,6 +94,8 @@ void CMainApp::Tick(_float fTimeDelta)
 	/* 게임내에 존재하는 여러 객체들의 갱신. */
 	/* 레벨의 갱신 */
 	m_pGameInstance->Tick(fTimeDelta);
+
+	CChat_Manager::GetInstance()->CursurTick(fTimeDelta);
 	
 }
 
@@ -103,6 +106,8 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	m_pRenderer_Com->Draw();
+	
+	CChat_Manager::GetInstance()->Render();
 
 	m_pGameInstance->Render_Debug();
 	/* 초기화한 장면에 객체들을 그린다. */
@@ -135,6 +140,8 @@ HRESULT CMainApp::Initialize_Client()
 	CPhysXMgr::GetInstance()->ReserveManager();
 
 	CGameInstance::GetInstance()->Initialize_LoopChannel(CHANNELID::CHANNEL_LOOPSTART, CHANNEL_END);
+
+	CChat_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	// Manager Reserve
 	return S_OK;

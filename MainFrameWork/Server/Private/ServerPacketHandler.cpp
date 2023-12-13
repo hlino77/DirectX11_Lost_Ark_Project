@@ -423,3 +423,12 @@ bool Handel_S_CREATEPLAYER_Server(PacketSessionRef& session, Protocol::S_CREATE_
 
 	return true;
 }
+
+bool Handel_S_CHAT_Server(PacketSessionRef& session, Protocol::S_CHAT& pkt)
+{
+	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+	//CGameSessionManager::GetInstance()->Broadcast_Others(pBuffer, session->GetSessionID());
+	CGameSessionManager::GetInstance()->Broadcast(pBuffer);
+
+	return true;
+}

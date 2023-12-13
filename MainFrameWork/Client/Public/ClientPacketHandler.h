@@ -24,6 +24,7 @@ enum : uint16
 	PKT_S_EVENT = 14,
 	PKT_S_HP = 15,
 	PKT_S_CREATEPLAYER = 16,
+	PKT_S_CHAT = 17,
 };
 
 // TODO
@@ -44,7 +45,7 @@ bool Handel_S_SLOWMOTION_Client(PacketSessionRef& session, Protocol::S_SLOWMOTIO
 bool Handel_S_EVENT_Client(PacketSessionRef& session, Protocol::S_EVENT& pkt);
 bool Handel_S_HP_Client(PacketSessionRef& session, Protocol::S_HP& pkt);
 bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_PLAYER& pkt);
-
+bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt);
 
 
 
@@ -73,6 +74,7 @@ public:
 		GPacketHandler[PKT_S_EVENT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_EVENT>(Handel_S_EVENT_Client, session, buffer, len); };
 		GPacketHandler[PKT_S_HP] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_HP>(Handel_S_HP_Client, session, buffer, len); };
 		GPacketHandler[PKT_S_CREATEPLAYER] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CREATE_PLAYER>(Handel_S_CREATEPLAYER_Client, session, buffer, len); };
+		GPacketHandler[PKT_S_CHAT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CHAT>(Handel_S_CHAT_Client, session, buffer, len); };
 
 	}
 
@@ -100,6 +102,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_EVENT& pkt) { return MakeSendBuffer(pkt, PKT_S_EVENT); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_HP& pkt) { return MakeSendBuffer(pkt, PKT_S_HP); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_PLAYER& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATEPLAYER); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_CHAT& pkt) { return MakeSendBuffer(pkt, PKT_S_CHAT); }
 
 
 private:
