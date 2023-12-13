@@ -27,6 +27,8 @@ HRESULT CUI_ServerWnd::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_strObjectTag = TEXT("Server_Wnd");
+
 	m_fSizeX = 504;
 	m_fSizeY = 335;
 	m_fX = g_iWinSizeX * 0.5f;

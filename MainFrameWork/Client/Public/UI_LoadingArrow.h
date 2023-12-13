@@ -20,7 +20,7 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-
+    void    Move_Arrow(_float fSizeX);
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();

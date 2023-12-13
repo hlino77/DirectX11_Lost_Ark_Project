@@ -27,6 +27,8 @@ HRESULT CUI_LoadingLabelTop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_strObjectTag = TEXT("Loading_LabelTop");
+
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = 29.f;
     m_fSizeX = g_iWinSizeX * 0.5f;
@@ -62,6 +64,11 @@ HRESULT CUI_LoadingLabelTop::Render()
     CGameInstance::GetInstance()->DrawFont(L"던파연마된칼날", m_strStage, vPos, Vec4(1.f, 245.f/255.f, 1.f, 1.0f), 0.0f, vOrigin, vScale);
 
     return S_OK;
+}
+
+void CUI_LoadingLabelTop::Set_StageName(const wstring& strStageName)
+{
+    m_strStage = strStageName;
 }
 
 HRESULT CUI_LoadingLabelTop::Ready_Components()

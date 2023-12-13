@@ -2,6 +2,8 @@
 #include "UI_LoadingFill.h"
 #include "GameInstance.h"
 
+float CUI_LoadingFill::m_fLoadingSizeX = 0.f;
+
 CUI_LoadingFill::CUI_LoadingFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
 {
@@ -27,6 +29,9 @@ HRESULT CUI_LoadingFill::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+
+    m_strObjectTag = TEXT("Loading_Fill");
+
     m_fX = 0.f;
     m_fY = 850.f;
     m_fSizeX = 100.f;
@@ -44,6 +49,7 @@ HRESULT CUI_LoadingFill::Initialize(void* pArg)
 
 void CUI_LoadingFill::Tick(_float fTimeDelta)
 {
+    Change_SizeX(1.f);
 }
 
 void CUI_LoadingFill::LateTick(_float fTimeDelta)
@@ -62,6 +68,15 @@ HRESULT CUI_LoadingFill::Render()
     m_pVIBufferCom->Render();
 
     return S_OK;
+}
+
+void CUI_LoadingFill::Change_SizeX(_float fSizeX)
+{
+    m_fSizeX = (_float)m_fLoadingSizeX;
+
+    m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+        Vec3(m_fX - (g_iWinSizeX * 0.5f) + (m_fSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
 }
 
 HRESULT CUI_LoadingFill::Ready_Components()

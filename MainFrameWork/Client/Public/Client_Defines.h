@@ -13,7 +13,7 @@ namespace Client
 	const unsigned int		g_iWinSizeX = 1600;
 	const unsigned int		g_iWinSizeY = 900;
 	const float				g_fSizeRatio = 1.25f;
-
+	extern float			g_fLoadingSizeX;
 
 	enum class LAYER_TYPE
 	{

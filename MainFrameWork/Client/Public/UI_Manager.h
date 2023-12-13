@@ -2,10 +2,6 @@
 #include "Client_Defines.h"
 #include "Base.h"
 
-BEGIN(Engine)
-class CGameObject;
-END
-
 BEGIN(Client)
 
 class CUI_Manager final:
@@ -20,16 +16,18 @@ private:
 public:
     HRESULT Tick(_float fTimeDelta);
     HRESULT LateTick(_float fTimeDelta);
-    void    Clear(_uint iLevelIndex);
+    void    Clear(LEVELID iLevelIndex);
     void    Render();
 
 public:
-    HRESULT Draw_UI(LEVELID eLevelId);
-    HRESULT Ready_NextLevel_UI(_uint iLevelId);
+    HRESULT Add_UI(LEVELID eLevelIndex, class CUI* pUI);
+    HRESULT Loading_UI(LEVELID eLevelIndex, const _uint& iLayerType, const wstring& UITag);
+    class CUI* Find_UI(LEVELID eLevelIndex, const _uint& iLayerType, const wstring& UITag);
+
 private:
 
 private:
-    map<const LEVELID, vector<CGameObject*>>    m_mapUIs;//레벨에 따라 돌릴예정
+    list<class CUI*>*    m_pUIList;
     _uint   m_iCurrentLevel = { 0 };
     _uint   m_iNextLevel = { 0 };
 
