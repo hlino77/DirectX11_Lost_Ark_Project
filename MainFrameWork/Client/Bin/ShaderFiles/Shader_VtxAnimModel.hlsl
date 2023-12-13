@@ -1,18 +1,4 @@
-
 #include "Client_Shader_Defines.hlsl"
-
-cbuffer GlobalBuffer
-{
-    matrix ViewMatrix;
-    matrix ProjMatrix;
-    matrix ViewProj;
-    //matrix VInv;
-};
-
-cbuffer TransformBuffer
-{
-    matrix WorldMatrix;
-};
 
 float		g_BlendRatio;
 float4		g_vBlurColor;
@@ -172,7 +158,6 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;	
 }
-
 
 PS_OUT_NONEOUTLINE PS_NONEOUTLINE(PS_IN In)
 {

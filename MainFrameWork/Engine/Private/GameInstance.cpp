@@ -408,6 +408,14 @@ Matrix CGameInstance::Get_TransformMatrix(CPipeLine::TRANSFORMSTATE eTransformSt
 	return m_pPipeLine->Get_TransformMatrix(eTransformState);
 }
 
+Matrix CGameInstance::Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE eTransformState) const
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_TransformMatrixInverse(eTransformState);
+}
+
 Matrix CGameInstance::Get_ViewProjMatrix() const
 {
 	if (nullptr == m_pPipeLine)

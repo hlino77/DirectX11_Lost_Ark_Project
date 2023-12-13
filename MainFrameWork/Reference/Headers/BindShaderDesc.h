@@ -10,7 +10,7 @@ struct ENGINE_DLL GlobalDesc
 	Matrix ViewMatrix = Matrix::Identity;
 	Matrix ProjMatrix = Matrix::Identity;
 	Matrix ViewProj = Matrix::Identity;
-	//Matrix VInv = Matrix::Identity;
+	Matrix ViewInverse = Matrix::Identity;
 };
 
 struct ENGINE_DLL TransformDesc

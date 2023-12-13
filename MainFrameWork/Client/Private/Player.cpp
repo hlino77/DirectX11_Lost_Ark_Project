@@ -118,7 +118,8 @@ HRESULT CPlayer::Render()
 	GlobalDesc gDesc = {
 		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
 		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		pGameInstance->Get_ViewProjMatrix()
+		pGameInstance->Get_ViewProjMatrix(),
+		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
 	};
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
