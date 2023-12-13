@@ -30,18 +30,31 @@ void CStateMachine::Tick_State(_float fTimeDelta)
 	m_pCurrState->Tick_State(fTimeDelta);
 }
 
+void CStateMachine::LateTick_State(_float fTimeDelta)
+{
+	if (nullptr == m_pCurrState)
+		return;
+
+	wstring strState = m_pCurrState->LateTick_State(fTimeDelta);
+
+	if (strState != m_pCurrState->Get_StateName())
+		Change_State(strState);
+}
+
 HRESULT CStateMachine::Add_State(const wstring& strStateTag, CState* pState)
 {
-	if (nullptr != Find_State(strStateTag))
+	auto iter = m_States.find(pState->Get_StateName());
+
+	if (iter != m_States.end())
 		return E_FAIL;
 
+	m_States.emplace(pState->Get_StateName(), pState);
 
-	pState->Set_StateMachine(this);
-
-	if(FAILED(pState->Initialize()))
-		return E_FAIL;
-
-	m_States.emplace(strStateTag, pState);
+	if (nullptr == m_pCurrState)
+	{
+		if (FAILED(Change_State(pState->Get_StateName())))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

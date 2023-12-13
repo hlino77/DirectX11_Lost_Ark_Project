@@ -11,6 +11,11 @@
 #include "PhysXMgr.h"
 #include "Pool.h"
 
+#include "Player_Controller_GN.h"
+/* State */
+#include "State_GN_Idle.h"
+#include "State_GN_Run.h"
+
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -30,17 +35,21 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	Ready_State();
+	if(FAILED(Ready_State()))
+		return E_FAIL;
 
-	Ready_Coliders();
-
-	m_fAttackMoveSpeed = 8.0f;
+	if (FAILED(Ready_Coliders()))
+		return E_FAIL;
 
 	if (m_bControl)
 	{
 		if (FAILED(Ready_SkillUI()))
 			return E_FAIL;
 	}
+
+	m_fAttackMoveSpeed = 8.0f;
+
+	
 
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
 	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
@@ -51,24 +60,18 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 {
 	m_pStateMachine->Tick_State(fTimeDelta);
+	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
-
-
-	if (KEY_TAP(KEY::RBTN))
-	{
-		Vec3 vPos;
-		if (Get_CellPickingPos(vPos))
-		{
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-		}
-	}
 
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+
+	m_pStateMachine->LateTick_State(fTimeDelta);
+	m_pController->LateTick(fTimeDelta);
 
 	Set_Colliders(fTimeDelta);
 
@@ -101,7 +104,7 @@ HRESULT CPlayer_Gunslinger::Render()
 				return S_OK;
 
 			string hair = m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j));
-			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
+			if (true == m_pModelPartCom[i]->Is_HairTexture(j))
 			{
 				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4));
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
@@ -118,7 +121,7 @@ HRESULT CPlayer_Gunslinger::Render()
 					return S_OK;
 			}
 
-			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
+			if (true == m_pModelPartCom[i]->Is_HairTexture(j))
 			{
 				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4));
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4));
@@ -206,12 +209,19 @@ void CPlayer_Gunslinger::Set_Colliders(_float fTimeDelta)
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Center();
 }
 
-
-
 HRESULT CPlayer_Gunslinger::Ready_Components()
 {
 	__super::Ready_Components();
 
+	CPlayer_Controller_GN::CONTROLL_DESC	Control_Desc;
+	Control_Desc.pOwner = this;
+	Control_Desc.pOwnerRigidBody = m_pRigidBody;
+	Control_Desc.pOwnerTransform = m_pTransformCom;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Controller_GN"),
+		TEXT("Com_Controller"), (CComponent**)&m_pController, &Control_Desc)))
+		return E_FAIL;
+
+	/* 초기 장비 및 얼굴 설정 */
 	wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
 		return E_FAIL;
@@ -228,7 +238,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
 
-	m_pModelCom->Set_CurrAnim(448);
+	m_pModelCom->Set_CurrAnim(192);
 
 	return S_OK;
 }
@@ -294,6 +304,11 @@ HRESULT CPlayer_Gunslinger::Ready_Parts()
 
 HRESULT CPlayer_Gunslinger::Ready_State()
 {
+	m_pStateMachine->Add_State(TEXT("GN_Run"), CState_GN_Run::Create(TEXT("GN_Run"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("GN_Idle"), CState_GN_Idle::Create(TEXT("GN_Idle"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
 }

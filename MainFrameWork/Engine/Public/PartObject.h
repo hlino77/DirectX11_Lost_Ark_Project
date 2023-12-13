@@ -6,7 +6,7 @@ BEGIN(Engine)
 class ENGINE_DLL CPartObject abstract : public CGameObject
 {
 public:
-	enum class PARTS { WEAPON_1, WEAPON_2, WEAPON_3, WEAPON_4, HAIR, HEAD, _END };
+	enum class PARTS { WEAPON_1, WEAPON_2, WEAPON_3, WEAPON_4, WEAPON_5, HAIR, HEAD, _END };
 
 public:
 	typedef struct tagPartDesc

@@ -19,6 +19,7 @@ public:
 
 public:
 	void Tick_State(_float fTimeDelta);
+	void LateTick_State(_float fTimeDelta);
 
 public:
 	HRESULT Add_State(const wstring& strStateTag, class CState* pState);
@@ -27,7 +28,7 @@ public:
 	const wstring& Get_CurrState();
 private:
 	class CState* m_pCurrState = nullptr;
-	map<wstring, class CState*> m_States;
+	unordered_map<wstring, class CState*> m_States;
 
 private:
 	class CState* Find_State(const wstring & strStateTag);

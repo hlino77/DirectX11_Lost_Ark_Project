@@ -52,6 +52,7 @@ private:
 private:
 	_float			m_fSendInfoTime = 0.0f;
 
+	class CPlayer_Controller_GN* m_pController = { nullptr };
 
 public:
 	static CPlayer_Gunslinger* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);

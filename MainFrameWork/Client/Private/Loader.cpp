@@ -10,6 +10,8 @@
 #include "Weapon_Hand_2.h"
 #include "Weapon_Long.h"
 #include "Weapon_Shot.h"
+#include "Weapon_Shot_2.h"
+#include "Player_Controller_GN.h"
 
 #include "Camera_Free.h"
 #include "StaticModel.h"
@@ -151,6 +153,12 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+
+	/* For.Component*/
+	m_strLoading = TEXT("컴포넌트를 로딩 중 입니다.");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Controller_GN"),
+		CPlayer_Controller_GN::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
@@ -313,6 +321,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot"),
 		CWeapon_Shot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot_2"),
+		CWeapon_Shot_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
@@ -483,7 +495,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	Safe_AddRef(pGameInstance);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(270.0f));
 
 
 

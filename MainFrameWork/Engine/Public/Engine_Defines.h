@@ -50,6 +50,7 @@ using namespace SimpleMath;
 #include <typeinfo>
 #include <array>
 #include <unordered_map>
+#include <iostream>
 
 #include <process.h>
 

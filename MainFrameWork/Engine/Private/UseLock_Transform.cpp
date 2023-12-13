@@ -510,6 +510,12 @@ void CUseLock_Transform::Set_Up(Vec3 vNormal)
 
 }
 
+void CUseLock_Transform::Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta)
+{
+	LookAt_Lerp_ForLand(vTargetPos, fRotSpeed, fTimeDelta);
+	Go_Straight(fSpeed, fTimeDelta);
+}
+
 void CUseLock_Transform::Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta)
 {
 	Quaternion vRot = Quaternion::CreateFromAxisAngle(vAxis, fSpeed * fTimeDelta);

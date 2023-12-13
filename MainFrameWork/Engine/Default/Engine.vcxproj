@@ -223,6 +223,7 @@
     <ClInclude Include="..\Public\ObjectPool.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
     <ClInclude Include="..\Public\PipeLine.h" />
+    <ClInclude Include="..\Public\Player_Controller.h" />
     <ClInclude Include="..\Public\QuadTreeMgr.h" />
     <ClInclude Include="..\Public\QuadTreeNode.h" />
     <ClInclude Include="..\Public\RecvBuffer.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="..\Private\NetAddress.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
     <ClCompile Include="..\Private\PipeLine.cpp" />
+    <ClCompile Include="..\Private\Player_Controller.cpp" />
     <ClCompile Include="..\Private\QuadTreeMgr.cpp" />
     <ClCompile Include="..\Private\QuadTreeNode.cpp" />
     <ClCompile Include="..\Private\RecvBuffer.cpp" />
