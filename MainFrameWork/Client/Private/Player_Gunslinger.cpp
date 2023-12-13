@@ -178,7 +178,7 @@ void CPlayer_Gunslinger::Send_PlayerInfo()
 	auto tPlayerInfo = pkt.add_tobject();
 
 	tPlayerInfo->set_iobjectid(m_iObjectID);
-	tPlayerInfo->set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
+	tPlayerInfo->set_ilevel(LEVEL_STATIC);
 	tPlayerInfo->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 
 
@@ -228,7 +228,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
 
-	m_pModelCom->Set_CurrAnim(448);
+	m_pModelCom->Set_CurrAnim(192);
 
 	return S_OK;
 }

@@ -9,7 +9,8 @@ CZombie_BT_Dead_Server::CZombie_BT_Dead_Server()
 void CZombie_BT_Dead_Server::OnStart()
 {
 	__super::OnStart(0);
-
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
+	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
 CBT_Node::BT_RETURN CZombie_BT_Dead_Server::OnUpdate(const _float& fTimeDelta)

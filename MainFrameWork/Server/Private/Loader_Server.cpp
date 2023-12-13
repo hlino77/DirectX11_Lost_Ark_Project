@@ -3,8 +3,7 @@
 #include "GameInstance.h"
 #include "GameSessionManager.h"
 #include "Player_Server.h"
-#include "Monster_Server.h"
-
+#include "Monster_Zombie_Server.h"
 
 
 CLoader_Server::CLoader_Server()
@@ -69,6 +68,11 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 		return E_FAIL;
 
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Zombie"),
+		CMonster_Zombie_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+
 
 	Loading_Model_For_Level_Bern();
 
@@ -96,6 +100,16 @@ HRESULT CLoader_Server::Loading_Model_For_Level_Bern()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"Monster_Zombie";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
 	}
 

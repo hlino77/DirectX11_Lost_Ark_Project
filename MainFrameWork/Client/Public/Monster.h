@@ -49,22 +49,14 @@ public:
 	virtual void Set_SlowMotion(_bool bSlow) override;
 public:
 	void					Find_NearTarget();
-
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
-
-
-
 	void					Set_MoveSpeed(_float fSpeed) { m_fMoveSpeed = fSpeed; }
 	_float					Get_MoveSpeed() { return m_fMoveSpeed; }
 	void					Add_MoveSpeed(_float fSpeed, _float fMaxSpeed) { m_fMoveSpeed += fSpeed; m_fMoveSpeed = min(m_fMoveSpeed, fMaxSpeed); }
-
 	_bool					Is_Control() { return m_bControl; }
 public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
-
-
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
-
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 	_float					Get_Target_Distance();
 	void					LookAt_Target_Direction(_float fTimeDelta);
@@ -85,6 +77,10 @@ public:
 
 	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
+
+	void					Set_Action(wstring strAction) { m_strAction = strAction; }
+	wstring					Get_Action() { return m_strAction; }
+
 	void	Effect_Die();
 protected:
 	virtual HRESULT Ready_Components();
@@ -103,14 +99,13 @@ protected:
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;
 	Vec3							m_vRandomPosition = {};
+	wstring							m_strAction = L"";
 	unordered_map<wstring, _uint>	m_BoneIndex;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CShader* m_pShaderCom = nullptr;
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;
-
 	std::future<HRESULT>			m_PlayAnimation;
-
 
 
 	//Culling

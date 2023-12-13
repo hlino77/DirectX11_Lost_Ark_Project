@@ -1,7 +1,7 @@
 #include "BT_Action.h"
 #include "GameObject.h"
 #include "Model.h"
-
+#include "BehaviorTree.h"
 CBT_Action::CBT_Action()
 {
 }
@@ -29,6 +29,9 @@ HRESULT CBT_Action::Initialize(void* pArg)
 		m_vecAnimIndexFrame.push_back(make_pair(AnimDesc, iAnimFrame));
 	}
 	m_eNodeType = BT_NODETYPE::ACTION;
+	if (FAILED(pActionDesc->pBehaviorTree->Add_Action(pActionDesc->strActionName, this)))
+		return E_FAIL;
+	m_strActionName = pActionDesc->strActionName;
 	return S_OK;
 }
 

@@ -39,6 +39,7 @@ protected:
 
 	HRESULT Ready_BehaviourTree();
 public:
+	static CMonster_Zombie_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 

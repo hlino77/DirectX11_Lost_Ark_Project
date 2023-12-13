@@ -517,3 +517,26 @@ bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 	Safe_Release(pGameInstance);
 	return true;
 }
+
+bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(),(_uint) LAYER_TYPE::LAYER_MONSTER, pkt.iobjectid());
+
+	if (pObject == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+	_int iTargetID = pkt.itargetobjectid();
+
+	if (iTargetID == -1)
+		pObject->Set_NearTarget(nullptr);
+	else
+	{
+		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(LEVEL_STATIC, pkt.itargetobjectlayer(), iTargetID);
+		pObject->Set_NearTarget(pNearTarget);
+	}
+	dynamic_cast<CMonster*>(pObject)->Set_Action(CAsUtils::ToWString(pkt.strstate()));
+	return true;
+}

@@ -24,7 +24,7 @@
 #include "EventMgr.h"
 #include "LockFree_Transform.h"
 #include "UseLock_Transform.h"
-
+#include "BehaviorTree.h"
 
 CMainApp_Server::CMainApp_Server()
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -137,7 +137,9 @@ HRESULT CMainApp_Server::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_RigidBody"),
 		CRigidBody::Create(nullptr, nullptr))))
 		return E_FAIL;
-
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"),
+		CBehaviorTree::Create(nullptr, nullptr))))
+		return E_FAIL;
 	return S_OK;
 }
 

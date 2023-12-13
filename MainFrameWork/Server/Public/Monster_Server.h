@@ -84,7 +84,7 @@ public:
 	void				Send_ColliderState(const _uint& iLayer);
 	void				Send_SlowMotion(_bool bSlow);
 	void				Send_Hp();
-
+	void				Send_Monster_Action();
 
 	void				Set_Colliders(_float fTimeDelta);
 	HRESULT				Ready_Coliders();
@@ -108,13 +108,15 @@ public:
 
 	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
-
+	void					Set_Action(wstring strAction) { m_strAction = strAction; }
+	wstring					Get_Action() { return m_strAction; }
 protected:
 	virtual HRESULT		Ready_Components();
 
 
 
 protected:
+	wstring							m_strAction = L"";
 	CRenderer*						m_pRendererCom = nullptr;
 	CBehaviorTree*					m_pBehaviorTree = nullptr;
 	_float							m_fScanCoolDown = 0.f;

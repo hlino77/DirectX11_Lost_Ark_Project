@@ -17,6 +17,7 @@ public:
 
 	typedef struct tagAction_Desc : public NODE_DESC
 	{
+		wstring					strActionName;
 		vector<ANIMATION_DESC>	vecAnimations;
 	}ACTION_DESC;
 
@@ -37,7 +38,7 @@ protected:
 	vector<pair<ANIMATION_DESC, _uint>>	m_vecAnimIndexFrame;
 	_float						m_fFrame = 0.f;
 	_bool						m_bSoundOn = false;
-
+	wstring						m_strActionName;
 public:
 	virtual void Free() override;
 };
