@@ -1,12 +1,9 @@
-
-#include "Client_Shader_Defines.hpp"
-
+#include "Client_Shader_Defines.hlsl"
 
 matrix		g_ViewMatrix, g_ProjMatrix;
-texture2D	g_DiffuseTexture;
-texture2D	g_NormalTexture;
-texture2D	g_MaskTexture;
-
+Texture2D	g_DiffuseTexture;
+Texture2D	g_NormalTexture;
+Texture2D	g_MaskTexture;
 
 sampler LightningSampler = sampler_state {
 

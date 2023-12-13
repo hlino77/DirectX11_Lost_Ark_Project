@@ -1,5 +1,4 @@
-
-#include "Client_Shader_Defines.hpp"
+#include "Client_Shader_Defines.hlsl"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix			g_ViewMatrixInv, g_ProjMatrixInv;
@@ -13,19 +12,19 @@ vector			g_vLightAmbient;
 vector			g_vLightSpecular;
 vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 
-texture2D		g_NormalTexture;
-texture2D		g_DiffuseTexture;
-texture2D		g_ShadeTexture;
-texture2D		g_DepthTexture;
-texture2D		g_ModelNormalTexture;
-texture2D		g_BlurTexture;
-texture2D		g_ShadowDepthTexture;
-texture2D		g_StaticShadowDepthTexture;
+Texture2D		g_NormalTexture;
+Texture2D		g_DiffuseTexture;
+Texture2D		g_ShadeTexture;
+Texture2D		g_DepthTexture;
+Texture2D		g_ModelNormalTexture;
+Texture2D		g_BlurTexture;
+Texture2D		g_ShadowDepthTexture;
+Texture2D		g_StaticShadowDepthTexture;
 
 float3			g_CamPosition;
 
 
-texture2D		g_Texture;
+Texture2D		g_Texture;
 
 
 float2  g_PixelSize;
@@ -89,10 +88,9 @@ VS_OUT VS_MAIN(/* Á¤Á¡ */VS_IN In)
 
 struct PS_IN
 {
-	float4		vPosition : SV_POSITION;
-	float2		vTexcoord : TEXCOORD0;
+	float4	vPosition : SV_POSITION;
+	float2	vTexcoord : TEXCOORD0;
 };
-
 
 struct PS_OUT
 {

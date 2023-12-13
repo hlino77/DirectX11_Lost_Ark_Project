@@ -92,6 +92,9 @@ public: /* For.Light_Manager */
 public: /* For.PipeLine */
 	void Set_Transform(CPipeLine::TRANSFORMSTATE eTransformState, Matrix TransformMatrix);
 	Matrix Get_TransformMatrix(CPipeLine::TRANSFORMSTATE eTransformState) const;
+	Matrix Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE eTransformState) const;
+	Matrix Get_ViewProjMatrix() const;
+	Matrix Get_LightViewProjMatrix() const;
 	Matrix Get_TransformFloat4x4_TP(CPipeLine::TRANSFORMSTATE eTransformState) const;
 	Vec4 Get_CamPosition();
 	const BoundingFrustum& Get_CamFrustum();

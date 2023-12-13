@@ -329,8 +329,6 @@ HRESULT CPlayer_Gunslinger::Ready_SkillUI()
 	return S_OK;
 }
 
-
-
 CPlayer_Gunslinger* CPlayer_Gunslinger::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CPlayer_Gunslinger* pInstance = new CPlayer_Gunslinger(pDevice, pContext);

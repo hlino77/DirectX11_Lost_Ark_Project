@@ -2,9 +2,10 @@
 #include "BT_Node.h"
 BEGIN(Engine)
 
-class ENGINE_DLL CBT_Action :    public CBT_Node
+class ENGINE_DLL CBT_Action : public CBT_Node
 {
 public:
+
 	typedef struct tagAnimation_Desc
 	{
 		wstring strAnimName;
@@ -14,10 +15,11 @@ public:
 		_uint iChangeFrame;
 	}ANIMATION_DESC;
 
-	typedef struct tagAction_Desc :public NODE_DESC
+	typedef struct tagAction_Desc : public NODE_DESC
 	{
 		vector<ANIMATION_DESC>	vecAnimations;
 	}ACTION_DESC;
+
 protected:
 	CBT_Action();
 	CBT_Action(const CBT_Action& rhs);

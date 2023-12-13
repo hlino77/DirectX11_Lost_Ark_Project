@@ -1,7 +1,6 @@
+#include "Client_Shader_Defines.hlsl"
+#include "Client_Shader_Global.hlsl"
 
-#include "Client_Shader_Defines.hpp"
-
-matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 float		g_BlendRatio;
 float4		g_vBlurColor;
 float		g_fAlpha;
@@ -11,8 +10,8 @@ float4		g_vHairColor_2;
 
 matrix		g_BoneMatrices[800];
 
-texture2D	g_DiffuseTexture;
-texture2D	g_NormalTexture;
+Texture2D	g_DiffuseTexture;
+Texture2D	g_NormalTexture;
 
 sampler DefaultSampler = sampler_state {
 
@@ -22,14 +21,12 @@ sampler DefaultSampler = sampler_state {
 	mipfilter = linear;*/
 };
 
-
-
 struct VS_IN
 {
 	float3		vPosition : POSITION;
 	float3		vNormal : NORMAL;
-	float2		vTexUV : TEXCOORD0;
 	float3		vTangent : TANGENT;
+	float2		vTexUV : TEXCOORD0;
 	uint4		vBlendIndex : BLENDINDEX;
 	float4		vBlendWeight : BLENDWEIGHT;
 };
@@ -44,24 +41,20 @@ struct VS_OUT
 	float3		vBinormal :	BINORMAL;
 };
 
-
 VS_OUT VS_MAIN(VS_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
 
-	matrix		matWV, matWVP;
+	matrix		matWVP;
 
-	matWV = mul(g_WorldMatrix, g_ViewMatrix);
-	matWVP = mul(matWV, g_ProjMatrix);
+	matWVP = mul(WorldMatrix, ViewProj);
 
 	float		fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
-
 
 	float4x4	vMatX = g_BoneMatrices[In.vBlendIndex.x];
 	float4x4	vMatY = g_BoneMatrices[In.vBlendIndex.y];
 	float4x4	vMatZ = g_BoneMatrices[In.vBlendIndex.z];
 	float4x4	vMatW = g_BoneMatrices[In.vBlendIndex.w];
-
 
 	float4x4	BoneMatrix = vMatX * In.vBlendWeight.x +
 		vMatY * In.vBlendWeight.y +
@@ -72,24 +65,21 @@ VS_OUT VS_MAIN(VS_IN In)
 	vector		vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
 
 	Out.vPosition = mul(vPosition, matWVP);
-	Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
+	Out.vNormal = normalize(mul(vNormal, WorldMatrix));
 
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
 
 	return Out;
 }
-
-
 
 VS_OUT VS_TANGENT(VS_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
 
-	matrix		matWV, matWVP;
+	matrix		matWVP;
 
-	matWV = mul(g_WorldMatrix, g_ViewMatrix);
-	matWVP = mul(matWV, g_ProjMatrix);
+	matWVP = mul(WorldMatrix, ViewProj);
 
 	float		fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
 
@@ -109,19 +99,15 @@ VS_OUT VS_TANGENT(VS_IN In)
 	vector		vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
 
 	Out.vPosition = mul(vPosition, matWVP);
-	Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
+	Out.vNormal = normalize(mul(vNormal, WorldMatrix));
 
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
-	Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), g_WorldMatrix));
+	Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
 	Out.vBinormal = normalize(cross(Out.vNormal.xyz, Out.vTangent));
 
 	return Out;
 }
-
-
-
-
 
 struct PS_IN
 {
@@ -177,7 +163,6 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;	
 }
 
-
 PS_OUT_NONEOUTLINE PS_NONEOUTLINE(PS_IN In)
 {
 	PS_OUT_NONEOUTLINE		Out = (PS_OUT_NONEOUTLINE)0;
@@ -192,7 +177,6 @@ PS_OUT_NONEOUTLINE PS_NONEOUTLINE(PS_IN In)
 	return Out;
 }
 
-
 PS_OUT_SHADOW PS_SHADOWDEPTH(PS_IN In)
 {
 	PS_OUT_SHADOW		Out = (PS_OUT_SHADOW)0;
@@ -201,9 +185,6 @@ PS_OUT_SHADOW PS_SHADOWDEPTH(PS_IN In)
 	//Out.vDepth = vector(1.0f, 0.0f, 0.0f, 1.0f);
 	return Out;
 }
-
-
-
 
 PS_OUT_EFFECT PS_EFFECT(PS_IN In)
 {
@@ -218,8 +199,6 @@ PS_OUT_EFFECT PS_EFFECT(PS_IN In)
 
 	return Out;
 }
-
-
 
 PS_OUT PS_TANGENT(PS_IN In)
 {
@@ -253,7 +232,6 @@ PS_OUT PS_TANGENT(PS_IN In)
 
 	return Out;
 }
-
 
 technique11 DefaultTechnique
 {

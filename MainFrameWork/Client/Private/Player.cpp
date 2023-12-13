@@ -14,7 +14,9 @@
 #include "NavigationMgr.h"
 #include "Skill.h"
 #include "Pool.h"
+
 #include "Chat_Manager.h"
+#include "BindShaderDesc.h"
 
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -103,7 +105,7 @@ void CPlayer::LateTick(_float fTimeDelta)
 		for (auto& CollisionStay : m_CollisionList)
 			OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
 	}
-	
+
 	CullingObject();
 
 	for (auto& pPart : m_Parts)
@@ -124,21 +126,26 @@ HRESULT CPlayer::Render()
 		return S_OK;
 
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
 		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
+
+	GlobalDesc gDesc = {
+		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
+		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		pGameInstance->Get_ViewProjMatrix(),
+		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
+	};
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 
-	Safe_Release(pGameInstance);
 
+	Safe_Release(pGameInstance);
 
     return S_OK;
 }
@@ -148,24 +155,21 @@ HRESULT CPlayer::Render_ShadowDepth()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
 		return S_OK;
 
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
+	GlobalDesc gDesc = {
+		pGameInstance->Get_DirectionLightMatrix(),
+		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		pGameInstance->Get_LightViewProjMatrix()
+	};
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return S_OK;
-
-	Matrix matLightVeiw = pGameInstance->Get_DirectionLightMatrix();
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &matLightVeiw)))
-		return S_OK;
-
-
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -182,7 +186,7 @@ HRESULT CPlayer::Render_ShadowDepth()
 			return S_OK;
 	}
 
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
