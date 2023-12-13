@@ -276,7 +276,7 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 
 
 	wstring strState = CAsUtils::ToWString(pkt.strstate());
-	pObject->Set_NoneControlState(strState);
+	pObject->Set_NoneControlState(strState);dsasd
 
 	Safe_Release(pGameInstance);
 
