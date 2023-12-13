@@ -189,8 +189,8 @@ void CUseLock_Transform::Rotation(Vec3 vAxis, _float fRadian)
 
 	WRITE_LOCK
 	Set_State(CUseLock_Transform::STATE_RIGHT, vRight  * vScale.x);
-	Set_State(CUseLock_Transform::STATE_RIGHT, vUp * vScale.y);
-	Set_State(CUseLock_Transform::STATE_RIGHT, vLook * vScale.z);
+	Set_State(CUseLock_Transform::STATE_UP, vUp * vScale.y);
+	Set_State(CUseLock_Transform::STATE_LOOK, vLook * vScale.z);
 }
 
 void CUseLock_Transform::LookAt(Vec3 vAt)

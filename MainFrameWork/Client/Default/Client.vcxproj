@@ -234,6 +234,10 @@
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
+    <ClInclude Include="..\Public\Weapon_Hand.h" />
+    <ClInclude Include="..\Public\Weapon_Hand_2.h" />
+    <ClInclude Include="..\Public\Weapon_Long.h" />
+    <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\Zombie_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Zombie_BT_Chase.h" />
@@ -317,6 +321,10 @@
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_BattleIdle.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
+    <ClCompile Include="..\Private\Weapon_Long.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />

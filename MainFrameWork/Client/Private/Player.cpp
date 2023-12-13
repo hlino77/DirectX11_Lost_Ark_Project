@@ -44,13 +44,15 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Parts()))
+		return E_FAIL;
+
 
 	m_pRigidBody->SetMass(2.0f);
 
 	m_tCullingSphere.Radius = 2.0f;
 
 	Reset_Triangle();
-
 
 	m_iHp = 100;
 	m_iMaxHp = 100;
@@ -61,11 +63,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-	//if (KEY_TAP(KEY::SPACE))
-	//{
-	//	m_pRigidBody->AddForce(Vec3(0.0f, 1000.0f, 0.0f), ForceMode::FORCE);
-	//	m_pRigidBody->UseGravity(true);
-	//}
 
 	if (KEY_TAP(KEY::ENTER))
 	{
@@ -74,11 +71,14 @@ void CPlayer::Tick(_float fTimeDelta)
 	}
 	
 
-
 	if(m_bNavi)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
-	m_pRigidBody->Tick(fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+
+	//m_pRigidBody->Tick(fTimeDelta);
 
 
 	for (auto& Skill : m_SkillInfo)
@@ -86,12 +86,16 @@ void CPlayer::Tick(_float fTimeDelta)
 		Update_Skill(Skill, fTimeDelta);
 	}
 
+	for (auto& pPart : m_Parts)
+	{
+		pPart.second->Tick(fTimeDelta);
+	}
+
 }
 
 void CPlayer::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
+	
 	if (nullptr == m_pRendererCom)
 		return;
 	{
@@ -100,25 +104,25 @@ void CPlayer::LateTick(_float fTimeDelta)
 			OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
 	}
 	
-
-	//m_pModelCom->Play_Animation(fTimeDelta);
-
 	CullingObject();
+
+	for (auto& pPart : m_Parts)
+	{
+		pPart.second->LateTick(fTimeDelta);
+	}
 
 	if (m_bControl)
 	{
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		CGameInstance::GetInstance()->Update_LightMatrix(vPos);
 	}
-
 }
 
 HRESULT CPlayer::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
-	
-	m_PlayAnimation.get();
+
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -132,29 +136,7 @@ HRESULT CPlayer::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	for (size_t i = 0; i < (_uint)PART::_END; i++)
-	{
-		if (nullptr == m_pModelPartCom[i]) continue;
 
-		_uint		iNumMeshes = m_pModelPartCom[i]->Get_NumMeshes();
-
-		for (_uint j = 0; j < iNumMeshes; ++j)
-		{
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-				return S_OK;
-
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
-			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
-					return S_OK;
-			}
-			else
-			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 2)))
-					return S_OK;
-			}
-		}
-	}
 	Safe_Release(pGameInstance);
 
 

@@ -27,8 +27,6 @@ private:
 
 	
 public:
-
-
 	_uint Get_NumMeshes() const {
 		return m_iNumMeshes;
 	}
@@ -42,6 +40,10 @@ public:
 
 	Matrix Get_PivotMatrix() {
 		return XMLoadFloat4x4(&m_PivotMatrix);
+	}
+
+	Matrix Get_CombinedMatrix(_uint iBoneIndex) {
+		return m_CombinedMatrix[iBoneIndex];
 	}
 
 
@@ -83,7 +85,9 @@ public:
 
 	HRESULT Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bColMesh);
 
-
+public:
+	string  Get_Material_Name(_uint iMaterialIndex) { return m_Materials[iMaterialIndex].strName; }
+	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, _float fRootDist = 1.5f, Vec4 TargetPos = XMVectorZero());
 
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);
@@ -96,9 +100,14 @@ private:
 
 	class CTexture*	Create_Texture(const wstring& szFullPath);
 private:
-
+	Matrix						m_CombinedMatrix[500];
 	Matrix						m_PivotMatrix;
 	TYPE						m_eModelType = TYPE_END;
+
+private:
+	Vec3						m_vRootPos;
+	Vec3						m_vPreRootPos;
+	Vec3						m_vCurRootPos;
 
 private:
 	_uint							m_iNumMeshes = 0;

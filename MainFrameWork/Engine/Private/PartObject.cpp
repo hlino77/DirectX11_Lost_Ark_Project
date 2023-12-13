@@ -32,6 +32,8 @@ HRESULT CPartObject::Initialize(void* pArg)
 		Safe_AddRef(m_pParentTransform);
 
 		m_iSocketBoneIndex = pPartDesc->iSocketBoneIndex;
+
+		m_SocketPivotMatrix = pPartDesc->SocketPivotMatrix;
 	}
 
 

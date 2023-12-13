@@ -33,29 +33,29 @@ public:
 	virtual void				Tick(_float fTimeDelta);
 	virtual void				LateTick(_float fTimeDelta);
 	virtual HRESULT				Render();
-	virtual HRESULT				Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize) { return S_OK; }
+	virtual HRESULT				Render_Instance(ID3D11Buffer * pInstanceBuffer, _uint iSize) { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
 	virtual HRESULT				Render_MakeSRV() { return S_OK; }
 
 
-	virtual void				Add_InstanceData(vector<Vec4>& BufferData) {};
+	virtual void				Add_InstanceData(vector<Vec4>&BufferData) {};
 
 	virtual	void				OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) {};
-	virtual	void				OnCollisionStay(const _uint iColLayer, class CCollider * pOther) {};
-	virtual	void				OnCollisionExit(const _uint iColLayer, class CCollider * pOther) {};
+	virtual	void				OnCollisionStay(const _uint iColLayer, class CCollider* pOther) {};
+	virtual	void				OnCollisionExit(const _uint iColLayer, class CCollider* pOther) {};
 
-	virtual void				Set_Skill(CGameObject* pGameObject) {};
+	virtual void				Set_Skill(CGameObject * pGameObject) {};
 	virtual void				Set_SlowMotion(_bool bSlow) {};
 
 public:
-	class CComponent*			Get_Component(const wstring & strComponentTag);
+	class CComponent* Get_Component(const wstring & strComponentTag);
 
-	class CTransform*			Get_TransformCom() { return m_pTransformCom; }
-	class CModel*				Get_ModelCom() { return m_pModelCom; }
-	class CRigidBody*			Get_RigidBody() { return m_pRigidBody; }
+	class CTransform* Get_TransformCom() { return m_pTransformCom; }
+	class CModel* Get_ModelCom() { return m_pModelCom; }
+	class CRigidBody* Get_RigidBody() { return m_pRigidBody; }
 public:
 	virtual HRESULT				SetUp_State(Matrix StateMatrix) { return S_OK; }
-	void						Set_NoneControlState(const wstring& szName);
+	void						Set_NoneControlState(const wstring & szName);
 
 public:
 	void						Set_TargetPos(Vec3 vTargetPos) { m_vTargetPos.store(vTargetPos); }
@@ -64,13 +64,13 @@ public:
 	void						Set_TargetMatrix(Matrix matTargetWorld) { m_matTargetWorld.store(matTargetWorld); }
 	Matrix						Get_TargetMatrix() { return m_matTargetWorld.load(); }
 
-	void						Set_ObjectTag(const wstring& strName) { m_strObjectTag = strName; }
-	const wstring&				Get_ObjectTag() { return m_strObjectTag; }
+	void						Set_ObjectTag(const wstring & strName) { m_strObjectTag = strName; }
+	const wstring& Get_ObjectTag() { return m_strObjectTag; }
 
 	_uint						Get_ObjectID() { return m_iObjectID; }
 	_uint						Get_ObjectLayer() { return m_iLayer; }
 
-	class CSphereCollider*		Get_Colider(const _uint& iLayer) { return m_Coliders[iLayer]; }
+	class CSphereCollider* Get_Colider(const _uint & iLayer) { return m_Coliders[iLayer]; }
 
 	_bool						Is_Control() { return m_bControl; }
 
@@ -81,7 +81,7 @@ public:
 	void						Set_Die(_bool bDie) { m_bDie = bDie; }
 
 	/* 멀티스레드 */
-	CGameObject*				Get_NearTarget()
+	CGameObject* Get_NearTarget()
 	{
 		READ_LOCK
 		return m_pNearTarget;
@@ -93,19 +93,19 @@ public:
 		m_pNearTarget = nullptr;
 	}
 
-	void						Set_NearTarget(CGameObject* pObject)
+	void						Set_NearTarget(CGameObject * pObject)
 	{
 		WRITE_LOCK
 		m_pNearTarget = pObject;
 	}
 
-	CGameObject*				Get_HitObject() { return m_pHitObject; }
+	CGameObject* Get_HitObject() { return m_pHitObject; }
 	void						Reset_HitObject() { m_pHitObject = nullptr; }
-	void						Set_HitObject(CGameObject* pObject) { m_pHitObject = pObject; }
+	void						Set_HitObject(CGameObject * pObject) { m_pHitObject = pObject; }
 
 
-	void						Set_ModelName(const wstring& strName) { m_szModelName = strName; }
-	const wstring&				Get_ModelName() { return m_szModelName; }
+	void						Set_ModelName(const wstring & strName) { m_szModelName = strName; }
+	const wstring& Get_ModelName() { return m_szModelName; }
 
 
 	void						Set_Render(_bool bRender) { m_bRender = bRender; }
@@ -125,13 +125,13 @@ public:
 	_int						Get_CurrCell() { return m_iCurrCell; }
 
 
-	void						Add_CollisionStay(_uint iColLayer, CCollider* pCollider);
-	void						Delete_CollisionStay(_uint iColLayer, CCollider* pCollider);
+	void						Add_CollisionStay(_uint iColLayer, CCollider * pCollider);
+	void						Delete_CollisionStay(_uint iColLayer, CCollider * pCollider);
 
 
 	void						Set_Navi(_bool bNavi) { m_bNavi = bNavi; }
 	_bool						Is_Navi() { return m_bNavi; }
-	
+
 
 	void						Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
 	_bool						Is_Invincible() { return m_bInvincible; }

@@ -49,17 +49,17 @@ protected:
 	virtual ~CPlayer() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	virtual void Tick(_float fTimeDelta);
-	virtual void LateTick(_float fTimeDelta);
-	virtual HRESULT Render();
-	virtual HRESULT Render_ShadowDepth();
-	virtual void Set_SlowMotion(_bool bSlow) override;
+	virtual HRESULT			Initialize_Prototype();
+	virtual HRESULT			Initialize(void* pArg);
+	virtual void			Tick(_float fTimeDelta);
+	virtual void			LateTick(_float fTimeDelta);
+	virtual HRESULT			Render();
+	virtual HRESULT			Render_ShadowDepth();
+	virtual void			Set_SlowMotion(_bool bSlow) override;
 
 
-	virtual	void	OnCollisionEnter_NoneControl(const _uint iColLayer, class CCollider* pOther) PURE;
-	virtual	void	OnCollisionExit_NoneControl(const _uint iColLayer, class CCollider* pOther) PURE;
+	virtual	void			OnCollisionEnter_NoneControl(const _uint iColLayer, class CCollider* pOther) PURE;
+	virtual	void			OnCollisionExit_NoneControl(const _uint iColLayer, class CCollider* pOther) PURE;
 public:
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
@@ -78,48 +78,48 @@ public:
 
 public:
 	//Send Packet
-	void			Send_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
-	void			Send_State(const wstring& szName);
-	void			Send_ColliderState(const _uint& iLayer);
-	void			Send_SlowMotion(_bool bSlow);
-	void			Send_Hp();
+	void					Send_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
+	void					Send_State(const wstring& szName);
+	void					Send_ColliderState(const _uint& iLayer);
+	void					Send_SlowMotion(_bool bSlow);
+	void					Send_Hp();
 
 
-	void			Set_State(const wstring& szName);
-	void			Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
+	void					Set_State(const wstring& szName);
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 
 
-	void			Find_NearTarget();
-	void			Send_NearTarget();
+	void					Find_NearTarget();
+	void					Send_NearTarget();
 
-	void			Go_Straight(_float fSpeed, _float fTimeDelta);
-	void			Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
-
-
-	void			Follow_ServerPos(_float fDistance, _float fLerpSpeed);
-
-	void			Set_Picking(_bool bPicking) { m_bPicking = bPicking; }
-
-	void			Set_PlayerUp(_float fTimeDelta);
-
-	void			Body_Collision(CGameObject* pObject);
-	void			Hit_Attack(CCollider* pCollider);
-
-	void			Set_HitEffect(_bool bHitEffect) { m_bHitEffect = bHitEffect; }
+	void					Go_Straight(_float fSpeed, _float fTimeDelta);
+	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
 
-	void			Set_EnemyBodyHit(_bool bEnemyBodyHit) { m_bEnemyBodyHit = bEnemyBodyHit; }
-	_bool			Is_EnemyBodyHit() { return m_bEnemyBodyHit; }
+	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
+
+	void					Set_Picking(_bool bPicking) { m_bPicking = bPicking; }
+
+	void					Set_PlayerUp(_float fTimeDelta);
+
+	void					Body_Collision(CGameObject* pObject);
+	void					Hit_Attack(CCollider* pCollider);
+
+	void					Set_HitEffect(_bool bHitEffect) { m_bHitEffect = bHitEffect; }
+
+
+	void					Set_EnemyBodyHit(_bool bEnemyBodyHit) { m_bEnemyBodyHit = bEnemyBodyHit; }
+	_bool					Is_EnemyBodyHit() { return m_bEnemyBodyHit; }
 
 
 
-	const SKILLINFO&	Get_SkillInfo(_uint iSkill) { return m_SkillInfo[iSkill]; }
-	_bool				Get_SkillReady(_uint iSkill) { return m_SkillInfo[iSkill].m_bReady; }
-	void				Set_SkillReady(_uint iSkill, _bool bReady) { m_SkillInfo[iSkill].m_bReady = bReady; }
+	const SKILLINFO&		Get_SkillInfo(_uint iSkill) { return m_SkillInfo[iSkill]; }
+	_bool					Get_SkillReady(_uint iSkill) { return m_SkillInfo[iSkill].m_bReady; }
+	void					Set_SkillReady(_uint iSkill, _bool bReady) { m_SkillInfo[iSkill].m_bReady = bReady; }
 	
 
-	const wstring& Get_NickName() { return m_szNickName; }
-	void			Set_NickName(const wstring& szNickName);
+	const wstring&			Get_NickName() { return m_szNickName; }
+	void					Set_NickName(const wstring& szNickName);
 
 
 	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
@@ -134,9 +134,10 @@ public:
 
 protected:
 	virtual HRESULT			Ready_Components();
-	
-	void			CullingObject();
-	void			Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
+	virtual HRESULT			Ready_Parts() { return S_OK; }
+
+	void					CullingObject();
+	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
@@ -160,12 +161,14 @@ protected: /* ÇØ´ç °´Ã¼°¡ »ç¿ëÇØ¾ßÇÒ ÄÄÆ÷³ÍÆ®µéÀ» ÀúÀåÇÏ³®. */
 	CShader* m_pShaderCom = nullptr;
 	CRenderer* m_pRendererCom = nullptr;
 
-	/* ÆÄÃ÷ ¸ðµ¨ÄÄ */
+	/* ÆÄÃ÷ ¸Ê */
+	unordered_map<CPartObject::PARTS, CGameObject*>	m_Parts;
+
+	/* Àåºñ ¸ðµ¨ÄÄ */
 	CModel* m_pModelPartCom[(_uint)PART::_END] = { nullptr };
 
 	//Culling
 	BoundingSphere m_tCullingSphere;
-
 
 	vector<SKILLINFO> m_SkillInfo;
 
@@ -174,9 +177,12 @@ protected: /* ÇØ´ç °´Ã¼°¡ »ç¿ëÇØ¾ßÇÒ ÄÄÆ÷³ÍÆ®µéÀ» ÀúÀåÇÏ³®. */
 	wstring m_VoiceSoundKey;
 	_float m_fVoiceSoundDelay;
 
+protected:
+	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
+	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
+
 public:
 	virtual void Free();
-
 
 };
 
