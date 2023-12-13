@@ -31,7 +31,7 @@ private:
 private:
 	_bool	Is_Within_Range()
 	{
-		if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 10.f&& !static_cast<CMonster*>(m_pGameObject)->Is_Hit())
+		if (static_cast<CMonster*>(m_pGameObject)->Get_NearTarget()!= nullptr&& !static_cast<CMonster*>(m_pGameObject)->Is_Hit()&& static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance()<20.f)
 			return true;
 
 		return false;

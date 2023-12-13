@@ -313,8 +313,12 @@ void CMonster_Server::Send_Collision(const _uint iColLayer, CCollider* pOther, _
 
 void CMonster_Server::Find_NearTarget()
 {
+	CGameObject* pPreviousNeartarget = m_pNearTarget;
 	m_pNearTarget = nullptr;
 	m_pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER, this);
+
+	if (Get_NearTargetDistance() < 30.f&& m_pNearTarget != pPreviousNeartarget)
+		Send_NearTarget();
 }
 
 void CMonster_Server::Send_NearTarget()

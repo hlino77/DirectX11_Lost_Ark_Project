@@ -17,7 +17,7 @@ CBT_Node::BT_RETURN CZombie_BT_Move::OnUpdate(const _float& fTimeDelta)
 	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
-	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 10.f && !static_cast<CMonster*>(m_pGameObject)->Is_Hit())
+	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 20.f && !static_cast<CMonster*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
 	if(static_cast<CMonster*>(m_pGameObject)->Is_Close_To_RandomPosition())

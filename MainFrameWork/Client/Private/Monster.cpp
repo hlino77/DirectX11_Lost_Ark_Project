@@ -255,7 +255,7 @@ _bool CMonster::Is_Close_To_RandomPosition()
 void CMonster::LookAt_Target_Direction(_float fTimeDelta)
 {
 	if (m_pNearTarget == nullptr)
-		Find_NearTarget();
+		return;
 
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);

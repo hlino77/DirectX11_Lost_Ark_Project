@@ -46,7 +46,7 @@ HRESULT CMonster_Zombie_Server::Initialize_Prototype()
 HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
+	m_strObjectTag = L"Monster_Zombie";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
@@ -72,6 +72,7 @@ void CMonster_Zombie_Server::Tick(_float fTimeDelta)
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
 	}
+	m_pBehaviorTree->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
 }
 

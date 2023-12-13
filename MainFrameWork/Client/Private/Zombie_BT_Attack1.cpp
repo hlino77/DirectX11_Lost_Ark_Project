@@ -14,7 +14,7 @@ void CZombie_BT_Attack1::OnStart()
 CBT_Node::BT_RETURN CZombie_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 {
 
-	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit())
+	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit()|| static_cast<CMonster*>(m_pGameObject)->Get_NearTarget() == nullptr)
 		return BT_FAIL;
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
 		return BT_SUCCESS;

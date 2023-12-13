@@ -230,16 +230,16 @@ HRESULT CLevel_Bern::Ready_Layer_Monster(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 	}
 
-	MonsterDesc.vPos = Vec3(3, 0, -1);
+	//MonsterDesc.vPos = Vec3(3, 0, -1);
 
-	 pObject = pGameInstance->Add_GameObject(LEVEL_BERN, MonsterDesc.iLayer, TEXT("Prototype_GameObject_Monster_Plant"), &MonsterDesc);
-	if (nullptr == pObject)
-	{
-		Safe_Release(pGameInstance);
-		return E_FAIL;
-	}
+	// pObject = pGameInstance->Add_GameObject(LEVEL_BERN, MonsterDesc.iLayer, TEXT("Prototype_GameObject_Monster_Plant"), &MonsterDesc);
+	//if (nullptr == pObject)
+	//{
+	//	Safe_Release(pGameInstance);
+	//	return E_FAIL;
+	//}
 
-	Safe_Release(pGameInstance);
+	//Safe_Release(pGameInstance);
 	return S_OK;
 }
 
