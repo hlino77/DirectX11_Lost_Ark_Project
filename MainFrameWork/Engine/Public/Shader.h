@@ -42,7 +42,9 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 
 public:
-	/* 셰이더 전역변수에 데이터를 던진다. */
+	HRESULT Push_GlobalVP();
+	HRESULT Push_ShadowVP();
+
 	HRESULT Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength = 0);
 
 	HRESULT Bind_RawValue(const _char* pConstantName, const void* pData, _uint iLength);

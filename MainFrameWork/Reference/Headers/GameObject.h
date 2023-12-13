@@ -9,6 +9,7 @@
 BEGIN(Engine)
 
 class CCollider;
+class CGameInstance;
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
@@ -48,11 +49,12 @@ public:
 	virtual void				Set_SlowMotion(_bool bSlow) {};
 
 public:
-	class CComponent* Get_Component(const wstring & strComponentTag);
+	class CComponent*			Get_Component(const wstring & strComponentTag);
 
-	class CTransform* Get_TransformCom() { return m_pTransformCom; }
-	class CModel* Get_ModelCom() { return m_pModelCom; }
-	class CRigidBody* Get_RigidBody() { return m_pRigidBody; }
+	class CTransform*			Get_TransformCom() { return m_pTransformCom; }
+	class CModel*				Get_ModelCom() { return m_pModelCom; }
+	class CRigidBody*			Get_RigidBody() { return m_pRigidBody; }
+
 public:
 	virtual HRESULT				SetUp_State(Matrix StateMatrix) { return S_OK; }
 	void						Set_NoneControlState(const wstring & szName);
@@ -65,12 +67,12 @@ public:
 	Matrix						Get_TargetMatrix() { return m_matTargetWorld.load(); }
 
 	void						Set_ObjectTag(const wstring & strName) { m_strObjectTag = strName; }
-	const wstring& Get_ObjectTag() { return m_strObjectTag; }
+	const wstring&				Get_ObjectTag() { return m_strObjectTag; }
 
 	_uint						Get_ObjectID() { return m_iObjectID; }
 	_uint						Get_ObjectLayer() { return m_iLayer; }
 
-	class CSphereCollider* Get_Colider(const _uint & iLayer) { return m_Coliders[iLayer]; }
+	class CSphereCollider*		Get_Colider(const _uint & iLayer) { return m_Coliders[iLayer]; }
 
 	_bool						Is_Control() { return m_bControl; }
 
@@ -99,18 +101,15 @@ public:
 		m_pNearTarget = pObject;
 	}
 
-	CGameObject* Get_HitObject() { return m_pHitObject; }
+	CGameObject*				Get_HitObject() { return m_pHitObject; }
 	void						Reset_HitObject() { m_pHitObject = nullptr; }
 	void						Set_HitObject(CGameObject * pObject) { m_pHitObject = pObject; }
 
-
 	void						Set_ModelName(const wstring & strName) { m_szModelName = strName; }
-	const wstring& Get_ModelName() { return m_szModelName; }
-
+	const wstring&				Get_ModelName() { return m_szModelName; }
 
 	void						Set_Render(_bool bRender) { m_bRender = bRender; }
 	_bool						Is_Render() { return m_bRender; }
-
 
 	_uint						Get_ObjectType() { return m_iObjType; }
 
@@ -120,22 +119,17 @@ public:
 	TRIAGLEDESC					Get_Triangle() { return m_tTriangle; }
 	void						Reset_Triangle() { ZeroMemory(&m_tTriangle, sizeof(TRIAGLEDESC)); m_tTriangle.fDist = -1.0f; }
 
-
 	void						Set_CurrCell(_int iIndex) { m_iCurrCell = iIndex; }
 	_int						Get_CurrCell() { return m_iCurrCell; }
-
 
 	void						Add_CollisionStay(_uint iColLayer, CCollider * pCollider);
 	void						Delete_CollisionStay(_uint iColLayer, CCollider * pCollider);
 
-
 	void						Set_Navi(_bool bNavi) { m_bNavi = bNavi; }
 	_bool						Is_Navi() { return m_bNavi; }
 
-
 	void						Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
 	_bool						Is_Invincible() { return m_bInvincible; }
-
 
 	_int						Get_Hp() { return m_iHp; }
 	_uint						Get_MaxHp() { return m_iMaxHp; }
@@ -148,6 +142,7 @@ protected:
 
 protected:
 	USE_LOCK
+	CGameInstance*					m_pGameInstance = nullptr;
 
 	ID3D11Device*					m_pDevice = { nullptr };
 	ID3D11DeviceContext*			m_pContext = { nullptr };
@@ -156,6 +151,7 @@ protected:
 	map<wstring, class CComponent*> m_Components;
 
 	class CTransform*				m_pTransformCom = nullptr;
+	class CShader*					m_pShaderCom = nullptr;
 	class CModel*					m_pModelCom = nullptr;
 	class CStateMachine*			m_pStateMachine = nullptr;
 	class CRigidBody*				m_pRigidBody = nullptr;

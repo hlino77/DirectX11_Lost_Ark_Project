@@ -55,7 +55,6 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
-	
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
@@ -117,24 +116,10 @@ HRESULT CMonster_Zombie::Render()
 
 	m_PlayAnimation.get();
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
-		return S_OK;
-
-	GlobalDesc gDesc = {
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		pGameInstance->Get_ViewProjMatrix(),
-		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -155,34 +140,15 @@ HRESULT CMonster_Zombie::Render()
 		}
 	}
 
-	Safe_Release(pGameInstance);
-
-
-
     return S_OK;
 }
 
 HRESULT CMonster_Zombie::Render_ShadowDepth()
 {
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Push_ShadowVP()))
 		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	Matrix matLightVeiw = pGameInstance->Get_DirectionLightMatrix();
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &matLightVeiw)))
-		return S_OK;
-
-
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -198,9 +164,6 @@ HRESULT CMonster_Zombie::Render_ShadowDepth()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
 			return S_OK;
 	}
-
-	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }
@@ -231,8 +194,6 @@ void CMonster_Zombie::Set_SlowMotion(_bool bSlow)
 		}
 	}
 }
-
-
 
 HRESULT CMonster_Zombie::Ready_Components()
 {
@@ -294,8 +255,6 @@ HRESULT CMonster_Zombie::Ready_Components()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
 	}
 
-
-
 	Safe_Release(pGameInstance);
 
 	Vec3 vScale;
@@ -313,7 +272,6 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
 		return E_FAIL;
-
 
 	CBT_Action::ACTION_DESC ActionDesc = {};
 	ActionDesc.pBehaviorTree = m_pBehaviorTree;
@@ -435,7 +393,6 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	CBT_Action* pChase = CZombie_BT_Chase::Create(&ActionDesc);
 
-
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near))) 
@@ -469,8 +426,6 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	CBT_Action* pMove = CZombie_BT_Move::Create(&ActionDesc);
-
-
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceIdle = CBT_Composite::Create(&CompositeDesc);

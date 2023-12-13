@@ -1,6 +1,10 @@
 #include "..\Public\Shader.h"
 #include "Utils.h"
+#include "GameInstance.h"
 #include "ConstantBuffer.h"
+#include "Transform.h"
+#include "BindShaderDesc.h"
+#include "PipeLine.h"
 
 CShader::CBUFFERS CShader::m_hashConstantBuffers;
 
@@ -90,7 +94,40 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 
 HRESULT CShader::Initialize(void* pArg)
 {
+
+
 	return S_OK;
+}
+
+HRESULT CShader::Push_GlobalVP()
+{
+	if (FAILED(Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
+		return S_OK;
+
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_ViewProjMatrix(),
+		m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return S_OK;
+}
+
+HRESULT CShader::Push_ShadowVP()
+{
+	if (FAILED(Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
+		return S_OK;
+
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_DirectionLightMatrix(),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_LightViewProjMatrix(),
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return S_OK;
 }
 
 HRESULT CShader::Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength)
@@ -331,6 +368,7 @@ CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, c
 CComponent* CShader::Clone(CGameObject* pObject, void* pArg)
 {
 	CShader* pInstance = new CShader(*this);
+	pInstance->m_pOwner = pObject;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
