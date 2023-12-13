@@ -16,6 +16,8 @@
 #include "UI_ServerGrid.h"
 #include "UI_ServerLogo.h"
 #include "UI_ServerEntranceButton.h"
+#include "Monster_Zombie.h"
+#include "Monster_Plant.h"
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -277,6 +279,13 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CPlayer_Gunslinger::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Zombie"),
+		CMonster_Zombie::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Plant"),
+		CMonster_Plant::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
@@ -534,6 +543,25 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			return E_FAIL;
 	}
 
+	{
+		wstring strFileName = L"Monster_Zombie";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"Monster_Plant";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+	}
 
 	Safe_Release(pGameInstance);
 	return S_OK;

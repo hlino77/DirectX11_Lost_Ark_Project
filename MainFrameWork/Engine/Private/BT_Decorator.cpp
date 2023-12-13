@@ -15,9 +15,9 @@ HRESULT CBT_Decorator::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	DECORATOR_DESC* pDecoratorDesc = static_cast<DECORATOR_DESC*> (pArg);
-	if(pDecoratorDesc == nullptr)
+	if (pDecoratorDesc == nullptr)
 		return E_FAIL;
-	m_eDecoratorType =	pDecoratorDesc->eDecoratorType;
+	m_eDecoratorType = pDecoratorDesc->eDecoratorType;
 	if (m_eDecoratorType == DecoratorType::TYPE_END)
 		return E_FAIL;
 	else if (m_eDecoratorType == DecoratorType::REPEAT && pDecoratorDesc->iRepeatCount > 1)
@@ -26,7 +26,9 @@ HRESULT CBT_Decorator::Initialize(void* pArg)
 	}
 	else if (m_eDecoratorType == DecoratorType::REPEAT)
 		return E_FAIL;
-		m_bCondition = true;
+	m_bCondition = true;
+
+	m_eNodeType = BT_NODETYPE::DECORATOR;
 	return S_OK;
 }
 

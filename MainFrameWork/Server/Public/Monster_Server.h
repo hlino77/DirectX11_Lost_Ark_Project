@@ -11,6 +11,7 @@ class CSphereCollider;
 class CCollider;
 class CRenderer;
 class CModel;
+class CBehaviorTree;
 END
 
 
@@ -66,6 +67,16 @@ public:
 
 	_float					Get_NearTargetDistance();
 
+	Vec3 Get_Target_Direction();
+
+	void Set_RandomPosition();
+
+	void Move_to_RandomPosition(_float fTimeDelta);
+
+	_bool Is_Close_To_RandomPosition();
+
+	void LookAt_Target_Direction(_float fTimeDelta);
+
 	//Send Packet
 	void				Send_State(const wstring& szName);
 	void				Set_State(const wstring& szName);
@@ -85,7 +96,18 @@ public:
 	void				Hit_Attack(CCollider* pCollider);
 
 	virtual void				Set_Die();
+public:
+	_bool						Is_Hit() { return m_IsHit; }
+	void						Set_Hit(_bool bHit) { m_IsHit = bHit; }
 
+	_bool						Is_Left() { return m_IsLeft; }
+	void						Set_Left(_bool IsLeft) { m_IsLeft = IsLeft; }
+
+	_bool						Is_Spawn() { return m_IsSpawn; }
+	void						Set_Spawn(_bool IsSpawn) { m_IsSpawn = IsSpawn; }
+
+	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
+	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
 protected:
 	virtual HRESULT		Ready_Components();
@@ -94,8 +116,9 @@ protected:
 
 protected:
 	CRenderer*						m_pRendererCom = nullptr;
+	CBehaviorTree*					m_pBehaviorTree = nullptr;
+	_float							m_fScanCoolDown = 0.f;
 	std::future<HRESULT>			m_PlayAnimation;
-
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
@@ -107,6 +130,11 @@ protected:
 
 
 	atomic<_int>					m_iSlowMotionCount = 0;
+
+	_bool							m_IsHit = false;
+	_bool							m_IsLeft = false;
+	_bool							m_IsSpawn = true;
+	Vec3							m_vRandomPosition = {};
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 

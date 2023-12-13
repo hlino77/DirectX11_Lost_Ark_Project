@@ -21,6 +21,7 @@
 #include "RigidBody.h"
 #include "Pool.h"
 #include "Renderer.h"
+#include "Monster_Zombie.h"
 
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -218,11 +219,27 @@ HRESULT CLevel_Bern::Ready_Layer_Monster(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	CMonster_Zombie::MODELDESC MonsterDesc = {};
+	MonsterDesc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+	MonsterDesc.vPos = Vec3(6, 0, 1);
 	
+	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, MonsterDesc.iLayer, TEXT("Prototype_GameObject_Monster_Zombie"),&MonsterDesc);
+	if (nullptr == pObject)
+	{
+		Safe_Release(pGameInstance);
+		return E_FAIL;
+	}
 
+	//MonsterDesc.vPos = Vec3(3, 0, -1);
 
+	// pObject = pGameInstance->Add_GameObject(LEVEL_BERN, MonsterDesc.iLayer, TEXT("Prototype_GameObject_Monster_Plant"), &MonsterDesc);
+	//if (nullptr == pObject)
+	//{
+	//	Safe_Release(pGameInstance);
+	//	return E_FAIL;
+	//}
 
-	Safe_Release(pGameInstance);
+	//Safe_Release(pGameInstance);
 	return S_OK;
 }
 

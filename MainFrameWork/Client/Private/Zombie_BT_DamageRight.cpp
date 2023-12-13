@@ -23,7 +23,9 @@ CBT_Node::BT_RETURN CZombie_BT_DamageRight::OnUpdate(const _float& fTimeDelta)
 void CZombie_BT_DamageRight::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster*>(m_pGameObject)->Set_Die();
+	static_cast<CMonster*>(m_pGameObject)->Set_Hit(false);
+	static_cast<CMonster*>(m_pGameObject)->Set_Left(false);
+
 }
 
 

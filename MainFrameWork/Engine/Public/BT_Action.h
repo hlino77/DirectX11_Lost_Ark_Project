@@ -5,7 +5,7 @@ BEGIN(Engine)
 class ENGINE_DLL CBT_Action :    public CBT_Node
 {
 public:
-	typedef struct tagAnimation_Desc :public NODE_DESC
+	typedef struct tagAnimation_Desc
 	{
 		wstring strAnimName;
 		_int iAnimIndex;

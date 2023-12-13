@@ -21,17 +21,6 @@ END
 BEGIN(Client)
 class CMonster_Zombie : public CMonster
 {
-public:
-	typedef struct ModelDesc
-	{
-		wstring strFileName;
-		_int	iObjectID;
-		_uint	iLayer;
-		Vec3	vPos;
-	}MODELDESC;
-
-public:
-
 
 protected:
 	CMonster_Zombie(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -52,6 +41,7 @@ protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();
 public:
+	static CMonster_Zombie* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 
