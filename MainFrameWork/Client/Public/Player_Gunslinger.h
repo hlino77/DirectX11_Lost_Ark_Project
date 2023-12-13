@@ -40,6 +40,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components() override;
+	virtual HRESULT	Ready_Parts() override;
 	HRESULT			Ready_State();
 	HRESULT			Ready_Coliders();
 

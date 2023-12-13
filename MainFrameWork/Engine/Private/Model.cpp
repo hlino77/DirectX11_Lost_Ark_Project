@@ -61,6 +61,9 @@ void CModel::Set_CurrAnim(_int iCurrAnim)
 	m_bReserved = false;
 	ZeroMemory(&m_tCurrChange, sizeof(CHANGEANIM));
 	ZeroMemory(&m_tReserveChange, sizeof(CHANGEANIM));
+
+	m_vPreRootPos = { 0.f, 0.f, 0.f };
+	m_vCurRootPos = { 0.f, 0.f, 0.f };
 }
 
 _uint CModel::Get_MaxAnimIndex()
@@ -234,8 +237,13 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 	}
 	else
 	{
-		if (m_Animations[m_iCurrAnim]->Is_End())
+		if (true == m_Animations[m_iCurrAnim]->Is_End())
+		{
 			m_Animations[m_iCurrAnim]->Reset_End();
+			m_vPreRootPos = { 0.f, 0.f, 0.f };
+			m_vCurRootPos = { 0.f, 0.f, 0.f };
+		}
+			
 		m_Animations[m_iCurrAnim]->Play_Animation(fTimeDelta);
 	}
 
@@ -244,6 +252,53 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 	else
 		Set_Animation_Transforms();
 
+	m_vPreRootPos = m_vCurRootPos;
+	m_vCurRootPos = m_vRootPos;
+	if (0 == m_vPreRootPos.z)
+		m_vPreRootPos = m_vCurRootPos;
+
+	return S_OK;
+}
+
+HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, _float fRootDist, Vec4 TargetPos)
+{
+	if (nullptr == pTransform)
+		return E_FAIL;
+
+	KEY_DESC tCurrKeyDesc = m_Animations[m_iCurrAnim]->Get_KeyDesc();
+	if (true == m_bNext || 0 == tCurrKeyDesc.iNextFrame)
+	{
+		m_vPreRootPos = { 0.f, 0.f, 0.f };
+		m_vCurRootPos = { 0.f, 0.f, 0.f };
+		return S_OK;
+	}
+		
+
+	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDir = m_vPreRootPos - m_vCurRootPos;
+	Vec3 vWorldDir = XMVector3TransformNormal(vDir, pTransform->Get_WorldMatrix());
+	vWorldDir.y *= -1;
+	vWorldDir.Normalize();
+
+	_float fDist = vDir.Length() * fRootDist;
+
+	Vec3 vCalculePos = vPos;
+	vCalculePos += vWorldDir * fDist * fTimeDelta;
+
+	if (1 == TargetPos.w)
+	{
+		_float fTargetDist = Vec4(TargetPos - vPos).Length();
+		if (fTargetDist <= FLT_EPSILON)
+		{
+			vCalculePos = vPos;
+
+			vWorldDir.z = 0.f;
+			vCalculePos += vWorldDir * fDist * fTimeDelta;
+		}
+	}
+
+	pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
+		
 	return S_OK;
 }
 
@@ -274,7 +329,17 @@ HRESULT CModel::Set_Animation_Transforms()
 		if (iParentIndex < 0)
 			m_matCurrTransforms[i] = matResult;
 		else
-			m_matCurrTransforms[i] = matResult * m_matCurrTransforms[iParentIndex];
+			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
+
+
+		if (TEXT("b_root") == m_ModelBones[i]->strName)
+		{
+			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+
+			Vec4 Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
+		}
+
 	}
 
 	for (_uint i = 0; i < m_ModelBones.size(); ++i)
@@ -310,7 +375,15 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 		if (iParentIndex < 0)
 			m_matCurrTransforms[i] = matResult;
 		else
-			m_matCurrTransforms[i] = matResult * m_matCurrTransforms[iParentIndex];
+			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
+			
+		if (TEXT("b_root") == m_ModelBones[i]->strName)
+		{
+			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+
+			Vec4 Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
+		}
 	}
 
 	for (_uint i = 0; i < m_ModelBones.size(); ++i)
@@ -476,7 +549,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				if(m_eModelType == TYPE::TYPE_ANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
 		
 				MaterialDesc.pTexture[aiTextureType_DIFFUSE] = Create_Texture(szFullPath);
@@ -606,6 +679,9 @@ void CModel::Change_NextAnimation()
 	m_iCurrAnim = m_tCurrChange.m_iNextAnim;
 	m_bNext = false;
 	ZeroMemory(&m_tCurrChange, sizeof(CHANGEANIM));
+
+	m_vPreRootPos = { 0.f, 0.f, 0.f };
+	m_vCurRootPos = { 0.f, 0.f, 0.f };
 }
 
 

@@ -16,6 +16,7 @@ public:
 		class CTransform*	pParentTransform = { nullptr };
 		class CModel*		pPartenModel = { nullptr };
 		_uint				iSocketBoneIndex = { 0 };
+		Matrix				SocketPivotMatrix;
 	}PART_DESC;
 
 protected:
@@ -36,6 +37,11 @@ public:
 	PARTS					Get_Part_Index()       const { return m_ePart; }
 	const Matrix&			Get_Part_WorldMatrix() const { return m_WorldMatrix; }
 
+public:
+	void					Set_RenderState(_bool IsRender) { m_IsRender = IsRender; }
+
+	void					Change_ModelCom(class CModel* pModel) { m_pModelCom = pModel; }
+
 protected:
 	class CTransform*		m_pParentTransform = { nullptr };
 	class CModel*			m_pParentModel = { nullptr };
@@ -43,9 +49,12 @@ protected:
 protected:
 	CGameObject*			m_pOwner = { nullptr };
 	PARTS					m_ePart = { PARTS::_END };
-	Matrix					m_WorldMatrix;
+	Matrix					m_SocketPivotMatrix = { XMMatrixIdentity() };
+	Matrix					m_WorldMatrix = { XMMatrixIdentity() };
 	Vec4					m_vAnimTargetPos;
 	_uint					m_iSocketBoneIndex;
+
+	_bool					m_IsRender = { true };
 
 protected:
 	class CRenderer*		m_pRendererCom = { nullptr };

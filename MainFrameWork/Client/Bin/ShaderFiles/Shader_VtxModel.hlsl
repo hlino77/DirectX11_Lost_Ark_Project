@@ -185,12 +185,11 @@ PS_OUT PS_TANGENT(PS_IN In)
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
 
-
-
-	if (0.01f >= Out.vDiffuse.a)
+	if (0.2f >= Out.vDiffuse.a)
 		discard;
+       
 
-	vector	vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
+    vector vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
 	float3	vNormal = vNormalDesc.xyz * 2.f - 1.f;
 
 	float3x3		WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal);
@@ -413,9 +412,6 @@ PS_OUT_MODELEFFECT PS_FIREBALLPLANE(PS_IN In)
 
 	return Out;
 }
-
-
-
 
 PS_OUT_MODELEFFECT PS_SYURIKEN(PS_IN In)
 {

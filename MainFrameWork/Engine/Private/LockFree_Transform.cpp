@@ -178,8 +178,8 @@ void CLockFree_Transform::Rotation(Vec3 vAxis, _float fRadian)
 	vLook.Normalize();
 
 	Set_State(CLockFree_Transform::STATE_RIGHT, vRight  * vScale.x);
-	Set_State(CLockFree_Transform::STATE_RIGHT, vUp * vScale.y);
-	Set_State(CLockFree_Transform::STATE_RIGHT, vLook * vScale.z);
+	Set_State(CLockFree_Transform::STATE_UP, vUp * vScale.y);
+	Set_State(CLockFree_Transform::STATE_LOOK, vLook * vScale.z);
 }
 
 void CLockFree_Transform::LookAt(Vec3 vAt)

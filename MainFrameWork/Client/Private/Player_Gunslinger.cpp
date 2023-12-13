@@ -11,8 +11,6 @@
 #include "PhysXMgr.h"
 #include "Pool.h"
 
-
-
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -43,6 +41,9 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 		if (FAILED(Ready_SkillUI()))
 			return E_FAIL;
 	}
+
+	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
+	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
 
 	return S_OK;
 }
@@ -86,6 +87,47 @@ HRESULT CPlayer_Gunslinger::Render()
 {
 	__super::Render();
 
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	for (size_t i = 0; i < (_uint)PART::_END; i++)
+	{
+		if (nullptr == m_pModelPartCom[i]) continue;
+
+		_uint		iNumMeshes = m_pModelPartCom[i]->Get_NumMeshes();
+
+		for (_uint j = 0; j < iNumMeshes; ++j)
+		{
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+				return S_OK;
+
+			string hair = m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j));
+			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
+			{
+				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4));
+				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
+			}
+
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
+			{
+				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
+					return S_OK;
+			}
+			else
+			{
+				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 2)))
+					return S_OK;
+			}
+
+			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
+			{
+				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4));
+				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4));
+			}
+
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -186,6 +228,67 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
 
+	m_pModelCom->Set_CurrAnim(448);
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Gunslinger::Ready_Parts()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CGameObject* pParts = nullptr;
+
+	/* For.Part_Weapon_1 */
+	CPartObject::PART_DESC			PartDesc_Weapon;
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Hand"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_Parts.emplace(CPartObject::PARTS::WEAPON_1, pParts);
+
+	/* For.Part_Weapon_2 */
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_2;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Hand_2"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_Parts.emplace(CPartObject::PARTS::WEAPON_2, pParts);
+
+	///* For.Part_Weapon_3 */
+	//PartDesc_Weapon.pOwner = this;
+	//PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_3;
+	//PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	//PartDesc_Weapon.pPartenModel = m_pModelCom;
+	//PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	//PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	//pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Long"), &PartDesc_Weapon);
+	//if (nullptr == pParts)
+	//	return E_FAIL;
+	//m_Parts.emplace(CPartObject::PARTS::WEAPON_3, pParts);
+
+	///* For.Part_Weapon_3 */
+	//PartDesc_Weapon.pOwner = this;
+	//PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_4;
+	//PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	//PartDesc_Weapon.pPartenModel = m_pModelCom;
+	//PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	//PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	//pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Shot"), &PartDesc_Weapon);
+	//if (nullptr == pParts)
+	//	return E_FAIL;
+	//m_Parts.emplace(CPartObject::PARTS::WEAPON_4, pParts);
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

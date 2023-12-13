@@ -3,7 +3,14 @@
 #include "GameInstance.h"
 #include "AsFileUtils.h"
 #include "AsUtils.h"
+
+/* 플레이어 */
 #include "Player_Gunslinger.h"
+#include "Weapon_Hand.h"
+#include "Weapon_Hand_2.h"
+#include "Weapon_Long.h"
+#include "Weapon_Shot.h"
+
 #include "Camera_Free.h"
 #include "StaticModel.h"
 #include "ServerSession.h"
@@ -15,6 +22,7 @@
 #include "UI_ServerWnd.h"
 #include "UI_ServerGrid.h"
 #include "UI_ServerLogo.h"
+
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -259,6 +267,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
 
+	m_strLoading = TEXT("모델을 로딩 중 입니다.");
+
+	Loading_Model_For_Level_Bern();
+
 	m_strLoading = TEXT("객체 원형을 로딩 중 입니다.");
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Player"),
@@ -269,14 +281,26 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CPlayer_Gunslinger::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Hand"),
+		CWeapon_Hand::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Hand_2"),
+		CWeapon_Hand_2::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Long"),
+		CWeapon_Long::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot"),
+		CWeapon_Shot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
 		return E_FAIL;
-
-	m_strLoading = TEXT("모델을 로딩 중 입니다.");
-
-	Loading_Model_For_Level_Bern();
 
 
 
@@ -507,6 +531,36 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 
 	{
 		wstring strFileName = L"GN_Mococo_Body";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"GN_WP_Hand_Legend";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"GN_WP_Long_Legend";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"GN_WP_Shot_Legend";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

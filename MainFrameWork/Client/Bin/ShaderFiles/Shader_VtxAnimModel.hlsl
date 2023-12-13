@@ -6,6 +6,8 @@ float		g_BlendRatio;
 float4		g_vBlurColor;
 float		g_fAlpha;
 
+float4		g_vHairColor_1;
+float4		g_vHairColor_2;
 
 matrix		g_BoneMatrices[800];
 
@@ -169,8 +171,8 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vModelNormal = Out.vNormal;
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
 
-	if (0.0f == Out.vDiffuse.a)
-		discard;
+    if (0.2f >= Out.vDiffuse.a)
+        discard;
 
 	return Out;	
 }
@@ -189,9 +191,6 @@ PS_OUT_NONEOUTLINE PS_NONEOUTLINE(PS_IN In)
 
 	return Out;
 }
-
-
-
 
 
 PS_OUT_SHADOW PS_SHADOWDEPTH(PS_IN In)
@@ -228,9 +227,18 @@ PS_OUT PS_TANGENT(PS_IN In)
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
 
-	if (0.0f == Out.vDiffuse.a)
+	if (0.2f >= Out.vDiffuse.a)
 		discard;
 
+    if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
+    {
+        float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
+        float4 haircolor_2 = g_vHairColor_2 * (1.f - Out.vDiffuse.g);
+	
+        float4 vBlendedHairColor = haircolor_1 + haircolor_2;
+        Out.vDiffuse = saturate(float4(vBlendedHairColor.rgb, 1.f));
+    }
+	
 	vector	vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
 	float3	vNormal = vNormalDesc.xyz * 2.f - 1.f;
 
