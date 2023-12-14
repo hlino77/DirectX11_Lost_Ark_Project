@@ -537,6 +537,7 @@ void CMonster_Server::Send_Monster_Action()
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+	cout << "Send Monster Action" << endl;
 }
 
 void CMonster_Server::Set_Colliders(_float fTimeDelta)

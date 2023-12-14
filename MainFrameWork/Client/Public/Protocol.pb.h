@@ -424,7 +424,7 @@ class S_LOGIN final :
     kStrNickNameFieldNumber = 1,
     kIClassFieldNumber = 2,
   };
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -2399,7 +2399,7 @@ class S_NICKNAME final :
   enum : int {
     kStrNickNameFieldNumber = 1,
   };
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -3817,7 +3817,7 @@ class S_CREATE_PLAYER final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_matworld();
 
-  // string strNickName = 5;
+  // bytes strNickName = 5;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -4290,7 +4290,7 @@ inline void S_TIME::set_fserversecond(float value) {
 
 // S_LOGIN
 
-// string strNickName = 1;
+// bytes strNickName = 1;
 inline void S_LOGIN::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -4302,7 +4302,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S_LOGIN::set_strnickname(ArgT0&& arg0, ArgT... args) {
  
- strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ strnickname_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S_LOGIN.strNickName)
 }
 inline std::string* S_LOGIN::mutable_strnickname() {
@@ -5622,7 +5622,7 @@ inline void S_COLLISION::set_benter(bool value) {
 
 // S_NICKNAME
 
-// string strNickName = 1;
+// bytes strNickName = 1;
 inline void S_NICKNAME::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -5634,7 +5634,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S_NICKNAME::set_strnickname(ArgT0&& arg0, ArgT... args) {
  
- strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ strnickname_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S_NICKNAME.strNickName)
 }
 inline std::string* S_NICKNAME::mutable_strnickname() {
@@ -6390,7 +6390,7 @@ S_CREATE_PLAYER::mutable_matworld() {
   return _internal_mutable_matworld();
 }
 
-// string strNickName = 5;
+// bytes strNickName = 5;
 inline void S_CREATE_PLAYER::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -6402,7 +6402,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S_CREATE_PLAYER::set_strnickname(ArgT0&& arg0, ArgT... args) {
  
- strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ strnickname_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.strNickName)
 }
 inline std::string* S_CREATE_PLAYER::mutable_strnickname() {

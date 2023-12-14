@@ -109,8 +109,8 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 
 			tPlayerPkt.set_iobjectid(pPlayer->Get_ObjectID());
 			tPlayerPkt.set_iclass(pPlayer->Get_Class());
-			tPlayerPkt.set_bcontroll(true);
-			tPlayerPkt.set_strnickname(pkt.strnickname());
+			tPlayerPkt.set_bcontroll(false);
+			tPlayerPkt.set_strnickname(CAsUtils::ToString(GameSession->Get_NickName()));
 
 			auto vPacketWorld = tPlayerPkt.mutable_matworld();
 			vPacketWorld->Resize(16, 0.0f);

@@ -646,7 +646,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
   "Struct.proto\"I\n\006S_TIME\022\021\n\tiSendTick\030\001 \001("
   "\004\022\025\n\riServerMinute\030\002 \001(\r\022\025\n\rfServerSecon"
-  "d\030\003 \001(\002\".\n\007S_LOGIN\022\023\n\013strNickName\030\001 \001(\t\022"
+  "d\030\003 \001(\002\".\n\007S_LOGIN\022\023\n\013strNickName\030\001 \001(\014\022"
   "\016\n\006iClass\030\002 \001(\005\" \n\014S_OPEN_LEVEL\022\020\n\010iLeve"
   "lID\030\001 \001(\004\"$\n\rS_LEVEL_STATE\022\023\n\013iLevelStat"
   "e\030\001 \001(\r\"\303\001\n\020S_CREATE_OBJCECT\022\021\n\tiObjectI"
@@ -677,7 +677,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\030\003 \001(\005\022\021\n\tiColLayer\030\004 \001(\005\022\020\n\010iOtherID\030\005 "
   "\001(\005\022\023\n\013iOtherLayer\030\006 \001(\005\022\026\n\016iOtherColLay"
   "er\030\007 \001(\005\022\016\n\006bEnter\030\010 \001(\010\"!\n\nS_NICKNAME\022\023"
-  "\n\013strNickName\030\001 \001(\t\"/\n\nS_USERINFO\022!\n\005tUs"
+  "\n\013strNickName\030\001 \001(\014\"/\n\nS_USERINFO\022!\n\005tUs"
   "er\030\001 \003(\0132\022.Protocol.UserInfo\"v\n\014S_NEARTA"
   "RGET\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022"
   "\016\n\006iLayer\030\003 \001(\005\022\032\n\022iTargetObjectLayer\030\004 "
@@ -695,7 +695,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "iHP\030\004 \001(\005\"r\n\017S_CREATE_PLAYER\022\021\n\tiObjectI"
   "D\030\001 \001(\005\022\016\n\006iClass\030\002 \001(\005\022\021\n\tbControll\030\003 \001"
   "(\010\022\024\n\010matWorld\030\004 \003(\002B\002\020\001\022\023\n\013strNickName\030"
-  "\005 \001(\t\"\030\n\006S_CHAT\022\016\n\006szChat\030\001 \001(\014\"\222\001\n\016S_MO"
+  "\005 \001(\014\"\030\n\006S_CHAT\022\016\n\006szChat\030\001 \001(\014\"\222\001\n\016S_MO"
   "NSTERSTATE\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030"
   "\002 \001(\005\022\020\n\010strState\030\003 \001(\t\022\032\n\022iTargetObject"
   "Layer\030\004 \001(\005\022\027\n\017iTargetObjectID\030\005 \001(\005\022\026\n\n"
@@ -1033,12 +1033,11 @@ const char* S_LOGIN::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string strNickName = 1;
+      // bytes strNickName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_strnickname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_LOGIN.strNickName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1078,13 +1077,9 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_strnickname().data(), static_cast<int>(this->_internal_strnickname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S_LOGIN.strNickName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_strnickname(), target);
   }
 
@@ -1110,10 +1105,10 @@ size_t S_LOGIN::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_strnickname());
   }
 
@@ -4231,12 +4226,11 @@ const char* S_NICKNAME::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string strNickName = 1;
+      // bytes strNickName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_strnickname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_NICKNAME.strNickName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -4269,13 +4263,9 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_strnickname().data(), static_cast<int>(this->_internal_strnickname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S_NICKNAME.strNickName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_strnickname(), target);
   }
 
@@ -4295,10 +4285,10 @@ size_t S_NICKNAME::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_strnickname());
   }
 
@@ -6482,12 +6472,11 @@ const char* S_CREATE_PLAYER::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // string strNickName = 5;
+      // bytes strNickName = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           auto str = _internal_mutable_strnickname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_CREATE_PLAYER.strNickName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -6543,13 +6532,9 @@ failure:
     target = stream->WriteFixedPacked(4, _internal_matworld(), target);
   }
 
-  // string strNickName = 5;
+  // bytes strNickName = 5;
   if (!this->strnickname().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_strnickname().data(), static_cast<int>(this->_internal_strnickname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S_CREATE_PLAYER.strNickName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         5, this->_internal_strnickname(), target);
   }
 
@@ -6581,10 +6566,10 @@ size_t S_CREATE_PLAYER::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // string strNickName = 5;
+  // bytes strNickName = 5;
   if (!this->strnickname().empty()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_strnickname());
   }
 
