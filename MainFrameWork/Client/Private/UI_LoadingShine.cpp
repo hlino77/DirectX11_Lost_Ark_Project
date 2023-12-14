@@ -1,10 +1,9 @@
 #include "stdafx.h"
-#include "UI_LoadingFill.h"
+#include "UI_LoadingShine.h"
 #include "GameInstance.h"
 
-float CUI_LoadingFill::m_fLoadingSizeX = 0.f;
 
-CUI_LoadingFill::CUI_LoadingFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_LoadingShine::CUI_LoadingShine(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
 {
     m_pDevice = pDevice;
@@ -14,17 +13,17 @@ CUI_LoadingFill::CUI_LoadingFill(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
     Safe_AddRef(m_pContext);
 }
 
-CUI_LoadingFill::CUI_LoadingFill(const CUI& rhs)
+CUI_LoadingShine::CUI_LoadingShine(const CUI& rhs)
     : CUI(rhs)
 {
 }
 
-HRESULT CUI_LoadingFill::Initialize_Prototype()
+HRESULT CUI_LoadingShine::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_LoadingFill::Initialize(void* pArg)
+HRESULT CUI_LoadingShine::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -47,18 +46,18 @@ HRESULT CUI_LoadingFill::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_LoadingFill::Tick(_float fTimeDelta)
+void CUI_LoadingShine::Tick(_float fTimeDelta)
 {
     Change_SizeX();
 }
 
-void CUI_LoadingFill::LateTick(_float fTimeDelta)
+void CUI_LoadingShine::LateTick(_float fTimeDelta)
 {
     if (m_bActive)
         m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CUI_LoadingFill::Render()
+HRESULT CUI_LoadingShine::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -70,28 +69,23 @@ HRESULT CUI_LoadingFill::Render()
     return S_OK;
 }
 
-void CUI_LoadingFill::Change_SizeX()
-{
-    m_fSizeX = (_float)m_fLoadingSizeX;
-
-    m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - (g_iWinSizeX * 0.5f) + (m_fSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+void CUI_LoadingShine::Change_SizeX()
+{ 
 }
 
-HRESULT CUI_LoadingFill::Ready_Components()
+HRESULT CUI_LoadingShine::Ready_Components()
 {
     __super::Ready_Components();
 
     /* Com_Texture*/
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Loading_FillBar"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Loading_Shine"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CUI_LoadingFill::Bind_ShaderResources()
+HRESULT CUI_LoadingShine::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -108,33 +102,33 @@ HRESULT CUI_LoadingFill::Bind_ShaderResources()
     return S_OK;
 }
 
-CUI_LoadingFill* CUI_LoadingFill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_LoadingShine* CUI_LoadingShine::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_LoadingFill* pInstance = new CUI_LoadingFill(pDevice, pContext);
+    CUI_LoadingShine* pInstance = new CUI_LoadingShine(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CUI_LoadingFill");
+        MSG_BOX("Failed to Created : CUI_LoadingShine");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_LoadingFill::Clone(void* pArg)
+CGameObject* CUI_LoadingShine::Clone(void* pArg)
 {
-    CUI_LoadingFill* pInstance = new CUI_LoadingFill(*this);
+    CUI_LoadingShine* pInstance = new CUI_LoadingShine(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CUI_LoadingFill");
+        MSG_BOX("Failed to Cloned : CUI_LoadingShine");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_LoadingFill::Free()
+void CUI_LoadingShine::Free()
 {
     __super::Free();
     Safe_Release(m_pDevice);
