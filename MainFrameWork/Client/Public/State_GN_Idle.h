@@ -14,7 +14,6 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual void	Enter_State() override;
 	virtual void	Tick_State(_float fTimeDelta) override;
-	virtual wstring LateTick_State(_float fTimeDelta) override;
 	virtual void	Exit_State() override;
 
 public:

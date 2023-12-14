@@ -32,13 +32,6 @@ void CStateMachine::Tick_State(_float fTimeDelta)
 
 void CStateMachine::LateTick_State(_float fTimeDelta)
 {
-	if (nullptr == m_pCurrState)
-		return;
-
-	wstring strState = m_pCurrState->LateTick_State(fTimeDelta);
-
-	if (strState != m_pCurrState->Get_StateName())
-		Change_State(strState);
 }
 
 HRESULT CStateMachine::Add_State(const wstring& strStateTag, CState* pState)

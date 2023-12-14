@@ -70,7 +70,6 @@ void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
-	m_pStateMachine->LateTick_State(fTimeDelta);
 	m_pController->LateTick(fTimeDelta);
 
 	Set_Colliders(fTimeDelta);

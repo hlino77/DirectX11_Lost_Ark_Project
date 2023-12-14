@@ -28,6 +28,7 @@ HRESULT CState_GN_Run::Initialize()
 void CState_GN_Run::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_Run, 0.1f, 0, 0);
+
 }
 
 void CState_GN_Run::Tick_State(_float fTimeDelta)
@@ -35,17 +36,8 @@ void CState_GN_Run::Tick_State(_float fTimeDelta)
 	m_TickFunc(*this, fTimeDelta);
 }
 
-wstring CState_GN_Run::LateTick_State(_float fTimeDelta)
-{
-	if (m_strChangeName != m_strStateName)
-		return m_strChangeName;
-	else
-		return m_strStateName;
-}
-
 void CState_GN_Run::Exit_State()
 {
-	
 }
 
 void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
@@ -53,8 +45,6 @@ void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 	
 	if (true == m_pController->Is_Run())
 	{
-		m_strChangeName = m_strStateName;
-
 		Vec3 vPos;
 		if (m_pPlayer->Get_CellPickingPos(vPos))
 			m_pController->Get_MoveMessage(vPos);
@@ -62,12 +52,8 @@ void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 	else if (true == m_pController->Is_Idle())
 	{
 		if (true == m_pController->Is_Stop())
-			m_strChangeName = TEXT("GN_Idle");
-		else
-			m_strChangeName = m_strStateName;
+			m_pPlayer->Set_State(TEXT("GN_Idle"));
 	}
-	else
-		m_strChangeName = m_strStateName;
 }
 
 void CState_GN_Run::Tick_State_NoneControl(_float fTimeDelta)

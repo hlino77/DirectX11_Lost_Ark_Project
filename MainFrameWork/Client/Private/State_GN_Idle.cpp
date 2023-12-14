@@ -35,43 +35,22 @@ void CState_GN_Idle::Tick_State(_float fTimeDelta)
 	m_TickFunc(*this, fTimeDelta);
 }
 
-wstring CState_GN_Idle::LateTick_State(_float fTimeDelta)
-{
-	if (m_strChangeName != m_strStateName)
-		return m_strChangeName;
-	else
-		return m_strStateName;
-}
-
 void CState_GN_Idle::Exit_State()
 {
-
 }
 
 void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 {
 	if (true == m_pController->Is_Run())
 	{
-		Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			if(Vec3(vClickPos - vPos).Length() <= 0.03f)
-				m_strChangeName = m_strStateName;
-			else
-			{
-				m_pController->Get_MoveMessage(vClickPos);
+			m_pController->Get_MoveMessage(vClickPos);
 
-				m_strChangeName = TEXT("GN_Run");
-			}
-
+			m_pPlayer->Set_State(TEXT("GN_Run"));
 		}
-		else
-			m_strChangeName = m_strStateName;
 	}
-	else
-		m_strChangeName = m_strStateName;
 }
 
 void CState_GN_Idle::Tick_State_NoneControl(_float fTimeDelta)

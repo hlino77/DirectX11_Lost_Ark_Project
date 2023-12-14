@@ -13,7 +13,6 @@ public:
 	virtual HRESULT Initialize() PURE;
 	virtual void	Enter_State() PURE;
 	virtual void	Tick_State(_float fTimeDelta) PURE;
-	virtual wstring LateTick_State(_float fTimeDelta) PURE;
 	virtual void	Exit_State() PURE;
 
 public:
