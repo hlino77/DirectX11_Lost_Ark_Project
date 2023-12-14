@@ -105,6 +105,11 @@ _uint CModel::Get_Anim_Frame(_uint iAnimation)
 	return m_Animations[iAnimation]->Get_Frame();
 }
 
+void CModel::Set_Anim_Speed(_uint iAnimation, _float fSpeed)
+{
+	m_Animations[iAnimation]->Set_Speed(fSpeed);
+}
+
 _int CModel::Find_BoneIndex(const wstring& szBoneName)
 {
 	_int iIndex = 0;
@@ -180,7 +185,7 @@ HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
+HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame, _float fRootDist)
 {
 	WRITE_LOCK
 
@@ -195,6 +200,8 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _uint
 	m_tReserveChange.m_iChangeFrame = iChangeFrame;
 	m_tReserveChange.m_fChangeTime = fChangeTime;
 	m_tReserveChange.m_fChangeRatio = 0.0f;
+
+	m_fRootDist = fRootDist;
 
 	m_bReserved = true;
 	return S_OK;
@@ -260,7 +267,7 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, _float fRootDist, Vec4 TargetPos)
+HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos)
 {
 	if (nullptr == pTransform)
 		return E_FAIL;
@@ -272,15 +279,15 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, _float 
 		m_vCurRootPos = { 0.f, 0.f, 0.f };
 		return S_OK;
 	}
-		
 
 	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = m_vPreRootPos - m_vCurRootPos;
+	vDir = XMVector3TransformNormal(vDir, m_PivotMatrix);
 	Vec3 vWorldDir = XMVector3TransformNormal(vDir, pTransform->Get_WorldMatrix());
-	vWorldDir.y *= -1;
 	vWorldDir.Normalize();
+	vWorldDir *= -1.f;
 
-	_float fDist = vDir.Length() * fRootDist;
+	_float fDist = vDir.Length() * m_fRootDist;
 
 	Vec3 vCalculePos = vPos;
 	vCalculePos += vWorldDir * fDist * fTimeDelta;
@@ -771,6 +778,10 @@ _uint CModel::Get_Anim_MaxFrame(_uint iAnimation)
 {
 	return m_Animations[iAnimation]->Get_MaxFrame();
 }
+
+
+
+
 
 CTexture* CModel::Create_Texture(const wstring& szFullPath)
 {

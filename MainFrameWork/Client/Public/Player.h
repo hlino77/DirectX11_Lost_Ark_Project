@@ -86,7 +86,7 @@ public:
 
 
 	void					Set_State(const wstring& szName);
-	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame, _float fRootDist = 2.f);
 
 
 	void					Find_NearTarget();

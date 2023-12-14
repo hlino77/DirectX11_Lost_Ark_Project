@@ -66,7 +66,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-
 	if(m_bNavi)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
@@ -717,7 +716,6 @@ void CPlayer::Send_SlowMotion(_bool bSlow)
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
-
 void CPlayer::Send_Hp()
 {
 	Protocol::S_HP pkt;
@@ -731,24 +729,16 @@ void CPlayer::Send_Hp()
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
-
 void CPlayer::Set_State(const wstring& szName)
 {
 	m_pStateMachine->Change_State(szName);
 	Send_State(szName);
 }
 
-
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame, _float fRootDist)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
-
-	//if (m_bControl)
-		//Send_Animation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist);
 }
-
-
-
 
 void CPlayer::Free()
 {
