@@ -218,12 +218,15 @@
     <ClInclude Include="..\Public\Monster_Plant.h" />
     <ClInclude Include="..\Public\Monster_Zombie.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\Player_Gunslinger.h" />
     <ClInclude Include="..\Public\Pool.h" />
     <ClInclude Include="..\Public\Protocol.pb.h" />
     <ClInclude Include="..\Public\ServerSession.h" />
     <ClInclude Include="..\Public\ServerSessionManager.h" />
     <ClInclude Include="..\Public\Skill.h" />
+    <ClInclude Include="..\Public\State_GN_Idle.h" />
+    <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
@@ -243,6 +246,7 @@
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
+    <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\Zombie_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Zombie_BT_Chase.h" />
@@ -304,6 +308,7 @@
     <ClCompile Include="..\Private\Monster_Plant.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
+    <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\Player_Gunslinger.cpp" />
     <ClCompile Include="..\Private\Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -313,6 +318,8 @@
     <ClCompile Include="..\Private\ServerSession.cpp" />
     <ClCompile Include="..\Private\ServerSessionManager.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
+    <ClCompile Include="..\Private\State_GN_Idle.cpp" />
+    <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\StaticModel.cpp" />
     <ClCompile Include="..\Private\Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -332,6 +339,7 @@
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />

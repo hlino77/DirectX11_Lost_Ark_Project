@@ -69,10 +69,6 @@ public:
 public:
 	HRESULT SetUp_OnShader(class CShader* pShader, _uint iMaterialIndex, aiTextureType eTextureType, const char* strConstantName);
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader);
-	/* 애니메이션을 재생한다. */
-	/* 1. 해당 애니메이션에서 사용하는 모든 뼈들의  Transformation 행렬을 갱신한다. */
-	/* 2. Transformation를 최상위 부모로부터 자식으로 계속 누적시켜간다.(CombinedTransformation) */
-	/* 3. 애니메이션에 의해 움직인 뼈들의 CombinedTransfromation을 셋팅한다. */
 
 	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 	HRESULT Set_NextAnimation();
@@ -85,9 +81,10 @@ public:
 
 	HRESULT Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bColMesh);
 
-public:
+public: /* ;hj가 추가한 함수 */
 	string  Get_Material_Name(_uint iMaterialIndex) { return m_Materials[iMaterialIndex].strName; }
 	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, _float fRootDist = 1.5f, Vec4 TargetPos = XMVectorZero());
+	_bool	Is_HairTexture(_uint iMaterialIndex);
 
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);

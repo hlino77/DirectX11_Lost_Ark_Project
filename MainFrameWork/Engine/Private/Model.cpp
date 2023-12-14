@@ -297,9 +297,30 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, _float 
 		}
 	}
 
+	vCalculePos.y = vPos.y;
 	pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
 		
 	return S_OK;
+}
+
+_bool CModel::Is_HairTexture(_uint iMaterialIndex)
+{
+	string strMaterialName = Get_Material_Name(iMaterialIndex);
+
+	size_t pos = strMaterialName.find("_");
+	while (pos != string::npos) 
+	{
+		strMaterialName.replace(pos, 1, " ");
+		pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
+	}
+
+	string search_str = "hair";
+	size_t hair_pos = strMaterialName.find(search_str);
+
+	if (hair_pos != string::npos) 
+		return true;
+	else 
+		return false;
 }
 
 HRESULT CModel::Set_Animation_Transforms()
@@ -336,7 +357,7 @@ HRESULT CModel::Set_Animation_Transforms()
 		{
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
 
-			Vec4 Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+			Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
 			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 		}
 
@@ -381,7 +402,7 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 		{
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
 
-			Vec4 Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+			Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
 			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 		}
 	}
