@@ -46,7 +46,6 @@ private:
 	class CRenderTarget* Find_RenderTarget(const wstring& strTargetTag);
 	vector<class CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
 
-
 public:
 	virtual void Free() override;
 };

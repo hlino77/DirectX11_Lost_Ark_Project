@@ -55,13 +55,13 @@ void CUI_Loading::UI_Tick(_float fTimeDelta)
 {
 }
 
-void CUI_Loading::Change_LoadingPer(_float fSizeX)
+void CUI_Loading::Change_LoadingPer()
 {
     for (auto& iter : m_vecServerUI)
     {
         if (TEXT("Loading_Fill") == iter->Get_ObjectTag())
         {
-            static_cast<CUI_LoadingFill*>(iter)->Change_SizeX(fSizeX);
+            static_cast<CUI_LoadingFill*>(iter)->Change_SizeX();
         }
     }
 }

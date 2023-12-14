@@ -7,6 +7,8 @@
 #include "ThreadManager.h"
 #include "ServerSessionManager.h"
 #include "UI_ServerGrid.h"
+#include "UI_ServerEntranceButton.h"
+
 CLevel_ServerSelect::CLevel_ServerSelect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {

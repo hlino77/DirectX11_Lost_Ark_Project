@@ -340,14 +340,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CWeapon_Shot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-<<<<<<< HEAD
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot_2"),
 		CWeapon_Shot_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
-=======
->>>>>>> origin/feature/Seokhyeon
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
 		return E_FAIL;

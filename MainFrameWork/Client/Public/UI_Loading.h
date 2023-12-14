@@ -19,7 +19,7 @@ public:
 	virtual HRESULT Render();
 
 	virtual void UI_Tick(_float fTimeDelta) override;
-	void	Change_LoadingPer(_float fSizeX);
+	void	Change_LoadingPer();
 private:
 	HRESULT	UI_Set();
 
