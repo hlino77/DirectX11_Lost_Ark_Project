@@ -77,7 +77,7 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 
 			PassDesc.pPass->GetDesc(&PassInfo);
 
-			PassDesc.strName = PassInfo.Name;
+			PassDesc.strName = string(PassInfo.Name);
 
 			PassDesc.pPass->GetVertexShaderDesc(&PassDesc.passVsDesc);
 			PassDesc.passVsDesc.pShaderVariable->GetShaderDesc(PassDesc.passVsDesc.ShaderIndex, &PassDesc.effectVsDesc);
@@ -86,7 +86,7 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 				return E_FAIL;
 
 			descTechnique.vecPasses.push_back(PassDesc);
-			descTechnique.hashPasses.emplace(PassDesc.strName, &PassDesc);
+			descTechnique.hashPasses.emplace(PassDesc.strName, PassDesc);
 		}
 
 		m_vecTechnique.push_back(descTechnique);
@@ -352,9 +352,9 @@ HRESULT CShader::Begin(const string& strPassName, _uint iTechniqueIndex)
 	if (hash.end() == finder)
 		return E_FAIL;
 
-	m_pContext->IASetInputLayout(finder->second->pInputLayout);
+	m_pContext->IASetInputLayout(finder->second.pInputLayout);
 
-	if (FAILED(finder->second->pPass->Apply(0, m_pContext)))
+	if (FAILED(finder->second.pPass->Apply(0, m_pContext)))
 		return E_FAIL;
 
 	return S_OK;

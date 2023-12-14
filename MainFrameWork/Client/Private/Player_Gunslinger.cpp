@@ -106,8 +106,13 @@ HRESULT CPlayer_Gunslinger::Render()
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
 			}
 
+			_bool bMaterial = true;
 			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
-				FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
+				FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture"))/* ||
+				FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_EMISSIVE, "g_EmissiveTexture"))*/)
+				bMaterial = false;
+
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
 			{
 				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
 					return E_FAIL;

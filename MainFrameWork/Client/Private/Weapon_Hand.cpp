@@ -69,12 +69,12 @@ HRESULT CWeapon_Hand::Render()
 		if (//FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
 			FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "DefaultPass")))
 				return S_OK;
 		}
 		else
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 10)))
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "TangentPass")))
 				return S_OK;
 		}
 	}

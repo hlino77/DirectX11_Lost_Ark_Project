@@ -29,7 +29,7 @@ public:
 		D3DX11_TECHNIQUE_DESC	desc;
 		ID3DX11EffectTechnique* pTechnique = nullptr;
 		vector<PASSDESC>		vecPasses;
-		unordered_map<string, PASSDESC*, djb2Hasher>	hashPasses;
+		unordered_map<string, PASSDESC, djb2Hasher>	hashPasses;
 
 	}TECHNIQUEDESC;
 

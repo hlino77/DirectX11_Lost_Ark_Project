@@ -72,7 +72,7 @@ HRESULT CStaticModel::Render()
 		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
 			FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "DefaultPass")))
 				return E_FAIL;
 		}
 		else
