@@ -35,7 +35,7 @@ public:
 	_bool	Is_Dash();
 	_bool	Is_Attack();
 
-	void	Get_MoveMessage(Vec3	vPos) { m_vNextMove = vPos; }
+	void	Get_MoveMessage(Vec3 vPos) { m_vNextMove = vPos; }
 	void	Get_AttackMessage() { Attack(); }
 	void	Get_SkillMessage() { Skill(); }
 	void	Get_HitMessage() { Hit(); }

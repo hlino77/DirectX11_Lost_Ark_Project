@@ -63,7 +63,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
-
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)

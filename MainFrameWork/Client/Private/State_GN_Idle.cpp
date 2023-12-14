@@ -46,8 +46,7 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			m_pController->Get_MoveMessage(vClickPos);
-
+			m_pPlayer->Set_TargetPos(vClickPos);
 			m_pPlayer->Set_State(TEXT("GN_Run"));
 		}
 	}

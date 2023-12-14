@@ -28,7 +28,7 @@ HRESULT CState_GN_Run::Initialize()
 void CState_GN_Run::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_Run, 0.1f, 0, 0);
-
+	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_GN_Run::Tick_State(_float fTimeDelta)
@@ -42,12 +42,15 @@ void CState_GN_Run::Exit_State()
 
 void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 {
-	
 	if (true == m_pController->Is_Run())
 	{
 		Vec3 vPos;
 		if (m_pPlayer->Get_CellPickingPos(vPos))
+		{
+			m_pPlayer->Set_TargetPos(vPos);
 			m_pController->Get_MoveMessage(vPos);
+		}
+		
 	}
 	else if (true == m_pController->Is_Idle())
 	{
@@ -58,6 +61,7 @@ void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 
 void CState_GN_Run::Tick_State_NoneControl(_float fTimeDelta)
 {
+	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
