@@ -313,12 +313,11 @@ void CMonster_Server::Send_Collision(const _uint iColLayer, CCollider* pOther, _
 
 void CMonster_Server::Find_NearTarget()
 {
-	CGameObject* pPreviousNeartarget = m_pNearTarget;
 	m_pNearTarget = nullptr;
-	m_pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER, this);
+	m_pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
 
-	if (Get_NearTargetDistance() < 30.f&& m_pNearTarget != pPreviousNeartarget)
-		Send_NearTarget();
+	if (Get_NearTargetDistance() > 30.f)
+		m_pNearTarget = nullptr;
 }
 
 void CMonster_Server::Send_NearTarget()
@@ -369,7 +368,7 @@ Vec3 CMonster_Server::Get_Target_Direction()
 void CMonster_Server::Set_RandomPosition()
 {
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_vRandomPosition = Vec3(vCurrentPosition.x + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f), vCurrentPosition.y, vCurrentPosition.z + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f));
+	m_vTargetPos = m_vRandomPosition = Vec3(vCurrentPosition.x + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f), vCurrentPosition.y, vCurrentPosition.z + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f));
 
 }
 
@@ -391,7 +390,7 @@ _bool CMonster_Server::Is_Close_To_RandomPosition()
 void CMonster_Server::LookAt_Target_Direction(_float fTimeDelta)
 {
 	if (m_pNearTarget == nullptr)
-		Find_NearTarget();
+		return;
 
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -514,6 +513,30 @@ void CMonster_Server::Send_Hp()
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
 
+}
+
+void CMonster_Server::Send_Monster_Action()
+{
+	Protocol::S_MONSTERSTATE pkt;
+
+	pkt.set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
+	pkt.set_iobjectid(m_iObjectID);
+	pkt.set_strstate(CAsUtils::ToString(m_strAction));
+	if (m_pNearTarget == nullptr)
+		pkt.set_itargetobjectid(-1);
+	else
+	{
+		pkt.set_itargetobjectid(m_pNearTarget->Get_ObjectID());
+		pkt.set_itargetobjectlayer(m_pNearTarget->Get_ObjectLayer());
+	}
+	
+	auto vTargetPos = pkt.mutable_vtargetpos();
+	vTargetPos->Resize(3, 0.0f);
+	Vec3 vPlayerTargetPos = m_vTargetPos.load();
+	memcpy(vTargetPos->mutable_data(), &vPlayerTargetPos, sizeof(Vec3));
+
+	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
 }
 
 void CMonster_Server::Set_Colliders(_float fTimeDelta)

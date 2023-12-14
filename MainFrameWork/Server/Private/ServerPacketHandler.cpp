@@ -13,6 +13,7 @@
 #include "EventMgr.h"
 #include "ServerEvent.h"
 #include "Skill_Server.h"
+#include "Monster_Server.h"
 
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
@@ -147,9 +148,39 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 				CGameSessionManager::GetInstance()->Broadcast_Others(pSendBuffer, pGameSession->GetSessionID());
 			}
 		}
+
+
+		{
+			CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Find_GameObejct(LEVELID::LEVEL_BERN,(_uint)LAYER_TYPE::LAYER_MONSTER,L"Monster_Zombie"));
+			if (nullptr == pMonster)
+				return E_FAIL;
+			Protocol::S_CREATE_OBJCECT tMonsterPkt;
+			
+			tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
+			tMonsterPkt.set_iobjecttype(pMonster->Get_ObjectType());
+			tMonsterPkt.set_strname(CAsUtils::ToString(pMonster->Get_ModelName()));
+			tMonsterPkt.set_ilayer(pMonster->Get_ObjectLayer());
+			tMonsterPkt.set_ilevel(LEVELID::LEVEL_BERN);
+
+			tMonsterPkt.set_bcontroll(true);
+
+			auto vPos = tMonsterPkt.mutable_vpos();
+			vPos->Resize(3, 0.0f);
+			Vec3 vPosition = pMonster->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			memcpy(vPos->mutable_data(), &vPosition, sizeof(Vec3));
+
+			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
+			pGameSession->Send(pSendBuffer);
+
+		}
+
+
+
 	}
 
 
+
+	
 
 	Safe_Release(pGameInstance);
 	return true;
@@ -429,6 +460,12 @@ bool Handel_S_CHAT_Server(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	//CGameSessionManager::GetInstance()->Broadcast_Others(pBuffer, session->GetSessionID());
 	CGameSessionManager::GetInstance()->Broadcast(pBuffer);
+
+	return true;
+}
+
+bool Handel_S_MONSTERSTATE_Server(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt)
+{
 
 	return true;
 }

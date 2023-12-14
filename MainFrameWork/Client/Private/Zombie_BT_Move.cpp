@@ -9,16 +9,12 @@ CZombie_BT_Move::CZombie_BT_Move()
 void CZombie_BT_Move::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CMonster*>(m_pGameObject)->Set_RandomPosition();
+
 }
 
 CBT_Node::BT_RETURN CZombie_BT_Move::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit())
-		return BT_FAIL;
 
-	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 20.f && !static_cast<CMonster*>(m_pGameObject)->Is_Hit())
-		return BT_FAIL;
 
 	if(static_cast<CMonster*>(m_pGameObject)->Is_Close_To_RandomPosition())
 		return BT_FAIL;

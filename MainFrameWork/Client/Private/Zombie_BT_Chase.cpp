@@ -15,14 +15,10 @@ void CZombie_BT_Chase::OnStart()
 
 CBT_Node::BT_RETURN CZombie_BT_Chase::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit()|| static_cast<CMonster*>(m_pGameObject)->Get_NearTarget() == nullptr)
-		return BT_FAIL;
-	
+
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
 		return BT_FAIL;
 
-	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 1.f)
-		return BT_FAIL;
 	static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(), 1.5f, fTimeDelta);
 
 	return BT_RUNNING;

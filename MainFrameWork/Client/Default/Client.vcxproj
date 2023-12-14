@@ -261,12 +261,12 @@
     <ClInclude Include="..\Public\Zombie_BT_DamageLeft.h" />
     <ClInclude Include="..\Public\Zombie_BT_Dead.h" />
     <ClInclude Include="..\Public\Zombie_BT_Idle.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Dead.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Hit.h" />
     <ClInclude Include="..\Public\Zombie_BT_IF_Hit_Left.h" />
+    <ClInclude Include="..\Public\Zombie_BT_IF_Maz.h" />
     <ClInclude Include="..\Public\Zombie_BT_IF_Near.h" />
     <ClInclude Include="..\Public\Zombie_BT_IF_Spawn.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Maz.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Hit.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Dead.h" />
     <ClInclude Include="..\Public\Zombie_BT_Maz.h" />
     <ClInclude Include="..\Public\Zombie_BT_Move.h" />
     <ClInclude Include="..\Public\Zombie_BT_Spawn.h" />

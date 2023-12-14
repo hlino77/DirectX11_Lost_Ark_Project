@@ -1,5 +1,7 @@
 #include "BehaviorTree.h"
 #include "BT_Composite.h"
+#include "BT_Action.h"
+
 CBehaviorTree::CBehaviorTree(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
 {
@@ -17,6 +19,7 @@ HRESULT CBehaviorTree::Initialize_Prototype()
 
 HRESULT CBehaviorTree::Initialize(void* pArg)
 {
+	m_PreviousAction = m_hashActions.end();
 	return S_OK;
 }
 
@@ -32,6 +35,43 @@ void CBehaviorTree::LateTick(const _float& fTimeDelta)
 void CBehaviorTree::DebugRender()
 {
 }
+
+HRESULT CBehaviorTree::Add_Action(wstring strActionName, CBT_Action* pAction)
+{
+	if (m_hashActions.count(strActionName) == 0)
+		m_hashActions.emplace(strActionName, pAction);
+	else
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CBehaviorTree::Tick_Action(wstring strActionName, const _float& fTimeDelta)
+{
+	const auto& iter = m_hashActions.find(strActionName);
+	if (iter == m_hashActions.end())
+		return E_FAIL;
+	if( iter != m_PreviousAction)
+	{
+		m_PreviousAction->second->OnEnd();
+		m_PreviousAction->second->Reset();
+		m_PreviousAction = iter;
+	}
+	iter->second->Tick(fTimeDelta);
+
+
+	return S_OK;
+}
+
+HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction)
+{
+	const auto& iter = m_hashActions.find(strAction);
+	if (iter == m_hashActions.end())
+		return E_FAIL;
+	m_PreviousAction = iter;
+	return S_OK;
+}
+
 
 CBehaviorTree* CBehaviorTree::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

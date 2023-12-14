@@ -46,6 +46,7 @@ HRESULT CMonster_Zombie_Server::Initialize_Prototype()
 HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
+	m_szModelName = L"Zombie";
 	m_strObjectTag = L"Monster_Zombie";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
@@ -58,6 +59,9 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+
 	m_pRigidBody->SetMass(2.0f);
 
 	return S_OK;
@@ -67,12 +71,13 @@ void CMonster_Zombie_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
-	if (m_fScanCoolDown > 0.5f)
+	m_pBehaviorTree->Tick(fTimeDelta);
+	if (m_fScanCoolDown > 1.f)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
+		Send_Monster_Action();
 	}
-	m_pBehaviorTree->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
 }
 
@@ -88,7 +93,6 @@ void CMonster_Zombie_Server::LateTick(_float fTimeDelta)
 	}
 
 	Set_Colliders(fTimeDelta);
-
 
 	if (m_bRender)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
@@ -208,6 +212,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CZombie_BT_Dead_Server::Create(&ActionDesc);
 
 	CBT_Decorator::DECORATOR_DESC DecoratorDesc = {};
@@ -225,6 +230,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Damage_Left";
 	CBT_Action* pDamageLeft = CZombie_BT_DamageLeft_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -234,6 +240,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CZombie_BT_DamageRight_Server::Create(&ActionDesc);
 
 	CBT_Decorator* pIfHitLeft = CZombie_BT_IF_Hit_Left_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
@@ -261,6 +268,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Respawn";
 	CBT_Action* pSpawn = CZombie_BT_Spawn_Server::Create(&ActionDesc);
 
 	CBT_Decorator* pIfSpawn = CZombie_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
@@ -274,6 +282,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack1";
 	CBT_Action* pAttack1 = CZombie_BT_Attack1_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -283,6 +292,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CZombie_BT_BattleIdle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -292,6 +302,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack2";
 	CBT_Action* pAttack2 = CZombie_BT_Attack2_Server::Create(&ActionDesc);
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
@@ -316,6 +327,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Chase";
 	CBT_Action* pChase = CZombie_BT_Chase_Server::Create(&ActionDesc);
 
 
@@ -333,6 +345,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Idle_0";
 	CBT_Action* pIdle_0 = CZombie_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -342,6 +355,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Idle_1";
 	CBT_Action* pIdle_1 = CZombie_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -351,6 +365,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Move";
 	CBT_Action* pMove = CZombie_BT_Move_Server::Create(&ActionDesc);
 
 
@@ -385,6 +400,19 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	m_pBehaviorTree->SetRoot(pRoot);
 
 	return S_OK;
+}
+
+CMonster_Zombie_Server* CMonster_Zombie_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+	CMonster_Zombie_Server* pInstance = new CMonster_Zombie_Server(pDevice, pContext);
+
+	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed To Created : CPlayer");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 CGameObject* CMonster_Zombie_Server::Clone(void* pArg)
