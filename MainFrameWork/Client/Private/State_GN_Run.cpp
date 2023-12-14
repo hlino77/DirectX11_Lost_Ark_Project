@@ -42,20 +42,32 @@ void CState_GN_Run::Exit_State()
 
 void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 {
-	if (true == m_pController->Is_Run())
+	if (true == m_pController->Is_Dash())
 	{
-		Vec3 vPos;
-		if (m_pPlayer->Get_CellPickingPos(vPos))
+		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (true == m_pController->Is_Run())
+	{
+		Vec3 vClickPos;
+		if (m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			m_pPlayer->Set_TargetPos(vPos);
-			m_pController->Get_MoveMessage(vPos);
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pController->Get_MoveMessage(vClickPos);
 		}
 		
+	}
+	else if (true == m_pController->Is_Attack())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
+		m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
 	}
 	else if (true == m_pController->Is_Idle())
 	{
 		if (true == m_pController->Is_Stop())
-			m_pPlayer->Set_State(TEXT("GN_Idle"));
+			m_pPlayer->Set_State(TEXT("Idle"));
 	}
 }
 

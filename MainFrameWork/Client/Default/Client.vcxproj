@@ -225,6 +225,10 @@
     <ClInclude Include="..\Public\ServerSession.h" />
     <ClInclude Include="..\Public\ServerSessionManager.h" />
     <ClInclude Include="..\Public\Skill.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand1.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand2.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand3.h" />
+    <ClInclude Include="..\Public\State_GN_Dash.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
@@ -324,6 +328,10 @@
     <ClCompile Include="..\Private\ServerSession.cpp" />
     <ClCompile Include="..\Private\ServerSessionManager.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand1.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand2.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand3.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dash.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\StaticModel.cpp" />

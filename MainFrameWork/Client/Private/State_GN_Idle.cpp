@@ -28,6 +28,7 @@ HRESULT CState_GN_Idle::Initialize()
 void CState_GN_Idle::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iIdle, 0.1f, 0, 0);
+	m_pController->Get_StopMessage();
 }
 
 void CState_GN_Idle::Tick_State(_float fTimeDelta)
@@ -41,14 +42,26 @@ void CState_GN_Idle::Exit_State()
 
 void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 {
-	if (true == m_pController->Is_Run())
+	if (true == m_pController->Is_Dash())
+	{
+		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (true == m_pController->Is_Run())
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
 			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pPlayer->Set_State(TEXT("GN_Run"));
+			m_pPlayer->Set_State(TEXT("Run"));
 		}
+	}
+	else if (true == m_pController->Is_Attack())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
+		m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
 	}
 }
 

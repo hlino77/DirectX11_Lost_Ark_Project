@@ -509,7 +509,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	Safe_AddRef(pGameInstance);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(270.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 
 

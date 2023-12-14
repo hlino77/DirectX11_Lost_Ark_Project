@@ -10,12 +10,16 @@
 #include "ColliderOBB.h"
 #include "PhysXMgr.h"
 #include "Pool.h"
-
 #include "Player_Controller_GN.h"
+
 /* State */
 #include "State_GN_Idle.h"
 #include "State_GN_Run.h"
 #include "NavigationMgr.h"
+#include "State_GN_Dash.h"
+#include "State_GN_Attack_Hand1.h"
+#include "State_GN_Attack_Hand2.h"
+#include "State_GN_Attack_Hand3.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -316,11 +320,26 @@ HRESULT CPlayer_Gunslinger::Ready_Parts()
 
 HRESULT CPlayer_Gunslinger::Ready_State()
 {
-	m_pStateMachine->Add_State(TEXT("GN_Run"), CState_GN_Run::Create(TEXT("GN_Run"),
+	m_pStateMachine->Add_State(TEXT("Idle"), CState_GN_Idle::Create(TEXT("Idle"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("GN_Idle"), CState_GN_Idle::Create(TEXT("GN_Idle"),
+	m_pStateMachine->Add_State(TEXT("Run"), CState_GN_Run::Create(TEXT("Run"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dash"), CState_GN_Dash::Create(TEXT("Dash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Hand_1"), CState_GN_Attack_Hand1::Create(TEXT("Attack_Hand_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Hand_2"), CState_GN_Attack_Hand2::Create(TEXT("Attack_Hand_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Hand_3"), CState_GN_Attack_Hand3::Create(TEXT("Attack_Hand_3"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+
+	m_pStateMachine->Change_State(TEXT("Idle"));
 
 	return S_OK;
 }

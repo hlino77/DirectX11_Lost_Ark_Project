@@ -36,7 +36,9 @@ HRESULT CPlayer_Controller::Initialize(void* pArg)
 
 void CPlayer_Controller::Tick(_float fTimeDelta)
 {
-	Move(fTimeDelta);
+	if (false == m_bStop) Move(fTimeDelta);
+	if (true == m_bStop) Look(fTimeDelta);
+	Dash_CoolTime(fTimeDelta);
 }
 
 void CPlayer_Controller::LateTick(_float fTimeDelta)
@@ -88,7 +90,13 @@ _bool CPlayer_Controller::Is_Interect()
 _bool CPlayer_Controller::Is_Dash()
 {
 	if (KEY_TAP(KEY::SPACE))
-		return true;
+	{
+		if (-1.f == m_fDashCoolTime)
+			return true;
+		else
+			return false;
+	}
+		
 
 	return false;
 }
@@ -127,7 +135,17 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 
 	Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = m_vNextMove - vPos;
-	m_pOwnerTransform->Move_ToPos(vDir, 10.f, 3.f, fTimeDelta);
+	m_pOwnerTransform->Move_ToPos(vDir, 15.f, 3.f, fTimeDelta);
+}
+
+void CPlayer_Controller::Look(const _float& fTimeDelta)
+{
+	if (Vec3() == m_vNextMove)
+		return;
+
+	Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDir = m_vNextMove - vPos;
+	m_pOwnerTransform->LookAt_Lerp_ForLand(vDir, 20.f, fTimeDelta);
 }
 
 void CPlayer_Controller::Attack()
@@ -140,6 +158,20 @@ void CPlayer_Controller::Skill()
 
 void CPlayer_Controller::Hit()
 {
+}
+
+void CPlayer_Controller::Dash_CoolTime(const _float& fTimeDelta)
+{
+	if (-1.f == m_fDashCoolTime)
+		return;
+
+	m_fCoolDownAcc[SKILL_COOLDOWN::SPACE] += fTimeDelta;
+
+	if (m_fDashCoolTime <= m_fCoolDownAcc[SKILL_COOLDOWN::SPACE])
+	{
+		m_fCoolDownAcc[SKILL_COOLDOWN::SPACE] = 0.f;
+		m_fDashCoolTime = -1.f;
+	}
 }
 
 CComponent* CPlayer_Controller::Clone(CGameObject* pGameObject, void* pArg)
