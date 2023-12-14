@@ -238,6 +238,7 @@
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
+    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
@@ -330,6 +331,7 @@
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
+    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />

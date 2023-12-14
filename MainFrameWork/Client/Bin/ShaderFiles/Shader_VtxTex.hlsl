@@ -3,11 +3,15 @@
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D	g_DiffuseTexture;
 Texture2D	g_DepthTexture;
+Texture2D	g_TextBoxTexture;
+
 float		g_Alpha = 1.0f;
 float4		g_Color;
 Texture2D	g_MaskTexture;
 Texture2D	g_MaskTexture2;
 float2		g_vMaskUV;
+float2		g_vScaleUV;
+
 
 
 sampler DefaultSampler = sampler_state {
@@ -43,6 +47,22 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
 	Out.vTexUV = In.vTexUV;
 	
+	return Out;
+}
+
+
+VS_OUT VS_TEXTBOX(VS_IN In)
+{
+	VS_OUT		Out = (VS_OUT)0;
+
+	matrix		matWV, matWVP;
+
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
+
+	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
+	Out.vTexUV = In.vTexUV * g_vScaleUV;
+
 	return Out;
 }
 
@@ -94,6 +114,22 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;	
 }
+
+
+PS_OUT PS_TEXTBOX(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_TextBoxTexture.Sample(DefaultSampler, In.vTexUV);
+
+	Out.vColor.a *= g_Alpha;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	return Out;
+}
+
 
 struct PS_IN_SOFTEFFECT
 {
@@ -243,6 +279,18 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_SKILL();
+	}
+
+
+	pass TextBoxPass
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_TEXTBOX();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_TEXTBOX();
 	}
 
 }

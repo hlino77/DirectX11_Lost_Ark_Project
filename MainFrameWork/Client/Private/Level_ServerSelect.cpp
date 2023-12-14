@@ -80,6 +80,8 @@ HRESULT CLevel_ServerSelect::Ready_Layer_UI()
 	else
 		pServerEntranceButton->Create_Rect();
 
+
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

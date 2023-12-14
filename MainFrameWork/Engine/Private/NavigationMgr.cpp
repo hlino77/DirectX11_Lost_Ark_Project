@@ -47,6 +47,7 @@ void CNavigationMgr::SetUp_OnCell(CGameObject* pObject)
 
 void CNavigationMgr::Find_FirstCell(CGameObject* pObject)
 {
+	WRITE_LOCK
 	if (m_pNavigation)
 		m_pNavigation->Find_FirstCell(pObject);
 }

@@ -25,6 +25,7 @@
 #include "UI_ServerEntranceButton.h"
 #include "Monster_Zombie.h"
 #include "Monster_Plant.h"
+#include "UI_TextBox.h"
 
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -228,6 +229,12 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ServerEntranceButton"),
 		CUI_ServerEntranceButton::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_TextBox"),
+		CUI_TextBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
 
 	Safe_Release(pGameInstance);
 

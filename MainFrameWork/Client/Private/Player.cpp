@@ -65,12 +65,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-
-	if (KEY_TAP(KEY::ENTER))
-	{
-		if(CChat_Manager::GetInstance()->Is_Active() == false)
-			CChat_Manager::GetInstance()->OnOff();
-	}
 	
 
 	if(m_bNavi)

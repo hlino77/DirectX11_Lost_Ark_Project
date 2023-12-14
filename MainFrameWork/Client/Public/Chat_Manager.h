@@ -3,17 +3,11 @@
 #include "Lock.h"
 
 BEGIN(Client)
+class CUI_TextBox;
 
 class CChat_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CChat_Manager);
-
-public:
-	typedef struct ChatDesc
-	{
-		wstring szNickName;
-		wstring szChat;
-	}CHAT;
 
 public:
 	CChat_Manager();
@@ -34,21 +28,24 @@ public:
 
 	void	CursurTick(_float fTimeDelta);
 
-	_bool	Is_Active() { return m_bChat; }
+	_bool	Is_Active() { return m_bActive; }
+	void	Set_Active(_bool bActive);
 	void	OnOff();
 	void	ResetBlink();
-
 
 
 	//Chating
 
 
-	void	Add_Chat(const CHAT& tChat);
+	void	Add_Chat(wstring& szChat);
 	void	Send_Chat(const wstring& szChat);
 
 	static wstring S2W(const string& strValue);
 	static string W2S(const wstring& szValue);
 
+
+	HRESULT Ready_ChatWindows();
+	void	Release_ChatWindows();
 private:
 	void	StartChat();
 	void	EndChat();
@@ -69,15 +66,31 @@ private:
 
 	_bool m_bChat = false;
 	_bool m_bSend = false;
+	_bool m_bActive = false;
 
 	_float m_fBlinkDelay = 0.0f;
 	_float m_fCurrDelay = 0.0f;
 	_bool m_bCursur = true;
 
 
-	deque<CHAT> m_ChatList;
+	deque<wstring> m_ChatList;
 
 	_uint m_iMaxChat = 0;
+
+
+
+	Vec2 m_vTextScale;
+
+	_float m_fChatWinSizeX = 0.0f;
+	_float m_fChatWinSizeY = 0.0f;
+	_float m_fInputWindowSizeX = 0.0f;
+
+
+	wstring m_szFont;
+
+	//TextBox
+	CUI_TextBox* m_pChatWindow = nullptr;
+	CUI_TextBox* m_pInputWindow = nullptr;
 
 	USE_LOCK
 public:

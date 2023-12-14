@@ -44,6 +44,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		500, 500, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
 
+	/* For. Target_TextBox*/
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_TextBox"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
 
 	/* For.Target_Normal */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Normal"),
@@ -160,7 +164,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_MakeSRV"), TEXT("Target_MakeSRV"))))
 		return E_FAIL;
 
-
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_TextBox"), TEXT("Target_TextBox"))))
+		return E_FAIL;
 
 	/* 이 렌더타겟들은 게임내에 존재하는 빛으로부터 연산한 결과를 저장받는다. */
 	/* For.MRT_ */
@@ -327,7 +332,7 @@ HRESULT CRenderer::Draw()
 
 	Render_WorldUI();
 	Render_UI();
-
+	Render_TextBox();
 	//Render_Debug();
 	
 	
@@ -343,6 +348,14 @@ HRESULT CRenderer::Draw_Server()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_NONBLEND].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Bind_TextBoxSRV(CShader* pShader)
+{
+	if (FAILED(m_pTarget_Manager->Bind_SRV(pShader, TEXT("Target_TextBox"), "g_TextBoxTexture")))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -869,6 +882,33 @@ HRESULT CRenderer::Render_UI()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_UI].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_TextBox()
+{
+
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_TEXTBOX])
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_TextBox"))))
+			return E_FAIL;
+
+
+		if (FAILED(iter->Render_MakeSRV()))
+			return E_FAIL;
+
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_TEXTBOX].clear();
 
 	return S_OK;
 }

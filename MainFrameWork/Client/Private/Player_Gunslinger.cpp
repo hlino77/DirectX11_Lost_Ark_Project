@@ -228,7 +228,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
 
-	m_pModelCom->Set_CurrAnim(448);
+	m_pModelCom->Set_CurrAnim(192);
 
 	return S_OK;
 }

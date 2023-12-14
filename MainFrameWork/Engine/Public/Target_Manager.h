@@ -5,7 +5,7 @@
 
 BEGIN(Engine)
 
-class CTarget_Manager final : public CBase
+class ENGINE_DLL CTarget_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CTarget_Manager)
 private:
@@ -18,6 +18,7 @@ public:
 	HRESULT Bind_SRV(class CShader* pShader, const wstring& strTargetTag, const _char* pConstantName);
 	HRESULT Make_SRVTexture(const wstring& szPath, const wstring& strTargetTag);
 	HRESULT	Copy_SRV(const wstring& strTargetTag, ID3D11ShaderResourceView** pSRV);
+	HRESULT Clear_RenderTarget(const wstring& strTargetTag);
 
 
 	/* strMRTTag에 해당하는 list에 담겨있는 타겟들을 장치에 바인딩한다. */
@@ -26,20 +27,16 @@ public:
 
 	/* 다시 원래 상태로 복구한다. */
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
-
-
-
-
 public:
 	HRESULT Ready_Debug(const wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render(const wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 
 
 private:
-	map<const wstring, class CRenderTarget*>			m_RenderTargets;	
+	unordered_map<wstring, class CRenderTarget*>			m_RenderTargets;	
 
 	/* 장치에 동시에 바인딩되어야하는 타겟들을 미리 묶어두겠다. */
-	map<const wstring, list<class CRenderTarget*>>		m_MRTs;
+	unordered_map<wstring, vector<class CRenderTarget*>>			m_MRTs;
 
 private:
 	ID3D11RenderTargetView*					m_pBackBufferRTV = { nullptr };
@@ -47,8 +44,7 @@ private:
 
 private:
 	class CRenderTarget* Find_RenderTarget(const wstring& strTargetTag);
-	list<class CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
-
+	vector<class CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
 
 public:
 	virtual void Free() override;

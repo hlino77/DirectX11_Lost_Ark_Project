@@ -22,7 +22,7 @@
 #include "Pool.h"
 #include "Renderer.h"
 #include "Monster_Zombie.h"
-
+#include "Chat_Manager.h"
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -77,6 +77,8 @@ HRESULT CLevel_Bern::Initialize()
 
 	Start_Collision();
 
+	CChat_Manager::GetInstance()->Set_Active(true);
+
 	return S_OK;
 }
 
@@ -102,6 +104,7 @@ HRESULT CLevel_Bern::Exit()
 	CNavigationMgr::GetInstance()->Reset_Navigation();
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
+	CChat_Manager::GetInstance()->Set_Active(false);
 	return S_OK;
 }
 
