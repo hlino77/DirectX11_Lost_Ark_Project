@@ -28,6 +28,8 @@ HRESULT CUI_ServerEntranceButton::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_strObjectTag = TEXT("Server_EntranceButton");
+
 	if (nullptr != pArg)
 	{
 		UIDESC* UIDesc = static_cast<UIDESC*>(pArg);

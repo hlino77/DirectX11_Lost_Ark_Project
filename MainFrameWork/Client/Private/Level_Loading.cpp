@@ -10,6 +10,8 @@
 #include "Level_ServerSelect.h"
 #include "Level_Tool.h"
 
+#include "UI_Loading.h"
+
 CLevel_Loading::CLevel_Loading(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -25,42 +27,22 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 	if (pLevel)
 		pLevel->Exit();
 
-
 	m_eNextLevel = eNextLevel;
 
 	m_szBackGruond = szBackGruond;
 
-	if (szBackGruond == L"LoadingWnd")
-	{
-		wstring szProtoName = L"Prototype_GameObject_BackGround_" + szBackGruond;
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL;
-
-		szProtoName = L"Prototype_GameObject_BackGround_LoadingLabel_Top";
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL;
-
-		szProtoName = L"Prototype_GameObject_BackGround_LoadingLabel_Bottom";
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL;
-
-		szProtoName = L"Prototype_GameObject_BackGround_Loading_EmptyBar";
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL;
-
-		szProtoName = L"Prototype_GameObject_BackGround_Loading_Fill";
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL;
-
-		szProtoName = L"Prototype_GameObject_BackGround_Loading_Arrow";
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL;
-	}
-	else if (szBackGruond != L"None")
+	if (szBackGruond != L"None")
 	{
  		wstring szProtoName = L"Prototype_GameObject_BackGround_" + szBackGruond;
 		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
 			return E_FAIL; 
+	
+		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_LoadingUI")))
+		{
+			//ui매니저로 들고올 예정. 아직은 ObjectManager로 불러옴.
+			CUI_Loading* pLoadingUI = static_cast<CUI_Loading*>(pGameInstance->GetInstance()->Find_GameObejct(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("UI_Loading")));
+		}
+	
 	}
 
 	pGameInstance->Set_Loading(true);

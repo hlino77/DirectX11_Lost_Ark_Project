@@ -20,6 +20,8 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    void    Set_StageName(const wstring& strStageName);
+
 
 private:
     virtual HRESULT Ready_Components();

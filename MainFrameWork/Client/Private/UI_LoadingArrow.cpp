@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_LoadingArrow.h"
 #include "GameInstance.h"
+#include "UI_LoadingFill.h"
 
 CUI_LoadingArrow::CUI_LoadingArrow(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -27,6 +28,9 @@ HRESULT CUI_LoadingArrow::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+
+    m_strObjectTag = TEXT("Loading_Arrow");
+
     m_fX = 50.f;
     m_fY = 850.f;
     m_fSizeX = 200.f;
@@ -43,6 +47,7 @@ HRESULT CUI_LoadingArrow::Initialize(void* pArg)
 
 void CUI_LoadingArrow::Tick(_float fTimeDelta)
 {
+    Move_Arrow(0.f);
     /*if (KEY_HOLD(KEY::LEFT_ARROW))
     {
         m_fX -= 1.0f;
@@ -104,6 +109,17 @@ HRESULT CUI_LoadingArrow::Render()
     __super::Render();
 
     return S_OK;
+}
+
+void CUI_LoadingArrow::Move_Arrow(_float fSizeX)
+{
+    m_fX = CUI_LoadingFill::m_fLoadingSizeX - 50.f;
+        m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+    XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+    XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 }
 
 HRESULT CUI_LoadingArrow::Ready_Components()

@@ -27,6 +27,8 @@ HRESULT CUI_LoadingLabelBottom::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_strObjectTag = TEXT("Loading_LabelBottom");
+
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = 800.f;
     m_fSizeX = g_iWinSizeX * 0.5f;
@@ -67,6 +69,11 @@ HRESULT CUI_LoadingLabelBottom::Render()
     vOrigin = vMeasure * 0.5f;
     CGameInstance::GetInstance()->DrawFont(L"ÇÑÄÄ°íµñ", m_strToolTips, vPos, Vec4(1.f, 1.f, 1.f, 1.0f), 0.0f, vOrigin, vScale);
     return S_OK;
+}
+
+void CUI_LoadingLabelBottom::Set_ToolTip(const wstring& strToolTip)
+{
+    m_strToolTips = strToolTip;
 }
 
 HRESULT CUI_LoadingLabelBottom::Ready_Components()

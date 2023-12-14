@@ -25,6 +25,9 @@
 #include "UI_ServerGrid.h"
 #include "UI_ServerLogo.h"
 #include "UI_ServerEntranceButton.h"
+#include "UI_Server.h"
+#include "UI_Loading.h"
+#include "UI_LoadingFill.h"
 #include "Monster_Zombie.h"
 #include "Monster_Plant.h"
 #include "UI_TextBox.h"
@@ -243,6 +246,14 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		return E_FAIL;
 
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ServerUI"),
+		CUI_Server::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingUI"),
+		CUI_Loading::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 
@@ -278,16 +289,15 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 
 HRESULT CLoader::Loading_For_Level_Bern()
 {
-
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	CUI_LoadingFill::m_fLoadingSizeX = 77.f;
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
 	/* For.Mesh */
 	m_strLoading = TEXT("메시를 로딩 중 입니다.");
-	
 
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
@@ -330,16 +340,17 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CWeapon_Shot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+<<<<<<< HEAD
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot_2"),
 		CWeapon_Shot_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
+=======
+>>>>>>> origin/feature/Seokhyeon
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
 		return E_FAIL;
-
-
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -514,6 +525,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 154.f;
 	}
 
 	{
@@ -524,6 +536,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 231.f;
 	}
 
 	{
@@ -534,6 +547,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 308.f;
 	}
 
 	{
@@ -544,6 +558,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 385.f;
 	}
 
 	{
@@ -554,6 +569,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 462.f;
 	}
 
 	{
@@ -564,6 +580,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 539.f;
 	}
 
 	{
@@ -574,6 +591,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 616.f;
 	}
 
 	{
@@ -584,6 +602,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 693.f;
 	}
 
 	{
@@ -594,6 +613,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 800.f;
 	}
 
 	{
@@ -604,6 +624,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 1000.f;
 	}
 
 
@@ -615,6 +636,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 1200.f;
 	}
 
 	{
@@ -625,6 +647,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
+		CUI_LoadingFill::m_fLoadingSizeX = 1500.f;
 	}
 
 	{

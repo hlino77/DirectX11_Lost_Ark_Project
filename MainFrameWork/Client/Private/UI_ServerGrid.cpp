@@ -27,6 +27,8 @@ HRESULT CUI_ServerGrid::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_strObjectTag = TEXT("Server_Grid");
+
 	if(nullptr != pArg)
 	{
 		UIDESC* pDesc = static_cast<UIDESC*>(pArg);
