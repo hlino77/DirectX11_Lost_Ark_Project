@@ -494,6 +494,7 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 
 	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
+	pPlayer->Set_TargetMatrix(matWorld);
 	pPlayer->Get_TransformCom()->Set_Scale(vScale);
 	CNavigationMgr::GetInstance()->Find_FirstCell(pPlayer);
 

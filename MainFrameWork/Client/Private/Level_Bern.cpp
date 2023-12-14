@@ -340,6 +340,7 @@ void CLevel_Bern::Wait_ServerLevelState(LEVELSTATE eState)
 	}
 }
 
+
 HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
