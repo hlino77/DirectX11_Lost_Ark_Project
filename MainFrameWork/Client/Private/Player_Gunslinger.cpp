@@ -87,8 +87,6 @@ HRESULT CPlayer_Gunslinger::Render()
 {
 	__super::Render();
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	
 	for (size_t i = 0; i < (_uint)PART::_END; i++)
 	{
 		if (nullptr == m_pModelPartCom[i]) continue;
@@ -98,24 +96,26 @@ HRESULT CPlayer_Gunslinger::Render()
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
 			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-				return S_OK;
+				return E_FAIL;
 
 			string hair = m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j));
+
 			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
 			{
 				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4));
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
 			}
 
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
+				FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
 			{
 				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
-					return S_OK;
+					return E_FAIL;
 			}
 			else
 			{
 				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 2)))
-					return S_OK;
+					return E_FAIL;
 			}
 
 			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
@@ -123,11 +123,9 @@ HRESULT CPlayer_Gunslinger::Render()
 				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4));
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4));
 			}
-
 		}
 	}
 
-	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -228,7 +226,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
 
-	m_pModelCom->Set_CurrAnim(448);
+	m_pModelCom->Set_CurrAnim(192);
 
 	return S_OK;
 }

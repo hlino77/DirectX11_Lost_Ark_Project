@@ -1,31 +1,31 @@
 #include "Client_Shader_Defines.hlsl"
+#include "Client_Shader_PBR.hlsl"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix			g_ViewMatrixInv, g_ProjMatrixInv;
 matrix			g_LightViewMatrix, g_LightProjMatrix;
 matrix			g_StaticLightViewMatrix;
 
-
 vector			g_vLightDir;
 vector			g_vLightDiffuse;
 vector			g_vLightAmbient;
-vector			g_vLightSpecular;
+vector			g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
+vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 Texture2D		g_NormalTexture;
 Texture2D		g_DiffuseTexture;
 Texture2D		g_ShadeTexture;
+Texture2D		g_SpecularTexture;
 Texture2D		g_DepthTexture;
 Texture2D		g_ModelNormalTexture;
 Texture2D		g_BlurTexture;
 Texture2D		g_ShadowDepthTexture;
 Texture2D		g_StaticShadowDepthTexture;
 
-float3			g_CamPosition;
-
+float4			g_vCamPosition;
 
 Texture2D		g_Texture;
-
 
 float2  g_PixelSize;
 int     g_KernelSize; //커널은 이미지 처리에서 필터 또는 윈도우라고도 불리는 작은 행렬 또는 마스크
@@ -34,12 +34,9 @@ float	g_WeightAtt;
 
 float	g_fBias;
 
-
-
 float	g_fShadowSizeRatio;
 float	g_fStaticShadowSizeRatio;
 float2	g_vWinSize;
-
 
 sampler DefaultSampler = sampler_state {
 
@@ -68,8 +65,6 @@ struct VS_OUT
 	float2		vTexcoord : TEXCOORD0;
 };
 
-
-
 VS_OUT VS_MAIN(/* 정점 */VS_IN In)
 {
 	VS_OUT			Out = (VS_OUT)0;
@@ -97,7 +92,6 @@ struct PS_OUT
 	float4	vColor : SV_TARGET0;
 };
 
-
 PS_OUT PS_MAIN_DEBUG(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
@@ -110,8 +104,8 @@ PS_OUT PS_MAIN_DEBUG(PS_IN In)
 struct PS_OUT_LIGHT
 {
 	float4	vShade : SV_TARGET0;	
+	float4	vSpecular : SV_TARGET1;	
 };
-
 
 //PCF
 float PCF_ShadowCalculation(float4 fragPosLightSpace, float fBias)
@@ -123,7 +117,6 @@ float PCF_ShadowCalculation(float4 fragPosLightSpace, float fBias)
 	projCoords.x = projCoords.x * 0.5f + 0.5f;
 	projCoords.y = projCoords.y * -0.5f + 0.5f;
 
-	
 	float2 vTexCoords = saturate(projCoords.xy);
 
 	if (vTexCoords.x != projCoords.x || vTexCoords.y != projCoords.y)
@@ -132,8 +125,7 @@ float PCF_ShadowCalculation(float4 fragPosLightSpace, float fBias)
 	float currentDepth = projCoords.z;
 	if (currentDepth > 1.0)
 		return 1.0;
-
-
+	
 	//fragPosLightSpace.w -= fBias;
 
 	currentDepth -= fBias;
@@ -154,7 +146,6 @@ float PCF_ShadowCalculation(float4 fragPosLightSpace, float fBias)
 	shadow /= 9.0f;
 	return shadow;
 }
-
 
 float PCF_StaticShadowCalculation(float4 fragPosLightSpace, float fBias)
 {
@@ -197,29 +188,20 @@ float PCF_StaticShadowCalculation(float4 fragPosLightSpace, float fBias)
 	return shadow;
 }
 
-
 PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
 {
 	PS_OUT_LIGHT		Out = (PS_OUT_LIGHT)0;
 
-	//vector		vModelNormalDesc = g_ModelNormalTexture.Sample(PointSampler, In.vTexcoord);
-	/*if (vModelNormalDesc.a != 1.0f)
-	{
-
-	}*/
-
-	vector		vNormalDesc = g_NormalTexture.Sample(PointSampler, In.vTexcoord);
-
-	vector		vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
-
+	vector	vNormalDesc = g_NormalTexture.Sample(PointSampler, In.vTexcoord);
+	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 	vector vDepth = g_DepthTexture.Sample(PointSampler, In.vTexcoord);
-
 	float fDot = saturate(dot(normalize(g_vLightDir) * -1.f, vNormal));
 
 	Out.vShade = (g_vLightDiffuse * fDot) + (g_vLightAmbient * g_vMtrlAmbient);
-
-
-
+	
+	// 여기부터 Specular
+    vector vReflect = reflect(normalize(g_vLightDir), vNormal);
+	
 	vector vWorldPos;
 
 	/* 투영스페이스 상의 위치를 구한다. */        //vShadowDepth = input.lightViewPosition.w / 2000.f
@@ -235,34 +217,13 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
 	/* 월드까지 가자. */
 	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
-	vWorldPos.w = 1.0f;
-
-
-	vector		vModelNormalDesc = g_ModelNormalTexture.Sample(PointSampler, In.vTexcoord);
-	float4		vResultNormal = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	if (vModelNormalDesc.a != 1.0f)
-	{
-		float3 vCamPosition = g_CamPosition;
-		float3 vPixelPos = vWorldPos.xyz;
-		float3 vDir = vCamPosition - vPixelPos;
-		float3 vModelNormal = vModelNormalDesc.xyz * 2.f - 1.f;
-
-		float fNormalDot = dot(normalize(vDir), vModelNormal);
-
-		if (fNormalDot < 0.2f)
-			vResultNormal.xyz = pow(fNormalDot / 0.2f, 2.0f);
-		else
-			Out.vShade = saturate(Out.vShade * 1.5f);
-	}
-
-
-	Out.vShade *= vResultNormal;
+    float4 vLook = vWorldPos - g_vCamPosition;
+	
+    Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(saturate(dot(normalize(vLook) * -1.f, normalize(vReflect))), 20.f);
+	//
 
 	return Out;
 }
-
-
-
 
 PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 {
@@ -274,7 +235,6 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 
 	vector vDepth = g_DepthTexture.Sample(PointSampler, In.vTexcoord);
 
-
 	float fDot = saturate(dot(normalize(g_vLightDir) * -1.f, vNormal));
 
 	float fNormalOffset = g_fBias;
@@ -284,10 +244,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 
 	//float fBias = g_fBias;
 
-
 	//float fBias = g_fBias;
-
-	
 
 	Out.vShade = (g_vLightDiffuse * fDot) + (g_vLightAmbient * g_vMtrlAmbient);
 
@@ -310,9 +267,6 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 
 	vWorldPos.w = 1.0f;
 
-	
-
-
 	//그림자
 
 	float fResultShadow = 1.0f;
@@ -321,7 +275,6 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 	vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
 
 	//float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
-
 
 	//if (fStaticShadow > 0.51f)
 	//{
@@ -334,8 +287,6 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(PS_IN In)
 	//}
 	//else
 	//	fResultShadow = fStaticShadow;
-
-
 
 	//
 	vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
@@ -359,8 +310,9 @@ PS_OUT PS_MAIN_DEFERRED(PS_IN In)
 	if (vDiffuse.a == 0.f)
 		discard;
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexcoord);
+	vector		vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexcoord);
 
-	Out.vColor = vDiffuse * vShade;
+    Out.vColor = vDiffuse * vShade + vSpecular;
 
 	return Out;
 }

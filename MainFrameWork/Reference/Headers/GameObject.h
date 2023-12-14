@@ -35,9 +35,8 @@ public:
 	virtual void				LateTick(_float fTimeDelta);
 	virtual HRESULT				Render();
 	virtual HRESULT				Render_Instance(ID3D11Buffer * pInstanceBuffer, _uint iSize) { return S_OK; }
-	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
-	virtual HRESULT				Render_MakeSRV() { return S_OK; }
-
+	virtual HRESULT				Render_ShadowDepth(){ return S_OK; }
+	virtual HRESULT				Render_MakeSRV()	{ return S_OK; }
 
 	virtual void				Add_InstanceData(vector<Vec4>&BufferData) {};
 
@@ -51,9 +50,11 @@ public:
 public:
 	class CComponent*			Get_Component(const wstring & strComponentTag);
 
-	class CTransform*			Get_TransformCom() { return m_pTransformCom; }
-	class CModel*				Get_ModelCom() { return m_pModelCom; }
-	class CRigidBody*			Get_RigidBody() { return m_pRigidBody; }
+	class CTransform*			Get_TransformCom()	{ return m_pTransformCom; }
+	class CShader*				Get_ShaderCom()		{ return m_pShaderCom; }
+	class CRenderer*			Get_RendererCom()	{ return m_pRendererCom; }
+	class CModel*				Get_ModelCom()		{ return m_pModelCom; }
+	class CRigidBody*			Get_RigidBody()		{ return m_pRigidBody; }
 
 public:
 	virtual HRESULT				SetUp_State(Matrix StateMatrix) { return S_OK; }
@@ -155,7 +156,7 @@ protected:
 	class CModel*					m_pModelCom = nullptr;
 	class CStateMachine*			m_pStateMachine = nullptr;
 	class CRigidBody*				m_pRigidBody = nullptr;
-
+	class CRenderer*				m_pRendererCom = nullptr;
 
 	unordered_map<_uint, class CSphereCollider*> m_Coliders;
 protected:

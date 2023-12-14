@@ -14,7 +14,7 @@ class ENGINE_DLL CShader final : public CComponent
 public:
 	typedef struct tagPassDesc
 	{
-		wstring									strName;
+		string									strName;
 		ID3DX11EffectPass*						pPass = nullptr;
 		D3DX11_PASS_SHADER_DESC					passVsDesc;
 		D3DX11_EFFECT_SHADER_DESC				effectVsDesc;
@@ -25,10 +25,11 @@ public:
 	
 	typedef struct tagTechniqueDesc
 	{
-		wstring					strName;
+		string					strName;
 		D3DX11_TECHNIQUE_DESC	desc;
 		ID3DX11EffectTechnique* pTechnique = nullptr;
 		vector<PASSDESC>		vecPasses;
+		unordered_map<string, PASSDESC*, djb2Hasher>	hashPasses;
 
 	}TECHNIQUEDESC;
 
@@ -42,8 +43,9 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 
 public:
+	HRESULT Push_GlobalWVP();
 	HRESULT Push_GlobalVP();
-	HRESULT Push_ShadowVP();
+	HRESULT Push_ShadowWVP();
 
 	HRESULT Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength = 0);
 
@@ -64,6 +66,7 @@ public:
 
 public: /* 이 셰이더의 특정 패스로 그린다. */
 	HRESULT Begin(_uint iPassIndex, _uint iTechniqueIndex = 0);
+	HRESULT Begin(const string& strPassName, _uint iTechniqueIndex = 0);
 	HRESULT Begin();
 
 private:
@@ -79,7 +82,9 @@ private:
 	_int					m_iPassIndex = 0;
 
 	using CBUFFERS = unordered_map<string, pair<CConstantBuffer*, ComPtr<ID3DX11EffectConstantBuffer>>, djb2Hasher>;
-	static CBUFFERS	m_hashConstantBuffers;
+	CBUFFERS*				m_hashConstantBuffers;
+
+	static	unordered_map<ID3DX11Effect*, CBUFFERS*> m_hashBufferGroups;
 
 public:
 	static CShader* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, const wstring& strShaderFilePath, const D3D11_INPUT_ELEMENT_DESC * pElements, _uint iNumElements);

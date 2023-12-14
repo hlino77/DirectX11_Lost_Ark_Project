@@ -57,10 +57,6 @@ protected:
 	_bool					m_IsRender = { true };
 
 protected:
-	class CRenderer*		m_pRendererCom = { nullptr };
-	class CShader*			m_pShaderCom = { nullptr };
-
-protected:
 	HRESULT Compute_RenderMatrix(Matrix ChildMatrix);
 
 public:

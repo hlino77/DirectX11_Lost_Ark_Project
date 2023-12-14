@@ -1,5 +1,4 @@
-#include "Client_Shader_Defines.hlsl"
-#include "Client_Shader_Global.hlsl"
+#include "Client_Shader_Light.hlsl"
 
 float		g_BlendRatio;
 float4		g_vBlurColor;
@@ -9,9 +8,6 @@ float4		g_vHairColor_1;
 float4		g_vHairColor_2;
 
 matrix		g_BoneMatrices[800];
-
-Texture2D	g_DiffuseTexture;
-Texture2D	g_NormalTexture;
 
 sampler DefaultSampler = sampler_state {
 
@@ -124,7 +120,7 @@ struct PS_OUT
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
-	float4		vModelNormal : SV_TARGET3;
+	float4		vSpecular : SV_TARGET3;
 };
 
 
@@ -154,7 +150,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vModelNormal = Out.vNormal;
+	//Out.vModelNormal = Out.vNormal;
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
 
     if (0.2f >= Out.vDiffuse.a)
@@ -204,8 +200,9 @@ PS_OUT PS_TANGENT(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
-
+	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    Out.vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
+	
 	if (0.2f >= Out.vDiffuse.a)
 		discard;
 
@@ -213,22 +210,15 @@ PS_OUT PS_TANGENT(PS_IN In)
     {
         float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
         float4 haircolor_2 = g_vHairColor_2 * (1.f - Out.vDiffuse.g);
-	
+		
         float4 vBlendedHairColor = haircolor_1 + haircolor_2;
         Out.vDiffuse = saturate(float4(vBlendedHairColor.rgb, 1.f));
     }
 	
-	vector	vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
-	float3	vNormal = vNormalDesc.xyz * 2.f - 1.f;
-
-	float3x3		WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal.xyz);
-	vNormal = normalize(mul(vNormal, WorldMatrix));
-
-	Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vModelNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
-
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
+    Out.vNormal = In.vNormal;
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
 
 	return Out;
 }

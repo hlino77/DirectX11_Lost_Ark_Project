@@ -80,6 +80,7 @@ public:
 	HRESULT Set_Animation_Transforms();
 	HRESULT Set_AnimationBlend_Transforms();
 	HRESULT Render(class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
+	HRESULT Render(class CShader* pShader, _uint iMeshIndex, const string& strPassName);
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iStride, _uint iPassIndex = 0);
 

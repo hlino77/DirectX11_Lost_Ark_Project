@@ -395,9 +395,22 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 
 HRESULT CModel::Render(CShader* pShader, _uint iMeshIndex, _uint iPassIndex)
 {
-	pShader->Begin(iPassIndex);
+	if (FAILED(pShader->Begin(iPassIndex)))
+		return E_FAIL;
 
-	m_Meshes[iMeshIndex]->Render();
+	if (FAILED(m_Meshes[iMeshIndex]->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CModel::Render(CShader* pShader, _uint iMeshIndex, const string& strPassName)
+{
+	if (FAILED(pShader->Begin(strPassName)))
+		return E_FAIL;
+
+	if (FAILED(m_Meshes[iMeshIndex]->Render()))
+		return E_FAIL;
 
 	return S_OK;
 }

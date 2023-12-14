@@ -137,8 +137,10 @@ private:
 
 	_float m_fBias = 0.0000022f;
 
-
 	_bool m_bRenderStaticShadow = false;
+
+	_bool m_bTargetOnOff = false;
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

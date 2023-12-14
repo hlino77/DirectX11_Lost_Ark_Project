@@ -125,7 +125,7 @@ HRESULT CPlayer::Render()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	if (FAILED(m_pShaderCom->Push_GlobalVP()))
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
@@ -138,7 +138,7 @@ HRESULT CPlayer::Render_ShadowDepth()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	if (FAILED(m_pShaderCom->Push_ShadowVP()))
+	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
@@ -151,7 +151,7 @@ HRESULT CPlayer::Render_ShadowDepth()
 			return S_OK;*/
 
 		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-			return E_FAIL;*/
+			return S_OK;*/
 
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
@@ -160,9 +160,6 @@ HRESULT CPlayer::Render_ShadowDepth()
 
 	return S_OK;
 }
-
-
-
 
 void CPlayer::Find_NearTarget()
 {

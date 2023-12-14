@@ -15,12 +15,12 @@ CComponent::CComponent(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 CComponent::CComponent(const CComponent & rhs)
 	: m_pDevice(rhs.m_pDevice)
 	, m_pContext(rhs.m_pContext)
-	, m_pOwner(rhs.m_pOwner)
+	//, m_pOwner(rhs.m_pOwner)
 	, m_pGameInstance(rhs.m_pGameInstance)
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
-	Safe_AddRef(m_pOwner);
+	//Safe_AddRef(m_pOwner);
 	Safe_AddRef(m_pGameInstance);
 }
 

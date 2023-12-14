@@ -29,7 +29,7 @@ HRESULT CPartObject::Initialize(void* pArg)
 		Safe_AddRef(m_pParentTransform);
 
 		m_pParentModel = pPartDesc->pPartenModel;
-		Safe_AddRef(m_pParentTransform);
+		Safe_AddRef(m_pParentModel);
 
 		m_iSocketBoneIndex = pPartDesc->iSocketBoneIndex;
 

@@ -116,7 +116,7 @@ HRESULT CMonster_Zombie::Render()
 
 	m_PlayAnimation.get();
 
-	if (FAILED(m_pShaderCom->Push_GlobalVP()))
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
@@ -127,8 +127,8 @@ HRESULT CMonster_Zombie::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
+			FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
 		{
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
 				return S_OK;
@@ -145,7 +145,7 @@ HRESULT CMonster_Zombie::Render()
 
 HRESULT CMonster_Zombie::Render_ShadowDepth()
 {
-	if (FAILED(m_pShaderCom->Push_ShadowVP()))
+	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
