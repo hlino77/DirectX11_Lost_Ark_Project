@@ -15,6 +15,7 @@
 /* State */
 #include "State_GN_Idle.h"
 #include "State_GN_Run.h"
+#include "NavigationMgr.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -53,6 +54,19 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
 	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
+
+
+	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
+	m_matTargetWorld = Desc->matWorld;
+	m_vTargetPos = Desc->vTargetPos;
+
+	Vec3 vScale = m_pTransformCom->Get_Scale();
+	m_pTransformCom->Set_WorldMatrix(Desc->matWorld);
+	m_pTransformCom->Set_Scale(vScale);
+
+	m_pStateMachine->Change_State(Desc->szState);
+
+	CNavigationMgr::GetInstance()->Find_FirstCell(this);
 
 	return S_OK;
 }

@@ -32,6 +32,10 @@ public:
 		_bool	bControl;
 		_int	iObjectID;
 		_uint	iLayer;
+		Matrix	matWorld;
+		Vec3	vTargetPos;
+		wstring szState;
+		wstring szNickName;
 	}MODELDESC;
 
 public:

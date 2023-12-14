@@ -240,6 +240,7 @@
     <ClInclude Include="..\Public\State.h" />
     <ClInclude Include="..\Public\StateMachine.h" />
     <ClInclude Include="..\Public\Target_Manager.h" />
+    <ClInclude Include="..\Public\TextBox.h" />
     <ClInclude Include="..\Public\Texture.h" />
     <ClInclude Include="..\Public\Text_Manager.h" />
     <ClInclude Include="..\Public\ThreadManager.h" />
@@ -326,6 +327,7 @@
     <ClCompile Include="..\Private\State.cpp" />
     <ClCompile Include="..\Private\StateMachine.cpp" />
     <ClCompile Include="..\Private\Target_Manager.cpp" />
+    <ClCompile Include="..\Private\TextBox.cpp" />
     <ClCompile Include="..\Private\Texture.cpp" />
     <ClCompile Include="..\Private\Text_Manager.cpp" />
     <ClCompile Include="..\Private\ThreadManager.cpp" />

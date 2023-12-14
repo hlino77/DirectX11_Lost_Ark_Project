@@ -2,6 +2,11 @@
 #include "Base.h"
 #include "Lock.h"
 
+BEGIN(Engine)
+class CTextBox;
+END
+
+
 BEGIN(Client)
 class CUI_TextBox;
 
@@ -50,6 +55,7 @@ private:
 	void	StartChat();
 	void	EndChat();
 
+	void	Update_InputChat();
 
 
 private:
@@ -89,8 +95,8 @@ private:
 	wstring m_szFont;
 
 	//TextBox
-	CUI_TextBox* m_pChatWindow = nullptr;
-	CUI_TextBox* m_pInputWindow = nullptr;
+	CTextBox* m_pInputWindow = nullptr;
+	CTextBox* m_pChatWindow = nullptr;
 
 	USE_LOCK
 public:

@@ -305,6 +305,7 @@ HRESULT CRenderer::Draw()
 	if (m_bRenderStaticShadow)
 		Render_StaticShadow();
 
+	Update_TextBox();
 	Render_MakeSRV();
 
 
@@ -356,6 +357,19 @@ HRESULT CRenderer::Bind_TextBoxSRV(CShader* pShader)
 {
 	if (FAILED(m_pTarget_Manager->Bind_SRV(pShader, TEXT("Target_TextBox"), "g_TextBoxTexture")))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Update_TextBox()
+{
+	for (auto& iter : m_RenderObjects[UPDATE_TEXTBOX])
+	{
+		if (FAILED(iter->Render_MakeSRV()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[UPDATE_TEXTBOX].clear();
 
 	return S_OK;
 }

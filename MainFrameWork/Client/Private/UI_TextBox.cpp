@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_TextBox.h"
 #include "GameInstance.h"
+#include "TextBox.h"
 
 CUI_TextBox::CUI_TextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -41,6 +42,16 @@ HRESULT CUI_TextBox::Initialize(void* pArg)
 
 
 	m_vUV = Vec2(1.0f, 1.0f);
+
+
+	CTextBox::TEXTBOXDESC tTextBoxDesc;
+	tTextBoxDesc.szTextBoxTag = L"TestWindow";
+	tTextBoxDesc.vSize = Vec2(900.0f, 900.0f);
+
+
+	m_pTestTextBox = dynamic_cast<CTextBox*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, L"Prototype_GameObject_TextBox", &tTextBoxDesc));
+	if(m_pTestTextBox == nullptr)
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -85,6 +96,8 @@ HRESULT CUI_TextBox::Render()
 
 	m_pVIBufferCom->Render();
 
+
+
 	return S_OK;
 }
 
@@ -114,6 +127,8 @@ void CUI_TextBox::Set_Text(const wstring& szTextTag, const wstring& szFont, cons
 	tText.vOrigin = vOrigin;
 	tText.fRotation = fRotation;
 	tText.vTextColor = vColor;
+
+	m_pTestTextBox->Set_Text(szTextTag, szFont, szText, vTextPos, vScale, vOrigin, fRotation, vColor);
 }
 
 void CUI_TextBox::Set_Pos(_float fX, _float fY)
@@ -123,28 +138,28 @@ void CUI_TextBox::Set_Pos(_float fX, _float fY)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+	m_pTestTextBox->Set_Pos(m_fX + 200.0f, m_fY);
 }
 
 void CUI_TextBox::Appear()
 {
 	m_bActive = true;
 	m_eState = UISTATE::TICK;
+	m_pTestTextBox->Set_Active(true);
 }
 
 void CUI_TextBox::Disappear()
 {
 	m_bActive = false;
 	m_eState = UISTATE::DISAPPEAR;
+	m_pTestTextBox->Set_Active(false);
 }
 
 HRESULT CUI_TextBox::Ready_Components()
 {
 	__super::Ready_Components();
 
-	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Select_GridWnd"),
-		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
 
 	return S_OK;
 }

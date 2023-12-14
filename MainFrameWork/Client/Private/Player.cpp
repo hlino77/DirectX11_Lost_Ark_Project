@@ -43,6 +43,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_bControl = Desc->bControl;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
+	m_szNickName = Desc->szNickName;
+
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -60,6 +62,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iHp = 100;
 	m_iMaxHp = 100;
 
+
+	
 
     return S_OK;
 }

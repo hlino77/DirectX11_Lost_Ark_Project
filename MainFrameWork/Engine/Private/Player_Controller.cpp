@@ -116,7 +116,7 @@ void CPlayer_Controller::Input(const _float& fTimeDelta)
 
 void CPlayer_Controller::Move(const _float& fTimeDelta)
 {
-	if (Vec3(m_vNextMove - m_vPrePos).Length() <= 0.03f)
+	if (Vec3(m_vNextMove - m_vPrePos).Length() <= 0.05f)
 	{
 		m_bMoveStop = true;
 		return;
