@@ -52,6 +52,7 @@ public:
 	_float	Get_Anim_MaxFrameRatio(_uint iAnimation);
 	_uint	Get_Anim_Frame(_uint iAnimation);
 	_uint	Get_Anim_MaxFrame(_uint iAnimation);
+	void	Set_Anim_Speed(_uint iAnimation, _float fSpeed);
 
 
 	_int	Find_BoneIndex(const wstring& szBoneName);
@@ -70,9 +71,13 @@ public:
 	HRESULT SetUp_OnShader(class CShader* pShader, _uint iMaterialIndex, aiTextureType eTextureType, const char* strConstantName);
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader);
 
-	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
+	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false);
 	HRESULT Set_NextAnimation();
+
 	HRESULT Play_Animation(_float fTimeDelta);
+	HRESULT Play_Proceed_Animation(_float fTimeDelta);
+	HRESULT Play_Reverse_Animation(_float fTimeDelta);
+
 	HRESULT Set_Animation_Transforms();
 	HRESULT Set_AnimationBlend_Transforms();
 	HRESULT Render(class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
@@ -83,7 +88,10 @@ public:
 
 public: /* ;hj가 추가한 함수 */
 	string  Get_Material_Name(_uint iMaterialIndex) { return m_Materials[iMaterialIndex].strName; }
-	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, _float fRootDist = 1.5f, Vec4 TargetPos = XMVectorZero());
+
+	void	Set_RootDist(_float fDist) { m_fRootDist = fDist; }
+	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos = XMVectorZero());
+
 	_bool	Is_HairTexture(_uint iMaterialIndex);
 
 private:
@@ -102,9 +110,14 @@ private:
 	TYPE						m_eModelType = TYPE_END;
 
 private:
+	/* HJ 추가 */
 	Vec3						m_vRootPos;
 	Vec3						m_vPreRootPos;
 	Vec3						m_vCurRootPos;
+
+	_float						m_fRootDist;
+	_bool						m_bRootY = { false };
+	_bool						m_bReverse = { false };
 
 private:
 	_uint							m_iNumMeshes = 0;

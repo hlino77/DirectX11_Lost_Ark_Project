@@ -329,7 +329,9 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_HPDefaultTypeInternal _S_HP_d
 constexpr S_CREATE_PLAYER::S_CREATE_PLAYER(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : matworld_()
+  , vtargetpos_()
   , strnickname_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , strstate_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
   , iobjectid_(0)
   , iclass_(0)
   , bcontroll_(false){}
@@ -570,6 +572,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::S_CREATE_PLAYER, bcontroll_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_CREATE_PLAYER, matworld_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_CREATE_PLAYER, strnickname_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_CREATE_PLAYER, vtargetpos_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_CREATE_PLAYER, strstate_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_CHAT, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -611,8 +615,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 168, -1, sizeof(::Protocol::S_SKILLEXPLOSION)},
   { 174, -1, sizeof(::Protocol::S_HP)},
   { 183, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
-  { 193, -1, sizeof(::Protocol::S_CHAT)},
-  { 199, -1, sizeof(::Protocol::S_MONSTERSTATE)},
+  { 195, -1, sizeof(::Protocol::S_CHAT)},
+  { 201, -1, sizeof(::Protocol::S_MONSTERSTATE)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -646,7 +650,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
   "Struct.proto\"I\n\006S_TIME\022\021\n\tiSendTick\030\001 \001("
   "\004\022\025\n\riServerMinute\030\002 \001(\r\022\025\n\rfServerSecon"
-  "d\030\003 \001(\002\".\n\007S_LOGIN\022\023\n\013strNickName\030\001 \001(\t\022"
+  "d\030\003 \001(\002\".\n\007S_LOGIN\022\023\n\013strNickName\030\001 \001(\014\022"
   "\016\n\006iClass\030\002 \001(\005\" \n\014S_OPEN_LEVEL\022\020\n\010iLeve"
   "lID\030\001 \001(\004\"$\n\rS_LEVEL_STATE\022\023\n\013iLevelStat"
   "e\030\001 \001(\r\"\303\001\n\020S_CREATE_OBJCECT\022\021\n\tiObjectI"
@@ -677,7 +681,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\030\003 \001(\005\022\021\n\tiColLayer\030\004 \001(\005\022\020\n\010iOtherID\030\005 "
   "\001(\005\022\023\n\013iOtherLayer\030\006 \001(\005\022\026\n\016iOtherColLay"
   "er\030\007 \001(\005\022\016\n\006bEnter\030\010 \001(\010\"!\n\nS_NICKNAME\022\023"
-  "\n\013strNickName\030\001 \001(\t\"/\n\nS_USERINFO\022!\n\005tUs"
+  "\n\013strNickName\030\001 \001(\014\"/\n\nS_USERINFO\022!\n\005tUs"
   "er\030\001 \003(\0132\022.Protocol.UserInfo\"v\n\014S_NEARTA"
   "RGET\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022"
   "\016\n\006iLayer\030\003 \001(\005\022\032\n\022iTargetObjectLayer\030\004 "
@@ -692,14 +696,15 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\020S_SKILLEXPLOSION\022%\n\007tObject\030\001 \001(\0132\024.Pr"
   "otocol.ObjectInfo\"F\n\004S_HP\022\021\n\tiObjectID\030\001"
   " \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\013\n\003"
-  "iHP\030\004 \001(\005\"r\n\017S_CREATE_PLAYER\022\021\n\tiObjectI"
-  "D\030\001 \001(\005\022\016\n\006iClass\030\002 \001(\005\022\021\n\tbControll\030\003 \001"
-  "(\010\022\024\n\010matWorld\030\004 \003(\002B\002\020\001\022\023\n\013strNickName\030"
-  "\005 \001(\t\"\030\n\006S_CHAT\022\016\n\006szChat\030\001 \001(\014\"\222\001\n\016S_MO"
-  "NSTERSTATE\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030"
-  "\002 \001(\005\022\020\n\010strState\030\003 \001(\t\022\032\n\022iTargetObject"
-  "Layer\030\004 \001(\005\022\027\n\017iTargetObjectID\030\005 \001(\005\022\026\n\n"
-  "vTargetPos\030\006 \003(\002B\002\020\001b\006proto3"
+  "iHP\030\004 \001(\005\"\234\001\n\017S_CREATE_PLAYER\022\021\n\tiObject"
+  "ID\030\001 \001(\005\022\016\n\006iClass\030\002 \001(\005\022\021\n\tbControll\030\003 "
+  "\001(\010\022\024\n\010matWorld\030\004 \003(\002B\002\020\001\022\023\n\013strNickName"
+  "\030\005 \001(\014\022\026\n\nvTargetPos\030\006 \003(\002B\002\020\001\022\020\n\010strSta"
+  "te\030\007 \001(\t\"\030\n\006S_CHAT\022\016\n\006szChat\030\001 \001(\014\"\222\001\n\016S"
+  "_MONSTERSTATE\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLev"
+  "el\030\002 \001(\005\022\020\n\010strState\030\003 \001(\t\022\032\n\022iTargetObj"
+  "ectLayer\030\004 \001(\005\022\027\n\017iTargetObjectID\030\005 \001(\005\022"
+  "\026\n\nvTargetPos\030\006 \003(\002B\002\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -707,7 +712,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 2268, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 2311, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 24,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -1033,12 +1038,11 @@ const char* S_LOGIN::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string strNickName = 1;
+      // bytes strNickName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_strnickname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_LOGIN.strNickName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1078,13 +1082,9 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_strnickname().data(), static_cast<int>(this->_internal_strnickname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S_LOGIN.strNickName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_strnickname(), target);
   }
 
@@ -1110,10 +1110,10 @@ size_t S_LOGIN::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_strnickname());
   }
 
@@ -4231,12 +4231,11 @@ const char* S_NICKNAME::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string strNickName = 1;
+      // bytes strNickName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_strnickname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_NICKNAME.strNickName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -4269,13 +4268,9 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_strnickname().data(), static_cast<int>(this->_internal_strnickname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S_NICKNAME.strNickName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_strnickname(), target);
   }
 
@@ -4295,10 +4290,10 @@ size_t S_NICKNAME::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   if (!this->strnickname().empty()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_strnickname());
   }
 
@@ -6382,18 +6377,25 @@ class S_CREATE_PLAYER::_Internal {
 
 S_CREATE_PLAYER::S_CREATE_PLAYER(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  matworld_(arena) {
+  matworld_(arena),
+  vtargetpos_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:Protocol.S_CREATE_PLAYER)
 }
 S_CREATE_PLAYER::S_CREATE_PLAYER(const S_CREATE_PLAYER& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      matworld_(from.matworld_) {
+      matworld_(from.matworld_),
+      vtargetpos_(from.vtargetpos_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   strnickname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_strnickname().empty()) {
     strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_strnickname(), 
+      GetArenaForAllocation());
+  }
+  strstate_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_strstate().empty()) {
+    strstate_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_strstate(), 
       GetArenaForAllocation());
   }
   ::memcpy(&iobjectid_, &from.iobjectid_,
@@ -6404,6 +6406,7 @@ S_CREATE_PLAYER::S_CREATE_PLAYER(const S_CREATE_PLAYER& from)
 
 void S_CREATE_PLAYER::SharedCtor() {
 strnickname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+strstate_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&iobjectid_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&bcontroll_) -
@@ -6419,6 +6422,7 @@ S_CREATE_PLAYER::~S_CREATE_PLAYER() {
 void S_CREATE_PLAYER::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   strnickname_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  strstate_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void S_CREATE_PLAYER::ArenaDtor(void* object) {
@@ -6438,7 +6442,9 @@ void S_CREATE_PLAYER::Clear() {
   (void) cached_has_bits;
 
   matworld_.Clear();
+  vtargetpos_.Clear();
   strnickname_.ClearToEmpty();
+  strstate_.ClearToEmpty();
   ::memset(&iobjectid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&bcontroll_) -
       reinterpret_cast<char*>(&iobjectid_)) + sizeof(bcontroll_));
@@ -6482,12 +6488,30 @@ const char* S_CREATE_PLAYER::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // string strNickName = 5;
+      // bytes strNickName = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           auto str = _internal_mutable_strnickname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_CREATE_PLAYER.strNickName"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated float vTargetPos = 6 [packed = true];
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_vtargetpos(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53) {
+          _internal_add_vtargetpos(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // string strState = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          auto str = _internal_mutable_strstate();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_CREATE_PLAYER.strState"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -6543,14 +6567,25 @@ failure:
     target = stream->WriteFixedPacked(4, _internal_matworld(), target);
   }
 
-  // string strNickName = 5;
+  // bytes strNickName = 5;
   if (!this->strnickname().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_strnickname().data(), static_cast<int>(this->_internal_strnickname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S_CREATE_PLAYER.strNickName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         5, this->_internal_strnickname(), target);
+  }
+
+  // repeated float vTargetPos = 6 [packed = true];
+  if (this->_internal_vtargetpos_size() > 0) {
+    target = stream->WriteFixedPacked(6, _internal_vtargetpos(), target);
+  }
+
+  // string strState = 7;
+  if (!this->strstate().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_strstate().data(), static_cast<int>(this->_internal_strstate().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.S_CREATE_PLAYER.strState");
+    target = stream->WriteStringMaybeAliased(
+        7, this->_internal_strstate(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -6581,11 +6616,30 @@ size_t S_CREATE_PLAYER::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // string strNickName = 5;
+  // repeated float vTargetPos = 6 [packed = true];
+  {
+    unsigned int count = static_cast<unsigned int>(this->_internal_vtargetpos_size());
+    size_t data_size = 4UL * count;
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    total_size += data_size;
+  }
+
+  // bytes strNickName = 5;
   if (!this->strnickname().empty()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_strnickname());
+  }
+
+  // string strState = 7;
+  if (!this->strstate().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_strstate());
   }
 
   // int32 iObjectID = 1;
@@ -6639,8 +6693,12 @@ void S_CREATE_PLAYER::MergeFrom(const S_CREATE_PLAYER& from) {
   (void) cached_has_bits;
 
   matworld_.MergeFrom(from.matworld_);
+  vtargetpos_.MergeFrom(from.vtargetpos_);
   if (!from.strnickname().empty()) {
     _internal_set_strnickname(from._internal_strnickname());
+  }
+  if (!from.strstate().empty()) {
+    _internal_set_strstate(from._internal_strstate());
   }
   if (from.iobjectid() != 0) {
     _internal_set_iobjectid(from._internal_iobjectid());
@@ -6675,10 +6733,16 @@ void S_CREATE_PLAYER::InternalSwap(S_CREATE_PLAYER* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   matworld_.InternalSwap(&other->matworld_);
+  vtargetpos_.InternalSwap(&other->vtargetpos_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       &strnickname_, GetArenaForAllocation(),
       &other->strnickname_, other->GetArenaForAllocation()
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      &strstate_, GetArenaForAllocation(),
+      &other->strstate_, other->GetArenaForAllocation()
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S_CREATE_PLAYER, bcontroll_)

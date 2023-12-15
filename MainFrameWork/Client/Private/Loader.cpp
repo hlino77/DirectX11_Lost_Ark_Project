@@ -552,7 +552,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	Safe_AddRef(pGameInstance);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(270.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);

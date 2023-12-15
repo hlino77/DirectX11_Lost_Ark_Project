@@ -32,6 +32,10 @@ public:
 		_bool	bControl;
 		_int	iObjectID;
 		_uint	iLayer;
+		Matrix	matWorld;
+		Vec3	vTargetPos;
+		wstring szState;
+		wstring szNickName;
 	}MODELDESC;
 
 public:
@@ -86,7 +90,7 @@ public:
 
 
 	void					Set_State(const wstring& szName);
-	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReserve = false);
 
 
 	void					Find_NearTarget();

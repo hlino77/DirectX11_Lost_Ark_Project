@@ -10,11 +10,16 @@
 #include "ColliderOBB.h"
 #include "PhysXMgr.h"
 #include "Pool.h"
-
 #include "Player_Controller_GN.h"
+
 /* State */
 #include "State_GN_Idle.h"
 #include "State_GN_Run.h"
+#include "NavigationMgr.h"
+#include "State_GN_Dash.h"
+#include "State_GN_Attack_Hand1.h"
+#include "State_GN_Attack_Hand2.h"
+#include "State_GN_Attack_Hand3.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -46,13 +51,26 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 		if (FAILED(Ready_SkillUI()))
 			return E_FAIL;
 	}
-
 	m_fAttackMoveSpeed = 8.0f;
-
-	
 
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
 	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
+
+	CPlayer_Controller_GN::GN_IDENTITY m_eIdentity = m_pController->Get_GN_Identity();
+	Set_Weapon_RenderState(m_eIdentity);
+
+	/* 플레이어 공통 요소 */
+	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
+	m_matTargetWorld = Desc->matWorld;
+	m_vTargetPos = Desc->vTargetPos;
+
+	Vec3 vScale = m_pTransformCom->Get_Scale();
+	m_pTransformCom->Set_WorldMatrix(Desc->matWorld);
+	m_pTransformCom->Set_Scale(vScale);
+
+	m_pStateMachine->Change_State(Desc->szState);
+
+	CNavigationMgr::GetInstance()->Find_FirstCell(this);
 
 	return S_OK;
 }
@@ -63,7 +81,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
-
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -208,10 +225,39 @@ void CPlayer_Gunslinger::Set_Colliders(_float fTimeDelta)
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Center();
 }
 
+void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex)
+{
+	switch (iIndex)
+	{
+	case Client::CPlayer_Controller_GN::HAND:
+		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
+		break;
+	case Client::CPlayer_Controller_GN::SHOT:
+		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+		break;
+	case Client::CPlayer_Controller_GN::LONG:
+		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+		break;
+	}
+}
+
 HRESULT CPlayer_Gunslinger::Ready_Components()
 {
 	__super::Ready_Components();
 
+	/* 클래스 컨트롤러 */
 	CPlayer_Controller_GN::CONTROLL_DESC	Control_Desc;
 	Control_Desc.pOwner = this;
 	Control_Desc.pOwnerRigidBody = m_pRigidBody;
@@ -236,8 +282,6 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	strComName = L"Prototype_Component_Model_GN_Face";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
-
-	m_pModelCom->Set_CurrAnim(192);
 
 	return S_OK;
 }
@@ -273,29 +317,41 @@ HRESULT CPlayer_Gunslinger::Ready_Parts()
 		return E_FAIL;
 	m_Parts.emplace(CPartObject::PARTS::WEAPON_2, pParts);
 
-	///* For.Part_Weapon_3 */
-	//PartDesc_Weapon.pOwner = this;
-	//PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_3;
-	//PartDesc_Weapon.pParentTransform = m_pTransformCom;
-	//PartDesc_Weapon.pPartenModel = m_pModelCom;
-	//PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
-	//PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-	//pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Long"), &PartDesc_Weapon);
-	//if (nullptr == pParts)
-	//	return E_FAIL;
-	//m_Parts.emplace(CPartObject::PARTS::WEAPON_3, pParts);
+	/* For.Part_Weapon_3 */
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_3;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Long"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_Parts.emplace(CPartObject::PARTS::WEAPON_3, pParts);
 
-	///* For.Part_Weapon_3 */
-	//PartDesc_Weapon.pOwner = this;
-	//PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_4;
-	//PartDesc_Weapon.pParentTransform = m_pTransformCom;
-	//PartDesc_Weapon.pPartenModel = m_pModelCom;
-	//PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
-	//PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-	//pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Shot"), &PartDesc_Weapon);
-	//if (nullptr == pParts)
-	//	return E_FAIL;
-	//m_Parts.emplace(CPartObject::PARTS::WEAPON_4, pParts);
+	/* For.Part_Weapon_4 */
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_4;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Shot"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_Parts.emplace(CPartObject::PARTS::WEAPON_4, pParts);
+
+	/* For.Part_Weapon_5 */
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_5;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_GN_WP_Shot"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_Parts.emplace(CPartObject::PARTS::WEAPON_5, pParts);
 
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
@@ -303,11 +359,26 @@ HRESULT CPlayer_Gunslinger::Ready_Parts()
 
 HRESULT CPlayer_Gunslinger::Ready_State()
 {
-	m_pStateMachine->Add_State(TEXT("GN_Run"), CState_GN_Run::Create(TEXT("GN_Run"),
+	m_pStateMachine->Add_State(TEXT("Idle"), CState_GN_Idle::Create(TEXT("Idle"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("GN_Idle"), CState_GN_Idle::Create(TEXT("GN_Idle"),
+	m_pStateMachine->Add_State(TEXT("Run"), CState_GN_Run::Create(TEXT("Run"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dash"), CState_GN_Dash::Create(TEXT("Dash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Hand_1"), CState_GN_Attack_Hand1::Create(TEXT("Attack_Hand_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Hand_2"), CState_GN_Attack_Hand2::Create(TEXT("Attack_Hand_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Hand_3"), CState_GN_Attack_Hand3::Create(TEXT("Attack_Hand_3"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+
+	m_pStateMachine->Change_State(TEXT("Idle"));
 
 	return S_OK;
 }

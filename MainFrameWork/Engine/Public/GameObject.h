@@ -141,6 +141,10 @@ public:
 	_uint						Get_MaxHp() { return m_iMaxHp; }
 	void						Set_Hp(_int iHp) { m_iHp = iHp; }
 
+
+	void						Set_ServerState(const wstring& szState) { m_szState = szState; }
+	const wstring&				Get_ServerState() { return m_szState; }
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -159,13 +163,15 @@ protected:
 	class CModel*					m_pModelCom = nullptr;
 	class CStateMachine*			m_pStateMachine = nullptr;
 	class CRigidBody*				m_pRigidBody = nullptr;
-
+	class CRenderer*				m_pRendererCom = nullptr;
+	class CShader*					m_pShaderCom = nullptr;
 
 	unordered_map<_uint, class CSphereCollider*> m_Coliders;
 protected:
 	_float				m_fCamDistance = 0.f;
 	wstring				m_strObjectTag = L"";
 	wstring				m_szModelName = L"";
+	wstring				m_szState = L"";
 
 	_int				m_iObjType = -1;
 	_int				m_iObjectID = -1;

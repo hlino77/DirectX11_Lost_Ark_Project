@@ -205,7 +205,7 @@ void CLevel_Bern_Server::Wait_ClientLevelState(LEVELSTATE eState)
 
 HRESULT CLevel_Bern_Server::Broadcast_PlayerInfo()
 {
-	auto& ObjectList = CGameInstance::GetInstance()->Find_GameObjects(LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER);
+	auto& ObjectList = CGameInstance::GetInstance()->Find_GameObjects(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
 	if (ObjectList.size() == 0)
 		return S_OK;
@@ -219,7 +219,7 @@ HRESULT CLevel_Bern_Server::Broadcast_PlayerInfo()
 
 		auto tObject = pkt.add_tobject();
 		tObject->set_iobjectid(Object->Get_ObjectID());
-		tObject->set_ilevel(LEVELID::LEVEL_BERN);
+		tObject->set_ilevel(LEVELID::LEVEL_STATIC);
 		tObject->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 
 
@@ -233,9 +233,6 @@ HRESULT CLevel_Bern_Server::Broadcast_PlayerInfo()
 		matWorld->Resize(16, 0.0f);
 		Matrix matPlayerWorld = Object->Get_TransformCom()->Get_WorldMatrix();
 		memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
-
-		/*if (pPlayer->Get_ObjectTag() == L"Naruto")
-			cout << matPlayerWorld.m[3][0] << " " << matPlayerWorld.m[3][1] << " " << matPlayerWorld.m[3][2] << endl;*/
 	}
 
 

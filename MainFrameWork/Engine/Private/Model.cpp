@@ -105,6 +105,11 @@ _uint CModel::Get_Anim_Frame(_uint iAnimation)
 	return m_Animations[iAnimation]->Get_Frame();
 }
 
+void CModel::Set_Anim_Speed(_uint iAnimation, _float fSpeed)
+{
+	m_Animations[iAnimation]->Set_Speed(fSpeed);
+}
+
 _int CModel::Find_BoneIndex(const wstring& szBoneName)
 {
 	_int iIndex = 0;
@@ -180,21 +185,48 @@ HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
+HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse)
 {
 	WRITE_LOCK
 
 	if (iAnimIndex >= m_iNumAnimations || iAnimIndex < 0)
 		return E_FAIL;
 
-	m_Animations[iAnimIndex]->Reset_Animation();
+	m_bReverse = bReverse;
 
-	m_tReserveChange.m_fSumTime = 0.0f;
-	m_tReserveChange.m_iNextAnim = iAnimIndex;
-	m_tReserveChange.m_iNextAnimFrame = iStartFrame;
-	m_tReserveChange.m_iChangeFrame = iChangeFrame;
-	m_tReserveChange.m_fChangeTime = fChangeTime;
-	m_tReserveChange.m_fChangeRatio = 0.0f;
+	if (false == m_bReverse)
+	{
+		if (-1 == iStartFrame)
+			iStartFrame = m_Animations[iAnimIndex]->Get_MaxFrame();
+		if (-1 == iChangeFrame)
+			iChangeFrame = m_Animations[iAnimIndex]->Get_MaxFrame();
+
+		m_Animations[iAnimIndex]->Reset_Animation();
+		m_tReserveChange.m_fSumTime = 0.0f;
+		m_tReserveChange.m_iNextAnim = iAnimIndex;
+		m_tReserveChange.m_iNextAnimFrame = iStartFrame;
+		m_tReserveChange.m_iChangeFrame = iChangeFrame;
+		m_tReserveChange.m_fChangeTime = fChangeTime;
+		m_tReserveChange.m_fChangeRatio = 0.0f;
+	}
+	else if (true == m_bReverse)
+	{
+		m_Animations[iAnimIndex]->Reset_Reverse_Animation();
+
+		if (-1 == iStartFrame)
+			iStartFrame = m_Animations[iAnimIndex]->Get_MaxFrame();
+		if (-1 == iChangeFrame)
+			iChangeFrame = m_Animations[iAnimIndex]->Get_MaxFrame();
+
+		m_tReserveChange.m_fSumTime = 0.0f;
+		m_tReserveChange.m_iNextAnim = iAnimIndex;
+		m_tReserveChange.m_iNextAnimFrame = iStartFrame;
+		m_tReserveChange.m_iChangeFrame = iChangeFrame;
+		m_tReserveChange.m_fChangeTime = fChangeTime;
+		m_tReserveChange.m_fChangeRatio = 0.0f;
+	}
+	
+	m_fRootDist = fRootDist;
 
 	m_bReserved = true;
 	return S_OK;
@@ -210,13 +242,33 @@ HRESULT CModel::Set_NextAnimation()
 	m_tCurrChange = m_tReserveChange;
 	ZeroMemory(&m_tReserveChange, sizeof(CHANGEANIM));
 
-	m_Animations[m_tCurrChange.m_iNextAnim]->Set_Frame(m_tCurrChange.m_iNextAnimFrame);
+	if (false == m_bReverse)
+		m_Animations[m_tCurrChange.m_iNextAnim]->Set_Frame(m_tCurrChange.m_iNextAnimFrame);
+	else
+		m_Animations[m_tCurrChange.m_iNextAnim]->Set_Reverse_Frame(m_tCurrChange.m_iNextAnimFrame);
+
 	m_bReserved = false;
 
 	return S_OK;
 }
 
 HRESULT CModel::Play_Animation(_float fTimeDelta)
+{
+	if (false == m_bReverse)
+	{
+		if (FAILED(Play_Proceed_Animation(fTimeDelta)))
+			return E_FAIL;
+	}
+	else if (true == m_bReverse)
+	{
+		if (FAILED(Play_Reverse_Animation(fTimeDelta)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Play_Proceed_Animation(_float fTimeDelta)
 {
 	if (m_bReserved)
 	{
@@ -233,7 +285,7 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 		{
 			m_Animations[m_tCurrChange.m_iNextAnim]->Play_Animation(fTimeDelta);
 			m_tCurrChange.m_fChangeRatio = m_tCurrChange.m_fSumTime / m_tCurrChange.m_fChangeTime;
-		}		
+		}
 	}
 	else
 	{
@@ -243,11 +295,11 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 			m_vPreRootPos = { 0.f, 0.f, 0.f };
 			m_vCurRootPos = { 0.f, 0.f, 0.f };
 		}
-			
+
 		m_Animations[m_iCurrAnim]->Play_Animation(fTimeDelta);
 	}
 
-	if(m_bNext)
+	if (m_bNext)
 		Set_AnimationBlend_Transforms();
 	else
 		Set_Animation_Transforms();
@@ -260,7 +312,52 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, _float fRootDist, Vec4 TargetPos)
+HRESULT CModel::Play_Reverse_Animation(_float fTimeDelta)
+{
+	if (m_bReserved)
+	{
+		_int iFrame = m_Animations[m_iCurrAnim]->Get_Frame();
+		if (iFrame <= m_tReserveChange.m_iChangeFrame)
+			Set_NextAnimation();
+	}
+
+	if (m_bNext)
+	{
+		m_tCurrChange.m_fSumTime += fTimeDelta;
+		if (m_tCurrChange.m_fSumTime >= m_tCurrChange.m_fChangeTime)
+			Change_NextAnimation();
+		else
+		{
+			m_Animations[m_tCurrChange.m_iNextAnim]->Play_Reverse_Animation(fTimeDelta);
+			m_tCurrChange.m_fChangeRatio = m_tCurrChange.m_fSumTime / m_tCurrChange.m_fChangeTime;
+		}
+	}
+	else
+	{
+		if (true == m_Animations[m_iCurrAnim]->Is_End())
+		{
+			m_Animations[m_iCurrAnim]->Reset_End();
+			m_vPreRootPos = { 0.f, 0.f, 0.f };
+			m_vCurRootPos = { 0.f, 0.f, 0.f };
+		}
+
+		m_Animations[m_iCurrAnim]->Play_Reverse_Animation(fTimeDelta);
+	}
+
+	if (m_bNext)
+		Set_AnimationBlend_Transforms();
+	else
+		Set_Animation_Transforms();
+
+	m_vPreRootPos = m_vCurRootPos;
+	m_vCurRootPos = m_vRootPos;
+	if (0 == m_vPreRootPos.z)
+		m_vPreRootPos = m_vCurRootPos;
+
+	return S_OK;
+}
+
+HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos)
 {
 	if (nullptr == pTransform)
 		return E_FAIL;
@@ -272,15 +369,15 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, _float 
 		m_vCurRootPos = { 0.f, 0.f, 0.f };
 		return S_OK;
 	}
-		
 
 	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = m_vPreRootPos - m_vCurRootPos;
+	vDir = XMVector3TransformNormal(vDir, m_PivotMatrix);
 	Vec3 vWorldDir = XMVector3TransformNormal(vDir, pTransform->Get_WorldMatrix());
-	vWorldDir.y *= -1;
 	vWorldDir.Normalize();
+	vWorldDir *= -1.f;
 
-	_float fDist = vDir.Length() * fRootDist;
+	_float fDist = vDir.Length() * m_fRootDist;
 
 	Vec3 vCalculePos = vPos;
 	vCalculePos += vWorldDir * fDist * fTimeDelta;
@@ -693,8 +790,6 @@ HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)
 	return S_OK;
 }
 
-
-
 void CModel::Change_NextAnimation()
 {
 	m_iCurrAnim = m_tCurrChange.m_iNextAnim;
@@ -771,6 +866,10 @@ _uint CModel::Get_Anim_MaxFrame(_uint iAnimation)
 {
 	return m_Animations[iAnimation]->Get_MaxFrame();
 }
+
+
+
+
 
 CTexture* CModel::Create_Texture(const wstring& szFullPath)
 {

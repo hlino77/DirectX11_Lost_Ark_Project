@@ -91,7 +91,7 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 					break;
 			}
 
-			CPlayer_Server* pPlayer = nullptr;
+			CPlayer_Server* pOtherPlayer = nullptr;
 
 			while (true)
 			{
@@ -99,7 +99,7 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 
 				if (pObject != nullptr)
 				{
-					pPlayer = dynamic_cast<CPlayer_Server*>(pObject);
+					pOtherPlayer = dynamic_cast<CPlayer_Server*>(pObject);
 					break;
 				}
 			}
@@ -107,15 +107,24 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 
 			Protocol::S_CREATE_PLAYER tPlayerPkt;
 
-			tPlayerPkt.set_iobjectid(pPlayer->Get_ObjectID());
-			tPlayerPkt.set_iclass(pPlayer->Get_Class());
-			tPlayerPkt.set_bcontroll(true);
-			tPlayerPkt.set_strnickname(pkt.strnickname());
+			tPlayerPkt.set_iobjectid(pOtherPlayer->Get_ObjectID());
+			tPlayerPkt.set_iclass(pOtherPlayer->Get_Class());
+			tPlayerPkt.set_bcontroll(false);
+			tPlayerPkt.set_strnickname(CAsUtils::ToString(GameSession->Get_NickName()));
+			tPlayerPkt.set_strstate(CAsUtils::ToString(pOtherPlayer->Get_ServerState()));
+
+			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
+			vPktTargetPos->Resize(3, 0.0f);
+			Vec3 vTargetPos = pOtherPlayer->Get_TargetPos();
+			memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
+
 
 			auto vPacketWorld = tPlayerPkt.mutable_matworld();
 			vPacketWorld->Resize(16, 0.0f);
-			Matrix matWorld = pPlayer->Get_TransformCom()->Get_WorldMatrix();
-			memcpy(vPacketWorld->mutable_data(), &matWorld, sizeof(Matrix));
+			Matrix matOtherWorld = pOtherPlayer->Get_TransformCom()->Get_WorldMatrix();
+			memcpy(vPacketWorld->mutable_data(), &matOtherWorld, sizeof(Matrix));
+
+
 
 			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tPlayerPkt);
 			pGameSession->Send(pSendBuffer);
@@ -132,6 +141,13 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 			tPlayerPkt.set_iclass(pkt.iclass());
 			tPlayerPkt.set_bcontroll(true);
 			tPlayerPkt.set_strnickname(pkt.strnickname());
+			tPlayerPkt.set_strstate("Idle");
+
+
+			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
+			vPktTargetPos->Resize(3, 0.0f);
+			Vec3 vTargetPos = pPlayer->Get_TargetPos();
+			memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
 
 			auto vPacketWorld = tPlayerPkt.mutable_matworld();
 			vPacketWorld->Resize(16, 0.0f);
@@ -302,6 +318,7 @@ bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt)
 
 	pObject->Set_TargetPos(vTargetPos);
 	pObject->Set_TargetMatrix(matTargetWorld);
+	pObject->Set_ServerState(CAsUtils::ToWString(pkt.strstate()));
 
 
 	if (pkt.itargetobjectid() == -1)

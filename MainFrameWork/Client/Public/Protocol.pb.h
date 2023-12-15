@@ -424,7 +424,7 @@ class S_LOGIN final :
     kStrNickNameFieldNumber = 1,
     kIClassFieldNumber = 2,
   };
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -2399,7 +2399,7 @@ class S_NICKNAME final :
   enum : int {
     kStrNickNameFieldNumber = 1,
   };
-  // string strNickName = 1;
+  // bytes strNickName = 1;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -3790,7 +3790,9 @@ class S_CREATE_PLAYER final :
 
   enum : int {
     kMatWorldFieldNumber = 4,
+    kVTargetPosFieldNumber = 6,
     kStrNickNameFieldNumber = 5,
+    kStrStateFieldNumber = 7,
     kIObjectIDFieldNumber = 1,
     kIClassFieldNumber = 2,
     kBControllFieldNumber = 3,
@@ -3817,7 +3819,29 @@ class S_CREATE_PLAYER final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_matworld();
 
-  // string strNickName = 5;
+  // repeated float vTargetPos = 6 [packed = true];
+  int vtargetpos_size() const;
+  private:
+  int _internal_vtargetpos_size() const;
+  public:
+  void clear_vtargetpos();
+  private:
+  float _internal_vtargetpos(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      _internal_vtargetpos() const;
+  void _internal_add_vtargetpos(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      _internal_mutable_vtargetpos();
+  public:
+  float vtargetpos(int index) const;
+  void set_vtargetpos(int index, float value);
+  void add_vtargetpos(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      vtargetpos() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      mutable_vtargetpos();
+
+  // bytes strNickName = 5;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -3829,6 +3853,20 @@ class S_CREATE_PLAYER final :
   const std::string& _internal_strnickname() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_strnickname(const std::string& value);
   std::string* _internal_mutable_strnickname();
+  public:
+
+  // string strState = 7;
+  void clear_strstate();
+  const std::string& strstate() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_strstate(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_strstate();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_strstate();
+  void set_allocated_strstate(std::string* strstate);
+  private:
+  const std::string& _internal_strstate() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_strstate(const std::string& value);
+  std::string* _internal_mutable_strstate();
   public:
 
   // int32 iObjectID = 1;
@@ -3866,7 +3904,9 @@ class S_CREATE_PLAYER final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > matworld_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > vtargetpos_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strnickname_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strstate_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
   ::PROTOBUF_NAMESPACE_ID::int32 iclass_;
   bool bcontroll_;
@@ -4290,7 +4330,7 @@ inline void S_TIME::set_fserversecond(float value) {
 
 // S_LOGIN
 
-// string strNickName = 1;
+// bytes strNickName = 1;
 inline void S_LOGIN::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -4302,7 +4342,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S_LOGIN::set_strnickname(ArgT0&& arg0, ArgT... args) {
  
- strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ strnickname_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S_LOGIN.strNickName)
 }
 inline std::string* S_LOGIN::mutable_strnickname() {
@@ -5622,7 +5662,7 @@ inline void S_COLLISION::set_benter(bool value) {
 
 // S_NICKNAME
 
-// string strNickName = 1;
+// bytes strNickName = 1;
 inline void S_NICKNAME::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -5634,7 +5674,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S_NICKNAME::set_strnickname(ArgT0&& arg0, ArgT... args) {
  
- strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ strnickname_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S_NICKNAME.strNickName)
 }
 inline std::string* S_NICKNAME::mutable_strnickname() {
@@ -6390,7 +6430,7 @@ S_CREATE_PLAYER::mutable_matworld() {
   return _internal_mutable_matworld();
 }
 
-// string strNickName = 5;
+// bytes strNickName = 5;
 inline void S_CREATE_PLAYER::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -6402,7 +6442,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S_CREATE_PLAYER::set_strnickname(ArgT0&& arg0, ArgT... args) {
  
- strnickname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ strnickname_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.strNickName)
 }
 inline std::string* S_CREATE_PLAYER::mutable_strnickname() {
@@ -6433,6 +6473,98 @@ inline void S_CREATE_PLAYER::set_allocated_strnickname(std::string* strnickname)
   strnickname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), strnickname,
       GetArenaForAllocation());
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_CREATE_PLAYER.strNickName)
+}
+
+// repeated float vTargetPos = 6 [packed = true];
+inline int S_CREATE_PLAYER::_internal_vtargetpos_size() const {
+  return vtargetpos_.size();
+}
+inline int S_CREATE_PLAYER::vtargetpos_size() const {
+  return _internal_vtargetpos_size();
+}
+inline void S_CREATE_PLAYER::clear_vtargetpos() {
+  vtargetpos_.Clear();
+}
+inline float S_CREATE_PLAYER::_internal_vtargetpos(int index) const {
+  return vtargetpos_.Get(index);
+}
+inline float S_CREATE_PLAYER::vtargetpos(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_PLAYER.vTargetPos)
+  return _internal_vtargetpos(index);
+}
+inline void S_CREATE_PLAYER::set_vtargetpos(int index, float value) {
+  vtargetpos_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.vTargetPos)
+}
+inline void S_CREATE_PLAYER::_internal_add_vtargetpos(float value) {
+  vtargetpos_.Add(value);
+}
+inline void S_CREATE_PLAYER::add_vtargetpos(float value) {
+  _internal_add_vtargetpos(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_CREATE_PLAYER.vTargetPos)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S_CREATE_PLAYER::_internal_vtargetpos() const {
+  return vtargetpos_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S_CREATE_PLAYER::vtargetpos() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_CREATE_PLAYER.vTargetPos)
+  return _internal_vtargetpos();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S_CREATE_PLAYER::_internal_mutable_vtargetpos() {
+  return &vtargetpos_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S_CREATE_PLAYER::mutable_vtargetpos() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_CREATE_PLAYER.vTargetPos)
+  return _internal_mutable_vtargetpos();
+}
+
+// string strState = 7;
+inline void S_CREATE_PLAYER::clear_strstate() {
+  strstate_.ClearToEmpty();
+}
+inline const std::string& S_CREATE_PLAYER::strstate() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_PLAYER.strState)
+  return _internal_strstate();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_CREATE_PLAYER::set_strstate(ArgT0&& arg0, ArgT... args) {
+ 
+ strstate_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.strState)
+}
+inline std::string* S_CREATE_PLAYER::mutable_strstate() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_CREATE_PLAYER.strState)
+  return _internal_mutable_strstate();
+}
+inline const std::string& S_CREATE_PLAYER::_internal_strstate() const {
+  return strstate_.Get();
+}
+inline void S_CREATE_PLAYER::_internal_set_strstate(const std::string& value) {
+  
+  strstate_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_CREATE_PLAYER::_internal_mutable_strstate() {
+  
+  return strstate_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_CREATE_PLAYER::release_strstate() {
+  // @@protoc_insertion_point(field_release:Protocol.S_CREATE_PLAYER.strState)
+  return strstate_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_CREATE_PLAYER::set_allocated_strstate(std::string* strstate) {
+  if (strstate != nullptr) {
+    
+  } else {
+    
+  }
+  strstate_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), strstate,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_CREATE_PLAYER.strState)
 }
 
 // -------------------------------------------------------------------

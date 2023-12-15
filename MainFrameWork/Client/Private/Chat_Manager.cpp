@@ -9,6 +9,7 @@
 #include <locale>
 #include <atlstr.h>
 #include "UI_TextBox.h"
+#include "TextBox.h"
 
 IMPLEMENT_SINGLETON(CChat_Manager);
 
@@ -33,7 +34,7 @@ HRESULT CChat_Manager::Reserve_Manager(HWND hwnd, ID3D11Device* pDevice, ID3D11D
     m_vTextScale = Vec2(0.4f, 0.4f);
 
     m_bActive = false;
-
+    
     m_fChatWinSizeX = 1000.0f;
     m_fInputWindowSizeX = 800.0f;
 
@@ -71,7 +72,12 @@ void CChat_Manager::Add_Text(const wstring& szText)
 
 void CChat_Manager::Set_CombineText(const wstring& szText)
 {
-    m_szCombiningText = szText;
+    if (m_szCombiningText != szText)
+    {
+        m_szCombiningText = szText;
+        Update_InputChat();
+    }
+       
 }
 
 
@@ -160,75 +166,6 @@ LRESULT CChat_Manager::Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 HRESULT CChat_Manager::Render()
 {
-    if (m_bActive == false)
-        return S_OK;
-
-    Vec2 vTextPos(0.f, 300.f);
-
-    _int iChatSize = m_ChatList.size();
-
-    if (iChatSize > 0)
-    {
-        Vec2 vStartPos = vTextPos;
-
-        wstring szResult;
-
-        for (_int i = iChatSize - 1; i >= 0; --i)
-        {
-            szResult += m_ChatList[i] + L"\n";
-        }
-
-        Vec2 vCursurPos = vStartPos;
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szResult);
-        vCursurPos.y -= (vMeasure.y * m_vTextScale.y) + 15.0f;
-
-
-        //CGameInstance::GetInstance()->DrawFont(m_szFont, szResult, vCursurPos, Vec4(0.0f, 0.0f, 0.0f, 1.0f), 0.f, Vec2(0.0f, 0.0f), m_vTextScale);
-
-        m_pChatWindow->Set_Text(L"ChatWindow", m_szFont, szResult, vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    }
-
-
-
-    if (m_bChat == false)
-        return S_OK;
-    
-
-    wstring szDrawText = m_szInputText + m_szCombiningText;
-    wstring szMeasureText = szDrawText + L".";
-
-    {
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
-        vMeasure *= m_vTextScale;
-
-        if (vMeasure.x > m_fInputWindowSizeX * m_vTextScale.x)
-        {
-
-            vTextPos.x -= vMeasure.x - (m_fInputWindowSizeX * m_vTextScale.x);
-        }
-
-        //CGameInstance::GetInstance()->DrawFont(m_szFont, szDrawText, vTextPos, Vec4(0.0f, 0.0f, 0.0f, 1.0f), 0.f, Vec2(0.0f, 0.0f), m_vTextScale);
-
-        m_pInputWindow->Set_Text(L"InputText", m_szFont, szDrawText, vTextPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    }
-   
-
-    {
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
-
-        Vec2 vCursurPos;
-
-        vCursurPos.x = vTextPos.x + (vMeasure.x * m_vTextScale.x) - 7.0f;
-        vCursurPos.y = vTextPos.y;
-
-
-        if(m_bCursur)
-            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"|", vCursurPos, Vec2(m_vTextScale.x * 1.0f, m_vTextScale.y * 1.05f), Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-        else
-            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"", vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    }
-
-   
     return S_OK;
 }
 
@@ -242,6 +179,7 @@ void CChat_Manager::CursurTick(_float fTimeDelta)
     {
         m_bCursur = !m_bCursur;
         m_fCurrDelay = 0.0f;
+        Update_InputChat();
     }
 
 
@@ -257,6 +195,7 @@ void CChat_Manager::CursurTick(_float fTimeDelta)
             m_szCombiningText.clear();
             m_szSendText.clear();
             m_bSend = false;
+            Update_InputChat();
         }
     }
 
@@ -272,12 +211,14 @@ void CChat_Manager::Set_Active(_bool bActive)
             Ready_ChatWindows();
         }
 
-        m_pChatWindow->Appear();
+        //m_pChatWindow->Appear();
+        m_pChatWindow->Set_Active(true);
     }
     else
     {
         EndChat();
-        m_pChatWindow->Disappear();
+        //m_pChatWindow->Disappear();
+        m_pChatWindow->Set_Active(false);
     }
        
 }
@@ -305,6 +246,7 @@ void CChat_Manager::ResetBlink()
 {
     m_bCursur = true;
     m_fCurrDelay = 0.0f;
+    Update_InputChat();
 }
 
 void CChat_Manager::Add_Chat(wstring& szChat)
@@ -344,6 +286,28 @@ void CChat_Manager::Add_Chat(wstring& szChat)
         for (_uint i = 0; i < iPopSize; ++i)
             m_ChatList.pop_back();
     }
+
+    Vec2 vTextPos(0.f, 300.f);
+
+    _int iChatSize = m_ChatList.size();
+
+    if (iChatSize > 0)
+    {
+        Vec2 vStartPos = vTextPos;
+
+        wstring szResult;
+
+        for (_int i = iChatSize - 1; i >= 0; --i)
+        {
+            szResult += m_ChatList[i] + L"\n";
+        }
+
+        Vec2 vCursurPos = vStartPos;
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szResult);
+        vCursurPos.y -= (vMeasure.y * m_vTextScale.y) + 15.0f;
+
+        m_pChatWindow->Set_Text(L"ChatWindow", m_szFont, szResult, vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    }
 }
 
 void CChat_Manager::Send_Chat(const wstring& szChat)
@@ -369,7 +333,7 @@ void CChat_Manager::StartChat()
     m_bChat = true;
     ResetBlink();
     m_bSend = false;
-    m_pInputWindow->Appear();
+    m_pInputWindow->Set_Active(true);
 }
 
 void CChat_Manager::EndChat()
@@ -379,7 +343,47 @@ void CChat_Manager::EndChat()
     m_bChat = false;
     m_bCursur = false;
     m_bSend = false;
-    m_pInputWindow->Disappear();
+    m_pInputWindow->Set_Active(false);
+}
+
+void CChat_Manager::Update_InputChat()
+{
+    if (m_bChat == false)
+        return;
+
+    Vec2 vTextPos(0.f, 300.f);
+
+    wstring szDrawText = m_szInputText + m_szCombiningText;
+    wstring szMeasureText = szDrawText + L".";
+
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
+        vMeasure *= m_vTextScale;
+
+        if (vMeasure.x > m_fInputWindowSizeX * m_vTextScale.x)
+        {
+
+            vTextPos.x -= vMeasure.x - (m_fInputWindowSizeX * m_vTextScale.x);
+        }
+
+        m_pInputWindow->Set_Text(L"InputText", m_szFont, szDrawText, vTextPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    }
+
+
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
+
+        Vec2 vCursurPos;
+
+        vCursurPos.x = vTextPos.x + (vMeasure.x * m_vTextScale.x) - 7.0f;
+        vCursurPos.y = vTextPos.y;
+
+
+        if(m_bCursur)
+            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"|", vCursurPos, Vec2(m_vTextScale.x * 1.0f, m_vTextScale.y * 1.05f), Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        else
+            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"", vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    }
 }
 
 wstring CChat_Manager::S2W(const string& strValue)
@@ -414,28 +418,15 @@ string CChat_Manager::W2S(const wstring& szValue)
 
 HRESULT CChat_Manager::Ready_ChatWindows()
 {
-    //Prototype_GameObject_UI_TextBox
-
     CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-    if (m_pChatWindow == nullptr)
-    {
-        m_pChatWindow = dynamic_cast<CUI_TextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_TextBox")));
-        if (m_pChatWindow == nullptr)
-        {
-            Safe_Release(pGameInstance);
-            return E_FAIL;
-        }
-        
-
-        m_pChatWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
-        m_pChatWindow->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
-    }
-
-  
     if (m_pInputWindow == nullptr)
     {
-        m_pInputWindow = dynamic_cast<CUI_TextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_TextBox")));
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = L"InputWindow";
+        tTextDesc.vSize = Vec2(900.0f, 900.0f);
+
+        m_pInputWindow = dynamic_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
         if (m_pInputWindow == nullptr)
         {
             Safe_Release(pGameInstance);
@@ -445,6 +436,27 @@ HRESULT CChat_Manager::Ready_ChatWindows()
         m_pInputWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
         m_pInputWindow->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f + 100.f);
     }
+
+    if (m_pChatWindow == nullptr)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = L"ChatWindow";
+        tTextDesc.vSize = Vec2(900.0f, 900.0f);
+
+
+        m_pChatWindow = dynamic_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+        if (m_pChatWindow == nullptr)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+
+
+        m_pChatWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pChatWindow->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+    }
+
+
 
     Safe_Release(pGameInstance);
     return S_OK;

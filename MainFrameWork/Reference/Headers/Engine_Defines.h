@@ -3,6 +3,7 @@
 
 #pragma warning (disable : 4005)
 #pragma warning (disable : 4251)
+#pragma warning (disable : 26812)
 
 #ifndef WinSock_Include_h__
 #define WinSock_Include_h__

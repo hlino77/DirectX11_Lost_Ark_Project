@@ -43,6 +43,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_bControl = Desc->bControl;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
+	m_szNickName = Desc->szNickName;
+
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -61,12 +63,13 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iMaxHp = 100;
 
 
+	
+
     return S_OK;
 }
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-
 	if(m_bNavi)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
@@ -138,8 +141,7 @@ HRESULT CPlayer::Render()
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 
-
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
     return S_OK;
 }
@@ -518,7 +520,6 @@ HRESULT CPlayer::Ready_Components()
 	}
 
 
-
 	Safe_Release(pGameInstance);
 
 	Vec3 vScale;
@@ -612,7 +613,7 @@ void CPlayer::Send_State(const wstring& szName)
 
 	auto tPlayer = pkt.mutable_tobject();
 
-	tPlayer->set_ilevel(pGameInstance->Get_CurrLevelIndex());
+	tPlayer->set_ilevel(LEVEL_STATIC);
 	tPlayer->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 	tPlayer->set_iobjectid(m_iObjectID);
 
@@ -717,7 +718,6 @@ void CPlayer::Send_SlowMotion(_bool bSlow)
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
-
 void CPlayer::Send_Hp()
 {
 	Protocol::S_HP pkt;
@@ -731,24 +731,16 @@ void CPlayer::Send_Hp()
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
-
 void CPlayer::Set_State(const wstring& szName)
 {
 	m_pStateMachine->Change_State(szName);
 	Send_State(szName);
 }
 
-
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReserve)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
-
-	//if (m_bControl)
-		//Send_Animation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReserve);
 }
-
-
-
 
 void CPlayer::Free()
 {

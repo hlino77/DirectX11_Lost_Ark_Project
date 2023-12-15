@@ -473,9 +473,16 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		break;
 	}
 
+	Matrix matWorld(pkt.matworld().data());
+
 	Desc.bControl = pkt.bcontroll();
 	Desc.iObjectID = pkt.iobjectid();
 	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_PLAYER;
+	Desc.matWorld = matWorld;
+	Desc.vTargetPos = Vec3(pkt.vtargetpos().data());
+	Desc.szState = CAsUtils::ToWString(pkt.strstate());
+	Desc.szNickName = CAsUtils::ToWString(pkt.strnickname());
+
 
 	wstring szProtoName = L"Prototype_GameObject_Player_" + Desc.strFileName;
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, Desc.iLayer, szProtoName, &Desc));
@@ -485,19 +492,9 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		return true;
 	}
 
-	Matrix matWorld(pkt.matworld().data());
-
 	if (Desc.bControl)
 		CServerSessionManager::GetInstance()->Set_Player(pPlayer);
 
-
-
-	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
-	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
-	pPlayer->Get_TransformCom()->Set_Scale(vScale);
-	CNavigationMgr::GetInstance()->Find_FirstCell(pPlayer);
-
-	pPlayer->Set_NickName(CAsUtils::ToWString(pkt.strnickname()));
 
 	Safe_Release(pGameInstance);
 
@@ -520,12 +517,16 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(),(_uint) LAYER_TYPE::LAYER_MONSTER, pkt.iobjectid());
 
+
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance);
 		return true;
 	}
 	_int iTargetID = pkt.itargetobjectid();
+
+
+
 
 	if (iTargetID == -1)
 		pObject->Set_NearTarget(nullptr);
@@ -534,6 +535,9 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(LEVEL_STATIC, pkt.itargetobjectlayer(), iTargetID);
 		pObject->Set_NearTarget(pNearTarget);
 	}
+	
+	
+	
 	dynamic_cast<CMonster*>(pObject)->Set_Action(CAsUtils::ToWString(pkt.strstate()));
 	return true;
 }

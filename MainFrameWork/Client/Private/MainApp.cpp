@@ -35,6 +35,7 @@
 #include "UI_Manager.h"
 #include "BehaviorTree.h"
 #include "UI_Tool.h"
+#include "TextBox.h"
 
 _float g_fVolume;
 
@@ -351,6 +352,11 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),
 		CCamera_Free::Create(m_pDevice, m_pContext, L"Free_Camera"))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TextBox"),
+		CTextBox::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
