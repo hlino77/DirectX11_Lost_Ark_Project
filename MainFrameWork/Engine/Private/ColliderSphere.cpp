@@ -5,6 +5,7 @@
 #include "DebugDraw.h"
 #include "Model.h"
 #include "ColliderOBB.h"
+#include "ColliderSphereGroup.h"
 
 CSphereCollider::CSphereCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:Super(pDevice, pContext, ColliderType::Sphere)
@@ -41,18 +42,14 @@ HRESULT CSphereCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CSphereCollider::Tick(const _float& fTimeDelta)
+void CSphereCollider::Update_Collider()
 {
-	m_tBoundingSphere.Center = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
-	//m_tBoundingSphere.Radius = m_pOwnerTransform->Get_Scale().Length() / 2.f;
+	Set_Center();
 
-	//Vec3 scale = GetGameObject()->GetTransform()->GetLocalScale();
-	//m_tBoundingSphere.Radius = m_fRadius * max(max(scale.x, scale.y), scale.z);
+	if (m_pChild)
+		m_pChild->Update_Collider();
 }
 
-void CSphereCollider::LateTick(const _float& fTimeDelta)
-{
-}
 
 void CSphereCollider::DebugRender()
 {
@@ -77,32 +74,47 @@ _bool CSphereCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 
 _bool CSphereCollider::Intersects(Super* other)
 {
-	if (m_tBoundingSphere.Intersects(static_cast<CSphereCollider*>(other)->GetBoundingSphere()))
-	{
-		if (m_pChild)
-		{
-			if (other->Get_Child())
-			{
-				return static_cast<COBBCollider*>(m_pChild)->Intersects(other->Get_Child());
-			}
-			else
-			{
-				return static_cast<COBBCollider*>(m_pChild)->Intersects(other);
-			}
-		}
-		else
-		{
-			if (other->Get_Child())
-			{
-				return m_tBoundingSphere.Intersects(static_cast<COBBCollider*>(other->Get_Child())->GetBoundingBox());
-			}
-			else
-				return true;
-		}
+	if (Intersects_Bounding(other) == false)
+		return false;
 
+	if(other->Get_Child())
+	{
+		if (Intersects_Bounding(other->Get_Child()) == false)
+			return false;
 	}
 
-	return false;
+
+	if (m_pChild)
+	{
+		if(m_pChild->Intersects(other) == false)
+			return false;
+	}
+
+
+	return true;
+}
+
+_bool CSphereCollider::Intersects_Bounding(Super* other)
+{
+	_bool bCollision = false;
+
+	switch (other->GetColliderType())
+	{
+	case ColliderType::Sphere:
+		bCollision = m_tBoundingSphere.Intersects(static_cast<CSphereCollider*>(other)->GetBoundingSphere());
+		break;
+	case ColliderType::OBB:
+		bCollision = m_tBoundingSphere.Intersects(static_cast<COBBCollider*>(other)->GetBoundingBox());
+		break;
+	case ColliderType::AABB:
+		bCollision = false;
+		break;
+	case ColliderType::Group:
+		bCollision = other->Intersects(this);
+		break;
+	}
+
+	return bCollision;
 }
 
 _bool CSphereCollider::Intersects_Box(const BoundingBox& Collider)

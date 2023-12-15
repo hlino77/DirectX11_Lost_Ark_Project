@@ -10,6 +10,7 @@
 #include "NavigationMgr.h"
 #include "Pool.h"
 #include "BindShaderDesc.h"
+#include "CollisionManager.h"
 
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -159,6 +160,22 @@ HRESULT CMonster::Render_ShadowDepth()
 
 	Safe_Release(pGameInstance);
 
+
+	return S_OK;
+}
+
+HRESULT CMonster::Render_Debug()
+{
+	for (auto& Colider : m_Coliders)
+	{
+		if (Colider.second->IsActive())
+		{
+			Colider.second->DebugRender();
+			if (Colider.second->Get_Child())
+				Colider.second->Get_Child()->DebugRender();
+		}
+
+	}
 
 	return S_OK;
 }
@@ -319,27 +336,27 @@ HRESULT CMonster::Ready_Components()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pCollider);
 	}
 
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
-		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
-	}
 
+		if (pCollider)
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
+	}
 
 
 	Safe_Release(pGameInstance);
@@ -379,6 +396,7 @@ void CMonster::CullingObject()
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		m_pRendererCom->Add_DebugObject(this);
 	}
 		
 }

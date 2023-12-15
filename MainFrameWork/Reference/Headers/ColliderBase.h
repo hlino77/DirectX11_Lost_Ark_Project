@@ -9,7 +9,8 @@ enum class ColliderType
 	Sphere,
 	AABB,
 	OBB,
-	Cylinder
+	Cylinder,
+	Group
 };
 
 class CRigidBody;
@@ -32,12 +33,14 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype()						override;
 	virtual HRESULT Initialize(void* pArg)						override;
+	virtual void	Update_Collider()							PURE;
 	virtual void	DebugRender()								override;
 
 
 	virtual _bool	Intersects(DirectX::SimpleMath::Ray& ray, OUT float& distance)	PURE;
 	virtual _bool	Intersects(CCollider* other)				PURE;
-	virtual _bool			Intersects_Box(const BoundingBox& Collier) PURE;
+	virtual _bool	Intersects_Bounding(CCollider* other)		PURE;
+	virtual _bool	Intersects_Box(const BoundingBox& Collier)	PURE;
 
 	ColliderType	GetColliderType()			{ return m_eColliderType; }
 	_uint			GetID()						{ return m_iID; }

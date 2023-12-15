@@ -409,7 +409,7 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 					pCollider->Set_Radius(fRadius);
 
 
-					pCollider->Set_Center();
+					pCollider->Update_Collider();
 				}
 
 				_bool bChild = file->Read<_bool>();
@@ -497,7 +497,7 @@ HRESULT CLevel_Bern::Load_ColMesh(LEVELID eLevel, const wstring& szFullPath)
 				pCollider->Set_Radius(fRadius);
 
 
-				pCollider->Set_Center();
+				pCollider->Update_Collider();
 			}
 
 			_bool bChild = file->Read<_bool>();
@@ -555,7 +555,8 @@ HRESULT CLevel_Bern::Ready_Renderer()
 
 void CLevel_Bern::Set_CheckGruop()
 {
-	//CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY, (_uint)LAYER_COLLIDER::LAYER_BODY);
+	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
+	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
 }
 
 void CLevel_Bern::Start_Collision()

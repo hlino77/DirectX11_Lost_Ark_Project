@@ -302,7 +302,7 @@ bool Handel_S_COLLIDERSTATE_Client(PacketSessionRef& session, Protocol::S_COLLID
 	pCollider->SetActive(pkt.bactive());
 	pCollider->Set_Radius(pkt.fradius());
 	pCollider->Set_Offset(Vec3(pkt.voffset().data()));
-	pCollider->Set_Center();
+	pCollider->Update_Collider();
 	pCollider->Set_AttackCollider(pkt.iattack(), pkt.iattacktype(), pkt.bslow());
 
 	Safe_Release(pGameInstance);

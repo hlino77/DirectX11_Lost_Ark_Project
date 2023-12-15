@@ -36,6 +36,7 @@ public:
 	virtual HRESULT				Render_Instance(ID3D11Buffer * pInstanceBuffer, _uint iSize) { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
 	virtual HRESULT				Render_MakeSRV() { return S_OK; }
+	virtual HRESULT				Render_Debug() { return S_OK; }
 
 
 	virtual void				Add_InstanceData(vector<Vec4>&BufferData) {};

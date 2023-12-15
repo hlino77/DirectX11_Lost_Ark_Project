@@ -296,7 +296,13 @@ HRESULT CRenderer::Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** 
 	tDesc.pObject = pObject;
 	tDesc.pSRV = pSRV;
 	m_MakeSRVObjects.push_back(tDesc);
+	return S_OK;
+}
 
+HRESULT CRenderer::Add_DebugObject(CGameObject* pObject)
+{
+	m_DebugRenderObjects.push_back(pObject);
+	Safe_AddRef(pObject);
 	return S_OK;
 }
 
@@ -334,6 +340,7 @@ HRESULT CRenderer::Draw()
 	Render_WorldUI();
 	Render_UI();
 	Render_TextBox();
+	Render_DebugObject();
 	//Render_Debug();
 	
 	
@@ -955,6 +962,19 @@ HRESULT CRenderer::Render_Debug()
 
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_StaticShadowDepth"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_DebugObject()
+{
+	for (auto& iter : m_DebugRenderObjects)
+	{
+		if (FAILED(iter->Render_Debug()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_DebugRenderObjects.clear();
 
 	return S_OK;
 }

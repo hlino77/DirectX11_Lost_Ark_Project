@@ -59,6 +59,8 @@ public:
 	virtual void			LateTick(_float fTimeDelta);
 	virtual HRESULT			Render();
 	virtual HRESULT			Render_ShadowDepth();
+	virtual HRESULT			Render_Debug();
+
 	virtual void			Set_SlowMotion(_bool bSlow) override;
 
 

@@ -11,6 +11,8 @@
 #include "PhysXMgr.h"
 #include "Pool.h"
 #include "Player_Controller_GN.h"
+#include "CollisionManager.h"
+#include "ColliderSphereGroup.h"
 
 /* State */
 #include "State_GN_Idle.h"
@@ -43,9 +45,6 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	if(FAILED(Ready_State()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
-
 	if (m_bControl)
 	{
 		if (FAILED(Ready_SkillUI()))
@@ -71,6 +70,11 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	m_pStateMachine->Change_State(Desc->szState);
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(this);
+
+
+	if (FAILED(Ready_Coliders()))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -150,14 +154,39 @@ HRESULT CPlayer_Gunslinger::Render()
 	return S_OK;
 }
 
+HRESULT CPlayer_Gunslinger::Render_ShadowDepth()
+{
+	__super::Render_ShadowDepth();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	for (size_t i = 0; i < (_uint)PART::_END; i++)
+	{
+		if (nullptr == m_pModelPartCom[i]) continue;
+
+		_uint		iNumMeshes = m_pModelPartCom[i]->Get_NumMeshes();
+
+		for (_uint j = 0; j < iNumMeshes; ++j)
+		{
+
+			if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 3)))
+				return S_OK;
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
+	return S_OK;
+}
+
 void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	if (!m_bControl)
-	{
-		OnCollisionEnter_NoneControl(iColLayer, pOther);
-		return;
-	}
-		
+	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+		cout << "플레이어 Body : 몬스터 Body -> ENTER" << endl;
+
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+		cout << "플레이어 Attack : 몬스터 Body -> ENTER" << endl;
 }
 
 void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -167,12 +196,11 @@ void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOthe
 
 void CPlayer_Gunslinger::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
-	if (!m_bControl)
-	{
-		OnCollisionExit_NoneControl(iColLayer, pOther);
-		return;
-	}
-		
+	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+		cout << "플레이어 Body : 몬스터 Body -> EXIT" << endl;
+
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+		cout << "플레이어 Attack : 몬스터 Body -> EXIT" << endl;
 }
 
 void CPlayer_Gunslinger::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)
@@ -219,10 +247,11 @@ void CPlayer_Gunslinger::Send_PlayerInfo()
 
 void CPlayer_Gunslinger::Set_Colliders(_float fTimeDelta)
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Center();
-
-	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->IsActive())
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Center();
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second->IsActive())
+			Collider.second->Update_Collider();
+	}
 }
 
 void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex)
@@ -385,18 +414,103 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 
 HRESULT CPlayer_Gunslinger::Ready_Coliders()
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Radius(1.0f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Offset(Vec3(0.0f, 0.7f, 0.0f));
-	Send_ColliderState((_uint)LAYER_COLLIDER::LAYER_BODY);
+
+	{
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Radius(0.7f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
+
+
+		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Get_Child());
+		pChildCollider->Set_Scale(Vec3(0.2f, 0.6f, 0.2f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
+		pChildCollider->SetActive(true);
+	}
+
+
+	{
+		CCollider::ColliderInfo tColliderInfo;
+		tColliderInfo.m_bActive = false;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
+		CSphereCollider* pCollider = nullptr;
+
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
+			return E_FAIL;
+
+		if (pCollider)
+		{
+			{
+				CCollider::ColliderInfo tChildColliderInfo;
+				tChildColliderInfo.m_bActive = true;
+				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
+				CSphereColliderGroup* pChildCollider = nullptr;
+
+				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColliderGroup"), TEXT("Com_ColliderAttackChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
+					return E_FAIL;
+
+				pCollider->Set_Child(pChildCollider);
+			}
+
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER, pCollider);
+		}
+	}
+
+	{
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Radius(6.0f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Offset(Vec3(0.0f, 0.2f, 0.0f));
+
+
+		CSphereColliderGroup* pGroup = dynamic_cast<CSphereColliderGroup*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Get_Child());
+
+
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
+		Safe_AddRef(pGameInstance);
+
+		Vec3 vOffset(0.0f, 0.0f, 4.0f);
+		Quaternion vQuat = Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(360.0f / 100.0f));
+
+		for (_uint i = 0; i < 100; ++i)
+		{
+			CCollider::ColliderInfo tColliderInfo;
+			tColliderInfo.m_bActive = true;
+			tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
+
+			CSphereCollider* pCollider = dynamic_cast<CSphereCollider*>(pGameInstance->Clone_Component(this, LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), &tColliderInfo));
+			if (nullptr == pCollider)
+				return E_FAIL;
+
+			vOffset = XMVector3Rotate(vOffset, vQuat);
+
+			pCollider->SetActive(true);
+			pCollider->Set_Radius(0.6f);
+			pCollider->Set_Offset(vOffset);
+
+
+			pGroup->Add_Collider(pCollider);
+		}
+
+
+		Safe_Release(pGameInstance);
+	}
 
 
 
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Radius(0.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->SetActive(false);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
-	Send_ColliderState((_uint)LAYER_COLLIDER::LAYER_ATTACK);
 
+
+	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Radius(0.5f);
+	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->SetActive(false);
+	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
+
+
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			Collider.second->Update_Collider();
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
+	}
 
 
 	return S_OK;

@@ -104,7 +104,7 @@ HRESULT CColMesh::Add_ModelComponent(const wstring& strComName)
 
 void CColMesh::Add_Collider()
 {
-	CSphereCollider* pCollider = nullptr;
+	/*CSphereCollider* pCollider = nullptr;
 
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -127,7 +127,7 @@ void CColMesh::Add_Collider()
 
 	m_StaticColliders.push_back(pCollider);
 
-	Safe_Release(pGameInstance);
+	Safe_Release(pGameInstance);*/
 
 }
 

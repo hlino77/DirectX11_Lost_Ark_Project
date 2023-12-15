@@ -162,7 +162,7 @@ void CStaticModel::Add_Collider()
 
 	CSphereCollider::ColliderInfo tInfo;
 	tInfo.m_bActive = true;
-	tInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
+	tInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL;
 
 	CComponent* pComponent = pGameInstance->Clone_Component(this, LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), &tInfo);
 	if (nullptr == pComponent)
@@ -188,7 +188,7 @@ void CStaticModel::Add_ChildCollider(_uint iIndex)
 
 	CCollider::ColliderInfo tInfo;
 	tInfo.m_bActive = true;
-	tInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_END;
+	tInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
 
 	CComponent* pComponent = pGameInstance->Clone_Component(this, LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), &tInfo);
 	if (nullptr == pComponent)

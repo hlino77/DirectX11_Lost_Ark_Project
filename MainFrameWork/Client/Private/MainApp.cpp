@@ -13,6 +13,7 @@
 #include "MainLogo.h"
 #include "BackGround_Loading.h"
 #include "ColliderOBB.h"
+#include "ColliderSphereGroup.h"
 #include "CollisionManager.h"
 #include "NavigationMgr.h"
 #include "EventMgr.h"
@@ -218,6 +219,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"),
 		CSphereCollider::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_SphereColliderGroup"),
+		CSphereColliderGroup::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"),

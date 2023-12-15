@@ -72,7 +72,11 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 
 		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player"), &Desc));
 		if (nullptr == pPlayer)
-			return E_FAIL;
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+			
 		pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
 
 
@@ -169,7 +173,10 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 		{
 			CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Find_GameObejct(LEVELID::LEVEL_BERN,(_uint)LAYER_TYPE::LAYER_MONSTER,L"Monster_Zombie"));
 			if (nullptr == pMonster)
-				return E_FAIL;
+			{
+				Safe_Release(pGameInstance);
+				return true;
+			}
 			Protocol::S_CREATE_OBJCECT tMonsterPkt;
 			
 			tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
@@ -376,7 +383,7 @@ bool Handel_S_COLLIDERSTATE_Server(PacketSessionRef& session, Protocol::S_COLLID
 	pCollider->SetActive(pkt.bactive());
 	pCollider->Set_Radius(pkt.fradius());
 	pCollider->Set_Offset(Vec3(pkt.voffset().data()));
-	pCollider->Set_Center();
+	pCollider->Update_Collider();
 	pCollider->Set_AttackCollider(pkt.iattack(), pkt.iattacktype(), pkt.bslow());
 
 	if (pkt.tchild_size() > 0)

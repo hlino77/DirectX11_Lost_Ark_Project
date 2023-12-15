@@ -8,6 +8,7 @@
 #include "ColliderSphere.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
+#include "CollisionManager.h"
 #include "Pool.h"
 #include "Zombie_BT_Attack1.h"
 #include "Zombie_BT_Attack2.h"
@@ -28,6 +29,8 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
+
+
 
 CMonster_Zombie::CMonster_Zombie(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -67,6 +70,8 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 
 
 
+	if (FAILED(Ready_Coliders()))
+		return E_FAIL;
 
     return S_OK;
 }
@@ -94,6 +99,8 @@ void CMonster_Zombie::Tick(_float fTimeDelta)
 	//	m_fScanCoolDown = 0.f;
 	//	Find_NearTarget();
 	//}
+
+
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
@@ -112,6 +119,8 @@ void CMonster_Zombie::LateTick(_float fTimeDelta)
 		return;
 
 	CullingObject();
+
+	Set_Colliders(fTimeDelta);
 }
 
 HRESULT CMonster_Zombie::Render()
@@ -211,6 +220,28 @@ HRESULT CMonster_Zombie::Render_ShadowDepth()
 	return S_OK;
 }
 
+void CMonster_Zombie::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+{
+	if(pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		cout << "몬스터 Body : 플레이어 Attack -> ENTER" << endl;
+
+	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		cout << "몬스터 Body : 플레이어 Body -> ENTER" << endl;
+}
+
+void CMonster_Zombie::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+{
+}
+
+void CMonster_Zombie::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+{
+	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		cout << "몬스터 Body : 플레이어 Attack ->EXIT" << endl;
+
+	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		cout << "몬스터 Body : 플레이어 Body ->EXIT" << endl;
+}
+
 void CMonster_Zombie::Set_SlowMotion(_bool bSlow)
 {
 	if (bSlow)
@@ -279,27 +310,35 @@ HRESULT CMonster_Zombie::Ready_Components()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pCollider);
 	}
 
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
 	}
 
+
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
+	}
 
 
 	Safe_Release(pGameInstance);
@@ -444,6 +483,28 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	return S_OK;
 }
 
+
+HRESULT CMonster_Zombie::Ready_Coliders()
+{
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(0.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
+
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(0.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
+
+	return S_OK;
+}
+
+void CMonster_Zombie::Set_Colliders(_float fTimeDelta)
+{
+	for (auto& Collider : m_Coliders)
+	{
+		if(Collider.second->IsActive())
+			Collider.second->Update_Collider();
+	}
+}
 
 CMonster_Zombie* CMonster_Zombie::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
