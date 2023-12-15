@@ -25,8 +25,7 @@ Texture2D g_DiffuseTexture;
 Texture2D g_NormalTexture;
 Texture2D g_SpecularTexture;
 Texture2D g_EmissiveTexture;
-Texture2D g_RoughnessTexture;
-Texture2D g_MetalicTexture;
+Texture2D g_MRMaskTexture;
 
 float4 PhongDiffuse(float3 normal, float2 uv)
 {

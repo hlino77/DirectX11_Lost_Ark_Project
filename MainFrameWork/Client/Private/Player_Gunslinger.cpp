@@ -55,6 +55,7 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
 	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
 
+
 	CPlayer_Controller_GN::GN_IDENTITY m_eIdentity = m_pController->Get_GN_Identity();
 	Set_Weapon_RenderState(m_eIdentity);
 
@@ -85,6 +86,8 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
+
+
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -110,8 +113,6 @@ HRESULT CPlayer_Gunslinger::Render()
 {
 	__super::Render();
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	
 	for (size_t i = 0; i < (_uint)PART::_END; i++)
 	{
 		if (nullptr == m_pModelPartCom[i]) continue;
@@ -120,26 +121,30 @@ HRESULT CPlayer_Gunslinger::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
+
 			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 				return S_OK;
 
-			string hair = m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j));
+			
 			if (true == m_pModelPartCom[i]->Is_HairTexture(j))
 			{
-				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4));
-				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
-			}
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+					return E_FAIL;
 
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
-			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
-					return S_OK;
+				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+					return E_FAIL;
 			}
 			else
 			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 2)))
-					return S_OK;
+				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
 			}
+
 
 			if (true == m_pModelPartCom[i]->Is_HairTexture(j))
 			{
@@ -150,7 +155,6 @@ HRESULT CPlayer_Gunslinger::Render()
 		}
 	}
 
-	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

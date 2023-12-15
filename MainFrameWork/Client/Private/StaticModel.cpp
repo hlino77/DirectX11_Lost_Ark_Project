@@ -28,13 +28,8 @@ HRESULT CStaticModel::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
 	
-	if (m_szModelName == L"SM_ENV_TCHEXA_Tree_A")
-		m_eRenderGroup = CRenderer::RENDERGROUP::INSTANCE_STATIC;
-	else
-		m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
-
+	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
     return S_OK;
 }
@@ -46,56 +41,30 @@ void CStaticModel::Tick(_float fTimeDelta)
 
 void CStaticModel::LateTick(_float fTimeDelta)
 {
-	if (nullptr == m_pRendererCom)
+	if (nullptr == m_pRendererCom)	
 		return;
 
 	if (m_bRender)
 	{
+		m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 		m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
 	}
-		
+	if (m_szModelName == L"SM_ENV_TCHEXA_Tree_A")
+		m_eRenderGroup = CRenderer::RENDERGROUP::INSTANCE_STATIC;
+	else
+		m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 }
 
 HRESULT CStaticModel::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 10)))
-				return S_OK;
-		}
-		
-	}
-
-	Safe_Release(pGameInstance);
+	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
 
     return S_OK;
 }
@@ -105,22 +74,7 @@ HRESULT CStaticModel::Render_ShadowDepth()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-
-	Matrix matVeiw = pGameInstance->Get_StaticLightMatrix();
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ShadowViewMatrix", &matVeiw)))
-		return S_OK;
+	m_pShaderCom->Push_ShadowWVP();
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -137,8 +91,6 @@ HRESULT CStaticModel::Render_ShadowDepth()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
 			return S_OK;
 	}
-
-	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

@@ -20,7 +20,6 @@ public:
 		ID3D11ShaderResourceView** pSRV;
 	}MAKESRV;
 
-
 public:
 	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, INSTANCE_STATIC, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BLEND, RENDER_MODELEFFECT_INSTANCE, RENDER_EFFECT_INSTANCE, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_END };
 
@@ -40,20 +39,15 @@ public:
 	HRESULT Add_DebugObject(CGameObject* pObject);
 
 
-
 	HRESULT Draw();
 	HRESULT Draw_Server();
 
-
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
 
-
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
-
 private:
 	HRESULT Update_TextBox();
 	HRESULT	Render_MakeSRV();
-
 
 	HRESULT Render_Priority();
 
@@ -64,7 +58,6 @@ private:
 	HRESULT Render_Lights();
 	HRESULT Render_LightAcc();
 	HRESULT Render_Deferred();
-
 
 	HRESULT Render_Blend();
 	HRESULT Render_NonLight();
@@ -79,29 +72,25 @@ private:
 	HRESULT Render_UI();
 	HRESULT	Render_TextBox();
 
-
 	HRESULT Render_Debug();
 	HRESULT Render_DebugObject();
+
 private:
 	HRESULT Render_ModelInstancing(const wstring& szModelName);
 	HRESULT Render_EffectInstancing(const wstring& szModelName);
 	HRESULT Render_ModelEffectInstancing(const wstring& szModelName);
 
-
-
 	HRESULT Ready_InstanceBuffer();
+
 
 
 	//Debug
 	vector<class CGameObject*> m_DebugRenderObjects;
-	//
+	vector<class CGameObject*>			m_RenderObjects[RENDER_END];
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_StaticInstance;
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_EffectInstance;
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
 
-
-
-	list<class CGameObject*>			m_RenderObjects[RENDER_END];
-	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_StaticInstance;
-	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_EffectInstance;
-	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
 private:
 	
 	CShader* m_pInstanceShader = nullptr;
@@ -109,8 +98,6 @@ private:
 	ID3D11Buffer* m_pInstanceBuffer = nullptr;
 	ID3D11Buffer* m_pPointEffect_InstanceBuffer = nullptr;
 	ID3D11Buffer* m_pModelEffect_InstanceBuffer = nullptr;
-
-
 
 
 	_uint	m_iBufferSize = 0;
@@ -150,8 +137,12 @@ private:
 
 	_float m_fBias = 0.0000022f;
 
-
 	_bool m_bRenderStaticShadow = false;
+
+
+	_bool m_bTargetOnOff = false;
+	_bool m_bPBR_Switch = true;
+
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

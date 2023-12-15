@@ -134,7 +134,6 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring&
 
 HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 {
-
 	pContext->OMSetRenderTargets(1, &m_pBackBufferRTV, m_pDSV);
 
 	Safe_Release(m_pBackBufferRTV);
@@ -142,8 +141,6 @@ HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 
 	return	S_OK;
 }
-
-
 
 HRESULT CTarget_Manager::Ready_Debug(const wstring & strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {

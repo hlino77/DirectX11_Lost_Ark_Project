@@ -253,6 +253,7 @@ CLockFree_Transform * CLockFree_Transform::Create(ID3D11Device * pDevice, ID3D11
 CComponent * CLockFree_Transform::Clone(CGameObject* pObject, void * pArg)
 {
 	CLockFree_Transform*			pInstance = new CLockFree_Transform(*this);
+	pInstance->m_pOwner = pObject;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

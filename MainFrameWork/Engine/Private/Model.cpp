@@ -511,11 +511,67 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 	return S_OK;
 }
 
-HRESULT CModel::Render(CShader* pShader, _uint iMeshIndex, _uint iPassIndex)
+HRESULT CModel::Render(CShader*& pShader, const _uint& iMeshIndex, const _uint iPassIndex)
 {
-	pShader->Begin(iPassIndex);
+	if (FAILED(pShader->Begin(iPassIndex)))
+		return E_FAIL;
 
-	m_Meshes[iMeshIndex]->Render();
+	if (FAILED(m_Meshes[iMeshIndex]->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CModel::Render(CShader*& pShader, const _uint& iMeshIndex, const string& strPassName)
+{
+	if (FAILED(pShader->Begin(strPassName)))
+		return E_FAIL;
+
+	if (FAILED(m_Meshes[iMeshIndex]->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CModel::Render(CShader*& pShader)
+{
+	for (_uint i = 0; i < m_iNumMeshes; ++i)
+		Render_SingleMesh(pShader, i);
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		{
+			if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+			{
+				if (FAILED(Render(pShader, iMeshIndex, "PBR")))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(Render(pShader, iMeshIndex, "PBR_NoMask")))
+					return E_FAIL;
+			}
+		}
+		else
+		{
+			if (FAILED(Render(pShader, iMeshIndex, "Phong")))
+				return E_FAIL;
+		}
+	}
+	else
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -716,6 +772,66 @@ HRESULT CModel::Load_MaterialData_FromFile()
 			}
 		}
 
+		// Emissive Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_EMISSIVE] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_EMISSIVE])
+					return E_FAIL;
+			}
+		}
+
+		// Metalic Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_METALNESS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_METALNESS])
+					return E_FAIL;
+			}
+		}
+
+		// Roughness Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS])
+					return E_FAIL;
+			}
+		}
+
 		// Ambient
 		{
 			Node = Node->NextSiblingElement();
@@ -790,6 +906,52 @@ HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)
 	return S_OK;
 }
 
+<<<<<<< HEAD
+=======
+_int CModel::FindMaterialIndexByName(string strMaterialName)
+{
+	for (_int i = 0; i < m_iNumMaterials; ++i)
+	{
+		string strFullName = "";
+		strFullName = Get_Material_Name(i);
+
+		size_t pos = strFullName.find("_");
+		while (pos != string::npos)
+		{
+			strFullName.replace(pos, 1, " ");
+			pos = (pos + 1 < strFullName.size()) ? strFullName.find("_", pos + 1) : string::npos;
+		}
+
+		size_t hair_pos = strMaterialName.find(strMaterialName);
+
+		if (hair_pos != string::npos)
+			return i;
+	}
+
+	return -1;
+}
+
+_bool CModel::Is_HairTexture(_uint iMaterialIndex)
+{
+	string strMaterialName = Get_Material_Name(iMaterialIndex);
+
+	size_t pos = strMaterialName.find("_");
+	while (pos != string::npos)
+	{
+		strMaterialName.replace(pos, 1, " ");
+		pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
+	}
+
+	string search_str = "hair";
+	size_t hair_pos = strMaterialName.find(search_str);
+
+	if (hair_pos != string::npos)
+		return true;
+	else
+		return false;
+}
+
+>>>>>>> origin/feature/ksg
 void CModel::Change_NextAnimation()
 {
 	m_iCurrAnim = m_tCurrChange.m_iNextAnim;

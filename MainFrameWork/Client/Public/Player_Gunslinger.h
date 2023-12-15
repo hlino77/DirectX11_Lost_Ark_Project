@@ -53,6 +53,7 @@ private:
 
 	class CPlayer_Controller_GN* m_pController = { nullptr };
 
+
 public:
 	static CPlayer_Gunslinger* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
 	virtual CGameObject* Clone(void* pArg);

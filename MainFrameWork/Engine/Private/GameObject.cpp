@@ -15,6 +15,8 @@ CGameObject::CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext,
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+
+	m_pGameInstance = GET_INSTANCE(CGameInstance);
 }
 
 CGameObject::CGameObject(const CGameObject& rhs)
@@ -151,4 +153,6 @@ void CGameObject::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
+	RELEASE_INSTANCE(CGameInstance);
 }

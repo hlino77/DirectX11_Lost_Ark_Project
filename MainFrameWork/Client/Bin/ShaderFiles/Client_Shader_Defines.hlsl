@@ -13,6 +13,16 @@ sampler PointSampler = sampler_state{
 	AddressV = wrap;
 };
 
+sampler MirrorSampler = sampler_state
+{
+    filter = min_mag_mip_linear;
+	/*minfilter = linear;
+	magfilter = linear;
+	mipfilter = linear;*/
+    AddressU = mirror;
+    AddressV = mirror;
+};
+
 RasterizerState RS_Skybox
 {
 	FillMode = solid;

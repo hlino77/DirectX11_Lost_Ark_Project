@@ -1,8 +1,12 @@
 #include "..\Public\Shader.h"
 #include "Utils.h"
+#include "GameInstance.h"
 #include "ConstantBuffer.h"
+#include "Transform.h"
+#include "BindShaderDesc.h"
+#include "PipeLine.h"
 
-CShader::CBUFFERS CShader::m_hashConstantBuffers;
+unordered_map<ID3DX11Effect*, CShader::CBUFFERS*> CShader::m_hashBufferGroups;
 
 CShader::CShader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
@@ -44,6 +48,8 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 	D3DX11_EFFECT_DESC effectDesc;
 	m_pEffect->GetDesc(&effectDesc);
 
+	CUtils* pUtils = GET_INSTANCE(CUtils);
+
 	for (UINT t = 0; t < effectDesc.Techniques; t++)
 	{
 		TECHNIQUEDESC	descTechnique;
@@ -58,6 +64,8 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 		if (FAILED(pTechnique->GetDesc(&TechniqueDesc)))
 			return E_FAIL;
 
+		descTechnique.strName = TechniqueDesc.Name;
+
 		for (_uint i = 0; i < TechniqueDesc.Passes; ++i)
 		{
 			PASSDESC				PassDesc;
@@ -69,9 +77,7 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 
 			PassDesc.pPass->GetDesc(&PassInfo);
 
-			CUtils* pUtils = GET_INSTANCE(CUtils);
-			PassDesc.strName = pUtils->ToWString(PassInfo.Name);
-			RELEASE_INSTANCE(CUtils);
+			PassDesc.strName = string(PassInfo.Name);
 
 			PassDesc.pPass->GetVertexShaderDesc(&PassDesc.passVsDesc);
 			PassDesc.passVsDesc.pShaderVariable->GetShaderDesc(PassDesc.passVsDesc.ShaderIndex, &PassDesc.effectVsDesc);
@@ -80,32 +86,90 @@ HRESULT CShader::Initialize_Prototype(const wstring& strShaderFilePath, const D3
 				return E_FAIL;
 
 			descTechnique.vecPasses.push_back(PassDesc);
+			descTechnique.hashPasses.emplace(PassDesc.strName, PassDesc);
 		}
 
 		m_vecTechnique.push_back(descTechnique);
 	}
+	RELEASE_INSTANCE(CUtils);
 
 	return S_OK;
 }
 
 HRESULT CShader::Initialize(void* pArg)
 {
+	auto iter = m_hashBufferGroups.find(m_pEffect);
+
+	if (iter == m_hashBufferGroups.end())
+	{
+		m_hashConstantBuffers = new CBUFFERS;
+		m_hashBufferGroups.emplace(m_pEffect, m_hashConstantBuffers);
+	}
+	else
+	{
+		m_hashConstantBuffers = iter->second;
+	}
+
 	return S_OK;
+}
+
+HRESULT CShader::Push_GlobalWVP()
+{
+	if (FAILED(Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
+		return E_FAIL;
+
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_ViewProjMatrix(),
+		m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return E_FAIL;
+}
+
+HRESULT CShader::Push_GlobalVP()
+{
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_ViewProjMatrix(),
+		m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return E_FAIL;
+}
+
+HRESULT CShader::Push_ShadowWVP()
+{
+	if (FAILED(Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
+		return S_OK;
+
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_DirectionLightMatrix(),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_LightViewProjMatrix(),
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return S_OK;
 }
 
 HRESULT CShader::Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength)
 {
-	if (0 == m_hashConstantBuffers.count(strCBufferName))
+	if (0 == m_hashConstantBuffers->count(strCBufferName))
 	{
 		if (0 == iLength) return E_FAIL;
 
 		CConstantBuffer* pCBuffer = CConstantBuffer::Create(m_pDevice, m_pContext, iLength);
 		ComPtr<ID3DX11EffectConstantBuffer> pEffectCBuffer = GetConstantBuffer(strCBufferName.c_str());
 
-		m_hashConstantBuffers.emplace(strCBufferName, make_pair(pCBuffer, pEffectCBuffer));
+		m_hashConstantBuffers->emplace(strCBufferName, make_pair(pCBuffer, pEffectCBuffer));
 	}
 
-	auto& pCBufferPair = m_hashConstantBuffers.find(strCBufferName);
+	auto& pCBufferPair = m_hashConstantBuffers->find(strCBufferName);
 	CConstantBuffer*& pCBuffer = pCBufferPair->second.first;
 	pCBuffer->CopyData(pData);
 
@@ -242,21 +306,14 @@ HRESULT CShader::Get_UAV(const _char* pConstantName, OUT void* pData) const
 	return pUAV->SetUnorderedAccessView((ID3D11UnorderedAccessView*)pData);
 }
 
-HRESULT CShader::SetTechniqeuIndex(_uint iTechniqueIndex)
+HRESULT CShader::SetPassTechIndex(_uint iPassIndex, _uint iTechniqueIndex)
 {
 	if (iTechniqueIndex >= m_vecTechnique.size())
 		return E_FAIL;
-
 	m_iTechniqueIndex = iTechniqueIndex;
 
-	return S_OK;
-}
-
-HRESULT CShader::SetPassIndex(_uint iPassIndex)
-{
-	if (iPassIndex >= m_vecTechnique[iPassIndex].vecPasses.size())
+	if (iPassIndex >= m_vecTechnique[m_iTechniqueIndex].vecPasses.size())
 		return E_FAIL;
-
 	m_iPassIndex = iPassIndex;
 
 	return S_OK;
@@ -270,13 +327,28 @@ HRESULT CShader::Begin(_uint iPassIndex, _uint iTechniqueIndex)
 	if (iPassIndex >= m_vecTechnique[iTechniqueIndex].vecPasses.size())
 		return E_FAIL;
 
-	/* 이러한 정보를 가진 정점을 그리낟. */
-	/* 이러한 정보를 가진  : 이미 셰이더에서 받을 수 있음을 검증했다. */
 	m_pContext->IASetInputLayout(m_vecTechnique[iTechniqueIndex].vecPasses[iPassIndex].pInputLayout);
 
-	/* 해당 ID3DXEffectPass로 그리낟. */
-	/* Apply를 호출하기전에 모든 변수를 셰이더로 전달하는 역활을 마무리해야한다. */
-	m_vecTechnique[iTechniqueIndex].vecPasses[iPassIndex].pPass->Apply(0, m_pContext);
+	if (FAILED(m_vecTechnique[iTechniqueIndex].vecPasses[iPassIndex].pPass->Apply(0, m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CShader::Begin(const string& strPassName, _uint iTechniqueIndex)
+{
+	if (iTechniqueIndex >= m_vecTechnique.size())
+		return E_FAIL;
+
+	auto& hash = m_vecTechnique[iTechniqueIndex].hashPasses;
+	auto& finder = hash.find(strPassName);
+	if (hash.end() == finder)
+		return E_FAIL;
+
+	m_pContext->IASetInputLayout(finder->second.pInputLayout);
+
+	if (FAILED(finder->second.pPass->Apply(0, m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -331,6 +403,7 @@ CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, c
 CComponent* CShader::Clone(CGameObject* pObject, void* pArg)
 {
 	CShader* pInstance = new CShader(*this);
+	pInstance->m_pOwner = pObject;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -360,5 +433,8 @@ void CShader::Free()
 
 	m_vecTechnique.clear();
 
-	Safe_Release(m_pEffect);
+	if(0 == Safe_Release(m_pEffect))
+	{
+		m_hashBufferGroups.erase(m_pEffect);
+	}
 }

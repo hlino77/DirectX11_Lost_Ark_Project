@@ -265,7 +265,8 @@ CUseLock_Transform * CUseLock_Transform::Create(ID3D11Device * pDevice, ID3D11De
 
 CComponent * CUseLock_Transform::Clone(CGameObject* pObject, void * pArg)
 {
-	CUseLock_Transform*			pInstance = new CUseLock_Transform(*this);
+	CUseLock_Transform*	pInstance = new CUseLock_Transform(*this);
+	pInstance->m_pOwner = pObject;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

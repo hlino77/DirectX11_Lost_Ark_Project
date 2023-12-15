@@ -54,12 +54,13 @@ public:
 	_uint	Get_Anim_MaxFrame(_uint iAnimation);
 	void	Set_Anim_Speed(_uint iAnimation, _float fSpeed);
 
-
 	_int	Find_BoneIndex(const wstring& szBoneName);
 	Matrix  Get_CurrBoneMatrix(_uint iIndex);
 
 	_int	Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed);
 
+	_int	FindMaterialIndexByName(string strMaterialName);
+	_bool	Is_HairTexture(_uint iMaterialIndex);
 
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
 public:
@@ -80,7 +81,11 @@ public:
 
 	HRESULT Set_Animation_Transforms();
 	HRESULT Set_AnimationBlend_Transforms();
-	HRESULT Render(class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
+	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const _uint iPassIndex = 0);
+	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const string& strPassName);
+	HRESULT Render(class CShader*& pShader);
+	HRESULT Render_SingleMesh(class CShader*& pShader, const _int& iMeshIndex);
+
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iStride, _uint iPassIndex = 0);
 
@@ -98,7 +103,6 @@ private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);
 	HRESULT Load_MaterialData_FromFile();
 	HRESULT Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient);
-
 
 	void	Change_NextAnimation();
 

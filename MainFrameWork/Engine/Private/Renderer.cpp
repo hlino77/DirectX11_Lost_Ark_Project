@@ -33,7 +33,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fShadowTargetSizeRatio = 5.12f;
 	m_fStaticShadowTargetSizeRatio = 5.12f;
 
-
 	/* For.Target_Diffuse */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Diffuse"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
@@ -43,6 +42,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_MakeSRV"),
 		500, 500, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
+
 
 	/* For. Target_TextBox*/
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_TextBox"),
@@ -59,14 +59,24 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
+	/* For.Target_Metalic */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Metalic"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	/* For.Target_Roughness */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	/* For.Target_Specular */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	/* For.Target_Depth */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Depth"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
-		return E_FAIL;
-
-	/* For.Target_ModelNormal */
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_ModelNormal"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
 	/* For.Target_ShadowDepth */
@@ -79,12 +89,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width * m_fStaticShadowTargetSizeRatio, ViewportDesc.Height * m_fStaticShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
 		return E_FAIL;
 
-
 	/* For.Target_EffectDiffuse */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_EffectDiffuse"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
-
 
 	/* For.Target_Blur */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_EffectBlur"),
@@ -95,51 +103,45 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-
 	/* For.Target_EffectShade */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_EffectShade"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-
-
 #ifdef _DEBUG
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 75.f, 75.f, 150.0f, 150.0f)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 75.f, 225.0f, 150.0f, 150.0f)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 225.0f, 75.f, 150.0f, 150.0f)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), 225.0f, 225.0f, 150.0f, 150.0f)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 180.0f, 180.0f, 360.0f, 360.0f)))
-		return E_FAIL;
+	constexpr _float fTargetX = 144.f;
+	constexpr _float fTargetY = 81.f;
+	constexpr _float fTargetCX = 288.f;
+	constexpr _float fTargetCY = 162.f;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), 180.0f, 540.0f, 360.0f, 360.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ModelNormal"), 150.0f, 570.0f, 300.0f, 300.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-	
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectDiffuse"), 75.f, 525.f, 150.0f, 150.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlur"), 225.f, 525.f, 150.0f, 150.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlurX"), 525.f, 525.f, 150.0f, 150.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Metalic"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectShade"), 375.f, 525.f, 150.0f, 150.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Roughness"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MakeSRV"), 1450.f, 150.0f, 150.0f, 150.0f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-	
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectDiffuse"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlur"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlurX"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectShade"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MakeSRV"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 
 #endif
 
@@ -151,48 +153,39 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Depth"))))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_ModelNormal"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Metalic"))))
 		return E_FAIL;
-
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_MakeSRV"), TEXT("Target_MakeSRV"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_TextBox"), TEXT("Target_TextBox"))))
 		return E_FAIL;
 
+
 	/* 이 렌더타겟들은 게임내에 존재하는 빛으로부터 연산한 결과를 저장받는다. */
 	/* For.MRT_ */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Shade"))))
 		return E_FAIL;
-
-
-
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Specular"))))
+		return E_FAIL;
 
 	//BlurEffect
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectDiffuse"))))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectBlur"))))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_EffectBlurX"), TEXT("Target_EffectBlurX"))))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_EffectBlurY"), TEXT("Target_EffectBlur"))))
 		return E_FAIL;
-
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_EffectShade"), TEXT("Target_EffectShade"))))
 		return E_FAIL;
-
-
 
 	m_pVIBuffer = CVIBuffer_Rect::Create(m_pDevice, m_pContext);
 	if (nullptr == m_pVIBuffer)
@@ -201,14 +194,15 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_pMRTShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
 	if (nullptr == m_pMRTShader)
 		return E_FAIL;
+	m_pMRTShader->Initialize();
 
 	m_pEffectShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred_Effect.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
 	if (nullptr == m_pEffectShader)
 		return E_FAIL;
+	m_pEffectShader->Initialize();
 
 	Ready_MakeSRV_DSV();
 	Ready_ShadowDSV();
-
 
 	m_WorldMatrix = XMMatrixIdentity();
 	m_WorldMatrix._11 = ViewportDesc.Width;
@@ -217,8 +211,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_ViewMatrix = XMMatrixIdentity();
 	
 	m_ProjMatrix = XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f);
-
-
 
 	Ready_BlurData();
 
@@ -281,8 +273,6 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject * pGame
 		return S_OK;
 	}
 
-
-
 	m_RenderObjects[eRenderGroup].push_back(pGameObject);
 
 	Safe_AddRef(pGameObject);
@@ -309,40 +299,54 @@ HRESULT CRenderer::Add_DebugObject(CGameObject* pObject)
 HRESULT CRenderer::Draw()
 {
 	if (m_bRenderStaticShadow)
-		Render_StaticShadow();
-
-	Update_TextBox();
-	Render_MakeSRV();
+		if (FAILED(Render_StaticShadow()))
+			return E_FAIL;
 
 
-	Render_Priority();
+	if (FAILED(Update_TextBox()))
+		return E_FAIL;
+	if (FAILED(Render_MakeSRV()))
+		return E_FAIL;
+	if (FAILED(Render_Priority()))
+		return E_FAIL;
+	if (FAILED(Render_NonAlphaBlend()))
+		return E_FAIL;
+	if (FAILED(Render_StaticInstance()))
+		return E_FAIL; 
+	if (FAILED(Render_ShadowDepth()))
+		return E_FAIL;
+	if (FAILED(Render_Lights()))
+		return E_FAIL; 
+	if (FAILED(Render_LightAcc()))
+		return E_FAIL;
+	if (FAILED(Render_Deferred()))
+		return E_FAIL;
+	if (FAILED(Render_Blend()))
+		return E_FAIL;
+	if (FAILED(Render_NonLight()))
+		return E_FAIL;
+	if (FAILED(Render_AlphaBlend()))
+		return E_FAIL;
+	if (FAILED(Render_ModelEffectInstance()))
+		return E_FAIL;
+	if (FAILED(Render_EffectInstance()))
+		return E_FAIL;
+	if (FAILED(Render_EffectBlur()))
+		return E_FAIL;
+	if (FAILED(Render_EffectAcc()))
+		return E_FAIL;
+	if (FAILED(Render_WorldUI()))
+		return E_FAIL;
+	if (FAILED(Render_UI()))
+		return E_FAIL;
 
-	Render_NonAlphaBlend();
-	Render_StaticInstance();
-	Render_ShadowDepth();
 
+	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::T))
+		m_bTargetOnOff = !m_bTargetOnOff;
 
-	Render_Lights();
-	Render_LightAcc();
-	Render_Deferred();
+	if (m_bTargetOnOff)
+		Render_Debug();
 
-
-	Render_Blend();
-	Render_NonLight();
-	Render_AlphaBlend();
-	Render_ModelEffectInstance();
-	Render_EffectInstance();
-
-	Render_EffectBlur();
-	Render_EffectAcc();
-
-
-	Render_WorldUI();
-	Render_UI();
-	Render_TextBox();
-	Render_DebugObject();
-	//Render_Debug();
-	
 	
 	return S_OK;
 }
@@ -386,7 +390,6 @@ HRESULT CRenderer::Render_MakeSRV()
 	if (m_MakeSRVObjects.empty())
 		return S_OK;
 
-
 	D3D11_VIEWPORT		ViewportDesc;
 
 	_uint				iNumViewports = 1;
@@ -399,8 +402,6 @@ HRESULT CRenderer::Render_MakeSRV()
 	ViewportDesc.Height = 500;
 
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
-
-
 
 	for (auto& iter : m_MakeSRVObjects)
 	{
@@ -415,13 +416,10 @@ HRESULT CRenderer::Render_MakeSRV()
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 
-
-
 		m_pTarget_Manager->Copy_SRV(L"Target_MakeSRV", iter.pSRV);
 
 	}
 	m_MakeSRVObjects.clear();
-
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	ViewportDesc.Width = fOriginalWidth;
@@ -479,7 +477,6 @@ HRESULT CRenderer::Render_ShadowDepth()
 
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
 
-
 	for (auto& iter : m_RenderObjects[RENDER_SHADOW])
 	{
 		if (FAILED(iter->Render_ShadowDepth()))
@@ -488,10 +485,8 @@ HRESULT CRenderer::Render_ShadowDepth()
 	}
 	m_RenderObjects[RENDER_SHADOW].clear();
 
-
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	ViewportDesc.Width = fOriginalWidth;
@@ -521,7 +516,6 @@ HRESULT CRenderer::Render_StaticShadow()
 
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
 
-
 	for (auto& iter : m_RenderObjects[RENDER_STATICSHADOW])
 	{
 		if (FAILED(iter->Render_ShadowDepth()))
@@ -534,7 +528,6 @@ HRESULT CRenderer::Render_StaticShadow()
 		return E_FAIL;
 
 	m_pTarget_Manager->Make_SRVTexture(L"../Bin/Resources/Textures/LightMap/LightMap.dds", L"Target_StaticShadowDepth");
-
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	ViewportDesc.Width = fOriginalWidth;
@@ -578,10 +571,8 @@ HRESULT CRenderer::Render_Lights()
 
 HRESULT CRenderer::Render_LightAcc()
 {
-
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Lights"))))
 		return E_FAIL;
-
 
 	/* 사각형 버퍼를 직교투영으로 Shade타겟의 사이즈만큼 꽉 채워서 그릴꺼야. */
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
@@ -591,35 +582,28 @@ HRESULT CRenderer::Render_LightAcc()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-
-
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ViewMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW))))
 		return E_FAIL;
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
-
 
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_LightViewMatrix", &CLight_Manager::GetInstance()->Get_DirectionLightMatrix())))
 		return E_FAIL;
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_LightProjMatrix", &CPipeLine::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
-
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_StaticLightViewMatrix", &CLight_Manager::GetInstance()->Get_StaticLightMatrix())))
 		return E_FAIL;
-
 
 	D3D11_VIEWPORT		ViewportDesc;
 	_uint				iNumViewports = 1;
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	Vec2 vWinSize(ViewportDesc.Width, ViewportDesc.Height);
 
-
 	/*if (KEY_TAP(KEY::UP_ARROW))
 		m_fBias += 0.000001f;
 	if (KEY_TAP(KEY::DOWN_ARROW))
 		m_fBias -= 0.000001f;*/
-
 
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fBias", &m_fBias, sizeof(_float))))
 		return E_FAIL;
@@ -633,35 +617,25 @@ HRESULT CRenderer::Render_LightAcc()
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticShadowSizeRatio", &m_fStaticShadowTargetSizeRatio, sizeof(_float))))
 		return E_FAIL;
 
+	Vec4 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
 
-	Vec3 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
-
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_CamPosition", &vCamPos, sizeof(Vec3))))
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
 		return E_FAIL;
 
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Depth"), "g_DepthTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Depth"), "g_DepthTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ModelNormal"), "g_ModelNormalTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTarget")))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTexture")))
-		return E_FAIL;
-
-
-	
 
 	m_pLight_Manager->Render(m_pMRTShader, m_pVIBuffer);
-
 
 	/* 다시 장치의 0번째 소켓에 백 버퍼를 올린다. */
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -676,18 +650,28 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTexture")))
-		return E_FAIL;
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::B))
+		m_bPBR_Switch = !m_bPBR_Switch;
 
-	if (FAILED(m_pMRTShader->Begin(3)))
-		return E_FAIL;
+	if (m_bPBR_Switch)
+	{
+		if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pMRTShader->Begin("Deferred")))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
 	
 	return S_OK;
 }
@@ -771,7 +755,6 @@ HRESULT CRenderer::Render_EffectBlur()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_EffectBlurX"))))
 		return E_FAIL;
 
-
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -779,7 +762,7 @@ HRESULT CRenderer::Render_EffectBlur()
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_BlurTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_BlurTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pEffectShader->Bind_RawValue("g_PixelSize", &m_vPixelSize, sizeof(Vec2))))
@@ -797,32 +780,27 @@ HRESULT CRenderer::Render_EffectBlur()
 	if (FAILED(m_pEffectShader->Bind_RawValue("g_WeightAtt", &fWeightAtt, sizeof(_float))))
 		return E_FAIL;
 
-
 	if (FAILED(m_pEffectShader->Begin(2)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-
 	/* 다시 장치의 0번째 소켓에 백 버퍼를 올린다. */
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
-
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_EffectBlurY"))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlurX"), "g_BlurTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlurX"), "g_BlurTarget")))
 		return E_FAIL;
 	
-
 	if (FAILED(m_pEffectShader->Begin(3)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -834,8 +812,6 @@ HRESULT CRenderer::Render_EffectAcc()
 {
 	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_EffectShade"))))
 		return E_FAIL;*/
-
-
 	/* 사각형 버퍼를 직교투영으로 Shade타겟의 사이즈만큼 꽉 채워서 그릴꺼야. */
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
@@ -844,13 +820,8 @@ HRESULT CRenderer::Render_EffectAcc()
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-
-	
-
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_DiffuseTarget")))
 		return E_FAIL;
-
 
 	if (FAILED(m_pEffectShader->Begin(4)))
 		return E_FAIL;
@@ -858,9 +829,7 @@ HRESULT CRenderer::Render_EffectAcc()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectDiffuse"), "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectDiffuse"), "g_DiffuseTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pEffectShader->Begin(1)))
@@ -868,9 +837,6 @@ HRESULT CRenderer::Render_EffectAcc()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
-
-
 
 	/* 다시 장치의 0번째 소켓에 백 버퍼를 올린다. */
 	/*if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -936,7 +902,6 @@ HRESULT CRenderer::Render_TextBox()
 
 HRESULT CRenderer::Render_Debug()
 {
-
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
@@ -945,9 +910,8 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_GameObjects"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
-
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 	
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
@@ -991,9 +955,7 @@ HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
 	WorldMatrix.reserve(500);
 
 	for (auto& Model : m_StaticInstance[szModelName])
-	{
 		WorldMatrix.push_back(Model->Get_TransformCom()->Get_WorldMatrix());
-	}
 
 	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
 
@@ -1002,7 +964,6 @@ HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
 	memcpy(SubResource.pData, WorldMatrix.data(), sizeof(Matrix) * WorldMatrix.size());
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
-
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -1019,19 +980,17 @@ HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(pModel->SetUp_OnShader(m_pInstanceShader, pModel->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		if (FAILED(pModel->SetUp_OnShader(m_pInstanceShader, pModel->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTarget")))
 			return S_OK;
 
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTarget")))
 			return E_FAIL;*/
-
 
 		if (FAILED(pModel->Render_Instance(m_pInstanceBuffer, WorldMatrix.size(), m_pInstanceShader, i)))
 			return S_OK;
 	}
 
 	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }
@@ -1050,8 +1009,6 @@ HRESULT CRenderer::Render_EffectInstancing(const wstring& szModelName)
 
 			return fDistanceL < fDistanceR;
 		});*/
-
-
 
 	vector<Vec4> InstanceData;
 	InstanceData.reserve(5000);
@@ -1111,8 +1068,6 @@ HRESULT CRenderer::Ready_InstanceBuffer()
 
 		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
-
-		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
 		BufferDesc.ByteWidth = sizeof(VTXINSTANCE) * 500;
 		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -1137,8 +1092,6 @@ HRESULT CRenderer::Ready_InstanceBuffer()
 
 		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
-
-		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
 		BufferDesc.ByteWidth = sizeof(VTXINSTANCE_POINTEFFECT) * 1000;
 		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -1156,19 +1109,13 @@ HRESULT CRenderer::Ready_InstanceBuffer()
 
 		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pPointEffect_InstanceBuffer)))
 			return E_FAIL;
-
-
 	}
-
-
 
 	{
 		D3D11_BUFFER_DESC			BufferDesc;
 
 		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
-
-		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
 		BufferDesc.ByteWidth = sizeof(VTXINSTANCE_MODELEFFECT) * 500;
 		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -1221,19 +1168,16 @@ HRESULT CRenderer::Ready_MakeSRV_DSV()
 			return E_FAIL;
 	}
 
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CRenderer::Ready_ShadowDSV()
 {
-	
-	
 	D3D11_VIEWPORT		ViewportDesc;
 
 	_uint				iNumViewports = 1;
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 
-	
 	//ShadowDepth
 	{
 		ID3D11Texture2D* pDepthStencilTexture = nullptr;
@@ -1289,7 +1233,6 @@ HRESULT CRenderer::Ready_ShadowDSV()
 		if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pStaticShadowDSV)))
 			return E_FAIL;
 	}
-
 
 	return S_OK;
 }

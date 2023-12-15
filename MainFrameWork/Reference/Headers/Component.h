@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 
+class CGameInstance;
 class ENGINE_DLL CComponent abstract : public CBase
 {
 protected:
@@ -14,18 +15,21 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
+	virtual HRESULT Initialize(void* pArg = nullptr);
 	virtual void	Tick(const _float & fTimeDelta) {};
 	virtual void	LateTick(const _float & fTimeDelta) {};
-
-public:
 	virtual HRESULT Render() { return S_OK; }
 	virtual void	DebugRender() {};
+
+public:
+	CTransform*		Get_TransformCom() const;
 
 protected:
 	CGameObject* m_pOwner = nullptr;
 
 protected:
+	CGameInstance*			m_pGameInstance = nullptr;
+
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 	_bool					m_isCloned = { false };

@@ -16,7 +16,6 @@ public:
 		_float			fRotationPerSec;
 	}TRANSFORMDESC;
 
-
 protected:
 	CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CTransform(const CTransform& rhs);
@@ -26,17 +25,11 @@ public:
 	virtual Vec3 Get_State(STATE eState) PURE;
 
 	virtual Matrix Get_WorldMatrix() PURE;
-
-
 	virtual Matrix Get_WorldMatrix_TP() PURE;
-
 	virtual Matrix Get_WorldMatrixInverse() PURE;
 
 	virtual void Set_State(STATE eState, Vec3 vState) PURE;
 	virtual void Set_WorldMatrix(Matrix matWorld) PURE;
-
-
-
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -67,7 +60,6 @@ public:
 	virtual void LookAt_Lerp_ForLand(Vec3 vAt, _float fSpeed, _float fTimeDelta) PURE;
 	virtual void SetUp_Lerp(Vec3 vLook, _float fSpeed, _float fTimeDelta) PURE;
 	virtual void Move_Pos(Vec3 vTargetPos) PURE;
-
 
 	virtual void Set_Up(Vec3 vNormal) PURE;
 

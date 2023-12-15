@@ -55,7 +55,6 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
-	
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
@@ -120,78 +119,29 @@ void CMonster_Zombie::LateTick(_float fTimeDelta)
 HRESULT CMonster_Zombie::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
-	m_PlayAnimation.get();
+	if (FAILED(m_PlayAnimation.get()))
+		return E_FAIL;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
-		return S_OK;
+	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
 
-	GlobalDesc gDesc = {
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		pGameInstance->Get_ViewProjMatrix(),
-		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
-		return S_OK;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return S_OK;
-		}
-	}
-
-	Safe_Release(pGameInstance);
-
-
+	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
 
     return S_OK;
 }
 
 HRESULT CMonster_Zombie::Render_ShadowDepth()
 {
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
+	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
-
-	GlobalDesc gDesc = {
-		pGameInstance->Get_DirectionLightMatrix(),
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		pGameInstance->Get_LightViewProjMatrix()
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
-		return S_OK;
-
-
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -207,9 +157,6 @@ HRESULT CMonster_Zombie::Render_ShadowDepth()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
 			return S_OK;
 	}
-
-	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }
@@ -262,8 +209,6 @@ void CMonster_Zombie::Set_SlowMotion(_bool bSlow)
 		}
 	}
 }
-
-
 
 HRESULT CMonster_Zombie::Ready_Components()
 {
@@ -353,7 +298,6 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
 		return E_FAIL;
 
-
 	CBT_Action::ACTION_DESC ActionDesc = {};
 	ActionDesc.pBehaviorTree = m_pBehaviorTree;
 	ActionDesc.pGameObject = this;
@@ -441,8 +385,6 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Chase";
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
-
-
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
@@ -476,6 +418,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
 	return S_OK;
 }
+
 
 
 HRESULT CMonster_Zombie::Ready_Coliders()
