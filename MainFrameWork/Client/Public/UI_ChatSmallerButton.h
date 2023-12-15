@@ -26,7 +26,7 @@ private:
     virtual HRESULT Bind_ShaderResources();
 
 private:
-    _uint m_iFrame = {0.f};
+    _uint m_iFrame = {0};
     
 
 public:

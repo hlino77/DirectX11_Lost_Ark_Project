@@ -62,25 +62,8 @@ HRESULT CWeapon_Shot::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 10)))
-				return S_OK;
-		}
-	}
-
+	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -124,17 +107,10 @@ HRESULT CWeapon_Shot::Ready_Components()
 
 HRESULT CWeapon_Shot::Bind_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
 		return E_FAIL;
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	RELEASE_INSTANCE(CGameInstance);
+	if (FAILED(m_pShaderCom->Push_GlobalVP()))
+		return E_FAIL;
 
 	return S_OK;
 }
