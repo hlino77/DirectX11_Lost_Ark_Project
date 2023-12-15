@@ -40,13 +40,21 @@ protected:
 	virtual ~CMonster() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	virtual void Tick(_float fTimeDelta);
-	virtual void LateTick(_float fTimeDelta);
-	virtual HRESULT Render();
-	virtual HRESULT Render_ShadowDepth();
+	virtual HRESULT			Initialize_Prototype();
+	virtual HRESULT			Initialize(void* pArg);
+	virtual void			Tick(_float fTimeDelta);
+	virtual void			LateTick(_float fTimeDelta);
+	virtual HRESULT			Render();
+	virtual HRESULT			Render_ShadowDepth();
+	virtual HRESULT			Render_Debug();
+
+
+
+
 	virtual void Set_SlowMotion(_bool bSlow) override;
+
+
+
 public:
 	void					Find_NearTarget();
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
@@ -81,7 +89,6 @@ public:
 	void					Set_Action(wstring strAction) { m_strAction = strAction; }
 	wstring					Get_Action() { return m_strAction; }
 
-	void	Effect_Die();
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI();

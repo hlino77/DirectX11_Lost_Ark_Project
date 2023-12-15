@@ -21,7 +21,7 @@ public:
 	virtual void Tick(_float fTimeDelta);
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
-
+	virtual HRESULT	Render_ShadowDepth();
 
 
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;

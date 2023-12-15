@@ -168,22 +168,21 @@ HRESULT CPlayer::Render_ShadowDepth()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
-
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-			return E_FAIL;*/
-
-
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
-			return S_OK;
-	}
-
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Render_Debug()
+{
+	for (auto& Colider : m_Coliders)
+	{
+		if (Colider.second->IsActive())
+		{
+			Colider.second->DebugRender();
+		}
+			
+	}
 
 	return S_OK;
 }
@@ -496,28 +495,28 @@ HRESULT CPlayer::Ready_Components()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderBody"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
-		if(pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
 
-		CCollisionManager::GetInstance()->Add_Colider(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]);
-	}
+		if (pCollider)
+		{
+			{
+				CCollider::ColliderInfo tChildColliderInfo;
+				tChildColliderInfo.m_bActive = true;
+				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
+				COBBCollider* pChildCollider = nullptr;
 
+				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderBodyChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
+					return E_FAIL;
 
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
-		CSphereCollider* pCollider = nullptr;
+				pCollider->Set_Child(pChildCollider);
+			}
 
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		if(pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, pCollider);
+		}
 	}
 
 
@@ -542,6 +541,7 @@ void CPlayer::CullingObject()
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+			m_pRendererCom->Add_DebugObject(this);
 		}
 			
 		return;
@@ -559,6 +559,7 @@ void CPlayer::CullingObject()
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		m_pRendererCom->Add_DebugObject(this);
 	}
 		
 }

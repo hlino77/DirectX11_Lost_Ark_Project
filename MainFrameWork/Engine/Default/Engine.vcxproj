@@ -179,6 +179,7 @@
     <ClInclude Include="..\Public\ColliderBase.h" />
     <ClInclude Include="..\Public\ColliderOBB.h" />
     <ClInclude Include="..\Public\ColliderSphere.h" />
+    <ClInclude Include="..\Public\ColliderSphereGroup.h" />
     <ClInclude Include="..\Public\CollisionManager.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Component_Manager.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="..\Private\ColliderBase.cpp" />
     <ClCompile Include="..\Private\ColliderOBB.cpp" />
     <ClCompile Include="..\Private\ColliderSphere.cpp" />
+    <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
     <ClCompile Include="..\Private\CollisionManager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\Component_Manager.cpp" />

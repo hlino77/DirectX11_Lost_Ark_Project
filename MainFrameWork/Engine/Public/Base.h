@@ -1,5 +1,5 @@
 #pragma once
-
+#include <atomic>
 #include "Engine_Defines.h"
 
 class ENGINE_DLL CBase abstract
@@ -18,7 +18,7 @@ public:
 	unsigned long Release();
 
 private:
-	unsigned long		m_dwRefCnt = 0;
+	atomic<unsigned long>		m_dwRefCnt = 0;
 
 public:
 	virtual void Free();

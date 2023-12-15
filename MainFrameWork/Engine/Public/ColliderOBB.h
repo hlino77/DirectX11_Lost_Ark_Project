@@ -14,12 +14,12 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype()					override;
 	virtual HRESULT Initialize(void* pArg)					override;
-	virtual void	Tick(const _float& fTimeDelta)			override;
-	virtual void	LateTick(const _float& fTimeDelta)		override;
+	virtual void	Update_Collider()						override;
 	virtual void	DebugRender()							override;
 
 	virtual _bool	Intersects(SimpleMath::Ray& ray, OUT _float& distance)	override;
 	virtual _bool	Intersects(Super* other)					override;
+	virtual _bool	Intersects_Bounding(Super* other)						override;
 	virtual _bool			Intersects_Box(const BoundingBox& Collier) override;
 
 	void			Set_Scale(Vec3 vScale) { m_vScale = vScale; }
@@ -33,8 +33,8 @@ public:
 	Quaternion			Get_Orientation() { return m_vOrientation; }
 
 	void				Set_StaticBoundingBox();
-private:
 	void				Set_BoundingBox();
+
 
 private:
 	BoundingOrientedBox	m_tBoundingBox;

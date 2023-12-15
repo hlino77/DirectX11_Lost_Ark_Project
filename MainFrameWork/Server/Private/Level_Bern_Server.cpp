@@ -27,12 +27,6 @@ HRESULT CLevel_Bern_Server::Initialize()
 
 	Ready_Events();
 
-
-	Broadcast_LevelState(LEVELSTATE::INITREADY);
-	Wait_ClientLevelState(LEVELSTATE::INITREADY);
-	Broadcast_LevelState(LEVELSTATE::INITSTART);
-
-
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
@@ -57,14 +51,6 @@ HRESULT CLevel_Bern_Server::Initialize()
 	if (FAILED(Ready_Layer_UI(LAYER_TYPE::LAYER_UI)))
 		return E_FAIL;
 
-	Wait_ClientLevelState(LEVELSTATE::INITEND);
-
-	CEventMgr::GetInstance()->Start_Event((_uint)EVENT::ARENASTART);
-
-	Broadcast_LevelState(LEVELSTATE::INITEND);
-
-
-	Start_Collision();
 
 	m_fNextLevelDelay = 3.0f;
 
@@ -91,7 +77,6 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 HRESULT CLevel_Bern_Server::Exit()
 {
 	CNavigationMgr::GetInstance()->Reset_Navigation();
-	End_Collision();
 	return S_OK;
 }
 
@@ -342,63 +327,6 @@ HRESULT CLevel_Bern_Server::Ready_Events()
 	return S_OK;
 }
 
-
-
-void CLevel_Bern_Server::Set_CheckGruop()
-{
-	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY, (_uint)LAYER_COLLIDER::LAYER_BODY);
-	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY, (_uint)LAYER_COLLIDER::LAYER_ATTACK);
-}
-
-void CLevel_Bern_Server::Start_Collision()
-{
-	Set_CheckGruop();
-
-	m_pCollisionThread = new thread([=]()
-		{
-			ThreadManager::GetInstance()->InitTLS();
-
-			CGameInstance* pGameInstance = CGameInstance::GetInstance();
-			Safe_AddRef(pGameInstance);
-
-			CCollisionManager* pCollisionManager = CCollisionManager::GetInstance();
-			pCollisionManager->AddRef();
-
-			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Collision_Bern"))))
-				return FALSE;
-
-			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Collision_60_Bern"))))
-				return FALSE;
-
-			_float		fTimeAcc = 0.f;
-
-
-			while (!pCollisionManager->Is_Stop())
-			{
-				fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Collision_Bern"));
-
-				if (fTimeAcc >= 1.f / 60.0f)
-				{
-					pCollisionManager->LateTick_Collision(pGameInstance->Compute_TimeDelta(TEXT("Timer_Collision_60_Bern")));
-					fTimeAcc = 0.f;
-				}
-			}
-
-			Safe_Release(pCollisionManager);
-
-			Safe_Release(pGameInstance);
-
-			ThreadManager::GetInstance()->DestroyTLS();
-		});
-}
-
-void CLevel_Bern_Server::End_Collision()
-{
-	CCollisionManager::GetInstance()->Set_Stop(true);
-	m_pCollisionThread->join();
-	CCollisionManager::GetInstance()->Reset();
-	Safe_Delete(m_pCollisionThread);
-}
 
 
 CLevel_Bern_Server* CLevel_Bern_Server::Create()

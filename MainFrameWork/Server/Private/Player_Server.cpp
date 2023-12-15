@@ -70,7 +70,7 @@ HRESULT CPlayer_Server::Render()
 
 void CPlayer_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	/*CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	pGameInstance->AddRef();
 
 
@@ -92,7 +92,7 @@ void CPlayer_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
 
-	Safe_Release(pGameInstance);
+	Safe_Release(pGameInstance);*/
 }
 
 void CPlayer_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -129,10 +129,7 @@ void CPlayer_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 
 void CPlayer_Server::Set_Colliders(_float fTimeDelta)
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Center();
 
-	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->IsActive())
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Center();
 }
 
 HRESULT CPlayer_Server::Ready_Animations()
@@ -198,31 +195,6 @@ HRESULT CPlayer_Server::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderBody"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
-		CCollisionManager::GetInstance()->Add_Colider(pCollider);
-	}
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
-		CCollisionManager::GetInstance()->Add_Colider(pCollider);
-	}
 
 
 	Safe_Release(pGameInstance);

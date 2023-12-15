@@ -131,31 +131,7 @@ HRESULT CMonster_Server::Ready_Components()
 
 
 
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
-		CCollisionManager::GetInstance()->Add_Colider(pCollider);
-	}
 	
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
-		CCollisionManager::GetInstance()->Add_Colider(pCollider);
-	}
 
 
 	Safe_Release(pGameInstance);
@@ -537,29 +513,16 @@ void CMonster_Server::Send_Monster_Action()
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-	cout << "Send Monster Action" << endl;
 }
 
 void CMonster_Server::Set_Colliders(_float fTimeDelta)
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Center();
-
-	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->IsActive())
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Center();
+	
 }
 
 HRESULT CMonster_Server::Ready_Coliders()
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Radius(1.0f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Offset(Vec3(0.0f, 0.7f, 0.0f));
-	Send_ColliderState((_uint)LAYER_COLLIDER::LAYER_BODY);
-
-
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Radius(0.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->SetActive(false);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
-	Send_ColliderState((_uint)LAYER_COLLIDER::LAYER_ATTACK);
+	
 
 	return S_OK;
 }

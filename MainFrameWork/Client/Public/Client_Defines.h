@@ -33,8 +33,13 @@ namespace Client
 
 	enum class LAYER_COLLIDER
 	{
-		LAYER_BODY,
-		LAYER_ATTACK,
+		LAYER_BODY_PLAYER,
+		LAYER_BODY_MONSTER,
+		LAYER_BODY_BOSS,
+		LAYER_BODY_STATICMODEL,
+		LAYER_ATTACK_MONSTER,
+		LAYER_ATTACK_PLAYER,
+		LAYER_ATTACK_BOSS,
 		LAYER_CHILD,
 		LAYER_END
 	};
@@ -75,5 +80,5 @@ extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;
 using namespace Client;
 
-#define SERVER_IP		L"127.0.0.1"
+#define SERVER_IP		L"26.80.185.93"
 #define SERVER_PORT		7777

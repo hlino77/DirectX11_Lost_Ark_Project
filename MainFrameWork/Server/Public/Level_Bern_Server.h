@@ -48,9 +48,6 @@ public:
 
 private:
 
-	void			Set_CheckGruop();
-	void			Start_Collision();
-	void			End_Collision();
 private:
 	_float m_fBroadcastTime = 0.0f;
 

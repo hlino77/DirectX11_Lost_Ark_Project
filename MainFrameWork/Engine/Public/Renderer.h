@@ -37,6 +37,8 @@ public:
 	HRESULT Reserve_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** pSRV);
+	HRESULT Add_DebugObject(CGameObject* pObject);
+
 
 
 	HRESULT Draw();
@@ -79,6 +81,7 @@ private:
 
 
 	HRESULT Render_Debug();
+	HRESULT Render_DebugObject();
 private:
 	HRESULT Render_ModelInstancing(const wstring& szModelName);
 	HRESULT Render_EffectInstancing(const wstring& szModelName);
@@ -87,6 +90,12 @@ private:
 
 
 	HRESULT Ready_InstanceBuffer();
+
+
+	//Debug
+	vector<class CGameObject*> m_DebugRenderObjects;
+	//
+
 
 
 	list<class CGameObject*>			m_RenderObjects[RENDER_END];
@@ -143,6 +152,7 @@ private:
 
 
 	_bool m_bRenderStaticShadow = false;
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

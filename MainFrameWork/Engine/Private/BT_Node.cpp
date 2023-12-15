@@ -6,7 +6,7 @@ CBT_Node::CBT_Node()
 }
 
 CBT_Node::CBT_Node(const CBT_Node& rhs)
-:CBase(rhs)
+:CBase()
 {
 }
 

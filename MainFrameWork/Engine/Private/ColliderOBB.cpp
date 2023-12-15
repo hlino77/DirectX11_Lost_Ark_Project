@@ -5,6 +5,7 @@
 #include "DebugDraw.h"
 #include "Model.h"
 #include "ColliderSphere.h"
+#include "ColliderSphereGroup.h"
 
 COBBCollider::COBBCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext, ColliderType::OBB)
@@ -42,14 +43,11 @@ HRESULT COBBCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-void COBBCollider::Tick(const _float& fTimeDelta)
+void COBBCollider::Update_Collider()
 {
 	Set_BoundingBox();
 }
 
-void COBBCollider::LateTick(const _float& fTimeDelta)
-{
-}
 
 void COBBCollider::DebugRender()
 {
@@ -70,21 +68,40 @@ _bool COBBCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 
 _bool COBBCollider::Intersects(Super* other)
 {
-	ColliderType type = other->GetColliderType();
+	if (Intersects_Bounding(other) == false)
+		return false;
 
-	switch (type)
+	if (other->Get_Child())
 	{
-	case ColliderType::Sphere:
-		return m_tBoundingBox.Intersects(static_cast<CSphereCollider*>(other)->GetBoundingSphere());
-	//case ColliderType::AABB:
-	//	return m_tBoundingSphere.Intersects(static_cast<CAABBCollider*>(other)->GetBoundingBox());
-	case ColliderType::OBB:
-		return m_tBoundingBox.Intersects(static_cast<COBBCollider*>(other)->GetBoundingBox());
-	//case ColliderType::Cylinder:
-	//	return m_tBoundingSphere.Intersects(static_cast<CCylinderCollider*>(other)->GetBoundingCylinder());
+		if (Intersects_Bounding(other->Get_Child()) == false)
+			return false;
 	}
 
-	return false;
+	return true;
+}
+
+_bool COBBCollider::Intersects_Bounding(Super* other)
+{
+	_bool bCollision = false;
+
+	switch (other->GetColliderType())
+	{
+	case ColliderType::Sphere:
+		bCollision = m_tBoundingBox.Intersects(static_cast<CSphereCollider*>(other)->GetBoundingSphere());
+		break;
+	case ColliderType::OBB:
+		bCollision = m_tBoundingBox.Intersects(static_cast<COBBCollider*>(other)->GetBoundingBox());
+		break;
+	case ColliderType::AABB:
+		bCollision = false;
+		break;
+	case ColliderType::Group:
+		bCollision = other->Intersects(this);
+		break;
+	}
+
+
+	return bCollision;
 }
 
 _bool COBBCollider::Intersects_Box(const BoundingBox& Collier)
