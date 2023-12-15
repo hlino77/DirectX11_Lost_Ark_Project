@@ -59,6 +59,7 @@ public:
 
 	_int	Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed);
 
+	_bool	Is_HairTexture(_uint iMaterialIndex);
 
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
 public:
@@ -94,7 +95,6 @@ private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);
 	HRESULT Load_MaterialData_FromFile();
 	HRESULT Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient);
-
 
 	void	Change_NextAnimation();
 

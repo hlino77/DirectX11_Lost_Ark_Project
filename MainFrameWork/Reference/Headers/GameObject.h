@@ -159,6 +159,7 @@ protected:
 	class CRenderer*				m_pRendererCom = nullptr;
 
 	unordered_map<_uint, class CSphereCollider*> m_Coliders;
+
 protected:
 	_float				m_fCamDistance = 0.f;
 	wstring				m_strObjectTag = L"";

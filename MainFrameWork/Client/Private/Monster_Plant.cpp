@@ -117,24 +117,38 @@ HRESULT CMonster_Plant::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
 		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
+			return E_FAIL;
 
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
-			FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+		if (SUCCEEDED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
+			if (SUCCEEDED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")))
+			{
+				if (SUCCEEDED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+				{
+					if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "PBR")))
+						return E_FAIL;
+				}
+				else
+				{
+					if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "PBR_NoMask")))
+						return E_FAIL;
+				}
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Phong")))
+					return E_FAIL;
+			}
 		}
 		else
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return S_OK;
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Naruto")))
+				return E_FAIL;
 		}
 	}
 

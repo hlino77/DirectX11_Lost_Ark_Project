@@ -306,21 +306,14 @@ HRESULT CShader::Get_UAV(const _char* pConstantName, OUT void* pData) const
 	return pUAV->SetUnorderedAccessView((ID3D11UnorderedAccessView*)pData);
 }
 
-HRESULT CShader::SetTechniqeuIndex(_uint iTechniqueIndex)
+HRESULT CShader::SetPassTechIndex(_uint iPassIndex, _uint iTechniqueIndex)
 {
 	if (iTechniqueIndex >= m_vecTechnique.size())
 		return E_FAIL;
-
 	m_iTechniqueIndex = iTechniqueIndex;
 
-	return S_OK;
-}
-
-HRESULT CShader::SetPassIndex(_uint iPassIndex)
-{
-	if (iPassIndex >= m_vecTechnique[iPassIndex].vecPasses.size())
+	if (iPassIndex >= m_vecTechnique[m_iTechniqueIndex].vecPasses.size())
 		return E_FAIL;
-
 	m_iPassIndex = iPassIndex;
 
 	return S_OK;

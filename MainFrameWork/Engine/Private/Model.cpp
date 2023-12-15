@@ -611,6 +611,66 @@ HRESULT CModel::Load_MaterialData_FromFile()
 			}
 		}
 
+		// Emissive Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_EMISSIVE] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_EMISSIVE])
+					return E_FAIL;
+			}
+		}
+
+		// Metalic Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_METALNESS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_METALNESS])
+					return E_FAIL;
+			}
+		}
+
+		// Roughness Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS])
+					return E_FAIL;
+			}
+		}
+
 		// Ambient
 		{
 			Node = Node->NextSiblingElement();
@@ -685,7 +745,25 @@ HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)
 	return S_OK;
 }
 
+_bool CModel::Is_HairTexture(_uint iMaterialIndex)
+{
+	string strMaterialName = Get_Material_Name(iMaterialIndex);
 
+	size_t pos = strMaterialName.find("_");
+	while (pos != string::npos)
+	{
+		strMaterialName.replace(pos, 1, " ");
+		pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
+	}
+
+	string search_str = "hair";
+	size_t hair_pos = strMaterialName.find(search_str);
+
+	if (hair_pos != string::npos)
+		return true;
+	else
+		return false;
+}
 
 void CModel::Change_NextAnimation()
 {

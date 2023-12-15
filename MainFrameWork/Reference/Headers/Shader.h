@@ -40,7 +40,7 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype(const wstring& strShaderFilePath, const D3D11_INPUT_ELEMENT_DESC * pElements, _uint iNumElements);
-	virtual HRESULT Initialize(void* pArg);
+	virtual HRESULT Initialize(void* pArg = nullptr);
 
 public:
 	HRESULT Push_GlobalWVP();
@@ -61,8 +61,7 @@ public:
 	HRESULT Get_Matrices(const _char* pConstantName, OUT Matrix* pMatrices, _uint iNumMatrices) const;
 	HRESULT Get_UAV(const _char* pConstantName, OUT void* pData) const;
 
-	HRESULT SetTechniqeuIndex(_uint iTechniqueIndex);
-	HRESULT SetPassIndex(_uint iPassIndex);
+	HRESULT SetPassTechIndex(_uint iPassIndex, _uint iTechniqueIndex = 0);
 
 public: /* 이 셰이더의 특정 패스로 그린다. */
 	HRESULT Begin(_uint iPassIndex, _uint iTechniqueIndex = 0);

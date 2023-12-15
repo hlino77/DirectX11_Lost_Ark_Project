@@ -20,7 +20,6 @@ public:
 		ID3D11ShaderResourceView** pSRV;
 	}MAKESRV;
 
-
 public:
 	enum RENDERGROUP { RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, INSTANCE_STATIC, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BLEND, RENDER_MODELEFFECT_INSTANCE, RENDER_EFFECT_INSTANCE, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_END };
 
@@ -38,17 +37,13 @@ public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** pSRV);
 
-
 	HRESULT Draw();
 	HRESULT Draw_Server();
-
 
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
 
 private:
-
 	HRESULT	Render_MakeSRV();
-
 
 	HRESULT Render_Priority();
 
@@ -59,7 +54,6 @@ private:
 	HRESULT Render_Lights();
 	HRESULT Render_LightAcc();
 	HRESULT Render_Deferred();
-
 
 	HRESULT Render_Blend();
 	HRESULT Render_NonLight();
@@ -73,22 +67,19 @@ private:
 	HRESULT	Render_WorldUI();
 	HRESULT Render_UI();
 
-
 	HRESULT Render_Debug();
+
 private:
 	HRESULT Render_ModelInstancing(const wstring& szModelName);
 	HRESULT Render_EffectInstancing(const wstring& szModelName);
 	HRESULT Render_ModelEffectInstancing(const wstring& szModelName);
 
-
-
 	HRESULT Ready_InstanceBuffer();
 
-
-	list<class CGameObject*>			m_RenderObjects[RENDER_END];
-	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_StaticInstance;
-	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_EffectInstance;
-	unordered_map<wstring, list<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
+	vector<class CGameObject*>			m_RenderObjects[RENDER_END];
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_StaticInstance;
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_EffectInstance;
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
 private:
 	
 	CShader* m_pInstanceShader = nullptr;
@@ -96,8 +87,6 @@ private:
 	ID3D11Buffer* m_pInstanceBuffer = nullptr;
 	ID3D11Buffer* m_pPointEffect_InstanceBuffer = nullptr;
 	ID3D11Buffer* m_pModelEffect_InstanceBuffer = nullptr;
-
-
 
 
 	_uint	m_iBufferSize = 0;

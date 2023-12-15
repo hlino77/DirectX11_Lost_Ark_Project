@@ -2,6 +2,7 @@
 
 /* 렌더타겟들을 생성해서 모아둔다. */
 #include "Base.h"
+#include "Hasher.h"
 
 BEGIN(Engine)
 
@@ -27,19 +28,16 @@ public:
 	/* 다시 원래 상태로 복구한다. */
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
 
-
-
-
 public:
 	HRESULT Ready_Debug(const wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render(const wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 
 
 private:
-	map<const wstring, class CRenderTarget*>			m_RenderTargets;	
+	unordered_map<const wstring, class CRenderTarget*, djb2Hasher>			m_RenderTargets;
 
 	/* 장치에 동시에 바인딩되어야하는 타겟들을 미리 묶어두겠다. */
-	map<const wstring, list<class CRenderTarget*>>		m_MRTs;
+	unordered_map<const wstring, vector<class CRenderTarget*>, djb2Hasher>		m_MRTs;
 
 private:
 	ID3D11RenderTargetView*					m_pBackBufferRTV = { nullptr };
@@ -47,7 +45,7 @@ private:
 
 private:
 	class CRenderTarget* Find_RenderTarget(const wstring& strTargetTag);
-	list<class CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
+	vector<class CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
 
 
 public:

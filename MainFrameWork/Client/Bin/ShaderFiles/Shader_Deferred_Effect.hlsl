@@ -1,12 +1,11 @@
 
 #include "Client_Shader_Defines.hlsl"
 
-matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
-
-Texture2D	g_DiffuseTexture;
-Texture2D	g_ShadeTexture;
-Texture2D	g_BlurTexture;
+Texture2D	g_DiffuseTarget;
+Texture2D	g_ShadeTarget;
+Texture2D	g_BlurTarget;
 
 Texture2D g_Texture;
 
@@ -15,15 +14,12 @@ int     g_KernelSize; //커널은 이미지 처리에서 필터 또는 윈도우라고도 불리는 작�
 float   g_CenterWeight;
 float	g_WeightAtt;
 
-
 sampler DefaultSampler = sampler_state {
-
 	filter = min_mag_mip_linear;
 	/*minfilter = linear;
 	magfilter = linear;
 	mipfilter = linear;*/
 };
-
 
 struct VS_IN
 {
@@ -36,8 +32,6 @@ struct VS_OUT
 	float4		vPosition : SV_POSITION;
 	float2		vTexcoord : TEXCOORD0;
 };
-
-
 
 VS_OUT VS_MAIN(/* 정점 */VS_IN In)
 {
@@ -61,32 +55,27 @@ struct PS_IN
 	float2		vTexcoord : TEXCOORD0;
 };
 
-
 struct PS_OUT
 {
 	float4	vColor : SV_TARGET0;
 };
 
-
-
 PS_OUT PS_MAIN_EFFECT_DEFERRED(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector		vShade = g_ShadeTexture.Sample(DefaultSampler, In.vTexcoord);
+	vector		vShade = g_ShadeTarget.Sample(DefaultSampler, In.vTexcoord);
 
 	Out.vColor = vShade;
 
 	return Out;
 }
 
-
-
 PS_OUT PS_MAIN_EFFECT_SHADE(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-    vector vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vDiffuse = g_DiffuseTarget.Sample(DefaultSampler, In.vTexcoord);
 
 	//if (vDiffuse.a > 0.0f)
 	//{
@@ -94,20 +83,18 @@ PS_OUT PS_MAIN_EFFECT_SHADE(PS_IN In)
 	//	return Out;
 	//}
 	//
-	//vector		vBlur = g_BlurTexture.sample(LinearSampler, In.vTexcoord);
+	//vector		vBlur = g_BlurTarget.sample(LinearSampler, In.vTexcoord);
 
 	Out.vColor = vDiffuse;
 
 	return Out;
 }
 
-
-
 PS_OUT PS_MAIN_EFFECT_BLUR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-    vector vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vDiffuse = g_DiffuseTarget.Sample(DefaultSampler, In.vTexcoord);
 
 	//if (vDiffuse.a > 0.0f)
 	//{
@@ -115,7 +102,7 @@ PS_OUT PS_MAIN_EFFECT_BLUR(PS_IN In)
 	//	return Out;
 	//}
 	//
-	//vector		vBlur = g_BlurTexture.sample(LinearSampler, In.vTexcoord);
+	//vector		vBlur = g_BlurTarget.sample(LinearSampler, In.vTexcoord);
 
 	//vDiffuse.a *= vDiffuse.a;
 
@@ -124,15 +111,10 @@ PS_OUT PS_MAIN_EFFECT_BLUR(PS_IN In)
 	return Out;
 }
 
-
-
-
-
 PS_OUT PS_MAIN_BLURX(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
-
-
+	
 	float4 vFinalPixel = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	int iHalfKernel = g_KernelSize / 2;
@@ -144,7 +126,7 @@ PS_OUT PS_MAIN_BLURX(PS_IN In)
 			float2 vTexcoord = In.vTexcoord;
 			vTexcoord.x += i * g_PixelSize.x;
 
-            vector vBloomPixel = g_BlurTexture.Sample(DefaultSampler, vTexcoord);
+            vector vBloomPixel = g_BlurTarget.Sample(DefaultSampler, vTexcoord);
 
 			if (vBloomPixel.a > 0.0f)
 			{
@@ -159,17 +141,15 @@ PS_OUT PS_MAIN_BLURX(PS_IN In)
 
 	Out.vColor = vFinalPixel;
 
-	//Out.vColor = g_BlurTexture.sample(DefaultSampler, In.vTexcoord);
+	//Out.vColor = g_BlurTarget.sample(DefaultSampler, In.vTexcoord);
 
 	return Out;
 }
 
-
 PS_OUT PS_MAIN_BLURY(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
-
-
+	
 	float4 vFinalPixel = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	int iHalfKernel = g_KernelSize / 2;
@@ -181,7 +161,7 @@ PS_OUT PS_MAIN_BLURY(PS_IN In)
 			float2 vTexcoord = In.vTexcoord;
 			vTexcoord.y += i * g_PixelSize.y;
 
-            vector vBloomPixel = g_BlurTexture.Sample(DefaultSampler, vTexcoord);
+            vector vBloomPixel = g_BlurTarget.Sample(DefaultSampler, vTexcoord);
 
 			if (vBloomPixel.a > 0.0f)
 			{
@@ -194,14 +174,10 @@ PS_OUT PS_MAIN_BLURY(PS_IN In)
 	if (vFinalPixel.a == 0.0f)
 		discard;
 
-
 	Out.vColor = vFinalPixel;
 
 	return Out;
 }
-
-
-
 
 technique11 DefaultTechnique
 {
@@ -231,7 +207,6 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_EFFECT_SHADE();
 	}
 
-
 	pass BlurX
 	{
 		SetRasterizerState(RS_Default);
@@ -257,7 +232,6 @@ technique11 DefaultTechnique
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_BLURY();
 	}
-
 
 	pass EffectShadeBlur
 	{

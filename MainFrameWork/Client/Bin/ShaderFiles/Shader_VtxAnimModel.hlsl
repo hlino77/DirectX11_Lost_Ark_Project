@@ -1,43 +1,16 @@
 #include "Client_Shader_Light.hlsl"
+#include "Client_Shader_InOut.hlsl"
 
-float		g_BlendRatio;
-float4		g_vBlurColor;
-float		g_fAlpha;
+float	g_BlendRatio;
+float4	g_vBlurColor;
+float	g_fAlpha;
 
-float4		g_vHairColor_1;
-float4		g_vHairColor_2;
+float4	g_vHairColor_1;
+float4	g_vHairColor_2;
 
-matrix		g_BoneMatrices[800];
+matrix	g_BoneMatrices[800];
 
-sampler DefaultSampler = sampler_state {
-
-	filter = min_mag_mip_linear;
-	/*minfilter = linear;
-	magfilter = linear;
-	mipfilter = linear;*/
-};
-
-struct VS_IN
-{
-	float3		vPosition : POSITION;
-	float3		vNormal : NORMAL;
-	float3		vTangent : TANGENT;
-	float2		vTexUV : TEXCOORD0;
-	uint4		vBlendIndex : BLENDINDEX;
-	float4		vBlendWeight : BLENDWEIGHT;
-};
-
-struct VS_OUT
-{
-	float4		vPosition : SV_POSITION;
-	float4		vNormal : NORMAL;
-	float2		vTexUV : TEXCOORD0;
-	float4		vProjPos : TEXCOORD1;
-	float3		vTangent : TANGENT;
-	float3		vBinormal :	BINORMAL;
-};
-
-VS_OUT VS_MAIN(VS_IN In)
+VS_OUT VS_MAIN_NO_NORMAL(SKELETAL_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
 
@@ -69,7 +42,7 @@ VS_OUT VS_MAIN(VS_IN In)
 	return Out;
 }
 
-VS_OUT VS_TANGENT(VS_IN In)
+VS_OUT VS_MAIN(SKELETAL_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
 
@@ -78,13 +51,11 @@ VS_OUT VS_TANGENT(VS_IN In)
 	matWVP = mul(WorldMatrix, ViewProj);
 
 	float		fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
-
-
+	
 	float4x4	vMatX = g_BoneMatrices[In.vBlendIndex.x];
 	float4x4	vMatY = g_BoneMatrices[In.vBlendIndex.y];
 	float4x4	vMatZ = g_BoneMatrices[In.vBlendIndex.z];
 	float4x4	vMatW = g_BoneMatrices[In.vBlendIndex.w];
-
 
 	float4x4	BoneMatrix = vMatX * In.vBlendWeight.x +
 		vMatY * In.vBlendWeight.y +
@@ -100,112 +71,57 @@ VS_OUT VS_TANGENT(VS_IN In)
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
 	Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
-	Out.vBinormal = normalize(cross(Out.vNormal.xyz, Out.vTangent));
-
+	
 	return Out;
 }
 
-struct PS_IN
+VS_OUT VS_SHADOW(SKELETAL_IN In)
 {
-	float4		vPosition : SV_POSITION;
-	float4		vNormal : NORMAL;
-	float2		vTexUV : TEXCOORD0;
-	float4		vProjPos : TEXCOORD1;
-	float3		vTangent : TANGENT;
-	float3		vBinormal :	BINORMAL;
-};
+    VS_OUT Out = (VS_OUT) 0;
 
-struct PS_OUT
-{
-	float4		vDiffuse : SV_TARGET0;
-	float4		vNormal : SV_TARGET1;
-	float4		vDepth : SV_TARGET2;
-	float4		vSpecular : SV_TARGET3;
-};
+    matrix matWVP;
 
+    matWVP = mul(WorldMatrix, ViewProj);
 
-struct PS_OUT_NONEOUTLINE
-{
-	float4		vDiffuse : SV_TARGET0;
-	float4		vNormal : SV_TARGET1;
-	float4		vDepth : SV_TARGET2;
-};
+    float fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+	
+    float4x4 vMatX = g_BoneMatrices[In.vBlendIndex.x];
+    float4x4 vMatY = g_BoneMatrices[In.vBlendIndex.y];
+    float4x4 vMatZ = g_BoneMatrices[In.vBlendIndex.z];
+    float4x4 vMatW = g_BoneMatrices[In.vBlendIndex.w];
 
+    float4x4 BoneMatrix = vMatX * In.vBlendWeight.x +
+		vMatY * In.vBlendWeight.y +
+		vMatZ * In.vBlendWeight.z +
+		vMatW * fWeightW;
 
-struct PS_OUT_EFFECT
-{
-	float4		vDiffuse : SV_TARGET0;
-	float4		vBlur : SV_TARGET1;
-};
+    vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
 
-struct PS_OUT_SHADOW
-{
-	float4		vDepth : SV_TARGET0;
-};
+    Out.vPosition = mul(vPosition, matWVP);
+    Out.vNormal = normalize(mul(vNormal, WorldMatrix));
 
-
-PS_OUT PS_MAIN(PS_IN In)
-{
-	PS_OUT		Out = (PS_OUT)0;
-
-	Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
-	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	//Out.vModelNormal = Out.vNormal;
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
-
-    if (0.2f >= Out.vDiffuse.a)
-        discard;
-
-	return Out;	
+    Out.vTexUV = In.vTexUV;
+    Out.vProjPos = Out.vPosition;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
+	
+    return Out;
 }
 
-PS_OUT_NONEOUTLINE PS_NONEOUTLINE(PS_IN In)
+PS_OUT_PBR PS_PBR(VS_OUT In)
 {
-	PS_OUT_NONEOUTLINE		Out = (PS_OUT_NONEOUTLINE)0;
-
-	Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
-	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
-
-	if (0.0f == Out.vDiffuse.a)
-		discard;
-
-	return Out;
-}
-
-PS_OUT_SHADOW PS_SHADOWDEPTH(PS_IN In)
-{
-	PS_OUT_SHADOW		Out = (PS_OUT_SHADOW)0;
-
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
-	//Out.vDepth = vector(1.0f, 0.0f, 0.0f, 1.0f);
-	return Out;
-}
-
-PS_OUT_EFFECT PS_EFFECT(PS_IN In)
-{
-	PS_OUT_EFFECT		Out = (PS_OUT_EFFECT)0;
+    PS_OUT_PBR Out = (PS_OUT_PBR) 0;
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	Out.vDiffuse.a *= g_fAlpha;
-	Out.vBlur = g_vBlurColor * Out.vDiffuse.a;
-
-	if (0.0f == Out.vDiffuse.a)
-		discard;
-
-	return Out;
-}
-
-PS_OUT PS_TANGENT(PS_IN In)
-{
-	PS_OUT		Out = (PS_OUT)0;
-
-	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-    Out.vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 	
 	if (0.2f >= Out.vDiffuse.a)
 		discard;
 
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+	
+    Out.vNormal = In.vNormal;
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+	
     if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
     {
         float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
@@ -213,19 +129,131 @@ PS_OUT PS_TANGENT(PS_IN In)
 		
         float4 vBlendedHairColor = haircolor_1 + haircolor_2;
         Out.vDiffuse = saturate(float4(vBlendedHairColor.rgb, 1.f));
-    }
+		
+        return Out;
+    } // PBR 적용없이 return
 	
+    float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
+    float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
+
+    if (vMRMask.a * vMRMask.b == 0.f)
+    {
+        Out.vMetallic = vSpecular * vMRMask.r;
+        Out.vRoughness = vSpecular * vMRMask.g;
+    }
+
+    return Out;
+}
+
+PS_OUT_PBR PS_PBR_NOMASK(VS_OUT In)
+{
+    PS_OUT_PBR Out = (PS_OUT_PBR) 0;
+
+	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	
+	if (0.2f >= Out.vDiffuse.a)
+		discard;
+
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
     Out.vNormal = In.vNormal;
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+	
+    if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
+    {
+        float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
+        float4 haircolor_2 = g_vHairColor_2 * (1.f - Out.vDiffuse.g);
+		
+        float4 vBlendedHairColor = haircolor_1 + haircolor_2;
+        Out.vDiffuse = saturate(float4(vBlendedHairColor.rgb, 1.f));
+		
+        return Out;
+    } // PBR 적용없이 return
+	
+    float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 
-	return Out;
+    Out.vMetallic = Out.vDiffuse * vSpecular.r;
+    Out.vRoughness = Out.vDiffuse * vSpecular.g;
+
+    return Out;
+}
+
+PS_OUT_PHONG PS_PHONG(VS_OUT In)
+{
+    PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
+
+    Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	
+    if (0.2f >= Out.vDiffuse.a)
+        discard;
+
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+	
+    Out.vNormal = In.vNormal;
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+	
+    if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
+    {
+        float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
+        float4 haircolor_2 = g_vHairColor_2 * (1.f - Out.vDiffuse.g);
+		
+        float4 vBlendedHairColor = haircolor_1 + haircolor_2;
+        Out.vDiffuse = saturate(float4(vBlendedHairColor.rgb, 1.f));
+		
+        return Out;
+    } // PBR 적용없이 return
+	
+    return Out;
+}
+
+PS_OUT_SHADOW PS_SHADOWDEPTH(VS_OUT In)
+{
+    PS_OUT_SHADOW Out = (PS_OUT_SHADOW) 0;
+
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
+
+    return Out;
+}
+
+PS_OUT_PHONG PS_DIFFUSE(VS_OUT In) : SV_TARGET0
+{
+    PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
+    
+    Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+
+    if (0.2f >= Out.vDiffuse.a)
+        discard;
+
+    return Out;
 }
 
 technique11 DefaultTechnique
 {
-	pass DefaultPass
+    pass PBR // 0
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR();
+    }
+
+	pass PBR_NoMask // 1
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR_NOMASK();
+    }
+
+	pass Phong // 2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -233,34 +261,10 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN();
+		PixelShader = compile ps_5_0 PS_PHONG();
 	}
 
-	pass EffectPass
-	{
-		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Default, 0);
-		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-		VertexShader = compile vs_5_0 VS_MAIN();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_EFFECT();
-	}
-
-
-	pass ModelNormalTexPass
-	{
-		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Default, 0);
-		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-		VertexShader = compile vs_5_0 VS_TANGENT();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_TANGENT();
-	}
-
-
-	pass ShadowPass
+	pass ShadowPass // 3
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -271,16 +275,14 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_SHADOWDEPTH();
 	}
 
+    pass DiffusePass // 4
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-	pass NoneOutLinePass
-	{
-		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Default, 0);
-		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-		VertexShader = compile vs_5_0 VS_MAIN();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_NONEOUTLINE();
-	}
-
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_DIFFUSE();
+    }
 }

@@ -95,35 +95,44 @@ HRESULT CPlayer_Gunslinger::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-				return E_FAIL;
-
-			string hair = m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j));
-
-			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
+			_bool IsHairTexture = m_pModelPartCom[i]->Is_HairTexture(j);
+			if (true == IsHairTexture)
 			{
 				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4));
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
 			}
 
-			_bool bMaterial = true;
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
-				FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture"))/* ||
-				FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_EMISSIVE, "g_EmissiveTexture"))*/)
-				bMaterial = false;
+			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+				return E_FAIL;
 
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
+			if (SUCCEEDED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
 			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j)))
-					return E_FAIL;
+				if (SUCCEEDED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_SPECULAR, "g_SpecularTexture")))
+				{
+					if (SUCCEEDED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+					{
+						if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "PBR")))
+							return E_FAIL;
+					}
+					else // PBR마스크 없으면 spec을 mask, diffuse를 spec
+					{
+						if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "PBR_NoMask")))
+							return E_FAIL;
+					}
+				}
+				else
+				{
+					if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "Phong")))
+						return E_FAIL;
+				}
 			}
 			else
 			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 2)))
+				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "DiffusePass")))
 					return E_FAIL;
 			}
 
-			if ("pc_dl_14_hair_helmet_mi" == m_pModelPartCom[i]->Get_Material_Name(m_pModelPartCom[i]->Get_MaterialIndex(j)))
+			if (true == IsHairTexture)
 			{
 				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4));
 				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4));

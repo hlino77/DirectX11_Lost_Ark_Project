@@ -29,11 +29,11 @@ HRESULT CTarget_Manager::Add_MRT(const wstring & strMRTTag, const wstring & strT
 	if (nullptr == pRenderTarget)
 		return E_FAIL;
 
-	list<CRenderTarget*>*	pMRTList = Find_MRT(strMRTTag);
+	vector<CRenderTarget*>*	pMRTList = Find_MRT(strMRTTag);
 
 	if (nullptr == pMRTList)
 	{
-		list<CRenderTarget*>		MRTList;
+		vector<CRenderTarget*>		MRTList;
 		MRTList.push_back(pRenderTarget);
 
 		m_MRTs.emplace(strMRTTag, MRTList);
@@ -77,7 +77,7 @@ HRESULT CTarget_Manager::Copy_SRV(const wstring& strTargetTag, ID3D11ShaderResou
 
 HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring & strMRTTag)
 {
-	list<CRenderTarget*>*		pMRTList = Find_MRT(strMRTTag);
+	vector<CRenderTarget*>*		pMRTList = Find_MRT(strMRTTag);
 
 	if (nullptr == pMRTList)
 		return E_FAIL;
@@ -101,7 +101,7 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring 
 
 HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
-	list<CRenderTarget*>* pMRTList = Find_MRT(strMRTTag);
+	vector<CRenderTarget*>* pMRTList = Find_MRT(strMRTTag);
 
 	if (nullptr == pMRTList)
 		return E_FAIL;
@@ -125,7 +125,6 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring&
 
 HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 {
-
 	pContext->OMSetRenderTargets(1, &m_pBackBufferRTV, m_pDSV);
 
 	Safe_Release(m_pBackBufferRTV);
@@ -133,8 +132,6 @@ HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 
 	return	S_OK;
 }
-
-
 
 HRESULT CTarget_Manager::Ready_Debug(const wstring & strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {
@@ -148,7 +145,7 @@ HRESULT CTarget_Manager::Ready_Debug(const wstring & strTargetTag, _float fX, _f
 
 HRESULT CTarget_Manager::Render(const wstring & strMRTTag, CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 {
-	list<CRenderTarget*>*		pMRTList = Find_MRT(strMRTTag);
+	vector<CRenderTarget*>*		pMRTList = Find_MRT(strMRTTag);
 	if (nullptr == pMRTList)
 		return E_FAIL;
 
@@ -173,7 +170,7 @@ CRenderTarget * CTarget_Manager::Find_RenderTarget(const wstring & strTargetTag)
 	return iter->second;
 }
 
-list<class CRenderTarget*>* CTarget_Manager::Find_MRT(const wstring & strMRTTag)
+vector<class CRenderTarget*>* CTarget_Manager::Find_MRT(const wstring & strMRTTag)
 {
 	auto	iter = m_MRTs.find(strMRTTag);
 

@@ -53,6 +53,16 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
+	/* For.Target_Metalic */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Metalic"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	/* For.Target_Roughness */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
 	/* For.Target_Specular */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
@@ -104,23 +114,27 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Metalic"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Roughness"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectDiffuse"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlur"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlurX"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectDiffuse"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectShade"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlur"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MakeSRV"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlurX"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectShade"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MakeSRV"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 
 #endif
@@ -133,7 +147,9 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Depth"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Specular"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Metalic"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
@@ -145,6 +161,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* 이 렌더타겟들은 게임내에 존재하는 빛으로부터 연산한 결과를 저장받는다. */
 	/* For.MRT_ */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Shade"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Specular"))))
 		return E_FAIL;
 
 	//BlurEffect
@@ -166,10 +184,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_pMRTShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
 	if (nullptr == m_pMRTShader)
 		return E_FAIL;
+	m_pMRTShader->Initialize();
 
 	m_pEffectShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred_Effect.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
 	if (nullptr == m_pEffectShader)
 		return E_FAIL;
+	m_pEffectShader->Initialize();
 
 	Ready_MakeSRV_DSV();
 	Ready_ShadowDSV();
@@ -271,7 +291,7 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
 	if (FAILED(Render_NonAlphaBlend()))
-		return E_FAIL; 
+		return E_FAIL;
 	if (FAILED(Render_StaticInstance()))
 		return E_FAIL; 
 	if (FAILED(Render_ShadowDepth()))
@@ -560,16 +580,13 @@ HRESULT CRenderer::Render_LightAcc()
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Depth"), "g_DepthTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Depth"), "g_DepthTarget")))
 		return E_FAIL;
 
-	/*if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ModelNormal"), "g_ModelNormalTexture")))
-		return E_FAIL;*/
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTarget")))
 		return E_FAIL;
 
 	m_pLight_Manager->Render(m_pMRTShader, m_pVIBuffer);
@@ -591,16 +608,13 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTexture")))
-		return E_FAIL;
-	
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Specular"), "g_SpecularTexture")))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Begin(3)))
+	if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
@@ -695,7 +709,7 @@ HRESULT CRenderer::Render_EffectBlur()
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_BlurTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_BlurTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pEffectShader->Bind_RawValue("g_PixelSize", &m_vPixelSize, sizeof(Vec2))))
@@ -726,7 +740,7 @@ HRESULT CRenderer::Render_EffectBlur()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_EffectBlurY"))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlurX"), "g_BlurTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlurX"), "g_BlurTarget")))
 		return E_FAIL;
 	
 	if (FAILED(m_pEffectShader->Begin(3)))
@@ -753,7 +767,7 @@ HRESULT CRenderer::Render_EffectAcc()
 	if (FAILED(m_pEffectShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectBlur"), "g_DiffuseTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pEffectShader->Begin(4)))
@@ -762,7 +776,7 @@ HRESULT CRenderer::Render_EffectAcc()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectDiffuse"), "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pEffectShader, TEXT("Target_EffectDiffuse"), "g_DiffuseTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pEffectShader->Begin(1)))
@@ -873,10 +887,10 @@ HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(pModel->SetUp_OnShader(m_pInstanceShader, pModel->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		if (FAILED(pModel->SetUp_OnShader(m_pInstanceShader, pModel->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTarget")))
 			return S_OK;
 
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTarget")))
 			return E_FAIL;*/
 
 		if (FAILED(pModel->Render_Instance(m_pInstanceBuffer, WorldMatrix.size(), m_pInstanceShader, i)))
