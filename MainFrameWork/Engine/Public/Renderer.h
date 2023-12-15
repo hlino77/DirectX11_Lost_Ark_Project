@@ -129,6 +129,7 @@ private:
 	_bool m_bRenderStaticShadow = false;
 
 	_bool m_bTargetOnOff = false;
+	_bool m_bPBR_Switch = true;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

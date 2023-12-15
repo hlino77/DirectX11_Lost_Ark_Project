@@ -614,8 +614,19 @@ HRESULT CRenderer::Render_Deferred()
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
-		return E_FAIL;
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::B))
+		m_bPBR_Switch = !m_bPBR_Switch;
+
+	if (m_bPBR_Switch)
+	{
+		if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pMRTShader->Begin("Deferred")))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
