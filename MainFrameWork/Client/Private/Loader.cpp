@@ -21,6 +21,11 @@
 #include "ServerSessionManager.h"
 #include "Camera_Player.h"
 #include "BackGround_Server.h"
+
+#include "Monster_Zombie.h"
+#include "Monster_Plant.h"
+
+//UI
 #include "UI_ServerWnd.h"
 #include "UI_ServerGrid.h"
 #include "UI_ServerLogo.h"
@@ -28,10 +33,13 @@
 #include "UI_Server.h"
 #include "UI_Loading.h"
 #include "UI_LoadingFill.h"
-#include "Monster_Zombie.h"
-#include "Monster_Plant.h"
 #include "UI_TextBox.h"
-
+#include "UI_ChatFrame.h"
+#include "UI_ChatWriteFrame.h"
+#include "UI_ChatLanguageIcon.h"
+#include "UI_ChatSmallerButton.h"
+#include "UI_Chat.h"
+#include "UI_Manager.h"
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -112,14 +120,50 @@ HRESULT CLoader::Loading_For_Level_Logo()
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Frame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chatting_Frame.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_WritingFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chatting_WritingFrame.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_ReceiverSelect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chatting_ReceiverSelect%d.png", 3))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Smaller"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chatting_Smaller%d.png",4))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_State"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chatting_State%d.png", 2))))
+		return E_FAIL;
 
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
 
 	/* For.GameObject */
 	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChatFrame"),
+		CUI_ChatFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChatWriteFrame"),
+		CUI_ChatWriteFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChatLanguageIcon"),
+		CUI_ChatLanguageIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChatSmallerButton"),
+		CUI_ChatSmallerButton::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChatUI"),
+		CUI_Chat::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -291,7 +335,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-	CUI_LoadingFill::m_fLoadingSizeX = 77.f;
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
@@ -511,7 +554,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(270.0f));
 
-
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
+	pUIManager->Loading_UI(0.1f);
 
 	{
 		wstring strFileName = L"Gunslinger";
@@ -521,7 +566,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 154.f;
+		pUIManager->Loading_UI(154.f);
 	}
 
 	{
@@ -532,7 +577,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 231.f;
+		pUIManager->Loading_UI(231.f);
 	}
 
 	{
@@ -543,7 +588,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 308.f;
+		pUIManager->Loading_UI(308.f);
 	}
 
 	{
@@ -554,7 +599,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 385.f;
+		pUIManager->Loading_UI(385.f);
 	}
 
 	{
@@ -565,7 +610,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 462.f;
+		pUIManager->Loading_UI(462.f);
 	}
 
 	{
@@ -576,7 +621,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 539.f;
+		pUIManager->Loading_UI(539.f);
 	}
 
 	{
@@ -587,7 +632,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 616.f;
+		pUIManager->Loading_UI(616.f);
 	}
 
 	{
@@ -598,7 +643,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 693.f;
+		pUIManager->Loading_UI(693.f);
 	}
 
 	{
@@ -609,7 +654,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 800.f;
+		pUIManager->Loading_UI(800.f);
 	}
 
 	{
@@ -620,7 +665,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 1000.f;
+		pUIManager->Loading_UI(1000.f);
 	}
 
 
@@ -632,7 +677,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 1200.f;
+		pUIManager->Loading_UI(1200.f);
 	}
 
 	{
@@ -643,7 +688,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		CUI_LoadingFill::m_fLoadingSizeX = 1500.f;
+		pUIManager->Loading_UI(1500.f);
 	}
 
 	{

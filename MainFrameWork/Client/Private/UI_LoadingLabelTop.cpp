@@ -27,7 +27,7 @@ HRESULT CUI_LoadingLabelTop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_strObjectTag = TEXT("Loading_LabelTop");
+    m_strUITag = TEXT("Loading_LabelTop");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = 29.f;

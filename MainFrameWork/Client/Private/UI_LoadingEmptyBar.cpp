@@ -27,8 +27,7 @@ HRESULT CUI_LoadingEmptyBar::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-
-    m_strObjectTag = TEXT("Loading_EmptyBar");
+    m_strUITag = TEXT("Loading_EmptyBar");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = 850.f;

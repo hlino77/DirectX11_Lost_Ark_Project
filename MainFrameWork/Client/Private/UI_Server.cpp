@@ -31,7 +31,7 @@ HRESULT CUI_Server::Initialize(void* pArg)
 	if (FAILED(UI_Set()))
 		return E_FAIL;
 
-	m_strObjectTag = TEXT("UI_Server");
+	m_strUITag = TEXT("UI_Server");
 
 	return S_OK;
 }
@@ -63,13 +63,13 @@ HRESULT CUI_Server::UI_Set()
 	if (nullptr == pServerLogo)
 		return E_FAIL;
 	else
-		m_vecServerUI.push_back(pServerLogo);
+		m_vecUIParts.push_back(pServerLogo);
 
 	CUI_ServerWnd* pServerWnd = static_cast<CUI_ServerWnd*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerLogo")));
 	if (nullptr == pServerWnd)
 		return E_FAIL;
 	else
-		m_vecServerUI.push_back(pServerWnd);
+		m_vecUIParts.push_back(pServerWnd);
 
 	CUI_ServerEntranceButton* pServerEntranceButton = static_cast<CUI_ServerEntranceButton*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerEntranceButton")));
 	if (nullptr == pServerEntranceButton)
@@ -77,7 +77,7 @@ HRESULT CUI_Server::UI_Set()
 	else
 	{
 		pServerEntranceButton->Create_Rect();
-		m_vecServerUI.push_back(pServerEntranceButton);
+		m_vecUIParts.push_back(pServerEntranceButton);
 	}
 	Safe_Release(pGameInstance);
 
@@ -113,10 +113,13 @@ CGameObject* CUI_Server::Clone(void* pArg)
 void CUI_Server::Free()
 {
 	__super::Free();
-	for (auto& iter : m_vecServerUI)
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
+
+	for (auto& iter : m_vecUIParts)
 	{
 		Safe_Release(iter);
 	}
-	m_vecServerUI.clear();
+	m_vecUIParts.clear();
 }
 

@@ -25,6 +25,7 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual HRESULT Tick(_float fTimeDelta) override;
 	virtual HRESULT LateTick(_float fTimeDelta) override;
+	virtual HRESULT Render_Debug();
 	virtual HRESULT Exit() override;
 
 private:
@@ -62,6 +63,8 @@ private:
 
 	CRenderer* m_pRendererCom = nullptr;
 	//_bool m_bStaticShadow = false;
+private:
+	class CUI_Tool* m_pImGuiManager;
 
 public:
 	static class CLevel_Bern* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -11,6 +11,7 @@
 #include "Level_Tool.h"
 
 #include "UI_Loading.h"
+#include "UI_Manager.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -35,13 +36,17 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 	{
  		wstring szProtoName = L"Prototype_GameObject_BackGround_" + szBackGruond;
 		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
-			return E_FAIL; 
+			return E_FAIL;
 	
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_LoadingUI")))
+		CGameObject* pLoadingUI = pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_LoadingUI"));
+		if (nullptr == pLoadingUI)
 		{
-			//ui매니저로 들고올 예정. 아직은 ObjectManager로 불러옴.
-			CUI_Loading* pLoadingUI = static_cast<CUI_Loading*>(pGameInstance->GetInstance()->Find_GameObejct(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("UI_Loading")));
+			pLoadingUI = CUI_Manager::GetInstance()->Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
+			if (nullptr == pLoadingUI)
+				return E_FAIL;
 		}
+		else
+			CUI_Manager::GetInstance()->Add_UI(LEVEL_LOADING, static_cast<CUI*>(pLoadingUI));
 	
 	}
 

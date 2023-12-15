@@ -20,8 +20,8 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Change_SizeX();//MaxSize = g_WinSizeX
-    static float    m_fLoadingSizeX;
+    void    Change_SizeX(_float fSizeX);//MaxSize = g_WinSizeX
+    _int    Get_SizeX() { return m_fSizeX; }
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();

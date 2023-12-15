@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UI_LoadingShine.h"
 #include "GameInstance.h"
-
+#include "UI_LoadingFill.h"
 
 CUI_LoadingShine::CUI_LoadingShine(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -28,14 +28,14 @@ HRESULT CUI_LoadingShine::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_strUITag = TEXT("Loading_Shine");
 
-    m_strObjectTag = TEXT("Loading_Fill");
-
-    m_fX = 0.f;
+    m_fX = -100.f;
     m_fY = 850.f;
-    m_fSizeX = 100.f;
-    m_fSizeY = 30;
- 
+    m_fSizeX = 200.f;
+    m_fSizeY = 10.f;
+    m_fAlpha = 1.f;
+
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
         Vec3(m_fX - (g_iWinSizeX * 0.5f) + (m_fSizeX*0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
@@ -48,7 +48,6 @@ HRESULT CUI_LoadingShine::Initialize(void* pArg)
 
 void CUI_LoadingShine::Tick(_float fTimeDelta)
 {
-    Change_SizeX();
 }
 
 void CUI_LoadingShine::LateTick(_float fTimeDelta)
@@ -69,8 +68,9 @@ HRESULT CUI_LoadingShine::Render()
     return S_OK;
 }
 
-void CUI_LoadingShine::Change_SizeX()
-{ 
+void CUI_LoadingShine::Move_fX(_float fTimeDelta)
+{
+
 }
 
 HRESULT CUI_LoadingShine::Ready_Components()

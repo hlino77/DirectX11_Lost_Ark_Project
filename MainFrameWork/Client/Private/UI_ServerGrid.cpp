@@ -27,7 +27,7 @@ HRESULT CUI_ServerGrid::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strObjectTag = TEXT("Server_Grid");
+	m_strUITag = TEXT("Server_Grid");
 
 	if(nullptr != pArg)
 	{

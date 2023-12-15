@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Base.h"
+#include "UI.h"
 
 BEGIN(Client)
 
@@ -14,6 +15,7 @@ private:
     virtual ~CUI_Manager() = default;
 
 public:
+    HRESULT Reserve_Manager();
     HRESULT Tick(_float fTimeDelta);
     HRESULT LateTick(_float fTimeDelta);
     void    Clear(LEVELID iLevelIndex);
@@ -21,16 +23,24 @@ public:
 
 public:
     HRESULT Add_UI(LEVELID eLevelIndex, class CUI* pUI);
-    HRESULT Loading_UI(LEVELID eLevelIndex, const _uint& iLayerType, const wstring& UITag);
-    class CUI* Find_UI(LEVELID eLevelIndex, const _uint& iLayerType, const wstring& UITag);
+    HRESULT ObjectManager_to_UIManager(LEVELID eLevelIndex);
+    HRESULT Loading_UI(_float fSizeX);
+    class CUI* Find_UI(LEVELID eLevelIndex, const wstring& UITag);
+    list<class CUI*>* Get_pUIList(LEVELID eLevelIndex);
+    CUI* Find_UIParts(LEVELID eLevelIndex, const wstring& UITag);
+    CUI* Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag);
 
-private:
+public:
+    void    Sorting_UI();
+    void    Set_UIState(LEVELID iLevelIndex, CUI::UISTATE eState);
+    void    Set_UIState(LEVELID iLevelIndex, const wstring& strUITag, CUI::UISTATE eState);
+
 
 private:
     list<class CUI*>*    m_pUIList;
     _uint   m_iCurrentLevel = { 0 };
     _uint   m_iNextLevel = { 0 };
-
+    POINT   m_pt = {};
 public:
     virtual void Free() override;
 };

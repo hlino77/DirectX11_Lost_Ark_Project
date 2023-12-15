@@ -1,8 +1,9 @@
 #include "stdafx.h"
-#include "UI_ServerWnd.h"
+#include "UI_ChatLanguageIcon.h"
 #include "GameInstance.h"
+#include "Chat_Manager.h"
 
-CUI_ServerWnd::CUI_ServerWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ChatLanguageIcon::CUI_ChatLanguageIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
 	m_pDevice = pDevice;
@@ -12,31 +13,32 @@ CUI_ServerWnd::CUI_ServerWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 	Safe_AddRef(m_pContext);
 }
 
-CUI_ServerWnd::CUI_ServerWnd(const CUI& rhs)
+CUI_ChatLanguageIcon::CUI_ChatLanguageIcon(const CUI& rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CUI_ServerWnd::Initialize_Prototype()
+HRESULT CUI_ChatLanguageIcon::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUI_ServerWnd::Initialize(void* pArg)
+HRESULT CUI_ChatLanguageIcon::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strUITag = TEXT("Server_Wnd");
+	m_strUITag = TEXT("Chat_LanguageIcon");
 
-	m_fSizeX = 504;
-	m_fSizeY = 335;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = (g_iWinSizeY * 0.5f) + 100.f;
+	m_fSizeX = 45.f;
+	m_fSizeY = 45.f;
+	m_fX = 412.f;
+	m_fY = 711.f;
+	m_fAlpha = 0.8f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - (g_iWinSizeX * 0.5f) + (m_fSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -44,41 +46,41 @@ HRESULT CUI_ServerWnd::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_ServerWnd::Tick(_float fTimeDelta)
+void CUI_ChatLanguageIcon::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 }
 
-void CUI_ServerWnd::LateTick(_float fTimeDelta)
+void CUI_ChatLanguageIcon::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }
 
-HRESULT CUI_ServerWnd::Render()
+HRESULT CUI_ChatLanguageIcon::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(2);
+	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CUI_ServerWnd::Ready_Components()
+HRESULT CUI_ChatLanguageIcon::Ready_Components()
 {
 	__super::Ready_Components();
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Select_GridWnd"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_State"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CUI_ServerWnd::Bind_ShaderResources()
+HRESULT CUI_ChatLanguageIcon::Bind_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return S_OK;
@@ -87,46 +89,42 @@ HRESULT CUI_ServerWnd::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	_float fAlpha = 0.8f;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
 		return E_FAIL;
 
-	Vec4 fColor = Vec4(5.f, 5.f ,5.f, 1.f);	
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &fColor, sizeof(Vec4))))
-		return E_FAIL;
-
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_iLanguageState = CChat_Manager::GetInstance()->Get_Language();
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_iLanguageState);
 
 	return S_OK;
 }
 
-CUI_ServerWnd* CUI_ServerWnd::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ChatLanguageIcon* CUI_ChatLanguageIcon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CUI_ServerWnd* pInstance = new CUI_ServerWnd(pDevice, pContext);
+	CUI_ChatLanguageIcon* pInstance = new CUI_ChatLanguageIcon(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CUI_ServerWnd");
+		MSG_BOX("Failed to Created : CUI_ChatLanguageIcon");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CUI_ServerWnd::Clone(void* pArg)
+CGameObject* CUI_ChatLanguageIcon::Clone(void* pArg)
 {
-	CUI_ServerWnd* pInstance = new CUI_ServerWnd(*this);
+	CUI_ChatLanguageIcon* pInstance = new CUI_ChatLanguageIcon(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CUI_ServerWnd");
+		MSG_BOX("Failed to Cloned : CUI_ChatLanguageIcon");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI_ServerWnd::Free()
+void CUI_ChatLanguageIcon::Free()
 {
 	__super::Free();
 	Safe_Release(m_pDevice);

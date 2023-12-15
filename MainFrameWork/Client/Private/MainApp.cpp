@@ -31,7 +31,10 @@
 #include "UI_LoadingEmptyBar.h"
 #include "UI_LoadingFill.h"
 #include "UI_LoadingArrow.h"
+#include "UI_LoadingShine.h"
+#include "UI_Manager.h"
 #include "BehaviorTree.h"
+#include "UI_Tool.h"
 
 _float g_fVolume;
 
@@ -148,6 +151,10 @@ HRESULT CMainApp::Initialize_Client()
 	CGameInstance::GetInstance()->Initialize_LoopChannel(CHANNELID::CHANNEL_LOOPSTART, CHANNEL_END);
 
 	CChat_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
+
+	CUI_Manager::GetInstance()->Reserve_Manager();
+
+	CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	// Manager Reserve
 	return S_OK;
@@ -295,6 +302,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading_Arrow"),
 		CUI_LoadingArrow::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading_Shine"),
+		CUI_LoadingShine::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_Model */

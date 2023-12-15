@@ -28,7 +28,7 @@ HRESULT CUI_ServerEntranceButton::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strObjectTag = TEXT("Server_EntranceButton");
+	m_strUITag = TEXT("Server_EntranceButton");
 
 	if (nullptr != pArg)
 	{
@@ -67,7 +67,10 @@ void CUI_ServerEntranceButton::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	if (m_bRender)
+	{
+		Moving_Rect();
 		Picking_UI();
+	}
 	if ((m_bPick) && (KEY_AWAY(KEY::LBTN)))
 	{
 		if ((CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_LOBBY, L"None"))))

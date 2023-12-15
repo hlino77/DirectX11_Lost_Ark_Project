@@ -121,16 +121,34 @@ void CUI::Create_Rect(void* pArg)
 	}
 }
 
-void CUI::Create_Rect(UIDESC UIDesc)
+void CUI::Moving_Rect()
 {
-
-
+	m_rcUI.left = LONG(m_fX - (m_fSizeX / 2));
+	m_rcUI.top = LONG(m_fY - (m_fSizeY / 2));
+	m_rcUI.right = LONG(m_fX + (m_fSizeX / 2));
+	m_rcUI.bottom = LONG(m_fY + (m_fSizeY / 2));
 }
 
 void CUI::RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec)
 {
 	auto newEnd = std::remove_if(vec.begin(), vec.end(), [](CGameObject* item) { return item->Is_Die(); });
 	vec.erase(newEnd, vec.end());
+}
+
+CUI* CUI::Get_UIPart(const wstring& strPartTag)
+{
+	for (auto& iter : m_vecUIParts)
+	{
+		if (strPartTag == iter->Get_UITag());
+			return	 iter;
+	}
+
+	return nullptr;
+}
+
+vector<CUI*> CUI::Get_UIParts()
+{
+	return m_vecUIParts;
 }
 
 HRESULT CUI::Ready_Components()

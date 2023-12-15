@@ -3,13 +3,17 @@
 
 BEGIN(Client)
 
-class CUI_LoadingShine :
+class CUI_ChatLanguageIcon final:
     public CUI
 {
+    enum LANGUAGE_STATE 
+    {
+        LANGUAGE_EN, LANGUAGE_KR
+    };
 private:
-    CUI_LoadingShine(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_LoadingShine(const CUI& rhs);
-    virtual ~CUI_LoadingShine() = default;
+    CUI_ChatLanguageIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_ChatLanguageIcon(const CUI& rhs);
+    virtual ~CUI_ChatLanguageIcon() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -20,17 +24,17 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Move_fX(_float fTimeDelta);
-    void    Set_MaxLengthX(_float fSizeX) { m_fMaxLengthX = fSizeX; }
+    _uint   Get_LanguageState() { return m_iLanguageState; }
+
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
-
+    
 private:
-    _float  m_fMaxLengthX = { 0.f };
-    _float  m_fDelay = {0.f};
+    _uint   m_iLanguageState = { LANGUAGE_EN };//false가 한글키 상태.
+
 public:
-    static  CUI_LoadingShine* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_ChatLanguageIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

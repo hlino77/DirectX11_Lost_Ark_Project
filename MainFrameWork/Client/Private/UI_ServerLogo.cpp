@@ -27,7 +27,7 @@ HRESULT CUI_ServerLogo::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strObjectTag = TEXT("Server_Logo");
+	m_strUITag = TEXT("Server_Logo");
 
 	m_fSizeX = 804;
 	m_fSizeY = 435;

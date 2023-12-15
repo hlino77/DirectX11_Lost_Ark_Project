@@ -231,6 +231,11 @@
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_ChatFrame.h" />
+    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
+    <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
     <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
@@ -248,6 +253,7 @@
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
     <ClInclude Include="..\Public\UI_TextBox.h" />
+    <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
@@ -334,6 +340,11 @@
     </ClCompile>
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_ChatFrame.cpp" />
+    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp" />
+    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
+    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
     <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />
@@ -351,6 +362,7 @@
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
+    <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />

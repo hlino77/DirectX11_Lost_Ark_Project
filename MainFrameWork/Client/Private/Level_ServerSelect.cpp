@@ -8,6 +8,7 @@
 #include "ServerSessionManager.h"
 #include "UI_ServerGrid.h"
 #include "UI_ServerEntranceButton.h"
+#include "UI_Manager.h"
 
 CLevel_ServerSelect::CLevel_ServerSelect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -55,7 +56,8 @@ HRESULT CLevel_ServerSelect::Ready_Layer_BackGround()
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_BACKGROUND), TEXT("Prototype_GameObject_BackGround_Server")))
+	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_BACKGROUND), TEXT("Prototype_GameObject_BackGround_Server"));
+	if (nullptr == pObject)
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -68,19 +70,11 @@ HRESULT CLevel_ServerSelect::Ready_Layer_UI()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerUI")))
-		return E_FAIL;
-
-
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerLogo")))
-		return E_FAIL;
-
-	CUI_ServerEntranceButton* pServerEntranceButton = static_cast<CUI_ServerEntranceButton*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerEntranceButton")));
-	if (nullptr == pServerEntranceButton)
+	CGameObject* pServerUI = pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerUI"));
+	if (nullptr == pServerUI)
 		return E_FAIL;
 	else
-		pServerEntranceButton->Create_Rect();
-
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_SERVERSELECT, static_cast<CUI*>(pServerUI));
 
 	Safe_Release(pGameInstance);
 

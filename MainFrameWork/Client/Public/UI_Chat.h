@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_Server final:
+class CUI_Chat :
     public CUI
 {
 private:
-    CUI_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_Server(const CUI& rhs);
-    virtual ~CUI_Server() = default;
+    CUI_Chat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_Chat(const CUI& rhs);
+    virtual ~CUI_Chat() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -22,9 +22,12 @@ public:
 
 private:
 	HRESULT	UI_Set();
+	
+private:
+	vector<CUI*>	m_vecUIParts;
 
 public:
-	static  CUI_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static  CUI_Chat* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

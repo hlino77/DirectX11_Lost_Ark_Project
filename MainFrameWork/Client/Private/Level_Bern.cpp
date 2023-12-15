@@ -23,6 +23,8 @@
 #include "Renderer.h"
 #include "Monster_Zombie.h"
 #include "Chat_Manager.h"
+#include "UI_Tool.h"
+#include "UI_Manager.h"
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -41,6 +43,9 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
+
+	m_pImGuiManager = CUI_Tool::GetInstance();
+	Safe_AddRef(m_pImGuiManager);
 
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
@@ -92,6 +97,13 @@ HRESULT CLevel_Bern::Tick(_float fTimeDelta)
 
 HRESULT CLevel_Bern::LateTick(_float fTimeDelta)
 {
+	CUI_Tool::GetInstance()->LateTick();
+	return S_OK;
+}
+
+HRESULT CLevel_Bern::Render_Debug()
+{
+	m_pImGuiManager->Tick();
 	return S_OK;
 }
 
@@ -251,12 +263,13 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-
+	CGameObject* pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_ChatUI"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
 	Safe_Release(pGameInstance);
-
-
-
 	return S_OK;
 }
 
@@ -620,5 +633,5 @@ void CLevel_Bern::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pImGuiManager);
 }

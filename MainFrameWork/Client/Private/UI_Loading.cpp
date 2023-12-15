@@ -6,6 +6,7 @@
 #include "UI_LoadingEmptyBar.h"
 #include "UI_LoadingFill.h"
 #include "UI_LoadingArrow.h"
+#include "UI_LoadingShine.h"
 
 CUI_Loading::CUI_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI(pDevice, pContext)
@@ -32,7 +33,7 @@ HRESULT CUI_Loading::Initialize(void* pArg)
     if (FAILED(UI_Set()))
         return E_FAIL;
 
-    m_strObjectTag = TEXT("UI_Loading");
+    m_strUITag = TEXT("UI_Loading");
 
     return S_OK;
 }
@@ -55,14 +56,14 @@ void CUI_Loading::UI_Tick(_float fTimeDelta)
 {
 }
 
-void CUI_Loading::Change_LoadingPer()
+void CUI_Loading::Change_LoadingPer(_float fSizeX)
 {
-    for (auto& iter : m_vecServerUI)
+    for (auto& iter : m_vecUIParts)
     {
-        if (TEXT("Loading_Fill") == iter->Get_ObjectTag())
-        {
-            static_cast<CUI_LoadingFill*>(iter)->Change_SizeX();
-        }
+        if (TEXT("Loading_Fill") == iter->Get_UITag())
+            static_cast<CUI_LoadingFill*>(iter)->Change_SizeX(fSizeX);
+        if (TEXT("Loading_Arrow") == iter->Get_UITag())
+            static_cast<CUI_LoadingArrow*>(iter)->Move_Arrow(fSizeX);
     }
 }
 
@@ -75,31 +76,31 @@ HRESULT CUI_Loading::UI_Set()
     if (nullptr == pLabelTop)
         return E_FAIL;
     else
-        m_vecServerUI.push_back(pLabelTop);
+        m_vecUIParts.push_back(pLabelTop);
 
     CUI_LoadingLabelBottom* pLabelBottm = static_cast<CUI_LoadingLabelBottom*>(pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_BackGround_LoadingLabel_Bottom")));
     if (nullptr == pLabelBottm)
         return E_FAIL;
     else
-        m_vecServerUI.push_back(pLabelBottm);
+        m_vecUIParts.push_back(pLabelBottm);
 
     CUI_LoadingEmptyBar* pEmptyBar = static_cast<CUI_LoadingEmptyBar*>(pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_BackGround_Loading_EmptyBar")));
     if (nullptr == pEmptyBar)
         return E_FAIL;
     else
-        m_vecServerUI.push_back(pEmptyBar);
+        m_vecUIParts.push_back(pEmptyBar);
 
     CUI_LoadingFill* pFill = static_cast<CUI_LoadingFill*>(pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_BackGround_Loading_Fill")));
     if (nullptr == pFill)
         return E_FAIL;
     else
-        m_vecServerUI.push_back(pFill);
+        m_vecUIParts.push_back(pFill);
 
     CUI_LoadingArrow* pArrow = static_cast<CUI_LoadingArrow*>(pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_BackGround_Loading_Arrow")));
     if (nullptr == pArrow)
         return E_FAIL;
     else
-        m_vecServerUI.push_back(pArrow);
+        m_vecUIParts.push_back(pArrow);
 
     Safe_Release(pGameInstance);
 
@@ -135,9 +136,12 @@ CGameObject* CUI_Loading::Clone(void* pArg)
 void CUI_Loading::Free()
 {
     __super::Free();
-    for (auto& iter : m_vecServerUI)
+    Safe_Release(m_pDevice);
+    Safe_Release(m_pContext);
+
+    for (auto& iter : m_vecUIParts)
     {
         Safe_Release(iter);
     }
-    m_vecServerUI.clear();
+    m_vecUIParts.clear();
 }

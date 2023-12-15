@@ -32,7 +32,7 @@ public:
 	void	Set_Active(_bool bActive);
 	void	OnOff();
 	void	ResetBlink();
-
+	_uint	Get_Language() { return m_iLanguage; }
 
 	//Chating
 
