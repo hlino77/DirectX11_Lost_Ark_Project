@@ -97,6 +97,13 @@ void CMonster_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 }
 
 
+void CMonster_Server::Set_AttackRange(_int iRangeIndex)
+{
+	if (iRangeIndex > m_vecAttackRanges.size())
+		return;
+	m_fAttackRange = m_vecAttackRanges[iRangeIndex];
+}
+
 HRESULT CMonster_Server::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

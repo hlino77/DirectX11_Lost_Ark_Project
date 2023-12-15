@@ -111,12 +111,12 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	case OBJ_TYPE::MONSTER:
 	{
 		CMonster::MODELDESC Desc;
-		Desc.strFileName = CAsUtils::ToWString(pkt.strname());
+		Desc.strFileName =L"Monster_"+ CAsUtils::ToWString(pkt.strname());
 		Desc.iObjectID = pkt.iobjectid();
 		Desc.iLayer = pkt.ilayer();
 		Desc.vPos = Vec3(pkt.vpos().data());
 
-		wstring szProtoName = L"Prototype_GameObject_Monster_" + Desc.strFileName;
+		wstring szProtoName = L"Prototype_GameObject_" + Desc.strFileName;
 		CMonster* pMonster = dynamic_cast<CMonster*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szProtoName, &Desc));
 		if (nullptr == pMonster)
 		{

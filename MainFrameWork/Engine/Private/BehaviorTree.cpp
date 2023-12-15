@@ -105,4 +105,7 @@ void CBehaviorTree::Free()
 	__super::Free();
 
 	Safe_Release(m_pRootNode);
+	for (Actions::iterator iter = m_hashActions.begin(); iter != m_hashActions.end(); iter++ )
+		Safe_Release(iter->second);
+	m_hashActions.clear();
 }

@@ -18,7 +18,6 @@ private:
     virtual void		OnEnd()								override;
 
 
-
 public:
     static	CZombie_BT_Attack2_Server* Create(void* pArg);
     virtual void Free() override;

@@ -117,42 +117,67 @@ HRESULT CLevel_Bern_Server::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 
 HRESULT CLevel_Bern_Server::Ready_Layer_Monster(const LAYER_TYPE eLayerType)
 {
-	Vec3 vPos(6.f, 0.f, 1.f);
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-
-
-	CMonster_Server::MODELDESC Desc;
-	Desc.strFileName = L"Monster_Zombie";
-	Desc.iObjectID = g_iObjectID++;
-	Desc.iLayer =	(_uint)LAYER_TYPE::LAYER_MONSTER;
-
-	wstring szMonsterName = L"Prototype_GameObject_Monster_Zombie";
-	CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(LEVEL_BERN , Desc.iLayer, szMonsterName, &Desc));
-	if (pMonster == nullptr)
-		return E_FAIL;
-
-	pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
-
-	CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
-
-
-	Safe_Release(pGameInstance);
-
-
-	return S_OK;
-	/*CMonster_Zombie::MODELDESC MonsterDesc = {};
-	MonsterDesc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
-	MonsterDesc.vPos = Vec3(6, 0, 1);
-	
-	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, MonsterDesc.iLayer, TEXT("Prototype_GameObject_Monster_Zombie"),&MonsterDesc);
-	if (nullptr == pObject)
 	{
+		Vec3 vPos(6.f, 0.f, 1.f);
+
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
+		Safe_AddRef(pGameInstance);
+
+		{
+			CMonster_Server::MODELDESC Desc;
+			Desc.strFileName = L"Monster_Zombie";
+			Desc.iObjectID = g_iObjectID++;
+			Desc.iLayer =	(_uint)LAYER_TYPE::LAYER_MONSTER;
+
+			wstring szMonsterName = L"Prototype_GameObject_Monster_Zombie";
+			CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(LEVEL_BERN , Desc.iLayer, szMonsterName, &Desc));
+			if (pMonster == nullptr)
+				return E_FAIL;
+
+			pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
+
+			CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+		}
+		{
+			//vPos.x += 1.f;
+			//vPos.z -= 1.f;
+			//Desc.strFileName = L"Monster_Plant";
+			//Desc.iObjectID = g_iObjectID++;
+			//Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+
+			//szMonsterName = L"Prototype_GameObject_Monster_Plant";
+			//pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, szMonsterName, &Desc));
+			//if (pMonster == nullptr)
+			//	return E_FAIL;
+
+			//pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
+
+			//CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+		}
+		{
+			vPos.x += 1.f;
+			vPos.z -= 1.f;
+			CMonster_Server::MODELDESC Desc;
+			Desc.strFileName = L"Monster_Golem";
+			Desc.iObjectID = g_iObjectID++;
+			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+
+			wstring szMonsterName = L"Prototype_GameObject_Monster_Golem";
+
+
+			CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, szMonsterName, &Desc));
+			if (pMonster == nullptr)
+				return E_FAIL;
+
+			pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
+
+			CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+		}
+
 		Safe_Release(pGameInstance);
-		return E_FAIL;
-	}*/
+	}
+
+
 	return S_OK;
 }
 
