@@ -41,7 +41,6 @@ private:
 	/* 장치에 동시에 바인딩되어야하는 타겟들을 미리 묶어두겠다. */
 	unordered_map<const wstring, vector<class CRenderTarget*>, djb2Hasher>		m_MRTs;
 
-
 private:
 	ID3D11RenderTargetView*					m_pBackBufferRTV = { nullptr };
 	ID3D11DepthStencilView*					m_pDSV = { nullptr };
@@ -49,7 +48,6 @@ private:
 private:
 	class CRenderTarget* Find_RenderTarget(const wstring& strTargetTag);
 	vector<class CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
-
 
 public:
 	virtual void Free() override;

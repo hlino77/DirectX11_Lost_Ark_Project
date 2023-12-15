@@ -906,8 +906,6 @@ HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)
 	return S_OK;
 }
 
-<<<<<<< HEAD
-=======
 _int CModel::FindMaterialIndexByName(string strMaterialName)
 {
 	for (_int i = 0; i < m_iNumMaterials; ++i)
@@ -931,27 +929,8 @@ _int CModel::FindMaterialIndexByName(string strMaterialName)
 	return -1;
 }
 
-_bool CModel::Is_HairTexture(_uint iMaterialIndex)
-{
-	string strMaterialName = Get_Material_Name(iMaterialIndex);
 
-	size_t pos = strMaterialName.find("_");
-	while (pos != string::npos)
-	{
-		strMaterialName.replace(pos, 1, " ");
-		pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
-	}
 
-	string search_str = "hair";
-	size_t hair_pos = strMaterialName.find(search_str);
-
-	if (hair_pos != string::npos)
-		return true;
-	else
-		return false;
-}
-
->>>>>>> origin/feature/ksg
 void CModel::Change_NextAnimation()
 {
 	m_iCurrAnim = m_tCurrChange.m_iNextAnim;

@@ -97,8 +97,6 @@ public: /* ;hj가 추가한 함수 */
 	void	Set_RootDist(_float fDist) { m_fRootDist = fDist; }
 	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos = XMVectorZero());
 
-	_bool	Is_HairTexture(_uint iMaterialIndex);
-
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);
 	HRESULT Load_MaterialData_FromFile();
