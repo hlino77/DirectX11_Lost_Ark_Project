@@ -71,10 +71,6 @@ HRESULT CStateMachine::Change_State(const wstring& strStateTag)
 
 const wstring& CStateMachine::Get_CurrState()
 {
-	if (m_pCurrState == nullptr)
-		return L"";
-
-
 	return m_pCurrState->Get_StateName();
 }
 

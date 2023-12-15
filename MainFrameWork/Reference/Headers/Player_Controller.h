@@ -8,6 +8,9 @@ BEGIN(Engine)
 class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 {
 public:
+	enum SKILL_COOLDOWN { SPACE, Q, W, E, R, A, S, D, F, _END };
+
+public:
 	typedef struct tagControllerDesc
 	{
 		CGameObject*	pOwner = { nullptr };
@@ -41,6 +44,7 @@ public:
 	void	Get_AttackMessage() { Attack(); }
 	void	Get_SkillMessage() { Skill(); }
 	void	Get_HitMessage() { Hit(); }
+	void	Get_DashMessage(_float fCoolTime) { m_fDashCoolTime = fCoolTime; }
 
 public:
 	_bool	Is_Stop() { return m_bMoveStop; }
@@ -57,6 +61,7 @@ protected:
 	virtual void	Attack();
 	virtual void	Skill();
 	virtual void	Hit();
+	virtual void	Dash_CoolTime(const _float& fTimeDelta);
 	
 
 protected:
@@ -72,6 +77,10 @@ protected:
 	_bool					m_bMoveStop = { false };
 
 	_bool					m_bStop = { false };
+
+	/* Äð Å¸ÀÓ*/
+	_float					m_fCoolDownAcc[SKILL_COOLDOWN::_END] = { 0.f };
+	_float					m_fDashCoolTime = { -1.f };
 
 	Vec3					m_vMaxLinearSpeed;
 	Vec3					m_vLinearSpeed;

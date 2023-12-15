@@ -80,8 +80,6 @@ HRESULT CWeapon_Hand::Render()
 		}
 	}
 
-
-
 	return S_OK;
 }
 

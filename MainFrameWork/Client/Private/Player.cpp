@@ -141,8 +141,7 @@ HRESULT CPlayer::Render()
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 
-
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
     return S_OK;
 }
@@ -521,7 +520,6 @@ HRESULT CPlayer::Ready_Components()
 	}
 
 
-
 	Safe_Release(pGameInstance);
 
 	Vec3 vScale;
@@ -739,9 +737,9 @@ void CPlayer::Set_State(const wstring& szName)
 	Send_State(szName);
 }
 
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame, _float fRootDist)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReserve)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReserve);
 }
 
 void CPlayer::Free()

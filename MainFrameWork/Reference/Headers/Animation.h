@@ -20,6 +20,7 @@ public:
 
 
 	HRESULT Play_Animation(_float fTimeDelta);
+	HRESULT Play_Reverse_Animation(_float fTimeDelta);
 
 	KEY_DESC Get_KeyDesc() { return m_tKeyDesc; }
 	wstring	 Get_Name() { return m_szName; }
@@ -27,6 +28,7 @@ public:
 	void	 Set_Speed(_float fSpeed) { m_fSpeed = fSpeed; }
 	_uint	 Get_Frame() { return m_tKeyDesc.iCurrFrame; }
 	void	 Set_Frame(_uint iFrame);
+	void	 Set_Reverse_Frame(_uint iFrame);
 	_uint	 Get_MaxFrame() { return m_iFrameCount - 1; }
 	
 
@@ -35,12 +37,10 @@ public:
 
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader, const char* strMapname);
 
-
-
-
 	_bool	Is_End() { return m_bEnd; }
 	void	Reset_End() { m_bEnd = false; }
 	void	Reset_Animation();
+	void	Reset_Reverse_Animation();
 private:
 
 private:

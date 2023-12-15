@@ -98,6 +98,31 @@ HRESULT CAnimation::Play_Animation(_float fTimeDelta)
 	return S_OK;
 }
 
+HRESULT CAnimation::Play_Reverse_Animation(_float fTimeDelta)
+{
+	m_tKeyDesc.fSumTime += fTimeDelta * m_fSpeed;
+
+	float fTimePerFrame = 1.f / (m_fTickPerSecond);
+
+	if (m_tKeyDesc.fSumTime >= fTimePerFrame)
+	{
+		_uint iFrame = m_tKeyDesc.fSumTime / fTimePerFrame;
+		m_tKeyDesc.fSumTime -= fTimePerFrame * iFrame;
+		m_tKeyDesc.iCurrFrame = (m_tKeyDesc.iCurrFrame - iFrame) % m_iFrameCount;
+		m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame - 1) % m_iFrameCount;
+
+		if (m_tKeyDesc.iCurrFrame == 0)
+			m_bEnd = true;
+	}
+
+	m_tKeyDesc.fRatio = (m_tKeyDesc.fSumTime / fTimePerFrame);
+
+	if (m_tKeyDesc.fRatio > 1.0f)
+		m_tKeyDesc.fRatio = 1.0f;
+
+	return S_OK;
+}
+
 _float CAnimation::Get_MaxFrameRatio()
 {
 	return (m_tKeyDesc.iCurrFrame % m_iFrameCount) / (_float)m_iFrameCount;
@@ -107,6 +132,12 @@ void CAnimation::Set_Frame(_uint iFrame)
 {
 	m_tKeyDesc.iCurrFrame = iFrame % m_iFrameCount;
 	m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame + 1) % m_iFrameCount;
+}
+
+void CAnimation::Set_Reverse_Frame(_uint iFrame)
+{
+	m_tKeyDesc.iCurrFrame = iFrame % m_iFrameCount;
+	m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame - 1) % m_iFrameCount;
 }
 
 
@@ -144,6 +175,15 @@ void CAnimation::Reset_Animation()
 	m_tKeyDesc.fSumTime = 0.0f;
 	m_tKeyDesc.iCurrFrame = 0;
 	m_tKeyDesc.iNextFrame = 1;
+	m_bEnd = false;
+}
+
+void CAnimation::Reset_Reverse_Animation()
+{
+	m_tKeyDesc.fRatio = 0.0f;
+	m_tKeyDesc.fSumTime = 0.0f;
+	m_tKeyDesc.iCurrFrame = m_iFrameCount - 1;
+	m_tKeyDesc.iNextFrame = m_iFrameCount - 2;
 	m_bEnd = false;
 }
 

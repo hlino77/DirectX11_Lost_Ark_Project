@@ -23,7 +23,6 @@ public:
 	virtual HRESULT Render();
 
 
-
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
@@ -32,11 +31,11 @@ public:
 	virtual	void	OnCollisionExit_NoneControl(const _uint iColLayer, class CCollider* pOther);
 	virtual void	Set_Skill(CGameObject* pGameObject) override;
 
-
 public:
 	void			Send_PlayerInfo();
-
 	void			Set_Colliders(_float fTimeDelta);
+
+	void			Set_Weapon_RenderState(_uint iIndex);
 
 private:
 	virtual HRESULT Ready_Components() override;
