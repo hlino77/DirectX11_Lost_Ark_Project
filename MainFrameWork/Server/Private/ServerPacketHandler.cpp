@@ -194,11 +194,55 @@ bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 
 			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 			pGameSession->Send(pSendBuffer);
-
+			static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
 		}
 
+		{
+			//CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Find_GameObejct(LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_MONSTER, L"Monster_Plant"));
+			//if (nullptr == pMonster)
+			//	return E_FAIL;
+			//Protocol::S_CREATE_OBJCECT tMonsterPkt;
 
+			//tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
+			//tMonsterPkt.set_iobjecttype(pMonster->Get_ObjectType());
+			//tMonsterPkt.set_strname(CAsUtils::ToString(pMonster->Get_ModelName()));
+			//tMonsterPkt.set_ilayer(pMonster->Get_ObjectLayer());
+			//tMonsterPkt.set_ilevel(LEVELID::LEVEL_BERN);
 
+			//tMonsterPkt.set_bcontroll(true);
+
+			//auto vPos = tMonsterPkt.mutable_vpos();
+			//vPos->Resize(3, 0.0f);
+			//Vec3 vPosition = pMonster->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			//memcpy(vPos->mutable_data(), &vPosition, sizeof(Vec3));
+
+			//SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
+			//pGameSession->Send(pSendBuffer);
+			//static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
+		}
+		{
+			CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Find_GameObejct(LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_MONSTER, L"Monster_Golem"));
+			if (nullptr == pMonster)
+				return E_FAIL;
+			Protocol::S_CREATE_OBJCECT tMonsterPkt;
+
+			tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
+			tMonsterPkt.set_iobjecttype(pMonster->Get_ObjectType());
+			tMonsterPkt.set_strname(CAsUtils::ToString(pMonster->Get_ModelName()));
+			tMonsterPkt.set_ilayer(pMonster->Get_ObjectLayer());
+			tMonsterPkt.set_ilevel(LEVELID::LEVEL_BERN);
+
+			tMonsterPkt.set_bcontroll(true);
+
+			auto vPos = tMonsterPkt.mutable_vpos();
+			vPos->Resize(3, 0.0f);
+			Vec3 vPosition = pMonster->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			memcpy(vPos->mutable_data(), &vPosition, sizeof(Vec3));
+
+			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
+			pGameSession->Send(pSendBuffer);
+			static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
+		}
 	}
 
 

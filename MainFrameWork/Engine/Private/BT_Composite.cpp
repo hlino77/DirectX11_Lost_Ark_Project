@@ -66,6 +66,7 @@ void CBT_Composite::OnEnd()
 
 void CBT_Composite::Reset()
 {
+
 	for (auto& iter : m_vecChildren)
 	{
 		iter->Reset();

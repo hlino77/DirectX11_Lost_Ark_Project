@@ -8,24 +8,26 @@
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 #include "Skill_Server.h"
-#include "Zombie_BT_Attack1_Server.h"
+#include "Common_BT_Attack1_Server.h"
 #include "Zombie_BT_Attack2_Server.h"
-#include "Zombie_BT_Chase_Server.h"
-#include "Zombie_BT_DamageLeft_Server.h"
-#include "Zombie_BT_DamageRight_Server.h"
-#include "Zombie_BT_Dead_Server.h"
-#include "Zombie_BT_Idle_Server.h"
-#include "Zombie_BT_BattleIdle_Server.h"
-#include "Zombie_BT_IF_Dead_Server.h"
-#include "Zombie_BT_IF_Hit_Server.h"
-#include "Zombie_BT_IF_Hit_Left_Server.h"
-#include "Zombie_BT_IF_Near_Server.h"
-#include "Zombie_BT_IF_Spawn_Server.h"
-#include "Zombie_BT_Move_Server.h"
-#include "Zombie_BT_Spawn_Server.h"
-#include "Zombie_BT_WHILE_Within_Range_Server.h"
+#include "Common_BT_Chase_Server.h"
+#include "Common_BT_DamageLeft_Server.h"
+#include "Common_BT_DamageRight_Server.h"
+#include "Common_BT_Dead_Server.h"
+#include "Common_BT_Idle_Server.h"
+#include "Common_BT_BattleIdle_Server.h"
+#include "Common_BT_Move_Server.h"
+#include "Common_BT_Spawn_Server.h"
+#include "Common_BT_WHILE_Within_Range_Server.h"
+#include "Common_BT_IF_Dead_Server.h"
+#include "Common_BT_IF_Hit_Server.h"
+#include "Common_BT_IF_Hit_Left_Server.h"
+#include "Common_BT_IF_Near_Server.h"
+#include "Common_BT_IF_Far_Server.h"
+#include "Common_BT_IF_Spawn_Server.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
+#include <Common_BT_IF_Attacked.h>
 
 CMonster_Zombie_Server::CMonster_Zombie_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -62,6 +64,10 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
+	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(1.f);
+	m_fAttackRange = m_vecAttackRanges[0];
+	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
 
 	return S_OK;
@@ -72,11 +78,10 @@ void CMonster_Zombie_Server::Tick(_float fTimeDelta)
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
-	if (m_fScanCoolDown > 1.f)
+	if (m_fScanCoolDown > 0.5f)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
-		Send_Monster_Action();
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 }
@@ -188,13 +193,13 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
-	CBT_Action* pDead = CZombie_BT_Dead_Server::Create(&ActionDesc);
+	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
 
 	CBT_Decorator::DECORATOR_DESC DecoratorDesc = {};
 	DecoratorDesc.pBehaviorTree = m_pBehaviorTree;
 	DecoratorDesc.pGameObject = this;
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIfDead = CZombie_BT_IF_Dead_Server::Create(&DecoratorDesc);//죽었는가
+	CBT_Decorator* pIfDead = CCommon_BT_IF_Dead_Server::Create(&DecoratorDesc);//죽었는가
 	if (FAILED(pIfDead->AddChild(pDead)))
 		return E_FAIL;
 
@@ -206,7 +211,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CZombie_BT_DamageLeft_Server::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -216,9 +221,9 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CZombie_BT_DamageRight_Server::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_DamageRight_Server::Create(&ActionDesc);
 
-	CBT_Decorator* pIfHitLeft = CZombie_BT_IF_Hit_Left_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
+	CBT_Decorator* pIfHitLeft = CCommon_BT_IF_Hit_Left_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
 	if (FAILED(pIfHitLeft->AddChild(pDamageLeft)))
 		return E_FAIL;
 
@@ -232,7 +237,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
 
-	CBT_Decorator* pIfHit = CZombie_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
+	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
 		return E_FAIL;
 
@@ -244,11 +249,26 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Respawn";
-	CBT_Action* pSpawn = CZombie_BT_Spawn_Server::Create(&ActionDesc);
+	CBT_Action* pSpawn = CCommon_BT_Spawn_Server::Create(&ActionDesc);
 
-	CBT_Decorator* pIfSpawn = CZombie_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
+	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))
 		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("run_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Chase";
+	CBT_Action* pChase = CCommon_BT_Chase_Server::Create(&ActionDesc);
+
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Far = CCommon_BT_IF_Far_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pIf_Far->AddChild(pChase))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -258,17 +278,10 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CZombie_BT_Attack1_Server::Create(&ActionDesc);
+	CBT_Action* pAttack1 = CCommon_BT_Attack1_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("idle_battle_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_BattleIdle";
-	CBT_Action* pBattleIdle = CZombie_BT_BattleIdle_Server::Create(&ActionDesc);
+
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -279,38 +292,42 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
 	CBT_Action* pAttack2 = CZombie_BT_Attack2_Server::Create(&ActionDesc);
-
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
+
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pBattleIdle)))
 		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack2)))
 		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pBattleIdle)))
+
+	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
+	if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
 		return E_FAIL;
 
-	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Near = CZombie_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
-	if (FAILED(pIf_Near->AddChild(pSequenceNear))) return E_FAIL;
 
-	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("run_battle_1");
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Chase";
-	CBT_Action* pChase = CZombie_BT_Chase_Server::Create(&ActionDesc);
-
+	ActionDesc.strActionName = L"Action_BattleIdle";
+	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
-	CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
-	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
+	CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
+
+	if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
 		return E_FAIL;
-	if (FAILED(pSelector_Within_Range->AddChild(pChase)))
+	if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
+		return E_FAIL;
+
+	CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
+
+	if (FAILED(pSelector_Within_Range->AddChild(pIf_Far)))
+		return E_FAIL;
+
+	if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -321,7 +338,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Idle_0";
-	CBT_Action* pIdle_0 = CZombie_BT_Idle_Server::Create(&ActionDesc);
+	CBT_Action* pIdle_0 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -331,7 +348,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Idle_1";
-	CBT_Action* pIdle_1 = CZombie_BT_Idle_Server::Create(&ActionDesc);
+	CBT_Action* pIdle_1 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -341,7 +358,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Move";
-	CBT_Action* pMove = CZombie_BT_Move_Server::Create(&ActionDesc);
+	CBT_Action* pMove = CCommon_BT_Move_Server::Create(&ActionDesc);
 
 
 
@@ -357,7 +374,7 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::WHILE;
-	CBT_Decorator* pWhile_Within_Range = CZombie_BT_WHILE_Within_Range_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	CBT_Decorator* pWhile_Within_Range = CCommon_BT_WHILE_Within_Range_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 	if (FAILED(pWhile_Within_Range->AddChild(pSelector_Within_Range)))
 		return E_FAIL;
 
@@ -383,7 +400,7 @@ CMonster_Zombie_Server* CMonster_Zombie_Server::Create(ID3D11Device* pDevice, ID
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CPlayer");
+		MSG_BOX("Failed To Created : CMonster_Zombie");
 		Safe_Release(pInstance);
 	}
 

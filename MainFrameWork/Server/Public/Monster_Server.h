@@ -108,6 +108,16 @@ public:
 
 	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
+
+	_bool					Is_Attacked() { return m_IsAttacked; }
+	void					Set_Attacked(_bool IsAttacked) { m_IsAttacked = IsAttacked; }
+
+	void					Set_AttackRange(_int iRangeIndex);
+	_float					Get_AttackRange() { return m_fAttackRange; }
+
+	void					Set_NoticeRange(_float fNoticeRange) { m_fNoticeRange = fNoticeRange; }
+	_float					Get_NoticeRange() { return m_fNoticeRange; }
+
 	void					Set_Action(wstring strAction) { m_strAction = strAction; }
 	wstring					Get_Action() { return m_strAction; }
 protected:
@@ -124,18 +134,20 @@ protected:
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
-
+	vector<_float>					m_vecAttackRanges ;
+	_float							m_fAttackRange = 0.f;
+	_float							m_fNoticeRange = 0.f;
 	unordered_map<wstring, _uint>	m_BoneIndex;
-
 
 	_float							m_fFollowDistance = 0.0f;
 
 
 	atomic<_int>					m_iSlowMotionCount = 0;
-
+	_bool							m_IsAttacked = false;
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;
+
 	Vec3							m_vRandomPosition = {};
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 

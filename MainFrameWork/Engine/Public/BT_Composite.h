@@ -8,7 +8,7 @@ public:
 	enum class CompositeType { SELECTOR, SEQUENCE, TYPE_END };
 	typedef struct tag_Composite_Desc: public NODE_DESC
 	{
-		CompositeType eCompositeType;
+		CompositeType	eCompositeType;
 	}COMPOSITE_DESC;
 protected:
 	CBT_Composite();
@@ -27,6 +27,7 @@ public:
 protected:
 	CompositeType		m_eCompositeType = CompositeType::TYPE_END;
 	vector<CBT_Node*>::iterator	m_RunningChild;
+
 
 public:
 	static	CBT_Composite* Create(void* pArg);

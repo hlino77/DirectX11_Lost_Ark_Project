@@ -10,22 +10,16 @@
 #include "NavigationMgr.h"
 #include "CollisionManager.h"
 #include "Pool.h"
-#include "Zombie_BT_Attack1.h"
 #include "Zombie_BT_Attack2.h"
-#include "Zombie_BT_Chase.h"
-#include "Zombie_BT_DamageLeft.h"
-#include "Zombie_BT_DamageRight.h"
-#include "Zombie_BT_Dead.h"
-#include "Zombie_BT_Idle.h"
-#include "Zombie_BT_BattleIdle.h"
-#include "Zombie_BT_IF_Dead.h"
-#include "Zombie_BT_IF_Hit.h"
-#include "Zombie_BT_IF_Hit_Left.h"
-#include "Zombie_BT_IF_Near.h"
-#include "Zombie_BT_IF_Spawn.h"
-#include "Zombie_BT_Move.h"
-#include "Zombie_BT_Spawn.h"
-#include "Zombie_BT_WHILE_Within_Range.h"
+#include "Common_BT_Attack1.h"
+#include "Common_BT_Chase.h"
+#include "Common_BT_DamageLeft.h"
+#include "Common_BT_DamageRight.h"
+#include "Common_BT_Dead.h"
+#include "Common_BT_Idle.h"
+#include "Common_BT_BattleIdle.h"
+#include "Common_BT_Move.h"
+#include "Common_BT_Spawn.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
@@ -371,7 +365,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.strActionName = L"Action_Dead";
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	CBT_Action* pDead = CZombie_BT_Dead::Create(&ActionDesc);
+	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -382,7 +376,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CZombie_BT_DamageLeft::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -392,7 +386,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CZombie_BT_DamageRight::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -403,7 +397,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Respawn";
-	CBT_Action* pSpawn = CZombie_BT_Spawn::Create(&ActionDesc);
+	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -414,7 +408,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CZombie_BT_Attack1::Create(&ActionDesc);
+	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -425,7 +419,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_BattleIdle";
-	CBT_Action* pBattleIdle = CZombie_BT_BattleIdle::Create(&ActionDesc);
+	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -445,7 +439,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Chase";
-	CBT_Action* pChase = CZombie_BT_Chase::Create(&ActionDesc);
+	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 
 
@@ -457,7 +451,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Idle_0";
-	CBT_Action* pIdle_0 = CZombie_BT_Idle::Create(&ActionDesc);
+	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -467,7 +461,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Idle_1";
-	CBT_Action* pIdle_1 = CZombie_BT_Idle::Create(&ActionDesc);
+	CBT_Action* pIdle_1 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -477,7 +471,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Move";
-	CBT_Action* pMove = CZombie_BT_Move::Create(&ActionDesc);
+	CBT_Action* pMove = CCommon_BT_Move::Create(&ActionDesc);
 
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
 	return S_OK;
@@ -512,7 +506,7 @@ CMonster_Zombie* CMonster_Zombie::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CPlayer_Gunslinger");
+		MSG_BOX("Failed To Created : CMonster_Zombie");
 		Safe_Release(pInstance);
 	}
 
@@ -540,4 +534,5 @@ void CMonster_Zombie::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pBehaviorTree);
 }

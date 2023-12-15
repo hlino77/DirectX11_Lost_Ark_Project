@@ -9,13 +9,14 @@ class CBehaviorTree;
 class ENGINE_DLL CBT_Node :public CBase
 {
 public:
-	enum		BT_RETURN { BT_FAIL = -1, BT_RUNNING, BT_SUCCESS, RETURN_END };
+	enum		BT_RETURN { BT_FAIL = -1, BT_RUNNING, BT_SUCCESS ,RETURN_END };
 	enum class	BT_NODETYPE { COMPOSITE, DECORATOR, ACTION, TYPE_END };
 public:
 	typedef struct tag_Node_Desc
 	{
 		CGameObject*	pGameObject;
 		CBehaviorTree*	pBehaviorTree;
+
 	}NODE_DESC;
 
 protected:
@@ -35,6 +36,8 @@ public:
 
 	virtual BT_NODETYPE		NodeType() { return m_eNodeType; }
 	HRESULT					AddChild(CBT_Node* pChild);
+
+	BT_RETURN					Get_Return() { return m_eReturn ; }
 
 protected:
 	CGameObject*				m_pGameObject = nullptr;

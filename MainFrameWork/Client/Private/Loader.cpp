@@ -41,6 +41,12 @@
 #include "UI_Chat.h"
 #include "UI_Manager.h"
 
+//Monsters
+#include "Monster_Zombie.h"
+#include "Monster_Plant.h"
+#include "Monster_Golem.h"
+
+
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -391,6 +397,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Golem"),
+		CMonster_Golem::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
 
@@ -701,6 +711,15 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			return E_FAIL;
 	}
 
+	{
+		wstring strFileName = L"Monster_Golem";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+	}
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

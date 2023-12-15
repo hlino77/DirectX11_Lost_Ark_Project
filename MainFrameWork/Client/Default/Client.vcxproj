@@ -192,6 +192,8 @@
     <ClInclude Include="..\Public\ColMesh.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
     <ClInclude Include="..\Public\ImGUI\imgui.h" />
     <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h" />
@@ -215,8 +217,11 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\Monster_Plant.h" />
     <ClInclude Include="..\Public\Monster_Zombie.h" />
+    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
+    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\Player_Gunslinger.h" />
@@ -265,23 +270,16 @@
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
-    <ClInclude Include="..\Public\Zombie_BT_BattleIdle.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Chase.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Attack1.h" />
-    <ClInclude Include="..\Public\Zombie_BT_DamageRight.h" />
-    <ClInclude Include="..\Public\Zombie_BT_DamageLeft.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Dead.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Idle.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Dead.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Hit.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Hit_Left.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Maz.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Near.h" />
-    <ClInclude Include="..\Public\Zombie_BT_IF_Spawn.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Maz.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Move.h" />
-    <ClInclude Include="..\Public\Zombie_BT_Spawn.h" />
-    <ClInclude Include="..\Public\Zombie_BT_WHILE_Within_Range.h" />
+    <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
+    <ClInclude Include="..\Public\Common_BT_Chase.h" />
+    <ClInclude Include="..\Public\Common_BT_Attack1.h" />
+    <ClInclude Include="..\Public\Common_BT_DamageRight.h" />
+    <ClInclude Include="..\Public\Common_BT_DamageLeft.h" />
+    <ClInclude Include="..\Public\Common_BT_Dead.h" />
+    <ClInclude Include="..\Public\Common_BT_Idle.h" />
+    <ClInclude Include="..\Public\Common_BT_Maz.h" />
+    <ClInclude Include="..\Public\Common_BT_Move.h" />
+    <ClInclude Include="..\Public\Common_BT_Spawn.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="Resource.h" />
@@ -301,6 +299,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp">
@@ -322,8 +322,11 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\Monster_Plant.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
+    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
+    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\Player_Gunslinger.cpp" />
@@ -374,21 +377,21 @@
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_BattleIdle.cpp" />
+    <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
     <ClCompile Include="..\Private\Weapon_Long.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Chase.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Attack1.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Chase.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_DamageRight.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_DamageLeft.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Dead.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Idle.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Maz.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Move.cpp" />
-    <ClCompile Include="..\Private\Zombie_BT_Spawn.cpp" />
+    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp" />
+    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Move.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
