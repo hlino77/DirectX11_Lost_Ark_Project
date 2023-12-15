@@ -20,6 +20,11 @@ cbuffer LightBuffer
     LightDesc GlobalLight;
 };
 
+cbuffer MaterialSwitch
+{
+    float4 SpecMaskEmisExtr;
+};
+
 // Material
 Texture2D g_DiffuseTexture;
 Texture2D g_NormalTexture;

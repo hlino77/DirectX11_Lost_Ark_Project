@@ -35,7 +35,7 @@ struct PS_OUT_PBR
     float4  vDepth : SV_TARGET2;
     float4  vMetallic : SV_TARGET3;
     float4  vRoughness : SV_TARGET4;
-	//float4 vEmissive : SV_TARGET5;
+	float4  vEmissive : SV_TARGET5;
 };
 	
 struct PS_OUT_PHONG

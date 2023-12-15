@@ -16,9 +16,10 @@ vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 Texture2D		g_NormalTarget;
 Texture2D		g_DiffuseTarget;
 Texture2D		g_ShadeTarget;
+Texture2D		g_SpecularTarget;
 Texture2D		g_MetallicTarget;
 Texture2D		g_RoughnessTarget;
-Texture2D		g_SpecularTarget;
+Texture2D		g_EmissiveTarget;
 Texture2D		g_DepthTarget;
 Texture2D		g_BlurTarget;
 Texture2D		g_ShadowDepthTarget;
@@ -363,7 +364,9 @@ PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
 	
     float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;
 	
-    vColor = vAmbient + vColor;
+    float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
+	
+    vColor = vAmbient + vColor + vEmissive;
     Out.vColor = float4(vColor, 1.f);
 	
     return Out;

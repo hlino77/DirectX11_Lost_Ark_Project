@@ -68,6 +68,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
+
+	/* For.Target_Emissive */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Emissive"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
 	
 	/* For.Target_Specular */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
@@ -126,7 +131,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Roughness"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
@@ -157,6 +162,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Emissive"))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
@@ -171,8 +178,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* 이 렌더타겟들은 게임내에 존재하는 빛으로부터 연산한 결과를 저장받는다. */
 	/* For.MRT_ */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Shade"))))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Specular"))))
 		return E_FAIL;
 
 	//BlurEffect
@@ -652,8 +657,7 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
 		return E_FAIL;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::B))
@@ -661,11 +665,17 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (m_bPBR_Switch)
 	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
+			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
+			return E_FAIL;
+
 		if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
 			return E_FAIL;
 	}
 	else
 	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Specular"), "g_SpecularTarget")))
+			return E_FAIL;
 		if (FAILED(m_pMRTShader->Begin("Deferred")))
 			return E_FAIL;
 	}

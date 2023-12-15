@@ -133,47 +133,26 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         return Out;
     } // PBR 적용없이 return
 	
-    float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
-    float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
-
-    if (vMRMask.a * vMRMask.b == 0.f)
+    if (1.f == SpecMaskEmisExtr.x)
     {
-        Out.vMetallic = vSpecular * vMRMask.r;
-        Out.vRoughness = vSpecular * vMRMask.g;
+        float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
+        if (1.f == SpecMaskEmisExtr.y)
+        {
+            float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
+            Out.vMetallic = vSpecular * vMRMask.r * (1.f - vSpecular.a);
+            Out.vRoughness = vSpecular * vMRMask.g * vSpecular.a;
+        }
+        else
+        {
+            Out.vMetallic = Out.vDiffuse * vSpecular.r * (1.f - vSpecular.a);
+            Out.vRoughness = Out.vDiffuse * vSpecular.g * vSpecular.a;
+        }
     }
-
-    return Out;
-}
-
-PS_OUT_PBR PS_PBR_NOMASK(VS_OUT In)
-{
-    PS_OUT_PBR Out = (PS_OUT_PBR) 0;
-
-	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	
-	if (0.2f >= Out.vDiffuse.a)
-		discard;
-
-    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
-	
-    Out.vNormal = In.vNormal;
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
-	
-    if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
+    
+    if (1.f == SpecMaskEmisExtr.z)
     {
-        float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
-        float4 haircolor_2 = g_vHairColor_2 * (1.f - Out.vDiffuse.g);
-		
-        float4 vBlendedHairColor = haircolor_1 + haircolor_2;
-        Out.vDiffuse = saturate(float4(vBlendedHairColor.rgb, 1.f));
-		
-        return Out;
-    } // PBR 적용없이 return
-	
-    float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
-
-    Out.vMetallic = Out.vDiffuse * vSpecular.r;
-    Out.vRoughness = Out.vDiffuse * vSpecular.g;
+        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+    }
 
     return Out;
 }
@@ -242,18 +221,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_PBR();
     }
 
-	pass PBR_NoMask // 1
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_PBR_NOMASK();
-    }
-
-	pass Phong // 2
+	pass Phong // 1
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -264,7 +232,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_PHONG();
 	}
 
-	pass ShadowPass // 3
+	pass ShadowPass // 2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -275,7 +243,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_SHADOWDEPTH();
 	}
 
-    pass Diffuse // 4
+    pass Diffuse // 3
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
