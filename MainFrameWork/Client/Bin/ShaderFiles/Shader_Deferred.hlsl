@@ -339,67 +339,21 @@ PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
     vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 	
     float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
-    //float3 R = reflect(-V, N);
 	
     float3 vSpecular = float3(0.04f, 0.04f, 0.04f);
     vSpecular = lerp(vSpecular, vAlbedo.xyz, fMetallic);
-	
-    //float3 Lo = float3(0.0f, 0.0f, 0.0f);
-	
 
 	// calculate per-light radiance
-    //float3 L = normalize(lightPositions[i].xyz - WorldPos);
     float3 L = -g_vLightDir;
-    float3 H = normalize(V + L);
-    ////float fDistance = length(-g_vLightDir);
-    //float fDistance = 1.f;
-    ////float fAttenuation = 1.0f / (fDistance * fDistance);
-    //float fAttenuation = 1.0f;
-    ////float attenuation = 10.0 / (distance);
-    //float3 vRadiance = g_vLightDiffuse.xyz * fAttenuation;d
-	
-	
+    float3 H = normalize(V + L);	
 	
 	// irradianceMap을 ShadeTarget으로 대체해 봄. 이상하면 여긴 빼자
     float3 vIrradiance = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
     float3 vDiffuse = vIrradiance * vAlbedo.xyz;
 	
-    //float3 vDiffuse = lerp(vAlbedo.xyz, float3(0, 0, 0), fMetallic) * fAO;
-	//
-	
     float3 vBRDF_factor = BRDF(fRoughness, fMetallic, vDiffuse, vSpecular, N, V, L, H);
     float3 vColor = float3(0.f, 0.f, 0.f);
     vColor += g_vLightDiffuse.rgb * /*shadow * */vBRDF_factor;
-	
-    //vColor = pow(vColor, float3(1.0 / 2.2, 1.0 / 2.2, 1.0 / 2.2));
-	
-    //Out.vColor = float4(vColor, 1.f);
-	
-    //return Out;
- //   const float NdotL = max(dot(N, L), EPSILON);
- //   const float NdotV = abs(dot(N, V)) + EPSILON;
- //   const float NdotH = max(dot(N, H), EPSILON);
- //   const float HdotV = max(dot(H, V), EPSILON);
-	
-	// // cook-torrance brdf
- //   float NDF = DistributionGGX(N, H, fRoughness);
-	//float G = GeometrySmith(N, V, L, fRoughness);
- //   float3 F = fresnelSchlick(HdotV, vZero);
-	
- //   float3 kS = F;
- //   float3 kD = float3(1.0f, 1.0f, 1.0f) - kS;
- //   kD *= 1.0f - fMetallic;
-	
- //   float3 vNumerator = NDF * G * F;
- //   float fDenominator = 4.0f * NdotV * NdotL;
- //   float3 vSpecular = vNumerator / max(fDenominator, 0.001f);
-	
-    // add to outgoing radiance Lo
-    //Lo += (kD * vAlbedo.xyz / PI + vSpecular) * vRadiance * NdotL;
-
-	//////////
-	
-	//////////
 	
     float3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), vDiffuse, fRoughness);
 
@@ -407,20 +361,12 @@ PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
     float3 kD = 1.0f - kS;
     kD *= 1.0f - fMetallic;
 	
-    //const float MAX_REFLECTION_LOD = 4.0f;
-    //float3 prefilteredColor = preFilterMap.SampleLevel(LinearSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
-    //float2 envBRDF = brdfLUT.Sample(LinearSampler, float2(max(dot(N, V), 0.0), fRoughness)).rg;
-    //float3 vSpecular = prefilteredColor * (F * envBRDF.x + envBRDF.y);
-
     float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;
 	
     vColor = vAmbient + vColor;
     Out.vColor = float4(vColor, 1.f);
 	
     return Out;
-	
-    //vColor = vColor / (vColor + float3(1.0f, 1.0f, 1.0f));
-    //vColor = pow(vColor, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
 }
 
 PS_OUT PS_MAIN_EFFECT_DEFERRED(VS_OUT In)

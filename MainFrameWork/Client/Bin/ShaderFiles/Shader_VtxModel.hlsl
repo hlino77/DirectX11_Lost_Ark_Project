@@ -186,7 +186,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_SHADOW();
     }
 
-    pass Naruto // 4 임시
+    pass Diffuse // 4 임시
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);

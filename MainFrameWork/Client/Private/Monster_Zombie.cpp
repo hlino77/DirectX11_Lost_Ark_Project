@@ -112,63 +112,19 @@ void CMonster_Zombie::LateTick(_float fTimeDelta)
 HRESULT CMonster_Zombie::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
-	m_PlayAnimation.get();
+	if (FAILED(m_PlayAnimation.get()))
+		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
-		return S_OK;
+		return E_FAIL;
 
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
+	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")) ||
-			FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return S_OK;
-		}*/
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return E_FAIL;
-
-		if (SUCCEEDED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (SUCCEEDED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_SPECULAR, "g_SpecularTexture")))
-			{
-				if (SUCCEEDED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
-				{
-					if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "PBR")))
-						return E_FAIL;
-				}
-				else
-				{
-					if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "PBR_NoMask")))
-						return E_FAIL;
-				}
-			}
-			else
-			{
-				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Phong")))
-					return E_FAIL;
-			}
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Naruto")))
-				return E_FAIL;
-		}
-	}
+	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
 
     return S_OK;
 }

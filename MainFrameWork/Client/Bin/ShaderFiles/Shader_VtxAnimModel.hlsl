@@ -275,7 +275,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_SHADOWDEPTH();
 	}
 
-    pass DiffusePass // 4
+    pass Diffuse // 4
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);

@@ -51,7 +51,8 @@ private:
 
 private:
 	_float			m_fSendInfoTime = 0.0f;
-
+	_int			m_iHelmetIndex = -1;
+	_int			m_iHairIndex = -1;
 
 public:
 	static CPlayer_Gunslinger* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);

@@ -45,6 +45,8 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
 	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
 
+	m_iHairIndex = m_pModelPartCom[1/*hair*/]->FindMaterialIndexByName("hair"); // 왜 안되지...
+
 	return S_OK;
 }
 
@@ -54,7 +56,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
-
 	if (KEY_TAP(KEY::RBTN))
 	{
 		Vec3 vPos;
@@ -63,7 +64,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 		}
 	}
-
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -95,47 +95,23 @@ HRESULT CPlayer_Gunslinger::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			_bool IsHairTexture = m_pModelPartCom[i]->Is_HairTexture(j);
-			if (true == IsHairTexture)
+			if (i == 1/*hair*/ && j == 1/*m_iHairIndex*/)
 			{
-				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4));
-				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4));
-			}
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+					return E_FAIL;
 
-			if (FAILED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-				return E_FAIL;
+				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
 
-			if (SUCCEEDED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_NORMALS, "g_NormalTexture")))
-			{
-				if (SUCCEEDED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_SPECULAR, "g_SpecularTexture")))
-				{
-					if (SUCCEEDED(m_pModelPartCom[i]->SetUp_OnShader(m_pShaderCom, m_pModelPartCom[i]->Get_MaterialIndex(j), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
-					{
-						if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "PBR")))
-							return E_FAIL;
-					}
-					else // PBR마스크 없으면 spec을 mask, diffuse를 spec
-					{
-						if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "PBR_NoMask")))
-							return E_FAIL;
-					}
-				}
-				else
-				{
-					if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "Phong")))
-						return E_FAIL;
-				}
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+					return E_FAIL;
 			}
 			else
 			{
-				if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "DiffusePass")))
+				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
-			}
-
-			if (true == IsHairTexture)
-			{
-				m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4));
-				m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4));
 			}
 		}
 	}
