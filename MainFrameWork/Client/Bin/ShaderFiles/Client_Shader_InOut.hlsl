@@ -23,16 +23,29 @@ struct VS_OUT
 {
     float4  vPosition : SV_POSITION;
     float4  vNormal : NORMAL;
+    float3  vNormalV : NORMALV;
     float2  vTexUV : TEXCOORD0;
     float4  vProjPos : TEXCOORD1;
     float3  vTangent : TANGENT;
+};
+
+struct TARGET_IN
+{
+    float3 vPosition : POSITION;
+    float2 vTexcoord : TEXCOORD0;
+};
+
+struct VS_OUT_TARGET
+{
+    float4 vPosition : SV_POSITION;
+    float2 vTexcoord : TEXCOORD1;
 };
 
 struct PS_OUT_PBR
 {
     float4  vDiffuse : SV_TARGET0;
     float4  vNormal : SV_TARGET1;
-    float4  vDepth : SV_TARGET2;
+    float4  vNormalV : SV_TARGET2;
     float4  vMetallic : SV_TARGET3;
     float4  vRoughness : SV_TARGET4;
 	float4  vEmissive : SV_TARGET5;
@@ -42,7 +55,7 @@ struct PS_OUT_PHONG
 {
     float4  vDiffuse : SV_TARGET0;
     float4  vNormal : SV_TARGET1;
-    float4  vDepth : SV_TARGET2;
+    float4  vNormalV : SV_TARGET2;
 	
 	//float4 vEmissive : SV_TARGET5;
 };

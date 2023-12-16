@@ -7,7 +7,7 @@
 #include "Model.h"
 #include "Shader.h"
 #include "VIBuffer_Rect.h"
-
+#include "VIBuffer_RectSSAO.h"
 
 BEGIN(Engine)
 class CComponent_Manager : public CBase

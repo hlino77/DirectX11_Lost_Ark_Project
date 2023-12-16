@@ -181,7 +181,7 @@ PS_OUT PS_MAIN_BLURY(PS_IN In)
 
 technique11 DefaultTechnique
 {
-	pass Deferred_Blend
+	pass Deferred_Blend // 0
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);
@@ -194,7 +194,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_EFFECT_DEFERRED();
 	}
 
-	pass EffectShade
+	pass EffectShade // 1
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);
@@ -207,7 +207,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_EFFECT_SHADE();
 	}
 
-	pass BlurX
+	pass BlurX // 2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);
@@ -220,7 +220,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_BLURX();
 	}
 
-	pass BlurY
+	pass BlurY // 3
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);
@@ -233,7 +233,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_BLURY();
 	}
 
-	pass EffectShadeBlur
+	pass EffectShadeBlur // 4
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);

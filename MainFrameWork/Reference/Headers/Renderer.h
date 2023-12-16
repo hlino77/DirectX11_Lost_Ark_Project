@@ -38,7 +38,6 @@ public:
 	HRESULT Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** pSRV);
 	HRESULT Add_DebugObject(CGameObject* pObject);
 
-
 	HRESULT Draw();
 	HRESULT Draw_Server();
 
@@ -57,6 +56,8 @@ private:
 	HRESULT	Render_ShadowDepth();
 	HRESULT Render_Lights();
 	HRESULT Render_LightAcc();
+
+	HRESULT Render_SSAO();
 	HRESULT Render_Deferred();
 
 	HRESULT Render_Blend();
@@ -82,26 +83,21 @@ private:
 
 	HRESULT Ready_InstanceBuffer();
 
-
-
 	//Debug
 	vector<class CGameObject*> m_DebugRenderObjects;
-	vector<class CGameObject*>			m_RenderObjects[RENDER_END];
+	vector<class CGameObject*> m_RenderObjects[RENDER_END];
 	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_StaticInstance;
 	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_EffectInstance;
 	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
 
 private:
-	
 	CShader* m_pInstanceShader = nullptr;
 
 	ID3D11Buffer* m_pInstanceBuffer = nullptr;
 	ID3D11Buffer* m_pPointEffect_InstanceBuffer = nullptr;
 	ID3D11Buffer* m_pModelEffect_InstanceBuffer = nullptr;
 
-
 	_uint	m_iBufferSize = 0;
-
 
 	//RenderTarget
 	class CTarget_Manager* m_pTarget_Manager = { nullptr };
@@ -111,7 +107,7 @@ private:
 	CShader* m_pMRTShader = { nullptr };
 	CShader* m_pEffectShader = { nullptr };
 
-	Matrix					m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
+	Matrix	m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
 
 	//MakeSRV
 	HRESULT	Ready_MakeSRV_DSV();
@@ -127,22 +123,51 @@ private:
 	ID3D11DepthStencilView* m_pStaticShadowDSV = nullptr;
 	_float m_fStaticShadowTargetSizeRatio;
 
-
 	//Blur
-	void	Ready_BlurData();
+	HRESULT	Ready_BlurData();
 
 	Vec2	m_vPixelSize;
 	_int	m_iKernelSize;
 	vector<_float> m_BlurWeights;
 
-	_float m_fBias = 0.0000022f;
+	_float	m_fBias = 0.0000022f;
 
-	_bool m_bRenderStaticShadow = false;
+	_bool	m_bRenderStaticShadow = false;
 
+	_bool	m_bTargetOnOff = false;
+	_bool	m_bPBR_Switch = true;
+	_int	m_iSSAO_Switch = true;
 
-	_bool m_bTargetOnOff = false;
-	_bool m_bPBR_Switch = true;
+	//SSAO
+	HRESULT Ready_SSAO();
 
+	CShader* m_pSSAOShader = { nullptr };
+	class CVIBuffer_RectSSAO* m_pVIBufferSSAO = { nullptr };
+
+	Vec4 m_vFrustumFarCorner[4];
+	Vec4 m_vOffsets[14];
+	ID3D11ShaderResourceView* m_pRandomSRV = nullptr;
+
+	struct SSAO_Data
+	{
+		Matrix	matViewToTexSpace; // Proj*Texture
+		Vec4 vOffsetVectors[14];
+		Vec4 vFrustumCorners[4];
+
+		_float gOcclusionRadius = 0.5f;
+		_float gOcclusionFadeStart = 0.2f;
+		_float gOcclusionFadeEnd = 2.0f;
+		_float gSurfaceEpsilon = 0.05f;
+	}; 
+
+	// Transform NDC space [-1,+1]^2 to texture space [0,1]^2
+	const XMMATRIX m_matToTexture =
+	{	0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f	};
+	
+	class CTexture* m_pRandomTexture = nullptr;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -24,7 +24,9 @@ VS_OUT VS_MAIN(STATIC_IN In)
     matWVP = mul(WorldMatrix, ViewProj);
 	
     Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
-    Out.vNormal = mul(float4(In.vNormal, 0.f), WorldMatrix);
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+
     Out.vTexUV = In.vTexUV;
     //Out.vWorldPos = mul(float4(In.vPosition, 1.f), WorldMatrix);
     Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix)).xyz;
@@ -46,8 +48,10 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 
-    Out.vNormal = In.vNormal;
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    //Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    //Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV.xyz * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
     
     if (1.f == SpecMaskEmisExtr.x)
     {
@@ -84,8 +88,8 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
 
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
-    Out.vNormal = In.vNormal;
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV.xyz * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
 	
     return Out;
 }
@@ -95,8 +99,8 @@ PS_OUT_PHONG PS_NARUTO(VS_OUT In)
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
 
     Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV.xyz * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
 
     if (0.2f >= Out.vDiffuse.a)
         discard;

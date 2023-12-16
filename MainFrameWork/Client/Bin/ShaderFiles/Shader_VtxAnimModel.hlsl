@@ -35,6 +35,7 @@ VS_OUT VS_MAIN_NO_NORMAL(SKELETAL_IN In)
 
 	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = normalize(mul(vNormal, WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix));
 
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
@@ -67,7 +68,8 @@ VS_OUT VS_MAIN(SKELETAL_IN In)
 
 	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = normalize(mul(vNormal, WorldMatrix));
-
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+    
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
 	Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
@@ -100,6 +102,7 @@ VS_OUT VS_SHADOW(SKELETAL_IN In)
 
     Out.vPosition = mul(vPosition, matWVP);
     Out.vNormal = normalize(mul(vNormal, WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
 
     Out.vTexUV = In.vTexUV;
     Out.vProjPos = Out.vPosition;
@@ -118,9 +121,16 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 		discard;
 
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
-	
-    Out.vNormal = In.vNormal;
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    //float4 vNormalV = float4(In.vNormalV, 0.f);
+    //ComputeNormalMapping(vNormalV, In.vTangent, In.vTexUV);
+    
+    //Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    //Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    // w채널에 기존 depth의 x채널을 이사
+    // Depth에는 뷰 공간의 노멀, 깊이는 w로 이사
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    //Out.vNormalV = vector(In.vNormalV * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
+    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
 	
     if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
     {
@@ -168,8 +178,8 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
 
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
-    Out.vNormal = In.vNormal;
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
 	
     if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
     {
@@ -199,8 +209,8 @@ PS_OUT_PHONG PS_DIFFUSE(VS_OUT In) : SV_TARGET0
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
     
     Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
 
     if (0.2f >= Out.vDiffuse.a)
         discard;
