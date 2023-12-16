@@ -182,6 +182,30 @@ void CLockFree_Transform::Rotation(Vec3 vAxis, _float fRadian)
 	Set_State(CLockFree_Transform::STATE_LOOK, vLook * vScale.z);
 }
 
+void CLockFree_Transform::My_Rotation(Vec3 vEulers)
+{
+	Matrix matRotation = Matrix::Identity;
+	Quaternion quat = Quaternion::Identity;
+
+	vEulers.x = XMConvertToRadians(vEulers.x);
+	vEulers.y = XMConvertToRadians(vEulers.y);
+	vEulers.z = XMConvertToRadians(vEulers.z);
+
+	quat = Quaternion::CreateFromYawPitchRoll(vEulers.y, vEulers.x, vEulers.z);
+
+	matRotation = Matrix::CreateFromQuaternion(quat);
+
+	
+	for (_uint i = 0; i < 3; ++i)
+	{
+		Vec3 v(m_WorldMatrix.m[i]);
+		v = Vec3::TransformNormal(v, matRotation);
+
+		for (_uint j = 0; j < 3; ++j)
+			m_WorldMatrix.m[i][j] = *((_float*)&v + j);
+	}
+}
+
 void CLockFree_Transform::LookAt(Vec3 vAt)
 {
 	Vec3		vLook = vAt - Get_State(CLockFree_Transform::STATE_POSITION);

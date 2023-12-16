@@ -12,32 +12,17 @@ CState_GN_Identity::CState_GN_Identity(const wstring& strStateName, CStateMachin
 
 HRESULT CState_GN_Identity::Initialize()
 {
-	m_iIdentity_HandtoShot = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity2", 1.f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_HandtoShot);
-	if (-1 == m_iIdentity_HandtoShot)
-		return E_FAIL;
-
-	m_iIdentity_HandtoLong = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.f);
+	m_iIdentity_HandtoLong = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity1", 1.5f);
 	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_HandtoLong);
 	if (-1 == m_iIdentity_HandtoLong)
 		return E_FAIL;
 
-	m_iIdentity_ShottoHand = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.f);
+	m_iIdentity_ShottoHand = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity2", 1.5f);
 	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_ShottoHand);
 	if (-1 == m_iIdentity_ShottoHand)
 		return E_FAIL;
 
-	m_iIdentity_ShottoLong = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_ShottoLong);
-	if (-1 == m_iIdentity_ShottoLong)
-		return E_FAIL;
-
-	m_iIdentity_LongtoHand = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_LongtoHand);
-	if (-1 == m_iIdentity_LongtoHand)
-		return E_FAIL;
-
-	m_iIdentity_LongtoShot = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.f);
+	m_iIdentity_LongtoShot = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity3", 1.5f);
 	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_LongtoShot);
 	if (-1 == m_iIdentity_LongtoShot)
 		return E_FAIL;
@@ -53,44 +38,31 @@ HRESULT CState_GN_Identity::Initialize()
 
 void CState_GN_Identity::Enter_State()
 {
-	CPlayer_Controller_GN::GN_IDENTITY ePreIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_PreIdentity();
 	CPlayer_Controller_GN::GN_IDENTITY eIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
 
-	if (CPlayer_Controller_GN::GN_IDENTITY::HAND == ePreIdentity)
+	CPlayer_Controller_GN::GN_IDENTITY eChangeIdentity;
+	if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eIdentity)
 	{
-		if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eIdentity)
-		{
-			m_iIdentity = m_iIdentity_HandtoShot;
-		}
-		if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eIdentity)
-		{
-			m_iIdentity = m_iIdentity_HandtoLong;
-		}
+		eChangeIdentity = CPlayer_Controller_GN::GN_IDENTITY::LONG;
+		m_iIdentity = m_iIdentity_HandtoLong;
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, true);
+		
 	}
-	else if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == ePreIdentity)
+	else if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eIdentity)
 	{
-		if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eIdentity)
-		{
-			m_iIdentity = m_iIdentity_ShottoHand;
-		}
-		if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eIdentity)
-		{
-			m_iIdentity = m_iIdentity_ShottoLong;
-		}
+		eChangeIdentity = CPlayer_Controller_GN::GN_IDENTITY::HAND;
+		m_iIdentity = m_iIdentity_ShottoHand;
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, true);
 	}
-	else if (CPlayer_Controller_GN::GN_IDENTITY::LONG == ePreIdentity)
+	else if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eIdentity)
 	{
-		if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eIdentity)
-		{
-			m_iIdentity = m_iIdentity_LongtoHand;
-		}
-		if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eIdentity)
-		{
-			m_iIdentity = m_iIdentity_LongtoShot;
-		}
+		eChangeIdentity = CPlayer_Controller_GN::GN_IDENTITY::SHOT;
+		m_iIdentity = m_iIdentity_LongtoShot;
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, true);
 	}
 	
-	m_pPlayer->Set_Weapon_RenderState(eIdentity);
+	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eChangeIdentity);
+	m_pPlayer->Set_Weapon_RenderState(eChangeIdentity);
 	m_pController->Get_StopMessage();
 }
 

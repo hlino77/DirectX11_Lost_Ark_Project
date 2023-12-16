@@ -61,17 +61,17 @@ HRESULT CStateMachine::Change_State(const wstring& strStateTag)
 		return E_FAIL;
 
 	if (nullptr != m_pCurrState)
+	{
 		m_pCurrState->Exit_State();
-
+		m_strPreState = m_pCurrState->Get_StateName();
+	}
+		
+	
 	m_pCurrState = pState;
+	m_strCurState = m_pCurrState->Get_StateName();
 	m_pCurrState->Enter_State();
 
 	return S_OK;
-}
-
-const wstring& CStateMachine::Get_CurrState()
-{
-	return m_pCurrState->Get_StateName();
 }
 
 CState* CStateMachine::Find_State(const wstring& strStateTag)

@@ -171,8 +171,6 @@ void CUseLock_Transform::Turn(Vec3 vAxis, _float fTimeDelta)
 
 void CUseLock_Transform::Rotation(Vec3 vAxis, _float fRadian)
 {
-	// Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(60.0f));
-
 	Matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
 
 	RotationMatrix.CreateFromQuaternion(Quaternion::CreateFromAxisAngle(vAxis, fRadian));
@@ -515,6 +513,30 @@ void CUseLock_Transform::Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fS
 {
 	LookAt_Lerp_ForLand(vTargetPos, fRotSpeed, fTimeDelta);
 	Go_Straight(fSpeed, fTimeDelta);
+}
+
+void CUseLock_Transform::My_Rotation(Vec3 vEulers)
+{
+	Matrix matRotation = Matrix::Identity;
+	Quaternion quat = Quaternion::Identity;
+
+	vEulers.x = XMConvertToRadians(vEulers.x);
+	vEulers.y = XMConvertToRadians(vEulers.y);
+	vEulers.z = XMConvertToRadians(vEulers.z);
+
+	quat = Quaternion::CreateFromYawPitchRoll(vEulers.y, vEulers.x, vEulers.z);
+
+	matRotation = Matrix::CreateFromQuaternion(quat);
+
+	WRITE_LOCK
+	for (_uint i = 0; i < 3; ++i)
+	{
+		Vec3 v(m_WorldMatrix.m[i]);
+		v = Vec3::TransformNormal(v, matRotation);
+
+		for (_uint j = 0; j < 3; ++j)
+			m_WorldMatrix.m[i][j] = *((_float*)&v + j);
+	}
 }
 
 void CUseLock_Transform::Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta)

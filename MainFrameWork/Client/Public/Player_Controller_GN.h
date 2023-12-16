@@ -27,7 +27,7 @@ public:
 	_uint	Is_GN_Identity();
 
 public:
-	void	Get_GN_IdentityMessage(_uint iIndex) { GN_Identity(iIndex); }
+	void	Get_GN_IdentityMessage(GN_IDENTITY eIndex) { GN_Identity(eIndex); }
 
 public:
 	GN_IDENTITY		Get_GN_Identity() { return m_eIdentity; }
@@ -38,11 +38,13 @@ private:
 	virtual void	Attack() override;
 	virtual void	Skill() override;
 	virtual void	Hit() override;
-	void			GN_Identity(_uint index);
+	void			GN_Identity(GN_IDENTITY eIndex);
+	
 
 private:
+
 	GN_IDENTITY		m_eIdentity = { GN_IDENTITY::HAND };
-	GN_IDENTITY		m_ePreIdentity = { GN_IDENTITY::_END };
+	GN_IDENTITY		m_ePreIdentity = { GN_IDENTITY::HAND };
 
 public:
 	static CPlayer_Controller_GN* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

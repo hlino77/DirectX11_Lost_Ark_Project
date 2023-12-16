@@ -64,6 +64,7 @@ public:
 	virtual void Set_Up(Vec3 vNormal) override;
 
 	virtual	void Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta) override;
+	virtual	void My_Rotation(Vec3 vEulers) override;
 
 public:
 	static CUseLock_Transform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

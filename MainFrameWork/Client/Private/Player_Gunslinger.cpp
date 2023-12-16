@@ -22,6 +22,14 @@
 #include "State_GN_Attack_Hand1.h"
 #include "State_GN_Attack_Hand2.h"
 #include "State_GN_Attack_Hand3.h"
+#include "State_GN_Attack_Shot1.h"
+#include "State_GN_Attack_Shot2.h"
+#include "State_GN_Attack_Long1.h"
+#include "State_GN_Attack_Long2.h"
+#include "State_GN_Identity.h"
+#include "State_GN_Identity_Back.h"
+#include "State_GN_Run_Identity.h"
+#include "State_GN_Run_Identity_Back.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -86,8 +94,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
-
-
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -245,7 +251,7 @@ void CPlayer_Gunslinger::Set_Colliders(_float fTimeDelta)
 	}
 }
 
-void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex)
+void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2)
 {
 	switch (iIndex)
 	{
@@ -256,21 +262,30 @@ void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex)
 		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
 		break;
+	case Client::CPlayer_Controller_GN::LONG:
+		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
+		break;
 	case Client::CPlayer_Controller_GN::SHOT:
 		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(true);
-		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
-		break;
-	case Client::CPlayer_Controller_GN::LONG:
-		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
-		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
-		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
-		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(true);
-		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
 		break;
 	}
+
+	if(true == Is_Shot2)
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+
+}
+
+void CPlayer_Gunslinger::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)
+{
+	m_Parts[ePart]->Set_Render(Is_Render);
 }
 
 HRESULT CPlayer_Gunslinger::Ready_Components()
@@ -388,6 +403,18 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Dash"), CState_GN_Dash::Create(TEXT("Dash"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Identity_GN"), CState_GN_Identity::Create(TEXT("Identity_GN"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_GN_Back"), CState_GN_Identity_Back::Create(TEXT("Identity_GN_Back"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_GN_Run"), CState_GN_Run_Identity::Create(TEXT("Identity_GN_Run"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_GN_Run_Back"), CState_GN_Run_Identity_Back::Create(TEXT("Identity_GN_Run_Back"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	m_pStateMachine->Add_State(TEXT("Attack_Hand_1"), CState_GN_Attack_Hand1::Create(TEXT("Attack_Hand_1"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
@@ -396,6 +423,20 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 
 	m_pStateMachine->Add_State(TEXT("Attack_Hand_3"), CState_GN_Attack_Hand3::Create(TEXT("Attack_Hand_3"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Shot_1"), CState_GN_Attack_Shot1::Create(TEXT("Attack_Shot_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Shot_2"), CState_GN_Attack_Shot2::Create(TEXT("Attack_Shot_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Long_1"), CState_GN_Attack_Long1::Create(TEXT("Attack_Long_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Long_2"), CState_GN_Attack_Long2::Create(TEXT("Attack_Long_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+
 
 
 	m_pStateMachine->Change_State(TEXT("Idle"));

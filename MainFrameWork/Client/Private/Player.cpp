@@ -724,9 +724,9 @@ void CPlayer::Set_State(const wstring& szName)
 	Send_State(szName);
 }
 
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReserve)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReserve);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReverse);
 }
 
 void CPlayer::Free()

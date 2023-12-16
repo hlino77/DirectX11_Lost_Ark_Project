@@ -28,8 +28,10 @@ HRESULT CState_GN_Dash::Initialize()
 void CState_GN_Dash::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 2.f);
+	m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.5f);
+
 	m_pController->Get_StopMessage();
-	m_pController->Get_DashMessage(6.f);
+	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 3.f);
 }
 
 void CState_GN_Dash::Tick_State(_float fTimeDelta)
@@ -39,7 +41,6 @@ void CState_GN_Dash::Tick_State(_float fTimeDelta)
 
 void CState_GN_Dash::Exit_State()
 {
-	m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.5f);
 }
 
 void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
@@ -49,7 +50,6 @@ void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.f);
 		m_pPlayer->Get_ModelCom()->Set_RootDist(1.5f);
 	}
-		
 
 	if (false == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDash))
 		return;
@@ -69,9 +69,22 @@ void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 
-		m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
+		CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
+
+		switch (eIden)
+		{
+		case Client::CPlayer_Controller_GN::HAND:
+			m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
+			break;
+		case Client::CPlayer_Controller_GN::SHOT:
+			m_pPlayer->Set_State(TEXT("Attack_Shot_1"));
+			break;
+		case Client::CPlayer_Controller_GN::LONG:
+			m_pPlayer->Set_State(TEXT("Attack_Long_1"));
+			break;
+		}
 	}
-	else if (true == m_pController->Is_Idle())
+	else if (true == static_cast<CPlayer_Controller_GN*>(m_pController)->Is_Idle())
 	{
 		m_pPlayer->Set_State(TEXT("Idle"));
 	}
@@ -81,7 +94,7 @@ void CState_GN_Dash::Tick_State_NoneControl(_float fTimeDelta)
 {
 	if (15 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash))
 	{
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.2f);
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.f);
 		m_pPlayer->Get_ModelCom()->Set_RootDist(1.5f);
 	}
 

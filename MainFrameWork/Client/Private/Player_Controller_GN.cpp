@@ -45,7 +45,7 @@ _bool CPlayer_Controller_GN::Is_Idle()
 	if (false == __super::Is_Idle())
 		return false;
 
-	if (false == Is_GN_Identity())
+	if (0 != Is_GN_Identity())
 		return false;
 
 	return true;
@@ -81,41 +81,10 @@ void CPlayer_Controller_GN::Hit()
 {
 }
 
-void CPlayer_Controller_GN::GN_Identity(_uint iIndex)
+void CPlayer_Controller_GN::GN_Identity(GN_IDENTITY eIndex)
 {
 	m_ePreIdentity = m_eIdentity;
-
-	if (1 == iIndex)
-	{
-		switch (m_eIdentity)
-		{
-		case GN_IDENTITY::HAND:
-			m_eIdentity = GN_IDENTITY::LONG;
-			break;
-		case GN_IDENTITY::LONG:
-			m_eIdentity = GN_IDENTITY::SHOT;
-			break;
-		case GN_IDENTITY::SHOT:
-			m_eIdentity = GN_IDENTITY::HAND;
-			break;
-		}
-	}
-	else if (2 == iIndex)
-	{
-		switch (m_eIdentity)
-		{
-		case GN_IDENTITY::HAND:
-			m_eIdentity = GN_IDENTITY::SHOT;
-			break;
-		case GN_IDENTITY::LONG:
-			m_eIdentity = GN_IDENTITY::HAND;
-			break;
-		case GN_IDENTITY::SHOT:
-			m_eIdentity = GN_IDENTITY::LONG;
-			break;
-		}
-	}
-
+	m_eIdentity = eIndex;
 }
 
 CPlayer_Controller_GN* CPlayer_Controller_GN::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

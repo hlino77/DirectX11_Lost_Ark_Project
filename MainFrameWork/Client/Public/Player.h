@@ -92,7 +92,7 @@ public:
 
 
 	void					Set_State(const wstring& szName);
-	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReserve = false);
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false);
 
 
 	void					Find_NearTarget();
@@ -137,6 +137,9 @@ public:
 
 
 	_bool					Get_CellPickingPos(Vec3& vPickPos);
+
+	void					Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
+
 
 protected:
 	virtual HRESULT			Ready_Components();

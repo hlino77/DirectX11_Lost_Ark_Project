@@ -4,11 +4,11 @@
 
 BEGIN(Client)
 
-class CState_GN_Run final : public CState
+class CState_GN_Run_Identity final : public CState
 {
 public:
-	CState_GN_Run(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
-	virtual ~CState_GN_Run() = default;
+	CState_GN_Run_Identity(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
+	virtual ~CState_GN_Run_Identity() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -23,7 +23,7 @@ public:
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
-	std::function<void(CState_GN_Run&, _float)> m_TickFunc;
+	std::function<void(CState_GN_Run_Identity&, _float)> m_TickFunc;
 
 private:
 	//Animation
@@ -33,7 +33,7 @@ private:
 	_int m_Run_L = 0;
 
 public:
-	static CState_GN_Run* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
+	static CState_GN_Run_Identity* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;
 };
 

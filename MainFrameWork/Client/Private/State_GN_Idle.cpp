@@ -12,9 +12,19 @@ CState_GN_Idle::CState_GN_Idle(const wstring& strStateName, CStateMachine* pMach
 
 HRESULT CState_GN_Idle::Initialize()
 {
-	m_iIdle = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity3", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle);
-	if (m_iIdle == -1)
+	m_iIdle_H = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity3", 1.0f);
+	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle_H);
+	if (m_iIdle_H == -1)
+		return E_FAIL;
+
+	m_iIdle_S = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity1", 1.0f);
+	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle_S);
+	if (m_iIdle_S == -1)
+		return E_FAIL;
+
+	m_iIdle_L = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity2", 1.0f);
+	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle_L);
+	if (m_iIdle_L == -1)
 		return E_FAIL;
 
 	if (m_pPlayer->Is_Control())
@@ -27,7 +37,21 @@ HRESULT CState_GN_Idle::Initialize()
 
 void CState_GN_Idle::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iIdle, 0.1f, 0, 0);
+	CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
+
+	switch (eIden)
+	{
+	case Client::CPlayer_Controller_GN::HAND:
+		m_pPlayer->Reserve_Animation(m_iIdle_H, 0.1f, 0, 0);
+		break;
+	case Client::CPlayer_Controller_GN::SHOT:
+		m_pPlayer->Reserve_Animation(m_iIdle_S, 0.1f, 0, 0);
+		break;
+	case Client::CPlayer_Controller_GN::LONG:
+		m_pPlayer->Reserve_Animation(m_iIdle_L, 0.1f, 0, 0);
+		break;
+	}
+
 	m_pController->Get_StopMessage();
 }
 
@@ -42,9 +66,22 @@ void CState_GN_Idle::Exit_State()
 
 void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
+
 	if (true == m_pController->Is_Dash())
 	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
 		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (0 != iIdentity)
+	{
+		if (1 == iIdentity)
+			m_pPlayer->Set_State(TEXT("Identity_GN"));
+		else if (2 == iIdentity)
+			m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
 	}
 	else if (true == m_pController->Is_Run())
 	{
@@ -61,7 +98,20 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 
-		m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
+		CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
+
+		switch (eIden)
+		{
+		case Client::CPlayer_Controller_GN::HAND:
+			m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
+			break;
+		case Client::CPlayer_Controller_GN::SHOT:
+			m_pPlayer->Set_State(TEXT("Attack_Shot_1"));
+			break;
+		case Client::CPlayer_Controller_GN::LONG:
+			m_pPlayer->Set_State(TEXT("Attack_Long_1"));
+			break;
+		}
 	}
 }
 

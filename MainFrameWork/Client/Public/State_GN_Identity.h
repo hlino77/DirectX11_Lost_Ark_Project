@@ -28,11 +28,8 @@ private:
 private:
 	//Animation
 	_int m_iIdentity = 0;
-	_int m_iIdentity_HandtoShot = 0;
 	_int m_iIdentity_HandtoLong = 0;
 	_int m_iIdentity_ShottoHand = 0;
-	_int m_iIdentity_ShottoLong = 0;
-	_int m_iIdentity_LongtoHand = 0;
 	_int m_iIdentity_LongtoShot = 0;
 
 public:

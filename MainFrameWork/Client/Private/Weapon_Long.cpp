@@ -31,16 +31,16 @@ HRESULT CWeapon_Long::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	/*m_pTransformCom->Rotation(Vec3(1.f, 0.f, 0.f), XMConvertToRadians(-60.f));
-	m_pTransformCom->Rotation(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(30.f));
-	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-75.f));*/
+	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(80.f));
+	
+	
 
 	return S_OK;
 }
 
 void CWeapon_Long::Tick(_float fTimeDelta)
 {
-	XMMATRIX	WorldMatrix = m_pParentModel->Get_CurrBoneMatrix(m_iSocketBoneIndex);
+	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
 	WorldMatrix.r[1] = XMVector3Normalize(WorldMatrix.r[1]);
@@ -51,11 +51,10 @@ void CWeapon_Long::Tick(_float fTimeDelta)
 
 void CWeapon_Long::LateTick(_float fTimeDelta)
 {
-	if (true == m_IsRender || true == m_pOwner->Is_Render())
+	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
 	}
-
 }
 
 HRESULT CWeapon_Long::Render()
@@ -101,6 +100,14 @@ HRESULT CWeapon_Long::Ready_Components()
 
 
 	RELEASE_INSTANCE(CGameInstance);
+
+
+	Vec3 vScale;
+	vScale.x = 100.f;
+	vScale.y = 100.f;
+	vScale.z = 100.f;
+
+	m_pTransformCom->Set_Scale(vScale);
 
 	return S_OK;
 }

@@ -31,7 +31,7 @@ HRESULT CWeapon_Hand_2::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(90.f));
+	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(80.f));
 
 	return S_OK;
 }
@@ -49,7 +49,7 @@ void CWeapon_Hand_2::Tick(_float fTimeDelta)
 
 void CWeapon_Hand_2::LateTick(_float fTimeDelta)
 {
-	if (true == m_IsRender || true == m_pOwner->Is_Render())
+	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
 	}

@@ -211,13 +211,12 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int 
 	}
 	else if (true == m_bReverse)
 	{
-		m_Animations[iAnimIndex]->Reset_Reverse_Animation();
-
 		if (-1 == iStartFrame)
 			iStartFrame = m_Animations[iAnimIndex]->Get_MaxFrame();
 		if (-1 == iChangeFrame)
 			iChangeFrame = m_Animations[iAnimIndex]->Get_MaxFrame();
 
+		m_Animations[iAnimIndex]->Reset_Reverse_Animation();
 		m_tReserveChange.m_fSumTime = 0.0f;
 		m_tReserveChange.m_iNextAnim = iAnimIndex;
 		m_tReserveChange.m_iNextAnimFrame = iStartFrame;
@@ -244,7 +243,7 @@ HRESULT CModel::Set_NextAnimation()
 
 	if (false == m_bReverse)
 		m_Animations[m_tCurrChange.m_iNextAnim]->Set_Frame(m_tCurrChange.m_iNextAnimFrame);
-	else
+	else if (true == m_bReverse)
 		m_Animations[m_tCurrChange.m_iNextAnim]->Set_Reverse_Frame(m_tCurrChange.m_iNextAnimFrame);
 
 	m_bReserved = false;
@@ -316,8 +315,7 @@ HRESULT CModel::Play_Reverse_Animation(_float fTimeDelta)
 {
 	if (m_bReserved)
 	{
-		_int iFrame = m_Animations[m_iCurrAnim]->Get_Frame();
-		if (iFrame <= m_tReserveChange.m_iChangeFrame)
+		if (m_Animations[m_iCurrAnim]->Get_Frame() >= m_tReserveChange.m_iChangeFrame)
 			Set_NextAnimation();
 	}
 

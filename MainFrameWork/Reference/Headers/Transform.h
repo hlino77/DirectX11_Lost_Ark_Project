@@ -64,6 +64,7 @@ public:
 	virtual void Set_Up(Vec3 vNormal) PURE;
 
 	virtual	void Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta) PURE;
+	virtual	void My_Rotation(Vec3 vEulers) PURE;
 
 protected:
 	Matrix					m_WorldMatrix;

@@ -42,9 +42,25 @@ void CState_GN_Attack_Hand3::Exit_State()
 
 void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
+
 	if (true == m_pController->Is_Dash())
 	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
 		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (0 != iIdentity)
+	{
+		if (50 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3))
+		{
+			if (1 == iIdentity)
+				m_pPlayer->Set_State(TEXT("Identity_GN"));
+			else if (2 == iIdentity)
+				m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
+		}
 	}
 	else if (true == m_pController->Is_Attack())
 	{

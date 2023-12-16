@@ -24,8 +24,10 @@ public:
 public:
 	HRESULT Add_State(const wstring& strStateTag, class CState* pState);
 	HRESULT Change_State(const wstring& strStateTag);
-		
-	const wstring& Get_CurrState();
+
+	const wstring& Get_CurState() { return m_strCurState; }
+	const wstring& Get_PreState() { return m_strPreState; }
+	
 private:
 	class CState* m_pCurrState = nullptr;
 	unordered_map<wstring, class CState*> m_States;
@@ -33,6 +35,9 @@ private:
 private:
 	class CState* Find_State(const wstring & strStateTag);
 
+private:
+	wstring m_strCurState;
+	wstring m_strPreState;
 
 public:
 	static CStateMachine* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);

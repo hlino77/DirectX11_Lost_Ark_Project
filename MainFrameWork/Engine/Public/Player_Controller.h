@@ -2,13 +2,14 @@
 #include "Component.h"
 #include "Transform.h"
 #include "RigidBody.h"
+#include "State.h"
 
 BEGIN(Engine)
 
 class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 {
 public:
-	enum SKILL_COOLDOWN { SPACE, Q, W, E, R, A, S, D, F, _END };
+	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, _END };
 
 public:
 	typedef struct tagControllerDesc
@@ -38,13 +39,13 @@ public:
 	_bool	Is_Dash();
 	_bool	Is_Attack();
 
-	void	Get_MoveMessage(Vec3 vPos) { m_vNextMove = vPos; m_bStop = false; }
-	void	Get_StopMessage() { m_vNextMove = Vec3(); m_bStop = true;}
-	void	Get_LookMessage(Vec3 vAt) { m_vNextMove = vAt; m_bStop = true; }
-	void	Get_AttackMessage() { Attack(); }
-	void	Get_SkillMessage() { Skill(); }
-	void	Get_HitMessage() { Hit(); }
-	void	Get_DashMessage(_float fCoolTime) { m_fDashCoolTime = fCoolTime; }
+	void	Get_MoveMessage(Vec3 vPos)	{ m_vNextMove = vPos;	m_bStop = false; }
+	void	Get_StopMessage()			{ m_vNextMove = Vec3(); m_bStop = true;}
+	void	Get_LookMessage(Vec3 vAt)	{ m_vNextMove = vAt;	m_bStop = true; }
+	void	Get_AttackMessage()			{ Attack(); }
+	void	Get_SkillMessage()			{ Skill(); }
+	void	Get_HitMessage()			{ Hit(); }
+	void	Get_DashMessage(Vec3 vPos, _float fCoolTime) { Dash(vPos); m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
 
 public:
 	_bool	Is_Stop() { return m_bMoveStop; }
@@ -58,11 +59,11 @@ protected:
 	virtual void	Move(const _float& fTimeDelta);
 	virtual void	Look(const _float& fTimeDelta);
 	virtual void	Input(const _float & fTimeDelta);
+	virtual void	Dash(Vec3 vAt);
 	virtual void	Attack();
 	virtual void	Skill();
 	virtual void	Hit();
-	virtual void	Dash_CoolTime(const _float& fTimeDelta);
-	
+	virtual void	Skill_CoolTime(const _float& fTimeDelta);
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -72,23 +73,26 @@ protected:
 	CTransform*				m_pOwnerTransform = nullptr;
 	CRigidBody*				m_pOwnerRigidBody = nullptr;
 
+	/* 플레이어 Tick 움직임 */
+	_bool					m_bStop = { false };
+
+	/* 플레이어 움직임 변수*/
 	Vec3					m_vPrePos;
 	Vec3					m_vNextMove;
 	_bool					m_bMoveStop = { false };
 
-	_bool					m_bStop = { false };
+	/* 쿨 타임 */
+	_float					m_fCoolDownAcc[SKILL_KEY::_END] = { 0.f };
+	_float					m_fCoolTime[SKILL_KEY::_END] = { -1.f };
 
-	/* 쿨 타임*/
-	_float					m_fCoolDownAcc[SKILL_COOLDOWN::_END] = { 0.f };
-	_float					m_fDashCoolTime = { -1.f };
-
+	/* SG엔진 변수 */
 	Vec3					m_vMaxLinearSpeed;
 	Vec3					m_vLinearSpeed;
 	Vec3					m_vMaxAngularSpeed;
 	Vec3					m_vAngularSpeed;
 
 public:
-	virtual CComponent* Clone(CGameObject* pGameObject, void* pArg)	override;
+	virtual CComponent* Clone(CGameObject* pGameObject, void* pArg)	PURE;
 	virtual void Free() override;
 };
 

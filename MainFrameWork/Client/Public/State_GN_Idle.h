@@ -27,7 +27,9 @@ private:
 
 private:
 	//Animation
-	_int m_iIdle = 0;
+	_int m_iIdle_H = 0;
+	_int m_iIdle_S = 0;
+	_int m_iIdle_L = 0;
 
 public:
 	static CState_GN_Idle* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
