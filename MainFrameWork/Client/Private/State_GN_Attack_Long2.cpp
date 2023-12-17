@@ -13,7 +13,6 @@ CState_GN_Attack_Long2::CState_GN_Attack_Long2(const wstring& strStateName, CSta
 HRESULT CState_GN_Attack_Long2::Initialize()
 {
 	m_Attack_Long2 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_identity2_1_02", 1.f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_Attack_Long2);
 	if (m_Attack_Long2 == -1)
 		return E_FAIL;
 
@@ -30,7 +29,7 @@ void CState_GN_Attack_Long2::Enter_State()
 	m_iShotFire++;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Long2, 0.2f, 0, 0);
-	m_pController->Get_LookMessage(m_pPlayer->Get_TargetPos());
+	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_GN_Attack_Long2::Tick_State(_float fTimeDelta)
@@ -68,6 +67,42 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 				m_pPlayer->Set_State(TEXT("Identity_GN"));
 			else if (2 == iIdentity)
 				m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
+		}
+	}
+	else if (true == m_pController->Is_Skill())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
+
+		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
+		switch (eKey)
+		{
+		case Engine::CPlayer_Controller::Q:
+			m_pPlayer->Set_State(TEXT("Skill_Q"));
+			break;
+		case Engine::CPlayer_Controller::W:
+			m_pPlayer->Set_State(TEXT("Skill_W"));
+			break;
+		case Engine::CPlayer_Controller::E:
+			m_pPlayer->Set_State(TEXT("Skill_E"));
+			break;
+		case Engine::CPlayer_Controller::R:
+			m_pPlayer->Set_State(TEXT("Skill_R"));
+			break;
+		case Engine::CPlayer_Controller::A:
+			m_pPlayer->Set_State(TEXT("Skill_Q"));
+			break;
+		case Engine::CPlayer_Controller::S:
+			m_pPlayer->Set_State(TEXT("Skill_S"));
+			break;
+		case Engine::CPlayer_Controller::D:
+			m_pPlayer->Set_State(TEXT("Skill_D"));
+			break;
+		case Engine::CPlayer_Controller::F:
+			m_pPlayer->Set_State(TEXT("Skill_F"));
+			break;
 		}
 	}
 	else if (true == m_pController->Is_Attack())

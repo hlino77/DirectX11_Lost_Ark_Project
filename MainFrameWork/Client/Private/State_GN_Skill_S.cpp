@@ -1,43 +1,43 @@
 #include "stdafx.h"
-#include "..\Public\State_GN_Skill_E.h"
+#include "..\Public\State_GN_Skill_S.h"
 #include "StateMachine.h"
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
 
-CState_GN_Skill_E::CState_GN_Skill_E(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
+CState_GN_Skill_S::CState_GN_Skill_S(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
 {
 }
 
-HRESULT CState_GN_Skill_E::Initialize()
+HRESULT CState_GN_Skill_S::Initialize()
 {
 	if (m_pPlayer->Is_Control())
-		m_TickFunc = &CState_GN_Skill_E::Tick_State_Control;
+		m_TickFunc = &CState_GN_Skill_S::Tick_State_Control;
 	else
-		m_TickFunc = &CState_GN_Skill_E::Tick_State_NoneControl;
+		m_TickFunc = &CState_GN_Skill_S::Tick_State_NoneControl;
 
 	return S_OK;
 }
 
-void CState_GN_Skill_E::Enter_State()
+void CState_GN_Skill_S::Enter_State()
 {
 	m_pController->Get_StopMessage();
 	m_pController->Get_PlayerSkill(m_iSkillKey)->Enter();
 }
 
-void CState_GN_Skill_E::Tick_State(_float fTimeDelta)
+void CState_GN_Skill_S::Tick_State(_float fTimeDelta)
 {
 	m_TickFunc(*this, fTimeDelta);
 }
 
-void CState_GN_Skill_E::Exit_State()
+void CState_GN_Skill_S::Exit_State()
 {
 	m_pController->Get_PlayerSkill(m_iSkillKey)->Exit();
 }
 
-void CState_GN_Skill_E::Tick_State_Control(_float fTimeDelta)
+void CState_GN_Skill_S::Tick_State_Control(_float fTimeDelta)
 {
 	m_pController->Get_PlayerSkill(m_iSkillKey)->Tick(fTimeDelta);
 
@@ -65,7 +65,7 @@ void CState_GN_Skill_E::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_State(TEXT("Idle"));
 		}
 	}
-	if (true == m_pController->Get_PlayerSkill(m_iSkillKey)->Is_SkillEnd())
+	else if (true == m_pController->Get_PlayerSkill(m_iSkillKey)->Is_SkillEnd())
 	{
 		if (true == m_pController->Is_Dash())
 		{
@@ -91,26 +91,26 @@ void CState_GN_Skill_E::Tick_State_Control(_float fTimeDelta)
 	}
 }
 
-void CState_GN_Skill_E::Tick_State_NoneControl(_float fTimeDelta)
+void CState_GN_Skill_S::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pController->Get_PlayerSkill(m_iSkillKey)->UnCtrl_Tick(fTimeDelta);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
-CState_GN_Skill_E* CState_GN_Skill_E::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
+CState_GN_Skill_S* CState_GN_Skill_S::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 {
-	CState_GN_Skill_E* pInstance = new CState_GN_Skill_E(strStateName, pMachine, pController, pOwner);
+	CState_GN_Skill_S* pInstance = new CState_GN_Skill_S(strStateName, pMachine, pController, pOwner);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed To Cloned : CState_GN_Skill_E");
+		MSG_BOX("Failed To Cloned : CState_GN_Skill_S");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CState_GN_Skill_E::Free()
+void CState_GN_Skill_S::Free()
 {
 	__super::Free();
 }

@@ -42,6 +42,7 @@ void CPlayer_Skill::Set_BindKey(CPlayer_Controller::SKILL_KEY eKey)
 		m_eBindKey = KEY::F;
 		break;
 	}
+	m_eBindCtrlKey = eKey;
 }
 
 void CPlayer_Skill::Free()

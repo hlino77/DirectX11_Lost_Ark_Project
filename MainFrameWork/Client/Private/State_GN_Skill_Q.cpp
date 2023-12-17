@@ -43,6 +43,8 @@ void CState_GN_Skill_Q::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pController->Get_PlayerSkill(m_iSkillKey)->Is_SkillCancel())
 	{
+		_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
+
 		if (true == m_pController->Is_Dash())
 		{
 			Vec3 vClickPos;
@@ -51,8 +53,28 @@ void CState_GN_Skill_Q::Tick_State_Control(_float fTimeDelta)
 
 			m_pPlayer->Set_State(TEXT("Dash"));
 		}
+		else if (0 != iIdentity)
+		{
+			if (1 == iIdentity)
+				m_pPlayer->Set_State(TEXT("Identity_GN"));
+			else if (2 == iIdentity)
+				m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
+		}
+		else if (true == m_pController->Is_Run())
+		{
+			Vec3 vClickPos;
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			{
+				m_pPlayer->Set_TargetPos(vClickPos);
+				m_pPlayer->Set_State(TEXT("Run"));
+			}
+		}
+		else if (true == static_cast<CPlayer_Controller_GN*>(m_pController)->Is_Idle())
+		{
+			m_pPlayer->Set_State(TEXT("Idle"));
+		}
 	}
-	if (true == m_pController->Get_PlayerSkill(m_iSkillKey)->Is_SkillEnd())
+	else if (true == m_pController->Get_PlayerSkill(m_iSkillKey)->Is_SkillEnd())
 	{
 		if (true == m_pController->Is_Dash())
 		{

@@ -200,6 +200,13 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Skill_GN_FocusShot.h" />
+    <ClInclude Include="..\Public\Skill_GN_FreeShooter.h" />
+    <ClInclude Include="..\Public\Skill_GN_QuickStep.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_A.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_D.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_F.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_S.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
@@ -335,6 +342,13 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Skill_GN_FocusShot.cpp" />
+    <ClCompile Include="..\Private\Skill_GN_FreeShooter.cpp" />
+    <ClCompile Include="..\Private\Skill_GN_QuickStep.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_A.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_D.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_F.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_S.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />

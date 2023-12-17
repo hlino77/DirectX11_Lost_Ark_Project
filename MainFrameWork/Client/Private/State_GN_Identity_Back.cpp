@@ -13,17 +13,14 @@ CState_GN_Identity_Back::CState_GN_Identity_Back(const wstring& strStateName, CS
 HRESULT CState_GN_Identity_Back::Initialize()
 {
 	m_iIdentity_HandtoShot = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity2", 1.5f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_HandtoShot);
 	if (-1 == m_iIdentity_HandtoShot)
 		return E_FAIL;
 
 	m_iIdentity_ShottoLong = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity3", 1.5f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_ShottoLong);
 	if (-1 == m_iIdentity_ShottoLong)
 		return E_FAIL;
 
 	m_iIdentity_LongtoHand = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"mode_identity1", 1.5f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdentity_LongtoHand);
 	if (-1 == m_iIdentity_LongtoHand)
 		return E_FAIL;
 

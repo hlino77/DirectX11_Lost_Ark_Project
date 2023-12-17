@@ -13,17 +13,14 @@ CState_GN_Run_Identity::CState_GN_Run_Identity(const wstring& strStateName, CSta
 HRESULT CState_GN_Run_Identity::Initialize()
 {
 	m_Run_H = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"run_identity3", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_Run_H);
 	if (m_Run_H == -1)
 		return E_FAIL;
 
 	m_Run_S = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"run_identity1", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_Run_S);
 	if (m_Run_S == -1)
 		return E_FAIL;
 
 	m_Run_L = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"run_identity2", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_Run_L);
 	if (m_Run_L == -1)
 		return E_FAIL;
 

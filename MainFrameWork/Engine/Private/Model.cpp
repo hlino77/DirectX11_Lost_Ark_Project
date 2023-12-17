@@ -364,7 +364,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 		return E_FAIL;
 
 	KEY_DESC tCurrKeyDesc = m_Animations[m_iCurrAnim]->Get_KeyDesc();
-	if (true == m_bNext || 0 == tCurrKeyDesc.iNextFrame)
+	if (true == m_bNext || 0 == tCurrKeyDesc.iNextFrame || 0.f == m_fRootDist)
 	{
 		m_vPreRootPos = { 0.f, 0.f, 0.f };
 		m_vCurRootPos = { 0.f, 0.f, 0.f };
@@ -385,7 +385,8 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 
 	if (1 == TargetPos.w)
 	{
-		_float fTargetDist = Vec4(TargetPos - vPos).Length();
+		Vec3 TargetDir = TargetPos - vPos;
+		_float fTargetDist = TargetDir.Length();
 		if (fTargetDist <= FLT_EPSILON)
 		{
 			vCalculePos = vPos;
@@ -968,8 +969,6 @@ CComponent * CModel::Clone(CGameObject* pObject, void * pArg)
 	return pInstance;
 }
 
-
-
 void CModel::Free()
 {
 	__super::Free();
@@ -1006,10 +1005,6 @@ _uint CModel::Get_Anim_MaxFrame(_uint iAnimation)
 {
 	return m_Animations[iAnimation]->Get_MaxFrame();
 }
-
-
-
-
 
 CTexture* CModel::Create_Texture(const wstring& szFullPath)
 {

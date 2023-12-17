@@ -26,11 +26,13 @@ public:
 	_uint	Is_GN_Identity();
 
 public:
-	void	Get_GN_IdentityMessage(GN_IDENTITY eIndex) { GN_Identity(eIndex); }
+	void			Get_GN_IdentityMessage(GN_IDENTITY eIndex) { GN_Identity(eIndex); }
+	virtual void	Get_SkillMessage(GN_IDENTITY eIndex, SKILL_KEY eKey) { Skill(eIndex, eKey); }
 
 public:
 	GN_IDENTITY		Get_GN_Identity() { return m_eIdentity; }
 	GN_IDENTITY		Get_GN_PreIdentity() { return m_ePreIdentity; }
+	virtual void	Skill(GN_IDENTITY eIndex, SKILL_KEY eKey);
 
 public:
 	HRESULT			Bind_HandSkill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -41,16 +43,24 @@ private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack() override;
 	virtual void	Hit() override;
-	void			GN_Identity(GN_IDENTITY eIndex);
-	void			Change_Skill_Iden(GN_IDENTITY eIndex);
+	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 private:
-	GN_IDENTITY		m_eIdentity = { GN_IDENTITY::HAND };
-	GN_IDENTITY		m_ePreIdentity = { GN_IDENTITY::HAND };
+	void			GN_Identity(GN_IDENTITY eIndex);
+	void			Change_Skill_Iden(GN_IDENTITY eIndex);
+	
 
-	class CPlayer_Skill*	m_pHandSkills[SKILL_KEY::_END];
-	class CPlayer_Skill*	m_pShotSkills[SKILL_KEY::_END];
-	class CPlayer_Skill*	m_pLongSkills[SKILL_KEY::_END];
+private:
+	GN_IDENTITY				m_eIdentity = { GN_IDENTITY::HAND };
+	GN_IDENTITY				m_ePreIdentity = { GN_IDENTITY::HAND };
+
+	class CPlayer_Skill*	m_pHandSkills[SKILL_KEY::_END] = { nullptr };
+	class CPlayer_Skill*	m_pShotSkills[SKILL_KEY::_END] = { nullptr };
+	class CPlayer_Skill*	m_pLongSkills[SKILL_KEY::_END] = { nullptr };
+
+	_float					m_fGN_CoolDownAcc[GN_IDENTITY::_END][SKILL_KEY::_END] = { 0.f };
+	_float					m_fGN_CoolTime[GN_IDENTITY::_END][SKILL_KEY::_END] = { -1.f };
+
 
 public:
 	static CPlayer_Controller_GN* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

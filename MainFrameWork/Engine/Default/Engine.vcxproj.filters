@@ -169,12 +169,6 @@
     <Filter Include="12. BehaviorTree">
       <UniqueIdentifier>{687f3c81-1468-4227-b85e-7ba16de70237}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utiltiy\04.Component\10. Player_Controller">
-      <UniqueIdentifier>{e997b959-f1e1-4830-ad2a-47c3a6a40ef0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utiltiy\04.Component\10. Player_Controller\Player_Skill">
-      <UniqueIdentifier>{eea54b2f-5659-484e-b905-040677b4ab61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utiltiy\04.Component\02. Buffer">
       <UniqueIdentifier>{eb0138e8-590d-4bd6-bc94-809ce0e0d5af}</UniqueIdentifier>
     </Filter>
@@ -216,6 +210,12 @@
     </Filter>
     <Filter Include="98.Default">
       <UniqueIdentifier>{6a30a28b-8c12-48bc-94a0-9f8db5085741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\11. Player_Controller">
+      <UniqueIdentifier>{e997b959-f1e1-4830-ad2a-47c3a6a40ef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\11. Player_Controller\Player_Skill">
+      <UniqueIdentifier>{eea54b2f-5659-484e-b905-040677b4ab61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -478,7 +478,7 @@
       <Filter>12. BehaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Skill.h">
-      <Filter>01.Utiltiy\04.Component\10. Player_Controller\Player_Skill</Filter>
+      <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BehaviorTree.h" />
     <ClInclude Include="..\Public\BehaviorTree.h" />
@@ -498,7 +498,6 @@
       <Filter>01.Utiltiy\04.Component\03. Shader\ShaderDesc</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ColliderSphereGroup.h" />
-    <ClInclude Include="..\Public\Player_Controller.h" />
     <ClInclude Include="..\Public\TextBox.h" />
     <ClInclude Include="..\Public\VIBuffer_RectSSAO.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
@@ -557,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Controller.h">
+      <Filter>01.Utiltiy\04.Component\11. Player_Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -798,7 +800,7 @@
       <Filter>12. BehaviorTree</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Skill.cpp">
-      <Filter>01.Utiltiy\04.Component\10. Player_Controller\Player_Skill</Filter>
+      <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BehaviorTree.cpp" />
     <ClCompile Include="..\Private\BT_Action.cpp" />
@@ -810,7 +812,6 @@
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
-    <ClCompile Include="..\Private\Player_Controller.cpp" />
     <ClCompile Include="..\Private\TextBox.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RectSSAO.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
@@ -857,6 +858,9 @@
     <ClCompile Include="..\Private\TextBox.cpp" />
     <ClCompile Include="..\Private\VIBuffer.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Controller.cpp">
+      <Filter>01.Utiltiy\04.Component\11. Player_Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

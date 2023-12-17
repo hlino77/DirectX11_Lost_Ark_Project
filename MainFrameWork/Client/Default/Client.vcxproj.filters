@@ -388,6 +388,12 @@
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
       <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up">
+      <UniqueIdentifier>{73bd0608-a6d1-40f8-b2db-bda8025fc05b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down">
+      <UniqueIdentifier>{0465f81e-d598-4d8f-a2f0-ce86293f77fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -626,18 +632,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_Run_Identity_Back.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_Q.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_W.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_E.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_R.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Level_Lobby.h" />
@@ -1096,6 +1090,39 @@
     <ClInclude Include="..\Public\EffectTool.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
+    <ClInclude Include="..\Public\Skill_GN_FreeShooter.h">
+      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_FocusShot.h">
+      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_E.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_Q.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_R.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_W.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_A.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_D.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_F.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_S.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_QuickStep.h">
+      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1319,18 +1346,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Run_Identity_Back.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_Q.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_W.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_E.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_R.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
@@ -1788,6 +1803,39 @@
     <ClCompile Include="..\Private\EffectTool.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\Skill_GN_FreeShooter.cpp">
+      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_FocusShot.cpp">
+      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_E.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_Q.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_R.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_W.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_A.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_D.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_F.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_S.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_QuickStep.cpp">
+      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

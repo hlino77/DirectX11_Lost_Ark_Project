@@ -32,6 +32,7 @@ public:
 	virtual void	DebugRender();
 
 public:
+	_bool		Is_Tap(KEY eKey);
 	_bool		Is_Idle();
 	_bool		Is_Run();
 	_bool		Is_Skill();
@@ -41,7 +42,8 @@ public:
 
 	void		Get_MoveMessage(Vec3 vPos)					 { m_vNextMove = vPos;	m_bStop = false; }
 	void		Get_StopMessage()							 { m_vNextMove = Vec3(); m_bStop = true;}
-	void		Get_LookMessage(Vec3 vAt)					 { m_vNextMove = vAt;	m_bStop = true; }
+	void		Get_LerpLookMessage(Vec3 vAt)				 { m_vNextMove = vAt;	m_bStop = true; }
+	void		Get_LookMessage(Vec3 vAt)					 { Look(vAt); }
 	void		Get_AttackMessage()							 { Attack(); }
 	void		Get_SkillMessage(SKILL_KEY eKey)			 { Skill(eKey); }
 	void		Get_HitMessage()							 { Hit(); }

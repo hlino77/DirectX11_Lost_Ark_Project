@@ -34,6 +34,15 @@
 #include "State_GN_Skill_W.h"
 #include "State_GN_Skill_E.h"
 #include "State_GN_Skill_R.h"
+#include "State_GN_Skill_A.h"
+#include "State_GN_Skill_S.h"
+#include "State_GN_Skill_D.h"
+#include "State_GN_Skill_F.h"
+
+/* Skill */
+#include "Skill_GN_FreeShooter.h"
+#include "Skill_GN_FocusShot.h"
+#include "Skill_GN_QuickStep.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -55,6 +64,9 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	__super::Initialize(pArg);
 
 	if (FAILED(Ready_State()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Skill()))
 		return E_FAIL;
 
 	if (m_bControl)
@@ -440,17 +452,29 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Attack_Long_2"), CState_GN_Attack_Long2::Create(TEXT("Attack_Long_2"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	//m_pStateMachine->Add_State(TEXT("Skill_Q"), CState_GN_Skill_Q::Create(TEXT("Skill_Q"),
-	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+	m_pStateMachine->Add_State(TEXT("Skill_Q"), CState_GN_Skill_Q::Create(TEXT("Skill_Q"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	//m_pStateMachine->Add_State(TEXT("Skill_W"), CState_GN_Skill_W::Create(TEXT("Skill_W"),
-	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+	m_pStateMachine->Add_State(TEXT("Skill_W"), CState_GN_Skill_W::Create(TEXT("Skill_W"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	//m_pStateMachine->Add_State(TEXT("Skill_E"), CState_GN_Skill_E::Create(TEXT("Skill_E"),
-	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+	m_pStateMachine->Add_State(TEXT("Skill_E"), CState_GN_Skill_E::Create(TEXT("Skill_E"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	//m_pStateMachine->Add_State(TEXT("Skill_R"), CState_GN_Skill_R::Create(TEXT("Skill_R"),
-	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+	m_pStateMachine->Add_State(TEXT("Skill_R"), CState_GN_Skill_R::Create(TEXT("Skill_R"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_A"), CState_GN_Skill_A::Create(TEXT("Skill_A"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_S"), CState_GN_Skill_S::Create(TEXT("Skill_S"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_D"), CState_GN_Skill_D::Create(TEXT("Skill_D"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_F"), CState_GN_Skill_F::Create(TEXT("Skill_F"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 
 	m_pStateMachine->Change_State(TEXT("Idle"));
@@ -460,7 +484,14 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 
 HRESULT CPlayer_Gunslinger::Ready_Skill()
 {
-	//m_pController->Bind_HandSkill()
+	/* ÇÚµå°Ç */
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CSkill_GN_QuickStep::Create(this));
+
+	/* ¼¦°Ç */
+	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CSkill_GN_FreeShooter::Create(this));
+
+	/* ÀåÃÑ */
+	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CSkill_GN_FocusShot::Create(this));
 
 
 	return S_OK;

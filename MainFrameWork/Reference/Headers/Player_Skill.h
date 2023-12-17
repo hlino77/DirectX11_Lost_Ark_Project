@@ -12,7 +12,7 @@ class CCollider;
 class ENGINE_DLL CPlayer_Skill abstract : public CBase
 {
 public:
-	enum class SKILL_ATTACKTYPE	  { NORMAL, NEUTRAL, DESTROY, _END};
+	enum class SKILL_ATTACKTYPE	  { NORMAL, NEUTRAL, DESTROY, COUNTER, _END};
 	enum class SKILL_CTRLTYPE	  { NORMAL, COMBO, HOLD, TARGET, _END };
 
 protected:
@@ -34,10 +34,11 @@ public:
 	virtual HRESULT			Restore_Player_Stat()  { return S_OK; }
 
 public:
-	virtual void			SkillEnd_Term() PURE;
-	virtual void			SkillCancel_Term() PURE;
+	virtual _bool			SkillEnd_Term() PURE;
+	virtual _bool			SkillCancel_Term() PURE;
 	virtual const _bool&	Is_SkillEnd() { return m_bIsSkillEnd; }
 	virtual const _bool&	Is_SkillCancel() { return m_bIsSkillCancel; }
+	virtual const _bool&	Is_SuperArmor() { return m_IsSuperArmor; }
 
 public:
 	virtual KEY				Get_BindKey() { return m_eBindKey; }
@@ -49,9 +50,10 @@ public:
 protected:
 	CGameObject*			m_pOwner = { nullptr };
 
-	SKILL_ATTACKTYPE		m_eAttackType = { SKILL_ATTACKTYPE::_END };
-	SKILL_CTRLTYPE			m_eCtrlType = { SKILL_CTRLTYPE::_END };
-	KEY						m_eBindKey = { KEY::TYPE_END };
+	SKILL_ATTACKTYPE		      m_eAttackType = { SKILL_ATTACKTYPE::_END };
+	SKILL_CTRLTYPE				  m_eCtrlType = { SKILL_CTRLTYPE::_END };
+	KEY							  m_eBindKey = { KEY::TYPE_END };
+	CPlayer_Controller::SKILL_KEY m_eBindCtrlKey = { CPlayer_Controller::SKILL_KEY::_END };
 
 	_bool					m_bIsSkillEnd = { false };
 	_bool					m_bIsSkillCancel = { false };
@@ -59,6 +61,7 @@ protected:
 	_float					m_fSkillDamage = { 0.f };
 	_float					m_fSkillCoolTime = { 0.f };
 
+	_bool					m_IsSuperArmor = { false };
 	/* 나중에 콜라이더를 들도록 만들어보자 */
 
 public:
