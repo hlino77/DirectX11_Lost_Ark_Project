@@ -183,7 +183,6 @@
     <ClInclude Include="..\Public\CollisionManager.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Component_Manager.h" />
-    <ClInclude Include="..\Public\ConstantBuffer.h" />
     <ClInclude Include="..\Public\CoreTLS.h" />
     <ClInclude Include="..\Public\Event.h" />
     <ClInclude Include="..\Public\EventMgr.h" />
@@ -252,7 +251,6 @@
     <ClInclude Include="..\Public\Transform.h" />
     <ClInclude Include="..\Public\UseLock_Transform.h" />
     <ClInclude Include="..\Public\Utils.h" />
-    <ClInclude Include="..\Public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_Point.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_RectSSAO.h" />
@@ -280,7 +278,6 @@
     <ClCompile Include="..\Private\CollisionManager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\Component_Manager.cpp" />
-    <ClCompile Include="..\Private\ConstantBuffer.cpp" />
     <ClCompile Include="..\Private\CoreTLS.cpp" />
     <ClCompile Include="..\Private\Event.cpp" />
     <ClCompile Include="..\Private\EventMgr.cpp" />
@@ -342,7 +339,6 @@
     <ClCompile Include="..\Private\Transform.cpp" />
     <ClCompile Include="..\Private\UseLock_Transform.cpp" />
     <ClCompile Include="..\Private\Utils.cpp" />
-    <ClCompile Include="..\Private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Point.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RectSSAO.cpp" />
