@@ -6,6 +6,7 @@
 #include "Target_Manager.h"
 #include "Light_Manager.h"
 #include "Texture.h"
+#include "Utils.h"
 
 CRenderer::CRenderer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
@@ -51,7 +52,7 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	/* For.Target_Normal */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Normal"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
 	/* For.Target_Shade */
@@ -68,15 +69,35 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
+
+	/* For.Target_Emissive */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Emissive"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
 	
 	/* For.Target_Specular */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	/* For.Target_Depth */
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Depth"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
+	/* For.Target_NormalDepth */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_NormalDepth"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, Vec4(0.0f, 0.0f, -1.0f, 1e5f))))
+		return E_FAIL;
+	
+	/* For.Target_SSAO */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSAO"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
+		return E_FAIL;
+	
+	/* For.Target_SSAO_Blur */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSAO_Blur_H"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
+		return E_FAIL;
+	
+	/* For.Target_SSAO_Blur */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSAO_Blur_V"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
 	/* For.Target_ShadowDepth */
@@ -120,27 +141,29 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Metalic"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Roughness"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectDiffuse"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_V"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlur"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectDiffuse"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlurX"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlur"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectShade"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectBlurX"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MakeSRV"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectShade"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MakeSRV"), 5.f * fTargetX, 7.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
 		return E_FAIL;
 
 #endif
@@ -151,11 +174,19 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Normal"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Depth"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_NormalDepth"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Metalic"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Emissive"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO"), TEXT("Target_SSAO"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_H"), TEXT("Target_SSAO_Blur_H"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_V"), TEXT("Target_SSAO_Blur_V"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
@@ -172,8 +203,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.MRT_ */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Shade"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Specular"))))
-		return E_FAIL;
 
 	//BlurEffect
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectDiffuse"))))
@@ -189,6 +218,10 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	m_pVIBuffer = CVIBuffer_Rect::Create(m_pDevice, m_pContext);
 	if (nullptr == m_pVIBuffer)
+		return E_FAIL;
+	
+	m_pVIBufferSSAO = CVIBuffer_RectSSAO::Create(m_pDevice, m_pContext);
+	if (nullptr == m_pVIBufferSSAO)
 		return E_FAIL;
 
 	m_pMRTShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
@@ -212,7 +245,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	
 	m_ProjMatrix = XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f);
 
-	Ready_BlurData();
+	//Blur
+	if (FAILED(Ready_BlurData()))
+		return E_FAIL;
+	//SSAO
+	if (FAILED(Ready_SSAO()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -319,6 +357,8 @@ HRESULT CRenderer::Draw()
 		return E_FAIL; 
 	if (FAILED(Render_LightAcc()))
 		return E_FAIL;
+	if (FAILED(Render_SSAO()))
+		return E_FAIL;
 	if (FAILED(Render_Deferred()))
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
@@ -345,7 +385,8 @@ HRESULT CRenderer::Draw()
 		m_bTargetOnOff = !m_bTargetOnOff;
 
 	if (m_bTargetOnOff)
-		Render_Debug();
+		if (FAILED(Render_Debug()))
+			return E_FAIL;
 
 	
 	return S_OK;
@@ -625,17 +666,137 @@ HRESULT CRenderer::Render_LightAcc()
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Depth"), "g_DepthTarget")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTarget")))
 		return E_FAIL;
 
-	m_pLight_Manager->Render(m_pMRTShader, m_pVIBuffer);
+	if (FAILED(m_pLight_Manager->Render(m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 
 	/* 다시 장치의 0번째 소켓에 백 버퍼를 올린다. */
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_SSAO()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO"))))
+		return E_FAIL;
+
+	XMMATRIX P = m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+	XMMATRIX PT = XMMatrixMultiply(P, m_matToTexture);
+
+	SSAO_Data	tSSAO;
+
+	tSSAO.matViewToTexSpace = PT;
+	for (_int i = 0; i < 4; ++i)
+		tSSAO.vFrustumCorners[i] = m_vFrustumFarCorner[i];
+
+	for (_int i = 0; i < 14; ++i)
+		tSSAO.vOffsetVectors[i] = m_vOffsets[i];
+
+	if (FAILED(m_pSSAOShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pSSAOShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pSSAOShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+
+	/*if (FAILED(m_pSSAOShader->Bind_Matrix("g_CamViewMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pSSAOShader->Bind_Matrix("g_ProjMatrixInv", &pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;*/
+
+	RELEASE_INSTANCE(CPipeLine);
+
+	if (FAILED(m_pSSAOShader->Bind_CBuffer("PerFrame", &tSSAO, sizeof(SSAO_Data))))
+		return E_FAIL;
+
+	if (FAILED(m_pSSAOShader->Bind_Texture("g_RandomVectorTexture", m_pRandomSRV)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSAOShader->Begin("SSAO")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferSSAO->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	//////////////////////////////// Blur
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO_Blur_H"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_SSAO"), "g_SSAOBlurTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSAOShader->Begin("SSAO_Blur_H")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferSSAO->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO_Blur_V"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_SSAO_Blur_H"), "g_SSAOBlurTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSAOShader->Begin("SSAO_Blur_V")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferSSAO->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+	//////////
+	for (_int i = 0; i < 1; ++i)
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO_Blur_H"))))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_SSAO_Blur_V"), "g_SSAOBlurTarget")))
+			return E_FAIL;
+
+		if (FAILED(m_pSSAOShader->Begin("SSAO_Blur_H")))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferSSAO->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO_Blur_V"))))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_SSAO_Blur_H"), "g_SSAOBlurTarget")))
+			return E_FAIL;
+
+		if (FAILED(m_pSSAOShader->Begin("SSAO_Blur_V")))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferSSAO->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -652,8 +813,16 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
+		return E_FAIL;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::N))
+		1 == m_iSSAO_Switch ? m_iSSAO_Switch = 0 : m_iSSAO_Switch = 1;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_bSSAO", &m_iSSAO_Switch, sizeof(_int))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_V"), "g_SSAOBlurTarget")))
 		return E_FAIL;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::B))
@@ -661,11 +830,17 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (m_bPBR_Switch)
 	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
+			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
+			return E_FAIL;
+
 		if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
 			return E_FAIL;
 	}
 	else
 	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Specular"), "g_SpecularTarget")))
+			return E_FAIL;
 		if (FAILED(m_pMRTShader->Begin("Deferred")))
 			return E_FAIL;
 	}
@@ -913,19 +1088,19 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_EffectShade"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ShadowDepth"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
+	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ShadowDepth"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_StaticShadowDepth"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_StaticShadowDepth"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_StaticShadowDepth"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -965,14 +1140,14 @@ HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-
-	if (FAILED(m_pInstanceShader->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	
+	if (FAILED(m_pInstanceShader->Bind_Matrix("g_ViewMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
 		return S_OK;
-	if (FAILED(m_pInstanceShader->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
+	if (FAILED(m_pInstanceShader->Bind_Matrix("g_ProjMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
 		return S_OK;
+
+	RELEASE_INSTANCE(CPipeLine);
 
 	CModel* pModel = m_StaticInstance[szModelName].front()->Get_ModelCom();
 
@@ -989,8 +1164,6 @@ HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
 		if (FAILED(pModel->Render_Instance(m_pInstanceBuffer, WorldMatrix.size(), m_pInstanceShader, i)))
 			return S_OK;
 	}
-
-	Safe_Release(pGameInstance);
 
 	return S_OK;
 }
@@ -1237,7 +1410,7 @@ HRESULT CRenderer::Ready_ShadowDSV()
 	return S_OK;
 }
 
-void CRenderer::Ready_BlurData()
+HRESULT CRenderer::Ready_BlurData()
 {
 	D3D11_VIEWPORT		ViewportDesc;
 
@@ -1260,6 +1433,84 @@ void CRenderer::Ready_BlurData()
 
 		m_BlurWeights[i] = fCenterWeight - (iWeight * fAtt);
 	}
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Ready_SSAO()
+{
+	m_pSSAOShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_SSAO.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements);
+	if (nullptr == m_pSSAOShader)
+		return E_FAIL;
+	if (FAILED(m_pSSAOShader->Initialize()))
+		return E_FAIL;
+	
+	random_device		RandomDevice;
+
+	mt19937_64							RandomNumber(RandomDevice());
+	uniform_real_distribution<_float>	Random(0.25f, 1.0f);
+
+	// Start with 14 uniformly distributed vectors.  We choose the 8 corners of the cube
+	// and the 6 center points along each cube face.  We always alternate the points on 
+	// opposites sides of the cubes.  This way we still get the vectors spread out even
+	// if we choose to use less than 14 samples.
+
+	// 8 cube corners
+	m_vOffsets[0] = XMFLOAT4(+1.0f, +1.0f, +1.0f, 0.0f);
+	m_vOffsets[1] = XMFLOAT4(-1.0f, -1.0f, -1.0f, 0.0f);
+
+	m_vOffsets[2] = XMFLOAT4(-1.0f, +1.0f, +1.0f, 0.0f);
+	m_vOffsets[3] = XMFLOAT4(+1.0f, -1.0f, -1.0f, 0.0f);
+
+	m_vOffsets[4] = XMFLOAT4(+1.0f, +1.0f, -1.0f, 0.0f);
+	m_vOffsets[5] = XMFLOAT4(-1.0f, -1.0f, +1.0f, 0.0f);
+
+	m_vOffsets[6] = XMFLOAT4(-1.0f, +1.0f, -1.0f, 0.0f);
+	m_vOffsets[7] = XMFLOAT4(+1.0f, -1.0f, +1.0f, 0.0f);
+
+	// 6 centers of cube faces
+	m_vOffsets[8] = XMFLOAT4(-1.0f, 0.0f, 0.0f, 0.0f);
+	m_vOffsets[9] = XMFLOAT4(+1.0f, 0.0f, 0.0f, 0.0f);
+
+	m_vOffsets[10] = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f);
+	m_vOffsets[11] = XMFLOAT4(0.0f, +1.0f, 0.0f, 0.0f);
+
+	m_vOffsets[12] = XMFLOAT4(0.0f, 0.0f, -1.0f, 0.0f);
+	m_vOffsets[13] = XMFLOAT4(0.0f, 0.0f, +1.0f, 0.0f);
+
+	for (int32 i = 0; i < 14; ++i)
+	{
+		// Create random lengths in [0.25, 1.0].
+		_float fRandom = Random(RandomNumber);
+
+		XMVECTOR v = fRandom * ::XMVector4Normalize(::XMLoadFloat4(&m_vOffsets[i]));
+
+		::XMStoreFloat4(&m_vOffsets[i], v);
+	}
+
+	_float fFarZ = 1200.f;
+	_float fAspect = 16.f / 9.f;
+	_float fFovy = XMConvertToRadians(60.0f);
+
+	_float halfHeight = fFarZ * tanf(0.5f * fFovy);
+	_float halfWidth = fAspect * halfHeight;
+
+	m_vFrustumFarCorner[0] = XMFLOAT4(-halfWidth, -halfHeight, fFarZ, 0.0f);
+	m_vFrustumFarCorner[1] = XMFLOAT4(-halfWidth, +halfHeight, fFarZ, 0.0f);
+	m_vFrustumFarCorner[2] = XMFLOAT4(+halfWidth, +halfHeight, fFarZ, 0.0f);
+	m_vFrustumFarCorner[3] = XMFLOAT4(+halfWidth, -halfHeight, fFarZ, 0.0f);
+
+	// RandomVectorTexture
+	CTexture* pRandomTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effects/RandomTexture.png"));
+
+	m_pRandomSRV = pRandomTexture->Get_SRV();
+	if(nullptr == m_pRandomSRV)
+		return E_FAIL;
+
+	Safe_AddRef(m_pRandomSRV);
+	Safe_Release(pRandomTexture);
+
+	return S_OK;
 }
 
 CRenderer * CRenderer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

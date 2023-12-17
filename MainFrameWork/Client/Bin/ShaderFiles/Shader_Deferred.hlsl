@@ -16,13 +16,17 @@ vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 Texture2D		g_NormalTarget;
 Texture2D		g_DiffuseTarget;
 Texture2D		g_ShadeTarget;
+Texture2D		g_SpecularTarget;
 Texture2D		g_MetallicTarget;
 Texture2D		g_RoughnessTarget;
-Texture2D		g_SpecularTarget;
-Texture2D		g_DepthTarget;
+Texture2D		g_EmissiveTarget;
+Texture2D		g_NormalDepthTarget;
+Texture2D		g_SSAOBlurTarget;
 Texture2D		g_BlurTarget;
 Texture2D		g_ShadowDepthTarget;
 Texture2D		g_StaticShadowDepthTarget;
+
+bool			g_bSSAO = true;
 
 float4			g_vCamPosition;
 
@@ -38,6 +42,7 @@ float	g_fBias;
 float	g_fShadowSizeRatio;
 float	g_fStaticShadowSizeRatio;
 float2	g_vWinSize;
+
 
 sampler DefaultSampler = sampler_state {
 	filter = min_mag_mip_linear;
@@ -185,7 +190,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(VS_OUT In)
 
 	vector	vNormalDesc = g_NormalTarget.Sample(PointSampler, In.vTexcoord);
 	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
-	vector vDepth = g_DepthTarget.Sample(PointSampler, In.vTexcoord);
+	vector vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 	float fDot = saturate(dot(normalize(g_vLightDir) * -1.f, vNormal));
 
 	Out.vShade = (g_vLightDiffuse * fDot) + (g_vLightAmbient * g_vMtrlAmbient);
@@ -195,13 +200,14 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(VS_OUT In)
 	
 	vector vWorldPos;
 
-	/* 투영스페이스 상의 위치를 구한다. */        //vShadowDepth = input.lightViewPosition.w / 2000.f
-	vWorldPos.x = In.vTexcoord.x * 2.f - 1.f; // In.vTexcoord.x = vWorldPos.x / 2.f + 0.5f; // vWorldPos.x = vPosition.x / vPosition.w
+	/* 투영스페이스 상의 위치를 구한다. */			//vShadowDepth = input.lightViewPosition.w / 1200.f
+	vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;	//In.vTexcoord.x = vWorldPos.x / 2.f + 0.5f; // vWorldPos.x = vPosition.x / vPosition.w
 	vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
-	vWorldPos.z = vDepth.x;
+	//vWorldPos.z = vDepth.x;
+    vWorldPos.z = vNormalDesc.w;
 	vWorldPos.w = 1.f;
 
-	float fViewZ = vDepth.y * 1200.f;
+    float fViewZ = vNormalDepth.w * 1200.f;
 	vWorldPos = vWorldPos * fViewZ;
 	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
 
@@ -224,16 +230,13 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT In)
 
 	vector		vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
-	vector vDepth = g_DepthTarget.Sample(PointSampler, In.vTexcoord);
+    vector vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 
 	float fDot = saturate(dot(normalize(g_vLightDir) * -1.f, vNormal));
 
 	float fNormalOffset = g_fBias;
 
-
 	float fBias = max((fNormalOffset * 5.0f) * (1.0f - (fDot * -1.0f)), fNormalOffset);
-
-	//float fBias = g_fBias;
 
 	//float fBias = g_fBias;
 
@@ -246,10 +249,12 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT In)
 	/* 투영스페이스 상의 위치를 구한다. */        //vShadowDepth = input.lightViewPosition.w / 2000.f
 	vWorldPos.x = In.vTexcoord.x * 2.f - 1.f; // In.vTexcoord.x = vWorldPos.x / 2.f + 0.5f; // vWorldPos.x = vPosition.x / vPosition.w
 	vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
-	vWorldPos.z = vDepth.x;
+	//vWorldPos.z = vDepth.x;
+    vWorldPos.z = vNormalDesc.w;
 	vWorldPos.w = 1.f;
 
-	float fViewZ = vDepth.y * 1200.f;
+	//float fViewZ = vDepth.y * 1200.f;
+    float fViewZ = vNormalDepth.w * 1200.f;
 	vWorldPos = vWorldPos * fViewZ;
 	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
 
@@ -302,11 +307,22 @@ PS_OUT PS_MAIN_DEFERRED(VS_OUT In)
 		discard;
 	vector		vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
 	vector		vSpecular = g_SpecularTarget.Sample(LinearSampler, In.vTexcoord);
-
-    Out.vColor = vDiffuse * vShade + vSpecular;
+    float4		vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord);
+	
+    float fAO = 1.f;
+	
+    if (true == g_bSSAO)
+        fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
+	
+    Out.vColor = fAO * (vDiffuse * vShade + vSpecular) + vEmissive;
 
 	return Out;
 }
+
+//void PBR()
+//{
+	
+//}
 
 PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
 {
@@ -318,22 +334,26 @@ PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
 	
     vAlbedo = pow(vAlbedo, 2.2f);
 	
-    float3	N = g_NormalTarget.Sample(LinearSampler, In.vTexcoord).xyz * 2.f - 1.f;
+    float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
+    float3	N = vNormal.xyz * 2.f - 1.f;
     float	fMetallic = g_MetallicTarget.Sample(LinearSampler, In.vTexcoord).x;
     float	fRoughness = g_RoughnessTarget.Sample(LinearSampler, In.vTexcoord).x;
 	
-    float4	vDepth = g_DepthTarget.Sample(PointSampler, In.vTexcoord);
+    float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 	
-    float	fAO = 1.0f;
+    float fAO = 1.f;
 	
-    float4	vWorldPos;
+	if (true == g_bSSAO)
+        fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
+    
+	float4	vWorldPos;
 	
     vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
     vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
-    vWorldPos.z = vDepth.x;
+    vWorldPos.z = vNormal.w;
     vWorldPos.w = 1.f;
-
-    float fViewZ = vDepth.y * 1200.f;
+	
+    float fViewZ = vNormalDepth.w * 1200.f;
     vWorldPos = vWorldPos * fViewZ;
     vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
     vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
@@ -363,7 +383,9 @@ PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
 	
     float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;
 	
-    vColor = vAmbient + vColor;
+    float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
+	
+    vColor = vAmbient + vColor + vEmissive;
     Out.vColor = float4(vColor, 1.f);
 	
     return Out;
@@ -399,7 +421,7 @@ PS_OUT PS_MAIN_BLUR(VS_OUT In)
 
 			float2 vTexcoord = In.vTexcoord + float2(i * g_PixelSize.x, j * g_PixelSize.y);
 
-			vector vBloomPixel = g_BlurTarget.Sample(DefaultSampler, vTexcoord);
+            vector vBloomPixel = g_SSAOBlurTarget.Sample(DefaultSampler, vTexcoord);
 
 			if (vBloomPixel.a > 0.0f)
 			{

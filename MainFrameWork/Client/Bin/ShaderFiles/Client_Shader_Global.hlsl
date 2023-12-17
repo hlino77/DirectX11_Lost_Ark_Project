@@ -7,6 +7,7 @@ cbuffer GlobalBuffer
     matrix ProjMatrix;
     matrix ViewProj;
     matrix ViewInv;
+    matrix WorldInvTransposeView;
 };
 
 cbuffer TransformBuffer

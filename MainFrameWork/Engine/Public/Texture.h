@@ -16,6 +16,7 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 
 public:
+	ID3D11ShaderResourceView* Get_SRV(_uint iTextureIndex = 0);
 	HRESULT Set_SRV(class CShader * pShader, const char* strConstantName, _uint iTextureIndex = 0);
 
 private:

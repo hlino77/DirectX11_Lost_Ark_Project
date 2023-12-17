@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 
+class CTransform;
 class CGameInstance;
 class ENGINE_DLL CComponent abstract : public CBase
 {

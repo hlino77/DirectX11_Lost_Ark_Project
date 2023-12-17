@@ -9,6 +9,7 @@
 #include "tinyxml2.h"
 #include "GameInstance.h"
 #include <iostream>
+#include "BindShaderDesc.h"
 
 CModel::CModel(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
@@ -544,32 +545,30 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 		return E_FAIL;
 
-	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
 	{
-		if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
-		{
-			if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
-			{
-				if (FAILED(Render(pShader, iMeshIndex, "PBR")))
-					return E_FAIL;
-			}
-			else
-			{
-				if (FAILED(Render(pShader, iMeshIndex, "PBR_NoMask")))
-					return E_FAIL;
-			}
-		}
-		else
-		{
-			if (FAILED(Render(pShader, iMeshIndex, "Phong")))
-				return E_FAIL;
-		}
-	}
-	else
-	{
-		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))	// 임시 패스
 			return E_FAIL;
+
+		return S_OK;
 	}
+
+	MaterialSwitch tSwitch = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tSwitch.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tSwitch.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tSwitch.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialSwitch", &tSwitch, sizeof(MaterialSwitch))))
+		return E_FAIL;
+
+	if (FAILED(Render(pShader, iMeshIndex, "PBR")))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -91,76 +91,30 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 HRESULT CMonster_Golem::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
-	m_PlayAnimation.get();
+	if (FAILED(m_PlayAnimation.get()))
+		return E_FAIL;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
-		return S_OK;
+	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
 
-	GlobalDesc gDesc = {
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		pGameInstance->Get_ViewProjMatrix(),
-		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
-	};
+	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
-		return S_OK;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i,0)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-				return S_OK;
-		}
-	}
-
-	Safe_Release(pGameInstance);
-
-
-
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CMonster_Golem::Render_ShadowDepth()
 {
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	Matrix matLightVeiw = pGameInstance->Get_DirectionLightMatrix();
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &matLightVeiw)))
-		return S_OK;
-
-
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -176,9 +130,6 @@ HRESULT CMonster_Golem::Render_ShadowDepth()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
 			return S_OK;
 	}
-
-	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }

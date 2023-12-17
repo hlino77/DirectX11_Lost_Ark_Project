@@ -38,6 +38,11 @@ struct ENGINE_DLL MaterialDesc
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
 };
 
+struct ENGINE_DLL MaterialSwitch
+{
+	Vec4 SpecMaskEmisExtr = Vec4(0.f, 0.f, 0.f, 0.f);
+};
+
 // Bone
 #define MAX_MODEL_TRANSFORMS 250
 #define MAX_MODEL_KEYFRAMES 500
