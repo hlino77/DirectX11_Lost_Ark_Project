@@ -279,6 +279,9 @@
     <ClInclude Include="..\public\Renderer.h">
       <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Shader.h">
       <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
     </ClInclude>
@@ -506,6 +509,8 @@
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BehaviorTree.h" />
+    <ClInclude Include="..\Public\BehaviorTree.h" />
+    <ClInclude Include="..\Public\BindShaderDesc.h" />
     <ClInclude Include="..\Public\BT_Action.h" />
     <ClInclude Include="..\Public\BT_Composite.h" />
     <ClInclude Include="..\Public\BT_Decorator.h" />
@@ -554,6 +559,9 @@
     <ClInclude Include="..\Public\VIBuffer.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ConstantBuffer.h" />
+    <ClInclude Include="..\Public\Hasher.h" />
+    <ClInclude Include="..\Public\PartObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -588,6 +596,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
       <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shader.cpp">
       <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
@@ -847,6 +858,8 @@
     <ClCompile Include="..\Private\VIBuffer.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\ConstantBuffer.cpp" />
+    <ClCompile Include="..\Private\PartObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />
