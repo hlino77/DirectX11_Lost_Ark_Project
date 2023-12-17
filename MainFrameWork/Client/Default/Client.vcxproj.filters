@@ -157,6 +157,33 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test">
       <UniqueIdentifier>{85fda9a6-1cb6-47de-a0f3-fcd06c2e64ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger">
+      <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\02.Bern">
+      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool">
+      <UniqueIdentifier>{4e23252b-8f1e-4aa3-a035-332256279a07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\99.ImGUI">
+      <UniqueIdentifier>{dfca8cf1-3a22-43ba-89e1-a9c98764bda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools">
+      <UniqueIdentifier>{1a6bc08e-4010-41df-8466-0d0852b69d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\00.BaseClass">
+      <UniqueIdentifier>{0fcdcb14-2b5d-4419-91c9-f8788c09538e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\01.EffectTool">
+      <UniqueIdentifier>{5e4218f1-35f7-4f4b-a472-57b919a72e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. ShaderFiles\Legacy">
+      <UniqueIdentifier>{269297ff-170b-42ad-86cd-e9138b42df83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. ShaderFiles\KSG">
+      <UniqueIdentifier>{66e51349-7e47-4d74-bfed-2715a16f0a29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -181,7 +208,7 @@
       <Filter>01.Levels\00.Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Bern.h">
-      <Filter>01.Levels\02. Bern</Filter>
+      <Filter>01.Levels\02.Bern</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01.Levels\99.Loading</Filter>
@@ -489,6 +516,97 @@
     <ClInclude Include="..\Public\State_GN_Skill_R.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BackGround_Server.h" />
+    <ClInclude Include="..\Public\Level_Lobby.h" />
+    <ClInclude Include="..\Public\Level_ServerSelect.h" />
+    <ClInclude Include="..\Public\BackGround_MainLogo.h" />
+    <ClInclude Include="..\Public\Level_Tool.h">
+      <Filter>01.Levels\98.Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imconfig.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ToolBase.h">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectTool.h">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Zombie.h" />
+    <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UI_ServerGrid.h" />
+    <ClInclude Include="..\Public\UI_ServerLogo.h" />
+    <ClInclude Include="..\Public\UI_ServerWnd.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
+    <ClInclude Include="..\Public\Chat_Manager.h" />
+    <ClInclude Include="..\Public\Monster_Plant.h" />
+    <ClInclude Include="..\Public\UI_LoadingArrow.h" />
+    <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
+    <ClInclude Include="..\Public\UI_LoadingFill.h" />
+    <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
+    <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
+    <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
+    <ClInclude Include="..\Public\Weapon_Hand.h" />
+    <ClInclude Include="..\Public\Weapon_Hand_2.h" />
+    <ClInclude Include="..\Public\Weapon_Long.h" />
+    <ClInclude Include="..\Public\Weapon_Shot.h" />
+    <ClInclude Include="UI_LoadingWnd.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\Monster_Golem.h" />
+    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
+    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
+    <ClInclude Include="..\Public\Player_Controller_GN.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand1.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand2.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand3.h" />
+    <ClInclude Include="..\Public\State_GN_Dash.h" />
+    <ClInclude Include="..\Public\State_GN_Identity.h" />
+    <ClInclude Include="..\Public\State_GN_Idle.h" />
+    <ClInclude Include="..\Public\State_GN_Run.h" />
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_ChatFrame.h" />
+    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
+    <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
+    <ClInclude Include="..\Public\UI_Loading.h" />
+    <ClInclude Include="..\Public\UI_LoadingShine.h" />
+    <ClInclude Include="..\Public\UI_Server.h" />
+    <ClInclude Include="..\Public\UI_TextBox.h" />
+    <ClInclude Include="..\Public\UI_Tool.h" />
+    <ClInclude Include="..\Public\Weapon_Shot_2.h" />
+    <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
+    <ClInclude Include="..\Public\Common_BT_Chase.h" />
+    <ClInclude Include="..\Public\Common_BT_Attack1.h" />
+    <ClInclude Include="..\Public\Common_BT_DamageRight.h" />
+    <ClInclude Include="..\Public\Common_BT_DamageLeft.h" />
+    <ClInclude Include="..\Public\Common_BT_Dead.h" />
+    <ClInclude Include="..\Public\Common_BT_Idle.h" />
+    <ClInclude Include="..\Public\Common_BT_Maz.h" />
+    <ClInclude Include="..\Public\Common_BT_Move.h" />
+    <ClInclude Include="..\Public\Common_BT_Spawn.h" />
+
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -504,7 +622,7 @@
       <Filter>01.Levels\00.Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Bern.cpp">
-      <Filter>01.Levels\02. Bern</Filter>
+      <Filter>01.Levels\02.Bern</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01.Levels\99.Loading</Filter>
@@ -806,6 +924,93 @@
     <ClCompile Include="..\Private\State_GN_Skill_R.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
+    <ClCompile Include="..\Private\BackGround_Server.cpp" />
+    <ClCompile Include="..\Private\Level_Lobby.cpp" />
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
+    <ClCompile Include="..\Private\Level_Tool.cpp">
+      <Filter>01.Levels\98.Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
+      <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ToolBase.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Zombie.cpp" />
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
+    <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
+    <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\Chat_Manager.cpp" />
+    <ClCompile Include="..\Private\Monster_Plant.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingFill.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
+    <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
+    <ClCompile Include="..\Private\Weapon_Long.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot.cpp" />
+    <ClCompile Include="UI_LoadingWnd.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
+    <ClCompile Include="..\Private\Monster_Golem.cpp" />
+    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
+    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
+    <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand1.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand2.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand3.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dash.cpp" />
+    <ClCompile Include="..\Private\State_GN_Identity.cpp" />
+    <ClCompile Include="..\Private\State_GN_Idle.cpp" />
+    <ClCompile Include="..\Private\State_GN_Run.cpp" />
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_ChatFrame.cpp" />
+    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp" />
+    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
+    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
+    <ClCompile Include="..\Private\UI_Loading.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
+    <ClCompile Include="..\Private\UI_Server.cpp" />
+    <ClCompile Include="..\Private\UI_TextBox.cpp" />
+    <ClCompile Include="..\Private\UI_Tool.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
+    <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Chase.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
+    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp" />
+    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Move.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -880,6 +1085,69 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
       <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred_Effect.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Instance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyBox.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_SSAO.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

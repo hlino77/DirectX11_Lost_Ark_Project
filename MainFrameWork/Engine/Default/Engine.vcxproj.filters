@@ -192,6 +192,30 @@
     </Filter>
     <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Constant">
       <UniqueIdentifier>{c6e6dd24-7554-49e8-9da2-01664c87fd39}</UniqueIdentifier>
+    </Filter>  
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer">
+      <UniqueIdentifier>{eb0138e8-590d-4bd6-bc94-809ce0e0d5af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer">
+      <UniqueIdentifier>{fc816164-c2c1-4131-a255-3ac1a792e1b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Point">
+      <UniqueIdentifier>{53e01601-3049-405d-88ae-19deecdf40f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect">
+      <UniqueIdentifier>{6c257ca1-d39b-4b2d-a140-21f27556eefd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Terrain">
+      <UniqueIdentifier>{9d04d116-5d72-4285-9207-214bf7487f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Terrain\QuadTree">
+      <UniqueIdentifier>{64fbde0d-8ecd-4c28-a410-cd1f80d04432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\ConstantBuffer">
+      <UniqueIdentifier>{c706d068-7bbd-4ae3-a864-b3913aeb8b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\03. Shader\ShaderDesc">
+      <UniqueIdentifier>{4dc3c5f3-65e4-4ec4-ab1f-e375024e6a0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -283,7 +307,7 @@
       <Filter>00.System\03. Lights</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Rect.h">
-      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Rect</Filter>
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Key_Manager.h">
       <Filter>00.System\04. Key</Filter>
@@ -416,7 +440,7 @@
       <Filter>01.Utiltiy\07. Event</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Point.h">
-      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Point</Filter>
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Point</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PhysXMgr.h">
       <Filter>01.Utiltiy\08. PhysX</Filter>
@@ -474,6 +498,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\ConstantBuffer.h">
       <Filter>01.Utiltiy\04.Component\02. VIBuffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BehaviorTree.h" />
+    <ClInclude Include="..\Public\BT_Action.h" />
+    <ClInclude Include="..\Public\BT_Composite.h" />
+    <ClInclude Include="..\Public\BT_Decorator.h" />
+    <ClInclude Include="..\Public\BT_Node.h" />
+    <ClInclude Include="..\Public\PartObject.h" />
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ConstantBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hasher.h">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BindShaderDesc.h">
+      <Filter>01.Utiltiy\04.Component\03. Shader\ShaderDesc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderSphereGroup.h" />
+    <ClInclude Include="..\Public\Player_Controller.h" />
+    <ClInclude Include="..\Public\TextBox.h" />
+    <ClInclude Include="..\Public\VIBuffer_RectSSAO.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -550,7 +598,7 @@
       <Filter>00.System\03. Lights</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp">
-      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Rect</Filter>
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Engine_Struct.cpp">
       <Filter>99.Defines</Filter>
@@ -676,7 +724,7 @@
       <Filter>01.Utiltiy\07. Event</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Point.cpp">
-      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Point</Filter>
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Point</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PhysXMgr.cpp">
       <Filter>01.Utiltiy\08. PhysX</Filter>
@@ -732,6 +780,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\ConstantBuffer.cpp">
       <Filter>01.Utiltiy\04.Component\02. VIBuffer\Constant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BehaviorTree.cpp" />
+    <ClCompile Include="..\Private\BT_Action.cpp" />
+    <ClCompile Include="..\Private\BT_Composite.cpp" />
+    <ClCompile Include="..\Private\BT_Decorator.cpp" />
+    <ClCompile Include="..\Private\BT_Node.cpp" />
+    <ClCompile Include="..\Private\PartObject.cpp" />
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ConstantBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
+    <ClCompile Include="..\Private\Player_Controller.cpp" />
+    <ClCompile Include="..\Private\TextBox.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_RectSSAO.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
