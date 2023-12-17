@@ -152,7 +152,6 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Boss_Server.cpp" />
     <ClCompile Include="..\Private\Camera_Free_Server.cpp" />
-    <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp" />
     <ClCompile Include="..\Private\Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
@@ -208,7 +207,6 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Boss_Server.h" />
     <ClInclude Include="..\Public\Camera_Free_Server.h" />
-    <ClInclude Include="..\Public\Golem_BT_Chase_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Attacked.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Far_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Skill_Server.h" />

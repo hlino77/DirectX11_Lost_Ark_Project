@@ -413,7 +413,7 @@ void CMonster::CullingObject()
 
 void CMonster::Set_to_RootPosition(_float fTimeDelta)
 {
-	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

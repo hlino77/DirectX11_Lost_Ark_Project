@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "Common_BT_Chase.h"
+#include "Golem_BT_Chase.h"
 #include "Monster.h"
 #include "Model.h"
 #include "Transform.h"
 
-CCommon_BT_Chase::CCommon_BT_Chase()
+CGolem_BT_Chase::CGolem_BT_Chase()
 {
 }
 
-void CCommon_BT_Chase::OnStart()
+void CGolem_BT_Chase::OnStart()
 {
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Chase::OnUpdate(const _float& fTimeDelta)
 {
 
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
@@ -31,31 +31,39 @@ CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimIndexFrame[0].first.iAnimIndex, m_vecAnimIndexFrame[0].first.fChangeTime,
 			m_vecAnimIndexFrame[0].first.iStartFrame, m_vecAnimIndexFrame[0].first.iChangeFrame);
 	_float fSpeed = 1.5f;
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == 34)
+	{
+		_int Animframe = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(34); 
+		if (30 > Animframe % 30 && Animframe % 30 > 20)
+		{
+			fSpeed = Vec2::Lerp(Vec2(0.f, 0.f), Vec2(0.5f, 0.f), (Animframe % 30 - 20) / 10).x;
+		}
+	}
 	static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
 
 	return BT_RUNNING;
 }
 
-void CCommon_BT_Chase::OnEnd()
+void CGolem_BT_Chase::OnEnd()
 {
 	__super::OnEnd();
 }
 
 
 
-CCommon_BT_Chase* CCommon_BT_Chase::Create(void* pArg)
+CGolem_BT_Chase* CGolem_BT_Chase::Create(void* pArg)
 {
-	CCommon_BT_Chase* pInstance = new CCommon_BT_Chase;
+	CGolem_BT_Chase* pInstance = new CGolem_BT_Chase;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CCommon_BT_Chase");
+		MSG_BOX("Failed to Created : CGolem_BT_Chase");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCommon_BT_Chase::Free()
+void CGolem_BT_Chase::Free()
 {
 	__super::Free();
 }

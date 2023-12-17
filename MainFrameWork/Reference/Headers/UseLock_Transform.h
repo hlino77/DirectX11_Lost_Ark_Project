@@ -48,6 +48,7 @@ public:
 
 	virtual void Turn(Vec3 vAxis, _float fTimeDelta) override;
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) override;
+
 	virtual void Rotation(Vec3 vAxis, _float fRadian) override;
 
 	virtual void LookAt(Vec3 vAt) override;
@@ -66,6 +67,7 @@ public:
 	virtual	void Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta) override;
 	virtual	void My_Rotation(Vec3 vEulers) override;
 
+	virtual	void Set_MovementSpeed(float fSpeed)override;
 public:
 	static CUseLock_Transform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

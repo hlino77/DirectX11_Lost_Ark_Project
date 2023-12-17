@@ -24,6 +24,7 @@
 #include "BindShaderDesc.h"
 #include <Golem_BT_Attack_Charge_Punch.h>
 #include <Golem_BT_Attack_Dash.h>
+#include <Golem_BT_Chase.h>
 
 CMonster_Golem::CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -74,12 +75,7 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_fPositionTimeAcc += fTimeDelta;
-	if (m_fPositionTimeAcc > 0.5f)
-	{
-		m_fPositionTimeAcc = 0.f;
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		cout << "Å¬¶ó °ñ·½" << vPos.x<< '|' << vPos.z <<  '|' << Get_Target_Distance() <<endl;
-	}
+
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
@@ -95,18 +91,12 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 
 	if (nullptr == m_pRendererCom)
 		return;
-
-
 	CullingObject();
 }
 
 HRESULT CMonster_Golem::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
-
-
-	if (FAILED(m_PlayAnimation.get()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
@@ -354,7 +344,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Chase";
-	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
+	CBT_Action* pChase = CGolem_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
@@ -420,6 +410,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Bash";
 	CBT_Action* pBash = CGolem_BT_Attack_Dash::Create(&ActionDesc);
 
+	m_pModelCom->Set_Anim_Speed(34, 1.5f);
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Idle_0");
 	return S_OK;
 }

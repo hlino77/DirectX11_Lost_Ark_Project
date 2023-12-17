@@ -206,6 +206,12 @@ void CLockFree_Transform::My_Rotation(Vec3 vEulers)
 	}
 }
 
+void CLockFree_Transform::Set_MovementSpeed(float fSpeed)
+{
+	m_TransformDesc.fSpeedPerSec = fSpeed;
+
+}
+
 void CLockFree_Transform::LookAt(Vec3 vAt)
 {
 	Vec3		vLook = vAt - Get_State(CLockFree_Transform::STATE_POSITION);

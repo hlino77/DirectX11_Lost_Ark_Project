@@ -87,11 +87,13 @@ void CMonster_Plant_Server::Tick(_float fTimeDelta)
 		Find_NearTarget();
 	}
 	m_pRigidBody->Tick(fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	Set_to_RootPosition(fTimeDelta);
 }
 
 void CMonster_Plant_Server::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
 
 	{
@@ -108,7 +110,6 @@ void CMonster_Plant_Server::LateTick(_float fTimeDelta)
 
 HRESULT CMonster_Plant_Server::Render()
 {
-	m_PlayAnimation.get();
 
 	return S_OK;
 }

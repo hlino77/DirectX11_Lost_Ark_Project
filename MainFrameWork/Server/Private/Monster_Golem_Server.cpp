@@ -32,6 +32,7 @@
 #include <Golem_BT_Attack_Charge_Punch_Server.h>
 #include <Common_BT_IF_Skill_Server.h>
 #include <Golem_BT_Attack_Dash_Server.h>
+#include <Golem_BT_Chase_Server.h>
 
 CMonster_Golem_Server::CMonster_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -89,8 +90,7 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		cout << "¼­¹ö °ñ·½" << vPos.x << '|' << vPos.z << '|' << (m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)-m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length() << endl;
+	
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
@@ -201,7 +201,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = .723f;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -274,7 +274,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Chase";
-	CBT_Action* pChase = CCommon_BT_Chase_Server::Create(&ActionDesc);
+	CBT_Action* pChase = CGolem_BT_Chase_Server::Create(&ActionDesc);
 
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;

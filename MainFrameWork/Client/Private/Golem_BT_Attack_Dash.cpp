@@ -9,6 +9,7 @@ CGolem_BT_Attack_Dash::CGolem_BT_Attack_Dash()
 
 void CGolem_BT_Attack_Dash::OnStart()
 {
+	cout << endl << "Å¬¶ó °ñ·½" << "	|	" << m_pGameObject->Get_ModelCom()->Get_CurrAnim() << "	|	" << m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_pGameObject->Get_ModelCom()->Get_CurrAnim()) << endl;
 	__super::OnStart(0);
 }
 
@@ -24,7 +25,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash::OnUpdate(const _float& fTimeDelta)
 void CGolem_BT_Attack_Dash::OnEnd()
 {
 	__super::OnEnd();
-
+	cout << endl << "Å¬¶ó °ñ·½" << "	|	" << m_pGameObject->Get_ModelCom()->Get_CurrAnim() << "	|	" << m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_pGameObject->Get_ModelCom()->Get_CurrAnim()) << endl;
 	static_cast<CMonster*>(m_pGameObject)->Set_AttackRange(0);
 
 }

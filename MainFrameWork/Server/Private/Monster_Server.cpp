@@ -369,7 +369,16 @@ void CMonster_Server::Move_to_RandomPosition(_float fTimeDelta)
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	Move_Dir(m_vRandomPosition - vCurrentPosition, 1.f, fTimeDelta);
 }
+_float CMonster_Server::Get_Target_Distance()
+{
+	if (m_pNearTarget == nullptr)
+		return 99999.f;
 
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	return (vTargetPosition - vCurrentPosition).Length();
+}
 _bool CMonster_Server::Is_Close_To_RandomPosition()
 {
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -539,7 +548,7 @@ void CMonster_Server::Set_Colliders(_float fTimeDelta)
 
 void CMonster_Server::Set_to_RootPosition(_float fTimeDelta)
 {
-	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 HRESULT CMonster_Server::Ready_Coliders()

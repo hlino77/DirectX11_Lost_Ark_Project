@@ -5,14 +5,14 @@
 
 BEGIN(Server)
 
-class CCommon_BT_Chase_Server :
+class CGolem_BT_Chase_Server :
     public CBT_Action
 {
 
 private:
-    CCommon_BT_Chase_Server();
-    CCommon_BT_Chase_Server(const CCommon_BT_Chase_Server& rhs) = delete;
-    virtual ~CCommon_BT_Chase_Server() =  default;
+    CGolem_BT_Chase_Server();
+    CGolem_BT_Chase_Server(const CGolem_BT_Chase_Server& rhs) = delete;
+    virtual ~CGolem_BT_Chase_Server() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -20,7 +20,7 @@ private:
 
 
 public:
-    static	CCommon_BT_Chase_Server* Create(void* pArg);
+    static	CGolem_BT_Chase_Server* Create(void* pArg);
     virtual void Free() override;
 };
 

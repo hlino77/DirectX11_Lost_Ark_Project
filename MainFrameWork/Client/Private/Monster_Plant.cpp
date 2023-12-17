@@ -74,12 +74,13 @@ void CMonster_Plant::Tick(_float fTimeDelta)
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	Set_to_RootPosition(fTimeDelta);
 }
 
 void CMonster_Plant::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
 	if (nullptr == m_pRendererCom)
 		return;
@@ -91,9 +92,6 @@ void CMonster_Plant::LateTick(_float fTimeDelta)
 HRESULT CMonster_Plant::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
-
-	if (FAILED(m_PlayAnimation.get()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))

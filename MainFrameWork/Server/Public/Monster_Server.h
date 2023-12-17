@@ -73,6 +73,8 @@ public:
 
 	void Move_to_RandomPosition(_float fTimeDelta);
 
+	_float Get_Target_Distance();
+
 	_bool Is_Close_To_RandomPosition();
 
 	void LookAt_Target_Direction(_float fTimeDelta);

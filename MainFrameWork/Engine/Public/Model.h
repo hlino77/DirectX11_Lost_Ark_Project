@@ -99,6 +99,8 @@ public: /* ;hj가 추가한 함수 */
 	void	Set_RootDist(_float fDist) { m_fRootDist = fDist; }
 	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos = XMVectorZero());
 
+	HRESULT	Set_Monster_ToRootPos(class CTransform* pTransform, _float fTimeDelta);
+
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);
 	HRESULT Load_MaterialData_FromFile();
@@ -154,8 +156,6 @@ private:
 	//Model Load
 	wstring								m_strFilePath;
 	wstring								m_strFileName;
-
-
 	vector<shared_ptr<ModelBone>>		m_ModelBones;
 	shared_ptr<ModelBone>				m_RootBone;
 

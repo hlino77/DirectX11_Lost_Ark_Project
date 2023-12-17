@@ -82,15 +82,8 @@ void CMonster_Ghoul::Tick(_float fTimeDelta)
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
-	if (m_pNearTarget != nullptr)
-	{
-		Vec3 vNearTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta, Vec4(vNearTargetPosition.x, vNearTargetPosition.y, vNearTargetPosition.z, 1.f));
-	}
-	else
-	{
-		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
-	}
+	if(Get_Target_Distance()> 0.5f)
+		Set_to_RootPosition(fTimeDelta);
 }
 
 void CMonster_Ghoul::LateTick(_float fTimeDelta)

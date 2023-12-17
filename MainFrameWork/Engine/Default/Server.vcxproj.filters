@@ -49,6 +49,9 @@
     <Filter Include="01. Levels\02. Bern">
       <UniqueIdentifier>{64f0e584-ebe1-459f-ab78-add519f83806}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Monster\Zombie">
+      <UniqueIdentifier>{750408eb-7c06-41b3-baff-e0a5582fd9e9}</UniqueIdentifier>
+    </Filter> 
     <Filter Include="02. GameObject\03. Monster">
       <UniqueIdentifier>{e98a3723-7492-4adb-956d-037e6e051d76}</UniqueIdentifier>
     </Filter>
@@ -219,9 +222,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Dash_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -379,9 +379,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Ghoul_BT_Attack_2_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Ghoul\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Chase_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
