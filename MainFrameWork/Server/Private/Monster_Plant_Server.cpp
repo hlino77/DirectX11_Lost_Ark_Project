@@ -27,6 +27,8 @@
 #include "Common_BT_WHILE_Within_Range_Server.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
+#include <Common_BT_IF_Attacked.h>
+#include <Common_BT_IF_Far_Server.h>
 
 CMonster_Plant_Server::CMonster_Plant_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -204,7 +206,7 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -214,7 +216,7 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -242,66 +244,7 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CCommon_BT_Attack1_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("idle_battle_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_BattleIdle";
-	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CPlant_BT_Attack_Shake_Server::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CPlant_BT_Attack_Root_Server::Create(&ActionDesc);
-
-	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
-	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
-	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pBattleIdle)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack2)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pBattleIdle)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack3)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pBattleIdle)))
-		return E_FAIL;
-
-	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Near = CCommon_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
-	if (FAILED(pIf_Near->AddChild(pSequenceNear))) return E_FAIL;
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -311,15 +254,90 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase_Server::Create(&ActionDesc);
 
 
-	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
-	CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
-	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
-		return E_FAIL;
-	if (FAILED(pSelector_Within_Range->AddChild(pChase)))
-		return E_FAIL;
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Far = CCommon_BT_IF_Far_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pIf_Far->AddChild(pChase))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack1";
+	CBT_Action* pAttack1 = CCommon_BT_Attack1_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BattleIdle";
+	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack2";
+	CBT_Action* pAttack2 = CPlant_BT_Attack_Shake_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack3";
+	CBT_Action* pAttack3 = CPlant_BT_Attack_Root_Server::Create(&ActionDesc);
+
+
+
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
+
+	if (FAILED(pSequenceNear->AddChild(pAttack1)))
+		return E_FAIL;
+
+	if (FAILED(pSequenceNear->AddChild(pAttack2)))
+		return E_FAIL;
+
+	if (FAILED(pSequenceNear->AddChild(pAttack3)))
+		return E_FAIL;
+
+	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
+	if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
+		return E_FAIL;
+
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+	CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
+
+	if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
+		return E_FAIL;
+	if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
+		return E_FAIL;
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Near = CCommon_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pIf_Near->AddChild(pSelectorNear))) return E_FAIL;
+
+	CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
+
+	if (FAILED(pSelector_Within_Range->AddChild(pIf_Far)))
+		return E_FAIL;
+	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
+		return E_FAIL;
+
+
+
+
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -329,7 +347,7 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -339,7 +357,7 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	CBT_Action* pIdle_1 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -349,7 +367,7 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	CBT_Action* pIdle_2 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;

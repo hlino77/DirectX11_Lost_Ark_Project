@@ -76,6 +76,7 @@ public:
 
 	class CSphereCollider*		Get_Colider(const _uint & iLayer) { return m_Coliders[iLayer]; }
 
+
 	_bool						Is_Control() { return m_bControl; }
 
 	_bool						Is_Active() { return m_bActive; }
@@ -182,7 +183,6 @@ protected:
 	_bool				m_bDie = false;
 	_bool				m_bNavi = true;
 	_bool				m_bInvincible = false;
-
 	atomic<Vec3>		m_vTargetPos;
 	atomic<Matrix>		m_matTargetWorld;
 

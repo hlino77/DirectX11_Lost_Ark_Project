@@ -89,19 +89,28 @@ public:
 	void					Set_Action(wstring strAction) { m_strAction = strAction; }
 	wstring					Get_Action() { return m_strAction; }
 
+	void					Set_AttackRange(_int iRangeIndex);
+	_float					Get_AttackRange() { return m_fAttackRange; }
+
+	void					Set_NoticeRange(_float fNoticeRange) { m_fNoticeRange = fNoticeRange; }
+	_float					Get_NoticeRange() { return m_fNoticeRange; }
+
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI();
 
 protected:
 	void					CullingObject();
-
+	void					Set_to_RootPosition(_float fTimeDelta);
 
 protected:
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
 	_float							m_fScanCoolDown = 0.f;
+	vector<_float>					m_vecAttackRanges;
+	_float							m_fAttackRange = 1.f;
+	_float							m_fNoticeRange = 20.f;
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;

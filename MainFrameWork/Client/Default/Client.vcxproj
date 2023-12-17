@@ -192,6 +192,11 @@
     <ClInclude Include="..\Public\ColMesh.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
+    <ClInclude Include="..\Public\Ghoul_BT_Attack_1.h" />
+    <ClInclude Include="..\Public\Ghoul_BT_Attack_2.h" />
+    <ClInclude Include="..\Public\Ghoul_BT_Attack_3.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Dash.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
@@ -219,6 +224,7 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\Monster_Plant.h" />
+    <ClInclude Include="..\Public\Monster_Ghoul.h" />
     <ClInclude Include="..\Public\Monster_Zombie.h" />
     <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
     <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
@@ -299,6 +305,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
+    <ClCompile Include="..\Private\Ghoul_BT_Attack_1.cpp" />
+    <ClCompile Include="..\Private\Ghoul_BT_Attack_2.cpp" />
+    <ClCompile Include="..\Private\Ghoul_BT_Attack_3.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Dash.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
@@ -322,6 +333,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Monster_Ghoul.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\Monster_Plant.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />

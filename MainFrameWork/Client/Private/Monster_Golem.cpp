@@ -22,6 +22,8 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
+#include <Golem_BT_Attack_Charge_Punch.h>
+#include <Golem_BT_Attack_Dash.h>
 
 CMonster_Golem::CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -72,15 +74,18 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos.y = 0.f;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
+	m_vecAttackRanges.push_back(2.5f);
+	m_vecAttackRanges.push_back(2.5f);
+	m_fAttackRange = m_vecAttackRanges[0];
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	Set_to_RootPosition(fTimeDelta);
+	m_fNoticeRange = 20.f;
 }
 
 void CMonster_Golem::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
 	if (nullptr == m_pRendererCom)
 		return;
@@ -92,8 +97,6 @@ HRESULT CMonster_Golem::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
-
-	m_PlayAnimation.get();
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -293,7 +296,6 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
 		return E_FAIL;
 
-
 	CBT_Action::ACTION_DESC ActionDesc = {};
 	ActionDesc.pBehaviorTree = m_pBehaviorTree;
 	ActionDesc.pGameObject = this;
@@ -303,74 +305,91 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("respawn_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Respawn";
+	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
 	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack1";
 	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
 	CBT_Action* pAttack2 = CCommon_BT_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
+	ActionDesc.bIsGiveTargetPos = true;
 	CBT_Action* pAttack3 = CZombie_BT_Attack2::Create(&ActionDesc);
-
+	ActionDesc.bIsGiveTargetPos = false;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -379,7 +398,6 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -389,7 +407,6 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -400,7 +417,6 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -408,6 +424,42 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Move";
 	CBT_Action* pMove = CCommon_BT_Move::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("sk_warcry");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("att_battle_7_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Charge_Punch";
+	AnimationDesc.strAnimName = TEXT("att_battle_7_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Charge_Punch";
+	ActionDesc.iLoopAnimationIndex = 2;
+	ActionDesc.fMaxLoopTime = 1.f;
+	CBT_Action* pSkill = CGolem_BT_Attack_Charge_Punch::Create(&ActionDesc);
+	ActionDesc.iLoopAnimationIndex = -1;
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bash";
+	CBT_Action* pBash = CGolem_BT_Attack_Dash::Create(&ActionDesc);
 
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Idle_0");
 	return S_OK;

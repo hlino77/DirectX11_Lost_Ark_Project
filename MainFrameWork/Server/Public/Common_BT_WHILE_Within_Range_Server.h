@@ -19,6 +19,7 @@ private:
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
 		m_bCondition = Is_Within_Range();
+	
 		return __super::OnUpdate(fTimeDelta);
 	}
 

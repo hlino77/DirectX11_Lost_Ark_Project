@@ -86,7 +86,7 @@ HRESULT CAnimation::Play_Animation(_float fTimeDelta)
 		m_tKeyDesc.iCurrFrame = (m_tKeyDesc.iCurrFrame + iFrame) % m_iFrameCount;
 		m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame + 1) % m_iFrameCount;
 
-		if (m_tKeyDesc.iCurrFrame >= m_iFrameCount - 1)
+		if (m_tKeyDesc.iCurrFrame >= m_iFrameCount - 2)
 			m_bEnd = true;
 	}
 
@@ -111,7 +111,7 @@ HRESULT CAnimation::Play_Reverse_Animation(_float fTimeDelta)
 		m_tKeyDesc.iCurrFrame = (m_tKeyDesc.iCurrFrame - iFrame) % m_iFrameCount;
 		m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame - 1) % m_iFrameCount;
 
-		if (m_tKeyDesc.iCurrFrame == 0)
+		if (m_tKeyDesc.iCurrFrame == 2)
 			m_bEnd = true;
 	}
 

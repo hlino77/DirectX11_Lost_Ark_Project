@@ -36,7 +36,7 @@ private:
 	void			Broadcast_LevelState(LEVELSTATE eState);
 	void			Wait_ClientLevelState(LEVELSTATE eState);
 	HRESULT			Broadcast_PlayerInfo();
-	HRESULT			Broadcast_Monster(const wstring& szName, Vec3 vPos);
+	HRESULT			Broadcast_Monster(Vec3 vPos, wstring ModelName);
 	HRESULT			Broadcast_Boss(const wstring& szName, Vec3 vPos);
 
 	HRESULT			Ready_Events();
@@ -50,8 +50,8 @@ private:
 
 private:
 	_float m_fBroadcastTime = 0.0f;
-
 	_float m_fNextLevelDelay = 0.0f;
+	_bool m_bKey_Lock = false;
 private:
 	
 	thread* m_pCollisionThread = nullptr;

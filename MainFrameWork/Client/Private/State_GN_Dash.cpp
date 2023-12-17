@@ -81,7 +81,7 @@ void CState_GN_Dash::Tick_State_NoneControl(_float fTimeDelta)
 {
 	if (15 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash))
 	{
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.2f);
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.f);
 		m_pPlayer->Get_ModelCom()->Set_RootDist(1.5f);
 	}
 

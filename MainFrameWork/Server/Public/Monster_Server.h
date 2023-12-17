@@ -112,6 +112,12 @@ public:
 	_bool					Is_Attacked() { return m_IsAttacked; }
 	void					Set_Attacked(_bool IsAttacked) { m_IsAttacked = IsAttacked; }
 
+
+
+	_bool					Is_Skill();
+	void					Reset_SkillStack(){		m_iSkillStack = 0;			m_fSkillCoolDown = 0.f; }
+	void					Add_SkillStack() { m_iSkillStack++; }
+
 	void					Set_AttackRange(_int iRangeIndex);
 	_float					Get_AttackRange() { return m_fAttackRange; }
 
@@ -120,9 +126,11 @@ public:
 
 	void					Set_Action(wstring strAction) { m_strAction = strAction; }
 	wstring					Get_Action() { return m_strAction; }
+	
+
 protected:
 	virtual HRESULT		Ready_Components();
-
+	void Set_to_RootPosition(_float fTimeDelta);
 
 
 protected:
@@ -141,13 +149,13 @@ protected:
 
 	_float							m_fFollowDistance = 0.0f;
 
-
 	atomic<_int>					m_iSlowMotionCount = 0;
-	_bool							m_IsAttacked = false;
+	_bool							m_IsAttacked = true;
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;
-
+	_uint							m_iSkillStack	=	0;
+	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
