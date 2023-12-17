@@ -38,10 +38,14 @@ public:
 	void			Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2 = false);
 	void			Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
 
+public:
+	class CPlayer_Controller_GN* Get_GN_Controller() { return m_pController; }
+
 private:
 	virtual HRESULT Ready_Components() override;
 	virtual HRESULT	Ready_Parts() override;
 	HRESULT			Ready_State();
+	HRESULT			Ready_Skill();
 	HRESULT			Ready_Coliders();
 
 

@@ -187,6 +187,12 @@
     <Filter Include="01.Utiltiy\04.Component\10. Player_Controller">
       <UniqueIdentifier>{e997b959-f1e1-4830-ad2a-47c3a6a40ef0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. Player_Controller\Player_Skill">
+      <UniqueIdentifier>{eea54b2f-5659-484e-b905-040677b4ab61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Constant">
+      <UniqueIdentifier>{c6e6dd24-7554-49e8-9da2-01664c87fd39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
@@ -455,10 +461,19 @@
       <Filter>12. BehaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BindShaderDesc.h" />
-    <ClInclude Include="..\Public\ConstantBuffer.h" />
     <ClInclude Include="..\Public\Hasher.h" />
     <ClInclude Include="..\Public\Player_Controller.h">
       <Filter>01.Utiltiy\04.Component\10. Player_Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TextBox.h" />
+    <ClInclude Include="..\Public\Player_Skill.h">
+      <Filter>01.Utiltiy\04.Component\10. Player_Controller\Player_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderSphereGroup.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ConstantBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Constant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -705,9 +720,18 @@
     <ClCompile Include="..\Private\BT_Node.cpp">
       <Filter>12. BehaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ConstantBuffer.cpp" />
     <ClCompile Include="..\Private\Player_Controller.cpp">
       <Filter>01.Utiltiy\04.Component\10. Player_Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TextBox.cpp" />
+    <ClCompile Include="..\Private\Player_Skill.cpp">
+      <Filter>01.Utiltiy\04.Component\10. Player_Controller\Player_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderSphereGroup.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ConstantBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Constant</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

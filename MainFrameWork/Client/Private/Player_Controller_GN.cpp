@@ -65,15 +65,50 @@ _uint CPlayer_Controller_GN::Is_GN_Identity()
 	return 0;
 }
 
+HRESULT CPlayer_Controller_GN::Bind_HandSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
+{
+	if (nullptr == pSkill)
+		return E_FAIL;
+
+	if (SKILL_KEY::SPACE == eKey)
+		return S_OK;
+
+	m_pHandSkills[eKey] = pSkill;
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Controller_GN::Bind_ShotSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
+{
+	if (nullptr == pSkill)
+		return E_FAIL;
+
+	if (SKILL_KEY::SPACE == eKey)
+		return S_OK;
+
+	m_pShotSkills[eKey] = pSkill;
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Controller_GN::Bind_LongSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
+{
+	if (nullptr == pSkill)
+		return E_FAIL;
+
+	if (SKILL_KEY::SPACE == eKey)
+		return S_OK;
+
+	m_pLongSkills[eKey] = pSkill;
+
+	return S_OK;
+}
+
 void CPlayer_Controller_GN::Input(const _float& fTimeDelta)
 {
 }
 
 void CPlayer_Controller_GN::Attack()
-{
-}
-
-void CPlayer_Controller_GN::Skill()
 {
 }
 
@@ -85,6 +120,38 @@ void CPlayer_Controller_GN::GN_Identity(GN_IDENTITY eIndex)
 {
 	m_ePreIdentity = m_eIdentity;
 	m_eIdentity = eIndex;
+	Change_Skill_Iden(eIndex);
+}
+
+void CPlayer_Controller_GN::Change_Skill_Iden(GN_IDENTITY eIndex)
+{
+	if (GN_IDENTITY::HAND == eIndex)
+	{
+		for (size_t i = 0; i < SKILL_KEY::_END; i++)
+		{
+			if (i == SKILL_KEY::SPACE) continue;
+
+			m_pSkills[i] = m_pHandSkills[i];
+		}
+	}
+	else if (GN_IDENTITY::LONG == eIndex)
+	{
+		for (size_t i = 0; i < SKILL_KEY::_END; i++)
+		{
+			if (i == SKILL_KEY::SPACE) continue;
+
+			m_pSkills[i] = m_pLongSkills[i];
+		}
+	}
+	else if (GN_IDENTITY::SHOT == eIndex)
+	{
+		for (size_t i = 0; i < SKILL_KEY::_END; i++)
+		{
+			if (i == SKILL_KEY::SPACE) continue;
+
+			m_pSkills[i] = m_pShotSkills[i];
+		}
+	}
 }
 
 CPlayer_Controller_GN* CPlayer_Controller_GN::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

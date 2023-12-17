@@ -244,6 +244,10 @@
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\State_GN_Run_Identity.h" />
     <ClInclude Include="..\Public\State_GN_Run_Identity_Back.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_E.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_Q.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_R.h" />
+    <ClInclude Include="..\Public\State_GN_Skill_W.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
@@ -359,6 +363,10 @@
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\State_GN_Run_Identity.cpp" />
     <ClCompile Include="..\Private\State_GN_Run_Identity_Back.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_E.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_Q.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_R.cpp" />
+    <ClCompile Include="..\Private\State_GN_Skill_W.cpp" />
     <ClCompile Include="..\Private\StaticModel.cpp" />
     <ClCompile Include="..\Private\Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

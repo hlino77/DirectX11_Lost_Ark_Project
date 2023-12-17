@@ -151,8 +151,11 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity">
       <UniqueIdentifier>{8d63a75e-37ac-4637-b3fd-f0449c2252fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Skill">
+    <Filter Include="02.GameObjects\Player\Skill_GN">
       <UniqueIdentifier>{510e23bc-f780-4aff-8058-06f906a8e1f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test">
+      <UniqueIdentifier>{85fda9a6-1cb6-47de-a0f3-fcd06c2e64ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +477,18 @@
     <ClInclude Include="..\Public\State_GN_Run_Identity_Back.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_Q.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_W.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_E.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Skill_R.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -778,6 +793,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Run_Identity_Back.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_Q.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_W.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_E.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Skill_R.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

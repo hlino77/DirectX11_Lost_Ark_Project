@@ -32,7 +32,7 @@ HRESULT CUI_LoadingFill::Initialize(void* pArg)
     m_fX = 0.f;
     m_fY = 850.f;
     m_fSizeX = 77.f;
-    m_fSizeY = 30;
+    m_fSizeY = 30.f;
  
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,

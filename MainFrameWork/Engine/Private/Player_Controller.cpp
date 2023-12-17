@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "Transform.h"
 #include "RigidBody.h"
-#include "Engine_Defines.h"
+#include "Player_Skill.h"
 
 CPlayer_Controller::CPlayer_Controller(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
@@ -37,7 +37,7 @@ HRESULT CPlayer_Controller::Initialize(void* pArg)
 void CPlayer_Controller::Tick(_float fTimeDelta)
 {
 	if (false == m_bStop) Move(fTimeDelta);
-	if (true == m_bStop) Look(fTimeDelta);
+	if (true == m_bStop) Look_Lerp(fTimeDelta);
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
@@ -72,11 +72,46 @@ _bool CPlayer_Controller::Is_Run()
 
 _bool CPlayer_Controller::Is_Skill()
 {
-	if (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q) || KEY_HOLD(KEY::W) || KEY_TAP(KEY::W) ||
-		KEY_HOLD(KEY::E) || KEY_TAP(KEY::E) || KEY_HOLD(KEY::R) || KEY_TAP(KEY::R) ||
-		KEY_HOLD(KEY::A) || KEY_TAP(KEY::A) || KEY_HOLD(KEY::S) || KEY_TAP(KEY::S) ||															  
-		KEY_HOLD(KEY::D) || KEY_TAP(KEY::D) || KEY_HOLD(KEY::F) || KEY_TAP(KEY::F))
-			return true;
+	if (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q))
+	{
+		m_eSelectedSkill = SKILL_KEY::Q;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::W) || KEY_TAP(KEY::W))
+	{
+		m_eSelectedSkill = SKILL_KEY::W;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::E) || KEY_TAP(KEY::E))
+	{
+		m_eSelectedSkill = SKILL_KEY::E;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::R) || KEY_TAP(KEY::R))
+	{
+		m_eSelectedSkill = SKILL_KEY::R;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::A) || KEY_TAP(KEY::A))
+	{
+		m_eSelectedSkill = SKILL_KEY::A;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::S) || KEY_TAP(KEY::S))
+	{
+		m_eSelectedSkill = SKILL_KEY::S;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::D) || KEY_TAP(KEY::D))
+	{
+		m_eSelectedSkill = SKILL_KEY::D;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::F) || KEY_TAP(KEY::F))
+	{
+		m_eSelectedSkill = SKILL_KEY::F;
+		return true;
+	}
 
 	return false;
 }
@@ -110,13 +145,27 @@ _bool CPlayer_Controller::Is_Attack()
 	return false;
 }
 
+HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
+{
+	if (nullptr == pSkill)
+		return E_FAIL;
+
+	if (SKILL_KEY::SPACE == eKey)
+		return S_OK;
+
+	m_pSkills[eKey] = pSkill;
+
+	return S_OK;
+}
+
+_bool CPlayer_Controller::Is_SkillEnd(SKILL_KEY eKey)
+{
+	return m_pSkills[eKey]->Is_SkillEnd();
+}
+
 _bool CPlayer_Controller::Pick(_uint screenX, _uint screenY, Vec3& pickPos, _float& distance)
 {
 	return true;
-}
-
-void CPlayer_Controller::Look(const Vec3& vPoint, const _float& fTimeDelta)
-{
 }
 
 void CPlayer_Controller::Input(const _float& fTimeDelta)
@@ -139,7 +188,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	m_pOwnerTransform->Move_ToPos(vDir, 12.f, 3.f, fTimeDelta);
 }
 
-void CPlayer_Controller::Look(const _float& fTimeDelta)
+void CPlayer_Controller::Look_Lerp(const _float& fTimeDelta)
 {
 	if (Vec3() == m_vNextMove)
 		return;
@@ -149,21 +198,22 @@ void CPlayer_Controller::Look(const _float& fTimeDelta)
 	m_pOwnerTransform->LookAt_Lerp_ForLand(vDir, 20.f, fTimeDelta);
 }
 
+void CPlayer_Controller::Look(Vec3 vAt)
+{
+	m_pOwnerTransform->LookAt_ForLandObject(vAt);
+}
+
 void CPlayer_Controller::Attack()
 {
 }
 
-void CPlayer_Controller::Skill()
+void CPlayer_Controller::Skill(SKILL_KEY eKey)
 {
+	m_fCoolTime[eKey] = m_pSkills[eKey]->Get_Skill_CoolTime();
 }
 
 void CPlayer_Controller::Hit()
 {
-}
-
-void CPlayer_Controller::Dash(Vec3 vAt)
-{
-	m_pOwnerTransform->LookAt_ForLandObject(vAt);
 }
 
 void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)

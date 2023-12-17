@@ -30,6 +30,10 @@
 #include "State_GN_Identity_Back.h"
 #include "State_GN_Run_Identity.h"
 #include "State_GN_Run_Identity_Back.h"
+#include "State_GN_Skill_Q.h"
+#include "State_GN_Skill_W.h"
+#include "State_GN_Skill_E.h"
+#include "State_GN_Skill_R.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -436,10 +440,28 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Attack_Long_2"), CState_GN_Attack_Long2::Create(TEXT("Attack_Long_2"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	//m_pStateMachine->Add_State(TEXT("Skill_Q"), CState_GN_Skill_Q::Create(TEXT("Skill_Q"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	//m_pStateMachine->Add_State(TEXT("Skill_W"), CState_GN_Skill_W::Create(TEXT("Skill_W"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	//m_pStateMachine->Add_State(TEXT("Skill_E"), CState_GN_Skill_E::Create(TEXT("Skill_E"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	//m_pStateMachine->Add_State(TEXT("Skill_R"), CState_GN_Skill_R::Create(TEXT("Skill_R"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 
 	m_pStateMachine->Change_State(TEXT("Idle"));
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Gunslinger::Ready_Skill()
+{
+	//m_pController->Bind_HandSkill()
+
 
 	return S_OK;
 }

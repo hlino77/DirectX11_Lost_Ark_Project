@@ -52,6 +52,7 @@ void CState_GN_Idle::Enter_State()
 		break;
 	}
 
+	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eIden);
 	m_pController->Get_StopMessage();
 }
 
@@ -92,6 +93,38 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_State(TEXT("Run"));
 		}
 	}
+	//else if (true == m_pController->Is_Skill())
+	//{
+	//	Vec3 vClickPos;
+	//	if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+	//		m_pPlayer->Set_TargetPos(vClickPos);
+
+
+	//	CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
+	//	switch (eKey)
+	//	{
+	//	case Engine::CPlayer_Controller::Q:
+	//		m_pPlayer->Set_State(TEXT("Skill_Q"));
+	//		break;
+	//	case Engine::CPlayer_Controller::W:
+	//		m_pPlayer->Set_State(TEXT("Skill_W"));
+	//		break;
+	//	case Engine::CPlayer_Controller::E:
+	//		m_pPlayer->Set_State(TEXT("Skill_E"));
+	//		break;
+	//	case Engine::CPlayer_Controller::R:
+	//		m_pPlayer->Set_State(TEXT("Skill_R"));
+	//		break;
+	//	/*case Engine::CPlayer_Controller::A:
+	//		break;
+	//	case Engine::CPlayer_Controller::S:
+	//		break;
+	//	case Engine::CPlayer_Controller::D:
+	//		break;
+	//	case Engine::CPlayer_Controller::F:
+	//		break;*/
+	//	}
+	//}
 	else if (true == m_pController->Is_Attack())
 	{
 		Vec3 vClickPos;
