@@ -1,0 +1,911 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="98.Default">
+      <UniqueIdentifier>{068ac4ae-308f-439b-8a7d-d5b077bfb9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Defines">
+      <UniqueIdentifier>{2bded693-1033-4e35-ab2d-2f7f292e232a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.MainApp">
+      <UniqueIdentifier>{016817f4-efd3-4ed6-ba0e-c59d21242465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels">
+      <UniqueIdentifier>{9927bfef-90a5-4e11-8212-cacd67d008c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\00.Logo">
+      <UniqueIdentifier>{f7bf0f5d-9c1a-409d-ba96-8f25a183dad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99.Loading">
+      <UniqueIdentifier>{d3df9124-96f6-4c1d-a02e-1d2d51e29c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99.Loading\Loader">
+      <UniqueIdentifier>{04c05968-cb34-4cec-89e2-639b898c25fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects">
+      <UniqueIdentifier>{d435cd37-10c5-4f6c-a2f1-ee72504bbb59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround">
+      <UniqueIdentifier>{327a42a0-45f0-4b4d-b8cd-bb209baedc94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player">
+      <UniqueIdentifier>{d26bf6ee-8989-439a-89bb-3c4c11da2bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. ShaderFiles">
+      <UniqueIdentifier>{97b53119-8317-43a4-a8ee-44ae8e440ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera">
+      <UniqueIdentifier>{91ff704d-cfae-4d8f-8be1-b64393bcf977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager">
+      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Static">
+      <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95. Network">
+      <UniqueIdentifier>{f4d5c8ea-35ca-4bad-b50d-727a9f9a5344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95. Network\Protocol">
+      <UniqueIdentifier>{75ccef97-ae7f-480a-827d-edaa1f40fd79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster">
+      <UniqueIdentifier>{5b216187-dcb0-48f0-97da-18e9b63474c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI">
+      <UniqueIdentifier>{cd44dbcd-21a9-4927-95ba-b49e03de324b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss">
+      <UniqueIdentifier>{884e231c-766b-46da-8b74-832910bd8f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Event">
+      <UniqueIdentifier>{9338aac2-f157-4c4d-9f44-0aa0463ceabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\SkyBox">
+      <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\02. Bern">
+      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger">
+      <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\00.MainLogo">
+      <UniqueIdentifier>{bd33ec5c-17e6-4421-bb73-177c645dafaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\01.Server_Select">
+      <UniqueIdentifier>{21159a71-e54f-496c-87ea-76a8e240f5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\99.Base">
+      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\UI_Manager">
+      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server">
+      <UniqueIdentifier>{927e237e-4653-4b1d-ab5d-52e7caca486f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server\00.Wnd">
+      <UniqueIdentifier>{aedbee87-fc6a-47a6-8afd-664794d8d1bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server\01.Grid">
+      <UniqueIdentifier>{84c7b3b7-6c44-4d29-b3a9-e72f2647a664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server\02.Button">
+      <UniqueIdentifier>{9bb4e4ac-40fe-41e0-aef9-c523645623db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server\03.Logo">
+      <UniqueIdentifier>{b4467900-bea6-41fe-86d2-aa91c3bfb825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading">
+      <UniqueIdentifier>{881725e4-f89d-4c27-b8d3-af772883dbff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server\02.Button\00.Entrance">
+      <UniqueIdentifier>{0e973ae8-e9b0-42c2-9edd-caf2fa6bebd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\00.Wnd">
+      <UniqueIdentifier>{2278738a-fc63-4ebb-ad5d-179ee08817dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Bar">
+      <UniqueIdentifier>{40f032eb-3265-49ec-9c7a-f2bd58229c53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\01.Label">
+      <UniqueIdentifier>{9e32a1c6-e79d-43cd-bd06-31d972a9fb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\01.Label\00.Top">
+      <UniqueIdentifier>{426a42f1-5782-4d8a-8a52-63bfcd2de760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\01.Label\01.Bottom">
+      <UniqueIdentifier>{b43b7e2c-8c07-4bbf-835e-551fe45fa96c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\01.Fill">
+      <UniqueIdentifier>{9de9f183-47b7-4c0d-a917-14ea83acdda7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\02.Arrow">
+      <UniqueIdentifier>{b7c78de9-8647-42c8-8b03-a59db2c17e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar">
+      <UniqueIdentifier>{38543f09-8f58-4ddb-9a24-0b501e5fbde8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\Chat_Manager">
+      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie">
+      <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie\AI">
+      <UniqueIdentifier>{a0394568-a046-4f8f-a489-0c1b37c7c44a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Server">
+      <UniqueIdentifier>{521a9abb-5318-48b0-b6f7-e89c0052bf2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool">
+      <UniqueIdentifier>{45015364-1b26-40b4-b875-e68d85c67f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Server\00,Select">
+      <UniqueIdentifier>{116d3298-e28f-410c-9f5d-cd8c746448e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Server\01.Lobby">
+      <UniqueIdentifier>{dd1e0d4e-0512-4f1b-b8b7-0e60ec2a771a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\imgui">
+      <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\Tool">
+      <UniqueIdentifier>{2b7aac13-5471-4f4d-bb41-07211560a158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\Tool\Base">
+      <UniqueIdentifier>{e329224a-e8eb-4d0d-90a5-b170bd3a9a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Plant">
+      <UniqueIdentifier>{1f94ef61-4420-4e3c-86ef-db9f4d9f088c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Weapon">
+      <UniqueIdentifier>{256bb8a8-4136-4587-b886-75f9ff50cbb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\03.Shine">
+      <UniqueIdentifier>{6e065a38-72b8-4fb0-8e11-da2e107f10e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\02.Chat">
+      <UniqueIdentifier>{fc107c88-52d3-4684-ba9f-8071c9904b52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\02.Chat\00.Frame">
+      <UniqueIdentifier>{12bfe108-ff9a-4c0e-9dae-9438daf6eafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\02.Chat\02.ChatState">
+      <UniqueIdentifier>{fa2e7891-c91d-432c-814f-c339e14e7fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\02.Chat\03.ChatSmaller">
+      <UniqueIdentifier>{343dd946-a341-42dd-8612-8e7ba8e2b29e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\02.Chat\01.WriteFrame">
+      <UniqueIdentifier>{6c5db175-013f-4762-a321-82bdcbb8b1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\98.Tool">
+      <UniqueIdentifier>{6fbf163b-9091-4320-9d94-f8085750cdcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity">
+      <UniqueIdentifier>{c7c95098-7722-4806-959e-d4602f952ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger">
+      <UniqueIdentifier>{822a3bc0-ded5-4e01-adf6-a69346ac6fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround">
+      <UniqueIdentifier>{876687be-ae23-4a3d-955e-e3bebfbfd851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing">
+      <UniqueIdentifier>{f00043e3-8b09-4be3-b0d6-4c637320e64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame">
+      <UniqueIdentifier>{61b21050-e60f-46c4-84ac-5dce625c673c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\05.Skill_CoolTimeRect">
+      <UniqueIdentifier>{084dc986-8fa5-4042-b41b-43973743ad35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame">
+      <UniqueIdentifier>{9d1acfa5-a9bb-4d45-941b-badf9ba274d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.BackGround">
+      <UniqueIdentifier>{c1e0bb8b-ffdc-4916-810a-921c74e0b51f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.WeaponFrame">
+      <UniqueIdentifier>{4be57bf0-9b05-4cba-94ee-d97b83614c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.IconBackGround">
+      <UniqueIdentifier>{da240479-8d93-4e1c-9840-7e37b7bfec34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\03.ShineTrail">
+      <UniqueIdentifier>{0f423d20-699e-47ea-b326-339adea11141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon">
+      <UniqueIdentifier>{ed1fb9db-ebb8-49c9-a0ee-6e977063bd94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer">
+      <UniqueIdentifier>{dd3effc8-d895-48d3-8559-79aedd0b41fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect">
+      <UniqueIdentifier>{9ec966f5-9d53-446e-a9b4-8c18a316c803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame">
+      <UniqueIdentifier>{167e488f-5f15-4e65-ba8a-d23075cdeb3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\06.ShineFrame">
+      <UniqueIdentifier>{fa72f89a-e48f-4922-a0b7-056504d929ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\05.ShineIcon">
+      <UniqueIdentifier>{e03266f1-cc82-444b-86c3-f3230e586080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow">
+      <UniqueIdentifier>{7ea5354e-6783-43bb-953b-e7ac7e270699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
+      <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MainApp.h">
+      <Filter>00.MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Defines.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Logo.h">
+      <Filter>01.Levels\00.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Bern.h">
+      <Filter>01.Levels\02. Bern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01.Levels\99.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loader.h">
+      <Filter>01.Levels\99.Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02.GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free.h">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StaticModel.h">
+      <Filter>02.GameObjects\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Enum.pb.h">
+      <Filter>95. Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Protocol.pb.h">
+      <Filter>95. Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Struct.pb.h">
+      <Filter>95. Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ClientPacketHandler.h">
+      <Filter>95. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ServerSession.h">
+      <Filter>95. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ServerSessionManager.h">
+      <Filter>95. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Player.h">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Gunslinger.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround_Loading.h">
+      <Filter>02.GameObjects\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColMesh.h">
+      <Filter>02.GameObjects\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss.h">
+      <Filter>02.GameObjects\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill.h">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ClientEvent.h">
+      <Filter>03. Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pool.h">
+      <Filter>96. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainLogo.h">
+      <Filter>02.GameObjects\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround_MainLogo.h">
+      <Filter>02.GameObjects\BackGround\00.MainLogo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround_Server.h">
+      <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerWnd.h">
+      <Filter>02.GameObjects\UI\00.Server\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerGrid.h">
+      <Filter>02.GameObjects\UI\00.Server\01.Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerLogo.h">
+      <Filter>02.GameObjects\UI\00.Server\03.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_LoadingWnd.h">
+      <Filter>02.GameObjects\UI\01.Loading\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerEntranceButton.h">
+      <Filter>02.GameObjects\UI\00.Server\02.Button\00.Entrance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingLabelTop.h">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\00.Top</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingFill.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\01.Fill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingEmptyBar.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingArrow.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\02.Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chat_Manager.h">
+      <Filter>96. Manager\Chat_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imconfig.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Zombie\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Zombie.h">
+      <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Lobby.h">
+      <Filter>01.Levels\01.Server\01.Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ServerSelect.h">
+      <Filter>01.Levels\01.Server\00,Select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Tool.h">
+      <Filter>01.Levels\98.Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectTool.h">
+      <Filter>01.Levels\98.Tool\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ToolBase.h">
+      <Filter>01.Levels\98.Tool\Tool\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Plant.h">
+      <Filter>02.GameObjects\Monster\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Hand.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Hand_2.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Long.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Shot.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>96. Manager\UI_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Server.h">
+      <Filter>02.GameObjects\UI\00.Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Loading.h">
+      <Filter>02.GameObjects\UI\01.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingShine.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Controller_GN.h" />
+    <ClInclude Include="..\Public\State_GN_Idle.h" />
+    <ClInclude Include="..\Public\State_GN_Run.h" />
+    <ClInclude Include="..\Public\UI_TextBox.h" />
+    <ClInclude Include="..\Public\Weapon_Shot_2.h" />
+    <ClInclude Include="..\Public\UI_ChatFrame.h">
+      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
+      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
+      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
+      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Tool.h">
+      <Filter>02.GameObjects\UI\98.Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\Monster_Golem.h" />
+    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
+    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand1.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand2.h" />
+    <ClInclude Include="..\Public\State_GN_Attack_Hand3.h" />
+    <ClInclude Include="..\Public\State_GN_Dash.h" />
+    <ClInclude Include="..\Public\State_GN_Identity.h" />
+    <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
+    <ClInclude Include="..\Public\Common_BT_Chase.h" />
+    <ClInclude Include="..\Public\Common_BT_Attack1.h" />
+    <ClInclude Include="..\Public\Common_BT_DamageRight.h" />
+    <ClInclude Include="..\Public\Common_BT_DamageLeft.h" />
+    <ClInclude Include="..\Public\Common_BT_Dead.h" />
+    <ClInclude Include="..\Public\Common_BT_Idle.h" />
+    <ClInclude Include="..\Public\Common_BT_Maz.h" />
+    <ClInclude Include="..\Public\Common_BT_Move.h" />
+    <ClInclude Include="..\Public\Common_BT_Spawn.h" />
+    <ClInclude Include="..\Public\UI_IdentityGN_Spark.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\05.Skill_CoolTimeRect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Identity_GN.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_WF_BG.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_WeaponFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.WeaponFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_WF_Trail.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\03.ShineTrail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_IconBG.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.IconBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Identity_WF_Front.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_IconShine.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\05.ShineIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\06.ShineFrame</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client.cpp">
+      <Filter>98.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>98.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainApp.cpp">
+      <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Logo.cpp">
+      <Filter>01.Levels\00.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Bern.cpp">
+      <Filter>01.Levels\02. Bern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading.cpp">
+      <Filter>01.Levels\99.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loader.cpp">
+      <Filter>01.Levels\99.Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02.GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free.cpp">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StaticModel.cpp">
+      <Filter>02.GameObjects\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Enum.pb.cc">
+      <Filter>95. Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Protocol.pb.cc">
+      <Filter>95. Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Struct.pb.cc">
+      <Filter>95. Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClientPacketHandler.cpp">
+      <Filter>95. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ServerSession.cpp">
+      <Filter>95. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ServerSessionManager.cpp">
+      <Filter>95. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Player.cpp">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround_Loading.cpp">
+      <Filter>02.GameObjects\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColMesh.cpp">
+      <Filter>02.GameObjects\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss.cpp">
+      <Filter>02.GameObjects\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill.cpp">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClientEvent.cpp">
+      <Filter>03. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainLogo.cpp">
+      <Filter>02.GameObjects\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround_Server.cpp">
+      <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround_MainLogo.cpp">
+      <Filter>02.GameObjects\BackGround\00.MainLogo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerWnd.cpp">
+      <Filter>02.GameObjects\UI\00.Server\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerGrid.cpp">
+      <Filter>02.GameObjects\UI\00.Server\01.Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerLogo.cpp">
+      <Filter>02.GameObjects\UI\00.Server\03.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_LoadingWnd.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp">
+      <Filter>02.GameObjects\UI\00.Server\02.Button\00.Entrance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\00.Top</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingArrow.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\02.Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingFill.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\01.Fill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chat_Manager.cpp">
+      <Filter>96. Manager\Chat_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Zombie\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Zombie.cpp">
+      <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lobby.cpp">
+      <Filter>01.Levels\01.Server\01.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp">
+      <Filter>01.Levels\01.Server\00,Select</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Tool.cpp">
+      <Filter>01.Levels\98.Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <Filter>01.Levels\98.Tool\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ToolBase.cpp">
+      <Filter>01.Levels\98.Tool\Tool\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Plant.cpp">
+      <Filter>02.GameObjects\Monster\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Hand.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Hand_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Long.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Shot.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>96. Manager\UI_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Server.cpp">
+      <Filter>02.GameObjects\UI\00.Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Loading.cpp">
+      <Filter>02.GameObjects\UI\01.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingShine.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
+    <ClCompile Include="..\Private\State_GN_Idle.cpp" />
+    <ClCompile Include="..\Private\State_GN_Run.cpp" />
+    <ClCompile Include="..\Private\UI_TextBox.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
+    <ClCompile Include="..\Private\UI_ChatFrame.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Tool.cpp">
+      <Filter>02.GameObjects\UI\98.Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
+    <ClCompile Include="..\Private\Monster_Golem.cpp" />
+    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
+    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand1.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand2.cpp" />
+    <ClCompile Include="..\Private\State_GN_Attack_Hand3.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dash.cpp" />
+    <ClCompile Include="..\Private\State_GN_Identity.cpp" />
+    <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Chase.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
+    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp" />
+    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Move.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\05.Skill_CoolTimeRect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Identity_GN.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_WF_BG.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_WeaponFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.WeaponFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_WF_Trail.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\03.ShineTrail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_IconBG.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.IconBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_WpIcon.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Identity_WF_Front.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_IconShine.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\05.ShineIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\06.ShineFrame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico">
+      <Filter>98.Default</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>98.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>98.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Instance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred_Effect.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyBox.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Protobuf\bin\Enum.proto">
+      <Filter>95. Network\Protocol</Filter>
+    </None>
+    <None Include="..\..\Protobuf\bin\Protocol.proto">
+      <Filter>95. Network\Protocol</Filter>
+    </None>
+    <None Include="..\..\Protobuf\bin\Struct.proto">
+      <Filter>95. Network\Protocol</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>95. Network\Protocol</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
