@@ -19,13 +19,18 @@ CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
 		return BT_FAIL;
 
-	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <0.9f)
+	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <0.5f)
 	{
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction(fTimeDelta);
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[1].first.iAnimIndex &&m_pGameObject->Get_ModelCom()->Get_NextAnim() != m_vecAnimIndexFrame[1].first.iAnimIndex)
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimIndexFrame[1].first.iAnimIndex, m_vecAnimIndexFrame[1].first.fChangeTime,
 			m_vecAnimIndexFrame[1].first.iStartFrame, m_vecAnimIndexFrame[1].first.iChangeFrame);
 		return BT_RUNNING;
 	}
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[0].first.iAnimIndex&& m_pGameObject->Get_ModelCom()->Get_NextAnim()	!= m_vecAnimIndexFrame[0].first.iAnimIndex)
+		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimIndexFrame[0].first.iAnimIndex, m_vecAnimIndexFrame[0].first.fChangeTime,
+			m_vecAnimIndexFrame[0].first.iStartFrame, m_vecAnimIndexFrame[0].first.iChangeFrame);
+
 	static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(), 1.5f, fTimeDelta);
 
 	return BT_RUNNING;

@@ -54,7 +54,7 @@ void CBT_Action::OnStart(_int iAnimIndex)
 CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_iLoopAnimationIndex != -1)
-		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[m_iLoopAnimationIndex].first.iAnimIndex && m_fLoopTime > m_fMaxLoopTime)
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[m_iLoopAnimationIndex].first.iAnimIndex && m_fLoopTime < m_fMaxLoopTime)
 		{
 			m_fLoopTime += fTimeDelta;
 			if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[m_iLoopAnimationIndex].first.iAnimIndex))

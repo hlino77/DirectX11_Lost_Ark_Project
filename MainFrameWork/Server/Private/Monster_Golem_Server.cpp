@@ -89,6 +89,8 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
+		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		cout << "¼­¹ö °ñ·½" << vPos.x << '|' << vPos.z << '|' << (m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)-m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length() << endl;
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
@@ -199,7 +201,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = .75f;
+	AnimationDesc.fRootDist = .723f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -357,9 +359,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
-	ActionDesc.bIsGiveTargetPos = true;
 	CBT_Action* pAttack3 = CGolem_BT_Attack_Swipe_Server::Create(&ActionDesc);
-	ActionDesc.bIsGiveTargetPos = false;
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))

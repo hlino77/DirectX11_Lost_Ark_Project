@@ -73,14 +73,20 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-
-
+	m_fPositionTimeAcc += fTimeDelta;
+	if (m_fPositionTimeAcc > 0.5f)
+	{
+		m_fPositionTimeAcc = 0.f;
+		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		cout << "Å¬¶ó °ñ·½" << vPos.x<< '|' << vPos.z <<  '|' << Get_Target_Distance() <<endl;
+	}
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
 	Set_to_RootPosition(fTimeDelta);
+
 	m_fNoticeRange = 20.f;
 }
 
@@ -89,6 +95,7 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 
 	if (nullptr == m_pRendererCom)
 		return;
+
 
 	CullingObject();
 }
@@ -379,9 +386,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
-	ActionDesc.bIsGiveTargetPos = true;
 	CBT_Action* pAttack3 = CZombie_BT_Attack2::Create(&ActionDesc);
-	ActionDesc.bIsGiveTargetPos = false;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("run_battle_1");

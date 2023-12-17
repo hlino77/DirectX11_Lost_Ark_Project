@@ -35,6 +35,8 @@ public:
 
 	void Set_CurrAnim(_int iCurrAnim);
 	_uint Get_CurrAnim() { return m_iCurrAnim; }
+	_uint Get_NextAnim() { return m_tCurrChange.m_iNextAnim; }
+	_uint Get_ReservedAnim() { return m_tReserveChange.m_iNextAnim; }
 
 	_uint Get_MaxAnimIndex();
 

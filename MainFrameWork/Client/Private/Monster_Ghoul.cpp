@@ -75,28 +75,6 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
 
 void CMonster_Ghoul::Tick(_float fTimeDelta)
 {
-	////if (KEY_TAP(KEY::A) || KEY_TAP(KEY::S) || KEY_TAP(KEY::K))
-	////	m_IsHit = true;
-	////if (KEY_TAP(KEY::A))
-	////	m_IsLeft = false;
-	////if (KEY_TAP(KEY::S))
-	////	m_IsLeft = true;
-	//if (KEY_TAP(KEY::K))
-	//	Set_Action(L"Dead");	//m_iHp = 0;
-	//if (KEY_TAP(KEY::R))
-	//{
-	//	Set_Action(L"Idle_1");
-	//	m_fAnimationSpeed = 1.f;
-	//	m_bDie = false;
-	//	m_iHp = 10;
-	//}
-	//m_fScanCoolDown += fTimeDelta;
-	//if (m_fScanCoolDown > 0.5f)
-	//{
-	//	m_fScanCoolDown = 0.f;
-	//	Find_NearTarget();
-	//}
-
 
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
@@ -104,7 +82,15 @@ void CMonster_Ghoul::Tick(_float fTimeDelta)
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
+	if (m_pNearTarget != nullptr)
+	{
+		Vec3 vNearTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta, Vec4(vNearTargetPosition.x, vNearTargetPosition.y, vNearTargetPosition.z, 1.f));
+	}
+	else
+	{
+		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	}
 }
 
 void CMonster_Ghoul::LateTick(_float fTimeDelta)
@@ -426,7 +412,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
 	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime= 1.f;
+	ActionDesc.fMaxLoopTime = 1.3f;
 	CBT_Action* pAttack2 = CGhoul_BT_Attack_1::Create(&ActionDesc);
 	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
@@ -436,7 +422,6 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
-	ActionDesc.bIsGiveTargetPos = true;
 	CBT_Action* pAttack3 = CGhoul_BT_Attack_2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -447,7 +432,6 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack4";
 	CBT_Action* pAttack4 = CGhoul_BT_Attack_3::Create(&ActionDesc);
-	ActionDesc.bIsGiveTargetPos = false;
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
 
 	return S_OK;

@@ -67,7 +67,7 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
-	m_vecAttackRanges.push_back(1.5f);
+	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(4.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
@@ -89,7 +89,15 @@ void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
+	if (m_pNearTarget != nullptr)
+	{
+		Vec3 vNearTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta, Vec4(vNearTargetPosition.x, vNearTargetPosition.y, vNearTargetPosition.z, 1.f));
+	}
+	else
+	{
+		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	}
 }
 
 void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
@@ -195,7 +203,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = .72f;
+	AnimationDesc.fRootDist = .723f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -300,7 +308,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
 	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 1.f;
+	ActionDesc.fMaxLoopTime = 1.3f;
 	CBT_Action* pAttack2 = CGhoul_BT_Attack_1_Server::Create(&ActionDesc);
 	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
@@ -309,7 +317,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.bIsGiveTargetPos = true;
+
 	ActionDesc.strActionName = L"Action_Attack3";
 	CBT_Action* pAttack3 = CGhoul_BT_Attack_2_Server::Create(&ActionDesc);
 
@@ -322,17 +330,17 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack4";
 	CBT_Action* pAttack4 = CGhoul_BT_Attack_3_Server::Create(&ActionDesc);
 
-	ActionDesc.bIsGiveTargetPos = false;
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
 
+
+	if (FAILED(pSequenceNear->AddChild(pAttack2)))
+		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack3)))
 		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack4)))
 		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack2)))
 		return E_FAIL;
 
 

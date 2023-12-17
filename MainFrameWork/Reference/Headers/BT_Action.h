@@ -22,7 +22,6 @@ public:
 		vector<ANIMATION_DESC>	vecAnimations;
 		_int				  iLoopAnimationIndex = -1;
 		_float                fMaxLoopTime = 0.f;
-		_bool					bIsGiveTargetPos = false;
 	}ACTION_DESC;
 
 protected:
@@ -45,7 +44,6 @@ protected:
 	_float						m_fFrame = 0.f;
 	_bool						m_bSoundOn = false;
 	wstring						m_strActionName;
-	_bool						m_bIsGiveTargetPos = false;
 	_int						m_iLoopAnimationIndex = -1;
 	_float						m_fMaxLoopTime = 0.f;
 	_float						m_fLoopTime = 0.f;

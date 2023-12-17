@@ -27,7 +27,7 @@ void CGhoul_BT_Attack_2_Server::OnEnd()
 	__super::OnEnd();
 
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
+
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 }
 

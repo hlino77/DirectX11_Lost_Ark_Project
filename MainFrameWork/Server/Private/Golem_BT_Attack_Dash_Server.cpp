@@ -20,8 +20,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDe
 		return BT_SUCCESS;
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].first.iAnimIndex) < 10)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction(fTimeDelta);
-	Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	cout << "¼­¹ö °ñ·½" << vPos.x << vPos.y << vPos.z << endl;
+
 	return BT_RUNNING;
 }
 
