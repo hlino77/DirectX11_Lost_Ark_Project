@@ -37,7 +37,7 @@ CMonster_Golem::CMonster_Golem(const CMonster_Golem& rhs)
 
 HRESULT CMonster_Golem::Initialize_Prototype()
 {
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CMonster_Golem::Initialize(void* pArg)
@@ -48,14 +48,14 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 	m_iLayer = Desc->iLayer;
 
 
-	
+
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
-	
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
@@ -65,7 +65,7 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 
 
 
-    return S_OK;
+	return S_OK;
 }
 
 void CMonster_Golem::Tick(_float fTimeDelta)
@@ -78,7 +78,7 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	{
 		m_fPositionTimeAcc = 0.f;
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		cout << "Å¬¶ó °ñ·½" << vPos.x<< '|' << vPos.z <<  '|' << Get_Target_Distance() <<endl;
+		cout << "Å¬¶ó °ñ·½" << vPos.x << '|' << vPos.z << '|' << Get_Target_Distance() << endl;
 	}
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
@@ -103,10 +103,6 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 HRESULT CMonster_Golem::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
-
-
-	if (FAILED(m_PlayAnimation.get()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
@@ -248,7 +244,7 @@ HRESULT CMonster_Golem::Ready_Components()
 
 	m_pTransformCom->Set_Scale(vScale);
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CMonster_Golem::Ready_BehaviourTree()

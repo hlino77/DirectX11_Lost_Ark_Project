@@ -52,12 +52,12 @@ HRESULT CUI_Tool::Initialize(void* pArg)
 
 HRESULT CUI_Tool::Tick()
 {
-	if (KEY_AWAY(KEY::F6))
+	/*if (KEY_AWAY(KEY::F6))
 		m_bToolMode = true;
 	if (KEY_AWAY(KEY::F7))
 		m_bToolMode = false;
 	if (m_bToolMode)
-		UI_Tool();
+		UI_Tool();*/
 	return S_OK;
 }
 

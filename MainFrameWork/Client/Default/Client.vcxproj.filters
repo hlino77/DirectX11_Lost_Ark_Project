@@ -70,9 +70,6 @@
     <Filter Include="02.GameObjects\SkyBox">
       <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\02. Bern">
-      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger">
       <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
     </Filter>
@@ -81,15 +78,6 @@
     </Filter>
     <Filter Include="01.Levels\ServerSelect">
       <UniqueIdentifier>{44dfca2f-bdb9-49ba-b981-3cfca469ecb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Tool">
-      <UniqueIdentifier>{7341bde5-cf7d-4839-a24f-a4624b70e06b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Tool\imgui">
-      <UniqueIdentifier>{a9a24bd3-e7ae-4ba0-834a-27393d610b72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Tool\EffectTool">
-      <UniqueIdentifier>{c812cc87-7fe7-4d72-a528-7e7d0af18361}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{448c794f-4c90-4cfd-b61e-d8bd1efc4207}</UniqueIdentifier>
@@ -166,9 +154,6 @@
     <Filter Include="01.Levels\98.Tool">
       <UniqueIdentifier>{4e23252b-8f1e-4aa3-a035-332256279a07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool\99.ImGUI">
-      <UniqueIdentifier>{dfca8cf1-3a22-43ba-89e1-a9c98764bda0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools">
       <UniqueIdentifier>{1a6bc08e-4010-41df-8466-0d0852b69d5a}</UniqueIdentifier>
     </Filter>
@@ -243,7 +228,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\00.Spawn">
       <UniqueIdentifier>{605810bd-f2ab-44cd-b8ea-24cd06a3be14}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\BackGround\00.MainLogo">
       <UniqueIdentifier>{bd33ec5c-17e6-4421-bb73-177c645dafaf}</UniqueIdentifier>
     </Filter>
@@ -307,9 +292,6 @@
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Zombie\AI">
-      <UniqueIdentifier>{a0394568-a046-4f8f-a489-0c1b37c7c44a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\01.Server">
       <UniqueIdentifier>{521a9abb-5318-48b0-b6f7-e89c0052bf2a}</UniqueIdentifier>
     </Filter>
@@ -325,17 +307,8 @@
     <Filter Include="01.Levels\98.Tool\imgui">
       <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool\Tool">
-      <UniqueIdentifier>{2b7aac13-5471-4f4d-bb41-07211560a158}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\Tool\Base">
-      <UniqueIdentifier>{e329224a-e8eb-4d0d-90a5-b170bd3a9a0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Plant">
       <UniqueIdentifier>{1f94ef61-4420-4e3c-86ef-db9f4d9f088c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Weapon">
-      <UniqueIdentifier>{256bb8a8-4136-4587-b886-75f9ff50cbb8}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\03.Shine">
       <UniqueIdentifier>{6e065a38-72b8-4fb0-8e11-da2e107f10e3}</UniqueIdentifier>
@@ -510,105 +483,6 @@
     <ClInclude Include="..\Public\Pool.h">
       <Filter>96. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\BackGround_MainLogo.h">
-      <Filter>02.GameObjects\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BackGround_Server.h">
-      <Filter>02.GameObjects\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_Lobby.h">
-      <Filter>01.Levels\Lobby</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_Tool.h">
-      <Filter>01.Levels\Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_ServerSelect.h">
-      <Filter>01.Levels\ServerSelect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imconfig.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imgui.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\EffectTool.h">
-      <Filter>01.Levels\Tool\EffectTool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ToolBase.h">
-      <Filter>01.Levels\Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ServerGrid.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ServerLogo.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ServerWnd.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Monster_Zombie.h">
-      <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
-      <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Hand.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Long.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Long</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Shot.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Hand_2.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand_2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_LoadingArrow.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_LoadingEmptyBar.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_LoadingFill.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_LoadingLabelTop.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI_LoadingWnd.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ServerEntranceButton.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Chat_Manager.h">
-      <Filter>95. Network</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\MainLogo.h">
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
@@ -684,38 +558,8 @@
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Spawn.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Dead.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Attack1.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\04. Attack1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Chase.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Move.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Idle.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_BattleIdle.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\08.BattleIdle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
@@ -731,69 +575,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\ToolBase.h">
       <Filter>01.Levels\98.Tool\Tool\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Monster_Plant.h">
-      <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Shot_2.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot_2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Player_Controller_GN.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Idle.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Run.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Run</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Loading.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_LoadingShine.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Server.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Attack_Hand1.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Attack_Hand2.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Attack_Hand3.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Dash.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Identity.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatFrame.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Tool.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Attack1.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -832,16 +613,10 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
       <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
       <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_Attack_Shot1.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Shot</Filter>
@@ -1073,7 +848,6 @@
     <ClInclude Include="..\Public\Weapon_Long.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
-    <ClInclude Include="..\Public\UI_LoadingWnd.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
@@ -1088,7 +862,6 @@
     <ClInclude Include="..\Public\UI_IdentityGN_WF_Trail.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h" />
     <ClInclude Include="..\Public\UI_Identity_GN.h" />
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Spark.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark</Filter>
     </ClInclude>
@@ -1119,9 +892,6 @@
     <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClInclude>
@@ -1133,6 +903,207 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\06.ShineFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imconfig.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround_MainLogo.h">
+      <Filter>02.GameObjects\BackGround\00.MainLogo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround_Server.h">
+      <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chat_Manager.h">
+      <Filter>96. Manager\Chat_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>96. Manager\UI_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Lobby.h">
+      <Filter>01.Levels\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ServerSelect.h">
+      <Filter>01.Levels\ServerSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Tool.h">
+      <Filter>02.GameObjects\UI\98.Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatFrame.h">
+      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
+      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
+      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingLabelTop.h">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\00.Top</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingArrow.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\02.Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingShine.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingEmptyBar.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingFill.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\01.Fill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Loading.h">
+      <Filter>02.GameObjects\UI\01.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerWnd.h">
+      <Filter>02.GameObjects\UI\00.Server\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_LoadingWnd.h">
+      <Filter>02.GameObjects\UI\01.Loading\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerGrid.h">
+      <Filter>02.GameObjects\UI\00.Server\01.Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerEntranceButton.h">
+      <Filter>02.GameObjects\UI\00.Server\02.Button\00.Entrance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ServerLogo.h">
+      <Filter>02.GameObjects\UI\00.Server\03.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Server.h">
+      <Filter>02.GameObjects\UI\00.Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Attack1.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\04. Attack1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_BattleIdle.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\08.BattleIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Chase.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Hand.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Hand_2.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Long.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Long</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Shot.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Shot_2.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Tool.h">
+      <Filter>01.Levels\98.Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectTool.h">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ToolBase.h">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Attack_Hand1.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Attack_Hand2.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Attack_Hand3.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Dash.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Identity.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Idle.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Run.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Controller_GN.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Golem.h">
+      <Filter>02.GameObjects\Monster\Golem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Zombie.h">
+      <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Plant.h">
+      <Filter>02.GameObjects\Monster\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_TextBox.h">
+      <Filter>96. Manager\Chat_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Dead.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Idle.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Maz.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Move.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Spawn.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1220,102 +1191,6 @@
     <ClCompile Include="..\Private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\BackGround_MainLogo.cpp">
-      <Filter>02.GameObjects\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BackGround_Server.cpp">
-      <Filter>02.GameObjects\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_Lobby.cpp">
-      <Filter>01.Levels\Lobby</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_Tool.cpp">
-      <Filter>01.Levels\Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_ServerSelect.cpp">
-      <Filter>01.Levels\ServerSelect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
-      <Filter>01.Levels\Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\EffectTool.cpp">
-      <Filter>01.Levels\Tool\EffectTool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ToolBase.cpp">
-      <Filter>01.Levels\Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ServerGrid.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ServerLogo.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ServerWnd.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster_Zombie.cpp">
-      <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
-      <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Hand.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Long.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Long</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Shot.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Hand_2.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand_2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_LoadingArrow.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_LoadingFill.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_LoadingWnd.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Chat_Manager.cpp">
-      <Filter>95. Network</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\MainLogo.cpp">
       <Filter>02.GameObjects\BackGround</Filter>
     </ClCompile>
@@ -1385,39 +1260,9 @@
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Spawn.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Dead.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Attack1.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\04. Attack1</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Chase.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Move.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Idle.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\08.BattleIdle</Filter>
-	</ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
     </ClCompile>
@@ -1432,66 +1277,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\ToolBase.cpp">
       <Filter>01.Levels\98.Tool\Tool\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster_Plant.cpp">
-      <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Shot_2.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot_2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Player_Controller_GN.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Idle.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Run.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Run</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Loading.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_LoadingShine.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Server.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Attack_Hand1.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Attack_Hand2.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Attack_Hand3.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Dash.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dash</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Identity.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatFrame.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Tool.cpp">
-      <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -1530,19 +1315,10 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
       <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
       <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\private\State_GN_Attack_Shot1.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Shot</Filter>
@@ -1773,7 +1549,6 @@
     <ClCompile Include="..\Private\Weapon_Long.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
-    <ClCompile Include="..\Private\UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp" />
@@ -1788,7 +1563,6 @@
     <ClCompile Include="..\Private\UI_IdentityGN_WF_Trail.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_WpIcon.cpp" />
     <ClCompile Include="..\Private\UI_Identity_GN.cpp" />
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark</Filter>
     </ClCompile>
@@ -1819,9 +1593,6 @@
     <ClCompile Include="..\Private\UI_IdentityGN_WpIcon.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
@@ -1836,6 +1607,204 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\06.ShineFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
+      <Filter>01.Levels\98.Tool\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround_MainLogo.cpp">
+      <Filter>02.GameObjects\BackGround\00.MainLogo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround_Server.cpp">
+      <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chat_Manager.cpp">
+      <Filter>96. Manager\Chat_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>96. Manager\UI_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lobby.cpp">
+      <Filter>01.Levels\Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp">
+      <Filter>01.Levels\ServerSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Tool.cpp">
+      <Filter>02.GameObjects\UI\98.Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatFrame.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
+      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\01.Label\00.Top</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingArrow.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\02.Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingShine.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingFill.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Bar\01.Fill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Loading.cpp">
+      <Filter>02.GameObjects\UI\01.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerWnd.cpp">
+      <Filter>02.GameObjects\UI\00.Server\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_LoadingWnd.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerGrid.cpp">
+      <Filter>02.GameObjects\UI\00.Server\01.Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp">
+      <Filter>02.GameObjects\UI\00.Server\02.Button\00.Entrance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ServerLogo.cpp">
+      <Filter>02.GameObjects\UI\00.Server\03.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Server.cpp">
+      <Filter>02.GameObjects\UI\00.Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Attack1.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\04. Attack1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\08.BattleIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Chase.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Hand.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Hand_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Long.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Long</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Shot.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Shot_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Tool.cpp">
+      <Filter>01.Levels\98.Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ToolBase.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Attack_Hand1.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Attack_Hand2.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Attack_Hand3.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Dash.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Identity.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Idle.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Run.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Controller_GN.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Golem.cpp">
+      <Filter>02.GameObjects\Monster\Golem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Zombie.cpp">
+      <Filter>02.GameObjects\Monster\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Plant.cpp">
+      <Filter>02.GameObjects\Monster\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_TextBox.cpp">
+      <Filter>96. Manager\Chat_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Dead.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Idle.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Move.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Spawn.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1895,24 +1864,6 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
@@ -1986,6 +1937,24 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">
