@@ -105,10 +105,6 @@ HRESULT CMonster_Golem::Render()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
 
-
-	if (FAILED(m_PlayAnimation.get()))
-		return E_FAIL;
-
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
 
