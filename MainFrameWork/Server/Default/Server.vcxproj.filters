@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99. Defines">
+      <UniqueIdentifier>{063052ac-77d5-4c6b-96ee-c3a906ba45c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Default">
+      <UniqueIdentifier>{eb40a4dc-319b-4b91-91c9-45ee3111e7ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95. Network">
+      <UniqueIdentifier>{21cf62bc-d906-4185-aede-81955347de27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95. Network\Protocol">
+      <UniqueIdentifier>{1de9c841-a201-42e1-b675-44b7e8f74548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. MainApp_Server">
+      <UniqueIdentifier>{a5b048b5-5463-4af6-95ea-7bece1fd29f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{52d1a9fe-206b-4c56-88b5-ce80de83f725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\99. Loading">
+      <UniqueIdentifier>{80b29a0c-cb8e-43a1-83ea-53f351c59373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\99. Loading\Loader">
+      <UniqueIdentifier>{824118e0-0372-47fb-886f-88195b1a3c31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject">
+      <UniqueIdentifier>{e6acfe3e-72f9-4368-8ed3-aa4470894b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Player">
+      <UniqueIdentifier>{5eaa949c-d310-4f07-9a91-59d4fecd8666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Camera">
+      <UniqueIdentifier>{f90666d0-8a70-4ee3-ac1c-8e5ce9b7adf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster">
+      <UniqueIdentifier>{e98a3723-7492-4adb-956d-037e6e051d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss">
+      <UniqueIdentifier>{e63e4bc0-f32e-476a-9239-bb58d366c947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. Skill">
+      <UniqueIdentifier>{a23ec4bd-fdd6-4eb7-971d-015c8c362160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Event">
+      <UniqueIdentifier>{b95de2b2-9bf8-4ec7-b6f5-a42ec9bf466d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\02. Bern">
+      <UniqueIdentifier>{64f0e584-ebe1-459f-ab78-add519f83806}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Server.cpp">
+      <Filter>98. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>98. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Enum.pb.cc">
+      <Filter>95. Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Protocol.pb.cc">
+      <Filter>95. Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Struct.pb.cc">
+      <Filter>95. Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainApp_Server.cpp">
+      <Filter>00. MainApp_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameSession.cpp">
+      <Filter>95. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameSessionManager.cpp">
+      <Filter>95. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ServerPacketHandler.cpp">
+      <Filter>95. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading_Server.cpp">
+      <Filter>01. Levels\99. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Loader_Server.cpp">
+      <Filter>01. Levels\99. Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Bern_Server.cpp">
+      <Filter>01. Levels\02. Bern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Server.cpp">
+      <Filter>02. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free_Server.cpp">
+      <Filter>02. GameObject\02. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Server.cpp">
+      <Filter>02. GameObject\03. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Server.cpp">
+      <Filter>02. GameObject\04. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Server.cpp">
+      <Filter>02. GameObject\05. Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ServerEvent.cpp">
+      <Filter>03. Event</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>98. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Enum.pb.h">
+      <Filter>95. Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Protocol.pb.h">
+      <Filter>95. Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Struct.pb.h">
+      <Filter>95. Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Server_Defines.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainApp_Server.h">
+      <Filter>00. MainApp_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameSession.h">
+      <Filter>95. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameSessionManager.h">
+      <Filter>95. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ServerPacketHandler.h">
+      <Filter>95. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading_Server.h">
+      <Filter>01. Levels\99. Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Loader_Server.h">
+      <Filter>01. Levels\99. Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Bern_Server.h">
+      <Filter>01. Levels\02. Bern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Server.h">
+      <Filter>02. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free_Server.h">
+      <Filter>02. GameObject\02. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Server.h">
+      <Filter>02. GameObject\03. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Server.h">
+      <Filter>02. GameObject\04. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Server.h">
+      <Filter>02. GameObject\05. Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ServerEvent.h">
+      <Filter>03. Event</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Protobuf\bin\Enum.proto">
+      <Filter>95. Network\Protocol</Filter>
+    </None>
+    <None Include="..\..\Protobuf\bin\Protocol.proto">
+      <Filter>95. Network\Protocol</Filter>
+    </None>
+    <None Include="..\..\Protobuf\bin\Struct.proto">
+      <Filter>95. Network\Protocol</Filter>
+    </None>
+  </ItemGroup>
+</Project>
