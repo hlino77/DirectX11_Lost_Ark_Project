@@ -213,7 +213,7 @@
     </Filter>
     <Filter Include="01.Utiltiy\04.Component\03. Shader\ShaderDesc">
       <UniqueIdentifier>{4dc3c5f3-65e4-4ec4-ab1f-e375024e6a0f}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree">
       <UniqueIdentifier>{99b75387-8121-4fea-ab88-6b32ce104d9a}</UniqueIdentifier>
     </Filter>
@@ -278,9 +278,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Renderer.h">
       <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\VIBuffer.h">
-      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Shader.h">
       <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
@@ -517,9 +514,6 @@
     <ClInclude Include="..\Public\VIBuffer.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ConstantBuffer.h">
-      <Filter>01.Utiltiy\04.Component\02. Buffer\ConstantBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Hasher.h">
       <Filter>01.Utiltiy\98. Utils</Filter>
     </ClInclude>
@@ -554,6 +548,12 @@
     <ClInclude Include="..\Public\PartObject.h" />
     <ClInclude Include="..\Public\Player_Controller.h" />
     <ClInclude Include="..\Public\TextBox.h" />
+    <ClInclude Include="..\Public\ConstantBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -588,9 +588,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
       <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\VIBuffer.cpp">
-      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shader.cpp">
       <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
@@ -818,9 +815,6 @@
     <ClCompile Include="..\Private\VIBuffer.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ConstantBuffer.cpp">
-      <Filter>01.Utiltiy\04.Component\02. Buffer\ConstantBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
     <ClCompile Include="..\Private\Player_Controller.cpp" />
     <ClCompile Include="..\Private\TextBox.cpp" />
@@ -847,6 +841,12 @@
     <ClCompile Include="..\Private\PartObject.cpp" />
     <ClCompile Include="..\Private\Player_Controller.cpp" />
     <ClCompile Include="..\Private\TextBox.cpp" />
+    <ClCompile Include="..\Private\ConstantBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />

@@ -32,8 +32,7 @@ HRESULT CWeapon_Long::Initialize(void* pArg)
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
 	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(80.f));
-	
-	
+
 
 	return S_OK;
 }

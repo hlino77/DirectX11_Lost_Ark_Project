@@ -32,8 +32,8 @@ CPlayer::CPlayer(const CPlayer& rhs)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
-	
-    return S_OK;
+
+	return S_OK;
 }
 
 HRESULT CPlayer::Initialize(void* pArg)
@@ -63,14 +63,14 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iMaxHp = 100;
 
 
-	
 
-    return S_OK;
+
+	return S_OK;
 }
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-	if(m_bNavi)
+	if (m_bNavi)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
@@ -94,13 +94,13 @@ void CPlayer::Tick(_float fTimeDelta)
 
 void CPlayer::LateTick(_float fTimeDelta)
 {
-	
+
 	if (nullptr == m_pRendererCom)
 		return;
 	{
 		READ_LOCK
-		for (auto& CollisionStay : m_CollisionList)
-			OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
+			for (auto& CollisionStay : m_CollisionList)
+				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
 	}
 
 	CullingObject();
@@ -127,7 +127,7 @@ HRESULT CPlayer::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CPlayer::Render_ShadowDepth()
@@ -147,8 +147,8 @@ HRESULT CPlayer::Render_ShadowDepth()
 		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 			return S_OK;*/
 
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-			return S_OK;*/
+			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+				return S_OK;*/
 
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
@@ -168,7 +168,7 @@ HRESULT CPlayer::Render_Debug()
 		{
 			Colider.second->DebugRender();
 		}
-			
+
 	}
 
 	return S_OK;
@@ -247,7 +247,7 @@ void CPlayer::Follow_ServerPos(_float fDistance, _float fLerpSpeed)
 			m_pTransformCom->Set_State(CTransform::STATE::STATE_POSITION, vCurrPos);
 		}
 	}
-	
+
 
 	{
 		Vec3 vServerUp(matTargetWorld.m[1]);
@@ -291,7 +291,7 @@ void CPlayer::Set_PlayerUp(_float fTimeDelta)
 
 		m_pTransformCom->Set_Up(vUp);
 	}
-	
+
 
 }
 
@@ -319,7 +319,7 @@ void CPlayer::Hit_Attack(CCollider* pCollider)
 	CGameObject* pOwner = pCollider->Get_Owner();
 
 	_uint iObjType = pOwner->Get_ObjectType();
-	
+
 	if (iObjType == OBJ_TYPE::PLAYER)
 		return;
 
@@ -348,7 +348,7 @@ void CPlayer::Hit_Attack(CCollider* pCollider)
 	case (_uint)COLLIDER_ATTACK::MIDDLE:
 		m_pHitObject = pCollider->Get_Owner();
 		Set_State(L"Hit_Middle");
-		if(iObjType != OBJ_TYPE::SKILL)
+		if (iObjType != OBJ_TYPE::SKILL)
 			m_pCamera->Cam_Shake(0.001f, 0.1f);
 		break;
 	case (_uint)COLLIDER_ATTACK::SPINBLOWUP:
@@ -358,7 +358,7 @@ void CPlayer::Hit_Attack(CCollider* pCollider)
 			m_pCamera->Cam_Shake(0.002f, 0.15f);
 		break;
 	}
-	
+
 	Set_SlowMotion(pCollider->Get_SlowMotion());
 }
 
@@ -388,7 +388,7 @@ void CPlayer::Set_SlowMotion(_bool bSlow)
 		}
 	}
 
-	if(m_bControl)
+	if (m_bControl)
 		Send_SlowMotion(bSlow);
 }
 
@@ -448,27 +448,27 @@ HRESULT CPlayer::Ready_Components()
 	TransformDesc.fSpeedPerSec = 5.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"),
 		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
 	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
 		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_AnimModel"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_AnimModel"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	///* For.Com_State */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StateMachine"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StateMachine"),
 		TEXT("Com_StateMachine"), (CComponent**)&m_pStateMachine)))
 		return E_FAIL;
 
 	///* For.Com_RigidBody */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_RigidBody"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_RigidBody"),
 		TEXT("Com_RigidBody"), (CComponent**)&m_pRigidBody)))
 		return E_FAIL;
 
@@ -514,7 +514,7 @@ HRESULT CPlayer::Ready_Components()
 
 	m_pTransformCom->Set_Scale(vScale);
 
-    return S_OK;
+	return S_OK;
 }
 
 void CPlayer::CullingObject()
@@ -527,7 +527,7 @@ void CPlayer::CullingObject()
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 			m_pRendererCom->Add_DebugObject(this);
 		}
-			
+
 		return;
 	}
 
@@ -545,7 +545,7 @@ void CPlayer::CullingObject()
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 		m_pRendererCom->Add_DebugObject(this);
 	}
-		
+
 }
 
 void CPlayer::Update_Skill(SKILLINFO& tSkill, _float fTimeDelta)
@@ -574,7 +574,7 @@ void CPlayer::Send_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartF
 		Safe_Release(pGameInstance);
 		return;
 	}
-	
+
 	Protocol::S_ANIMATION pkt;
 	pkt.set_iobjectid(m_iObjectID);
 	pkt.set_ilevel(iCurrLevel);
@@ -630,7 +630,7 @@ void CPlayer::Send_State(const wstring& szName)
 		pkt.set_ihitobjectid(m_pHitObject->Get_ObjectID());
 		pkt.set_ihitobjectlayer(m_pHitObject->Get_ObjectLayer());
 	}
-		
+
 
 	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
@@ -662,7 +662,7 @@ void CPlayer::Send_ColliderState(const _uint& iLayer)
 	Vec3 vColliderOffset = pCollider->Get_Offset();
 	memcpy(vOffset->mutable_data(), &vColliderOffset, sizeof(Vec3));
 
-	
+
 
 	if (pCollider->Get_Child())
 	{

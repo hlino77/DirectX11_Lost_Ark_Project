@@ -2,7 +2,7 @@
 #include "UI_IdentityGN_IconShine.h"
 #include "GameInstance.h"
 
-CUI_IdentityGN_WeaponFrame::CUI_IdentityGN_WeaponFrame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_IdentityGN_IconShine::CUI_IdentityGN_IconShine(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
 	m_pDevice = pDevice;
@@ -12,17 +12,17 @@ CUI_IdentityGN_WeaponFrame::CUI_IdentityGN_WeaponFrame(ID3D11Device* pDevice, ID
 	Safe_AddRef(m_pContext);
 }
 
-CUI_IdentityGN_WeaponFrame::CUI_IdentityGN_WeaponFrame(const CUI& rhs)
+CUI_IdentityGN_IconShine::CUI_IdentityGN_IconShine(const CUI& rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CUI_IdentityGN_WeaponFrame::Initialize_Prototype()
+HRESULT CUI_IdentityGN_IconShine::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUI_IdentityGN_WeaponFrame::Initialize(void* pArg)
+HRESULT CUI_IdentityGN_IconShine::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -45,18 +45,18 @@ HRESULT CUI_IdentityGN_WeaponFrame::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_IdentityGN_WeaponFrame::Tick(_float fTimeDelta)
+void CUI_IdentityGN_IconShine::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
 }
 
-void CUI_IdentityGN_WeaponFrame::LateTick(_float fTimeDelta)
+void CUI_IdentityGN_IconShine::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }
 
-HRESULT CUI_IdentityGN_WeaponFrame::Render()
+HRESULT CUI_IdentityGN_IconShine::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -68,7 +68,7 @@ HRESULT CUI_IdentityGN_WeaponFrame::Render()
 	return S_OK;
 }
 
-HRESULT CUI_IdentityGN_WeaponFrame::Ready_Components()
+HRESULT CUI_IdentityGN_IconShine::Ready_Components()
 {
 	__super::Ready_Components();
 
@@ -80,7 +80,7 @@ HRESULT CUI_IdentityGN_WeaponFrame::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CUI_IdentityGN_WeaponFrame::Bind_ShaderResources()
+HRESULT CUI_IdentityGN_IconShine::Bind_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return S_OK;
@@ -98,9 +98,9 @@ HRESULT CUI_IdentityGN_WeaponFrame::Bind_ShaderResources()
 	return S_OK;
 }
 
-CUI_IdentityGN_WeaponFrame* CUI_IdentityGN_WeaponFrame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_IdentityGN_IconShine* CUI_IdentityGN_IconShine::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CUI_IdentityGN_WeaponFrame* pInstance = new CUI_IdentityGN_WeaponFrame(pDevice, pContext);
+	CUI_IdentityGN_IconShine* pInstance = new CUI_IdentityGN_IconShine(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -111,9 +111,9 @@ CUI_IdentityGN_WeaponFrame* CUI_IdentityGN_WeaponFrame::Create(ID3D11Device* pDe
 	return pInstance;
 }
 
-CGameObject* CUI_IdentityGN_WeaponFrame::Clone(void* pArg)
+CGameObject* CUI_IdentityGN_IconShine::Clone(void* pArg)
 {
-	CUI_IdentityGN_WeaponFrame* pInstance = new CUI_IdentityGN_WeaponFrame(*this);
+	CUI_IdentityGN_IconShine* pInstance = new CUI_IdentityGN_IconShine(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -124,7 +124,7 @@ CGameObject* CUI_IdentityGN_WeaponFrame::Clone(void* pArg)
 	return pInstance;
 }
 
-void CUI_IdentityGN_WeaponFrame::Free()
+void CUI_IdentityGN_IconShine::Free()
 {
 	__super::Free();
 	Safe_Release(m_pDevice);

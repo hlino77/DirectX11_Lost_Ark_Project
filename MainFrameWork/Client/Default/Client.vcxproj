@@ -277,6 +277,7 @@
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
+    <ClInclude Include="..\Public\UI_Identity_WF_Front.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
     <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
@@ -313,7 +314,6 @@
     <ClInclude Include="..\Public\Common_BT_Move.h" />
     <ClInclude Include="..\Public\Common_BT_Spawn.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="UI_Identity_WF_Front.h" />
     <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -422,6 +422,7 @@
     <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp" />
     <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
+    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp" />
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
     <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />
@@ -493,7 +494,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="UI_Identity_WF_Front.cpp" />
     <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

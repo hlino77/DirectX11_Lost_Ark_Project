@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_IdentityGN_WeaponFrame final:
+class CUI_IdentityGN_IconShine final:
     public CUI
 {
 private:
-    CUI_IdentityGN_WeaponFrame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_IdentityGN_WeaponFrame(const CUI& rhs);
-    virtual ~CUI_IdentityGN_WeaponFrame() = default;
+    CUI_IdentityGN_IconShine(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_IdentityGN_IconShine(const CUI& rhs);
+    virtual ~CUI_IdentityGN_IconShine() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -26,7 +26,7 @@ private:
     virtual HRESULT Bind_ShaderResources();
 
 public:
-    static  CUI_IdentityGN_WeaponFrame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_IdentityGN_IconShine* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

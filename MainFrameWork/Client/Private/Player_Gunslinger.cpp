@@ -22,6 +22,18 @@
 #include "State_GN_Attack_Hand1.h"
 #include "State_GN_Attack_Hand2.h"
 #include "State_GN_Attack_Hand3.h"
+#include "State_GN_Attack_Shot1.h"
+#include "State_GN_Attack_Shot2.h"
+#include "State_GN_Attack_Long1.h"
+#include "State_GN_Attack_Long2.h"
+#include "State_GN_Identity.h"
+#include "State_GN_Identity_Back.h"
+#include "State_GN_Run_Identity.h"
+#include "State_GN_Run_Identity_Back.h"
+#include "State_GN_Skill_Q.h"
+#include "State_GN_Skill_W.h"
+#include "State_GN_Skill_E.h"
+#include "State_GN_Skill_R.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -42,7 +54,7 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	if(FAILED(Ready_State()))
+	if (FAILED(Ready_State()))
 		return E_FAIL;
 
 	if (m_bControl)
@@ -72,10 +84,6 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(this);
 
-	/*if (FAILED(Ready_PhysxBoneBranch()))
-		return E_FAIL;*/
-
-
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -90,13 +98,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
-
-
-	/*if (KEY_TAP(KEY::P))
-	{
-		Ready_PhysxBoneBranch();
-	}*/
-
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -205,12 +206,12 @@ void CPlayer_Gunslinger::OnCollisionExit(const _uint iColLayer, CCollider* pOthe
 
 void CPlayer_Gunslinger::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)
 {
-	
+
 }
 
 void CPlayer_Gunslinger::OnCollisionExit_NoneControl(const _uint iColLayer, CCollider* pOther)
 {
-	
+
 }
 
 void CPlayer_Gunslinger::Set_Skill(CGameObject* pGameObject)
@@ -254,7 +255,7 @@ void CPlayer_Gunslinger::Set_Colliders(_float fTimeDelta)
 	}
 }
 
-void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex)
+void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2)
 {
 	switch (iIndex)
 	{
@@ -265,21 +266,30 @@ void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex)
 		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
 		break;
+	case Client::CPlayer_Controller_GN::LONG:
+		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(false);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
+		break;
 	case Client::CPlayer_Controller_GN::SHOT:
 		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
 		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(true);
-		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
-		break;
-	case Client::CPlayer_Controller_GN::LONG:
-		m_Parts[CPartObject::PARTS::WEAPON_1]->Set_Render(false);
-		m_Parts[CPartObject::PARTS::WEAPON_2]->Set_Render(false);
-		m_Parts[CPartObject::PARTS::WEAPON_3]->Set_Render(false);
-		m_Parts[CPartObject::PARTS::WEAPON_4]->Set_Render(true);
-		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(false);
 		break;
 	}
+
+	if (true == Is_Shot2)
+		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+
+}
+
+void CPlayer_Gunslinger::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)
+{
+	m_Parts[ePart]->Set_Render(Is_Render);
 }
 
 HRESULT CPlayer_Gunslinger::Ready_Components()
@@ -397,6 +407,18 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Dash"), CState_GN_Dash::Create(TEXT("Dash"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Identity_GN"), CState_GN_Identity::Create(TEXT("Identity_GN"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_GN_Back"), CState_GN_Identity_Back::Create(TEXT("Identity_GN_Back"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_GN_Run"), CState_GN_Run_Identity::Create(TEXT("Identity_GN_Run"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_GN_Run_Back"), CState_GN_Run_Identity_Back::Create(TEXT("Identity_GN_Run_Back"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	m_pStateMachine->Add_State(TEXT("Attack_Hand_1"), CState_GN_Attack_Hand1::Create(TEXT("Attack_Hand_1"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
@@ -406,8 +428,40 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Attack_Hand_3"), CState_GN_Attack_Hand3::Create(TEXT("Attack_Hand_3"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Attack_Shot_1"), CState_GN_Attack_Shot1::Create(TEXT("Attack_Shot_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Shot_2"), CState_GN_Attack_Shot2::Create(TEXT("Attack_Shot_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Long_1"), CState_GN_Attack_Long1::Create(TEXT("Attack_Long_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_Long_2"), CState_GN_Attack_Long2::Create(TEXT("Attack_Long_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	//m_pStateMachine->Add_State(TEXT("Skill_Q"), CState_GN_Skill_Q::Create(TEXT("Skill_Q"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	//m_pStateMachine->Add_State(TEXT("Skill_W"), CState_GN_Skill_W::Create(TEXT("Skill_W"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	//m_pStateMachine->Add_State(TEXT("Skill_E"), CState_GN_Skill_E::Create(TEXT("Skill_E"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	//m_pStateMachine->Add_State(TEXT("Skill_R"), CState_GN_Skill_R::Create(TEXT("Skill_R"),
+	//	m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 
 	m_pStateMachine->Change_State(TEXT("Idle"));
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Gunslinger::Ready_Skill()
+{
+	//m_pController->Bind_HandSkill()
+
 
 	return S_OK;
 }
@@ -518,22 +572,7 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 
 HRESULT CPlayer_Gunslinger::Ready_PhysxBoneBranch()
 {
-	m_pModelCom->Play_Animation(0.0001f);
-
-
-	CPhysXMgr::GetInstance()->Add_Player(this);
-
-	vector<_uint> Bones;
-	
-	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_01"));
-	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_02"));
-	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_03"));
-	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_04"));
-	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_05"));
-
-	CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-
-	return S_OK;
+	return E_NOTIMPL;
 }
 
 HRESULT CPlayer_Gunslinger::Ready_SkillUI()
@@ -542,7 +581,7 @@ HRESULT CPlayer_Gunslinger::Ready_SkillUI()
 	Safe_AddRef(pGameInstance);
 
 
-	
+
 
 	Safe_Release(pGameInstance);
 	return S_OK;
