@@ -88,7 +88,7 @@ CUI* CUI_Manager::Find_UI(LEVELID eLevelIndex, const wstring& UITag)
 	return nullptr;
 }
 
-list<class CUI*>* CUI_Manager::Get_pUIList(LEVELID eLevelIndex)
+list<class CUI*>* CUI_Manager::Get_UIList(LEVELID eLevelIndex)
 {
 	return &m_pUIList[eLevelIndex];
 }
@@ -104,9 +104,38 @@ CUI* CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag)
 CUI* CUI_Manager::Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag)
 {
 	CUI* pUI = Find_UI(eLevelIndex, UITag);
+	if (nullptr == pUI)
+		return nullptr;
+
 	pUI->Get_UIPart(PartTag);
 
-	return nullptr;
+	return pUI;
+}
+
+HRESULT CUI_Manager::Delete_UI(LEVELID eLevelIndex, const wstring& UITag)
+{
+	CUI* pUI = Find_UI(eLevelIndex, UITag);
+	if (nullptr == pUI)
+		return E_FAIL;
+
+	Safe_Release(pUI);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Delete_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag)
+{
+	CUI* pUI = Find_UI(eLevelIndex, UITag);
+	if (nullptr != pUI)
+	{
+		CUI* pPart = pUI->Get_UIPart(PartTag);
+		if (nullptr != pPart)
+			Safe_Release(pPart);
+
+		return S_OK;
+	}
+	else
+		return E_FAIL;
 }
 
 void CUI_Manager::Sorting_UI()

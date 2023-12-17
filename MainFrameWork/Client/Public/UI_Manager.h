@@ -25,11 +25,12 @@ public:
     HRESULT Add_UI(LEVELID eLevelIndex, class CUI* pUI);
     HRESULT ObjectManager_to_UIManager(LEVELID eLevelIndex);
     HRESULT Loading_UI(_float fSizeX);
+    list<class CUI*>* Get_UIList(LEVELID eLevelIndex);
     class CUI* Find_UI(LEVELID eLevelIndex, const wstring& UITag);
-    list<class CUI*>* Get_pUIList(LEVELID eLevelIndex);
     CUI* Find_UIParts(LEVELID eLevelIndex, const wstring& UITag);
     CUI* Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag);
-
+    HRESULT Delete_UI(LEVELID eLevelIndex, const wstring& UITag);
+    HRESULT Delete_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag);
 public:
     void    Sorting_UI();
     void    Set_UIState(LEVELID iLevelIndex, CUI::UISTATE eState);

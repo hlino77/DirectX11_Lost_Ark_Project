@@ -2,6 +2,7 @@
 #include "UI.h"
 #include "VIBuffer_Point.h"
 #include "GameInstance.h"
+#include "UI_Tool.h"
 
 CUI::CUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext, L"UI", OBJ_TYPE::UI)
@@ -40,6 +41,11 @@ void CUI::Tick(_float fTimeDelta)
 		break;
 	}
 
+	if (m_bTool)
+	{
+		Moving_Rect();
+		Picking_UI();
+	}
 }
 
 void CUI::LateTick(_float fTimeDelta)
@@ -82,6 +88,32 @@ void CUI::Disappear()
 {
 	m_bActive = true;
 	m_eState = UISTATE::DISAPPEAR;
+}
+
+void CUI::Set_UIDesc(UIDESC UIDesc)
+{
+	m_fSizeX = UIDesc.fSizeX;
+	m_fSizeY = UIDesc.fSizeY;
+	m_fX = UIDesc.fX;
+	m_fY = UIDesc.fY;
+
+	m_fAlpha = UIDesc.fAlpha;
+	m_vColor = UIDesc.vColor;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+CUI::UIDESC CUI::Get_UIDesc()
+{
+	UIDESC	UIDesc;
+	UIDesc.fSizeX = m_fSizeX;
+	UIDesc.fSizeY = m_fSizeY;
+	UIDesc.fX = m_fX;
+	UIDesc.fY = m_fY;
+
+	return UIDesc;
 }
 
 void CUI::Picking_UI()
@@ -151,6 +183,94 @@ vector<CUI*> CUI::Get_UIParts()
 	return m_vecUIParts;
 }
 
+void CUI::Change_SizeX(_float MMX)
+{
+	m_fSizeX += MMX;
+	m_fX = m_fX;
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Change_SizeY(_float MMY)
+{
+	m_fSizeY += MMY;
+	m_fY = m_fY;
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Change_SizeR(_float MMX)
+{
+	m_fSizeX += MMX;
+	m_fX += MMX * 0.5f;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Change_SizeL(_float MMX)
+{
+	m_fSizeX += -1.f * MMX;
+	m_fX += MMX * 0.5f;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Change_SizeT(_float MMY)
+{
+	m_fSizeY += MMY;
+	m_fY -= MMY * 0.5f;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Change_SizeB(_float MMY)
+{
+	m_fSizeY += MMY;
+	m_fY += MMY * 0.5f;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Set_Size(_float fSizeX, _float fSizeY)
+{
+	m_fSizeX = fSizeX;
+	m_fSizeY = fSizeY;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Set_Pos(Vec2 vPos)
+{
+	m_fX = vPos.x;
+	m_fY = vPos.y;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
+void CUI::Move_UI(POINT pt)
+{
+	m_fX = pt.x;
+	m_fY = pt.y;
+
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
 HRESULT CUI::Ready_Components()
 {
 	/* Com_Renderer */
@@ -195,6 +315,11 @@ HRESULT CUI::Bind_ShaderResources()
 void CUI::Free()
 {
 	__super::Free();
+	for (auto& iter : m_vecUIParts)
+	{
+		Safe_Release(iter);
+	}
+	m_vecUIParts.clear();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
