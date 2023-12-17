@@ -29,7 +29,7 @@ HRESULT CUI_LoadingLabelBottom::Initialize(void* pArg)
 
     m_strUITag = TEXT("Loading_LabelBottom");
 
-    m_fX = g_iWinSizeX * 0.5f;
+    m_fX = g_iWinSizeX * 0.5f - 9.f;
     m_fY = 800.f;
     m_fSizeX = g_iWinSizeX * 0.5f;
     m_fSizeY = 100.f;
@@ -57,7 +57,7 @@ HRESULT CUI_LoadingLabelBottom::Render()
 {
     __super::Render();
 
-    Vec2 vPos(m_fX + 9.f, m_fY - 20.f);
+    Vec2 vPos(m_fX, m_fY - 20.f);
     Vec2 vScale(0.6f, 0.6f);
     Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"던파연마된칼날", m_strTip);
     Vec2 vOrigin = vMeasure * 0.5f;

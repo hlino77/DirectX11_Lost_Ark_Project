@@ -31,6 +31,9 @@ public:
 		_float		fY;
 		_float		fSizeX;
 		_float		fSizeY;
+
+		_float		fAlpha;
+		Vec4		vColor;
 	};
 
 	enum BUTTON_STATE
@@ -61,6 +64,8 @@ public:
 public:
 	void		Set_State(UISTATE eState) { m_eState = eState; }
 	UISTATE		Get_UIState() { return m_eState; }
+	void		Set_UIDesc(UIDESC UIDesc);
+	UIDESC		Get_UIDesc();
 	_bool Get_Pick() { return m_bPick; }
 	_bool Set_Pick(_bool Pick) { m_bPick = Pick; }
 	virtual void	Picking_UI();
@@ -71,8 +76,28 @@ public:
 	vector<CUI*>	Get_UIParts();
 	_uint			Get_ButtonState() { return m_eButtonState; }
 	_uint			Set_ButtonState(_uint iButtonState) { m_eButtonState = (BUTTON_STATE)iButtonState; }
+
+public://IMGUI
+	void	Change_SizeX(_float MMX);
+	void	Change_SizeY(_float MMY);
+	void	Change_SizeR(_float MMX);
+	void	Change_SizeL(_float MMX);
+	void	Change_SizeT(_float MMY);
+	void	Change_SizeB(_float MMY);
+
+	void	Set_Size(_float fSizeX, _float fSizeY);
+	void	Set_Pos(Vec2 vPos);
+	void	Move_UI(POINT pt);
+
+	void	Change_Alpha(_float fAlpha) { m_fAlpha += fAlpha; }
+	void	Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
+	_float	Get_Alpha() { return m_fAlpha; }
+	void	Set_Color(Vec4 vColor) { m_vColor = vColor; }
+	Vec4	Get_Color() { return m_vColor; }
+
 public:
 	const wstring	Get_UITag() { return m_strUITag; }
+	void	Set_ToolMode(_bool IsToolMode) { m_bTool = IsToolMode; }
 
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer*				m_pRendererCom = { nullptr };
@@ -90,10 +115,11 @@ protected:
 	Vec2					m_vUITargetSize;
 
 	_float					m_fAlpha = 1.0f;
-	Vec4					m_vColor;
+	Vec4					m_vColor = { 1.f, 1.f, 1.f ,1.f };
 
 	BUTTON_STATE		m_eButtonState = { BUTTON_NORMAL };
-	_bool				m_bPick = false;            
+	_bool				m_bPick = { false };
+	_bool				m_bTool = { false };
 	RECT				m_rcUI = {};
 	vector<CUI*>		m_vecUIParts;
 protected:
