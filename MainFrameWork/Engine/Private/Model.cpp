@@ -106,6 +106,8 @@ _uint CModel::Get_Anim_Frame(_uint iAnimation)
 	return m_Animations[iAnimation]->Get_Frame();
 }
 
+
+
 void CModel::Set_Anim_Speed(_uint iAnimation, _float fSpeed)
 {
 	m_Animations[iAnimation]->Set_Speed(fSpeed);

@@ -6,6 +6,7 @@
 #include "Monster_Zombie_Server.h"
 #include "Monster_Plant_Server.h"
 #include "Monster_Golem_Server.h"
+#include <Monster_Ghoul_Server.h>
 CLoader_Server::CLoader_Server()
 {
 }
@@ -79,6 +80,11 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Golem"),
 		CMonster_Golem_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Ghoul"),
+		CMonster_Ghoul_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
 	Loading_Model_For_Level_Bern();
 
 	Safe_Release(pGameInstance);
@@ -137,6 +143,17 @@ HRESULT CLoader_Server::Loading_Model_For_Level_Bern()
 			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
 	}
+
+	{
+		wstring strFileName = L"Monster_Ghoul";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+	}
+
 	Safe_Release(pGameInstance);
 
 

@@ -23,7 +23,7 @@ CBT_Node::BT_RETURN CCommon_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
 		return BT_FAIL;
 
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < 1.f)
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
 		return BT_FAIL;
 	static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), 1.5f, fTimeDelta);
 

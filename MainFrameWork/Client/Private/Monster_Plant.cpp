@@ -22,6 +22,8 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
+#include <Plant_BT_Attack_Root.h>
+#include <Plant_BT_Attack_Shake.h>
 
 CMonster_Plant::CMonster_Plant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -60,7 +62,8 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
 
-
+	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(5.f);
 
 
     return S_OK;
@@ -71,10 +74,6 @@ void CMonster_Plant::Tick(_float fTimeDelta)
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos.y = 0.f;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
 }
 
@@ -88,6 +87,7 @@ void CMonster_Plant::LateTick(_float fTimeDelta)
 	CullingObject();
 }
 
+
 HRESULT CMonster_Plant::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
@@ -96,7 +96,7 @@ HRESULT CMonster_Plant::Render()
 	if (FAILED(m_PlayAnimation.get()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Push_GlobalVP()))
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
 
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
@@ -105,7 +105,7 @@ HRESULT CMonster_Plant::Render()
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CMonster_Plant::Render_ShadowDepth()
@@ -132,6 +132,7 @@ HRESULT CMonster_Plant::Render_ShadowDepth()
 
 	return S_OK;
 }
+
 
 void CMonster_Plant::Set_SlowMotion(_bool bSlow)
 {
@@ -304,7 +305,7 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CCommon_BT_Attack1::Create(&ActionDesc);
+	CBT_Action* pAttack2 = CPlant_BT_Attack_Shake::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -314,12 +315,17 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CZombie_BT_Attack2::Create(&ActionDesc);
+	CBT_Action* pAttack3 = CPlant_BT_Attack_Root::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;

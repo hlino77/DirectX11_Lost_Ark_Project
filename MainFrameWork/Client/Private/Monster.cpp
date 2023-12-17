@@ -296,6 +296,16 @@ void CMonster::Set_Die()
 	m_bDie = true;
 }
 
+void CMonster::Set_AttackRange(_int iRangeIndex)
+{
+	if (iRangeIndex > m_vecAttackRanges.size())
+		return;
+	m_fAttackRange = m_vecAttackRanges[iRangeIndex];
+
+}
+
+
+
 HRESULT CMonster::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -399,6 +409,11 @@ void CMonster::CullingObject()
 		m_pRendererCom->Add_DebugObject(this);
 	}
 		
+}
+
+void CMonster::Set_to_RootPosition(_float fTimeDelta)
+{
+	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

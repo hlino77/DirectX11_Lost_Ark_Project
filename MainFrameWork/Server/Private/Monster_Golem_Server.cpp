@@ -29,6 +29,9 @@
 #include "BehaviorTree.h"
 #include "Golem_BT_Attack_Jump_Server.h"
 #include "Golem_BT_Attack_Swipe_Server.h"
+#include <Golem_BT_Attack_Charge_Punch_Server.h>
+#include <Common_BT_IF_Skill_Server.h>
+#include <Golem_BT_Attack_Dash_Server.h>
 
 CMonster_Golem_Server::CMonster_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -67,8 +70,8 @@ HRESULT CMonster_Golem_Server::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 
-	m_vecAttackRanges.push_back(2.f);
-	m_vecAttackRanges.push_back(2.f);
+	m_vecAttackRanges.push_back(2.5f);
+	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
@@ -80,19 +83,23 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
+	m_fSkillCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
 	if (m_fScanCoolDown > 0.5f)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
+		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		cout << "서버 골렘" << vPos.x << '|' << vPos.z << '|' << (m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)-m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length() << endl;
 	}
 	m_pRigidBody->Tick(fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	Set_to_RootPosition(fTimeDelta);
 }
 
 void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
 
 	{
 		READ_LOCK
@@ -108,7 +115,6 @@ void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 
 HRESULT CMonster_Golem_Server::Render()
 {
-	m_PlayAnimation.get();
 
 	return S_OK;
 }
@@ -195,6 +201,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = .723f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -208,7 +215,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -218,7 +225,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -245,10 +252,22 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
 		return E_FAIL;
 
+	ActionDesc.vecAnimations.clear();
+	
+	AnimationDesc.strAnimName = TEXT("respawn_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Respawn";
+	CBT_Action* pSpawn = CCommon_BT_Spawn_Server::Create(&ActionDesc);
 
+	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
+	if (FAILED(pIfSpawn->AddChild(pSpawn)))
+		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -263,7 +282,56 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	if (FAILED(pIf_Far->AddChild(pChase))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
+	AnimationDesc.strAnimName = TEXT("sk_warcry");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_7_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_7_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Charge_Punch";
+	ActionDesc.iLoopAnimationIndex = 3;
+	ActionDesc.fMaxLoopTime = 1.f;
+	CBT_Action* pPunch = CGolem_BT_Attack_Charge_Punch_Server::Create(&ActionDesc);
+	ActionDesc.iLoopAnimationIndex = -1;
+	ActionDesc.vecAnimations.clear();
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bash";
+	CBT_Action* pDash = CGolem_BT_Attack_Dash_Server::Create(&ActionDesc);
+
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+	CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
+	if (FAILED(pSequenceSkill->AddChild(pDash))) return E_FAIL;
+	if (FAILED(pSequenceSkill->AddChild(pPunch))) return E_FAIL;
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -274,7 +342,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -284,7 +352,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack2 = CGolem_BT_Attack_Jump_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -292,7 +360,6 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
 	CBT_Action* pAttack3 = CGolem_BT_Attack_Swipe_Server::Create(&ActionDesc);
-
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))
@@ -308,7 +375,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -325,17 +392,24 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
 		return E_FAIL;
 
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Near = CCommon_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pIf_Near->AddChild(pSelectorNear))) return E_FAIL;
+
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
+
 
 	if (FAILED(pSelector_Within_Range->AddChild(pIf_Far)))
 		return E_FAIL;
-
-	if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
+	if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
+		return E_FAIL;
+	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
 		return E_FAIL;
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -345,7 +419,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -355,7 +429,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Action* pIdle_1 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -386,7 +460,8 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Composite* pRoot = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pRoot->AddChild(pIfHit)))
 		return E_FAIL;
-
+	if (FAILED(pRoot->AddChild(pIfSpawn)))
+		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pWhile_Within_Range)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pSequenceIdle)))
@@ -403,7 +478,7 @@ CMonster_Golem_Server* CMonster_Golem_Server::Create(ID3D11Device* pDevice, ID3D
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CMonster_Plant");
+		MSG_BOX("Failed To Created : Monster_Golem");
 		Safe_Release(pInstance);
 	}
 
@@ -416,7 +491,7 @@ CGameObject* CMonster_Golem_Server::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		cout << "Failed To Cloned : CMonster_Plant" << endl;
+		cout << "Failed To Cloned : Monster_Golem" << endl;
 		Safe_Release(pInstance);
 	}
 

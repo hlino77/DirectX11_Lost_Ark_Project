@@ -97,6 +97,15 @@ void CMonster_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 }
 
 
+_bool CMonster_Server::Is_Skill()
+{
+	if (m_iSkillStack > 3 || m_fSkillCoolDown > 15.f)
+		return true;
+	return false;
+}
+
+
+
 void CMonster_Server::Set_AttackRange(_int iRangeIndex)
 {
 	if (iRangeIndex > m_vecAttackRanges.size())
@@ -459,6 +468,7 @@ void CMonster_Server::Send_ColliderState(const _uint& iLayer)
 	pkt.set_iattack(pCollider->Get_Attack());
 	pkt.set_bslow(pCollider->Get_SlowMotion());
 
+
 	auto vOffset = pkt.mutable_voffset();
 	vOffset->Resize(3, 0.0f);
 	Vec3 vColliderOffset = pCollider->Get_Offset();
@@ -525,6 +535,11 @@ void CMonster_Server::Send_Monster_Action()
 void CMonster_Server::Set_Colliders(_float fTimeDelta)
 {
 	
+}
+
+void CMonster_Server::Set_to_RootPosition(_float fTimeDelta)
+{
+	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 HRESULT CMonster_Server::Ready_Coliders()

@@ -29,9 +29,8 @@ if(m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.i
 void CGolem_BT_Attack_Swipe_Server::OnEnd()
 {
 	__super::OnEnd();
-
+	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
 }
 
 

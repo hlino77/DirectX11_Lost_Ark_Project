@@ -55,6 +55,15 @@
     <Filter Include="01.Utiltiy\04.Component\01. Renderer">
       <UniqueIdentifier>{15fe4fbd-6c18-467c-9742-0006c1b4371d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer">
+      <UniqueIdentifier>{eb0138e8-590d-4bd6-bc94-809ce0e0d5af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Terrain">
+      <UniqueIdentifier>{9d04d116-5d72-4285-9207-214bf7487f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Terrain\QuadTree">
+      <UniqueIdentifier>{64fbde0d-8ecd-4c28-a410-cd1f80d04432}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01.Utiltiy\04.Component\03. Shader">
       <UniqueIdentifier>{ae1b5658-3515-477e-aa12-9972107b50c4}</UniqueIdentifier>
     </Filter>
@@ -81,6 +90,9 @@
     </Filter>
     <Filter Include="00.System\03. Lights\Manager">
       <UniqueIdentifier>{d6886123-03e7-4e79-890a-2a7757df425e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Rect">
+      <UniqueIdentifier>{6c257ca1-d39b-4b2d-a140-21f27556eefd}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Utiltiy\03.GameObjects\00. Manager">
       <UniqueIdentifier>{e5b6768b-8e62-4930-8c6b-a6f1199ff91f}</UniqueIdentifier>
@@ -148,6 +160,9 @@
     <Filter Include="01.Utiltiy\07. Event\Manager">
       <UniqueIdentifier>{ff30e07a-b9f1-48c3-a62f-0da80ce43eb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Point">
+      <UniqueIdentifier>{53e01601-3049-405d-88ae-19deecdf40f9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01.Utiltiy\08. PhysX">
       <UniqueIdentifier>{2587cf1a-7cce-4df8-8d99-8be11fdf09ab}</UniqueIdentifier>
     </Filter>
@@ -198,6 +213,21 @@
     </Filter>
     <Filter Include="01.Utiltiy\04.Component\03. Shader\ShaderDesc">
       <UniqueIdentifier>{4dc3c5f3-65e4-4ec4-ab1f-e375024e6a0f}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree">
+      <UniqueIdentifier>{99b75387-8121-4fea-ab88-6b32ce104d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node">
+      <UniqueIdentifier>{8bc50a5a-53e8-4097-936d-5db07a289648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite">
+      <UniqueIdentifier>{a5c963bc-e541-4878-9b8f-3ad989b58964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator">
+      <UniqueIdentifier>{d6234566-b8a8-4c8c-925b-97565296c484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action">
+      <UniqueIdentifier>{a6dddb17-b096-4154-bea3-d5ab408a86e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Renderer.h">
       <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Shader.h">
       <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
@@ -499,6 +532,28 @@
     <ClInclude Include="..\Public\VIBuffer_RectSSAO.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BehaviorTree.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Composite.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Node.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Decorator.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Action.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BindShaderDesc.h" />
+    <ClInclude Include="..\Public\ColliderSphereGroup.h" />
+    <ClInclude Include="..\Public\ConstantBuffer.h" />
+    <ClInclude Include="..\Public\Hasher.h" />
+    <ClInclude Include="..\Public\PartObject.h" />
+    <ClInclude Include="..\Public\Player_Controller.h" />
+    <ClInclude Include="..\Public\TextBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -533,6 +588,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
       <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shader.cpp">
       <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
@@ -769,6 +827,26 @@
     <ClCompile Include="..\Private\VIBuffer_RectSSAO.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Rect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\BehaviorTree.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Composite.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Node.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Decorator.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Action.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
+    <ClCompile Include="..\Private\ConstantBuffer.cpp" />
+    <ClCompile Include="..\Private\PartObject.cpp" />
+    <ClCompile Include="..\Private\Player_Controller.cpp" />
+    <ClCompile Include="..\Private\TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />

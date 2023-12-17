@@ -184,6 +184,66 @@
     <Filter Include="97. ShaderFiles\KSG">
       <UniqueIdentifier>{66e51349-7e47-4d74-bfed-2715a16f0a29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie">
+      <UniqueIdentifier>{50d83e71-1df7-44a6-8f18-38b2106e8b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Plant">
+      <UniqueIdentifier>{83d20e1e-acb1-434c-80d1-8bc460628450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior">
+      <UniqueIdentifier>{83dc18ae-d724-42f5-bf2e-5b87813c08dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action">
+      <UniqueIdentifier>{f9949a11-c33c-4a25-8ec4-623ac9ae6e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\06. Move">
+      <UniqueIdentifier>{5bea3779-fa9d-4e5b-a610-ecff77d14bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\01.Dead">
+      <UniqueIdentifier>{6de1bd33-033e-4dfa-b256-24a38cf5e935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz">
+      <UniqueIdentifier>{53fcca97-5c6b-464a-92b2-eb11dcf4629f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\03.Damage">
+      <UniqueIdentifier>{a0e69d06-2055-4e88-89d7-3c492a773082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\04. Attack1">
+      <UniqueIdentifier>{42bf8f11-48dc-4018-9b9b-c202f8b45850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\05. Chase">
+      <UniqueIdentifier>{e91db7db-6f55-4c43-aec6-74ef7f395b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\07. Idle">
+      <UniqueIdentifier>{05600f54-261b-4ee2-b0dd-ffa8388816e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\08.BattleIdle">
+      <UniqueIdentifier>{f39388f4-5b34-4404-928f-b91f2b8ee50f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie\Behavior">
+      <UniqueIdentifier>{b8418ea4-b113-42e1-821e-cf65a5c9a499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie\Behavior\Attack2">
+      <UniqueIdentifier>{e88a829e-672f-45f6-9ff8-5f27545693fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Plant\Behavior">
+      <UniqueIdentifier>{eb00ff71-2e9a-48bc-8c6b-34f9985a263b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Golem">
+      <UniqueIdentifier>{d839d57b-da4f-49fe-ba09-b312dc3124b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Golem\Behavior">
+      <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Ghoul">
+      <UniqueIdentifier>{ef897b28-7647-4437-b533-cadd50b91aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Ghoul\Behavior">
+      <UniqueIdentifier>{08f5b7f6-d899-4d48-9cf8-f72812c527fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\00.Spawn">
+      <UniqueIdentifier>{605810bd-f2ab-44cd-b8ea-24cd06a3be14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -377,6 +437,42 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chat_Manager.h">
       <Filter>95. Network</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Monster_Zombie.h">
+      <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Spawn.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Dead.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Maz.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Attack1.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\04. Attack1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Chase.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Move.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Idle.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_BattleIdle.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\08.BattleIdle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
@@ -479,6 +575,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
       <Filter>02.GameObjects\Monster</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Golem.h">
       <Filter>02.GameObjects\Monster\Golem</Filter>
@@ -577,6 +679,45 @@
     <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
     <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Dash.h">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Ghoul.h">
+      <Filter>02.GameObjects\Monster\Ghoul</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Ghoul_BT_Attack_1.h">
+      <Filter>02.GameObjects\Monster\Ghoul\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Ghoul_BT_Attack_2.h">
+      <Filter>02.GameObjects\Monster\Ghoul\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Ghoul_BT_Attack_3.h">
+      <Filter>02.GameObjects\Monster\Ghoul\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround_MainLogo.h" />
+    <ClInclude Include="..\Public\BackGround_Server.h" />
+    <ClInclude Include="..\Public\Chat_Manager.h" />
+    <ClInclude Include="..\Public\EffectTool.h" />
+    <ClInclude Include="..\Public\ImGUI\imconfig.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h" />
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h" />
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h" />
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
+    <ClInclude Include="..\Public\Level_Lobby.h" />
+    <ClInclude Include="..\Public\Level_ServerSelect.h" />
+    <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\State_GN_Attack_Hand1.h" />
     <ClInclude Include="..\Public\State_GN_Attack_Hand2.h" />
@@ -585,6 +726,7 @@
     <ClInclude Include="..\Public\State_GN_Identity.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
+    <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h" />
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
@@ -606,7 +748,27 @@
     <ClInclude Include="..\Public\Common_BT_Maz.h" />
     <ClInclude Include="..\Public\Common_BT_Move.h" />
     <ClInclude Include="..\Public\Common_BT_Spawn.h" />
-
+    <ClInclude Include="..\Public\UI_LoadingArrow.h" />
+    <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
+    <ClInclude Include="..\Public\UI_LoadingFill.h" />
+    <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
+    <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
+    <ClInclude Include="..\Public\UI_LoadingShine.h" />
+    <ClInclude Include="UI_LoadingWnd.h" />
+    <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UI_Server.h" />
+    <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
+    <ClInclude Include="..\Public\UI_ServerGrid.h" />
+    <ClInclude Include="..\Public\UI_ServerLogo.h" />
+    <ClInclude Include="..\Public\UI_ServerWnd.h" />
+    <ClInclude Include="..\Public\UI_TextBox.h" />
+    <ClInclude Include="..\Public\UI_Tool.h" />
+    <ClInclude Include="..\Public\Weapon_Hand.h" />
+    <ClInclude Include="..\Public\Weapon_Hand_2.h" />
+    <ClInclude Include="..\Public\Weapon_Long.h" />
+    <ClInclude Include="..\Public\Weapon_Shot.h" />
+    <ClInclude Include="..\Public\Weapon_Shot_2.h" />
+    <ClInclude Include="..\Public\UI_LoadingWnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -786,6 +948,42 @@
     <ClCompile Include="..\Private\Chat_Manager.cpp">
       <Filter>95. Network</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Monster_Zombie.cpp">
+      <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Spawn.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Dead.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Attack1.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\04. Attack1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Chase.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Move.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Idle.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\08.BattleIdle</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -887,6 +1085,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
       <Filter>02.GameObjects\Monster</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
+      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Golem.cpp">
       <Filter>02.GameObjects\Monster\Golem</Filter>
@@ -982,6 +1186,47 @@
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
     <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Dash.cpp">
+      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Ghoul.cpp">
+      <Filter>02.GameObjects\Monster\Ghoul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ghoul_BT_Attack_3.cpp">
+      <Filter>02.GameObjects\Monster\Ghoul\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ghoul_BT_Attack_1.cpp">
+      <Filter>02.GameObjects\Monster\Ghoul\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ghoul_BT_Attack_2.cpp">
+      <Filter>02.GameObjects\Monster\Ghoul\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
+    <ClCompile Include="..\Private\BackGround_Server.cpp" />
+    <ClCompile Include="..\Private\Chat_Manager.cpp" />
+    <ClCompile Include="..\Private\EffectTool.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp" />
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp" />
+    <ClCompile Include="..\Private\Level_Lobby.cpp" />
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
+    <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\State_GN_Attack_Hand1.cpp" />
     <ClCompile Include="..\Private\State_GN_Attack_Hand2.cpp" />
@@ -990,6 +1235,7 @@
     <ClCompile Include="..\Private\State_GN_Identity.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
+    <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp" />
     <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp" />
@@ -1011,6 +1257,27 @@
     <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
     <ClCompile Include="..\Private\Common_BT_Move.cpp" />
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingFill.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
+    <ClCompile Include="UI_LoadingWnd.cpp" />
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UI_Server.cpp" />
+    <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
+    <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
+    <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
+    <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
+    <ClCompile Include="..\Private\UI_TextBox.cpp" />
+    <ClCompile Include="..\Private\UI_Tool.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
+    <ClCompile Include="..\Private\Weapon_Long.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
+    <ClCompile Include="..\Private\UI_LoadingWnd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1149,6 +1416,12 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

@@ -29,6 +29,7 @@ void CCommon_BT_Attack1_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
+	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 }
 
 

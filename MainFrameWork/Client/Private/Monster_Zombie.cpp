@@ -98,10 +98,6 @@ void CMonster_Zombie::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos.y = 0.f;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-
 }
 
 void CMonster_Zombie::LateTick(_float fTimeDelta)
@@ -132,6 +128,8 @@ HRESULT CMonster_Zombie::Render()
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
+	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(1.f);
 
     return S_OK;
 }
@@ -378,6 +376,11 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;

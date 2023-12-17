@@ -18,7 +18,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-			m_bCondition = IsFar();
+			m_bCondition = IsNear();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -28,15 +28,13 @@ private:
 	}
 
 private:
-	_bool	IsFar()
+	_bool	IsNear()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance()<1.f || m_eReturn == BT_RUNNING)
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance()< static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange() || m_vecChildren.front()->Get_Return() == BT_RUNNING )
 			return true;
 
 		return false;
 	}
-	virtual void		Reset()		override {  }
-
 public:
 	static	CCommon_BT_IF_Near_Server* Create(void* pArg)
 	{
