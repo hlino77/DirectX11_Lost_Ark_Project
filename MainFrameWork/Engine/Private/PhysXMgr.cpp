@@ -8,6 +8,7 @@
 #include "PhysX\PxPhysics.h"
 #include "PhysX\PxPhysicsAPI.h"
 #include "RigidBody.h"
+#include "GameInstance.h"
 
 IMPLEMENT_SINGLETON(CPhysXMgr)
 
@@ -29,14 +30,13 @@ HRESULT CPhysXMgr::ReserveManager()
 	PxInitExtensions(*m_PhysX, m_Pvd);
 	
 	PxSceneDesc sceneDesc(m_PhysX->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, 0.0f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	//This creates CPU dispatcher threads or worker threads. We will make 2
 	m_PxDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = m_PxDispatcher;
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	//Create the scene now by passing the scene's description
 	m_PxScene = m_PhysX->createScene(sceneDesc);
-
 	
 	
 
@@ -49,251 +49,258 @@ HRESULT CPhysXMgr::ReserveManager()
 		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
 
+	/*PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
 
 
-	m_PlayerGeom = PxCapsuleGeometry(0.5f, 0.3f);
+	PxRigidStatic* groundPlane = PxCreatePlane(*m_PhysX, PxPlane(0, 1, 0, 0), *Material);
+	m_PxScene->addActor(*groundPlane);
 
 
-	return S_OK;
-}
 
-HRESULT CPhysXMgr::Add_PlayObject(CGameObject* pObject)
-{
-	m_Players.push_back(pObject);
+	PxVec3 vStartPos = PxVec3(0.0f, 10.0f, 0.0f);
 
-	PxRigidDynamic* pActor = m_PhysX->createRigidDynamic(Get_ObjectTransform(pObject));
+	PxShape* pFrameShape = m_PhysX->createShape(PxCapsuleGeometry(0.1f, 0.5f), *Material);
 
-	PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
-	PxShape* pShape = m_PhysX->createShape(m_PlayerGeom, *Material);
-
-	pActor->attachShape(*pShape);
+	PxShape* pSphereShape = m_PhysX->createShape(PxSphereGeometry(0.1f), *Material);
 
 
-	m_PxScene->addActor(*pActor);
-	m_PlayerActors.push_back(pActor);
+	vector<PxTransform> Bones;
 
-	return S_OK;
-}
-
-HRESULT CPhysXMgr::Register_ColMesh(CGameObject* pObject)
-{
-	CModel* pModel = pObject->Get_ModelCom();
-
-
-	for (auto* Mesh : pModel->Get_Meshes())
+	for (_uint i = 0; i < 5; ++i)
 	{
-		VTXANIMMODEL* pVB = Mesh->Get_Vertices();
-		FACEINDICES32* pIB = Mesh->Get_Indices();
-		_uint iNumVertices = Mesh->Get_NumVertices();
-		_uint iNumPrimitives = Mesh->Get_NumPrimitives();
-		_uint iNumIndices = iNumPrimitives * 3;
-
-		vector<PxVec3> Vertices;
-		Vertices.reserve(iNumVertices);
-
-		Matrix matWorld = pObject->Get_TransformCom()->Get_WorldMatrix();
-
-		for (_uint i = 0; i < iNumVertices; ++i)
-		{
-			Vec3 vMeshVertex = pVB[i].vPosition;
-
-			vMeshVertex = XMVector3TransformCoord(vMeshVertex, matWorld);
-
-			Vertices.push_back(PxVec3(vMeshVertex.x, vMeshVertex.y, vMeshVertex.z));
-		}
-
-
-
-		vector<PxU32> Indices;
-		Indices.reserve(iNumIndices);
-
-		for (_uint i = 0; i < iNumPrimitives; ++i)
-		{
-			FACEINDICES32 Index = pIB[i];
-
-			Indices.push_back(Index._0);
-			Indices.push_back(Index._1);
-			Indices.push_back(Index._2);
-		}
-
-		PxTriangleMeshDesc tDesc;
-
-		tDesc.points.count = iNumVertices;
-		tDesc.points.stride = sizeof(PxVec3);
-		tDesc.points.data = Vertices.data();
-
-		tDesc.triangles.count = iNumPrimitives;
-		tDesc.triangles.stride = sizeof(PxU32) * 3;
-		tDesc.triangles.data = Indices.data();
-
-
-		PxTriangleMesh* pTriangleMesh = PxCreateTriangleMesh(PxCookingParams(PxTolerancesScale(0.0f, 0.0f)), tDesc);
-
-		PxTriangleMeshGeometry* pGeometry = new PxTriangleMeshGeometry(pTriangleMesh);
-
-
-		m_ColMesheGeom[pObject->Get_ModelName()].push_back(pGeometry);
-
-
-
-		PxRigidStatic* pActor = m_PhysX->createRigidStatic(Get_ObjectTransform(pObject));
-
-
-		
-		PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
-		PxShape* pShape = m_PhysX->createShape(*pGeometry, *Material);
-
-		pActor->attachShape(*pShape);
-
-
-		m_PxScene->addActor(*pActor);
-
-		m_StaticActors.push_back(pActor);
-	}
-	return S_OK;
-}
-
-HRESULT CPhysXMgr::Add_ColMesh(_uint iObjectID, const wstring szModelName)
-{
-	WRITE_LOCK
-
-	if (m_ColMesheGeom.find(szModelName) == m_ColMesheGeom.end())
-		return S_OK;
-
-
-	if (Find_ColMeshName(iObjectID, szModelName))
-		return S_OK;
-
-	m_ColMeshes[iObjectID].push_back(szModelName);
-
-	return S_OK;
-}
-
-HRESULT CPhysXMgr::Delete_ColMesh(_uint iObjectID, const wstring szModelName)
-{
-	WRITE_LOCK
-
-	for (auto iter = m_ColMeshes[iObjectID].begin(); iter != m_ColMeshes[iObjectID].end();)
-	{
-		if (*iter == szModelName)
-			iter = m_ColMeshes[iObjectID].erase(iter);
-		else
-			++iter;
-	}
+		Bones.push_back(PxTransform(vStartPos));
+		vStartPos.y -= 2.0f;
+	}*/
 	
+
+
+	
+	//for (_uint i = 0; i < Bones.size() - 1; ++i)
+	//{
+	//	PxTransform FirstBone = Bones[i];
+	//	PxTransform SecondBone = Bones[i + 1];
+
+	//	PxTransform FrameTrans = PxTransform(PxTransformFromSegment(FirstBone.p, SecondBone.p).p);
+
+	//	PxRigidDynamic* pChild = m_PhysX->createRigidDynamic(FrameTrans);
+
+	//	PxTransform pShapeTransform = PxTransformFromSegment(PxVec3(0.0f, -1.0f, 0.0f), PxVec3(0.0f, 1.0f, 0.0f));
+	//	pFrameShape->setLocalPose(pShapeTransform);
+	//	pChild->attachShape(*pFrameShape);
+
+	//	pChild->setMass(1.0f);
+	//	pChild->setLinearDamping(5.0f);
+	//	pChild->setAngularDamping(0.05f);
+
+
+	//	if(i == 0)
+	//		pChild->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+	//	m_PxScene->addActor(*pChild);
+	//	m_TestFrames.push_back(pChild);
+
+	//	
+	//	if (i > 0)
+	//	{
+	//		PxRigidDynamic* pParent = m_TestFrames[i - 1];
+
+	//		PxSphericalJoint* pJoint = PxSphericalJointCreate(*m_PhysX, pParent, FirstBone * pParent->getGlobalPose().getInverse(), pChild, FirstBone * FrameTrans.getInverse());
+
+	//		_float fAngle = XMConvertToRadians(1.0f);
+	//		
+
+	//		pJoint->setLimitCone(PxJointLimitCone(0.0f, PxPi * 2.0f, PxSpring(20.0f, 1.0f)));
+	//		//pJoint->setLimitCone(PxJointLimitCone(0.0f, PxPi * 2.0f));
+	//		pJoint->setSphericalJointFlag(PxSphericalJointFlag::eLIMIT_ENABLED, true);
+
+	//		m_Joints.push_back(pJoint);
+	//	}
+	//}
+
+
 	return S_OK;
 }
+
 
 void CPhysXMgr::LateTick(_float fTimeDelta)
 {
-	READ_LOCK
-
-	_uint iIndex = 0;
-	for (auto& Player : m_Players)
-	{
-		PxVec3 vDir;
-		PxReal fLength;
-
-		PxTransform PlayerTransform = Get_ObjectCapsuleTransform(Player);
-
-		_uint iPlayerID = Player->Get_ObjectID();
-
-		_bool bCollision = false;
-		_bool bGround = false;
-
-		for (auto& szName : m_ColMeshes[iPlayerID])
-		{
-			for (auto& Mesh : m_ColMesheGeom[szName])
-			{
-				if (PxComputeTriangleMeshPenetration(vDir, fLength, m_PlayerGeom, PlayerTransform, *Mesh, PxTransform(PxIDENTITY::PxIdentity), 1))
-				{
-					
-
-					if (fLength > 0.1f)
-					{
-						Vec3 vResultDir(vDir.x, vDir.y, vDir.z);
-						vResultDir.Normalize();
-
-
-						Vec3 vDown(0.0f, 1.0f, 0.0f);
-						_float fAngle = XMConvertToDegrees(acosf(vDown.Dot(vResultDir)));
-						if (fAngle <= 45.0f)
-						{
-							bGround = true;
-						}
-
-
-						fLength -= 0.1f;
-
-						vResultDir *= fLength;
-
-						Vec3 vPlayerPos = Player->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
-						vPlayerPos += vResultDir;
-
-						Player->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPos);
-
-						bCollision = true;
-					}
-				}
-			}
-		}
-
-		m_PlayerActors[iIndex]->setGlobalPose(PlayerTransform);
-		++iIndex;
-
-		if (!bCollision)
-		{
-			Player->Get_RigidBody()->UseGravity(true);
-			Player->Get_RigidBody()->Set_Ground(false);
-		}
-		else if (bGround)
-		{
-			Player->Get_RigidBody()->Set_Ground(true);
-			Player->Get_RigidBody()->UseGravity(false);
-		}
-	}
-
-	
-
-
-
-
+	Update_Branches();
 
 	m_PxScene->simulate(fTimeDelta);
 	m_PxScene->fetchResults(true);
+	
+}
+
+void CPhysXMgr::Update_Branches()
+{
+	for (auto& Player : m_PlayerInfos)
+	{
+		CModel* pModel = Player.pPlayer->Get_ModelCom();
+		Matrix matPivot = pModel->Get_PivotMatrix();
+		Matrix matPlayerWorld = Player.pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		for (auto& Branch : Player.m_Branches)
+		{
+			Matrix matFirst = pModel->Get_CombinedMatrix(Branch.second.m_Bones[0]) * matPivot * matPlayerWorld;
+			Matrix matSecond = pModel->Get_CombinedMatrix(Branch.second.m_Bones[1]) * matPivot * matPlayerWorld;
+
+			PxTransform FirstBone = MatrixToPxTrans(matFirst);
+			PxTransform SecondBone = MatrixToPxTrans(matSecond);
+
+
+			PxVec3 vPos = FirstBone.p + ((SecondBone.p - FirstBone.p) * 0.5f);
+			PxQuat vQuat = FirstBone.q;
+
+			PxTransform FrameTrans = PxTransform(vPos, vQuat);
+
+			Branch.second.m_Frames[0]->setKinematicTarget(FrameTrans);
+
+
+			for (_uint i = 0; i < 4; ++i)
+			{
+				if (i == 0)
+				{
+					Matrix matBone = pModel->Get_CombinedMatrix(Branch.second.m_Bones[i]) * matPivot * matPlayerWorld;
+					PxTransform BoneTrans = MatrixToPxTrans(matBone);
+
+					m_TestBones[i]->setKinematicTarget(BoneTrans);
+				}
+				else
+				{
+					PxTransform BoneTrans = Branch.second.m_Joints[i - 1]->getLocalPose(PxJointActorIndex::eACTOR0) * Branch.second.m_Frames[i - 1]->getGlobalPose();
+
+					m_TestBones[i]->setKinematicTarget(BoneTrans);
+				}
+				
+			}
+
+		}
+	}
 
 }
 
 void CPhysXMgr::Reset()
 {
-	for (auto& Meshes : m_ColMesheGeom)
-	{
-		for (auto& Mesh : Meshes.second)
-		{
-			Safe_Delete(Mesh);
-			Mesh = nullptr;
-		}
-	}
-	m_ColMesheGeom.clear();
-	m_ColMeshes.clear();
-	m_Players.clear();
+}
+
+void CPhysXMgr::Add_Player(CGameObject* pPlayer)
+{
+	PhysxPlayerDesc tPlayer;
+	tPlayer.pPlayer = pPlayer;
+
+	//tPlayer.pPlayerActor = 
+
+	m_PlayerInfos.push_back(tPlayer);
+}
+
+void CPhysXMgr::Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones)
+{
+	PLAYERDESC* PlayerDesc = Find_PlayerInfo(pPlayer);
 
 
-	for (auto& Actor : m_PlayerActors)
+	for (auto& BoneIndex : Bones)
 	{
-		m_PxScene->removeActor(*Actor);
-		Actor->release();
+		PlayerDesc->m_Branches[L"Test"].m_Bones.push_back(BoneIndex);
 	}
-	m_PlayerActors.clear();
+
+	if (PlayerDesc == nullptr)
+		return;
+
+
 	
 
-	for (auto& Actor : m_StaticActors)
+
+	PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
+
+	CModel* pModel = pPlayer->Get_ModelCom();
+
+	
+	Matrix matPivot = pModel->Get_PivotMatrix();
+	Matrix matPlayerWorld = pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	PxShape* pFrameShape = m_PhysX->createShape(PxCapsuleGeometry(0.01f, 0.05f), *Material);
+	PxTransform pShapeTransform = PxTransformFromSegment(PxVec3(0.0f, -1.0f, 0.0f), PxVec3(0.0f, 1.0f, 0.0f));
+	pFrameShape->setLocalPose(pShapeTransform);
+
+
+	PxShape* pSphereShape = m_PhysX->createShape(PxSphereGeometry(0.01f), *Material);
+
+
+
+	for (_uint i = 0; i < 5; ++i)
 	{
-		m_PxScene->removeActor(*Actor);
-		Actor->release();
+		Matrix matFirst = pModel->Get_CombinedMatrix(Bones[i]) * matPivot * matPlayerWorld;
+		PxTransform FirstBone = MatrixToPxTrans(matFirst);
+
+
+		PxRigidDynamic* pBoneActor = m_PhysX->createRigidDynamic(FirstBone);
+		pBoneActor->attachShape(*pSphereShape);
+
+		pBoneActor->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+		m_PxScene->addActor(*pBoneActor);
+
+		m_TestBones.push_back(pBoneActor);
 	}
-	m_StaticActors.clear();
+
+
+
+	for (_uint i = 0; i < Bones.size() - 1; ++i)
+	{
+		Matrix matFirst = pModel->Get_CombinedMatrix(Bones[i]) * matPivot * matPlayerWorld;
+		Matrix matSecond = pModel->Get_CombinedMatrix(Bones[i + 1]) * matPivot * matPlayerWorld;
+
+		PxTransform FirstBone = MatrixToPxTrans(matFirst);
+		PxTransform SecondBone = MatrixToPxTrans(matSecond);
+
+
+		PxVec3 vPos = FirstBone.p + ((SecondBone.p - FirstBone.p) * 0.5f);
+		PxQuat vQuat = FirstBone.q;
+		PxTransform FrameTrans = PxTransform(vPos, vQuat);
+		PxRigidDynamic* pChild = m_PhysX->createRigidDynamic(FrameTrans);
+
+		
+
+		pChild->attachShape(*pFrameShape);
+		pChild->setMass(1.0f);
+		pChild->setLinearDamping(5.0f);
+		pChild->setAngularDamping(0.05f);
+
+
+		if (i == 0)
+			pChild->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+		m_PxScene->addActor(*pChild);
+		PlayerDesc->m_Branches[L"Test"].m_Frames.push_back(pChild);
+
+
+		if (i > 0)
+		{
+			PxRigidDynamic* pParent = PlayerDesc->m_Branches[L"Test"].m_Frames[i - 1];
+
+			PxTransform ParentJointTrans = FirstBone * pParent->getGlobalPose().getInverse();
+			PxTransform ChildJointTrans = FirstBone * FrameTrans.getInverse();
+
+			PxTransform ParentJointTransTest = ParentJointTrans * pParent->getGlobalPose();
+			PxTransform ChildJointTransTest = ChildJointTrans * FrameTrans;
+
+
+			PxSphericalJoint* pJoint = PxSphericalJointCreate(*m_PhysX, pParent, ParentJointTrans, pChild, ChildJointTrans);
+
+			//_float fAngle = XMConvertToRadians(1.0f);
+
+
+			pJoint->setLimitCone(PxJointLimitCone(0.0f, PxPi * 2.0f, PxSpring(20.0f, 1.0f)));
+			//pJoint->setLimitCone(PxJointLimitCone(0.0f, PxPi * 2.0f));
+			pJoint->setSphericalJointFlag(PxSphericalJointFlag::eLIMIT_ENABLED, true);
+
+
+			PxTransform JointTrans = pJoint->getLocalPose(PxJointActorIndex::eACTOR0) * pParent->getGlobalPose();
+
+
+
+			PlayerDesc->m_Branches[L"Test"].m_Joints.push_back(pJoint);
+		}
+	}
 
 }
 
@@ -303,13 +310,22 @@ PxTransform CPhysXMgr::Get_ObjectTransform(CGameObject* pObject)
 
 	//matWorld.m[3][0] *= -1.0f;
 
-
-
 	Vec3 vPos, vScale;
 
 	Quaternion vQuat;
 
 	matWorld.Decompose(vScale, vQuat, vPos);
+
+	return PxTransform(PxVec3(vPos.x, vPos.y, vPos.z), PxQuat(vQuat.x, vQuat.y, vQuat.z, vQuat.w));
+}
+
+PxTransform CPhysXMgr::MatrixToPxTrans(Matrix matValue)
+{
+	Vec3 vPos, vScale;
+
+	Quaternion vQuat;
+
+	matValue.Decompose(vScale, vQuat, vPos);
 
 	return PxTransform(PxVec3(vPos.x, vPos.y, vPos.z), PxQuat(vQuat.x, vQuat.y, vQuat.z, vQuat.w));
 }
@@ -347,17 +363,16 @@ PxTransform CPhysXMgr::Get_ObjectCapsuleTransform(CGameObject* pObject)
 	return Result;
 }
 
-_bool CPhysXMgr::Find_ColMeshName(_uint iObjectID, const wstring& szName)
+CPhysXMgr::PLAYERDESC* CPhysXMgr::Find_PlayerInfo(CGameObject* pPlayer)
 {
-	for (auto& Name : m_ColMeshes[iObjectID])
+	for (auto& PlayerInfo : m_PlayerInfos)
 	{
-		if (Name == szName)
-			return true;
+		if (PlayerInfo.pPlayer == pPlayer)
+			return &PlayerInfo;
 	}
 
-	return false;
+	return nullptr;
 }
-
 
 
 void CPhysXMgr::Free()

@@ -42,7 +42,7 @@ private:
 	virtual HRESULT	Ready_Parts() override;
 	HRESULT			Ready_State();
 	HRESULT			Ready_Coliders();
-
+	HRESULT			Ready_PhysxBoneBranch();
 
 private:
 	HRESULT			Ready_SkillUI();

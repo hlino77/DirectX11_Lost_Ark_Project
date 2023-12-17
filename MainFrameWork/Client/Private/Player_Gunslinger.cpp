@@ -72,6 +72,10 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(this);
 
+	/*if (FAILED(Ready_PhysxBoneBranch()))
+		return E_FAIL;*/
+
+
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -87,6 +91,11 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
+
+	/*if (KEY_TAP(KEY::P))
+	{
+		Ready_PhysxBoneBranch();
+	}*/
 
 }
 
@@ -503,6 +512,26 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 		}
 	}
 
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Gunslinger::Ready_PhysxBoneBranch()
+{
+	m_pModelCom->Play_Animation(0.0001f);
+
+
+	CPhysXMgr::GetInstance()->Add_Player(this);
+
+	vector<_uint> Bones;
+	
+	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_01"));
+	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_02"));
+	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_03"));
+	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_04"));
+	Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_05"));
+
+	CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
 
 	return S_OK;
 }

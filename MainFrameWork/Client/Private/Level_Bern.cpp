@@ -475,7 +475,6 @@ HRESULT CLevel_Bern::Load_ColMesh(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-		CPhysXMgr::GetInstance()->Register_ColMesh(pObject);
 
 
 		_uint iColliderCount = file->Read<_uint>();
