@@ -1,0 +1,718 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="00.System">
+      <UniqueIdentifier>{b2d479a3-55d6-47ab-adab-d90b4a5e750c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy">
+      <UniqueIdentifier>{a3529259-ffc5-412e-9d9a-1e872134cec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\99.Super">
+      <UniqueIdentifier>{27ae1524-ddaa-40e8-a2b1-7074a841dcc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Defines">
+      <UniqueIdentifier>{cd0b9cfb-78f2-4c46-84e0-e82bbe5dae30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\00.Timer">
+      <UniqueIdentifier>{cbd524ed-ae40-470c-b6d8-00f9f1af5ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\01.Device">
+      <UniqueIdentifier>{1e2af600-6e9e-45e6-b2d3-0760ec2d75b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\01.Device\Graphic">
+      <UniqueIdentifier>{2c4888b0-db31-45ba-aa7a-78d5f0a2132d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\01.Device\Input">
+      <UniqueIdentifier>{75b2ff63-23ce-4fa2-8ece-495b3ab3039f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\01.Device\Sound">
+      <UniqueIdentifier>{17de0ee4-1c0e-4c51-976d-f48e8f089447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\00.Timer\Manager">
+      <UniqueIdentifier>{a30b1084-b34e-419d-bb1d-1f1f5c8d3fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\00.GameInstance">
+      <UniqueIdentifier>{aa6f228e-028d-4efd-b2f3-39052d369412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\02.Level">
+      <UniqueIdentifier>{d2acafff-f010-42f6-92f5-eb2ab8db46b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\02.Level\Manager">
+      <UniqueIdentifier>{d401dff7-3c68-47ac-9107-431b908baa1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\03.GameObjects">
+      <UniqueIdentifier>{68ba6cd0-6b14-4dc9-9336-cec267f20f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component">
+      <UniqueIdentifier>{2f7b0f55-c192-41e7-bb1e-3795db1aeefc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\98. Utils">
+      <UniqueIdentifier>{ede3a70d-ed37-4bef-b5c7-5b7d814980f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\00. Manager">
+      <UniqueIdentifier>{8bbd81a9-95ab-4f92-bc4d-ac853884e638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\01. Renderer">
+      <UniqueIdentifier>{15fe4fbd-6c18-467c-9742-0006c1b4371d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer">
+      <UniqueIdentifier>{eb0138e8-590d-4bd6-bc94-809ce0e0d5af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Terrain">
+      <UniqueIdentifier>{9d04d116-5d72-4285-9207-214bf7487f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Terrain\QuadTree">
+      <UniqueIdentifier>{64fbde0d-8ecd-4c28-a410-cd1f80d04432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\03. Shader">
+      <UniqueIdentifier>{ae1b5658-3515-477e-aa12-9972107b50c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\04. Texture">
+      <UniqueIdentifier>{445db20a-a830-4dc1-bdf8-7a3a9cbb45e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\05. Transform">
+      <UniqueIdentifier>{37b928aa-12d2-40e1-9f44-3d087ec017eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\06. Model">
+      <UniqueIdentifier>{dc59df1b-4935-4056-82d0-d12eed44486a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\06. Model\Animation">
+      <UniqueIdentifier>{72685385-8a9c-49bf-88d9-37196e8571e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\06. Model\MeshContainer">
+      <UniqueIdentifier>{5b64ff7d-ec4a-40c1-b063-16459f9af01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\02. PipeLine">
+      <UniqueIdentifier>{d191d93f-d647-4adc-8e26-1b8c3968bf65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\03. Lights">
+      <UniqueIdentifier>{9b3710b7-d866-4f9c-bd3d-a8f12544a94a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\03. Lights\Manager">
+      <UniqueIdentifier>{d6886123-03e7-4e79-890a-2a7757df425e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Rect">
+      <UniqueIdentifier>{6c257ca1-d39b-4b2d-a140-21f27556eefd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\03.GameObjects\00. Manager">
+      <UniqueIdentifier>{e5b6768b-8e62-4930-8c6b-a6f1199ff91f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\03.GameObjects\00. Manager\Layer">
+      <UniqueIdentifier>{8c2666f7-7eb6-4c1f-98fa-b493cdf2443c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\03.GameObjects\Camera">
+      <UniqueIdentifier>{b499766b-d80b-4e53-9576-e6ef0c89bbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\04. Key">
+      <UniqueIdentifier>{7a87af19-0b8e-444b-99ed-ae323f63834e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\06. Model\ModelExport">
+      <UniqueIdentifier>{c99d3e24-0b54-4f71-a668-4a56f2b4b297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\07. State">
+      <UniqueIdentifier>{a2f28068-b285-42bb-bbc1-3d156789c3fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\07. State\State">
+      <UniqueIdentifier>{b3ad7f51-c53d-48ec-a3d3-a4ab03047fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\08. Colider">
+      <UniqueIdentifier>{5293df9b-4892-443f-b4db-55f2f1639f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\08. Colider\Manager">
+      <UniqueIdentifier>{d0570285-1a6b-4138-a0a5-18c302d62a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore">
+      <UniqueIdentifier>{59a4ac5c-8663-4742-8a54-565c36642629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore\01. Memory">
+      <UniqueIdentifier>{8bbbeafd-2c79-4831-a1b6-8e31dfd72791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore\02. Network">
+      <UniqueIdentifier>{796eff8e-3c66-4eda-a1f7-fabab782113b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore\03. Thread">
+      <UniqueIdentifier>{576ee108-bcde-471d-ace4-2bd595f781f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\09. RigidBody">
+      <UniqueIdentifier>{e6ba49fc-8819-46a0-9d67-76e6172063cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\05. Text">
+      <UniqueIdentifier>{ccd4f027-680b-4608-bfc1-727cd4931ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\05. PickingMgr">
+      <UniqueIdentifier>{15707e67-9e9f-440f-9e43-d64387b050d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\06. Navigation">
+      <UniqueIdentifier>{de9e5c3a-e6bc-4f1e-86e6-a09b9550c1f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\06. Navigation\Mgr">
+      <UniqueIdentifier>{f9ac74be-0b7f-4724-b697-a753af6caeb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\06. Navigation\Cell">
+      <UniqueIdentifier>{fdf1c143-73a9-4cd8-ba17-16a5d3f72cd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\06. Navigation\Navigation">
+      <UniqueIdentifier>{947a262b-b2cf-4204-ad83-af3001d25dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\07. Event">
+      <UniqueIdentifier>{625ace50-9c21-48f9-bbb0-95b9ad36d0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\07. Event\Manager">
+      <UniqueIdentifier>{ff30e07a-b9f1-48c3-a62f-0da80ce43eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. VIBuffer\Point">
+      <UniqueIdentifier>{53e01601-3049-405d-88ae-19deecdf40f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\08. PhysX">
+      <UniqueIdentifier>{2587cf1a-7cce-4df8-8d99-8be11fdf09ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\09. RenderTarget">
+      <UniqueIdentifier>{88ca9528-be02-4cd8-a37c-beaabacbce9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\09. RenderTarget\Manager">
+      <UniqueIdentifier>{d03cf830-6a9d-4d9d-a89d-d283c271b2f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\10. QuadTree">
+      <UniqueIdentifier>{399d8470-4ab7-44d2-89a1-71197ca89c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\11. SoundMgr">
+      <UniqueIdentifier>{229a87ac-f953-46ed-a885-0cf82dc9df74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree">
+      <UniqueIdentifier>{99b75387-8121-4fea-ab88-6b32ce104d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node">
+      <UniqueIdentifier>{8bc50a5a-53e8-4097-936d-5db07a289648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite">
+      <UniqueIdentifier>{a5c963bc-e541-4878-9b8f-3ad989b58964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator">
+      <UniqueIdentifier>{d6234566-b8a8-4c8c-925b-97565296c484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action">
+      <UniqueIdentifier>{a6dddb17-b096-4154-bea3-d5ab408a86e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public\Base.h">
+      <Filter>01.Utiltiy\99.Super</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Defines.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Macro.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Struct.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Typedef.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Function.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Timer.h">
+      <Filter>00.System\00.Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Timer_Manager.h">
+      <Filter>00.System\00.Timer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Graphic_Device.h">
+      <Filter>00.System\01.Device\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameInstance.h">
+      <Filter>01.Utiltiy\00.GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level.h">
+      <Filter>01.Utiltiy\02.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Manager.h">
+      <Filter>01.Utiltiy\02.Level\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Object_Manager.h">
+      <Filter>01.Utiltiy\03.GameObjects\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Layer.h">
+      <Filter>01.Utiltiy\03.GameObjects\00. Manager\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Component.h">
+      <Filter>01.Utiltiy\04.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Renderer.h">
+      <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shader.h">
+      <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Texture.h">
+      <Filter>01.Utiltiy\04.Component\04. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Utils.h">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Component_Manager.h">
+      <Filter>01.Utiltiy\04.Component\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Transform.h">
+      <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Model.h">
+      <Filter>01.Utiltiy\04.Component\06. Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Animation.h">
+      <Filter>01.Utiltiy\04.Component\06. Model\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mesh.h">
+      <Filter>01.Utiltiy\04.Component\06. Model\MeshContainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera.h">
+      <Filter>01.Utiltiy\03.GameObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PipeLine.h">
+      <Filter>00.System\02. PipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light_Manager.h">
+      <Filter>00.System\03. Lights\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light.h">
+      <Filter>00.System\03. Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect.h">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Rect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Key_Manager.h">
+      <Filter>00.System\04. Key</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Enum.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Input_Device.h">
+      <Filter>00.System\01.Device\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AsTypes.h">
+      <Filter>01.Utiltiy\04.Component\06. Model\ModelExport</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\Public\AsFileUtils.h">
+      <Filter>01.Utiltiy\04.Component\06. Model\ModelExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AsUtils.h">
+      <Filter>01.Utiltiy\04.Component\06. Model\ModelExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\tinyxml2.h">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StateMachine.h">
+      <Filter>01.Utiltiy\04.Component\07. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State.h">
+      <Filter>01.Utiltiy\04.Component\07. State\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderBase.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderSphere.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DebugDraw.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CollisionManager.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MurmurHash3.h">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CoreTLS.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Allocator.h">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ServerMemory.h">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ObjectPool.h">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MemoryPool.h">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BufferReader.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BufferWriter.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IocpCore.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IocpEvent.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Listener.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NetAddress.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RecvBuffer.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SendBuffer.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Service.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Session.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SocketUtils.h">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Lock.h">
+      <Filter>02. ServerCore\03. Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DeadLockProfiler.h">
+      <Filter>02. ServerCore\03. Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ThreadManager.h">
+      <Filter>02. ServerCore\03. Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RigidBody.h">
+      <Filter>01.Utiltiy\04.Component\09. RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Text_Manager.h">
+      <Filter>00.System\05. Text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderOBB.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PickingMgr.h">
+      <Filter>01.Utiltiy\05. PickingMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NavigationMgr.h">
+      <Filter>01.Utiltiy\06. Navigation\Mgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Navigation.h">
+      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cell.h">
+      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameObject.h">
+      <Filter>01.Utiltiy\03.GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EventMgr.h">
+      <Filter>01.Utiltiy\07. Event\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Event.h">
+      <Filter>01.Utiltiy\07. Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Point.h">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PhysXMgr.h">
+      <Filter>01.Utiltiy\08. PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RenderTarget.h">
+      <Filter>01.Utiltiy\09. RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Target_Manager.h">
+      <Filter>01.Utiltiy\09. RenderTarget\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LockFree_Transform.h">
+      <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UseLock_Transform.h">
+      <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuadTreeMgr.h">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuadTreeNode.h">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>01.Utiltiy\11. SoundMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BehaviorTree.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Composite.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Node.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Decorator.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Action.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BindShaderDesc.h" />
+    <ClInclude Include="..\Public\ColliderSphereGroup.h" />
+    <ClInclude Include="..\Public\ConstantBuffer.h" />
+    <ClInclude Include="..\Public\Hasher.h" />
+    <ClInclude Include="..\Public\PartObject.h" />
+    <ClInclude Include="..\Public\Player_Controller.h" />
+    <ClInclude Include="..\Public\TextBox.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\private\Base.cpp">
+      <Filter>01.Utiltiy\99.Super</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Timer.cpp">
+      <Filter>00.System\00.Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Timer_Manager.cpp">
+      <Filter>00.System\00.Timer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Graphic_Device.cpp">
+      <Filter>00.System\01.Device\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameInstance.cpp">
+      <Filter>01.Utiltiy\00.GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level.cpp">
+      <Filter>01.Utiltiy\02.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Manager.cpp">
+      <Filter>01.Utiltiy\02.Level\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Object_Manager.cpp">
+      <Filter>01.Utiltiy\03.GameObjects\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Layer.cpp">
+      <Filter>01.Utiltiy\03.GameObjects\00. Manager\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Component.cpp">
+      <Filter>01.Utiltiy\04.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Renderer.cpp">
+      <Filter>01.Utiltiy\04.Component\01. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shader.cpp">
+      <Filter>01.Utiltiy\04.Component\03. Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Texture.cpp">
+      <Filter>01.Utiltiy\04.Component\04. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Utils.cpp">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Component_Manager.cpp">
+      <Filter>01.Utiltiy\04.Component\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Transform.cpp">
+      <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Model.cpp">
+      <Filter>01.Utiltiy\04.Component\06. Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Animation.cpp">
+      <Filter>01.Utiltiy\04.Component\06. Model\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera.cpp">
+      <Filter>01.Utiltiy\03.GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mesh.cpp">
+      <Filter>01.Utiltiy\04.Component\06. Model\MeshContainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PipeLine.cpp">
+      <Filter>00.System\02. PipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light_Manager.cpp">
+      <Filter>00.System\03. Lights\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light.cpp">
+      <Filter>00.System\03. Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Rect.cpp">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Engine_Struct.cpp">
+      <Filter>99.Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Key_Manager.cpp">
+      <Filter>00.System\04. Key</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Input_Device.cpp">
+      <Filter>00.System\01.Device\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AsFileUtils.cpp">
+      <Filter>01.Utiltiy\04.Component\06. Model\ModelExport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AsUtils.cpp">
+      <Filter>01.Utiltiy\04.Component\06. Model\ModelExport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\tinyxml2.cpp">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State.cpp">
+      <Filter>01.Utiltiy\04.Component\07. State\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StateMachine.cpp">
+      <Filter>01.Utiltiy\04.Component\07. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderBase.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderSphere.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DebugDraw.cpp">
+      <Filter>99.Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CollisionManager.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MurmurHash3.cpp">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Allocator.cpp">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ServerMemory.cpp">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MemoryPool.cpp">
+      <Filter>02. ServerCore\01. Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BufferReader.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BufferWriter.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IocpCore.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IocpEvent.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Listener.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NetAddress.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RecvBuffer.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SendBuffer.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Service.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Session.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SocketUtils.cpp">
+      <Filter>02. ServerCore\02. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Lock.cpp">
+      <Filter>02. ServerCore\03. Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DeadLockProfiler.cpp">
+      <Filter>02. ServerCore\03. Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ThreadManager.cpp">
+      <Filter>02. ServerCore\03. Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CoreTLS.cpp">
+      <Filter>99.Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RigidBody.cpp">
+      <Filter>01.Utiltiy\04.Component\09. RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Text_Manager.cpp">
+      <Filter>00.System\05. Text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderOBB.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PickingMgr.cpp">
+      <Filter>01.Utiltiy\05. PickingMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NavigationMgr.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Mgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Navigation.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cell.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameObject.cpp">
+      <Filter>01.Utiltiy\03.GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EventMgr.cpp">
+      <Filter>01.Utiltiy\07. Event\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Event.cpp">
+      <Filter>01.Utiltiy\07. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Point.cpp">
+      <Filter>01.Utiltiy\04.Component\02. VIBuffer\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PhysXMgr.cpp">
+      <Filter>01.Utiltiy\08. PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RenderTarget.cpp">
+      <Filter>01.Utiltiy\09. RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Target_Manager.cpp">
+      <Filter>01.Utiltiy\09. RenderTarget\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LockFree_Transform.cpp">
+      <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UseLock_Transform.cpp">
+      <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuadTreeMgr.cpp">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuadTreeNode.cpp">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>01.Utiltiy\11. SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BehaviorTree.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Composite.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Node.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Decorator.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Action.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
+    <ClCompile Include="..\Private\ConstantBuffer.cpp" />
+    <ClCompile Include="..\Private\PartObject.cpp" />
+    <ClCompile Include="..\Private\Player_Controller.cpp" />
+    <ClCompile Include="..\Private\TextBox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
+  </ItemGroup>
+</Project>
