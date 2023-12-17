@@ -15,35 +15,56 @@ class CGameObject;
 
 class ENGINE_DLL CPhysXMgr : public CBase
 {
+public:
+
 	DECLARE_SINGLETON(CPhysXMgr);
 
+	typedef struct BranchDesc
+	{
+		vector<_uint> m_Bones;
+		vector<PxRigidDynamic*> m_Frames;
+		vector<PxSphericalJoint*> m_Joints;
+	}BRANCHDESC;
+
+
+	typedef struct PhysxPlayerDesc
+	{
+		CGameObject* pPlayer = nullptr;
+		PxRigidDynamic* pPlayerActor = nullptr;
+		unordered_map<wstring, BRANCHDESC> m_Branches;
+	}PLAYERDESC;
+
+
+	
 private:
 	explicit CPhysXMgr();
 	virtual ~CPhysXMgr() = default;
 
 
-	USE_LOCK
+
 public:
 	HRESULT ReserveManager();
 
-	HRESULT	Add_PlayObject(CGameObject* pObject);
-	HRESULT Register_ColMesh(CGameObject* pObject);
-	HRESULT Add_ColMesh(_uint iObjectID, const wstring szModelName);
-	HRESULT Delete_ColMesh(_uint iObjectID, const wstring szModelName);
 
 	void	LateTick(_float fTimeDelta);
-
+	void	Update_Branches();
 
 	void	Reset();
 
+	void	Add_Player(CGameObject* pPlayer);
+	void	Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones);
+
+
+
 private:
 	PxTransform Get_ObjectTransform(CGameObject* pObject);
+
+	PxTransform MatrixToPxTrans(Matrix matValue);
+
 	PxTransform Get_ObjectCapsuleTransform(CGameObject* pObject);
 
 
-
-	_bool Find_ColMeshName(_uint iObjectID, const wstring& szName);
-
+	PLAYERDESC* Find_PlayerInfo(CGameObject* pPlayer);
 
 public:
 
@@ -65,20 +86,17 @@ private:
 	PxScene* m_PxScene = nullptr;
 
 
-	PxCapsuleGeometry m_PlayerGeom;
-	
 
 	map<wstring, vector<PxTriangleMeshGeometry*>> m_ColMesheGeom;
+	vector<PLAYERDESC> m_PlayerInfos;
 
 
-	vector<PxRigidDynamic*> m_PlayerActors;
-	unordered_map<_uint, list<wstring>> m_ColMeshes;
-	list<CGameObject*> m_Players;
+	
 
-
-
-	//Temp
-	vector<PxRigidStatic*> m_StaticActors;
+	vector<PxRigidDynamic*> m_TestBones;
+	vector<PxRigidDynamic*> m_TestFrames;
+	vector<PxSphericalJoint*> m_Joints;
+	USE_LOCK
 public:
 	virtual void Free() override;
 };
