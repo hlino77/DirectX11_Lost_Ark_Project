@@ -139,12 +139,6 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity">
       <UniqueIdentifier>{8d63a75e-37ac-4637-b3fd-f0449c2252fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Skill_GN">
-      <UniqueIdentifier>{510e23bc-f780-4aff-8058-06f906a8e1f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test">
-      <UniqueIdentifier>{85fda9a6-1cb6-47de-a0f3-fcd06c2e64ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger">
       <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
     </Filter>
@@ -388,11 +382,41 @@
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
       <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up">
-      <UniqueIdentifier>{73bd0608-a6d1-40f8-b2db-bda8025fc05b}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill">
+      <UniqueIdentifier>{85fda9a6-1cb6-47de-a0f3-fcd06c2e64ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down">
-      <UniqueIdentifier>{0465f81e-d598-4d8f-a2f0-ce86293f77fc}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long">
+      <UniqueIdentifier>{cfbdf7f6-82d9-425a-91d1-fd9fc29d99a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot">
+      <UniqueIdentifier>{c2195f01-83f5-4bc3-82a2-b64fda20d5d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand">
+      <UniqueIdentifier>{4b184b17-8f04-43c3-808a-66867438552e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot">
+      <UniqueIdentifier>{62e04fab-41ec-4c99-a7a2-c034864ef3d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep">
+      <UniqueIdentifier>{9acec5c9-76b3-4cc7-b106-2c9dc2226d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\FreeShooter">
+      <UniqueIdentifier>{50d6bd83-fdbd-4b08-baae-18814cd5f2da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\LastSupper">
+      <UniqueIdentifier>{7995652b-f1e3-4ed9-91e4-c599656216bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot">
+      <UniqueIdentifier>{c16be7f6-3b02-4d9e-a013-b8dba83fc59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot">
+      <UniqueIdentifier>{21c92454-f5e1-4624-8de2-f3daed532398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse">
+      <UniqueIdentifier>{edfab8db-f3c9-4723-a7a9-fbc515fe4701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown">
+      <UniqueIdentifier>{dacc06ae-5cb1-48d2-b2ef-244fb3dd9d50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -558,9 +582,6 @@
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
-      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
     </ClInclude>
@@ -664,12 +685,6 @@
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
       <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ToolBase.h">
-      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\EffectTool.h">
-      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
@@ -688,7 +703,6 @@
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
-    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
     </ClInclude>
@@ -816,7 +830,6 @@
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
     <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
-    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
@@ -831,7 +844,6 @@
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_IconBG.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h" />
@@ -873,9 +885,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
@@ -1090,38 +1099,71 @@
     <ClInclude Include="..\Public\EffectTool.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
-    <ClInclude Include="..\Public\Skill_GN_FreeShooter.h">
-      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_FocusShot.h">
-      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    <ClInclude Include="..\Public\ToolBase.h">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_E.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClInclude Include="..\Public\EffectTool.h">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_Q.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClInclude Include="..\Public\State_GN_FocusShot_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_R.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClInclude Include="..\Public\State_GN_FocusShot_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_W.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClInclude Include="..\Public\State_GN_FocusShot_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_A.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClInclude Include="..\Public\State_GN_QuickStep_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_D.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClInclude Include="..\Public\State_GN_QuickStep_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_F.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClInclude Include="..\Public\State_GN_FreeShooter.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\FreeShooter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_Skill_S.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClInclude Include="..\Public\State_GN_LastSupper.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\LastSupper</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_QuickStep.h">
-      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    <ClInclude Include="..\Public\State_GN_TerminatingShot_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_TerminatingShot_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_PerfectShot_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_PerfectShot_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_PerfectShot_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Apocalypse_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Apocalypse_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Apocalypse_Success.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_TargetDown_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_TargetDown_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_TargetDown_Shot.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_TargetDown_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1272,9 +1314,6 @@
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
-      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
     </ClCompile>
@@ -1375,12 +1414,6 @@
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
       <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ToolBase.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\EffectTool.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
@@ -1399,7 +1432,6 @@
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
     <ClCompile Include="..\Private\Weapon_Long.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot.cpp" />
-    <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
     </ClCompile>
@@ -1529,7 +1561,6 @@
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
     <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
-    <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
@@ -1545,7 +1576,6 @@
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_IconBG.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp" />
@@ -1589,9 +1619,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
@@ -1803,38 +1830,71 @@
     <ClCompile Include="..\Private\EffectTool.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
-    <ClCompile Include="..\Private\Skill_GN_FreeShooter.cpp">
-      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_FocusShot.cpp">
-      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    <ClCompile Include="..\Private\ToolBase.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_E.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_Q.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClCompile Include="..\Private\State_GN_FocusShot_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_R.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClCompile Include="..\Private\State_GN_FocusShot_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_W.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Up</Filter>
+    <ClCompile Include="..\Private\State_GN_FocusShot_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_A.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClCompile Include="..\Private\State_GN_QuickStep_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_D.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClCompile Include="..\Private\State_GN_QuickStep_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_F.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClCompile Include="..\Private\State_GN_FreeShooter.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\FreeShooter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_Skill_S.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill_Test\Down</Filter>
+    <ClCompile Include="..\Private\State_GN_LastSupper.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\LastSupper</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_QuickStep.cpp">
-      <Filter>02.GameObjects\Player\Skill_GN</Filter>
+    <ClCompile Include="..\Private\State_GN_TerminatingShot_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_TerminatingShot_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_PerfectShot_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_PerfectShot_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Apocalypse_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Apocalypse_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Apocalypse_Success.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_TargetDown_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_TargetDown_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_TargetDown_Shot.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_TargetDown_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

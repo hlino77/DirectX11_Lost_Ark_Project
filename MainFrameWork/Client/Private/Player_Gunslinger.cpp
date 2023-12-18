@@ -13,6 +13,7 @@
 #include "Player_Controller_GN.h"
 #include "CollisionManager.h"
 #include "ColliderSphereGroup.h"
+#include "Player_Skill.h"
 
 /* State */
 #include "State_GN_Idle.h"
@@ -30,19 +31,27 @@
 #include "State_GN_Identity_Back.h"
 #include "State_GN_Run_Identity.h"
 #include "State_GN_Run_Identity_Back.h"
-#include "State_GN_Skill_Q.h"
-#include "State_GN_Skill_W.h"
-#include "State_GN_Skill_E.h"
-#include "State_GN_Skill_R.h"
-#include "State_GN_Skill_A.h"
-#include "State_GN_Skill_S.h"
-#include "State_GN_Skill_D.h"
-#include "State_GN_Skill_F.h"
 
 /* Skill */
-#include "Skill_GN_FreeShooter.h"
-#include "Skill_GN_FocusShot.h"
-#include "Skill_GN_QuickStep.h"
+#include "State_GN_FreeShooter.h"
+#include "State_GN_TerminatingShot_Start.h"
+#include "State_GN_TerminatingShot_End.h"
+#include "State_GN_LastSupper.h"
+#include "State_GN_QuickStep_Start.h"
+#include "State_GN_QuickStep_End.h"
+#include "State_GN_FocusShot_Start.h"
+#include "State_GN_FocusShot_Loop.h"
+#include "State_GN_FocusShot_End.h"
+#include "State_GN_PerfectShot_Start.h"
+#include "State_GN_PerfectShot_Loop.h"
+#include "State_GN_PerfectShot_End.h"
+#include "State_GN_Apocalypse_Start.h"
+#include "State_GN_Apocalypse_Loop.h"
+#include "State_GN_Apocalypse_Success.h"
+#include "State_GN_TargetDown_Start.h"
+#include "State_GN_TargetDown_Loop.h"
+#include "State_GN_TargetDown_Shot.h"
+#include "State_GN_TargetDown_End.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -452,28 +461,61 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Attack_Long_2"), CState_GN_Attack_Long2::Create(TEXT("Attack_Long_2"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_Q"), CState_GN_Skill_Q::Create(TEXT("Skill_Q"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_FreeShoter"), CState_GN_FreeShooter::Create(TEXT("Skill_GN_FreeShoter"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_W"), CState_GN_Skill_W::Create(TEXT("Skill_W"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TerminatingShot_Start"), CState_GN_TerminatingShot_Start::Create(TEXT("Skill_GN_TerminatingShot_Start"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_E"), CState_GN_Skill_E::Create(TEXT("Skill_E"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TerminatingShot_End"), CState_GN_TerminatingShot_End::Create(TEXT("Skill_GN_TerminatingShot_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_R"), CState_GN_Skill_R::Create(TEXT("Skill_R"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_LastSupper"), CState_GN_LastSupper::Create(TEXT("Skill_GN_LastSupper"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_A"), CState_GN_Skill_A::Create(TEXT("Skill_A"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_QuickStep_Start"), CState_GN_QuickStep_Start::Create(TEXT("Skill_GN_QuickStep_Start"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_S"), CState_GN_Skill_S::Create(TEXT("Skill_S"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_QuickStep_End"), CState_GN_QuickStep_End::Create(TEXT("Skill_GN_QuickStep_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_D"), CState_GN_Skill_D::Create(TEXT("Skill_D"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_FocusShot_Start"), CState_GN_FocusShot_Start::Create(TEXT("Skill_GN_FocusShot_Start"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Skill_F"), CState_GN_Skill_F::Create(TEXT("Skill_F"),
+	m_pStateMachine->Add_State(TEXT("Skill_GN_FocusShot_Loop"), CState_GN_FocusShot_Loop::Create(TEXT("Skill_GN_FocusShot_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_FocusShot_End"), CState_GN_FocusShot_End::Create(TEXT("Skill_GN_FocusShot_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_PerfectShot_Start"), CState_GN_PerfectShot_Start::Create(TEXT("Skill_GN_PerfectShot_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_PerfectShot_Loop"), CState_GN_PerfectShot_Loop::Create(TEXT("Skill_GN_PerfectShot_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_PerfectShot_End"), CState_GN_PerfectShot_End::Create(TEXT("Skill_GN_PerfectShot_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Apocalypse_Start"), CState_GN_Apocalypse_Start::Create(TEXT("Skill_GN_Apocalypse_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Apocalypse_Loop"), CState_GN_Apocalypse_Loop::Create(TEXT("Skill_GN_Apocalypse_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Apocalypse_Success"), CState_GN_Apocalypse_Success::Create(TEXT("Skill_GN_Apocalypse_Success"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_Start"), CState_GN_TargetDown_Start::Create(TEXT("Skill_GN_TargetDown_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_Loop"), CState_GN_TargetDown_Loop::Create(TEXT("Skill_GN_TargetDown_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_Shot"), CState_GN_TargetDown_Shot::Create(TEXT("Skill_GN_TargetDown_Shot"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_End"), CState_GN_TargetDown_End::Create(TEXT("Skill_GN_TargetDown_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 
@@ -484,15 +526,101 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 
 HRESULT CPlayer_Gunslinger::Ready_Skill()
 {
-	/* ÇÚµå°Ç */
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CSkill_GN_QuickStep::Create(this));
+	
+	CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
+	/* ÇÚµå°Ç ½ºÅ³ */
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_QuickStep_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_End")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
 
-	/* ¼¦°Ç */
-	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CSkill_GN_FreeShooter::Create(this));
+	/* ¼¦°Ç ½ºÅ³*/
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FreeShoter");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FreeShoter")));
+	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
 
-	/* ÀåÃÑ */
-	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CSkill_GN_FocusShot::Create(this));
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TerminatingShot_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 5.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_End")));
+	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::W, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
 
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_LastSupper");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::COUNTER;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 4.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_LastSupper")));
+	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::E, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	/* ÀåÃÑ ½ºÅ³ */
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FocusShot_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 10.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_End")));
+	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::A, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_PerfectShot_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.IsSuperArmor = false;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_End")));
+	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::S, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Apocalypse_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.IsSuperArmor = false;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Success")));
+	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::D, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TargetDown_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.IsSuperArmor = false;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Shot")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_End")));
+	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::F, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
 
 	return S_OK;
 }

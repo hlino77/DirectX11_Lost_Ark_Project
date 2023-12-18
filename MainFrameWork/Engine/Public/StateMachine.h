@@ -27,13 +27,14 @@ public:
 
 	const wstring& Get_CurState() { return m_strCurState; }
 	const wstring& Get_PreState() { return m_strPreState; }
+	class CState* Find_State(const wstring& strStateTag);
 	
 private:
 	class CState* m_pCurrState = nullptr;
 	unordered_map<wstring, class CState*> m_States;
 
 private:
-	class CState* Find_State(const wstring & strStateTag);
+	
 
 private:
 	wstring m_strCurState;

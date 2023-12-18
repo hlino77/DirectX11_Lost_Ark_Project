@@ -166,9 +166,6 @@
     <Filter Include="01.Utiltiy\03.GameObjects\PartObject">
       <UniqueIdentifier>{6489f51d-dfc7-4b4b-a5e1-b92ad934ace3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="12. BehaviorTree">
-      <UniqueIdentifier>{687f3c81-1468-4227-b85e-7ba16de70237}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utiltiy\04.Component\02. Buffer">
       <UniqueIdentifier>{eb0138e8-590d-4bd6-bc94-809ce0e0d5af}</UniqueIdentifier>
     </Filter>
@@ -462,31 +459,11 @@
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>01.Utiltiy\11. SoundMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\BehaviorTree.h">
-      <Filter>12. BehaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BT_Action.h">
-      <Filter>12. BehaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BT_Composite.h">
-      <Filter>12. BehaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BT_Decorator.h">
-      <Filter>12. BehaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BT_Node.h">
-      <Filter>12. BehaviorTree</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Player_Skill.h">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BehaviorTree.h" />
-    <ClInclude Include="..\Public\BehaviorTree.h" />
     <ClInclude Include="..\Public\BindShaderDesc.h" />
-    <ClInclude Include="..\Public\BT_Action.h" />
-    <ClInclude Include="..\Public\BT_Composite.h" />
-    <ClInclude Include="..\Public\BT_Decorator.h" />
-    <ClInclude Include="..\Public\BT_Node.h" />
     <ClInclude Include="..\Public\PartObject.h" />
     <ClInclude Include="..\Public\VIBuffer.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
@@ -559,6 +536,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Controller.h">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Action.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Composite.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Decorator.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Node.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BehaviorTree.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Skill.h">
+      <Filter>01.Utiltiy\04.Component\07. State\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -784,29 +779,9 @@
     <ClCompile Include="..\Private\Sound_Manager.cpp">
       <Filter>01.Utiltiy\11. SoundMgr</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\BehaviorTree.cpp">
-      <Filter>12. BehaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BT_Action.cpp">
-      <Filter>12. BehaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BT_Composite.cpp">
-      <Filter>12. BehaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BT_Decorator.cpp">
-      <Filter>12. BehaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BT_Node.cpp">
-      <Filter>12. BehaviorTree</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Player_Skill.cpp">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\BehaviorTree.cpp" />
-    <ClCompile Include="..\Private\BT_Action.cpp" />
-    <ClCompile Include="..\Private\BT_Composite.cpp" />
-    <ClCompile Include="..\Private\BT_Decorator.cpp" />
-    <ClCompile Include="..\Private\BT_Node.cpp" />
     <ClCompile Include="..\Private\PartObject.cpp" />
     <ClCompile Include="..\Private\VIBuffer.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer</Filter>
@@ -861,6 +836,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Controller.cpp">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Action.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Composite.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Decorator.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Node.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BehaviorTree.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Skill.cpp">
+      <Filter>01.Utiltiy\04.Component\07. State\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
