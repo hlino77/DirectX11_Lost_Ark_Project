@@ -38,6 +38,9 @@ HRESULT CWeapon_Hand::Initialize(void* pArg)
 
 void CWeapon_Hand::Tick(_float fTimeDelta)
 {
+	if (false == Is_Render())
+		return;
+
 	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
@@ -52,6 +55,7 @@ void CWeapon_Hand::LateTick(_float fTimeDelta)
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
 	}
 }
 
@@ -69,6 +73,7 @@ HRESULT CWeapon_Hand::Render()
 
 HRESULT CWeapon_Hand::Render_ShadowDepth()
 {
+	__super::Render_ShadowDepth();
 
 	return S_OK;
 }

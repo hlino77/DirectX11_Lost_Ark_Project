@@ -85,8 +85,6 @@ void CPlayer::Tick(_float fTimeDelta)
 
 void CPlayer::LateTick(_float fTimeDelta)
 {
-	
-
 	//m_pRigidBody->Tick(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)

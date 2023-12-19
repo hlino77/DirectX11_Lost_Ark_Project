@@ -40,6 +40,9 @@ void CState_GN_PerfectShot_End::Tick_State(_float fTimeDelta)
 void CState_GN_PerfectShot_End::Exit_State()
 {
 	m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Set_SkillSuccess(false);
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_PerfectShot_End::Tick_State_Control(_float fTimeDelta)

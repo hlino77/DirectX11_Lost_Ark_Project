@@ -1,6 +1,7 @@
 #include "..\Public\PartObject.h"
 #include "Transform.h"
 #include "Model.h"
+#include "Shader.h"
 
 CPartObject::CPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjectTag, _int iObjType)
 	: CGameObject(pDevice, pContext, strObjectTag, iObjType)
@@ -46,6 +47,23 @@ void CPartObject::Tick(_float fTimeDelta)
 
 void CPartObject::LateTick(_float fTimeDelta)
 {
+}
+
+HRESULT CPartObject::Render_ShadowDepth()
+{
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Push_ShadowVP()))
+		return S_OK;
+
+	_uint	iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
+			return S_OK;
+	}
 }
 
 HRESULT CPartObject::Compute_RenderMatrix(Matrix ChildMatrix)

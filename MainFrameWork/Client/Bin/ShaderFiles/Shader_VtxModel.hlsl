@@ -108,24 +108,23 @@ PS_OUT_PHONG PS_NARUTO(VS_OUT In)
 
 VS_OUT VS_SHADOW(STATIC_IN In)
 {
-	VS_OUT		Out = (VS_OUT)0;
-	
-	float4 vPosition = float4(In.vPosition, 1.f);
-	vPosition = mul(vPosition, WorldMatrix);
-	vPosition = mul(vPosition, g_ShadowViewMatrix);
-	vPosition = mul(vPosition, ProjMatrix);
+    VS_OUT Out = (VS_OUT) 0;
 
-	Out.vPosition = vPosition;
-	Out.vProjPos = Out.vPosition;
+    float4 vPosition = float4(In.vPosition, 1.f);
+    vPosition = mul(vPosition, WorldMatrix);
+    vPosition = mul(vPosition, ViewProj);
 
-	return Out;
+    Out.vPosition = vPosition;
+    Out.vProjPos = Out.vPosition;
+
+    return Out;
 }
 
 PS_OUT_SHADOW PS_SHADOW(VS_OUT In)
 {
     PS_OUT_SHADOW Out = (PS_OUT_SHADOW) 0;
 
-    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 1.0f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.f);
 
 	return Out;
 }
