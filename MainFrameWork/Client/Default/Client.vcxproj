@@ -230,9 +230,6 @@
     <ClInclude Include="..\Public\State_GN_TerminatingShot_Start.h" />
     <ClInclude Include="..\Public\State_GN_TerminatingShot_End.h" />
     <ClInclude Include="..\Public\State_GN_PerfectShot_End.h" />
-    <ClInclude Include="..\Public\ToolBase.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_MainFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h" />
@@ -387,9 +384,6 @@
     <ClCompile Include="..\Private\State_GN_TargetDown_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_TerminatingShot_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_TerminatingShot_End.cpp" />
-    <ClCompile Include="..\Private\ToolBase.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_MainFrame.cpp" />
