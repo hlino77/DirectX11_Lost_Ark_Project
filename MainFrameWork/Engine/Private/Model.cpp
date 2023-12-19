@@ -132,6 +132,16 @@ Matrix CModel::Get_CurrBoneMatrix(_uint iIndex)
 	return m_matCurrTransforms[iIndex];
 }
 
+void CModel::Set_CurrBoneMatrix(_uint iIndex, Matrix matValue)
+{
+	m_matCurrTransforms[iIndex] = matValue;
+}
+
+Matrix CModel::Get_BoneOffsetMatrix(_uint iIndex)
+{
+	return m_ModelBones[iIndex]->matTransform;
+}
+
 _int CModel::Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed)
 {
 	_uint iAnimationIndex = Find_AnimIndex(szAnimName);

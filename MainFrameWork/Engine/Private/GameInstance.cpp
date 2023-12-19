@@ -125,6 +125,7 @@ void CGameInstance::Tick(_float fTimeDelta)
 	m_pEventMgr->LateTick(fTimeDelta);
 	m_pQuadTreeMgr->Tick(fTimeDelta);
 
+
 	m_pObject_Manager->LateTick(fTimeDelta);
 	m_pPhysXMgr->LateTick(fTimeDelta);
 	m_pLevel_Manager->LateTick(fTimeDelta);

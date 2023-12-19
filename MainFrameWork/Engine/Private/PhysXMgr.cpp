@@ -30,7 +30,7 @@ HRESULT CPhysXMgr::ReserveManager()
 	PxInitExtensions(*m_PhysX, m_Pvd);
 	
 	PxSceneDesc sceneDesc(m_PhysX->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f * 10.0f, 0.0f);
 	//This creates CPU dispatcher threads or worker threads. We will make 2
 	m_PxDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = m_PxDispatcher;
@@ -38,7 +38,8 @@ HRESULT CPhysXMgr::ReserveManager()
 	//Create the scene now by passing the scene's description
 	m_PxScene = m_PhysX->createScene(sceneDesc);
 	
-	
+	PxCudaContextManagerDesc cudaContextManagerDesc;
+	PxCudaContextManager* cudaContextManager = PxCreateCudaContextManager(*m_PxFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
 
 	PxPvdSceneClient* pvdClient = m_PxScene->getScenePvdClient();
 	if (pvdClient)
@@ -49,32 +50,32 @@ HRESULT CPhysXMgr::ReserveManager()
 		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
 
-	/*PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
+	//PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
 
 
-	PxRigidStatic* groundPlane = PxCreatePlane(*m_PhysX, PxPlane(0, 1, 0, 0), *Material);
-	m_PxScene->addActor(*groundPlane);
+	//PxRigidStatic* groundPlane = PxCreatePlane(*m_PhysX, PxPlane(0, 1, 0, 0), *Material);
+	//m_PxScene->addActor(*groundPlane);
 
 
 
-	PxVec3 vStartPos = PxVec3(0.0f, 10.0f, 0.0f);
+	//PxVec3 vStartPos = PxVec3(0.0f, 10.0f, 0.0f);
 
-	PxShape* pFrameShape = m_PhysX->createShape(PxCapsuleGeometry(0.1f, 0.5f), *Material);
+	//PxShape* pFrameShape = m_PhysX->createShape(PxCapsuleGeometry(0.1f, 0.5f), *Material);
 
-	PxShape* pSphereShape = m_PhysX->createShape(PxSphereGeometry(0.1f), *Material);
-
-
-	vector<PxTransform> Bones;
-
-	for (_uint i = 0; i < 5; ++i)
-	{
-		Bones.push_back(PxTransform(vStartPos));
-		vStartPos.y -= 2.0f;
-	}*/
-	
+	//PxShape* pSphereShape = m_PhysX->createShape(PxSphereGeometry(0.1f), *Material);
 
 
-	
+	//vector<PxTransform> Bones;
+
+	//for (_uint i = 0; i < 5; ++i)
+	//{
+	//	Bones.push_back(PxTransform(vStartPos));
+	//	vStartPos.y -= 2.0f;
+	//}
+	//
+
+
+	//
 	//for (_uint i = 0; i < Bones.size() - 1; ++i)
 	//{
 	//	PxTransform FirstBone = Bones[i];
@@ -129,6 +130,7 @@ void CPhysXMgr::LateTick(_float fTimeDelta)
 	m_PxScene->simulate(fTimeDelta);
 	m_PxScene->fetchResults(true);
 	
+	Set_BranchesToBone();
 }
 
 void CPhysXMgr::Update_Branches()
@@ -139,44 +141,37 @@ void CPhysXMgr::Update_Branches()
 		Matrix matPivot = pModel->Get_PivotMatrix();
 		Matrix matPlayerWorld = Player.pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
-		for (auto& Branch : Player.m_Branches)
+		for (auto& Branch : Player.Branches)
 		{
-			Matrix matFirst = pModel->Get_CombinedMatrix(Branch.second.m_Bones[0]) * matPivot * matPlayerWorld;
-			Matrix matSecond = pModel->Get_CombinedMatrix(Branch.second.m_Bones[1]) * matPivot * matPlayerWorld;
-
-			PxTransform FirstBone = MatrixToPxTrans(matFirst);
-			PxTransform SecondBone = MatrixToPxTrans(matSecond);
-
-
-			PxVec3 vPos = FirstBone.p + ((SecondBone.p - FirstBone.p) * 0.5f);
-			PxQuat vQuat = FirstBone.q;
-
-			PxTransform FrameTrans = PxTransform(vPos, vQuat);
-
-			Branch.second.m_Frames[0]->setKinematicTarget(FrameTrans);
-
-
-			for (_uint i = 0; i < 4; ++i)
-			{
-				if (i == 0)
-				{
-					Matrix matBone = pModel->Get_CombinedMatrix(Branch.second.m_Bones[i]) * matPivot * matPlayerWorld;
-					PxTransform BoneTrans = MatrixToPxTrans(matBone);
-
-					m_TestBones[i]->setKinematicTarget(BoneTrans);
-				}
-				else
-				{
-					PxTransform BoneTrans = Branch.second.m_Joints[i - 1]->getLocalPose(PxJointActorIndex::eACTOR0) * Branch.second.m_Frames[i - 1]->getGlobalPose();
-
-					m_TestBones[i]->setKinematicTarget(BoneTrans);
-				}
-				
-			}
-
+			Matrix matFirst = pModel->Get_CombinedMatrix(Branch.Bones[0]) * matPivot * matPlayerWorld;
+			Branch.Frames[0]->setKinematicTarget(MatrixToPxTrans(matFirst));
 		}
 	}
 
+}
+
+void CPhysXMgr::Set_BranchesToBone()
+{
+	for (auto& Player : m_PlayerInfos)
+	{
+		CModel* pModel = Player.pPlayer->Get_ModelCom();
+		Matrix matPlayerWorld = Player.pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+
+		for (auto& Branch : Player.Branches)
+		{
+			for (_uint i = 1; i < Branch.Bones.size(); ++i)
+			{
+				Matrix matFrame = TransToMatrix(Branch.Frames[i]->getGlobalPose());
+
+				Matrix matResult = (Branch.RelativeMatrix[i] * matFrame) * matPlayerWorld.Invert();
+				matResult = pModel->Get_BoneOffsetMatrix(Branch.Bones[i]) * matResult;
+
+				pModel->Set_CurrBoneMatrix(Branch.Bones[i], matResult);
+			}
+		}
+
+	}
 }
 
 void CPhysXMgr::Reset()
@@ -188,26 +183,22 @@ void CPhysXMgr::Add_Player(CGameObject* pPlayer)
 	PhysxPlayerDesc tPlayer;
 	tPlayer.pPlayer = pPlayer;
 
-	//tPlayer.pPlayerActor = 
-
 	m_PlayerInfos.push_back(tPlayer);
 }
 
 void CPhysXMgr::Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones)
 {
 	PLAYERDESC* PlayerDesc = Find_PlayerInfo(pPlayer);
+	BRANCHDESC tBranch;
 
 
 	for (auto& BoneIndex : Bones)
 	{
-		PlayerDesc->m_Branches[L"Test"].m_Bones.push_back(BoneIndex);
+		tBranch.Bones.push_back(BoneIndex);
 	}
 
 	if (PlayerDesc == nullptr)
 		return;
-
-
-	
 
 
 	PxMaterial* Material = m_PhysX->createMaterial(0.5f, 0.5f, 0.6f);
@@ -218,16 +209,13 @@ void CPhysXMgr::Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones)
 	Matrix matPivot = pModel->Get_PivotMatrix();
 	Matrix matPlayerWorld = pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
-	PxShape* pFrameShape = m_PhysX->createShape(PxCapsuleGeometry(0.01f, 0.05f), *Material);
-	PxTransform pShapeTransform = PxTransformFromSegment(PxVec3(0.0f, -1.0f, 0.0f), PxVec3(0.0f, 1.0f, 0.0f));
-	pFrameShape->setLocalPose(pShapeTransform);
+
 
 
 	PxShape* pSphereShape = m_PhysX->createShape(PxSphereGeometry(0.01f), *Material);
+	_float fCapsuleRadius = 0.01f;
 
-
-
-	for (_uint i = 0; i < 5; ++i)
+	/*for (_uint i = 0; i < 5; ++i)
 	{
 		Matrix matFirst = pModel->Get_CombinedMatrix(Bones[i]) * matPivot * matPlayerWorld;
 		PxTransform FirstBone = MatrixToPxTrans(matFirst);
@@ -240,68 +228,105 @@ void CPhysXMgr::Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones)
 		m_PxScene->addActor(*pBoneActor);
 
 		m_TestBones.push_back(pBoneActor);
-	}
+	}*/
 
 
 
-	for (_uint i = 0; i < Bones.size() - 1; ++i)
+	for (_uint i = 0; i < Bones.size(); ++i)
 	{
-		Matrix matFirst = pModel->Get_CombinedMatrix(Bones[i]) * matPivot * matPlayerWorld;
-		Matrix matSecond = pModel->Get_CombinedMatrix(Bones[i + 1]) * matPivot * matPlayerWorld;
+		if (i == 0)
+		{
+			Matrix matFirst = pModel->Get_CombinedMatrix(Bones[i]) * matPivot * matPlayerWorld;
+			PxRigidDynamic* pRoot = m_PhysX->createRigidDynamic(MatrixToPxTrans(matFirst));
+
+			pRoot->attachShape(*pSphereShape);
+			pRoot->setMass(1.0f);
+			pRoot->setLinearDamping(5.0f);
+			pRoot->setAngularDamping(0.05f);
+			pRoot->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+
+			m_PxScene->addActor(*pRoot);
+			tBranch.Frames.push_back(pRoot);
+			tBranch.RelativeMatrix.push_back(XMMatrixIdentity());
+			continue;
+		}
+
+		Matrix matFirst = pModel->Get_CombinedMatrix(Bones[i - 1]) * matPivot * matPlayerWorld;
+		Matrix matSecond = pModel->Get_CombinedMatrix(Bones[i]) * matPivot * matPlayerWorld;
+		Matrix matFrame = XMMatrixIdentity();
+
+		Vec3 vUp = Vec3(matFirst.m[3]) - Vec3(matSecond.m[3]);
+		_float fDistance = vUp.Length();
+		vUp.Normalize();
+		if (vUp != Vec3(0.0f, 1.0f, 0.0f))
+		{
+			Vec3 vRight = Vec3(0.0f, 1.0f, 0.0f).Cross(vUp);
+			vRight.Normalize();
+			Vec3 vLook = vRight.Cross(vUp);
+			vLook.Normalize();
+
+			matFrame.Right(vRight);
+			matFrame.Up(vUp);
+			matFrame.Backward(vLook);
+		}
+		matFrame.Translation((Vec3(matFirst.m[3]) + Vec3(matSecond.m[3])) * 0.5f);
+
+		Matrix matRelative = matSecond * matFrame.Invert();
+		tBranch.RelativeMatrix.push_back(matRelative);
 
 		PxTransform FirstBone = MatrixToPxTrans(matFirst);
 		PxTransform SecondBone = MatrixToPxTrans(matSecond);
 
-
-		PxVec3 vPos = FirstBone.p + ((SecondBone.p - FirstBone.p) * 0.5f);
-		PxQuat vQuat = FirstBone.q;
-		PxTransform FrameTrans = PxTransform(vPos, vQuat);
+		PxTransform FrameTrans = MatrixToPxTrans(matFrame);
 		PxRigidDynamic* pChild = m_PhysX->createRigidDynamic(FrameTrans);
+
+
+		_float fHalfHeight = (fDistance - (fCapsuleRadius * 4.0f)) * 0.5f;
+		PxShape* pFrameShape = m_PhysX->createShape(PxCapsuleGeometry(fCapsuleRadius, fHalfHeight), *Material);
+		PxTransform pShapeTransform = PxTransformFromSegment(PxVec3(0.0f, -1.0f, 0.0f), PxVec3(0.0f, 1.0f, 0.0f));
+		pFrameShape->setLocalPose(pShapeTransform);
+
+		//pChild->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+		pChild->attachShape(*pFrameShape);
+		pChild->setMass(5.0f - (i * 1.0f));
+		pChild->setLinearDamping(50.0f - (i * 5.0f));
+		pChild->setAngularDamping(i * 0.5f);
+
+		m_PxScene->addActor(*pChild);
+		tBranch.Frames.push_back(pChild);
+
+		
+		PxRigidDynamic* pParent = tBranch.Frames[i - 1];
+
+		PxVec3 vJointPos = FirstBone.p;
+		_float fParentDistance = (vJointPos - pParent->getGlobalPose().p).magnitude();
+		_float fChildDistance = (vJointPos - pChild->getGlobalPose().p).magnitude();
 
 		
 
-		pChild->attachShape(*pFrameShape);
-		pChild->setMass(1.0f);
-		pChild->setLinearDamping(5.0f);
-		pChild->setAngularDamping(0.05f);
+		PxSphericalJoint* pJoint = PxSphericalJointCreate(*m_PhysX, pParent, PxTransform(0.0f, -fParentDistance, 0.0f), pChild, PxTransform(0.0f, fChildDistance, 0.0f));
+		//pJoint->setInvInertiaScale0
 
 
-		if (i == 0)
-			pChild->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
-
-		m_PxScene->addActor(*pChild);
-		PlayerDesc->m_Branches[L"Test"].m_Frames.push_back(pChild);
-
-
-		if (i > 0)
-		{
-			PxRigidDynamic* pParent = PlayerDesc->m_Branches[L"Test"].m_Frames[i - 1];
-
-			PxTransform ParentJointTrans = FirstBone * pParent->getGlobalPose().getInverse();
-			PxTransform ChildJointTrans = FirstBone * FrameTrans.getInverse();
-
-			PxTransform ParentJointTransTest = ParentJointTrans * pParent->getGlobalPose();
-			PxTransform ChildJointTransTest = ChildJointTrans * FrameTrans;
-
-
-			PxSphericalJoint* pJoint = PxSphericalJointCreate(*m_PhysX, pParent, ParentJointTrans, pChild, ChildJointTrans);
-
-			//_float fAngle = XMConvertToRadians(1.0f);
-
-
-			pJoint->setLimitCone(PxJointLimitCone(0.0f, PxPi * 2.0f, PxSpring(20.0f, 1.0f)));
-			//pJoint->setLimitCone(PxJointLimitCone(0.0f, PxPi * 2.0f));
-			pJoint->setSphericalJointFlag(PxSphericalJointFlag::eLIMIT_ENABLED, true);
-
-
-			PxTransform JointTrans = pJoint->getLocalPose(PxJointActorIndex::eACTOR0) * pParent->getGlobalPose();
+		//pJoint->setInvMassScale0(1.0f);
+		//pJoint->setInvMassScale0(1.0f);
+		//pJoint->setInvMassScale1(1000.0f);
+		
+		//pJoint->setInvInertiaScale0(1.0f);
+		//PxJointLimitCone SetLimitCone;
+		
+		pJoint->setLimitCone(PxJointLimitCone(0.0001f, PxPi, PxSpring(0.05f, 0.05f)));
+		pJoint->setSphericalJointFlag(PxSphericalJointFlag::eLIMIT_ENABLED, true);
 
 
 
-			PlayerDesc->m_Branches[L"Test"].m_Joints.push_back(pJoint);
-		}
+		//PxJoint
+		PxJointLimitCone LimitCone = pJoint->getLimitCone();
+
 	}
 
+	PlayerDesc->Branches.push_back(tBranch);
 }
 
 PxTransform CPhysXMgr::Get_ObjectTransform(CGameObject* pObject)
@@ -328,6 +353,19 @@ PxTransform CPhysXMgr::MatrixToPxTrans(Matrix matValue)
 	matValue.Decompose(vScale, vQuat, vPos);
 
 	return PxTransform(PxVec3(vPos.x, vPos.y, vPos.z), PxQuat(vQuat.x, vQuat.y, vQuat.z, vQuat.w));
+}
+
+Matrix CPhysXMgr::TransToMatrix(PxTransform transValue)
+{
+	Vec3 vPos(transValue.p.x, transValue.p.y, transValue.p.z);
+	Quaternion vQuat(transValue.q.x, transValue.q.y, transValue.q.z, transValue.q.w);
+
+	Matrix matResult = XMMatrixIdentity();
+
+	matResult *= Matrix::CreateFromQuaternion(vQuat);
+	matResult.Translation(vPos);
+
+	return matResult;
 }
 
 PxTransform CPhysXMgr::Get_ObjectCapsuleTransform(CGameObject* pObject)

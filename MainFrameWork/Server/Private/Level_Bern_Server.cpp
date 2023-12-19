@@ -85,7 +85,7 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 				Broadcast_Monster(MonsterPos, L"Zombie");
 
 			}
-			else if (GetAsyncKeyState(VK_F6) & 0x8000)
+			else if (GetAsyncKeyState(VK_F4) & 0x8000)
 			{
 				if (m_bKey_Lock)
 					return S_OK;

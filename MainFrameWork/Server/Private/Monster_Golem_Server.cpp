@@ -89,13 +89,21 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
+		
+		cout << endl;
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		cout << "¼­¹ö °ñ·½" << vPos.x << '|' << vPos.z << '|' << (m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)-m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length() << endl;
+		cout << CAsUtils::ToString(m_strAction) << endl;
+		cout << "¼­¹ö °ñ·½" << vPos.x << " | " << vPos.z << " | " << endl;
+		cout << "Anim : " << m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim());
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
 	Set_to_RootPosition(fTimeDelta);
+
+
+
+	
 }
 
 void CMonster_Golem_Server::LateTick(_float fTimeDelta)
@@ -201,7 +209,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = .723f;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);

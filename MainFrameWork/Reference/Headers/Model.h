@@ -58,6 +58,8 @@ public:
 
 	_int	Find_BoneIndex(const wstring& szBoneName);
 	Matrix  Get_CurrBoneMatrix(_uint iIndex);
+	void	Set_CurrBoneMatrix(_uint iIndex, Matrix matValue);
+	Matrix	Get_BoneOffsetMatrix(_uint iIndex);
 
 	_int	Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed);
 

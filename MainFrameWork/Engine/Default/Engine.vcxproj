@@ -249,6 +249,7 @@
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
+    <ClInclude Include="..\Public\TLS.cpp" />
     <ClInclude Include="..\Public\Transform.h" />
     <ClInclude Include="..\Public\UseLock_Transform.h" />
     <ClInclude Include="..\Public\Utils.h" />

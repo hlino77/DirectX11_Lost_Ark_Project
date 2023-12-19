@@ -85,6 +85,9 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	CNavigationMgr::GetInstance()->Find_FirstCell(this);
 
 
+	if (FAILED(Ready_PhysxBoneBranch()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -98,6 +101,12 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
+
+
+	/*if (KEY_TAP(KEY::P))
+	{
+		Ready_PhysxBoneBranch();
+	}*/
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -572,7 +581,82 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 
 HRESULT CPlayer_Gunslinger::Ready_PhysxBoneBranch()
 {
-	return E_NOTIMPL;
+	m_pModelCom->Play_Animation(10.0f);
+
+
+	CPhysXMgr::GetInstance()->Add_Player(this);
+
+	{
+		vector<_uint> Bones;
+
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_01"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_02"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_03"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_04"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_05"));
+
+		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
+	}
+
+	{
+		vector<_uint> Bones;
+
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_01"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_02"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_03"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_04"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_05"));
+
+		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
+	}
+
+	{
+		vector<_uint> Bones;
+
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_01"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_02"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_03"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_04"));
+
+		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
+	}
+
+	{
+		vector<_uint> Bones;
+
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_01"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_02"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_03"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_04"));
+
+		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
+	}
+
+	{
+		vector<_uint> Bones;
+
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_01"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_02"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_03"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_04"));
+
+		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
+	}
+	
+	/*{
+		vector<_uint> Bones;
+
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_01"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_02"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_03"));
+		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_04"));
+
+		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
+	}*/
+
+
+
+	return S_OK;
 }
 
 HRESULT CPlayer_Gunslinger::Ready_SkillUI()

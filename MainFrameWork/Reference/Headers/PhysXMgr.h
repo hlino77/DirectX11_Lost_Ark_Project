@@ -21,9 +21,9 @@ public:
 
 	typedef struct BranchDesc
 	{
-		vector<_uint> m_Bones;
-		vector<PxRigidDynamic*> m_Frames;
-		vector<PxSphericalJoint*> m_Joints;
+		vector<_uint> Bones;
+		vector<PxRigidDynamic*> Frames;
+		vector<Matrix> RelativeMatrix;
 	}BRANCHDESC;
 
 
@@ -31,7 +31,7 @@ public:
 	{
 		CGameObject* pPlayer = nullptr;
 		PxRigidDynamic* pPlayerActor = nullptr;
-		unordered_map<wstring, BRANCHDESC> m_Branches;
+		vector<BRANCHDESC> Branches;
 	}PLAYERDESC;
 
 
@@ -48,18 +48,18 @@ public:
 
 	void	LateTick(_float fTimeDelta);
 	void	Update_Branches();
+	void	Set_BranchesToBone();
 
 	void	Reset();
 
 	void	Add_Player(CGameObject* pPlayer);
 	void	Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones);
 
-
-
 private:
 	PxTransform Get_ObjectTransform(CGameObject* pObject);
 
 	PxTransform MatrixToPxTrans(Matrix matValue);
+	Matrix TransToMatrix(PxTransform transValue);
 
 	PxTransform Get_ObjectCapsuleTransform(CGameObject* pObject);
 

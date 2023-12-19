@@ -77,8 +77,13 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	if (m_fPositionTimeAcc > 0.5f)
 	{
 		m_fPositionTimeAcc = 0.f;
+
+
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		cout << "Å¬¶ó °ñ·½" << vPos.x<< '|' << vPos.z <<  '|' << Get_Target_Distance() <<endl;
+		cout << endl;
+		cout << CAsUtils::ToString(m_strAction) << endl;
+		cout << "Å¬¶ó °ñ·½" << vPos.x << '|' << vPos.z << '|' << endl;
+		cout << "Anim : " << m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim());
 	}
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
@@ -88,6 +93,8 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	Set_to_RootPosition(fTimeDelta);
 
 	m_fNoticeRange = 20.f;
+
+	
 }
 
 void CMonster_Golem::LateTick(_float fTimeDelta)
@@ -103,10 +110,6 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 HRESULT CMonster_Golem::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
-
-
-	if (FAILED(m_PlayAnimation.get()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
