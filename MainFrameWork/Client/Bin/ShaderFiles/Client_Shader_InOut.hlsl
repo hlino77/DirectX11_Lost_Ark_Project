@@ -38,7 +38,7 @@ struct TARGET_IN
 struct VS_OUT_TARGET
 {
     float4 vPosition : SV_POSITION;
-    float2 vTexcoord : TEXCOORD1;
+    float2 vTexcoord : TEXCOORD0;
 };
 
 struct PS_OUT_PBR

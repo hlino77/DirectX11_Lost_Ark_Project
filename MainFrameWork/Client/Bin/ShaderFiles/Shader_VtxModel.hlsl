@@ -47,9 +47,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         discard;
 
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
-
-    //Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-    //Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
+    
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
     Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
     

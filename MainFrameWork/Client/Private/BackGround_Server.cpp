@@ -54,7 +54,7 @@ void CBackGround_Server::Tick(_float fTimeDelta)
 
 void CBackGround_Server::LateTick(_float fTimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT CBackGround_Server::Render()

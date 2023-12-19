@@ -84,7 +84,7 @@ HRESULT CTarget_Manager::Clear_RenderTarget(const wstring& strTargetTag)
 	return pRenderTarget->Clear();
 }
 
-HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring & strMRTTag)
+HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring & strMRTTag, _bool bClear)
 {
 	vector<CRenderTarget*>*		pMRTList = Find_MRT(strMRTTag);
 
@@ -97,10 +97,13 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring 
 
 	_uint			iNumRTVs = 0;
 
-	for (auto& pRenderTarget : *pMRTList)
+	if (bClear)
 	{
-		pRenderTargets[iNumRTVs++] = pRenderTarget->Get_RTV();
-		pRenderTarget->Clear();
+		for (auto& pRenderTarget : *pMRTList)
+		{
+			pRenderTargets[iNumRTVs++] = pRenderTarget->Get_RTV();
+			pRenderTarget->Clear();
+		}
 	}
 
 	pContext->OMSetRenderTargets(iNumRTVs, pRenderTargets, m_pDSV);

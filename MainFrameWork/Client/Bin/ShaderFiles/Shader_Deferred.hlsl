@@ -1,4 +1,5 @@
 #include "Client_Shader_Defines.hlsl"
+#include "Client_Shader_InOut.hlsl"
 #include "Client_Shader_PBR.hlsl"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
@@ -20,6 +21,7 @@ Texture2D		g_SpecularTarget;
 Texture2D		g_MetallicTarget;
 Texture2D		g_RoughnessTarget;
 Texture2D		g_EmissiveTarget;
+Texture2D		g_BloomTarget;
 Texture2D		g_NormalDepthTarget;
 Texture2D		g_SSAOBlurTarget;
 Texture2D		g_BlurTarget;
@@ -55,21 +57,9 @@ sampler ShadowSampler = sampler_state {
 	Filter = MIN_MAG_MIP_POINT;
 };
 
-struct VS_IN
+VS_OUT_TARGET VS_MAIN(TARGET_IN In)
 {
-	float3		vPosition : POSITION;
-	float2		vTexcoord : TEXCOORD0;
-};
-
-struct VS_OUT
-{	
-	float4		vPosition : SV_POSITION;
-	float2		vTexcoord : TEXCOORD0;
-};
-
-VS_OUT VS_MAIN(/* 정점 */VS_IN In)
-{
-	VS_OUT			Out = (VS_OUT)0;
+    VS_OUT_TARGET Out = (VS_OUT_TARGET) 0;
 	
 	matrix			matWV, matWVP;
 
@@ -83,18 +73,9 @@ VS_OUT VS_MAIN(/* 정점 */VS_IN In)
 	return Out;
 }
 
-struct PS_OUT
+float4 PS_MAIN_DEBUG(VS_OUT_TARGET In) : SV_TARGET
 {
-	float4	vColor : SV_TARGET0;
-};
-
-PS_OUT PS_MAIN_DEBUG(VS_OUT In)
-{
-	PS_OUT			Out = (PS_OUT)0;
-
-	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
-
-	return Out;
+    return g_Texture.Sample(LinearSampler, In.vTexcoord);
 }
 
 struct PS_OUT_LIGHT
@@ -184,7 +165,7 @@ float PCF_StaticShadowCalculation(float4 fragPosLightSpace, float fBias)
 	return shadow;
 }
 
-PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(VS_OUT In)
+PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(VS_OUT_TARGET In)
 {
 	PS_OUT_LIGHT		Out = (PS_OUT_LIGHT)0;
 
@@ -222,7 +203,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(VS_OUT In)
 	return Out;
 }
 
-PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT In)
+PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT_TARGET In)
 {
 	PS_OUT_LIGHT		Out = (PS_OUT_LIGHT)0;
 
@@ -298,36 +279,25 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT In)
 	return Out;
 }
 
-PS_OUT PS_MAIN_DEFERRED(VS_OUT In)
+float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-	PS_OUT		Out = (PS_OUT)0;
-
 	vector		vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
 	if (vDiffuse.a == 0.f)
 		discard;
 	vector		vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
 	vector		vSpecular = g_SpecularTarget.Sample(LinearSampler, In.vTexcoord);
-    float4		vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord);
+    float4		vEmissive =	g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
 	
     float fAO = 1.f;
 	
     if (true == g_bSSAO)
         fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
 	
-    Out.vColor = fAO * (vDiffuse * vShade + vSpecular) + vEmissive;
-
-	return Out;
+    return fAO * (vDiffuse * vShade + vSpecular) + vEmissive;
 }
 
-//void PBR()
-//{
-	
-//}
-
-PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
+float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-	PS_OUT		Out = (PS_OUT)0;
-
 	float4		vAlbedo = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
     if (vAlbedo.a == 0.f)
 		discard;
@@ -386,29 +356,21 @@ PS_OUT PS_MAIN_PBR_DEFERRED(VS_OUT In)
     float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
 	
     vColor = vAmbient + vColor + vEmissive;
-    Out.vColor = float4(vColor, 1.f);
-	
-    return Out;
+
+    return float4(vColor, 1.f);
 }
 
-PS_OUT PS_MAIN_EFFECT_DEFERRED(VS_OUT In)
+float4 PS_MAIN_EFFECT_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-	PS_OUT		Out = (PS_OUT)0;
-
 	vector		vDiffuse = g_DiffuseTarget.Sample(PointSampler, In.vTexcoord);
-
 
 	vector		vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
 
-	Out.vColor = vShade;
-
-	return Out;
+    return vShade;
 }
 
-PS_OUT PS_MAIN_BLUR(VS_OUT In)
+float4 PS_MAIN_BLUR(VS_OUT_TARGET In) : SV_TARGET
 {
-	PS_OUT		Out = (PS_OUT)0;
-
 	vector		vDiffuse = g_DiffuseTarget.Sample(PointSampler, In.vTexcoord);
 
 
@@ -439,9 +401,7 @@ PS_OUT PS_MAIN_BLUR(VS_OUT In)
 	//if (vDiffuse.a != 0.0f)
 	//	vFinalPixel += vDiffuse;
 
-	Out.vColor = vFinalPixel;
-
-	return Out;
+    return vFinalPixel;
 }
 
 

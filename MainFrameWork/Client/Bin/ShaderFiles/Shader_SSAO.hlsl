@@ -198,9 +198,8 @@ float4 PS_SSAO(VS_OUT_SSAO In) : SV_Target
     float access = 1.0f - fOcclusionSum;
 
 	// Sharpen the contrast of the SSAO map to make the SSAO affect more dramatic.
-    //return access;
-    //access = access * 0.5f + 0.5f;
-    return saturate(pow(access, 4.0f));
+
+    return saturate(pow(access, 2.0f));
 }
 
 VS_OUT_TARGET VS_MAIN_SSAO_BLUR( /* 정점 */TARGET_IN In)
@@ -218,21 +217,21 @@ VS_OUT_TARGET VS_MAIN_SSAO_BLUR( /* 정점 */TARGET_IN In)
     return Out;
 }
 
-//cbuffer cbPerFrame
-//{
+cbuffer cbPerFrame
+{
     float gTexelWidth = 1.f / 1600.f;
     float gTexelHeight = 1.f / 900.f;
-//};
+};
 
-//cbuffer cbSettings
-//{
+cbuffer cbSettings
+{
     float gWeights[11] = { 0.05f, 0.05f, 0.1f, 0.1f, 0.1f, 0.2f, 0.1f, 0.1f, 0.1f, 0.05f, 0.05f };
-//};
+};
 
-//cbuffer cbFixed
-//{
+cbuffer cbFixed
+{
     static const int gBlurRadius = 5;
-//};
+};
 
 SamplerState samInputImage
 {
@@ -244,10 +243,10 @@ SamplerState samInputImage
 
 Texture2D g_SSAOBlurTarget;
 
-float4 PS_SSAO_BLUR(VS_OUT_TARGET In, uniform bool gHorizontalBlur) : SV_Target
+float4 PS_SSAO_BLUR(VS_OUT_TARGET In, uniform bool bHorizontal) : SV_Target
 {
     float2 texOffset;
-    if (gHorizontalBlur)
+    if (bHorizontal)
         texOffset = float2(gTexelWidth, 0.0f);
     else
         texOffset = float2(0.0f, gTexelHeight);

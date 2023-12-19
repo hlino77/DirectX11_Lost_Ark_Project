@@ -47,7 +47,7 @@ void CBackGround_MainLogo::Tick(_float fTimeDelta)
 
 void CBackGround_MainLogo::LateTick(_float fTimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT CBackGround_MainLogo::Render()
