@@ -56,6 +56,11 @@
 #include "State_GN_DeathFire_Success.h"
 #include "State_GN_RapidFire_Start.h"
 #include "State_GN_RapidFire_End.h"
+#include "State_GN_Gunkata_1.h"
+#include "State_GN_Gunkata_2.h"
+#include "State_GN_Gunkata_3.h"
+#include "State_GN_Grenade.h"
+#include "State_GN_SprialChaser.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -126,12 +131,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pController->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
-
-
-	/*if (KEY_TAP(KEY::P))
-	{
-		Ready_PhysxBoneBranch();
-	}*/
 }
 
 void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
@@ -543,6 +542,21 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_GN_RapidFire_End"), CState_GN_RapidFire_End::Create(TEXT("Skill_GN_RapidFire_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Gunkata_1"), CState_GN_Gunkata_1::Create(TEXT("Skill_GN_Gunkata_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Gunkata_2"), CState_GN_Gunkata_2::Create(TEXT("Skill_GN_Gunkata_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Gunkata_3"), CState_GN_Gunkata_3::Create(TEXT("Skill_GN_Gunkata_3"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_Grenade"), CState_GN_Grenade::Create(TEXT("Skill_GN_Grenade"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_SprialChaser"), CState_GN_SprialChaser::Create(TEXT("Skill_GN_SprialChaser"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 
 	m_pStateMachine->Change_State(TEXT("Idle"));
 
@@ -587,6 +601,37 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::E, CPlayer_Skill::Create(this, &SkillDesc));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Gunkata_1");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::COUNTER;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 4.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_1")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_2")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_3")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::R, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_SprialChaser");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.IsSuperArmor = false;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_SprialChaser")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::A, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Grenade");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.IsSuperArmor = false;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Grenade")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::S, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
 
 	/* ¼¦°Ç ½ºÅ³*/
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FreeShoter");

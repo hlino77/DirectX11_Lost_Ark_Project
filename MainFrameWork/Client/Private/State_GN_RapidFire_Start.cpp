@@ -58,8 +58,8 @@ void CState_GN_RapidFire_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (20 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start) &&
-		30 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start) &&
+	if (22 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start) &&
+		32 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start) &&
 		true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey))
 	{
 		m_bComboContinue = true;

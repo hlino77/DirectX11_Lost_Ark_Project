@@ -5,11 +5,11 @@
 
 BEGIN(Client)
 
-class CState_GN_Gunkata_1 final : public CState_Skill
+class CState_GN_DeadHard_Start final : public CState_Skill
 {
 public:
-	CState_GN_Gunkata_1(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
-	virtual ~CState_GN_Gunkata_1() = default;
+	CState_GN_DeadHard_Start(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
+	virtual ~CState_GN_DeadHard_Start() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -24,14 +24,14 @@ public:
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
-	std::function<void(CState_GN_Gunkata_1&, _float)> m_TickFunc;
+	std::function<void(CState_GN_DeadHard_Start&, _float)> m_TickFunc;
 
 private:
 	//Animation
-	_int m_iGunkata_1 = 0;
+	_int m_iDeadHard_Start = 0;
 
 public:
-	static CState_GN_Gunkata_1* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
+	static CState_GN_DeadHard_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;
 };
 
