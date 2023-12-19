@@ -250,7 +250,7 @@
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
-    <ClInclude Include="..\Public\TLS.cpp" />
+    <ClInclude Include="..\Public\TLS.h" />
     <ClInclude Include="..\Public\Transform.h" />
     <ClInclude Include="..\Public\UseLock_Transform.h" />
     <ClInclude Include="..\Public\Utils.h" />
@@ -284,6 +284,7 @@
     <ClCompile Include="..\Private\Component_Manager.cpp" />
     <ClCompile Include="..\Private\ConstantBuffer.cpp" />
     <ClCompile Include="..\Private\CoreTLS.cpp" />
+    <ClCompile Include="..\Private\DllMain.cpp" />
     <ClCompile Include="..\Private\Event.cpp" />
     <ClCompile Include="..\Private\EventMgr.cpp" />
     <ClCompile Include="..\Private\GameObject.cpp" />

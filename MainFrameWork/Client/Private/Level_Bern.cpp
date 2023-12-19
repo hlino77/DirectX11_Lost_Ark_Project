@@ -576,8 +576,6 @@ void CLevel_Bern::Start_Collision()
 
 	m_pCollisionThread = new thread([=]()
 	{
-		ThreadManager::GetInstance()->InitTLS();
-
 		CGameInstance* pGameInstance = CGameInstance::GetInstance();
 		Safe_AddRef(pGameInstance);
 

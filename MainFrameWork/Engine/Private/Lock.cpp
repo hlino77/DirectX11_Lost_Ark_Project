@@ -8,12 +8,15 @@ void Lock::WriteLock(const char* name)
 #if _DEBUG
 	DeadLockProfiler::GetInstance()->PushLock(name);
 #endif
-	ThreadManager::MTLS& tTLS = ThreadManager::GetInstance()->Get_TLS(this_thread::get_id());
+	TLSDESC* tTLS = nullptr;
+
+	if (GetTLS(&tTLS) == false)
+		return;
 	
 
 	// 동일한 쓰레드가 소유하고 있다면 무조건 성공.
 	const unsigned __int32 lockThreadId = (_lockFlag.load() & WRITE_THREAD_MASK) >> 16;
-	if (tTLS.LThreadId == lockThreadId)
+	if (tTLS->LThreadId == lockThreadId)
 	{
 		_writeCount++;
 		return;
@@ -21,7 +24,7 @@ void Lock::WriteLock(const char* name)
 
 	// 아무도 소유 및 공유하고 있지 않을 때, 경합해서 소유권을 얻는다.
 	const __int64 beginTick = ::GetTickCount64();
-	const unsigned __int32 desired = ((tTLS.LThreadId << 16) & WRITE_THREAD_MASK);
+	const unsigned __int32 desired = ((tTLS->LThreadId << 16) & WRITE_THREAD_MASK);
 	while (true)
 	{
 		for (unsigned __int32 spinCount = 0; spinCount < MAX_SPIN_COUNT; spinCount++)
@@ -46,12 +49,10 @@ void Lock::WriteUnlock(const char* name)
 #if _DEBUG
 	DeadLockProfiler::GetInstance()->PopLock(name);
 #endif
-	ThreadManager::MTLS& tTLS = ThreadManager::GetInstance()->Get_TLS(this_thread::get_id());
+	TLSDESC* tTLS = nullptr;
 
-	int i = tTLS.LThreadId;
-
-	if (tTLS.LThreadId == 0)
-		int i = 0;
+	if (GetTLS(&tTLS) == false)
+		return;
 
 	// ReadLock 다 풀기 전에는 WriteUnlock 불가능.
 	if ((_lockFlag.load() & READ_COUNT_MASK) != 0)
@@ -67,11 +68,14 @@ void Lock::ReadLock(const char* name)
 #if _DEBUG
 	DeadLockProfiler::GetInstance()->PushLock(name);
 #endif
-	ThreadManager::MTLS& tTLS = ThreadManager::GetInstance()->Get_TLS(this_thread::get_id());
+	TLSDESC* tTLS = nullptr;
+
+	if (GetTLS(&tTLS) == false)
+		return;
 
 	// 동일한 쓰레드가 소유하고 있다면 무조건 성공.
 	const unsigned __int32 lockThreadId = (_lockFlag.load() & WRITE_THREAD_MASK) >> 16;
-	if (tTLS.LThreadId == lockThreadId)
+	if (tTLS->LThreadId == lockThreadId)
 	{
 		_lockFlag.fetch_add(1);
 		return;

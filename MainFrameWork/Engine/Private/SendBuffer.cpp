@@ -71,30 +71,32 @@ SendBufferManager::SendBufferManager()
 
 SendBufferRef SendBufferManager::Open(uint32 size)
 {
-	ThreadManager::MTLS& tTLS = ThreadManager::GetInstance()->Get_TLS(this_thread::get_id());
+	TLSDESC* tTLS = nullptr;
+
+	if (GetTLS(&tTLS) == false)
+		return nullptr;
 
 
-	if (tTLS.LSendBufferChunk == nullptr)
+	if (tTLS->LSendBufferChunk == nullptr)
 	{
-		tTLS.LSendBufferChunk = Pop(); // WRITE_LOCK
-		tTLS.LSendBufferChunk->Reset();
+		tTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
+		tTLS->LSendBufferChunk->Reset();
 	}
 
-	ASSERT_CRASH(tTLS.LSendBufferChunk->IsOpen() == false);
+	ASSERT_CRASH(tTLS->LSendBufferChunk->IsOpen() == false);
 
 	// 다 썼으면 버리고 새거로 교체
-	if (tTLS.LSendBufferChunk->FreeSize() < size)
+	if (tTLS->LSendBufferChunk->FreeSize() < size)
 	{
-		tTLS.LSendBufferChunk = Pop(); // WRITE_LOCK
-		tTLS.LSendBufferChunk->Reset();
+		tTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
+		tTLS->LSendBufferChunk->Reset();
 	}
 
-	return tTLS.LSendBufferChunk->Open(size);
+	return tTLS->LSendBufferChunk->Open(size);
 }
 
 SendBufferChunkRef SendBufferManager::Pop()
 {
-
 	{
 		WRITE_LOCK;
 		if (_sendBufferChunks.empty() == false)

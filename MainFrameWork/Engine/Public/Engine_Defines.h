@@ -64,6 +64,7 @@ using namespace SimpleMath;
 #include "Engine_Struct.h"
 #include "Engine_Function.h"
 #include "Engine_Enum.h"
+#include "TLS.h"
 
 #ifdef _DEBUG
 
