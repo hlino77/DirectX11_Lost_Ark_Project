@@ -49,6 +49,37 @@ void CUI_IdentityGN_BackGroundFWing::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+	if ((m_bChange)&&(!m_bUpState))
+	{
+		if (10 >= m_fDistance)
+		{
+			m_fDistance += 2.f;
+			m_fY += 2.f;
+
+			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		}
+		else if (10 <= m_fDistance)
+			m_bUpState = true;
+	}
+	else if ((m_bChange) && (m_bUpState))
+	{
+		m_fDistance -= 2.f;
+		m_fY -= 2.f;
+		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		if (0 >= m_fDistance)
+		{
+			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			m_bUpState = false;
+			m_bChange = false;
+		}
+	}
+	//Change_Weapon();
 }
 
 void CUI_IdentityGN_BackGroundFWing::LateTick(_float fTimeDelta)
@@ -64,6 +95,43 @@ HRESULT CUI_IdentityGN_BackGroundFWing::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CUI_IdentityGN_BackGroundFWing::Change_Weapon()
+{
+	if (!m_bChange)
+		return;
+
+	if (!m_bUpState)
+	{
+		if (10 >= m_fDistance)
+		{
+			m_fDistance += 2.f;
+			m_fY += 2.f;
+
+			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		}
+		else if (10 <= m_fDistance)
+			m_bUpState = true;
+	}
+	else if (m_bUpState)
+	{
+		m_fDistance -= 2.f;
+		m_fY -= 2.f;
+		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		if (0 >= m_fDistance)
+		{
+			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			m_bUpState = false;
+			m_bChange = false;
+		}
+	}
 }
 
 HRESULT CUI_IdentityGN_BackGroundFWing::Ready_Components()

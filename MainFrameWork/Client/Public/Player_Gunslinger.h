@@ -37,7 +37,7 @@ public:
 
 	void			Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2 = false);
 	void			Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
-
+	
 public:
 	class CPlayer_Controller_GN* Get_GN_Controller() { return m_pController; }
 

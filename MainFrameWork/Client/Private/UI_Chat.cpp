@@ -86,6 +86,9 @@ HRESULT CUI_Chat::UI_Set()
 		pChatSmaller->Create_Rect();
 		m_vecUIParts.push_back(pChatSmaller);
 	}
+
+	Load_UIData(TEXT("Chat_Desc"));
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

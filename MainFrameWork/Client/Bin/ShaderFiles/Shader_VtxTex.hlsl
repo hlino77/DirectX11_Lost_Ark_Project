@@ -166,7 +166,7 @@ PS_OUT PS_MAIN_COLORTEX(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
-
+	Out.vColor = pow(Out.vColor, 1 / 2.2);
 	Out.vColor.a *= g_Alpha;
 
 	if (0.0f >= Out.vColor.a)

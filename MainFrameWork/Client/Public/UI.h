@@ -31,7 +31,6 @@ public:
 		_float		fY;
 		_float		fSizeX;
 		_float		fSizeY;
-
 		_float		fAlpha;
 		Vec4		vColor;
 	};
@@ -76,6 +75,7 @@ public:
 	vector<CUI*>	Get_UIParts();
 	_uint			Get_ButtonState() { return m_eButtonState; }
 	_uint			Set_ButtonState(_uint iButtonState) { m_eButtonState = (BUTTON_STATE)iButtonState; }
+	void			Load_UIData(const wstring& _FilePath);
 
 public://IMGUI
 	void	Change_SizeX(_float MMX);
@@ -98,6 +98,9 @@ public://IMGUI
 public:
 	const wstring	Get_UITag() { return m_strUITag; }
 	void	Set_ToolMode(_bool IsToolMode) { m_bTool = IsToolMode; }
+	_uint	Get_TextureIndex() { return m_iTextureIndex; }
+	void	Set_TextureIndex(_uint iIndex) { m_iTextureIndex = iIndex; }
+	void    Set_IsChange(_bool  IsChange) { m_bChange = IsChange; }
 
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer*				m_pRendererCom = { nullptr };
@@ -109,6 +112,7 @@ protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	Matrix					m_ViewMatrix, m_ProjMatrix;
 	wstring					m_strUITag;
+	wstring					m_strTextureProtoTag;
 
 	UISTATE					m_eState;
 	Vec3					m_vUITargetPos;
@@ -120,8 +124,11 @@ protected:
 	BUTTON_STATE		m_eButtonState = { BUTTON_NORMAL };
 	_bool				m_bPick = { false };
 	_bool				m_bTool = { false };
+	_bool				m_bChange = { false };
 	RECT				m_rcUI = {};
 	vector<CUI*>		m_vecUIParts;
+	_uint				m_iTextureIndex = { 0 };
+
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Bind_ShaderResources();

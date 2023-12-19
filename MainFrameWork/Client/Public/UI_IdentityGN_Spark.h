@@ -25,6 +25,9 @@ private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
+private:
+    _bool   m_bHidden = { false };
+    Vec2    m_vecSizeOrigin = { 128.f, 88.f };
 public:
     static  CUI_IdentityGN_Spark* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

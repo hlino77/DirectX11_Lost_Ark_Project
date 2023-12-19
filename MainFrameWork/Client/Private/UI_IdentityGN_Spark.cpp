@@ -49,6 +49,39 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+	if (!m_bChange)
+		return;
+	if (!m_bHidden)
+	{
+			m_fSizeX += 10.f * fTimeDelta;
+			m_fSizeY += 10.f * fTimeDelta;
+			m_fAlpha = 1.f;
+			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			m_bHidden = true;
+	}
+	else if (m_bHidden)
+	{
+		if (0 < m_fAlpha)
+		{
+			m_fSizeX += 10.f * fTimeDelta;
+			m_fSizeY += 10.f * fTimeDelta;
+			m_fAlpha -= 4.f * fTimeDelta;
+
+			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		}
+		if (0 >= m_fAlpha)
+		{
+			m_fSizeX = m_vecSizeOrigin.x;
+			m_fSizeY = m_vecSizeOrigin.y;
+			m_bHidden = false;
+			m_fAlpha = 0.f;
+			m_bChange = false;
+		}
+	}
 }
 
 void CUI_IdentityGN_Spark::LateTick(_float fTimeDelta)
@@ -73,7 +106,7 @@ HRESULT CUI_IdentityGN_Spark::Ready_Components()
 	__super::Ready_Components();
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Frame"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponChange_Spark"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 

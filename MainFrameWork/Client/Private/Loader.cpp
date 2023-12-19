@@ -42,13 +42,13 @@
 #include "UI_Manager.h"
 #include "UI_IdentityGN_BackGroundWing.h"
 #include "UI_IdentityGN_BackGroundFrame.h"
-#include "UI_IdentityGN_WF_BG.h"
-#include "UI_IdentityGN_WeaponFrame.h"
-#include "UI_IdentityGN_IconBG.h"
-#include "UI_IdentityGN_WF_Trail.h"
-#include "UI_IdentityGN_WpIcon.h"
-#include "UI_Identity_WF_Front.h"
+#include "UI_IdentityGN_BackGroundShine.h"
+#include "UI_IdentityGN_MainFrame.h"
+#include "UI_IdentityGN_ShineFrame.h"
+#include "UI_IdentityGN_WF_Front.h"
 #include "UI_Identity_GN.h"
+#include "UI_IdentityGN_Arrow.h"
+#include "UI_IdentityGN_Spark.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -192,28 +192,28 @@ HRESULT CLoader::Loading_For_Level_Logo()
 		CUI_IdentityGN_BackGroundFrame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WF_BackGround"),
-		CUI_IdentityGN_WF_BG::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_BackGroundShine"),
+		CUI_IdentityGN_BackGroundShine::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WeaponFrame"),
-		CUI_IdentityGN_WeaponFrame::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_Arrow"),
+		CUI_IdentityGN_Arrow::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_MainFrame"),
+		CUI_IdentityGN_MainFrame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WF_IconBG"),
-		CUI_IdentityGN_IconBG::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WF_Trail"),
-		CUI_IdentityGN_WF_Trail::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WF_Icon"),
-		CUI_IdentityGN_WpIcon::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_ShineFrame"),
+		CUI_IdentityGN_ShineFrame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WF_Front"),
-		CUI_Identity_WF_Front::Create(m_pDevice, m_pContext))))
+		CUI_IdentityGN_WF_Front::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGN_WF_Spark"),
+		CUI_IdentityGN_Spark::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityGNUI"),
@@ -624,32 +624,12 @@ HRESULT CLoader::Loading_IdentityTexture()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_BackGround_Shine.png"))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_Back"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame_Back%d.png", 3))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame.png"))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_ShineTrail"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame_ShineTrail%d.png", 3))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponIcon_BackGround"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponIcon_BackGround%d.png",3))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponIcon"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponIcon%d.png",3))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_MainFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WF_MainFrame%d.png",3))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_ShineEffect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame_ShineEffect%d.png",3))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_BackShineEffect"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame_BackShineEffect%d.png",3))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_Front"),
