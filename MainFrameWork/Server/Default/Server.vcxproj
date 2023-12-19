@@ -166,12 +166,14 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe_Server.cpp" />
+    <ClCompile Include="..\Private\King_Server.cpp" />
     <ClCompile Include="..\Private\Level_Bern_Server.cpp" />
     <ClCompile Include="..\Private\Level_Loading_Server.cpp" />
     <ClCompile Include="..\Private\Loader_Server.cpp" />
     <ClCompile Include="..\Private\MainApp_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Ghoul_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Golem_Server.cpp" />
+    <ClCompile Include="..\Private\Monster_Reaper_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie_Server.cpp" />
@@ -182,6 +184,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack1_Server.cpp" />
+    <ClCompile Include="..\Private\Reaper_BT_Attack2_Server.cpp" />
+    <ClCompile Include="..\Private\Reaper_BT_Attack3_Server.cpp" />
     <ClCompile Include="..\Private\ServerEvent.cpp" />
     <ClCompile Include="..\Private\ServerPacketHandler.cpp" />
     <ClCompile Include="..\Private\Skill_Server.cpp" />
@@ -220,12 +225,14 @@
     <ClInclude Include="..\Public\Ghoul_BT_Attack_1_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Dash_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch_Server.h" />
+    <ClInclude Include="..\Public\King_Server.h" />
     <ClInclude Include="..\Public\Level_Bern_Server.h" />
     <ClInclude Include="..\Public\Level_Loading_Server.h" />
     <ClInclude Include="..\Public\Loader_Server.h" />
     <ClInclude Include="..\Public\MainApp_Server.h" />
     <ClInclude Include="..\Public\Monster_Ghoul_Server.h" />
     <ClInclude Include="..\Public\Monster_Golem_Server.h" />
+    <ClInclude Include="..\Public\Monster_Reaper_Server.h" />
     <ClInclude Include="..\Public\Monster_Plant_Server.h" />
     <ClInclude Include="..\Public\Monster_Server.h" />
     <ClInclude Include="..\Public\Monster_Zombie_Server.h" />
@@ -235,6 +242,9 @@
     <ClInclude Include="..\Public\Plant_BT_Attack_Shake_Server.h" />
     <ClInclude Include="..\Public\Player_Server.h" />
     <ClInclude Include="..\Public\Protocol.pb.h" />
+    <ClInclude Include="..\Public\Reaper_BT_Attack1_Server.h" />
+    <ClInclude Include="..\Public\Reaper_BT_Attack2_Server.h" />
+    <ClInclude Include="..\Public\Reaper_BT_Attack3_Server.h" />
     <ClInclude Include="..\Public\ServerEvent.h" />
     <ClInclude Include="..\Public\ServerPacketHandler.h" />
     <ClInclude Include="..\Public\Server_Defines.h" />

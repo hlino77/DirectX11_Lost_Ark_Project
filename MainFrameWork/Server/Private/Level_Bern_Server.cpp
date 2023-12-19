@@ -77,7 +77,7 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 			Vec3 vPos = CGameInstance::GetInstance()->Find_GameObjects(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER).front()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 MonsterPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f));
 
-			if (GetAsyncKeyState(VK_F5) & 0x8000)
+			if (GetAsyncKeyState(VK_CONTROL) & 0x8000&& GetAsyncKeyState('1') & 0x8000)
 			{
 				if (m_bKey_Lock)
 					return S_OK;
@@ -85,7 +85,7 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 				Broadcast_Monster(MonsterPos, L"Zombie");
 
 			}
-			else if (GetAsyncKeyState(VK_F6) & 0x8000)
+			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('2') & 0x8000)
 			{
 				if (m_bKey_Lock)
 					return S_OK;
@@ -93,7 +93,7 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 				Broadcast_Monster(MonsterPos, L"Golem");
 
 			}
-			else if (GetAsyncKeyState(VK_F7) & 0x8000 )
+			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('3') & 0x8000)
 			{
 				if (m_bKey_Lock)
 					return S_OK;
@@ -101,12 +101,19 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 				Broadcast_Monster(MonsterPos, L"Ghoul");
 
 			}
-			else if (GetAsyncKeyState(VK_F8) & 0x8000 )
+			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('4') & 0x8000)
 			{
 				if (m_bKey_Lock)
 					return S_OK;
 				m_bKey_Lock = true;
 				Broadcast_Monster(MonsterPos, L"Plant");
+			}
+			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('5') & 0x8000)
+			{
+				if (m_bKey_Lock)
+					return S_OK;
+				m_bKey_Lock = true;
+				Broadcast_Monster(MonsterPos, L"Reaper");
 			}
 			else
 				m_bKey_Lock = false;

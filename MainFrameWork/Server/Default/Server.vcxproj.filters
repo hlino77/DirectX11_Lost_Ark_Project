@@ -88,6 +88,15 @@
     <Filter Include="02. GameObject\03. Monster\Monster_Ghoul\Behavior">
       <UniqueIdentifier>{09e78d27-c4c6-4063-aacb-201c12150ee8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Monster\Monster_Reaper">
+      <UniqueIdentifier>{f2955bd9-3d80-4ace-84ed-68ef7bdca446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\Monster_Reaper\Behavior">
+      <UniqueIdentifier>{b20cad63-b00c-40a1-b402-47dfea2aaf9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\King">
+      <UniqueIdentifier>{53a31b71-4978-4350-a4c8-4b9ce724c550}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -221,6 +230,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Reaper_Server.cpp">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack1_Server.cpp">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack2_Server.cpp">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack3_Server.cpp">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_Server.cpp">
+      <Filter>02. GameObject\04. Boss\King</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +406,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Chase_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Reaper_Server.h">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Reaper_BT_Attack1_Server.h">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Reaper_BT_Attack2_Server.h">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Reaper_BT_Attack3_Server.h">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_Server.h">
+      <Filter>02. GameObject\04. Boss\King</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ private:
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
 			m_bCondition = IsFar();
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction( fTimeDelta);
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp( fTimeDelta);
 		return __super::OnUpdate(fTimeDelta);
 	}
 

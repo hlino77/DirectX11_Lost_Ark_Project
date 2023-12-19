@@ -385,6 +385,15 @@
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
       <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Reaper">
+      <UniqueIdentifier>{d22c4054-87d3-46d7-b536-21ae70a07b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Reaper\Behavior">
+      <UniqueIdentifier>{f036632a-bcb9-46ec-b747-1c475968ece3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Reaper\Part">
+      <UniqueIdentifier>{aa29f5c9-35d7-4ded-99ea-6ff7ec8d41fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -548,9 +557,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
-      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
@@ -818,7 +824,6 @@
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
     <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
-    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
@@ -833,7 +838,6 @@
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_IconBG.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h" />
@@ -875,9 +879,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
@@ -1095,6 +1096,24 @@
     <ClInclude Include="..\Public\Golem_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Monster_Reaper.h">
+      <Filter>02.GameObjects\Monster\Reaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Reaper_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Reaper_BT_Attack1.h">
+      <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Reaper_BT_Attack3.h">
+      <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Wp_Reaper.h">
+      <Filter>02.GameObjects\Monster\Reaper\Part</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1240,9 +1259,6 @@
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
       <Filter>01.Levels\98.Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
-      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
@@ -1509,7 +1525,6 @@
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
     <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
-    <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
@@ -1525,7 +1540,6 @@
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_IconBG.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp" />
@@ -1569,9 +1583,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
@@ -1788,6 +1799,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack3.cpp">
+      <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Reaper_BT_Attack1.cpp">
+      <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Reaper.cpp">
+      <Filter>02.GameObjects\Monster\Reaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Wp_Reaper.cpp">
+      <Filter>02.GameObjects\Monster\Reaper\Part</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

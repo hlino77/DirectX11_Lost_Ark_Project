@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Monster_Ghoul_Server.h"
+#include "Monster_Reaper_Server.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
@@ -9,6 +9,8 @@
 #include "NavigationMgr.h"
 #include "Skill_Server.h"
 #include "Common_BT_Attack1_Server.h"
+#include "Plant_BT_Attack_Root_Server.h"
+#include "Plant_BT_Attack_Shake_Server.h"
 #include "Common_BT_Chase_Server.h"
 #include "Common_BT_DamageLeft_Server.h"
 #include "Common_BT_DamageRight_Server.h"
@@ -17,42 +19,41 @@
 #include "Common_BT_BattleIdle_Server.h"
 #include "Common_BT_Move_Server.h"
 #include "Common_BT_Spawn_Server.h"
-#include "Common_BT_WHILE_Within_Range_Server.h"
 #include "Common_BT_IF_Dead_Server.h"
 #include "Common_BT_IF_Hit_Server.h"
 #include "Common_BT_IF_Hit_Left_Server.h"
 #include "Common_BT_IF_Near_Server.h"
-#include "Common_BT_IF_Far_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
+#include "Common_BT_WHILE_Within_Range_Server.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
-#include <Common_BT_IF_Attacked.h>
-#include <Ghoul_BT_Attack_1_Server.h>
-#include <Ghoul_BT_Attack_2_Server.h>
-#include <Ghoul_BT_Attack_3_Server.h>
+#include "Common_BT_IF_Attacked.h"
+#include "Common_BT_IF_Far_Server.h"
+#include "Reaper_BT_Attack3_Server.h"
+#include "Reaper_BT_Attack2_Server.h"
+#include "Reaper_BT_Attack1_Server.h"
 
-
-CMonster_Ghoul_Server::CMonster_Ghoul_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Reaper_Server::CMonster_Reaper_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
 {
 }
 
-CMonster_Ghoul_Server::CMonster_Ghoul_Server(const CMonster_Server& rhs)
+CMonster_Reaper_Server::CMonster_Reaper_Server(const CMonster_Server& rhs)
 	: CMonster_Server(rhs)
 {
 }
 
-HRESULT CMonster_Ghoul_Server::Initialize_Prototype()
+HRESULT CMonster_Reaper_Server::Initialize_Prototype()
 {
 	
 	return S_OK;
 }
 
-HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
+HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_szModelName = L"Ghoul";
-	m_strObjectTag = L"Monster_Ghoul";
+	m_szModelName = L"Reaper";
+	m_strObjectTag = L"Monster_Reaper";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
@@ -67,8 +68,10 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
+	m_pRigidBody->SetMass(2.0f);
+
 	m_vecAttackRanges.push_back(1.f);
-	m_vecAttackRanges.push_back(4.5f);
+	m_vecAttackRanges.push_back(2.f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
@@ -76,7 +79,7 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
+void CMonster_Reaper_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
@@ -89,12 +92,12 @@ void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
-
-	Set_to_RootPosition(fTimeDelta, 0.5f);
+	if (Get_Target_Distance() > 0.5f)
+		Set_to_RootPosition(fTimeDelta);
 
 }
 
-void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
+void CMonster_Reaper_Server::LateTick(_float fTimeDelta)
 {
 
 
@@ -110,29 +113,29 @@ void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 }
 
-HRESULT CMonster_Ghoul_Server::Render()
+HRESULT CMonster_Reaper_Server::Render()
 {
 
 	return S_OK;
 }
 
-void CMonster_Ghoul_Server::Set_SlowMotion(_bool bSlow)
+void CMonster_Reaper_Server::Set_SlowMotion(_bool bSlow)
 {
 }
 
-void CMonster_Ghoul_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CMonster_Reaper_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Ghoul_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CMonster_Reaper_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Ghoul_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CMonster_Reaper_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-HRESULT CMonster_Ghoul_Server::Ready_Components()
+HRESULT CMonster_Reaper_Server::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -160,10 +163,9 @@ HRESULT CMonster_Ghoul_Server::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_Monster_Ghoul";
+	wstring strComName = L"Prototype_Component_Model_Monster_Reaper";
 	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
-
 
 
 
@@ -181,7 +183,7 @@ HRESULT CMonster_Ghoul_Server::Ready_Components()
 
 }
 
-HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
+HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 {
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
@@ -197,7 +199,6 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = .723f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -249,7 +250,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("respawn_1");
+	AnimationDesc.strAnimName = TEXT("evt1_att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
@@ -261,7 +262,10 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))
 		return E_FAIL;
 
+
+
 	ActionDesc.vecAnimations.clear();
+
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -285,65 +289,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack1 = CCommon_BT_Attack1_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_2_start");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_2_loop");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_2_end");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 1.3f;
-	CBT_Action* pAttack2 = CGhoul_BT_Attack_1_Server::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CGhoul_BT_Attack_2_Server::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_4");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack4";
-	CBT_Action* pAttack4 = CGhoul_BT_Attack_3_Server::Create(&ActionDesc);
-
-	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
-	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
-
-
-	if (FAILED(pSequenceNear->AddChild(pAttack2)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack3)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack4)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
-
-
-	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
-	if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
-		return E_FAIL;
-
-
-	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -351,6 +297,89 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack2";
+	CBT_Action* pAttack2 = CReaper_BT_Attack1_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack3";
+	CBT_Action* pAttack3 = CReaper_BT_Attack2_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_03_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack4";
+	CBT_Action* pAttack4 = CReaper_BT_Attack3_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_03_2");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack5";
+	CBT_Action* pAttack5 = CReaper_BT_Attack3_Server::Create(&ActionDesc);
+
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
+
+	if (FAILED(pSequenceNear->AddChild(pAttack1)))
+		return E_FAIL;
+
+	if (FAILED(pSequenceNear->AddChild(pAttack2)))
+		return E_FAIL;
+	if (FAILED(pSequenceNear->AddChild(pAttack5)))
+		return E_FAIL;
+	if (FAILED(pSequenceNear->AddChild(pAttack3)))
+		return E_FAIL;
+	if (FAILED(pSequenceNear->AddChild(pAttack4)))
+		return E_FAIL;
+
+	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
+	if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
+		return E_FAIL;
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
@@ -370,6 +399,10 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
 		return E_FAIL;
 
+
+
+
+
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
@@ -387,6 +420,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Idle_1";
 	CBT_Action* pIdle_1 = CCommon_BT_Idle_Server::Create(&ActionDesc);
+
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
@@ -406,6 +440,8 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	if (FAILED(pSequenceIdle->AddChild(pMove)))
 		return E_FAIL;
 	if (FAILED(pSequenceIdle->AddChild(pIdle_1)))
+		return E_FAIL;
+	if (FAILED(pSequenceIdle->AddChild(pMove)))
 		return E_FAIL;
 	if (FAILED(pSequenceIdle->AddChild(pMove)))
 		return E_FAIL;
@@ -431,26 +467,26 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	return S_OK;
 }
 
-CMonster_Ghoul_Server* CMonster_Ghoul_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Reaper_Server* CMonster_Reaper_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Ghoul_Server* pInstance = new CMonster_Ghoul_Server(pDevice, pContext);
+	CMonster_Reaper_Server* pInstance = new CMonster_Reaper_Server(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CMonster_Ghoul_Server");
+		MSG_BOX("Failed To Created : CMonster_Reaper");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster_Ghoul_Server::Clone(void* pArg)
+CGameObject* CMonster_Reaper_Server::Clone(void* pArg)
 {
-	CMonster_Ghoul_Server* pInstance = new CMonster_Ghoul_Server(*this);
+	CMonster_Reaper_Server* pInstance = new CMonster_Reaper_Server(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		cout << "Failed To Cloned : CMonster_Ghoul_Server" << endl;
+		cout << "Failed To Cloned : CMonster_Reaper" << endl;
 		Safe_Release(pInstance);
 	}
 
@@ -459,7 +495,7 @@ CGameObject* CMonster_Ghoul_Server::Clone(void* pArg)
 
 
 
-void CMonster_Ghoul_Server::Free()
+void CMonster_Reaper_Server::Free()
 {
 	__super::Free();
 

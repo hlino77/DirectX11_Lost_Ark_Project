@@ -11,6 +11,7 @@ class CSphereCollider;
 class CCollider;
 class CRenderer;
 class CModel;
+class CBehaviorTree;
 END
 
 
@@ -65,7 +66,14 @@ public:
 
 	void					Set_FollowDistance(_float fDistance) { m_fFollowDistance = fDistance; }
 	_float					Get_FollowDistance() { return m_fFollowDistance; }
-	
+
+	_bool					Is_Skill();
+	void					Reset_SkillStack() { m_iSkillStack = 0;			m_fSkillCoolDown = 0.f; }
+	void					Add_SkillStack() { m_iSkillStack++; }
+
+	void					Set_AttackRange(_int iRangeIndex);
+	_float					Get_AttackRange() { return m_fAttackRange; }
+
 public:
 
 
@@ -77,6 +85,7 @@ public:
 
 	//Send Packet
 	void				Send_State(const wstring& szName);
+	void				Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance);
 	void				Set_State(const wstring& szName);
 	void				Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 	void				Send_ColliderState(const _uint& iLayer);
@@ -97,7 +106,7 @@ public:
 	virtual void				Set_Die();
 protected:
 	virtual HRESULT		Ready_Components();
-
+	virtual	HRESULT		Ready_BehaviourTree() { return S_OK; };
 
 
 protected:
@@ -107,7 +116,7 @@ protected:
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
-
+	_float							m_fScanCoolDown = 0.f;
 
 	unordered_map<wstring, _uint>	m_BoneIndex;
 
@@ -115,7 +124,18 @@ protected:
 	_float							m_fFollowDistance = 0.0f;
 
 	atomic<_int>					m_iSlowMotionCount = 0;
-	
+protected:
+	CBehaviorTree*					m_pBehaviorTree = nullptr;
+	vector<_float>					m_vecAttackRanges;
+	_float							m_fAttackRange = 0.f;
+	_float							m_fNoticeRange = 0.f;
+	_bool							m_IsAttacked = true;
+	_bool							m_IsHit = false;
+	_bool							m_IsLeft = false;
+	_bool							m_IsSpawn = true;
+	_uint							m_iSkillStack = 0;
+	_float							m_fSkillCoolDown = 0.f;
+	Vec3							m_vRandomPosition = {};
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 

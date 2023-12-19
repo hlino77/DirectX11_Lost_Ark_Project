@@ -48,7 +48,7 @@ CCommon_BT_Chase_Server* CCommon_BT_Chase_Server::Create(void* pArg)
 
 	return pInstance;
 }
-
+ 
 void CCommon_BT_Chase_Server::Free()
 {
 	__super::Free();

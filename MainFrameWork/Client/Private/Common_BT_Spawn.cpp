@@ -9,6 +9,7 @@ CCommon_BT_Spawn::CCommon_BT_Spawn()
 void CCommon_BT_Spawn::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster*>(m_pGameObject)->	LookAt_Target_Direction();
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)
@@ -26,13 +27,7 @@ void CCommon_BT_Spawn::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_Spawn(false);
 }
 
-_bool CCommon_BT_Spawn::IsOut()
-{
-	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit())
-		return true;
 
-	return false;
-}
 
 CCommon_BT_Spawn* CCommon_BT_Spawn::Create(void* pArg)
 {

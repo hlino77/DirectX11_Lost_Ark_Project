@@ -63,8 +63,8 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
 
-
-
+	m_tCullingSphere.Radius = 2.5f;
+	m_tCullingSphere.Center = Vec3(0.f, 0.75f, 0.f);
 
     return S_OK;
 }

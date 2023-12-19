@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameInstance.h"
-#include "Monster_Plant.h"
+#include "Monster_Reaper.h"
 #include "ServerSessionManager.h"
 #include "ServerSession.h"
 #include "Camera_Player.h"
@@ -22,32 +22,35 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
-#include <Plant_BT_Attack_Root.h>
-#include <Plant_BT_Attack_Shake.h>
+#include "Reaper_BT_Attack1.h"
+#include "Reaper_BT_Attack2.h"
+#include "Reaper_BT_Attack3.h"
+#include "PartObject.h"
 
-CMonster_Plant::CMonster_Plant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Reaper::CMonster_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
 }
 
-CMonster_Plant::CMonster_Plant(const CMonster_Plant& rhs)
+CMonster_Reaper::CMonster_Reaper(const CMonster_Reaper& rhs)
 	: CMonster(rhs)
 {
 }
 
-HRESULT CMonster_Plant::Initialize_Prototype()
+HRESULT CMonster_Reaper::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CMonster_Plant::Initialize(void* pArg)
+HRESULT CMonster_Reaper::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
-
+	m_tCullingSphere.Radius = 1.5f;
+	m_tCullingSphere.Center = Vec3(0.f, 1.5f,0.f );
 	
 
 	if (FAILED(Ready_Components()))
@@ -61,8 +64,7 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
-	m_tCullingSphere.Radius = 1.5f;
-	m_tCullingSphere.Center = Vec3(0.f, 1.5f, 0.f);
+
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(5.f);
 
@@ -70,27 +72,31 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Plant::Tick(_float fTimeDelta)
+void CMonster_Reaper::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
+	if (Get_Target_Distance() > 0.5f)
+		Set_to_RootPosition(fTimeDelta);
+	if (m_pWeapon != nullptr)
+		m_pWeapon->Tick(fTimeDelta);
 }
 
-void CMonster_Plant::LateTick(_float fTimeDelta)
+void CMonster_Reaper::LateTick(_float fTimeDelta)
 {
 
 	if (nullptr == m_pRendererCom)
 		return;
-
 	CullingObject();
+	if (m_pWeapon != nullptr)
+		m_pWeapon->LateTick(fTimeDelta);
 }
 
 
-HRESULT CMonster_Plant::Render()
+HRESULT CMonster_Reaper::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -107,7 +113,7 @@ HRESULT CMonster_Plant::Render()
 	return S_OK;
 }
 
-HRESULT CMonster_Plant::Render_ShadowDepth()
+HRESULT CMonster_Reaper::Render_ShadowDepth()
 {
 	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
@@ -133,7 +139,7 @@ HRESULT CMonster_Plant::Render_ShadowDepth()
 }
 
 
-void CMonster_Plant::Set_SlowMotion(_bool bSlow)
+void CMonster_Reaper::Set_SlowMotion(_bool bSlow)
 {
 	if (bSlow)
 	{
@@ -162,7 +168,7 @@ void CMonster_Plant::Set_SlowMotion(_bool bSlow)
 
 
 
-HRESULT CMonster_Plant::Ready_Components()
+HRESULT CMonster_Reaper::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -194,7 +200,7 @@ HRESULT CMonster_Plant::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), TEXT("Prototype_Component_Model_Monster_Plant"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), TEXT("Prototype_Component_Model_Monster_Reaper"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 
@@ -222,7 +228,16 @@ HRESULT CMonster_Plant::Ready_Components()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
 	}
 
-
+	CPartObject::PART_DESC			PartDesc_Weapon;
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("bip001-prop1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	m_pWeapon = dynamic_cast<CPartObject*>( pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Weapon_wp_Reaper"), &PartDesc_Weapon));
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -236,7 +251,7 @@ HRESULT CMonster_Plant::Ready_Components()
     return S_OK;
 }
 
-HRESULT CMonster_Plant::Ready_BehaviourTree()
+HRESULT CMonster_Reaper::Ready_BehaviourTree()
 {
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
@@ -304,7 +319,7 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CPlant_BT_Attack_Shake::Create(&ActionDesc);
+	CBT_Action* pAttack2 = CReaper_BT_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -314,7 +329,52 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CPlant_BT_Attack_Root::Create(&ActionDesc);
+	CBT_Action* pAttack3 = CReaper_BT_Attack2::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_03_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack4";
+	CBT_Action* pAttack4 = CReaper_BT_Attack3::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_4_03_2");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack5";
+	CBT_Action* pAttack5 = CReaper_BT_Attack3::Create(&ActionDesc);
+
 
 
 	ActionDesc.vecAnimations.clear();
@@ -352,15 +412,6 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Idle_1";
 	CBT_Action* pIdle_1 = CCommon_BT_Idle::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("idle_normal_1_2");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Idle_2";
-	CBT_Action* pIdle_2 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -372,38 +423,47 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Move";
 	CBT_Action* pMove = CCommon_BT_Move::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("evt1_att_battle_1_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Respawn";
+	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
+
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Idle_0");
 	return S_OK;
 }
 
 
-CMonster_Plant* CMonster_Plant::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Reaper* CMonster_Reaper::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Plant* pInstance = new CMonster_Plant(pDevice, pContext);
+	CMonster_Reaper* pInstance = new CMonster_Reaper(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CMonster_Plant");
+		MSG_BOX("Failed To Created : CMonster_Reaper");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster_Plant::Clone(void* pArg)
+CGameObject* CMonster_Reaper::Clone(void* pArg)
 {
-	CMonster_Plant* pInstance = new CMonster_Plant(*this);
+	CMonster_Reaper* pInstance = new CMonster_Reaper(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CMonster_Plant");
+		MSG_BOX("Failed To Cloned : CMonster_Reaper");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonster_Plant::Free()
+void CMonster_Reaper::Free()
 {
 	__super::Free();
 

@@ -10,7 +10,6 @@ CGolem_BT_Attack_Dash_Server::CGolem_BT_Attack_Dash_Server()
 void CGolem_BT_Attack_Dash_Server::OnStart()
 {
 	__super::OnStart(0);
-	cout << endl << "¼­¹ö °ñ·½" << "	|	" << m_pGameObject->Get_ModelCom()->Get_CurrAnim() << "	|	" << m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_pGameObject->Get_ModelCom()->Get_CurrAnim()) << endl;
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
@@ -21,7 +20,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDe
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[0].first.iAnimIndex)>0.8f)
 		return BT_SUCCESS;
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].first.iAnimIndex) < 10)
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction(fTimeDelta);
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	return BT_RUNNING;
 }
@@ -29,7 +28,6 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDe
 void CGolem_BT_Attack_Dash_Server::OnEnd()
 {
 	__super::OnEnd();
-	cout << endl << "¼­¹ö °ñ·½" << "	|	" << m_pGameObject->Get_ModelCom()->Get_CurrAnim() << "	|	" << m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_pGameObject->Get_ModelCom()->Get_CurrAnim()) << endl;
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
