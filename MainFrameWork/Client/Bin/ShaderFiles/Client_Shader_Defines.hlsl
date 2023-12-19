@@ -5,12 +5,29 @@ sampler LinearSampler = sampler_state{
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = wrap;
 	AddressV = wrap;
+	AddressW = wrap;
+};
+
+sampler LinearClampSampler = sampler_state{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = clamp;
+	AddressV = clamp;
+	AddressW = clamp;
+};
+
+sampler LinearBorderSampler = sampler_state
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = BORDER;
+    AddressV = BORDER;
+    AddressW = BORDER;
 };
 
 sampler PointSampler = sampler_state{
 	Filter = MIN_MAG_MIP_POINT;
 	AddressU = wrap;
 	AddressV = wrap;
+	AddressW = wrap;
 };
 
 sampler MirrorSampler = sampler_state
@@ -21,6 +38,7 @@ sampler MirrorSampler = sampler_state
 	mipfilter = linear;*/
     AddressU = mirror;
     AddressV = mirror;
+    AddressW = mirror;
 };
 
 RasterizerState RS_Skybox
@@ -91,6 +109,16 @@ BlendState BS_AlphaBlendDest
 	SrcBlend = One;
 	DestBlend = Dest_Alpha;
 	BlendOp = Add;
+};
+
+BlendState BS_OneBlend
+{
+    BlendEnable[0] = true;
+    BlendEnable[1] = true;
+
+    SrcBlend = One;
+    DestBlend = One;
+    BlendOp = Add;
 };
 
 BlendState BS_BlurBlend

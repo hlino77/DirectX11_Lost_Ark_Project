@@ -504,9 +504,6 @@
     <ClInclude Include="..\Public\UI_ServerLogo.h">
       <Filter>02.GameObjects\UI\00.Server\03.Logo</Filter>
     </ClInclude>
-    <ClInclude Include="UI_LoadingWnd.h">
-      <Filter>02.GameObjects\UI\01.Loading\00.Wnd</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h">
       <Filter>02.GameObjects\UI\00.Server\02.Button\00.Entrance</Filter>
     </ClInclude>
@@ -552,14 +549,8 @@
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
       <Filter>01.Levels\98.Tool\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
-      <Filter>02.GameObjects\Monster\Zombie\AI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
-      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
@@ -569,12 +560,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Tool.h">
       <Filter>01.Levels\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\EffectTool.h">
-      <Filter>01.Levels\98.Tool\Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ToolBase.h">
-      <Filter>01.Levels\98.Tool\Tool\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Attack1.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -682,12 +667,6 @@
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
       <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ToolBase.h">
-      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\EffectTool.h">
-      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
@@ -706,7 +685,6 @@
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
-    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
     </ClInclude>
@@ -834,7 +812,6 @@
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
     <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
-    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
@@ -1105,6 +1082,18 @@
     <ClInclude Include="..\Public\Common_BT_Spawn.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EffectTool.h" />
+    <ClInclude Include="..\Public\ToolBase.h" />
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
+    <ClInclude Include="..\Public\ToolBase.h">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectTool.h">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1209,9 +1198,6 @@
     <ClCompile Include="..\Private\UI_ServerLogo.cpp">
       <Filter>02.GameObjects\UI\00.Server\03.Logo</Filter>
     </ClCompile>
-    <ClCompile Include="UI_LoadingWnd.cpp">
-      <Filter>02.GameObjects\UI\01.Loading\00.Wnd</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp">
       <Filter>02.GameObjects\UI\00.Server\02.Button\00.Entrance</Filter>
     </ClCompile>
@@ -1254,14 +1240,8 @@
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
       <Filter>01.Levels\98.Tool\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
-      <Filter>02.GameObjects\Monster\Zombie\AI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
-      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Server\01.Lobby</Filter>
@@ -1271,12 +1251,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Tool.cpp">
       <Filter>01.Levels\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\EffectTool.cpp">
-      <Filter>01.Levels\98.Tool\Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ToolBase.cpp">
-      <Filter>01.Levels\98.Tool\Tool\Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -1381,12 +1355,6 @@
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
       <Filter>01.Levels\98.Tool\99.ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ToolBase.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\EffectTool.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
@@ -1405,7 +1373,6 @@
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
     <ClCompile Include="..\Private\Weapon_Long.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot.cpp" />
-    <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
     </ClCompile>
@@ -1535,7 +1502,6 @@
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
     <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
-    <ClCompile Include="UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
@@ -1806,6 +1772,18 @@
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp" />
+    <ClCompile Include="..\Private\ToolBase.cpp" />
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\ToolBase.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\00.BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\01.EffectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
+      <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1845,9 +1823,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred_Effect.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
@@ -1867,9 +1842,6 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred_Effect.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Instance.hlsl">
@@ -1953,6 +1925,12 @@
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>

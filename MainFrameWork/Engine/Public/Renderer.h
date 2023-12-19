@@ -63,6 +63,10 @@ private:
 	HRESULT Render_Blend();
 	HRESULT Render_NonLight();
 	HRESULT Render_AlphaBlend();
+
+	HRESULT Render_Bloom();
+	HRESULT Render_PostProcess();
+
 	HRESULT Render_ModelEffectInstance();
 	HRESULT	Render_EffectInstance();
 
@@ -105,7 +109,7 @@ private:
 
 	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
 	CShader* m_pMRTShader = { nullptr };
-	CShader* m_pEffectShader = { nullptr };
+	CShader* m_pPostProccessor = { nullptr };
 
 	Matrix	m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
 
@@ -138,6 +142,11 @@ private:
 	_bool	m_bPBR_Switch = true;
 	_int	m_iSSAO_Switch = true;
 
+	//Bloom
+	HRESULT	Ready_Bloom();
+	HRESULT Execute_BloomBlur();
+
+
 	//SSAO
 	HRESULT Ready_SSAO();
 
@@ -168,6 +177,26 @@ private:
 		0.5f, 0.5f, 0.0f, 1.0f	};
 	
 	class CTexture* m_pRandomTexture = nullptr;
+
+	// Bloom
+	ID3D11DepthStencilView* m_pDownSample4x4_DSV = nullptr;
+	ID3D11DepthStencilView* m_pDownSample24x24_DSV = nullptr;
+	ID3D11DepthStencilView* m_pDownSample144x144_DSV = nullptr;
+	CShader* m_pBloomShader = { nullptr };
+	struct tagPerFrame
+	{
+		_float	fTexelWidth = 1.f / 1600.f;
+		_float	fTexelHeight = 1.f / 900.f;
+		Vec2	vPadding;
+	};
+
+	/*_float m_fSampleRatio4x4 = 4.f;
+	_float m_fSampleRatio16x16 = 24.f - 0.5f;
+	_float m_fSampleRatio64x64 = 144.f - 3.f;*/
+	_float m_fSampleRatio4x4 = 4.f;
+	_float m_fSampleRatio16x16 = 16.f;
+	_float m_fSampleRatio64x64 = 64.f;
+
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
