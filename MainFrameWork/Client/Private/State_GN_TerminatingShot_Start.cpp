@@ -58,7 +58,7 @@ void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
 		30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1) &&
-		38 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+		40 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
 	{
 		m_bComboContinue = true;
 	}

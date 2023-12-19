@@ -57,7 +57,8 @@ void CState_GN_QuickStep_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		8 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start))
+		5 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start) &&
+		10 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start))
 	{
 		m_bComboContinue = true;
 	}

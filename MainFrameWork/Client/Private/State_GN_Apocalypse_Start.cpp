@@ -48,6 +48,8 @@ void CState_GN_Apocalypse_Start::Tick_State_Control(_float fTimeDelta)
 {
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iApocalypse_Start))
 		m_pPlayer->Set_State(TEXT("Skill_GN_Apocalypse_Loop"));
+
+	/* 폭탄 던지는 프레임 12 */
 }
 
 void CState_GN_Apocalypse_Start::Tick_State_NoneControl(_float fTimeDelta)
