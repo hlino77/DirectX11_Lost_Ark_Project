@@ -32,6 +32,12 @@ public:
 	virtual void	DebugRender();
 
 public:
+	_bool		Is_Tap(KEY eKey);
+	_bool		Is_Hold(KEY eKey);
+	_bool		Is_HoldorTap(KEY eKey);
+	_bool		Is_Away(KEY eKey);
+
+public:
 	_bool		Is_Idle();
 	_bool		Is_Run();
 	_bool		Is_Skill();
@@ -41,7 +47,8 @@ public:
 
 	void		Get_MoveMessage(Vec3 vPos)					 { m_vNextMove = vPos;	m_bStop = false; }
 	void		Get_StopMessage()							 { m_vNextMove = Vec3(); m_bStop = true;}
-	void		Get_LookMessage(Vec3 vAt)					 { m_vNextMove = vAt;	m_bStop = true; }
+	void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; }
+	void		Get_LookMessage(Vec3 vAt)					 { Look(vAt); }
 	void		Get_AttackMessage()							 { Attack(); }
 	void		Get_SkillMessage(SKILL_KEY eKey)			 { Skill(eKey); }
 	void		Get_HitMessage()							 { Hit(); }
@@ -51,10 +58,16 @@ public:
 	_bool		Is_Stop() { return m_bMoveStop; }
 
 	/* 스킬 함수 */
+public:
 	HRESULT					Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
-	_bool					Is_SkillEnd(SKILL_KEY eKey);
+	HRESULT					Set_SkillSuccess(SKILL_KEY eKey, _bool IsSuccess);
+
+public:
+	const _bool&			Is_SkillSuccess(SKILL_KEY eKey);
+
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
 	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { return m_pSkills[eKey]; }
+	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
 
 public:
 	/* 언젠가는 쓰겠지 */
@@ -85,6 +98,8 @@ protected:
 	Vec3					m_vPrePos;
 	Vec3					m_vNextMove;
 	_bool					m_bMoveStop = { false };
+	_float					m_fLerpLook_Speed = { 20.f };
+
 
 	/* 스킬 */
 	class CPlayer_Skill*	m_pSkills[SKILL_KEY::_END] = { nullptr };

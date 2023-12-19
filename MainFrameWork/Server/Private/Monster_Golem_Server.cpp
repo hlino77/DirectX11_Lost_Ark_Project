@@ -100,7 +100,6 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 
 void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 {
-
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)

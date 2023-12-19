@@ -691,13 +691,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		pUIManager->Loading_UI(154.f);
 	}
 
+	/* 플레이어 장비 */
 	{
 		wstring strFileName = L"GN_Face";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(231.f);
 	}
@@ -708,7 +709,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(308.f);
 	}
@@ -719,7 +720,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(385.f);
 	}
@@ -730,7 +731,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(462.f);
 	}
@@ -741,7 +742,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(539.f);
 	}
@@ -752,11 +753,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(616.f);
 	}
 
+	/* 플레이어 무기 */
 	{
 		wstring strFileName = L"GN_WP_Hand_Legend";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";

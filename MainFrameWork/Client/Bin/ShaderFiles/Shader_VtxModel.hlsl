@@ -51,7 +51,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     //Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
     //Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1200.0f, 0.0f, 0.0f);
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
-    Out.vNormalV = vector(In.vNormalV.xyz * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
+    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
     
     if (1.f == SpecMaskEmisExtr.x)
     {
@@ -89,7 +89,7 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
-    Out.vNormalV = vector(In.vNormalV.xyz * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
+    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
 	
     return Out;
 }
@@ -100,7 +100,7 @@ PS_OUT_PHONG PS_NARUTO(VS_OUT In)
 
     Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
-    Out.vNormalV = vector(In.vNormalV.xyz * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
+    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
 
     if (0.2f >= Out.vDiffuse.a)
         discard;

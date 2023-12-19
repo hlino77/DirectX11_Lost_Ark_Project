@@ -13,7 +13,6 @@ CState_GN_Dash::CState_GN_Dash(const wstring& strStateName, CStateMachine* pMach
 HRESULT CState_GN_Dash::Initialize()
 {
 	m_iDash = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.5f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iDash);
 	if (m_iDash == -1)
 		return E_FAIL;
 
@@ -31,7 +30,7 @@ void CState_GN_Dash::Enter_State()
 	m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.5f);
 
 	m_pController->Get_StopMessage();
-	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 3.f);
+	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 8.f);
 }
 
 void CState_GN_Dash::Tick_State(_float fTimeDelta)
@@ -58,10 +57,9 @@ void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-		{
 			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pPlayer->Set_State(TEXT("Run"));
-		}
+			
+		m_pPlayer->Set_State(TEXT("Run"));
 	}
 	else if (true == m_pController->Is_Attack())
 	{
@@ -84,7 +82,7 @@ void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 			break;
 		}
 	}
-	else if (true == static_cast<CPlayer_Controller_GN*>(m_pController)->Is_Idle())
+	else
 	{
 		m_pPlayer->Set_State(TEXT("Idle"));
 	}

@@ -96,7 +96,6 @@ public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false);
 	const	wstring&		Get_State() { return m_pStateMachine->Get_CurState(); }
 
-
 	void					Find_NearTarget();
 	void					Send_NearTarget();
 
@@ -142,6 +141,12 @@ public:
 
 	void					Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
 
+public:
+	/* 플레이어 상태 세팅 */
+	const _bool&			Is_SuperArmor() { return  m_IsSuperArmor; }
+	void					Set_SuperArmorState(_bool IsSuperArmor) { m_IsSuperArmor = IsSuperArmor; }
+
+
 
 protected:
 	virtual HRESULT			Ready_Components();
@@ -177,7 +182,7 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	/* 장비 모델컴 */
 	CModel* m_pModelPartCom[(_uint)PART::_END] = { nullptr };
 
-	//Culling
+	/* 컬링 절두체 */
 	BoundingSphere m_tCullingSphere;
 
 	vector<SKILLINFO> m_SkillInfo;
@@ -188,8 +193,11 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	_float m_fVoiceSoundDelay;
 
 protected:
+	/* 플레이어 변수 설정 */
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
+
+	_bool	m_IsSuperArmor = { false };
 
 public:
 	virtual void Free();

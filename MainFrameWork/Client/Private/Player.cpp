@@ -77,23 +77,17 @@ void CPlayer::Tick(_float fTimeDelta)
 	m_PlayAnimation.get();
 	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
 
-	//m_pRigidBody->Tick(fTimeDelta);
-
-
-	for (auto& Skill : m_SkillInfo)
-	{
-		Update_Skill(Skill, fTimeDelta);
-	}
-
 	for (auto& pPart : m_Parts)
 	{
 		pPart.second->Tick(fTimeDelta);
 	}
-
 }
 
 void CPlayer::LateTick(_float fTimeDelta)
 {
+	
+
+	//m_pRigidBody->Tick(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)
 		return;

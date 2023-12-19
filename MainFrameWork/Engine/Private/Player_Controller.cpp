@@ -60,6 +60,26 @@ _bool CPlayer_Controller::Is_Idle()
 	return false;
 }
 
+_bool CPlayer_Controller::Is_Tap(KEY eKey)
+{
+	return KEY_TAP(eKey);
+}
+
+_bool CPlayer_Controller::Is_Hold(KEY eKey)
+{
+	return KEY_HOLD(eKey);
+}
+
+_bool CPlayer_Controller::Is_HoldorTap(KEY eKey)
+{
+	return KEY_HOLD(eKey) || KEY_TAP(eKey);
+}
+
+_bool CPlayer_Controller::Is_Away(KEY eKey)
+{
+	return KEY_AWAY(eKey) || KEY_NONE(eKey);
+}
+
 _bool CPlayer_Controller::Is_Run()
 {
 	if (KEY_HOLD(KEY::RBTN) || KEY_TAP(KEY::RBTN))
@@ -72,42 +92,42 @@ _bool CPlayer_Controller::Is_Run()
 
 _bool CPlayer_Controller::Is_Skill()
 {
-	if (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q))
+	if (-1.f == m_fCoolTime[SKILL_KEY::Q] && nullptr != m_pSkills[SKILL_KEY::Q] && (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q)))
 	{
 		m_eSelectedSkill = SKILL_KEY::Q;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::W) || KEY_TAP(KEY::W))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::W] && nullptr != m_pSkills[SKILL_KEY::W] && (KEY_HOLD(KEY::W) || KEY_TAP(KEY::W)))
 	{
 		m_eSelectedSkill = SKILL_KEY::W;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::E) || KEY_TAP(KEY::E))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::E] && nullptr != m_pSkills[SKILL_KEY::E] && (KEY_HOLD(KEY::E) || KEY_TAP(KEY::E)))
 	{
 		m_eSelectedSkill = SKILL_KEY::E;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::R) || KEY_TAP(KEY::R))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::R] && nullptr != m_pSkills[SKILL_KEY::R] && (KEY_HOLD(KEY::R) || KEY_TAP(KEY::R)))
 	{
 		m_eSelectedSkill = SKILL_KEY::R;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::A) || KEY_TAP(KEY::A))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::A] && nullptr != m_pSkills[SKILL_KEY::A] && (KEY_HOLD(KEY::A) || KEY_TAP(KEY::A)))
 	{
 		m_eSelectedSkill = SKILL_KEY::A;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::S) || KEY_TAP(KEY::S))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::S] && nullptr != m_pSkills[SKILL_KEY::S] && (KEY_HOLD(KEY::S) || KEY_TAP(KEY::S)))
 	{
 		m_eSelectedSkill = SKILL_KEY::S;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::D) || KEY_TAP(KEY::D))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::D] && nullptr != m_pSkills[SKILL_KEY::D] && (KEY_HOLD(KEY::D) || KEY_TAP(KEY::D)))
 	{
 		m_eSelectedSkill = SKILL_KEY::D;
 		return true;
 	}
-	else if (KEY_HOLD(KEY::F) || KEY_TAP(KEY::F))
+	else if (-1.f == m_fCoolTime[SKILL_KEY::F] && nullptr != m_pSkills[SKILL_KEY::F] && (KEY_HOLD(KEY::F) || KEY_TAP(KEY::F)))
 	{
 		m_eSelectedSkill = SKILL_KEY::F;
 		return true;
@@ -158,11 +178,6 @@ HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 	return S_OK;
 }
 
-_bool CPlayer_Controller::Is_SkillEnd(SKILL_KEY eKey)
-{
-	return m_pSkills[eKey]->Is_SkillEnd();
-}
-
 _bool CPlayer_Controller::Pick(_uint screenX, _uint screenY, Vec3& pickPos, _float& distance)
 {
 	return true;
@@ -195,7 +210,7 @@ void CPlayer_Controller::Look_Lerp(const _float& fTimeDelta)
 
 	Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = m_vNextMove - vPos;
-	m_pOwnerTransform->LookAt_Lerp_ForLand(vDir, 20.f, fTimeDelta);
+	m_pOwnerTransform->LookAt_Lerp_ForLand(vDir, m_fLerpLook_Speed, fTimeDelta);
 }
 
 void CPlayer_Controller::Look(Vec3 vAt)
@@ -205,6 +220,29 @@ void CPlayer_Controller::Look(Vec3 vAt)
 
 void CPlayer_Controller::Attack()
 {
+}
+
+HRESULT CPlayer_Controller::Set_SkillSuccess(SKILL_KEY eKey, _bool IsSuccess)
+{
+	if (nullptr == m_pSkills[eKey])
+		return E_FAIL;
+
+	m_pSkills[eKey]->Set_SkillSuccess(IsSuccess);
+	return S_OK;
+}
+
+const _bool& CPlayer_Controller::Is_SkillSuccess(SKILL_KEY eKey)
+{
+	if (nullptr == m_pSkills[eKey])
+		return E_FAIL;
+
+	return m_pSkills[eKey]->Is_SkillSuccess();
+}
+
+
+const wstring& CPlayer_Controller::Get_SkillStartName(SKILL_KEY eKey)
+{
+	return m_pSkills[eKey]->Get_Skill_StartName();
 }
 
 void CPlayer_Controller::Skill(SKILL_KEY eKey)

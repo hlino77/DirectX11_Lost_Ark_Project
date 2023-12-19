@@ -13,7 +13,6 @@ CState_GN_Attack_Shot1::CState_GN_Attack_Shot1(const wstring& strStateName, CSta
 HRESULT CState_GN_Attack_Shot1::Initialize()
 {
 	m_Attack_Shot1 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_identity1_1_01", 1.4f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_Attack_Shot1);
 	if (m_Attack_Shot1 == -1)
 		return E_FAIL;
 
@@ -28,7 +27,7 @@ HRESULT CState_GN_Attack_Shot1::Initialize()
 void CState_GN_Attack_Shot1::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_Attack_Shot1, 0.1f, 0, 0);
-	m_pController->Get_LookMessage(m_pPlayer->Get_TargetPos());
+	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_GN_Attack_Shot1::Tick_State(_float fTimeDelta)
@@ -57,6 +56,42 @@ void CState_GN_Attack_Shot1::Tick_State_Control(_float fTimeDelta)
 		if (15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Shot1))
 		{
 			m_pPlayer->Set_State(TEXT("Identity_GN"));
+		}
+	}
+	else if (true == m_pController->Is_Skill())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
+
+		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
+		switch (eKey)
+		{
+		case Engine::CPlayer_Controller::Q:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::Q));
+			break;
+		case Engine::CPlayer_Controller::W:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::W));
+			break;
+		case Engine::CPlayer_Controller::E:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::E));
+			break;
+		case Engine::CPlayer_Controller::R:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::R));
+			break;
+		case Engine::CPlayer_Controller::A:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::A));
+			break;
+		case Engine::CPlayer_Controller::S:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::S));
+			break;
+		case Engine::CPlayer_Controller::D:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::D));
+			break;
+		case Engine::CPlayer_Controller::F:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::F));
+			break;
 		}
 	}
 	else if (true == m_pController->Is_Attack())

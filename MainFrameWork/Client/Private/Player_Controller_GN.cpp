@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Player_Controller_GN.h"
 #include "GameInstance.h"
+#include "Player_Skill.h"
 
 CPlayer_Controller_GN::CPlayer_Controller_GN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
@@ -65,6 +66,13 @@ _uint CPlayer_Controller_GN::Is_GN_Identity()
 	return 0;
 }
 
+void CPlayer_Controller_GN::Skill(GN_IDENTITY eIndex, SKILL_KEY eKey)
+{
+	__super::Skill(eKey);
+
+	m_fGN_CoolTime[eIndex][eKey] = m_pSkills[eKey]->Get_Skill_CoolTime();
+}
+
 HRESULT CPlayer_Controller_GN::Bind_HandSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
 	if (nullptr == pSkill)
@@ -74,6 +82,7 @@ HRESULT CPlayer_Controller_GN::Bind_HandSkill(SKILL_KEY eKey, CPlayer_Skill* pSk
 		return S_OK;
 
 	m_pHandSkills[eKey] = pSkill;
+	pSkill->Set_BindKey(eKey);
 
 	return S_OK;
 }
@@ -83,10 +92,11 @@ HRESULT CPlayer_Controller_GN::Bind_ShotSkill(SKILL_KEY eKey, CPlayer_Skill* pSk
 	if (nullptr == pSkill)
 		return E_FAIL;
 
-	if (SKILL_KEY::SPACE == eKey)
+	if (SKILL_KEY::SPACE == eKey || SKILL_KEY::A == eKey || SKILL_KEY::S == eKey || SKILL_KEY::D == eKey || SKILL_KEY::F == eKey)
 		return S_OK;
 
 	m_pShotSkills[eKey] = pSkill;
+	pSkill->Set_BindKey(eKey);
 
 	return S_OK;
 }
@@ -96,10 +106,11 @@ HRESULT CPlayer_Controller_GN::Bind_LongSkill(SKILL_KEY eKey, CPlayer_Skill* pSk
 	if (nullptr == pSkill)
 		return E_FAIL;
 
-	if (SKILL_KEY::SPACE == eKey)
+	if (SKILL_KEY::SPACE == eKey || SKILL_KEY::Q == eKey || SKILL_KEY::W == eKey || SKILL_KEY::E == eKey || SKILL_KEY::R == eKey)
 		return S_OK;
 
 	m_pLongSkills[eKey] = pSkill;
+	pSkill->Set_BindKey(eKey);
 
 	return S_OK;
 }
@@ -114,6 +125,27 @@ void CPlayer_Controller_GN::Attack()
 
 void CPlayer_Controller_GN::Hit()
 {
+}
+
+void CPlayer_Controller_GN::Skill_CoolTime(const _float& fTimeDelta)
+{
+	__super::Skill_CoolTime(fTimeDelta);
+
+	for (size_t i = 0; i < GN_IDENTITY::_END; i++)
+	{
+		for (size_t j = 0; j < SKILL_KEY::_END; j++)
+		{
+			if (-1.f == m_fGN_CoolTime[i][j]) continue;
+
+			m_fGN_CoolDownAcc[i][j] += fTimeDelta;
+
+			if (m_fGN_CoolTime[i][j] <= m_fGN_CoolDownAcc[i][j])
+			{
+				m_fGN_CoolDownAcc[i][j] = 0.f;
+				m_fGN_CoolTime[i][j] = -1.f;
+			}
+		}
+	}
 }
 
 void CPlayer_Controller_GN::GN_Identity(GN_IDENTITY eIndex)
@@ -132,6 +164,9 @@ void CPlayer_Controller_GN::Change_Skill_Iden(GN_IDENTITY eIndex)
 			if (i == SKILL_KEY::SPACE) continue;
 
 			m_pSkills[i] = m_pHandSkills[i];
+		
+			m_fCoolDownAcc[i] = m_fGN_CoolDownAcc[GN_IDENTITY::HAND][i];
+			m_fCoolTime[i] = m_fGN_CoolTime[GN_IDENTITY::HAND][i];
 		}
 	}
 	else if (GN_IDENTITY::LONG == eIndex)
@@ -141,6 +176,9 @@ void CPlayer_Controller_GN::Change_Skill_Iden(GN_IDENTITY eIndex)
 			if (i == SKILL_KEY::SPACE) continue;
 
 			m_pSkills[i] = m_pLongSkills[i];
+
+			m_fCoolDownAcc[i] = m_fGN_CoolDownAcc[GN_IDENTITY::LONG][i];
+			m_fCoolTime[i] = m_fGN_CoolTime[GN_IDENTITY::LONG][i];
 		}
 	}
 	else if (GN_IDENTITY::SHOT == eIndex)
@@ -150,6 +188,9 @@ void CPlayer_Controller_GN::Change_Skill_Iden(GN_IDENTITY eIndex)
 			if (i == SKILL_KEY::SPACE) continue;
 
 			m_pSkills[i] = m_pShotSkills[i];
+
+			m_fCoolDownAcc[i] = m_fGN_CoolDownAcc[GN_IDENTITY::SHOT][i];
+			m_fCoolTime[i] = m_fGN_CoolTime[GN_IDENTITY::SHOT][i];
 		}
 	}
 }

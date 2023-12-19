@@ -211,6 +211,25 @@
     <ClInclude Include="..\Public\Reaper_BT_Attack1.h" />
     <ClInclude Include="..\Public\Reaper_BT_Attack2.h" />
     <ClInclude Include="..\Public\Reaper_BT_Attack3.h" />
+    <ClInclude Include="..\Public\State_GN_Apocalypse_Loop.h" />
+    <ClInclude Include="..\Public\State_GN_Apocalypse_Start.h" />
+    <ClInclude Include="..\Public\State_GN_Apocalypse_Success.h" />
+    <ClInclude Include="..\Public\State_GN_FocusShot_End.h" />
+    <ClInclude Include="..\Public\State_GN_FocusShot_Loop.h" />
+    <ClInclude Include="..\Public\State_GN_FocusShot_Start.h" />
+    <ClInclude Include="..\Public\State_GN_FreeShooter.h" />
+    <ClInclude Include="..\Public\State_GN_LastSupper.h" />
+    <ClInclude Include="..\Public\State_GN_PerfectShot_Loop.h" />
+    <ClInclude Include="..\Public\State_GN_PerfectShot_Start.h" />
+    <ClInclude Include="..\Public\State_GN_QuickStep_End.h" />
+    <ClInclude Include="..\Public\State_GN_QuickStep_Start.h" />
+    <ClInclude Include="..\Public\State_GN_TargetDown_End.h" />
+    <ClInclude Include="..\Public\State_GN_TargetDown_Loop.h" />
+    <ClInclude Include="..\Public\State_GN_TargetDown_Shot.h" />
+    <ClInclude Include="..\Public\State_GN_TargetDown_Start.h" />
+    <ClInclude Include="..\Public\State_GN_TerminatingShot_Start.h" />
+    <ClInclude Include="..\Public\State_GN_TerminatingShot_End.h" />
+    <ClInclude Include="..\Public\State_GN_PerfectShot_End.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
@@ -270,10 +289,6 @@
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\State_GN_Run_Identity.h" />
     <ClInclude Include="..\Public\State_GN_Run_Identity_Back.h" />
-    <ClInclude Include="..\Public\State_GN_Skill_E.h" />
-    <ClInclude Include="..\Public\State_GN_Skill_Q.h" />
-    <ClInclude Include="..\Public\State_GN_Skill_R.h" />
-    <ClInclude Include="..\Public\State_GN_Skill_W.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\UI.h" />
@@ -354,6 +369,24 @@
     <ClCompile Include="..\Private\Reaper_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Reaper_BT_Attack2.cpp" />
     <ClCompile Include="..\Private\Reaper_BT_Attack3.cpp" />
+    <ClCompile Include="..\Private\State_GN_Apocalypse_Loop.cpp" />
+    <ClCompile Include="..\Private\State_GN_Apocalypse_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_Apocalypse_Success.cpp" />
+    <ClCompile Include="..\Private\State_GN_FocusShot_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_FocusShot_Loop.cpp" />
+    <ClCompile Include="..\Private\State_GN_FocusShot_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_FreeShooter.cpp" />
+    <ClCompile Include="..\Private\State_GN_LastSupper.cpp" />
+    <ClCompile Include="..\Private\State_GN_PerfectShot_Loop.cpp" />
+    <ClCompile Include="..\Private\State_GN_PerfectShot_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_QuickStep_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_QuickStep_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_TargetDown_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_TargetDown_Loop.cpp" />
+    <ClCompile Include="..\Private\State_GN_TargetDown_Shot.cpp" />
+    <ClCompile Include="..\Private\State_GN_TargetDown_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_TerminatingShot_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_TerminatingShot_End.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
@@ -411,10 +444,6 @@
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\State_GN_Run_Identity.cpp" />
     <ClCompile Include="..\Private\State_GN_Run_Identity_Back.cpp" />
-    <ClCompile Include="..\Private\State_GN_Skill_E.cpp" />
-    <ClCompile Include="..\Private\State_GN_Skill_Q.cpp" />
-    <ClCompile Include="..\Private\State_GN_Skill_R.cpp" />
-    <ClCompile Include="..\Private\State_GN_Skill_W.cpp" />
     <ClCompile Include="..\Private\StaticModel.cpp" />
     <ClCompile Include="..\Private\Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -499,6 +528,7 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -31,7 +31,7 @@ HRESULT CWeapon_Hand_2::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(80.f));
+	m_pTransformCom->My_Rotation(Vec3(-80.f, 0.f, 90.f));
 
 	return S_OK;
 }

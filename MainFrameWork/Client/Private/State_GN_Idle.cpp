@@ -13,17 +13,14 @@ CState_GN_Idle::CState_GN_Idle(const wstring& strStateName, CStateMachine* pMach
 HRESULT CState_GN_Idle::Initialize()
 {
 	m_iIdle_H = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity3", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle_H);
 	if (m_iIdle_H == -1)
 		return E_FAIL;
 
 	m_iIdle_S = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity1", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle_S);
 	if (m_iIdle_S == -1)
 		return E_FAIL;
 
 	m_iIdle_L = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity2", 1.0f);
-	m_pPlayer->Get_ModelCom()->Set_CurrAnim(m_iIdle_L);
 	if (m_iIdle_L == -1)
 		return E_FAIL;
 
@@ -84,47 +81,41 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 		else if (2 == iIdentity)
 			m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
 	}
-	else if (true == m_pController->Is_Run())
+	else if (true == m_pController->Is_Skill())
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-		{
 			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pPlayer->Set_State(TEXT("Run"));
+
+		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
+		switch (eKey)
+		{
+		case Engine::CPlayer_Controller::Q:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::Q));
+			break;
+		case Engine::CPlayer_Controller::W:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::W));
+			break;
+		case Engine::CPlayer_Controller::E:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::E));
+			break;
+		case Engine::CPlayer_Controller::R:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::R));
+			break;
+		case Engine::CPlayer_Controller::A:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::A));
+			break;
+		case Engine::CPlayer_Controller::S:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::S));
+			break;
+		case Engine::CPlayer_Controller::D:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::D));
+			break;
+		case Engine::CPlayer_Controller::F:
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::F));
+			break;
 		}
 	}
-	//else if (true == m_pController->Is_Skill())
-	//{
-	//	Vec3 vClickPos;
-	//	if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-	//		m_pPlayer->Set_TargetPos(vClickPos);
-
-
-	//	CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
-	//	switch (eKey)
-	//	{
-	//	case Engine::CPlayer_Controller::Q:
-	//		m_pPlayer->Set_State(TEXT("Skill_Q"));
-	//		break;
-	//	case Engine::CPlayer_Controller::W:
-	//		m_pPlayer->Set_State(TEXT("Skill_W"));
-	//		break;
-	//	case Engine::CPlayer_Controller::E:
-	//		m_pPlayer->Set_State(TEXT("Skill_E"));
-	//		break;
-	//	case Engine::CPlayer_Controller::R:
-	//		m_pPlayer->Set_State(TEXT("Skill_R"));
-	//		break;
-	//	/*case Engine::CPlayer_Controller::A:
-	//		break;
-	//	case Engine::CPlayer_Controller::S:
-	//		break;
-	//	case Engine::CPlayer_Controller::D:
-	//		break;
-	//	case Engine::CPlayer_Controller::F:
-	//		break;*/
-	//	}
-	//}
 	else if (true == m_pController->Is_Attack())
 	{
 		Vec3 vClickPos;
@@ -144,6 +135,15 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 		case Client::CPlayer_Controller_GN::LONG:
 			m_pPlayer->Set_State(TEXT("Attack_Long_1"));
 			break;
+		}
+	}
+	else if (true == m_pController->Is_Run())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+		{
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pPlayer->Set_State(TEXT("Run"));
 		}
 	}
 }
