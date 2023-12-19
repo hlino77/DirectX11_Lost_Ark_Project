@@ -66,13 +66,16 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 	m_tCullingSphere.Radius = 2.5f;
 	m_tCullingSphere.Center = Vec3(0.f, 0.75f, 0.f);
 
+	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"idle_normal_1"));
+	m_pModelCom->Play_Animation(10.0f);
+
     return S_OK;
 }
 
 void CMonster_Golem::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
+	/*if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_fPositionTimeAcc += fTimeDelta;
 
@@ -87,9 +90,7 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	m_PlayAnimation.get();
 	Set_to_RootPosition(fTimeDelta);
 
-	m_fNoticeRange = 20.f;
-
-	
+	m_fNoticeRange = 20.f;*/
 }
 
 void CMonster_Golem::LateTick(_float fTimeDelta)

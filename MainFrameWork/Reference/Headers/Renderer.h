@@ -190,12 +190,14 @@ private:
 		Vec2	vPadding;
 	};
 
-	/*_float m_fSampleRatio4x4 = 4.f;
-	_float m_fSampleRatio16x16 = 24.f - 0.5f;
-	_float m_fSampleRatio64x64 = 144.f - 3.f;*/
 	_float m_fSampleRatio4x4 = 4.f;
+	_float m_fSampleRatio16x16 = 24.f;
+	_float m_fSampleRatio64x64 = 144.f;
+	/*_float m_fSampleRatio2x2 = 2.f;
+	_float m_fSampleRatio4x4 = 4.f;
+	_float m_fSampleRatio8x8 = 8.f;
 	_float m_fSampleRatio16x16 = 16.f;
-	_float m_fSampleRatio64x64 = 64.f;
+	_float m_fSampleRatio32x32 = 32.f;*/
 
 
 public:

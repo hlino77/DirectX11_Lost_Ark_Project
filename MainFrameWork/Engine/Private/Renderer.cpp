@@ -1068,8 +1068,9 @@ HRESULT CRenderer::Render_Bloom()
 		return E_FAIL;
 	// 3
 
-	tagPerFrame tBloomData = { fOriginalWidth * m_fSampleRatio64x64 , fOriginalWidth * m_fSampleRatio64x64 };
-	m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame));
+	tagPerFrame tBloomData = { m_fSampleRatio64x64 / fOriginalWidth, m_fSampleRatio64x64 / fOriginalHeight };
+	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
+		return E_FAIL;
 	// 144x144에서 블러
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_144x144"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample3"), "g_BloomBlurTarget")) ||
@@ -1103,8 +1104,9 @@ HRESULT CRenderer::Render_Bloom()
 
 
 	// 24x24에서 블러
-	tBloomData = { fOriginalWidth * m_fSampleRatio16x16 , fOriginalWidth * m_fSampleRatio16x16 };
-	m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame));
+	tBloomData = { m_fSampleRatio16x16 / fOriginalWidth, m_fSampleRatio16x16 / fOriginalHeight };
+	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_24x24"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomUpSample1"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
@@ -1133,8 +1135,9 @@ HRESULT CRenderer::Render_Bloom()
 	//7
 
 	// 4x4에서 블러
-	tBloomData = { fOriginalWidth * m_fSampleRatio4x4 , fOriginalWidth * m_fSampleRatio4x4 };
-	m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame));
+	tBloomData = { m_fSampleRatio4x4 / fOriginalWidth, m_fSampleRatio4x4 / fOriginalHeight };
+	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_4x4"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomUpSample2"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
@@ -1165,8 +1168,8 @@ HRESULT CRenderer::Render_Bloom()
 HRESULT CRenderer::Render_PostProcess()
 {
 	/* 디퓨즈 타겟과 셰이드 타겟을 서로 곱하여 백버퍼에 최종적으로 찍어낸다. */
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendBloom"), m_pDownSample4x4_DSV)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendBloom"), m_pDownSample4x4_DSV)))
+	//	return E_FAIL;
 
 	if (FAILED(m_pPostProccessor->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
@@ -1184,15 +1187,15 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
+	/*if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendBloom"), "g_BlendedTarget")))
 		return E_FAIL;
 	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
+		return E_FAIL;*/
 
 
 	return S_OK;
@@ -1312,7 +1315,7 @@ HRESULT CRenderer::Render_Debug()
 	
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
-	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample2"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
@@ -1321,13 +1324,13 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample2"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;*/
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_4x4"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_24x24"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_24x24"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_144x144"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;*/
+		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample3"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;*/
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Bright"), m_pMRTShader, m_pVIBuffer)))
@@ -1688,8 +1691,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = ViewportDesc.Width * 0.25f;
-	TextureDesc.Height = 0.25f * ViewportDesc.Height * 0.25f;
+	TextureDesc.Width = ViewportDesc.Width / m_fSampleRatio4x4;
+	TextureDesc.Height = 0.25f * ViewportDesc.Height / m_fSampleRatio4x4;
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1706,8 +1709,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = ViewportDesc.Width / 24.f;
-	TextureDesc.Height = ViewportDesc.Height / 24.f;
+	TextureDesc.Width = ViewportDesc.Width / m_fSampleRatio16x16;
+	TextureDesc.Height = ViewportDesc.Height / m_fSampleRatio16x16;
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1724,8 +1727,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = ViewportDesc.Width / 144.f;
-	TextureDesc.Height = ViewportDesc.Height / 144.f;
+	TextureDesc.Width = ViewportDesc.Width / m_fSampleRatio64x64;
+	TextureDesc.Height = ViewportDesc.Height / m_fSampleRatio64x64;
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;

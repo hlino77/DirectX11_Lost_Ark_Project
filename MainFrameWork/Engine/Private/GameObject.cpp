@@ -25,10 +25,12 @@ CGameObject::CGameObject(const CGameObject& rhs)
 	, m_strObjectTag(rhs.m_strObjectTag)
 	, m_iObjType(rhs.m_iObjType)
 	, m_matTargetWorld(rhs.m_matTargetWorld.load())
+	, m_pGameInstance(rhs.m_pGameInstance)
 	, m_bActive(rhs.m_bActive)
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CGameObject::Initialize_Prototype()

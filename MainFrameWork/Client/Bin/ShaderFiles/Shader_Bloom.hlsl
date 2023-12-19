@@ -10,8 +10,8 @@ Texture2D		g_DownSampledTarget;
 
 cbuffer BloomOption
 {
-    float g_Threshold_Min = 1.f;
-    float g_Threshold_Max = 100.f;
+    float g_Threshold_Min = 0.5f;
+    float g_Threshold_Max = 50.f; //100.f;
 };
 
 float GetBloomCurve(float x, float threshold)
@@ -60,46 +60,60 @@ float4 PS_MAIN_BRIGHT(VS_OUT_TARGET In) : SV_Target
     return fBrightColor;
 }
 
+float Tonemap_ACES(float x)
+{
+    // Narkowicz 2015, "ACES Filmic Tone Mapping Curve"
+    const float a = 2.51f;
+    const float b = 0.03f;
+    const float c = 2.43f;
+    const float d = 0.59f;
+    const float e = 0.14f;
+    return (x * (a * x + b)) / (x * (c * x + d) + e);
+}
+
 float4 PS_DOWNSAMPLE_BRIGHT(VS_OUT_TARGET In) : SV_TARGET
 {
     float3 outColor = float3(0.0f, 0.0f, 0.0f);
     
-    for (uint y = 0; y < 4; y++)
+    for (int y = -2; y < 2; y++)
     {
-        for (uint x = 0; x < 4; x++)
+        for (int x = -2; x < 2; x++)
         {
             // Compute the sum of color values
-            //outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
-            outColor += g_BloomBlurTarget.Sample(LinearSampler, In.vTexcoord, int2(x, y)).rgb;
+            outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
         }
     }
     
     outColor /= 16;
     
-    float intensity = max(dot(outColor, float3(1.f, 1.f, 1.f)), 0.000001f);
-    //float intensity = max(dot(outColor, float3(0.3f, 0.59f, 0.11f)), 0.000001f);
+    //float intensity = max(dot(outColor, float3(1.f, 1.f, 1.f)), 0.000001f);
+    ////float intensity = max(dot(outColor, float3(0.3f, 0.59f, 0.11f)), 0.000001f);
     
-    float bloom_intensity = min(GetBloomCurve(intensity, g_Threshold_Min), g_Threshold_Max);
-    float3 bloom_color = outColor * bloom_intensity / intensity;
+    //float bloom_intensity = min(GetBloomCurve(intensity, g_Threshold_Min), g_Threshold_Max);
+    //float3 bloom_color = outColor * bloom_intensity / intensity;
     
-    return float4(bloom_color, 1.0f);
+    //return float4(bloom_color, 1.0f);
+
+    //float fBrightness = dot(outColor, float3(0.2126f, 0.7152f, 0.0722f));
+    //outColor *= Tonemap_ACES(fBrightness);
+    
+    return float4(outColor, 1.0f);
 }
 
 float4 PS_DOWNSAMPLE(VS_OUT_TARGET In) : SV_TARGET
 {
     float3 outColor = float3(0.0f, 0.0f, 0.0f);
     
-    for (uint y = 0; y < 4; y++)
+    for (int y = -3; y < 3; y++)
     {
-        for (uint x = 0; x < 4; x++)
+        for (int x = -3; x < 3; x++)
         {
             // Compute the sum of color values
-            //outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
-            outColor += g_BloomBlurTarget.Sample(LinearSampler, In.vTexcoord, int2(x, y)).rgb;
+            outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
         }
     }
     
-    outColor /= 16;
+    outColor /= 36;
     
     return float4(outColor, 1.0f);
 }
@@ -109,12 +123,10 @@ float4 PS_UPSAMPLE(VS_OUT_TARGET In) : SV_TARGET
     float3 outColor = float3(0.0f, 0.0f, 0.0f);
     
     float3 vDst = g_BloomBlurTarget.Sample(LinearClampSampler, In.vTexcoord).rgb;
-    float3 vSrc = g_DownSampledTarget.Sample(LinearClampSampler, In.vTexcoord).rgb * 0.7f;
+    float3 vSrc = g_DownSampledTarget.Sample(LinearClampSampler, In.vTexcoord).rgb;
     
     outColor = pow(pow(abs(vDst), 2.2f) + pow(abs(vSrc), 2.2f), 1.f / 2.2f);
-    //outColor += g_BloomBlurTarget.Sample(LinearClampSampler, In.vTexcoord).rgb;
-    //outColor += g_DownSampledTarget.Sample(LinearClampSampler, In.vTexcoord).rgb;
-    //outColor *= 0.7f;
+    outColor = vDst + vSrc;
     
     return float4(outColor, 1.0f);
 }
@@ -149,8 +161,8 @@ float4 PS_MAIN_BLOOMBLUR(VS_OUT_TARGET In, uniform bool bHorizontal) : SV_Target
     else
         vTexOffset = float2(0.0f, g_fTexelHeight);
 
-    int iTotal = 0;
-    for (int i = -6; i < 6; ++i)
+    //int iTotal = 0;
+    for (int i = -6; i < 7; ++i)
     {
         float2 vTexcoord = In.vTexcoord;
         vTexcoord += i * vTexOffset;
@@ -159,18 +171,18 @@ float4 PS_MAIN_BLOOMBLUR(VS_OUT_TARGET In, uniform bool bHorizontal) : SV_Target
             continue;
 		
         float4 vBrightPixel = g_BloomBlurTarget.Sample(LinearSampler, vTexcoord);
-
+        
         if (vBrightPixel.a > 0.03f)
-            vFinalPixel.rgb += vBrightPixel.rgb;
+            vFinalPixel += vBrightPixel * g_fBlurWeight[6 + i] * g_fBlurIntensity;
 		
-        vFinalPixel.a += vBrightPixel.a * g_fBlurWeight[6 + i] * g_fBlurIntensity;
+        //vFinalPixel.a += vBrightPixel.a * g_fBlurWeight[6 + i] * g_fBlurIntensity;
 		
-        ++iTotal;
+        //++iTotal;
     }
 
     clip(vFinalPixel.a - 0.01f);
 	
-    vFinalPixel.rgb /= (fTotal * iTotal / 13.f);
+    vFinalPixel.rgb /= fTotal;
 
     return vFinalPixel;
 }

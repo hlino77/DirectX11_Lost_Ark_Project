@@ -6,15 +6,24 @@
 #include <filesystem>
 #include "Utils.h"
 #include "Transform.h"
+#include "Utils.h"
+
+namespace fs = std::filesystem;
 
 CEffectTool::CEffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:Super(pDevice, pContext)
 {
+	//m_pUtils = GET_INSTANCE(CUtils);
 }
 
 HRESULT CEffectTool::Initialize(void* pArg)
 {
 	Super::Initialize(pArg);
+
+	if (FAILED(LoadMeshes()))
+		return E_FAIL;
+	if (FAILED(LoadTextures()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -80,11 +89,13 @@ void CEffectTool::TreeGroups()
 			ImGui::Image(m_vecMaskTextureIDs[m_Item_Current], ImVec2(96.0f, 96.0f), uv0, uv1, tint_col, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
 			ImGui::SameLine();
 
-			Tex_Mask();
+			//Tex_Mask();
 			/*Tex_Noise();
 			Tex_Gradient();
 			Tex_Ex();*/
 		}
+		ImGui::TreePop();
+		//ImGui::Spacing();
 	}
 }
 
@@ -216,6 +227,33 @@ void CEffectTool::Tex_Ex()
 	}
 }
 
+HRESULT CEffectTool::LoadMeshes()
+{
+	vector<const _char*> vecItems;
+	wstring strDirectory = TEXT("../Bin/Resources/Effects/FX_Meshes/");
+	wstring strMeshCategory = TEXT("");
+
+	if (filesystem::exists(strDirectory) && filesystem::is_directory(strDirectory))
+	{
+		for (const auto& entry : filesystem::directory_iterator(strDirectory))
+		{
+			if (entry.is_directory())
+			{
+				//s2cPushBack(m_vecCategories, m_pUtils->ToString(entry.path().stem()));
+			}
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CEffectTool::LoadTextures()
+{
+
+
+	return S_OK;
+}
+
 void CEffectTool::PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition)
 {
 	if (eLayerTag == LAYER_TYPE::LAYER_END) return;
@@ -243,4 +281,5 @@ CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 void CEffectTool::Free()
 {
 	Super::Free();
+	//RELEASE_INSTANCE(CUtils);
 }
