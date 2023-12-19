@@ -20,10 +20,15 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    void    Change_Weapon();
 
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+
+private:
+    _bool   m_bUpState = { false };
+    _float  m_fDistance = { 0.f };
 
 public:
     static  CUI_IdentityGN_BackGroundFWing* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

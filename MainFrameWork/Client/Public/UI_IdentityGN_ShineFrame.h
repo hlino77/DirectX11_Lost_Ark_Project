@@ -3,7 +3,7 @@
 
 BEGIN(Client)
 
-class CUI_IdentityGN_ShineFrame final:
+class CUI_IdentityGN_ShineFrame final :
     public CUI
 {
 private:
@@ -18,8 +18,14 @@ public:
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
 
+private:
+    _bool   m_bHidden = { false };
+    class CLockFree_Transform* m_pOffSetTrasformCom = { nullptr };
+    CUI* m_pMainFrame = { nullptr };
+
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    Matrix CombineRotations(const Matrix& rotationSelf, const Matrix& rotationOrbit);
 
 private:
     virtual HRESULT Ready_Components();

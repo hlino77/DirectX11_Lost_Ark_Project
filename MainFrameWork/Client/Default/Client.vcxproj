@@ -199,19 +199,19 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h" />
+    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_IconBG.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_IconShine.h" />
+    <ClInclude Include="..\Public\UI_IdentityGN_MainFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Spark.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_WeaponFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_WF_BG.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_WF_Trail.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h" />
     <ClInclude Include="..\Public\UI_Identity_GN.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
     <ClInclude Include="..\Public\ImGUI\imgui.h" />
@@ -223,7 +223,6 @@
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
-    <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\MainLogo.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Player.h" />
@@ -270,14 +269,13 @@
     <ClInclude Include="..\Public\State_GN_Skill_W.h" />
     <ClInclude Include="..\Public\StaticModel.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
-    <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h" />
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h" />
+    <ClInclude Include="..\Public\UI_IdentityGN_WF_Front.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
     <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
@@ -314,7 +312,6 @@
     <ClInclude Include="..\Public\Common_BT_Move.h" />
     <ClInclude Include="..\Public\Common_BT_Spawn.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="UI_LoadingWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -328,10 +325,7 @@
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
-    <ClCompile Include="..\Private\EffectTool.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-    </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp" />
     <ClCompile Include="..\Private\Ghoul_BT_Attack_1.cpp" />
     <ClCompile Include="..\Private\Ghoul_BT_Attack_2.cpp" />
     <ClCompile Include="..\Private\Ghoul_BT_Attack_3.cpp" />
@@ -339,26 +333,22 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
+    <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_IconBG.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_IconShine.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityGN_MainFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_WeaponFrame.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_WF_BG.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_WF_Trail.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_WpIcon.cpp" />
     <ClCompile Include="..\Private\UI_Identity_GN.cpp" />
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
-    <ClCompile Include="..\Private\Level_Tool.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
-    </ClCompile>
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Player.cpp" />
@@ -415,14 +405,13 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp" />
     <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp" />
     <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityGN_WF_Front.cpp" />
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
     <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />

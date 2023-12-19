@@ -87,6 +87,7 @@ private:
 	_float	m_fColor[4] = { 1.f, 1.f, 1.f, 1.f };
 	_float	m_fPos[2] = { g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f };
 	_float	m_fSize[2] = { 200.f, 200.f };
+	_float	m_fAngle = { 0.f };
 
 	list<CUI*>	m_UIList_CurrentLevel;
 	vector<CUI*> m_vecUIPart_CurrentLevel;

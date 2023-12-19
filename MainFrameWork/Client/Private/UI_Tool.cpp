@@ -9,6 +9,7 @@
 #include "UI_ChatWriteFrame.h"
 #include "UI_ChatLanguageIcon.h"
 #include "UI_ChatSmallerButton.h"
+#include "UI_IdentityGN_MainFrame.h"
 #include "UI_Chat.h"
 
 IMPLEMENT_SINGLETON(CUI_Tool)
@@ -52,12 +53,15 @@ HRESULT CUI_Tool::Initialize(void* pArg)
 
 HRESULT CUI_Tool::Tick()
 {
-	if (KEY_AWAY(KEY::F6))
-		m_bToolMode = true;
-	if (KEY_AWAY(KEY::F7))
-		m_bToolMode = false;
+
+	if ((KEY_HOLD(KEY::CTRL)) && KEY_TAP(KEY::U))
+	{
+		_int iA = 0;
+		m_bToolMode = !m_bToolMode;
+	}
 	if (m_bToolMode)
 		UI_Tool();
+
 	return S_OK;
 }
 
@@ -247,9 +251,11 @@ void CUI_Tool::Modify_UIPannel()
 	{
 		if (nullptr == m_pCurrentUI)
 			return;
-
+		_bool bResult;
 		if (MessageBox(NULL, L"저장", L"취소", MB_YESNO | MB_ICONQUESTION))
 		{
+			if (nullptr == m_pCurrentUI)
+				return;
 			string strFilePath = "../Bin/Resources/Textures/UI/Binary_UIDesc/";
 			string strFileExtention = ".dat";
 			strFilePath += m_szFileName;
@@ -262,8 +268,11 @@ void CUI_Tool::Modify_UIPannel()
 	{
 		if (nullptr == m_pCurrentUI)
 			return;
-		if (MessageBox(NULL, L"불러오기", L"취소", MB_YESNO | MB_ICONQUESTION))
+		_bool bResult;
+		if (bResult = MessageBox(NULL, L"불러오기", L"취소", MB_YESNO | MB_ICONQUESTION))
 		{
+			if (bResult == IDNO)
+				return;
 			string strFilePath = "../Bin/Resources/Textures/UI/Binary_UIDesc/";
 			string strFileExtention = ".dat";
 			strFilePath += m_szFileName;
@@ -349,6 +358,11 @@ void CUI_Tool::Modify_UIController()
 	{
 		Set_Color((Vec4)m_fColor);
 	}
+	
+	if ((nullptr != m_pPartUI)&&(TEXT("IdentityGN_MainFrame") == m_pPartUI->Get_UITag()))
+		static_cast<CUI_IdentityGN_MainFrame*>(m_pPartUI)->Set_Angle(m_fAngle);
+	ImGui::Text("Change Angle ");
+	ImGui::DragFloat("##Change Angle : ", &m_fAngle, 0.1f);
 
 	switch (m_eMode)
 	{

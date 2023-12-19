@@ -25,6 +25,9 @@ private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
+private:
+    _bool   m_bReturn = { false };
+
 public:
     static  CUI_IdentityGN_Arrow* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

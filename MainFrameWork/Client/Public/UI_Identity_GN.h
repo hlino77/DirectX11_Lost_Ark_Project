@@ -22,6 +22,12 @@ public:
 
 private:
 	HRESULT	UI_Set();
+	HRESULT	UI_WeaponFrame();
+
+private:
+	vector<CUI*> m_vectorWeaponFrame;
+	_bool	m_bEventOn = { false };
+	class CUI* m_pMainFrame = { nullptr };
 
 public:
 	static  CUI_IdentityGN* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);

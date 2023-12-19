@@ -4,12 +4,12 @@
 #include "UI_Manager.h"
 #include "UI_IdentityGN_BackGroundWing.h"
 #include "UI_IdentityGN_BackGroundFrame.h"
-#include "UI_IdentityGN_WF_BG.h"
-#include "UI_IdentityGN_WeaponFrame.h"
-#include "UI_IdentityGN_IconBG.h"
-#include "UI_IdentityGN_WF_Trail.h"
-#include "UI_IdentityGN_WpIcon.h"
-#include "UI_Identity_WF_Front.h"
+#include "UI_IdentityGN_Arrow.h"
+#include "UI_IdentityGN_BackGroundShine.h"
+#include "UI_IdentityGN_MainFrame.h"
+#include "UI_IdentityGN_ShineFrame.h"
+#include "UI_IdentityGN_WF_Front.h"
+#include "UI_IdentityGN_Spark.h"
 
 CUI_IdentityGN::CUI_IdentityGN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -43,6 +43,14 @@ HRESULT CUI_IdentityGN::Initialize(void* pArg)
 void CUI_IdentityGN::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	
+	for (auto& iter : m_vecUIParts)
+	{
+		if(static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsEventtOn())
+		{
+			iter->Set_IsChange(true);
+		}
+	}
 }
 
 void CUI_IdentityGN::LateTick(_float fTimeDelta)
@@ -68,7 +76,9 @@ HRESULT CUI_IdentityGN::UI_Set()
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
+	{
 		m_vecUIParts.push_back(pUI);
+	}
 
 	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGround")));
 	if (nullptr == pUI)
@@ -76,44 +86,60 @@ HRESULT CUI_IdentityGN::UI_Set()
 	else
 		m_vecUIParts.push_back(pUI);
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_BackGround")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGroundShine")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
+	{
 		m_vecUIParts.push_back(pUI);
+	}
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WeaponFrame")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_Arrow")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
+	{
 		m_vecUIParts.push_back(pUI);
-
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_IconBG")));
+	}
+	m_pMainFrame = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_MainFrame")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		m_vecUIParts.push_back(pUI);
-
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Trail")));
+	{
+		m_vecUIParts.push_back(m_pMainFrame);
+	}
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_ShineFrame"), m_pMainFrame));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
+	{
+		
 		m_vecUIParts.push_back(pUI);
-
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Icon")));
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-		m_vecUIParts.push_back(pUI);
-
+	}
 	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Front")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
+	{
 		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Spark")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+
+	Load_UIData(TEXT("IdentityGN_UI_Desc"));
 
 	Safe_Release(pGameInstance);
 
+	return S_OK;
+}
+
+HRESULT CUI_IdentityGN::UI_WeaponFrame()
+{
 	return S_OK;
 }
 

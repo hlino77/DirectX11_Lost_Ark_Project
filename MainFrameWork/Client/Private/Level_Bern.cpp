@@ -27,12 +27,9 @@
 #include "UI_Manager.h"
 #include "UI_IdentityGN_BackGroundWing.h"
 #include "UI_IdentityGN_BackGroundFrame.h"
-#include "UI_IdentityGN_WF_BG.h"
-#include "UI_IdentityGN_WeaponFrame.h"
-#include "UI_IdentityGN_IconBG.h"
-#include "UI_IdentityGN_WF_Trail.h"
-#include "UI_IdentityGN_WpIcon.h"
-#include "UI_Identity_WF_Front.h"
+#include "UI_IdentityGN_BackGroundShine.h"
+#include "UI_IdentityGN_MainFrame.h"
+#include "UI_IdentityGN_WF_Front.h"
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -277,11 +274,11 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
-	/*pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityGNUI"));
+	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityGNUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));*/
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
 
 	Safe_Release(pGameInstance);

@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "UI.h"
-#include "VIBuffer_Point.h"
 #include "GameInstance.h"
 #include "UI_Tool.h"
+#include "AsFileUtils.h"
+#include "AsUtils.h"
+#include <filesystem>
 
 CUI::CUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext, L"UI", OBJ_TYPE::UI)
@@ -23,6 +25,14 @@ HRESULT CUI::Initialize_Prototype()
 
 HRESULT CUI::Initialize(void* pArg)
 {
+	if (nullptr != pArg)
+	{
+		UIDESC* UIDesc;
+		UIDesc = (UIDESC*)pArg;
+		
+		Set_UIDesc(*UIDesc);
+	}
+
 	return S_OK;
 }
 
@@ -96,7 +106,6 @@ void CUI::Set_UIDesc(UIDESC UIDesc)
 	m_fSizeY = UIDesc.fSizeY;
 	m_fX = UIDesc.fX;
 	m_fY = UIDesc.fY;
-
 	m_fAlpha = UIDesc.fAlpha;
 	m_vColor = UIDesc.vColor;
 
@@ -112,6 +121,8 @@ CUI::UIDESC CUI::Get_UIDesc()
 	UIDesc.fSizeY = m_fSizeY;
 	UIDesc.fX = m_fX;
 	UIDesc.fY = m_fY;
+	UIDesc.fAlpha = m_fAlpha;
+	UIDesc.vColor = m_vColor;
 
 	return UIDesc;
 }
@@ -182,6 +193,26 @@ vector<CUI*> CUI::Get_UIParts()
 {
 	return m_vecUIParts;
 }
+
+void CUI::Load_UIData(const wstring& _FilePath)
+{
+	if (nullptr == &m_vecUIParts)
+		return;
+	string strFolderPath = "../Bin/Resources/Textures/UI/Binary_UIDesc/";
+	string strFileExtention = ".dat";
+	strFolderPath += CGameInstance::GetInstance()->wstring_to_string(_FilePath);
+	strFolderPath += strFileExtention;
+
+	shared_ptr<CAsFileUtils>file = make_shared<CAsFileUtils>();
+	file->Open(CGameInstance::GetInstance()->string_to_wstring(strFolderPath), FileMode::Read);
+	CUI::UIDESC	UIDesc;
+	for (auto& iter : m_vecUIParts)
+	{
+		UIDesc = file->Read<CUI::UIDESC>();
+		iter->Set_UIDesc(UIDesc);
+	}
+}
+
 
 void CUI::Change_SizeX(_float MMX)
 {
