@@ -201,6 +201,7 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Boss_King.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
@@ -314,12 +315,13 @@
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
     <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
+    <ClInclude Include="..\Public\Weapon_Boss_King.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
-    <ClInclude Include="..\Public\Weapon_Wp_Reaper.h" />
+    <ClInclude Include="..\Public\Weapon_Mn_Reaper.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Common_BT_Chase.h" />
@@ -355,6 +357,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Boss_King.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
@@ -470,6 +473,7 @@
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
+    <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />
@@ -478,7 +482,7 @@
     <ClCompile Include="..\Private\Weapon_Shot.cpp" />
     <ClCompile Include="..\Private\Common_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
-    <ClCompile Include="..\Private\Weapon_Wp_Reaper.cpp" />
+    <ClCompile Include="..\Private\Weapon_Mn_Reaper.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
     <ClCompile Include="..\Private\Common_BT_DamageRight.cpp" />
     <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp" />

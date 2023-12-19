@@ -84,8 +84,7 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
+
 
 	m_fNoticeRange = 20.f;
 
@@ -94,7 +93,11 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 
 void CMonster_Golem::LateTick(_float fTimeDelta)
 {
-
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 	if (nullptr == m_pRendererCom)
 		return;
 	CullingObject();

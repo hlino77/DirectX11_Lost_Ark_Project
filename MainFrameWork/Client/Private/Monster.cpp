@@ -424,9 +424,10 @@ void CMonster::CullingObject()
 		
 }
 
-void CMonster::Set_to_RootPosition(_float fTimeDelta)
+void CMonster::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
 {
-	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
+	if (Get_Target_Distance() > _TargetDistance)
+		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "Monster.h"
 #include "StateMachine.h"
 #include <atomic>
 
@@ -19,7 +19,7 @@ END
 
 
 BEGIN(Client)
-class CBoss : public CGameObject
+class CBoss : public CMonster
 {
 public:
 	typedef struct ModelDesc
@@ -71,14 +71,9 @@ public:
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
 
-	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
-	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
-	void					Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
-	_bool					Stop_VoiceSound();
 
 	virtual void					Set_Die();
 
-	void	Effect_Die();
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -86,6 +81,8 @@ protected:
 
 protected:
 	void					CullingObject();
+	virtual	HRESULT			Ready_Coliders() { return S_OK; };
+	virtual HRESULT Ready_BehaviourTree();
 
 protected:
 
@@ -106,8 +103,6 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 	atomic<_int>					m_iSlowMotionCount = 0;
 
-	wstring m_VoiceSoundKey;
-	_float m_fVoiceSoundDelay;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

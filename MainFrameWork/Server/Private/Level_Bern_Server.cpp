@@ -75,7 +75,7 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 		else
 		{
 			Vec3 vPos = CGameInstance::GetInstance()->Find_GameObjects(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER).front()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			Vec3 MonsterPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f));
+			Vec3 MonsterPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
 
 			if (GetAsyncKeyState(VK_CONTROL) & 0x8000&& GetAsyncKeyState('1') & 0x8000)
 			{
@@ -114,6 +114,13 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 					return S_OK;
 				m_bKey_Lock = true;
 				Broadcast_Monster(MonsterPos, L"Reaper");
+			}
+			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('6') & 0x8000)
+			{
+				if (m_bKey_Lock)
+					return S_OK;
+				m_bKey_Lock = true;
+				Broadcast_Boss( L"King", MonsterPos);
 			}
 			else
 				m_bKey_Lock = false;
@@ -285,7 +292,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 
 			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 			CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-			static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
+			static_cast<CMonster_Server*>(pMonster)->Send_Boss_Action();
 		}
 		Safe_Release(pGameInstance);
 	}
@@ -300,37 +307,40 @@ HRESULT CLevel_Bern_Server::Broadcast_Boss(const wstring& szName, Vec3 vPos)
 	Safe_AddRef(pGameInstance);
 
 	{
-		Protocol::S_CREATE_OBJCECT pkt;
-		pkt.set_strname(CAsUtils::ToString(szName));
-		pkt.set_iobjectid(g_iObjectID++);
-		pkt.set_ilevel((uint32)LEVELID::LEVEL_BERN);
-		pkt.set_ilayer((uint32)LAYER_TYPE::LAYER_BOSS);
-		pkt.set_iobjecttype((uint32)OBJ_TYPE::BOSS);
 
-		auto vPacketPos = pkt.mutable_vpos();
-		vPacketPos->Resize(3, 0.0f);
-		memcpy(vPacketPos->mutable_data(), &vPos, sizeof(Vec3));
-
-		/*auto tMonster = pkt.add_tmonsterinfo();
-		tMonster->set_ffollowdistance(10.0f);*/
-
-		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-		CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-
-
+		wstring ModelName = L"Boss_" + szName;
 		CBoss_Server::MODELDESC Desc;
-		Desc.strFileName = CAsUtils::ToWString(pkt.strname());
-		Desc.iObjectID = pkt.iobjectid();
-		Desc.iLayer = pkt.ilayer();
+		Desc.strFileName = ModelName;
+		Desc.iObjectID = g_iObjectID++;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
 
-		wstring szMonsterName = L"Prototype_GameObject_Boss_" + szName;
-		CBoss_Server* pBoss = dynamic_cast<CBoss_Server*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szMonsterName, &Desc));
-		if (pBoss == nullptr)
+		wstring szMonsterName = L"Prototype_GameObject_" + ModelName;
+		CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, szMonsterName, &Desc));
+		if (pMonster == nullptr)
 			return E_FAIL;
 
-		pBoss->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
-		pBoss->Set_Skill(nullptr);
-		CNavigationMgr::GetInstance()->Find_FirstCell(pBoss);
+		pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
+
+		CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+		
+		Protocol::S_CREATE_OBJCECT tMonsterPkt;
+
+		tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
+		tMonsterPkt.set_iobjecttype(pMonster->Get_ObjectType());
+		tMonsterPkt.set_strname(CAsUtils::ToString(pMonster->Get_ModelName()));
+		tMonsterPkt.set_ilayer(pMonster->Get_ObjectLayer());
+		tMonsterPkt.set_ilevel(LEVELID::LEVEL_BERN);
+
+		tMonsterPkt.set_bcontroll(true);
+
+		auto vPos = tMonsterPkt.mutable_vpos();
+		vPos->Resize(3, 0.0f);
+		Vec3 vPosition = pMonster->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		memcpy(vPos->mutable_data(), &vPosition, sizeof(Vec3));
+
+		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
+		CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+		static_cast<CMonster_Server*>(pMonster)->Send_Boss_Action();
 	}
 
 

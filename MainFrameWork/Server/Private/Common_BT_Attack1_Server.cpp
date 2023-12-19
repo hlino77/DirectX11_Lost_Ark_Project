@@ -12,7 +12,7 @@ void CCommon_BT_Attack1_Server::OnStart()
 	__super::OnStart(0);
 
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
-	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Send_Boss_Action();
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Attack1_Server::OnUpdate(const _float& fTimeDelta)
@@ -23,6 +23,7 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1_Server::OnUpdate(const _float& fTimeDelta
 
 	if(m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
 		return BT_SUCCESS;
+
 	return BT_RUNNING;
 }
 

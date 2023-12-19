@@ -88,7 +88,7 @@ public:
 	void				Send_ColliderState(const _uint& iLayer);
 	void				Send_SlowMotion(_bool bSlow);
 	void				Send_Hp();
-	void				Send_Monster_Action();
+	void				Send_Boss_Action();
 
 	void				Set_Colliders(_float fTimeDelta);
 	HRESULT				Ready_Coliders();
@@ -152,7 +152,7 @@ protected:
 	unordered_map<wstring, _uint>	m_BoneIndex;
 
 	_float							m_fFollowDistance = 0.0f;
-
+	_float							m_fTimeCount = 0.f;
 	atomic<_int>					m_iSlowMotionCount = 0;
 	_bool							m_IsAttacked = true;
 	_bool							m_IsHit = false;

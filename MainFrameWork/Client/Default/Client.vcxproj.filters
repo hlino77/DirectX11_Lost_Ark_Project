@@ -424,6 +424,12 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown">
       <UniqueIdentifier>{dacc06ae-5cb1-48d2-b2ef-244fb3dd9d50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\King">
+      <UniqueIdentifier>{407c6aef-d0fe-4bbf-9843-d62643e1d1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Parts">
+      <UniqueIdentifier>{fc0117df-bb6e-4e8a-b5c3-114510407a35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -862,9 +868,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Identity_GN.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
@@ -1366,9 +1369,6 @@
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClInclude>
@@ -1528,7 +1528,7 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Wp_Reaper.h">
+    <ClInclude Include="..\Public\Weapon_Mn_Reaper.h">
       <Filter>02.GameObjects\Monster\Reaper\Part</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
@@ -2013,6 +2013,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_King.h">
+      <Filter>02.GameObjects\Boss\King</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Boss_King.h">
+      <Filter>02.GameObjects\Boss\King\Parts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2932,9 +2938,6 @@
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClCompile>
@@ -3097,7 +3100,7 @@
     <ClCompile Include="..\Private\Monster_Reaper.cpp">
       <Filter>02.GameObjects\Monster\Reaper</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Wp_Reaper.cpp">
+    <ClCompile Include="..\Private\Weapon_Mn_Reaper.cpp">
       <Filter>02.GameObjects\Monster\Reaper\Part</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
@@ -3579,6 +3582,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_King.cpp">
+      <Filter>02.GameObjects\Boss\King</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Boss_King.cpp">
+      <Filter>02.GameObjects\Boss\King\Parts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

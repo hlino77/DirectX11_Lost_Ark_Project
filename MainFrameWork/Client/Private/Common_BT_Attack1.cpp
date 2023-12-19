@@ -14,10 +14,7 @@ void CCommon_BT_Attack1::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 {
 
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
-		return BT_SUCCESS;
-
-	return BT_RUNNING;
+	return __super::OnUpdate(fTimeDelta);
 }
 
 void CCommon_BT_Attack1::OnEnd()

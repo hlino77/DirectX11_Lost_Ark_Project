@@ -133,7 +133,7 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		Desc.iObjectID = pkt.iobjectid();
 		Desc.iLayer = pkt.ilayer();
 
-		wstring szProtoName = L"Prototype_GameObject_Boss_" + Desc.strFileName;
+		wstring szProtoName = L"Prototype_GameObject_" + Desc.strFileName;
 		CBoss* pBoss = dynamic_cast<CBoss*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szProtoName, &Desc));
 		if (nullptr == pBoss)
 		{

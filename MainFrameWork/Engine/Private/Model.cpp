@@ -401,7 +401,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 			vCalculePos = vPos;
 
 			vWorldDir.z = 0.f;
-			vCalculePos += vWorldDir * fDist * fTimeDelta;
+			vCalculePos += vWorldDir * fDist * 0.008f;
 		}
 	}
 

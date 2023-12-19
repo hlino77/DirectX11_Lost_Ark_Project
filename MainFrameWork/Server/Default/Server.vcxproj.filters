@@ -97,6 +97,9 @@
     <Filter Include="02. GameObject\04. Boss\King">
       <UniqueIdentifier>{53a31b71-4978-4350-a4c8-4b9ce724c550}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Boss\Behavior">
+      <UniqueIdentifier>{8c41d4ed-02d9-4110-99b5-c7a518e94905}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -243,7 +246,7 @@
     <ClCompile Include="..\Private\Reaper_BT_Attack3_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\King_Server.cpp">
+    <ClCompile Include="..\Private\Boss_King_Server.cpp">
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClCompile>
   </ItemGroup>
@@ -419,7 +422,7 @@
     <ClInclude Include="..\Public\Reaper_BT_Attack3_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\King_Server.h">
+    <ClInclude Include="..\Public\Boss_King_Server.h">
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClInclude>
   </ItemGroup>

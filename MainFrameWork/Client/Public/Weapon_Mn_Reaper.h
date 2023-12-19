@@ -4,12 +4,12 @@
 
 BEGIN(Client)
 
-class CWeapon_Wp_Reaper final : public CPartObject
+class CWeapon_Mn_Reaper final : public CPartObject
 {
 protected:
-	CWeapon_Wp_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWeapon_Wp_Reaper(const CWeapon_Wp_Reaper& rhs);
-	virtual ~CWeapon_Wp_Reaper() = default;
+	CWeapon_Mn_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CWeapon_Mn_Reaper(const CWeapon_Mn_Reaper& rhs);
+	virtual ~CWeapon_Mn_Reaper() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -26,7 +26,7 @@ private:
 private:
 
 public:
-	static CWeapon_Wp_Reaper* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CWeapon_Mn_Reaper* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };
