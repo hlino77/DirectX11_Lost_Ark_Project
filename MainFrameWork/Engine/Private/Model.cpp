@@ -380,7 +380,6 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 		m_vCurRootPos = { 0.f, 0.f, 0.f };
 		return S_OK;
 	}
-
 	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = m_vPreRootPos - m_vCurRootPos;
 	vDir = XMVector3TransformNormal(vDir, m_PivotMatrix);
@@ -391,7 +390,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 	_float fDist = vDir.Length() * m_fRootDist;
 
 	Vec3 vCalculePos = vPos;
-	vCalculePos += vWorldDir * fDist * fTimeDelta;
+	vCalculePos += vWorldDir * fDist* fTimeDelta;
 
 	if (1 == TargetPos.w)
 	{
@@ -408,6 +407,37 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 	vCalculePos.y = vPos.y;
 	pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
 		
+	return S_OK;
+}
+
+HRESULT CModel::Set_Monster_ToRootPos(CTransform* pTransform, _float fTimeDelta)
+{
+	if (nullptr == pTransform)
+		return E_FAIL;
+
+	KEY_DESC tCurrKeyDesc = m_Animations[m_iCurrAnim]->Get_KeyDesc();
+	if (true == m_bNext || 0 == tCurrKeyDesc.iNextFrame)
+	{
+		m_vPreRootPos = { 0.f, 0.f, 0.f };
+		m_vCurRootPos = { 0.f, 0.f, 0.f };
+		return S_OK;
+	}
+	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDir = m_vPreRootPos - m_vCurRootPos;
+	vDir = XMVector3TransformNormal(vDir, m_PivotMatrix);
+	Vec3 vWorldDir = XMVector3TransformNormal(vDir, pTransform->Get_WorldMatrix());
+	vWorldDir.Normalize();
+	vWorldDir *= -1.f;
+
+	_float fDist = vDir.Length() * m_fRootDist;
+
+	Vec3 vCalculePos = vPos;
+	vCalculePos += vWorldDir * fDist * 1.f / 120.f;
+
+
+	vCalculePos.y = vPos.y;
+	pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
+
 	return S_OK;
 }
 

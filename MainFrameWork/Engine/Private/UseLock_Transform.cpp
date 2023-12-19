@@ -553,6 +553,11 @@ void CUseLock_Transform::Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta
 	Set_State(CUseLock_Transform::STATE_LOOK, Vec3(matWorld.m[2]));
 }
 
+void CUseLock_Transform::Set_MovementSpeed(float fSpeed)
+{
+	m_TransformDesc.fSpeedPerSec = fSpeed;
+}
+
 void CUseLock_Transform::LookAt_Dir(Vec3 vDir)
 {
 	Vec3		vUp = Get_State(STATE::STATE_UP);

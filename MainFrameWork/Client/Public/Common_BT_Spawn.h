@@ -17,9 +17,6 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 
-private:
-    _bool IsOut();
-
 public:
     static	CCommon_BT_Spawn* Create(void* pArg);
     virtual void Free() override;

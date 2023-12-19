@@ -67,7 +67,8 @@ public:
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 	_float					Get_Target_Distance();
-	void					LookAt_Target_Direction(_float fTimeDelta);
+	void					LookAt_Target_Direction_Lerp(_float fTimeDelta);
+	void					LookAt_Target_Direction();
 	Vec3					Get_Target_Direction();
 	void					Set_RandomPosition();
 	void					Move_to_RandomPosition(_float fTimeDelta);

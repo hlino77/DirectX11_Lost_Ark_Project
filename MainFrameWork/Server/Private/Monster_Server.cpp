@@ -7,6 +7,7 @@
 #include "CollisionManager.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
+#include "BehaviorTree.h"
 #include "Skill_Server.h"
 
 CMonster_Server::CMonster_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -369,7 +370,16 @@ void CMonster_Server::Move_to_RandomPosition(_float fTimeDelta)
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	Move_Dir(m_vRandomPosition - vCurrentPosition, 1.f, fTimeDelta);
 }
+_float CMonster_Server::Get_Target_Distance()
+{
+	if (m_pNearTarget == nullptr)
+		return 99999.f;
 
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	return (vTargetPosition - vCurrentPosition).Length();
+}
 _bool CMonster_Server::Is_Close_To_RandomPosition()
 {
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -379,7 +389,7 @@ _bool CMonster_Server::Is_Close_To_RandomPosition()
 		return false;
 }
 
-void CMonster_Server::LookAt_Target_Direction(_float fTimeDelta)
+void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 {
 	if (m_pNearTarget == nullptr)
 		return;
@@ -388,6 +398,17 @@ void CMonster_Server::LookAt_Target_Direction(_float fTimeDelta)
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	m_pTransformCom->LookAt_Lerp(vTargetPosition - vCurrentPosition, 5.0f, fTimeDelta);
+}
+
+void CMonster_Server::LookAt_Target_Direction()
+{
+	if (m_pNearTarget == nullptr)
+		return;
+
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->LookAt_Dir(vTargetPosition - vCurrentPosition);
 }
 
 void CMonster_Server::Send_State(const wstring& szName)
@@ -537,9 +558,10 @@ void CMonster_Server::Set_Colliders(_float fTimeDelta)
 	
 }
 
-void CMonster_Server::Set_to_RootPosition(_float fTimeDelta)
+void CMonster_Server::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
 {
-	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	if(Get_Target_Distance() > _TargetDistance)
+	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 HRESULT CMonster_Server::Ready_Coliders()
@@ -571,6 +593,6 @@ void CMonster_Server::Free()
 
 
 	Safe_Release(m_pModelCom);
-
+	Safe_Release(m_pBehaviorTree);
 	Safe_Release(m_pTransformCom);
 }

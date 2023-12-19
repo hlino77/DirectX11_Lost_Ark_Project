@@ -8,6 +8,7 @@
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 #include "Skill_Server.h"
+#include "BehaviorTree.h"
 
 CBoss_Server::CBoss_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Boss", OBJ_TYPE::BOSS)
@@ -42,14 +43,32 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 	m_pRigidBody->SetMass(2.0f);
 
 
-    return S_OK;
+
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+
+	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(1.f);
+	m_fAttackRange = m_vecAttackRanges[0];
+	m_fNoticeRange = 20.f;
+	m_pRigidBody->SetMass(2.0f);
+	return S_OK;
 }
 
 void CBoss_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-
+	m_fScanCoolDown += fTimeDelta;
+	m_pBehaviorTree->Tick(fTimeDelta);
+	if (m_fScanCoolDown > 0.5f)
+	{
+		m_fScanCoolDown = 0.f;
+		Find_NearTarget();
+	}
 	m_pRigidBody->Tick(fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 void CBoss_Server::LateTick(_float fTimeDelta)
@@ -257,6 +276,24 @@ void CBoss_Server::Set_Die()
 	m_bDie = true;
 }
 
+
+_bool CBoss_Server::Is_Skill()
+{
+	if (m_iSkillStack > 3 || m_fSkillCoolDown > 15.f)
+		return true;
+	return false;
+}
+
+
+
+void CBoss_Server::Set_AttackRange(_int iRangeIndex)
+{
+	if (iRangeIndex > m_vecAttackRanges.size())
+		return;
+	m_fAttackRange = m_vecAttackRanges[iRangeIndex];
+}
+
+
 void CBoss_Server::Find_NearTarget()
 {
 	m_pNearTarget = nullptr;
@@ -344,6 +381,11 @@ void CBoss_Server::Send_State(const wstring& szName)
 	Safe_Release(pGameInstance);
 }
 
+void CBoss_Server::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
+{
+	if (Get_NearTargetDistance() > _TargetDistance)
+		m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
+}
 
 void CBoss_Server::Set_State(const wstring& szName)
 {
@@ -474,6 +516,6 @@ void CBoss_Server::Free()
 
 
 	Safe_Release(m_pModelCom);
-
+	Safe_Release(m_pBehaviorTree);
 	Safe_Release(m_pTransformCom);
 }

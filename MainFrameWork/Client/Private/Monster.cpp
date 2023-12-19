@@ -11,6 +11,7 @@
 #include "Pool.h"
 #include "BindShaderDesc.h"
 #include "CollisionManager.h"
+#include "BehaviorTree.h"
 
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -277,7 +278,7 @@ _bool CMonster::Is_Close_To_RandomPosition()
 	return false;
 }
 
-void CMonster::LookAt_Target_Direction(_float fTimeDelta)
+void CMonster::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 {
 	if (m_pNearTarget == nullptr)
 		return;
@@ -287,6 +288,18 @@ void CMonster::LookAt_Target_Direction(_float fTimeDelta)
 
 	m_pTransformCom->LookAt_Lerp(vTargetPosition - vCurrentPosition, 5.0f, fTimeDelta);
 }
+
+void CMonster::LookAt_Target_Direction()
+{
+	if (m_pNearTarget == nullptr)
+		return;
+
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->LookAt_Dir(vTargetPosition - vCurrentPosition);
+}
+
 
 void CMonster::Set_Die()
 {
@@ -413,7 +426,7 @@ void CMonster::CullingObject()
 
 void CMonster::Set_to_RootPosition(_float fTimeDelta)
 {
-	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
@@ -440,6 +453,7 @@ void CMonster::Free()
 
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pBehaviorTree);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
 }

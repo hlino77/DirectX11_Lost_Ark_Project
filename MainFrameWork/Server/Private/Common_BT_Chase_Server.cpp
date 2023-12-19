@@ -25,8 +25,8 @@ CBT_Node::BT_RETURN CCommon_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
 		return BT_FAIL;
-	static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), 1.5f, fTimeDelta);
-
+	_float fSpeed = 1.5f;
+	static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
 	return BT_RUNNING;
 }
 
@@ -48,7 +48,7 @@ CCommon_BT_Chase_Server* CCommon_BT_Chase_Server::Create(void* pArg)
 
 	return pInstance;
 }
-
+ 
 void CCommon_BT_Chase_Server::Free()
 {
 	__super::Free();

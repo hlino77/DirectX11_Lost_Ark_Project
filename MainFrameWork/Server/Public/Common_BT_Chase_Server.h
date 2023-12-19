@@ -8,6 +8,7 @@ BEGIN(Server)
 class CCommon_BT_Chase_Server :
     public CBT_Action
 {
+
 private:
     CCommon_BT_Chase_Server();
     CCommon_BT_Chase_Server(const CCommon_BT_Chase_Server& rhs) = delete;
@@ -16,7 +17,6 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
-
 
 
 public:

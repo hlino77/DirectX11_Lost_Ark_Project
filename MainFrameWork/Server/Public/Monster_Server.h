@@ -73,9 +73,13 @@ public:
 
 	void Move_to_RandomPosition(_float fTimeDelta);
 
+	_float Get_Target_Distance();
+
 	_bool Is_Close_To_RandomPosition();
 
-	void LookAt_Target_Direction(_float fTimeDelta);
+	void LookAt_Target_Direction_Lerp(_float fTimeDelta);
+
+	void LookAt_Target_Direction();
 
 	//Send Packet
 	void				Send_State(const wstring& szName);
@@ -130,7 +134,7 @@ public:
 
 protected:
 	virtual HRESULT		Ready_Components();
-	void Set_to_RootPosition(_float fTimeDelta);
+	void				Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance = 0.f);
 
 
 protected:

@@ -16,10 +16,11 @@ void CGolem_BT_Attack_Dash_Server::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[0].first.iAnimIndex)>0.8f)
 		return BT_SUCCESS;
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].first.iAnimIndex) < 10)
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction(fTimeDelta);
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	return BT_RUNNING;
 }
@@ -27,7 +28,6 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDe
 void CGolem_BT_Attack_Dash_Server::OnEnd()
 {
 	__super::OnEnd();
-
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();

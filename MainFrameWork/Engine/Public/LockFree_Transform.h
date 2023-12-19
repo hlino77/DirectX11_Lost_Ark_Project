@@ -56,6 +56,8 @@ public:
 	virtual	void Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta) override;
 	virtual	void My_Rotation(Vec3 vEulers) override;
 
+	virtual	void Set_MovementSpeed(float fSpeed)override;
+
 public:
 	static CLockFree_Transform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

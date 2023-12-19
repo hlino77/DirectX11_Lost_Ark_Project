@@ -55,6 +55,8 @@
 #include "Monster_Plant.h"
 #include "Monster_Golem.h"
 #include "Monster_Ghoul.h"
+#include <Monster_Reaper.h>
+#include "Weapon_Wp_Reaper.h"
 
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -453,6 +455,13 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Ghoul"),
 		CMonster_Ghoul::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Reaper"),
+		CMonster_Reaper::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_wp_Reaper"),
+		CWeapon_Wp_Reaper::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -812,6 +821,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
 	}
 
 	{
@@ -822,6 +832,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
 	}
 
 	{
@@ -832,6 +843,29 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+	{
+
+		wstring strFileName = L"Monster_Reaper";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+
+	{
+		wstring strFileName = L"Reaper_Wp";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(800.f);
 	}
 
 	Safe_Release(pGameInstance);

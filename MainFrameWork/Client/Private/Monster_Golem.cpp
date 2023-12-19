@@ -24,6 +24,7 @@
 #include "BindShaderDesc.h"
 #include <Golem_BT_Attack_Charge_Punch.h>
 #include <Golem_BT_Attack_Dash.h>
+#include <Golem_BT_Chase.h>
 
 CMonster_Golem::CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -62,8 +63,8 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
 
-
-
+	m_tCullingSphere.Radius = 2.5f;
+	m_tCullingSphere.Center = Vec3(0.f, 0.75f, 0.f);
 
     return S_OK;
 }
@@ -74,16 +75,10 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_fPositionTimeAcc += fTimeDelta;
+
 	if (m_fPositionTimeAcc > 0.5f)
 	{
 		m_fPositionTimeAcc = 0.f;
-
-
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		cout << endl;
-		cout << CAsUtils::ToString(m_strAction) << endl;
-		cout << "Å¬¶ó °ñ·½" << vPos.x << '|' << vPos.z << '|' << endl;
-		cout << "Anim : " << m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim());
 	}
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
@@ -102,8 +97,6 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 
 	if (nullptr == m_pRendererCom)
 		return;
-
-
 	CullingObject();
 }
 
@@ -357,7 +350,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Chase";
-	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
+	CBT_Action* pChase = CGolem_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
@@ -423,6 +416,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Bash";
 	CBT_Action* pBash = CGolem_BT_Attack_Dash::Create(&ActionDesc);
 
+	m_pModelCom->Set_Anim_Speed(34, 1.5f);
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Idle_0");
 	return S_OK;
 }
