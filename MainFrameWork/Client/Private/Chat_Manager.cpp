@@ -32,11 +32,11 @@ HRESULT CChat_Manager::Reserve_Manager(HWND hwnd, ID3D11Device* pDevice, ID3D11D
     m_iMaxChat = 20;
 
     m_vTextScale = Vec2(0.4f, 0.4f);
-
+    
     m_bActive = false;
     
-    m_fChatWinSizeX = 1000.0f;
-    m_fInputWindowSizeX = 800.0f;
+    m_fChatWinSizeX = 397.0f;
+    m_fInputWindowSizeX = 357.0f;
 
     m_szFont = L"던파연마된칼날";
 
@@ -252,14 +252,6 @@ void CChat_Manager::ResetBlink()
 void CChat_Manager::Add_Chat(wstring& szChat)
 {
     //WRITE_LOCK
-
-    wstring szCurrChat;
-
-    for (auto& Chat : m_ChatList)
-    {
-        szCurrChat = Chat + szCurrChat;
-    }
-
  
     wstring szLine;
 
@@ -268,11 +260,12 @@ void CChat_Manager::Add_Chat(wstring& szChat)
         szLine += szChat[i];
 
         Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szLine);
-        if (vMeasure.x * m_vTextScale.x > m_fChatWinSizeX * m_vTextScale.x)
+        if (vMeasure.x * m_vTextScale.x > m_fChatWinSizeX)
         {
-            szCurrChat = szLine + szCurrChat;
+            szLine.pop_back();
             m_ChatList.push_front(szLine);
             szLine.clear();
+            --i;
         }
     }
 
@@ -287,27 +280,7 @@ void CChat_Manager::Add_Chat(wstring& szChat)
             m_ChatList.pop_back();
     }
 
-    Vec2 vTextPos(0.f, 300.f);
-
-    _int iChatSize = m_ChatList.size();
-
-    if (iChatSize > 0)
-    {
-        Vec2 vStartPos = vTextPos;
-
-        wstring szResult;
-
-        for (_int i = iChatSize - 1; i >= 0; --i)
-        {
-            szResult += m_ChatList[i] + L"\n";
-        }
-
-        Vec2 vCursurPos = vStartPos;
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szResult);
-        vCursurPos.y -= (vMeasure.y * m_vTextScale.y) + 15.0f;
-
-        m_pChatWindow->Set_Text(L"ChatWindow", m_szFont, szResult, vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    }
+    Update_ChatWindow();
 }
 
 void CChat_Manager::Send_Chat(const wstring& szChat)
@@ -351,38 +324,61 @@ void CChat_Manager::Update_InputChat()
     if (m_bChat == false)
         return;
 
-    Vec2 vTextPos(0.f, 300.f);
+    Vec2 vTextPos(0.f, 20.0f);
+    
 
     wstring szDrawText = m_szInputText + m_szCombiningText;
     wstring szMeasureText = szDrawText + L".";
+    Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
+    Vec2 vOrigin(0.0f, vMeasure.y * 0.5f);
+    vMeasure *= m_vTextScale;
+
 
     {
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
-        vMeasure *= m_vTextScale;
-
-        if (vMeasure.x > m_fInputWindowSizeX * m_vTextScale.x)
+        if (vMeasure.x > m_fInputWindowSizeX)
         {
-
-            vTextPos.x -= vMeasure.x - (m_fInputWindowSizeX * m_vTextScale.x);
+            vTextPos.x -= vMeasure.x - m_fInputWindowSizeX;
         }
 
-        m_pInputWindow->Set_Text(L"InputText", m_szFont, szDrawText, vTextPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        m_pInputWindow->Set_Text(L"InputText", m_szFont, szDrawText, vTextPos, m_vTextScale, vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
     }
 
 
     {
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szMeasureText);
-
         Vec2 vCursurPos;
 
-        vCursurPos.x = vTextPos.x + (vMeasure.x * m_vTextScale.x) - 7.0f;
+        vCursurPos.x = vTextPos.x + vMeasure.x - 7.0f;
         vCursurPos.y = vTextPos.y;
 
-
         if(m_bCursur)
-            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"|", vCursurPos, Vec2(m_vTextScale.x * 1.0f, m_vTextScale.y * 1.05f), Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"|", vCursurPos, Vec2(m_vTextScale.x * 1.0f, m_vTextScale.y * 1.05f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
         else
-            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"", vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+            m_pInputWindow->Set_Text(L"Cursur", m_szFont, L"", vCursurPos, m_vTextScale, vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    }
+}
+
+void CChat_Manager::Update_ChatWindow()
+{
+    Vec2 vTextPos(0.f, 192.0f);
+
+    _int iChatSize = m_ChatList.size();
+
+    if (iChatSize > 0)
+    {
+        Vec2 vStartPos = vTextPos;
+
+        wstring szResult;
+
+        for (_int i = iChatSize - 1; i >= 0; --i)
+        {
+            szResult += m_ChatList[i] + L"\n";
+        }
+
+        Vec2 vCursurPos = vStartPos;
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szResult);
+        vCursurPos.y -= vMeasure.y * m_vTextScale.y;
+
+        m_pChatWindow->Set_Text(L"ChatWindow", m_szFont, szResult, vCursurPos, m_vTextScale, Vec2(0.0f, 0.0f), 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
     }
 }
 
@@ -424,7 +420,7 @@ HRESULT CChat_Manager::Ready_ChatWindows()
     {
         CTextBox::TEXTBOXDESC tTextDesc;
         tTextDesc.szTextBoxTag = L"InputWindow";
-        tTextDesc.vSize = Vec2(900.0f, 900.0f);
+        tTextDesc.vSize = Vec2(359.0f, 41.0f);
 
         m_pInputWindow = dynamic_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
         if (m_pInputWindow == nullptr)
@@ -434,14 +430,14 @@ HRESULT CChat_Manager::Ready_ChatWindows()
         }
 
         m_pInputWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
-        m_pInputWindow->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f + 100.f);
+        m_pInputWindow->Set_Pos(189.5f, 693.f);
     }
 
     if (m_pChatWindow == nullptr)
     {
         CTextBox::TEXTBOXDESC tTextDesc;
         tTextDesc.szTextBoxTag = L"ChatWindow";
-        tTextDesc.vSize = Vec2(900.0f, 900.0f);
+        tTextDesc.vSize = Vec2(399.0f, 192.0f);
 
 
         m_pChatWindow = dynamic_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
@@ -453,7 +449,7 @@ HRESULT CChat_Manager::Ready_ChatWindows()
 
 
         m_pChatWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
-        m_pChatWindow->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+        m_pChatWindow->Set_Pos(210.5f, 571.f);
     }
 
 

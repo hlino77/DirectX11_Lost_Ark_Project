@@ -1310,9 +1310,9 @@ HRESULT CRenderer::Render_Debug()
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
 	
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
+	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;*/
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample2"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
@@ -1321,17 +1321,14 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample2"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;*/
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_4x4"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_24x24"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_24x24"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_144x144"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;*/
-	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample3"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;*/
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Bright"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
+		return E_FAIL;
+	
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_EffectShade"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
 

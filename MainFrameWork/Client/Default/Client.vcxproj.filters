@@ -759,9 +759,6 @@
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
       <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
@@ -822,7 +819,6 @@
     <ClInclude Include="..\Public\UI_ChatFrame.h" />
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
-    <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
@@ -1594,9 +1590,6 @@
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClInclude>
@@ -2035,6 +2028,12 @@
     <ClInclude Include="..\Public\State_GN_Gunkata_2.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
+      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2342,9 +2341,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
       <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
@@ -3175,9 +3171,6 @@
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClCompile>
@@ -3615,6 +3608,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Gunkata_2.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

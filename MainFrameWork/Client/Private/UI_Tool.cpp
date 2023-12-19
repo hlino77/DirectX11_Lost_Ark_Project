@@ -10,7 +10,6 @@
 #include "UI_ChatLanguageIcon.h"
 #include "UI_ChatSmallerButton.h"
 #include "UI_IdentityGN_MainFrame.h"
-#include "UI_Chat.h"
 
 IMPLEMENT_SINGLETON(CUI_Tool)
 

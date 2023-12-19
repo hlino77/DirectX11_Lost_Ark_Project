@@ -210,8 +210,6 @@ void CPhysXMgr::Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones)
 	Matrix matPlayerWorld = pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 
-
-
 	PxShape* pSphereShape = m_PhysX->createShape(PxSphereGeometry(0.01f), *Material);
 	_float fCapsuleRadius = 0.01f;
 

@@ -56,7 +56,7 @@ private:
 	void	EndChat();
 
 	void	Update_InputChat();
-
+	void	Update_ChatWindow();
 
 private:
 

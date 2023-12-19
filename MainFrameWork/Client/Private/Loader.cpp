@@ -38,7 +38,6 @@
 #include "UI_ChatWriteFrame.h"
 #include "UI_ChatLanguageIcon.h"
 #include "UI_ChatSmallerButton.h"
-#include "UI_Chat.h"
 #include "UI_Manager.h"
 #include "UI_IdentityGN_BackGroundWing.h"
 #include "UI_IdentityGN_BackGroundFrame.h"
@@ -49,6 +48,7 @@
 #include "UI_Identity_GN.h"
 #include "UI_IdentityGN_Arrow.h"
 #include "UI_IdentityGN_Spark.h"
+#include "UI_Chat.h"
 
 //Monsters
 #include "Monster_Zombie.h"

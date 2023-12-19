@@ -17,9 +17,9 @@ void DeadLockProfiler::PushLock(const char* name)
 {
 	LockGuard guard(_lock);
 	
-	TLSDESC* tTLS = nullptr;
+	TLSDESC* pTLS = nullptr;
 
-	if(GetTLS(&tTLS) == false)
+	if(GetTLS(&pTLS) == false)
 		return;
 
 	// 아이디를 찾거나 발급한다.
@@ -38,10 +38,10 @@ void DeadLockProfiler::PushLock(const char* name)
 	}
 
 	// 잡고 있는 락이 있었다면
-	if (tTLS->LLockStack.empty() == false)
+	if (pTLS->LLockStack.empty() == false)
 	{
 		// 기존에 발견되지 않은 케이스라면 데드락 여부 다시 확인한다.
-		const int32 prevId = tTLS->LLockStack.top();
+		const int32 prevId = pTLS->LLockStack.top();
 		if (lockId != prevId)
 		{
 			set<int32>& history = _lockHistory[prevId];
@@ -53,26 +53,26 @@ void DeadLockProfiler::PushLock(const char* name)
 		}
 	}
 
-	tTLS->LLockStack.push(lockId);
+	pTLS->LLockStack.push(lockId);
 }
 
 void DeadLockProfiler::PopLock(const char* name)
 {
 	LockGuard guard(_lock);
 
-	TLSDESC* tTLS = nullptr;
+	TLSDESC* pTLS = nullptr;
 
-	if (GetTLS(&tTLS) == false)
+	if (GetTLS(&pTLS) == false)
 		return;
 
-	if (tTLS->LLockStack.empty())
+	if (pTLS->LLockStack.empty())
 		CRASH("MULTIPLE_UNLOCK");
 
 	int32 lockId = _nameToId[name];
-	if (tTLS->LLockStack.top() != lockId)
+	if (pTLS->LLockStack.top() != lockId)
 		CRASH("INVALID_UNLOCK");
 
-	tTLS->LLockStack.pop();
+	pTLS->LLockStack.pop();
 }
 
 void DeadLockProfiler::CheckCycle()

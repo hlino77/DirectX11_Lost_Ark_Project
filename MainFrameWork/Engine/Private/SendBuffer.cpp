@@ -71,28 +71,28 @@ SendBufferManager::SendBufferManager()
 
 SendBufferRef SendBufferManager::Open(uint32 size)
 {
-	TLSDESC* tTLS = nullptr;
+	TLSDESC* pTLS = nullptr;
 
-	if (GetTLS(&tTLS) == false)
+	if (GetTLS(&pTLS) == false)
 		return nullptr;
 
 
-	if (tTLS->LSendBufferChunk == nullptr)
+	if (pTLS->LSendBufferChunk == nullptr)
 	{
-		tTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
-		tTLS->LSendBufferChunk->Reset();
+		pTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
+		pTLS->LSendBufferChunk->Reset();
 	}
 
-	ASSERT_CRASH(tTLS->LSendBufferChunk->IsOpen() == false);
+	ASSERT_CRASH(pTLS->LSendBufferChunk->IsOpen() == false);
 
 	// 다 썼으면 버리고 새거로 교체
-	if (tTLS->LSendBufferChunk->FreeSize() < size)
+	if (pTLS->LSendBufferChunk->FreeSize() < size)
 	{
-		tTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
-		tTLS->LSendBufferChunk->Reset();
+		pTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
+		pTLS->LSendBufferChunk->Reset();
 	}
 
-	return tTLS->LSendBufferChunk->Open(size);
+	return pTLS->LSendBufferChunk->Open(size);
 }
 
 SendBufferChunkRef SendBufferManager::Pop()
