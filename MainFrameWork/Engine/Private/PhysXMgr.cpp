@@ -125,6 +125,8 @@ HRESULT CPhysXMgr::ReserveManager()
 
 void CPhysXMgr::LateTick(_float fTimeDelta)
 {
+	WRITE_LOCK
+
 	Update_Branches();
 
 	m_PxScene->simulate(fTimeDelta);
@@ -180,6 +182,7 @@ void CPhysXMgr::Reset()
 
 void CPhysXMgr::Add_Player(CGameObject* pPlayer)
 {
+	WRITE_LOCK
 	PhysxPlayerDesc tPlayer;
 	tPlayer.pPlayer = pPlayer;
 
@@ -188,6 +191,8 @@ void CPhysXMgr::Add_Player(CGameObject* pPlayer)
 
 void CPhysXMgr::Add_BoneBranch(CGameObject* pPlayer, vector<_uint>& Bones)
 {
+	WRITE_LOCK
+
 	PLAYERDESC* PlayerDesc = Find_PlayerInfo(pPlayer);
 	BRANCHDESC tBranch;
 

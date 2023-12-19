@@ -81,7 +81,9 @@ void CPlayer::Tick(_float fTimeDelta)
 
 void CPlayer::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation.get();
+	if(m_PlayAnimation.valid())
+		m_PlayAnimation.get();
+
 	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
 
 	//m_pRigidBody->Tick(fTimeDelta);

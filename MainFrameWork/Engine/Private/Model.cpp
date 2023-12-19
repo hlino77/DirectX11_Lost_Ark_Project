@@ -390,7 +390,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 	_float fDist = vDir.Length() * m_fRootDist;
 
 	Vec3 vCalculePos = vPos;
-	vCalculePos += vWorldDir * fDist* fTimeDelta;
+	vCalculePos += vWorldDir * fDist * 0.008f;
 
 	if (1 == TargetPos.w)
 	{
@@ -401,7 +401,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 			vCalculePos = vPos;
 
 			vWorldDir.z = 0.f;
-			vCalculePos += vWorldDir * fDist * fTimeDelta;
+			vCalculePos += vWorldDir * fDist * 0.008f;
 		}
 	}
 
