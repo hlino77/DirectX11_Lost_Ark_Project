@@ -12,7 +12,7 @@ CCamera_Free::CCamera_Free(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
 CCamera_Free::CCamera_Free(const CCamera_Free & rhs, CTransform::TRANSFORMDESC * pArg)
 	: CCamera(rhs, pArg)
 {
-
+	
 }
 
 HRESULT CCamera_Free::Initialize_Prototype()

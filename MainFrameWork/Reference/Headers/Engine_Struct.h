@@ -1,9 +1,17 @@
 #ifndef Engine_Struct_h__
 #define Engine_Struct_h__
 #include "Engine_Enum.h"
+#include <stack>
 
 namespace Engine
 {
+	typedef struct TLSDesc
+	{
+		uint32 LThreadId = 0;
+		std::stack<int32>	LLockStack;
+		SendBufferChunkRef LSendBufferChunk;
+	}TLSDESC;
+
 	typedef struct tagKeyFrame
 	{
 		float		fTime;

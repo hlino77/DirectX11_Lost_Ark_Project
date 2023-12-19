@@ -2,6 +2,7 @@
 #include "Engine_Defines.h"
 
 
+
 IMPLEMENT_SINGLETON(ThreadManager)
 /*------------------
 	ThreadManager
@@ -10,7 +11,7 @@ IMPLEMENT_SINGLETON(ThreadManager)
 ThreadManager::ThreadManager()
 {
 	// Main Thread
-	InitTLS();
+	//InitTLS();
 }
 
 ThreadManager::~ThreadManager()
@@ -24,7 +25,7 @@ void ThreadManager::Launch(function<void(void)> callback)
 
 	_threads.push_back(thread([=]()
 		{
-			InitTLS();
+			//InitTLS();
 			callback();
 			DestroyTLS();
 		}));
@@ -40,14 +41,6 @@ void ThreadManager::Join()
 	_threads.clear();
 }
 
-void ThreadManager::InitTLS()
-{
-	static atomic<uint32> SThreadId = 1;
-	MTLS tTLS;
-	tTLS.LThreadId = SThreadId.fetch_add(1);
-
-	Push_TLS(tTLS);
-}
 
 void ThreadManager::DestroyTLS()
 {
@@ -55,17 +48,4 @@ void ThreadManager::DestroyTLS()
 }
 
 
-void ThreadManager::Push_TLS(MTLS tTLS)
-{
-	std::lock_guard<mutex> lock(_lock);
 
-
-	m_TLS.emplace(this_thread::get_id(), tTLS);
-}
-
-ThreadManager::MTLS& ThreadManager::Get_TLS(thread::id ThreadID)
-{
-	std::lock_guard<mutex> lock(_lock);
-
-	return m_TLS[ThreadID];
-}
