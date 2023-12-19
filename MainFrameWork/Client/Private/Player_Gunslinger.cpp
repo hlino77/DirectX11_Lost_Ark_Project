@@ -52,6 +52,10 @@
 #include "State_GN_TargetDown_Loop.h"
 #include "State_GN_TargetDown_Shot.h"
 #include "State_GN_TargetDown_End.h"
+#include "State_GN_DeathFire_Start.h"
+#include "State_GN_DeathFire_Success.h"
+#include "State_GN_RapidFire_Start.h"
+#include "State_GN_RapidFire_End.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -527,6 +531,18 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_End"), CState_GN_TargetDown_End::Create(TEXT("Skill_GN_TargetDown_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Skill_GN_DeathFire_Start"), CState_GN_DeathFire_Start::Create(TEXT("Skill_GN_DeathFire_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_DeathFire_Success"), CState_GN_DeathFire_Success::Create(TEXT("Skill_GN_DeathFire_Success"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_RapidFire_Start"), CState_GN_RapidFire_Start::Create(TEXT("Skill_GN_RapidFire_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_RapidFire_End"), CState_GN_RapidFire_End::Create(TEXT("Skill_GN_RapidFire_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 
 	m_pStateMachine->Change_State(TEXT("Idle"));
 
@@ -548,6 +564,29 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_End")));
 	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CPlayer_Skill::Create(this, &SkillDesc));
 	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_DeathFire_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 5.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Success")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::W, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_RapidFire_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 5.f;
+	SkillDesc.IsSuperArmor = true;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_End")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::E, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
 
 	/* ¼¦°Ç ½ºÅ³*/
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FreeShoter");
@@ -716,14 +755,9 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 		Safe_Release(pGameInstance);
 	}
 
-
-
-
-
 	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Radius(0.5f);
 	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->SetActive(false);
 	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
-
 
 	for (auto& Collider : m_Coliders)
 	{

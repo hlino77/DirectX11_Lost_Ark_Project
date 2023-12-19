@@ -157,6 +157,18 @@ HRESULT CShader::Push_ShadowWVP()
 		return S_OK;
 }
 
+HRESULT CShader::Push_ShadowVP()
+{
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_DirectionLightMatrix(),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_LightViewProjMatrix(),
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return S_OK;
+}
+
 HRESULT CShader::Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength)
 {
 	if (0 == m_hashConstantBuffers->count(strCBufferName))

@@ -424,6 +424,15 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown">
       <UniqueIdentifier>{dacc06ae-5cb1-48d2-b2ef-244fb3dd9d50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire">
+      <UniqueIdentifier>{762222dd-6a4d-41a8-a954-87968b11bd56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire">
+      <UniqueIdentifier>{77c603d7-b0b7-45bd-a06f-c19113733797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata">
+      <UniqueIdentifier>{a2e90637-6810-4f0f-bd7a-f5264d7aa6e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -862,9 +871,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Identity_GN.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
@@ -1365,9 +1371,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
@@ -2013,6 +2016,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_DeathFire_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_DeathFire_Success.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_RapidFire_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_RapidFire_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Gunkata_1.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Gunkata_2.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2932,9 +2953,6 @@
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClCompile>
@@ -3579,6 +3597,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_DeathFire_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_DeathFire_Success.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_RapidFire_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_RapidFire_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Gunkata_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Gunkata_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

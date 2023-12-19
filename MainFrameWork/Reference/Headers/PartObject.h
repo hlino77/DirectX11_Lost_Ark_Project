@@ -30,7 +30,7 @@ public:
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			LateTick(_float fTimeDelta);
 	virtual HRESULT			Render()					{ return S_OK; }
-	virtual HRESULT			Render_ShadowDepth()		{ return S_OK; }
+	virtual HRESULT			Render_ShadowDepth();
 
 public:
 	CGameObject*			Get_PartOwner()				 { return m_pOwner; }
