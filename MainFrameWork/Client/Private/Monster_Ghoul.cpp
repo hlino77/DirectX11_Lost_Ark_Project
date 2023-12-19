@@ -132,7 +132,7 @@ HRESULT CMonster_Ghoul::Render_ShadowDepth()
 				return E_FAIL;*/
 
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
 	}
 

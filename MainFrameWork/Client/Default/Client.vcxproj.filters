@@ -850,7 +850,6 @@
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Spark.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h" />
@@ -869,21 +868,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Identity_GN.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_WF_BG.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_WeaponFrame.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.WeaponFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_WF_Trail.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\03.ShineTrail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_IconBG.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.IconBackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_WpIcon.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
@@ -1171,9 +1155,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
@@ -2179,9 +2160,6 @@
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
       <Filter>01.Levels\98.Tool\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Zombie.cpp">
-      <Filter>02.GameObjects\Monster\Zombie</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
@@ -2466,21 +2444,6 @@
     <ClCompile Include="..\Private\UI_Identity_GN.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_WF_BG.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_WeaponFrame.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.WeaponFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_WF_Trail.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\03.ShineTrail</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_IconBG.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.IconBackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_WpIcon.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\04.WeaponIcon</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
@@ -2761,9 +2724,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
@@ -3616,6 +3576,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Zombie.cpp">
+      <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

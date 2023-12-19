@@ -134,20 +134,20 @@ HRESULT CPlayer::Render_ShadowDepth()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+	//_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
+	//for (_uint i = 0; i < iNumMeshes; ++i)
+	//{
+	//	/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+	//		return S_OK;*/
 
-			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-				return S_OK;*/
+	//		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+	//			return S_OK;*/
 
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
-			return S_OK;
-	}
+	//	if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
+	//		return S_OK;
+	//}
 
 	return S_OK;
 }

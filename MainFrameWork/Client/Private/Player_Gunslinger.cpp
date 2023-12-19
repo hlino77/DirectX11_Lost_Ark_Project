@@ -200,7 +200,7 @@ HRESULT CPlayer_Gunslinger::Render_ShadowDepth()
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
 
-			if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, 3)))
+			if (FAILED(m_pModelPartCom[i]->Render(m_pShaderCom, j, "ShadowPass")))
 				return S_OK;
 		}
 	}
