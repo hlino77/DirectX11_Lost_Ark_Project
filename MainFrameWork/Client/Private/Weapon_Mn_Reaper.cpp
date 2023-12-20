@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
-#include "Weapon_Wp_Reaper.h"
 #include "BindShaderDesc.h"
+#include "Weapon_Mn_Reaper.h"
 
 CWeapon_Mn_Reaper::CWeapon_Mn_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject(pDevice, pContext, L"Weapon_wp_Reaper", OBJ_TYPE::PART)

@@ -172,7 +172,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe_Server.cpp" />
-    <ClCompile Include="..\Private\King_Server.cpp" />
     <ClCompile Include="..\Private\LevelControlManager.cpp" />
     <ClCompile Include="..\Private\Level_Bern_Server.cpp" />
     <ClCompile Include="..\Private\Level_Loading_Server.cpp" />
@@ -237,7 +236,6 @@
     <ClInclude Include="..\Public\Ghoul_BT_Attack_1_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Dash_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch_Server.h" />
-    <ClInclude Include="..\Public\King_Server.h" />
     <ClInclude Include="..\Public\LevelControlManager.h" />
     <ClInclude Include="..\Public\Boss_King_Server.h" />
     <ClInclude Include="..\Public\Level_Bern_Server.h" />

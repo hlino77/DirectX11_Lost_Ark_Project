@@ -136,14 +136,14 @@ void CUI_IdentityGN_WF_Front::Change_Icon(_float fTimeDelta)
 		if ((380.f > m_fAngle) && (!m_bReturn))
 		{
 			m_fAngle += 2500.f * fTimeDelta;
-			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
+			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
 		}
 		else if ((380.f <= m_fAngle) && (!m_bReturn))
 			m_bReturn = true;
 		if ((m_bReturn) && (360.f < m_fAngle))
 		{
 			m_fAngle -= 500.f * fTimeDelta;
-			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
+			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
 		}
 		else if ((m_bReturn) && (360.f >= m_fAngle))
 		{
@@ -159,14 +159,14 @@ void CUI_IdentityGN_WF_Front::Change_Icon(_float fTimeDelta)
 		if ((380.f > m_fAngle) && (!m_bReturn))
 		{
 			m_fAngle += 2500.f * fTimeDelta;
-			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
+			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
 		}
 		else if ((380.f <= m_fAngle) && (!m_bReturn))
 			m_bReturn = true;
 		if ((m_bReturn) && (360.f < m_fAngle))
 		{
 			m_fAngle -= 500.f * fTimeDelta;
-			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
+			m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
 		}
 		else if ((m_bReturn) && (360.f >= m_fAngle))
 		{

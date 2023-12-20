@@ -60,9 +60,9 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 
 	if (!m_bHidden)
 	{
-			if (static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsTapKey())
+			if (!static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsTapKey())
 				m_fX = 750.f;
-			else if (!static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsTapKey())
+			else if (static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsTapKey())
 				m_fX = 850.f;
 			m_fSizeX += 10.f * fTimeDelta;
 			m_fSizeY += 10.f * fTimeDelta;
