@@ -430,6 +430,9 @@
     <Filter Include="02.GameObjects\Boss\King\Parts">
       <UniqueIdentifier>{fc0117df-bb6e-4e8a-b5c3-114510407a35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Behavior">
+      <UniqueIdentifier>{027bbc57-25c3-457f-a28a-e49c72a90544}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1591,9 +1594,6 @@
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClInclude>
@@ -2019,6 +2019,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Boss_King.h">
       <Filter>02.GameObjects\Boss\King\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Erruption.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack2.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack3.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack4.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3160,9 +3175,6 @@
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClCompile>
@@ -3588,6 +3600,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp">
       <Filter>02.GameObjects\Boss\King\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack2.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack3.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

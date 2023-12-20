@@ -150,7 +150,6 @@ protected:
 	_float							m_fAttackRange = 0.f;
 	_float							m_fNoticeRange = 0.f;
 	unordered_map<wstring, _uint>	m_BoneIndex;
-
 	_float							m_fFollowDistance = 0.0f;
 	_float							m_fTimeCount = 0.f;
 	atomic<_int>					m_iSlowMotionCount = 0;

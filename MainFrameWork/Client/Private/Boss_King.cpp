@@ -19,12 +19,13 @@
 #include "Common_BT_BattleIdle.h"
 #include "Common_BT_Move.h"
 #include "Common_BT_Spawn.h"
-#include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
-#include "Reaper_BT_Attack1.h"
-#include "Reaper_BT_Attack2.h"
-#include "Reaper_BT_Attack3.h"
+#include "King_BT_Attack_Attack2.h"
+#include "King_BT_Attack_Attack3.h"
+#include "King_BT_Attack_Attack4.h"
+#include "King_BT_Attack_Charge_Swing.h"
+#include "King_BT_Attack_Erruption.h"
 #include "PartObject.h"
 
 CBoss_King::CBoss_King(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -48,6 +49,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	m_fStopDistanceRootAnim = 1.f;
 	return S_OK;
 }
 
@@ -226,8 +228,6 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
 		return E_FAIL;
-
-
 	CBT_Action::ACTION_DESC ActionDesc = {};
 	ActionDesc.pBehaviorTree = m_pBehaviorTree;
 	ActionDesc.pGameObject = this;
@@ -237,87 +237,52 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("dead_1_loop");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
+
+
 	ActionDesc.vecAnimations.clear();
+
 	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamage = CCommon_BT_DamageLeft::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Damage";
+	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
 
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_2_start");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
+	AnimationDesc.iStartFrame = 60;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_2_loop");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_2_end");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.strActionName = L"Action_Attack2";
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	CBT_Action* pAttack2 = CCommon_BT_Attack1::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_3_03");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.strActionName = L"Action_Attack3";
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	CBT_Action* pAttack3 = CCommon_BT_Attack1::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Respawn";
+	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
 
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -332,14 +297,161 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 
+
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("sk_arcanacard_fx");
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_start");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Respawn";
-	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Charge_Swing";
+	ActionDesc.iLoopAnimationIndex = 1;
+	ActionDesc.fMaxLoopTime = 1.f;
+	CBT_Action* pSkill1 = CKing_BT_Attack_Charge_Swing::Create(&ActionDesc);
+	ActionDesc.iLoopAnimationIndex = -1;
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_10_start");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_10_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_10_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Erruption";
+	CBT_Action* pSkill2 = CKing_BT_Attack_Erruption::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack1";
+	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("att_battle_3_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack2";
+	CBT_Action* pAttack2 = CKing_BT_Attack_Attack2::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_4_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack3";
+	CBT_Action* pAttack3 = CKing_BT_Attack_Attack3::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_8_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_8_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	ActionDesc.strActionName = L"Action_Attack4";
+	CBT_Action* pAttack4 = CKing_BT_Attack_Attack4::Create(&ActionDesc);
+
+
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BattleIdle";
+	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
+
+
+
+
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("idle_normal_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Idle_0";
+	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("walk_normal_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Move";
+	CBT_Action* pMove = CCommon_BT_Move::Create(&ActionDesc);
+
 
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
 	return S_OK;

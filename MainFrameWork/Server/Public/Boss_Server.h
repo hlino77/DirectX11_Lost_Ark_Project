@@ -62,7 +62,8 @@ protected:
 	void Set_Colliders(_float fTimeDelta);
 	HRESULT Ready_Coliders();
 
-
+protected:
+	_float							m_fStopDistanceRootAnim = 0.f;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

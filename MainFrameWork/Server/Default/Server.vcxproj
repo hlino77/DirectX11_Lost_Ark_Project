@@ -150,8 +150,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Boss_King_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Server.cpp" />
     <ClCompile Include="..\Private\Camera_Free_Server.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Attack2_Server.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Attack3_Server.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Attack4_Server.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Erruption_Server.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp" />
     <ClCompile Include="..\Private\Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -166,7 +172,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump_Server.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe_Server.cpp" />
-    <ClCompile Include="..\Private\Boss_King_Server.cpp" />
     <ClCompile Include="..\Private\Level_Bern_Server.cpp" />
     <ClCompile Include="..\Private\Level_Loading_Server.cpp" />
     <ClCompile Include="..\Private\Loader_Server.cpp" />
@@ -213,6 +218,11 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Boss_Server.h" />
     <ClInclude Include="..\Public\Camera_Free_Server.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Attack2_Server.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Attack3_Server.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Attack4_Server.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Erruption_Server.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Attacked.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Far_Server.h" />

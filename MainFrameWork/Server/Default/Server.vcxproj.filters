@@ -249,6 +249,21 @@
     <ClCompile Include="..\Private\Boss_King_Server.cpp">
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Erruption_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack2_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack3_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack4_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -424,6 +439,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\Boss_King_Server.h">
       <Filter>02. GameObject\04. Boss\King</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Erruption_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack2_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack3_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack4_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

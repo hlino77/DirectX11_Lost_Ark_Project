@@ -66,6 +66,7 @@ public:
 	_int	FindMaterialIndexByName(string strMaterialName);
 	_bool	Is_HairTexture(_uint iMaterialIndex);
 
+	_bool	IsNext() { return m_bNext; }
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
 public:
 	virtual HRESULT Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool bColMesh);
@@ -101,7 +102,6 @@ public: /* ;hj가 추가한 함수 */
 	void	Set_RootDist(_float fDist) { m_fRootDist = fDist; }
 	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos = XMVectorZero());
 
-	HRESULT	Set_Monster_ToRootPos(class CTransform* pTransform, _float fTimeDelta);
 
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);

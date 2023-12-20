@@ -200,6 +200,11 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Attack2.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Attack3.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Attack4.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h" />
+    <ClInclude Include="..\Public\King_BT_Attack_Erruption.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\Boss_King.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
@@ -356,6 +361,11 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Attack2.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Attack3.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp" />
+    <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\Boss_King.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
