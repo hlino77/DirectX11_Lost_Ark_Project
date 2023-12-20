@@ -20,7 +20,6 @@ public:
 
 	virtual Matrix Get_WorldMatrix() override;
 
-
 	virtual Matrix Get_WorldMatrix_TP() override;
 
 	virtual Matrix Get_WorldMatrixInverse() override;
@@ -57,6 +56,7 @@ public:
 	virtual void LookAt_SetUp(Vec3 vAt) override;
 	virtual void Move(Vec3 vTargetPos, _float fTimeDelta, _float fLimitDistance = 0.1f) override;
 	virtual void Move_Dir(Vec3 vDir, _float fTimeDelta) override;
+	virtual void Move_Dir(Vec3 vDir, _float fTimeDelta, _float fSpeed) override;
 	virtual void LookAt_Lerp(Vec3 vAt, _float fSpeed, _float fTimeDelta) override;
 	virtual void LookAt_Lerp_ForLand(Vec3 vAt, _float fSpeed, _float fTimeDelta) override;
 	virtual void SetUp_Lerp(Vec3 vLook, _float fSpeed, _float fTimeDelta) override;
@@ -68,6 +68,9 @@ public:
 	virtual	void My_Rotation(Vec3 vEulers) override;
 
 	virtual	void Set_MovementSpeed(float fSpeed)override;
+
+	virtual _float	Get_TargetDegree(Vec3 vTarget) override;
+
 public:
 	static CUseLock_Transform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

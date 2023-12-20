@@ -396,7 +396,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 	{
 		Vec3 TargetDir = TargetPos - vPos;
 		_float fTargetDist = TargetDir.Length();
-		if (fTargetDist <= FLT_EPSILON)
+		if (fTargetDist <= 0.05f)
 		{
 			vCalculePos = vPos;
 

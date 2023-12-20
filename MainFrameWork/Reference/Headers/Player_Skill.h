@@ -45,6 +45,7 @@ public:
 
 
 public:
+	virtual const _bool&	Is_Attack() { return m_IsAttack; }
 	virtual const _bool&	Is_SuperArmor() { return m_IsSuperArmor; }
 	virtual const _bool&	Is_SkillSuccess() { return m_IsSkillSuccess; }
 public:
@@ -55,12 +56,14 @@ public:
 	virtual const _float&	 Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
 	
 public:
+	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
 	virtual void			Set_SkillSuccess(_bool IsSuccess) { m_IsSkillSuccess = IsSuccess; }
 	virtual void			Set_BindKey(CPlayer_Controller::SKILL_KEY eKey);
 	virtual void			Set_Skill_CoolTime(_float fSkillCoolTime) { m_fSkillCoolTime = fSkillCoolTime; }
 
 protected:
 	CGameObject*				  m_pOwner = { nullptr };
+	wstring						  m_strSkill_Name;
 	wstring						  m_strSkill_StartName;
 
 	SKILL_ATTACKTYPE		      m_eAttackType = { SKILL_ATTACKTYPE::_END };
@@ -73,6 +76,7 @@ protected:
 
 	_bool						  m_IsSkillSuccess = { false };
 	_bool						  m_IsSuperArmor = { false };
+	_bool						  m_IsAttack = { false };
 
 	vector<class CState*>		  m_State_Skills;
 

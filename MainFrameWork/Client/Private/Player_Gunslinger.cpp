@@ -61,6 +61,9 @@
 #include "State_GN_Gunkata_3.h"
 #include "State_GN_Grenade.h"
 #include "State_GN_SprialChaser.h"
+#include "State_GN_DeadHard_Start.h"
+#include "State_GN_DeadHard_Loop.h"
+#include "State_GN_DeadHard_End.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -557,6 +560,15 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_GN_SprialChaser"), CState_GN_SprialChaser::Create(TEXT("Skill_GN_SprialChaser"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Skill_GN_DeadHard_Start"), CState_GN_DeadHard_Start::Create(TEXT("Skill_GN_DeadHard_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_DeadHard_Loop"), CState_GN_DeadHard_Loop::Create(TEXT("Skill_GN_DeadHard_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_DeadHard_End"), CState_GN_DeadHard_End::Create(TEXT("Skill_GN_DeadHard_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 
 	m_pStateMachine->Change_State(TEXT("Idle"));
 
@@ -572,7 +584,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.fSkillCoolTime = 10.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_End")));
@@ -583,7 +595,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 5.f;
+	SkillDesc.fSkillCoolTime = 24.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Success")));
@@ -594,7 +606,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 5.f;
+	SkillDesc.fSkillCoolTime = 6.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_End")));
@@ -605,7 +617,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::COUNTER;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 4.f;
+	SkillDesc.fSkillCoolTime = 12.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_1")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_2")));
@@ -617,7 +629,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.fSkillCoolTime = 8.f;
 	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_SprialChaser")));
 	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::A, CPlayer_Skill::Create(this, &SkillDesc));
@@ -627,10 +639,22 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.fSkillCoolTime = 6.f;
 	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Grenade")));
 	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::S, CPlayer_Skill::Create(this, &SkillDesc));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.strSkill_StartName = TEXT("Skill_GN_DeadHard_Start");
+	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
+	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
+	SkillDesc.fSkillDamage = 0.f;
+	SkillDesc.fSkillCoolTime = 3.f;
+	SkillDesc.IsSuperArmor = false;
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_End")));
+	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::D, CPlayer_Skill::Create(this, &SkillDesc));
 	SkillDesc.State_Skills.clear();
 
 	/* ¼¦°Ç ½ºÅ³*/
@@ -638,7 +662,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.fSkillCoolTime = 30.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FreeShoter")));
 	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CPlayer_Skill::Create(this, &SkillDesc));
@@ -648,7 +672,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 5.f;
+	SkillDesc.fSkillCoolTime = 30.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_End")));
@@ -659,7 +683,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::COUNTER;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 4.f;
+	SkillDesc.fSkillCoolTime = 36.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_LastSupper")));
 	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::E, CPlayer_Skill::Create(this, &SkillDesc));
@@ -670,7 +694,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 10.f;
+	SkillDesc.fSkillCoolTime = 27.f;
 	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Loop")));
@@ -682,7 +706,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.fSkillCoolTime = 30.f;
 	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Loop")));
@@ -694,7 +718,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.fSkillCoolTime = 24.f;
 	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Loop")));
@@ -706,7 +730,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
 	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
 	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 6.f;
+	SkillDesc.fSkillCoolTime = 36.f;
 	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Loop")));
@@ -714,6 +738,8 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_End")));
 	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::F, CPlayer_Skill::Create(this, &SkillDesc));
 	SkillDesc.State_Skills.clear();
+
+
 
 	return S_OK;
 }

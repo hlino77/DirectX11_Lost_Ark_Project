@@ -13,7 +13,7 @@ CState_GN_Gunkata_3::CState_GN_Gunkata_3(const wstring& strStateName, CStateMach
 
 HRESULT CState_GN_Gunkata_3::Initialize()
 {
-	m_iGunkata_3 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_gunkata_03", 1.f);
+	m_iGunkata_3 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_gunkata_03", 1.2f);
 	if (m_iGunkata_3 == -1)
 		return E_FAIL;
 
