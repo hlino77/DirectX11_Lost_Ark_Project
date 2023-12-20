@@ -47,6 +47,17 @@ HRESULT CUI_IdentityGN_MainFrame::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 	m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(0.f));
 
+	CGameInstance* pInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pInstance);
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr != pPlayer)
+	{
+		m_iCurrStance = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller())->Get_GN_Identity();
+		m_iPreStance = m_iCurrStance;
+	}
+	
+	Safe_Release(pInstance);
+
 	return S_OK;
 }
 
@@ -62,22 +73,40 @@ void CUI_IdentityGN_MainFrame::Tick(_float fTimeDelta)
 	{
 		CPlayer_Controller_GN::GN_IDENTITY eIDentity = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller())->Get_GN_Identity();
 		if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eIDentity)
+		{
+			m_iCurrStance	= (_uint)CPlayer_Controller_GN::GN_IDENTITY::HAND;
 			m_iTextureIndex = (_uint)CPlayer_Controller_GN::GN_IDENTITY::HAND;
+		}
 		else if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eIDentity)
+		{
+			m_iCurrStance = (_uint)CPlayer_Controller_GN::GN_IDENTITY::SHOT;
 			m_iTextureIndex = (_uint)CPlayer_Controller_GN::GN_IDENTITY::SHOT;
+		}
 		else if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eIDentity)
+		{
+			m_iCurrStance = (_uint)CPlayer_Controller_GN::GN_IDENTITY::LONG;
 			m_iTextureIndex = (_uint)CPlayer_Controller_GN::GN_IDENTITY::LONG;
+		}
+		if ((TEXT("Identity_GN") == pPlayer->Get_State()) || ((TEXT("Identity_GN_Run") == pPlayer->Get_State())))
+		{
+			if (m_iPreStance != m_iCurrStance)
+			{
+				m_iPreStance = m_iCurrStance;
+				m_bChangeIcon = false;
+				m_bTapKey = false;
+			}
+		}
+		else if ((TEXT("Identity_GN_Back") == pPlayer->Get_State()) || ((TEXT("Identity_GN_Run_Back") == pPlayer->Get_State())))
+		{
+			if (m_iPreStance != m_iCurrStance)
+			{
+				m_iPreStance = m_iCurrStance;
+				m_bChangeIcon = false;
+				m_bTapKey = true;
+			}
+		}
 	}
-	if (KEY_TAP(KEY::Z))
-	{
-		m_bChangeIcon = false;
-		m_bTapKey = false;
-	}
-	else if (KEY_TAP(KEY::X))
-	{
-		m_bChangeIcon = false;
-		m_bTapKey = true;
-	}
+	
 	Change_Icon(fTimeDelta);
 
 	Safe_Release(pInstance);
@@ -124,8 +153,8 @@ void CUI_IdentityGN_MainFrame::Change_Icon(_float fTimeDelta)
 		{
 			if ((380.f > m_fAngle) && (!m_bReturn))
 			{
-				m_fAngle += 20.f;
-				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
+				m_fAngle += 2500.f * fTimeDelta;
+				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
 			}
 			else if ((380.f <= m_fAngle) && (!m_bReturn))
 			{
@@ -134,8 +163,8 @@ void CUI_IdentityGN_MainFrame::Change_Icon(_float fTimeDelta)
 			}
 			if ((m_bReturn) && (360.f < m_fAngle))
 			{
-				m_fAngle -= 1.f;
-				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
+				m_fAngle -= 500.f * fTimeDelta;
+				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
 			}
 			else if ((m_bReturn) && (360.f >= m_fAngle))
 			{
@@ -150,8 +179,8 @@ void CUI_IdentityGN_MainFrame::Change_Icon(_float fTimeDelta)
 		{
 			if ((380.f > m_fAngle) && (!m_bReturn))
 			{
-				m_fAngle += 20.f;
-				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
+				m_fAngle += 2500.f *fTimeDelta;
+				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
 			}
 			else if ((380.f <= m_fAngle) && (!m_bReturn))
 			{
@@ -160,8 +189,8 @@ void CUI_IdentityGN_MainFrame::Change_Icon(_float fTimeDelta)
 			}
 			if ((m_bReturn) && (360.f < m_fAngle))
 			{
-				m_fAngle -= 1.f;
-				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-m_fAngle));
+				m_fAngle -= 500.f * fTimeDelta;
+				m_pTransformCom->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(m_fAngle));
 			}
 			else if ((m_bReturn) && (360.f >= m_fAngle))
 			{

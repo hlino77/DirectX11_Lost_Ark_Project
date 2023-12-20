@@ -72,7 +72,7 @@ void CUI_IdentityGN_ShineFrame::Tick(_float fTimeDelta)
 	Matrix matWorld = m_pTransformCom->Get_WorldMatrix()* m_pMainFrame->Get_TransformCom()->Get_WorldMatrixInverse();
 	Vec3 vScale = m_pMainFrame->Get_TransformCom()->Get_Scale();
 
-	matWorld.Translation(Vec3(0.f, 48.f/vScale.y , 0.f));
+	matWorld.Translation(Vec3(0.f, 47.f/vScale.y , 0.f));
 	matWorld *= m_pMainFrame->Get_TransformCom()->Get_WorldMatrix();
 	m_pTransformCom->Set_WorldMatrix(matWorld);
 
@@ -164,6 +164,8 @@ CGameObject* CUI_IdentityGN_ShineFrame::Clone(void* pArg)
 void CUI_IdentityGN_ShineFrame::Free()
 {
 	__super::Free();
+	m_pMainFrame = nullptr;
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 

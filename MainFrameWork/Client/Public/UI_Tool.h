@@ -39,6 +39,7 @@ public:
 public:
 	HRESULT Add_UI_CurrentLevel();
 	_bool	Is_ToolMode() { return m_bToolMode; }
+	void	Set_ToolMode(_bool	IsToolMode) { m_bToolMode = IsToolMode; }
 
 private:
 	void	UI_Tool();

@@ -122,6 +122,7 @@ HRESULT CLevel_Bern::Exit()
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
+	CUI_Tool::GetInstance()->Set_ToolMode(false);
 	return S_OK;
 }
 
@@ -280,6 +281,25 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
+
+	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+
+	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerMPUI"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+
+	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SpeechBubble"), 
+		CServerSessionManager::GetInstance()->Get_Player());
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
 	Safe_Release(pGameInstance);
 	return S_OK;

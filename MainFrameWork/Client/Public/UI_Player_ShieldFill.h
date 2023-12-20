@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_IdentityGN_Spark final:
+class CUI_Player_ShiedFill :
     public CUI
 {
 private:
-    CUI_IdentityGN_Spark(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_IdentityGN_Spark(const CUI& rhs);
-    virtual ~CUI_IdentityGN_Spark() = default;
+    CUI_Player_ShiedFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_Player_ShiedFill(const CUI& rhs);
+    virtual ~CUI_Player_ShiedFill() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -25,13 +25,8 @@ private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
-private:
-    _bool   m_bHidden = { false };
-    _bool   m_bTapKey = { false };
-    CUI* m_pMainFrame = { nullptr };
-    Vec2    m_vecSizeOrigin = { 128.f, 88.f };
 public:
-    static  CUI_IdentityGN_Spark* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_Player_ShiedFill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

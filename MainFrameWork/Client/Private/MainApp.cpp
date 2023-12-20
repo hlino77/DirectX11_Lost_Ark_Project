@@ -19,7 +19,7 @@
 #include "EventMgr.h"
 #include "VIBuffer_Point.h"
 #include "PhysXMgr.h"
-#include "LockFree_Transform.h"
+
 #include "UseLock_Transform.h"
 #include "Camera_Free.h"
 #include "Player.h"
@@ -37,6 +37,7 @@
 #include "BehaviorTree.h"
 #include "UI_Tool.h"
 #include "TextBox.h"
+#include "LockFree_Transform.h"
 
 _float g_fVolume;
 
@@ -185,8 +186,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		CLockFree_Transform::Create(m_pDevice, m_pContext))))
+		Engine::CLockFree_Transform::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"),
 		CUseLock_Transform::Create(m_pDevice, m_pContext))))

@@ -157,7 +157,14 @@ void CUI_Tool::UI_Hierachy()
 	ImGui::BeginListBox("Part_List");
 	if (nullptr != m_pCurrentUI)
 	{
-		m_vecUIPart_CurrentLevel = m_pCurrentUI->Get_UIParts();
+		if (1 < m_pCurrentUI->Get_UIParts().size())
+			m_vecUIPart_CurrentLevel = m_pCurrentUI->Get_UIParts();
+		else if (1 >= m_pCurrentUI->Get_UIParts().size())
+		{
+			m_vecUIPart_CurrentLevel.clear();
+
+			m_vecUIPart_CurrentLevel.push_back(m_pCurrentUI);
+		}
 	}
 	if (nullptr != &m_vecUIPart_CurrentLevel)
 	{
@@ -187,7 +194,6 @@ void CUI_Tool::UI_Inspector()
 
 void CUI_Tool::Reset_CurrentUI()
 {
-
 	m_UIList_CurrentLevel.clear();
 
 	m_vecUIPart_CurrentLevel.clear();
