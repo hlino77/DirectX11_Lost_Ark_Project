@@ -113,6 +113,7 @@ CGameObject* CUI_Server::Clone(void* pArg)
 void CUI_Server::Free()
 {
 	__super::Free();
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 }

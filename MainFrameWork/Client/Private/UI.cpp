@@ -346,11 +346,6 @@ HRESULT CUI::Bind_ShaderResources()
 void CUI::Free()
 {
 	__super::Free();
-	for (auto& iter : m_vecUIParts)
-	{
-		Safe_Release(iter);
-	}
-	m_vecUIParts.clear();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
