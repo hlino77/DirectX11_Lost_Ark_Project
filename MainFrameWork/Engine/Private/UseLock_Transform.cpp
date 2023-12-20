@@ -289,6 +289,15 @@ void CUseLock_Transform::Move_Dir(Vec3 vDir, _float fTimeDelta)
 	Set_State(CUseLock_Transform::STATE_POSITION, vPosition);
 }
 
+void CUseLock_Transform::Move_Dir(Vec3 vDir, _float fTimeDelta, _float fSpeed)
+{
+	vDir.Normalize();
+	Vec3 vPosition = Get_State(CUseLock_Transform::STATE_POSITION);
+	vPosition += vDir * fSpeed * fTimeDelta;
+
+	Set_State(CUseLock_Transform::STATE_POSITION, vPosition);
+}
+
 void CUseLock_Transform::LookAt_Lerp(Vec3 vAt, _float fSpeed, _float fTimeDelta)
 {
 	Vec3 vPlayerLook = Get_State(CUseLock_Transform::STATE_LOOK);
@@ -556,6 +565,29 @@ void CUseLock_Transform::Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta
 void CUseLock_Transform::Set_MovementSpeed(float fSpeed)
 {
 	m_TransformDesc.fSpeedPerSec = fSpeed;
+}
+
+_float CUseLock_Transform::Get_TargetDegree(Vec3 vTarget)
+{
+	Vec3 vPos = Get_State(CTransform::STATE_POSITION);
+	Vec3 vLook = Get_State(CTransform::STATE_LOOK);
+	Vec3 vDir = vTarget - vPos;
+
+	if (vLook == Vec3() || vDir == Vec3())
+		return 0.0f;
+
+	vLook.y = 0.f;
+	vDir.y = 0.f;
+	vLook.Normalize();
+	vDir.Normalize();
+
+	_float fDegree = XMConvertToDegrees(acosf(vLook.Dot(vDir)));
+	Vec3 vCross = vLook.Cross(vDir);
+
+	if (0.f <= vCross.y)
+		return fDegree;
+	else
+		return -fDegree;
 }
 
 void CUseLock_Transform::LookAt_Dir(Vec3 vDir)

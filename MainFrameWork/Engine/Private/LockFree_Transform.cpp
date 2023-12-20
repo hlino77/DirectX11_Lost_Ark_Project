@@ -212,6 +212,29 @@ void CLockFree_Transform::Set_MovementSpeed(float fSpeed)
 
 }
 
+_float CLockFree_Transform::Get_TargetDegree(Vec3 vTarget)
+{
+	Vec3 vPos = Get_State(CTransform::STATE_POSITION);
+	Vec3 vLook = Get_State(CTransform::STATE_LOOK);
+	Vec3 vDir = vTarget - vPos;
+
+	if (vLook == Vec3() || vDir == Vec3())
+		return 0.0f;
+
+	vLook.y = 0.f;
+	vDir.y = 0.f;
+	vLook.Normalize();
+	vDir.Normalize();
+
+	_float fDegree = XMConvertToDegrees(acosf(vLook.Dot(vDir)));
+	Vec3 vCross = vLook.Cross(vDir);
+
+	if (0.f <= vCross.y)
+		return fDegree;
+	else
+		return -fDegree;
+}
+
 void CLockFree_Transform::LookAt(Vec3 vAt)
 {
 	Vec3		vLook = vAt - Get_State(CLockFree_Transform::STATE_POSITION);
@@ -304,6 +327,15 @@ void CLockFree_Transform::Move_Dir(Vec3 vDir, _float fTimeDelta)
 	vDir.Normalize();
 	Vec3 vPosition = Get_State(CLockFree_Transform::STATE_POSITION);
 	vPosition += vDir * m_TransformDesc.fSpeedPerSec * fTimeDelta;
+
+	Set_State(CLockFree_Transform::STATE_POSITION, vPosition);
+}
+
+void CLockFree_Transform::Move_Dir(Vec3 vDir, _float fTimeDelta, _float fSpeed)
+{
+	vDir.Normalize();
+	Vec3 vPosition = Get_State(CLockFree_Transform::STATE_POSITION);
+	vPosition += vDir * fSpeed * fTimeDelta;
 
 	Set_State(CLockFree_Transform::STATE_POSITION, vPosition);
 }

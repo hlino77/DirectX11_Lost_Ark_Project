@@ -30,7 +30,7 @@ void CState_GN_DeadHard_Start::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iDeadHard_Start, 0.1f, 0, 0, 1.8f);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
-	m_pPlayer->Get_GN_Controller()->Get_LookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Get_GN_Controller()->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }

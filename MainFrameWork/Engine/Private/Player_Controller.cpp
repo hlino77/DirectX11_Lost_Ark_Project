@@ -36,8 +36,10 @@ HRESULT CPlayer_Controller::Initialize(void* pArg)
 
 void CPlayer_Controller::Tick(_float fTimeDelta)
 {
-	if (false == m_bStop) Move(fTimeDelta);
-	if (true == m_bStop) Look_Lerp(fTimeDelta);
+	if (false == m_bStop) 
+		Move(fTimeDelta);
+	if (true == m_bStop) 
+		Look_Lerp(fTimeDelta);
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
@@ -196,11 +198,20 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	}
 	else
 		m_bMoveStop = false;
-		
 
-	Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
-	Vec3 vDir = m_vNextMove - vPos;
-	m_pOwnerTransform->Move_ToPos(vDir, 12.f, 3.f, fTimeDelta);
+
+	if (false == m_IsDir)
+	{
+		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
+		Vec3 vDir = m_vNextMove - vPos;
+		m_pOwnerTransform->Move_ToPos(vDir, 12.f, m_fMoveSpeed, fTimeDelta);
+	}
+	else if (true == m_IsDir)
+	{
+		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
+		Vec3 vDir = m_vNextMove - vPos;
+		m_pOwnerTransform->Move_Dir(vDir, fTimeDelta, m_fMoveSpeed);
+	}
 }
 
 void CPlayer_Controller::Look_Lerp(const _float& fTimeDelta)

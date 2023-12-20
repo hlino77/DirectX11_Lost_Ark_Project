@@ -206,6 +206,8 @@
     <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Erruption.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
+    <ClInclude Include="..\Public\State_GN_DeadHard_Loop.h" />
     <ClInclude Include="..\Public\State_GN_DeadHard_Start.h" />
     <ClInclude Include="..\Public\State_GN_DeathFire_Start.h" />
     <ClInclude Include="..\Public\State_GN_DeathFire_Success.h" />
@@ -388,6 +390,8 @@
     <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_DeadHard_Loop.cpp" />
     <ClCompile Include="..\Private\State_GN_DeadHard_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_DeathFire_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_DeathFire_Success.cpp" />

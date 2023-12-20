@@ -56,6 +56,7 @@ public:
 	virtual void LookAt_SetUp(Vec3 vAt) PURE;
 	virtual void Move(Vec3 vTargetPos, _float fTimeDelta, _float fLimitDistance = 0.1f) PURE;
 	virtual void Move_Dir(Vec3 vDir, _float fTimeDelta) PURE;
+	virtual void Move_Dir(Vec3 vDir, _float fTimeDelta, _float fSpeed) PURE;
 	virtual void LookAt_Lerp(Vec3 vAt, _float fSpeed, _float fTimeDelta) PURE;
 	virtual void LookAt_Lerp_ForLand(Vec3 vAt, _float fSpeed, _float fTimeDelta) PURE;
 	virtual void SetUp_Lerp(Vec3 vLook, _float fSpeed, _float fTimeDelta) PURE;
@@ -67,6 +68,8 @@ public:
 	virtual	void My_Rotation(Vec3 vEulers) PURE;
 
 	virtual	void	Set_MovementSpeed(float fSpeed)PURE;
+
+	virtual _float	Get_TargetDegree(Vec3 vTarget) PURE;
 
 protected:
 	Matrix					m_WorldMatrix;

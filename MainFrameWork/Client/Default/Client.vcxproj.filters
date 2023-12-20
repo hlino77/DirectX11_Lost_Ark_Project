@@ -2142,6 +2142,9 @@
     <ClInclude Include="..\Public\King_BT_Attack_Attack4.h">
       <Filter>02.GameObjects\Boss\King\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_GN_DeadHard_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3782,6 +3785,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp">
       <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_DeadHard_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
