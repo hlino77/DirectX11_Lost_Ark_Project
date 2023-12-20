@@ -24,7 +24,7 @@ public:
 public:
 	class CGameObject* Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag);
 	class CGameObject* Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, _int iObjectID);
-	list<CGameObject*>& Find_GameObjects(_uint iLevelIndex, const _uint iLayerType);
+	vector<CGameObject*>& Find_GameObjects(_uint iLevelIndex, const _uint iLayerType);
 	class CGameObject* Find_NearGameObject(_uint iLevelIndex, const _uint iLayerType, CGameObject* pCallObject);
 	HRESULT Delete_GameObject(_uint iLevelIndex, const _uint iLayerType, const CGameObject* pGameObject);
 

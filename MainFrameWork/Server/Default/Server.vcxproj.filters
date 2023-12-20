@@ -97,6 +97,12 @@
     <Filter Include="02. GameObject\04. Boss\King">
       <UniqueIdentifier>{53a31b71-4978-4350-a4c8-4b9ce724c550}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. Manager">
+      <UniqueIdentifier>{d6bb10bf-b405-4dbd-ba23-30514f79057a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Manager\01. LevelControlManager">
+      <UniqueIdentifier>{5b4ef1dc-47dc-46bd-9a31-a6419a0d1c80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -245,6 +251,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\King_Server.cpp">
       <Filter>02. GameObject\04. Boss\King</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LevelControlManager.cpp">
+      <Filter>97. Manager\01. LevelControlManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\King_Server.h">
       <Filter>02. GameObject\04. Boss\King</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LevelControlManager.h">
+      <Filter>97. Manager\01. LevelControlManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

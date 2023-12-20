@@ -5,6 +5,10 @@
 #include <iostream>
 
 
+#ifndef Engine_TLS
+#define Engine_TLS
+
+
 static DWORD dwTlsIndex; // address of shared memory
 static std::atomic<unsigned __int32> SThreadId = 1;
 
@@ -15,7 +19,7 @@ extern "C" {          // we need to export the C interface
 #endif
 
     __declspec(dllexport)
-        BOOL InitTLS()
+    inline BOOL InitTLS()
     {
         LPVOID lpvData;
         TLSDESC** pData;  // The stored memory pointer 
@@ -43,7 +47,7 @@ extern "C" {          // we need to export the C interface
     }
 
     __declspec(dllexport)
-        BOOL GetTLS(TLSDESC** pdw)
+    inline BOOL GetTLS(TLSDESC** pdw)
     {
         LPVOID lpvData;
         TLSDESC** pData;  // The stored memory pointer 
@@ -63,3 +67,5 @@ extern "C" {          // we need to export the C interface
 #endif
 
 END
+
+#endif

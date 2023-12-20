@@ -34,26 +34,33 @@ HRESULT CState_GN_Identity_Back::Initialize()
 
 void CState_GN_Identity_Back::Enter_State()
 {
-	CPlayer_Controller_GN::GN_IDENTITY eIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
+	if (m_pPlayer->Is_Control())
+	{
+		_int iChaneWeaponIndex = m_pPlayer->Get_WeaponIndex() + 1;
 
-	CPlayer_Controller_GN::GN_IDENTITY eChangeIdentity;
-	if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eIdentity)
-	{
-		m_iIdentity = m_iIdentity_HandtoShot;
-		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, 0, 0);
-		eChangeIdentity = CPlayer_Controller_GN::GN_IDENTITY::SHOT;
+		if (iChaneWeaponIndex >= CPlayer_Controller_GN::GN_IDENTITY::_END)
+			iChaneWeaponIndex = 0;
+
+		m_pPlayer->Set_WeaponIndex(iChaneWeaponIndex);
 	}
-	else if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eIdentity)
-	{
-		m_iIdentity = m_iIdentity_ShottoLong;
-		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, 0, 0);
-		eChangeIdentity = CPlayer_Controller_GN::GN_IDENTITY::LONG;
-	}
-	else if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eIdentity)
+
+	CPlayer_Controller_GN::GN_IDENTITY eIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
+	CPlayer_Controller_GN::GN_IDENTITY eChangeIdentity = (CPlayer_Controller_GN::GN_IDENTITY)m_pPlayer->Get_WeaponIndex();
+
+	if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eChangeIdentity)
 	{
 		m_iIdentity = m_iIdentity_LongtoHand;
 		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, 0, 0);
-		eChangeIdentity = CPlayer_Controller_GN::GN_IDENTITY::HAND;
+	}
+	else if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eChangeIdentity)
+	{
+		m_iIdentity = m_iIdentity_HandtoShot;
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, 0, 0);
+	}
+	else if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eChangeIdentity)
+	{
+		m_iIdentity = m_iIdentity_ShottoLong;
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, 0, 0);
 	}
 
 	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eChangeIdentity);

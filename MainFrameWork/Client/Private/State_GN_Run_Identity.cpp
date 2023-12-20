@@ -34,30 +34,36 @@ HRESULT CState_GN_Run_Identity::Initialize()
 
 void CState_GN_Run_Identity::Enter_State()
 {
-	CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
+	if (m_pPlayer->Is_Control())
+	{
+		_int iChaneWeaponIndex = m_pPlayer->Get_WeaponIndex() - 1;
 
-	CPlayer_Controller_GN::GN_IDENTITY eChangeIden;
-	switch (eIden)
+		if (iChaneWeaponIndex < 0)
+			iChaneWeaponIndex = CPlayer_Controller_GN::GN_IDENTITY::_END - 1;
+
+		m_pPlayer->Set_WeaponIndex(iChaneWeaponIndex);
+	}
+
+	CPlayer_Controller_GN::GN_IDENTITY eChangeIdentity = (CPlayer_Controller_GN::GN_IDENTITY)m_pPlayer->Get_WeaponIndex();
+
+	switch (eChangeIdentity)
 	{
 	case Client::CPlayer_Controller_GN::HAND:
-		m_pPlayer->Reserve_Animation(m_Run_L, 0.2f, 0, 12);
-		m_Run = m_Run_L;
-		eChangeIden = CPlayer_Controller_GN::GN_IDENTITY::LONG;
+		m_Run = m_Run_H;
+		m_pPlayer->Reserve_Animation(m_Run, 0.2f, 0, 12);
 		break;
 	case Client::CPlayer_Controller_GN::SHOT:
-		m_pPlayer->Reserve_Animation(m_Run_H, 0.2f, 0, 12);
-		m_Run = m_Run_H;
-		eChangeIden = CPlayer_Controller_GN::GN_IDENTITY::HAND;
+		m_Run = m_Run_S;
+		m_pPlayer->Reserve_Animation(m_Run, 0.2f, 0, 12);
 		break;
 	case Client::CPlayer_Controller_GN::LONG:
-		m_pPlayer->Reserve_Animation(m_Run_S, 0.2f, 0, 12);
-		m_Run = m_Run_S;
-		eChangeIden = CPlayer_Controller_GN::GN_IDENTITY::SHOT;
+		m_Run = m_Run_L;
+		m_pPlayer->Reserve_Animation(m_Run, 0.2f, 0, 12);
 		break;
 	}
 
-	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eChangeIden);
-	m_pPlayer->Set_Weapon_RenderState(eChangeIden);
+	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eChangeIdentity);
+	m_pPlayer->Set_Weapon_RenderState(eChangeIdentity);
 	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 }
 

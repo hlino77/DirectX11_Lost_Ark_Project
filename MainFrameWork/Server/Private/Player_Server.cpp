@@ -30,9 +30,11 @@ HRESULT CPlayer_Server::Initialize(void* pArg)
 	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
+	m_iWeaponIndex = Desc->iWeaponIndex;
+	m_szNickName = Desc->szNickName;
 	m_pGameSession = Desc->pGameSession;
 	m_iClass = Desc->iClass;
-
+	m_iCurrLevel = Desc->iCurrLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;

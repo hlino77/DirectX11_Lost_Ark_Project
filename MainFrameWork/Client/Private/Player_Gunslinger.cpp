@@ -97,9 +97,8 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
 	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
 
-
-	CPlayer_Controller_GN::GN_IDENTITY m_eIdentity = m_pController->Get_GN_Identity();
-	Set_Weapon_RenderState(m_eIdentity);
+	m_pController->Get_GN_IdentityMessage((CPlayer_Controller_GN::GN_IDENTITY)m_iWeaponIndex);
+	Set_Weapon_RenderState(m_iWeaponIndex);
 
 	/* 플레이어 공통 요소 */
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);

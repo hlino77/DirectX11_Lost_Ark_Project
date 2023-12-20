@@ -14,6 +14,7 @@
 #include "ServerEvent.h"
 #include "Skill_Server.h"
 #include "Monster_Server.h"
+#include "LevelControlManager.h"
 
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
@@ -40,144 +41,10 @@ bool Handle_S_TIME_Server(PacketSessionRef& session, Protocol::S_TIME& pkt)
 
 bool Handle_S_LOGIN_Server(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
 	shared_ptr<CGameSession> pGameSession = dynamic_pointer_cast<CGameSession>(session);
-	pGameSession->Set_Class(pkt.iclass());
-	pGameSession->Set_NickName(CAsUtils::ToWString(pkt.strnickname()));
 
+	CLevelControlManager::GetInstance()->Login_Player(pGameSession, pkt);
 
-	{
-		CPlayer_Server::MODELDESC Desc;
-
-		switch (pkt.iclass())
-		{
-		case (_uint)CHR_CLASS::GUNSLINGER:
-			Desc.strFileName = L"Gunslinger";
-			break;
-		case (_uint)CHR_CLASS::SLAYER:
-			Desc.strFileName = L"Slayer";
-			break;
-		}
-		Desc.iObjectID = g_iObjectID++;
-		pGameSession->Set_PlayerID(Desc.iObjectID);
-
-		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_PLAYER;
-		Desc.pGameSession = pGameSession.get();
-		Desc.iClass = pGameSession->Get_Class();
-
-		Matrix matWorld = XMMatrixIdentity();
-
-
-		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player"), &Desc));
-		if (nullptr == pPlayer)
-		{
-			Safe_Release(pGameInstance);
-			return true;
-		}
-			
-		pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
-
-
-
-
-		set<GameSessionRef>& GameSessions = CGameSessionManager::GetInstance()->Get_Sessions();
-
-		for (auto& GameSession : GameSessions)
-		{
-			if (GameSession == pGameSession)
-				continue;
-
-			while (true)
-			{
-				if (GameSession->Get_PlayerID() != -1)
-					break;
-			}
-
-			CPlayer_Server* pOtherPlayer = nullptr;
-
-			while (true)
-			{
-				CGameObject* pObject = pGameInstance->Find_GameObejct((_uint)LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, GameSession->Get_PlayerID());
-
-				if (pObject != nullptr)
-				{
-					pOtherPlayer = dynamic_cast<CPlayer_Server*>(pObject);
-					break;
-				}
-			}
-
-
-			Protocol::S_CREATE_PLAYER tPlayerPkt;
-
-			tPlayerPkt.set_iobjectid(pOtherPlayer->Get_ObjectID());
-			tPlayerPkt.set_iclass(pOtherPlayer->Get_Class());
-			tPlayerPkt.set_bcontroll(false);
-			tPlayerPkt.set_strnickname(CAsUtils::ToString(GameSession->Get_NickName()));
-			tPlayerPkt.set_strstate(CAsUtils::ToString(pOtherPlayer->Get_ServerState()));
-
-			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
-			vPktTargetPos->Resize(3, 0.0f);
-			Vec3 vTargetPos = pOtherPlayer->Get_TargetPos();
-			memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
-
-
-			auto vPacketWorld = tPlayerPkt.mutable_matworld();
-			vPacketWorld->Resize(16, 0.0f);
-			Matrix matOtherWorld = pOtherPlayer->Get_TransformCom()->Get_WorldMatrix();
-			memcpy(vPacketWorld->mutable_data(), &matOtherWorld, sizeof(Matrix));
-
-
-
-			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tPlayerPkt);
-			pGameSession->Send(pSendBuffer);
-		}
-
-
-
-
-
-		{
-			Protocol::S_CREATE_PLAYER tPlayerPkt;
-
-			tPlayerPkt.set_iobjectid(Desc.iObjectID);
-			tPlayerPkt.set_iclass(pkt.iclass());
-			tPlayerPkt.set_bcontroll(true);
-			tPlayerPkt.set_strnickname(pkt.strnickname());
-			tPlayerPkt.set_strstate("Idle");
-
-
-			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
-			vPktTargetPos->Resize(3, 0.0f);
-			Vec3 vTargetPos = pPlayer->Get_TargetPos();
-			memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
-
-			auto vPacketWorld = tPlayerPkt.mutable_matworld();
-			vPacketWorld->Resize(16, 0.0f);
-			memcpy(vPacketWorld->mutable_data(), &matWorld, sizeof(Matrix));
-
-			{
-				SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tPlayerPkt);
-				pGameSession->Send(pSendBuffer);
-			}
-
-			{
-				tPlayerPkt.set_bcontroll(false);
-				SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tPlayerPkt);
-				CGameSessionManager::GetInstance()->Broadcast_Others(pSendBuffer, pGameSession->GetSessionID());
-			}
-		}
-
-
-
-	}
-
-
-
-	
-
-	Safe_Release(pGameInstance);
 	return true;
 }
 
@@ -298,7 +165,7 @@ bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt)
 	pObject->Set_TargetPos(vTargetPos);
 	pObject->Set_TargetMatrix(matTargetWorld);
 	pObject->Set_ServerState(CAsUtils::ToWString(pkt.strstate()));
-
+	pObject->Set_WeaponIndex(pkt.iweaponindex());
 
 	if (pkt.itargetobjectid() == -1)
 		pObject->Reset_NearTarget();

@@ -23,12 +23,12 @@ public:
 	
 	void Clear();
 public:
-	list<class CGameObject*>& Find_GameObjects() { return m_GameObjects; }
+	vector<class CGameObject*>& Find_GameObjects() { return m_GameObjects; }
 	CGameObject* Find_GameObject(const wstring& strObjectTag);
 	CGameObject* Find_GameObject(_int iObjectID);
 	HRESULT Delete_GameObject(const CGameObject* pGameObject);
 private:
-	list<class CGameObject*>	m_GameObjects;
+	vector<class CGameObject*>	m_GameObjects;
 
 public:
 	static CLayer* Create();

@@ -36,6 +36,8 @@ public:
 		Vec3	vTargetPos;
 		wstring szState;
 		wstring szNickName;
+		_int	iWeaponIndex;
+		_uint	iCurrLevel;
 	}MODELDESC;
 
 public:

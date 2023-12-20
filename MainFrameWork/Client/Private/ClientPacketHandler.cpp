@@ -247,6 +247,7 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 
 	pObject->Set_TargetPos(vTargetPos);
 	pObject->Set_TargetMatrix(matTargetWorld);
+	pObject->Set_WeaponIndex(pkt.iweaponindex());
 
 	if (pkt.itargetobjectid() == -1)
 		pObject->Reset_NearTarget();
@@ -482,10 +483,11 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	Desc.vTargetPos = Vec3(pkt.vtargetpos().data());
 	Desc.szState = CAsUtils::ToWString(pkt.strstate());
 	Desc.szNickName = CAsUtils::ToWString(pkt.strnickname());
-
+	Desc.iWeaponIndex = pkt.iweaponindex();
+	Desc.iCurrLevel = pkt.ilevel();
 
 	wstring szProtoName = L"Prototype_GameObject_Player_" + Desc.strFileName;
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, Desc.iLayer, szProtoName, &Desc));
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Add_GameObject(Desc.iCurrLevel, Desc.iLayer, szProtoName, &Desc));
 	if (nullptr == pPlayer)
 	{
 		Safe_Release(pGameInstance);

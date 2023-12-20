@@ -2039,7 +2039,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Chat.h">
       <Filter>02.GameObjects\UI\02.Chat</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\State_GN_Gunkata_3.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClInclude>
@@ -2048,9 +2048,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_SprialChaser.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\SpiralChaser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_Start.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
@@ -3629,7 +3626,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Chat.cpp">
       <Filter>02.GameObjects\UI\02.Chat</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\State_GN_Gunkata_3.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClCompile>
@@ -3638,9 +3635,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_SprialChaser.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\SpiralChaser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>

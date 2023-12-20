@@ -201,7 +201,6 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
-    <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\State_GN_DeadHard_Start.h" />
     <ClInclude Include="..\Public\State_GN_DeathFire_Start.h" />
     <ClInclude Include="..\Public\State_GN_DeathFire_Success.h" />
@@ -366,7 +365,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
-    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Private\State_GN_DeadHard_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_DeathFire_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_DeathFire_Success.cpp" />

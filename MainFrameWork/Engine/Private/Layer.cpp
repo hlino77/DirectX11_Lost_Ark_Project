@@ -23,6 +23,7 @@ HRESULT CLayer::Add_GameObject(CGameObject * pGameObject)
 
 void CLayer::Tick(_float fTimeDelta)
 {
+	READ_LOCK
 	for (auto& pGameObject : m_GameObjects)
 	{
 		if (nullptr != pGameObject && pGameObject->Is_Active())
@@ -32,6 +33,7 @@ void CLayer::Tick(_float fTimeDelta)
 
 void CLayer::LateTick(_float fTimeDelta)
 {
+	READ_LOCK
 	for (auto& pGameObject : m_GameObjects)
 	{
 		if (nullptr != pGameObject && pGameObject->Is_Active())

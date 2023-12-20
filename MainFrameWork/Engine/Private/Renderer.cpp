@@ -473,6 +473,9 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_UI()))
 		return E_FAIL;
+	if (FAILED(Render_DebugObject()))
+		return E_FAIL;
+
 
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::T))
@@ -481,6 +484,8 @@ HRESULT CRenderer::Draw()
 	if (m_bTargetOnOff)
 		if (FAILED(Render_Debug()))
 			return E_FAIL;
+
+
 
 	return S_OK;
 }

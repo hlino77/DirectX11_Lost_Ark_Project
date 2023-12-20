@@ -142,6 +142,9 @@ public:
 	void						Set_ServerState(const wstring& szState) { m_szState = szState; }
 	const wstring&				Get_ServerState() { return m_szState; }
 
+	_int		Get_WeaponIndex() { return m_iWeaponIndex; }
+	void		Set_WeaponIndex(_int iWeaponIndex) { m_iWeaponIndex = iWeaponIndex; }
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -204,6 +207,9 @@ protected:
 
 	_int							m_iHp;
 	_uint							m_iMaxHp;
+
+	_int								m_iWeaponIndex = -1;
+	_int						m_iCurrLevel = -1;
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

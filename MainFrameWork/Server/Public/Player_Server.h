@@ -14,16 +14,22 @@ END
 
 
 BEGIN(Server)
+
+class CGameSession;
+
 class CPlayer_Server final : public CGameObject
 {
 public:
 	typedef struct ModelDesc
 	{
 		wstring strFileName;
+		wstring szNickName;
 		_int	iObjectID;
 		_uint	iLayer;
 		_uint	iClass;
-		class CGameSession* pGameSession = nullptr;
+		_int	iWeaponIndex;
+		_uint	iCurrLevel;
+		shared_ptr<CGameSession> pGameSession = nullptr;
 	}MODELDESC;
 private:
 	CPlayer_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -49,6 +55,8 @@ public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
 
 
+	shared_ptr<CGameSession> Get_GameSession() { return m_pGameSession; }
+	const wstring& Get_NickName() { return m_szNickName; }
 public:
 	void				Set_Colliders(_float fTimeDelta);
 
@@ -66,13 +74,15 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	std::future<HRESULT>	m_PlayAnimation;
 
-	class CGameSession* m_pGameSession = nullptr;
+	shared_ptr<CGameSession> m_pGameSession = nullptr;
 private:
 	vector<CGameObject*>				m_Parts;
 	typedef vector<CGameObject*>		PARTS;
 
 	_int								m_iClass = -1;
+	
 
+	wstring m_szNickName;
 public:
 	static CPlayer_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

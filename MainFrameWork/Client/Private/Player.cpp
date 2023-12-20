@@ -44,7 +44,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 	m_szNickName = Desc->szNickName;
-
+	m_iWeaponIndex = Desc->iWeaponIndex;
+	m_iCurrLevel = Desc->iCurrLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -590,12 +591,15 @@ void CPlayer::Send_State(const wstring& szName)
 
 	Protocol::S_STATE pkt;
 	pkt.set_strstate(CAsUtils::ToString(szName));
+	pkt.set_iweaponindex(m_iWeaponIndex);
+
 
 	auto tPlayer = pkt.mutable_tobject();
 
 	tPlayer->set_ilevel(LEVEL_STATIC);
 	tPlayer->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 	tPlayer->set_iobjectid(m_iObjectID);
+
 
 	auto vTargetPos = tPlayer->mutable_vtargetpos();
 	vTargetPos->Resize(3, 0.0f);

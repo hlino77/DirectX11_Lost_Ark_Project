@@ -56,11 +56,11 @@ _uint CPlayer_Controller_GN::Is_GN_Identity()
 {
 	if (KEY_TAP(KEY::Z))
 	{
-		return 1;
+		return 2;
 	}
 	else if (KEY_TAP(KEY::X))
 	{
-		return 2;
+		return 1;
 	}
 
 	return 0;

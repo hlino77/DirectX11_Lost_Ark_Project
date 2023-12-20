@@ -62,7 +62,7 @@ public: /* For.Object_Manager */
 	CGameObject* Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, const wstring & strObjectTag);
 	CGameObject* Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, _int iObjectID);
 	CGameObject* Find_NearGameObject(_uint iLevelIndex, const _uint iLayerType, CGameObject * pObject);
-	list<CGameObject*>& Find_GameObjects(_uint iLevelIndex, const _uint iLayerType);
+	vector<CGameObject*>& Find_GameObjects(_uint iLevelIndex, const _uint iLayerType);
 	HRESULT Delete_GameObject(_uint iLevelIndex, const _uint iLayerType, const CGameObject* pGameObject);
 
 public: /* For.Utilities */

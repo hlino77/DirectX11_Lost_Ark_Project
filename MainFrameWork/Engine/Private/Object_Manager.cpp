@@ -130,7 +130,7 @@ CGameObject* CObject_Manager::Find_GameObejct(_uint iLevelIndex, const _uint iLa
 	return pObj;
 }
 
-list<CGameObject*>& CObject_Manager::Find_GameObjects(_uint iLevelIndex, const _uint iLayerType)
+vector<CGameObject*>& CObject_Manager::Find_GameObjects(_uint iLevelIndex, const _uint iLayerType)
 {
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
@@ -145,7 +145,7 @@ list<CGameObject*>& CObject_Manager::Find_GameObjects(_uint iLevelIndex, const _
 
 CGameObject* CObject_Manager::Find_NearGameObject(_uint iLevelIndex, const _uint iLayerType, CGameObject* pCallObject)
 {
-	list<CGameObject*>& ObjectList = Find_Layer(iLevelIndex, iLayerType)->Find_GameObjects();
+	vector<CGameObject*>& ObjectList = Find_Layer(iLevelIndex, iLayerType)->Find_GameObjects();
 
 	CGameObject* pFindObject = nullptr;
 	_float fDistance = -1.0f;

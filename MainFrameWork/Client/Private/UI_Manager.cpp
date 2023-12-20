@@ -52,7 +52,7 @@ HRESULT CUI_Manager::ObjectManager_to_UIManager(LEVELID eLevelIndex)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-	list<CGameObject*>pUIList = pGameInstance->Find_GameObjects(eLevelIndex, (_uint)LAYER_TYPE::LAYER_UI);
+	vector<CGameObject*>pUIList = pGameInstance->Find_GameObjects(eLevelIndex, (_uint)LAYER_TYPE::LAYER_UI);
 	for (auto iter : pUIList)
 	{
 		auto pUI = find(m_pUIList[eLevelIndex].begin(), m_pUIList[eLevelIndex].end(), static_cast<CUI*>(iter));

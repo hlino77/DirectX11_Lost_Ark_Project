@@ -1729,6 +1729,7 @@ class S_STATE final :
     kITargetObjectIDFieldNumber = 4,
     kIHitObjectLayerFieldNumber = 5,
     kIHitObjectIDFieldNumber = 6,
+    kIWeaponIndexFieldNumber = 7,
   };
   // string strState = 2;
   void clear_strstate();
@@ -1798,6 +1799,15 @@ class S_STATE final :
   void _internal_set_ihitobjectid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 iWeaponIndex = 7;
+  void clear_iweaponindex();
+  ::PROTOBUF_NAMESPACE_ID::int32 iweaponindex() const;
+  void set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iweaponindex() const;
+  void _internal_set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_STATE)
  private:
   class _Internal;
@@ -1811,6 +1821,7 @@ class S_STATE final :
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectid_;
   ::PROTOBUF_NAMESPACE_ID::int32 ihitobjectlayer_;
   ::PROTOBUF_NAMESPACE_ID::int32 ihitobjectid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 iweaponindex_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -3789,15 +3800,17 @@ class S_CREATE_PLAYER final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMatWorldFieldNumber = 4,
-    kVTargetPosFieldNumber = 6,
-    kStrNickNameFieldNumber = 5,
-    kStrStateFieldNumber = 7,
+    kMatWorldFieldNumber = 5,
+    kVTargetPosFieldNumber = 7,
+    kStrNickNameFieldNumber = 6,
+    kStrStateFieldNumber = 8,
     kIObjectIDFieldNumber = 1,
-    kIClassFieldNumber = 2,
-    kBControllFieldNumber = 3,
+    kILevelFieldNumber = 2,
+    kIClassFieldNumber = 3,
+    kBControllFieldNumber = 4,
+    kIWeaponIndexFieldNumber = 9,
   };
-  // repeated float matWorld = 4 [packed = true];
+  // repeated float matWorld = 5 [packed = true];
   int matworld_size() const;
   private:
   int _internal_matworld_size() const;
@@ -3819,7 +3832,7 @@ class S_CREATE_PLAYER final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_matworld();
 
-  // repeated float vTargetPos = 6 [packed = true];
+  // repeated float vTargetPos = 7 [packed = true];
   int vtargetpos_size() const;
   private:
   int _internal_vtargetpos_size() const;
@@ -3841,7 +3854,7 @@ class S_CREATE_PLAYER final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_vtargetpos();
 
-  // bytes strNickName = 5;
+  // bytes strNickName = 6;
   void clear_strnickname();
   const std::string& strnickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -3855,7 +3868,7 @@ class S_CREATE_PLAYER final :
   std::string* _internal_mutable_strnickname();
   public:
 
-  // string strState = 7;
+  // string strState = 8;
   void clear_strstate();
   const std::string& strstate() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -3878,7 +3891,16 @@ class S_CREATE_PLAYER final :
   void _internal_set_iobjectid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iClass = 2;
+  // int32 iLevel = 2;
+  void clear_ilevel();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel() const;
+  void set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilevel() const;
+  void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iClass = 3;
   void clear_iclass();
   ::PROTOBUF_NAMESPACE_ID::int32 iclass() const;
   void set_iclass(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -3887,13 +3909,22 @@ class S_CREATE_PLAYER final :
   void _internal_set_iclass(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // bool bControll = 3;
+  // bool bControll = 4;
   void clear_bcontroll();
   bool bcontroll() const;
   void set_bcontroll(bool value);
   private:
   bool _internal_bcontroll() const;
   void _internal_set_bcontroll(bool value);
+  public:
+
+  // int32 iWeaponIndex = 9;
+  void clear_iweaponindex();
+  ::PROTOBUF_NAMESPACE_ID::int32 iweaponindex() const;
+  void set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iweaponindex() const;
+  void _internal_set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_CREATE_PLAYER)
@@ -3908,8 +3939,10 @@ class S_CREATE_PLAYER final :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strnickname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strstate_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
   ::PROTOBUF_NAMESPACE_ID::int32 iclass_;
   bool bcontroll_;
+  ::PROTOBUF_NAMESPACE_ID::int32 iweaponindex_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -5227,6 +5260,26 @@ inline void S_STATE::set_ihitobjectid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_STATE.iHitObjectID)
 }
 
+// int32 iWeaponIndex = 7;
+inline void S_STATE::clear_iweaponindex() {
+  iweaponindex_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_STATE::_internal_iweaponindex() const {
+  return iweaponindex_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_STATE::iweaponindex() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_STATE.iWeaponIndex)
+  return _internal_iweaponindex();
+}
+inline void S_STATE::_internal_set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  iweaponindex_ = value;
+}
+inline void S_STATE::set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_iweaponindex(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_STATE.iWeaponIndex)
+}
+
 // -------------------------------------------------------------------
 
 // S_COLLIDERSTATE
@@ -6343,7 +6396,27 @@ inline void S_CREATE_PLAYER::set_iobjectid(::PROTOBUF_NAMESPACE_ID::int32 value)
   // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.iObjectID)
 }
 
-// int32 iClass = 2;
+// int32 iLevel = 2;
+inline void S_CREATE_PLAYER::clear_ilevel() {
+  ilevel_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CREATE_PLAYER::_internal_ilevel() const {
+  return ilevel_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CREATE_PLAYER::ilevel() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_PLAYER.iLevel)
+  return _internal_ilevel();
+}
+inline void S_CREATE_PLAYER::_internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilevel_ = value;
+}
+inline void S_CREATE_PLAYER::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilevel(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.iLevel)
+}
+
+// int32 iClass = 3;
 inline void S_CREATE_PLAYER::clear_iclass() {
   iclass_ = 0;
 }
@@ -6363,7 +6436,7 @@ inline void S_CREATE_PLAYER::set_iclass(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.iClass)
 }
 
-// bool bControll = 3;
+// bool bControll = 4;
 inline void S_CREATE_PLAYER::clear_bcontroll() {
   bcontroll_ = false;
 }
@@ -6383,7 +6456,7 @@ inline void S_CREATE_PLAYER::set_bcontroll(bool value) {
   // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.bControll)
 }
 
-// repeated float matWorld = 4 [packed = true];
+// repeated float matWorld = 5 [packed = true];
 inline int S_CREATE_PLAYER::_internal_matworld_size() const {
   return matworld_.size();
 }
@@ -6430,7 +6503,7 @@ S_CREATE_PLAYER::mutable_matworld() {
   return _internal_mutable_matworld();
 }
 
-// bytes strNickName = 5;
+// bytes strNickName = 6;
 inline void S_CREATE_PLAYER::clear_strnickname() {
   strnickname_.ClearToEmpty();
 }
@@ -6475,7 +6548,7 @@ inline void S_CREATE_PLAYER::set_allocated_strnickname(std::string* strnickname)
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_CREATE_PLAYER.strNickName)
 }
 
-// repeated float vTargetPos = 6 [packed = true];
+// repeated float vTargetPos = 7 [packed = true];
 inline int S_CREATE_PLAYER::_internal_vtargetpos_size() const {
   return vtargetpos_.size();
 }
@@ -6522,7 +6595,7 @@ S_CREATE_PLAYER::mutable_vtargetpos() {
   return _internal_mutable_vtargetpos();
 }
 
-// string strState = 7;
+// string strState = 8;
 inline void S_CREATE_PLAYER::clear_strstate() {
   strstate_.ClearToEmpty();
 }
@@ -6565,6 +6638,26 @@ inline void S_CREATE_PLAYER::set_allocated_strstate(std::string* strstate) {
   strstate_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), strstate,
       GetArenaForAllocation());
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_CREATE_PLAYER.strState)
+}
+
+// int32 iWeaponIndex = 9;
+inline void S_CREATE_PLAYER::clear_iweaponindex() {
+  iweaponindex_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CREATE_PLAYER::_internal_iweaponindex() const {
+  return iweaponindex_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CREATE_PLAYER::iweaponindex() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_PLAYER.iWeaponIndex)
+  return _internal_iweaponindex();
+}
+inline void S_CREATE_PLAYER::_internal_set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  iweaponindex_ = value;
+}
+inline void S_CREATE_PLAYER::set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_iweaponindex(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.iWeaponIndex)
 }
 
 // -------------------------------------------------------------------
