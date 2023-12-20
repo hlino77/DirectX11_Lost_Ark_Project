@@ -48,7 +48,6 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
-	
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -56,6 +55,7 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
+	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"respawn_1"));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
