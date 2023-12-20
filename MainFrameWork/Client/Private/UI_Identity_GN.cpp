@@ -123,7 +123,7 @@ HRESULT CUI_IdentityGN::UI_Set()
 	{
 		m_vecUIParts.push_back(pUI);
 	}
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Spark")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Spark"), m_pMainFrame));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
@@ -174,10 +174,4 @@ void CUI_IdentityGN::Free()
 	__super::Free();
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
-
-	for (auto& iter : m_vecUIParts)
-	{
-		Safe_Release(iter);
-	}
-	m_vecUIParts.clear();
 }

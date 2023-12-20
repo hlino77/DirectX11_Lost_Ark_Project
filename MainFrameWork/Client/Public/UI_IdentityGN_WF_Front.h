@@ -28,6 +28,8 @@ private:
 
 private:
     _float m_fAngle = { 0.f };
+    _uint   m_iCurrStance = { 0 };
+    _uint   m_iPreStance = { 0 };
     _bool   m_bChangeIcon = { true };
     _bool   m_bTapKey = { false };
     _bool   m_bReturn = { false };

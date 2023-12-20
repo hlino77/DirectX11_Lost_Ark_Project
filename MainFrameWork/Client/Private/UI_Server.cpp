@@ -115,11 +115,5 @@ void CUI_Server::Free()
 	__super::Free();
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
-
-	for (auto& iter : m_vecUIParts)
-	{
-		Safe_Release(iter);
-	}
-	m_vecUIParts.clear();
 }
 

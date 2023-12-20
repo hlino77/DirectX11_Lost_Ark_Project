@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_IdentityGN :
+class CUI_Player_HP :
     public CUI
 {
 private:
-	CUI_IdentityGN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI_IdentityGN(const CUI& rhs);
-	virtual ~CUI_IdentityGN() = default;
+	CUI_Player_HP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CUI_Player_HP(const CUI& rhs);
+	virtual ~CUI_Player_HP() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -24,12 +24,8 @@ private:
 	HRESULT	UI_Set();
 	HRESULT	UI_WeaponFrame();
 
-private:
-	_bool	m_bEventOn = { false };
-	class CUI* m_pMainFrame = { nullptr };
-
 public:
-	static  CUI_IdentityGN* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
+	static  CUI_Player_HP* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

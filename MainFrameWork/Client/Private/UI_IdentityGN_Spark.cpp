@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_IdentityGN_Spark.h"
 #include "GameInstance.h"
+#include "UI_IdentityGN_MainFrame.h"
 
 CUI_IdentityGN_Spark::CUI_IdentityGN_Spark(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -24,6 +25,11 @@ HRESULT CUI_IdentityGN_Spark::Initialize_Prototype()
 
 HRESULT CUI_IdentityGN_Spark::Initialize(void* pArg)
 {
+	if (nullptr != pArg)
+	{
+		m_pMainFrame = static_cast<CUI*>(pArg);
+	}
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -51,11 +57,17 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 
 	if (!m_bChange)
 		return;
+
 	if (!m_bHidden)
 	{
+			if (static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsTapKey())
+				m_fX = 750.f;
+			else if (!static_cast<CUI_IdentityGN_MainFrame*>(m_pMainFrame)->Get_IsTapKey())
+				m_fX = 850.f;
 			m_fSizeX += 10.f * fTimeDelta;
 			m_fSizeY += 10.f * fTimeDelta;
-			m_fAlpha = 1.f;
+			m_fAlpha = 0.8f;
+
 			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
@@ -65,10 +77,9 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 	{
 		if (0 < m_fAlpha)
 		{
-			m_fSizeX += 10.f * fTimeDelta;
-			m_fSizeY += 10.f * fTimeDelta;
-			m_fAlpha -= 4.f * fTimeDelta;
-
+			m_fSizeX += 300.f * fTimeDelta;
+			m_fSizeY += 300.f * fTimeDelta;
+			m_fAlpha -= 1.5f * fTimeDelta;
 			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
@@ -158,6 +169,7 @@ CGameObject* CUI_IdentityGN_Spark::Clone(void* pArg)
 void CUI_IdentityGN_Spark::Free()
 {
 	__super::Free();
+	m_pMainFrame = nullptr;
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 

@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_IdentityGN_Spark final:
+class CUI_SpeechBubble :
     public CUI
 {
 private:
-    CUI_IdentityGN_Spark(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_IdentityGN_Spark(const CUI& rhs);
-    virtual ~CUI_IdentityGN_Spark() = default;
+    CUI_SpeechBubble(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_SpeechBubble(const CUI& rhs);
+    virtual ~CUI_SpeechBubble() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -24,14 +24,14 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    void    Setting_HostPos();
 
 private:
-    _bool   m_bHidden = { false };
-    _bool   m_bTapKey = { false };
-    CUI* m_pMainFrame = { nullptr };
-    Vec2    m_vecSizeOrigin = { 128.f, 88.f };
+    Vec4    m_vHostProjPos = { 0.f, 0.f, 0.f, 0.f };
+    CGameObject* m_pHost = { nullptr };
+
 public:
-    static  CUI_IdentityGN_Spark* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_SpeechBubble* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

@@ -25,12 +25,15 @@ public:
     _float  Get_Angle() { return m_fAngle; }
     void    Change_Icon(_float fTimeDelta);
     _bool   Get_IsEventtOn() { return m_bEventOn; }
+    _bool   Get_IsTapKey() { return m_bTapKey; }
     
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
 private:
+    _uint   m_iCurrStance = { 0 };
+    _uint   m_iPreStance = { 0 };
     _float m_fAngle = { 0.f };
     _bool   m_bChangeIcon = { true };
     _bool   m_bTapKey = { false };

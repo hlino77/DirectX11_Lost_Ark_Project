@@ -349,18 +349,6 @@
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect">
       <UniqueIdentifier>{9ec966f5-9d53-446e-a9b4-8c18a316c803}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame">
-      <UniqueIdentifier>{167e488f-5f15-4e65-ba8a-d23075cdeb3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\06.ShineFrame">
-      <UniqueIdentifier>{fa72f89a-e48f-4922-a0b7-056504d929ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\05.ShineIcon">
-      <UniqueIdentifier>{e03266f1-cc82-444b-86c3-f3230e586080}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow">
-      <UniqueIdentifier>{7ea5354e-6783-43bb-953b-e7ac7e270699}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
       <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
     </Filter>
@@ -423,6 +411,45 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown">
       <UniqueIdentifier>{dacc06ae-5cb1-48d2-b2ef-244fb3dd9d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP">
+      <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP">
+      <UniqueIdentifier>{50d9aeef-578e-4720-9824-cdda2f7bfe38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP">
+      <UniqueIdentifier>{259a876f-4aa3-41cc-81e4-2f1b3aed6576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\99.Shield">
+      <UniqueIdentifier>{dd58f161-b8e4-4de9-ac25-ec1d7aa85116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP\02.Frame">
+      <UniqueIdentifier>{fa2dfef5-d526-469e-8cf1-6bc4f2036c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP\00.Empty">
+      <UniqueIdentifier>{0ceba15d-960d-41b1-b95a-fc55c8a0ec76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP\01.Fill">
+      <UniqueIdentifier>{167bc56c-ded9-48f3-b764-492821bb9019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\00.Empty">
+      <UniqueIdentifier>{81dd785f-a4d5-4f73-a041-af3aea85a88d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\02.Frame">
+      <UniqueIdentifier>{eecbf04b-39f7-4454-bba9-763280cfe506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\01.Fill">
+      <UniqueIdentifier>{70ec6b31-cc32-4ae0-9516-601309ce1db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.SkillUI">
+      <UniqueIdentifier>{d31790ea-52a5-4539-aa24-ad4deab77ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.SkillUI\00.IconFrame">
+      <UniqueIdentifier>{e6dac7eb-65c3-46b7-93f3-bcf094d280d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\06.Speech_Bubble">
+      <UniqueIdentifier>{9df4ac39-51a7-49d4-ad93-2125f11f7bb6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -813,7 +840,6 @@
     <ClInclude Include="..\Public\UI_ChatFrame.h" />
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
-    <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
@@ -862,9 +888,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundWing.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Identity_GN.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
@@ -1366,9 +1389,6 @@
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClInclude>
@@ -1590,9 +1610,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\03.Identity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_WF_Front.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
@@ -2013,6 +2030,42 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_HPFrame.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\02.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_MPFrame.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\02.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_HPFill.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\01.Fill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_MPFill.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\01.Fill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_ShieldFill.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\99.Shield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
+      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_HPEmpty.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\00.Empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_MPEmpty.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\00.Empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_HP.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_MP.h">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_SkillIcon_Frame.h">
+      <Filter>02.GameObjects\UI\05.SkillUI\00.IconFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_SpeechBubble.h">
+      <Filter>02.GameObjects\UI\06.Speech_Bubble</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2932,9 +2985,6 @@
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
     </ClCompile>
@@ -3156,9 +3206,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_WF_Front.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\07.FrontFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp">
       <Filter>02.GameObjects\UI\01.Loading\01.Label\01.Bottom</Filter>
@@ -3579,6 +3626,39 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_HPFrame.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\02.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_MPFrame.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\02.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_HPFill.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\01.Fill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_MPFill.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\01.Fill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_ShieldFill.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\99.Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\00.Empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_MPEmpty.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\00.Empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_HP.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\00.HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_MP.cpp">
+      <Filter>02.GameObjects\UI\04. HP/MP\01.MP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_SkillIcon_Frame.cpp">
+      <Filter>02.GameObjects\UI\05.SkillUI\00.IconFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_SpeechBubble.cpp">
+      <Filter>02.GameObjects\UI\06.Speech_Bubble</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
