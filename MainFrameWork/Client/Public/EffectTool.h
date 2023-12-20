@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+class CUtils;
+
 END
 
 BEGIN(Client)
@@ -28,6 +30,7 @@ private:
 
 private:
 	void	InfoView();
+	void	Categories();
 	void	TreeGroups();
 
 	void	Tex_Mask();
@@ -36,7 +39,19 @@ private:
 	void	Tex_Ex();
 
 private:
+	HRESULT	LoadMeshes();
+	HRESULT	LoadTextures();
+
+private:
+	_int					m_iCurrentEffectType = 0;
+	const _char*			m_szCurrentCategory = nullptr;
 	_int					m_Item_Current = 0;
+
+	vector<const _char*>	m_vecMeshCategories;
+	vector<const _char*>	m_vecTextureCategories;
+
+
+	vector<const _char*>	m_vecMeshes;
 
 	vector<ImTextureID>		m_vecMaskTextureIDs;
 	vector<ImTextureID>		m_vecNoiseTextureIDs;
@@ -48,6 +63,8 @@ private:
 	ImTextureID				m_pTextureGradient	= nullptr;
 	ImTextureID				m_pTextureEx0		= nullptr;
 	ImTextureID				m_pTextureEx1		= nullptr;
+
+	CUtils*					m_pUtils			= nullptr;
 
 public:
 	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class CUtils : public CBase
+class ENGINE_DLL CUtils final : public CBase
 {
 	DECLARE_SINGLETON(CUtils)
 
@@ -29,7 +29,7 @@ public:
 	void CreateRandomTexture1DSRV(ID3D11Device* device, ID3D11ShaderResourceView** ppSRV);
 
 public:
-	virtual void	Free();
+	virtual void	Free() override;
 };
 
 END

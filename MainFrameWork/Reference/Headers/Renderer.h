@@ -190,13 +190,9 @@ private:
 		Vec2	vPadding;
 	};
 
-	/*_float m_fSampleRatio4x4 = 4.f;
-	_float m_fSampleRatio16x16 = 24.f - 0.5f;
-	_float m_fSampleRatio64x64 = 144.f - 3.f;*/
 	_float m_fSampleRatio4x4 = 4.f;
-	_float m_fSampleRatio16x16 = 16.f;
-	_float m_fSampleRatio64x64 = 64.f;
-
+	_float m_fSampleRatio16x16 = 24.f;
+	_float m_fSampleRatio64x64 = 144.f;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

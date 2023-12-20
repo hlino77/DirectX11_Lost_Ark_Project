@@ -48,6 +48,7 @@ using namespace SimpleMath;
 #include <list>
 #include <map>
 #include <algorithm>
+#include <functional>
 #include <typeinfo>
 #include <array>
 #include <unordered_map>

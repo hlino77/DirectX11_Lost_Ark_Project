@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
-#include "Weapon_Mn_Reaper.h"
+#include "Weapon_Wp_Reaper.h"
+#include "BindShaderDesc.h"
 
 CWeapon_Mn_Reaper::CWeapon_Mn_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject(pDevice, pContext, L"Weapon_wp_Reaper", OBJ_TYPE::PART)
@@ -71,17 +72,22 @@ HRESULT CWeapon_Mn_Reaper::Render()
 
 HRESULT CWeapon_Mn_Reaper::Render_ShadowDepth()
 {
-	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
-		return S_OK;
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
-		return S_OK;
+		return E_FAIL;
+
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_DirectionLightMatrix(),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_LightViewProjMatrix(),
+	};
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return E_FAIL;
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-
-
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
 	}

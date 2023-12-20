@@ -157,7 +157,7 @@ HRESULT CMainApp::Initialize_Client()
 
 	CUI_Manager::GetInstance()->Reserve_Manager();
 
-	CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
+	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	// Manager Reserve
 	return S_OK;

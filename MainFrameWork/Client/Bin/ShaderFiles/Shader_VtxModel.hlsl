@@ -106,12 +106,12 @@ PS_OUT_PHONG PS_NARUTO(VS_OUT In)
     return Out;
 }
 
-VS_OUT VS_SHADOW(STATIC_IN In)
+VS_OUT_SHADOW VS_SHADOW(STATIC_IN In)
 {
-    VS_OUT Out = (VS_OUT) 0;
-
-    float4 vPosition = float4(In.vPosition, 1.f);
-    vPosition = mul(vPosition, WorldMatrix);
+    VS_OUT_SHADOW Out = (VS_OUT_SHADOW) 0;
+	
+	float4 vPosition = float4(In.vPosition, 1.f);
+	vPosition = mul(vPosition, WorldMatrix);
     vPosition = mul(vPosition, ViewProj);
 
     Out.vPosition = vPosition;
@@ -120,13 +120,9 @@ VS_OUT VS_SHADOW(STATIC_IN In)
     return Out;
 }
 
-PS_OUT_SHADOW PS_SHADOW(VS_OUT In)
+float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
 {
-    PS_OUT_SHADOW Out = (PS_OUT_SHADOW) 0;
-
-    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.f);
-
-	return Out;
+    return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
 technique11 DefaultTechnique

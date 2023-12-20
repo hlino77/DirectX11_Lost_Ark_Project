@@ -564,6 +564,10 @@
     <ClInclude Include="..\Public\TLS.h">
       <Filter>02. ServerCore\03. Thread</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TLS.cpp" />
+    <ClInclude Include="..\Public\Delegate.h">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -876,6 +880,9 @@
     <ClCompile Include="..\Private\BT_Node.cpp" />
     <ClCompile Include="..\Private\DllMain.cpp">
       <Filter>98.Default</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Delegate.cpp">
+      <Filter>01.Utiltiy\98. Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,12 @@ struct VS_OUT
     float4  vProjPos : TEXCOORD1;
     float3  vTangent : TANGENT;
 };
+    
+struct VS_OUT_SHADOW
+{
+    float4  vPosition : SV_POSITION;
+    float4  vProjPos : TEXCOORD1;
+};
 
 struct TARGET_IN
 {
@@ -64,11 +70,6 @@ struct PS_OUT_EFFECT
 {
     float4  vDiffuse : SV_TARGET0;
     float4  vBlur : SV_TARGET1;
-};
-
-struct PS_OUT_SHADOW
-{
-    float4  vDepth : SV_TARGET0;
 };
 
 #endif

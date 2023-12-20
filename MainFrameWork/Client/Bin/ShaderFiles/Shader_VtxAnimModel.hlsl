@@ -77,9 +77,9 @@ VS_OUT VS_MAIN(SKELETAL_IN In)
 	return Out;
 }
 
-VS_OUT VS_SHADOW(SKELETAL_IN In)
+VS_OUT_SHADOW VS_SHADOW(SKELETAL_IN In)
 {
-    VS_OUT Out = (VS_OUT) 0;
+    VS_OUT_SHADOW Out = (VS_OUT_SHADOW) 0;
 
     matrix matWVP;
 
@@ -101,12 +101,7 @@ VS_OUT VS_SHADOW(SKELETAL_IN In)
     vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
 
     Out.vPosition = mul(vPosition, matWVP);
-    Out.vNormal = normalize(mul(vNormal, WorldMatrix));
-    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
-
-    Out.vTexUV = In.vTexUV;
     Out.vProjPos = Out.vPosition;
-    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
 	
     return Out;
 }
@@ -195,13 +190,9 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
     return Out;
 }
 
-PS_OUT_SHADOW PS_SHADOWDEPTH(VS_OUT In)
+float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
 {
-    PS_OUT_SHADOW Out = (PS_OUT_SHADOW) 0;
-
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
-
-    return Out;
+    return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
 PS_OUT_PHONG PS_DIFFUSE(VS_OUT In) : SV_TARGET0
@@ -248,10 +239,10 @@ technique11 DefaultTechnique
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-		VertexShader = compile vs_5_0 VS_MAIN();
+        VertexShader = compile vs_5_0 VS_SHADOW();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_SHADOWDEPTH();
-	}
+        PixelShader = compile ps_5_0 PS_SHADOW();
+    }
 
     pass Diffuse // 3
     {
