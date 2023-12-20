@@ -31,6 +31,10 @@ private:
 private:
 	void	InfoView();
 	void	Categories();
+
+	void	Meshes();
+	void	Textures();
+
 	void	TreeGroups();
 
 	void	Tex_Mask();
@@ -44,14 +48,16 @@ private:
 
 private:
 	_int					m_iCurrentEffectType = 0;
-	const _char*			m_szCurrentCategory = nullptr;
+	const _char*			m_szCurrentCategory = "";
 	_int					m_Item_Current = 0;
 
-	vector<const _char*>	m_vecMeshCategories;
-	vector<const _char*>	m_vecTextureCategories;
+	vector<pair<const _char*, vector<const _char*>>> m_vecMeshes;
+	vector<pair<const _char*, vector<const _char*>>> m_vecTextures;
+	//vector<const _char*>	m_vecMeshes;
+	//vector<const _char*>	m_vecTextures;
 
 
-	vector<const _char*>	m_vecMeshes;
+	//vector<const _char*>	m_vecMeshes;
 
 	vector<ImTextureID>		m_vecMaskTextureIDs;
 	vector<ImTextureID>		m_vecNoiseTextureIDs;

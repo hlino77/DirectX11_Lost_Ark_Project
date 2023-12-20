@@ -35,7 +35,11 @@ HRESULT CEffectTool::Tick()
 	ImGui::Begin("Effect Tool");
 
 	InfoView();
-	TreeGroups();
+	Categories();
+	//TreeGroups();
+	//Meshes();
+	Textures();
+
 
 	ImGui::End();
 
@@ -69,27 +73,59 @@ void CEffectTool::InfoView()
 	ImGui::Text("Mouse Viewport Position : %d, %d", p.x, p.y);
 	ImGui::NewLine();
 
-	ImGui::RadioButton("Mesh", &m_iCurrentEffectType, 0); ImGui::SameLine();
-	ImGui::RadioButton("Texture", &m_iCurrentEffectType, 1);
+	if (ImGui::RadioButton("Mesh", &m_iCurrentEffectType, 0))
+		m_szCurrentCategory = "";
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Texture", &m_iCurrentEffectType, 1))
+		m_szCurrentCategory = "";
 }
 
 void CEffectTool::Categories()
 {
-	if (!m_iCurrentEffectType)
+	if (!m_iCurrentEffectType) // Meshes
 	{
-		if (ImGui::BeginCombo("Mesh Categoryies", m_szCurrentCategory))
+		if (ImGui::BeginCombo(" ", m_szCurrentCategory))
 		{
-			for (int n = 0; n < m_vecMeshCategories.size(); ++n)
+			for (int n = 0; n < m_vecMeshes.size(); ++n)
 			{
-				_bool isSelected = (m_szCurrentCategory == m_vecMeshCategories[n]); // You can store your selection however you want, outside or inside your objects
-				if (ImGui::Selectable(m_vecMeshCategories[n], isSelected))
-					m_szCurrentCategory = m_vecMeshCategories[n];
+				_bool isSelected = (m_szCurrentCategory == m_vecMeshes[n].first); // You can store your selection however you want, outside or inside your objects
+				if (ImGui::Selectable(m_vecMeshes[n].first, isSelected))
+					m_szCurrentCategory = m_vecMeshes[n].first;
 				if (isSelected)
 					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
 			}
 			ImGui::EndCombo();
 		}
+		ImGui::Text("Effect Type : Mesh");
 	}
+	else // Textures
+	{
+		if (ImGui::BeginCombo(" ", m_szCurrentCategory))
+		{
+			for (int n = 0; n < m_vecTextures.size(); ++n)
+			{
+				_bool isSelected = (m_szCurrentCategory == m_vecTextures[n].first);
+				if (ImGui::Selectable(m_vecTextures[n].first, isSelected))
+					m_szCurrentCategory = m_vecTextures[n].first;
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::Text("Effect Type : Mesh");
+	}
+
+	ImGui::Text("Category : %s", m_szCurrentCategory);
+	ImGui::NewLine();
+}
+
+void CEffectTool::Meshes()
+{
+}
+
+void CEffectTool::Textures()
+{
 }
 
 void CEffectTool::TreeGroups()
@@ -253,15 +289,25 @@ HRESULT CEffectTool::LoadMeshes()
 {
 	vector<const _char*> vecItems;
 	wstring strDirectory = TEXT("../Bin/Resources/Effects/FX_Meshes/");
-	wstring strMeshCategory = TEXT("");
 
-	if (filesystem::exists(strDirectory) && filesystem::is_directory(strDirectory))
+	if (fs::exists(strDirectory) && fs::is_directory(strDirectory))
 	{
-		for (const auto& entry : filesystem::directory_iterator(strDirectory))
+		for (const auto& category : fs::directory_iterator(strDirectory))
 		{
-			if (entry.is_directory())
+			if (category.is_directory())
 			{
-				s2cPushBack(m_vecMeshCategories, entry.path().stem().generic_string());
+				const _char* szKey = s2c(category.path().stem().generic_string());
+				vector<const _char*> meshes;
+				
+				for (const auto& mesh : fs::directory_iterator(category))
+				{
+					const _char* szMeshFileName = s2c(mesh.path().stem().generic_string());
+					if (mesh.is_regular_file() && strcmp("desktop", szMeshFileName))
+					{
+						meshes.push_back(s2c(mesh.path().stem().generic_string()));
+					}
+				}
+				m_vecMeshes.push_back(make_pair(szKey, meshes));
 			}
 		}
 	}
@@ -271,7 +317,30 @@ HRESULT CEffectTool::LoadMeshes()
 
 HRESULT CEffectTool::LoadTextures()
 {
+	vector<const _char*> vecItems;
+	wstring strDirectory = TEXT("../Bin/Resources/Effects/FX_Textures/");
+	
+	if (fs::exists(strDirectory) && fs::is_directory(strDirectory))
+	{
+		for (const auto& category : fs::directory_iterator(strDirectory))
+		{
+			if (category.is_directory())
+			{
+				const _char* szKey = s2c(category.path().stem().generic_string());
+				vector<const _char*> textures;
 
+				for (const auto& texture : fs::directory_iterator(category))
+				{
+					const _char* szTextureFileName = s2c(texture.path().stem().generic_string());
+					if (texture.is_regular_file() && strcmp("desktop", szTextureFileName))
+					{
+						textures.push_back(s2c(texture.path().stem().generic_string()));
+					}
+				}
+				m_vecTextures.push_back(make_pair(szKey, textures));
+			}
+		}
+	}
 
 	return S_OK;
 }

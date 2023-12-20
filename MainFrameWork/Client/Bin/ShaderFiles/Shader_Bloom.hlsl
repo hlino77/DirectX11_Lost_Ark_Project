@@ -113,7 +113,7 @@ float4 PS_DOWNSAMPLE(VS_OUT_TARGET In) : SV_TARGET
         }
     }
     
-    outColor /= 36;
+    outColor /= 36.f;
     
     return float4(outColor, 1.0f);
 }
@@ -126,7 +126,6 @@ float4 PS_UPSAMPLE(VS_OUT_TARGET In) : SV_TARGET
     float3 vSrc = g_DownSampledTarget.Sample(LinearClampSampler, In.vTexcoord).rgb;
     
     outColor = pow(pow(abs(vDst), 2.2f) + pow(abs(vSrc), 2.2f), 1.f / 2.2f);
-    outColor = vDst + vSrc;
     
     return float4(outColor, 1.0f);
 }

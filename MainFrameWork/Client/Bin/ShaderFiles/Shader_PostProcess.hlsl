@@ -106,9 +106,6 @@ float4 PS_MAIN_BLENDBLOOM(PS_IN In) : SV_TARGET0
 	
     vColor += vBloom;
     return vColor;
-    //float4 vBloom = g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
-    //clip(vBloom.a);
-    //return vBloom;
 }
 
 technique11 DefaultTechnique

@@ -25,6 +25,24 @@ HRESULT CToolBase::Initialize(void* pArg)
 //	//m_pMediator->AddRef();
 //}
 
+//const _char* CToolBase::s2c(string str)
+//{
+//	const _char* szSrc = str.c_str();
+//	size_t len = strlen(szSrc) + 1;
+//	_char* szCopy = new _char[len];
+//	strcpy_s(szCopy, len, szSrc);
+//	return szCopy;
+//}
+
+const _char* CToolBase::s2c(const string& str)
+{
+	const _char* szSrc = str.c_str();
+	size_t len = strlen(szSrc) + 1;
+	_char* szCopy = new _char[len];
+	strcpy_s(szCopy, len, szSrc);
+	return szCopy;
+}
+
 void CToolBase::s2cPushBack(vector<_char*>& vecChar, string str)
 {
 	const _char* szSrc = str.c_str();
