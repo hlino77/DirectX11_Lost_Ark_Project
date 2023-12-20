@@ -98,7 +98,11 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 
 void CMonster_Golem::LateTick(_float fTimeDelta)
 {
-
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 	if (nullptr == m_pRendererCom)
 		return;
 	CullingObject();

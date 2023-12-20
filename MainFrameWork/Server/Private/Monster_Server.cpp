@@ -54,6 +54,7 @@ void CMonster_Server::Tick(_float fTimeDelta)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
+		cout << fTimeDelta << endl;
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 }
@@ -529,7 +530,7 @@ void CMonster_Server::Send_Hp()
 
 }
 
-void CMonster_Server::Send_Monster_Action()
+void CMonster_Server::Send_Boss_Action()
 {
 	Protocol::S_MONSTERSTATE pkt;
 
@@ -561,7 +562,7 @@ void CMonster_Server::Set_Colliders(_float fTimeDelta)
 void CMonster_Server::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
 {
 	if(Get_Target_Distance() > _TargetDistance)
-	m_pModelCom->Set_Monster_ToRootPos(m_pTransformCom, fTimeDelta);
+	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
 }
 
 HRESULT CMonster_Server::Ready_Coliders()

@@ -102,7 +102,7 @@ protected:
 
 protected:
 	void					CullingObject();
-	void					Set_to_RootPosition(_float fTimeDelta);
+	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
 
 protected:
 	_float							m_fMoveSpeed = 0.0f;
@@ -112,6 +112,7 @@ protected:
 	vector<_float>					m_vecAttackRanges;
 	_float							m_fAttackRange = 1.f;
 	_float							m_fNoticeRange = 20.f;
+	_float							m_fTimeCount = 0.f;
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;

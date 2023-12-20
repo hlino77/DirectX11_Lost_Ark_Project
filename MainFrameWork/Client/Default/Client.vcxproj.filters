@@ -468,7 +468,15 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\06.Speech_Bubble">
       <UniqueIdentifier>{9df4ac39-51a7-49d4-ad93-2125f11f7bb6}</UniqueIdentifier>
->>>>>>> origin/feature/Seokhyeon
+	</Filter>
+    <Filter Include="02.GameObjects\Boss\King">
+      <UniqueIdentifier>{407c6aef-d0fe-4bbf-9843-d62643e1d1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Parts">
+      <UniqueIdentifier>{fc0117df-bb6e-4e8a-b5c3-114510407a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Behavior">
+      <UniqueIdentifier>{027bbc57-25c3-457f-a28a-e49c72a90544}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1564,7 +1572,7 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Wp_Reaper.h">
+    <ClInclude Include="..\Public\Weapon_Mn_Reaper.h">
       <Filter>02.GameObjects\Monster\Reaper\Part</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
@@ -2112,6 +2120,27 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_SpeechBubble.h">
       <Filter>02.GameObjects\UI\06.Speech_Bubble</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_King.h">
+      <Filter>02.GameObjects\Boss\King</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Boss_King.h">
+      <Filter>02.GameObjects\Boss\King\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Erruption.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack2.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack3.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\King_BT_Attack_Attack4.h">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3190,7 +3219,7 @@
     <ClCompile Include="..\Private\Monster_Reaper.cpp">
       <Filter>02.GameObjects\Monster\Reaper</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Wp_Reaper.cpp">
+    <ClCompile Include="..\Private\Weapon_Mn_Reaper.cpp">
       <Filter>02.GameObjects\Monster\Reaper\Part</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
@@ -3732,6 +3761,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp">
       <Filter>02.GameObjects\UI\06.Speech_Bubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_King.cpp">
+      <Filter>02.GameObjects\Boss\King</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Boss_King.cpp">
+      <Filter>02.GameObjects\Boss\King\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack2.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Attack3.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp">
+      <Filter>02.GameObjects\Boss\King\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

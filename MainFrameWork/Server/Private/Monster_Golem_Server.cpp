@@ -94,12 +94,15 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
 }
 
 void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 {
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)

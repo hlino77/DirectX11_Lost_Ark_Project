@@ -3,12 +3,12 @@
 
 BEGIN(Server)
 
-class CKing_Server :
+class CBoss_King_Server :
     public CBoss_Server
 {
-	CKing_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CKing_Server(const CKing_Server& rhs);
-	virtual ~CKing_Server() = default;
+	CBoss_King_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBoss_King_Server(const CBoss_King_Server& rhs);
+	virtual ~CBoss_King_Server() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -29,7 +29,7 @@ public:
 
 protected:
 	virtual HRESULT		Ready_Components();
-	virtual	HRESULT		Ready_BehaviourTree() { return S_OK; };
+	virtual	HRESULT		Ready_BehaviourTree();
 public:
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -65,8 +65,9 @@
 #include "Monster_Golem.h"
 #include "Monster_Ghoul.h"
 #include <Monster_Reaper.h>
-#include "Weapon_Wp_Reaper.h"
-
+#include "Weapon_Boss_King.h"
+#include "Weapon_Mn_Reaper.h"
+#include "Boss_King.h"
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -504,10 +505,17 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CMonster_Reaper::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_wp_Reaper"),
-		CWeapon_Wp_Reaper::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_Reaper"),
+		CWeapon_Mn_Reaper::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_King"),
+		CBoss_King::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_King"),
+		CWeapon_Boss_King::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
 
@@ -941,9 +949,32 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+
+	{
+		wstring strFileName = L"Boss_King";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+
+	{
+		wstring strFileName = L"Boss_Wp_KingSword";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
 	}
 
 	Safe_Release(pGameInstance);

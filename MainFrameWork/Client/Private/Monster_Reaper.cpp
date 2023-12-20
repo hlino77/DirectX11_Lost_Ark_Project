@@ -78,15 +78,17 @@ void CMonster_Reaper::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-	if (Get_Target_Distance() > 0.5f)
-		Set_to_RootPosition(fTimeDelta);
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
 }
 
 void CMonster_Reaper::LateTick(_float fTimeDelta)
 {
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 
 	if (nullptr == m_pRendererCom)
 		return;
@@ -124,11 +126,6 @@ HRESULT CMonster_Reaper::Render_ShadowDepth()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
-
-			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-				return E_FAIL;*/
 
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
@@ -235,7 +232,7 @@ HRESULT CMonster_Reaper::Ready_Components()
 	PartDesc_Weapon.pPartenModel = m_pModelCom;
 	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("bip001-prop1"));
 	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-	m_pWeapon = dynamic_cast<CPartObject*>( pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Weapon_wp_Reaper"), &PartDesc_Weapon));
+	m_pWeapon = dynamic_cast<CPartObject*>( pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Weapon_Mn_Reaper"), &PartDesc_Weapon));
 	if (nullptr == m_pWeapon)
 		return E_FAIL;
 

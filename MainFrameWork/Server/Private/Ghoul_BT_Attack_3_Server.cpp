@@ -11,7 +11,7 @@ void CGhoul_BT_Attack_3_Server::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
-	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Send_Boss_Action();
 }
 
 CBT_Node::BT_RETURN CGhoul_BT_Attack_3_Server::OnUpdate(const _float& fTimeDelta)

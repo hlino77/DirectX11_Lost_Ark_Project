@@ -1,28 +1,28 @@
 #include "stdafx.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
-#include "Weapon_Wp_Reaper.h"
+#include "Weapon_Mn_Reaper.h"
 
-CWeapon_Wp_Reaper::CWeapon_Wp_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CWeapon_Mn_Reaper::CWeapon_Mn_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject(pDevice, pContext, L"Weapon_wp_Reaper", OBJ_TYPE::PART)
 {
 
 }
 
-CWeapon_Wp_Reaper::CWeapon_Wp_Reaper(const CWeapon_Wp_Reaper& rhs)
+CWeapon_Mn_Reaper::CWeapon_Mn_Reaper(const CWeapon_Mn_Reaper& rhs)
 	: CPartObject(rhs)
 {
 
 }
 
-HRESULT CWeapon_Wp_Reaper::Initialize_Prototype()
+HRESULT CWeapon_Mn_Reaper::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
 
 	return S_OK;
 }
 
-HRESULT CWeapon_Wp_Reaper::Initialize(void* pArg)
+HRESULT CWeapon_Mn_Reaper::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -37,7 +37,7 @@ HRESULT CWeapon_Wp_Reaper::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CWeapon_Wp_Reaper::Tick(_float fTimeDelta)
+void CWeapon_Mn_Reaper::Tick(_float fTimeDelta)
 {
 	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
 
@@ -48,15 +48,16 @@ void CWeapon_Wp_Reaper::Tick(_float fTimeDelta)
 	Compute_RenderMatrix(m_pTransformCom->Get_WorldMatrix() * WorldMatrix);
 }
 
-void CWeapon_Wp_Reaper::LateTick(_float fTimeDelta)
+void CWeapon_Mn_Reaper::LateTick(_float fTimeDelta)
 {
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
 	}
 }
 
-HRESULT CWeapon_Wp_Reaper::Render()
+HRESULT CWeapon_Mn_Reaper::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -68,13 +69,27 @@ HRESULT CWeapon_Wp_Reaper::Render()
 	return S_OK;
 }
 
-HRESULT CWeapon_Wp_Reaper::Render_ShadowDepth()
+HRESULT CWeapon_Mn_Reaper::Render_ShadowDepth()
 {
+	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
+		return S_OK;
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
+		return S_OK;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
+			return S_OK;
+	}
 
 	return S_OK;
 }
 
-HRESULT CWeapon_Wp_Reaper::Ready_Components()
+HRESULT CWeapon_Mn_Reaper::Ready_Components()
 {
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), 
@@ -93,7 +108,7 @@ HRESULT CWeapon_Wp_Reaper::Ready_Components()
 
 	///* For.Com_Model */
 	wstring strComName = L"Prototype_Component_Model_Reaper_Wp";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, 
+	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()-> Get_CurrLevelIndex(), strComName, 
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
@@ -107,7 +122,7 @@ HRESULT CWeapon_Wp_Reaper::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CWeapon_Wp_Reaper::Bind_ShaderResources()
+HRESULT CWeapon_Mn_Reaper::Bind_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
 		return E_FAIL;
@@ -117,35 +132,35 @@ HRESULT CWeapon_Wp_Reaper::Bind_ShaderResources()
 	return S_OK;
 }
 
-CWeapon_Wp_Reaper* CWeapon_Wp_Reaper::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CWeapon_Mn_Reaper* CWeapon_Mn_Reaper::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CWeapon_Wp_Reaper* pInstance = new CWeapon_Wp_Reaper(pDevice, pContext);
+	CWeapon_Mn_Reaper* pInstance = new CWeapon_Mn_Reaper(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CWeapon_Wp_Reaper");
+		MSG_BOX("Failed to Created : CWeapon_Mn_Reaper");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CWeapon_Wp_Reaper::Clone(void* pArg)
+CGameObject* CWeapon_Mn_Reaper::Clone(void* pArg)
 {
 	__super::Clone(pArg);
 
-	CWeapon_Wp_Reaper* pInstance = new CWeapon_Wp_Reaper(*this);
+	CWeapon_Mn_Reaper* pInstance = new CWeapon_Mn_Reaper(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CWeapon_Wp_Reaper");
+		MSG_BOX("Failed to Cloned : CWeapon_Mn_Reaper");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CWeapon_Wp_Reaper::Free()
+void CWeapon_Mn_Reaper::Free()
 {
 	__super::Free();
 

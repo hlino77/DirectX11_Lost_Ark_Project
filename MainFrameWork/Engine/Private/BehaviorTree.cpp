@@ -69,6 +69,7 @@ HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction)
 	if (iter == m_hashActions.end())
 		return E_FAIL;
 	m_PreviousAction = iter;
+	m_PreviousAction->second->OnStart();
 	return S_OK;
 }
 

@@ -77,6 +77,8 @@ void CMonster_Zombie_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
+
+	if (m_pBehaviorTree != nullptr)
 	m_pBehaviorTree->Tick(fTimeDelta);
 	if (m_fScanCoolDown > 0.5f)
 	{
@@ -85,12 +87,15 @@ void CMonster_Zombie_Server::Tick(_float fTimeDelta)
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
 }
 
 void CMonster_Zombie_Server::LateTick(_float fTimeDelta)
 {
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 
 	{
 		READ_LOCK

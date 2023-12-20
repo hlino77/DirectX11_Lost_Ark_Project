@@ -88,14 +88,14 @@ void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-
-	Set_to_RootPosition(fTimeDelta, 0.5f);
 
 }
 
 void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
 {
+	m_PlayAnimation.get();
+
+	Set_to_RootPosition(fTimeDelta, 0.5f);
 
 
 	{

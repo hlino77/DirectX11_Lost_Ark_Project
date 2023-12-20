@@ -8,20 +8,34 @@
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 #include "Pool.h"
+#include "Zombie_BT_Attack2.h"
+#include "Common_BT_Attack1.h"
+#include "Common_BT_Chase.h"
+#include "Common_BT_DamageLeft.h"
+#include "Common_BT_DamageRight.h"
+#include "Common_BT_Dead.h"
+#include "Common_BT_Idle.h"
+#include "Common_BT_BattleIdle.h"
+#include "Common_BT_Move.h"
+#include "Common_BT_Spawn.h"
+#include "BT_Composite.h"
+#include "BehaviorTree.h"
 
 
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject(pDevice, pContext, L"Boss", OBJ_TYPE::BOSS)
+	: CMonster(pDevice, pContext)
 {
 }
 
 CBoss::CBoss(const CBoss& rhs)
-	: CGameObject(rhs)
+	: CMonster(rhs)
 {
 }
 
 HRESULT CBoss::Initialize_Prototype()
 {
+	m_strObjectTag = L"Boss";
+	m_iObjType = OBJ_TYPE::BOSS;
     return S_OK;
 }
 
@@ -42,24 +56,30 @@ HRESULT CBoss::Initialize(void* pArg)
 
 	m_tCullingSphere.Radius = 2.0f;
 
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+
+	m_pRigidBody->SetMass(2.0f);
+
+
     return S_OK;
 }
 
 void CBoss::Tick(_float fTimeDelta)
 {
-	if (m_fVoiceSoundDelay > 0.0f)
-	{
-		m_fVoiceSoundDelay = max(m_fVoiceSoundDelay - fTimeDelta, 0.0f);
-	}
-
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-
-	m_pRigidBody->Tick(fTimeDelta);
+	if (!m_bDie)
+		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
 void CBoss::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, m_fStopDistanceRootAnim);
+	}
 
 	if (nullptr == m_pRendererCom)
 		return;
@@ -204,16 +224,8 @@ void CBoss::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
 }
 
-_bool CBoss::Stop_VoiceSound()
-{
-	if (m_fVoiceSoundDelay == 0.0f)
-	{
-		CGameInstance::GetInstance()->Find_Stop_Sound(m_VoiceSoundKey);
-		return true;
-	}
 
-	return false;
-}
+
 
 void CBoss::Set_Die()
 {
@@ -326,6 +338,14 @@ void CBoss::CullingObject()
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 	}
 		
+}
+
+HRESULT CBoss::Ready_BehaviourTree()
+{
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CBoss::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

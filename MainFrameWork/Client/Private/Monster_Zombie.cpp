@@ -48,7 +48,6 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
-	
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -56,6 +55,7 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
+	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"respawn_1"));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
@@ -75,12 +75,16 @@ void CMonster_Zombie::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
+
 }
 
 void CMonster_Zombie::LateTick(_float fTimeDelta)
 {
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 	if (nullptr == m_pRendererCom)
 		return;
 
