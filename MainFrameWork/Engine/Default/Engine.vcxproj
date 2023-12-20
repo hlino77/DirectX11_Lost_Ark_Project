@@ -185,6 +185,7 @@
     <ClInclude Include="..\Public\Component_Manager.h" />
     <ClInclude Include="..\Public\ConstantBuffer.h" />
     <ClInclude Include="..\Public\CoreTLS.h" />
+    <ClInclude Include="..\Public\Delegate.h" />
     <ClInclude Include="..\Public\Event.h" />
     <ClInclude Include="..\Public\EventMgr.h" />
     <ClInclude Include="..\Public\GameObject.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="..\Private\Component_Manager.cpp" />
     <ClCompile Include="..\Private\ConstantBuffer.cpp" />
     <ClCompile Include="..\Private\CoreTLS.cpp" />
+    <ClCompile Include="..\Private\Delegate.cpp" />
     <ClCompile Include="..\Private\Event.cpp" />
     <ClCompile Include="..\Private\EventMgr.cpp" />
     <ClCompile Include="..\Private\GameObject.cpp" />

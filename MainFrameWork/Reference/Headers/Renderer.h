@@ -193,12 +193,6 @@ private:
 	_float m_fSampleRatio4x4 = 4.f;
 	_float m_fSampleRatio16x16 = 24.f;
 	_float m_fSampleRatio64x64 = 144.f;
-	/*_float m_fSampleRatio2x2 = 2.f;
-	_float m_fSampleRatio4x4 = 4.f;
-	_float m_fSampleRatio8x8 = 8.f;
-	_float m_fSampleRatio16x16 = 16.f;
-	_float m_fSampleRatio32x32 = 32.f;*/
-
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

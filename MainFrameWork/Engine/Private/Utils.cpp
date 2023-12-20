@@ -1,4 +1,5 @@
 #include "../Public/Utils.h"
+
 IMPLEMENT_SINGLETON(CUtils)
 
 CUtils::CUtils()

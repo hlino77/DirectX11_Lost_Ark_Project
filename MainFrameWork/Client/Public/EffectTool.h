@@ -30,6 +30,7 @@ private:
 
 private:
 	void	InfoView();
+	void	Categories();
 	void	TreeGroups();
 
 	void	Tex_Mask();
@@ -42,7 +43,13 @@ private:
 	HRESULT	LoadTextures();
 
 private:
+	_int					m_iCurrentEffectType = 0;
+	const _char*			m_szCurrentCategory = nullptr;
 	_int					m_Item_Current = 0;
+
+	vector<const _char*>	m_vecMeshCategories;
+	vector<const _char*>	m_vecTextureCategories;
+
 
 	vector<const _char*>	m_vecMeshes;
 

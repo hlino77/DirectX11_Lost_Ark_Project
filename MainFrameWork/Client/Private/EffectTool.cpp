@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 CEffectTool::CEffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:Super(pDevice, pContext)
 {
-	//m_pUtils = GET_INSTANCE(CUtils);
+	m_pUtils = GET_INSTANCE(CUtils);
 }
 
 HRESULT CEffectTool::Initialize(void* pArg)
@@ -68,6 +68,28 @@ void CEffectTool::InfoView()
 	const POINT& p = m_pGameInstance->GetMousePos();
 	ImGui::Text("Mouse Viewport Position : %d, %d", p.x, p.y);
 	ImGui::NewLine();
+
+	ImGui::RadioButton("Mesh", &m_iCurrentEffectType, 0); ImGui::SameLine();
+	ImGui::RadioButton("Texture", &m_iCurrentEffectType, 1);
+}
+
+void CEffectTool::Categories()
+{
+	if (!m_iCurrentEffectType)
+	{
+		if (ImGui::BeginCombo("Mesh Categoryies", m_szCurrentCategory))
+		{
+			for (int n = 0; n < m_vecMeshCategories.size(); ++n)
+			{
+				_bool isSelected = (m_szCurrentCategory == m_vecMeshCategories[n]); // You can store your selection however you want, outside or inside your objects
+				if (ImGui::Selectable(m_vecMeshCategories[n], isSelected))
+					m_szCurrentCategory = m_vecMeshCategories[n];
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+			}
+			ImGui::EndCombo();
+		}
+	}
 }
 
 void CEffectTool::TreeGroups()
@@ -239,7 +261,7 @@ HRESULT CEffectTool::LoadMeshes()
 		{
 			if (entry.is_directory())
 			{
-				//s2cPushBack(m_vecCategories, m_pUtils->ToString(entry.path().stem()));
+				s2cPushBack(m_vecMeshCategories, entry.path().stem().generic_string());
 			}
 		}
 	}
@@ -281,5 +303,5 @@ CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 void CEffectTool::Free()
 {
 	Super::Free();
-	//RELEASE_INSTANCE(CUtils);
+	RELEASE_INSTANCE(CUtils);
 }
