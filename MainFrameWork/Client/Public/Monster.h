@@ -96,6 +96,13 @@ public:
 	void					Set_NoticeRange(_float fNoticeRange) { m_fNoticeRange = fNoticeRange; }
 	_float					Get_NoticeRange() { return m_fNoticeRange; }
 
+	void					Set_Colliders(_float fTimeDelta);
+	void					Set_Collider_Active(_uint eColliderType,_bool IsActive);
+	void					Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRadius);
+
+	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
+	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
+
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI();
@@ -113,6 +120,8 @@ protected:
 	_float							m_fAttackRange = 1.f;
 	_float							m_fNoticeRange = 20.f;
 	_float							m_fTimeCount = 0.f;
+	_uint							m_iBasicAttackStartFrame = 0;
+	_uint							m_iBasicAttackEndFrame = 0;
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;

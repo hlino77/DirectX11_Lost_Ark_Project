@@ -72,25 +72,7 @@ HRESULT CWeapon_Mn_Reaper::Render()
 
 HRESULT CWeapon_Mn_Reaper::Render_ShadowDepth()
 {
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
-		return E_FAIL;
-
-	GlobalDesc gDesc = {
-		m_pGameInstance->Get_DirectionLightMatrix(),
-		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		m_pGameInstance->Get_LightViewProjMatrix(),
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
-		return E_FAIL;
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
-			return S_OK;
-	}
+	__super::Render_ShadowDepth();
 
 	return S_OK;
 }

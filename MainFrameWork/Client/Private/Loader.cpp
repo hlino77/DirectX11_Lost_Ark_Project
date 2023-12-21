@@ -68,6 +68,9 @@
 #include "Weapon_Boss_King.h"
 #include "Weapon_Mn_Reaper.h"
 #include "Boss_King.h"
+#include <Monster_Pawn.h>
+#include <Weapon_Mn_PawnShield.h>
+#include <Weapon_Mn_PawnSword.h>
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -515,6 +518,15 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_King"),
 		CWeapon_Boss_King::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Pawn"),
+		CMonster_Pawn::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnShield"),
+		CWeapon_Mn_PawnShield::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnSword"),
+		CWeapon_Mn_PawnSword::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -976,7 +988,38 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			return E_FAIL;
 		pUIManager->Loading_UI(1500.f);
 	}
+	{
 
+		wstring strFileName = L"Monster_Pawn";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+
+	{
+		wstring strFileName = L"Weapon_Mn_PawnShield";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+	{
+		wstring strFileName = L"Weapon_Mn_PawnSword";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1600.f);
+	}
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

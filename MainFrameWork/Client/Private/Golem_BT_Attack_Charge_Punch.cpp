@@ -16,7 +16,7 @@ void CGolem_BT_Attack_Charge_Punch::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeDelta)
 {
-	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[3].first.iAnimIndex && m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[0].first.iAnimIndex)
+	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[0].iAnimIndex)
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	return __super::OnUpdate(fTimeDelta);

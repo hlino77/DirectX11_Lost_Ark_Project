@@ -5,13 +5,13 @@
 
 BEGIN(Server)
 
-class CPlant_BT_Attack_Shake_Server :
+class CPawn_BT_Attack2_Server :
     public CBT_Action
 {
 private:
-    CPlant_BT_Attack_Shake_Server();
-    CPlant_BT_Attack_Shake_Server(const CPlant_BT_Attack_Shake_Server& rhs) = delete;
-    virtual ~CPlant_BT_Attack_Shake_Server() =  default;
+    CPawn_BT_Attack2_Server();
+    CPawn_BT_Attack2_Server(const CPawn_BT_Attack2_Server& rhs) = delete;
+    virtual ~CPawn_BT_Attack2_Server() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -19,7 +19,7 @@ private:
 
 
 public:
-    static	CPlant_BT_Attack_Shake_Server* Create(void* pArg);
+    static	CPawn_BT_Attack2_Server* Create(void* pArg);
     virtual void Free() override;
 };
 

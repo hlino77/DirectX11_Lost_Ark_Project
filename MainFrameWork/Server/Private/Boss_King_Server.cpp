@@ -132,6 +132,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -186,7 +187,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.fChangeTime = 60.f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Respawn";
@@ -287,12 +288,12 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.strAnimName = TEXT("att_battle_3_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
@@ -308,13 +309,13 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_4_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
@@ -324,13 +325,13 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_02");
-	AnimationDesc.iStartFrame = 60;
-	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 

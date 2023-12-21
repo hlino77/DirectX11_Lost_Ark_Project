@@ -3,6 +3,9 @@
 #include "Monster.h"
 #include "Transform.h"
 #include "Model.h"
+#include "ColliderSphere.h"
+#include "ColliderOBB.h"
+
 CGhoul_BT_Attack_3::CGhoul_BT_Attack_3()
 {
 }
@@ -16,8 +19,23 @@ void CGhoul_BT_Attack_3::OnStart()
 
 CBT_Node::BT_RETURN CGhoul_BT_Attack_3::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_SUCCESS;
+	static_cast<CMonster*>(m_pGameObject)->Set_AttackRange(0);
+	if (25 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
+	{
+		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, true);
+		CSphereCollider* pCollider = m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER);
+		pCollider->Set_Radius(0.5f);
+		pCollider->SetActive(true);
+		pCollider->Set_Offset(Vec3(0.0f, 0.7f, 0.3f));
+		pCollider->Get_Child()->SetActive(false);
+		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
+		pChildCollider->Set_Scale(Vec3(0.4f, 0.4f, 0.4f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.7f, 0.3f));
+	}
+	if (59 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
+		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
 	return BT_RUNNING;
 }
 

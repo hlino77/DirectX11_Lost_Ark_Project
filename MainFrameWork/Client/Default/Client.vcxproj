@@ -206,6 +206,8 @@
     <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Erruption.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Monster_Pawn.h" />
+    <ClInclude Include="..\Public\Pawn_BT_Attack2.h" />
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\State_GN_DeadHard_Loop.h" />
     <ClInclude Include="..\Public\State_GN_DeadHard_Start.h" />
@@ -281,8 +283,6 @@
     <ClInclude Include="..\Public\Monster_Plant.h" />
     <ClInclude Include="..\Public\Monster_Ghoul.h" />
     <ClInclude Include="..\Public\Monster_Zombie.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\Player_Gunslinger.h" />
@@ -347,6 +347,8 @@
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
+    <ClInclude Include="..\Public\Weapon_Mn_PawnShield.h" />
+    <ClInclude Include="..\Public\Weapon_Mn_PawnSword.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Weapon_Mn_Reaper.h" />
@@ -390,6 +392,8 @@
     <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Monster_Pawn.cpp" />
+    <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp" />
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Private\State_GN_DeadHard_Loop.cpp" />
     <ClCompile Include="..\Private\State_GN_DeadHard_Start.cpp" />
@@ -460,8 +464,6 @@
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\Monster_Plant.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\Player_Gunslinger.cpp" />
@@ -530,6 +532,8 @@
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
+    <ClCompile Include="..\Private\Weapon_Mn_PawnShield.cpp" />
+    <ClCompile Include="..\Private\Weapon_Mn_PawnSword.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />

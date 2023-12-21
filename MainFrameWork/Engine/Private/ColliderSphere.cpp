@@ -158,8 +158,19 @@ void CSphereCollider::Set_Center_ToBone()
 	Matrix matBone = m_pOwner->Get_ModelCom()->Get_CurrBoneMatrix(m_iBoneIndex);
 
 	Matrix matResult = matBone * matOwnerWolrd;
-
-	m_tBoundingSphere.Center = Vec3(matResult.m[3]);
+	if (m_vOffset != Vec3(0.0f, 0.0f, 0.0f))
+	{
+		Vec3 vPos(0.0f, 0.0f, 0.0f);
+		vPos = XMVector3TransformNormal(m_vOffset, matResult);
+		vPos.Normalize();
+		vPos *= m_vOffset.Length();
+		vPos += Vec3(matResult.m[3]);
+		m_tBoundingSphere.Center = vPos;
+	}
+	else
+	{
+		m_tBoundingSphere.Center = Vec3(matResult.m[3]);
+	}
 }
 
 

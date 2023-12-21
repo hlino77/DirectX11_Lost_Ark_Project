@@ -122,6 +122,14 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 				m_bKey_Lock = true;
 				Broadcast_Boss( L"King", MonsterPos);
 			}
+
+			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('7') & 0x8000)
+			{
+				if (m_bKey_Lock)
+					return S_OK;
+				m_bKey_Lock = true;
+				Broadcast_Monster( MonsterPos, L"Pawn");
+			}
 			else
 				m_bKey_Lock = false;
 

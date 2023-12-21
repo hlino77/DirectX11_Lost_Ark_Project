@@ -14,7 +14,7 @@ void CCommon_BT_DamageRight::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_DamageRight::OnUpdate(const _float& fTimeDelta)
 {
 	
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_FAIL;
 
 	return BT_RUNNING;

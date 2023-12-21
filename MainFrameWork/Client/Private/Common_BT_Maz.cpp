@@ -14,10 +14,9 @@ void CCommon_BT_Maz::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_Maz::OnUpdate(const _float& fTimeDelta)
 {
 	
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
-		return BT_FAIL;
+	
 
-	return BT_RUNNING;
+	return OnUpdate(fTimeDelta);
 }
 
 void CCommon_BT_Maz::OnEnd()

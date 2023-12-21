@@ -5,6 +5,7 @@
 #include "ServerSession.h"
 #include "Camera_Player.h"
 #include "AsUtils.h"
+#include "CollisionManager.h"
 #include "ColliderSphere.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
@@ -22,8 +23,6 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
-#include <Plant_BT_Attack_Root.h>
-#include <Plant_BT_Attack_Shake.h>
 
 CMonster_Plant::CMonster_Plant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -66,6 +65,8 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(5.f);
 
+	m_iBasicAttackStartFrame = 25;
+	m_iBasicAttackEndFrame = 35;
 
     return S_OK;
 }
@@ -88,7 +89,7 @@ void CMonster_Plant::LateTick(_float fTimeDelta)
 	}
 	if (nullptr == m_pRendererCom)
 		return;
-
+	Set_Colliders(fTimeDelta);
 	CullingObject();
 }
 
@@ -225,6 +226,24 @@ HRESULT CMonster_Plant::Ready_Components()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
 	}
 
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
+	}
+
+	{
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(1.3f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 1.3f, 0.0f));
+
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(1.1f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 1.1f, 0.5f));
+	}
+
 
 
 	Safe_Release(pGameInstance);
@@ -298,26 +317,6 @@ HRESULT CMonster_Plant::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CPlant_BT_Attack_Shake::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CPlant_BT_Attack_Root::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();

@@ -13,6 +13,7 @@ public:
 		_float fChangeTime;
 		_uint iStartFrame; 
 		_uint iChangeFrame;
+		_float fAnimSpeed = 1.2f;
 		_float fRootDist = 1.5f;
 	}ANIMATION_DESC;
 
@@ -40,7 +41,7 @@ public:
 
 protected:
 	_int						m_iCurrAnimation = 0;
-	vector<pair<ANIMATION_DESC, _uint>>	m_vecAnimIndexFrame;
+	vector<ANIMATION_DESC>	m_vecAnimIndexFrame;
 	_float						m_fFrame = 0.f;
 	_bool						m_bSoundOn = false;
 	wstring						m_strActionName;
