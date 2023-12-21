@@ -55,6 +55,23 @@ void CProjectile::Tick(_float fTimeDelta)
 
 void CProjectile::LateTick(_float fTimeDelta)
 {
+	if (m_bEnd)
+	{
+		m_fCurrTime -= fTimeDelta;
+		if (m_fCurrTime < 0.0f)
+		{
+			for (_uint i = 0; i < COLEND; ++i)
+			{
+				if (m_bColliderOut[i])
+					CCollisionManager::GetInstance()->Out_Colider(m_AttackCollider[i]);
+			}
+
+
+			Set_Active(false);
+			CPool<CProjectile>::Return_Obj(this);
+		}
+	}
+
 	m_fCurrTime += fTimeDelta;
 	if (m_fCurrTime >= m_fActiveTime)
 	{
@@ -90,21 +107,22 @@ void CProjectile::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 }
 
 
-void CProjectile::Shoot(_float fActiveTime, _bool bSphere, _bool bOBB)
+void CProjectile::Shoot(_float fActiveTime)
 {
+	m_bEnd = false;
 	m_fActiveTime = fActiveTime;
 	m_fCurrTime = 0.0f;
-	
-	if (bSphere)
-	{
-		m_AttackCollider[ATTACKCOLLIDER::SPHERE]->Update_Collider();
-		m_AttackCollider[ATTACKCOLLIDER::SPHERE]->SetActive(true);
-	}
 
-	if (bOBB)
+
+	for (_uint i = 0; i < COLEND; ++i)
 	{
-		m_AttackCollider[ATTACKCOLLIDER::OBB]->Update_Collider();
-		m_AttackCollider[ATTACKCOLLIDER::OBB]->SetActive(true);
+		m_bColliderOut[i] = false;
+		if (m_AttackCollider[i]->IsActive())
+		{
+			m_AttackCollider[i]->Update_Collider();
+			CCollisionManager::GetInstance()->Add_Colider(m_AttackCollider[i]);
+			m_bColliderOut[i] = true;
+		}
 	}
 
 	Set_Active(true);
@@ -119,8 +137,7 @@ void CProjectile::AttackEnd()
 			Collider->SetActive(false);
 		}
 	}
-	Set_Active(false);
-	CPool<CProjectile>::Return_Obj(this);
+	m_bEnd = true;
 }
 
 HRESULT CProjectile::Ready_Components()

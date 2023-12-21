@@ -37,7 +37,6 @@ private:
 	HRESULT Ready_Layer_UI(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_Effect(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Player_Camera(const LAYER_TYPE eLayerType);
-	HRESULT Ready_Projectiles();
 
 	HRESULT Send_UserInfo();
 private:

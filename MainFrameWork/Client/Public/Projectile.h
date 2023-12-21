@@ -39,7 +39,7 @@ public:
 
 	CSphereCollider* Get_Collider(ATTACKCOLLIDER eCollider) { return m_AttackCollider[eCollider]; }
 
-	void	Shoot(_float fActiveTime, _bool bSphere, _bool bOBB);
+	void	Shoot(_float fActiveTime);
 	void	AttackEnd();
 
 public:
@@ -56,7 +56,9 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	_float m_fActiveTime = 0.0f;
 	_float m_fCurrTime = 0.0f;
 
+	_bool m_bEnd = false;
 
+	_bool m_bColliderOut[COLEND];
 	CSphereCollider* m_AttackCollider[COLEND];
 
 public:
