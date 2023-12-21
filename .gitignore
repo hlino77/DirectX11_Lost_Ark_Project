@@ -449,3 +449,10 @@ FodyWeavers.xsd
 *.ini
 MainFrameWork/CopyDebug.bat
 MainFrameWork/CopyRelease.bat
+/MainFrameWork/Client/Public/ImGUI/color_node_editor.cpp
+/MainFrameWork/Client/Public/ImGUI/graph.h
+/MainFrameWork/Client/Public/ImGUI/hello.cpp
+/MainFrameWork/Client/Public/ImGUI/main.cpp
+/MainFrameWork/Client/Public/ImGUI/multi_editor.cpp
+/MainFrameWork/Client/Public/ImGUI/node_editor.h
+/MainFrameWork/Client/Public/ImGUI/save_load.cpp
