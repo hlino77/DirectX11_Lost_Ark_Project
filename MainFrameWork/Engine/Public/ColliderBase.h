@@ -46,6 +46,7 @@ public:
 	_uint			GetID()						{ return m_iID; }
 	CRigidBody*		GetRigidBody()				{ return m_pRigidBody; }
 	_uint			Get_ColLayer()				{ return m_iColLayer; }
+	void			Set_ColLayer(_uint iLayer)	{ m_iColLayer = iLayer; }
 	CGameObject*	Get_Owner()					{ return m_pOwner; }
 
 	_bool			IsTrigger()					{ return m_IsTrigger; }

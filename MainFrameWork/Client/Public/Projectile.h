@@ -22,8 +22,6 @@ protected:
 	CProjectile(const CProjectile& rhs);
 	virtual ~CProjectile() = default;
 
-
-
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -49,8 +47,6 @@ public:
 
 protected:
 	virtual HRESULT			Ready_Components();
-
-
 
 protected:
 	CRenderer*						m_pRendererCom = nullptr;
