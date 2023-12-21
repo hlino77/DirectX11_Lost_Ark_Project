@@ -1,18 +1,16 @@
 #include "stdafx.h"
 #include "GameInstance.h"
-#include "Monster_Ghoul.h"
+#include "Monster_Pawn.h"
 #include "ServerSessionManager.h"
 #include "ServerSession.h"
 #include "Camera_Player.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
-#include "ColliderOBB.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
-#include "CollisionManager.h"
 #include "Pool.h"
-#include "Zombie_BT_Attack2.h"
 #include "Common_BT_Attack1.h"
+#include "Zombie_BT_Attack2.h"
 #include "Common_BT_Chase.h"
 #include "Common_BT_DamageLeft.h"
 #include "Common_BT_DamageRight.h"
@@ -24,34 +22,33 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
-#include <Ghoul_BT_Attack_1.h>
-#include <Ghoul_BT_Attack_2.h>
-#include <Ghoul_BT_Attack_3.h>
+#include "Pawn_BT_Attack2.h"
+#include "PartObject.h"
 
-
-
-CMonster_Ghoul::CMonster_Ghoul(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Pawn::CMonster_Pawn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
 }
 
-CMonster_Ghoul::CMonster_Ghoul(const CMonster_Ghoul& rhs)
+CMonster_Pawn::CMonster_Pawn(const CMonster_Pawn& rhs)
 	: CMonster(rhs)
 {
 }
 
-HRESULT CMonster_Ghoul::Initialize_Prototype()
+HRESULT CMonster_Pawn::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CMonster_Ghoul::Initialize(void* pArg)
+HRESULT CMonster_Pawn::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
+	m_tCullingSphere.Radius = 1.5f;
+	m_tCullingSphere.Center = Vec3(0.f, 1.5f,0.f );
 	
 
 	if (FAILED(Ready_Components()))
@@ -59,48 +56,56 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
 
-	m_vecAttackRanges.push_back(1.5f);
-	m_vecAttackRanges.push_back(1.5f);
+	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(5.f);
 
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
+	m_iBasicAttackStartFrame = 15;
+	m_iBasicAttackEndFrame = 27;
 
     return S_OK;
 }
 
-void CMonster_Ghoul::Tick(_float fTimeDelta)
+void CMonster_Pawn::Tick(_float fTimeDelta)
 {
-
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
+
+	if (m_pSword != nullptr)
+		m_pSword->Tick(fTimeDelta);
+	if (m_pShield != nullptr)
+		m_pShield->Tick(fTimeDelta);
 }
 
-void CMonster_Ghoul::LateTick(_float fTimeDelta)
+void CMonster_Pawn::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.5f);
+		Set_to_RootPosition(fTimeDelta, 0.f);
 	}
-	if (nullptr == m_pRendererCom)
-		return;
-
-	CullingObject();
 
 	Set_Colliders(fTimeDelta);
+	if (nullptr == m_pRendererCom)
+		return;
+	CullingObject();
+	if (m_pSword != nullptr)
+		m_pSword->LateTick(fTimeDelta);
+	if (m_pShield != nullptr)
+		m_pShield->LateTick(fTimeDelta);
 }
 
-HRESULT CMonster_Ghoul::Render()
+
+HRESULT CMonster_Pawn::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -114,10 +119,10 @@ HRESULT CMonster_Ghoul::Render()
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
 
-    return S_OK;
+	return S_OK;
 }
 
-HRESULT CMonster_Ghoul::Render_ShadowDepth()
+HRESULT CMonster_Pawn::Render_ShadowDepth()
 {
 	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
@@ -128,11 +133,6 @@ HRESULT CMonster_Ghoul::Render_ShadowDepth()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
-
-			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-				return E_FAIL;*/
 
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
@@ -142,29 +142,8 @@ HRESULT CMonster_Ghoul::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CMonster_Ghoul::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-	if(pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack -> ENTER" << endl;
 
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body -> ENTER" << endl;
-}
-
-void CMonster_Ghoul::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CMonster_Ghoul::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack ->EXIT" << endl;
-
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body ->EXIT" << endl;
-}
-
-void CMonster_Ghoul::Set_SlowMotion(_bool bSlow)
+void CMonster_Pawn::Set_SlowMotion(_bool bSlow)
 {
 	if (bSlow)
 	{
@@ -191,7 +170,9 @@ void CMonster_Ghoul::Set_SlowMotion(_bool bSlow)
 	}
 }
 
-HRESULT CMonster_Ghoul::Ready_Components()
+
+
+HRESULT CMonster_Pawn::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -223,7 +204,7 @@ HRESULT CMonster_Ghoul::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), TEXT("Prototype_Component_Model_Monster_Ghoul"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), TEXT("Prototype_Component_Model_Monster_Pawn"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 
@@ -248,34 +229,39 @@ HRESULT CMonster_Ghoul::Ready_Components()
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 		if (pCollider)
-		{
-			{
-				CCollider::ColliderInfo tChildColliderInfo;
-				tChildColliderInfo.m_bActive = false;
-				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				COBBCollider* pChildCollider = nullptr;
-
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderAttackChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-					return E_FAIL;
-
-				pCollider->Set_Child(pChildCollider);
-			}
-
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
-		}
 	}
 
-
-
-	for (auto& Collider : m_Coliders)
 	{
-		if (Collider.second)
-		{
-			CCollisionManager::GetInstance()->Add_Colider( Collider.second);
-		}
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(1.3f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 1.3f, 0.0f));
+
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(1.1f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 1.1f, 0.5f));
 	}
 
-
+	CPartObject::PART_DESC			PartDesc_Weapon;
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("bip001-prop2"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	m_pShield = dynamic_cast<CPartObject*>( pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Weapon_Mn_PawnShield"), &PartDesc_Weapon));
+	if (nullptr == m_pShield)
+		return E_FAIL;
+	PartDesc_Weapon = {};
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_2;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("bip001-prop1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	m_pSword = dynamic_cast<CPartObject*>(pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Weapon_Mn_PawnSword"), &PartDesc_Weapon));
+	if (nullptr == m_pSword)
+		return E_FAIL;
 	Safe_Release(pGameInstance);
 
 	Vec3 vScale;
@@ -288,11 +274,12 @@ HRESULT CMonster_Ghoul::Ready_Components()
     return S_OK;
 }
 
-HRESULT CMonster_Ghoul::Ready_BehaviourTree()
+HRESULT CMonster_Pawn::Ready_BehaviourTree()
 {
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
 		return E_FAIL;
+
 
 	CBT_Action::ACTION_DESC ActionDesc = {};
 	ActionDesc.pBehaviorTree = m_pBehaviorTree;
@@ -303,14 +290,12 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = 1.5f;
-	ActionDesc.strActionName = L"Action_Dead";
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
-
 	ActionDesc.vecAnimations.clear();
-
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -320,7 +305,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -329,26 +314,18 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
 
-
 	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("respawn_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Respawn";
-	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
-
-
+	ActionDesc.strActionName = L"Action_Attack1";
+	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -358,7 +335,17 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Attack2";
+	CBT_Action* pAttack2 = CPawn_BT_Attack2::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -373,6 +360,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -382,6 +370,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -390,8 +379,9 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Idle_1";
 	CBT_Action* pIdle_1 = CCommon_BT_Idle::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc = {};
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -401,103 +391,51 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	CBT_Action* pMove = CCommon_BT_Move::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_2_start");
+	AnimationDesc.strAnimName = TEXT("respawn_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_2_loop");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_2_end");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 1.3f;
-	CBT_Action* pAttack2 = CGhoul_BT_Attack_1::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CGhoul_BT_Attack_2::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Respawn";
+	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_4");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack4";
-	CBT_Action* pAttack4 = CGhoul_BT_Attack_3::Create(&ActionDesc);
 	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
-
 	return S_OK;
 }
 
 
-
-HRESULT CMonster_Ghoul::Ready_Coliders()
+CMonster_Pawn* CMonster_Pawn::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(0.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
-
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(0.65f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.95f, 0.8f));
-
-	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Get_Child());
-	pChildCollider->Set_Scale(Vec3(0.1f, 0.1f, 0.6f));
-	pChildCollider->Set_Offset(Vec3(0.0f, 0.95f, 0.8f));
-	pChildCollider->SetActive(false);
-	return S_OK;
-}
-
-void CMonster_Ghoul::Set_Colliders(_float fTimeDelta)
-{
-	for (auto& Collider : m_Coliders)
-	{
-		if(Collider.second->IsActive())
-			Collider.second->Update_Collider();
-	}
-}
-
-CMonster_Ghoul* CMonster_Ghoul::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-	CMonster_Ghoul* pInstance = new CMonster_Ghoul(pDevice, pContext);
+	CMonster_Pawn* pInstance = new CMonster_Pawn(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CMonster_Ghoul");
+		MSG_BOX("Failed To Created : CMonster_Pawn");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster_Ghoul::Clone(void* pArg)
+CGameObject* CMonster_Pawn::Clone(void* pArg)
 {
-	CMonster_Ghoul* pInstance = new CMonster_Ghoul(*this);
+	CMonster_Pawn* pInstance = new CMonster_Pawn(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CMonster_Ghoul");
+		MSG_BOX("Failed To Cloned : CMonster_Pawn");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonster_Ghoul::Free()
+void CMonster_Pawn::Free()
 {
 	__super::Free();
 

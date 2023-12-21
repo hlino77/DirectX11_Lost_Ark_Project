@@ -14,7 +14,7 @@ void CCommon_BT_BattleIdle::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_BattleIdle::OnUpdate(const _float& fTimeDelta)
 {
 
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_SUCCESS;
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	return BT_RUNNING;

@@ -19,7 +19,7 @@ CBT_Node::BT_RETURN CCommon_BT_Idle_Server::OnUpdate(const _float& fTimeDelta)
 		return BT_FAIL;
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < 10.f && !static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_SUCCESS;
 
 	return BT_RUNNING;

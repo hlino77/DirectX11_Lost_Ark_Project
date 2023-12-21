@@ -19,10 +19,10 @@ CBT_Node::BT_RETURN CReaper_BT_Attack2_Server::OnUpdate(const _float& fTimeDelta
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
-		return BT_SUCCESS;
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[0].iAnimIndex)
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
-	return BT_RUNNING;
+	return __super::OnUpdate(fTimeDelta);
 }
 
 void CReaper_BT_Attack2_Server::OnEnd()

@@ -25,6 +25,7 @@
 #include <Golem_BT_Attack_Charge_Punch.h>
 #include <Golem_BT_Attack_Dash.h>
 #include <Golem_BT_Chase.h>
+#include "CollisionManager.h"
 
 CMonster_Golem::CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -76,22 +77,22 @@ void CMonster_Golem::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
-	//if (!m_bDie)
-	//	m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	//m_fPositionTimeAcc += fTimeDelta;
+	if (!m_bDie)
+		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
+	m_fPositionTimeAcc += fTimeDelta;
 
-	//if (m_fPositionTimeAcc > 0.5f)
-	//{
-	//	m_fPositionTimeAcc = 0.f;
-	//}
-	//m_vecAttackRanges.push_back(2.5f);
-	//m_vecAttackRanges.push_back(2.5f);
-	//m_fAttackRange = m_vecAttackRanges[0];
-	//m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	//m_PlayAnimation.get();
-	//Set_to_RootPosition(fTimeDelta);
+	if (m_fPositionTimeAcc > 0.5f)
+	{
+		m_fPositionTimeAcc = 0.f;
+	}
+	m_vecAttackRanges.push_back(2.5f);
+	m_vecAttackRanges.push_back(2.5f);
+	m_fAttackRange = m_vecAttackRanges[0];
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	m_PlayAnimation.get();
+	Set_to_RootPosition(fTimeDelta);
 
-	//m_fNoticeRange = 20.f;
+	m_fNoticeRange = 20.f;
 
 	
 }
@@ -103,6 +104,7 @@ void CMonster_Golem::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, 0.f);
 	}
+	Set_Colliders(fTimeDelta);
 	if (nullptr == m_pRendererCom)
 		return;
 	CullingObject();
@@ -217,29 +219,47 @@ HRESULT CMonster_Golem::Ready_Components()
 		return E_FAIL;
 
 
-	//{
-	//	CCollider::ColliderInfo tColliderInfo;
-	//	tColliderInfo.m_bActive = true;
-	//	tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
-	//	CSphereCollider* pCollider = nullptr;
+	{
+		CCollider::ColliderInfo tColliderInfo;
+		tColliderInfo.m_bActive = true;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER;
+		CSphereCollider* pCollider = nullptr;
 
-	//	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
-	//		return E_FAIL;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
+			return E_FAIL;
 
-	//	m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
-	//}
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pCollider);
+	}
 
-	//{
-	//	CCollider::ColliderInfo tColliderInfo;
-	//	tColliderInfo.m_bActive = false;
-	//	tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
-	//	CSphereCollider* pCollider = nullptr;
+	{
+		CCollider::ColliderInfo tColliderInfo;
+		tColliderInfo.m_bActive = false;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER;
+		CSphereCollider* pCollider = nullptr;
 
-	//	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-	//		return E_FAIL;
-	//	if (pCollider)
-	//		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
-	//}
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
+			return E_FAIL;
+		if (pCollider)
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
+	}
+
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
+	}
+
+	{
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(1.3f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 1.3f, 0.0f));
+
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(1.1f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 1.1f, 0.5f));
+	}
 
 
 
@@ -281,6 +301,11 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Respawn";
 	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
@@ -425,7 +450,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	CBT_Action* pBash = CGolem_BT_Attack_Dash::Create(&ActionDesc);
 
 	m_pModelCom->Set_Anim_Speed(34, 1.5f);
-	m_pBehaviorTree->Init_PreviousAction(L"Action_Idle_0");
+	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
 	return S_OK;
 }
 

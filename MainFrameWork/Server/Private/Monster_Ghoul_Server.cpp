@@ -94,7 +94,6 @@ void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
 {
 	m_PlayAnimation.get();
-
 	Set_to_RootPosition(fTimeDelta, 0.5f);
 
 
@@ -275,14 +274,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIf_Far = CCommon_BT_IF_Far_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 	if (FAILED(pIf_Far->AddChild(pChase))) return E_FAIL;
 
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CCommon_BT_Attack1_Server::Create(&ActionDesc);
+
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_2_start");
@@ -334,8 +326,6 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack4)))
 		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
 
 
 	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
@@ -348,6 +338,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);

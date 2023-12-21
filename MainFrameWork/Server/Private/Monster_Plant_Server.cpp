@@ -9,8 +9,6 @@
 #include "NavigationMgr.h"
 #include "Skill_Server.h"
 #include "Common_BT_Attack1_Server.h"
-#include "Plant_BT_Attack_Root_Server.h"
-#include "Plant_BT_Attack_Shake_Server.h"
 #include "Common_BT_Chase_Server.h"
 #include "Common_BT_DamageLeft_Server.h"
 #include "Common_BT_DamageRight_Server.h"
@@ -197,6 +195,8 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -281,25 +281,6 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CPlant_BT_Attack_Shake_Server::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CPlant_BT_Attack_Root_Server::Create(&ActionDesc);
 
 
 
@@ -307,12 +288,6 @@ HRESULT CMonster_Plant_Server::Ready_BehaviourTree()
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
 
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
-
-	if (FAILED(pSequenceNear->AddChild(pAttack2)))
-		return E_FAIL;
-
-	if (FAILED(pSequenceNear->AddChild(pAttack3)))
 		return E_FAIL;
 
 	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?

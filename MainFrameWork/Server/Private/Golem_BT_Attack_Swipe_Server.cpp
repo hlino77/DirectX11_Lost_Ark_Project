@@ -20,7 +20,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe_Server::OnUpdate(const _float& fTimeD
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
-if(m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+if(m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_SUCCESS;
 
 	return BT_RUNNING;

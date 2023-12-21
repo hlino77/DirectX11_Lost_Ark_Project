@@ -16,7 +16,7 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDe
 {
 
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[1].first.iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[1].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	return  __super::OnUpdate(fTimeDelta);

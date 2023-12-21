@@ -17,9 +17,9 @@ void CGolem_BT_Attack_Dash_Server::OnStart()
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDelta)
 {
 
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[0].first.iAnimIndex)>0.8f)
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[0].iAnimIndex)>0.8f)
 		return BT_SUCCESS;
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].first.iAnimIndex) < 10)
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].iAnimIndex) < 10)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	return BT_RUNNING;

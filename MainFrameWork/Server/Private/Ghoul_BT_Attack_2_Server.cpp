@@ -16,7 +16,7 @@ void CGhoul_BT_Attack_2_Server::OnStart()
 
 CBT_Node::BT_RETURN CGhoul_BT_Attack_2_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].first.iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_SUCCESS;
 
 	return BT_RUNNING;

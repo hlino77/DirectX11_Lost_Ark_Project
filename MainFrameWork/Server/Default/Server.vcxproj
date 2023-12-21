@@ -179,12 +179,12 @@
     <ClCompile Include="..\Private\MainApp_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Ghoul_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Golem_Server.cpp" />
+    <ClCompile Include="..\Private\Monster_Pawn_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Reaper_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie_Server.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root_Server.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake_Server.cpp" />
+    <ClCompile Include="..\Private\Pawn_BT_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\Player_Server.cpp" />
     <ClCompile Include="..\Private\Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -244,14 +244,14 @@
     <ClInclude Include="..\Public\MainApp_Server.h" />
     <ClInclude Include="..\Public\Monster_Ghoul_Server.h" />
     <ClInclude Include="..\Public\Monster_Golem_Server.h" />
+    <ClInclude Include="..\Public\Monster_Pawn_Server.h" />
     <ClInclude Include="..\Public\Monster_Reaper_Server.h" />
     <ClInclude Include="..\Public\Monster_Plant_Server.h" />
     <ClInclude Include="..\Public\Monster_Server.h" />
     <ClInclude Include="..\Public\Monster_Zombie_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe_Server.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root_Server.h" />
+    <ClInclude Include="..\Public\Pawn_BT_Attack2_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump_Server.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake_Server.h" />
     <ClInclude Include="..\Public\Player_Server.h" />
     <ClInclude Include="..\Public\Protocol.pb.h" />
     <ClInclude Include="..\Public\Reaper_BT_Attack1_Server.h" />

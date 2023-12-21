@@ -15,10 +15,9 @@ void CCommon_BT_Spawn::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 {
 
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].first.iAnimIndex) == m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimIndexFrame[0].first.iAnimIndex) - 3)
-		return BT_FAIL;
 
-	return BT_RUNNING;
+
+	return __super::OnUpdate(fTimeDelta);
 }
 
 void CCommon_BT_Spawn::OnEnd()

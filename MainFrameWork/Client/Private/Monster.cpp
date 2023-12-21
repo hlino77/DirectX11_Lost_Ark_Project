@@ -344,6 +344,29 @@ void CMonster::Set_AttackRange(_int iRangeIndex)
 }
 
 
+void CMonster::Set_Colliders(_float fTimeDelta)
+{
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second->IsActive())
+			Collider.second->Update_Collider();
+	}
+}
+
+void CMonster::Set_Collider_Active(_uint eColliderType, _bool IsActive)
+{
+	if (m_Coliders.count(eColliderType) != 0)
+		m_Coliders[eColliderType]->SetActive(IsActive);
+}
+
+void CMonster::Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRadius)
+{
+	if (m_Coliders.count(eColliderType) != 0)
+	{
+		m_Coliders[eColliderType]->Set_Center(_vCenter);
+		m_Coliders[eColliderType]->Set_Radius(fRadius);
+	}
+}
 
 HRESULT CMonster::Ready_Components()
 {

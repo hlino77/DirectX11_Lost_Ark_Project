@@ -1,0 +1,34 @@
+#pragma once
+#include "Client_Defines.h"
+#include "PartObject.h"
+
+BEGIN(Client)
+
+class CWeapon_Mn_PawnShield final : public CPartObject
+{
+protected:
+	CWeapon_Mn_PawnShield(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CWeapon_Mn_PawnShield(const CWeapon_Mn_PawnShield& rhs);
+	virtual ~CWeapon_Mn_PawnShield() = default;
+
+public:
+	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize(void* pArg);
+	virtual void Tick(_float fTimeDelta);
+	virtual void LateTick(_float fTimeDelta);
+	virtual HRESULT Render();
+	virtual HRESULT Render_ShadowDepth();
+
+private:
+	HRESULT Ready_Components();
+	HRESULT Bind_ShaderResources();
+
+private:
+
+public:
+	static CWeapon_Mn_PawnShield* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual CGameObject* Clone(void* pArg) override;
+	virtual void Free() override;
+};
+
+END

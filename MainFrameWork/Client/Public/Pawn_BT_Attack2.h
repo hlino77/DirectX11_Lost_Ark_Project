@@ -5,13 +5,13 @@
 
 BEGIN(Client)
 
-class CPlant_BT_Attack_Root :
+class CPawn_BT_Attack2 :
     public CBT_Action
 {
 private:
-    CPlant_BT_Attack_Root();
-    CPlant_BT_Attack_Root(const CPlant_BT_Attack_Root& rhs) = delete;
-    virtual ~CPlant_BT_Attack_Root() =  default;
+    CPawn_BT_Attack2();
+    CPawn_BT_Attack2(const CPawn_BT_Attack2& rhs) = delete;
+    virtual ~CPawn_BT_Attack2() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -20,7 +20,7 @@ private:
 
 
 public:
-    static	CPlant_BT_Attack_Root* Create(void* pArg);
+    static	CPawn_BT_Attack2* Create(void* pArg);
     virtual void Free() override;
 };
 

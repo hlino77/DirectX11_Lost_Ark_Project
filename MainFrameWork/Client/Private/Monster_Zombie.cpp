@@ -55,14 +55,14 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
-	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"respawn_1"));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
 
 
-
+	m_iBasicAttackStartFrame = 34;
+	m_iBasicAttackEndFrame = 51;
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -316,6 +316,11 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Respawn";
 	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
 
@@ -410,7 +415,7 @@ HRESULT CMonster_Zombie::Ready_Coliders()
 
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(0.5f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.7f, 0.3f));
 
 	return S_OK;
 }

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Monster_Reaper_Server.h"
+#include "Monster_Pawn_Server.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
@@ -23,35 +23,33 @@
 #include "Common_BT_IF_Near_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
 #include "Common_BT_WHILE_Within_Range_Server.h"
-#include "BT_Composite.h"
-#include "BehaviorTree.h"
 #include "Common_BT_IF_Attacked.h"
 #include "Common_BT_IF_Far_Server.h"
-#include "Reaper_BT_Attack3_Server.h"
-#include "Reaper_BT_Attack2_Server.h"
-#include "Reaper_BT_Attack1_Server.h"
+#include <Pawn_BT_Attack2_Server.h>
+#include "BT_Composite.h"
+#include "BehaviorTree.h"
 
-CMonster_Reaper_Server::CMonster_Reaper_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Pawn_Server::CMonster_Pawn_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
 {
 }
 
-CMonster_Reaper_Server::CMonster_Reaper_Server(const CMonster_Server& rhs)
+CMonster_Pawn_Server::CMonster_Pawn_Server(const CMonster_Server& rhs)
 	: CMonster_Server(rhs)
 {
 }
 
-HRESULT CMonster_Reaper_Server::Initialize_Prototype()
+HRESULT CMonster_Pawn_Server::Initialize_Prototype()
 {
 	
 	return S_OK;
 }
 
-HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
+HRESULT CMonster_Pawn_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_szModelName = L"Reaper";
-	m_strObjectTag = L"Monster_Reaper";
+	m_szModelName = L"Pawn";
+	m_strObjectTag = L"Monster_Pawn";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
@@ -77,7 +75,7 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Reaper_Server::Tick(_float fTimeDelta)
+void CMonster_Pawn_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
@@ -92,7 +90,7 @@ void CMonster_Reaper_Server::Tick(_float fTimeDelta)
 
 }
 
-void CMonster_Reaper_Server::LateTick(_float fTimeDelta)
+void CMonster_Pawn_Server::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{
@@ -112,29 +110,29 @@ void CMonster_Reaper_Server::LateTick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 }
 
-HRESULT CMonster_Reaper_Server::Render()
+HRESULT CMonster_Pawn_Server::Render()
 {
 
 	return S_OK;
 }
 
-void CMonster_Reaper_Server::Set_SlowMotion(_bool bSlow)
+void CMonster_Pawn_Server::Set_SlowMotion(_bool bSlow)
 {
 }
 
-void CMonster_Reaper_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CMonster_Pawn_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Reaper_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CMonster_Pawn_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Reaper_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CMonster_Pawn_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-HRESULT CMonster_Reaper_Server::Ready_Components()
+HRESULT CMonster_Pawn_Server::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -162,7 +160,7 @@ HRESULT CMonster_Reaper_Server::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_Monster_Reaper";
+	wstring strComName = L"Prototype_Component_Model_Monster_Pawn";
 	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
@@ -182,7 +180,7 @@ HRESULT CMonster_Reaper_Server::Ready_Components()
 
 }
 
-HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
+HRESULT CMonster_Pawn_Server::Ready_BehaviourTree()
 {
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
@@ -198,8 +196,8 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = 1.5f;
 	AnimationDesc.fAnimSpeed = 1.2f;
+
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -251,7 +249,7 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("evt1_att_battle_1_01");
+	AnimationDesc.strAnimName = TEXT("respawn_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
@@ -271,7 +269,6 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Chase";
 	CBT_Action* pChase = CCommon_BT_Chase_Server::Create(&ActionDesc);
@@ -308,49 +305,7 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CReaper_BT_Attack1_Server::Create(&ActionDesc);
-
-
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("att_battle_4_03_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack4";
-	CBT_Action* pAttack4 = CReaper_BT_Attack3_Server::Create(&ActionDesc);
-
-	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("att_battle_4_03_2");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack5";
-	CBT_Action* pAttack5 = CReaper_BT_Attack2_Server::Create(&ActionDesc);
+	CBT_Action* pAttack2 = CPawn_BT_Attack2_Server::Create(&ActionDesc);
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
@@ -359,11 +314,6 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	if (FAILED(pSequenceNear->AddChild(pAttack2)))
-		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack5)))
-		return E_FAIL;
-
-	if (FAILED(pSequenceNear->AddChild(pAttack4)))
 		return E_FAIL;
 
 	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
@@ -456,9 +406,9 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	return S_OK;
 }
 
-CMonster_Reaper_Server* CMonster_Reaper_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Pawn_Server* CMonster_Pawn_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Reaper_Server* pInstance = new CMonster_Reaper_Server(pDevice, pContext);
+	CMonster_Pawn_Server* pInstance = new CMonster_Pawn_Server(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -469,9 +419,9 @@ CMonster_Reaper_Server* CMonster_Reaper_Server::Create(ID3D11Device* pDevice, ID
 	return pInstance;
 }
 
-CGameObject* CMonster_Reaper_Server::Clone(void* pArg)
+CGameObject* CMonster_Pawn_Server::Clone(void* pArg)
 {
-	CMonster_Reaper_Server* pInstance = new CMonster_Reaper_Server(*this);
+	CMonster_Pawn_Server* pInstance = new CMonster_Pawn_Server(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -484,7 +434,7 @@ CGameObject* CMonster_Reaper_Server::Clone(void* pArg)
 
 
 
-void CMonster_Reaper_Server::Free()
+void CMonster_Pawn_Server::Free()
 {
 	__super::Free();
 

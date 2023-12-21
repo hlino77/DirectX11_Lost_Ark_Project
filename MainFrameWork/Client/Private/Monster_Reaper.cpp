@@ -5,7 +5,9 @@
 #include "ServerSession.h"
 #include "Camera_Player.h"
 #include "AsUtils.h"
+#include "CollisionManager.h"
 #include "ColliderSphere.h"
+#include "ColliderOBB.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 #include "Pool.h"
@@ -68,6 +70,8 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(5.f);
 
+	m_iBasicAttackStartFrame = 25;
+	m_iBasicAttackEndFrame = 33;
 
     return S_OK;
 }
@@ -80,6 +84,10 @@ void CMonster_Reaper::Tick(_float fTimeDelta)
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
+
+
+
+
 }
 
 void CMonster_Reaper::LateTick(_float fTimeDelta)
@@ -93,6 +101,8 @@ void CMonster_Reaper::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 	CullingObject();
+	Set_Colliders(fTimeDelta);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Center_ToBone();
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
 }
@@ -221,8 +231,30 @@ HRESULT CMonster_Reaper::Ready_Components()
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
-		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
+	
+	}
+
+
+
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
+	}
+
+	{
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(0.7f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 0.7f, 0.0f));
+
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(1.f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-prop1")));
+
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.42f, -1.44f, -1.9f));
 	}
 
 	CPartObject::PART_DESC			PartDesc_Weapon;
@@ -318,15 +350,6 @@ HRESULT CMonster_Reaper::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack2";
 	CBT_Action* pAttack2 = CReaper_BT_Attack1::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CReaper_BT_Attack2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};
@@ -370,7 +393,7 @@ HRESULT CMonster_Reaper::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack5";
-	CBT_Action* pAttack5 = CReaper_BT_Attack3::Create(&ActionDesc);
+	CBT_Action* pAttack5 = CReaper_BT_Attack2::Create(&ActionDesc);
 
 
 
@@ -426,10 +449,15 @@ HRESULT CMonster_Reaper::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Respawn";
 	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
 
-	m_pBehaviorTree->Init_PreviousAction(L"Action_Idle_0");
+	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
 	return S_OK;
 }
 

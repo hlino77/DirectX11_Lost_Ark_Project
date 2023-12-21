@@ -20,7 +20,7 @@ CBT_Node::BT_RETURN CCommon_BT_Spawn_Server::OnUpdate(const _float& fTimeDelta)
 	if (IsOut())
 		return BT_FAIL;
 	
-	if( m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].first.iAnimIndex) == m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimIndexFrame[0].first.iAnimIndex)-3)
+	if( m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].iAnimIndex) == m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimIndexFrame[0].iAnimIndex)-3)
 		return BT_FAIL;
 
 	return BT_RUNNING;
