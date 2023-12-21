@@ -7,6 +7,7 @@
 #include "ColliderSphereGroup.h"
 #include "CollisionManager.h"
 #include "RigidBody.h"
+#include "Pool.h"
 
 
 CProjectile::CProjectile(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -44,7 +45,13 @@ HRESULT CProjectile::Initialize(void* pArg)
 
 void CProjectile::Tick(_float fTimeDelta)
 {
-
+	for (auto& Collider : m_AttackCollider)
+	{
+		if (Collider->IsActive())
+		{
+			Collider->Update_Collider();
+		}
+	}
 }
 
 void CProjectile::LateTick(_float fTimeDelta)
@@ -111,6 +118,7 @@ void CProjectile::AttackEnd()
 		}
 	}
 	Set_Active(false);
+	CPool<CProjectile>::Return_Obj(this);
 }
 
 HRESULT CProjectile::Ready_Components()

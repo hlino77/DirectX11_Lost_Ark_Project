@@ -5,6 +5,9 @@
 #include "Player_Controller_GN.h"
 #include "Model.h"
 #include "ColliderSphere.h"
+#include "ColliderOBB.h"
+#include "Pool.h"
+#include "Projectile.h"
 
 CState_GN_Attack_Hand1::CState_GN_Attack_Hand1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -137,6 +140,21 @@ void CState_GN_Attack_Hand1::Tick_State_Control(_float fTimeDelta)
 void CState_GN_Attack_Hand1::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_Attack_Hand1::Attack_Hand(_float fAttackTime)
+{
+	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
+	pAttack->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION));
+	CSphereCollider* pCollider = pAttack->Get_Colider(CProjectile::ATTACKCOLLIDER::OBB);
+	pCollider->Set_ColLayer((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER);
+	pCollider->Set_Radius(2.f);
+	pCollider->Set_Offset(Vec3(0.0f, 0.2f, 1.7f));
+	COBBCollider* pChildCollider = static_cast<COBBCollider*>(pCollider->Get_Child());
+	pChildCollider->Set_Scale(Vec3(0.3f, 0.6f, 1.5f));
+	pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 1.7f));
+
+
 }
 
 CState_GN_Attack_Hand1* CState_GN_Attack_Hand1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
