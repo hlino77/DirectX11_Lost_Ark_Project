@@ -156,14 +156,14 @@ HRESULT CPlayer::Render_ShadowDepth()
 
 HRESULT CPlayer::Render_Debug()
 {
-	/*for (auto& Colider : m_Coliders)
+	for (auto& Colider : m_Coliders)
 	{
 		if (Colider.second->IsActive())
 		{
 			Colider.second->DebugRender();
 		}
 
-	}*/
+	}
 
 	return S_OK;
 }
