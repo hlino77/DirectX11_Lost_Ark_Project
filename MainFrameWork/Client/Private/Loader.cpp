@@ -529,6 +529,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnSword"),
 		CWeapon_Mn_PawnSword::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	if (FAILED(Loading_Skill_For_Level_Bern()))
 		return E_FAIL;
