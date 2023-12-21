@@ -594,6 +594,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	CPlayer_Skill* pSkill = nullptr;
 	CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
 	/* 핸드건 스킬 */
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_QuickStep_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_End")));
@@ -602,6 +603,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_DeathFire_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Success")));
@@ -610,6 +612,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_RapidFire_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_End")));
@@ -618,6 +621,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Gunkata_1");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_1")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_2")));
@@ -627,6 +631,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::R, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_SprialChaser");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_SprialChaser")));
 	pSkill = CSkill_GN_SpiralChaser::Create(m_pDevice, m_pContext, this, &SkillDesc);
@@ -634,6 +639,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Grenade");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Grenade")));
 	pSkill = CSkill_GN_Grenade::Create(m_pDevice, m_pContext, this, &SkillDesc);
@@ -641,6 +647,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_DeadHard_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_Loop")));
@@ -651,6 +658,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.State_Skills.clear();
 
 	/* 샷건 스킬*/
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FreeShoter");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FreeShoter")));
 	pSkill = CSkill_GN_FreeShooter::Create(m_pDevice, m_pContext, this, &SkillDesc);
@@ -658,6 +666,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_ShotSkill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TerminatingShot_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_End")));
@@ -666,6 +675,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_ShotSkill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_LastSupper");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_LastSupper")));
 	pSkill = CSkill_GN_LastSupper::Create(m_pDevice, m_pContext, this, &SkillDesc);
@@ -674,6 +684,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.State_Skills.clear();
 
 	/* 장총 스킬 */
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FocusShot_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Loop")));
@@ -683,6 +694,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_PerfectShot_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Loop")));
@@ -692,6 +704,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Apocalypse_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Loop")));
@@ -701,6 +714,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
+	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TargetDown_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Loop")));
@@ -710,8 +724,6 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
-
-
 
 	return S_OK;
 }

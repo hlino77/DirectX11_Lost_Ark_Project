@@ -18,6 +18,7 @@ public:
 public:
 	typedef struct tagPlayerSkillDesc
 	{
+		CGameObject*	 pOwner = { nullptr };
 		wstring			 strSkill_StartName;
 		vector<class CState*> State_Skills;
 
@@ -43,6 +44,7 @@ public:
 	virtual const _bool&	 Is_SuperArmor()		{ return m_IsSuperArmor; }
 	virtual const _bool&	 Is_SkillSuccess()		{ return m_IsSkillSuccess; }
 public:
+	virtual CGameObject*			Get_SkillOwner()	    { return m_pOwner; }
 	virtual const wstring&			Get_Skill_Name()		{ return m_strSkill_Name; }
 	virtual const wstring&			Get_Skill_StartName()	{ return m_strSkill_StartName; }
 	virtual SKILL_ATTACKTYPE		Get_Skill_AttackType()  { return m_eAttackType; }
@@ -61,6 +63,7 @@ public:
 	virtual void			Check_ColliderState();
 
 protected:
+	class CGameObject*			  m_pOwner = { nullptr };
 	class CTexture*				  m_pSkillTextureCom = { nullptr };
 
 

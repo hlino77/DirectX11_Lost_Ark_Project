@@ -815,13 +815,6 @@
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_internal.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
@@ -2119,9 +2112,6 @@
     <ClInclude Include="..\Public\State_GN_DeadHard_Loop.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Skill_GN_SpiralChaser.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
     </ClInclude>
@@ -2234,6 +2224,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\Projectile.h">
       <Filter>02.GameObjects\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2532,13 +2546,6 @@
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
@@ -3829,9 +3836,6 @@
     <ClCompile Include="..\Private\State_GN_DeadHard_Loop.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Skill_GN_Apocalypse.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
     </ClCompile>
@@ -3946,6 +3950,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\Projectile.cpp">
       <Filter>02.GameObjects\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
