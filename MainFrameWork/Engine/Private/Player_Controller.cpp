@@ -43,6 +43,9 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
+
+	/* Skill Collider */
+	Skill_Check_Collider();
 }
 
 void CPlayer_Controller::LateTick(_float fTimeDelta)
@@ -167,6 +170,17 @@ _bool CPlayer_Controller::Is_Attack()
 	return false;
 }
 
+void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)
+{
+	if (true == m_pOwner->Is_Invincible() || nullptr == pHitObject)
+	{
+		m_eHitType = HIT_TYPE::TYPE_END;
+		return;
+	}
+
+	Hit(pHitObject);
+}
+
 HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
 	if (nullptr == pSkill)
@@ -261,8 +275,11 @@ void CPlayer_Controller::Skill(SKILL_KEY eKey)
 	m_fCoolTime[eKey] = m_pSkills[eKey]->Get_Skill_CoolTime();
 }
 
-void CPlayer_Controller::Hit()
+void CPlayer_Controller::Hit(CGameObject* pHitObject)
 {
+	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
+		return;
+
 }
 
 void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
@@ -279,6 +296,14 @@ void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 			m_fCoolTime[i] = -1.f;
 		}
 	}
+}
+
+void CPlayer_Controller::Skill_Check_Collider()
+{
+	if (SKILL_KEY::_END == m_eSelectedSkill)
+		return;
+
+	m_pSkills[m_eSelectedSkill]->Check_ColliderState();
 }
 
 void CPlayer_Controller::Free()

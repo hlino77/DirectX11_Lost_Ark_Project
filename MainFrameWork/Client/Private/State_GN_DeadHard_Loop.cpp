@@ -85,7 +85,7 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 			m_iDeadHard = m_iDeadHard_B;
 		}
 	}
-	else if (m_iDeadHard != m_iDeadHard_Loop)
+	else if (m_iDeadHard != m_iDeadHard_Loop && true == m_pController->Is_Stop())
 	{
 		m_pController->Get_StopMessage();
 		m_pPlayer->Set_TargetPos(Vec3());
@@ -110,7 +110,7 @@ void CState_GN_DeadHard_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	Vec3 vTargetPos = m_pPlayer->Get_TargetPos();
 
-	if (vTargetPos == Vec3())
+	if (vTargetPos == Vec3() && true == m_pController->Is_Stop())
 	{
 		m_pController->Get_StopMessage();
 		if (m_iDeadHard != m_iDeadHard_Loop)

@@ -9,7 +9,8 @@ BEGIN(Engine)
 class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 {
 public:
-	enum SKILL_KEY { SPACE, Q, W, E , R, A, S, D , F, _END };
+	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, _END };
+	enum HIT_TYPE { WEAK, DMG, DOWN, BOUND, TWIST, TYPE_END };
 
 public:
 	typedef struct tagControllerDesc
@@ -44,16 +45,18 @@ public:
 	_bool		Is_Interect();
 	_bool		Is_Dash();
 	_bool		Is_Attack();
+	const _uint& Is_Hit() { return m_eHitType; }
 
 	void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f) { m_vNextMove = vPos; m_bStop = false; m_IsDir = false; m_fMoveSpeed = fMoveSpeed; }
 	void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f)  { m_vNextMove = vPos; m_bStop = false; m_IsDir = true; m_fMoveSpeed = fMoveSpeed; }
 	void		Get_StopMessage()									{ m_vNextMove = Vec3(); m_bStop = true;}
 	void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; }
-	void		Get_LookMessage(Vec3 vAt)					 { Look(vAt); }
-	void		Get_AttackMessage()							 { Attack(); }
-	void		Get_SkillMessage(SKILL_KEY eKey)			 { Skill(eKey); }
-	void		Get_HitMessage()							 { Hit(); }
+	void		Get_LookMessage(Vec3 vAt) { Look(vAt); }
+	void		Get_AttackMessage() { Attack(); }
+	void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
+	void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
 	void		Get_DashMessage(Vec3 vPos, _float fCoolTime) { Look(vPos); m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
+	void		Get_HitMessage(CGameObject* pHitObject);
 
 public:
 	_bool		Is_Stop() { return m_bMoveStop; }
@@ -69,6 +72,17 @@ public:
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
 	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { return m_pSkills[eKey]; }
 	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
+	const _float& Get_Skill_CoolDown(SKILL_KEY eKey) {
+		if (nullptr == m_pSkills[eKey]) return 0.f;
+		else return m_fCoolDownAcc[eKey];
+	}
+	const _float& Get_Skill_CoolTime(SKILL_KEY eKey) {
+		if (nullptr == m_pSkills[eKey]) return -1.f;
+		else return m_fCoolTime[eKey];
+	}
+
+	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
+	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
 
 public:
 	/* 언젠가는 쓰겠지 */
@@ -81,8 +95,9 @@ protected:
 	virtual void	Input(const _float & fTimeDelta);
 	virtual void	Attack();
 	virtual void	Skill(SKILL_KEY eKey);
-	virtual void	Hit();
+	virtual void	Hit(CGameObject* pHitObject);
 	virtual void	Skill_CoolTime(const _float& fTimeDelta);
+	virtual void	Skill_Check_Collider();
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -103,10 +118,14 @@ protected:
 	_float					m_fLerpLook_Speed = { 20.f };
 	_float					m_fMoveSpeed = { 3.f };
 
+	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };
 
 	/* 스킬 */
+	unordered_map<wstring, class CPlayer_Skill*> m_Skills;
+
 	class CPlayer_Skill*	m_pSkills[SKILL_KEY::_END] = { nullptr };
 	SKILL_KEY				m_eSelectedSkill = { SKILL_KEY::_END };
+
 	/* 쿨 타임 */
 	_float					m_fCoolDownAcc[SKILL_KEY::_END] = { 0.f };
 	_float					m_fCoolTime[SKILL_KEY::_END] = { -1.f };

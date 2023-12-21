@@ -4,6 +4,7 @@
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
 #include "Model.h"
+#include "ColliderSphere.h"
 
 CState_GN_Attack_Shot2::CState_GN_Attack_Shot2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -41,6 +42,12 @@ void CState_GN_Attack_Shot2::Exit_State()
 
 void CState_GN_Attack_Shot2::Tick_State_Control(_float fTimeDelta)
 {
+	if ((15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Shot2) && 17 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Shot2))||
+		(24 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Shot2) && 26 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Shot2)))
+		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(true);
+	else
+		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(false);
+
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 
 	if (true == m_pController->Is_Dash())

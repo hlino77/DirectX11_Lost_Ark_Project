@@ -145,8 +145,8 @@ public:
 
 public:
 	/* 플레이어 상태 세팅 */
-	const _bool&			Is_SuperArmor() { return  m_IsSuperArmor; }
-	void					Set_SuperArmorState(_bool IsSuperArmor) { m_IsSuperArmor = IsSuperArmor; }
+	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
+	void					Set_SuperArmorState(_bool IsSuperArmor) { m_bInvincible = IsSuperArmor; }
 
 
 
@@ -198,8 +198,6 @@ protected:
 	/* 플레이어 변수 설정 */
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
-
-	_bool	m_IsSuperArmor = { false };
 
 public:
 	virtual void Free();

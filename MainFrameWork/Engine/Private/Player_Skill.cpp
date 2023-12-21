@@ -1,8 +1,9 @@
 #include "..\Public\Player_Skill.h"
 #include "State_Skill.h"
+#include "ColliderSphere.h"
 
-CPlayer_Skill::CPlayer_Skill(CGameObject* pOwner)
-	: m_pOwner(pOwner)
+CPlayer_Skill::CPlayer_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjectTag, _int iObjType)
+	: CGameObject(pDevice, pContext, strObjectTag, iObjType)
 {
 }
 
@@ -12,14 +13,6 @@ HRESULT CPlayer_Skill::Initialize(void* pArg)
 	{
 		PLAYERSKILL_DESC* pSkillDesc = (PLAYERSKILL_DESC*)pArg;
 		m_strSkill_StartName = pSkillDesc->strSkill_StartName;
-		m_eAttackType = pSkillDesc->eAttackType;
-		m_eCtrlType = pSkillDesc->eCtrlType;
-
-		m_IsSuperArmor = pSkillDesc->IsSuperArmor;
-
-		m_fSkillDamage = pSkillDesc->fSkillDamage;
-		m_fSkillCoolTime = pSkillDesc->fSkillCoolTime;
-
 		m_State_Skills = pSkillDesc->State_Skills;
 	}
 
@@ -66,21 +59,32 @@ void CPlayer_Skill::Set_BindKey(CPlayer_Controller::SKILL_KEY eKey)
 	}
 }
 
-CPlayer_Skill* CPlayer_Skill::Create(CGameObject* pOwner, void* pArg)
+void CPlayer_Skill::Check_ColliderState()
 {
-	CPlayer_Skill* pInstance = new CPlayer_Skill(pOwner);
-
-	if (FAILED(pInstance->Initialize(pArg)))
+	for (auto& pSkillState : m_State_Skills)
 	{
-		MSG_BOX("Failed To Created : CSkill_GN_QuickStep");
-		Safe_Release(pInstance);
+		if (true == static_cast<CState_Skill*>(pSkillState)->Is_SkillAttack())
+		{
+			for (auto& Collider : m_Coliders)
+			{
+				Collider.second->SetActive(true);
+				Collider.second->Update_Collider();
+			}
+		}
+		else
+		{
+			for (auto& Collider : m_Coliders)
+			{
+				Collider.second->SetActive(false);
+			}
+		}
 	}
-
-	return pInstance;
 }
 
 void CPlayer_Skill::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pSkillTextureCom);
 }
 

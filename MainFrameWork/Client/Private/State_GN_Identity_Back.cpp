@@ -66,6 +66,7 @@ void CState_GN_Identity_Back::Enter_State()
 	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eChangeIdentity);
 	m_pPlayer->Set_Weapon_RenderState(eChangeIdentity);
 	m_pController->Get_StopMessage();
+	m_pController->Get_SkillEndMessage();
 }
 
 void CState_GN_Identity_Back::Tick_State(_float fTimeDelta)

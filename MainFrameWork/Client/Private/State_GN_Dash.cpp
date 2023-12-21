@@ -30,7 +30,8 @@ void CState_GN_Dash::Enter_State()
 	m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.5f);
 
 	m_pController->Get_StopMessage();
-	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 7.f);
+	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 5.f);
+	m_pController->Get_SkillEndMessage();
 }
 
 void CState_GN_Dash::Tick_State(_float fTimeDelta)
