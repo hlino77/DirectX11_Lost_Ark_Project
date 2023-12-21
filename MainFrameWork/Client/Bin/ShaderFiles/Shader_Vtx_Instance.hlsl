@@ -22,7 +22,7 @@ struct VS_IN
 	float2		vTexUV : TEXCOORD0;
 	float3		vTangent : TANGENT;
 
-	row_major	matrix WorldMatrix : WORLD;
+	matrix		matWorld : INST;
 };
 
 struct VS_OUT
@@ -42,12 +42,12 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	matrix		matWV, matWVP;
 
-	matWV = mul(In.WorldMatrix, g_ViewMatrix);
+    matWV = mul(In.matWorld, g_ViewMatrix);
 	matWVP = mul(matWV, g_ProjMatrix);
 
 	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
-	Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), In.WorldMatrix)).xyz;
-	Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), In.WorldMatrix)).xyz;
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), In.matWorld)).xyz;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), In.matWorld)).xyz;
 	Out.vBinormal = normalize(cross(Out.vNormal, Out.vTangent));
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
@@ -74,7 +74,6 @@ struct PS_OUT
 	float4		vModelNormal : SV_TARGET3;
 };
 
-
 PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -94,11 +93,6 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;	
 }
-
-
-
-
-
 
 technique11 DefaultTechnique
 {

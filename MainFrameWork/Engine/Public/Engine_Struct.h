@@ -77,46 +77,37 @@ namespace Engine
 	/// VtxType ///
 	///////////////
 	// D3DDECLUSAGE
-	typedef struct tagVertexTexture
+	typedef struct ENGINE_DLL tagVertexTexture
 	{
 		SimpleMath::Vector3		vPosition;
 		SimpleMath::Vector2		vTexture;
-	}VTXTEX;
 
-	typedef struct ENGINE_DLL tagVertexTexture_Declaration
-	{
 		static const unsigned int iNumElements = 2;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXTEX_DECLARATION;
+	}VTXTEX;
 
-	typedef struct tagVertexNormalTexture
+	typedef struct ENGINE_DLL tagVertexNormalTexture
 	{
 		SimpleMath::Vector3		vPosition;
 		SimpleMath::Vector3		vNormal;
 		SimpleMath::Vector2		vTexture;
-	}VTXNORTEX;
 
-	typedef struct ENGINE_DLL tagVertexNormalTexture_Declaration
-	{
 		static const unsigned int iNumElements = 3;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXNORTEX_DECLARATION;
+	}VTXNORTEX;
 
-	typedef struct tagVertexModel
+	typedef struct ENGINE_DLL tagVertexModel
 	{
 		SimpleMath::Vector3		vPosition;
 		SimpleMath::Vector3		vNormal;
 		SimpleMath::Vector2		vTexture;
 		SimpleMath::Vector3		vTangent;
-	}VTXMODEL;
 
-	typedef struct ENGINE_DLL tagVertexModel_Declaration
-	{
 		static const unsigned int iNumElements = 4;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXMODEL_DECLARATION;
+	}VTXMODEL;
 
-	typedef struct tagVertexAnimModel
+	typedef struct ENGINE_DLL tagVertexAnimModel
 	{
 		SimpleMath::Vector3		vPosition;
 		SimpleMath::Vector3		vNormal;
@@ -124,42 +115,51 @@ namespace Engine
 		SimpleMath::Vector3		vTangent;
 		XMUINT4					vBlendIndex; /* 이 정점에 영향을 주는 뼈의 인덱스 네개. */
 		SimpleMath::Vector4		vBlendWeight; /* 영향르 주고 있는 각 뼈대의 영향 비율 */
-	}VTXANIMMODEL;
 
-	typedef struct ENGINE_DLL tagVertexAnimModel_Declaration
-	{
 		static const unsigned int iNumElements = 6;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXANIMMODEL_DECLARATION;
+	}VTXANIMMODEL;
 
+	typedef struct ENGINE_DLL tagVertexParticle
+	{
+		XMFLOAT3	vPosition;
+		XMFLOAT3	vVelocity;
+		XMFLOAT2	vSize;
+		_float		fAge;
+		_int		iType;
 
+		static const unsigned int				iNumElements = 5;
+		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
+	}VTXPARTICLE;
 
-
-	typedef struct tagVertexCubeTexture
+	typedef struct ENGINE_DLL tagVertexCubeTexture
 	{
 		SimpleMath::Vector3		vPosition;
 		SimpleMath::Vector3		vTexture;
-	}VTXCUBETEX;
 
-	typedef struct ENGINE_DLL tagVertexCubeTexture_Declaration
-	{
 		static const unsigned int iNumElements = 2;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXCUBETEX_DECLARATION;
+	}VTXCUBETEX;
 
+	typedef struct ENGINE_DLL tagVertex_Point	// PointInstance
+	{
+		XMFLOAT3		vPosition;
+		XMFLOAT2		vPSize;
+		// Instance
+		XMFLOAT4X4		matWorld;
 
-	typedef struct tagVertexColor
+		static const unsigned int iNumElements = 6;
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
+	}VTXPOINT;
+
+	typedef struct ENGINE_DLL tagVertexColor
 	{
 		SimpleMath::Vector3		vPosition;
 		SimpleMath::Vector4		vColor;
-	}VTXCOL;
 
-	typedef struct ENGINE_DLL tagVertexColor_Declaration
-	{
 		static const unsigned int iNumElements = 2;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXCOL_DECLARATION;
-
+	}VTXCOL;
 
 	typedef struct tagGraphicDesc
 	{
@@ -244,29 +244,18 @@ namespace Engine
 
 	} DATA_SCENE;
 
-
-	typedef struct tagTriangleDesc
+	typedef struct ENGINE_DLL tagTriangleDesc
 	{
 		Vec3 vPos0, vPos1, vPos2;
 		Vec3 vNormal;
 		_float fDist;
 	}TRIAGLEDESC;
 
-
-
 	typedef struct ENGINE_DLL tagVertex_Instance
 	{
-		XMFLOAT4		vRight;
-		XMFLOAT4		vUp;
-		XMFLOAT4		vLook;
-		XMFLOAT4		vTranslation;
+		Matrix			matWorld;
 
-		/* 셰이더에 이러한 정점이 잘 들어가냐? 라는 검증을 위해 */
-		/* 이 정점 뿐만아니라 그리기용 정점도 같이 받아야되지. */
-		/*static const unsigned int				iNumElements = 4;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];*/
 	}VTXINSTANCE;
-
 
 	typedef struct ENGINE_DLL tagVertex_PointEffect_Instance
 	{
@@ -276,76 +265,20 @@ namespace Engine
 		XMFLOAT4		vColor;
 		XMFLOAT4		vBlurColor;
 
-		/* 셰이더에 이러한 정점이 잘 들어가냐? 라는 검증을 위해 */
-		/* 이 정점 뿐만아니라 그리기용 정점도 같이 받아야되지. */
-		/*static const unsigned int				iNumElements = 4;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];*/
 	}VTXINSTANCE_POINTEFFECT;
-
-
-	typedef struct ENGINE_DLL tagVertex_ModelEffect_Instance
-	{
-		XMFLOAT4		vRight;
-		XMFLOAT4		vUp;
-		XMFLOAT4		vLook;
-		XMFLOAT4		vTranslation;
-		XMFLOAT4		vColor;
-		XMFLOAT4		vBlurColor;
-
-		/* 셰이더에 이러한 정점이 잘 들어가냐? 라는 검증을 위해 */
-		/* 이 정점 뿐만아니라 그리기용 정점도 같이 받아야되지. */
-		/*static const unsigned int				iNumElements = 4;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];*/
-	}VTXINSTANCE_MODELEFFECT;
-
-
-	typedef struct ENGINE_DLL tagVertex_Effect_Instance
-	{
-		XMFLOAT4		vTranslation;
-		XMFLOAT4		vDirection;
-		XMFLOAT4		vScale;
-		XMFLOAT4		vColor;
-
-
-		/* 셰이더에 이러한 정점이 잘 들어가냐? 라는 검증을 위해 */
-		/* 이 정점 뿐만아니라 그리기용 정점도 같이 받아야되지. */
-		/*static const unsigned int				iNumElements = 4;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];*/
-	}VTXINSTANCE_EFFECT;
-
 
 	typedef struct ENGINE_DLL tagVertex_Model_Instance
 	{
+		XMFLOAT3		vPosition;
+		XMFLOAT3		vNormal;
+		XMFLOAT2		vTexcoord;
+		XMFLOAT3		vTangent;
+
+		Matrix			matWorld;
+
 		static const unsigned int				iNumElements = 8;
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
-	}VTX_MODEL_INSTANCE;
-
-
-
-	typedef struct ENGINE_DLL tagVertex_LineCircle_Instance
-	{
-		static const unsigned int				iNumElements = 5;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
-	}VTX_LINECIRCLE_INSTANCE;
-
-
-	typedef struct ENGINE_DLL tagVertex_Trail_Instance
-	{
-		static const unsigned int				iNumElements = 4;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
-	}VTX_TRAIL_INSTANCE;
-
-
-
-	typedef struct ENGINE_DLL tagVertex_ModelEffect_Declaration
-	{
-		static const unsigned int				iNumElements = 10;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
-	}VTX_MODELEFFECT_DECLARATION;
-
-
+	}VTXINSTANCE_MODEL;
 }
-
-
 
 #endif // Engine_Struct_h__

@@ -310,17 +310,17 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pVIBufferSSAO)
 		return E_FAIL;
 
-	m_pMRTShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
+	m_pMRTShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pMRTShader)
 		return E_FAIL;
 	m_pMRTShader->Initialize();
 	
-	m_pBloomShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Bloom.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
+	m_pBloomShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Bloom.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pBloomShader)
 		return E_FAIL;
 	m_pBloomShader->Initialize();
 
-	m_pPostProccessor = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_PostProcess.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements);
+	m_pPostProccessor = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_PostProcess.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pPostProccessor)
 		return E_FAIL;
 	m_pPostProccessor->Initialize();
@@ -1476,31 +1476,7 @@ HRESULT CRenderer::Render_ModelEffectInstancing(const wstring& szModelName)
 HRESULT CRenderer::Ready_InstanceBuffer()
 {
 	//Instance
-	m_pInstanceShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Vtx_Instance.hlsl"), VTX_MODEL_INSTANCE::Elements, VTX_MODEL_INSTANCE::iNumElements);
-
-	{
-		D3D11_BUFFER_DESC			BufferDesc;
-
-		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
-
-		BufferDesc.ByteWidth = sizeof(VTXINSTANCE) * 500;
-		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
-		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		BufferDesc.MiscFlags = 0;
-		BufferDesc.StructureByteStride = sizeof(VTXINSTANCE);
-
-		D3D11_SUBRESOURCE_DATA		InitialData;
-
-		vector<Matrix> InitMatrix;
-
-		InitMatrix.resize(500, XMMatrixIdentity());
-
-		InitialData.pSysMem = InitMatrix.data();
-
-		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstanceBuffer)))
-			return E_FAIL;
-	}
+	m_pInstanceShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Vtx_Instance.hlsl"), VTXINSTANCE_MODEL::Elements, VTXINSTANCE_MODEL::iNumElements);
 
 	{
 		D3D11_BUFFER_DESC			BufferDesc;
@@ -1531,12 +1507,12 @@ HRESULT CRenderer::Ready_InstanceBuffer()
 
 		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
-		BufferDesc.ByteWidth = sizeof(VTXINSTANCE_MODELEFFECT) * 500;
+		BufferDesc.ByteWidth = sizeof(VTXINSTANCE_MODEL) * 500;
 		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		BufferDesc.MiscFlags = 0;
-		BufferDesc.StructureByteStride = sizeof(VTXINSTANCE_MODELEFFECT);
+		BufferDesc.StructureByteStride = sizeof(VTXINSTANCE_MODEL);
 
 		D3D11_SUBRESOURCE_DATA		InitialData;
 
@@ -1755,7 +1731,7 @@ HRESULT CRenderer::Execute_BloomBlur()
 
 HRESULT CRenderer::Ready_SSAO()
 {
-	m_pSSAOShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_SSAO.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements);
+	m_pSSAOShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_SSAO.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements);
 	if (nullptr == m_pSSAOShader)
 		return E_FAIL;
 	if (FAILED(m_pSSAOShader->Initialize()))

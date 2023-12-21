@@ -56,7 +56,7 @@ HRESULT CVIBuffer_Point::Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iS
 		return E_FAIL;
 
 
-	_uint iStrideInstance = sizeof(VTXINSTANCE);
+	_uint iStrideInstance = sizeof(VTXPOINT);
 
 	ID3D11Buffer* pVertexBuffers[] = {
 		pInstanceBuffer
