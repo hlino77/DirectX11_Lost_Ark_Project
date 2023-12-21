@@ -79,7 +79,7 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 		{
 			m_fSizeX += 300.f * fTimeDelta;
 			m_fSizeY += 300.f * fTimeDelta;
-			m_fAlpha -= 1.5f * fTimeDelta;
+			m_fAlpha -= 3.f * fTimeDelta;
 			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));

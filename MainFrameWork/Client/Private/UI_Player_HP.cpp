@@ -87,11 +87,6 @@ HRESULT CUI_Player_HP::UI_Set()
 	return S_OK;
 }
 
-HRESULT CUI_Player_HP::UI_WeaponFrame()
-{
-	return S_OK;
-}
-
 CUI_Player_HP* CUI_Player_HP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUI_Player_HP* pInstance = new CUI_Player_HP(pDevice, pContext);

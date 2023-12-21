@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_Player_MP :
+class CUI_QuickSkill :
     public CUI
 {
 private:
-	CUI_Player_MP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI_Player_MP(const CUI& rhs);
-	virtual ~CUI_Player_MP() = default;
+	CUI_QuickSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CUI_QuickSkill(const CUI& rhs);
+	virtual ~CUI_QuickSkill() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -24,7 +24,7 @@ private:
 	HRESULT	UI_Set();
 
 public:
-	static  CUI_Player_MP* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
+	static  CUI_QuickSkill* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

@@ -486,6 +486,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
       <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\05.SkillUI\01.SkillIcon">
+      <UniqueIdentifier>{5fa35a89-165d-4aad-86cf-664fd6527e0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2205,6 +2208,13 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pawn_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
+    <ClInclude Include="..\Public\UI_QuickSkill.h">
+      <Filter>02.GameObjects\UI\05.SkillUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_SkillIcon.h">
+      <Filter>02.GameObjects\UI\05.SkillUI\01.SkillIcon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3901,6 +3911,13 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
+    <ClCompile Include="..\Private\UI_QuickSkill.cpp">
+      <Filter>02.GameObjects\UI\05.SkillUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_SkillIcon.cpp">
+      <Filter>02.GameObjects\UI\05.SkillUI\01.SkillIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

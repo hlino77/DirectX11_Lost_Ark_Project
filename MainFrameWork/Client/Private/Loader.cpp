@@ -58,6 +58,8 @@
 #include "UI_Player_MPFrame.h"
 #include "UI_Player_MP.h"
 #include "UI_SpeechBubble.h"
+#include "UI_SkillIcon_Frame.h"
+#include "UI_QuickSkill.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -527,6 +529,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnSword"),
 		CWeapon_Mn_PawnSword::Create(m_pDevice, m_pContext))))
+
+	if (FAILED(Loading_Skill_For_Level_Bern()))
 		return E_FAIL;
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -1033,6 +1037,29 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Skill_For_Level_Bern()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/SkillFrame%d.png",2))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillFrame"),
+		CUI_SkillIcon_Frame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuickSkillUI"),
+		CUI_QuickSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	
+
 	return S_OK;
 }
 

@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_SkillIcon_Frame :
+class CUI_SkillIcon :
     public CUI
 {
 private:
-    CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_SkillIcon_Frame(const CUI& rhs);
-    virtual ~CUI_SkillIcon_Frame() = default;
+    CUI_SkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_SkillIcon(const CUI& rhs);
+    virtual ~CUI_SkillIcon() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -34,7 +34,7 @@ private:
     _float  m_fCoolAngle = { 0.f };
 
 public:
-    static  CUI_SkillIcon_Frame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_SkillIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

@@ -110,10 +110,6 @@ HRESULT CUI_IdentityGN_ShineFrame::Ready_Components()
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		TEXT("Com_OffSetTransform"), (CComponent**)&m_pOffSetTrasformCom)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -171,7 +167,6 @@ void CUI_IdentityGN_ShineFrame::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
-	Safe_Delete(m_pOffSetTrasformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
