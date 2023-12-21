@@ -208,6 +208,32 @@ void CMonster::Set_SlowMotion(_bool bSlow)
 	}
 }
 
+void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	pGameInstance->AddRef();
+
+	Protocol::S_COLLISION pkt;
+
+	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
+	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_MONSTER);
+	pkt.set_iobjectid(m_iObjectID);
+
+	pkt.set_idamage(iDamage);
+	pkt.set_istatuseffect((_uint)eEffect);
+	pkt.set_fforce(fForce);
+	pkt.set_fduration(fDuration);
+	
+	auto vSendHitPos = pkt.mutable_vhitpos();
+	vSendHitPos->Resize(3, 0.0f);
+	memcpy(vSendHitPos->mutable_data(), &vHitPos, sizeof(Vec3));
+
+	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
+	CServerSessionManager::GetInstance()->Send(pSendBuffer);
+
+	Safe_Release(pGameInstance);
+}
+
 void CMonster::Find_NearTarget()
 {
 	m_pNearTarget = nullptr;

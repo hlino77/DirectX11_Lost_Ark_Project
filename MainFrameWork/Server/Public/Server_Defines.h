@@ -65,6 +65,9 @@ namespace Server
 
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, CLASSEND };
 
+
+	enum class STATUSEFFECT { STUN, EFFECTEND };
+
 }
 
 extern atomic<_uint> g_iObjectID;

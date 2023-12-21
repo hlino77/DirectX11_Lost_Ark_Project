@@ -55,7 +55,7 @@ public:
 	void					Set_FollowDistance(_float fDistance) { m_fFollowDistance = fDistance; }
 	_float					Get_FollowDistance() { return m_fFollowDistance; }
 	
-	void					Send_Collision(const _uint iColLayer, CCollider* pOther, _bool bEnter);
+	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
 
 	
 public:

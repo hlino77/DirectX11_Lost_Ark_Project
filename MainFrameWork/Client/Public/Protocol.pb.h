@@ -2199,15 +2199,37 @@ class S_COLLISION final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kVHitPosFieldNumber = 5,
     kIObjectIDFieldNumber = 1,
     kILevelFieldNumber = 2,
+    kIDamageFieldNumber = 4,
     kILayerFieldNumber = 3,
-    kIColLayerFieldNumber = 4,
-    kIOtherIDFieldNumber = 5,
-    kIOtherLayerFieldNumber = 6,
-    kIOtherColLayerFieldNumber = 7,
-    kBEnterFieldNumber = 8,
+    kIStatusEffectFieldNumber = 6,
+    kFForceFieldNumber = 7,
+    kFDurationFieldNumber = 8,
   };
+  // repeated float vHitPos = 5 [packed = true];
+  int vhitpos_size() const;
+  private:
+  int _internal_vhitpos_size() const;
+  public:
+  void clear_vhitpos();
+  private:
+  float _internal_vhitpos(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      _internal_vhitpos() const;
+  void _internal_add_vhitpos(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      _internal_mutable_vhitpos();
+  public:
+  float vhitpos(int index) const;
+  void set_vhitpos(int index, float value);
+  void add_vhitpos(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      vhitpos() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      mutable_vhitpos();
+
   // int32 iObjectID = 1;
   void clear_iobjectid();
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid() const;
@@ -2226,6 +2248,15 @@ class S_COLLISION final :
   void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int64 iDamage = 4;
+  void clear_idamage();
+  ::PROTOBUF_NAMESPACE_ID::int64 idamage() const;
+  void set_idamage(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_idamage() const;
+  void _internal_set_idamage(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
   // int32 iLayer = 3;
   void clear_ilayer();
   ::PROTOBUF_NAMESPACE_ID::int32 ilayer() const;
@@ -2235,49 +2266,31 @@ class S_COLLISION final :
   void _internal_set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iColLayer = 4;
-  void clear_icollayer();
-  ::PROTOBUF_NAMESPACE_ID::int32 icollayer() const;
-  void set_icollayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int32 iStatusEffect = 6;
+  void clear_istatuseffect();
+  ::PROTOBUF_NAMESPACE_ID::int32 istatuseffect() const;
+  void set_istatuseffect(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_icollayer() const;
-  void _internal_set_icollayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_istatuseffect() const;
+  void _internal_set_istatuseffect(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iOtherID = 5;
-  void clear_iotherid();
-  ::PROTOBUF_NAMESPACE_ID::int32 iotherid() const;
-  void set_iotherid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // float fForce = 7;
+  void clear_fforce();
+  float fforce() const;
+  void set_fforce(float value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iotherid() const;
-  void _internal_set_iotherid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  float _internal_fforce() const;
+  void _internal_set_fforce(float value);
   public:
 
-  // int32 iOtherLayer = 6;
-  void clear_iotherlayer();
-  ::PROTOBUF_NAMESPACE_ID::int32 iotherlayer() const;
-  void set_iotherlayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // float fDuration = 8;
+  void clear_fduration();
+  float fduration() const;
+  void set_fduration(float value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iotherlayer() const;
-  void _internal_set_iotherlayer(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 iOtherColLayer = 7;
-  void clear_iothercollayer();
-  ::PROTOBUF_NAMESPACE_ID::int32 iothercollayer() const;
-  void set_iothercollayer(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iothercollayer() const;
-  void _internal_set_iothercollayer(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // bool bEnter = 8;
-  void clear_benter();
-  bool benter() const;
-  void set_benter(bool value);
-  private:
-  bool _internal_benter() const;
-  void _internal_set_benter(bool value);
+  float _internal_fduration() const;
+  void _internal_set_fduration(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_COLLISION)
@@ -2287,14 +2300,14 @@ class S_COLLISION final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > vhitpos_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  ::PROTOBUF_NAMESPACE_ID::int64 idamage_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilayer_;
-  ::PROTOBUF_NAMESPACE_ID::int32 icollayer_;
-  ::PROTOBUF_NAMESPACE_ID::int32 iotherid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 iotherlayer_;
-  ::PROTOBUF_NAMESPACE_ID::int32 iothercollayer_;
-  bool benter_;
+  ::PROTOBUF_NAMESPACE_ID::int32 istatuseffect_;
+  float fforce_;
+  float fduration_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -5611,104 +5624,131 @@ inline void S_COLLISION::set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iLayer)
 }
 
-// int32 iColLayer = 4;
-inline void S_COLLISION::clear_icollayer() {
-  icollayer_ = 0;
+// int64 iDamage = 4;
+inline void S_COLLISION::clear_idamage() {
+  idamage_ = int64_t{0};
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::_internal_icollayer() const {
-  return icollayer_;
+inline ::PROTOBUF_NAMESPACE_ID::int64 S_COLLISION::_internal_idamage() const {
+  return idamage_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::icollayer() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iColLayer)
-  return _internal_icollayer();
+inline ::PROTOBUF_NAMESPACE_ID::int64 S_COLLISION::idamage() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iDamage)
+  return _internal_idamage();
 }
-inline void S_COLLISION::_internal_set_icollayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void S_COLLISION::_internal_set_idamage(::PROTOBUF_NAMESPACE_ID::int64 value) {
   
-  icollayer_ = value;
+  idamage_ = value;
 }
-inline void S_COLLISION::set_icollayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_icollayer(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iColLayer)
+inline void S_COLLISION::set_idamage(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_idamage(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iDamage)
 }
 
-// int32 iOtherID = 5;
-inline void S_COLLISION::clear_iotherid() {
-  iotherid_ = 0;
+// repeated float vHitPos = 5 [packed = true];
+inline int S_COLLISION::_internal_vhitpos_size() const {
+  return vhitpos_.size();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::_internal_iotherid() const {
-  return iotherid_;
+inline int S_COLLISION::vhitpos_size() const {
+  return _internal_vhitpos_size();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::iotherid() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iOtherID)
-  return _internal_iotherid();
+inline void S_COLLISION::clear_vhitpos() {
+  vhitpos_.Clear();
 }
-inline void S_COLLISION::_internal_set_iotherid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  iotherid_ = value;
+inline float S_COLLISION::_internal_vhitpos(int index) const {
+  return vhitpos_.Get(index);
 }
-inline void S_COLLISION::set_iotherid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_iotherid(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iOtherID)
+inline float S_COLLISION::vhitpos(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.vHitPos)
+  return _internal_vhitpos(index);
 }
-
-// int32 iOtherLayer = 6;
-inline void S_COLLISION::clear_iotherlayer() {
-  iotherlayer_ = 0;
+inline void S_COLLISION::set_vhitpos(int index, float value) {
+  vhitpos_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.vHitPos)
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::_internal_iotherlayer() const {
-  return iotherlayer_;
+inline void S_COLLISION::_internal_add_vhitpos(float value) {
+  vhitpos_.Add(value);
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::iotherlayer() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iOtherLayer)
-  return _internal_iotherlayer();
+inline void S_COLLISION::add_vhitpos(float value) {
+  _internal_add_vhitpos(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_COLLISION.vHitPos)
 }
-inline void S_COLLISION::_internal_set_iotherlayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  iotherlayer_ = value;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S_COLLISION::_internal_vhitpos() const {
+  return vhitpos_;
 }
-inline void S_COLLISION::set_iotherlayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_iotherlayer(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iOtherLayer)
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S_COLLISION::vhitpos() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_COLLISION.vHitPos)
+  return _internal_vhitpos();
 }
-
-// int32 iOtherColLayer = 7;
-inline void S_COLLISION::clear_iothercollayer() {
-  iothercollayer_ = 0;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S_COLLISION::_internal_mutable_vhitpos() {
+  return &vhitpos_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::_internal_iothercollayer() const {
-  return iothercollayer_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::iothercollayer() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iOtherColLayer)
-  return _internal_iothercollayer();
-}
-inline void S_COLLISION::_internal_set_iothercollayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  iothercollayer_ = value;
-}
-inline void S_COLLISION::set_iothercollayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_iothercollayer(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iOtherColLayer)
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S_COLLISION::mutable_vhitpos() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_COLLISION.vHitPos)
+  return _internal_mutable_vhitpos();
 }
 
-// bool bEnter = 8;
-inline void S_COLLISION::clear_benter() {
-  benter_ = false;
+// int32 iStatusEffect = 6;
+inline void S_COLLISION::clear_istatuseffect() {
+  istatuseffect_ = 0;
 }
-inline bool S_COLLISION::_internal_benter() const {
-  return benter_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::_internal_istatuseffect() const {
+  return istatuseffect_;
 }
-inline bool S_COLLISION::benter() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.bEnter)
-  return _internal_benter();
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::istatuseffect() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iStatusEffect)
+  return _internal_istatuseffect();
 }
-inline void S_COLLISION::_internal_set_benter(bool value) {
+inline void S_COLLISION::_internal_set_istatuseffect(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  benter_ = value;
+  istatuseffect_ = value;
 }
-inline void S_COLLISION::set_benter(bool value) {
-  _internal_set_benter(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.bEnter)
+inline void S_COLLISION::set_istatuseffect(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_istatuseffect(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iStatusEffect)
+}
+
+// float fForce = 7;
+inline void S_COLLISION::clear_fforce() {
+  fforce_ = 0;
+}
+inline float S_COLLISION::_internal_fforce() const {
+  return fforce_;
+}
+inline float S_COLLISION::fforce() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.fForce)
+  return _internal_fforce();
+}
+inline void S_COLLISION::_internal_set_fforce(float value) {
+  
+  fforce_ = value;
+}
+inline void S_COLLISION::set_fforce(float value) {
+  _internal_set_fforce(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.fForce)
+}
+
+// float fDuration = 8;
+inline void S_COLLISION::clear_fduration() {
+  fduration_ = 0;
+}
+inline float S_COLLISION::_internal_fduration() const {
+  return fduration_;
+}
+inline float S_COLLISION::fduration() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.fDuration)
+  return _internal_fduration();
+}
+inline void S_COLLISION::_internal_set_fduration(float value) {
+  
+  fduration_ = value;
+}
+inline void S_COLLISION::set_fduration(float value) {
+  _internal_set_fduration(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.fDuration)
 }
 
 // -------------------------------------------------------------------

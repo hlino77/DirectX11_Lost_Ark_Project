@@ -46,7 +46,7 @@ HRESULT CMainApp_Server::Initialize()
 
  	ASSERT_CRASH(service->Start());
 
-	for (int32 i = 0; i < 5; i++)
+	for (int32 i = 0; i < 7; i++)
 	{
 		ThreadManager::GetInstance()->Launch([=]()
 			{

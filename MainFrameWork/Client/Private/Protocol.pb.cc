@@ -186,14 +186,14 @@ struct S_COLLIDERSTATEDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_COLLIDERSTATEDefaultTypeInternal _S_COLLIDERSTATE_default_instance_;
 constexpr S_COLLISION::S_COLLISION(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : iobjectid_(0)
+  : vhitpos_()
+  , iobjectid_(0)
   , ilevel_(0)
+  , idamage_(int64_t{0})
   , ilayer_(0)
-  , icollayer_(0)
-  , iotherid_(0)
-  , iotherlayer_(0)
-  , iothercollayer_(0)
-  , benter_(false){}
+  , istatuseffect_(0)
+  , fforce_(0)
+  , fduration_(0){}
 struct S_COLLISIONDefaultTypeInternal {
   constexpr S_COLLISIONDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -491,11 +491,11 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, iobjectid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, ilevel_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, ilayer_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, icollayer_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, iotherid_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, iotherlayer_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, iothercollayer_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, benter_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, idamage_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, vhitpos_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, istatuseffect_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, fforce_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, fduration_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_NICKNAME, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -683,36 +683,36 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\030\006 \003(\002B\002\020\001\022\017\n\007bActive\030\007 \001(\010\022\023\n\013iAttackTy"
   "pe\030\010 \001(\005\022\017\n\007iAttack\030\t \001(\005\022\r\n\005bSlow\030\n \001(\010"
   "\022\'\n\006tChild\030\013 \003(\0132\027.Protocol.ChildCollide"
-  "r\"\242\001\n\013S_COLLISION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006"
-  "iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\021\n\tiColLaye"
-  "r\030\004 \001(\005\022\020\n\010iOtherID\030\005 \001(\005\022\023\n\013iOtherLayer"
-  "\030\006 \001(\005\022\026\n\016iOtherColLayer\030\007 \001(\005\022\016\n\006bEnter"
-  "\030\010 \001(\010\"!\n\nS_NICKNAME\022\023\n\013strNickName\030\001 \001("
-  "\014\"/\n\nS_USERINFO\022!\n\005tUser\030\001 \003(\0132\022.Protoco"
-  "l.UserInfo\"v\n\014S_NEARTARGET\022\021\n\tiObjectID\030"
-  "\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\032\n"
-  "\022iTargetObjectLayer\030\004 \001(\005\022\027\n\017iTargetObje"
-  "ctID\030\005 \001(\005\"l\n\nS_SETSKILL\022\021\n\tiObjectID\030\001 "
-  "\001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\023\n\013s"
-  "zSkillName\030\004 \001(\t\022\026\n\016iSkillObjectID\030\005 \001(\005"
-  "\"P\n\014S_SLOWMOTION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006i"
-  "Level\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\r\n\005bSlow\030\004 \001"
-  "(\010\"3\n\nS_CAMSHAKE\022\021\n\tfCamShake\030\001 \001(\002\022\022\n\nf"
-  "ShakeTime\030\002 \001(\002\"+\n\007S_EVENT\022\020\n\010iEventID\030\001"
-  " \001(\005\022\016\n\006iState\030\002 \001(\005\"9\n\020S_SKILLEXPLOSION"
-  "\022%\n\007tObject\030\001 \001(\0132\024.Protocol.ObjectInfo\""
-  "F\n\004S_HP\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001"
-  "(\005\022\016\n\006iLayer\030\003 \001(\005\022\013\n\003iHP\030\004 \001(\005\"\302\001\n\017S_CR"
-  "EATE_PLAYER\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel"
-  "\030\002 \001(\005\022\016\n\006iClass\030\003 \001(\005\022\021\n\tbControll\030\004 \001("
-  "\010\022\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023\n\013strNickName\030\006"
-  " \001(\014\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\022\020\n\010strState"
-  "\030\010 \001(\t\022\024\n\014iWeaponIndex\030\t \001(\005\"\030\n\006S_CHAT\022\016"
-  "\n\006szChat\030\001 \001(\014\"\222\001\n\016S_MONSTERSTATE\022\021\n\tiOb"
-  "jectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\020\n\010strState"
-  "\030\003 \001(\t\022\032\n\022iTargetObjectLayer\030\004 \001(\005\022\027\n\017iT"
-  "argetObjectID\030\005 \001(\005\022\026\n\nvTargetPos\030\006 \003(\002B"
-  "\002\020\001b\006proto3"
+  "r\"\240\001\n\013S_COLLISION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006"
+  "iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\017\n\007iDamage\030"
+  "\004 \001(\003\022\023\n\007vHitPos\030\005 \003(\002B\002\020\001\022\025\n\riStatusEff"
+  "ect\030\006 \001(\005\022\016\n\006fForce\030\007 \001(\002\022\021\n\tfDuration\030\010"
+  " \001(\002\"!\n\nS_NICKNAME\022\023\n\013strNickName\030\001 \001(\014\""
+  "/\n\nS_USERINFO\022!\n\005tUser\030\001 \003(\0132\022.Protocol."
+  "UserInfo\"v\n\014S_NEARTARGET\022\021\n\tiObjectID\030\001 "
+  "\001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\032\n\022i"
+  "TargetObjectLayer\030\004 \001(\005\022\027\n\017iTargetObject"
+  "ID\030\005 \001(\005\"l\n\nS_SETSKILL\022\021\n\tiObjectID\030\001 \001("
+  "\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\023\n\013szS"
+  "killName\030\004 \001(\t\022\026\n\016iSkillObjectID\030\005 \001(\005\"P"
+  "\n\014S_SLOWMOTION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLe"
+  "vel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\r\n\005bSlow\030\004 \001(\010"
+  "\"3\n\nS_CAMSHAKE\022\021\n\tfCamShake\030\001 \001(\002\022\022\n\nfSh"
+  "akeTime\030\002 \001(\002\"+\n\007S_EVENT\022\020\n\010iEventID\030\001 \001"
+  "(\005\022\016\n\006iState\030\002 \001(\005\"9\n\020S_SKILLEXPLOSION\022%"
+  "\n\007tObject\030\001 \001(\0132\024.Protocol.ObjectInfo\"F\n"
+  "\004S_HP\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005"
+  "\022\016\n\006iLayer\030\003 \001(\005\022\013\n\003iHP\030\004 \001(\005\"\302\001\n\017S_CREA"
+  "TE_PLAYER\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002"
+  " \001(\005\022\016\n\006iClass\030\003 \001(\005\022\021\n\tbControll\030\004 \001(\010\022"
+  "\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023\n\013strNickName\030\006 \001"
+  "(\014\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\022\020\n\010strState\030\010"
+  " \001(\t\022\024\n\014iWeaponIndex\030\t \001(\005\"\030\n\006S_CHAT\022\016\n\006"
+  "szChat\030\001 \001(\014\"\222\001\n\016S_MONSTERSTATE\022\021\n\tiObje"
+  "ctID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\020\n\010strState\030\003"
+  " \001(\t\022\032\n\022iTargetObjectLayer\030\004 \001(\005\022\027\n\017iTar"
+  "getObjectID\030\005 \001(\005\022\026\n\nvTargetPos\030\006 \003(\002B\002\020"
+  "\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -720,7 +720,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 2371, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 2369, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 24,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -3844,25 +3844,27 @@ class S_COLLISION::_Internal {
 };
 
 S_COLLISION::S_COLLISION(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  vhitpos_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:Protocol.S_COLLISION)
 }
 S_COLLISION::S_COLLISION(const S_COLLISION& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      vhitpos_(from.vhitpos_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&iobjectid_, &from.iobjectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&benter_) -
-    reinterpret_cast<char*>(&iobjectid_)) + sizeof(benter_));
+    static_cast<size_t>(reinterpret_cast<char*>(&fduration_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(fduration_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_COLLISION)
 }
 
 void S_COLLISION::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&iobjectid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&benter_) -
-    reinterpret_cast<char*>(&iobjectid_)) + sizeof(benter_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&fduration_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(fduration_));
 }
 
 S_COLLISION::~S_COLLISION() {
@@ -3891,9 +3893,10 @@ void S_COLLISION::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  vhitpos_.Clear();
   ::memset(&iobjectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&benter_) -
-      reinterpret_cast<char*>(&iobjectid_)) + sizeof(benter_));
+      reinterpret_cast<char*>(&fduration_) -
+      reinterpret_cast<char*>(&iobjectid_)) + sizeof(fduration_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3924,39 +3927,42 @@ const char* S_COLLISION::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 iColLayer = 4;
+      // int64 iDamage = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
-          icollayer_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          idamage_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 iOtherID = 5;
+      // repeated float vHitPos = 5 [packed = true];
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
-          iotherid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_vhitpos(), ptr, ctx);
           CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45) {
+          _internal_add_vhitpos(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // int32 iOtherLayer = 6;
+      // int32 iStatusEffect = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
-          iotherlayer_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          istatuseffect_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 iOtherColLayer = 7;
+      // float fForce = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
-          iothercollayer_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61)) {
+          fforce_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // bool bEnter = 8;
+      // float fDuration = 8;
       case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
-          benter_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 69)) {
+          fduration_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
       default: {
@@ -4006,34 +4012,33 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_ilayer(), target);
   }
 
-  // int32 iColLayer = 4;
-  if (this->icollayer() != 0) {
+  // int64 iDamage = 4;
+  if (this->idamage() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_icollayer(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(4, this->_internal_idamage(), target);
   }
 
-  // int32 iOtherID = 5;
-  if (this->iotherid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_iotherid(), target);
+  // repeated float vHitPos = 5 [packed = true];
+  if (this->_internal_vhitpos_size() > 0) {
+    target = stream->WriteFixedPacked(5, _internal_vhitpos(), target);
   }
 
-  // int32 iOtherLayer = 6;
-  if (this->iotherlayer() != 0) {
+  // int32 iStatusEffect = 6;
+  if (this->istatuseffect() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_iotherlayer(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_istatuseffect(), target);
   }
 
-  // int32 iOtherColLayer = 7;
-  if (this->iothercollayer() != 0) {
+  // float fForce = 7;
+  if (!(this->fforce() <= 0 && this->fforce() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_iothercollayer(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(7, this->_internal_fforce(), target);
   }
 
-  // bool bEnter = 8;
-  if (this->benter() != 0) {
+  // float fDuration = 8;
+  if (!(this->fduration() <= 0 && this->fduration() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(8, this->_internal_benter(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(8, this->_internal_fduration(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4052,6 +4057,18 @@ size_t S_COLLISION::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // repeated float vHitPos = 5 [packed = true];
+  {
+    unsigned int count = static_cast<unsigned int>(this->_internal_vhitpos_size());
+    size_t data_size = 4UL * count;
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    total_size += data_size;
+  }
+
   // int32 iObjectID = 1;
   if (this->iobjectid() != 0) {
     total_size += 1 +
@@ -4066,6 +4083,13 @@ size_t S_COLLISION::ByteSizeLong() const {
         this->_internal_ilevel());
   }
 
+  // int64 iDamage = 4;
+  if (this->idamage() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_idamage());
+  }
+
   // int32 iLayer = 3;
   if (this->ilayer() != 0) {
     total_size += 1 +
@@ -4073,37 +4097,21 @@ size_t S_COLLISION::ByteSizeLong() const {
         this->_internal_ilayer());
   }
 
-  // int32 iColLayer = 4;
-  if (this->icollayer() != 0) {
+  // int32 iStatusEffect = 6;
+  if (this->istatuseffect() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_icollayer());
+        this->_internal_istatuseffect());
   }
 
-  // int32 iOtherID = 5;
-  if (this->iotherid() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_iotherid());
+  // float fForce = 7;
+  if (!(this->fforce() <= 0 && this->fforce() >= 0)) {
+    total_size += 1 + 4;
   }
 
-  // int32 iOtherLayer = 6;
-  if (this->iotherlayer() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_iotherlayer());
-  }
-
-  // int32 iOtherColLayer = 7;
-  if (this->iothercollayer() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_iothercollayer());
-  }
-
-  // bool bEnter = 8;
-  if (this->benter() != 0) {
-    total_size += 1 + 1;
+  // float fDuration = 8;
+  if (!(this->fduration() <= 0 && this->fduration() >= 0)) {
+    total_size += 1 + 4;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4137,29 +4145,27 @@ void S_COLLISION::MergeFrom(const S_COLLISION& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  vhitpos_.MergeFrom(from.vhitpos_);
   if (from.iobjectid() != 0) {
     _internal_set_iobjectid(from._internal_iobjectid());
   }
   if (from.ilevel() != 0) {
     _internal_set_ilevel(from._internal_ilevel());
   }
+  if (from.idamage() != 0) {
+    _internal_set_idamage(from._internal_idamage());
+  }
   if (from.ilayer() != 0) {
     _internal_set_ilayer(from._internal_ilayer());
   }
-  if (from.icollayer() != 0) {
-    _internal_set_icollayer(from._internal_icollayer());
+  if (from.istatuseffect() != 0) {
+    _internal_set_istatuseffect(from._internal_istatuseffect());
   }
-  if (from.iotherid() != 0) {
-    _internal_set_iotherid(from._internal_iotherid());
+  if (!(from.fforce() <= 0 && from.fforce() >= 0)) {
+    _internal_set_fforce(from._internal_fforce());
   }
-  if (from.iotherlayer() != 0) {
-    _internal_set_iotherlayer(from._internal_iotherlayer());
-  }
-  if (from.iothercollayer() != 0) {
-    _internal_set_iothercollayer(from._internal_iothercollayer());
-  }
-  if (from.benter() != 0) {
-    _internal_set_benter(from._internal_benter());
+  if (!(from.fduration() <= 0 && from.fduration() >= 0)) {
+    _internal_set_fduration(from._internal_fduration());
   }
 }
 
@@ -4184,9 +4190,10 @@ bool S_COLLISION::IsInitialized() const {
 void S_COLLISION::InternalSwap(S_COLLISION* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  vhitpos_.InternalSwap(&other->vhitpos_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_COLLISION, benter_)
-      + sizeof(S_COLLISION::benter_)
+      PROTOBUF_FIELD_OFFSET(S_COLLISION, fduration_)
+      + sizeof(S_COLLISION::fduration_)
       - PROTOBUF_FIELD_OFFSET(S_COLLISION, iobjectid_)>(
           reinterpret_cast<char*>(&iobjectid_),
           reinterpret_cast<char*>(&other->iobjectid_));

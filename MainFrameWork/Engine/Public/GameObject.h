@@ -44,6 +44,8 @@ public:
 	virtual	void				OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) {};
 	virtual	void				OnCollisionStay(const _uint iColLayer, class CCollider* pOther) {};
 	virtual	void				OnCollisionExit(const _uint iColLayer, class CCollider* pOther) {};
+	virtual void				Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration) {};
+
 
 	virtual void				Set_Skill(CGameObject * pGameObject) {};
 	virtual void				Set_SlowMotion(_bool bSlow) {};

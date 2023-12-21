@@ -72,29 +72,6 @@ HRESULT CPlayer_Server::Render()
 
 void CPlayer_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	/*CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	pGameInstance->AddRef();
-
-
-	Protocol::S_COLLISION pkt;
-
-	pkt.set_benter(true);
-
-	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
-	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
-	pkt.set_iobjectid(m_iObjectID);
-	pkt.set_icollayer(iColLayer);
-
-
-	CGameObject* pOtherObject = pOther->Get_Owner();
-	pkt.set_iotherid(pOtherObject->Get_ObjectID());
-	pkt.set_iotherlayer(pOtherObject->Get_ObjectLayer());
-	pkt.set_iothercollayer(pOther->Get_ColLayer());
-
-	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-
-	Safe_Release(pGameInstance);*/
 }
 
 void CPlayer_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -103,29 +80,7 @@ void CPlayer_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 
 void CPlayer_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	pGameInstance->AddRef();
-
-
-	Protocol::S_COLLISION pkt;
-
-	pkt.set_benter(false);
-
-	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
-	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
-	pkt.set_iobjectid(m_iObjectID);
-	pkt.set_icollayer(iColLayer);
-
-
-	CGameObject* pOtherObject = pOther->Get_Owner();
-	pkt.set_iotherid(pOtherObject->Get_ObjectID());
-	pkt.set_iotherlayer(pOtherObject->Get_ObjectLayer());
-	pkt.set_iothercollayer(pOther->Get_ColLayer());
-
-	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-
-	Safe_Release(pGameInstance);
+	
 }
 
 

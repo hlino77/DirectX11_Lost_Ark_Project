@@ -324,24 +324,7 @@ bool Handel_S_COLLISION_Client(PacketSessionRef& session, Protocol::S_COLLISION&
 		return true;
 	}
 
-	CGameObject* pOtherObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.iotherlayer(), pkt.iotherid());
-	if (pOtherObject == nullptr)
-	{
-		Safe_Release(pGameInstance);
-		return true;
-	}
-
-
-	CCollider* pOtherCollider = pOtherObject->Get_Colider(pkt.iothercollayer());
-
-
-	if (pOtherCollider)
-	{
-		if (pkt.benter())
-			pObject->OnCollisionEnter(pkt.icollayer(), pOtherCollider);
-		else
-			pObject->OnCollisionExit(pkt.icollayer(), pOtherCollider);
-	}
+	pObject->Hit_Collision(pkt.idamage(), Vec3(pkt.vhitpos().data()), pkt.istatuseffect(), pkt.fforce(), pkt.fduration());
 
 	Safe_Release(pGameInstance);
 

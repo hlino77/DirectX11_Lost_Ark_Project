@@ -54,7 +54,7 @@ public:
 	virtual void Set_SlowMotion(_bool bSlow) override;
 
 
-
+	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
 public:
 	void					Find_NearTarget();
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
@@ -95,6 +95,7 @@ public:
 
 	void					Set_NoticeRange(_float fNoticeRange) { m_fNoticeRange = fNoticeRange; }
 	_float					Get_NoticeRange() { return m_fNoticeRange; }
+
 
 protected:
 	virtual HRESULT Ready_Components();

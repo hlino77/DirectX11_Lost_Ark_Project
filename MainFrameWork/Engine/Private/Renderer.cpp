@@ -1077,12 +1077,12 @@ HRESULT CRenderer::Render_Bloom()
 	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
 		return E_FAIL;
 	// 144x144에서 블러
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_144x144"))) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_144x144"), m_pDownSample144x144_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample3"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_144x144"))) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_144x144"), m_pDownSample144x144_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_H_144x144"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurV")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -1112,12 +1112,12 @@ HRESULT CRenderer::Render_Bloom()
 	tBloomData = { m_fSampleRatio16x16 / fOriginalWidth, m_fSampleRatio16x16 / fOriginalHeight };
 	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_24x24"))) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_24x24"), m_pDownSample24x24_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomUpSample1"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_24x24"))) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_24x24"), m_pDownSample24x24_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_H_24x24"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurV")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -1143,12 +1143,12 @@ HRESULT CRenderer::Render_Bloom()
 	tBloomData = { m_fSampleRatio4x4 / fOriginalWidth, m_fSampleRatio4x4 / fOriginalHeight };
 	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_4x4"))) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_4x4"), m_pDownSample4x4_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomUpSample2"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_4x4"))) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_4x4"), m_pDownSample4x4_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_H_4x4"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurV")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
