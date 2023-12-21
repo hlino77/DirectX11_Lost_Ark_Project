@@ -12,13 +12,13 @@ void CKing_BT_Attack_Attack2_Server::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
-	static_cast<CMonster_Server*>(m_pGameObject)->Send_Boss_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 
 }
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Attack2_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimIndexFrame[0].iAnimIndex)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 	return __super::OnUpdate(fTimeDelta);
 }

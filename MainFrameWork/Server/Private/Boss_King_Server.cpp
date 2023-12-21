@@ -58,7 +58,7 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	m_vecAttackRanges.clear();
-	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(2.f);
 	m_vecAttackRanges.push_back(4.f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 30.f;
@@ -273,6 +273,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack1";
 	CBT_Action* pAttack1 = CCommon_BT_Attack1_Server::Create(&ActionDesc);
@@ -284,7 +285,9 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.2f;
 	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
@@ -316,7 +319,9 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.2f; 
 	ActionDesc.strActionName = L"Action_Attack3";
 	CBT_Action* pAttack3 = CKing_BT_Attack_Attack3_Server::Create(&ActionDesc);
 
@@ -332,8 +337,9 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.strActionName = L"Action_Attack4";
 	CBT_Action* pAttack4 = CKing_BT_Attack_Attack4_Server::Create(&ActionDesc);
 

@@ -300,7 +300,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 
 			SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 			CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-			static_cast<CMonster_Server*>(pMonster)->Send_Boss_Action();
+			static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
 		}
 		Safe_Release(pGameInstance);
 	}
@@ -348,7 +348,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Boss(const wstring& szName, Vec3 vPos)
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 		CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-		static_cast<CMonster_Server*>(pMonster)->Send_Boss_Action();
+		static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
 	}
 
 

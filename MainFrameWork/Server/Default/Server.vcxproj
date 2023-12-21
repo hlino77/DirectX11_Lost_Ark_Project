@@ -153,6 +153,11 @@
     <ClCompile Include="..\Private\Boss_King_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Server.cpp" />
     <ClCompile Include="..\Private\Camera_Free_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_BoundLand_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Bound_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Stand_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_TwistLand_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Twist_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack3_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack4_Server.cpp" />
@@ -208,7 +213,6 @@
     <ClCompile Include="..\Private\Common_BT_DamageRight_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Dead_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Idle_Server.cpp" />
-    <ClCompile Include="..\Private\Common_BT_Maz_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Move_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Spawn_Server.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -219,6 +223,16 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Boss_Server.h" />
     <ClInclude Include="..\Public\Camera_Free_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_BoundLand_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_Bound_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_BoundLand_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_TwistLand_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Bound_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Downed_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Twist_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_Stand_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_TwistLand_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_Twist_Server.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack2_Server.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack3_Server.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack4_Server.h" />
@@ -276,7 +290,6 @@
     <ClInclude Include="..\Public\Common_BT_IF_Maz_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Near_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Spawn_Server.h" />
-    <ClInclude Include="..\Public\Common_BT_Maz_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Move_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Spawn_Server.h" />
     <ClInclude Include="..\Public\Common_BT_WHILE_Within_Range_Server.h" />

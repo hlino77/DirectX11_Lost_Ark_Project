@@ -524,5 +524,7 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 	
 	
 	dynamic_cast<CMonster*>(pObject)->Set_Action(CAsUtils::ToWString(pkt.strstate()));
+	 
+	RELEASE_INSTANCE(CGameInstance);
 	return true;
 }

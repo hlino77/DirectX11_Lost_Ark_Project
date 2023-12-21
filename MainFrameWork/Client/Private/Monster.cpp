@@ -71,12 +71,14 @@ void CMonster::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+	Set_Colliders(fTimeDelta);
+
 	if (nullptr == m_pRendererCom)
 		return;
 
 	CullingObject();
 
-	Set_Colliders(fTimeDelta);
+
 }
 
 HRESULT CMonster::Render()
@@ -227,8 +229,9 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
-			_float fForce = 1.0f;
+			_float fForce = 0.0f;
+			if (m_IsKnockBack)
+				fForce = 20.0f;
 			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)

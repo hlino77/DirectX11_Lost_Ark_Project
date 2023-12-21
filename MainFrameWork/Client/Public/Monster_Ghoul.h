@@ -35,9 +35,7 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 
-	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
-	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
-	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
+
 
 
 	virtual void Set_SlowMotion(_bool bSlow) override;

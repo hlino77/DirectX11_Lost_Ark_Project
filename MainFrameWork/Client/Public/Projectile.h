@@ -29,7 +29,7 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void LateTick(_float fTimeDelta);
-	virtual HRESULT Render() {};
+	virtual HRESULT Render() { return S_OK; }
 	virtual HRESULT			Render_Debug();
 
 
@@ -37,7 +37,7 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
-	virtual HRESULT					Ready_Coliders() {};
+	virtual HRESULT					Ready_Coliders() { return S_OK; };
 
 	CSphereCollider* Get_Collider(ATTACKCOLLIDER eCollider) { return m_AttackCollider[eCollider]; }
 

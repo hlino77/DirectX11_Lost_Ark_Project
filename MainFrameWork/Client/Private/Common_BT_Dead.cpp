@@ -10,7 +10,7 @@ CCommon_BT_Dead::CCommon_BT_Dead()
 void CCommon_BT_Dead::OnStart()
 {
 	__super::OnStart(0);
-
+	static_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, false);
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Dead::OnUpdate(const _float& fTimeDelta)

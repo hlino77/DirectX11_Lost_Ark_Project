@@ -10,6 +10,7 @@ void CCommon_BT_Spawn::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster*>(m_pGameObject)->	LookAt_Target_Direction();
+
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)

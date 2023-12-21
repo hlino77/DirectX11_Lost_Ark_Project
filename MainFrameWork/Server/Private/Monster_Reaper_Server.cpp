@@ -73,7 +73,7 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
-
+	m_iHp = 15.f;
 	return S_OK;
 }
 
@@ -262,7 +262,6 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))
 		return E_FAIL;
-
 
 
 	ActionDesc.vecAnimations.clear();

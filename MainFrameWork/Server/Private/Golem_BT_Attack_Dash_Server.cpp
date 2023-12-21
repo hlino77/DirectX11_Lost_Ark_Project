@@ -11,7 +11,8 @@ void CGolem_BT_Attack_Dash_Server::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
-	static_cast<CMonster_Server*>(m_pGameObject)->Send_Boss_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_SuperArmor(true);
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDelta)
@@ -28,6 +29,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDe
 void CGolem_BT_Attack_Dash_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_SuperArmor(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();

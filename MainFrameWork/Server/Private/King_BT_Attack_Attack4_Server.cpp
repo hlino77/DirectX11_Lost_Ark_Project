@@ -11,7 +11,7 @@ void CKing_BT_Attack_Attack4_Server::OnStart()
 	__super::OnStart(0);
 
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
-	static_cast<CMonster_Server*>(m_pGameObject)->Send_Boss_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 
 }
 
