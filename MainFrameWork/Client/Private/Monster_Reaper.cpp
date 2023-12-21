@@ -73,35 +73,22 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 33;
 
+	m_fRootTargetDistance = 0.5f;
     return S_OK;
 }
 
 void CMonster_Reaper::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
+	__super::Tick(fTimeDelta);
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
-
-
-
 
 }
 
 void CMonster_Reaper::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-
-	if (nullptr == m_pRendererCom)
-		return;
-	CullingObject();
-	Set_Colliders(fTimeDelta);
+	__super::LateTick(fTimeDelta);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Center_ToBone();
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);

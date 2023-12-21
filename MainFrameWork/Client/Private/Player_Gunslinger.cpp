@@ -235,11 +235,7 @@ HRESULT CPlayer_Gunslinger::Render_ShadowDepth()
 
 void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
-		cout << "플레이어 Body : 몬스터 Body -> ENTER" << endl;
 
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
-		cout << "플레이어 Attack : 몬스터 Body -> ENTER" << endl;
 }
 
 void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -249,11 +245,6 @@ void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOthe
 
 void CPlayer_Gunslinger::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
-		cout << "플레이어 Body : 몬스터 Body -> EXIT" << endl;
-
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
-		cout << "플레이어 Attack : 몬스터 Body -> EXIT" << endl;
 }
 
 void CPlayer_Gunslinger::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)

@@ -37,9 +37,7 @@ public:
 	virtual void Set_SlowMotion(_bool bSlow) override;
 
 
-
-protected:
-	_float	m_fPositionTimeAcc = 0.f;
+\
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();

@@ -71,6 +71,8 @@ void CBoss::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
+	m_pRigidBody->Tick(fTimeDelta);
 }
 
 void CBoss::LateTick(_float fTimeDelta)
