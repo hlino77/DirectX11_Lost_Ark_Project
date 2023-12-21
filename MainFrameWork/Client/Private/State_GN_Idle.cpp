@@ -51,6 +51,7 @@ void CState_GN_Idle::Enter_State()
 
 	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eIden);
 	m_pController->Get_StopMessage();
+	m_pController->Get_SkillEndMessage();
 }
 
 void CState_GN_Idle::Tick_State(_float fTimeDelta)
@@ -73,6 +74,10 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(vClickPos);
 
 		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (true == m_pController->Is_Hit())
+	{
+		m_pPlayer->Set_State(TEXT("Hit"));
 	}
 	else if (0 != iIdentity)
 	{

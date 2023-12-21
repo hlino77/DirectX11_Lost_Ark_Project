@@ -2,6 +2,9 @@
 #include "..\Public\Player_Controller_GN.h"
 #include "GameInstance.h"
 #include "Player_Skill.h"
+#include "Player_Gunslinger.h"
+#include "ColliderSphere.h"
+#include "ColliderOBB.h"
 
 CPlayer_Controller_GN::CPlayer_Controller_GN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
@@ -123,8 +126,10 @@ void CPlayer_Controller_GN::Attack()
 {
 }
 
-void CPlayer_Controller_GN::Hit()
+void CPlayer_Controller_GN::Hit(CGameObject* pHitObject)
 {
+	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
+		return;
 }
 
 void CPlayer_Controller_GN::Skill_CoolTime(const _float& fTimeDelta)
@@ -153,6 +158,39 @@ void CPlayer_Controller_GN::GN_Identity(GN_IDENTITY eIndex)
 	m_ePreIdentity = m_eIdentity;
 	m_eIdentity = eIndex;
 	Change_Skill_Iden(eIndex);
+	Change_Iden_Collider(eIndex);
+}
+
+void CPlayer_Controller_GN::Change_Iden_Collider(GN_IDENTITY eIndex)
+{
+	CSphereCollider* pCollider = m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER);
+	if (nullptr == pCollider)
+		return;
+	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
+	if (nullptr == pChildCollider)
+		return;
+
+	switch (eIndex)
+	{
+	case Client::CPlayer_Controller_GN::HAND:
+		m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->Set_Radius(2.f);
+		m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->Set_Offset(Vec3(0.0f, 0.2f, 1.7f));
+		pChildCollider->Set_Scale(Vec3(0.3f, 0.6f, 1.5f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 1.7f));
+		break;
+	case Client::CPlayer_Controller_GN::SHOT:
+		m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->Set_Radius(1.5f);
+		m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->Set_Offset(Vec3(0.0f, 0.2f, 1.2f));
+		pChildCollider->Set_Scale(Vec3(0.6f, 0.6f, 1.f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 1.2f));
+		break;
+	case Client::CPlayer_Controller_GN::LONG:
+		m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->Set_Radius(2.5f);
+		m_pOwner->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->Set_Offset(Vec3(0.0f, 0.2f, 2.4f));
+		pChildCollider->Set_Scale(Vec3(0.3f, 0.6f, 2.2f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 2.4f));
+		break;
+	}
 }
 
 void CPlayer_Controller_GN::Change_Skill_Iden(GN_IDENTITY eIndex)

@@ -47,6 +47,8 @@ void CState_GN_DeathFire_Success::Tick_State_Control(_float fTimeDelta)
 {
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDeathFire_Success))
 		m_pPlayer->Set_State(TEXT("Idle"));
+
+	/* ÆøÅº »ý¼º ÇÁ·¹ÀÓ 15 */
 }
 
 void CState_GN_DeathFire_Success::Tick_State_NoneControl(_float fTimeDelta)

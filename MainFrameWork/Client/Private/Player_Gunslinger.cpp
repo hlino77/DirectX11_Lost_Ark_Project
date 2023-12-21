@@ -32,7 +32,7 @@
 #include "State_GN_Run_Identity.h"
 #include "State_GN_Run_Identity_Back.h"
 
-/* Skill */
+/* State_Skill */
 #include "State_GN_FreeShooter.h"
 #include "State_GN_TerminatingShot_Start.h"
 #include "State_GN_TerminatingShot_End.h"
@@ -65,6 +65,22 @@
 #include "State_GN_DeadHard_Loop.h"
 #include "State_GN_DeadHard_End.h"
 
+/* 스킬 */
+#include "Skill_GN_Apocalypse.h"
+#include "Skill_GN_DeadHard.h"
+#include "Skill_GN_DeathFire.h"
+#include "Skill_GN_FocusShot.h"
+#include "Skill_GN_FreeShooter.h"
+#include "Skill_GN_Grenade.h"
+#include "Skill_GN_Gunkata.h"
+#include "Skill_GN_LastSupper.h"
+#include "Skill_GN_PerfectShot.h"
+#include "Skill_GN_QuickStep.h"
+#include "Skill_GN_RapidFire.h"
+#include "Skill_GN_SpiralChaser.h"
+#include "Skill_GN_TargetDown.h"
+#include "Skill_GN_TerminatingShot.h"
+
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -84,10 +100,16 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
+	if (FAILED(Ready_Coliders()))
+		return E_FAIL;
+
 	if (FAILED(Ready_State()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Skill()))
+		return E_FAIL;
+
+	if (FAILED(Ready_PhysxBoneBranch()))
 		return E_FAIL;
 
 	if (m_bControl)
@@ -95,6 +117,8 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 		if (FAILED(Ready_SkillUI()))
 			return E_FAIL;
 	}
+
+
 	m_fAttackMoveSpeed = 8.0f;
 
 	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
@@ -115,13 +139,6 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	m_pStateMachine->Change_State(Desc->szState);
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(this);
-
-
-	if (FAILED(Ready_PhysxBoneBranch()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
 
 
 	return S_OK;
@@ -569,173 +586,129 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 
-	m_pStateMachine->Change_State(TEXT("Idle"));
-
 	return S_OK;
 }
 
 HRESULT CPlayer_Gunslinger::Ready_Skill()
 {
-	
+	CPlayer_Skill* pSkill = nullptr;
 	CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
 	/* 핸드건 스킬 */
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_QuickStep_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 10.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_End")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_QuickStep::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_DeathFire_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 24.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeathFire_Success")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::W, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_DeathFire::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_RapidFire_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 6.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_RapidFire_End")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::E, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_RapidFire::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Gunkata_1");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::COUNTER;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 12.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_1")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_2")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Gunkata_3")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::R, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_Gunkata::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::R, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_SprialChaser");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 8.f;
-	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_SprialChaser")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::A, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_SpiralChaser::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Grenade");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 6.f;
-	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Grenade")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::S, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_Grenade::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_DeadHard_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 3.f;
-	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_Loop")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_DeadHard_End")));
-	m_pController->Bind_HandSkill(CPlayer_Controller_GN::SKILL_KEY::D, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_DeadHard::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	/* 샷건 스킬*/
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FreeShoter");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 30.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FreeShoter")));
-	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::Q, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_FreeShooter::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_ShotSkill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TerminatingShot_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::COMBO;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 30.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TerminatingShot_End")));
-	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::W, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_TerminatingShot::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_ShotSkill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_LastSupper");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::COUNTER;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 36.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_LastSupper")));
-	m_pController->Bind_ShotSkill(CPlayer_Controller_GN::SKILL_KEY::E, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_LastSupper::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_ShotSkill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	/* 장총 스킬 */
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_FocusShot_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::NORMAL;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 27.f;
-	SkillDesc.IsSuperArmor = true;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_Loop")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_FocusShot_End")));
-	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::A, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_FocusShot::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_PerfectShot_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 30.f;
-	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_Loop")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_PerfectShot_End")));
-	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::S, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_PerfectShot::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Apocalypse_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::HOLD;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 24.f;
-	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Loop")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Success")));
-	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::D, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_Apocalypse::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TargetDown_Start");
-	SkillDesc.eAttackType = CPlayer_Skill::SKILL_ATTACKTYPE::NORMAL;
-	SkillDesc.eCtrlType = CPlayer_Skill::SKILL_CTRLTYPE::TARGET;
-	SkillDesc.fSkillDamage = 0.f;
-	SkillDesc.fSkillCoolTime = 36.f;
-	SkillDesc.IsSuperArmor = false;
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Loop")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_Shot")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_End")));
-	m_pController->Bind_LongSkill(CPlayer_Controller_GN::SKILL_KEY::F, CPlayer_Skill::Create(this, &SkillDesc));
+	pSkill = CSkill_GN_TargetDown::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 
@@ -745,6 +718,9 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 
 HRESULT CPlayer_Gunslinger::Ready_Coliders()
 {
+	if (false == m_bControl)
+		return S_OK;
+
 
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->SetActive(true);
@@ -761,7 +737,7 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 
 	{
 		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
+		tColliderInfo.m_bActive = true;
 		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
 		CSphereCollider* pCollider = nullptr;
 
@@ -774,9 +750,9 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 				CCollider::ColliderInfo tChildColliderInfo;
 				tChildColliderInfo.m_bActive = true;
 				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				CSphereColliderGroup* pChildCollider = nullptr;
+				COBBCollider* pChildCollider = nullptr;
 
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColliderGroup"), TEXT("Com_ColliderAttackChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
+				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderAttackChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
 					return E_FAIL;
 
 				pCollider->Set_Child(pChildCollider);
@@ -787,47 +763,15 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 	}
 
 	{
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->SetActive(true);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Radius(6.0f);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Offset(Vec3(0.0f, 0.2f, 0.0f));
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Radius(2.5f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Offset(Vec3(0.0f, 0.2f, 1.7f));
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->SetActive(false);
 
-
-		CSphereColliderGroup* pGroup = dynamic_cast<CSphereColliderGroup*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Get_Child());
-
-
-		CGameInstance* pGameInstance = CGameInstance::GetInstance();
-		Safe_AddRef(pGameInstance);
-
-		Vec3 vOffset(0.0f, 0.0f, 4.0f);
-		Quaternion vQuat = Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(360.0f / 100.0f));
-
-		for (_uint i = 0; i < 100; ++i)
-		{
-			CCollider::ColliderInfo tColliderInfo;
-			tColliderInfo.m_bActive = true;
-			tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-
-			CSphereCollider* pCollider = dynamic_cast<CSphereCollider*>(pGameInstance->Clone_Component(this, LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), &tColliderInfo));
-			if (nullptr == pCollider)
-				return E_FAIL;
-
-			vOffset = XMVector3Rotate(vOffset, vQuat);
-
-			pCollider->SetActive(true);
-			pCollider->Set_Radius(0.6f);
-			pCollider->Set_Offset(vOffset);
-
-
-			pGroup->Add_Collider(pCollider);
-		}
-
-
-		Safe_Release(pGameInstance);
+		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Get_Child());
+		pChildCollider->Set_Scale(Vec3(0.3f, 0.6f, 1.5f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 1.7f));
+		pChildCollider->SetActive(false);
 	}
-
-	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Radius(0.5f);
-	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->SetActive(false);
-	//m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Offset(Vec3(0.0f, 0.7f, 1.0f));
 
 	for (auto& Collider : m_Coliders)
 	{

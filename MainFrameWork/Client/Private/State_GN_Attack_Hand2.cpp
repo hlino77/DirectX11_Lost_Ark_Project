@@ -3,6 +3,7 @@
 #include "StateMachine.h"
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
+#include "ColliderSphere.h"
 #include "Model.h"
 
 CState_GN_Attack_Hand2::CState_GN_Attack_Hand2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
@@ -41,6 +42,16 @@ void CState_GN_Attack_Hand2::Exit_State()
 
 void CState_GN_Attack_Hand2::Tick_State_Control(_float fTimeDelta)
 {
+	if ((7 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 9 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) ||
+		(11 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 13 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) || 
+		(15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 17 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) ||
+		(19 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 21 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) ||
+		(23 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 25 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)))
+		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(true);
+	else
+		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(false);
+
+
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 
 	if (true == m_pController->Is_Dash())

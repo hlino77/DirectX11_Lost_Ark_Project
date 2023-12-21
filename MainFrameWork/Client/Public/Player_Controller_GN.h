@@ -42,13 +42,13 @@ public:
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack() override;
-	virtual void	Hit() override;
+	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 private:
 	void			GN_Identity(GN_IDENTITY eIndex);
 	void			Change_Skill_Iden(GN_IDENTITY eIndex);
-	
+	void			Change_Iden_Collider(GN_IDENTITY eIndex);
 
 private:
 	GN_IDENTITY				m_eIdentity = { GN_IDENTITY::HAND };

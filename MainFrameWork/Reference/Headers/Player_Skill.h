@@ -9,7 +9,7 @@ class CPlayer_Controller;
 class CModel;
 class CCollider;
 
-class ENGINE_DLL CPlayer_Skill : public CBase
+class ENGINE_DLL CPlayer_Skill abstract : public CGameObject
 {
 public:
 	enum class SKILL_ATTACKTYPE { NORMAL, NEUTRAL, DESTROY, COUNTER, _END };
@@ -18,26 +18,20 @@ public:
 public:
 	typedef struct tagPlayerSkillDesc
 	{
-		_bool			 IsSuperArmor = false;
-
-		SKILL_ATTACKTYPE eAttackType = { SKILL_ATTACKTYPE::_END };
-		SKILL_CTRLTYPE   eCtrlType = { SKILL_CTRLTYPE::_END };
-
-		_float			 fSkillDamage = { 0.f };
-		_float			 fSkillCoolTime = { 0.f };
-
 		wstring			 strSkill_StartName;
 		vector<class CState*> State_Skills;
 
 	}PLAYERSKILL_DESC;
 	
 protected:
-	CPlayer_Skill(CGameObject* pOwner);
+	CPlayer_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjectTag, _int iObjType);
 	virtual ~CPlayer_Skill() = default;
 
 public:
 	virtual HRESULT			Initialize(void* pArg);
-
+	virtual HRESULT			Ready_Component() { return S_OK; };
+	virtual HRESULT			Ready_Collider() { return S_OK; };
+	
 public:
 	virtual HRESULT			Increase_Player_Stat() { return S_OK; }
 	virtual HRESULT			Decrease_Player_Stat() { return S_OK; }
@@ -45,15 +39,17 @@ public:
 
 
 public:
-	virtual const _bool&	Is_Attack() { return m_IsAttack; }
-	virtual const _bool&	Is_SuperArmor() { return m_IsSuperArmor; }
-	virtual const _bool&	Is_SkillSuccess() { return m_IsSkillSuccess; }
+	virtual const _bool&	 Is_Attack()			{ return m_IsAttack; }
+	virtual const _bool&	 Is_SuperArmor()		{ return m_IsSuperArmor; }
+	virtual const _bool&	 Is_SkillSuccess()		{ return m_IsSkillSuccess; }
 public:
-	virtual const wstring&   Get_Skill_StartName()	{ return m_strSkill_StartName; }
-	virtual SKILL_ATTACKTYPE Get_Skill_AttackType() { return m_eAttackType; }
-	virtual SKILL_CTRLTYPE   Get_Skill_CtrlType()	{ return m_eCtrlType; }
-	virtual KEY				 Get_BindKey()			{ return m_eBindKey; }
-	virtual const _float&	 Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
+	virtual const wstring&			Get_Skill_Name()		{ return m_strSkill_Name; }
+	virtual const wstring&			Get_Skill_StartName()	{ return m_strSkill_StartName; }
+	virtual SKILL_ATTACKTYPE		Get_Skill_AttackType()  { return m_eAttackType; }
+	virtual SKILL_CTRLTYPE			Get_Skill_CtrlType()	{ return m_eCtrlType; }
+	virtual KEY						Get_BindKey()			{ return m_eBindKey; }
+	virtual const _float&			Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
+	virtual const class CTexture*	Get_Skill_Texture()		{ return m_pSkillTextureCom; }
 	
 public:
 	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
@@ -61,8 +57,13 @@ public:
 	virtual void			Set_BindKey(CPlayer_Controller::SKILL_KEY eKey);
 	virtual void			Set_Skill_CoolTime(_float fSkillCoolTime) { m_fSkillCoolTime = fSkillCoolTime; }
 
+public:
+	virtual void			Check_ColliderState();
+
 protected:
-	CGameObject*				  m_pOwner = { nullptr };
+	class CTexture*				  m_pSkillTextureCom = { nullptr };
+
+
 	wstring						  m_strSkill_Name;
 	wstring						  m_strSkill_StartName;
 
@@ -81,7 +82,6 @@ protected:
 	vector<class CState*>		  m_State_Skills;
 
 public:
-	static CPlayer_Skill* Create(CGameObject* pOwner, void* pArg);
 	virtual void Free();
 };
 
