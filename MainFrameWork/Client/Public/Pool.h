@@ -56,6 +56,20 @@ public:
 		}
 	}
 
+	static void Clear()
+	{
+		if (g_objQueue.empty())
+			return;
+
+		_int iSize = g_objQueue.size();
+
+		for (_int i = 0; i < iSize; ++i)
+		{
+			g_objQueue.pop();
+		}
+	}
+
+
 	static queue<T*>& Get_Que() { return g_objQueue; }
 
 private:

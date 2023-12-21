@@ -30,6 +30,8 @@
 #include "UI_IdentityGN_BackGroundShine.h"
 #include "UI_IdentityGN_MainFrame.h"
 #include "UI_IdentityGN_WF_Front.h"
+#include "Projectile.h"
+
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -70,6 +72,8 @@ HRESULT CLevel_Bern::Initialize()
 	if (FAILED(Ready_Layer_Effect(LAYER_TYPE::LAYER_EFFECT)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Projectiles()))
+		return E_FAIL;
 
 	while (true)
 	{
@@ -116,6 +120,7 @@ HRESULT CLevel_Bern::Render_Debug()
 HRESULT CLevel_Bern::Exit()
 {
 	End_Collision();
+	CPool<CProjectile>::Clear();
 	End_Picking();
 	CServerSessionManager::GetInstance()->Set_Player(nullptr);
 	CPhysXMgr::GetInstance()->Reset();
@@ -354,6 +359,22 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 
 	pPlayer->Set_Camera(dynamic_cast<CCamera_Player*>(pCamera));
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Bern::Ready_Projectiles()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	for (_uint i = 0; i < 200; ++i)
+	{
+		CProjectile* pProjectile = dynamic_cast<CProjectile*>(pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Projectile"));
+		CPool<CProjectile>::Return_Obj(pProjectile);
+	}
 
 	Safe_Release(pGameInstance);
 

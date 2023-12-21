@@ -29,7 +29,7 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void LateTick(_float fTimeDelta);
-	virtual HRESULT Render() {};
+	virtual HRESULT Render() { return S_OK; }
 	virtual HRESULT			Render_Debug();
 
 
@@ -37,11 +37,11 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
-	virtual HRESULT					Ready_Coliders() {};
+	virtual HRESULT					Ready_Coliders() { return S_OK; }
 
 	CSphereCollider* Get_Collider(ATTACKCOLLIDER eCollider) { return m_AttackCollider[eCollider]; }
 
-	void	Shoot(_float fActiveTime);
+	void	Shoot(_float fActiveTime, _bool bSphere, _bool bOBB);
 	void	AttackEnd();
 
 public:
@@ -62,6 +62,7 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 
 	CSphereCollider* m_AttackCollider[COLEND];
+
 public:
 	virtual void Free();
 	static CProjectile* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

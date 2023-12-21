@@ -7,7 +7,7 @@
 #include "ColliderSphereGroup.h"
 #include "CollisionManager.h"
 #include "RigidBody.h"
-
+#include "Pool.h"
 
 CProjectile::CProjectile(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Projectile", OBJ_TYPE::PROJECTILE)
@@ -44,7 +44,13 @@ HRESULT CProjectile::Initialize(void* pArg)
 
 void CProjectile::Tick(_float fTimeDelta)
 {
-
+	for (auto& Collider : m_AttackCollider)
+	{
+		if (Collider->IsActive())
+		{
+			Collider->Update_Collider();
+		}
+	}
 }
 
 void CProjectile::LateTick(_float fTimeDelta)
@@ -84,19 +90,23 @@ void CProjectile::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 }
 
 
-void CProjectile::Shoot(_float fActiveTime)
+void CProjectile::Shoot(_float fActiveTime, _bool bSphere, _bool bOBB)
 {
 	m_fActiveTime = fActiveTime;
 	m_fCurrTime = 0.0f;
-
-	for (auto& Collider : m_AttackCollider)
+	
+	if (bSphere)
 	{
-		if (Collider->IsActive())
-		{
-			Collider->Update_Collider();
-			CCollisionManager::GetInstance()->Add_Colider(Collider);
-		}
+		m_AttackCollider[ATTACKCOLLIDER::SPHERE]->Update_Collider();
+		m_AttackCollider[ATTACKCOLLIDER::SPHERE]->SetActive(true);
 	}
+
+	if (bOBB)
+	{
+		m_AttackCollider[ATTACKCOLLIDER::OBB]->Update_Collider();
+		m_AttackCollider[ATTACKCOLLIDER::OBB]->SetActive(true);
+	}
+
 	Set_Active(true);
 }
 
@@ -107,10 +117,10 @@ void CProjectile::AttackEnd()
 		if (Collider->IsActive())
 		{
 			Collider->SetActive(false);
-			CCollisionManager::GetInstance()->Out_Colider(Collider);
 		}
 	}
 	Set_Active(false);
+	CPool<CProjectile>::Return_Obj(this);
 }
 
 HRESULT CProjectile::Ready_Components()

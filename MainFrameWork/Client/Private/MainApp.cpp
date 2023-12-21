@@ -373,11 +373,7 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CProjectile::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	for (_uint i = 0; i < 200; ++i)
-	{
-		CProjectile* pProjectile = dynamic_cast<CProjectile*>(m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Projectile"));
-		CPool<CProjectile>::Return_Obj(pProjectile);
-	}
+
 
 	return S_OK;
 }
