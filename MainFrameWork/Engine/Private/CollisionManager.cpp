@@ -66,6 +66,8 @@ void CCollisionManager::Out_Colider(CSphereCollider* pCollider)
 	{
 		if (*iter == pCollider)
 			iter = m_Colliders[pCollider->Get_ColLayer()].erase(iter);
+		else
+			++iter;
 	}
 }
 

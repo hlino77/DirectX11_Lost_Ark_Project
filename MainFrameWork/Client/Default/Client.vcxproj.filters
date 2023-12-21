@@ -483,7 +483,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
       <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\05.SkillUI\01.SkillIcon">
       <UniqueIdentifier>{5fa35a89-165d-4aad-86cf-664fd6527e0e}</UniqueIdentifier>
     </Filter>
@@ -504,6 +504,9 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\02.VoidObject">
       <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Projectile">
+      <UniqueIdentifier>{0e0d7d86-e55a-4b62-b8a0-64de959ce98c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -783,8 +786,6 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Monster_Golem.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -2175,7 +2176,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pawn_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\UI_QuickSkill.h">
       <Filter>02.GameObjects\UI\05.SkillUI</Filter>
@@ -2230,6 +2231,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VoidEffect.h">
       <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Projectile.h">
+      <Filter>02.GameObjects\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2497,8 +2501,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -3884,7 +3886,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Private\UI_QuickSkill.cpp">
       <Filter>02.GameObjects\UI\05.SkillUI</Filter>
@@ -3941,6 +3943,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VoidEffect.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Projectile.cpp">
+      <Filter>02.GameObjects\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

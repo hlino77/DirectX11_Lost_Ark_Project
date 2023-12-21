@@ -24,6 +24,7 @@
 
 #include "Monster_Zombie.h"
 #include "Monster_Plant.h"
+#include "Projectile.h"
 
 //UI
 #include "UI_ServerWnd.h"
