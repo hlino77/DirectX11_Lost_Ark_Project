@@ -86,6 +86,18 @@ CGameObject* CObject_Manager::Add_GameObject(_uint iLevelIndex, const _uint iLay
 	return pGameObject;
 }
 
+CGameObject* CObject_Manager::Add_GameObject(_uint iLevelIndex, const _uint iLayerType, CGameObject* pObject)
+{
+	/* 복제할 사본을 차즌ㄷ나. */
+	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
+	if (nullptr == pLayer)
+		return nullptr;
+
+	pLayer->Add_GameObject(pObject);
+
+	return pObject;
+}
+
 CGameObject* CObject_Manager::Clone_GameObject(const wstring& strPrototypeTag, void* pArg)
 {
 	CGameObject* pPrototype = Find_Prototype(strPrototypeTag);

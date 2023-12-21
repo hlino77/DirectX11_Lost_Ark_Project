@@ -26,6 +26,8 @@ enum : uint16
 	PKT_S_CREATEPLAYER = 16,
 	PKT_S_CHAT = 17,
 	PKT_S_MONSTERSTATE = 18,
+	PKT_S_PLAYERLEVELMOVE = 19,
+	PKT_S_DELETEGAMEOBJECT = 20
 };
 
 // TODO
@@ -48,6 +50,8 @@ bool Handel_S_HP_Client(PacketSessionRef& session, Protocol::S_HP& pkt);
 bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_PLAYER& pkt);
 bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt);
 bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt);
+bool Handel_S_PLAYERLEVELMOVE_Client(PacketSessionRef& session, Protocol::S_PLAYERLEVELMOVE& pkt);
+bool Handel_S_DELETEGAMEOBJECT_Client(PacketSessionRef& session, Protocol::S_DELETEGAMEOBJECT& pkt);
 
 
 class CClientPacketHandler
@@ -77,6 +81,10 @@ public:
 		GPacketHandler[PKT_S_CREATEPLAYER] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CREATE_PLAYER>(Handel_S_CREATEPLAYER_Client, session, buffer, len); };
 		GPacketHandler[PKT_S_CHAT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CHAT>(Handel_S_CHAT_Client, session, buffer, len); };
 		GPacketHandler[PKT_S_MONSTERSTATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_MONSTERSTATE>(Handel_S_MONSTERSTATE_Client, session, buffer, len); };
+		GPacketHandler[PKT_S_PLAYERLEVELMOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PLAYERLEVELMOVE>(Handel_S_PLAYERLEVELMOVE_Client, session, buffer, len); };
+		GPacketHandler[PKT_S_DELETEGAMEOBJECT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_DELETEGAMEOBJECT>(Handel_S_DELETEGAMEOBJECT_Client, session, buffer, len); };
+
+
 	}
 
 	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -105,6 +113,8 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_PLAYER& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATEPLAYER); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CHAT& pkt) { return MakeSendBuffer(pkt, PKT_S_CHAT); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_MONSTERSTATE& pkt) { return MakeSendBuffer(pkt, PKT_S_MONSTERSTATE); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_PLAYERLEVELMOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_PLAYERLEVELMOVE); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_DELETEGAMEOBJECT& pkt) { return MakeSendBuffer(pkt, PKT_S_DELETEGAMEOBJECT); }
 
 
 private:

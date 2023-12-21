@@ -252,9 +252,6 @@
     <ClCompile Include="..\Private\Boss_King_Server.cpp">
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\LevelControlManager.cpp">
-      <Filter>97. Manager\01. LevelControlManager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Erruption_Server.cpp">
       <Filter>02. GameObject\04. Boss\Behavior</Filter>
     </ClCompile>
@@ -275,6 +272,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pawn_BT_Attack2_Server.cpp">
       <Filter>02. GameObject\03. Monster\Pawn\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LevelControlManager.cpp">
+      <Filter>97. Manager\01. LevelControlManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,9 +446,6 @@
     <ClInclude Include="..\Public\Boss_King_Server.h">
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\LevelControlManager.h">
-      <Filter>97. Manager\01. LevelControlManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Erruption_Server.h">
       <Filter>02. GameObject\04. Boss\Behavior</Filter>
     </ClInclude>
@@ -469,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pawn_BT_Attack2_Server.h">
       <Filter>02. GameObject\03. Monster\Pawn\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LevelControlManager.h">
+      <Filter>97. Manager\01. LevelControlManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

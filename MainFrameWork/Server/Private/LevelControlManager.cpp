@@ -1,11 +1,12 @@
 #include "stdafx.h"
+#include "GameSessionManager.h"
+#include "GameSession.h"
 #include "LevelControlManager.h"
-#include "Server_Defines.h"
 #include "GameInstance.h"
 #include "Player_Server.h"
 #include "AsUtils.h"
-#include "GameSessionManager.h"
-#include "GameSession.h"
+
+
 
 
 IMPLEMENT_SINGLETON(CLevelControlManager)
@@ -13,6 +14,7 @@ IMPLEMENT_SINGLETON(CLevelControlManager)
 CLevelControlManager::CLevelControlManager()
 {
 }
+
 
 HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSession, Protocol::S_LOGIN& pkt)
 {
@@ -126,9 +128,138 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		}
 	}
 
+
+	Send_LevelState(pGameSession, LEVELSTATE::INITEND);
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+
+
+
+HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerSession, _uint iCurrLevel, _uint iNextLevel)
+{
+	WRITE_LOCK
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObejct(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pOwnerSession->Get_PlayerID()));
+	pPlayer->AddRef();
+	Matrix matWorld = XMMatrixIdentity();
+	
+	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
+	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
+	pPlayer->Get_TransformCom()->Set_Scale(vScale);
+	pGameInstance->Delete_GameObject(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer);
+
+
+	vector<CGameObject*>& CurrLevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+
+	{
+		Protocol::S_DELETEGAMEOBJECT tDeletePkt;
+
+		tDeletePkt.set_ilevel(iCurrLevel);
+		tDeletePkt.set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
+		tDeletePkt.set_iobjectid(pPlayer->Get_ObjectID());
+
+		SendBufferRef pDeleteBuffer = CServerPacketHandler::MakeSendBuffer(tDeletePkt);
+
+
+		for (auto& Player : CurrLevelPlayers)
+			dynamic_cast<CPlayer_Server*>(Player)->Get_GameSession()->Send(pDeleteBuffer);
+
+	}
+
+	vector<CGameObject*>& NextLevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+
+	for (auto& Player : NextLevelPlayers)
+	{
+		CPlayer_Server* pOtherPlayer = dynamic_cast<CPlayer_Server*>(Player);
+
+		Protocol::S_CREATE_PLAYER tPlayerPkt;
+
+		tPlayerPkt.set_iobjectid(pOtherPlayer->Get_ObjectID());
+		tPlayerPkt.set_iclass(pOtherPlayer->Get_Class());
+		tPlayerPkt.set_bcontroll(false);
+		tPlayerPkt.set_strnickname(CAsUtils::ToString(pOtherPlayer->Get_NickName()));
+		tPlayerPkt.set_strstate(CAsUtils::ToString(pOtherPlayer->Get_ServerState()));
+		tPlayerPkt.set_ilevel(iNextLevel);
+		tPlayerPkt.set_iweaponindex(pOtherPlayer->Get_WeaponIndex());
+
+		auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
+		vPktTargetPos->Resize(3, 0.0f);
+		Vec3 vTargetPos = pOtherPlayer->Get_TargetPos();
+		memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
+
+
+		auto vPacketWorld = tPlayerPkt.mutable_matworld();
+		vPacketWorld->Resize(16, 0.0f);
+		Matrix matOtherWorld = pOtherPlayer->Get_TransformCom()->Get_WorldMatrix();
+		memcpy(vPacketWorld->mutable_data(), &matOtherWorld, sizeof(Matrix));
+
+		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tPlayerPkt);
+		pOwnerSession->Send(pSendBuffer);
+	}
+
+
+	{
+
+		{
+			Protocol::S_CREATE_PLAYER tPlayerPkt;
+
+			tPlayerPkt.set_iobjectid(pPlayer->Get_ObjectID());
+			tPlayerPkt.set_iclass(pPlayer->Get_Class());
+			tPlayerPkt.set_bcontroll(true);
+			tPlayerPkt.set_strnickname(CAsUtils::ToString(pPlayer->Get_NickName()));
+			tPlayerPkt.set_strstate("Idle");
+			tPlayerPkt.set_ilevel(iNextLevel);
+			tPlayerPkt.set_iweaponindex(pPlayer->Get_WeaponIndex());
+
+			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
+			vPktTargetPos->Resize(3, 0.0f);
+			Vec3 vTargetPos = pPlayer->Get_TargetPos();
+			memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
+
+			auto vPacketWorld = tPlayerPkt.mutable_matworld();
+			vPacketWorld->Resize(16, 0.0f);
+			memcpy(vPacketWorld->mutable_data(), &matWorld, sizeof(Matrix));
+
+			tPlayerPkt.set_bcontroll(false);
+			SendBufferRef pOtherSendBuffer = CServerPacketHandler::MakeSendBuffer(tPlayerPkt);
+
+			for (auto& Player : NextLevelPlayers)
+			{
+				if (Player != pPlayer)
+					dynamic_cast<CPlayer_Server*>(Player)->Get_GameSession()->Send(pOtherSendBuffer);
+			}
+		}
+
+
+		pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer));
+		if (nullptr == pPlayer)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+	}
+
+
+	Send_LevelState(pOwnerSession, LEVELSTATE::INITEND);
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+
+}
+
+
+void CLevelControlManager::Send_LevelState(shared_ptr<CGameSession>& pSession, _uint iLevelState)
+{
+	Protocol::S_LEVEL_STATE pkt;
+	pkt.set_ilevelstate(iLevelState);
+
+	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+	pSession->Send(pSendBuffer);
 }
 
 

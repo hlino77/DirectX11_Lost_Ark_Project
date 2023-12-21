@@ -57,6 +57,7 @@ bool Handel_S_LEVELSTATE_Server(PacketSessionRef& session, Protocol::S_LEVEL_STA
 {
 	shared_ptr<CGameSession> pGameSession = dynamic_pointer_cast<CGameSession>(session);
 	pGameSession->Set_LevelState((LEVELSTATE)pkt.ilevelstate());
+
 	return true;
 }
 
@@ -342,6 +343,21 @@ bool Handel_S_CHAT_Server(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 }
 
 bool Handel_S_MONSTERSTATE_Server(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt)
+{
+
+	return true;
+}
+
+bool Handel_S_PLAYERLEVELMOVE_Server(PacketSessionRef& session, Protocol::S_PLAYERLEVELMOVE& pkt)
+{
+	shared_ptr<CGameSession> pGameSession = dynamic_pointer_cast<CGameSession>(session);
+
+	CLevelControlManager::GetInstance()->Player_LevelMove(pGameSession, (LEVELID)pkt.icurrlevel(), (LEVELID)pkt.inextlevel());
+
+	return true;
+}
+
+bool Handel_S_DELETEGAMEOBJECT_Server(PacketSessionRef& session, Protocol::S_DELETEGAMEOBJECT& pkt)
 {
 
 	return true;

@@ -275,6 +275,11 @@ CGameObject* CGameInstance::Add_GameObject(_uint iLevelIndex, _uint iNumLayerTyp
 		return m_pObject_Manager->Add_GameObject(iLevelIndex, iNumLayerType, strPrototypeTag, pArg);
 }
 
+CGameObject* CGameInstance::Add_GameObject(_uint iLevelIndex, _uint iNumLayerType, CGameObject* pObject)
+{
+	return m_pObject_Manager->Add_GameObject(iLevelIndex, iNumLayerType, pObject);
+}
+
 CGameObject* CGameInstance::Clone_GameObject(const wstring& strPrototypeTag, void* pArg)
 {
 	return m_pObject_Manager->Clone_GameObject(strPrototypeTag, pArg);

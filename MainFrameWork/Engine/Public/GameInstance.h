@@ -58,6 +58,7 @@ public: /* For.Level_Manager */
 public: /* For.Object_Manager */
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	CGameObject* Add_GameObject(_uint iLevelIndex, _uint iNumLayerType, const wstring& strPrototypeTag, void* pArg = nullptr);
+	CGameObject* Add_GameObject(_uint iLevelIndex, _uint iNumLayerType, CGameObject* pObject);
 	CGameObject* Clone_GameObject(const wstring & strPrototypeTag, void* pArg = nullptr);
 	CGameObject* Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, const wstring & strObjectTag);
 	CGameObject* Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, _int iObjectID);

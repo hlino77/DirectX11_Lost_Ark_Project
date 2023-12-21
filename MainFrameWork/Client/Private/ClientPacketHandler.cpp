@@ -77,13 +77,6 @@ bool Handel_S_OPENLEVEL_Client(PacketSessionRef& session, Protocol::S_OPEN_LEVEL
 				Safe_Release(pGameInstance);
 				return true;
 			}
-
-			CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState(LEVELSTATE::LOADING);
-			Protocol::S_LEVEL_STATE pkt;
-			pkt.set_ilevelstate((_uint)LEVELSTATE::LOADING);
-
-			SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
-			CServerSessionManager::GetInstance()->Send(pSendBuffer);
 			break;
 		}
 	}
@@ -95,8 +88,8 @@ bool Handel_S_OPENLEVEL_Client(PacketSessionRef& session, Protocol::S_OPEN_LEVEL
 
 bool Handel_S_LEVELSTATE_Client(PacketSessionRef& session, Protocol::S_LEVEL_STATE& pkt)
 {
-	ServerSessionRef& pServerSession = CServerSessionManager::GetInstance()->Get_ServerSession();
-	pServerSession->Set_LevelState((LEVELSTATE)pkt.ilevelstate());
+	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState((LEVELSTATE)pkt.ilevelstate());
+
 	return true;
 }
 
@@ -524,5 +517,29 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 	
 	
 	dynamic_cast<CMonster*>(pObject)->Set_Action(CAsUtils::ToWString(pkt.strstate()));
+	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_PLAYERLEVELMOVE_Client(PacketSessionRef& session, Protocol::S_PLAYERLEVELMOVE& pkt)
+{
+
+	return true;
+}
+
+bool Handel_S_DELETEGAMEOBJECT_Client(PacketSessionRef& session, Protocol::S_DELETEGAMEOBJECT& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+
+	if (pObject == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	pGameInstance->Delete_GameObject(pkt.ilevel(), pkt.ilayer(), pObject);
+
+	Safe_Release(pGameInstance);
 	return true;
 }

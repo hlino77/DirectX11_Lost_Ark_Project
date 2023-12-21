@@ -40,6 +40,8 @@ CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 
 HRESULT CLevel_Bern::Initialize()
 {
+	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState(LEVELSTATE::INITREADY);
+
 	Send_UserInfo();
 
 	CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
@@ -91,6 +93,14 @@ HRESULT CLevel_Bern::Initialize()
 	Start_Collision();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
+
+
+	while (true)
+	{
+		if (CServerSessionManager::GetInstance()->Get_ServerSession()->Get_LevelState() == LEVELSTATE::INITEND)
+			break;
+	}
+
 
 	return S_OK;
 }
@@ -366,13 +376,18 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 
 HRESULT CLevel_Bern::Send_UserInfo()
 {
-	Protocol::S_LOGIN pkt;
+	if (CServerSessionManager::GetInstance()->Get_Player() == nullptr)
+	{
+		Protocol::S_LOGIN pkt;
 
-	pkt.set_iclass(CServerSessionManager::GetInstance()->Get_Class());
-	pkt.set_strnickname(CAsUtils::ToString(CServerSessionManager::GetInstance()->Get_NickName()));
-	
-	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
-	CServerSessionManager::GetInstance()->Send(pSendBuffer);
+		pkt.set_iclass(CServerSessionManager::GetInstance()->Get_Class());
+		pkt.set_strnickname(CAsUtils::ToString(CServerSessionManager::GetInstance()->Get_NickName()));
+
+		SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
+		CServerSessionManager::GetInstance()->Send(pSendBuffer);
+
+	}
+
 	return S_OK;
 }
 
