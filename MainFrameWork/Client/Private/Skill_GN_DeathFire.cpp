@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "..\Public\Skill_GN_DeathFire.h"
 #include "Player_Gunslinger.h"
 

@@ -36,6 +36,8 @@ protected:
 
 	_bool	m_IsAttack = { false };
 
+	_uint m_iSkillCnt = 0;
+	vector<_int> m_SkillFrames;
 
 public:
 	virtual void Free() override;

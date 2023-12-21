@@ -26,6 +26,7 @@ public:
 	_uint	Is_GN_Identity();
 
 public:
+	virtual void	Get_AttackMessage() { Attack(); }
 	void			Get_GN_IdentityMessage(GN_IDENTITY eIndex) { GN_Identity(eIndex); }
 	virtual void	Get_SkillMessage(GN_IDENTITY eIndex, SKILL_KEY eKey) { Skill(eIndex, eKey); }
 
@@ -42,6 +43,7 @@ public:
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack() override;
+	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
@@ -57,6 +59,11 @@ private:
 	class CPlayer_Skill*	m_pHandSkills[SKILL_KEY::_END] = { nullptr };
 	class CPlayer_Skill*	m_pShotSkills[SKILL_KEY::_END] = { nullptr };
 	class CPlayer_Skill*	m_pLongSkills[SKILL_KEY::_END] = { nullptr };
+
+	PROJECTILE_DESC			m_HandAttackDesc;
+	PROJECTILE_DESC			m_ShotAttackDesc;
+	PROJECTILE_DESC			m_LongAttackDesc;
+
 
 	_float					m_fGN_CoolDownAcc[GN_IDENTITY::_END][SKILL_KEY::_END] = { 0.f };
 	_float					m_fGN_CoolTime[GN_IDENTITY::_END][SKILL_KEY::_END] = { -1.f };

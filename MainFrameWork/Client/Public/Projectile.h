@@ -29,7 +29,7 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render() { return S_OK; }
 	virtual HRESULT			Render_Debug();
-
+	virtual HRESULT InitProjectile(void* pArg);
 
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
@@ -55,6 +55,9 @@ protected:
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	_float m_fActiveTime = 0.0f;
 	_float m_fCurrTime = 0.0f;
+
+	_float m_fMoveSpeed = 1.f;
+	_bool  m_IsMove = { false };
 
 	_bool m_bEnd = false;
 

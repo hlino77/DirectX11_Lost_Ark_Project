@@ -54,8 +54,10 @@ public:
 	void		Get_LookMessage(Vec3 vAt) { Look(vAt); }
 	void		Get_AttackMessage() { Attack(); }
 	void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
+	void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
 	void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
-	void		Get_DashMessage(Vec3 vPos, _float fCoolTime) { Look(vPos); m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
+	void		Get_DashMessage(Vec3 vPos, _float fCoolTime = -1.f) { Look(vPos); }
+	void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
 	void		Get_HitMessage(CGameObject* pHitObject);
 
 public:
@@ -95,6 +97,7 @@ protected:
 	virtual void	Input(const _float & fTimeDelta);
 	virtual void	Attack();
 	virtual void	Skill(SKILL_KEY eKey);
+	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);
 	virtual void	Hit(CGameObject* pHitObject);
 	virtual void	Skill_CoolTime(const _float& fTimeDelta);
 	virtual void	Skill_Check_Collider();
@@ -125,6 +128,8 @@ protected:
 
 	class CPlayer_Skill*	m_pSkills[SKILL_KEY::_END] = { nullptr };
 	SKILL_KEY				m_eSelectedSkill = { SKILL_KEY::_END };
+
+	PROJECTILE_DESC			m_AttackDesc;
 
 	/* Äð Å¸ÀÓ */
 	_float					m_fCoolDownAcc[SKILL_KEY::_END] = { 0.f };

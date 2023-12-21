@@ -3,6 +3,8 @@
 
 BEGIN(Engine)
 
+class CVIBuffer_Rect;
+
 class ENGINE_DLL CTextBox final: public CGameObject
 {
 public:

@@ -22,11 +22,18 @@ HRESULT CState_GN_Attack_Hand3::Initialize()
 	else
 		m_TickFunc = &CState_GN_Attack_Hand3::Tick_State_NoneControl;
 
+
+	/* 일반공격 프레임 */
+	m_AttackFrames.push_back(21);
+	m_AttackFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_Attack_Hand3::Enter_State()
 {
+	m_iAttackCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_Attack_Hand3, 0.1f, 0, 0);
 	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
 }
@@ -42,10 +49,11 @@ void CState_GN_Attack_Hand3::Exit_State()
 
 void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 {
-	if ((21 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3) && 23 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3)))
-		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(true);
-	else
-		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(false);
+	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3))
+	{
+		m_iAttackCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
+	}
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 

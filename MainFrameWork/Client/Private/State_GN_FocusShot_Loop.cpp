@@ -22,11 +22,17 @@ HRESULT CState_GN_FocusShot_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_FocusShot_Loop::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(2);
+
+	m_SkillFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_FocusShot_Loop::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iFocusShot_Loop, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -44,8 +50,16 @@ void CState_GN_FocusShot_Loop::Exit_State()
 
 void CState_GN_FocusShot_Loop::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocusShot_Loop))
+	{
+		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFocusShot_Loop))
 	{
+		m_iSkillCnt = 0;
 		m_iShotCount++;
 	}
 	if(m_iShotCount >= 3)

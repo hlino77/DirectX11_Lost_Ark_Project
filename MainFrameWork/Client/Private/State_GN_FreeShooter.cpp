@@ -22,11 +22,25 @@ HRESULT CState_GN_FreeShooter::Initialize()
 	else
 		m_TickFunc = &CState_GN_FreeShooter::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(8);
+	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(22);
+	m_SkillFrames.push_back(35);
+	m_SkillFrames.push_back(50);
+	m_SkillFrames.push_back(63);
+	m_SkillFrames.push_back(78);
+	m_SkillFrames.push_back(100);
+	m_SkillFrames.push_back(101);
+
+	m_SkillFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_FreeShooter::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iFreeShoter, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -52,6 +66,13 @@ void CState_GN_FreeShooter::Exit_State()
 
 void CState_GN_FreeShooter::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFreeShoter))
+	{
+		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFreeShoter))
 		m_pPlayer->Set_State(TEXT("Idle"));
 

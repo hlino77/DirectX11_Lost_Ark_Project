@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "..\Public\Skill_GN_Apocalypse.h"
 #include "Player_Gunslinger.h"
 #include "State_Skill.h"
