@@ -48,7 +48,13 @@ public:
 	virtual HRESULT			Render_ShadowDepth();
 	virtual HRESULT			Render_Debug();
 
+	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
+	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
+	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+	void	 Update_StatusEffect(_float fTimeDelta);
+
+	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration);
 
 
 	virtual void Set_SlowMotion(_bool bSlow) override;
@@ -128,12 +134,13 @@ protected:
 	Vec3							m_vRandomPosition = {};
 	wstring							m_strAction = L"";
 	unordered_map<wstring, _uint>	m_BoneIndex;
+	_float							m_fRootTargetDistance =0.f;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;
 	std::future<HRESULT>			m_PlayAnimation;
-
-
+	//상태이상
+	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};
 	//Culling
 	BoundingSphere m_tCullingSphere;
 

@@ -24,6 +24,7 @@
 #include "BindShaderDesc.h"
 #include "Pawn_BT_Attack2.h"
 #include "PartObject.h"
+#include "CollisionManager.h"
 
 CMonster_Pawn::CMonster_Pawn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -68,18 +69,13 @@ HRESULT CMonster_Pawn::Initialize(void* pArg)
 
 	m_iBasicAttackStartFrame = 15;
 	m_iBasicAttackEndFrame = 27;
-
+	m_fRootTargetDistance = 0.5f;
     return S_OK;
 }
 
 void CMonster_Pawn::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-
+	__super::Tick(fTimeDelta);
 	if (m_pSword != nullptr)
 		m_pSword->Tick(fTimeDelta);
 	if (m_pShield != nullptr)
@@ -88,16 +84,7 @@ void CMonster_Pawn::Tick(_float fTimeDelta)
 
 void CMonster_Pawn::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-
-	Set_Colliders(fTimeDelta);
-	if (nullptr == m_pRendererCom)
-		return;
-	CullingObject();
+	__super::LateTick(fTimeDelta);
 	if (m_pSword != nullptr)
 		m_pSword->LateTick(fTimeDelta);
 	if (m_pShield != nullptr)
@@ -231,7 +218,13 @@ HRESULT CMonster_Pawn::Ready_Components()
 		if (pCollider)
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
 	}
-
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
+	}
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(1.3f);

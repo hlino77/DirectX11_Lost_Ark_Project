@@ -66,7 +66,10 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 
 	m_tCullingSphere.Radius = 2.5f;
 	m_tCullingSphere.Center = Vec3(0.f, 0.75f, 0.f);
-
+	m_vecAttackRanges.push_back(2.5f);
+	m_vecAttackRanges.push_back(2.5f);
+	m_fAttackRange = m_vecAttackRanges[0];
+	m_fNoticeRange = 20.f;
 	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"idle_normal_1"));
 	m_pModelCom->Play_Animation(10.0f);
 
@@ -75,39 +78,15 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 
 void CMonster_Golem::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
+	__super::Tick(fTimeDelta);
 
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_fPositionTimeAcc += fTimeDelta;
-
-	if (m_fPositionTimeAcc > 0.5f)
-	{
-		m_fPositionTimeAcc = 0.f;
-	}
-	m_vecAttackRanges.push_back(2.5f);
-	m_vecAttackRanges.push_back(2.5f);
-	m_fAttackRange = m_vecAttackRanges[0];
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta);
-
-	m_fNoticeRange = 20.f;
 
 	
 }
 
 void CMonster_Golem::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-	Set_Colliders(fTimeDelta);
-	if (nullptr == m_pRendererCom)
-		return;
-	CullingObject();
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CMonster_Golem::Render()

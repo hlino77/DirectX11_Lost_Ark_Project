@@ -74,7 +74,6 @@ void CBoss_King_Server::Tick(_float fTimeDelta)
 void CBoss_King_Server::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-	cout << CGameInstance::GetInstance()->wstring_to_string(m_strAction) << endl;
 }
 
 HRESULT CBoss_King_Server::Render()

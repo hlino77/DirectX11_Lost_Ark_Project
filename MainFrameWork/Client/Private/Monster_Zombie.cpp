@@ -23,6 +23,7 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
+#include <Player.h>
 
 
 
@@ -71,26 +72,12 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 
 void CMonster_Zombie::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
+	__super::Tick(fTimeDelta);
 }
 
 void CMonster_Zombie::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-	if (nullptr == m_pRendererCom)
-		return;
-
-	CullingObject();
-
-	Set_Colliders(fTimeDelta);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CMonster_Zombie::Render()
@@ -123,12 +110,6 @@ HRESULT CMonster_Zombie::Render_ShadowDepth()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
-
-			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-				return E_FAIL;*/
-
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
@@ -137,27 +118,9 @@ HRESULT CMonster_Zombie::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CMonster_Zombie::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-	if(pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack -> ENTER" << endl;
 
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body -> ENTER" << endl;
-}
 
-void CMonster_Zombie::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
 
-void CMonster_Zombie::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack ->EXIT" << endl;
-
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body ->EXIT" << endl;
-}
 
 void CMonster_Zombie::Set_SlowMotion(_bool bSlow)
 {

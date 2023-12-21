@@ -59,13 +59,13 @@ void CBoss_King::Tick(_float fTimeDelta)
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
+
 }
 
 void CBoss_King::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
-	cout << CGameInstance::GetInstance()->wstring_to_string(m_strAction) << endl;
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
 }

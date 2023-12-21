@@ -6,6 +6,8 @@
 #include "Camera_Player.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
+#include "ColliderOBB.h"
+#include  "ColliderSphereGroup.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 #include "Pool.h"
@@ -55,18 +57,26 @@ HRESULT CMonster::Initialize(void* pArg)
 void CMonster::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-
+	if (!m_bDie)
+		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	Update_StatusEffect(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
 }
 
 void CMonster::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
+	}
 	if (nullptr == m_pRendererCom)
 		return;
 
 	CullingObject();
+
+	Set_Colliders(fTimeDelta);
 }
 
 HRESULT CMonster::Render()
@@ -206,6 +216,70 @@ void CMonster::Set_SlowMotion(_bool bSlow)
 			m_iSlowMotionCount = 0;
 		}
 	}
+}
+void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+{
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+	{
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		{
+			//_int iDammage = dynamic_cast<CPlayer*>(pOther->Get_Owner())->
+			Vec3 vPos = {};
+
+			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
+			_float fForce = 1.0f;
+			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
+		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+
+		}
+	}
+	else	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
+	{
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+		}
+	}
+}
+
+void CMonster::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+{
+}
+
+void CMonster::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+{
+
+}
+
+void CMonster::Update_StatusEffect(_float fTimeDelta)
+{
+	for (size_t i = 0; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
+	{
+		if (m_fStatusEffects[i] > 0)
+			m_fStatusEffects[i] -= fTimeDelta;
+		else
+			m_fStatusEffects[i] = 0.f;
+	}
+}
+int iTemp =0;
+void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
+{
+
+	m_IsHit = true;
+	m_iHp -= iDamage;
+	m_pTransformCom->LookAt(vHitPos);
+	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	Vec3 vBack = -vLook;
+	vBack.Normalize();
+
+	m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+	cout << "CollisionCount	: " << iTemp++ << endl;
+	m_fStatusEffects[iStatusEffect] += fDuration;
 }
 
 void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)

@@ -45,6 +45,9 @@ public:
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
+
+	void Update_StatusEffect(_float fTimeDelta);
+
 public:
 
 
@@ -57,9 +60,9 @@ public:
 	
 	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
 
+	virtual void				Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)override;
 	
 public:
-
 
 	void					Find_NearTarget();
 
@@ -160,6 +163,9 @@ protected:
 	_uint							m_iSkillStack	=	0;
 	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};
+	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};
+
+
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 

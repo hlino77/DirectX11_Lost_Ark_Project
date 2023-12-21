@@ -71,33 +71,20 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
+	m_fRootTargetDistance = 0.5f;
     return S_OK;
 }
 
 void CMonster_Ghoul::Tick(_float fTimeDelta)
 {
 
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	__super::Tick(fTimeDelta);
 
 }
 
 void CMonster_Ghoul::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.5f);
-	}
-	if (nullptr == m_pRendererCom)
-		return;
-
-	CullingObject();
-
-	Set_Colliders(fTimeDelta);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CMonster_Ghoul::Render()
@@ -271,7 +258,7 @@ HRESULT CMonster_Ghoul::Ready_Components()
 	{
 		if (Collider.second)
 		{
-			CCollisionManager::GetInstance()->Add_Colider( Collider.second);
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
 		}
 	}
 

@@ -50,28 +50,32 @@ void CMonster_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
+	m_fSkillCoolDown += fTimeDelta;
+	m_pBehaviorTree->Tick(fTimeDelta);
 	if (m_fScanCoolDown > 0.5f)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();
-		cout << fTimeDelta << endl;
+
 	}
 	m_pRigidBody->Tick(fTimeDelta);
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
 void CMonster_Server::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+		Set_to_RootPosition(fTimeDelta, 0.f);
+	}
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)
 				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
 	}
-	
-	Set_Colliders(fTimeDelta);
 
+	Set_Colliders(fTimeDelta);
 
 	if (m_bRender)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
@@ -96,6 +100,17 @@ void CMonster_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 void CMonster_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 	
+}
+
+void CMonster_Server::Update_StatusEffect(_float fTimeDelta)
+{
+	for (size_t i = 0; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
+	{
+		if (m_fStatusEffects[i] > 0)
+			m_fStatusEffects[i] -= fTimeDelta;
+		else
+			m_fStatusEffects[i] = 0.f;
+	}
 }
 
 
@@ -277,11 +292,49 @@ void CMonster_Server::Set_SlowMotion(_bool bSlow)
 
 	Send_SlowMotion(bSlow);
 }
+void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
+{
+	m_IsHit = true;
+	m_iHp -= iDamage;
+	m_pTransformCom->LookAt(vHitPos);
+	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	Vec3 vBack = -vLook;
+	vBack.Normalize();
+
+	m_pRigidBody->AddForce(vBack* fForce, ForceMode::FORCE);
+
+	m_fStatusEffects[iStatusEffect] += fDuration;
+
+	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);
+}
 
 void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	pGameInstance->AddRef();
 
+	Protocol::S_COLLISION pkt;
+
+	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
+	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_MONSTER);
+	pkt.set_iobjectid(m_iObjectID);
+
+	pkt.set_idamage(iDamage);
+	pkt.set_istatuseffect((_uint)eEffect);
+	pkt.set_fforce(fForce);
+	pkt.set_fduration(fDuration);
+
+	auto vSendHitPos = pkt.mutable_vhitpos();
+	vSendHitPos->Resize(3, 0.0f);
+	memcpy(vSendHitPos->mutable_data(), &vHitPos, sizeof(Vec3));
+
+	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+
+	Safe_Release(pGameInstance);
 }
+
+
 
 void CMonster_Server::Find_NearTarget()
 {

@@ -73,24 +73,12 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
 
 void CMonster_Plant::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
+	__super::Tick(fTimeDelta);
 }
 
 void CMonster_Plant::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-	if (nullptr == m_pRendererCom)
-		return;
-	Set_Colliders(fTimeDelta);
-	CullingObject();
+	__super::LateTick(fTimeDelta);
 }
 
 
