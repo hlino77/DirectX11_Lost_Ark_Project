@@ -34,6 +34,8 @@ public:
 	//void	SetMediator(CToolMediator* pMediator);
 
 protected:
+	//const _char* s2c(string str);
+	const _char* s2c(const string& str);
 	void	s2cPushBack(vector<_char*>& vecChar, string str);
 	void	s2cPushBack(vector<const _char*>& vecChar, string str);
 

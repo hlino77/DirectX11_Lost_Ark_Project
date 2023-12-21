@@ -96,7 +96,7 @@ PS_OUT_PHONG PS_NARUTO(VS_OUT In)
 {
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
 
-    Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV) * 0.3f;
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
     Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
 
