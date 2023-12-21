@@ -103,7 +103,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_HAS_STD_BYTE=0;_CLIENT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions);_HAS_STD_BYTE=0;_CLIENT</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../Reference/Headers/;../Public/;../../ThirdParty/;../../Reference/Include/;../Default/;../../Reference/Headers/PhysX/;../../Reference/Headers/fmod/;../../Reference/Headers/DirectXTK/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -200,6 +200,14 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\ImGUI\graph.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imnodes.h" />
+    <ClInclude Include="..\Public\ImGUI\imnodes_internal.h" />
+    <ClInclude Include="..\Public\ImGUI\node_editor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Attack2.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack3.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack4.h" />
@@ -343,6 +351,7 @@
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
     <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
+    <ClInclude Include="..\Public\VoidEffect.h" />
     <ClInclude Include="..\Public\Weapon_Boss_King.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
@@ -529,6 +538,7 @@
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
+    <ClCompile Include="..\Private\VoidEffect.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
@@ -547,6 +557,12 @@
     <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
     <ClCompile Include="..\Private\Common_BT_Move.cpp" />
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
+    <ClCompile Include="..\Public\ImGUI\color_node_editor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\hello.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
@@ -581,6 +597,20 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imnodes.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
+      <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</MultiProcessorCompilation>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\multi_editor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\save_load.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="Client.cpp" />

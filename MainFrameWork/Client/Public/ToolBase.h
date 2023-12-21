@@ -6,6 +6,9 @@
 #include "../Public/ImGUI/imgui_impl_dx11.h"
 #include "../Public/ImGUI/imgui_impl_win32.h"
 
+#include "../Public/ImGUI/imnodes.h"
+#include "../Public/ImGUI/imnodes_internal.h"
+
 BEGIN(Engine)
 
 class CGameInstance;
