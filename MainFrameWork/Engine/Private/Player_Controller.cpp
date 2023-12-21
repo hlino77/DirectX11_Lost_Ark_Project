@@ -178,6 +178,15 @@ void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)
 		return;
 	}
 
+	//
+	if (1 == pHitObject->Get_ObjectType())
+		m_eHitType = HIT_TYPE::WEAK;
+	else if (2 == pHitObject->Get_ObjectType())
+		m_eHitType = HIT_TYPE::DMG;
+	else if (3 == pHitObject->Get_ObjectType())
+		m_eHitType = HIT_TYPE::DMG;
+
+
 	Hit(pHitObject);
 }
 
@@ -279,7 +288,6 @@ void CPlayer_Controller::Hit(CGameObject* pHitObject)
 {
 	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
 		return;
-
 }
 
 void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)

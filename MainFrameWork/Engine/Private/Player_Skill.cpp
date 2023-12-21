@@ -12,6 +12,7 @@ HRESULT CPlayer_Skill::Initialize(void* pArg)
 	if (nullptr != pArg)
 	{
 		PLAYERSKILL_DESC* pSkillDesc = (PLAYERSKILL_DESC*)pArg;
+		m_pOwner = pSkillDesc->pOwner;
 		m_strSkill_StartName = pSkillDesc->strSkill_StartName;
 		m_State_Skills = pSkillDesc->State_Skills;
 	}
