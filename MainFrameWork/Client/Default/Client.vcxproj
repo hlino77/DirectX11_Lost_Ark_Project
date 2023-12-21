@@ -334,11 +334,13 @@
     <ClInclude Include="..\Public\UI_Player_MPFill.h" />
     <ClInclude Include="..\Public\UI_Player_MPFrame.h" />
     <ClInclude Include="..\Public\UI_Player_ShieldFill.h" />
+    <ClInclude Include="..\Public\UI_QuickSkill.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
+    <ClInclude Include="..\Public\UI_SkillIcon.h" />
     <ClInclude Include="..\Public\UI_SkillIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
     <ClInclude Include="..\Public\UI_TextBox.h" />
@@ -520,11 +522,13 @@
     <ClCompile Include="..\Private\UI_Player_MPFill.cpp" />
     <ClCompile Include="..\Private\UI_Player_MPFrame.cpp" />
     <ClCompile Include="..\Private\UI_Player_ShieldFill.cpp" />
+    <ClCompile Include="..\Private\UI_QuickSkill.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
+    <ClCompile Include="..\Private\UI_SkillIcon.cpp" />
     <ClCompile Include="..\Private\UI_SkillIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
     <ClCompile Include="..\Private\UI_TextBox.cpp" />

@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UI_SkillIcon_Frame.h"
+#include "UI_SkillIcon.h"
 #include "GameInstance.h"
 
-CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_SkillIcon::CUI_SkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
 {
     m_pDevice = pDevice;
@@ -12,17 +12,17 @@ CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceCont
     Safe_AddRef(m_pContext);
 }
 
-CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(const CUI& rhs)
+CUI_SkillIcon::CUI_SkillIcon(const CUI& rhs)
     : CUI(rhs)
 {
 }
 
-HRESULT CUI_SkillIcon_Frame::Initialize_Prototype()
+HRESULT CUI_SkillIcon::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
+HRESULT CUI_SkillIcon::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -51,13 +51,24 @@ HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_SkillIcon_Frame::Tick(_float fTimeDelta)
+void CUI_SkillIcon::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-    
+    if ((!m_bSkillOn)&&(KEY_HOLD(KEY::SHIFT)) && (KEY_TAP(KEY::N)))
+        m_bSkillOn = true;
+
+    if (m_bSkillOn)
+    {
+        m_fCurrCool -= fTimeDelta;
+        if (0 >= m_fCurrCool)
+        {
+            m_bSkillOn = false;
+            m_fCurrCool = m_fCoolMaxTime;
+        }
+    }
 }
 
-void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
+void CUI_SkillIcon::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 
@@ -70,7 +81,7 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
     }
 }
 
-HRESULT CUI_SkillIcon_Frame::Render()
+HRESULT CUI_SkillIcon::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -82,7 +93,7 @@ HRESULT CUI_SkillIcon_Frame::Render()
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Ready_Components()
+HRESULT CUI_SkillIcon::Ready_Components()
 {
     __super::Ready_Components();
 
@@ -94,7 +105,7 @@ HRESULT CUI_SkillIcon_Frame::Ready_Components()
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources()
+HRESULT CUI_SkillIcon::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -117,33 +128,33 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources()
     return S_OK;
 }
 
-CUI_SkillIcon_Frame* CUI_SkillIcon_Frame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_SkillIcon* CUI_SkillIcon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_SkillIcon_Frame* pInstance = new CUI_SkillIcon_Frame(pDevice, pContext);
+    CUI_SkillIcon* pInstance = new CUI_SkillIcon(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CUI_SkillIcon_Frame");
+        MSG_BOX("Failed to Created : CUI_SkillIcon");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_SkillIcon_Frame::Clone(void* pArg)
+CGameObject* CUI_SkillIcon::Clone(void* pArg)
 {
-    CUI_SkillIcon_Frame* pInstance = new CUI_SkillIcon_Frame(*this);
+    CUI_SkillIcon* pInstance = new CUI_SkillIcon(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CUI_SkillIcon_Frame");
+        MSG_BOX("Failed to Cloned : CUI_SkillIcon");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_SkillIcon_Frame::Free()
+void CUI_SkillIcon::Free()
 {
     __super::Free();
     Safe_Release(m_pDevice);

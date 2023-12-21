@@ -346,7 +346,7 @@ HRESULT CUI::Bind_ShaderResources()
 void CUI::Free()
 {
 	__super::Free();
-
+	m_vecUIParts.clear();
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pShaderCom);

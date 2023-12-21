@@ -22,7 +22,6 @@ public:
 
 private:
 	HRESULT	UI_Set();
-	HRESULT	UI_WeaponFrame();
 
 public:
 	static  CUI_Player_HP* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);

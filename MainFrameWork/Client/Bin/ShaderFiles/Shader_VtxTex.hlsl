@@ -12,7 +12,7 @@ Texture2D	g_MaskTexture2;
 float2		g_vMaskUV;
 float2		g_vScaleUV;
 float		g_fRatio;
-
+float		g_PI = 3.141592f;
 
 sampler DefaultSampler = sampler_state {
 
@@ -90,21 +90,6 @@ VS_OUT_SOFTEFFECT VS_MAIN_SOFTEFFECT(VS_IN In)
 	return Out;
 }
 
-VS_OUT VS_MAIN_CUTTING(VS_IN In)
-{
-	VS_OUT		Out = (VS_OUT)0;
-
-	matrix		matWV, matWVP;
-
-	matWV = mul(g_WorldMatrix, g_ViewMatrix);
-	matWVP = mul(matWV, g_ProjMatrix);
-
-	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
-	Out.vTexUV = In.vTexUV;
-
-	return Out;
-}
-
 struct PS_IN
 {
 	float4		vPosition : SV_POSITION;
@@ -126,9 +111,6 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	if (0.0f >= Out.vColor.a)
 		discard;
-
-	
-	
 
 	return Out;	
 }
@@ -255,7 +237,7 @@ PS_OUT PS_MAIN_PIX_COLOR(PS_IN In)
 PS_OUT PS_MAIN_TEXTURE_CUT(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
-	//g_fRatio
+
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
 	Out.vColor = pow(Out.vColor, 1.f / 2.2f);
 	Out.vColor.a *= g_Alpha;
@@ -267,6 +249,41 @@ PS_OUT PS_MAIN_TEXTURE_CUT(PS_IN In)
 		discard;
 
 	return Out;
+}
+
+PS_OUT PS_MAIN_COOLTIME(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor *= pow(Out.vColor, 1.f / 2.2f);
+	Out.vColor.a *= g_Alpha;
+
+	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
+	
+	if (0.0f >= Out.vColor.a)
+		discard;
+	 
+	float fAngle = atan2(-fTempUV.x, fTempUV.y);
+
+	if((-g_PI < fAngle)&&(g_fRatio > fAngle))
+		Out.vColor.rgb *= 1.0f;
+	else 
+		Out.vColor.rgb *= 0.2f;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_SKILLICON(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor *= pow(Out.vColor, 1.f / 2.2f);
+	Out.vColor.a *= g_Alpha;
+
+	float2	fSmallUV = (In.vTexUV.x, In.vTexUV.y);
+
+	if (0.0f >= Out.vColor.a)
+		discard;
 }
 
 technique11 DefaultTechnique
@@ -351,7 +368,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_PIX_COLOR();
 	}
 
-	pass PixTexturegPass
+	pass PixTexturePass
 	{
 		SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
@@ -360,5 +377,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUT();
+	}
+
+	pass CoolTimePass
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME();
 	}
 }

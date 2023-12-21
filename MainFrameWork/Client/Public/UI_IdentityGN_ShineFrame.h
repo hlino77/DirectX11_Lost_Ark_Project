@@ -20,7 +20,6 @@ public:
 
 private:
     _bool   m_bHidden = { false };
-    class CLockFree_Transform* m_pOffSetTrasformCom = { nullptr };
     CUI* m_pMainFrame = { nullptr };
 
 public:

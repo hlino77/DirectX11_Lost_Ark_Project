@@ -55,6 +55,7 @@ private:
 
 	HRESULT Loading_Model_For_Level_Bern();
 	HRESULT Loading_Model_For_Level_Lobby();
+	HRESULT	Loading_Skill_For_Level_Bern();
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVELID eNextLevel);
 	virtual void Free() override;
