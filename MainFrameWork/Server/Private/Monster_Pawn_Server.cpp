@@ -38,6 +38,7 @@
 #include <Common_BT_Stand_Server.h>
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
+#include <Common_BT_IF_FirstHit_Server.h>
 
 CMonster_Pawn_Server::CMonster_Pawn_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -254,27 +255,29 @@ HRESULT CMonster_Pawn_Server::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
 	CBT_Action* pDamageLeft = CCommon_BT_Damage2_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
+	CBT_Decorator* pIfFirstHit = CCommon_BT_IF_FirstHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
+	if (FAILED(pIfFirstHit->AddChild(pDamageLeft)))
+		return E_FAIL;
 
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CCommon_BT_Damage1_Server::Create(&ActionDesc);
 
-	CBT_Decorator* pIfHitLeft = CCommon_BT_IF_SecondHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
-	if (FAILED(pIfHitLeft->AddChild(pDamageLeft)))
+	CBT_Decorator* pIfSecondHit = CCommon_BT_IF_SecondHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
+	if (FAILED(pIfSecondHit->AddChild(pDamageRight)))
 		return E_FAIL;
 
 	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
@@ -286,8 +289,8 @@ HRESULT CMonster_Pawn_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Hit->AddChild(pIfTwist))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfBound))) return E_FAIL;
 	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
-	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
-	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfFirstHit))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfSecondHit))) return E_FAIL;
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
