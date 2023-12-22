@@ -5,6 +5,11 @@
 #include "AsUtils.h"
 
 /* 플레이어 */
+#include "Player_Slayer.h"
+#include "Controller_WR.h"
+#include "Weapon_WR.h"
+
+
 #include "Player_Gunslinger.h"
 #include "Weapon_Hand.h"
 #include "Weapon_Hand_2.h"
@@ -317,6 +322,11 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CPlayer_Controller_GN::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	m_strLoading = TEXT("컴포넌트를 로딩 중 입니다.");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Controller_WR"),
+		CController_WR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Select_BackGround"),
@@ -466,6 +476,14 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Gunslinger"),
 		CPlayer_Gunslinger::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_WR"),
+		CPlayer_Slayer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WP_WR_Base"),
+		CWeapon_WR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Zombie"),
@@ -783,8 +801,20 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
 
+	/* 플레이어 */
 	{
 		wstring strFileName = L"Gunslinger";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(154.f);
+	}
+
+	{
+		wstring strFileName = L"WR";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
@@ -861,6 +891,28 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		pUIManager->Loading_UI(616.f);
 	}
 
+	{
+		wstring strFileName = L"WR_Body_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(616.f);
+	}
+
+	{
+		wstring strFileName = L"WR_Head_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(616.f);
+	}
+
 	/* 플레이어 무기 */
 	{
 		wstring strFileName = L"GN_WP_Hand_Legend";
@@ -895,6 +947,19 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		pUIManager->Loading_UI(1000.f);
 	}
 
+	{
+		wstring strFileName = L"WP_WR_Base";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1000.f);
+	}
+
+
+	/* 지형 */
 
 	{
 		wstring strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
