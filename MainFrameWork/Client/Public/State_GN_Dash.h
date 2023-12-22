@@ -29,6 +29,7 @@ private:
 	//Animation
 	_int m_iDash = 0;
 
+	_bool	m_bDashContinue = { false };
 public:
 	static CState_GN_Dash* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

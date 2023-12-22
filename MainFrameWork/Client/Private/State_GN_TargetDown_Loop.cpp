@@ -59,7 +59,6 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 
 	m_fSkillTimeAcc += fTimeDelta;
 
-	cout << m_iShotCount << endl;
 	if (2 < m_iShotCount)
 	{
 		m_iShotCount++;
@@ -72,6 +71,10 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 	else if (true == m_pController->Is_Tap(KEY::LBTN))
 	{
 		m_iShotCount++;
+
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
 
 		m_pPlayer->Set_State(TEXT("Skill_GN_TargetDown_Shot"));
 	}

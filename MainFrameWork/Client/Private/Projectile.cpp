@@ -44,6 +44,9 @@ HRESULT CProjectile::Initialize(void* pArg)
 
 void CProjectile::Tick(_float fTimeDelta)
 {
+	if (true == m_IsMove)
+		m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
+
 	for (auto& Collider : m_AttackCollider)
 	{
 		if (Collider->IsActive())
@@ -65,12 +68,16 @@ void CProjectile::LateTick(_float fTimeDelta)
 				if (m_bColliderOut[i])
 					CCollisionManager::GetInstance()->Out_Colider(m_AttackCollider[i]);
 			}
-
+			if (true == m_IsMove) 
+				m_IsMove = false;
 
 			Set_Active(false);
 			CPool<CProjectile>::Return_Obj(this);
 		}
+		return;
 	}
+
+	m_pRendererCom->Add_DebugObject(this);
 
 	m_fCurrTime += fTimeDelta;
 	if (m_fCurrTime >= m_fActiveTime)
@@ -92,27 +99,65 @@ HRESULT CProjectile::Render_Debug()
 	return S_OK;
 }
 
+HRESULT CProjectile::InitProjectile(void* pArg)
+{
+	if (nullptr == pArg)
+		return E_FAIL;
+
+	PROJECTILE_DESC* pProjectileDesc = (PROJECTILE_DESC*)pArg;
+	m_pAttackOwner = pProjectileDesc->pAttackOwner;
+
+	if (Vec3() != pProjectileDesc->vAttackPos)
+		Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pProjectileDesc->vAttackPos);
+	else
+		Get_TransformCom()->Set_WorldMatrix(m_pAttackOwner->Get_TransformCom()->Get_WorldMatrix());
+
+	CSphereCollider* pCollider = m_AttackCollider[pProjectileDesc->eUseCollider];
+	pCollider->Set_ColLayer(pProjectileDesc->eLayer_Collider);
+	pCollider->Set_Radius(pProjectileDesc->fRadius);
+	pCollider->Set_Offset(pProjectileDesc->vOffset);
+	pCollider->SetActive(true);
+
+	if (ATTACKCOLLIDER::OBB == pProjectileDesc->eUseCollider)
+	{
+		COBBCollider* pChildCollider = static_cast<COBBCollider*>(pCollider->Get_Child());
+		pChildCollider->Set_Scale(pProjectileDesc->vChildScale);
+		pChildCollider->Set_Offset(pProjectileDesc->vChildOffset);
+		pChildCollider->SetActive(true);
+	}
+
+	if (true == pProjectileDesc->IsMove)
+	{
+		m_IsMove = true;
+		m_fMoveSpeed = pProjectileDesc->fMoveSpeed;
+	}
+		
+
+	Shoot(pProjectileDesc->fAttackTime);
+
+	return S_OK;
+}
+
 void CProjectile::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	
+	m_pAttackOwner->OnCollisionEnter(iColLayer, pOther);
 }
 
 void CProjectile::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
+	m_pAttackOwner->OnCollisionStay(iColLayer, pOther);
 }
 
 void CProjectile::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
-	
+	m_pAttackOwner->OnCollisionExit(iColLayer, pOther);
 }
-
 
 void CProjectile::Shoot(_float fActiveTime)
 {
 	m_bEnd = false;
 	m_fActiveTime = fActiveTime;
 	m_fCurrTime = 0.0f;
-
 
 	for (_uint i = 0; i < COLEND; ++i)
 	{
@@ -213,15 +258,9 @@ HRESULT CProjectile::Ready_Components()
     return S_OK;
 }
 
-
-
-
-
 void CProjectile::Free()
 {
 	__super::Free();
-
-
 
 	Safe_Release(m_pModelCom);
 

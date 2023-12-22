@@ -151,7 +151,7 @@ _bool CPlayer_Controller::Is_Interect()
 
 _bool CPlayer_Controller::Is_Dash()
 {
-	if (KEY_TAP(KEY::SPACE))
+	if ( KEY_HOLD(KEY::SPACE) ||KEY_TAP(KEY::SPACE))
 	{
 		if (-1.f == m_fCoolTime[SKILL_KEY::SPACE])
 			return true;
@@ -282,6 +282,10 @@ const wstring& CPlayer_Controller::Get_SkillStartName(SKILL_KEY eKey)
 void CPlayer_Controller::Skill(SKILL_KEY eKey)
 {
 	m_fCoolTime[eKey] = m_pSkills[eKey]->Get_Skill_CoolTime();
+}
+
+void CPlayer_Controller::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
+{
 }
 
 void CPlayer_Controller::Hit(CGameObject* pHitObject)

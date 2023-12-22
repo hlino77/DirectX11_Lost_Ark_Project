@@ -22,11 +22,31 @@ HRESULT CState_GN_RapidFire_Start::Initialize()
 	else
 		m_TickFunc = &CState_GN_RapidFire_Start::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(5);
+	m_SkillFrames.push_back(6);
+	m_SkillFrames.push_back(7);
+
+	m_SkillFrames.push_back(9);
+	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(11);
+
+	m_SkillFrames.push_back(16);
+	m_SkillFrames.push_back(17);
+	m_SkillFrames.push_back(18);
+
+	m_SkillFrames.push_back(23);
+	m_SkillFrames.push_back(24);
+	m_SkillFrames.push_back(25);
+
+	m_SkillFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_RapidFire_Start::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iRapidFire_Start, 0.1f, 0, 0, 1.8f);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -54,6 +74,13 @@ void CState_GN_RapidFire_Start::Exit_State()
 
 void CState_GN_RapidFire_Start::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	{
+		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iRapidFire_Start))
 		m_pPlayer->Set_State(TEXT("Idle"));
 

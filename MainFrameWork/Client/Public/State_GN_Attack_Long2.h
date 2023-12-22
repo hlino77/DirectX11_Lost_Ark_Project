@@ -30,6 +30,9 @@ private:
 	_int m_Attack_Long2 = 0;
 	_uint m_iShotFire = 0;
 
+	_uint m_iAttackCnt = 0;
+	vector<_int> m_AttackFrames;
+
 public:
 	static CState_GN_Attack_Long2* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

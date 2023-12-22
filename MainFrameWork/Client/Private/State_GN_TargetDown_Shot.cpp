@@ -22,11 +22,17 @@ HRESULT CState_GN_TargetDown_Shot::Initialize()
 	else
 		m_TickFunc = &CState_GN_TargetDown_Shot::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(1);
+
+	m_SkillFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_TargetDown_Shot::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Shot, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -43,6 +49,12 @@ void CState_GN_TargetDown_Shot::Exit_State()
 
 void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
+	{
+		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey, m_pPlayer->Get_TargetPos());
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTargetDown_Shot))
 	{
 		m_pPlayer->Set_State(TEXT("Skill_GN_TargetDown_Loop"));

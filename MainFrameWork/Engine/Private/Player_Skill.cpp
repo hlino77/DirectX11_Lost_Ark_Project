@@ -62,24 +62,6 @@ void CPlayer_Skill::Set_BindKey(CPlayer_Controller::SKILL_KEY eKey)
 
 void CPlayer_Skill::Check_ColliderState()
 {
-	for (auto& pSkillState : m_State_Skills)
-	{
-		if (true == static_cast<CState_Skill*>(pSkillState)->Is_SkillAttack())
-		{
-			for (auto& Collider : m_Coliders)
-			{
-				Collider.second->SetActive(true);
-				Collider.second->Update_Collider();
-			}
-		}
-		else
-		{
-			for (auto& Collider : m_Coliders)
-			{
-				Collider.second->SetActive(false);
-			}
-		}
-	}
 }
 
 void CPlayer_Skill::Free()

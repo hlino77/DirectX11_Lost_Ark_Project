@@ -52,8 +52,10 @@ public:
 	virtual KEY						Get_BindKey()			{ return m_eBindKey; }
 	virtual const _float&			Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
 	virtual const class CTexture*	Get_Skill_Texture()		{ return m_pSkillTextureCom; }
-	
+	virtual PROJECTILE_DESC			Get_Skill_Proj_Desc()	{ return m_SkillProjDesc; }
+
 public:
+	virtual void			Set_SkillProjPos(Vec3 vPos) { m_SkillProjDesc.vAttackPos = vPos; }
 	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
 	virtual void			Set_SkillSuccess(_bool IsSuccess) { m_IsSkillSuccess = IsSuccess; }
 	virtual void			Set_BindKey(CPlayer_Controller::SKILL_KEY eKey);
@@ -69,6 +71,9 @@ protected:
 
 	wstring						  m_strSkill_Name;
 	wstring						  m_strSkill_StartName;
+
+	PROJECTILE_DESC				  m_SkillProjDesc;
+	vector<PROJECTILE_DESC>		  m_vecSkillProjDesces;
 
 	SKILL_ATTACKTYPE		      m_eAttackType = { SKILL_ATTACKTYPE::_END };
 	SKILL_CTRLTYPE				  m_eCtrlType = { SKILL_CTRLTYPE::_END };

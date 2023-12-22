@@ -343,7 +343,27 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
 	}VTX_MODELEFFECT_DECLARATION;
 
+	typedef struct ENGINE_DLL tagProjectileDesc
+	{
+		class CGameObject* pAttackOwner;
 
+		_bool	IsMove = { false };
+		_float	fMoveSpeed = { 1.f };
+
+		_uint eUseCollider;
+		_uint eLayer_Collider;
+
+		Vec3   vAttackPos = { 0.f, 0.f, 0.f };
+
+		_float fAttackTime;
+
+		_float fRadius;
+		Vec3 vOffset;
+
+		Vec3 vChildScale;
+		Vec3 vChildOffset;
+
+	}PROJECTILE_DESC;
 }
 
 

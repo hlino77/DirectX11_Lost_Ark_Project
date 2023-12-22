@@ -22,11 +22,23 @@ HRESULT CState_GN_Attack_Hand2::Initialize()
 	else
 		m_TickFunc = &CState_GN_Attack_Hand2::Tick_State_NoneControl;
 
+	/* 일반공격 프레임 */
+	m_AttackFrames.push_back(8);
+	m_AttackFrames.push_back(10);
+	m_AttackFrames.push_back(12);
+	m_AttackFrames.push_back(14);
+	m_AttackFrames.push_back(16);
+	m_AttackFrames.push_back(18);
+	m_AttackFrames.push_back(20);
+	m_AttackFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_Attack_Hand2::Enter_State()
 {
+	m_iAttackCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_Attack_Hand2, 0.1f, 0, 0);
 	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
 }
@@ -42,14 +54,11 @@ void CState_GN_Attack_Hand2::Exit_State()
 
 void CState_GN_Attack_Hand2::Tick_State_Control(_float fTimeDelta)
 {
-	if ((7 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 9 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) ||
-		(11 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 13 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) || 
-		(15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 17 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) ||
-		(19 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 21 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)) ||
-		(23 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2) && 25 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2)))
-		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(true);
-	else
-		m_pPlayer->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)->SetActive(false);
+	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2))
+	{
+		m_iAttackCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
+	}
 
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();

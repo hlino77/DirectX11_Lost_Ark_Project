@@ -20,6 +20,9 @@
 #include "State_GN_Run.h"
 #include "NavigationMgr.h"
 #include "State_GN_Dash.h"
+#include "State_GN_Dash_End.h"
+#include "State_GN_Dash_2.h"
+#include "State_GN_Dash_2_End.h"
 #include "State_GN_Attack_Hand1.h"
 #include "State_GN_Attack_Hand2.h"
 #include "State_GN_Attack_Hand3.h"
@@ -450,6 +453,15 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Dash"), CState_GN_Dash::Create(TEXT("Dash"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Dash_End"), CState_GN_Dash_End::Create(TEXT("Dash_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dash_2"), CState_GN_Dash_2::Create(TEXT("Dash_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dash_2_End"), CState_GN_Dash_2_End::Create(TEXT("Dash_2_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	m_pStateMachine->Add_State(TEXT("Identity_GN"), CState_GN_Identity::Create(TEXT("Identity_GN"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
@@ -735,45 +747,6 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 		pChildCollider->Set_Scale(Vec3(0.2f, 0.6f, 0.2f));
 		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 		pChildCollider->SetActive(true);
-	}
-
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		if (pCollider)
-		{
-			{
-				CCollider::ColliderInfo tChildColliderInfo;
-				tChildColliderInfo.m_bActive = true;
-				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				COBBCollider* pChildCollider = nullptr;
-
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderAttackChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-					return E_FAIL;
-
-				pCollider->Set_Child(pChildCollider);
-			}
-
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER, pCollider);
-		}
-	}
-
-	{
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Radius(2.5f);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Set_Offset(Vec3(0.0f, 0.2f, 1.7f));
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->SetActive(false);
-
-		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER]->Get_Child());
-		pChildCollider->Set_Scale(Vec3(0.3f, 0.6f, 1.5f));
-		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 1.7f));
-		pChildCollider->SetActive(false);
 	}
 
 	for (auto& Collider : m_Coliders)

@@ -12,7 +12,7 @@ CState_GN_Dash::CState_GN_Dash(const wstring& strStateName, CStateMachine* pMach
 
 HRESULT CState_GN_Dash::Initialize()
 {
-	m_iDash = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1", 1.5f);
+	m_iDash = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_moving_normal_1_01", 1.2f);
 	if (m_iDash == -1)
 		return E_FAIL;
 
@@ -26,11 +26,10 @@ HRESULT CState_GN_Dash::Initialize()
 
 void CState_GN_Dash::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 2.f);
-	m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.5f);
+	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 2.5f);
 
 	m_pController->Get_StopMessage();
-	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 5.f);
+	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
 }
 
@@ -41,62 +40,30 @@ void CState_GN_Dash::Tick_State(_float fTimeDelta)
 
 void CState_GN_Dash::Exit_State()
 {
+	m_bDashContinue = false;
 }
 
 void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 {
-	if (15 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash))
+	if (2 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash) && true == m_pController->Is_Dash())
 	{
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.f);
-		m_pPlayer->Get_ModelCom()->Set_RootDist(1.5f);
+		m_bDashContinue = true;
 	}
 
-	if (false == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDash))
-		return;
-
-	if (true == m_pController->Is_Run())
-	{
-		Vec3 vClickPos;
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			m_pPlayer->Set_TargetPos(vClickPos);
-			
-		m_pPlayer->Set_State(TEXT("Run"));
-	}
-	else if (true == m_pController->Is_Attack())
+	if (true == m_bDashContinue && true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDash))
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 
-		CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
-
-		switch (eIden)
-		{
-		case Client::CPlayer_Controller_GN::HAND:
-			m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
-			break;
-		case Client::CPlayer_Controller_GN::SHOT:
-			m_pPlayer->Set_State(TEXT("Attack_Shot_1"));
-			break;
-		case Client::CPlayer_Controller_GN::LONG:
-			m_pPlayer->Set_State(TEXT("Attack_Long_1"));
-			break;
-		}
+		m_pPlayer->Set_State(TEXT("Dash_2"));
 	}
-	else
-	{
-		m_pPlayer->Set_State(TEXT("Idle"));
-	}
+	else if (false == m_bDashContinue && true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDash))
+		m_pPlayer->Set_State(TEXT("Dash_End"));	
 }
 
 void CState_GN_Dash::Tick_State_NoneControl(_float fTimeDelta)
 {
-	if (15 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash))
-	{
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iDash, 1.f);
-		m_pPlayer->Get_ModelCom()->Set_RootDist(1.5f);
-	}
-
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
