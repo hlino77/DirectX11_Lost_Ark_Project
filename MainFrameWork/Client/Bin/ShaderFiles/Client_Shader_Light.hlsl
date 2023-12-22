@@ -110,16 +110,18 @@ void ComputeDissolveColor(inout float4 color, float2 texcoord)
     color = (color + emissive) * deffuseCol;
 };
 
-void ComputeRimLight(inout float4 color, float4 vNormal, float3 vLook)
+void ComputeRimLight(inout float3 color, float3 vNormal, float3 vLook)
 {
     float3 E = normalize(-vLook);
     
-    float value = saturate(dot(E, float3(vNormal.xyz)));
+    float value = saturate(dot(E, vNormal));
     float fEmissive = 1.0f - value;
 
 	// min, max, x
     fEmissive = smoothstep(0.0f, 1.0f, fEmissive);
-    fEmissive = pow(fEmissive, 2);
+    fEmissive = pow(fEmissive, 1.5f);
+
+    color *= fEmissive;
 };
 
 #endif

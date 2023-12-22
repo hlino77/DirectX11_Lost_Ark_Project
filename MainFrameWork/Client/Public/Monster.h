@@ -109,6 +109,7 @@ public:
 	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
 
+	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI();
@@ -135,6 +136,10 @@ protected:
 	wstring							m_strAction = L"";
 	unordered_map<wstring, _uint>	m_BoneIndex;
 	_float							m_fRootTargetDistance =0.f;
+
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightTime = 0.0f;
+
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;

@@ -143,6 +143,7 @@ public:
 
 	void					Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
 
+	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 public:
 	/* 플레이어 상태 세팅 */
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
@@ -174,6 +175,10 @@ protected:
 	_bool							m_bEnemyBodyHit = false;
 
 	atomic<_int>					m_iSlowMotionCount = 0;
+
+
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightTime = 0.0f;
 
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;

@@ -77,6 +77,16 @@ void CMonster::LateTick(_float fTimeDelta)
 	CullingObject();
 
 	Set_Colliders(fTimeDelta);
+
+	if (m_bRimLight)
+	{
+		m_fRimLightTime -= fTimeDelta;
+		if (m_fRimLightTime <= 0.0f)
+		{
+			m_fRimLightTime = 0.0f;
+			m_bRimLight = false;
+		}
+	}
 }
 
 HRESULT CMonster::Render()

@@ -1,6 +1,7 @@
 #include "Client_Shader_Defines.hlsl"
 #include "Client_Shader_InOut.hlsl"
 #include "Client_Shader_PBR.hlsl"
+#include "Client_Shader_Light.hlsl"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix			g_ViewMatrixInv, g_ProjMatrixInv;
@@ -306,7 +307,9 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	
     float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
     float3	N = vNormal.xyz * 2.f - 1.f;
-    float	fMetallic = g_MetallicTarget.Sample(LinearSampler, In.vTexcoord).x;
+	float4	vMetallic = g_MetallicTarget.Sample(LinearSampler, In.vTexcoord);
+    float	fMetallic = vMetallic.x;
+	float	fRimLight = vMetallic.w;
     float	fRoughness = g_RoughnessTarget.Sample(LinearSampler, In.vTexcoord).x;
 	
     float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
@@ -355,7 +358,16 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	
     float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
 	
+
+
     vColor = vAmbient + vColor + vEmissive;
+
+	if (fRimLight != 0.0f)
+	{
+		float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
+		ComputeRimLight(vRimLightColor, N, -V);
+		vColor += vRimLightColor;
+	}
 
     return float4(vColor, 1.f);
 }

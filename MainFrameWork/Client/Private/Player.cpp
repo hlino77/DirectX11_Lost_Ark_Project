@@ -109,6 +109,16 @@ void CPlayer::LateTick(_float fTimeDelta)
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		CGameInstance::GetInstance()->Update_LightMatrix(vPos);
 	}
+
+	if (m_bRimLight)
+	{
+		m_fRimLightTime -= fTimeDelta;
+		if (m_fRimLightTime <= 0.0f)
+		{
+			m_fRimLightTime = 0.0f;
+			m_bRimLight = false;
+		}
+	}
 }
 
 HRESULT CPlayer::Render()
@@ -118,6 +128,10 @@ HRESULT CPlayer::Render()
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
+
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+		return E_FAIL;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 

@@ -432,7 +432,8 @@ HRESULT CChat_Manager::Ready_ChatWindows()
         m_pInputWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
         m_pInputWindow->Set_Pos(189.5f, 693.f);
     }
-
+    
+    
     if (m_pChatWindow == nullptr)
     {
         CTextBox::TEXTBOXDESC tTextDesc;

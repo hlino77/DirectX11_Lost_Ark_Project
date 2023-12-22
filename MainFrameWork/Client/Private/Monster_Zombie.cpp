@@ -73,6 +73,7 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 void CMonster_Zombie::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
 }
 
 void CMonster_Zombie::LateTick(_float fTimeDelta)
@@ -89,6 +90,10 @@ HRESULT CMonster_Zombie::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
+
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))

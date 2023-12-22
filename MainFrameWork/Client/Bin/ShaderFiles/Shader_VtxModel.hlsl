@@ -15,6 +15,8 @@ float		g_fUVY;
 float		g_fAlphaWeight;
 float		g_fDiscardAlpha;
 
+float     g_fRimLight = 0.0f;
+
 VS_OUT VS_MAIN(STATIC_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
@@ -72,6 +74,9 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
     }
     
+
+    Out.vMetallic.w = g_fRimLight;
+
     return Out;
 }
 
