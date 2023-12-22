@@ -83,8 +83,8 @@ HRESULT CLevel_Bern::Initialize()
 			break;
 	}
 	
-	/*if (FAILED(Ready_Layer_UI(LAYER_TYPE::LAYER_UI)))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_UI(LAYER_TYPE::LAYER_UI)))
+		return E_FAIL;
 
 	if (FAILED(CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext)))
 		return E_FAIL;

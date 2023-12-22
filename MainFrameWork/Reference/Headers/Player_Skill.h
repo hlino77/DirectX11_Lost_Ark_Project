@@ -54,7 +54,6 @@ public:
 	virtual const class CTexture*	Get_Skill_Texture()		{ return m_pSkillTextureCom; }
 	virtual PROJECTILE_DESC			Get_Skill_Proj_Desc()	{ return m_SkillProjDesc; }
 
-
 public:
 	virtual void			Set_SkillProjPos(Vec3 vPos) { m_SkillProjDesc.vAttackPos = vPos; }
 	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
