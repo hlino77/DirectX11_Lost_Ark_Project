@@ -58,6 +58,8 @@ HRESULT CTextBox::Initialize(void* pArg)
 
 	m_bActive = false;
 
+	m_fAlpha = 1.f;
+
 	return S_OK;
 }
 
@@ -86,8 +88,7 @@ HRESULT CTextBox::Render()
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	_float fAlpha = 1.0f;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vScaleUV", &m_vUV, sizeof(Vec2))))

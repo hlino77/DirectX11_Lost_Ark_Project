@@ -37,7 +37,7 @@ HRESULT CUI_SpeechBubble::Initialize(void* pArg)
     m_strUITag = TEXT("Speech_Bubble");
 
     m_fX = g_iWinSizeX * 0.5f;
-    m_fY = 850.f;
+    m_fY = g_iWinSizeY * 0.5f;
     m_fSizeX = 200.f;
     m_fSizeY = 100.f;
     m_fAlpha = 0.4;
@@ -111,19 +111,16 @@ void CUI_SpeechBubble::Setting_HostPos()
 {
     if (nullptr != m_pHost)
     {
-        Matrix ResultMatrix = m_pHost->Get_TransformCom()->Get_WorldMatrix();
-        ResultMatrix *= m_ViewMatrix;
-        ResultMatrix *= m_ProjMatrix;
+        Vec3 vHostPos = m_pHost->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+        Matrix ViewMatrix  = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+        Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 
-        m_vHostProjPos.x = ResultMatrix._41;
-        m_vHostProjPos.y = ResultMatrix._42;
-        m_vHostProjPos.z = ResultMatrix._43;
-        m_vHostProjPos.w = ResultMatrix._44;
+        vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
+        vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
+
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+            Vec3(vHostPos.x - 20.f, vHostPos.y + 150.f, 0.0f));
     }
-
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_vHostProjPos.x - g_iWinSizeX * 0.5f, -m_vHostProjPos.y + g_iWinSizeY * 0.5f, m_vHostProjPos.z));
-
 }
 
 CUI_SpeechBubble* CUI_SpeechBubble::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

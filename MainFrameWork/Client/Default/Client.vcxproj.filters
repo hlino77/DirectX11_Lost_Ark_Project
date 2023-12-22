@@ -483,9 +483,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
       <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
-	</Filter>
-    <Filter Include="02.GameObjects\UI\05.SkillUI\01.SkillIcon">
-      <UniqueIdentifier>{5fa35a89-165d-4aad-86cf-664fd6527e0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\98.Tool\ImGui">
       <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
@@ -504,6 +501,12 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\02.VoidObject">
       <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.SkillUI\01.MoveIcon">
+      <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\07.Damage_Font">
+      <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -783,8 +786,6 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Monster_Golem.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h" />
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -813,14 +814,6 @@
     <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
-    <ClInclude Include="..\Public\ImGUI\imconfig.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h" />
-    <ClInclude Include="..\Public\ImGUI\imgui_internal.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
-    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
@@ -1066,12 +1059,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -1283,12 +1270,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
@@ -2175,13 +2156,10 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pawn_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\UI_QuickSkill.h">
       <Filter>02.GameObjects\UI\05.SkillUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_SkillIcon.h">
-      <Filter>02.GameObjects\UI\05.SkillUI\01.SkillIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
@@ -2230,6 +2208,36 @@
     </ClInclude>
     <ClInclude Include="..\Public\VoidEffect.h">
       <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imconfig.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Skill_MoveIcon.h">
+      <Filter>02.GameObjects\UI\05.SkillUI\01.MoveIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_DamageFont.h">
+      <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2497,8 +2505,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp" />
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -2530,13 +2536,6 @@
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
@@ -2787,12 +2786,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -2998,12 +2991,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
@@ -3884,13 +3871,10 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Private\UI_QuickSkill.cpp">
       <Filter>02.GameObjects\UI\05.SkillUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_SkillIcon.cpp">
-      <Filter>02.GameObjects\UI\05.SkillUI\01.SkillIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
@@ -3941,6 +3925,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\VoidEffect.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Skill_MoveIcon.cpp">
+      <Filter>02.GameObjects\UI\05.SkillUI\01.MoveIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_DamageFont.cpp">
+      <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -65,8 +65,8 @@ public:
 	UISTATE		Get_UIState() { return m_eState; }
 	void		Set_UIDesc(UIDESC UIDesc);
 	UIDESC		Get_UIDesc();
-	_bool Get_Pick() { return m_bPick; }
-	_bool Set_Pick(_bool Pick) { m_bPick = Pick; }
+	_bool		Get_Pick() { return m_bPick; }
+	_bool		Set_Pick(_bool Pick) { m_bPick = Pick; }
 	virtual void	Picking_UI();
 	virtual void	Create_Rect(void* pArg = nullptr);
 	virtual void	Moving_Rect();

@@ -38,6 +38,8 @@
 #include "UI_Tool.h"
 #include "TextBox.h"
 #include "LockFree_Transform.h"
+#include "UI_DamageFont.h"
+#include "Pool.h"
 
 _float g_fVolume;
 
@@ -231,7 +233,7 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		COBBCollider::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MainLogo"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MainLogo"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/MainLogo.png"))))
 		return E_FAIL;
 
@@ -366,6 +368,19 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTextBox::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_DamageFont"),
+		CUI_DamageFont::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	for (size_t i = 0; i < 400; i++)
+	{
+		CUI_DamageFont* pDamageFont = dynamic_cast<CUI_DamageFont*>(m_pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_DamageFont"), &i));
+		if (nullptr == pDamageFont)
+			return E_FAIL;
+
+		CPool<CUI_DamageFont>::Return_Obj(pDamageFont);
+	}
+	
 
 	return S_OK;
 }
@@ -381,7 +396,9 @@ HRESULT CMainApp::Ready_Prototype_Font()
 	pGameInstance->AddFont(L"ÇÑÄÄ°íµñ", L"../Bin/Resources/Fonts/ÇÑÄÄ°íµñ.spritefont");
 	pGameInstance->AddFont(L"´ÜÁ¶", L"../Bin/Resources/Fonts/´ÜÁ¶.spritefont");
 	pGameInstance->AddFont(L"´øÆÄ¿¬¸¶µÈÄ®³¯", L"../Bin/Resources/Fonts/´øÆÄ¿¬¸¶µÈÄ®³¯.spritefont");
-
+	pGameInstance->AddFont(L"³Ø½¼Lv1°íµñ", L"../Bin/Resources/Fonts/³Ø½¼Lv1°íµñ.spritefont");
+	pGameInstance->AddFont(L"ºûÀÇ°è½ÂÀÚ", L"../Bin/Resources/Fonts/ºûÀÇ°è½ÂÀÚ.spritefont");
+	
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

@@ -182,7 +182,7 @@ PS_OUT PS_MAIN_MASKED(PS_IN In)
 
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
 
-
+	
 	In.vTexUV += g_vMaskUV;
 
 	float4 vMaskColor = g_MaskTexture.Sample(DefaultSampler, In.vTexUV);
@@ -255,35 +255,43 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
-	Out.vColor *= pow(Out.vColor, 1.f / 2.2f);
+	Out.vColor.rgb *= pow(Out.vColor, 1.f / 2.2f);
 	Out.vColor.a *= g_Alpha;
 
 	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
-	
+
 	if (0.0f >= Out.vColor.a)
 		discard;
-	 
+
 	float fAngle = atan2(-fTempUV.x, fTempUV.y);
 
-	if((-g_PI < fAngle)&&(g_fRatio > fAngle))
-		Out.vColor.rgb *= 1.0f;
-	else 
+	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
+		Out.vColor.rgb *= pow(Out.vColor, 1.f / 2.2f);
+	else
 		Out.vColor.rgb *= 0.2f;
 
 	return Out;
 }
 
-PS_OUT PS_MAIN_SKILLICON(PS_IN In)
+PS_OUT PS_MAIN_COLORFRAME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
-	Out.vColor *= pow(Out.vColor, 1.f / 2.2f);
 	Out.vColor.a *= g_Alpha;
-
-	float2	fSmallUV = (In.vTexUV.x, In.vTexUV.y);
 
 	if (0.0f >= Out.vColor.a)
 		discard;
+
+	float2	UVOffset = float2(0.1, 0.1);
+	float2	UVScale = float2(0.8, 0.8);
+	float2	UVSmall = (In.vTexUV - UVOffset) / UVScale;
+
+	bool isBorder = (In.vTexUV.x < UVOffset.x || In.vTexUV.x > 1.0 - UVOffset.x 
+		|| In.vTexUV.y < UVOffset.y || In.vTexUV.y > 1.0 - UVOffset.y);
+
+	Out.vColor.rgb = isBorder ? Out.vColor.rgb * float3(3.0, 3.0, 0.0) : Out.vColor.rgb * pow(Out.vColor, 1.f / 2.2f);
+
+	return Out;
 }
 
 technique11 DefaultTechnique
@@ -389,4 +397,16 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME();
 	}
+
+	pass PS_MAIN_SKILLICON
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_COLORFRAME();
+	}
+
 }

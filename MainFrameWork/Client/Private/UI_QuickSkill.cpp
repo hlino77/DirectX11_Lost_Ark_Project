@@ -2,6 +2,8 @@
 #include "UI_QuickSkill.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "UI_SkillIcon_Frame.h"
+#include "UI_Skill_MoveIcon.h"
 
 CUI_QuickSkill::CUI_QuickSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -36,6 +38,21 @@ HRESULT CUI_QuickSkill::Initialize(void* pArg)
 void CUI_QuickSkill::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	for (auto& iter : m_vecUIParts)
+	{
+		if ((iter->Get_Pick()) && (KEY_TAP(KEY::LBTN)))
+		{
+			//static_cast<CUI_SkillI_MoveFrame*>(iter)->
+			static_cast<CUI_SkillI_MoveFrame*>(m_pMovingIcon)->Set_PickedIconFrame(iter);
+			static_cast<CUI_SkillIcon_Frame*>(iter)->Set_PickedFrame(true);
+		}
+		if (iter->Get_Pick())
+		{
+			static_cast<CUI_SkillI_MoveFrame*>(m_pMovingIcon)->Set_CurrIconFrame(iter);
+		}
+	}
+
+
 }
 
 void CUI_QuickSkill::LateTick(_float fTimeDelta)
@@ -66,12 +83,22 @@ HRESULT CUI_QuickSkill::UI_Set()
 			return E_FAIL;
 		else
 		{
-			pUI->Create_Rect();
+			if (0 == i)
+				static_cast<CUI_SkillIcon_Frame*>(pUI)->Set_IsHaveSkill(true);
 			m_vecUIParts.push_back(pUI);
 		}
 	}
 	
 	Load_UIData(TEXT("Skill_Icon_Desc"));
+
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Create_Rect();
+	}
+
+	m_pMovingIcon = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MoveFrame")));
+	if (nullptr == m_pMovingIcon)
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 

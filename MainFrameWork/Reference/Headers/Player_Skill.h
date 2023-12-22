@@ -50,7 +50,7 @@ public:
 	virtual KEY						Get_BindKey()			{ return m_eBindKey; }
 	virtual const _float&			Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
 	virtual const class CTexture*	Get_Skill_Texture()		{ return m_pSkillTextureCom; }
-	
+
 public:
 	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
 	virtual void			Set_SkillSuccess(_bool IsSuccess) { m_IsSkillSuccess = IsSuccess; }

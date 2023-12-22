@@ -53,8 +53,8 @@ void CUI_IdentityGN_BackGroundFWing::Tick(_float fTimeDelta)
 	{
 		if (10 >= m_fDistance)
 		{
-			m_fDistance += 2.f;
-			m_fY += 2.f;
+			m_fDistance += 500.0f * fTimeDelta;
+			m_fY += 500.0f * fTimeDelta;
 
 			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -65,8 +65,8 @@ void CUI_IdentityGN_BackGroundFWing::Tick(_float fTimeDelta)
 	}
 	else if ((m_bChange) && (m_bUpState))
 	{
-		m_fDistance -= 2.f;
-		m_fY -= 2.f;
+		m_fDistance -= 500.0f * fTimeDelta;
+		m_fY -= 500.0f * fTimeDelta;
 		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
