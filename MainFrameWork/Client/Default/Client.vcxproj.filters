@@ -1269,12 +1269,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -2145,7 +2139,6 @@
     <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\Monster_Pawn.h">
       <Filter>02.GameObjects\Monster\Pawn</Filter>
     </ClInclude>
@@ -2251,6 +2244,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_Dash_End.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3004,12 +3000,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
@@ -3875,7 +3865,6 @@
     <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Private\Monster_Pawn.cpp">
       <Filter>02.GameObjects\Monster\Pawn</Filter>
     </ClCompile>
@@ -3980,6 +3969,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Dash_End.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

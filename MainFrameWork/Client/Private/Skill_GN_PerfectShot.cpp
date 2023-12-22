@@ -60,7 +60,6 @@ void CSkill_GN_PerfectShot::OnCollisionExit(const _uint iColLayer, CCollider* pO
 
 void CSkill_GN_PerfectShot::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_PerfectShot* CSkill_GN_PerfectShot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

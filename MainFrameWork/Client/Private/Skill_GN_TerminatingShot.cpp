@@ -61,7 +61,6 @@ void CSkill_GN_TerminatingShot::OnCollisionExit(const _uint iColLayer, CCollider
 
 void CSkill_GN_TerminatingShot::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_TerminatingShot* CSkill_GN_TerminatingShot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

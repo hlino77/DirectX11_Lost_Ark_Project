@@ -58,7 +58,6 @@ void CSkill_GN_LastSupper::OnCollisionExit(const _uint iColLayer, CCollider* pOt
 
 void CSkill_GN_LastSupper::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_LastSupper* CSkill_GN_LastSupper::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

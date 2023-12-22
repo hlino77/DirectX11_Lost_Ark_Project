@@ -58,7 +58,6 @@ void CSkill_GN_TargetDown::OnCollisionExit(const _uint iColLayer, CCollider* pOt
 
 void CSkill_GN_TargetDown::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_TargetDown* CSkill_GN_TargetDown::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

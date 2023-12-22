@@ -48,7 +48,6 @@ void CSkill_GN_SpiralChaser::OnCollisionExit(const _uint iColLayer, CCollider* p
 
 void CSkill_GN_SpiralChaser::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_SpiralChaser* CSkill_GN_SpiralChaser::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

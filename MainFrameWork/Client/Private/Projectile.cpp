@@ -68,10 +68,13 @@ void CProjectile::LateTick(_float fTimeDelta)
 				if (m_bColliderOut[i])
 					CCollisionManager::GetInstance()->Out_Colider(m_AttackCollider[i]);
 			}
-			if (true == m_IsMove) m_IsMove = false;
+			if (true == m_IsMove) 
+				m_IsMove = false;
+
 			Set_Active(false);
 			CPool<CProjectile>::Return_Obj(this);
 		}
+		return;
 	}
 
 	m_pRendererCom->Add_DebugObject(this);

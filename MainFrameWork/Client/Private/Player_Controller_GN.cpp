@@ -38,7 +38,7 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
-	Proj_Desc.vChildScale = Vec3(0.3f, 0.6f, 1.5f);
+	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
 	m_HandAttackDesc = Proj_Desc;
 
@@ -158,6 +158,9 @@ void CPlayer_Controller_GN::Attack()
 
 void CPlayer_Controller_GN::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 {
+	if (nullptr == m_pSkills[eKey])
+		return;
+
 	CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 	if (Vec3() != vPos)
 	{

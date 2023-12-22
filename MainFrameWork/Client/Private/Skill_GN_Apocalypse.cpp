@@ -49,7 +49,6 @@ void CSkill_GN_Apocalypse::OnCollisionExit(const _uint iColLayer, CCollider* pOt
 
 void CSkill_GN_Apocalypse::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_Apocalypse* CSkill_GN_Apocalypse::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

@@ -22,11 +22,17 @@ HRESULT CState_GN_Gunkata_2::Initialize()
 	else
 		m_TickFunc = &CState_GN_Gunkata_2::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(6);
+	m_SkillFrames.push_back(9);
+	m_SkillFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_Gunkata_2::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iGunkata_2, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -52,6 +58,13 @@ void CState_GN_Gunkata_2::Exit_State()
 
 void CState_GN_Gunkata_2::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
+	{
+		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGunkata_2))
 		m_pPlayer->Set_State(TEXT("Idle"));
 

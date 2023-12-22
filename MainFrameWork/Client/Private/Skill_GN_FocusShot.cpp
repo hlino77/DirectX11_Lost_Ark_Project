@@ -61,7 +61,6 @@ void CSkill_GN_FocusShot::OnCollisionExit(const _uint iColLayer, CCollider* pOth
 
 void CSkill_GN_FocusShot::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_FocusShot* CSkill_GN_FocusShot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

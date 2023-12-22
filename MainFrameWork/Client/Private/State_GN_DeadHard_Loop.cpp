@@ -28,16 +28,29 @@ HRESULT CState_GN_DeadHard_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_DeadHard_Loop::Tick_State_NoneControl;
 
-
 	m_fSkillEndTime = 2.f;
 	m_fSkillTimeAcc = 0.f;
+
+	m_SkillFrames.push_back(0);
+	m_SkillFrames.push_back(2);
+	m_SkillFrames.push_back(4);
+	m_SkillFrames.push_back(6);
+	m_SkillFrames.push_back(8);
+	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(12);
+	m_SkillFrames.push_back(14);
+	m_SkillFrames.push_back(16);
+	m_SkillFrames.push_back(18);
+	m_SkillFrames.push_back(20);
+	m_SkillFrames.push_back(-1);
 
 	return S_OK;
 }
 
 void CState_GN_DeadHard_Loop::Enter_State()
 {
-	
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iDeadHard_Loop, 0.1f, 0, 0);
 	m_pPlayer->Set_TargetPos(Vec3());
 	m_iDeadHard = m_iDeadHard_Loop;
@@ -56,6 +69,17 @@ void CState_GN_DeadHard_Loop::Exit_State()
 
 void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeadHard))
+	{
+		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDeadHard))
+	{
+		m_iSkillCnt = 0;
+	}
+
 	Vec3 vClickPos;
 	if (true == m_pController->Is_HoldorTap(KEY::RBTN) && true == m_pPlayer->Get_CellPickingPos(vClickPos))
 	{
@@ -68,21 +92,25 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_F, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_F;
+			m_iSkillCnt = 0;
 		}
 		else if (m_iDeadHard != m_iDeadHard_R && (80.f < fDegree && 100.f > fDegree))
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_R, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_R;
+			m_iSkillCnt = 0;
 		}
 		else if (m_iDeadHard != m_iDeadHard_L && (-80.f > fDegree && -100.f < fDegree))
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_L, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_L;
+			m_iSkillCnt = 0;
 		}
 		else if (m_iDeadHard != m_iDeadHard_B && (-100.f >= fDegree || 100.f <= fDegree))
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_B, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_B;
+			m_iSkillCnt = 0;
 		}
 	}
 	else if (m_iDeadHard != m_iDeadHard_Loop && true == m_pController->Is_Stop())
@@ -91,6 +119,7 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_TargetPos(Vec3());
 		m_pPlayer->Reserve_Animation(m_iDeadHard_Loop, 0.1f, 0, 0);
 		m_iDeadHard = m_iDeadHard_Loop;
+		m_iSkillCnt = 0;
 	}
 
 	m_fSkillTimeAcc += fTimeDelta;

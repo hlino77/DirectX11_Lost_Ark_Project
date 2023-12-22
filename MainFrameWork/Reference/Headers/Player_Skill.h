@@ -73,6 +73,7 @@ protected:
 	wstring						  m_strSkill_StartName;
 
 	PROJECTILE_DESC				  m_SkillProjDesc;
+	vector<PROJECTILE_DESC>		  m_vecSkillProjDesces;
 
 	SKILL_ATTACKTYPE		      m_eAttackType = { SKILL_ATTACKTYPE::_END };
 	SKILL_CTRLTYPE				  m_eCtrlType = { SKILL_CTRLTYPE::_END };

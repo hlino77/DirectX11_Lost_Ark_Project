@@ -43,31 +43,6 @@ HRESULT CSkill_GN_FreeShooter::Ready_Components()
 	if (false == m_pPlayer->Is_Control())
 		return S_OK;
 
-	//CCollider::ColliderInfo tColliderInfo;
-	//tColliderInfo.m_bActive = true;
-	//tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
-	//CSphereCollider* pCollider = nullptr;
-
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-	//	return E_FAIL;
-
-	//if (pCollider)
-	//{
-	//	{
-	//		CCollider::ColliderInfo tChildColliderInfo;
-	//		tChildColliderInfo.m_bActive = true;
-	//		tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-	//		COBBCollider* pChildCollider = nullptr;
-
-	//		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderAttackChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-	//			return E_FAIL;
-
-	//		pCollider->Set_Child(pChildCollider);
-	//	}
-
-	//	m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER, pCollider);
-	//}
-
 	return S_OK;
 }
 
@@ -85,7 +60,6 @@ void CSkill_GN_FreeShooter::OnCollisionExit(const _uint iColLayer, CCollider* pO
 
 void CSkill_GN_FreeShooter::Check_ColliderState()
 {
-	__super::Check_ColliderState();
 }
 
 CSkill_GN_FreeShooter* CSkill_GN_FreeShooter::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)
