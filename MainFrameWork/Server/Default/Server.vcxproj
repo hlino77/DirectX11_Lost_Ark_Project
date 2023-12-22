@@ -209,8 +209,8 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Chase_Server.cpp" />
-    <ClCompile Include="..\Private\Common_BT_DamageLeft_Server.cpp" />
-    <ClCompile Include="..\Private\Common_BT_DamageRight_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Damage2_Server.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Damage1_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Dead_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Idle_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Move_Server.cpp" />
@@ -226,6 +226,7 @@
     <ClInclude Include="..\Public\Common_BT_BoundLand_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Bound_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_BoundLand_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_FirstHit_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_TwistLand_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Bound_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Downed_Server.h" />
@@ -280,12 +281,12 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2_Server.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Chase_Server.h" />
-    <ClInclude Include="..\Public\Common_BT_DamageLeft_Server.h" />
-    <ClInclude Include="..\Public\Common_BT_DamageRight_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_Damage2_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_Damage1_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Dead_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Idle_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Dead_Server.h" />
-    <ClInclude Include="..\Public\Common_BT_IF_Hit_Left_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Hit_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Maz_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Near_Server.h" />

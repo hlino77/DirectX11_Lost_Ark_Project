@@ -27,7 +27,7 @@ HRESULT CSkill_GN_TerminatingShot::Initialize(void* pArg)
 	PROJECTILE_DESC Proj_Desc;
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_SKILL;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.6f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);

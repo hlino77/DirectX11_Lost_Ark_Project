@@ -394,8 +394,8 @@
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Common_BT_Chase.h" />
     <ClInclude Include="..\Public\Common_BT_Attack1.h" />
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h" />
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h" />
+    <ClInclude Include="..\Public\Common_BT_Damage2.h" />
+    <ClInclude Include="..\Public\Common_BT_Damage1.h" />
     <ClInclude Include="..\Public\Common_BT_Dead.h" />
     <ClInclude Include="..\Public\Common_BT_Idle.h" />
     <ClInclude Include="..\Public\Common_BT_Maz.h" />
@@ -608,8 +608,8 @@
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Weapon_Mn_Reaper.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp" />
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Damage2.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Damage1.cpp" />
     <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
     <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
     <ClCompile Include="..\Private\Common_BT_Maz.cpp" />

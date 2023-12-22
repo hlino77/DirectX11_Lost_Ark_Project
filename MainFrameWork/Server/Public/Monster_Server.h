@@ -184,6 +184,7 @@ protected:
 	_bool							m_IsSecondHit = false;
 	_bool							m_IsBound = false;
 	_bool							m_IsTwist = false;
+	_float							m_fHitTerm = 0.f;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSuperArmor = false;
 	_bool							m_IsSpawn = true;

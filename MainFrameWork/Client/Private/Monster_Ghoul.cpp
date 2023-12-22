@@ -14,8 +14,8 @@
 #include "Zombie_BT_Attack2.h"
 #include "Common_BT_Attack1.h"
 #include "Common_BT_Chase.h"
-#include "Common_BT_DamageLeft.h"
-#include "Common_BT_DamageRight.h"
+#include "Common_BT_Damage1.h"
+#include "Common_BT_Damage2.h"
 #include "Common_BT_Dead.h"
 #include "Common_BT_Idle.h"
 #include "Common_BT_BattleIdle.h"
@@ -99,6 +99,10 @@ HRESULT CMonster_Ghoul::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
+
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
@@ -287,7 +291,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 
@@ -297,7 +301,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_Damage2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("twistknockdown");

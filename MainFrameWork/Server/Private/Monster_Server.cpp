@@ -60,6 +60,7 @@ void CMonster_Server::Tick(_float fTimeDelta)
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
 }
 
 void CMonster_Server::LateTick(_float fTimeDelta)
@@ -301,21 +302,37 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	vBack.Normalize();
 	if (!m_IsSuperArmor)
 	{
-		if (m_IsHit)
+		if (m_IsHit&&m_fHitTerm <0.f)
+		{
+			m_IsHit = false;
 			m_IsSecondHit = true;
-		else
+			m_fHitTerm = 0.2f;
+		}
+		else if( m_fHitTerm < 0.f)
+		{
+			m_IsSecondHit = false;
 			m_IsHit = true;
+			m_fHitTerm = 0.2f;
+		}
 		m_pTransformCom->LookAt(vHitPos);
 		if (fForce < 20.f)
+		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		}
 		else if (fForce < 30.f)
 		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 			m_IsBound = true;
 		}
 		else if (fForce >= 30.f)
 		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 			m_IsBound = false;

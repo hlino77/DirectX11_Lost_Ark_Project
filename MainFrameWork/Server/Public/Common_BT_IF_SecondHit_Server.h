@@ -5,13 +5,13 @@
 
 BEGIN(Server)
 
-class CCommon_BT_IF_Hit_Left_Server :
+class CCommon_BT_IF_SecondHit_Server :
     public CBT_Decorator
 {
 private:
-	CCommon_BT_IF_Hit_Left_Server() = default;
-	CCommon_BT_IF_Hit_Left_Server(const CCommon_BT_IF_Hit_Left_Server& rhs) = delete;
-	virtual ~CCommon_BT_IF_Hit_Left_Server() = default;
+	CCommon_BT_IF_SecondHit_Server() = default;
+	CCommon_BT_IF_SecondHit_Server(const CCommon_BT_IF_SecondHit_Server& rhs) = delete;
+	virtual ~CCommon_BT_IF_SecondHit_Server() = default;
 
 	virtual void OnStart() override
 	{
@@ -32,20 +32,20 @@ private:
 private:
 	_bool	Is_Hit()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit()&& static_cast<CMonster_Server*>(m_pGameObject)->Is_Left())
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_SecondHit())
 			return true;
 
 		return false;
 	}
 
 public:
-	static	CCommon_BT_IF_Hit_Left_Server* Create(void* pArg)
+	static	CCommon_BT_IF_SecondHit_Server* Create(void* pArg)
 	{
-		CCommon_BT_IF_Hit_Left_Server* pInstance = new CCommon_BT_IF_Hit_Left_Server;
+		CCommon_BT_IF_SecondHit_Server* pInstance = new CCommon_BT_IF_SecondHit_Server;
 
 		if (FAILED(pInstance->Initialize(pArg)))
 		{
-			MSG_BOX("Failed to Created : CCommon_BT_IF_Hit_Left_Server");
+			MSG_BOX("Failed to Created : CCommon_BT_IF_SecondHit_Server");
 			Safe_Release(pInstance);
 		}
 

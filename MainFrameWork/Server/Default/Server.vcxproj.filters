@@ -267,10 +267,10 @@
     <ClCompile Include="..\Private\Common_BT_Bound_Server.cpp">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft_Server.cpp">
+    <ClCompile Include="..\Private\Common_BT_Damage2_Server.cpp">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight_Server.cpp">
+    <ClCompile Include="..\Private\Common_BT_Damage1_Server.cpp">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead_Server.cpp">
@@ -374,7 +374,7 @@
     <ClInclude Include="..\Public\Common_BT_IF_Dead_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_IF_Hit_Left_Server.h">
+    <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_Hit_Server.h">
@@ -479,10 +479,10 @@
     <ClInclude Include="..\Public\Common_BT_Bound_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft_Server.h">
+    <ClInclude Include="..\Public\Common_BT_Damage2_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight_Server.h">
+    <ClInclude Include="..\Public\Common_BT_Damage1_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead_Server.h">
@@ -526,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_BoundLand_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_FirstHit_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -80,6 +80,7 @@ void CMonster::LateTick(_float fTimeDelta)
 
 	Set_Colliders(fTimeDelta);
 
+
 	if (m_bRimLight)
 	{
 		m_fRimLightTime -= fTimeDelta;
@@ -239,7 +240,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 30.0f;
+			_float fForce = 1.0f;
 
 			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
 		}
@@ -248,7 +249,24 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 		}
 	}
-	else	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+	{
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			//_int iDammage = dynamic_cast<CPlayer*>(pOther->Get_Owner())->
+			Vec3 vPos = {};
+
+			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			_float fForce = 25.0f;
+
+			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, 0.f);
+		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+
+		}
+	}
+	else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
@@ -292,20 +310,31 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 	{
 		m_pTransformCom->LookAt(vHitPos);
 		if (fForce < 20.f)
+		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		}	
 		else if (fForce < 30.f)
 		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 		}
 		else if (fForce >= 30.f)
 		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 		}
 	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
 	cout << "CollisionCount	: " << iTemp++ << endl;
+
+
+	Set_RimLight(0.05f);
 }
 
 void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)
