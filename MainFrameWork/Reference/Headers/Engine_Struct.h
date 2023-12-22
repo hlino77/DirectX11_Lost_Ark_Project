@@ -363,6 +363,12 @@ namespace Engine
 		Vec3 vChildScale;
 		Vec3 vChildOffset;
 
+		/* 투사체 정보 */
+		_uint	iDamage = { 0 };
+		_uint	iStatusEffect = { 0 };
+		_float	fStatusDuration = { 0.f };
+		_float	fRepulsion = { 0.f };
+
 	}PROJECTILE_DESC;
 }
 

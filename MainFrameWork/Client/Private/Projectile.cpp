@@ -71,6 +71,7 @@ void CProjectile::LateTick(_float fTimeDelta)
 			if (true == m_IsMove) 
 				m_IsMove = false;
 
+			ZeroMemory(&m_ProjInfoDesc, sizeof(PROJINFO_DESC));
 			Set_Active(false);
 			CPool<CProjectile>::Return_Obj(this);
 		}
@@ -131,7 +132,11 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 		m_IsMove = true;
 		m_fMoveSpeed = pProjectileDesc->fMoveSpeed;
 	}
-		
+	
+	m_ProjInfoDesc.iDamage = pProjectileDesc->iDamage;
+	m_ProjInfoDesc.iStatusEffect = pProjectileDesc->iStatusEffect;
+	m_ProjInfoDesc.fStatusDuration = pProjectileDesc->fStatusDuration;
+	m_ProjInfoDesc.fRepulsion = pProjectileDesc->fRepulsion;
 
 	Shoot(pProjectileDesc->fAttackTime);
 
