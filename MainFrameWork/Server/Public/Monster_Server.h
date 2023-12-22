@@ -119,7 +119,7 @@ public:
 	_bool						Is_Bound() { return m_IsBound; }
 	void						Set_Bound(_bool IsBound) { m_IsBound = IsBound; }
 
-	_bool						Is_Twist() { return m_IsSuperArmor; }
+	_bool						Is_Twist() { return m_IsTwist; }
 	void						Set_Twist(_bool IsTwist) { m_IsTwist = IsTwist; }
 
 	_bool						Is_Downed() { return m_IsDowned; }
@@ -127,6 +127,9 @@ public:
 
 	_bool						Is_TwistLanding() { return m_IsTwistLanding; }
 	void						Set_TwistLanding(_bool IsLanding) { m_IsTwistLanding = IsLanding; }
+
+	_bool						Is_SecondHit() { return m_IsSecondHit; }
+	void						Set_SecondHit(_bool bHit) { m_IsSecondHit = bHit; }
 
 
 	_bool						Is_BoundLanding() { return m_IsBoundLanding; }
@@ -178,6 +181,7 @@ protected:
 	atomic<_int>					m_iSlowMotionCount = 0;
 	_bool							m_IsAttacked = true;
 	_bool							m_IsHit = false;
+	_bool							m_IsSecondHit = false;
 	_bool							m_IsBound = false;
 	_bool							m_IsTwist = false;
 	_bool							m_IsLeft = false;

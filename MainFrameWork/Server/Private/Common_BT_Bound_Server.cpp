@@ -9,13 +9,14 @@ CCommon_BT_Bound_Server::CCommon_BT_Bound_Server()
 void CCommon_BT_Bound_Server::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_SecondHit(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Bound_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit()&& m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex) >0.8f )
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_SecondHit()&& m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex) >0.8f )
 		return BT_SUCCESS;
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -25,6 +26,7 @@ void CCommon_BT_Bound_Server::OnEnd()
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Bound(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_SecondHit(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_BoundLanding(true);
 }
 

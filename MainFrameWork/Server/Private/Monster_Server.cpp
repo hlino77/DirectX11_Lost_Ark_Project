@@ -294,27 +294,37 @@ void CMonster_Server::Set_SlowMotion(_bool bSlow)
 }
 void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
-	if (!m_IsSuperArmor)
-	{
-		m_IsHit = true;
-	}
+	WRITE_LOCK
 	m_iHp -= iDamage;
-	m_pTransformCom->LookAt(vHitPos);
 	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	Vec3 vBack = -vLook;
 	vBack.Normalize();
-	if (fForce < 20.f)
-		m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
-	else if (fForce < 30.f)
+	if (!m_IsSuperArmor)
 	{
-		fForce = 0.f;
-		m_IsBound = true;
+		if (m_IsHit)
+			m_IsSecondHit = true;
+		else
+			m_IsHit = true;
+		m_pTransformCom->LookAt(vHitPos);
+		if (fForce < 20.f)
+			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		else if (fForce < 30.f)
+		{
+			fForce = 1.f;
+			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+			m_IsBound = true;
+		}
+		else if (fForce >= 30.f)
+		{
+			fForce = 1.f;
+			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+			m_IsBound = false;
+			m_IsTwist = true;
+		}
 	}
 	else if (fForce >= 30.f)
-	{
-		fForce = 0.f;
-		m_IsBound = false;
-		m_IsTwist = true;
+	{ 
+		m_IsHit = true;
 	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
 

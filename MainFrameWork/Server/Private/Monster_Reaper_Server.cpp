@@ -30,6 +30,16 @@
 #include "Reaper_BT_Attack3_Server.h"
 #include "Reaper_BT_Attack2_Server.h"
 #include "Reaper_BT_Attack1_Server.h"
+#include <Common_BT_BoundLand_Server.h>
+#include <Common_BT_IF_BoundLand_Server.h>
+#include <Common_BT_TwistLand_Server.h>
+#include <Common_BT_IF_TwistLand_Server.h>
+#include <Common_BT_Twist_Server.h>
+#include <Common_BT_IF_Twist_Server.h>
+#include <Common_BT_Bound_Server.h>
+#include <Common_BT_IF_Bound_Server.h>
+#include <Common_BT_IF_Downed_Server.h>
+#include <Common_BT_Stand_Server.h>
 
 CMonster_Reaper_Server::CMonster_Reaper_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -211,9 +221,37 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIfDead = CCommon_BT_IF_Dead_Server::Create(&DecoratorDesc);//죽었는가
 	if (FAILED(pIfDead->AddChild(pDead)))
 		return E_FAIL;
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Twist";
+	CBT_Action* pTwist = CCommon_BT_Twist_Server::Create(&ActionDesc);
+
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfTwist = CCommon_BT_IF_Twist_Server::Create(&DecoratorDesc);//죽었는가
+	if (FAILED(pIfTwist->AddChild(pTwist)))
+		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bound";
+	CBT_Action* pBound = CCommon_BT_Bound_Server::Create(&ActionDesc);
 
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfBound = CCommon_BT_IF_Bound_Server::Create(&DecoratorDesc);//죽었는가
+	if (FAILED(pIfBound->AddChild(pBound)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -242,12 +280,57 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pSelector_Hit = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Hit->AddChild(pIfDead))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfTwist))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfBound))) return E_FAIL;
 	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
 	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BoundLand";
+	CBT_Action* pBoundLand = CCommon_BT_BoundLand_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfBoundLand = CCommon_BT_IF_BoundLand_Server::Create(&DecoratorDesc);//맞았는가
+	if (FAILED(pIfBoundLand->AddChild(pBoundLand)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_TwistLand";
+	CBT_Action* pTwistLand = CCommon_BT_TwistLand_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfTwistLand = CCommon_BT_IF_TwistLand_Server::Create(&DecoratorDesc);//맞았는가
+	if (FAILED(pIfTwistLand->AddChild(pTwistLand)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("standup_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stand_Up";
+	CBT_Action* pStandUp = Common_BT_Stand_Server::Create(&ActionDesc);
+
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfDowned = CCommon_BT_IF_Downed_Server::Create(&DecoratorDesc);//맞았는가
+	if (FAILED(pIfDowned->AddChild(pStandUp)))
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -442,6 +525,12 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pRoot = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pRoot->AddChild(pIfHit)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIfTwistLand)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIfBoundLand)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIfDowned)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pIfSpawn)))
 		return E_FAIL;
