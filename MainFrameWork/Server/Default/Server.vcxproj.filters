@@ -109,6 +109,24 @@
     <Filter Include="02. GameObject\03. Monster\Pawn\Behavior">
       <UniqueIdentifier>{3413906d-afdc-4b6b-8a1d-9b15d00ed85e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Hit">
+      <UniqueIdentifier>{625d36e1-b1e7-45f8-b11f-90564060ea66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Attack">
+      <UniqueIdentifier>{da2050e1-7a1e-45bc-8245-de27af41b35c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Idle">
+      <UniqueIdentifier>{690bb1cd-1dfe-4cf1-9948-9d2fd7a6055a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Chase">
+      <UniqueIdentifier>{717d29e5-3d94-4890-ab17-4f47d4078df1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Move">
+      <UniqueIdentifier>{b7c48033-d279-4e5d-b5ea-3794791b2c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Spawn">
+      <UniqueIdentifier>{33e0e8b8-3051-4a66-adf1-dbf13508ef2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -177,36 +195,6 @@
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Plant</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Attack1_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_BattleIdle_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Chase_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Dead_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Idle_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Move_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Spawn_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz_Server.cpp">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Golem_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Golem</Filter>
     </ClCompile>
@@ -236,9 +224,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster_Reaper_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Reaper</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Reaper_BT_Attack1_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
@@ -275,6 +260,51 @@
     </ClCompile>
     <ClCompile Include="..\Private\LevelControlManager.cpp">
       <Filter>97. Manager\01. LevelControlManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Reaper_Server.cpp">
+      <Filter>02. GameObject\03. Monster\Monster_Reaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Bound_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_DamageLeft_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_DamageRight_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Dead_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Twist_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Attack1_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Idle_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_BattleIdle_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Chase_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Move_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Spawn_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Spawn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Stand_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_TwistLand_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_BoundLand_Server.cpp">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,33 +371,6 @@
     <ClInclude Include="..\Public\Monster_Plant_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Plant</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Attack1_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_BattleIdle_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Chase_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Dead_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Idle_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Move_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Spawn_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_Dead_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
@@ -388,9 +391,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_WHILE_Within_Range_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz_Server.h">
-      <Filter>02. GameObject\03. Monster\CommonBehavior\Action</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Golem_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Golem</Filter>
@@ -469,6 +469,63 @@
     </ClInclude>
     <ClInclude Include="..\Public\LevelControlManager.h">
       <Filter>97. Manager\01. LevelControlManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Bound_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Twist_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Bound_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_DamageLeft_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_DamageRight_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Dead_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Twist_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Attack1_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Idle_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_BattleIdle_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Chase_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Move_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Spawn_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Spawn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Stand_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Downed_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_TwistLand_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_BoundLand_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_TwistLand_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_BoundLand_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

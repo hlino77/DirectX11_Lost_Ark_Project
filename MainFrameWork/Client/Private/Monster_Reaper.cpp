@@ -27,6 +27,11 @@
 #include "Reaper_BT_Attack1.h"
 #include "Reaper_BT_Attack2.h"
 #include "Reaper_BT_Attack3.h"
+#include <Common_BT_Stand.h>
+#include <Common_BT_Bound.h>
+#include <Common_BT_Twist.h>
+#include <Common_BT_BoundLand.h>
+#include <Common_BT_TwistLand.h>
 #include "PartObject.h"
 
 CMonster_Reaper::CMonster_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -306,6 +311,52 @@ HRESULT CMonster_Reaper::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Twist";
+	CBT_Action* pTwist = CCommon_BT_Twist::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bound";
+	CBT_Action* pBound = CCommon_BT_Bound::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BoundLand";
+	CBT_Action* pBoundLand = CCommon_BT_BoundLand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_TwistLand";
+	CBT_Action* pTwistLand = CCommon_BT_TwistLand::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("standup_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stand_Up";
+	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc = {};

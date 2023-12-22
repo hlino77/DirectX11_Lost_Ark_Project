@@ -190,6 +190,11 @@
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
+    <ClInclude Include="..\Public\Common_BT_Bound.h" />
+    <ClInclude Include="..\Public\Common_BT_BoundLand.h" />
+    <ClInclude Include="..\Public\Common_BT_Stand.h" />
+    <ClInclude Include="..\Public\Common_BT_Twist.h" />
+    <ClInclude Include="..\Public\Common_BT_TwistLand.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
@@ -402,6 +407,11 @@
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Bound.cpp" />
+    <ClCompile Include="..\Private\Common_BT_BoundLand.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Stand.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Twist.cpp" />
+    <ClCompile Include="..\Private\Common_BT_TwistLand.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />

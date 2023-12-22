@@ -91,7 +91,7 @@ public:
 	void				Send_ColliderState(const _uint& iLayer);
 	void				Send_SlowMotion(_bool bSlow);
 	void				Send_Hp();
-	void				Send_Boss_Action();
+	void				Send_Monster_Action();
 
 	void				Set_Colliders(_float fTimeDelta);
 	HRESULT				Ready_Coliders();
@@ -112,6 +112,29 @@ public:
 
 	_bool						Is_Spawn() { return m_IsSpawn; }
 	void						Set_Spawn(_bool IsSpawn) { m_IsSpawn = IsSpawn; }
+
+	_bool						Is_SuperArmor() { return m_IsSuperArmor; }
+	void						Set_SuperArmor(_bool IsSuperArmor) { m_IsSuperArmor = IsSuperArmor; }
+
+	_bool						Is_Bound() { return m_IsBound; }
+	void						Set_Bound(_bool IsBound) { m_IsBound = IsBound; }
+
+	_bool						Is_Twist() { return m_IsTwist; }
+	void						Set_Twist(_bool IsTwist) { m_IsTwist = IsTwist; }
+
+	_bool						Is_Downed() { return m_IsDowned; }
+	void						Set_Downed(_bool IsDowned) { m_IsDowned = IsDowned; }
+
+	_bool						Is_TwistLanding() { return m_IsTwistLanding; }
+	void						Set_TwistLanding(_bool IsLanding) { m_IsTwistLanding = IsLanding; }
+
+	_bool						Is_SecondHit() { return m_IsSecondHit; }
+	void						Set_SecondHit(_bool bHit) { m_IsSecondHit = bHit; }
+
+
+	_bool						Is_BoundLanding() { return m_IsBoundLanding; }
+	void						Set_BoundLanding(_bool IsLanding) { m_IsBoundLanding = IsLanding; }
+
 
 	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
@@ -158,8 +181,15 @@ protected:
 	atomic<_int>					m_iSlowMotionCount = 0;
 	_bool							m_IsAttacked = true;
 	_bool							m_IsHit = false;
+	_bool							m_IsSecondHit = false;
+	_bool							m_IsBound = false;
+	_bool							m_IsTwist = false;
 	_bool							m_IsLeft = false;
+	_bool							m_IsSuperArmor = false;
 	_bool							m_IsSpawn = true;
+	_bool							m_IsDowned = false;
+	_bool							m_IsTwistLanding = false;
+	_bool							m_IsBoundLanding = false;
 	_uint							m_iSkillStack	=	0;
 	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};

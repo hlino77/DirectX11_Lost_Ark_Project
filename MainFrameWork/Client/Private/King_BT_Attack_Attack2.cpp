@@ -15,7 +15,7 @@ void CKing_BT_Attack_Attack2::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Attack2::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[0].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 	return __super::OnUpdate(fTimeDelta);
 }

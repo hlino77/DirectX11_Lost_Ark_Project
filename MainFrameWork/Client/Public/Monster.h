@@ -132,6 +132,7 @@ protected:
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsSpawn = true;
+	_bool							m_IsSuperArmor = false;
 	Vec3							m_vRandomPosition = {};
 	wstring							m_strAction = L"";
 	unordered_map<wstring, _uint>	m_BoneIndex;

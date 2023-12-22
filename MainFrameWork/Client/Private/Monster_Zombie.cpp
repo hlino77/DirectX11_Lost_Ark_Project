@@ -24,6 +24,11 @@
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
 #include <Player.h>
+#include <Common_BT_Stand.h>
+#include <Common_BT_Bound.h>
+#include <Common_BT_Twist.h>
+#include <Common_BT_BoundLand.h>
+#include <Common_BT_TwistLand.h>
 
 
 
@@ -276,9 +281,53 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Twist";
+	CBT_Action* pTwist = CCommon_BT_Twist::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("bound");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bound";
+	CBT_Action* pBound = CCommon_BT_Bound::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BoundLand";
+	CBT_Action* pBoundLand = CCommon_BT_BoundLand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_TwistLand";
+	CBT_Action* pTwistLand = CCommon_BT_TwistLand::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("standup_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stand_Up";
+	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("respawn_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;

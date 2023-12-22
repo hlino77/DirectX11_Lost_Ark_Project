@@ -508,6 +508,15 @@
     <Filter Include="02.GameObjects\Projectile">
       <UniqueIdentifier>{0e0d7d86-e55a-4b62-b8a0-64de959ce98c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Bound">
+      <UniqueIdentifier>{01f9e98c-16c2-438f-8537-bac245dcd9d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Twist">
+      <UniqueIdentifier>{0b473036-e2d5-4b82-9cb5-699082d87353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\09. Stand">
+      <UniqueIdentifier>{4c4ac32b-95e8-4bf6-850a-6161f4804ad2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1059,12 +1068,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
@@ -2249,6 +2252,21 @@
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Bound.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Twist.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Twist</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Stand.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\09. Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_TwistLand.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Twist</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_BoundLand.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2795,12 +2813,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
@@ -3974,6 +3986,21 @@
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Bound.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Twist.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Twist</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Stand.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\09. Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_TwistLand.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Twist</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_BoundLand.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

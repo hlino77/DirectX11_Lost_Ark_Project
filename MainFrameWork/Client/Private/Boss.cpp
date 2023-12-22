@@ -67,26 +67,12 @@ HRESULT CBoss::Initialize(void* pArg)
 
 void CBoss::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-	m_pRigidBody->Tick(fTimeDelta);
+	__super::Tick(fTimeDelta);
 }
 
 void CBoss::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, m_fStopDistanceRootAnim);
-	}
-
-	if (nullptr == m_pRendererCom)
-		return;
-
-	CullingObject();
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CBoss::Render()

@@ -71,6 +71,8 @@ void CMonster::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+	Set_Colliders(fTimeDelta);
+
 	if (nullptr == m_pRendererCom)
 		return;
 
@@ -237,8 +239,8 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			_float fForce = 30.0f;
 
-			_float fForce = 1.0f;
 			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -280,16 +282,30 @@ int iTemp =0;
 void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
 
-	m_IsHit = true;
+	WRITE_LOCK
 	m_iHp -= iDamage;
-	m_pTransformCom->LookAt(vHitPos);
+
 	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	Vec3 vBack = -vLook;
 	vBack.Normalize();
-
-	m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
-	cout << "CollisionCount	: " << iTemp++ << endl;
+	if (!m_IsSuperArmor)
+	{
+		m_pTransformCom->LookAt(vHitPos);
+		if (fForce < 20.f)
+			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		else if (fForce < 30.f)
+		{
+			fForce = 1.f;
+			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		}
+		else if (fForce >= 30.f)
+		{
+			fForce = 1.f;
+			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		}
+	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
+	cout << "CollisionCount	: " << iTemp++ << endl;
 }
 
 void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)

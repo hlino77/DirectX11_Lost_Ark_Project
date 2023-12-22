@@ -49,7 +49,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	m_fStopDistanceRootAnim = 1.f;
+	m_fRootTargetDistance = 1.f;
 	return S_OK;
 }
 
@@ -357,7 +357,7 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fAnimSpeed = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack1";
 	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
@@ -368,8 +368,9 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fAnimSpeed = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.2f;
 	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
@@ -401,10 +402,11 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.strActionName = L"Action_Attack3";
 	CBT_Action* pAttack3 = CKing_BT_Attack_Attack3::Create(&ActionDesc);
-
 	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01");
@@ -417,8 +419,9 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.strActionName = L"Action_Attack4";
 	CBT_Action* pAttack4 = CKing_BT_Attack_Attack4::Create(&ActionDesc);
 

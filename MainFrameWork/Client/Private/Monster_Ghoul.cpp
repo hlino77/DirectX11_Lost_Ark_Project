@@ -27,6 +27,9 @@
 #include <Ghoul_BT_Attack_1.h>
 #include <Ghoul_BT_Attack_2.h>
 #include <Ghoul_BT_Attack_3.h>
+#include <Common_BT_Twist.h>
+#include <Common_BT_Bound.h>
+#include <Common_BT_Stand.h>
 
 
 
@@ -129,27 +132,6 @@ HRESULT CMonster_Ghoul::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CMonster_Ghoul::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-	if(pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack -> ENTER" << endl;
-
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body -> ENTER" << endl;
-}
-
-void CMonster_Ghoul::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CMonster_Ghoul::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack ->EXIT" << endl;
-
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body ->EXIT" << endl;
-}
 
 void CMonster_Ghoul::Set_SlowMotion(_bool bSlow)
 {
@@ -291,6 +273,7 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.strActionName = L"Action_Dead";
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
@@ -316,9 +299,44 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Damage_Right";
 	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Twist";
+	CBT_Action* pTwist = CCommon_BT_Twist::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("bound_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bound";
+	CBT_Action* pBound = CCommon_BT_Bound::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("idle_normal_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stand_Up";
+	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("respawn_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;

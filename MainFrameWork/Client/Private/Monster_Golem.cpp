@@ -72,7 +72,8 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"idle_normal_1"));
 	m_pModelCom->Play_Animation(10.0f);
-
+	m_IsSuperArmor =true;
+	m_fRootTargetDistance = 0.f;
     return S_OK;
 }
 
