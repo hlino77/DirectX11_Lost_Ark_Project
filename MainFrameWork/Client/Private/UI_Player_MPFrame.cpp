@@ -90,7 +90,7 @@ HRESULT CUI_Player_MPFrame::Bind_ShaderResources()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_fAlpha, sizeof(Vec4))))
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
     m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");

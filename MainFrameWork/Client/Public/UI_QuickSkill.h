@@ -4,7 +4,7 @@
 BEGIN(Client)
 
 class CUI_QuickSkill :
-    public CUI
+	public CUI
 {
 private:
 	CUI_QuickSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -22,6 +22,7 @@ public:
 
 private:
 	HRESULT	UI_Set();
+	CUI* m_pMovingIcon = { nullptr };
 
 public:
 	static  CUI_QuickSkill* Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);

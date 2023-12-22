@@ -31,6 +31,7 @@
 #include "UI_IdentityGN_MainFrame.h"
 #include "UI_IdentityGN_WF_Front.h"
 #include "Projectile.h"
+#include "UI_DamageFont.h"
 
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -109,6 +110,17 @@ HRESULT CLevel_Bern::Tick(_float fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
+
+	if ((KEY_HOLD(KEY::SHIFT)) && (KEY_TAP(KEY::V)))
+	{
+		CUI_DamageFont* pDamageFont =  CPool<CUI_DamageFont>::Get_Obj();
+		pDamageFont->Print_DamageFont(Vec3(0.f, 0.f, 0.f), 12.f, true, 1001235123);
+	}
+	if ((KEY_HOLD(KEY::SHIFT)) && (KEY_TAP(KEY::B)))
+	{
+		CUI_DamageFont* pDamageFont = CPool<CUI_DamageFont>::Get_Obj();
+		pDamageFont->Print_DamageFont(Vec3(0.f, 0.f, 0.f), 12.f, false, 100123123);
+	}
 
 	return S_OK;
 }
@@ -319,6 +331,8 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+
+
 
 	Safe_Release(pGameInstance);
 	return S_OK;

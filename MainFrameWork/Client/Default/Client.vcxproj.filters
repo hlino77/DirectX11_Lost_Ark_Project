@@ -486,7 +486,7 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\05.SkillUI\01.SkillIcon">
       <UniqueIdentifier>{5fa35a89-165d-4aad-86cf-664fd6527e0e}</UniqueIdentifier>
-    </Filter>
+	</Filter>
     <Filter Include="01.Levels\98.Tool\ImGui">
       <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
     </Filter>
@@ -516,6 +516,18 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\09. Stand">
       <UniqueIdentifier>{4c4ac32b-95e8-4bf6-850a-6161f4804ad2}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\05.SkillUI\01.MoveIcon">
+      <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\07.Damage_Font">
+      <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\08.ItemUI">
+      <UniqueIdentifier>{bdd68a24-261b-4fd9-8bc4-c49f8677da8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\08.ItemUI\00.IconFrame">
+      <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2158,9 +2170,6 @@
     <ClInclude Include="..\Public\UI_QuickSkill.h">
       <Filter>02.GameObjects\UI\05.SkillUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_SkillIcon.h">
-      <Filter>02.GameObjects\UI\05.SkillUI\01.SkillIcon</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
@@ -2268,6 +2277,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\UI_Skill_MoveIcon.h">
+      <Filter>02.GameObjects\UI\05.SkillUI\01.MoveIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_DamageFont.h">
+      <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ItemIcon_Frame.h">
+      <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3896,9 +3914,6 @@
     <ClCompile Include="..\Private\UI_QuickSkill.cpp">
       <Filter>02.GameObjects\UI\05.SkillUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_SkillIcon.cpp">
-      <Filter>02.GameObjects\UI\05.SkillUI\01.SkillIcon</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
@@ -4002,6 +4017,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_Skill_MoveIcon.cpp">
+      <Filter>02.GameObjects\UI\05.SkillUI\01.MoveIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_DamageFont.cpp">
+      <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp">
+      <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
