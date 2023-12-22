@@ -32,6 +32,14 @@ private:
 	void	InfoView();
 	void	Categories();
 
+	void	SelectBaseMaterial();
+	void	SelectNoiseTexture();
+	void	SelectMaskTexture();
+	void	SelectEmissiveTexture();
+	void	SelectDissolveTexture();
+
+	void	ShowTextures(wstring strPath);
+
 	void	Meshes();
 	void	Textures();
 
@@ -49,15 +57,17 @@ private:
 private:
 	_int					m_iCurrentEffectType = 0;
 	const _char*			m_szCurrentCategory = "";
+	wstring					m_strCurrentPath = TEXT("");
 	_int					m_Item_Current = 0;
 
 	vector<pair<const _char*, vector<const _char*>>> m_vecMeshes;
 	vector<pair<const _char*, vector<const _char*>>> m_vecTextures;
 
-	//vector<const _char*>	m_vecMeshes;
-	//vector<const _char*>	m_vecTextures;
-
-	//vector<const _char*>	m_vecMeshes;
+	wstring					m_strBaseMaterial = TEXT("");
+	wstring					m_strNoiseTexture = TEXT("");
+	wstring					m_strMaskTexture = TEXT("");
+	wstring					m_strEmissiveTexture = TEXT("");
+	wstring					m_strDissolveTexture = TEXT("");
 
 	vector<ImTextureID>		m_vecMaskTextureIDs;
 	vector<ImTextureID>		m_vecNoiseTextureIDs;
