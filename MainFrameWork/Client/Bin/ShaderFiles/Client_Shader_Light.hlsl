@@ -20,17 +20,17 @@ cbuffer LightBuffer
     LightDesc GlobalLight;
 };
 
-cbuffer MaterialSwitch
+cbuffer MaterialFlag
 {
     float4 SpecMaskEmisExtr;
 };
+    
+cbuffer EffectMaterialFlag
+{
+    float4 NoisMaskEmisDslv;
+};
 
 // Material
-Texture2D g_DiffuseTexture;
-Texture2D g_NormalTexture;
-Texture2D g_SpecularTexture;
-Texture2D g_EmissiveTexture;
-Texture2D g_MRMaskTexture;
 
 float4 PhongDiffuse(float3 normal, float2 uv)
 {
@@ -66,7 +66,7 @@ float4 ComputeEmissive(float2 uv)
     return g_EmissiveTexture.Sample(LinearSampler, uv) * color;
 }
 
-float4 ComputeForwardColor(float3 normal, float2 uv, float3 worldPosition)
+float4 ComputeForwardLight(float3 normal, float2 uv, float3 worldPosition)
 {
     return ComputeAmbient(uv) + PhongDiffuse(normal, uv) + PhongSpecular(normal, worldPosition) + ComputeEmissive(uv);
 }
@@ -90,7 +90,6 @@ void ComputeNormalMapping(inout float4 normal, float3 tangent, float2 texcoord)
     normal = float4(worldNormal, 0.f);
 };
 
-Texture2D g_DissolveTexture;
 float g_fDissolveAmount;
 
 void ComputeDissolveColor(inout float4 color, float2 texcoord)
@@ -119,8 +118,8 @@ void ComputeRimLight(inout float3 color, float3 vNormal, float3 vLook)
 
 	// min, max, x
     fEmissive = smoothstep(0.0f, 1.0f, fEmissive);
-    fEmissive = pow(fEmissive, 1.5f);
 
+    fEmissive = pow(fEmissive, 1.5f);
     color *= fEmissive;
 };
 

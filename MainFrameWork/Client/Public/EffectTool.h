@@ -53,9 +53,9 @@ private:
 
 	vector<pair<const _char*, vector<const _char*>>> m_vecMeshes;
 	vector<pair<const _char*, vector<const _char*>>> m_vecTextures;
+
 	//vector<const _char*>	m_vecMeshes;
 	//vector<const _char*>	m_vecTextures;
-
 
 	//vector<const _char*>	m_vecMeshes;
 

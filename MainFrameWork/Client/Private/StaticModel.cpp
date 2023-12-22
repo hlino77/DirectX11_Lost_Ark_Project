@@ -175,14 +175,22 @@ HRESULT CStaticModel::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
 		return E_FAIL;
 
-	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	///* For.Com_Model */
+	/* For.Com_Model */
 	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
+	
+	/* For.Com_Shader */
+	if (m_pModelCom)
+	{
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+			return E_FAIL;
+	}
 
 	Safe_Release(pGameInstance);
 

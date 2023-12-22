@@ -18,8 +18,6 @@ public:
 	virtual HRESULT Render_Instance(ID3D11Buffer * pInstanceBuffer, _uint iSize, _uint iStride);
 public:
 
-
-
 public:
 	static CVIBuffer_Point* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject * pObject, void* pArg) override;

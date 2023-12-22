@@ -2221,6 +2221,9 @@
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ImGUI\imconfig.h">
+      <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imgui.h">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
     </ClInclude>
@@ -4048,9 +4051,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
@@ -4159,6 +4159,21 @@
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Stream.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Draw.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>

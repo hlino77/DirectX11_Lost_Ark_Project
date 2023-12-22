@@ -32,113 +32,13 @@ HRESULT CEffectTool::Tick()
 {
 	Input();
 
-	//ImGui::Begin("Effect Tool");
+	ImGui::Begin("Effect Tool");
 
-	//InfoView();
-	//Categories();
-	////TreeGroups();
-	////Meshes();
-	//Textures();
-
-	//ImGui::End();
-
-	/*ImGui::Begin("node editor");
-
-	ImNodes::BeginNodeEditor();
-	ImNodes::EndNodeEditor();
-
-	ImGui::End();*/
-
-	ImGui::Begin("node editor");
-
-	int hardcoded_node_id = 1;
-
-	ImNodes::BeginNodeEditor();
-
-	ImNodes::BeginNode(hardcoded_node_id);
-	//ImNodes::EndNode();
-
-	ImNodes::BeginNodeTitleBar();
-	ImGui::TextUnformatted("output node");
-	ImNodes::EndNodeTitleBar();
-
-	ImGui::Dummy(ImVec2(280.0f, 45.0f));
-
-	// pins and other node UI content omitted...
-
-
-	//ImNodes::BeginNode(hardcoded_node_id);
-
-	const int output_attr_id = 2;
-	ImNodes::BeginOutputAttribute(output_attr_id);
-	// in between Begin|EndAttribute calls, you can call ImGui
-	// UI functions
-	ImGui::Text("output pin");
-	ImNodes::EndOutputAttribute();
-
-	//ImNodes::EndNode();;
-
-	//ImNodes::BeginNode(hardcoded_node_id);
-
-	
-	ImNodes::EndNode();
-
-	std::vector<std::pair<int, int>> links;
-	// elsewhere in the code...
-	for (int i = 0; i < links.size(); ++i)
-	{
-		const std::pair<int, int> p = links[i];
-		// in this case, we just use the array index of the link
-		// as the unique identifier
-		ImNodes::Link(i, p.first, p.second);
-	}
-
-	ImNodes::EndNodeEditor();
-
-	int start_attr, end_attr;
-	if (ImNodes::IsLinkCreated(&start_attr, &end_attr))
-	{
-		links.push_back(std::make_pair(start_attr, end_attr));
-	}
-
-	/*int node_id;
-	if (ImNodes::IsNodeHovered(&node_id))
-	{
-		node_hovered = node_id;
-	}*/
-
-	// Note that since many nodes can be selected at once, we first need to query the number of
-// selected nodes before getting them.
-	const int num_selected_nodes = ImNodes::NumSelectedNodes();
-	if (num_selected_nodes > 0)
-	{
-		std::vector<int> selected_nodes;
-		selected_nodes.resize(num_selected_nodes);
-		ImNodes::GetSelectedNodes(selected_nodes.data());
-	}
-
-	// set the titlebar color of an individual node
-	//ImNodes::PushColorStyle(
-	//	ImNodesCol_TitleBar, IM_COL32(11, 109, 191, 255));
-	//ImNodes::PushColorStyle(
-	//	ImNodesCol_TitleBarSelected, IM_COL32(81, 148, 204, 255));
-
-	//ImNodes::BeginNode(hardcoded_node_id);
-	//// node internals here...
-	//ImNodes::EndNode();
-
-	//ImNodes::PopColorStyle();
-	//ImNodes::PopColorStyle();
-
-	//ImGui::Begin("node editor");
-
-	//ImNodes::BeginNodeEditor();
-
-	//// add nodes...
-
-	//// must be called right before EndNodeEditor
-	//ImNodes::MiniMap();
-	//ImNodes::EndNodeEditor();
+	InfoView();
+	Categories();
+	//TreeGroups();
+	//Meshes();
+	Textures();
 
 	ImGui::End();
 

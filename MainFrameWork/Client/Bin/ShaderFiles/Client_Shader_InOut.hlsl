@@ -9,6 +9,20 @@ struct STATIC_IN
     float2  vTexUV : TEXCOORD0;
 };
 
+struct FXMESH_IN
+{
+    float3  vPosition : POSITION;
+    float3  vNormal : NORMAL;
+    float3  vTangent : TANGENT;
+    float2  vTexUV : TEXCOORD0;
+};
+    
+struct FXTEX_IN
+{
+    float3 vPosition : POSITION;
+    float2 vPSize   : PSIZE;
+};
+
 struct SKELETAL_IN
 {
     float3  vPosition : POSITION;
@@ -28,11 +42,17 @@ struct VS_OUT
     float4  vProjPos : TEXCOORD1;
     float3  vTangent : TANGENT;
 };
-    
+
 struct VS_OUT_SHADOW
 {
     float4  vPosition : SV_POSITION;
     float4  vProjPos : TEXCOORD1;
+};
+
+struct VS_OUT_FXTEX
+{
+    float4 vPosition : POSITION;    // SV พฦดิ
+    float2 vPSize : PSIZE;
 };
 
 struct TARGET_IN

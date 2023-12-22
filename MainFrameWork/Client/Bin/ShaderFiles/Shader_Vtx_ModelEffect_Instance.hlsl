@@ -22,10 +22,7 @@ struct VS_IN
 	float2		vTexUV : TEXCOORD0;
 	float3		vTangent : TANGENT;
 
-	float4		vRight : TEXCOORD1;
-	float4		vUp : TEXCOORD2;
-	float4		vLook : TEXCOORD3;
-	float4		vTranslation : TEXCOORD4;
+    Matrix		matWorld : INST;
 	float4		vColor : TEXCOORD5;
 	float4		vBlur : TEXCOORD6;
 };
@@ -50,10 +47,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	matrix		matWV, matWVP;
 
-	matrix matWorld = matrix(In.vRight, In.vUp, In.vLook, In.vTranslation);
-
-
-	matWV = mul(matWorld, g_ViewMatrix);
+    matWV = mul(In.matWorld, g_ViewMatrix);
 	matWVP = mul(matWV, g_ProjMatrix);
 
 	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
@@ -73,14 +67,14 @@ VS_OUT VS_UV(VS_IN In)
 
 	matrix		matWV, matWVP;
 
-	In.vTexUV.x += In.vRight.a;
+    float4 vRight = In.matWorld._11_12_13_14;
+    In.vTexUV.x += vRight.a;
 
-	In.vRight.a = 0.0f;
+	vRight.a = 0.0f;
 
-	matrix matWorld = matrix(In.vRight, In.vUp, In.vLook, In.vTranslation);
-
-
-	matWV = mul(matWorld, g_ViewMatrix);
+    In.matWorld._11_12_13_14 = vRight;
+	
+	matWV = mul(In.matWorld, g_ViewMatrix);
 	matWVP = mul(matWV, g_ProjMatrix);
 
 	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
