@@ -129,28 +129,28 @@ HRESULT CMonster_Zombie::Render_ShadowDepth()
 
 	return S_OK;
 }
-
-void CMonster_Zombie::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-	if(pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack -> ENTER" << endl;
-
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body -> ENTER" << endl;
-}
-
-void CMonster_Zombie::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CMonster_Zombie::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		cout << "몬스터 Body : 플레이어 Attack ->EXIT" << endl;
-
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		cout << "몬스터 Body : 플레이어 Body ->EXIT" << endl;
-}
+//
+//void CMonster_Zombie::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+//{
+//	if(pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+//		cout << "몬스터 Body : 플레이어 Attack -> ENTER" << endl;
+//
+//	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+//		cout << "몬스터 Body : 플레이어 Body -> ENTER" << endl;
+//}
+//
+//void CMonster_Zombie::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+//{
+//}
+//
+//void CMonster_Zombie::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+//{
+//	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+//		cout << "몬스터 Body : 플레이어 Attack ->EXIT" << endl;
+//
+//	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+//		cout << "몬스터 Body : 플레이어 Body ->EXIT" << endl;
+//}
 
 void CMonster_Zombie::Set_SlowMotion(_bool bSlow)
 {

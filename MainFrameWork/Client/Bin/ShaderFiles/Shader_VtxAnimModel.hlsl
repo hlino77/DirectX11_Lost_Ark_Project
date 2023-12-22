@@ -5,7 +5,6 @@ float4	g_vHairColor_1;
 float4	g_vHairColor_2;
 
 matrix	g_BoneMatrices[800];
-float   g_fRimLight = 0.0f;
 
 
 VS_OUT VS_MAIN_NO_NORMAL(SKELETAL_IN In)

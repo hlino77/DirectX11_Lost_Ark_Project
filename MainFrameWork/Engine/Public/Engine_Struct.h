@@ -278,17 +278,16 @@ namespace Engine
 
 	typedef struct ENGINE_DLL tagVertex_Model_Instance
 	{
-		XMFLOAT3		vPosition;
-		XMFLOAT3		vNormal;
-		XMFLOAT2		vTexcoord;
-		XMFLOAT3		vTangent;
+		XMFLOAT3        vPosition;
+		XMFLOAT3        vNormal;
+		XMFLOAT2        vTexcoord;
+		XMFLOAT3        vTangent;
 
-		Matrix			matWorld;
+		Matrix            matWorld;
 
-		static const unsigned int				iNumElements = 8;
-		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
-	}VTX_MODEL_INSTANCE;
-
+		static const unsigned int                iNumElements = 8;
+		static const D3D11_INPUT_ELEMENT_DESC    Elements[iNumElements];
+	}VTXINSTANCE_MODEL;
 
 
 	typedef struct ENGINE_DLL tagVertex_LineCircle_Instance
@@ -333,6 +332,9 @@ namespace Engine
 		Vec3 vChildOffset;
 
 	}PROJECTILE_DESC;
+
+
+
 }
 
 #endif // Engine_Struct_h__

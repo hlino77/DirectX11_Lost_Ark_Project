@@ -1,11 +1,4 @@
 #pragma once
-#include "C:\Project\3D Team Progect\MainFrameWork\Reference\Headers\State.h"
-class CState_GN_Dahs_2_End :
-    public CState
-{
-};
-
-#pragma once
 #include "Client_Defines.h"
 #include "State.h"
 

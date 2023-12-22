@@ -4,6 +4,9 @@
 #include "Client_Shader_Defines.hlsl"
 #include "Client_Shader_Global.hlsl"
 
+
+float     g_fRimLight = 0.0f;
+
 // Light
 struct LightDesc
 {
