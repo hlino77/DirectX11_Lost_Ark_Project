@@ -16,8 +16,7 @@ void CCommon_BT_Damage2_Server::OnStart()
 
 CBT_Node::BT_RETURN CCommon_BT_Damage2_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_fDuration < 0.4f && static_cast<CMonster_Server*>(m_pGameObject)->Is_SecondHit())
-		return BT_FAIL;
+
 
 	if (m_fDuration < 0.f)
 	{

@@ -16,8 +16,7 @@ void CCommon_BT_Damage1_Server::OnStart()
 
 CBT_Node::BT_RETURN CCommon_BT_Damage1_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_fDuration < 0.4f && static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
-		return BT_SUCCESS;
+
 	if (m_fDuration < 0.f)
 	{
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);

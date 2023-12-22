@@ -287,8 +287,8 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Hit->AddChild(pIfTwist))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfBound))) return E_FAIL;
 	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
-	if (FAILED(pSelector_Hit->AddChild(pIfSecondHit))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfFirstHit))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfSecondHit))) return E_FAIL;
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
