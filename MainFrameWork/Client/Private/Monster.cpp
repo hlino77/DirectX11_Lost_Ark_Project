@@ -278,11 +278,11 @@ void CMonster::Update_StatusEffect(_float fTimeDelta)
 			m_fStatusEffects[i] = 0.f;
 	}
 }
+
 int iTemp =0;
+
 void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
-
-	WRITE_LOCK
 	m_iHp -= iDamage;
 
 	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
