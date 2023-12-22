@@ -4,9 +4,6 @@
 #include "Client_Shader_Defines.hlsl"
 #include "Client_Shader_Global.hlsl"
 
-static const float PI = 3.14159265359f;
-static const float EPSILON = 0.000001f;
-
 float3 fresnelSchlick(float cosTheta, float3 F0)
 {
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);

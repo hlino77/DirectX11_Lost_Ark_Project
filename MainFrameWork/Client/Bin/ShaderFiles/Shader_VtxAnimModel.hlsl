@@ -1,10 +1,6 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
 
-float	g_BlendRatio;
-float4	g_vBlurColor;
-float	g_fAlpha;
-
 float4	g_vHairColor_1;
 float4	g_vHairColor_2;
 

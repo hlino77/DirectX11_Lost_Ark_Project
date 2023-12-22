@@ -1,20 +1,6 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
 
-Texture2D	g_MaskTexture;
-Texture2D	g_MaskTexture2;
-Texture2D	g_DisolveTexture;
-
-matrix		g_ShadowViewMatrix;
-
-float4		g_vColor;
-float4		g_vBlurColor;
-
-float		g_fUVX;
-float		g_fUVY;
-float		g_fAlphaWeight;
-float		g_fDiscardAlpha;
-
 VS_OUT VS_MAIN(STATIC_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;

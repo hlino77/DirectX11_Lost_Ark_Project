@@ -456,3 +456,6 @@ MainFrameWork/CopyRelease.bat
 /MainFrameWork/Client/Public/ImGUI/multi_editor.cpp
 /MainFrameWork/Client/Public/ImGUI/node_editor.h
 /MainFrameWork/Client/Public/ImGUI/save_load.cpp
+/MainFrameWork/Client/Public/ImGUI/imnodes.cpp
+/MainFrameWork/Client/Public/ImGUI/imnodes.h
+/MainFrameWork/Client/Public/ImGUI/imnodes_internal.h

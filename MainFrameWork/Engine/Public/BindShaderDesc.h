@@ -38,9 +38,14 @@ struct ENGINE_DLL MaterialDesc
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
 };
 
-struct ENGINE_DLL MaterialSwitch
+struct ENGINE_DLL MaterialFlag
 {
 	Vec4 SpecMaskEmisExtr = Vec4(0.f, 0.f, 0.f, 0.f);
+};
+
+struct ENGINE_DLL EffectMaterialFlag
+{
+	Vec4 NoisMaskEmisDslv = Vec4(0.f, 0.f, 0.f, 0.f);
 };
 
 // Bone

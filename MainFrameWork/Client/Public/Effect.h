@@ -7,7 +7,6 @@ class CShader;
 class CTexture;
 class CRenderer;
 class CTransform;
-class CVIBuffer_Rect;
 END
 
 BEGIN(Client)
@@ -29,15 +28,8 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render() PURE;
 	
-
-
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
-	//CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-
-	
 
 	_float					m_fAlpha = 1.0f;
 

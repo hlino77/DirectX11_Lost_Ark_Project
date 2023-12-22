@@ -16,7 +16,6 @@ HRESULT CLevel_Tool::Initialize()
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImNodes::CreateContext();
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -148,6 +147,5 @@ void CLevel_Tool::Free()
 	Super::Free();
 
 	RELEASE_INSTANCE(CGameInstance);
-	ImNodes::DestroyContext();
 	ImGui::DestroyContext();
 }

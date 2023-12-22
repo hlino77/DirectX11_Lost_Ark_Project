@@ -13,6 +13,34 @@ CVIBuffer_Point::CVIBuffer_Point(const CVIBuffer_Point & rhs)
 
 HRESULT CVIBuffer_Point::Initialize_Prototype()
 {
+	m_iStride = sizeof(VTXPOINT);
+	m_iNumVertices = 1;
+	/* 정점버퍼와 인덱스 버퍼를 만드낟. */
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+
+	// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+	m_BufferDesc.StructureByteStride = m_iStride;
+
+	VTXPOINT* pVertices = new VTXPOINT;
+	ZeroMemory(pVertices, sizeof(VTXPOINT));
+
+	pVertices->vPosition = Vec3(0.f, 0.f, 0.f);
+	pVertices->vPSize = Vec2(1.f, 1.f);
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+	m_SubResourceData.pSysMem = pVertices;
+
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+
 #pragma region INDEX_BUFFER
 
 	m_eIndexFormat = DXGI_FORMAT_R16_UINT;

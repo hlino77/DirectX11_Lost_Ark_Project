@@ -565,18 +565,18 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 		return S_OK;
 	}
 
-	MaterialSwitch tSwitch = { Vec4(0.f, 0.f, 0.f, 0.f) };
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
 
 	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
-		tSwitch.SpecMaskEmisExtr.x = 1.f;
+		tFlag.SpecMaskEmisExtr.x = 1.f;
 
 	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
-		tSwitch.SpecMaskEmisExtr.y = 1.f;
+		tFlag.SpecMaskEmisExtr.y = 1.f;
 
 	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
-		tSwitch.SpecMaskEmisExtr.z = 1.f;
+		tFlag.SpecMaskEmisExtr.z = 1.f;
 
-	if (FAILED(pShader->Bind_CBuffer("MaterialSwitch", &tSwitch, sizeof(MaterialSwitch))))
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
 	if (FAILED(Render(pShader, iMeshIndex, "PBR")))

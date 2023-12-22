@@ -141,7 +141,16 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
 	}VTXCUBETEX;
 
-	typedef struct ENGINE_DLL tagVertex_Point	// PointInstance
+	typedef struct ENGINE_DLL tagVertex_Point
+	{
+		XMFLOAT3		vPosition;
+		XMFLOAT2		vPSize;
+
+		static const unsigned int iNumElements = 2;
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
+	}VTXPOINT;
+
+	typedef struct ENGINE_DLL tagVertex_Point_Instance	// Instancing
 	{
 		XMFLOAT3		vPosition;
 		XMFLOAT2		vPSize;
@@ -150,7 +159,7 @@ namespace Engine
 
 		static const unsigned int iNumElements = 6;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXPOINT;
+	}VTXINSTANCE_POINT;
 
 	typedef struct ENGINE_DLL tagVertexColor
 	{
@@ -169,7 +178,7 @@ namespace Engine
 		WINMODE		eWinMode;
 		unsigned int	iWinSizeX, iWinSizeY;
 
-	} GRAPHIC_DESC;
+	}GRAPHIC_DESC;
 
 	typedef struct tagMyHierarchyNode
 	{
@@ -177,18 +186,18 @@ namespace Engine
 		char cParent[MAX_PATH];
 		int  iDepth;
 		SimpleMath::Matrix matTransform;
-	} DATA_NODE;
+	}DATA_NODE;
 
 	typedef struct tagMyMaterialData
 	{
 		char cNames[AI_TEXTURE_TYPE_MAX][MAX_PATH];
-	} DATA_MATERIAL;
+	}DATA_MATERIAL;
 
 	typedef struct tagMyBoneData
 	{
 		char		cNames[MAX_PATH];
 		SimpleMath::Matrix		matOffset;
-	} DATA_BONE;
+	}DATA_BONE;
 
 	typedef struct tagMyMeshData
 	{

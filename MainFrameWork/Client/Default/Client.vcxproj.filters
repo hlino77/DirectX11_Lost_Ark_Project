@@ -4004,9 +4004,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
@@ -4117,10 +4114,19 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Effect.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Stream.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Draw.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>
