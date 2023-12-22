@@ -101,6 +101,10 @@ HRESULT CMonster_Golem::Render()
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
 		return E_FAIL;
 
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+		return E_FAIL;
+
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
 

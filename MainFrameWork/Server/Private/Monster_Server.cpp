@@ -307,15 +307,23 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_IsHit = true;
 		m_pTransformCom->LookAt(vHitPos);
 		if (fForce < 20.f)
+		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		}
 		else if (fForce < 30.f)
 		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 			m_IsBound = true;
 		}
 		else if (fForce >= 30.f)
 		{
+			m_pRigidBody->ClearForce(ForceMode::FORCE);
+			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 			m_IsBound = false;

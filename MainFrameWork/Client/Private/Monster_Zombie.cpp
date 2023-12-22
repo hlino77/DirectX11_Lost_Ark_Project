@@ -91,6 +91,16 @@ void CMonster_Zombie::LateTick(_float fTimeDelta)
 	CullingObject();
 
 	Set_Colliders(fTimeDelta);
+
+	if (m_bRimLight)
+	{
+		m_fRimLightTime -= fTimeDelta;
+		if (m_fRimLightTime <= 0.0f)
+		{
+			m_fRimLightTime = 0.0f;
+			m_bRimLight = false;
+		}
+	}
 }
 
 HRESULT CMonster_Zombie::Render()
@@ -103,6 +113,11 @@ HRESULT CMonster_Zombie::Render()
 
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
 		return E_FAIL;
+
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;

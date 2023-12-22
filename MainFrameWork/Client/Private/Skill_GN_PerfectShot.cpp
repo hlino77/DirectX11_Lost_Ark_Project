@@ -27,7 +27,7 @@ HRESULT CSkill_GN_PerfectShot::Initialize(void* pArg)
 	PROJECTILE_DESC Proj_Desc;
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_SKILL;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.5f;
 	Proj_Desc.fRadius = 0.6f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.5f);
