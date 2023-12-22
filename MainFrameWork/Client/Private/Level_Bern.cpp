@@ -112,17 +112,6 @@ HRESULT CLevel_Bern::Tick(_float fTimeDelta)
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
 
-	if ((KEY_HOLD(KEY::SHIFT)) && (KEY_TAP(KEY::V)))
-	{
-		CUI_DamageFont* pDamageFont =  CPool<CUI_DamageFont>::Get_Obj();
-		pDamageFont->Print_DamageFont(Vec3(0.f, 0.f, 0.f), 12.f, true, 1001235123);
-	}
-	if ((KEY_HOLD(KEY::SHIFT)) && (KEY_TAP(KEY::B)))
-	{
-		CUI_DamageFont* pDamageFont = CPool<CUI_DamageFont>::Get_Obj();
-		pDamageFont->Print_DamageFont(Vec3(0.f, 0.f, 0.f), 12.f, false, 100123123);
-	}
-
 	return S_OK;
 }
 

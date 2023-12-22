@@ -31,7 +31,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override;
     void	Set_Active(_bool bActive);
-    void	Print_DamageFont(Vec3 vPos, _float fLength, _bool IsCritiacl, _uint iDamage);
+    void	Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritiacl, _uint iDamage);
 
 private:
     virtual HRESULT Ready_Components();

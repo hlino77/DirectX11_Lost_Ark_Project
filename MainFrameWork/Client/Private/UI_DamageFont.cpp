@@ -99,23 +99,24 @@ void CUI_DamageFont::Set_Active(_bool bActive)
     m_pDamageFontWnd->Set_Active(m_bActive);
 }
 
-void CUI_DamageFont::Print_DamageFont(Vec3 vPos, _float fLength, _bool IsCritical, _uint iDamage)
+void CUI_DamageFont::Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritical, _uint iDamage)
 {
     m_pDamageFontWnd->Clear_Text();
     m_pDamageFontWnd->Set_Alpha(1.f);
     m_fDuration = 0.f;
     m_vTextBoxScale = Vec2(600.f, 80.f);
-    m_vTextBoxScale *= 0.8f;
+    m_vTextBoxScale *= fScale;
     m_bCriticalHit = IsCritical;
     Vec2 vTextPos(300.0f, 40.0f);
     Vec3 vHostPos = vPos;
+    vHostPos.y += fOffsetY;
 
     Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
     Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 
     vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
     vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
-    m_vHostPos = Vec2(vHostPos.x, vHostPos.y);
+    m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
 
     Vec2 vOffSet;
     vOffSet.x =   CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);

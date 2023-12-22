@@ -15,6 +15,8 @@ CCollisionManager::CCollisionManager()
 
 void CCollisionManager::LateTick_Collision(const _float& fTimeDelta)
 {
+	READ_LOCK
+
 	if (m_Colliders.empty())	
 		return;
 
@@ -28,7 +30,6 @@ void CCollisionManager::LateTick_Collision(const _float& fTimeDelta)
 		{
 			if (m_arrCheck[iRow] & (1 << iCol))
 			{
-				READ_LOCK
 				CheckDynamicCollision(iRow, iCol, fTimeDelta);
 				//CheckStaticCollision(reinterpret_cast<LAYERTAG&>(iRow), fTimeDelta);
 			}

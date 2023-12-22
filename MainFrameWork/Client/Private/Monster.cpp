@@ -14,6 +14,7 @@
 #include "BindShaderDesc.h"
 #include "CollisionManager.h"
 #include "BehaviorTree.h"
+#include "UI_DamageFont.h"
 
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -335,6 +336,24 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 
 
 	Set_RimLight(0.05f);
+
+
+	int iTemp = rand() % 10;
+
+
+	int iTestDamage = (rand() % 300) * 26789;
+
+	if (iTemp < 3)
+	{
+		iTestDamage *= 2;
+		CUI_DamageFont* pDamageFont = CPool<CUI_DamageFont>::Get_Obj();
+		pDamageFont->Print_DamageFont(0.4f, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, true, iTestDamage);
+	}
+	else
+	{
+		CUI_DamageFont* pDamageFont = CPool<CUI_DamageFont>::Get_Obj();
+		pDamageFont->Print_DamageFont(0.4f, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, false, iTestDamage);
+	}
 }
 
 void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)
