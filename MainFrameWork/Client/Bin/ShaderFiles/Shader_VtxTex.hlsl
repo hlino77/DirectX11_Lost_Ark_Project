@@ -255,7 +255,7 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
-	Out.vColor.rgb *= pow(Out.vColor, 1.f / 2.2f);
+	Out.vColor = pow(Out.vColor, 1 / 2.2);
 	Out.vColor.a *= g_Alpha;
 
 	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
@@ -266,9 +266,9 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 	float fAngle = atan2(-fTempUV.x, fTempUV.y);
 
 	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
-		Out.vColor.rgb *= pow(Out.vColor, 1.f / 2.2f);
+		Out.vColor *= pow(Out.vColor, 1.f / 2.2f);
 	else
-		Out.vColor.rgb *= 0.2f;
+		Out.vColor *= 0.4f;
 
 	return Out;
 }

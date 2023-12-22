@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UI_SkillIcon_Frame.h"
+#include "UI_ItemIcon_Frame.h"
 #include "GameInstance.h"
 #include "Player_Skill.h"
 
-CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ItemIcon_Frame::CUI_ItemIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
 {
     m_pDevice = pDevice;
@@ -13,17 +13,17 @@ CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceCont
     Safe_AddRef(m_pContext);
 }
 
-CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(const CUI& rhs)
+CUI_ItemIcon_Frame::CUI_ItemIcon_Frame(const CUI& rhs)
     : CUI(rhs)
 {
 }
 
-HRESULT CUI_SkillIcon_Frame::Initialize_Prototype()
+HRESULT CUI_ItemIcon_Frame::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
+HRESULT CUI_ItemIcon_Frame::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -52,7 +52,7 @@ HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_SkillIcon_Frame::Tick(_float fTimeDelta)
+void CUI_ItemIcon_Frame::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     Picking_UI();
@@ -73,7 +73,7 @@ void CUI_SkillIcon_Frame::Tick(_float fTimeDelta)
     }
 }
 
-void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
+void CUI_ItemIcon_Frame::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
     if (!m_bPick)
@@ -101,7 +101,7 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
 
 }
 
-HRESULT CUI_SkillIcon_Frame::Render()
+HRESULT CUI_ItemIcon_Frame::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -143,7 +143,7 @@ HRESULT CUI_SkillIcon_Frame::Render()
     return S_OK;
 }
 
-void CUI_SkillIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
+void CUI_ItemIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
 {
     if (m_strCurrSkillName != m_pPlayer_Skill->Get_Skill_Name())
     {
@@ -153,7 +153,7 @@ void CUI_SkillIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
 
 }
 
-HRESULT CUI_SkillIcon_Frame::Ready_Components()
+HRESULT CUI_ItemIcon_Frame::Ready_Components()
 {
     __super::Ready_Components();
 
@@ -177,7 +177,7 @@ HRESULT CUI_SkillIcon_Frame::Ready_Components()
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources()
+HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -195,7 +195,7 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources()
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Picked()
+HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Picked()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -210,13 +210,10 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Picked()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vecPickedColor, sizeof(Vec4))))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fCoolAngle, sizeof(_float))))
-        return E_FAIL;
-
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Shine()
+HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Shine()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -234,7 +231,7 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Shine()
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Test()
+HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Test()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -255,33 +252,33 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Test()
     return S_OK;
 }
 
-CUI_SkillIcon_Frame* CUI_SkillIcon_Frame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ItemIcon_Frame* CUI_ItemIcon_Frame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_SkillIcon_Frame* pInstance = new CUI_SkillIcon_Frame(pDevice, pContext);
+    CUI_ItemIcon_Frame* pInstance = new CUI_ItemIcon_Frame(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CUI_SkillIcon_Frame");
+        MSG_BOX("Failed to Created : CUI_ItemIcon_Frame");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_SkillIcon_Frame::Clone(void* pArg)
+CGameObject* CUI_ItemIcon_Frame::Clone(void* pArg)
 {
-    CUI_SkillIcon_Frame* pInstance = new CUI_SkillIcon_Frame(*this);
+    CUI_ItemIcon_Frame* pInstance = new CUI_ItemIcon_Frame(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CUI_SkillIcon_Frame");
+        MSG_BOX("Failed to Cloned : CUI_ItemIcon_Frame");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_SkillIcon_Frame::Free()
+void CUI_ItemIcon_Frame::Free()
 {
     __super::Free();
     Safe_Release(m_pDevice);

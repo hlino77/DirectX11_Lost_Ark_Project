@@ -508,6 +508,12 @@
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\08.ItemUI">
+      <UniqueIdentifier>{bdd68a24-261b-4fd9-8bc4-c49f8677da8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\08.ItemUI\00.IconFrame">
+      <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1475,12 +1481,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -2238,6 +2238,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_DamageFont.h">
       <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ItemIcon_Frame.h">
+      <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3193,12 +3196,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -3952,6 +3949,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_DamageFont.cpp">
       <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp">
+      <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
