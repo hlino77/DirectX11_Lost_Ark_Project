@@ -50,7 +50,7 @@ HRESULT CUI_IdentityGN_MainFrame::Initialize(void* pArg)
 	CGameInstance* pInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pInstance);
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
-	if (nullptr != pPlayer)
+	if (nullptr != pPlayer && L"Gunslinger" == pPlayer->Get_ObjectTag())
 	{
 		m_iCurrStance = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller())->Get_GN_Identity();
 		m_iPreStance = m_iCurrStance;

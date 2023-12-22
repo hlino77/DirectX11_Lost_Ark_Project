@@ -446,7 +446,7 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		Desc.strFileName = L"Gunslinger";
 		break;
 	case (_uint)CHR_CLASS::SLAYER:
-		Desc.strFileName = L"Slayer";
+		Desc.strFileName = L"WR";
 		break;
 	}
 

@@ -195,6 +195,7 @@
     <ClInclude Include="..\Public\Common_BT_Stand.h" />
     <ClInclude Include="..\Public\Common_BT_Twist.h" />
     <ClInclude Include="..\Public\Common_BT_TwistLand.h" />
+    <ClInclude Include="..\Public\Controller_WR.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Erruption.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Player_Slayer.h" />
     <ClInclude Include="..\Public\Projectile.h" />
     <ClInclude Include="..\Public\Skill_GN_Apocalypse.h" />
     <ClInclude Include="..\Public\Skill_GN_DeadHard.h" />
@@ -256,6 +258,9 @@
     <ClInclude Include="..\Public\State_GN_RapidFire_Start.h" />
     <ClInclude Include="..\Public\State_GN_SprialChaser.h" />
     <ClInclude Include="..\Public\Boss_King.h" />
+    <ClInclude Include="..\Public\State_WR_Dash.h" />
+    <ClInclude Include="..\Public\State_WR_Idle.h" />
+    <ClInclude Include="..\Public\State_WR_Run.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
@@ -392,6 +397,7 @@
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Weapon_Mn_Reaper.h" />
+    <ClInclude Include="..\Public\Weapon_WR.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Common_BT_Chase.h" />
@@ -421,6 +427,7 @@
     <ClCompile Include="..\Private\Common_BT_Stand.cpp" />
     <ClCompile Include="..\Private\Common_BT_Twist.cpp" />
     <ClCompile Include="..\Private\Common_BT_TwistLand.cpp" />
+    <ClCompile Include="..\Private\Controller_WR.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
@@ -437,6 +444,7 @@
     <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Player_Slayer.cpp" />
     <ClCompile Include="..\Private\Projectile.cpp" />
     <ClCompile Include="..\Private\Skill_GN_Apocalypse.cpp" />
     <ClCompile Include="..\Private\Skill_GN_DeadHard.cpp" />
@@ -470,6 +478,9 @@
     <ClCompile Include="..\Private\State_GN_RapidFire_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_SprialChaser.cpp" />
     <ClCompile Include="..\Private\Boss_King.cpp" />
+    <ClCompile Include="..\Private\State_WR_Dash.cpp" />
+    <ClCompile Include="..\Private\State_WR_Idle.cpp" />
+    <ClCompile Include="..\Private\State_WR_Run.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />
@@ -611,6 +622,7 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Weapon_Mn_Reaper.cpp" />
+    <ClCompile Include="..\Private\Weapon_WR.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
     <ClCompile Include="..\Private\Common_BT_Damage2.cpp" />
     <ClCompile Include="..\Private\Common_BT_Damage1.cpp" />

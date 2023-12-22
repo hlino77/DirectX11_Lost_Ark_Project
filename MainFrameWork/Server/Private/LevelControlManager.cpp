@@ -70,7 +70,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 			Desc.iWeaponIndex = 0;
 			break;
 		case (_uint)CHR_CLASS::SLAYER:
-			Desc.strFileName = L"Slayer";
+			Desc.strFileName = L"WR";
 			break;
 		}
 		Desc.iObjectID = g_iObjectID++;

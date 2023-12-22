@@ -529,6 +529,30 @@
     <Filter Include="02.GameObjects\UI\08.ItemUI\00.IconFrame">
       <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer">
+      <UniqueIdentifier>{f81ba43a-97c9-40db-83ee-5404b4544635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Controller_WR">
+      <UniqueIdentifier>{3dcca49c-63f0-49ee-9326-2ef0675c1d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Part_WR">
+      <UniqueIdentifier>{f85acdfe-c468-4688-a370-e7727d328fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR">
+      <UniqueIdentifier>{46e79226-86c9-468b-ad4c-160abb7f5c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
+      <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Idle">
+      <UniqueIdentifier>{b9a4d60b-946b-4488-874e-421df951e446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Run">
+      <UniqueIdentifier>{7a95cd2f-2a69-4087-920a-2f935c8fe5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dash">
+      <UniqueIdentifier>{faf1e76b-5b12-4008-b2e3-7dd21c903a9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2287,6 +2311,24 @@
     <ClInclude Include="..\Public\UI_ItemIcon_Frame.h">
       <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Controller_WR.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Controller_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Slayer.h">
+      <Filter>02.GameObjects\Player\Player_Slayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_WR.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Part_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Idle.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Run.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Dash.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4026,6 +4068,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp">
       <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Controller_WR.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Controller_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Slayer.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_WR.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Part_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Idle.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Run.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Dash.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
