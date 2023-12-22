@@ -12,8 +12,8 @@
 #include "Common_BT_Attack1.h"
 #include "Zombie_BT_Attack2.h"
 #include "Common_BT_Chase.h"
-#include "Common_BT_DamageLeft.h"
-#include "Common_BT_DamageRight.h"
+#include "Common_BT_Damage1.h"
+#include "Common_BT_Damage2.h"
 #include "Common_BT_Dead.h"
 #include "Common_BT_Idle.h"
 #include "Common_BT_BattleIdle.h"
@@ -292,29 +292,30 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_Damage2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("twistknockdown");
@@ -363,7 +364,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -373,7 +374,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -383,7 +384,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -393,7 +394,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pAttack2 = CPawn_BT_Attack2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -408,7 +409,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -418,7 +419,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -429,7 +430,7 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;

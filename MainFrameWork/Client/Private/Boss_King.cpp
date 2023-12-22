@@ -12,8 +12,8 @@
 #include "Common_BT_Attack1.h"
 #include "Zombie_BT_Attack2.h"
 #include "Common_BT_Chase.h"
-#include "Common_BT_DamageLeft.h"
-#include "Common_BT_DamageRight.h"
+#include "Common_BT_Damage1.h"
+#include "Common_BT_Damage2.h"
 #include "Common_BT_Dead.h"
 #include "Common_BT_Idle.h"
 #include "Common_BT_BattleIdle.h"
@@ -265,7 +265,7 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 

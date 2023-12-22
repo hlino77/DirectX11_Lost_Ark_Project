@@ -12,8 +12,8 @@
 #include "Common_BT_Attack1.h"
 #include "Zombie_BT_Attack2.h"
 #include "Common_BT_Chase.h"
-#include "Common_BT_DamageLeft.h"
-#include "Common_BT_DamageRight.h"
+#include "Common_BT_Damage1.h"
+#include "Common_BT_Damage2.h"
 #include "Common_BT_Dead.h"
 #include "Common_BT_Idle.h"
 #include "Common_BT_BattleIdle.h"
@@ -275,6 +275,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
@@ -302,7 +303,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
@@ -312,7 +313,7 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_Damage2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");

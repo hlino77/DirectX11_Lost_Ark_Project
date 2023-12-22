@@ -240,7 +240,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 19.0f;
+			_float fForce = 1.0f;
 
 			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
 		}
@@ -257,7 +257,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 19.0f;
+			_float fForce = 25.0f;
 
 			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, 0.f);
 		}

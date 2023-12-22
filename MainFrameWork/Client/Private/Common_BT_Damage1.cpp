@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "Common_BT_DamageRight.h"
+#include "Common_BT_Damage1.h"
 #include "Monster.h"
 #include "Model.h"
-CCommon_BT_DamageRight::CCommon_BT_DamageRight()
+CCommon_BT_Damage1::CCommon_BT_Damage1()
 {
 }
 
-void CCommon_BT_DamageRight::OnStart()
+void CCommon_BT_Damage1::OnStart()
 {
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_DamageRight::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Damage1::OnUpdate(const _float& fTimeDelta)
 {
 	
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
@@ -20,7 +20,7 @@ CBT_Node::BT_RETURN CCommon_BT_DamageRight::OnUpdate(const _float& fTimeDelta)
 	return BT_RUNNING;
 }
 
-void CCommon_BT_DamageRight::OnEnd()
+void CCommon_BT_Damage1::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster*>(m_pGameObject)->Set_Hit(false);
@@ -30,19 +30,19 @@ void CCommon_BT_DamageRight::OnEnd()
 
 
 
-CCommon_BT_DamageRight* CCommon_BT_DamageRight::Create(void* pArg)
+CCommon_BT_Damage1* CCommon_BT_Damage1::Create(void* pArg)
 {
-	CCommon_BT_DamageRight* pInstance = new CCommon_BT_DamageRight;
+	CCommon_BT_Damage1* pInstance = new CCommon_BT_Damage1;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CCommon_BT_DamageRight");
+		MSG_BOX("Failed to Created : CZombie_BT_Damage");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCommon_BT_DamageRight::Free()
+void CCommon_BT_Damage1::Free()
 {
 	__super::Free();
 }

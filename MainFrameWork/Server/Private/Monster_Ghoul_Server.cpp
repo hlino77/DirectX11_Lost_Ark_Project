@@ -10,8 +10,8 @@
 #include "Skill_Server.h"
 #include "Common_BT_Attack1_Server.h"
 #include "Common_BT_Chase_Server.h"
-#include "Common_BT_DamageLeft_Server.h"
-#include "Common_BT_DamageRight_Server.h"
+#include "Common_BT_Damage1_Server.h"
+#include "Common_BT_Damage2_Server.h"
 #include "Common_BT_Dead_Server.h"
 #include "Common_BT_Idle_Server.h"
 #include "Common_BT_BattleIdle_Server.h"
@@ -20,7 +20,7 @@
 #include "Common_BT_WHILE_Within_Range_Server.h"
 #include "Common_BT_IF_Dead_Server.h"
 #include "Common_BT_IF_Hit_Server.h"
-#include "Common_BT_IF_Hit_Left_Server.h"
+#include "Common_BT_IF_SecondHit_Server.h"
 #include "Common_BT_IF_Near_Server.h"
 #include "Common_BT_IF_Far_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
@@ -94,7 +94,7 @@ void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
+	m_fHitTerm -= fTimeDelta;
 }
 
 void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
@@ -264,7 +264,7 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft_Server::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage2_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 
@@ -274,9 +274,9 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_DamageRight_Server::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_Damage1_Server::Create(&ActionDesc);
 
-	CBT_Decorator* pIfHitLeft = CCommon_BT_IF_Hit_Left_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
+	CBT_Decorator* pIfHitLeft = CCommon_BT_IF_SecondHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
 	if (FAILED(pIfHitLeft->AddChild(pDamageLeft)))
 		return E_FAIL;
 
@@ -401,7 +401,6 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);

@@ -11,8 +11,8 @@
 #include "Common_BT_Attack1_Server.h"
 #include "Zombie_BT_Attack2_Server.h"
 #include "Common_BT_Chase_Server.h"
-#include "Common_BT_DamageLeft_Server.h"
-#include "Common_BT_DamageRight_Server.h"
+#include "Common_BT_Damage1_Server.h"
+#include "Common_BT_Damage2_Server.h"
 #include "Common_BT_Dead_Server.h"
 #include "Common_BT_Idle_Server.h"
 #include "Common_BT_BattleIdle_Server.h"
@@ -21,7 +21,7 @@
 #include "Common_BT_WHILE_Within_Range_Server.h"
 #include "Common_BT_IF_Dead_Server.h"
 #include "Common_BT_IF_Hit_Server.h"
-#include "Common_BT_IF_Hit_Left_Server.h"
+#include "Common_BT_IF_SecondHit_Server.h"
 #include "Common_BT_IF_Near_Server.h"
 #include "Common_BT_IF_Far_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
@@ -38,6 +38,7 @@
 #include <Common_BT_IF_BoundLand_Server.h>
 #include <Common_BT_TwistLand_Server.h>
 #include <Common_BT_IF_TwistLand_Server.h>
+#include <Common_BT_IF_FirstHit_Server.h>
 
 
 CMonster_Zombie_Server::CMonster_Zombie_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -80,7 +81,7 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 10.f;
+	m_iHp = 9999.f;
 	return S_OK;
 }
 
@@ -97,6 +98,7 @@ void CMonster_Zombie_Server::Tick(_float fTimeDelta)
 		Find_NearTarget();
 	}
 	m_pRigidBody->Tick(fTimeDelta);
+	m_fHitTerm -= fTimeDelta;
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
@@ -245,7 +247,6 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Bound";
 	CBT_Action* pBound = CCommon_BT_Bound_Server::Create(&ActionDesc);
 
-
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIfBound = CCommon_BT_IF_Bound_Server::Create(&DecoratorDesc);//죽었는가
 	if (FAILED(pIfBound->AddChild(pBound)))
@@ -254,23 +255,27 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft_Server::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage2_Server::Create(&ActionDesc);
+
+	CBT_Decorator* pIfFirstHit = CCommon_BT_IF_FirstHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
+	if (FAILED(pIfFirstHit->AddChild(pDamageLeft)))
+		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_DamageRight_Server::Create(&ActionDesc);
+	CBT_Action* pDamageRight = CCommon_BT_Damage1_Server::Create(&ActionDesc);
 
-	CBT_Decorator* pIfHitLeft = CCommon_BT_IF_Hit_Left_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
-	if (FAILED(pIfHitLeft->AddChild(pDamageLeft)))
+	CBT_Decorator* pIfSecondHit = CCommon_BT_IF_SecondHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
+	if (FAILED(pIfSecondHit->AddChild(pDamageRight)))
 		return E_FAIL;
 
 	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
@@ -282,8 +287,8 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Hit->AddChild(pIfTwist))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfBound))) return E_FAIL;
 	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
-	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
-	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfSecondHit))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfFirstHit))) return E_FAIL;
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
@@ -312,7 +317,6 @@ HRESULT CMonster_Zombie_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_TwistLand";
 	CBT_Action* pTwistLand = CCommon_BT_TwistLand_Server::Create(&ActionDesc);
-
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIfTwistLand = CCommon_BT_IF_TwistLand_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfTwistLand->AddChild(pTwistLand)))

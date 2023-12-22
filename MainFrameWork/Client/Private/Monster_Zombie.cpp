@@ -13,13 +13,18 @@
 #include "Zombie_BT_Attack2.h"
 #include "Common_BT_Attack1.h"
 #include "Common_BT_Chase.h"
-#include "Common_BT_DamageLeft.h"
-#include "Common_BT_DamageRight.h"
+#include "Common_BT_Damage1.h"
+#include "Common_BT_Damage2.h"
 #include "Common_BT_Dead.h"
 #include "Common_BT_Idle.h"
 #include "Common_BT_BattleIdle.h"
 #include "Common_BT_Move.h"
 #include "Common_BT_Spawn.h"
+#include <Common_BT_Stand.h>
+#include <Common_BT_Bound.h>
+#include <Common_BT_Twist.h>
+#include <Common_BT_BoundLand.h>
+#include <Common_BT_TwistLand.h>
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "BindShaderDesc.h"
@@ -58,7 +63,6 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 10;
 
 
 	m_iBasicAttackStartFrame = 34;
@@ -291,34 +295,80 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.2f;
 	ActionDesc.strActionName = L"Action_Dead";
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.1f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Damage_Right";
+	CBT_Action* pDamageRight = CCommon_BT_Damage2::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Twist";
+	CBT_Action* pTwist = CCommon_BT_Twist::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_DamageRight::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Bound";
+	CBT_Action* pBound = CCommon_BT_Bound::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("bound_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BoundLand";
+	CBT_Action* pBoundLand = CCommon_BT_BoundLand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_TwistLand";
+	CBT_Action* pTwistLand = CCommon_BT_TwistLand::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+	AnimationDesc.strAnimName = TEXT("standup_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stand_Up";
+	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("respawn_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;
@@ -334,7 +384,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -345,7 +395,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -355,7 +405,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -365,7 +415,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	CBT_Action* pAttack2 = CZombie_BT_Attack2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -380,7 +430,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -390,7 +440,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -400,7 +450,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	CBT_Action* pIdle_1 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc = {};
+
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;

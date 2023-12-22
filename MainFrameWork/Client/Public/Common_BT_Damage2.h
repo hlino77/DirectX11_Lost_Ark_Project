@@ -5,13 +5,13 @@
 
 BEGIN(Client)
 
-class CCommon_BT_DamageLeft :
+class CCommon_BT_Damage2 :
     public CBT_Action
 {
 private:
-    CCommon_BT_DamageLeft();
-    CCommon_BT_DamageLeft(const CCommon_BT_DamageLeft& rhs) = delete;
-    virtual ~CCommon_BT_DamageLeft() =  default;
+    CCommon_BT_Damage2();
+    CCommon_BT_Damage2(const CCommon_BT_Damage2& rhs) = delete;
+    virtual ~CCommon_BT_Damage2() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -20,7 +20,7 @@ private:
 
 
 public:
-    static	CCommon_BT_DamageLeft* Create(void* pArg);
+    static	CCommon_BT_Damage2* Create(void* pArg);
     virtual void Free() override;
 };
 

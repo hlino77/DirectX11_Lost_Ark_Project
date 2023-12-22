@@ -678,10 +678,10 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
+    <ClInclude Include="..\Public\Common_BT_Damage1.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
+    <ClInclude Include="..\Public\Common_BT_Damage2.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
@@ -1481,12 +1481,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
@@ -2421,10 +2415,10 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
+    <ClCompile Include="..\Private\Common_BT_Damage1.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
+    <ClCompile Include="..\Private\Common_BT_Damage2.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
@@ -3228,12 +3222,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>

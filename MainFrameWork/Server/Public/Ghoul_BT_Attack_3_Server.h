@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Server_Defines.h"
-#include "BT_MultiAnimationAction.h"
+#include "BT_Action.h"
 
 BEGIN(Server)
 

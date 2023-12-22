@@ -7,8 +7,8 @@
 #include "GameSessionManager.h"
 #include "CollisionManager.h"
 #include "Common_BT_Chase_Server.h"
-#include "Common_BT_DamageLeft_Server.h"
-#include "Common_BT_DamageRight_Server.h"
+#include "Common_BT_Damage1_Server.h"
+#include "Common_BT_Damage2_Server.h"
 #include "Common_BT_Dead_Server.h"
 #include "Common_BT_Idle_Server.h"
 #include "Common_BT_BattleIdle_Server.h"
@@ -17,7 +17,7 @@
 #include "Common_BT_WHILE_Within_Range_Server.h"
 #include "Common_BT_IF_Dead_Server.h"
 #include "Common_BT_IF_Hit_Server.h"
-#include "Common_BT_IF_Hit_Left_Server.h"
+#include "Common_BT_IF_SecondHit_Server.h"
 #include "Common_BT_IF_Near_Server.h"
 #include "Common_BT_IF_Far_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
@@ -164,7 +164,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage";
-	CBT_Action* pDamageLeft = CCommon_BT_DamageLeft_Server::Create(&ActionDesc);
+	CBT_Action* pDamageLeft = CCommon_BT_Damage2_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 
