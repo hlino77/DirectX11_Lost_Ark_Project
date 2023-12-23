@@ -41,6 +41,8 @@ public:
 
 	virtual void				Add_InstanceData(vector<Vec4>&BufferData) {};
 
+
+
 	virtual	void				OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) {};
 	virtual	void				OnCollisionStay(const _uint iColLayer, class CCollider* pOther) {};
 	virtual	void				OnCollisionExit(const _uint iColLayer, class CCollider* pOther) {};
@@ -212,6 +214,9 @@ protected:
 
 	_int								m_iWeaponIndex = -1;
 	_int						m_iCurrLevel = -1;
+
+	//Instancing
+
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

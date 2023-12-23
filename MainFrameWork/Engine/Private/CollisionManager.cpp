@@ -122,8 +122,8 @@ void CCollisionManager::CheckDynamicCollision(_uint iLayerLeft, _uint iLayerRigh
 	if (m_Colliders[iLayerLeft].empty() || m_Colliders[iLayerRight].empty())
 		return;
 
-	vector<CSphereCollider*>& vecLeft = m_Colliders[iLayerLeft];
-	vector<CSphereCollider*>& vecRight = m_Colliders[iLayerRight];
+	vector<CSphereCollider*> vecLeft = m_Colliders[iLayerLeft];
+	vector<CSphereCollider*> vecRight = m_Colliders[iLayerRight];
 	
 	if (!m_arrSorted[iLayerRight])
 	{	// sweep and prune
