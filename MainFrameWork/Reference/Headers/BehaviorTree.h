@@ -24,6 +24,7 @@ public:
 
 	void			SetRoot(class CBT_Composite * pComposite) { m_pRootNode = pComposite; }
 	HRESULT			Init_PreviousAction(wstring strAction);
+	void			ResetAll();
 
 protected:
 	class CBT_Composite* m_pRootNode = nullptr;

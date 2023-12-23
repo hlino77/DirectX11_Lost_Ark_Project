@@ -73,6 +73,11 @@ HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction)
 	return S_OK;
 }
 
+void CBehaviorTree::ResetAll()
+{ 
+	m_pRootNode->Reset();
+}
+
 
 CBehaviorTree* CBehaviorTree::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

@@ -75,36 +75,14 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 
 void CMonster_Zombie::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
+	__super::Tick(fTimeDelta);
 
 }
 
 void CMonster_Zombie::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-	if (nullptr == m_pRendererCom)
-		return;
-
-	CullingObject();
-
-	Set_Colliders(fTimeDelta);
-
-	if (m_bRimLight)
-	{
-		m_fRimLightTime -= fTimeDelta;
-		if (m_fRimLightTime <= 0.0f)
-		{
-			m_fRimLightTime = 0.0f;
-			m_bRimLight = false;
-		}
-	}
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CMonster_Zombie::Render()

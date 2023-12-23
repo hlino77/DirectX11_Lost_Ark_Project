@@ -302,6 +302,11 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	vBack.Normalize();
 	if (!m_IsSuperArmor)
 	{
+		m_IsAttacked = true;
+		if (m_IsHit || m_IsSecondHit)
+		{
+			fForce *= 0.2f;
+		}
 		if (m_IsHit&&m_fHitTerm <0.f)
 		{
 			m_IsHit = false;
@@ -378,11 +383,23 @@ void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT e
 
 void CMonster_Server::Find_NearTarget()
 {
-	m_pNearTarget = nullptr;
-	m_pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
+	_float fDistance =99999.f;
+	CGameObject* pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
+	if (pNearTarget != nullptr)
+	{
+		Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	if (Get_NearTargetDistance() > 30.f)
-		m_pNearTarget = nullptr;
+	 fDistance = (vTargetPos - vPos).Length();
+	}
+	if (fDistance > 50.f)
+		pNearTarget = nullptr;
+
+	if (pNearTarget != m_pNearTarget&& pNearTarget!= nullptr)
+	{
+		m_pNearTarget = pNearTarget;
+		Send_NearTarget();
+	}
 }
 
 void CMonster_Server::Send_NearTarget()

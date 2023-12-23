@@ -12,7 +12,6 @@ void CGolem_BT_Attack_Swipe_Server::OnStart()
 
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_SuperArmor(true);
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe_Server::OnUpdate(const _float& fTimeDelta)
@@ -27,7 +26,6 @@ if(m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIn
 void CGolem_BT_Attack_Swipe_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_SuperArmor(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
