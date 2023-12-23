@@ -2,6 +2,7 @@
 #include "Common_BT_Stand_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include "BehaviorTree.h"
 Common_BT_Stand_Server::Common_BT_Stand_Server()
 {
 }

@@ -261,7 +261,8 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 0.8f;
+			_float fForce = 2.0f;
+
 
 			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, 0.f);
 
@@ -303,7 +304,6 @@ void CMonster::Update_StatusEffect(_float fTimeDelta)
 	}
 }
 
-int iTemp =0;
 
 void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
@@ -320,7 +320,7 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
-		}	
+		}
 		else if (fForce < 30.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
@@ -336,8 +336,12 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 		}
 	}
+	else if (fForce >= 30.f)
+	{
+		m_IsHit = true;
+	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
-	cout << "CollisionCount	: " << iTemp++ << endl;
+
 
 
 	Set_RimLight(0.05f);

@@ -91,7 +91,7 @@ void CMonster_Pawn_Server::Tick(_float fTimeDelta)
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
-	if (m_fScanCoolDown > 0.5f)
+	if (m_fScanCoolDown > 1.f)
 	{
 		m_fScanCoolDown = 0.f;
 		Find_NearTarget();

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Common_BT_Damage2_Server.h"
+#include "BehaviorTree.h"
 #include "Monster_Server.h"
 #include "Model.h"
 CCommon_BT_Damage2_Server::CCommon_BT_Damage2_Server()
@@ -11,7 +12,7 @@ void CCommon_BT_Damage2_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-	m_fDuration = 0.6f;
+	m_fDuration = 0.9f;
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Damage2_Server::OnUpdate(const _float& fTimeDelta)
@@ -31,7 +32,6 @@ CBT_Node::BT_RETURN CCommon_BT_Damage2_Server::OnUpdate(const _float& fTimeDelta
 void CCommon_BT_Damage2_Server::OnEnd()
 {
 	__super::OnEnd();
-
 }
 
 
