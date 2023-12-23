@@ -68,7 +68,7 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
+		Set_to_RootPosition(fTimeDelta, 0);
 	}
 	{
 		READ_LOCK

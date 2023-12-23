@@ -556,6 +556,15 @@
     <Filter Include="96. Manager\Damage_Manager">
       <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand">
+      <UniqueIdentifier>{ef8abd16-71d3-423b-841d-681520821522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot">
+      <UniqueIdentifier>{fbf0e505-f68d-4e28-a7f7-ec35ef694f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long">
+      <UniqueIdentifier>{7e65b684-25d7-41ce-be0e-c944dbfd1456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2131,48 +2140,6 @@
     <ClInclude Include="..\Public\State_GN_DeadHard_Loop.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_SpiralChaser.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_Apocalypse.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_DeadHard.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_DeathFire.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_FocusShot.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_Grenade.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_Gunkata.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_QuickStep.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_RapidFire.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_FreeShooter.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_LastSupper.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_PerfectShot.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_TargetDown.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Pawn.h">
       <Filter>02.GameObjects\Monster\Pawn</Filter>
     </ClInclude>
@@ -2326,6 +2293,48 @@
     </ClInclude>
     <ClInclude Include="..\Public\Damage_Manager.h">
       <Filter>96. Manager\Damage_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_Apocalypse.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_DeadHard.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_DeathFire.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_Grenade.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_Gunkata.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_QuickStep.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_RapidFire.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_SpiralChaser.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_FocusShot.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_PerfectShot.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_TargetDown.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_FreeShooter.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_LastSupper.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3888,48 +3897,6 @@
     <ClCompile Include="..\Private\State_GN_DeadHard_Loop.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_Apocalypse.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_DeadHard.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_DeathFire.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_FocusShot.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_Grenade.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_Gunkata.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_QuickStep.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_RapidFire.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_SpiralChaser.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_FreeShooter.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_LastSupper.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_PerfectShot.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_TargetDown.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Pawn.cpp">
       <Filter>02.GameObjects\Monster\Pawn</Filter>
     </ClCompile>
@@ -4079,6 +4046,48 @@
     </ClCompile>
     <ClCompile Include="..\Private\Damage_Manager.cpp">
       <Filter>96. Manager\Damage_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_Apocalypse.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_DeadHard.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_DeathFire.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_Grenade.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_Gunkata.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_QuickStep.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_RapidFire.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_SpiralChaser.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_FocusShot.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_PerfectShot.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_TargetDown.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_FreeShooter.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_LastSupper.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
