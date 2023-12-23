@@ -55,12 +55,15 @@ private:
 
 	void			Set_CheckGruop();
 	void			Start_Collision();
+	void			Start_Damage();
+	void			End_Damage();
 	void			End_Picking();
 	void			End_Collision();
 
 private:
 	thread* m_pCollisionThread = nullptr;
 	thread* m_pPickingThread = nullptr;
+	thread* m_pDamageThread = nullptr;
 
 	CRenderer* m_pRendererCom = nullptr;
 	//_bool m_bStaticShadow = false;

@@ -110,6 +110,8 @@ public:
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+
+	void					Show_Damage();
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI();

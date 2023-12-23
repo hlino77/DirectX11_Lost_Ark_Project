@@ -24,6 +24,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    virtual HRESULT Initialize_DamageFont(_uint iIndex);
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -31,7 +32,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override;
     void	Set_Active(_bool bActive);
-    void	Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritiacl, _uint iDamage);
+    void	Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritical, _uint iDamage);
 
 private:
     virtual HRESULT Ready_Components();

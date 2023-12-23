@@ -32,7 +32,7 @@
 #include "UI_IdentityGN_WF_Front.h"
 #include "Projectile.h"
 #include "UI_DamageFont.h"
-
+#include "Damage_Manager.h"
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -93,6 +93,7 @@ HRESULT CLevel_Bern::Initialize()
 		return E_FAIL;
 
 	Start_Collision();
+	Start_Damage();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
@@ -131,6 +132,7 @@ HRESULT CLevel_Bern::Exit()
 {
 	End_Collision();
 	End_Picking();
+	End_Damage();
 	CServerSessionManager::GetInstance()->Set_Player(nullptr);
 	CPhysXMgr::GetInstance()->Reset();
 	CNavigationMgr::GetInstance()->Reset_Navigation();
@@ -656,9 +658,51 @@ void CLevel_Bern::Start_Collision()
 		Safe_Release(pCollisionManager);
 
 		Safe_Release(pGameInstance);
-
-		ThreadManager::GetInstance()->DestroyTLS();
 	});
+}
+
+void CLevel_Bern::Start_Damage()
+{
+	m_pDamageThread = new thread([=]()
+		{
+			CGameInstance* pGameInstance = CGameInstance::GetInstance();
+			Safe_AddRef(pGameInstance);
+
+			CDamage_Manager* pDamageManager = CDamage_Manager::GetInstance();
+			pDamageManager->AddRef();
+
+			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Damage_Bern"))))
+				return FALSE;
+
+			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Damage_60_Bern"))))
+				return FALSE;
+
+			_float		fTimeAcc = 0.f;
+
+
+			while (!pDamageManager->Is_Stop())
+			{
+				fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Damage_Bern"));
+
+				if (fTimeAcc >= 1.f / 60.0f)
+				{
+					pDamageManager->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_Damage_60_Bern")));
+					fTimeAcc = 0.f;
+				}
+			}
+
+			Safe_Release(pDamageManager);
+
+			Safe_Release(pGameInstance);
+		});
+}
+
+void CLevel_Bern::End_Damage()
+{
+	CDamage_Manager::GetInstance()->Set_Stop(true);
+	m_pDamageThread->join();
+	CDamage_Manager::GetInstance()->Reset();
+	Safe_Delete(m_pDamageThread);
 }
 
 

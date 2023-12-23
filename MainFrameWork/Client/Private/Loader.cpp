@@ -405,9 +405,9 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CUI_ServerEntranceButton::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_TextBox"),
-		CUI_TextBox::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_TextBox"),
+	//	CUI_TextBox::Create(m_pDevice, m_pContext))))
+	//	return E_FAIL;
 
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ServerUI"),

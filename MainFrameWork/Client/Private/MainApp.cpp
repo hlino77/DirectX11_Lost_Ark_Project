@@ -41,6 +41,7 @@
 #include "Projectile.h"
 #include "UI_DamageFont.h"
 #include "Pool.h"
+#include "Damage_Manager.h"
 
 _float g_fVolume;
 
@@ -74,6 +75,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, _uint(LAYER_TYPE::LAYER_END), GraphicDesc, &m_pDevice, &m_pContext, g_hWnd, g_hInstance)))
 		return E_FAIL;
 
+	
 	if (FAILED(Initialize_Client()))
 		return E_FAIL;
 
@@ -350,18 +352,7 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTextBox::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_DamageFont"),
-		CUI_DamageFont::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	for (size_t i = 0; i < 400; i++)
-	{
-		CUI_DamageFont* pDamageFont = dynamic_cast<CUI_DamageFont*>(m_pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_DamageFont"), &i));
-		if (nullptr == pDamageFont)
-			return E_FAIL;
-
-		CPool<CUI_DamageFont>::Return_Obj(pDamageFont);
-	}
+	CDamage_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 	
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Projectile"),
@@ -373,7 +364,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CProjectile* pProjectile = dynamic_cast<CProjectile*>(m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Projectile"));
 		CPool<CProjectile>::Return_Obj(pProjectile);
 	}
-
 
 	return S_OK;
 }

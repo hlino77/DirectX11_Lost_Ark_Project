@@ -2,7 +2,6 @@
 #include "UI_DamageFont.h"
 #include "GameInstance.h"
 #include "TextBox.h"
-#include "Pool.h"
 
 CUI_DamageFont::CUI_DamageFont(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -26,17 +25,16 @@ HRESULT CUI_DamageFont::Initialize_Prototype()
 
 HRESULT CUI_DamageFont::Initialize(void* pArg)
 {
-    if (FAILED(Ready_Components()))
-        return E_FAIL;
+    return S_OK;
+}
 
+HRESULT CUI_DamageFont::Initialize_DamageFont(_uint iIndex)
+{
     m_strUITag = TEXT("Damage_Font");
     m_szFont = L"빛의계승자";
 
-    if (nullptr != pArg)
-    {
-        _uint* RenderTargetIndex = static_cast<_uint*>(pArg);
-        m_szRenderTargetIndex += to_wstring(*RenderTargetIndex);
-    }
+    m_szRenderTargetIndex += to_wstring(iIndex);
+
     Ready_TextBox();
 
     Set_Active(false);
@@ -46,45 +44,40 @@ HRESULT CUI_DamageFont::Initialize(void* pArg)
 
 void CUI_DamageFont::Tick(_float fTimeDelta)
 {
-    __super::Tick(fTimeDelta);
-    if (m_bActive)
+    m_fDuration += fTimeDelta;
+    if (1.5f < m_fDuration)
     {
-        m_fDuration += fTimeDelta;
-        if (1.5f < m_fDuration)
+        Set_Active(false);
+    }
+    if (!m_bCriticalHit)
+    {
+        if (0.2f >= m_fDuration)
         {
-            Set_Active(false);
-            CPool<CUI_DamageFont>::Return_Obj(this);
+            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
         }
-        if (!m_bCriticalHit)
+        else if (0.5f < m_fDuration)
         {
-            if (0.2f >= m_fDuration)
-            {
-                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
-            }
-            else if (0.5f < m_fDuration)
-            {
-                m_pDamageFontWnd->Decrease_Alpha( 2.f * fTimeDelta );
-                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
-                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + 50.f, m_fRandomZ));
-            }
+            m_pDamageFontWnd->Decrease_Alpha(2.f * fTimeDelta);
+            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
+            m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + 50.f, m_fRandomZ));
         }
-        else
+    }
+    else
+    {
+        if (0.4f >= m_fDuration)
         {
-            if (0.4f >= m_fDuration)
-            {
-                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
-            }
-            else if ((0.4f < m_fDuration) && (1.5f >= m_fDuration))
-            {
-                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
-            }
+            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
+        }
+        else if ((0.4f < m_fDuration) && (1.5f >= m_fDuration))
+        {
+            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
         }
     }
 }
 
 void CUI_DamageFont::LateTick(_float fTimeDelta)
 {
-    __super::LateTick(fTimeDelta);
+    //__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_DamageFont::Render()
@@ -193,9 +186,7 @@ void CUI_DamageFont::UI_Tick(_float fTimeDelta)
 
 HRESULT CUI_DamageFont::Ready_Components()
 {
-    __super::Ready_Components();
-
-
+ 
     return S_OK;
 }
 
@@ -227,7 +218,6 @@ HRESULT CUI_DamageFont::Ready_TextBox()
 
         m_pDamageFontWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
         m_pDamageFontWnd->Set_Pos(g_iWinSizeX* 0.5f, g_iWinSizeY * 0.5f);
-       // m_pDamageFontWnd->Set_Pos(189.5f, 693.f);몬스터 위치로 변경
     }
 
     Safe_Release(pGameInstance);

@@ -196,6 +196,7 @@
     <ClInclude Include="..\Public\Common_BT_Twist.h" />
     <ClInclude Include="..\Public\Common_BT_TwistLand.h" />
     <ClInclude Include="..\Public\Controller_WR.h" />
+    <ClInclude Include="..\Public\Damage_Manager.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
@@ -385,7 +386,6 @@
     <ClInclude Include="..\Public\UI_SkillIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_Skill_MoveIcon.h" />
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
     <ClInclude Include="..\Public\Weapon_Boss_King.h" />
@@ -428,6 +428,7 @@
     <ClCompile Include="..\Private\Common_BT_Twist.cpp" />
     <ClCompile Include="..\Private\Common_BT_TwistLand.cpp" />
     <ClCompile Include="..\Private\Controller_WR.cpp" />
+    <ClCompile Include="..\Private\Damage_Manager.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
@@ -607,7 +608,6 @@
     <ClCompile Include="..\Private\UI_SkillIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_Skill_MoveIcon.cpp" />
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
