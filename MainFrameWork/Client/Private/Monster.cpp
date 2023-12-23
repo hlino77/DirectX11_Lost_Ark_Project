@@ -15,6 +15,7 @@
 #include "CollisionManager.h"
 #include "BehaviorTree.h"
 #include "UI_DamageFont.h"
+#include "Projectile.h"
 
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -239,9 +240,8 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			//_int iDammage = dynamic_cast<CPlayer*>(pOther->Get_Owner())->
 			Vec3 vPos = {};
-
-			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 1.0f;
+			vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 
 			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
 		}
@@ -258,7 +258,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 
 			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 25.0f;
+			_float fForce = 0.8f;
 
 			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, 0.f);
 		}

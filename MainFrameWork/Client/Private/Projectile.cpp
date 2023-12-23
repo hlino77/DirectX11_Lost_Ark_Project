@@ -137,6 +137,7 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 	m_ProjInfoDesc.iStatusEffect = pProjectileDesc->iStatusEffect;
 	m_ProjInfoDesc.fStatusDuration = pProjectileDesc->fStatusDuration;
 	m_ProjInfoDesc.fRepulsion = pProjectileDesc->fRepulsion;
+	m_ProjInfoDesc.bUseProjPos = pProjectileDesc->bUseProjPos;
 
 	Shoot(pProjectileDesc->fAttackTime);
 
@@ -214,7 +215,6 @@ HRESULT CProjectile::Ready_Components()
 		return E_FAIL;
 
 
-
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
@@ -227,8 +227,6 @@ HRESULT CProjectile::Ready_Components()
 		if (pCollider)
 			m_AttackCollider[ATTACKCOLLIDER::SPHERE] = pCollider;
 	}
-
-
 
 	{
 		CCollider::ColliderInfo tColliderInfo;

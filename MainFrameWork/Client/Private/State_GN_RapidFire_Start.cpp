@@ -23,19 +23,15 @@ HRESULT CState_GN_RapidFire_Start::Initialize()
 		m_TickFunc = &CState_GN_RapidFire_Start::Tick_State_NoneControl;
 
 	m_SkillFrames.push_back(5);
-	m_SkillFrames.push_back(6);
 	m_SkillFrames.push_back(7);
 
 	m_SkillFrames.push_back(9);
-	m_SkillFrames.push_back(10);
 	m_SkillFrames.push_back(11);
 
 	m_SkillFrames.push_back(16);
-	m_SkillFrames.push_back(17);
 	m_SkillFrames.push_back(18);
 
 	m_SkillFrames.push_back(23);
-	m_SkillFrames.push_back(24);
 	m_SkillFrames.push_back(25);
 
 	m_SkillFrames.push_back(-1);

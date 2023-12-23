@@ -24,11 +24,9 @@ HRESULT CState_GN_Attack_Hand2::Initialize()
 
 	/* 일반공격 프레임 */
 	m_AttackFrames.push_back(8);
-	m_AttackFrames.push_back(10);
-	m_AttackFrames.push_back(12);
+	m_AttackFrames.push_back(11);
 	m_AttackFrames.push_back(14);
-	m_AttackFrames.push_back(16);
-	m_AttackFrames.push_back(18);
+	m_AttackFrames.push_back(17);
 	m_AttackFrames.push_back(20);
 	m_AttackFrames.push_back(-1);
 

@@ -45,7 +45,7 @@ void CState_GN_Dash::Exit_State()
 
 void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 {
-	if (2 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash) && true == m_pController->Is_Dash())
+	if (4 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash) && true == m_pController->Is_Dash())
 	{
 		m_bDashContinue = true;
 	}

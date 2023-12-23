@@ -32,16 +32,13 @@ HRESULT CState_GN_DeadHard_Loop::Initialize()
 	m_fSkillTimeAcc = 0.f;
 
 	m_SkillFrames.push_back(0);
-	m_SkillFrames.push_back(2);
-	m_SkillFrames.push_back(4);
+	m_SkillFrames.push_back(3);
 	m_SkillFrames.push_back(6);
-	m_SkillFrames.push_back(8);
-	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(9);
 	m_SkillFrames.push_back(12);
-	m_SkillFrames.push_back(14);
-	m_SkillFrames.push_back(16);
+	m_SkillFrames.push_back(15);
 	m_SkillFrames.push_back(18);
-	m_SkillFrames.push_back(20);
+	m_SkillFrames.push_back(21);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;

@@ -21,6 +21,7 @@ public:
 public:
 	typedef struct tagProjectileDesc
 	{
+		_bool	bUseProjPos;
 		_uint	iDamage;
 		_uint	iStatusEffect;
 		_float	fStatusDuration;

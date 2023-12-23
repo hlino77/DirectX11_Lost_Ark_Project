@@ -30,9 +30,9 @@ HRESULT CSkill_GN_DeadHard::Initialize(void* pArg)
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
-	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.2f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
+	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
