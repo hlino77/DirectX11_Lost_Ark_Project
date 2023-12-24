@@ -30,6 +30,12 @@ public:
 	}MODELDESC;
 
 public:
+	enum SkillColliders
+	{
+		SKILL1,
+		SKILL2,
+		ATTACK_END
+	};
 
 
 protected:

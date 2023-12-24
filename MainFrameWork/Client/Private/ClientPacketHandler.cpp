@@ -513,9 +513,9 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(LEVEL_STATIC, pkt.itargetobjectlayer(), iTargetID);
 		pObject->Set_NearTarget(pNearTarget);
 	}
-	
-	
-	
+
+	dynamic_cast<CMonster*>(pObject)->Set_RandomPosition(Vec3(pkt.vtargetpos().data()));
+
 	dynamic_cast<CMonster*>(pObject)->Set_Action(CAsUtils::ToWString(pkt.strstate()));
 	Safe_Release(pGameInstance);
 	return true;

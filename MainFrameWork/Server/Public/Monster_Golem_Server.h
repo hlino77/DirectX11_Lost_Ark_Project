@@ -34,10 +34,15 @@ public:
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
+
+	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
+
 protected:
 	virtual HRESULT		Ready_Components();
 
 	HRESULT Ready_BehaviourTree();
+private:
+	_float							m_fRootTargetDistance = 0.f;
 public:
 	static CMonster_Golem_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

@@ -89,13 +89,8 @@ HRESULT CMonster_Pawn_Server::Initialize(void* pArg)
 void CMonster_Pawn_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	m_fScanCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
-	if (m_fScanCoolDown > 1.f)
-	{
-		m_fScanCoolDown = 0.f;
-		Find_NearTarget();
-	}
+		Find_NearTarget(fTimeDelta);
 	m_fHitTerm -= fTimeDelta;
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
@@ -388,15 +383,6 @@ HRESULT CMonster_Pawn_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CPawn_BT_Attack2_Server::Create(&ActionDesc);
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
@@ -404,8 +390,6 @@ HRESULT CMonster_Pawn_Server::Ready_BehaviourTree()
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))
 		return E_FAIL;
 
-	if (FAILED(pSequenceNear->AddChild(pAttack2)))
-		return E_FAIL;
 
 	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
 	if (FAILED(pIfAttacked->AddChild(pSequenceNear)))

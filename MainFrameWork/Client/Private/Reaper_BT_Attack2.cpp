@@ -11,6 +11,7 @@ CReaper_BT_Attack2::CReaper_BT_Attack2()
 void CReaper_BT_Attack2::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 
 }
 
@@ -28,8 +29,9 @@ CBT_Node::BT_RETURN CReaper_BT_Attack2::OnUpdate(const _float& fTimeDelta)
 
 void CReaper_BT_Attack2::OnEnd()
 {
-
 	__super::OnEnd();
+	dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
+
 }
 
 

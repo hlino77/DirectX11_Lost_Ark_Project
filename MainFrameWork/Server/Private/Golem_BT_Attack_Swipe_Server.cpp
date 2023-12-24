@@ -10,6 +10,7 @@ void CGolem_BT_Attack_Swipe_Server::OnStart()
 {
 	__super::OnStart(0);
 
+	static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }

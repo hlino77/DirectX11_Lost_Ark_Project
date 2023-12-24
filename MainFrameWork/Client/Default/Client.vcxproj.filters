@@ -133,9 +133,6 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Long">
       <UniqueIdentifier>{7e79976b-a67a-49be-88cb-650378ae5873}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Golem">
-      <UniqueIdentifier>{136add4c-d43e-4b1f-9377-99dc0bcc6818}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity">
       <UniqueIdentifier>{8d63a75e-37ac-4637-b3fd-f0449c2252fc}</UniqueIdentifier>
     </Filter>
@@ -204,12 +201,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie\Behavior\Attack2">
       <UniqueIdentifier>{e88a829e-672f-45f6-9ff8-5f27545693fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Golem">
-      <UniqueIdentifier>{d839d57b-da4f-49fe-ba09-b312dc3124b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Golem\Behavior">
-      <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Ghoul">
       <UniqueIdentifier>{ef897b28-7647-4437-b533-cadd50b91aa6}</UniqueIdentifier>
@@ -565,6 +556,12 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long">
       <UniqueIdentifier>{7e65b684-25d7-41ce-be0e-c944dbfd1456}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\Golem">
+      <UniqueIdentifier>{136add4c-d43e-4b1f-9377-99dc0bcc6818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Golem\Behavior">
+      <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -726,12 +723,6 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Damage1.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Damage2.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
@@ -745,12 +736,6 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Spawn.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_Attack_Shot1.h">
@@ -823,7 +808,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -839,7 +823,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
-    <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -847,10 +830,10 @@
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Dash.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Ghoul.h">
       <Filter>02.GameObjects\Monster\Ghoul</Filter>
@@ -888,7 +871,6 @@
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
@@ -911,7 +893,6 @@
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
@@ -1051,12 +1032,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -1264,12 +1239,6 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClInclude>
@@ -1468,12 +1437,6 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClInclude>
@@ -1556,7 +1519,7 @@
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Reaper.h">
       <Filter>02.GameObjects\Monster\Reaper</Filter>
@@ -2005,12 +1968,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -2336,6 +2293,21 @@
     <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Damage2.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Damage1.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Golem.h">
+      <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2482,12 +2454,6 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Damage1.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Damage2.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
@@ -2501,12 +2467,6 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\private\State_GN_Attack_Shot1.cpp">
@@ -2582,7 +2542,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -2601,7 +2560,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -2612,10 +2570,10 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Dash.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Ghoul.cpp">
       <Filter>02.GameObjects\Monster\Ghoul</Filter>
@@ -2653,7 +2611,6 @@
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
@@ -2676,7 +2633,6 @@
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
@@ -2820,12 +2776,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3027,12 +2977,6 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClCompile>
@@ -3228,12 +3172,6 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClCompile>
@@ -3319,7 +3257,7 @@
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Reaper_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Reaper\Behavior</Filter>
@@ -3762,12 +3700,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -4088,6 +4020,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Damage2.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Damage1.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Golem.cpp">
+      <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ CBT_Node::BT_RETURN CGolem_BT_Chase::OnUpdate(const _float& fTimeDelta)
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
 		return BT_FAIL;
 
-	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <0.5f)
+	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <0.7f)
 	{
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[1].iAnimIndex &&m_pGameObject->Get_ModelCom()->Get_NextAnim() != m_vecAnimIndexFrame[1].iAnimIndex)

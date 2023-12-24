@@ -13,6 +13,7 @@ CGhoul_BT_Attack_2::CGhoul_BT_Attack_2()
 void CGhoul_BT_Attack_2::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 
 }
 
@@ -40,7 +41,7 @@ void CGhoul_BT_Attack_2::OnEnd()
 	__super::OnEnd();
 
 	static_cast<CMonster*>(m_pGameObject)->Set_AttackRange(0);
-
+	dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
 }
 
 

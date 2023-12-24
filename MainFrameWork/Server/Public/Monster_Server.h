@@ -64,7 +64,7 @@ public:
 	
 public:
 
-	void					Find_NearTarget();
+	void Find_NearTarget(_float fTimeDelta);
 
 	void					Send_NearTarget();
 
@@ -74,11 +74,16 @@ public:
 
 	void Set_RandomPosition();
 
+	void Set_RandomPosition(_float fRange);
+
 	void Move_to_RandomPosition(_float fTimeDelta);
 
 	_float Get_Target_Distance();
 
 	_bool Is_Close_To_RandomPosition();
+	
+	Vec3 Get_RandomPosition() { return m_vRandomPosition; }
+
 
 	void LookAt_Target_Direction_Lerp(_float fTimeDelta);
 

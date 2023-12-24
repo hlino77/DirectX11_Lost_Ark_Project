@@ -77,6 +77,7 @@ HRESULT CMonster_Golem_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
 	m_IsSuperArmor = true;
+	m_fRootTargetDistance = 0.5f;
 	m_iHp = 20.f;
 	return S_OK;
 }
@@ -84,15 +85,12 @@ HRESULT CMonster_Golem_Server::Initialize(void* pArg)
 void CMonster_Golem_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	m_fScanCoolDown += fTimeDelta;
+
 	m_fSkillCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
-	if (m_fScanCoolDown > 0.5f)
-	{
-		m_fScanCoolDown = 0.f;
-		Find_NearTarget();
+	Find_NearTarget(fTimeDelta);
 	
-	}
+
 	m_fHitTerm -= fTimeDelta;
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
@@ -103,7 +101,7 @@ void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
+		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 	{
 		READ_LOCK
@@ -287,7 +285,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	if (FAILED(pIf_Far->AddChild(pChase))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	
+	AnimationDesc.fAnimSpeed = 1.0f;
 	AnimationDesc.strAnimName = TEXT("sk_warcry");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -325,7 +323,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Bash";
 	CBT_Action* pDash = CGolem_BT_Attack_Dash_Server::Create(&ActionDesc);
-
+	AnimationDesc.fAnimSpeed = 1.2f;
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSequenceSkill->AddChild(pDash))) return E_FAIL;
@@ -335,8 +333,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 	if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
 
-	ActionDesc.vecAnimations.clear();
-	
+	ActionDesc.vecAnimations.clear();	
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -354,8 +351,8 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CGolem_BT_Attack_Jump_Server::Create(&ActionDesc);
-
+	CBT_Action* pAttack2 = CGolem_BT_Attack_Swipe_Server::Create(&ActionDesc);
+	
 	ActionDesc.vecAnimations.clear();
 	
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01");
@@ -364,7 +361,7 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CGolem_BT_Attack_Swipe_Server::Create(&ActionDesc);
+	CBT_Action* pAttack3 = CGolem_BT_Attack_Jump_Server::Create(&ActionDesc);
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSequenceNear->AddChild(pAttack1)))

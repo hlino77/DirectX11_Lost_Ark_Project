@@ -9,6 +9,7 @@ CZombie_BT_Attack2::CZombie_BT_Attack2()
 void CZombie_BT_Attack2::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 }
 
 CBT_Node::BT_RETURN CZombie_BT_Attack2::OnUpdate(const _float& fTimeDelta)
