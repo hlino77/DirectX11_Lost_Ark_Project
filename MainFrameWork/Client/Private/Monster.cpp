@@ -243,10 +243,16 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 			vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 
-			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce,0.f);
+			_float fDuration = 0;
+			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+			{
+				fDuration += 100.f;
+			}
+			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce, fDuration);
 
-			Show_Damage();
+			Show_Damage(iDamage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
@@ -259,14 +265,18 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			//_int iDammage = dynamic_cast<CPlayer*>(pOther->Get_Owner())->
 			Vec3 vPos = {};
+			vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 
-			vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = 2.0f;
+			_float fDuration = 0;
+			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+			{
+				fDuration += 100.f;
+			}
+			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, fDuration);
 
-
-			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, 0.f);
-
-			Show_Damage();
+			Show_Damage(iDamage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
@@ -507,12 +517,14 @@ void CMonster::Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRad
 	}
 }
 
-void CMonster::Show_Damage()
+void CMonster::Show_Damage(_uint iDamage)
 {
 	int iTemp = rand() % 10;
 
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
 
-	int iTestDamage = (rand() % 300) * 26789;
+	int iTestDamage = (pGameInstance->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
 
 	if (iTemp < 3)
 	{
@@ -524,7 +536,7 @@ void CMonster::Show_Damage()
 		CDamage_Manager::GetInstance()->Print_DamageFont(0.4f, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, false, iTestDamage);
 	}
 
-
+	Safe_Release(pGameInstance);
 }
 
 HRESULT CMonster::Ready_Components()
@@ -635,7 +647,7 @@ void CMonster::CullingObject()
 void CMonster::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
 {
 	if (Get_Target_Distance() > _TargetDistance)
-		m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+		m_pModelCom->Set_ToRootPos(m_pTransformCom);
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

@@ -11,11 +11,6 @@ private:
 	virtual ~CSkill_GN_FreeShooter() = default;
 
 public:
-	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
-	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
-	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
-
-public:
 	virtual HRESULT			Initialize(void* pArg);
 	virtual HRESULT			Ready_Components();
 

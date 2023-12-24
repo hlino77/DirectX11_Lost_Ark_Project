@@ -14,6 +14,7 @@
 #include "PhysXMgr.h"
 #include "QuadTreeMgr.h"
 #include "Sound_Manager.h"
+#include "RandomManager.h"
 
 
 IMPLEMENT_SINGLETON(CGameInstance)
@@ -35,6 +36,7 @@ CGameInstance::CGameInstance()
 	, m_pPhysXMgr(CPhysXMgr::GetInstance())
 	, m_pQuadTreeMgr(CQuadTreeMgr::GetInstance())
 	, m_pSoundMgr(CSound_Manager::GetInstance())
+	, m_pRandomMgr(CRandomManager::GetInstance())
 {
 	Safe_AddRef(m_pObject_Manager);
 	Safe_AddRef(m_pLevel_Manager);
@@ -54,7 +56,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pPhysXMgr);
 	Safe_AddRef(m_pSoundMgr);
 
-
+	Safe_AddRef(m_pRandomMgr);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, _uint iNumLayerType, 
@@ -581,6 +583,21 @@ _float CGameInstance::Get_RandomFloat(_float fMin, _float fMax)
 	return m_RandomResult(m_RandomDevice);
 }
 
+const _float& CGameInstance::Random_Float(_float fMin, _float fMax)
+{
+	return m_pRandomMgr->Random_Float(fMin, fMax);
+}
+
+const _int& CGameInstance::Random_Int(_int iMin, _int iMax)
+{
+	return m_pRandomMgr->Random_Int(iMin, iMax);
+}
+
+const _bool& CGameInstance::Random_Coin(_float fProbality)
+{
+	return m_pRandomMgr->Random_Coin(fProbality);
+}
+
 
 void CGameInstance::Release_Engine()
 {
@@ -594,6 +611,7 @@ void CGameInstance::Release_Engine()
 	CGraphic_Device::GetInstance()->DestroyInstance();
 	CLight_Manager::GetInstance()->DestroyInstance();
 	CQuadTreeMgr::GetInstance()->DestroyInstance();
+	CRandomManager::GetInstance()->DestroyInstance();
 
 	CKey_Manager::GetInstance()->DestroyInstance();
 	CUtils::GetInstance()->DestroyInstance();
@@ -610,6 +628,7 @@ void CGameInstance::Free()
 	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pQuadTreeMgr);
+	Safe_Release(m_pRandomMgr);
 
 	Safe_Release(m_pKey_Manager);
 	Safe_Release(m_pUtilities);

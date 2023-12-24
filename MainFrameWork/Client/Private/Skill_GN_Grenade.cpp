@@ -35,18 +35,6 @@ HRESULT CSkill_GN_Grenade::Ready_Components()
 	return S_OK;
 }
 
-void CSkill_GN_Grenade::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_Grenade::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_Grenade::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-}
-
 void CSkill_GN_Grenade::Check_ColliderState()
 {
 }

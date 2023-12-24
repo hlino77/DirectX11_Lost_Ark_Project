@@ -12,8 +12,12 @@ CState_WR_Run::CState_WR_Run(const wstring& strStateName, CStateMachine* pMachin
 
 HRESULT CState_WR_Run::Initialize()
 {
-	m_iRun = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"run_battle_1", 1.0f);
-	if (m_iRun == -1)
+	m_Run_Normal = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"run_battle_1", 1.0f);
+	if (m_Run_Normal == -1)
+		return E_FAIL;
+
+	m_Run_Identity = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"run_identity1", 1.0f);
+	if (m_Run_Identity == -1)
 		return E_FAIL;
 
 	if (m_pPlayer->Is_Control())
@@ -26,9 +30,20 @@ HRESULT CState_WR_Run::Initialize()
 
 void CState_WR_Run::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iRun, 0.1f, 0, 0);
+	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_Run_Identity, 0.2f, 0, 0, 1.8f);
+		m_iRun = m_Run_Identity;
+		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
+	}
+	else
+	{
+		m_pPlayer->Reserve_Animation(m_Run_Normal, 0.2f, 0, 0);
+		m_iRun = m_Run_Normal;
+		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
+	}
 
-	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
+	
 }
 
 void CState_WR_Run::Tick_State(_float fTimeDelta)
@@ -50,6 +65,21 @@ void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
+	else if (true == static_cast<CController_WR*>(m_pController)->Is_Identity())
+	{
+		if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		{
+			Vec3 vClickPos;
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(TEXT("WR_Identity_Skill"));
+		}
+		else
+		{
+			m_pPlayer->Set_State(TEXT("WR_Identity"));
+		}
+	}
 	else if (true == m_pController->Is_Skill())
 	{
 		Vec3 vClickPos;
@@ -64,6 +94,10 @@ void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 
+		if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+			m_pPlayer->Set_State(TEXT("Identity_Attack_1"));
+		else
+			m_pPlayer->Set_State(TEXT("Attack_1"));
 	}
 	else if (true == m_pController->Is_Run())
 	{
@@ -71,7 +105,14 @@ void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 		if (m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
 			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pController->Get_MoveMessage(vClickPos);
+			if (m_iRun == m_Run_Normal)
+			{
+				m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
+			}
+			else if (m_iRun == m_Run_Identity)
+			{
+				m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
+			}
 		}
 	}
 	else if (true == m_pController->Is_Idle())
@@ -79,11 +120,25 @@ void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 		if (true == m_pController->Is_Stop())
 			m_pPlayer->Set_State(TEXT("Idle"));
 	}
+
+	if (m_iRun == m_Run_Identity && false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_Run_Normal, 0.2f, 0, 0);
+		m_iRun = m_Run_Normal;
+	}
 }
 
 void CState_WR_Run::Tick_State_NoneControl(_float fTimeDelta)
 {
-	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
+	if (m_iRun == m_Run_Normal)
+	{
+		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
+	}
+	else if (m_iRun == m_Run_Identity)
+	{
+		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
+	}
+	
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

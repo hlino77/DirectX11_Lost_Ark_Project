@@ -198,7 +198,7 @@ HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse)
+HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse, Vec4 vRootTargetPos)
 {
 	WRITE_LOCK
 
@@ -239,6 +239,7 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int 
 	}
 	
 	m_fRootDist = fRootDist;
+	m_vRootTargetPos = vRootTargetPos;
 
 	m_bReserved = true;
 	return S_OK;
@@ -368,7 +369,7 @@ HRESULT CModel::Play_Reverse_Animation(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos)
+HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 {
 	if (nullptr == pTransform)
 		return E_FAIL;
@@ -380,32 +381,20 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform, _float fTimeDelta, Vec4 Ta
 		m_vCurRootPos = { 0.f, 0.f, 0.f };
 		return S_OK;
 	}
+
 	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
-	Vec3 vDir = m_vPreRootPos - m_vCurRootPos;
-	vDir = XMVector3TransformNormal(vDir, m_PivotMatrix);
-	Vec3 vWorldDir = XMVector3TransformNormal(vDir, pTransform->Get_WorldMatrix());
+	Vec3 vLocalDir = m_vPreRootPos - m_vCurRootPos;
+	vLocalDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
+	Vec3 vWorldDir = XMVector3TransformNormal(vLocalDir, pTransform->Get_WorldMatrix());
+	_float fDist = vWorldDir.Length();
 	vWorldDir.Normalize();
 	vWorldDir *= -1.f;
 
-	_float fDist = vDir.Length() * m_fRootDist;
-
 	Vec3 vCalculePos = vPos;
-	vCalculePos += vWorldDir * fDist * 0.008f;
-
-	if (1 == TargetPos.w)
-	{
-		Vec3 TargetDir = TargetPos - vPos;
-		_float fTargetDist = TargetDir.Length();
-		if (fTargetDist <= 0.05f)
-		{
-			vCalculePos = vPos;
-
-			vWorldDir.z = 0.f;
-			vCalculePos += vWorldDir * fDist * 0.008f;
-		}
-	}
-
+	
+	vCalculePos += vWorldDir * fDist * m_fRootDist;
 	vCalculePos.y = vPos.y;
+
 	pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
 		
 	return S_OK;

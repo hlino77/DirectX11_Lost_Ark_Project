@@ -254,6 +254,7 @@ void CLockFree_Transform::LookAt(Vec3 vAt)
 void CLockFree_Transform::LookAt_ForLandObject(Vec3 vAt)
 {
 	Vec3 vLook = vAt - Get_State(CLockFree_Transform::STATE_POSITION);
+	vLook.Normalize();
 
 	Vec3 vUp(0.0f, 1.0f, 0.0f);
 

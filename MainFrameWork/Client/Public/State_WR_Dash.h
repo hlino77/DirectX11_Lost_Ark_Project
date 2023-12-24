@@ -29,6 +29,9 @@ private:
 	//Animation
 	_int m_iDash = 0;
 
+	_int m_iDash_Normal = 0;
+	_int m_iDash_Identity = 0;
+
 public:
 	static CState_WR_Dash* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;

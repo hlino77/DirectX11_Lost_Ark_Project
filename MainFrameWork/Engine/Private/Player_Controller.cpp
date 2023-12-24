@@ -190,6 +190,18 @@ void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)
 	Hit(pHitObject);
 }
 
+void CPlayer_Controller::Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed)
+{
+	Vec3 vPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDir = vAt - vPos;
+	vDir.Normalize();
+
+	m_vNextMove = vDir;
+	m_fLerpLook_Speed = fSpeed;
+	m_bStop = true; 
+	m_IsDir = true;
+}
+
 HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
 	if (nullptr == pSkill)
@@ -242,9 +254,17 @@ void CPlayer_Controller::Look_Lerp(const _float& fTimeDelta)
 	if (Vec3() == m_vNextMove)
 		return;
 
-	Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
-	Vec3 vDir = m_vNextMove - vPos;
-	m_pOwnerTransform->LookAt_Lerp_ForLand(vDir, m_fLerpLook_Speed, fTimeDelta);
+	if (false == m_IsDir)
+	{
+		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
+		Vec3 vDir = m_vNextMove - vPos;
+		m_pOwnerTransform->LookAt_Lerp_ForLand(vDir, m_fLerpLook_Speed, fTimeDelta);
+	}
+	else if (true == m_IsDir)
+	{
+		m_pOwnerTransform->LookAt_Lerp_ForLand(m_vNextMove, m_fLerpLook_Speed, fTimeDelta);
+	}
+	
 }
 
 void CPlayer_Controller::Look(Vec3 vAt)

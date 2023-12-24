@@ -77,7 +77,7 @@ public:
 	HRESULT SetUp_OnShader(class CShader* pShader, _uint iMaterialIndex, aiTextureType eTextureType, const char* strConstantName);
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader);
 
-	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false);
+	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false, Vec4 vRootTargetPos = Vec4());
 	HRESULT Set_NextAnimation();
 
 	HRESULT Play_Animation(_float fTimeDelta);
@@ -100,7 +100,7 @@ public: /* ;hj가 추가한 함수 */
 	string  Get_Material_Name(_uint iMaterialIndex) { return m_Materials[iMaterialIndex].strName; }
 
 	void	Set_RootDist(_float fDist) { m_fRootDist = fDist; }
-	HRESULT	Set_ToRootPos(class CTransform* pTransform, _float fTimeDelta, Vec4 TargetPos = XMVectorZero());
+	HRESULT	Set_ToRootPos(class CTransform* pTransform);
 
 
 private:
@@ -123,7 +123,8 @@ private:
 	Vec3						m_vPreRootPos;
 	Vec3						m_vCurRootPos;
 
-	_float						m_fRootDist;
+	Vec4						m_vRootTargetPos = { Vec4() };
+	_float						m_fRootDist = { 1.f };
 	_bool						m_bRootY = { false };
 	_bool						m_bReverse = { false };
 

@@ -103,9 +103,9 @@ HRESULT CWeapon_WR::Ready_Components()
 		return E_FAIL;
 
 	Vec3 vScale;
-	vScale.x = 80.f;
-	vScale.y = 80.f;
-	vScale.z = 80.f;
+	vScale.x = 100.f;
+	vScale.y = 100.f;
+	vScale.z = 100.f;
 
 	m_pTransformCom->Set_Scale(vScale);
 

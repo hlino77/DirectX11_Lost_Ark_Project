@@ -32,8 +32,10 @@ HRESULT CSkill_GN_Gunkata::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.8f);
-	Proj_Desc.vChildScale = Vec3(0.6f, 0.6f, 0.8f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.f);
+	Proj_Desc.vChildScale = Vec3(0.6f, 0.6f, 0.6f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.8f);
+	Proj_Desc.iDamage = 150.f;
+	Proj_Desc.fRepulsion = 1.2f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
@@ -46,6 +48,20 @@ HRESULT CSkill_GN_Gunkata::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
 	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 1.5f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
+
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fRadius = 2.f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.8f);
+	Proj_Desc.vChildScale = Vec3(0.6f, 0.6f, 0.6f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.8f);
+	Proj_Desc.iDamage = 150.f;
+	Proj_Desc.fRepulsion = 25.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
 	return S_OK;
@@ -59,18 +75,6 @@ HRESULT CSkill_GN_Gunkata::Ready_Components()
 	return S_OK;
 }
 
-void CSkill_GN_Gunkata::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_Gunkata::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_Gunkata::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-}
-
 void CSkill_GN_Gunkata::Check_ColliderState()
 {
 	if (TEXT("Skill_GN_Gunkata_3") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
@@ -78,9 +82,9 @@ void CSkill_GN_Gunkata::Check_ColliderState()
 		_uint iAnimIndex = static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_ModelCom()->Get_CurrAnim();
 		if (8 >= static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 		{
-			m_SkillProjDesc = m_vecSkillProjDesces[0];
+			m_SkillProjDesc = m_vecSkillProjDesces[2];
 		}
-		else
+		else if(8 < static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 		{
 			m_SkillProjDesc = m_vecSkillProjDesces[1];
 		}
@@ -89,7 +93,7 @@ void CSkill_GN_Gunkata::Check_ColliderState()
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[1];
 	}
-	else
+	else if (TEXT("Skill_GN_Gunkata_1") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[0];
 	}

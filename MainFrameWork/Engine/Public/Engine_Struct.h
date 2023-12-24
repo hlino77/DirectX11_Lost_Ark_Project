@@ -337,6 +337,7 @@ namespace Engine
 		_float	fStatusDuration = { 0.f };
 		_float	fRepulsion = { 0.f };
 		_bool	bUseProjPos = { false };
+		_bool	bUseFactor = { true };
 
 	}PROJECTILE_DESC;
 

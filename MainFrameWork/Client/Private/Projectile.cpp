@@ -138,6 +138,7 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 	m_ProjInfoDesc.fStatusDuration = pProjectileDesc->fStatusDuration;
 	m_ProjInfoDesc.fRepulsion = pProjectileDesc->fRepulsion;
 	m_ProjInfoDesc.bUseProjPos = pProjectileDesc->bUseProjPos;
+	m_ProjInfoDesc.bUseFactor = pProjectileDesc->bUseFactor;
 
 	Shoot(pProjectileDesc->fAttackTime);
 

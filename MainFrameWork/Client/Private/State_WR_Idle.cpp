@@ -12,8 +12,12 @@ CState_WR_Idle::CState_WR_Idle(const wstring& strStateName, CStateMachine* pMach
 
 HRESULT CState_WR_Idle::Initialize()
 {
-	m_iIdle = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_battle_1", 1.0f);
-	if (m_iIdle == -1)
+	m_Idle_Normal = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_battle_1", 1.0f);
+	if (m_Idle_Normal == -1)
+		return E_FAIL;
+
+	m_Idle_Identity = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"idle_identity1", 1.0f);
+	if (m_Idle_Identity == -1)
 		return E_FAIL;
 
 	if (m_pPlayer->Is_Control())
@@ -26,7 +30,17 @@ HRESULT CState_WR_Idle::Initialize()
 
 void CState_WR_Idle::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iIdle, 0.1f, 0, 0);
+	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_Idle_Identity, 0.2f, 0, 0);
+		m_iIdle = m_Idle_Identity;
+	}
+	else
+	{
+		m_pPlayer->Reserve_Animation(m_Idle_Normal, 0.2f, 0, 0);
+		m_iIdle = m_Idle_Normal;
+	}
+	
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_SkillEndMessage();
@@ -43,7 +57,6 @@ void CState_WR_Idle::Exit_State()
 
 void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 {
-
 	if (true == m_pController->Is_Dash())
 	{
 		Vec3 vClickPos;
@@ -55,6 +68,21 @@ void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 	else if (true == m_pController->Is_Hit())
 	{
 		m_pPlayer->Set_State(TEXT("Hit"));
+	}
+	else if (true == static_cast<CController_WR*>(m_pController)->Is_Identity())
+	{
+		if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		{
+			Vec3 vClickPos;
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(TEXT("WR_Identity_Skill"));
+		}
+		else
+		{
+			m_pPlayer->Set_State(TEXT("WR_Identity"));
+		}
 	}
 	else if (true == m_pController->Is_Skill())
 	{
@@ -70,7 +98,10 @@ void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 
-		m_pPlayer->Set_State(TEXT("Attack_1"));
+		if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+			m_pPlayer->Set_State(TEXT("Identity_Attack_1"));
+		else
+			m_pPlayer->Set_State(TEXT("Attack_1"));
 	}
 	else if (true == m_pController->Is_Run())
 	{
@@ -80,6 +111,12 @@ void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(vClickPos);
 			m_pPlayer->Set_State(TEXT("Run"));
 		}
+	}
+
+	if (m_iIdle == m_Idle_Identity && false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_Idle_Normal, 0.2f, 0, 0);
+		m_iIdle = m_Idle_Normal;
 	}
 }
 

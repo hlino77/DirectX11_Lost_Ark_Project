@@ -305,7 +305,14 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		m_IsAttacked = true;
 		if (m_IsHit || m_IsSecondHit)
 		{
-			fForce *= 0.2f;
+			if (fForce < 20 && 100 != fDuration)
+			{
+				fForce *= 0.2f;
+			}
+			if (100 <= fDuration )
+			{
+				fDuration -= 100.f;
+			}
 		}
 		if (m_IsHit&&m_fHitTerm <0.f)
 		{
@@ -330,7 +337,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.f;
+			fForce = 1.0f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 			m_IsBound = true;
 		}
@@ -338,7 +345,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.f;
+			fForce = 1.0f;
 			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
 			m_IsBound = false;
 			m_IsTwist = true;
@@ -650,7 +657,7 @@ void CMonster_Server::Set_Colliders(_float fTimeDelta)
 void CMonster_Server::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
 {
 	if(Get_Target_Distance() > _TargetDistance)
-	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 }
 
 HRESULT CMonster_Server::Ready_Coliders()

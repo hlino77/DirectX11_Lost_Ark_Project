@@ -73,11 +73,6 @@ void CPlayer::Tick(_float fTimeDelta)
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
-
-	for (auto& pPart : m_Parts)
-	{
-		pPart.second->Tick(fTimeDelta);
-	}
 }
 
 void CPlayer::LateTick(_float fTimeDelta)
@@ -85,8 +80,12 @@ void CPlayer::LateTick(_float fTimeDelta)
 	if(m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
-	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
+	for (auto& pPart : m_Parts)
+	{
+		pPart.second->Tick(fTimeDelta);
+	}
 	//m_pRigidBody->Tick(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)
@@ -736,9 +735,9 @@ void CPlayer::Set_State(const wstring& szName)
 	Send_State(szName);
 }
 
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse, Vec4 vRootTargetPos)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReverse);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReverse, vRootTargetPos);
 }
 
 void CPlayer::Free()

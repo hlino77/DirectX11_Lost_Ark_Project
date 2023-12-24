@@ -31,7 +31,7 @@ void CState_GN_TargetDown_Loop::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Loop, 0.1f, 0, 0);
 
-	m_pPlayer->Get_GN_Controller()->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 5.f);
+	m_pPlayer->Get_GN_Controller()->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 8.f);
 }
 
 void CState_GN_TargetDown_Loop::Tick_State(_float fTimeDelta)
@@ -53,7 +53,7 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 	if (m_pPlayer->Get_CellPickingPos(vClickPos))
 	{
 		m_pPlayer->Set_TargetPos(vClickPos);
-		m_pController->Get_LerpLookMessage(vClickPos, 5.f);
+		m_pController->Get_LerpLookMessage(vClickPos, 8.f);
 	}
 
 
@@ -91,8 +91,7 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 
 void CState_GN_TargetDown_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
-
-	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 5.f);
+	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 8.f);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

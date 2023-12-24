@@ -20,6 +20,15 @@
 #include "State_WR_Idle.h"
 #include "State_WR_Run.h"
 #include "State_WR_Dash.h"
+#include "State_WR_Attack_1.h"
+#include "State_WR_Attack_2.h"
+#include "State_WR_Attack_3.h"
+#include "State_WR_Attack_4.h"
+#include "State_WR_Identity.h"
+#include "State_WR_Identity_Attack_1.h"
+#include "State_WR_Identity_Attack_2.h"
+#include "State_WR_Identity_Attack_3.h"
+#include "State_WR_Identity_Attack_4.h"
 
 /* State_Skill */
 
@@ -299,10 +308,37 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Idle"), CState_WR_Idle::Create(TEXT("Idle"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Idle"), CState_WR_Run::Create(TEXT("Run"),
+	m_pStateMachine->Add_State(TEXT("Run"), CState_WR_Run::Create(TEXT("Run"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Idle"), CState_WR_Dash::Create(TEXT("Dash"),
+	m_pStateMachine->Add_State(TEXT("Dash"), CState_WR_Dash::Create(TEXT("Dash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_1"), CState_WR_Attack_1::Create(TEXT("Attack_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_2"), CState_WR_Attack_2::Create(TEXT("Attack_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_3"), CState_WR_Attack_3::Create(TEXT("Attack_3"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Attack_4"), CState_WR_Attack_4::Create(TEXT("Attack_4"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("WR_Identity"), CState_WR_Identity::Create(TEXT("WR_Identity"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Attack_1"), CState_WR_Identity_Attack_1::Create(TEXT("Identity_Attack_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Attack_2"), CState_WR_Identity_Attack_2::Create(TEXT("Identity_Attack_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Attack_3"), CState_WR_Identity_Attack_3::Create(TEXT("Identity_Attack_3"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Attack_4"), CState_WR_Identity_Attack_4::Create(TEXT("Identity_Attack_4"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

@@ -565,6 +565,18 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long">
       <UniqueIdentifier>{7e65b684-25d7-41ce-be0e-c944dbfd1456}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack">
+      <UniqueIdentifier>{6b7568ad-6dd7-42d3-8e2b-f3fb25f21b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity">
+      <UniqueIdentifier>{44481fab-f0e0-414d-bf21-d8d92c60a453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal">
+      <UniqueIdentifier>{4b40e5ba-3daf-4029-85b2-d3ab416edaa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity">
+      <UniqueIdentifier>{e098b37b-1ca4-4179-a3b8-562217543d10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -823,7 +835,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -888,7 +899,6 @@
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
@@ -1051,12 +1061,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -1263,12 +1267,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -2005,12 +2003,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -2336,6 +2328,33 @@
     <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_4.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_4.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2582,7 +2601,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -2653,7 +2671,6 @@
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
@@ -2820,12 +2837,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3026,12 +3037,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3762,12 +3767,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -4088,6 +4087,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_4.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_4.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

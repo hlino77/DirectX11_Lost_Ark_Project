@@ -9,7 +9,7 @@ BEGIN(Engine)
 class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 {
 public:
-	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, _END };
+	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, Z, _END };
 	enum HIT_TYPE { WEAK, DMG, DOWN, BOUND, TWIST, TYPE_END };
 
 public:
@@ -50,7 +50,8 @@ public:
 	void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f) { m_vNextMove = vPos; m_bStop = false; m_IsDir = false; m_fMoveSpeed = fMoveSpeed; }
 	void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f)  { m_vNextMove = vPos; m_bStop = false; m_IsDir = true; m_fMoveSpeed = fMoveSpeed; }
 	void		Get_StopMessage()									{ m_vNextMove = Vec3(); m_bStop = true;}
-	void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; }
+	void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; m_IsDir = false; }
+	void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
 	void		Get_LookMessage(Vec3 vAt) { Look(vAt); }
 	void		Get_AttackMessage() { Attack(); }
 	void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
