@@ -280,7 +280,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
 
-			Show_Damage();
+			Show_Damage(iDammage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{

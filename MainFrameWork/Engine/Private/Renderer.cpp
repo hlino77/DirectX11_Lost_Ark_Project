@@ -1277,6 +1277,8 @@ HRESULT CRenderer::Render_Mouse()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_MOUSE].clear();
+
+	return S_OK;
 }
 
 HRESULT CRenderer::Render_Debug()
