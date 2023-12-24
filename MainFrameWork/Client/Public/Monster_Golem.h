@@ -21,7 +21,14 @@ END
 BEGIN(Client)
 class CMonster_Golem : public CMonster
 {
-
+public:
+	enum AttackColliders
+	{
+		SKILL1 =5,
+		SKILL2,
+		SKILL3,
+		ATTACK_END
+	};
 protected:
 	CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CMonster_Golem(const CMonster_Golem& rhs);
@@ -37,7 +44,7 @@ public:
 	virtual void Set_SlowMotion(_bool bSlow) override;
 
 
-\
+
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();

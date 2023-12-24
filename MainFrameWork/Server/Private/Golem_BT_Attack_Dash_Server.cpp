@@ -3,6 +3,7 @@
 #include "Monster_Server.h"
 #include "Transform.h"
 #include "Model.h"
+#include <Monster_Golem_Server.h>
 CGolem_BT_Attack_Dash_Server::CGolem_BT_Attack_Dash_Server()
 {
 }
@@ -10,6 +11,7 @@ CGolem_BT_Attack_Dash_Server::CGolem_BT_Attack_Dash_Server()
 void CGolem_BT_Attack_Dash_Server::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster_Golem_Server*>(m_pGameObject)->Set_RootTargetDistance(0.f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
@@ -28,6 +30,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDe
 void CGolem_BT_Attack_Dash_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CMonster_Golem_Server*>(m_pGameObject)->Set_RootTargetDistance(0.5f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();

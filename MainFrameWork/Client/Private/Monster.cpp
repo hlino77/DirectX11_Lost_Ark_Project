@@ -240,19 +240,20 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{
-			//_int iDammage = dynamic_cast<CPlayer*>(pOther->Get_Owner())->
+			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			Vec3 vPos = {};
-			vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
+			{
+				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			else
+			{
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 
-			_float fDuration = 0;
-			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
-			{
-				fDuration += 100.f;
-			}
-			Send_Collision(1, vPos,STATUSEFFECT::EFFECTEND, fForce, fDuration);
-
+			Send_Collision(iDammage, vPos,(STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
 			Show_Damage(iDamage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -264,20 +265,22 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
-			//_int iDammage = dynamic_cast<CPlayer*>(pOther->Get_Owner())->
+			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			Vec3 vPos = {};
-			vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
-			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
-
-			_float fDuration = 0;
-			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
 			{
-				fDuration += 100.f;
+				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			}
-			Send_Collision(1, vPos, STATUSEFFECT::EFFECTEND, fForce, fDuration);
+			else
+			{
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 
-			Show_Damage(iDamage);
+
+			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+
+			Show_Damage();
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
@@ -426,18 +429,14 @@ _float CMonster::Get_Target_Distance()
 
 Vec3 CMonster::Get_Target_Direction()
 {
-	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)+ m_vRandomPosition;
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	return (vTargetPosition - vCurrentPosition);
+	Vec3 vDirection = (vTargetPosition - vCurrentPosition);
+	vDirection.Normalize();
+	return vDirection;
 }
 
-void CMonster::Set_RandomPosition()
-{
-	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_vRandomPosition = Vec3(vCurrentPosition.x + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f), vCurrentPosition.y, vCurrentPosition.z + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f));
 
-}
 
 void CMonster::Move_to_RandomPosition(_float fTimeDelta)
 {

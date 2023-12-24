@@ -49,15 +49,11 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 void CMonster_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	m_fScanCoolDown += fTimeDelta;
+
 	m_fSkillCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
-	if (m_fScanCoolDown > 0.5f)
-	{
-		m_fScanCoolDown = 0.f;
-		Find_NearTarget();
+	Find_NearTarget(fTimeDelta);
 
-	}
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
@@ -388,24 +384,29 @@ void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT e
 
 
 
-void CMonster_Server::Find_NearTarget()
+void CMonster_Server::Find_NearTarget(_float fTimeDelta)
 {
-	_float fDistance =99999.f;
-	CGameObject* pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
-	if (pNearTarget != nullptr)
+	m_fScanCoolDown += fTimeDelta;
+	if (m_fScanCoolDown > 1.f)
 	{
-		Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_fScanCoolDown = 0.f;
+		_float fDistance = 99999.f;
+		CGameObject* pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
+		if (pNearTarget != nullptr)
+		{
+			Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	 fDistance = (vTargetPos - vPos).Length();
-	}
-	if (fDistance > 50.f)
-		pNearTarget = nullptr;
+			fDistance = (vTargetPos - vPos).Length();
+		}
+		if (fDistance > 50.f)
+			pNearTarget = nullptr;
 
-	if (pNearTarget != m_pNearTarget&& pNearTarget!= nullptr)
-	{
-		m_pNearTarget = pNearTarget;
-		Send_NearTarget();
+		if (pNearTarget != m_pNearTarget && pNearTarget != nullptr)
+		{
+			m_pNearTarget = pNearTarget;
+			Send_NearTarget();
+		}
 	}
 }
 
@@ -446,18 +447,27 @@ _float CMonster_Server::Get_NearTargetDistance()
 Vec3 CMonster_Server::Get_Target_Direction()
 {
 	if (m_pNearTarget == nullptr)
-		Find_NearTarget();
+		return Vec3();
 
-	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)+m_vRandomPosition;
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	return (vTargetPosition - vCurrentPosition);
+	Vec3 vDirection = vTargetPosition - vCurrentPosition;
+	vDirection.Normalize();
+	return vDirection;
 }
 
 void CMonster_Server::Set_RandomPosition()
 {
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_vTargetPos = m_vRandomPosition = Vec3(vCurrentPosition.x + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f), vCurrentPosition.y, vCurrentPosition.z + CGameInstance::GetInstance()->Get_RandomFloat(-5.f, 5.f));
+	m_vTargetPos = m_vRandomPosition = Vec3(vCurrentPosition.x + CGameInstance::GetInstance()->Get_RandomFloat(-5, 5), vCurrentPosition.y, vCurrentPosition.z + CGameInstance::GetInstance()->Get_RandomFloat(-5, 5));
+
+}
+
+void CMonster_Server::Set_RandomPosition(_float fRange)
+{
+	if (fRange < 1.5f)
+		fRange = 1.5f;
+	m_vTargetPos = m_vRandomPosition = Vec3(CGameInstance::GetInstance()->Get_RandomFloat(-fRange, fRange), 0.f, CGameInstance::GetInstance()->Get_RandomFloat(-fRange, fRange));
 
 }
 

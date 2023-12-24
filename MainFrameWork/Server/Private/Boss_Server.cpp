@@ -59,12 +59,8 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 void CBoss_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	m_fScanCoolDown += fTimeDelta;
-	if (m_fScanCoolDown > 0.5f)
-	{
-		m_fScanCoolDown = 0.f;
-		Find_NearTarget();
-	}
+
+		Find_NearTarget(fTimeDelta);
 	if(m_pBehaviorTree!= nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);

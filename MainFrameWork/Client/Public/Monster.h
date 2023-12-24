@@ -76,7 +76,7 @@ public:
 	void					LookAt_Target_Direction_Lerp(_float fTimeDelta);
 	void					LookAt_Target_Direction();
 	Vec3					Get_Target_Direction();
-	void					Set_RandomPosition();
+
 	void					Move_to_RandomPosition(_float fTimeDelta);
 	_bool					Is_Close_To_RandomPosition();
 	virtual void			Set_Die();
@@ -108,6 +108,12 @@ public:
 
 	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
+
+	Vec3 Get_RandomPosition() { return m_vRandomPosition; }
+	void Set_RandomPosition(Vec3 vPos) {m_vRandomPosition = vPos; }
+
+	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
+
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 

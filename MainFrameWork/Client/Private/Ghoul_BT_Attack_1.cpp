@@ -12,6 +12,7 @@ CGhoul_BT_Attack_1::CGhoul_BT_Attack_1()
 void CGhoul_BT_Attack_1::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 
 }
 
@@ -41,7 +42,11 @@ CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
 void CGhoul_BT_Attack_1::OnEnd()
 {
 	__super::OnEnd();
-
+	CSphereCollider* pCollider = m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER);
+	pCollider->Set_Radius(0.65f);
+	pCollider->SetActive(false);
+	pCollider->Set_Offset(Vec3(0.0f, 0.95f, 0.8f));
+	pCollider->Get_Child()->SetActive(false);
 }
 
 

@@ -139,7 +139,7 @@ void COBBCollider::Set_BoundingBox()
 		vOffset.Normalize();
 		vOffset *= m_vOffset.Length();
 	}
-		
+	vQuat= Quaternion::Concatenate(vQuat, m_vOrientation);
 
 	m_tBoundingBox.Center = vPos + vOffset;
 	m_tBoundingBox.Extents = m_vScale;

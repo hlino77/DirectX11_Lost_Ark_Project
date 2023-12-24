@@ -91,13 +91,10 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 void CMonster_Reaper_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	m_fScanCoolDown += fTimeDelta;
 	m_pBehaviorTree->Tick(fTimeDelta);
-	if (m_fScanCoolDown > 0.5f)
-	{
-		m_fScanCoolDown = 0.f;
-		Find_NearTarget();
-	}
+
+		Find_NearTarget(fTimeDelta);
+
 	m_pRigidBody->Tick(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	m_fHitTerm -= fTimeDelta;

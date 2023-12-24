@@ -236,12 +236,12 @@ HRESULT CMonster_Pawn::Ready_Components()
 	}
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(1.3f);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 1.3f, 0.0f));
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(0.5f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 0.3f, 0.0f));
 
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(1.1f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(0.8f);
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 1.1f, 0.5f));
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.3f));
 	}
 
 	CPartObject::PART_DESC			PartDesc_Weapon;
@@ -298,7 +298,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -308,7 +307,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -364,7 +362,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -374,7 +371,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -383,18 +379,8 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CPawn_BT_Attack2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("run_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -409,7 +395,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pChase = CCommon_BT_Chase::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -419,7 +404,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 	CBT_Action* pIdle_0 = CCommon_BT_Idle::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("idle_normal_1_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -430,7 +414,6 @@ HRESULT CMonster_Pawn::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("walk_normal_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;

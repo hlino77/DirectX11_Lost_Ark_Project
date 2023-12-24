@@ -61,7 +61,7 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 				m_pGameObject->Get_ModelCom()->Set_CurrAnim(m_vecAnimIndexFrame[m_iLoopAnimationIndex].iAnimIndex);
 		}
 
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex)-2)
 	{
 		if (m_iCurrAnimation == m_vecAnimIndexFrame.size() - 1)
 			return BT_SUCCESS;
