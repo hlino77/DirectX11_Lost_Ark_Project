@@ -257,9 +257,9 @@ void CUI_Tool::Modify_UIPannel()
 		if (nullptr == m_pCurrentUI)
 			return;
 		_bool bResult;
-		if (MessageBox(NULL, L"历厘", L"秒家", MB_YESNO | MB_ICONQUESTION))
+		if (bResult = MessageBox(NULL, L"历厘", L"秒家", MB_YESNO | MB_ICONQUESTION))
 		{
-			if (nullptr == m_pCurrentUI)
+			if ((nullptr == m_pCurrentUI)&&(bResult == IDNO))
 				return;
 			string strFilePath = "../Bin/Resources/Textures/UI/Binary_UIDesc/";
 			string strFileExtention = ".dat";

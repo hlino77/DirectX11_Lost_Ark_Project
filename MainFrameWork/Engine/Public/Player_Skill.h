@@ -51,7 +51,7 @@ public:
 	virtual SKILL_CTRLTYPE			Get_Skill_CtrlType()	{ return m_eCtrlType; }
 	virtual KEY						Get_BindKey()			{ return m_eBindKey; }
 	virtual const _float&			Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
-	virtual const class CTexture*	Get_Skill_Texture()		{ return m_pSkillTextureCom; }
+	virtual class CTexture*			Get_Skill_Texture();
 	virtual PROJECTILE_DESC			Get_Skill_Proj_Desc()	{ return m_SkillProjDesc; }
 
 public:

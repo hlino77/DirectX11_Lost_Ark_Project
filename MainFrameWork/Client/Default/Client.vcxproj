@@ -264,6 +264,8 @@
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
+    <ClInclude Include="..\Public\UI_HoldingFill.h" />
+    <ClInclude Include="..\Public\UI_HoldingFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -367,6 +369,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Mouse_Cursor.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h" />
     <ClInclude Include="..\Public\UI_Player_HPFill.h" />
@@ -384,6 +387,7 @@
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
     <ClInclude Include="..\Public\UI_SkillIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_Skill_MoveIcon.h" />
+    <ClInclude Include="..\Public\UI_SpaceBar_Icon.h" />
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
     <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
@@ -484,6 +488,8 @@
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />
+    <ClCompile Include="..\Private\UI_HoldingFrame.cpp" />
+    <ClCompile Include="..\Private\UI_HoldingFill.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
@@ -589,6 +595,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp" />
@@ -606,6 +613,7 @@
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\UI_SkillIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_Skill_MoveIcon.cpp" />
+    <ClCompile Include="..\Private\UI_SpaceBar_Icon.cpp" />
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
     <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />

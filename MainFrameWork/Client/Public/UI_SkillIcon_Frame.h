@@ -2,8 +2,10 @@
 #include "UI.h"
 
 BEGIN(Engine)
+class CTextBox;
 class CPlayer_Skill;
 END
+
 
 BEGIN(Client)
 
@@ -27,32 +29,39 @@ public:
     void    Set_SkillIcon(const wstring & strSkillName);
     void    Set_IsHaveSkill(_bool IsHave) { m_bHaveSkill = IsHave; }
     _bool   Get_IsHaveSkill() { return m_bHaveSkill; }
-    class CTexture* Get_SkillTexture() { return m_pTextureCom_Test; }
+    class CTexture* Get_SkillTexture() { return m_pTextureCom_Skill; }
     void    Set_PickedFrame(_bool IsPicked) { m_bPicked = IsPicked; }
+
 private:
+    void    Get_Player_BindingSkill();
+    void Get_Player_GN(class CPlayer* _pPlayer, CTexture* _pTexture);
+    void Get_Slayer_WR(class CPlayer* _pPlayer, CTexture* _pTexture);
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
     HRESULT Bind_ShaderResources_Picked();
     HRESULT Bind_ShaderResources_Shine();
-    HRESULT Bind_ShaderResources_Test();
+    HRESULT Bind_ShaderResources_Skill();
+    HRESULT Bind_ShaderResources_ChangeFrame();
 
 private:
+    _uint  m_eSkillKey = { 0 };
+
     _bool   m_bHaveSkill = { false };
     _bool   m_bPicked = { false };
     wstring m_strCurrSkillName = TEXT("");
     wstring m_strPreSkillName = TEXT("");
-    _float  m_fAlphShine = (0.f);
+    _float  m_fAlphaShine = (0.f);
     Vec4    m_vecPickedColor = { 0.5f, 0.5f, 0.5f, 1.f };
 
-    class CPlayer_Skill* m_pPlayer_Skill = { nullptr };
-    CTexture* m_pTextureCom_Test = { nullptr };
+    //ÄðÅ¸ÀÓ
+    CPlayer_Skill* m_pSkill = { nullptr };
+    CTexture* m_pTextureCom_Skill = { nullptr };
     CTexture* m_pTextureCom_Shine = { nullptr };
     CTexture* m_pTextureCom_Frame = { nullptr };
 
-    //Test
-    _bool   m_bSkillOn = { false };
-    _float  m_fCoolMaxTime = { 24.f };
-    _float  m_fCurrCool = { 24.f };
+    _float  m_fCoolMaxTime = { 0.f };
+    _float  m_fCurrCool = { 0.f };
+    _float  m_fResultCool = { 0.f };
     _float  m_fCoolRatio = { 0.f };
     _float  m_fCoolAngle = { 0.f };
 

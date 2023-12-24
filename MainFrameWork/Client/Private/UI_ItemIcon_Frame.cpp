@@ -78,17 +78,17 @@ void CUI_ItemIcon_Frame::LateTick(_float fTimeDelta)
     __super::LateTick(fTimeDelta);
     if (!m_bPick)
     {
-        if (0.f < m_fAlphShine)
-            m_fAlphShine -= 2.f* fTimeDelta;
-        else if (0 >= m_fAlphShine)
-            m_fAlphShine = 0.f;
+        if (0.f < m_fAlphaShine)
+            m_fAlphaShine -= 2.f* fTimeDelta;
+        else if (0 >= m_fAlphaShine)
+            m_fAlphaShine = 0.f;
     }
     else
     {
-        if (0.8f > m_fAlphShine)
-            m_fAlphShine += 2.5f * fTimeDelta;
-        else if (0.8f <= m_fAlphShine)
-            m_fAlphShine = 0.8f;
+        if (0.8f > m_fAlphaShine)
+            m_fAlphaShine += 2.5f * fTimeDelta;
+        else if (0.8f <= m_fAlphaShine)
+            m_fAlphaShine = 0.8f;
     }
 
     if (m_fCurrCool == m_fCoolMaxTime)
@@ -123,7 +123,7 @@ HRESULT CUI_ItemIcon_Frame::Render()
                 return E_FAIL;
         }
         m_pTextureCom_Test->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
-        //m_pPlayer_Skill->Get_Skill_Texture()->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);;
+        //m_pPlayer_Skill->Get_Skill_Texture()->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
         m_pShaderCom->Begin(8);
         m_pVIBufferCom->Render();
     }
@@ -222,7 +222,7 @@ HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Shine()
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlphShine, sizeof(_float))))
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlphaShine, sizeof(_float))))
         return E_FAIL;
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))

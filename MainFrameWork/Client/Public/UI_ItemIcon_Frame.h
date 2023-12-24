@@ -41,7 +41,7 @@ private:
     _bool   m_bPicked = { false };
     wstring m_strCurrSkillName = TEXT("");
     wstring m_strPreSkillName = TEXT("");
-    _float  m_fAlphShine = (0.f);
+    _float  m_fAlphaShine = (0.f);
     Vec4    m_vecPickedColor = { 0.5f, 0.5f, 0.5f, 1.f };
 
     class CPlayer_Skill* m_pPlayer_Skill = { nullptr };

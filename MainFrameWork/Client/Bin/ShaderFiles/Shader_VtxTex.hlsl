@@ -12,6 +12,7 @@ Texture2D	g_MaskTexture2;
 float2		g_vMaskUV;
 float2		g_vScaleUV;
 float		g_fRatio;
+float		g_fRoughness;
 float		g_PI = 3.141592f;
 
 sampler DefaultSampler = sampler_state {
@@ -255,7 +256,6 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
-	Out.vColor = pow(Out.vColor, 1 / 2.2);
 	Out.vColor.a *= g_Alpha;
 
 	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
@@ -266,7 +266,7 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 	float fAngle = atan2(-fTempUV.x, fTempUV.y);
 
 	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
-		Out.vColor *= pow(Out.vColor, 1.f / 2.2f);
+		Out.vColor = pow(Out.vColor, 1.f / 2.2f);
 	else
 		Out.vColor *= 0.4f;
 
@@ -282,14 +282,13 @@ PS_OUT PS_MAIN_COLORFRAME(PS_IN In)
 	if (0.0f >= Out.vColor.a)
 		discard;
 
-	float2	UVOffset = float2(0.1, 0.1);
+	float2	UVOffset = float2(0.05, 0.05);
 	float2	UVScale = float2(0.8, 0.8);
-	float2	UVSmall = (In.vTexUV - UVOffset) / UVScale;
 
 	bool isBorder = (In.vTexUV.x < UVOffset.x || In.vTexUV.x > 1.0 - UVOffset.x 
 		|| In.vTexUV.y < UVOffset.y || In.vTexUV.y > 1.0 - UVOffset.y);
 
-	Out.vColor.rgb = isBorder ? Out.vColor.rgb * float3(3.0, 3.0, 0.0) : Out.vColor.rgb * pow(Out.vColor, 1.f / 2.2f);
+	Out.vColor = isBorder ? float4(0.8, 0.8, 0.0, 0.6f) : pow(Out.vColor, 1.f / 2.2f);
 
 	return Out;
 }

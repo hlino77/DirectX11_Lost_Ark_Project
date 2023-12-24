@@ -2,6 +2,7 @@
 #include "UI_SpeechBubble.h"
 #include "GameInstance.h"
 #include "PipeLine.h"
+#include "Chat_Manager.h"
 
 CUI_SpeechBubble::CUI_SpeechBubble(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -49,13 +50,37 @@ HRESULT CUI_SpeechBubble::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+    Set_Alpha(0.f);
+
     return S_OK;
 }
 
 void CUI_SpeechBubble::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+
     Setting_HostPos();
+
+    if (!CChat_Manager::GetInstance()->Is_Chat())
+        m_bChatOff = false;
+    else
+    {
+        m_bChatting = true;
+        Set_Alpha(0.4f);
+    }
+    if ((!m_bChatOff) && (m_bChatting))
+    {
+        m_fDuration -= fTimeDelta;
+        if (1.f >= m_fDuration)
+        {
+            Decrease_Alpha(fTimeDelta);
+        }
+        else if (0 >= m_fDuration)
+        {
+            m_bChatting = false;
+            m_fDuration = 3.f;
+        }
+    }
 }
 
 void CUI_SpeechBubble::LateTick(_float fTimeDelta)

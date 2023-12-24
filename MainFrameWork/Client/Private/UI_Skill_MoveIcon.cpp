@@ -49,7 +49,7 @@ void CUI_SkillI_MoveFrame::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-    if (m_bMoveIcon)
+  /*  if (m_bMoveIcon)
     {
         POINT pt;
         GetCursorPos(&pt);
@@ -80,8 +80,22 @@ void CUI_SkillI_MoveFrame::Tick(_float fTimeDelta)
             }
         }
 
-    }
+    }*/
 
+    if (m_bPicked)
+    {
+        POINT pt;
+        GetCursorPos(&pt);
+        ScreenToClient(g_hWnd, &pt);
+
+        m_fX = pt.x;
+        m_fY = pt.y;
+
+        m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+            Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+    }
 }
 
 void CUI_SkillI_MoveFrame::LateTick(_float fTimeDelta)

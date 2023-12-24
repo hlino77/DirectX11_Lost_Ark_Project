@@ -34,6 +34,7 @@
 #include "UI_LoadingArrow.h"
 #include "UI_LoadingShine.h"
 #include "UI_Manager.h"
+#include "UI_Mouse_Cursor.h"
 #include "BehaviorTree.h"
 #include "UI_Tool.h"
 #include "TextBox.h"
@@ -283,6 +284,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Loading/Loading_Shine.png"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Basic_Mouse"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/Mouse/Basic_Mouse_ReSize.png"))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
 		CBackGround_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -317,6 +322,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading_Shine"),
 		CUI_LoadingShine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MouseCursor"),
+		CUI_Mouse_Cursor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_Model */

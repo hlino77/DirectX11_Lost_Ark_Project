@@ -473,6 +473,8 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_UI()))
 		return E_FAIL;
+	if(FAILED(Render_Mouse()))
+		return E_FAIL;
 	if (FAILED(Render_DebugObject()))
 		return E_FAIL;
 
@@ -1297,6 +1299,17 @@ HRESULT CRenderer::Render_TextBox()
 	m_RenderObjects[RENDER_TEXTBOX].clear();
 
 	return S_OK;
+}
+
+HRESULT CRenderer::Render_Mouse()
+{
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_MOUSE])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_MOUSE].clear();
 }
 
 HRESULT CRenderer::Render_Debug()

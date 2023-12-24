@@ -22,7 +22,10 @@ public:
 
 private:
 	HRESULT	UI_Set();
-	
+	_bool	m_bChatting = { false };
+	_bool	m_bChatOff = { false };
+	_float	m_fDuration = { 3.f };
+
 public:
 	static  CUI_Chat* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

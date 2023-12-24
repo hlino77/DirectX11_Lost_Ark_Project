@@ -20,6 +20,14 @@ HRESULT CPlayer_Skill::Initialize(void* pArg)
 	return S_OK;
 }
 
+CTexture* CPlayer_Skill::Get_Skill_Texture()
+{
+	if (nullptr != m_pSkillTextureCom)
+		return m_pSkillTextureCom;
+	else
+		return nullptr;
+}
+
 void CPlayer_Skill::Set_BindKey(CPlayer_Controller::SKILL_KEY eKey)
 {
 	switch (eKey)

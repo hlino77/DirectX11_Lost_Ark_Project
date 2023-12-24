@@ -226,9 +226,6 @@
     <Filter Include="02.GameObjects\BackGround\01.Server_Select">
       <UniqueIdentifier>{21159a71-e54f-496c-87ea-76a8e240f5e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\99.Base">
-      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96. Manager\UI_Manager">
       <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
     </Filter>
@@ -454,12 +451,6 @@
     <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\01.Fill">
       <UniqueIdentifier>{70ec6b31-cc32-4ae0-9516-601309ce1db4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\05.SkillUI">
-      <UniqueIdentifier>{d31790ea-52a5-4539-aa24-ad4deab77ccb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\05.SkillUI\00.IconFrame">
-      <UniqueIdentifier>{e6dac7eb-65c3-46b7-93f3-bcf094d280d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\06.Speech_Bubble">
       <UniqueIdentifier>{9df4ac39-51a7-49d4-ad93-2125f11f7bb6}</UniqueIdentifier>
     </Filter>
@@ -484,9 +475,6 @@
     <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
       <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\05.SkillUI\01.SkillIcon">
-      <UniqueIdentifier>{5fa35a89-165d-4aad-86cf-664fd6527e0e}</UniqueIdentifier>
-	</Filter>
     <Filter Include="01.Levels\98.Tool\ImGui">
       <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
     </Filter>
@@ -516,18 +504,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\09. Stand">
       <UniqueIdentifier>{4c4ac32b-95e8-4bf6-850a-6161f4804ad2}</UniqueIdentifier>
-	</Filter>
-    <Filter Include="02.GameObjects\UI\05.SkillUI\01.MoveIcon">
-      <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\08.ItemUI">
-      <UniqueIdentifier>{bdd68a24-261b-4fd9-8bc4-c49f8677da8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\08.ItemUI\00.IconFrame">
-      <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer">
       <UniqueIdentifier>{f81ba43a-97c9-40db-83ee-5404b4544635}</UniqueIdentifier>
@@ -552,6 +531,48 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dash">
       <UniqueIdentifier>{faf1e76b-5b12-4008-b2e3-7dd21c903a9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Event\99.Base">
+      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse">
+      <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot">
+      <UniqueIdentifier>{5cd5b028-2809-411b-8866-4b9f0c0f856c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI">
+      <UniqueIdentifier>{d31790ea-52a5-4539-aa24-ad4deab77ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\00.IconFrame">
+      <UniqueIdentifier>{e6dac7eb-65c3-46b7-93f3-bcf094d280d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\01.ItemUI">
+      <UniqueIdentifier>{bdd68a24-261b-4fd9-8bc4-c49f8677da8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\01.ItemUI\00.IconFrame">
+      <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\00.MouseCursor">
+      <UniqueIdentifier>{e5ef7062-0d09-40d8-b222-2d678d258545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01.MouseUtility">
+      <UniqueIdentifier>{d3d71a88-2758-425c-973b-4a62fa1f4e2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\01.SpaceBar">
+      <UniqueIdentifier>{a0daad75-5a5c-4b1c-87b4-cbd0a4cc7de6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar">
+      <UniqueIdentifier>{f67bdd41-0ec7-48ab-8f37-11a325709885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame">
+      <UniqueIdentifier>{929904d3-9701-42e6-bc1f-adeda177ed1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill">
+      <UniqueIdentifier>{2b28739c-335a-4a91-89b2-ddbf40ddeb67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\02.Shine">
+      <UniqueIdentifier>{3e3c1bba-2833-4657-812a-defb34f94a6d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -882,8 +903,6 @@
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Common_BT_Chase.h" />
     <ClInclude Include="..\Public\Common_BT_Attack1.h" />
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h" />
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h" />
     <ClInclude Include="..\Public\Common_BT_Dead.h" />
     <ClInclude Include="..\Public\Common_BT_Idle.h" />
     <ClInclude Include="..\Public\Common_BT_Maz.h" />
@@ -1041,12 +1060,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -1254,12 +1267,6 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClInclude>
@@ -1457,12 +1464,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -1734,12 +1735,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -2001,12 +1996,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
     </ClInclude>
@@ -2107,7 +2096,7 @@
       <Filter>02.GameObjects\UI\04. HP/MP\01.MP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_SkillIcon_Frame.h">
-      <Filter>02.GameObjects\UI\05.SkillUI\00.IconFrame</Filter>
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\00.IconFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_SpeechBubble.h">
       <Filter>02.GameObjects\UI\06.Speech_Bubble</Filter>
@@ -2191,9 +2180,6 @@
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
-    <ClInclude Include="..\Public\UI_QuickSkill.h">
-      <Filter>02.GameObjects\UI\05.SkillUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
@@ -2301,15 +2287,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_DeadHard_End.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_Skill_MoveIcon.h">
-      <Filter>02.GameObjects\UI\05.SkillUI\01.MoveIcon</Filter>
+      <Filter>02.GameObjects\UI\09.Mouse</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_DamageFont.h">
       <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ItemIcon_Frame.h">
-      <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
+      <Filter>02.GameObjects\UI\05.QuickSlot\01.ItemUI\00.IconFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Controller_WR.h">
       <Filter>02.GameObjects\Player\Player_Slayer\Controller_WR</Filter>
@@ -2328,6 +2314,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_WR_Dash.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_QuickSkill.h">
+      <Filter>02.GameObjects\UI\05.QuickSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_SpaceBar_Icon.h">
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\01.SpaceBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Mouse_Cursor.h">
+      <Filter>02.GameObjects\UI\09.Mouse\00.MouseCursor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_HoldingFill.h">
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_HoldingFrame.h">
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2652,8 +2653,6 @@
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Common_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp" />
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp" />
     <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
     <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
     <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
@@ -2815,12 +2814,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3022,12 +3015,6 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClCompile>
@@ -3222,12 +3209,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3499,12 +3480,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -3763,12 +3738,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
@@ -3869,7 +3838,7 @@
       <Filter>02.GameObjects\UI\04. HP/MP\01.MP</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_SkillIcon_Frame.cpp">
-      <Filter>02.GameObjects\UI\05.SkillUI\00.IconFrame</Filter>
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\00.IconFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp">
       <Filter>02.GameObjects\UI\06.Speech_Bubble</Filter>
@@ -3953,9 +3922,6 @@
       <Filter>02.GameObjects\Monster\Pawn\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
-    <ClCompile Include="..\Private\UI_QuickSkill.cpp">
-      <Filter>02.GameObjects\UI\05.SkillUI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <Filter>01.Levels\98.Tool\ImGui\Include</Filter>
@@ -4059,15 +4025,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_DeadHard_End.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_Skill_MoveIcon.cpp">
-      <Filter>02.GameObjects\UI\05.SkillUI\01.MoveIcon</Filter>
+      <Filter>02.GameObjects\UI\09.Mouse</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_DamageFont.cpp">
       <Filter>02.GameObjects\UI\07.Damage_Font</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp">
-      <Filter>02.GameObjects\UI\08.ItemUI\00.IconFrame</Filter>
+      <Filter>02.GameObjects\UI\05.QuickSlot\01.ItemUI\00.IconFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Controller_WR.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\Controller_WR</Filter>
@@ -4086,6 +4052,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Dash.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_QuickSkill.cpp">
+      <Filter>02.GameObjects\UI\05.QuickSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_SpaceBar_Icon.cpp">
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\01.SpaceBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_Cursor.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\00.MouseCursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_HoldingFrame.cpp">
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_HoldingFill.cpp">
+      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
