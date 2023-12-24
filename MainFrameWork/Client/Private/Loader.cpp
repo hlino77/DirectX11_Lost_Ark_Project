@@ -73,7 +73,7 @@
 //Monsters
 #include "Monster_Zombie.h"
 #include "Monster_Plant.h"
-#include "Monster_Golem.h"
+#include "Boss_Golem.h"
 #include "Monster_Ghoul.h"
 #include <Monster_Reaper.h>
 #include "Weapon_Boss_King.h"
@@ -521,8 +521,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Golem"),
-		CMonster_Golem::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Golem"),
+		CBoss_Golem::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Ghoul"),

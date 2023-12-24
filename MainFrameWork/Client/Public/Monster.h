@@ -120,6 +120,7 @@ public:
 	void					Show_Damage(_uint iDamage);
 protected:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_BehaviourTree();
 	HRESULT Ready_HP_UI();
 
 protected:

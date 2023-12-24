@@ -28,9 +28,6 @@
     <Filter Include="02.GameObjects\BackGround">
       <UniqueIdentifier>{327a42a0-45f0-4b4d-b8cd-bb209baedc94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player">
-      <UniqueIdentifier>{d26bf6ee-8989-439a-89bb-3c4c11da2bdc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{97b53119-8317-43a4-a8ee-44ae8e440ad2}</UniqueIdentifier>
     </Filter>
@@ -70,9 +67,6 @@
     <Filter Include="02.GameObjects\SkyBox">
       <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger">
-      <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\Lobby">
       <UniqueIdentifier>{c638b4eb-3186-47c1-aaa7-9c50b2c693a4}</UniqueIdentifier>
     </Filter>
@@ -84,57 +78,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Plant">
       <UniqueIdentifier>{4adcb49e-454e-4757-b167-9f53c1438c07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Controller_GN">
-      <UniqueIdentifier>{f56fd45b-dfd5-4cca-a004-f1b73e162346}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN">
-      <UniqueIdentifier>{ca2f200d-677f-404b-8dd0-3f04c889825e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN">
-      <UniqueIdentifier>{21fc9a1a-d931-47df-a231-c584c97fa9c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand">
-      <UniqueIdentifier>{db695dea-a728-4083-9c9c-f146e2805f70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Long">
-      <UniqueIdentifier>{4386be7a-4345-4556-b3cb-c0d567deb83b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot">
-      <UniqueIdentifier>{62cfb08c-db1e-4185-89c5-cdc243756226}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand_2">
-      <UniqueIdentifier>{1b98558c-8bfa-409f-a16c-a29acdc8314d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot_2">
-      <UniqueIdentifier>{57ae51c6-a1e1-4811-9c47-c31e2fde625a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Idle">
-      <UniqueIdentifier>{75dbc867-791e-4137-8a49-758f60c7faa2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Run">
-      <UniqueIdentifier>{63c54b48-f198-42d3-bca9-4b0ff127562a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base">
-      <UniqueIdentifier>{242b01c1-19b3-4481-a63c-21f4b0b1f49b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand">
-      <UniqueIdentifier>{1afc3691-4197-4fa8-ab0f-e474224a6a68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dash">
-      <UniqueIdentifier>{45fbcb90-97a3-4182-8e5a-e5835cf3c162}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity">
-      <UniqueIdentifier>{668e8451-d44b-4082-81df-862c73b3fe0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Shot">
-      <UniqueIdentifier>{f97da51b-a5f5-4eb2-928f-cb2240fbf4e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Long">
-      <UniqueIdentifier>{7e79976b-a67a-49be-88cb-650378ae5873}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity">
-      <UniqueIdentifier>{8d63a75e-37ac-4637-b3fd-f0449c2252fc}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger">
       <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
@@ -349,60 +292,6 @@
     <Filter Include="02.GameObjects\Monster\Reaper\Part">
       <UniqueIdentifier>{aa29f5c9-35d7-4ded-99ea-6ff7ec8d41fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill">
-      <UniqueIdentifier>{85fda9a6-1cb6-47de-a0f3-fcd06c2e64ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long">
-      <UniqueIdentifier>{cfbdf7f6-82d9-425a-91d1-fd9fc29d99a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot">
-      <UniqueIdentifier>{c2195f01-83f5-4bc3-82a2-b64fda20d5d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand">
-      <UniqueIdentifier>{4b184b17-8f04-43c3-808a-66867438552e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot">
-      <UniqueIdentifier>{62e04fab-41ec-4c99-a7a2-c034864ef3d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep">
-      <UniqueIdentifier>{9acec5c9-76b3-4cc7-b106-2c9dc2226d1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\FreeShooter">
-      <UniqueIdentifier>{50d6bd83-fdbd-4b08-baae-18814cd5f2da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\LastSupper">
-      <UniqueIdentifier>{7995652b-f1e3-4ed9-91e4-c599656216bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot">
-      <UniqueIdentifier>{c16be7f6-3b02-4d9e-a013-b8dba83fc59f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot">
-      <UniqueIdentifier>{21c92454-f5e1-4624-8de2-f3daed532398}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse">
-      <UniqueIdentifier>{edfab8db-f3c9-4723-a7a9-fbc515fe4701}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown">
-      <UniqueIdentifier>{dacc06ae-5cb1-48d2-b2ef-244fb3dd9d50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire">
-      <UniqueIdentifier>{762222dd-6a4d-41a8-a954-87968b11bd56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire">
-      <UniqueIdentifier>{77c603d7-b0b7-45bd-a06f-c19113733797}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata">
-      <UniqueIdentifier>{a2e90637-6810-4f0f-bd7a-f5264d7aa6e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\SpiralChaser">
-      <UniqueIdentifier>{5723db1b-0f69-4dce-9d75-7600f925e8f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Grenade">
-      <UniqueIdentifier>{dd31e496-6239-441e-a507-42a3f7fb131b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard">
-      <UniqueIdentifier>{2bfc460f-696a-42b8-9220-6f2c1f80ee07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\04. HP/MP">
       <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
     </Filter>
@@ -444,9 +333,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Boss\King\Behavior">
       <UniqueIdentifier>{027bbc57-25c3-457f-a28a-e49c72a90544}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN">
-      <UniqueIdentifier>{ebe43ed2-fd7a-4667-b0eb-986dd6026533}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Pawn">
       <UniqueIdentifier>{de1036d5-160c-4cf2-a023-2938a50abdc6}</UniqueIdentifier>
@@ -490,41 +376,8 @@
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer">
-      <UniqueIdentifier>{f81ba43a-97c9-40db-83ee-5404b4544635}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\Controller_WR">
-      <UniqueIdentifier>{3dcca49c-63f0-49ee-9326-2ef0675c1d52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\Part_WR">
-      <UniqueIdentifier>{f85acdfe-c468-4688-a370-e7727d328fff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR">
-      <UniqueIdentifier>{46e79226-86c9-468b-ad4c-160abb7f5c2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
-      <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Idle">
-      <UniqueIdentifier>{b9a4d60b-946b-4488-874e-421df951e446}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Run">
-      <UniqueIdentifier>{7a95cd2f-2a69-4087-920a-2f935c8fe5e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dash">
-      <UniqueIdentifier>{faf1e76b-5b12-4008-b2e3-7dd21c903a9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96. Manager\Damage_Manager">
       <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand">
-      <UniqueIdentifier>{ef8abd16-71d3-423b-841d-681520821522}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot">
-      <UniqueIdentifier>{fbf0e505-f68d-4e28-a7f7-ec35ef694f89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long">
-      <UniqueIdentifier>{7e65b684-25d7-41ce-be0e-c944dbfd1456}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Event\99.Base">
       <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
@@ -568,11 +421,158 @@
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\02.Shine">
       <UniqueIdentifier>{3e3c1bba-2833-4657-812a-defb34f94a6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\Golem">
+      <UniqueIdentifier>{136add4c-d43e-4b1f-9377-99dc0bcc6818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Golem\Behavior">
+      <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player">
+      <UniqueIdentifier>{d26bf6ee-8989-439a-89bb-3c4c11da2bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger">
+      <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Controller_GN">
+      <UniqueIdentifier>{f56fd45b-dfd5-4cca-a004-f1b73e162346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN">
+      <UniqueIdentifier>{ca2f200d-677f-404b-8dd0-3f04c889825e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Idle">
+      <UniqueIdentifier>{75dbc867-791e-4137-8a49-758f60c7faa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Run">
+      <UniqueIdentifier>{63c54b48-f198-42d3-bca9-4b0ff127562a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base">
+      <UniqueIdentifier>{242b01c1-19b3-4481-a63c-21f4b0b1f49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Hand">
+      <UniqueIdentifier>{1afc3691-4197-4fa8-ab0f-e474224a6a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Shot">
+      <UniqueIdentifier>{f97da51b-a5f5-4eb2-928f-cb2240fbf4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Attack_Base\Long">
+      <UniqueIdentifier>{7e79976b-a67a-49be-88cb-650378ae5873}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dash">
+      <UniqueIdentifier>{45fbcb90-97a3-4182-8e5a-e5835cf3c162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity">
+      <UniqueIdentifier>{668e8451-d44b-4082-81df-862c73b3fe0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity">
+      <UniqueIdentifier>{8d63a75e-37ac-4637-b3fd-f0449c2252fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill">
+      <UniqueIdentifier>{85fda9a6-1cb6-47de-a0f3-fcd06c2e64ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long">
+      <UniqueIdentifier>{cfbdf7f6-82d9-425a-91d1-fd9fc29d99a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\FocusShot">
+      <UniqueIdentifier>{62e04fab-41ec-4c99-a7a2-c034864ef3d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot">
+      <UniqueIdentifier>{21c92454-f5e1-4624-8de2-f3daed532398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse">
+      <UniqueIdentifier>{edfab8db-f3c9-4723-a7a9-fbc515fe4701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown">
+      <UniqueIdentifier>{dacc06ae-5cb1-48d2-b2ef-244fb3dd9d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot">
+      <UniqueIdentifier>{c2195f01-83f5-4bc3-82a2-b64fda20d5d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\FreeShooter">
+      <UniqueIdentifier>{50d6bd83-fdbd-4b08-baae-18814cd5f2da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\LastSupper">
+      <UniqueIdentifier>{7995652b-f1e3-4ed9-91e4-c599656216bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Shot\TerminatingShot">
+      <UniqueIdentifier>{c16be7f6-3b02-4d9e-a013-b8dba83fc59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand">
+      <UniqueIdentifier>{4b184b17-8f04-43c3-808a-66867438552e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\QuickStep">
+      <UniqueIdentifier>{9acec5c9-76b3-4cc7-b106-2c9dc2226d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeathFire">
+      <UniqueIdentifier>{762222dd-6a4d-41a8-a954-87968b11bd56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\RapidFire">
+      <UniqueIdentifier>{77c603d7-b0b7-45bd-a06f-c19113733797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata">
+      <UniqueIdentifier>{a2e90637-6810-4f0f-bd7a-f5264d7aa6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\SpiralChaser">
+      <UniqueIdentifier>{5723db1b-0f69-4dce-9d75-7600f925e8f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Grenade">
+      <UniqueIdentifier>{dd31e496-6239-441e-a507-42a3f7fb131b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard">
+      <UniqueIdentifier>{2bfc460f-696a-42b8-9220-6f2c1f80ee07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN">
+      <UniqueIdentifier>{21fc9a1a-d931-47df-a231-c584c97fa9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand">
+      <UniqueIdentifier>{db695dea-a728-4083-9c9c-f146e2805f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Long">
+      <UniqueIdentifier>{4386be7a-4345-4556-b3cb-c0d567deb83b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot">
+      <UniqueIdentifier>{62cfb08c-db1e-4185-89c5-cdc243756226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand_2">
+      <UniqueIdentifier>{1b98558c-8bfa-409f-a16c-a29acdc8314d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Shot_2">
+      <UniqueIdentifier>{57ae51c6-a1e1-4811-9c47-c31e2fde625a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN">
+      <UniqueIdentifier>{ebe43ed2-fd7a-4667-b0eb-986dd6026533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Hand">
+      <UniqueIdentifier>{ef8abd16-71d3-423b-841d-681520821522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot">
+      <UniqueIdentifier>{fbf0e505-f68d-4e28-a7f7-ec35ef694f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long">
+      <UniqueIdentifier>{7e65b684-25d7-41ce-be0e-c944dbfd1456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer">
+      <UniqueIdentifier>{f81ba43a-97c9-40db-83ee-5404b4544635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Controller_WR">
+      <UniqueIdentifier>{3dcca49c-63f0-49ee-9326-2ef0675c1d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Part_WR">
+      <UniqueIdentifier>{f85acdfe-c468-4688-a370-e7727d328fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR">
+      <UniqueIdentifier>{46e79226-86c9-468b-ad4c-160abb7f5c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Idle">
+      <UniqueIdentifier>{b9a4d60b-946b-4488-874e-421df951e446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Run">
+      <UniqueIdentifier>{7a95cd2f-2a69-4087-920a-2f935c8fe5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dash">
+      <UniqueIdentifier>{faf1e76b-5b12-4008-b2e3-7dd21c903a9e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack">
       <UniqueIdentifier>{6b7568ad-6dd7-42d3-8e2b-f3fb25f21b37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity">
-      <UniqueIdentifier>{44481fab-f0e0-414d-bf21-d8d92c60a453}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal">
       <UniqueIdentifier>{4b40e5ba-3daf-4029-85b2-d3ab416edaa5}</UniqueIdentifier>
@@ -580,17 +580,11 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity">
       <UniqueIdentifier>{e098b37b-1ca4-4179-a3b8-562217543d10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Boss\Golem">
-      <UniqueIdentifier>{136add4c-d43e-4b1f-9377-99dc0bcc6818}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity">
+      <UniqueIdentifier>{44481fab-f0e0-414d-bf21-d8d92c60a453}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Boss\Golem\Behavior">
-      <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Golem">
-      <UniqueIdentifier>{5ab2ecc5-49bb-4856-ad8b-b7e5b69385c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Golem\Behavior">
-      <UniqueIdentifier>{fb61784e-cd3a-4b47-a84f-823a3ab38580}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
+      <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1491,9 +1485,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
@@ -1709,9 +1700,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -2350,6 +2338,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Monster_Golem.h">
+      <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
   </ItemGroup>
@@ -3240,9 +3231,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
@@ -3458,9 +3446,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -4092,6 +4077,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp">
+      <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
   </ItemGroup>

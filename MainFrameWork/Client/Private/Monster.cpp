@@ -45,6 +45,14 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
+
+	m_pRigidBody->SetMass(2.0f);
+
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
@@ -612,6 +620,11 @@ HRESULT CMonster::Ready_Components()
 	m_pTransformCom->Set_Scale(vScale);
 
     return S_OK;
+}
+
+HRESULT CMonster::Ready_BehaviourTree()
+{
+	return S_OK;
 }
 
 HRESULT CMonster::Ready_HP_UI()

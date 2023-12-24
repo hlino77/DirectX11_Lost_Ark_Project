@@ -48,27 +48,15 @@ HRESULT CMonster_Zombie::Initialize_Prototype()
 
 HRESULT CMonster_Zombie::Initialize(void* pArg)
 {
-	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
-	m_iObjectID = Desc->iObjectID;
-	m_iLayer = Desc->iLayer;
 
-
-	if (FAILED(Ready_Components()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Ready_BehaviourTree()))
+	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
-
-	m_pRigidBody->SetMass(2.0f);
-
 
 	m_iBasicAttackStartFrame = 34;
 	m_iBasicAttackEndFrame = 51;
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
 
     return S_OK;
 }

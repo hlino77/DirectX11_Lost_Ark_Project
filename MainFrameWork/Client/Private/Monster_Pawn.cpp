@@ -48,26 +48,9 @@ HRESULT CMonster_Pawn::Initialize_Prototype()
 
 HRESULT CMonster_Pawn::Initialize(void* pArg)
 {
-	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
-	m_iObjectID = Desc->iObjectID;
-	m_iLayer = Desc->iLayer;
-
-	m_tCullingSphere.Radius = 1.5f;
-	m_tCullingSphere.Center = Vec3(0.f, 1.5f,0.f );
-	
-
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-	if (FAILED(Ready_BehaviourTree()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
-
-	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 10;
 
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(5.f);

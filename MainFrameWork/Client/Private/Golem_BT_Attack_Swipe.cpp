@@ -4,7 +4,7 @@
 #include "Model.h"
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
-#include "Monster_Golem.h"
+#include "Boss_Golem.h"
 CGolem_BT_Attack_Swipe::CGolem_BT_Attack_Swipe()
 {
 }
@@ -26,9 +26,9 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 	}
 	if (26 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
 		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
-	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex)&& !m_pGameObject->Get_Colider(CMonster_Golem::SKILL3)->IsActive())
+	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex)&& !m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->IsActive())
 	{
-		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CMonster_Golem::SKILL3);
+		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL3);
 		pCollider->Set_Radius(1.8f);
 		pCollider->SetActive(true);
 		pCollider->Set_Offset(Vec3(-0.4f, 1.f, 0.7f));;
@@ -39,9 +39,9 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 	}
 	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
 	{
-		Vec3 vScale = dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CMonster_Golem::SKILL3)->Get_Child())->Get_Scale();
+		Vec3 vScale = dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->Get_Child())->Get_Scale();
 		vScale.x +=  fTimeDelta;		
-		dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CMonster_Golem::SKILL3)->Get_Child())->Set_Scale(vScale);
+		dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->Get_Child())->Set_Scale(vScale);
 	}
 	return BT_RUNNING;
 }
@@ -49,7 +49,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 void CGolem_BT_Attack_Swipe::OnEnd()
 {
 	dynamic_cast<CMonster*>(m_pGameObject)->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)->SetActive(false);
-	m_pGameObject->Get_Colider(CMonster_Golem::SKILL3)->SetActive(false);
+	m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->SetActive(false);
 	__super::OnEnd();
 
 }

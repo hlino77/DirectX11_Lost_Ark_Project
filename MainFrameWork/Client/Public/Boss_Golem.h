@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "Monster.h"
+#include "Boss.h"
 #include "StateMachine.h"
 #include <atomic>
 
@@ -19,7 +19,7 @@ END
 
 
 BEGIN(Client)
-class CMonster_Golem : public CMonster
+class CBoss_Golem : public CBoss
 {
 public:
 	enum AttackColliders
@@ -30,9 +30,9 @@ public:
 		ATTACK_END
 	};
 protected:
-	CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMonster_Golem(const CMonster_Golem& rhs);
-	virtual ~CMonster_Golem() = default;
+	CBoss_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBoss_Golem(const CBoss_Golem& rhs);
+	virtual ~CBoss_Golem() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -49,7 +49,7 @@ protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();
 public:
-	static CMonster_Golem* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CBoss_Golem* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 

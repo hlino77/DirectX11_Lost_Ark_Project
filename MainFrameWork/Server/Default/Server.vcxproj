@@ -183,7 +183,7 @@
     <ClCompile Include="..\Private\Loader_Server.cpp" />
     <ClCompile Include="..\Private\MainApp_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Ghoul_Server.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem_Server.cpp" />
+    <ClCompile Include="..\Private\Boss_Golem_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Pawn_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Reaper_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp" />
@@ -258,7 +258,7 @@
     <ClInclude Include="..\Public\Loader_Server.h" />
     <ClInclude Include="..\Public\MainApp_Server.h" />
     <ClInclude Include="..\Public\Monster_Ghoul_Server.h" />
-    <ClInclude Include="..\Public\Monster_Golem_Server.h" />
+    <ClInclude Include="..\Public\Boss_Golem_Server.h" />
     <ClInclude Include="..\Public\Monster_Pawn_Server.h" />
     <ClInclude Include="..\Public\Monster_Reaper_Server.h" />
     <ClInclude Include="..\Public\Monster_Plant_Server.h" />

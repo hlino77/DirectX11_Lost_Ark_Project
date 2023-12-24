@@ -253,10 +253,6 @@ void CMonster_Server::Hit_Attack(CCollider* pCollider)
 
 void CMonster_Server::Set_Die()
 {
-	for (auto& Collider : m_Coliders)
-		Collider.second->SetActive(false);
-
-
 	m_IsHit = true;
 	m_bDie = true;
 }
@@ -293,8 +289,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
-	if (m_iHp < 0)
-		Set_Die();
+
 	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	Vec3 vBack = -vLook;
 	vBack.Normalize();
@@ -353,6 +348,8 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	{ 
 		m_IsHit = true;
 	}
+	if (m_iHp < 0)
+		Set_Die();
 	m_fStatusEffects[iStatusEffect] += fDuration;
 
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);

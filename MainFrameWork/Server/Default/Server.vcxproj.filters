@@ -73,12 +73,6 @@
     <Filter Include="02. GameObject\03. Monster\CommonBehavior\Decorator">
       <UniqueIdentifier>{cb25f060-491e-43e5-9111-7fc86eb199cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. Monster\Monster_Golem">
-      <UniqueIdentifier>{7172f3dc-b26f-40a2-9dd7-db769380b0c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. Monster\Monster_Golem\Behavior">
-      <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. Monster\Monster_Ghoul">
       <UniqueIdentifier>{b6995a6a-dffc-4d50-8916-5c3d858cd0bb}</UniqueIdentifier>
     </Filter>
@@ -126,6 +120,12 @@
     </Filter>
     <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Spawn">
       <UniqueIdentifier>{33e0e8b8-3051-4a66-adf1-dbf13508ef2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Monster_Golem">
+      <UniqueIdentifier>{7172f3dc-b26f-40a2-9dd7-db769380b0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Monster_Golem\Behavior">
+      <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -195,17 +195,17 @@
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Plant</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem</Filter>
+    <ClCompile Include="..\Private\Boss_Golem_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Monster_Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Ghoul_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Ghoul</Filter>
@@ -220,10 +220,10 @@
       <Filter>02. GameObject\03. Monster\Monster_Ghoul\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Dash_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Reaper_BT_Attack1_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
@@ -392,8 +392,8 @@
     <ClInclude Include="..\Public\Common_BT_WHILE_Within_Range_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem</Filter>
+    <ClInclude Include="..\Public\Boss_Golem_Server.h">
+      <Filter>02. GameObject\04. Boss\Monster_Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_Far_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
@@ -402,19 +402,19 @@
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_Skill_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Dash_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Ghoul_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Ghoul</Filter>
@@ -429,7 +429,7 @@
       <Filter>02. GameObject\03. Monster\Monster_Ghoul\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Chase_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Reaper_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Reaper</Filter>

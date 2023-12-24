@@ -1,5 +1,5 @@
 #pragma once
-#include "Monster_Server.h"
+#include "Boss_Server.h"
 #include "Server_Defines.h"
 #include "StateMachine.h"
 #include <atomic>
@@ -14,14 +14,14 @@ END
 
 
 BEGIN(Server)
-class CMonster_Golem_Server :
-	public CMonster_Server
+class CBoss_Golem_Server :
+	public CBoss_Server
 {
 
 protected:
-	CMonster_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMonster_Golem_Server(const CMonster_Server& rhs);
-	virtual ~CMonster_Golem_Server() = default;
+	CBoss_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBoss_Golem_Server(const CBoss_Golem_Server& rhs);
+	virtual ~CBoss_Golem_Server() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -44,7 +44,7 @@ protected:
 private:
 	_float							m_fRootTargetDistance = 0.f;
 public:
-	static CMonster_Golem_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CBoss_Golem_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 

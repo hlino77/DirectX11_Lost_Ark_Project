@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameInstance.h"
-#include "Monster_Golem.h"
+#include "Boss_Golem.h"
 #include "ServerSessionManager.h"
 #include "ServerSession.h"
 #include "Camera_Player.h"
@@ -29,22 +29,23 @@
 #include <Golem_BT_Attack_Swipe.h>
 #include <ColliderOBB.h>
 
-CMonster_Golem::CMonster_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CMonster(pDevice, pContext)
+CBoss_Golem::CBoss_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	: CBoss(pDevice, pContext)
 {
 }
 
-CMonster_Golem::CMonster_Golem(const CMonster_Golem& rhs)
-	: CMonster(rhs)
+CBoss_Golem::CBoss_Golem(const CBoss_Golem& rhs)
+	: CBoss(rhs)
 {
 }
 
-HRESULT CMonster_Golem::Initialize_Prototype()
+HRESULT CBoss_Golem::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
     return S_OK;
 }
 
-HRESULT CMonster_Golem::Initialize(void* pArg)
+HRESULT CBoss_Golem::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_strObjectTag = Desc->strFileName;
@@ -59,9 +60,6 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
-	
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
@@ -81,17 +79,17 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Golem::Tick(_float fTimeDelta)
+void CBoss_Golem::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);	
 }
 
-void CMonster_Golem::LateTick(_float fTimeDelta)
+void CBoss_Golem::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }
 
-HRESULT CMonster_Golem::Render()
+HRESULT CBoss_Golem::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -112,7 +110,7 @@ HRESULT CMonster_Golem::Render()
 	return S_OK;
 }
 
-HRESULT CMonster_Golem::Render_ShadowDepth()
+HRESULT CBoss_Golem::Render_ShadowDepth()
 {
 
 	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
@@ -138,7 +136,7 @@ HRESULT CMonster_Golem::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CMonster_Golem::Set_SlowMotion(_bool bSlow)
+void CBoss_Golem::Set_SlowMotion(_bool bSlow)
 {
 	if (bSlow)
 	{
@@ -167,7 +165,7 @@ void CMonster_Golem::Set_SlowMotion(_bool bSlow)
 
 
 
-HRESULT CMonster_Golem::Ready_Components()
+HRESULT CBoss_Golem::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -341,7 +339,7 @@ HRESULT CMonster_Golem::Ready_Components()
     return S_OK;
 }
 
-HRESULT CMonster_Golem::Ready_BehaviourTree()
+HRESULT CBoss_Golem::Ready_BehaviourTree()
 {
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
@@ -520,33 +518,33 @@ HRESULT CMonster_Golem::Ready_BehaviourTree()
 }
 
 
-CMonster_Golem* CMonster_Golem::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBoss_Golem* CBoss_Golem::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Golem* pInstance = new CMonster_Golem(pDevice, pContext);
+	CBoss_Golem* pInstance = new CBoss_Golem(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CMonster_Golem");
+		MSG_BOX("Failed To Created : CBoss_Golem");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster_Golem::Clone(void* pArg)
+CGameObject* CBoss_Golem::Clone(void* pArg)
 {
-	CMonster_Golem* pInstance = new CMonster_Golem(*this);
+	CBoss_Golem* pInstance = new CBoss_Golem(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CMonster_Golem");
+		MSG_BOX("Failed To Cloned : CBoss_Golem");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonster_Golem::Free()
+void CBoss_Golem::Free()
 {
 	__super::Free();
 

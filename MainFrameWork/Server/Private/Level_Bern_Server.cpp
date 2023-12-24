@@ -90,7 +90,7 @@ HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
 				if (m_bKey_Lock)
 					return S_OK;
 				m_bKey_Lock = true;
-				Broadcast_Monster(MonsterPos, L"Golem");
+				Broadcast_Boss(L"Golem", MonsterPos);
 
 			}
 			else if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && GetAsyncKeyState('3') & 0x8000)

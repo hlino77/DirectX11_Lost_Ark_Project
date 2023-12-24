@@ -187,6 +187,7 @@
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Boss.h" />
+    <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
@@ -332,7 +333,6 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
-    <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\Monster_Plant.h" />
     <ClInclude Include="..\Public\Monster_Ghoul.h" />
     <ClInclude Include="..\Public\Monster_Zombie.h" />
@@ -432,6 +432,7 @@
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Boss.cpp" />
+    <ClCompile Include="..\Private\Boss_Golem.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
@@ -561,7 +562,6 @@
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Monster_Ghoul.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\Monster_Plant.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />

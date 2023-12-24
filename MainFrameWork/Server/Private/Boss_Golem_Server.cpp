@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Monster_Golem_Server.h"
+#include "Boss_Golem_Server.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
@@ -34,30 +34,34 @@
 #include <Golem_BT_Attack_Dash_Server.h>
 #include <Golem_BT_Chase_Server.h>
 
-CMonster_Golem_Server::CMonster_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	:CMonster_Server(pDevice, pContext)
+CBoss_Golem_Server::CBoss_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CBoss_Server(pDevice, pContext)
 {
 }
 
-CMonster_Golem_Server::CMonster_Golem_Server(const CMonster_Server& rhs)
-	: CMonster_Server(rhs)
+CBoss_Golem_Server::CBoss_Golem_Server(const CBoss_Golem_Server& rhs)
+	: CBoss_Server(rhs)
 {
 }
 
-HRESULT CMonster_Golem_Server::Initialize_Prototype()
+HRESULT CBoss_Golem_Server::Initialize_Prototype()
 {
-	
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
+	m_strObjectTag = L"Boss";
+	m_iObjType = OBJ_TYPE::BOSS;
 	return S_OK;
 }
 
-HRESULT CMonster_Golem_Server::Initialize(void* pArg)
+HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_szModelName = L"Golem";
-	m_strObjectTag = L"Monster_Golem";
+	m_szModelName = L"Boss_Golem";
+	m_strObjectTag = L"Boss_Golem";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
-
+	m_strObjectTag = L"Boss";
+	m_iObjType = OBJ_TYPE::BOSS;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -79,11 +83,10 @@ HRESULT CMonster_Golem_Server::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
 	m_iHp = 20.f;
-
 	return S_OK;
 }
 
-void CMonster_Golem_Server::Tick(_float fTimeDelta)
+void CBoss_Golem_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
@@ -97,7 +100,7 @@ void CMonster_Golem_Server::Tick(_float fTimeDelta)
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
-void CMonster_Golem_Server::LateTick(_float fTimeDelta)
+void CBoss_Golem_Server::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{
@@ -116,29 +119,29 @@ void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 }
 
-HRESULT CMonster_Golem_Server::Render()
+HRESULT CBoss_Golem_Server::Render()
 {
 
 	return S_OK;
 }
 
-void CMonster_Golem_Server::Set_SlowMotion(_bool bSlow)
+void CBoss_Golem_Server::Set_SlowMotion(_bool bSlow)
 {
 }
 
-void CMonster_Golem_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CBoss_Golem_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Golem_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CBoss_Golem_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Golem_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CBoss_Golem_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-HRESULT CMonster_Golem_Server::Ready_Components()
+HRESULT CBoss_Golem_Server::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -188,7 +191,7 @@ HRESULT CMonster_Golem_Server::Ready_Components()
 
 }
 
-HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
+HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 {
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BehaviorTree"), TEXT("Com_Behavior"), (CComponent**)&m_pBehaviorTree)))
@@ -475,9 +478,9 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	return S_OK;
 }
 
-CMonster_Golem_Server* CMonster_Golem_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBoss_Golem_Server* CBoss_Golem_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Golem_Server* pInstance = new CMonster_Golem_Server(pDevice, pContext);
+	CBoss_Golem_Server* pInstance = new CBoss_Golem_Server(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -488,9 +491,9 @@ CMonster_Golem_Server* CMonster_Golem_Server::Create(ID3D11Device* pDevice, ID3D
 	return pInstance;
 }
 
-CGameObject* CMonster_Golem_Server::Clone(void* pArg)
+CGameObject* CBoss_Golem_Server::Clone(void* pArg)
 {
-	CMonster_Golem_Server* pInstance = new CMonster_Golem_Server(*this);
+	CBoss_Golem_Server* pInstance = new CBoss_Golem_Server(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -503,7 +506,7 @@ CGameObject* CMonster_Golem_Server::Clone(void* pArg)
 
 
 
-void CMonster_Golem_Server::Free()
+void CBoss_Golem_Server::Free()
 {
 	__super::Free();
 

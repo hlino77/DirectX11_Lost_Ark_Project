@@ -5,7 +5,7 @@
 #include "Player_Server.h"
 #include "Monster_Zombie_Server.h"
 #include "Monster_Plant_Server.h"
-#include "Monster_Golem_Server.h"
+#include "Boss_Golem_Server.h"
 #include "Monster_Ghoul_Server.h"
 #include "Monster_Reaper_Server.h"
 #include "Monster_Pawn_Server.h"
@@ -81,8 +81,8 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 		CMonster_Plant_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Golem"),
-		CMonster_Golem_Server::Create(nullptr, nullptr))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Golem"),
+		CBoss_Golem_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Ghoul"),

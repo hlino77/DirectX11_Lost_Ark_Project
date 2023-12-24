@@ -4,7 +4,7 @@
 #include "Model.h"
 #include "ColliderSphere.h"
 #include <ColliderOBB.h>
-#include "Monster_Golem.h"
+#include "Boss_Golem.h"
 
 CGolem_BT_Attack_Charge_Punch::CGolem_BT_Attack_Charge_Punch()
 {
@@ -19,9 +19,9 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeD
 {
 	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[0].iAnimIndex)
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
- 	if (!m_pGameObject->Get_Colider(CMonster_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[3].iAnimIndex && 5 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[3].iAnimIndex))
+ 	if (!m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[3].iAnimIndex && 5 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[3].iAnimIndex))
 	{
-		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CMonster_Golem::SKILL1);
+		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1);
 		pCollider->Set_Radius(4.f);
 		pCollider->SetActive(true);
 		pCollider->Set_Offset(Vec3(0.0f, 1.f, 4.f));;
@@ -29,9 +29,9 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeD
 		pChildCollider->Set_Scale(Vec3(1.8f, 1.f, 4.f));
 		pChildCollider->Set_Offset(Vec3(0.0f, 1.f, 4.f));
 	}
-	if (m_pGameObject->Get_Colider(CMonster_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[3].iAnimIndex && 20 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[3].iAnimIndex))
+	if (m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[3].iAnimIndex && 20 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[3].iAnimIndex))
 	{
-		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CMonster_Golem::SKILL1);
+		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1);
 		pCollider->SetActive(false);
 	}
 
