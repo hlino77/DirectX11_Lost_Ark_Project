@@ -16,7 +16,7 @@ CState_WR_Identity_Attack_1::CState_WR_Identity_Attack_1(const wstring& strState
 
 HRESULT CState_WR_Identity_Attack_1::Initialize()
 {
-	m_Attack_1 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_identity1_1_01", 1.4f);
+	m_Attack_1 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_identity1_1_01", 1.2f);
 	if (m_Attack_1 == -1)
 		return E_FAIL;
 
