@@ -76,10 +76,6 @@ void CGraphic_Device::SyncronizeDeferredContext(ID3D11DeviceContext* pDeferredDe
 	ID3D11RenderTargetView* rtv = nullptr;
 	ID3D11DepthStencilView* dsv = nullptr;
 	m_pDeviceContext->OMGetRenderTargets(1, &rtv, &dsv);
-
-	if (rtv == nullptr || dsv == nullptr)
-		return;
-
 	pDeferredDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
 
 	UINT numViewports = 1;

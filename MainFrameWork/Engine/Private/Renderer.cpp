@@ -427,6 +427,8 @@ HRESULT CRenderer::Draw()
 {
 	CGameInstance::GetInstance()->Execute_BeforeRenderCommandList();
 
+	CGameInstance::GetInstance()->JobMutex_Lock();
+
 	if (m_bRenderStaticShadow)
 		if (FAILED(Render_StaticShadow()))
 			return E_FAIL;
@@ -477,7 +479,7 @@ HRESULT CRenderer::Draw()
 		if (FAILED(Render_Debug()))
 			return E_FAIL;
 
-
+	CGameInstance::GetInstance()->JobMutex_UnLock();
 
 	return S_OK;
 }

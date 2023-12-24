@@ -589,18 +589,12 @@ ID3D11DeviceContext* CGameInstance::Get_BeforeRenderContext()
 
 	if (m_pBeforeRenderSleepContexts.empty())
 	{
-		if (Emplace_SleepContext(1) == false)
-		{
-			lock.unlock();
-			return nullptr;
-		}
+		Emplace_SleepContext(1);
 	}
 		
 
 	ID3D11DeviceContext* pContext = m_pBeforeRenderSleepContexts.back();
 	m_pBeforeRenderSleepContexts.pop_back();
-
-	lock.unlock();
 
 	return pContext;
 }
@@ -610,8 +604,6 @@ void CGameInstance::Release_BeforeRenderContext(ID3D11DeviceContext* pDeviceCont
 	std::unique_lock<std::mutex> lock(m_JobMutex);
 
 	m_pBeforeRenderContexts.emplace_back(pDeviceContext);
-
-	lock.unlock();
 }
 
 void CGameInstance::Execute_BeforeRenderCommandList()
@@ -634,10 +626,9 @@ void CGameInstance::Execute_BeforeRenderCommandList()
 
 	m_pBeforeRenderSleepContexts.insert(m_pBeforeRenderSleepContexts.begin(), m_pBeforeRenderContexts.begin(), m_pBeforeRenderContexts.end());
 	m_pBeforeRenderContexts.clear();
-	lock.unlock();
 }
 
-_bool CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
+void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 {
 	ID3D11DeviceContext* pContext = nullptr;
 
@@ -646,16 +637,9 @@ _bool CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 		if (SUCCEEDED(Get_Device()->CreateDeferredContext(0, &pContext)))
 		{
 			m_pGraphic_Device->SyncronizeDeferredContext(pContext);
-
-			if (pContext)
-				m_pBeforeRenderSleepContexts.emplace_back(pContext);
+			m_pBeforeRenderSleepContexts.emplace_back(pContext);
 		}
 	}
-
-	if (pContext == nullptr)
-		return false;
-	else
-		return true;
 }
 
 const _float& CGameInstance::Random_Float(_float fMin, _float fMax)
