@@ -33,6 +33,8 @@ HRESULT CSkill_GN_DeadHard::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
 	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
+	Proj_Desc.iDamage = 60.f;
+	Proj_Desc.fRepulsion = 1.5f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
@@ -49,18 +51,6 @@ HRESULT CSkill_GN_DeadHard::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
-}
-
-void CSkill_GN_DeadHard::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_DeadHard::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_DeadHard::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
 }
 
 void CSkill_GN_DeadHard::Check_ColliderState()

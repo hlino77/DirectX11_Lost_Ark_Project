@@ -214,6 +214,9 @@
     <Filter Include="01.Utiltiy\04.Component\11. Player_Controller\Player_Skill">
       <UniqueIdentifier>{eea54b2f-5659-484e-b905-040677b4ab61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\13.Random">
+      <UniqueIdentifier>{6f0dd9e2-da6b-4d05-94ee-4cc7627fea1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
@@ -573,6 +576,9 @@
       <Filter>98.Default</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\DamageBox.h" />
+    <ClInclude Include="..\Public\RandomManager.h">
+      <Filter>01.Utiltiy\13.Random</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -900,6 +906,9 @@
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\DamageBox.cpp" />
+    <ClCompile Include="..\Private\RandomManager.cpp">
+      <Filter>01.Utiltiy\13.Random</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc">

@@ -33,7 +33,12 @@ HRESULT CSkill_GN_PerfectShot::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.5f);
 	Proj_Desc.IsMove = true;
 	Proj_Desc.fMoveSpeed = 20.f;
+	Proj_Desc.iDamage = 120.f;
+	Proj_Desc.fRepulsion = 25.f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	
 
 	return S_OK;
 }
@@ -48,18 +53,6 @@ HRESULT CSkill_GN_PerfectShot::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
-}
-
-void CSkill_GN_PerfectShot::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_PerfectShot::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_PerfectShot::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
 }
 
 void CSkill_GN_PerfectShot::Check_ColliderState()

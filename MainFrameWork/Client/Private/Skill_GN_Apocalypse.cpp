@@ -39,18 +39,6 @@ HRESULT CSkill_GN_Apocalypse::Ready_Components()
 	return S_OK;
 }
 
-void CSkill_GN_Apocalypse::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_Apocalypse::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_Apocalypse::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-}
-
 void CSkill_GN_Apocalypse::Check_ColliderState()
 {
 }

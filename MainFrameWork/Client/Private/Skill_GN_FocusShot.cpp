@@ -2,6 +2,7 @@
 #include "..\Public\Skill_GN_FocusShot.h"
 #include "Player_Gunslinger.h"
 #include "Projectile.h"
+#include "Model.h"
 
 CSkill_GN_FocusShot::CSkill_GN_FocusShot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -33,8 +34,22 @@ HRESULT CSkill_GN_FocusShot::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.5f);
 	Proj_Desc.IsMove = true;
 	Proj_Desc.fMoveSpeed = 15.f;
+	Proj_Desc.iDamage = 120.f;
+	Proj_Desc.fRepulsion = 2.2f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.5f;
+	Proj_Desc.fRadius = 0.8f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.5f);
+	Proj_Desc.IsMove = true;
+	Proj_Desc.fMoveSpeed = 20.f;
+	Proj_Desc.iDamage = 120.f;
+	Proj_Desc.fRepulsion = 25.f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
 
 	return S_OK;
 }
@@ -51,20 +66,16 @@ HRESULT CSkill_GN_FocusShot::Ready_Components()
 	return S_OK;
 }
 
-void CSkill_GN_FocusShot::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_FocusShot::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_FocusShot::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-}
-
 void CSkill_GN_FocusShot::Check_ColliderState()
 {
+	if (TEXT("Skill_GN_FocusShot_End") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[1];
+	}
+	else
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[0];
+	}
 }
 
 CSkill_GN_FocusShot* CSkill_GN_FocusShot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

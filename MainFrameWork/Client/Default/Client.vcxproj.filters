@@ -582,6 +582,18 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\02.Shine">
       <UniqueIdentifier>{3e3c1bba-2833-4657-812a-defb34f94a6d}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack">
+      <UniqueIdentifier>{6b7568ad-6dd7-42d3-8e2b-f3fb25f21b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity">
+      <UniqueIdentifier>{44481fab-f0e0-414d-bf21-d8d92c60a453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal">
+      <UniqueIdentifier>{4b40e5ba-3daf-4029-85b2-d3ab416edaa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity">
+      <UniqueIdentifier>{e098b37b-1ca4-4179-a3b8-562217543d10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2329,6 +2341,33 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_HoldingFrame.h">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Attack_4.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Identity_Attack_4.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4058,6 +4097,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_HoldingFill.cpp">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Attack_4.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Identity_Attack_4.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Attack\Identity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

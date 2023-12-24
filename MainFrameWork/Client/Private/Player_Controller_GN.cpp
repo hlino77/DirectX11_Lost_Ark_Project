@@ -40,18 +40,24 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
 	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 1.5f;
 	m_HandAttackDesc = Proj_Desc;
 
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
 	Proj_Desc.vChildScale = Vec3(0.6f, 0.6f, 1.0f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
+	Proj_Desc.iDamage = 150.f;
+	Proj_Desc.fRepulsion = 2.0f;
 	m_ShotAttackDesc = Proj_Desc;
 
 	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.4f);
 	Proj_Desc.vChildScale = Vec3(0.3f, 0.6f, 2.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.4f);
+	Proj_Desc.iDamage = 120.f;
+	Proj_Desc.fRepulsion = 1.8f;
 	m_LongAttackDesc = Proj_Desc;
 
 	return S_OK;

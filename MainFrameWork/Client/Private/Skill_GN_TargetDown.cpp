@@ -31,6 +31,8 @@ HRESULT CSkill_GN_TargetDown::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.3f, 0.0f);
+	Proj_Desc.iDamage = 120.f;
+	Proj_Desc.fRepulsion = 1.8f;
 	m_SkillProjDesc = Proj_Desc;
 
 	return S_OK;
@@ -47,18 +49,6 @@ HRESULT CSkill_GN_TargetDown::Ready_Components()
 
 
 	return S_OK;
-}
-
-void CSkill_GN_TargetDown::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_TargetDown::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_TargetDown::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
 }
 
 void CSkill_GN_TargetDown::Check_ColliderState()

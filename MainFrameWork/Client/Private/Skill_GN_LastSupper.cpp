@@ -31,6 +31,10 @@ HRESULT CSkill_GN_LastSupper::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 1.5f);
+	Proj_Desc.iDamage = 150.f;
+	Proj_Desc.fRepulsion = 2.0f;
+	Proj_Desc.iDamage = 200.f;
+	Proj_Desc.fRepulsion = 20.f;
 	m_SkillProjDesc = Proj_Desc;
 
 	return S_OK;
@@ -46,18 +50,6 @@ HRESULT CSkill_GN_LastSupper::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
-}
-
-void CSkill_GN_LastSupper::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_LastSupper::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_LastSupper::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
 }
 
 void CSkill_GN_LastSupper::Check_ColliderState()

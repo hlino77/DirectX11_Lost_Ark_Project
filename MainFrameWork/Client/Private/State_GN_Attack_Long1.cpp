@@ -83,33 +83,7 @@ void CState_GN_Attack_Long1::Tick_State_Control(_float fTimeDelta)
 
 
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
-		switch (eKey)
-		{
-		case Engine::CPlayer_Controller::Q:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::Q));
-			break;
-		case Engine::CPlayer_Controller::W:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::W));
-			break;
-		case Engine::CPlayer_Controller::E:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::E));
-			break;
-		case Engine::CPlayer_Controller::R:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::R));
-			break;
-		case Engine::CPlayer_Controller::A:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::A));
-			break;
-		case Engine::CPlayer_Controller::S:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::S));
-			break;
-		case Engine::CPlayer_Controller::D:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::D));
-			break;
-		case Engine::CPlayer_Controller::F:
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(CPlayer_Controller::F));
-			break;
-		}
+		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
 	else if (true == m_pController->Is_Attack())
 	{

@@ -31,6 +31,8 @@ HRESULT CSkill_GN_RapidFire::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 1.5f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
@@ -47,18 +49,6 @@ HRESULT CSkill_GN_RapidFire::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
-}
-
-void CSkill_GN_RapidFire::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_RapidFire::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_RapidFire::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
 }
 
 void CSkill_GN_RapidFire::Check_ColliderState()

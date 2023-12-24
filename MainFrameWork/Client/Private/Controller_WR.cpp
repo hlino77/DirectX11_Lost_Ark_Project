@@ -30,17 +30,28 @@ HRESULT CController_WR::Initialize(void* pArg)
 	__super::Initialize(pArg);
 
 	PROJECTILE_DESC Proj_Desc;
-
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
-	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fAttackTime = 0.1;
 
 	Proj_Desc.fRadius = 2.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
-	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
-	m_AttackDesc = Proj_Desc;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
+	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 1.f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 5.f;
+	Proj_Desc.bUseFactor = false;
+	m_Attack_Desces[0] = Proj_Desc;
+
+	Proj_Desc.fRadius = 2.f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
+	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 1.f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 5.f;
+	Proj_Desc.bUseFactor = false;
+	m_Attack_Desces[1] = Proj_Desc;
 
 	return S_OK;
 }
@@ -48,6 +59,22 @@ HRESULT CController_WR::Initialize(void* pArg)
 void CController_WR::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	if (true == m_IsIdentity)
+	{
+		m_fTimdeAcc += fTimeDelta;
+		if (1.f <= m_fTimdeAcc)
+		{
+			m_fTimdeAcc = 0.f;
+			m_iIdentityGage -= 1;
+		}
+
+		if (0 == m_iIdentityGage)
+		{
+			m_fTimdeAcc = 0.f;
+			m_IsIdentity = false;
+		}
+	}
 }
 
 void CController_WR::LateTick(_float fTimeDelta)
@@ -59,6 +86,27 @@ void CController_WR::DebugRender()
 {
 }
 
+_bool CController_WR::Is_Identity()
+{
+	if (KEY_HOLD(KEY::Z) || KEY_TAP(KEY::Z))
+	{
+		if (true == m_IsIdentity)
+		{
+			if (-1 == m_fCoolTime[SKILL_KEY::Z])
+				return true;
+			else
+				return false;
+		}
+
+		if (m_iMaxGage <= m_iIdentityGage)
+			return true;
+		else
+			return false;
+	}
+	
+	return false;
+}
+
 void CController_WR::Input(const _float& fTimeDelta)
 {
 
@@ -66,12 +114,20 @@ void CController_WR::Input(const _float& fTimeDelta)
 
 void CController_WR::Attack()
 {
+	m_iIdentityGage += 50;
+	if (m_iMaxGage <= m_iIdentityGage)
+		m_iIdentityGage = m_iMaxGage;
+
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
 	pAttack->InitProjectile(&m_AttackDesc);
 }
 
 void CController_WR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 {
+	m_iIdentityGage += 50;
+	if (m_iMaxGage <= m_iIdentityGage)
+		m_iIdentityGage = m_iMaxGage;
+
 	if (nullptr == m_pSkills[eKey])
 		return;
 

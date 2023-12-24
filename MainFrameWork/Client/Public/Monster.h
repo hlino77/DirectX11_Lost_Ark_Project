@@ -111,7 +111,7 @@ public:
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
-	void					Show_Damage();
+	void					Show_Damage(_uint iDamage);
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI();

@@ -28,6 +28,8 @@ private:
 private:
 	//Animation
 	_int m_iIdle = 0;
+	_int m_Idle_Normal = 0;
+	_int m_Idle_Identity = 0;
 
 public:
 	static CState_WR_Idle* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);

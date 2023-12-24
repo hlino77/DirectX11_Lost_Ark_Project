@@ -38,18 +38,6 @@ HRESULT CSkill_GN_SpiralChaser::Ready_Components()
 	return S_OK;
 }
 
-void CSkill_GN_SpiralChaser::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_SpiralChaser::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
-{
-}
-
-void CSkill_GN_SpiralChaser::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
-{
-}
-
 void CSkill_GN_SpiralChaser::Check_ColliderState()
 {
 }

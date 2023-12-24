@@ -141,6 +141,11 @@ public:
 	HRESULT Add_SoundTrack(const wstring& strSoundTrack, const wstring& strSoundKey);
 	const wstring& Get_RandomSoundKey(const wstring& strSoundTrack);
 	_float Get_RandomFloat(_float fMin, _float fMax);
+
+
+	const _float& Random_Float(_float fMin, _float fMax);
+	const _int&	  Random_Int(_int iMin, _int iMax);
+	const _bool&  Random_Coin(_float fProbality);
 public:
 	//Test
 	ID3D11DeviceContext* Get_BeforeRenderContext();
@@ -171,8 +176,10 @@ private:
 	class CPhysXMgr*				m_pPhysXMgr = { nullptr };
 	class CQuadTreeMgr*				m_pQuadTreeMgr = { nullptr };
 	class CSound_Manager*			m_pSoundMgr = { nullptr };
-	random_device		m_RandomDevice;
 
+	class CRandomManager*			m_pRandomMgr = { nullptr };
+
+	random_device							m_RandomDevice;
 	mt19937_64								m_RandomNumber;
 	uniform_real_distribution<float>		m_RandomResult;
 
