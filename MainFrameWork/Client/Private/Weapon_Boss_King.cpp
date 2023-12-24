@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Weapon_Boss_King.h"
 
+
 CWeapon_Boss_King::CWeapon_Boss_King(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject(pDevice, pContext, L"Weapon_Boss_King", OBJ_TYPE::PART)
 {
@@ -99,6 +100,7 @@ HRESULT CWeapon_Boss_King::Ready_Components()
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	
 	Vec3 vScale;
 	vScale.x = 100.f;
 	vScale.y = 100.f;

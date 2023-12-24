@@ -11,7 +11,10 @@ CCommon_BT_Chase_Server::CCommon_BT_Chase_Server()
 void CCommon_BT_Chase_Server::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_RandomPosition(static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange() * 0.5f);
+	if(m_pGameObject->Get_ObjectType()==OBJ_TYPE::MONSTER)
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_RandomPosition(static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange());
+	else
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_RandomPosition(0.f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
@@ -20,13 +23,10 @@ CBT_Node::BT_RETURN CCommon_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
-	
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
-		return BT_FAIL;
 
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
-		return BT_FAIL;
-	_float fSpeed = 1.5f;
+		return BT_FAIL;	
+	_float fSpeed = 1.5f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed();
 	static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
 	return BT_RUNNING;
 }

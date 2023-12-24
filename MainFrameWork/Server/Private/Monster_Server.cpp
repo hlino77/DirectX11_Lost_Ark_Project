@@ -290,9 +290,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	WRITE_LOCK
 	m_iHp -= iDamage;
 
-	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	Vec3 vBack = -vLook;
-	vBack.Normalize();
+
 	if (!m_IsSuperArmor)
 	{
 		m_IsAttacked = true;
@@ -319,7 +317,28 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_IsHit = true;
 			m_fHitTerm = 0.2f;
 		}
-		m_pTransformCom->LookAt(vHitPos);
+		Vec3 vLook = {};
+		Vec3 vBack = {};
+		if (vHitPos.y == 0.f) 
+		{
+
+			m_pTransformCom->LookAt(vHitPos);
+			vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			vBack = -vLook;
+			vBack.Normalize();
+
+		}
+		else if (vHitPos.y == 1.f)
+		{
+			vHitPos.y = 0.f;
+			vBack = vHitPos;
+			vLook = -vBack;
+			vLook.Normalize();
+			vBack.Normalize();
+			m_pTransformCom->LookAt_Dir(vLook);
+			vHitPos.y = 1.f;
+		}
+	
 		if (fForce < 20.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
@@ -464,8 +483,6 @@ void CMonster_Server::Set_RandomPosition()
 
 void CMonster_Server::Set_RandomPosition(_float fRange)
 {
-	if (fRange < 1.5f)
-		fRange = 1.5f;
 	m_vTargetPos = m_vRandomPosition = Vec3(CGameInstance::GetInstance()->Get_RandomFloat(-fRange, fRange), 0.f, CGameInstance::GetInstance()->Get_RandomFloat(-fRange, fRange));
 
 }

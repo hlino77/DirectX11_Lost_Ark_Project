@@ -246,6 +246,8 @@
     <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h" />
     <ClInclude Include="..\Public\Monster_Pawn.h" />
     <ClInclude Include="..\Public\Pawn_BT_Attack2.h" />
+    <ClInclude Include="..\Public\SKill_King_ChargeSwing.h" />
+    <ClInclude Include="..\Public\SKill_King_Eruption.h" />
     <ClInclude Include="..\Public\State_GN_Dash_2_End.h" />
     <ClInclude Include="..\Public\State_GN_Dash_2.h" />
     <ClInclude Include="..\Public\State_GN_Dash_End.h" />
@@ -479,6 +481,8 @@
     <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp" />
     <ClCompile Include="..\Private\Monster_Pawn.cpp" />
     <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp" />
+    <ClCompile Include="..\Private\SKill_King_Eruption.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_2_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_2.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_End.cpp" />

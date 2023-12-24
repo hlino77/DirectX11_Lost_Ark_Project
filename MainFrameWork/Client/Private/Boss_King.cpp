@@ -26,7 +26,9 @@
 #include "King_BT_Attack_Attack4.h"
 #include "King_BT_Attack_Charge_Swing.h"
 #include "King_BT_Attack_Erruption.h"
+#include "CollisionManager.h"
 #include "PartObject.h"
+#include "ColliderOBB.h"
 
 CBoss_King::CBoss_King(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CBoss(pDevice, pContext)
@@ -51,13 +53,43 @@ HRESULT CBoss_King::Initialize(void* pArg)
 		return E_FAIL;
 	Ready_Coliders();
 	m_fFontScale = 0.5f;
+	m_IsSuperArmor = true;
+	m_fMoveSpeed = 2.f;
 	m_fRootTargetDistance = 1.f;
+	m_iBasicAttackStartFrame = 25;
+	m_iBasicAttackEndFrame = 50;
 	return S_OK;
 }
 
 void CBoss_King::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	Vec3 vOffset = {};
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
+	if (KEY_HOLD(KEY::DOWN_ARROW) || KEY_HOLD(KEY::UP_ARROW))
+	{
+		vOffset = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Offset();
+		if (KEY_HOLD(KEY::X) && KEY_HOLD(KEY::UP_ARROW))
+			vOffset.x += 1.f * fTimeDelta;
+		else if (KEY_HOLD(KEY::X) && KEY_HOLD(KEY::DOWN_ARROW))
+			vOffset.x -= 1.f * fTimeDelta;
+		else if (KEY_HOLD(KEY::Y) && KEY_HOLD(KEY::UP_ARROW))
+			vOffset.y += 1.f * fTimeDelta;
+		else if (KEY_HOLD(KEY::Y) && KEY_HOLD(KEY::DOWN_ARROW))
+			vOffset.y -= 1.f * fTimeDelta;
+		else if (KEY_HOLD(KEY::Z) && KEY_HOLD(KEY::UP_ARROW))
+			vOffset.z += 1.f * fTimeDelta;
+		else if (KEY_HOLD(KEY::Z) && KEY_HOLD(KEY::DOWN_ARROW))
+			vOffset.z -= 1.f * fTimeDelta;
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(vOffset);
+	_float	fRadius = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Radius();
+	if (KEY_HOLD(KEY::S) && KEY_HOLD(KEY::UP_ARROW))
+		fRadius += 1.f * fTimeDelta;
+	else if (KEY_HOLD(KEY::S) && KEY_HOLD(KEY::DOWN_ARROW))
+		fRadius -= 1.f * fTimeDelta;
+	 m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(fRadius);
+	}
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
@@ -67,6 +99,8 @@ void CBoss_King::Tick(_float fTimeDelta)
 void CBoss_King::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
+
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
@@ -75,39 +109,12 @@ void CBoss_King::LateTick(_float fTimeDelta)
 
 HRESULT CBoss_King::Render()
 {
-	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
-		return E_FAIL;
-
-	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
-		return E_FAIL;
-
-	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
-		return E_FAIL;
-
-	return S_OK;
+	return 	__super::Render();
 }
 
 HRESULT CBoss_King::Render_ShadowDepth()
 {
-	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
-		return S_OK;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-
-
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
-			return S_OK;
-	}
-
-	return S_OK;
+	return	__super::Render_ShadowDepth();
 }
 
 
@@ -187,7 +194,7 @@ HRESULT CBoss_King::Ready_Components()
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pCollider);
 	}
 
 	{
@@ -198,8 +205,18 @@ HRESULT CBoss_King::Ready_Components()
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
-		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
+
+	}
+
+
+
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+		}
 	}
 
 	CPartObject::PART_DESC			PartDesc_Weapon;
@@ -216,9 +233,9 @@ HRESULT CBoss_King::Ready_Components()
 	Safe_Release(pGameInstance);
 
 	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
+	vScale.x = 0.013f;
+	vScale.y = 0.013f;
+	vScale.z = 0.013f;
 
 	m_pTransformCom->Set_Scale(vScale);
 
@@ -227,9 +244,12 @@ HRESULT CBoss_King::Ready_Components()
 
 HRESULT CBoss_King::Ready_Coliders()
 {
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(0.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Radius(0.9f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Offset(Vec3(0.0f, 0.9f, 0.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(0.9f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.75f,-0.09f , -0.9f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("b_wp_1")));
 
 	return S_OK;
 }

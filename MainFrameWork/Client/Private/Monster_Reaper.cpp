@@ -62,7 +62,7 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 33;
 	m_fRootTargetDistance = 0.5f;
-    return S_OK;
+    return S_OK; 
 }
 
 void CMonster_Reaper::Tick(_float fTimeDelta)
@@ -85,43 +85,12 @@ void CMonster_Reaper::LateTick(_float fTimeDelta)
 
 HRESULT CMonster_Reaper::Render()
 {
-	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
-		return E_FAIL;
-
-	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
-		return E_FAIL;
-
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
-
-	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
-		return E_FAIL;
-
-	return S_OK;
+	return 	__super::Render();
 }
 
 HRESULT CMonster_Reaper::Render_ShadowDepth()
 {
-	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
-		return S_OK;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-
-
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
-			return S_OK;
-	}
-
-	return S_OK;
+	return __super::Render_ShadowDepth();
 }
 
 

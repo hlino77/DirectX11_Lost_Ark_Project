@@ -118,17 +118,17 @@ public:
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
 	void					Show_Damage(_uint iDamage);
+	void	Deactivate_AllColliders();
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();
 	HRESULT Ready_HP_UI();
-
 protected:
 	void					CullingObject();
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
 
 protected:
-	_float							m_fMoveSpeed = 0.0f;
+	_float							m_fMoveSpeed = 1.f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
 	_float							m_fScanCoolDown = 0.f;

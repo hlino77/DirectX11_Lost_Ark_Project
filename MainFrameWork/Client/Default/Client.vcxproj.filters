@@ -130,9 +130,6 @@
     <Filter Include="02.GameObjects\Monster\Behavior\Action\04. Attack1">
       <UniqueIdentifier>{42bf8f11-48dc-4018-9b9b-c202f8b45850}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\05. Chase">
-      <UniqueIdentifier>{e91db7db-6f55-4c43-aec6-74ef7f395b77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\07. Idle">
       <UniqueIdentifier>{05600f54-261b-4ee2-b0dd-ffa8388816e1}</UniqueIdentifier>
     </Filter>
@@ -585,6 +582,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
       <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\05. Chase">
+      <UniqueIdentifier>{e91db7db-6f55-4c43-aec6-74ef7f395b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Skill">
+      <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1689,9 +1692,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
@@ -1952,9 +1952,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -2333,15 +2330,21 @@
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Golem.h" />
-    <ClInclude Include="..\Public\UI.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Monster_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_King_Eruption.h">
+      <Filter>02.GameObjects\Boss\King\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_King_ChargeSwing.h">
+      <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3435,9 +3438,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
@@ -3695,9 +3695,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -4072,15 +4069,21 @@
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
-    <ClCompile Include="..\Private\UI.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_King_Eruption.cpp">
+      <Filter>02.GameObjects\Boss\King\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp">
+      <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,7 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Attack4_Server::OnUpdate(const _float& fTime
 void CKing_BT_Attack_Attack4_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
