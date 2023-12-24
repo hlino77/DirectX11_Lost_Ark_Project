@@ -152,7 +152,7 @@ public:
 	void Release_BeforeRenderContext(ID3D11DeviceContext* pDeviceContext);
 	void Execute_BeforeRenderCommandList();
 
-	void Emplace_SleepContext(const _uint In_iIndex);
+	_bool Emplace_SleepContext(const _uint In_iIndex);
 	mutex m_JobMutex;
 	vector<ID3D11DeviceContext*> m_pBeforeRenderSleepContexts;
 	vector<ID3D11DeviceContext*> m_pBeforeRenderContexts;

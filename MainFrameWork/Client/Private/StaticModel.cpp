@@ -288,6 +288,9 @@ HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
 
 	ID3D11DeviceContext* pContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
 
+	if (pContext == nullptr)
+		return E_FAIL;
+
 	if(FAILED(pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
 		return E_FAIL;
 

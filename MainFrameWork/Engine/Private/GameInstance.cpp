@@ -585,13 +585,17 @@ _float CGameInstance::Get_RandomFloat(_float fMin, _float fMax)
 
 ID3D11DeviceContext* CGameInstance::Get_BeforeRenderContext()
 {
-
 	std::unique_lock<std::mutex> lock(m_JobMutex);
 
 	if (m_pBeforeRenderSleepContexts.empty())
 	{
-		Emplace_SleepContext(1);
+		if (Emplace_SleepContext(1) == false)
+		{
+			lock.unlock();
+			return nullptr;
+		}
 	}
+		
 
 	ID3D11DeviceContext* pContext = m_pBeforeRenderSleepContexts.back();
 	m_pBeforeRenderSleepContexts.pop_back();
@@ -633,7 +637,7 @@ void CGameInstance::Execute_BeforeRenderCommandList()
 	lock.unlock();
 }
 
-void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
+_bool CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 {
 	ID3D11DeviceContext* pContext = nullptr;
 
@@ -642,10 +646,16 @@ void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 		if (SUCCEEDED(Get_Device()->CreateDeferredContext(0, &pContext)))
 		{
 			m_pGraphic_Device->SyncronizeDeferredContext(pContext);
-			m_pBeforeRenderSleepContexts.emplace_back(pContext);
+
+			if (pContext)
+				m_pBeforeRenderSleepContexts.emplace_back(pContext);
 		}
 	}
 
+	if (pContext == nullptr)
+		return false;
+	else
+		return true;
 }
 
 const _float& CGameInstance::Random_Float(_float fMin, _float fMax)

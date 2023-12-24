@@ -254,7 +254,7 @@ HRESULT CLevel_Bern::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 			return E_FAIL;
 		}
 
-		pObject->Set_Instance(false);
+		pObject->Set_Instance(true);
 		pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 		vPos.y += 1.0f;
 	}
