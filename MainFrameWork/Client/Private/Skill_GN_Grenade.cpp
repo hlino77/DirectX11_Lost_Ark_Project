@@ -3,7 +3,7 @@
 #include "Player_Gunslinger.h"
 
 CSkill_GN_Grenade::CSkill_GN_Grenade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
-	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
+	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_Grenade"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
 {
 }
 

@@ -32,12 +32,12 @@ void CState_WR_Dash::Enter_State()
 {
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 	{
-		m_pPlayer->Reserve_Animation(m_iDash_Identity, 0.2f, 0, 0, 2.f);
+		m_pPlayer->Reserve_Animation(m_iDash_Identity, 0.2f, 0, 0, 2.5f);
 		m_iDash = m_iDash_Identity;
 	}
 	else
 	{
-		m_pPlayer->Reserve_Animation(m_iDash_Normal, 0.2f, 0, 0, 1.8f);
+		m_pPlayer->Reserve_Animation(m_iDash_Normal, 0.2f, 0, 0, 1.5f);
 		m_iDash = m_iDash_Normal;
 	}
 

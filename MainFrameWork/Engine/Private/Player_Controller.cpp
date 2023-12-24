@@ -138,6 +138,7 @@ _bool CPlayer_Controller::Is_Skill()
 		return true;
 	}
 
+	m_eSelectedSkill = SKILL_KEY::_END;
 	return false;
 }
 
@@ -168,6 +169,18 @@ _bool CPlayer_Controller::Is_Attack()
 		return true;
 
 	return false;
+}
+
+void CPlayer_Controller::Get_RootMessage()
+{
+	Vec3 vTargetPos = m_pOwner->Get_TargetPos();
+	Vec3 vPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDir = vTargetPos - vPos;
+	_float fDist = vDir.Length();
+	if (0.05f >= fDist)
+	{
+		m_pOwner->Get_ModelCom()->Set_RootDist(0.f);
+	}
 }
 
 void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)

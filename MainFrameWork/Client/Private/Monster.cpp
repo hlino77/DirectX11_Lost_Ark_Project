@@ -252,8 +252,11 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
+			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+				fStatusDuration += 100.f;
 
-			Send_Collision(iDammage, vPos,(STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+			Send_Collision(iDammage, vPos,(STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
 			Show_Damage(iDamage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -276,11 +279,13 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			}
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
+			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+				fStatusDuration += 100.f;
 
-
-			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
-
-			Show_Damage(iDammage);
+			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
+			Show_Damage(iDamage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{

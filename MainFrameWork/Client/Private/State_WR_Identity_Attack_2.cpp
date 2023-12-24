@@ -27,7 +27,7 @@ HRESULT CState_WR_Identity_Attack_2::Initialize()
 
 
 	/* 일반공격 프레임 */
-	m_AttackFrames.push_back(9);
+	m_AttackFrames.push_back(7);
 	m_AttackFrames.push_back(-1);
 
 	return S_OK;
@@ -37,7 +37,7 @@ void CState_WR_Identity_Attack_2::Enter_State()
 {
 	m_iAttackCnt = 0;
 
-	m_pPlayer->Reserve_Animation(m_Attack_2, 0.1f, 0, 0);
+	m_pPlayer->Reserve_Animation(m_Attack_2, 0.1f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 }
 

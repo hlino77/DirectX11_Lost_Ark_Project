@@ -122,6 +122,12 @@ void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 
 void CState_WR_Idle::Tick_State_NoneControl(_float fTimeDelta)
 {
+	if (m_iIdle == m_Idle_Identity && false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_Idle_Normal, 0.2f, 0, 0);
+		m_iIdle = m_Idle_Normal;
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

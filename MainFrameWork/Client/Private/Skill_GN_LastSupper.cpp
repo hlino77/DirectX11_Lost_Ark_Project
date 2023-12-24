@@ -4,7 +4,7 @@
 #include "Projectile.h"
 
 CSkill_GN_LastSupper::CSkill_GN_LastSupper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
-	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
+	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_GN_LastSupper"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
 {
 }
 

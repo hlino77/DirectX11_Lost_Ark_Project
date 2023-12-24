@@ -37,7 +37,7 @@ void CState_WR_Attack_1::Enter_State()
 {
 	m_iAttackCnt = 0;
 
-	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0);
+	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	static_cast<CController_WR*>(m_pController)->Set_Attack_Desc(0);
 }

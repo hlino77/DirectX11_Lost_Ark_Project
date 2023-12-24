@@ -35,7 +35,8 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
 	Proj_Desc.fAttackTime = 0.1;
 
-	Proj_Desc.fRadius = 2.f;
+	/* 기본공격 */
+	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 1.f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
@@ -44,7 +45,7 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[0] = Proj_Desc;
 
-	Proj_Desc.fRadius = 2.f;
+	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
 	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 1.f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
@@ -53,6 +54,35 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[1] = Proj_Desc;
 
+	/* 아덴공격 */
+	Proj_Desc.fRadius = 2.5f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
+	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 6.f;
+	Proj_Desc.bUseFactor = false;
+	m_Attack_Desces[2] = Proj_Desc;
+
+	Proj_Desc.fRadius = 2.5f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
+	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 8.f;
+	Proj_Desc.bUseFactor = false;
+	m_Attack_Desces[3] = Proj_Desc;
+
+	/* 아덴스킬 */
+	Proj_Desc.fRadius = 2.5f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
+	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
+	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.fRepulsion = 8.f;
+	Proj_Desc.bUseFactor = true;
+	m_Attack_Desces[4] = Proj_Desc;
+
 	return S_OK;
 }
 
@@ -60,21 +90,7 @@ void CController_WR::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (true == m_IsIdentity)
-	{
-		m_fTimdeAcc += fTimeDelta;
-		if (1.f <= m_fTimdeAcc)
-		{
-			m_fTimdeAcc = 0.f;
-			m_iIdentityGage -= 1;
-		}
-
-		if (0 == m_iIdentityGage)
-		{
-			m_fTimdeAcc = 0.f;
-			m_IsIdentity = false;
-		}
-	}
+	Check_Iden_State(fTimeDelta);
 }
 
 void CController_WR::LateTick(_float fTimeDelta)
@@ -84,6 +100,26 @@ void CController_WR::LateTick(_float fTimeDelta)
 
 void CController_WR::DebugRender()
 {
+}
+
+void CController_WR::Check_Iden_State(_float fTimeDelta)
+{
+	if (true == m_IsIdentity)
+	{
+		m_fTimdeAcc += fTimeDelta;
+		if (1.f <= m_fTimdeAcc)
+		{
+			m_fTimdeAcc = 0.f;
+			m_iIdentityGage--;
+		}
+	}
+
+	if (0 >= m_iIdentityGage)
+	{
+		m_fTimdeAcc = 0.f;
+		m_IsIdentity = false;
+		m_iIdentityGage = 0;
+	}
 }
 
 _bool CController_WR::Is_Identity()
@@ -107,6 +143,17 @@ _bool CController_WR::Is_Identity()
 	return false;
 }
 
+HRESULT CController_WR::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
+{
+	if (nullptr == pSkill)
+		return E_FAIL;
+
+	__super::Bind_Skill(eKey, pSkill);
+	pSkill->Set_BindKey(eKey);
+
+	return S_OK;
+}
+
 void CController_WR::Input(const _float& fTimeDelta)
 {
 
@@ -114,20 +161,12 @@ void CController_WR::Input(const _float& fTimeDelta)
 
 void CController_WR::Attack()
 {
-	m_iIdentityGage += 50;
-	if (m_iMaxGage <= m_iIdentityGage)
-		m_iIdentityGage = m_iMaxGage;
-
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
 	pAttack->InitProjectile(&m_AttackDesc);
 }
 
 void CController_WR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 {
-	m_iIdentityGage += 50;
-	if (m_iMaxGage <= m_iIdentityGage)
-		m_iIdentityGage = m_iMaxGage;
-
 	if (nullptr == m_pSkills[eKey])
 		return;
 
@@ -148,6 +187,28 @@ void CController_WR::Hit(CGameObject* pHitObject)
 void CController_WR::Skill_CoolTime(const _float& fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
+}
+
+void CController_WR::Get_WR_IdentityMessage()
+{
+	if (m_iMaxGage <= m_iIdentityGage)
+	{
+		m_IsIdentity = true;
+		m_iIdentityGage = m_iMaxGage;
+	}
+}
+
+void CController_WR::Increase_IdenGage(_uint iGage)
+{
+	if (true == m_IsIdentity)
+		return;
+
+	m_iIdentityGage += iGage;
+
+	if (m_iMaxGage <= m_iIdentityGage)
+	{
+		m_iIdentityGage = m_iMaxGage;
+	}
 }
 
 CController_WR* CController_WR::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
