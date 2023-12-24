@@ -71,7 +71,7 @@ HRESULT CMonster_Pawn::Initialize(void* pArg)
 
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(5.f);
-
+	m_fFontScale = 0.4f;
 	m_iBasicAttackStartFrame = 15;
 	m_iBasicAttackEndFrame = 27;
 	m_fRootTargetDistance = 0.5f;

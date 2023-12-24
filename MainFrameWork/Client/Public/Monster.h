@@ -145,7 +145,7 @@ protected:
 	wstring							m_strAction = L"";
 	unordered_map<wstring, _uint>	m_BoneIndex;
 	_float							m_fRootTargetDistance =0.f;
-
+	_float							m_fFontScale=0.4f;
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
 

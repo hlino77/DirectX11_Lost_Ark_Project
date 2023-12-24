@@ -40,6 +40,7 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components();
+	HRESULT Ready_Coliders();
 	virtual HRESULT Ready_BehaviourTree();
 protected:
 	CPartObject* m_pWeapon = nullptr;

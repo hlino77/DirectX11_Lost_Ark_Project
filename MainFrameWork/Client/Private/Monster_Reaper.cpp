@@ -68,7 +68,7 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
 	
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
-
+	m_fFontScale = 0.5f;
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
 

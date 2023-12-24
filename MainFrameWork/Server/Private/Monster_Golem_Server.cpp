@@ -79,6 +79,7 @@ HRESULT CMonster_Golem_Server::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
 	m_iHp = 20.f;
+
 	return S_OK;
 }
 
@@ -248,8 +249,8 @@ HRESULT CMonster_Golem_Server::Ready_BehaviourTree()
 	CBT_Composite* pSelector_Hit = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Hit->AddChild(pIfDead))) return E_FAIL;
 	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
-	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
-	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
+//	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
+//	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))

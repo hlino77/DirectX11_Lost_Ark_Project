@@ -20,7 +20,7 @@
 #include "Common_BT_Spawn.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
-
+#include "Projectile.h"
 
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -191,6 +191,69 @@ HRESULT CBoss::Render_ShadowDepth()
 }
 
 
+void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+{
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS)
+	{
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		{
+			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+			Vec3 vPos = {};
+			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
+			{
+				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			else
+			{
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+
+			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+			Show_Damage(iDamage);
+		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+
+		}
+	}
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+	{
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+			Vec3 vPos = {};
+			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
+			{
+				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			else
+			{
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+
+
+			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+
+			Show_Damage(iDammage);
+		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+
+		}
+	}
+	else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
+	{
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+		}
+	}
+}
 
 void CBoss::Follow_ServerPos(_float fDistance, _float fLerpSpeed)
 {

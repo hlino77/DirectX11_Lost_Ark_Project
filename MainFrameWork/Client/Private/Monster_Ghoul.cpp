@@ -67,7 +67,7 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 	m_iHp = 10;
-
+	m_fFontScale = 0.45f;
 	m_vecAttackRanges.push_back(1.5f);
 	m_vecAttackRanges.push_back(1.5f);
 
