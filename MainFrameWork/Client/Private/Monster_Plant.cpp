@@ -251,7 +251,7 @@ HRESULT CMonster_Plant::Ready_Components()
 	vScale.z = 0.01f;
 
 	m_pTransformCom->Set_Scale(vScale);
-
+	m_fFontScale = 0.55f;
     return S_OK;
 }
 

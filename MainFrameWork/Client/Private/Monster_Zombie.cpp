@@ -105,7 +105,7 @@ HRESULT CMonster_Zombie::Render()
 		return E_FAIL;
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(1.f);
-
+	m_fFontScale = 0.4f;
     return S_OK;
 }
 

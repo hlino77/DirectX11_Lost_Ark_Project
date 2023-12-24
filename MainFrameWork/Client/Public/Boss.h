@@ -71,6 +71,8 @@ public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 
 
+	void OnCollisionEnter(const _uint iColLayer, CCollider* pOther);
+
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 
 

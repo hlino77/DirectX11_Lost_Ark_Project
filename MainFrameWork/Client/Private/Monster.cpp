@@ -529,11 +529,11 @@ void CMonster::Show_Damage(_uint iDamage)
 	if (iTemp < 3)
 	{
 		iTestDamage *= 2;
-		CDamage_Manager::GetInstance()->Print_DamageFont(0.4f, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, true, iTestDamage);
+		CDamage_Manager::GetInstance()->Print_DamageFont(m_fFontScale, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, true, iTestDamage);
 	}
 	else
 	{
-		CDamage_Manager::GetInstance()->Print_DamageFont(0.4f, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, false, iTestDamage);
+		CDamage_Manager::GetInstance()->Print_DamageFont(m_fFontScale, 1.0f, m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_POSITION), 2.0f, false, iTestDamage);
 	}
 
 	Safe_Release(pGameInstance);

@@ -2350,7 +2350,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
+      <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4092,7 +4092,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
+      <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

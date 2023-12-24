@@ -49,6 +49,8 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	Ready_Coliders();
+	m_fFontScale = 0.5f;
 	m_fRootTargetDistance = 1.f;
 	return S_OK;
 }
@@ -179,7 +181,7 @@ HRESULT CBoss_King::Ready_Components()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
@@ -191,7 +193,7 @@ HRESULT CBoss_King::Ready_Components()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
@@ -223,6 +225,15 @@ HRESULT CBoss_King::Ready_Components()
     return S_OK;
 }
 
+HRESULT CBoss_King::Ready_Coliders()
+{
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(0.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
+
+	return S_OK;
+}
+
 HRESULT CBoss_King::Ready_BehaviourTree()
 {
 
@@ -246,7 +257,6 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -266,12 +276,10 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Damage";
 	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
-
 	ActionDesc.vecAnimations.clear();
 
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
 	AnimationDesc.iStartFrame = 60;
 	AnimationDesc.fChangeTime = 0.f;
