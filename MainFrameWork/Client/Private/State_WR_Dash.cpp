@@ -42,8 +42,8 @@ void CState_WR_Dash::Enter_State()
 	}
 
 	m_pController->Get_StopMessage();
-	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
+	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 3.f);
 }
 
 void CState_WR_Dash::Tick_State(_float fTimeDelta)

@@ -29,7 +29,7 @@ HRESULT CSkill_GN_DeathFire::Initialize(void* pArg)
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 1.8f;
+	Proj_Desc.fRadius = 1.9f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
 	Proj_Desc.iDamage = 100.f;
 	Proj_Desc.fRepulsion = 1.5f;
