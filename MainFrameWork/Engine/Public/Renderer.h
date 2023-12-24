@@ -21,7 +21,7 @@ public:
 	}MAKESRV;
 
 public:
-	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, INSTANCE_STATIC, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BLEND, RENDER_MODELEFFECT_INSTANCE, RENDER_EFFECT_INSTANCE, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_END };
+	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BLEND, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -35,9 +35,11 @@ public:
 public:
 	HRESULT Reserve_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
+	HRESULT	Add_InstanceRenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** pSRV);
 	HRESULT Add_DebugObject(CGameObject* pObject);
 
+	HRESULT Ready_InstanceRender();
 	HRESULT Draw();
 	HRESULT Draw_Server();
 
@@ -52,7 +54,6 @@ private:
 
 	HRESULT Render_StaticShadow();
 	HRESULT Render_NonAlphaBlend();
-	HRESULT Render_StaticInstance();
 	HRESULT	Render_ShadowDepth();
 	HRESULT Render_Lights();
 	HRESULT Render_LightAcc();
@@ -67,8 +68,6 @@ private:
 	HRESULT Render_Bloom();
 	HRESULT Render_PostProcess();
 
-	HRESULT Render_ModelEffectInstance();
-	HRESULT	Render_EffectInstance();
 
 	HRESULT Render_EffectBlur();
 	HRESULT Render_EffectAcc();
@@ -81,26 +80,13 @@ private:
 	HRESULT Render_DebugObject();
 
 private:
-	HRESULT Render_ModelInstancing(const wstring& szModelName);
-	HRESULT Render_EffectInstancing(const wstring& szModelName);
-	HRESULT Render_ModelEffectInstancing(const wstring& szModelName);
-
-	HRESULT Ready_InstanceBuffer();
 
 	//Debug
 	vector<class CGameObject*> m_DebugRenderObjects;
 	vector<class CGameObject*> m_RenderObjects[RENDER_END];
-	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_StaticInstance;
-	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_EffectInstance;
-	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_ModelEffectInstance;
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_InstanceRenderObjects[RENDER_END];
 
 private:
-	CShader* m_pInstanceShader = nullptr;
-
-	ID3D11Buffer* m_pInstanceBuffer = nullptr;
-	ID3D11Buffer* m_pPointEffect_InstanceBuffer = nullptr;
-	ID3D11Buffer* m_pModelEffect_InstanceBuffer = nullptr;
-
 	_uint	m_iBufferSize = 0;
 
 	//RenderTarget

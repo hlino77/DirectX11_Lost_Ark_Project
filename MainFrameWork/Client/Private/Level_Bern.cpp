@@ -240,14 +240,23 @@ HRESULT CLevel_Bern::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	CStaticModel::MODELDESC Desc;
 	Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
 	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+	Vec3 vPos(0.0f, 0.0f, 0.0f);
 
-
-	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-	if (nullptr == pObject)
+	
+	for (_uint i = 0; i < 1; ++i)
 	{
-		Safe_Release(pGameInstance);
-		return E_FAIL;
+		CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+		if (nullptr == pObject)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		pObject->Set_Instance(false);
+		pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+		vPos.y += 1.0f;
 	}
+	
 
 	Safe_Release(pGameInstance);
 	return S_OK;

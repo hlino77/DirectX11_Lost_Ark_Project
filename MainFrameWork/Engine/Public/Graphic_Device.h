@@ -19,6 +19,8 @@ public:
 		_uint iWinCX, _uint iWinCY, _Inout_ ID3D11Device** ppDevice,
 		_Inout_ ID3D11DeviceContext** ppDeviceContextOut);
 
+	void SyncronizeDeferredContext(ID3D11DeviceContext* pDeferredDeviceContext);
+
 	/* 백버퍼를 지운다. */
 	HRESULT Clear_BackBuffer_View(Vec4 vClearColor);
 

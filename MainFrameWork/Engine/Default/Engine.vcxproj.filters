@@ -551,10 +551,9 @@
     <ClInclude Include="..\Public\TLS.h">
       <Filter>02. ServerCore\03. Thread</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\TLS.cpp" />
     <ClInclude Include="..\Public\Delegate.h">
       <Filter>01.Utiltiy\98. Utils</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\BehaviorTree.h">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree</Filter>
     </ClInclude>
@@ -570,6 +569,10 @@
     <ClInclude Include="..\Public\BT_Node.h">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TypeLessValue.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DamageBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -877,7 +880,7 @@
     <ClCompile Include="..\Private\BT_Node.cpp" />
     <ClCompile Include="..\Private\DllMain.cpp">
       <Filter>98.Default</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Delegate.cpp">
       <Filter>01.Utiltiy\98. Utils</Filter>
     </ClCompile>
@@ -896,6 +899,7 @@
     <ClCompile Include="..\Private\BT_Node.cpp">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\DamageBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc">

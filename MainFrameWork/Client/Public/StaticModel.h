@@ -39,7 +39,9 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
+	virtual HRESULT	Render_Instance(_uint iSize);
 
+	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
 	CTransform* Get_TransformCom() { return m_pTransformCom; }
@@ -59,6 +61,10 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components() override;
+
+
+	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
+	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
 private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 

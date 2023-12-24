@@ -22,8 +22,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (m_pDevice == nullptr)
 		return S_OK;
 
-	Ready_InstanceBuffer();
-
 	//RenderTarget
 
 	D3D11_VIEWPORT		ViewportDesc;
@@ -356,24 +354,7 @@ HRESULT CRenderer::Reserve_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pG
 	if (eRenderGroup >= RENDER_END)
 		return E_FAIL;
 
-	if (eRenderGroup == RENDERGROUP::INSTANCE_STATIC)
-	{
-		m_StaticInstance[pGameObject->Get_ModelName()].clear();
-		Safe_AddRef(pGameObject);
-		return S_OK;
-	}
-	else if (eRenderGroup == RENDERGROUP::RENDER_EFFECT_INSTANCE)
-	{
-		m_EffectInstance[pGameObject->Get_ModelName()].clear();
-		Safe_AddRef(pGameObject);
-		return S_OK;
-	}
-	else if (eRenderGroup == RENDERGROUP::RENDER_MODELEFFECT_INSTANCE)
-	{
-		m_ModelEffectInstance[pGameObject->Get_ModelName()].clear();
-		Safe_AddRef(pGameObject);
-		return S_OK;
-	}
+	m_InstanceRenderObjects[eRenderGroup][pGameObject->Get_ModelName()].clear();
 
 	return S_OK;
 }
@@ -383,26 +364,19 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject * pGame
 	if (eRenderGroup >= RENDER_END)
 		return E_FAIL;
 
-	if (eRenderGroup == RENDERGROUP::INSTANCE_STATIC)
-	{
-		m_StaticInstance[pGameObject->Get_ModelName()].push_back(pGameObject);
-		Safe_AddRef(pGameObject);
-		return S_OK;
-	}
-	else if (eRenderGroup == RENDERGROUP::RENDER_EFFECT_INSTANCE)
-	{
-		m_EffectInstance[pGameObject->Get_ModelName()].push_back(pGameObject);
-		Safe_AddRef(pGameObject);
-		return S_OK;
-	}
-	else if (eRenderGroup == RENDERGROUP::RENDER_MODELEFFECT_INSTANCE)
-	{
-		m_ModelEffectInstance[pGameObject->Get_ModelName()].push_back(pGameObject);
-		Safe_AddRef(pGameObject);
-		return S_OK;
-	}
-
 	m_RenderObjects[eRenderGroup].push_back(pGameObject);
+
+	Safe_AddRef(pGameObject);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Add_InstanceRenderGroup(RENDERGROUP eRenderGroup, CGameObject* pGameObject)
+{
+	if (eRenderGroup >= RENDER_END)
+		return E_FAIL;
+
+	m_InstanceRenderObjects[eRenderGroup][pGameObject->Get_ModelName()].push_back(pGameObject);
 
 	Safe_AddRef(pGameObject);
 
@@ -425,8 +399,34 @@ HRESULT CRenderer::Add_DebugObject(CGameObject* pObject)
 	return S_OK;
 }
 
+HRESULT CRenderer::Ready_InstanceRender()
+{
+	for (_uint i = 0; i < CRenderer::RENDER_END; ++i)
+	{
+		if (!m_InstanceRenderObjects[i].empty())
+		{
+			for (auto& ObjectList : m_InstanceRenderObjects[i])
+			{
+				if (!ObjectList.second.empty())
+				{
+					_uint iIndex = 0;
+					for (auto& Object : ObjectList.second)
+					{
+						Object->Add_InstanceData(ObjectList.second.size(), iIndex);
+					}
+				}
+			}
+		}
+		
+	}
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw()
 {
+	CGameInstance::GetInstance()->Execute_BeforeRenderCommandList();
+
 	if (m_bRenderStaticShadow)
 		if (FAILED(Render_StaticShadow()))
 			return E_FAIL;
@@ -439,8 +439,6 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_NonAlphaBlend()))
 		return E_FAIL;
-	if (FAILED(Render_StaticInstance()))
-		return E_FAIL; 
 	if (FAILED(Render_ShadowDepth()))
 		return E_FAIL;
 	if (FAILED(Render_Lights()))
@@ -461,14 +459,6 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_PostProcess()))
 		return E_FAIL;
-	/*if (FAILED(Render_ModelEffectInstance()))
-		return E_FAIL;
-	if (FAILED(Render_EffectInstance()))
-		return E_FAIL;*/
-	//if (FAILED(Render_EffectBlur()))
-	//	return E_FAIL;
-	//if (FAILED(Render_EffectAcc()))
-	//	return E_FAIL;
 	if (FAILED(Render_WorldUI()))
 		return E_FAIL;
 	if (FAILED(Render_UI()))
@@ -582,20 +572,6 @@ HRESULT CRenderer::Render_Priority()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_StaticInstance()
-{
-	for (auto& iter : m_StaticInstance)
-	{
-		Render_ModelInstancing(iter.first);
-		iter.second.clear();
-	}
-
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CRenderer::Render_ShadowDepth()
 {
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_ShadowDepth"), m_pShadowDSV)))
@@ -688,9 +664,30 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 	{
 		if (FAILED(iter->Render()))
 			return E_FAIL;
+
+		Safe_Release(iter);
 	}
+
 	
 	m_RenderObjects[RENDER_NONBLEND].clear();
+
+
+	for (auto& ObjectList : m_InstanceRenderObjects[RENDER_NONBLEND])
+	{
+		if (!ObjectList.second.empty())
+		{
+			if (FAILED(ObjectList.second[0]->Render_Instance(ObjectList.second.size())))
+				return E_FAIL;
+
+			for (auto& Object : ObjectList.second)
+				Safe_Release(Object);
+
+			ObjectList.second.clear();
+		}
+	}
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -1206,36 +1203,6 @@ HRESULT CRenderer::Render_PostProcess()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_ModelEffectInstance()
-{
-	for (auto& iter : m_ModelEffectInstance)
-	{
-		if (!iter.second.empty())
-		{
-			Render_ModelEffectInstancing(iter.first);
-			iter.second.clear();
-		}
-	}
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_EffectInstance()
-{
-	for (auto& iter : m_EffectInstance)
-	{
-		if (!iter.second.empty())
-		{
-			Render_EffectInstancing(iter.first);
-			iter.second.clear();
-		}
-	}
-
-	//if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-	//	return E_FAIL;
-
-	return S_OK;
-}
 
 HRESULT CRenderer::Render_EffectBlur()
 {
@@ -1356,175 +1323,6 @@ HRESULT CRenderer::Render_DebugObject()
 		Safe_Release(iter);
 	}
 	m_DebugRenderObjects.clear();
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_ModelInstancing(const wstring& szModelName)
-{
-	if (nullptr == m_pInstanceShader)
-		return S_OK;
-
-	if (m_StaticInstance[szModelName].empty())
-		return S_OK;
-
-	vector<Matrix> WorldMatrix;
-	WorldMatrix.reserve(500);
-
-	for (auto& Model : m_StaticInstance[szModelName])
-		WorldMatrix.push_back(Model->Get_TransformCom()->Get_WorldMatrix());
-
-	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
-
-	m_pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource);
-
-	memcpy(SubResource.pData, WorldMatrix.data(), sizeof(Matrix) * WorldMatrix.size());
-
-	m_pContext->Unmap(m_pInstanceBuffer, 0);
-
-	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
-	
-	if (FAILED(m_pInstanceShader->Bind_Matrix("g_ViewMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-	if (FAILED(m_pInstanceShader->Bind_Matrix("g_ProjMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	RELEASE_INSTANCE(CPipeLine);
-
-	CModel* pModel = m_StaticInstance[szModelName].front()->Get_ModelCom();
-
-	_uint		iNumMeshes = pModel->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(pModel->SetUp_OnShader(m_pInstanceShader, pModel->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTarget")))
-			return S_OK;
-
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTarget")))
-			return E_FAIL;*/
-
-		if (FAILED(pModel->Render_Instance(m_pInstanceBuffer, WorldMatrix.size(), m_pInstanceShader, i)))
-			return S_OK;
-	}
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_EffectInstancing(const wstring& szModelName)
-{
-
-	/*Vec3 vCamPos = CGameInstance::GetInstance()->Get_CamPosition();
-
-
-	::sort(m_EffectInstance[szModelName].begin(), m_EffectInstance[szModelName].end(), [&](CGameObject* pObjL, CGameObject* pObjR) ->_bool
-		{
-
-			_float fDistanceL = (vCamPos - pObjL->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)).Length();
-			_float fDistanceR = (vCamPos - pObjR->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)).Length();
-
-			return fDistanceL < fDistanceR;
-		});*/
-
-	vector<Vec4> InstanceData;
-	InstanceData.reserve(5000);
-
-	_uint iSize = 0;
-	for (auto& Object : m_EffectInstance[szModelName])
-	{
-		Object->Add_InstanceData(InstanceData);
-		++iSize;
-	}
-
-	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
-
-	m_pContext->Map(m_pPointEffect_InstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource);
-
-	memcpy(SubResource.pData, InstanceData.data(), sizeof(Vec4) * InstanceData.size());
-
-	m_pContext->Unmap(m_pPointEffect_InstanceBuffer, 0);
-
-	m_EffectInstance[szModelName].front()->Render_Instance(m_pPointEffect_InstanceBuffer, iSize);
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_ModelEffectInstancing(const wstring& szModelName)
-{
-	vector<Vec4> InstanceData;
-	InstanceData.reserve(3000);
-
-	_uint iSize = 0;
-	for (auto& Object : m_ModelEffectInstance[szModelName])
-	{
-		Object->Add_InstanceData(InstanceData);
-		++iSize;
-	}
-
-	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
-
-	m_pContext->Map(m_pModelEffect_InstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource);
-
-	memcpy(SubResource.pData, InstanceData.data(), sizeof(Vec4) * InstanceData.size());
-
-	m_pContext->Unmap(m_pModelEffect_InstanceBuffer, 0);
-
-	m_ModelEffectInstance[szModelName].front()->Render_Instance(m_pModelEffect_InstanceBuffer, iSize);
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Ready_InstanceBuffer()
-{
-	//Instance
-	m_pInstanceShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Vtx_Instance.hlsl"), VTXINSTANCE_MODEL::Elements, VTXINSTANCE_MODEL::iNumElements);
-
-	{
-		D3D11_BUFFER_DESC			BufferDesc;
-
-		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
-
-		BufferDesc.ByteWidth = sizeof(VTXINSTANCE_POINTEFFECT) * 1000;
-		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
-		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		BufferDesc.MiscFlags = 0;
-		BufferDesc.StructureByteStride = sizeof(VTXINSTANCE_POINTEFFECT);
-
-		D3D11_SUBRESOURCE_DATA		InitialData;
-
-		vector<Vec4> InitData;
-
-		InitData.resize(5000, Vec4(0.0f, 0.0f, 0.0f, 0.0f));
-
-		InitialData.pSysMem = InitData.data();
-
-		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pPointEffect_InstanceBuffer)))
-			return E_FAIL;
-	}
-
-	{
-		D3D11_BUFFER_DESC			BufferDesc;
-
-		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
-
-		BufferDesc.ByteWidth = sizeof(VTXINSTANCE_MODEL) * 500;
-		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
-		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		BufferDesc.MiscFlags = 0;
-		BufferDesc.StructureByteStride = sizeof(VTXINSTANCE_MODEL);
-
-		D3D11_SUBRESOURCE_DATA		InitialData;
-
-		vector<Vec4> InitData;
-
-		InitData.resize(3000, Vec4(0.0f, 0.0f, 0.0f, 0.0f));
-
-		InitialData.pSysMem = InitData.data();
-
-		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pModelEffect_InstanceBuffer)))
-			return E_FAIL;
-	}
 
 	return S_OK;
 }

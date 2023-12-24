@@ -22,6 +22,7 @@
 #include "ClientPacketHandler.h"
 
 #include "Base.h"
+#include "ThreadManager.h"
 
 #define _CLIENT
 

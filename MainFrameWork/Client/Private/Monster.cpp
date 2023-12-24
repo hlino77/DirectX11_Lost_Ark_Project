@@ -74,6 +74,7 @@ void CMonster::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+
 	Set_Colliders(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)

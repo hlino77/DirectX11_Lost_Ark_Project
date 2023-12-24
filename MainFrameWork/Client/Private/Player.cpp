@@ -72,12 +72,6 @@ void CPlayer::Tick(_float fTimeDelta)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-
-	for (auto& pPart : m_Parts)
-	{
-		pPart.second->Tick(fTimeDelta);
-	}
 }
 
 void CPlayer::LateTick(_float fTimeDelta)
@@ -86,6 +80,11 @@ void CPlayer::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 
 	m_pModelCom->Set_ToRootPos(m_pTransformCom, fTimeDelta);
+
+	for (auto& pPart : m_Parts)
+	{
+		pPart.second->Tick(fTimeDelta);
+	}
 
 	//m_pRigidBody->Tick(fTimeDelta);
 

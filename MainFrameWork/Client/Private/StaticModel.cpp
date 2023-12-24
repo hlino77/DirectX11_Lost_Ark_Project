@@ -4,6 +4,7 @@
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
 
+
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
 {
@@ -16,6 +17,9 @@ CStaticModel::CStaticModel(const CStaticModel& rhs)
 
 HRESULT CStaticModel::Initialize_Prototype()
 {
+	if (FAILED(Ready_Proto_InstanceBuffer()))
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -47,12 +51,12 @@ void CStaticModel::LateTick(_float fTimeDelta)
 	if (m_bRender)
 	{
 		m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
-		m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
+		if (m_bInstance)
+			m_pRendererCom->Add_InstanceRenderGroup(m_eRenderGroup, this);
+		else
+			m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
 	}
-	if (m_szModelName == L"SM_ENV_TCHEXA_Tree_A")
-		m_eRenderGroup = CRenderer::RENDERGROUP::INSTANCE_STATIC;
-	else
-		m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
+
 }
 
 HRESULT CStaticModel::Render()
@@ -94,6 +98,24 @@ HRESULT CStaticModel::Render_ShadowDepth()
 
 	return S_OK;
 }
+
+HRESULT CStaticModel::Render_Instance(_uint iSize)
+{
+	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+		return E_FAIL;
+
+	if (FAILED(m_pInstanceShader->Push_GlobalVP()))
+		return E_FAIL;
+
+	if (FAILED(m_pModelCom->Render_Instance(m_pInstanceBuffer, iSize, m_pInstanceShader, sizeof(Matrix))))
+		return E_FAIL;
+
+
+	//Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 
 HRESULT CStaticModel::Add_ModelComponent(const wstring& strComName)
 {
@@ -202,6 +224,78 @@ HRESULT CStaticModel::Ready_Components()
 	//m_pTransformCom->Set_Scale(vScale);
 
     return S_OK;
+}
+
+void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
+{
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(m_pInstanceValue->GetValue());
+
+	(*pInstanceValue)[iIndex] = m_pTransformCom->Get_WorldMatrix();
+
+	if (iSize - 1 == iIndex)
+	{
+		ThreadManager::GetInstance()->EnqueueJob([=]()
+			{
+				Ready_Instance_For_Render(iSize);
+			});
+	}
+	else
+		++iIndex;
+}
+
+HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
+{
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),
+		TEXT("Com_InstanceShader"), (CComponent**)&m_pInstanceShader)))
+		return E_FAIL;
+
+	m_iMaxInstanceCount = 100;
+
+	m_pInstanceValue = new tagTypeLessData<vector<Matrix>>();
+
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(m_pInstanceValue->GetValue());
+	
+	pInstanceValue->resize(m_iMaxInstanceCount, XMMatrixIdentity());
+
+	{
+		D3D11_BUFFER_DESC			BufferDesc;
+
+		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
+		BufferDesc.ByteWidth = sizeof(Matrix) * m_iMaxInstanceCount;
+		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
+		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		BufferDesc.MiscFlags = 0;
+		BufferDesc.StructureByteStride = sizeof(Matrix);
+
+		D3D11_SUBRESOURCE_DATA		InitialData;
+
+		InitialData.pSysMem = pInstanceValue->data();
+
+		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstanceBuffer)))
+			return E_FAIL;
+	}
+}
+
+HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
+{
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(m_pInstanceValue->GetValue());
+
+	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
+
+	ID3D11DeviceContext* pContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+
+	if(FAILED(pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+		return E_FAIL;
+
+	memcpy(SubResource.pData, pInstanceValue->data(), sizeof(Matrix) * iSize);
+
+	pContext->Unmap(m_pInstanceBuffer, 0);
+
+	CGameInstance::GetInstance()->Release_BeforeRenderContext(pContext);
 }
 
 

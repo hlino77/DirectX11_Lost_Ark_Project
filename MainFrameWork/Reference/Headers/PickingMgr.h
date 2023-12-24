@@ -12,7 +12,7 @@ class ENGINE_DLL CPickingMgr : public CBase
 {
 	DECLARE_SINGLETON(CPickingMgr);
 
-public:
+private:
 	explicit CPickingMgr();
 	virtual ~CPickingMgr() = default;
 

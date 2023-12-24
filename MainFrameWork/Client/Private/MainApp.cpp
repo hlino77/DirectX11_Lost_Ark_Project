@@ -42,6 +42,7 @@
 #include "UI_DamageFont.h"
 #include "Pool.h"
 #include "Damage_Manager.h"
+#include "ThreadManager.h"
 
 _float g_fVolume;
 
@@ -122,6 +123,7 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_BackBuffer_View(Vec4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
+	m_pRenderer_Com->Ready_InstanceRender();
 	m_pRenderer_Com->Draw();
 	
 	CChat_Manager::GetInstance()->Render();
@@ -163,6 +165,8 @@ HRESULT CMainApp::Initialize_Client()
 	CUI_Manager::GetInstance()->Reserve_Manager();
 
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
+
+	ThreadManager::GetInstance()->ReserveManager(5);
 
 	// Manager Reserve
 	return S_OK;
@@ -341,6 +345,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_EffectTex.hlsl"), VTXPOINT::Elements, VTXPOINT::iNumElements))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Vtx_ModelInstance.hlsl"), VTXINSTANCE_MODEL::Elements, VTXINSTANCE_MODEL::iNumElements))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),

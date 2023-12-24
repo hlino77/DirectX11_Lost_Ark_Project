@@ -9,6 +9,17 @@ struct STATIC_IN
     float2  vTexUV : TEXCOORD0;
 };
 
+struct STATIC_INSTANCE_IN
+{
+    float3		vPosition : POSITION;
+    float3		vNormal : NORMAL;
+    float2		vTexUV : TEXCOORD0;
+    float3		vTangent : TANGENT;
+
+    matrix		matWorld : INST;
+};
+
+
 struct FXMESH_IN
 {
     float3  vPosition : POSITION;

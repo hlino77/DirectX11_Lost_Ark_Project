@@ -283,17 +283,8 @@
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\01.Server">
-      <UniqueIdentifier>{521a9abb-5318-48b0-b6f7-e89c0052bf2a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\98.Tool">
       <UniqueIdentifier>{45015364-1b26-40b4-b875-e68d85c67f94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\01.Server\00,Select">
-      <UniqueIdentifier>{116d3298-e28f-410c-9f5d-cd8c746448e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\01.Server\01.Lobby">
-      <UniqueIdentifier>{dd1e0d4e-0512-4f1b-b8b7-0e60ec2a771a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Plant">
       <UniqueIdentifier>{1f94ef61-4420-4e3c-86ef-db9f4d9f088c}</UniqueIdentifier>
@@ -708,12 +699,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Level_Lobby.h">
-      <Filter>01.Levels\01.Server\01.Lobby</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_ServerSelect.h">
-      <Filter>01.Levels\01.Server\00,Select</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_Tool.h">
       <Filter>01.Levels\98.Tool</Filter>
     </ClInclude>
@@ -823,7 +808,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -888,7 +872,6 @@
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle.h" />
@@ -911,7 +894,6 @@
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
-    <ClInclude Include="..\Public\UI_TextBox.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
@@ -1052,12 +1034,6 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClInclude>
@@ -1117,9 +1093,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -1264,12 +1237,6 @@
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClInclude>
@@ -1467,12 +1434,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -1683,12 +1644,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Chase.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageLeft.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_DamageRight.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Hand.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -2004,12 +1959,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Root.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Plant_BT_Attack_Shake.h">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
@@ -2336,6 +2285,12 @@
     <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Lobby.h">
+      <Filter>01.Levels\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ServerSelect.h">
+      <Filter>01.Levels\ServerSelect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2464,12 +2419,6 @@
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_Lobby.cpp">
-      <Filter>01.Levels\01.Server\01.Lobby</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_ServerSelect.cpp">
-      <Filter>01.Levels\01.Server\00,Select</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_Tool.cpp">
       <Filter>01.Levels\98.Tool</Filter>
     </ClCompile>
@@ -2582,7 +2531,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -2653,7 +2601,6 @@
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle.cpp" />
@@ -2676,7 +2623,6 @@
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
-    <ClCompile Include="..\Private\UI_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand.cpp" />
     <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
@@ -2821,12 +2767,6 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClCompile>
@@ -2886,9 +2826,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -3027,12 +2964,6 @@
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
     </ClCompile>
@@ -3227,12 +3158,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3443,12 +3368,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Chase.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\05. Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageLeft.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_DamageRight.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\03.Damage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hand.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Part_GN\Weapon_Hand</Filter>
@@ -3761,12 +3680,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Root.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Plant_BT_Attack_Shake.cpp">
-      <Filter>02.GameObjects\Monster\Plant\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
@@ -4089,6 +4002,12 @@
     <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Shot</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp">
+      <Filter>01.Levels\ServerSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lobby.cpp">
+      <Filter>01.Levels\Lobby</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -4116,9 +4035,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Instance.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
@@ -4144,9 +4060,6 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Instance.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
@@ -4249,6 +4162,12 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelInstance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl">
+      <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

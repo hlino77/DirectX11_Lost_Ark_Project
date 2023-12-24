@@ -290,6 +290,15 @@ namespace Engine
 	}VTXINSTANCE_MODEL;
 
 
+	typedef struct ENGINE_DLL tagVertex_Rect_Instance
+	{
+		XMFLOAT4        vTranslation;
+		XMFLOAT4        vScale;
+
+		static const unsigned int                iNumElements = 2;
+		static const D3D11_INPUT_ELEMENT_DESC    Elements[iNumElements];
+	}VTXINSTANCE_RECT;
+
 	typedef struct ENGINE_DLL tagVertex_LineCircle_Instance
 	{
 		static const unsigned int				iNumElements = 5;

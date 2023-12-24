@@ -15,7 +15,7 @@ HRESULT CDamage_Manager::Reserve_Manager(HWND hwnd, ID3D11Device* pDevice, ID3D1
 	m_pDevice = pDevice;
 	m_pContext = pContext;
 
-	m_iFontCount = 500;
+	m_iFontCount = 200;
 
 	/*for (_uint i = 0; i < 200; ++i)
 	{

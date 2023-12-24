@@ -27,6 +27,10 @@ CGameObject::CGameObject(const CGameObject& rhs)
 	, m_matTargetWorld(rhs.m_matTargetWorld.load())
 	, m_pGameInstance(rhs.m_pGameInstance)
 	, m_bActive(rhs.m_bActive)
+	, m_iMaxInstanceCount(rhs.m_iMaxInstanceCount)
+	, m_pInstanceBuffer(rhs.m_pInstanceBuffer)
+	, m_pInstanceValue(rhs.m_pInstanceValue)
+	, m_pInstanceShader(rhs.m_pInstanceShader)
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
@@ -155,6 +159,11 @@ void CGameObject::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
+
+	Safe_Delete(m_pInstanceValue);
+	Safe_Release(m_pInstanceBuffer);
+	Safe_Release(m_pInstanceShader);
 
 	RELEASE_INSTANCE(CGameInstance);
 }

@@ -3,6 +3,8 @@
 #include "Base.h"
 #include "AsTypes.h"
 #include "Lock.h"
+#include "TypeLessValue.h"
+#include <future>
 
 /* 클라이엉ㄴ트에서 제작할 다양한 게임오브젝트들의 부모가된다. */
 
@@ -34,12 +36,10 @@ public:
 	virtual void				Tick(_float fTimeDelta);
 	virtual void				LateTick(_float fTimeDelta);
 	virtual HRESULT				Render();
-	virtual HRESULT				Render_Instance(ID3D11Buffer * pInstanceBuffer, _uint iSize) { return S_OK; }
+	virtual HRESULT				Render_Instance(_uint iSize) { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
 	virtual HRESULT				Render_MakeSRV() { return S_OK; }
 	virtual HRESULT				Render_Debug() { return S_OK; }
-
-	virtual void				Add_InstanceData(vector<Vec4>&BufferData) {};
 
 
 
@@ -52,6 +52,8 @@ public:
 	virtual void				Set_Skill(CGameObject * pGameObject) {};
 	virtual void				Set_SlowMotion(_bool bSlow) {};
 
+	ID3D11Buffer*				Get_InstanceBuffer() { return m_pInstanceBuffer; }
+	virtual void				Add_InstanceData(_uint iSize, _uint& iIndex) {};
 public:
 	class CComponent*			Get_Component(const wstring & strComponentTag);
 
@@ -88,6 +90,8 @@ public:
 
 	_bool						Is_Die() { return m_bDie; }
 	void						Set_Die(_bool bDie) { m_bDie = bDie; }
+
+	void						Set_Instance(_bool bInstace) { m_bInstance = bInstace; }
 
 	/* 멀티스레드 */
 	CGameObject* Get_NearTarget()
@@ -154,6 +158,10 @@ protected:
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
 	HRESULT Compute_CamZ(Vec4 vWorldPos);
 
+
+	
+	virtual HRESULT				Ready_Proto_InstanceBuffer() { return S_OK; }
+	virtual HRESULT				Ready_Instance_For_Render(_uint iSize) { return S_OK; }
 protected:
 	USE_LOCK
 	CGameInstance*					m_pGameInstance = nullptr;
@@ -216,7 +224,11 @@ protected:
 	_int						m_iCurrLevel = -1;
 
 	//Instancing
-
+	_uint						m_iMaxInstanceCount = 0;
+	ID3D11Buffer*				m_pInstanceBuffer = nullptr;
+	tagTypeLess*				m_pInstanceValue = nullptr;
+	CShader*					m_pInstanceShader = nullptr;
+	_bool						m_bInstance = false;
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

@@ -69,6 +69,26 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(HWND hWnd, GRAPHIC_DESC::WINMODE e
 	return S_OK;
 }
 
+void CGraphic_Device::SyncronizeDeferredContext(ID3D11DeviceContext* pDeferredDeviceContext)
+{
+	pDeferredDeviceContext->ClearState();
+
+	ID3D11RenderTargetView* rtv = nullptr;
+	ID3D11DepthStencilView* dsv = nullptr;
+	m_pDeviceContext->OMGetRenderTargets(1, &rtv, &dsv);
+	pDeferredDeviceContext->OMSetRenderTargets(1, &rtv, dsv);
+
+	UINT numViewports = 1;
+	D3D11_VIEWPORT viewport;
+	m_pDeviceContext->RSGetViewports(&numViewports, &viewport);
+	pDeferredDeviceContext->RSSetViewports(1, &viewport);
+
+	if (rtv)
+		rtv->Release();
+	if (dsv)
+		dsv->Release();
+}
+
 HRESULT CGraphic_Device::Clear_BackBuffer_View(Vec4 vClearColor)
 {
 	if (nullptr == m_pDeviceContext)

@@ -224,6 +224,8 @@
     <ClInclude Include="..\Public\King_BT_Attack_Attack4.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Erruption.h" />
+    <ClInclude Include="..\Public\Level_Lobby.h" />
+    <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\Player_Slayer.h" />
     <ClInclude Include="..\Public\Projectile.h" />
@@ -307,8 +309,6 @@
     <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h" />
     <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
-    <ClInclude Include="..\Public\Level_Lobby.h" />
-    <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\MainLogo.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Player.h" />
@@ -444,6 +444,8 @@
     <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Erruption.cpp" />
+    <ClCompile Include="..\Private\Level_Lobby.cpp" />
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\Player_Slayer.cpp" />
     <ClCompile Include="..\Private\Projectile.cpp" />
@@ -519,8 +521,6 @@
     <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp" />
     <ClCompile Include="..\Private\UI_Identity_GN.cpp" />
-    <ClCompile Include="..\Private\Level_Lobby.cpp" />
-    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Player.cpp" />
@@ -730,11 +730,12 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyBox.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl" />

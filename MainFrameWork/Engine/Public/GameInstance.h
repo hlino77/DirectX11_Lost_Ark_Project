@@ -142,8 +142,15 @@ public:
 	const wstring& Get_RandomSoundKey(const wstring& strSoundTrack);
 	_float Get_RandomFloat(_float fMin, _float fMax);
 public:
+	//Test
+	ID3D11DeviceContext* Get_BeforeRenderContext();
+	void Release_BeforeRenderContext(ID3D11DeviceContext* pDeviceContext);
+	void Execute_BeforeRenderCommandList();
 
-
+	void Emplace_SleepContext(const _uint In_iIndex);
+	mutex m_JobMutex;
+	vector<ID3D11DeviceContext*> m_pBeforeRenderSleepContexts;
+	vector<ID3D11DeviceContext*> m_pBeforeRenderContexts;
 
 private:
 	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
@@ -168,6 +175,11 @@ private:
 
 	mt19937_64								m_RandomNumber;
 	uniform_real_distribution<float>		m_RandomResult;
+
+	
+
+
+
 public:
 	static void Release_Engine();
 	virtual void Free() override;

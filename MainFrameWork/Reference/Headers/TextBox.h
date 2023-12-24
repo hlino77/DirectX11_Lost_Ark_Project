@@ -4,6 +4,8 @@
 BEGIN(Engine)
 
 class CVIBuffer_Rect;
+class CVIBuffer_Point;
+
 
 class ENGINE_DLL CTextBox final: public CGameObject
 {
@@ -25,7 +27,7 @@ private:
         Vec2 vTextPos;
         Vec4 vTextColor;
     }TEXTDESC;
-
+    
 private:
     CTextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     CTextBox(const CTextBox& rhs);
@@ -39,13 +41,14 @@ public:
     virtual HRESULT Render();
     virtual HRESULT Render_MakeSRV();
 
-
     void    Set_Pos(_float fX, _float fY);
     void    Set_Text(const wstring& szTextTag, const wstring& szFont, const wstring& szText, Vec2 vTextPos, Vec2 vScale, Vec2 vOrigin, _float fRotation, Vec4 vColor);
     void    Set_ScaleUV(Vec2 vUV) { m_vUV = vUV; }
     void    Clear_Text() { m_TextList.clear(); }
     void    Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
     void    Decrease_Alpha(_float fAlpha) { m_fAlpha -= fAlpha; }
+
+
 
 private:
     virtual HRESULT Ready_Components();

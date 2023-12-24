@@ -7,13 +7,15 @@ class CVIBuffer_Rect;
 class CVIBuffer_Point;
 
 
-class ENGINE_DLL CTextBox final: public CGameObject
+class ENGINE_DLL CDamageBox final: public CGameObject
 {
 public:
     typedef struct TextBoxDesc
     {
         Vec2 vSize;
         wstring szTextBoxTag;
+        _bool m_bInstance;
+        wstring szTextBoxName;
     }TEXTBOXDESC;
 
 private:
@@ -29,9 +31,9 @@ private:
     }TEXTDESC;
     
 private:
-    CTextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CTextBox(const CTextBox& rhs);
-    virtual ~CTextBox() = default;
+    CDamageBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CDamageBox(const CDamageBox& rhs);
+    virtual ~CDamageBox() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -40,6 +42,9 @@ public:
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
     virtual HRESULT Render_MakeSRV();
+    virtual HRESULT	Render_Instance(_uint iSize);
+
+    virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 
     void    Set_Pos(_float fX, _float fY);
     void    Set_Text(const wstring& szTextTag, const wstring& szFont, const wstring& szText, Vec2 vTextPos, Vec2 vScale, Vec2 vOrigin, _float fRotation, Vec4 vColor);
@@ -48,6 +53,10 @@ public:
     void    Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
     void    Decrease_Alpha(_float fAlpha) { m_fAlpha -= fAlpha; }
 
+
+private:
+    virtual HRESULT	Ready_Proto_InstanceBuffer() override;
+    virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
 
 private:
@@ -75,8 +84,17 @@ private:
 
 
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+    CVIBuffer_Point* m_pInstanceVIBufferCom = { nullptr };
+
+    //Instancing
+    unordered_map<wstring, _uint>* m_iTextMaxInstanceCount = nullptr;
+    unordered_map<wstring, ID3D11Buffer*>* m_pTextInstanceBuffer = nullptr;
+    unordered_map<wstring, tagTypeLess*>* m_pTextInstanceValue = nullptr;
+    unordered_map<wstring, CShader*>* m_pTextInstanceShader = nullptr;
+
+
 public:
-    static  CTextBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CDamageBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

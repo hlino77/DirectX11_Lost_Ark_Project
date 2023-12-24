@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 #include "Target_Manager.h"
 #include "LockFree_Transform.h"
+#include "ThreadManager.h"
+#include "VIBuffer_Point.h"
 
 CTextBox::CTextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"TextBox", -1)
@@ -32,6 +34,7 @@ HRESULT CTextBox::Initialize(void* pArg)
 
 	m_vSize = tTextBoxDesc->vSize;
 	m_strObjectTag = tTextBoxDesc->szTextBoxTag;
+	
 
 	D3D11_VIEWPORT		ViewportDesc;
 
@@ -129,6 +132,7 @@ HRESULT CTextBox::Render_MakeSRV()
 }
 
 
+
 void CTextBox::Set_Pos(_float fX, _float fY)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -153,7 +157,6 @@ void CTextBox::Set_Text(const wstring& szTextTag, const wstring& szFont, const w
 }
 
 
-
 HRESULT CTextBox::Ready_Components()
 {
 	m_pTransformCom = CLockFree_Transform::Create(m_pDevice, m_pContext);
@@ -172,8 +175,6 @@ HRESULT CTextBox::Ready_Components()
 	if (FAILED(__super::Add_Component(0, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
-
-
 
 	return S_OK;
 }
