@@ -35,7 +35,7 @@ void CState_WR_Idle::Enter_State()
 		m_pPlayer->Reserve_Animation(m_Idle_Identity, 0.2f, 0, 0);
 		m_iIdle = m_Idle_Identity;
 	}
-	else
+	else if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 	{
 		m_pPlayer->Reserve_Animation(m_Idle_Normal, 0.2f, 0, 0);
 		m_iIdle = m_Idle_Normal;

@@ -30,7 +30,7 @@ public:
 
 public:
 	virtual void	Get_AttackMessage() { Attack(); }
-	void			Get_WR_IdentityMessage() { m_IsIdentity = true; }
+	void			Get_WR_IdentityMessage() { m_IsIdentity = true; m_iIdentityGage = m_iMaxGage; }
 	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; }
 
 

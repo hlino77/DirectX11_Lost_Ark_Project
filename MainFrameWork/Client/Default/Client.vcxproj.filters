@@ -586,6 +586,12 @@
     <Filter Include="02.GameObjects\Boss\Golem\Behavior">
       <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Golem">
+      <UniqueIdentifier>{5ab2ecc5-49bb-4856-ad8b-b7e5b69385c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Golem\Behavior">
+      <UniqueIdentifier>{fb61784e-cd3a-4b47-a84f-823a3ab38580}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -686,9 +692,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_Server.h">
       <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI.h">
-      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ServerWnd.h">
       <Filter>02.GameObjects\UI\00.Server\00.Wnd</Filter>
@@ -1296,9 +1299,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
@@ -1502,9 +1502,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -2351,6 +2348,10 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\Monster_Golem.h">
+      <Filter>02.GameObjects\Monster\Golem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2693,9 +2694,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Identity_GN.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI.cpp">
-      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
@@ -3053,9 +3051,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
@@ -3256,9 +3251,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -4097,6 +4089,10 @@
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\Monster_Golem.cpp">
+      <Filter>02.GameObjects\Monster\Golem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
