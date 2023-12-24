@@ -50,7 +50,6 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
         if (1.f < m_fDuration)
         {
             Set_Active(false);
-            CPool<CUI_DamageFont>::Return_Obj(this);
         }
         if (!m_bCriticalHit)
         {
