@@ -38,6 +38,7 @@ public:
 	void	OnOff();
 	void	ResetBlink();
 	_uint	Get_Language() { return m_iLanguage; }
+	_bool	Is_Chat() { return m_bChat; }
 
 	//Chating
 

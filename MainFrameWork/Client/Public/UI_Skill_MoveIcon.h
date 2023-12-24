@@ -10,6 +10,11 @@ BEGIN(Client)
 class CUI_SkillI_MoveFrame :
     public CUI
 {
+    enum MOUSE_MOD
+    {
+        MOUSE_NORMAL, MOUSE_TOOLTIP, MOUSE_SWAP_SKILL, MOUSE_SWAP_ITEM, MOUSE_SWAP_EMOTION, MOUSE_END
+    };
+
 private:
     CUI_SkillI_MoveFrame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     CUI_SkillI_MoveFrame(const CUI& rhs);
@@ -28,12 +33,16 @@ public:
     void    Set_PreIconFrame(CUI* pSkillFrame) { m_pPreSkillFrame = pSkillFrame; }
     void    Set_PickedIconFrame(CUI* pSkillFrame);
     void    Set_CurrIconFrame(CUI* pSkillFrame);
-    
+    _uint   Get_SwapMod() { return m_eMouseMode; }
+    void    Set_SwapMod(_uint eMouseMode) { m_eMouseMode = (MOUSE_MOD)eMouseMode; }
+
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
 private:
+    MOUSE_MOD   m_eMouseMode = { MOUSE_NORMAL };
+    _bool   m_bPicked = { false };
     _bool   m_bMoveIcon = { false };
    CUI* m_pPreSkillFrame = {nullptr};
    CUI* m_pPickedSkillFrame = { nullptr };

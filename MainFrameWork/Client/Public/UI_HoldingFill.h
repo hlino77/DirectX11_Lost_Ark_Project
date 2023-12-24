@@ -1,15 +1,19 @@
 #pragma once
 #include "UI.h"
 
+BEGIN(Engine)
+class CPlayer_Skill;
+END
+
 BEGIN(Client)
 
-class CUI_SpeechBubble :
+class CUI_HoldingFill :
     public CUI
 {
 private:
-    CUI_SpeechBubble(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_SpeechBubble(const CUI& rhs);
-    virtual ~CUI_SpeechBubble() = default;
+    CUI_HoldingFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_HoldingFill(const CUI& rhs);
+    virtual ~CUI_HoldingFill() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -24,18 +28,15 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
-    void    Setting_HostPos();
 
 private:
-    Vec4    m_vHostProjPos = { 0.f, 0.f, 0.f, 0.f };
-    CGameObject* m_pHost = { nullptr };
-
-    _bool	m_bChatting = { false };
-    _bool	m_bChatOff = { false };
-    _float	m_fDuration = { 3.f };
+    class CPlayer_Skill* m_pPlayerSkill = { nullptr };
+    _bool   m_bHoldOn = { 0.f };
+    _float m_fMaxDuration = { 0.f };
+    _float m_fDuration = { 0.f };
 
 public:
-    static  CUI_SpeechBubble* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_HoldingFill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

@@ -44,36 +44,42 @@ HRESULT CUI_DamageFont::Initialize_DamageFont(_uint iIndex)
 
 void CUI_DamageFont::Tick(_float fTimeDelta)
 {
-    m_fDuration += fTimeDelta;
-    if (1.5f < m_fDuration)
+    if (m_bActive)
     {
-        Set_Active(false);
-    }
-    if (!m_bCriticalHit)
-    {
-        if (0.2f >= m_fDuration)
+        m_fDuration += fTimeDelta;
+        if (1.f < m_fDuration)
         {
-            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
+            Set_Active(false);
+            CPool<CUI_DamageFont>::Return_Obj(this);
         }
-        else if (0.5f < m_fDuration)
+        if (!m_bCriticalHit)
         {
-            m_pDamageFontWnd->Decrease_Alpha(2.f * fTimeDelta);
-            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
-            m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + 50.f, m_fRandomZ));
+            if (0.2f >= m_fDuration)
+            {
+                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
+            }
+            else if (0.5f < m_fDuration)
+            {
+                m_pDamageFontWnd->Decrease_Alpha(2.f * fTimeDelta);
+                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
+                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x + (25.f * m_fRandomX), m_vHostPos.y + 50.f, m_fRandomZ));
+            }
         }
-    }
-    else
-    {
-        if (0.4f >= m_fDuration)
+        else
         {
-            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
-        }
-        else if ((0.4f < m_fDuration) && (1.5f >= m_fDuration))
-        {
-            m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
+            if (0.2f >= m_fDuration)
+            {
+                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
+            }
+            else if ((0.2f < m_fDuration) && ((_uint)(m_fDuration * 10.f)) % 8 == 0.f)
+            {
+                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x -= (m_vTextBoxMaxScale.x * 0.01f)
+                    , m_vTextBoxMaxScale.y -= (m_vTextBoxMaxScale.y * 0.01f), m_fRandomZ));
+            }
         }
     }
 }
+
 
 void CUI_DamageFont::LateTick(_float fTimeDelta)
 {
@@ -169,9 +175,10 @@ void CUI_DamageFont::Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos,
             m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
             m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColorCrit);
         }
-        m_vTextBoxMaxScale = m_vTextBoxScale * 1.2f;
+        m_vTextBoxMaxScale = m_vTextBoxScale * 1.4f;
 
         m_fRandomZ = CGameInstance::GetInstance()->Get_RandomFloat(0.f, 1.f);
+        m_fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
 
         m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
         m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));

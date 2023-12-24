@@ -5,6 +5,7 @@
 #include "UI_ChatWriteFrame.h"
 #include "UI_ChatLanguageIcon.h"
 #include "UI_ChatSmallerButton.h"
+#include "Chat_Manager.h"
 
 CUI_Chat::CUI_Chat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -33,6 +34,11 @@ HRESULT CUI_Chat::Initialize(void* pArg)
 
 	m_strUITag = TEXT("UI_Chat");
 
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Alpha(0.f);
+	}
+
 	return S_OK;
 }
 
@@ -40,6 +46,34 @@ HRESULT CUI_Chat::Initialize(void* pArg)
 void CUI_Chat::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if(!CChat_Manager::GetInstance()->Is_Chat())
+	{
+		m_bChatOff = false;
+	}
+	else
+	{
+		m_bChatting = true;
+		for (auto& iter : m_vecUIParts)
+		{
+			iter->Set_Alpha( 0.6f );
+		}
+	}
+	if ((!m_bChatOff)&&(m_bChatting))
+	{
+		m_fDuration -= fTimeDelta;
+		if (1.f >= m_fDuration)
+		{
+			for (auto& iter : m_vecUIParts)
+			{
+				iter->Decrease_Alpha(fTimeDelta);
+			}
+		}
+		else if (0 >= m_fDuration)
+		{
+			m_bChatting = false;
+			m_fDuration = 3.f;
+		}
+	}
 }
 
 void CUI_Chat::LateTick(_float fTimeDelta)

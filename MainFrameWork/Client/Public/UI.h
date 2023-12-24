@@ -92,6 +92,7 @@ public://IMGUI
 	void	Change_Alpha(_float fAlpha) { m_fAlpha += fAlpha; }
 	void	Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
 	_float	Get_Alpha() { return m_fAlpha; }
+	void	Decrease_Alpha(_float fTimeDelta) { if (0 <= m_fAlpha) m_fAlpha -= fTimeDelta; }
 	void	Set_Color(Vec4 vColor) { m_vColor = vColor; }
 	Vec4	Get_Color() { return m_vColor; }
 

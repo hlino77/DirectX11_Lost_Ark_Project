@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "UI_SkillIcon_Frame.h"
 #include "GameInstance.h"
+#include "Player.h"
 #include "Player_Skill.h"
+#include "ServerSessionManager.h"
+#include "Player_Controller_GN.h"
+#include "Player_Gunslinger.h"
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -30,9 +34,10 @@ HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
 
     if (nullptr != pArg)
     {
-        wstring* strIndex = static_cast<wstring*>(pArg);
+        m_eSkillKey = *static_cast<_uint*>(pArg) + 1;
+        wstring strIndex = to_wstring(m_eSkillKey);
         m_strUITag = TEXT("SkillIcon_Frame");
-        m_strUITag += *strIndex;
+        m_strUITag += strIndex;
     }
     else
         m_strUITag = TEXT("SkillIcon_Frame");
@@ -56,21 +61,9 @@ void CUI_SkillIcon_Frame::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     Picking_UI();
-    if (m_bHaveSkill)
-    {
-        if ((!m_bSkillOn) && (KEY_HOLD(KEY::SHIFT)) && (KEY_TAP(KEY::N)))
-            m_bSkillOn = true;
+    Get_Player_BindingSkill();
 
-        if (m_bSkillOn)
-        {
-            m_fCurrCool -= fTimeDelta;
-            if (0 >= m_fCurrCool)
-            {
-                m_bSkillOn = false;
-                m_fCurrCool = m_fCoolMaxTime;
-            }
-        }
-    }
+    m_fResultCool = m_fCoolMaxTime - m_fCurrCool;
 }
 
 void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
@@ -78,24 +71,24 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
     __super::LateTick(fTimeDelta);
     if (!m_bPick)
     {
-        if (0.f < m_fAlphShine)
-            m_fAlphShine -= 2.f* fTimeDelta;
-        else if (0 >= m_fAlphShine)
-            m_fAlphShine = 0.f;
+        if (0.f < m_fAlphaShine)
+            m_fAlphaShine -= 2.f* fTimeDelta;
+        else if (0 >= m_fAlphaShine)
+            m_fAlphaShine = 0.f;
     }
     else
     {
-        if (0.8f > m_fAlphShine)
-            m_fAlphShine += 2.5f * fTimeDelta;
-        else if (0.8f <= m_fAlphShine)
-            m_fAlphShine = 0.8f;
+        if (0.8f > m_fAlphaShine)
+            m_fAlphaShine += 2.5f * fTimeDelta;
+        else if (0.8f <= m_fAlphaShine)
+            m_fAlphaShine = 0.8f;
     }
 
-    if (m_fCurrCool == m_fCoolMaxTime)
+    if (m_fCoolMaxTime == m_fResultCool)
         m_fCoolAngle = XM_PI;
     else
     {
-        m_fCoolRatio = 1.0f - (m_fCurrCool / m_fCoolMaxTime);
+        m_fCoolRatio = 1.0f - (m_fResultCool / m_fCoolMaxTime);
         m_fCoolAngle = -XM_PI + (2 * XM_PI * m_fCoolRatio);
     }
 
@@ -114,7 +107,7 @@ HRESULT CUI_SkillIcon_Frame::Render()
     {
         if (!m_bPicked)
         {
-            if (FAILED(Bind_ShaderResources_Test()))
+            if (FAILED(Bind_ShaderResources_Skill()))
                 return E_FAIL;
         }
         else if(m_bPicked)
@@ -122,8 +115,8 @@ HRESULT CUI_SkillIcon_Frame::Render()
             if (FAILED(Bind_ShaderResources_Picked()))
                 return E_FAIL;
         }
-        m_pTextureCom_Test->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
-        //m_pPlayer_Skill->Get_Skill_Texture()->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);;
+        m_pTextureCom_Skill->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
+
         m_pShaderCom->Begin(8);
         m_pVIBufferCom->Render();
     }
@@ -145,12 +138,68 @@ HRESULT CUI_SkillIcon_Frame::Render()
 
 void CUI_SkillIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
 {
-    if (m_strCurrSkillName != m_pPlayer_Skill->Get_Skill_Name())
-    {
-        m_strCurrSkillName;//스킬 벡터들에서 해당 스킬을 찾아옴.
-        
-    }
 
+}
+
+void CUI_SkillIcon_Frame::Get_Player_BindingSkill()
+{
+    CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+    CTexture* pTexture = nullptr;
+
+    if ((_uint)CHR_CLASS::GUNSLINGER == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectType())
+        Get_Player_GN(pPlayer, pTexture);
+
+}
+
+void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
+{
+    if (nullptr != _pPlayer)
+    {
+        CPlayer_Controller_GN::GN_IDENTITY eIDentity = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_GN_Identity();
+        switch (eIDentity)
+        {
+        case CPlayer_Controller_GN::GN_IDENTITY::HAND:
+            m_iTextureIndex = 0;
+            break;
+        case CPlayer_Controller_GN::GN_IDENTITY::SHOT:
+            if (5 <= m_eSkillKey)
+                m_iTextureIndex = 1;
+            else
+                m_iTextureIndex = 0;
+            break;
+        case CPlayer_Controller_GN::GN_IDENTITY::LONG:
+            if (4 >= m_eSkillKey)
+                m_iTextureIndex = 1;
+            else
+                m_iTextureIndex = 0;
+            break;
+        }
+
+        m_pSkill = static_cast<CPlayer_Gunslinger*>(_pPlayer)->
+            Get_GN_Controller()->Get_PlayerSkill_Weapon(eIDentity, (CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+        if (nullptr != m_pSkill)
+        {
+            _pTexture = (m_pSkill->Get_Skill_Texture());
+            m_fCoolMaxTime = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCurrCool = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            Safe_AddRef(_pTexture);
+            if (nullptr != _pTexture)
+            {
+                m_bHaveSkill = true;
+                m_pTextureCom_Skill = static_cast<CTexture*>(_pTexture->Clone(nullptr, nullptr));
+            }
+            Safe_Release(_pTexture);
+        }
+        else
+        {
+            m_bHaveSkill = false;
+            m_pTextureCom_Skill = nullptr;
+        }
+    }
+}
+
+void CUI_SkillIcon_Frame::Get_Slayer_WR(CPlayer* _pPlayer, CTexture* _pTexture)
+{
 }
 
 HRESULT CUI_SkillIcon_Frame::Ready_Components()
@@ -160,10 +209,6 @@ HRESULT CUI_SkillIcon_Frame::Ready_Components()
     /* Com_Texture*/
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Empty"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Quick_Step"),
-        TEXT("Com_TextureTest"), (CComponent**)&m_pTextureCom_Test)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Shine"),
@@ -225,7 +270,7 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Shine()
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlphShine, sizeof(_float))))
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlphaShine, sizeof(_float))))
         return E_FAIL;
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
@@ -234,7 +279,7 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Shine()
     return S_OK;
 }
 
-HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Test()
+HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Skill()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -251,6 +296,26 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Test()
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fCoolAngle, sizeof(_float))))
         return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_ChangeFrame()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+        return S_OK;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+  
 
     return S_OK;
 }
@@ -287,9 +352,9 @@ void CUI_SkillIcon_Frame::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    m_pPlayer_Skill = nullptr;
+    Safe_Release(m_pSkill);
     Safe_Release(m_pTextureCom);//엠프티
-    Safe_Release(m_pTextureCom_Test);//테스트용
+    Safe_Release(m_pTextureCom_Skill);//테스트용
     Safe_Release(m_pTextureCom_Shine);//마우스 올릴시 빛나는 이펙트
     Safe_Release(m_pTextureCom_Frame);//프레임
     Safe_Release(m_pTransformCom);

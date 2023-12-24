@@ -145,6 +145,28 @@ HRESULT CPlayer_Controller_GN::Bind_LongSkill(SKILL_KEY eKey, CPlayer_Skill* pSk
 	return S_OK;
 }
 
+CPlayer_Skill* CPlayer_Controller_GN::Get_PlayerSkill_Weapon(GN_IDENTITY eStance, SKILL_KEY eKey)
+{
+	switch (eStance)
+	{
+	case GN_IDENTITY::HAND:
+		if(nullptr != m_pHandSkills[eKey])
+			return m_pHandSkills[eKey];
+		break;
+
+	case GN_IDENTITY::SHOT:
+		if (nullptr != m_pShotSkills[eKey])
+			return m_pShotSkills[eKey];
+		break;
+
+	case GN_IDENTITY::LONG:
+		if (nullptr != m_pLongSkills[eKey])
+			return m_pLongSkills[eKey];
+		break;
+	}
+	return nullptr;
+}
+
 void CPlayer_Controller_GN::Input(const _float& fTimeDelta)
 {
 

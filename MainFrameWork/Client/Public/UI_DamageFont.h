@@ -57,6 +57,7 @@ private:
 
     _float  m_fDuration = { 0.f };
     _float m_fRandomZ = { 0.f };
+    _float m_fRandomX = { 0.f };
 
     Vec4    m_vColorCrit = { 1.0f, 0.87f, 0.21f, 1.f };
     Vec4    m_vColorNormal = { 0.97f, 0.96f, 0.98f, 1.f };

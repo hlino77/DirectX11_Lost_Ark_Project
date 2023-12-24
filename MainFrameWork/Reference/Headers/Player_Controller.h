@@ -72,14 +72,14 @@ public:
 	const _bool&			Is_SkillSuccess(SKILL_KEY eKey);
 
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
-	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { return m_pSkills[eKey]; }
+	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey]; }
 	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
 	const _float& Get_Skill_CoolDown(SKILL_KEY eKey) {
-		if (nullptr == m_pSkills[eKey]) return 0.f;
+		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return 0.f;
 		else return m_fCoolDownAcc[eKey];
 	}
 	const _float& Get_Skill_CoolTime(SKILL_KEY eKey) {
-		if (nullptr == m_pSkills[eKey]) return -1.f;
+		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return -1.f;
 		else return m_fCoolTime[eKey];
 	}
 

@@ -40,6 +40,8 @@ public:
 	HRESULT			Bind_ShotSkill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 	HRESULT			Bind_LongSkill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 
+	CPlayer_Skill* Get_PlayerSkill_Weapon(GN_IDENTITY eStance, SKILL_KEY eKey);
+
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack() override;

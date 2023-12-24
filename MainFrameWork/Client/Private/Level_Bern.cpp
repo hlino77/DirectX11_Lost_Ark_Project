@@ -33,6 +33,8 @@
 #include "Projectile.h"
 #include "UI_DamageFont.h"
 #include "Damage_Manager.h"
+#include "UI_SpaceBar_Icon.h"
+
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -301,12 +303,14 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityGNUI"));
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
-
+	if ((_uint)CHR_CLASS::GUNSLINGER == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectType())
+	{
+		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityGNUI"));
+		if (nullptr == pUI)
+			return E_FAIL;
+		else
+			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+	}
 
 	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
 	if (nullptr == pUI)
@@ -333,8 +337,12 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
-
-
+	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SpaceBarIcon"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+	
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
