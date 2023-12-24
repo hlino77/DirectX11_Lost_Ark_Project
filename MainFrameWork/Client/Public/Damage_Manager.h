@@ -17,9 +17,9 @@ class CDamage_Manager final : public CBase
 public:
 	typedef struct DamageDesc
 	{
+		CGameObject* pMonster;
 		_float fScale;
 		_float fOffsetY;
-		Vec3 vPos;
 		_float fLength;
 		_bool bCritical;
 		_uint iDamage;
@@ -39,7 +39,7 @@ public:
 	void	Set_Stop(_bool bStop) { m_bStop = bStop; }
 	_bool	Is_Stop() { return m_bStop; }
 
-	void	Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritical, _uint iDamage);
+	void	Print_DamageFont(CGameObject* pMonster, _float TextBoxScale, _float fOffsetY, _float fLength, _bool IsCritical, _uint iDamage);
 
 private:
 	vector<CUI_DamageFont*> m_DamageFonts;

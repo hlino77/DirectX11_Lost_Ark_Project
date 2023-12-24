@@ -32,7 +32,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override;
     void	Set_Active(_bool bActive);
-    void	Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritical, _uint iDamage);
+    void	Print_DamageFont(CGameObject* pMonster, _float TextBoxScale, _float fOffsetY, _float fLength, _bool IsCritical, _uint iDamage);
 
 private:
     virtual HRESULT Ready_Components();
@@ -46,6 +46,8 @@ private:
     void	End_DamageFont();
 
 private:
+    CGameObject* m_pOwner;
+
     wstring m_szInputText;
     wstring m_szFont;
     wstring m_szRenderTargetIndex = TEXT("");
@@ -56,8 +58,9 @@ private:
     _bool   m_bCriticalHit = { false };
 
     _float  m_fDuration = { 0.f };
-    _float m_fRandomZ = { 0.f };
     _float m_fRandomX = { 0.f };
+    _float m_fOffSetY = { 0.f };
+    _float m_fRandomZ = { 0.f };
 
     Vec4    m_vColorCrit = { 1.0f, 0.87f, 0.21f, 1.f };
     Vec4    m_vColorNormal = { 0.97f, 0.96f, 0.98f, 1.f };

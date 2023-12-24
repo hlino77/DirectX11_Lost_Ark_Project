@@ -592,6 +592,12 @@
     <Filter Include="02.GameObjects\Monster\Golem\Behavior">
       <UniqueIdentifier>{fb61784e-cd3a-4b47-a84f-823a3ab38580}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\99.Base">
+      <UniqueIdentifier>{1f3b16a7-633f-4ceb-b80f-ad2be5eb5097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\02.Character_Select">
+      <UniqueIdentifier>{b671d02b-5b7c-4fd5-998a-12fd0a2dbf95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1710,9 +1716,6 @@
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
     </ClInclude>
@@ -2345,12 +2348,12 @@
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Golem.h" />
-    <ClInclude Include="..\Public\UI.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Monster_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3459,9 +3462,6 @@
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
     </ClCompile>
@@ -4087,12 +4087,12 @@
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
-    <ClCompile Include="..\Private\UI.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

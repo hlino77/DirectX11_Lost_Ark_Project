@@ -60,20 +60,20 @@ void CDamage_Manager::Update_DamageFonts()
 	WRITE_LOCK
 	for (auto& Damage : m_ReserveList)
 	{
-		m_DamageFonts[m_iDamageIndex]->Print_DamageFont(Damage.fScale, Damage.fOffsetY, Damage.vPos, Damage.fLength, Damage.bCritical, Damage.iDamage);
+		m_DamageFonts[m_iDamageIndex]->Print_DamageFont(Damage.pMonster, Damage.fScale, Damage.fOffsetY, Damage.fLength, Damage.bCritical, Damage.iDamage);
 
 		m_iDamageIndex = (m_iDamageIndex + 1) % m_iFontCount;
 	}
 	m_ReserveList.clear();
 }
 
-void CDamage_Manager::Print_DamageFont(_float fScale, _float fOffsetY, Vec3 vPos, _float fLength, _bool IsCritical, _uint iDamage)
+void CDamage_Manager::Print_DamageFont(CGameObject* pMonster, _float fTextBoxScale, _float fOffsetY, _float fLength, _bool IsCritical, _uint iDamage)
 {
 	WRITE_LOCK
 	DamageDesc tDamage;
-	tDamage.fScale = fScale;
+	tDamage.pMonster = pMonster;
+	tDamage.fScale = fTextBoxScale;
 	tDamage.fOffsetY = fOffsetY;
-	tDamage.vPos = vPos;
 	tDamage.fLength = fLength;
 	tDamage.bCritical = IsCritical;
 	tDamage.iDamage = iDamage;
