@@ -2,6 +2,7 @@
 #include "..\Public\Skill_WR_VolcanoEruption.h"
 #include "Player_Slayer.h"
 #include "Projectile.h"
+#include "Model.h"
 
 CSkill_WR_VolcanoEruption::CSkill_WR_VolcanoEruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Slayer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WR_VolcanoEruption"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -38,7 +39,7 @@ HRESULT CSkill_WR_VolcanoEruption::Initialize(void* pArg)
 	m_SkillProjDesc = Proj_Desc;
 
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 2.5f;
+	Proj_Desc.fRadius = 2.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.f);
 	Proj_Desc.iDamage = 200.f;
 	Proj_Desc.fRepulsion = 35.f;

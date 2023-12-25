@@ -30,6 +30,9 @@ HRESULT CState_WR_VolcanoEruption_Loop::Initialize()
 	m_SkillFrames.push_back(25);
 	m_SkillFrames.push_back(30);
 	m_SkillFrames.push_back(35);
+	m_SkillFrames.push_back(40);
+	m_SkillFrames.push_back(45);
+	m_SkillFrames.push_back(50);
 	m_SkillFrames.push_back(-1);
 
 	m_fSkillEndTime = 2.f;

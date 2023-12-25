@@ -56,6 +56,9 @@ public:
 	_uint	Get_Anim_MaxFrame(_uint iAnimation);
 	void	Set_Anim_Speed(_uint iAnimation, _float fSpeed);
 
+	const _uint&	Get_PreFrame() { return m_iPreFrame; }
+	void			Save_PreFrame(_uint iPreFrame) { m_iPreFrame = iPreFrame; }
+
 	_int	Find_BoneIndex(const wstring& szBoneName);
 	Matrix  Get_CurrBoneMatrix(_uint iIndex);
 	void	Set_CurrBoneMatrix(_uint iIndex, Matrix matValue);
@@ -131,6 +134,7 @@ private:
 	_float						m_fRootDist = { 1.f };
 	_bool						m_bRootY = { false };
 	_bool						m_bReverse = { false };
+	_uint						m_iPreFrame = { 0 };
 
 private:
 	_uint							m_iNumMeshes = 0;

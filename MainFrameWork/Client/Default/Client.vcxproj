@@ -246,10 +246,13 @@
     <ClInclude Include="..\Public\Monster_Pawn.h" />
     <ClInclude Include="..\Public\Pawn_BT_Attack2.h" />
     <ClInclude Include="..\Public\Skill_WR_BrutalImpact.h" />
+    <ClInclude Include="..\Public\Skill_WR_FlashBlade.h" />
     <ClInclude Include="..\Public\Skill_WR_FuriousClaw.h" />
     <ClInclude Include="..\Public\Skill_WR_Guillotine.h" />
     <ClInclude Include="..\Public\Skill_WR_SpiningSword.h" />
     <ClInclude Include="..\Public\Skill_WR_VolcanoEruption.h" />
+    <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
+    <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
     <ClInclude Include="..\Public\State_WR_BrutalImpact_End.h" />
     <ClInclude Include="..\Public\State_GN_Dash_2_End.h" />
     <ClInclude Include="..\Public\State_GN_Dash_2.h" />
@@ -275,6 +278,7 @@
     <ClInclude Include="..\Public\State_WR_BrutalImpact_Loop.h" />
     <ClInclude Include="..\Public\State_WR_BrutalImpact_Start.h" />
     <ClInclude Include="..\Public\State_WR_Dash.h" />
+    <ClInclude Include="..\Public\State_WR_FlashBalde.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_Loop.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_Start.h" />
@@ -298,6 +302,10 @@
     <ClInclude Include="..\Public\State_WR_VolcanoEruption_Start_1.h" />
     <ClInclude Include="..\Public\State_WR_VolcanoEruption_Start_2.h" />
     <ClInclude Include="..\Public\State_WR_VolcanoEruption_Success.h" />
+    <ClInclude Include="..\Public\State_WR_WildRush_End.h" />
+    <ClInclude Include="..\Public\State_WR_WildRush_Start.h" />
+    <ClInclude Include="..\Public\State_WR_WildRush_Stop.h" />
+    <ClInclude Include="..\Public\State_WR_WildStomp.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
@@ -504,10 +512,13 @@
     <ClCompile Include="..\Private\Monster_Pawn.cpp" />
     <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp" />
     <ClCompile Include="..\Private\Skill_WR_BrutalImpact.cpp" />
+    <ClCompile Include="..\Private\Skill_WR_FlashBlade.cpp" />
     <ClCompile Include="..\Private\Skill_WR_FuriousClaw.cpp" />
     <ClCompile Include="..\Private\Skill_WR_Guillotine.cpp" />
     <ClCompile Include="..\Private\Skill_WR_SpiningSword.cpp" />
     <ClCompile Include="..\Private\Skill_WR_VolcanoEruption.cpp" />
+    <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
+    <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\State_WR_BrutalImpact_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_2_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_2.cpp" />
@@ -533,6 +544,7 @@
     <ClCompile Include="..\Private\State_WR_BrutalImpact_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_BrutalImpact_Start.cpp" />
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
+    <ClCompile Include="..\Private\State_WR_FlashBalde.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_Start.cpp" />
@@ -556,6 +568,10 @@
     <ClCompile Include="..\Private\State_WR_VolcanoEruption_Start_1.cpp" />
     <ClCompile Include="..\Private\State_WR_VolcanoEruption_Start_2.cpp" />
     <ClCompile Include="..\Private\State_WR_VolcanoEruption_Success.cpp" />
+    <ClCompile Include="..\Private\State_WR_WildRush_End.cpp" />
+    <ClCompile Include="..\Private\State_WR_WildRush_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_WildRush_Stop.cpp" />
+    <ClCompile Include="..\Private\State_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />

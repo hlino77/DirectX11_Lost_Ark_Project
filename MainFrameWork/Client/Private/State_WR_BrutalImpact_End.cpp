@@ -32,7 +32,7 @@ void CState_WR_BrutalImpact_End::Enter_State()
 {
 	m_iSkillCnt = 0;
 
-	m_pPlayer->Reserve_Animation(m_BrutalImpact_End, 0.1f, 0, 0);
+	m_pPlayer->Reserve_Animation(m_BrutalImpact_End, 0.1f, 0, 0, 1.f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_BrutalImpact_End, 1.2f);
 	else

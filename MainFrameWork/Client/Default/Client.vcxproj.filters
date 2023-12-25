@@ -628,6 +628,24 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\BrutalImpact">
       <UniqueIdentifier>{90ea686b-07df-43b1-a097-f97ec7770c1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp">
+      <UniqueIdentifier>{aff96801-085e-49ba-bae1-8f16ddd4929a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp">
+      <UniqueIdentifier>{f67fc9f4-3439-4145-9201-830842d52d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade">
+      <UniqueIdentifier>{ce9619bd-0898-4bea-a4f1-33d2a7d2f37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade">
+      <UniqueIdentifier>{fd3dfb89-3de7-461f-837c-55da2f10bee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush">
+      <UniqueIdentifier>{025b0656-6b09-42f0-abe7-f4e4315884e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush">
+      <UniqueIdentifier>{839be27e-87a4-4c45-abef-f2439f78d3c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2457,6 +2475,30 @@
     <ClInclude Include="..\Public\State_WR_BrutalImpact_Start.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildStomp.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_WildStomp.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_FlashBlade.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_FlashBalde.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_WildRush.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildRush_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildRush_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildRush_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4267,6 +4309,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_BrutalImpact_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildStomp.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_FlashBlade.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_FlashBalde.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_WildRush.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildRush_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildRush_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildRush_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

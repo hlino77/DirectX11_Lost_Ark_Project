@@ -23,10 +23,10 @@ HRESULT CState_WR_BrutalImpact_Loop::Initialize()
 		m_TickFunc = &CState_WR_BrutalImpact_Loop::Tick_State_NoneControl;
 
 
-	m_fSkillEndTime = 1.5f;
+	m_fSkillEndTime = 2.f;
 
-	m_fSkillSuccessTime_Max = 1.5f;
-	m_fSkillSuccessTime_Min = 1.f;
+	m_fSkillSuccessTime_Max = 2.f;
+	m_fSkillSuccessTime_Min = 1.5f;
 
 	return S_OK;
 }

@@ -33,7 +33,7 @@ void CState_WR_SpiningSword_End::Enter_State()
 {
 	m_iSkillCnt = 0;
 
-	m_pPlayer->Reserve_Animation(m_iSpiningSword_End, 0.1f, 0, 0);
+	m_pPlayer->Reserve_Animation(m_iSpiningSword_End, 0.1f, 0, 0, 1.2f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iSpiningSword_End, 1.3f);
 	else

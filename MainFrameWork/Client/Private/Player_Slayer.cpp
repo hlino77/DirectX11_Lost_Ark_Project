@@ -51,7 +51,11 @@
 #include "State_WR_BrutalImpact_Loop.h"
 #include "State_WR_BrutalImpact_End.h"
 #include "State_WR_BrutalImpact_End_2.h"
-
+#include "State_WR_WildStomp.h"
+#include "State_WR_FlashBalde.h"
+#include "State_WR_WildRush_Start.h"
+#include "State_WR_WildRush_End.h"
+#include "State_WR_WildRush_Stop.h"
 
 /* ½ºÅ³ */
 #include "Skill_WR_FuriousClaw.h"
@@ -59,6 +63,9 @@
 #include "Skill_WR_VolcanoEruption.h"
 #include "Skill_WR_Guillotine.h"
 #include "Skill_WR_BrutalImpact.h"
+#include "Skill_WR_WildStomp.h"
+#include "Skill_WR_FlashBlade.h"
+#include "Skill_WR_WildRush.h"
 
 
 CPlayer_Slayer::CPlayer_Slayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -237,7 +244,20 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 		}
 	}
-	
+	if (TEXT("Skill_WR_WildRush_End") == Get_State())
+	{
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+			}
+		}
+	}
 }
 
 void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -447,6 +467,21 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_WR_BrutalImpact_End_2"), CState_WR_BrutalImpact_End_2::Create(TEXT("Skill_WR_BrutalImpact_End_2"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildStomp"), CState_WR_WildStomp::Create(TEXT("Skill_WR_WildStomp"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_FlashBlade"), CState_WR_FlashBalde::Create(TEXT("Skill_WR_FlashBlade"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Start"), CState_WR_WildRush_Start::Create(TEXT("Skill_WR_WildRush_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_End"), CState_WR_WildRush_End::Create(TEXT("Skill_WR_WildRush_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Stop"), CState_WR_WildRush_Stop::Create(TEXT("Skill_WR_WildRush_Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -509,6 +544,32 @@ HRESULT CPlayer_Slayer::Ready_Skill()
 	pSkill = CSkill_WR_BrutalImpact::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_WildStomp");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildStomp")));
+	pSkill = CSkill_WR_WildStomp::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_FlashBlade");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FlashBlade")));
+	pSkill = CSkill_WR_FlashBlade::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_WildRush_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildRush_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildRush_End")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildRush_Stop")));
+	pSkill = CSkill_WR_WildRush::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	return S_OK;

@@ -62,6 +62,7 @@ public:
 	void		Get_HitMessage(CGameObject* pHitObject);
 
 	void		Get_RootMessage();
+	void		Get_RootZeroMessage();
 public:
 	_bool		Is_Stop() { return m_bMoveStop; }
 

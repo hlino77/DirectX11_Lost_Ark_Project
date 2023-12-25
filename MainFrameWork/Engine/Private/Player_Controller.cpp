@@ -183,6 +183,12 @@ void CPlayer_Controller::Get_RootMessage()
 	}
 }
 
+void CPlayer_Controller::Get_RootZeroMessage()
+{
+	m_pOwner->Get_ModelCom()->Set_RootDist(0.f);
+	m_pOwnerTransform->Set_State(CTransform::STATE_POSITION, m_vPrePos);
+}
+
 void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)
 {
 	if (true == m_pOwner->Is_Invincible() || nullptr == pHitObject)
