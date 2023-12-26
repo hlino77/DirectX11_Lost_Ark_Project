@@ -245,13 +245,17 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 	if (iSize - 1 == iIndex)
 	{
-		ThreadManager::GetInstance()->EnqueueJob([=]()
-			{
-				promise<HRESULT> PromiseInstance;
-				m_pInstaceData->Future_Instance = PromiseInstance.get_future();
 
-				PromiseInstance.set_value(Ready_Instance_For_Render(iSize));
-			});
+		//m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
+		m_pInstaceData->Future_Instance = std::async(&CStaticModel::Ready_Instance_For_Render, this, iSize);
+
+		//ThreadManager::GetInstance()->EnqueueJob([=]()
+		//	{
+		//		promise<HRESULT> PromiseInstance;
+		//		m_pInstaceData->Future_Instance = PromiseInstance.get_future();
+		//		PromiseInstance.set_value(Ready_Instance_For_Render(iSize));
+		//	});
 	}
 	else
 		++iIndex;
