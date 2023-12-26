@@ -444,6 +444,11 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 	return CNavigationMgr::GetInstance()->Picking_Cell(vRayPos, vRayDir, vPickPos);
 }
 
+void CPlayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)
+{
+	m_Parts[ePart]->Set_Render(Is_Render);
+}
+
 HRESULT CPlayer::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

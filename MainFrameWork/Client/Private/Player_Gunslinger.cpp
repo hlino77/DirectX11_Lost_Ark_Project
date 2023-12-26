@@ -330,12 +330,6 @@ void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2)
 
 	if (true == Is_Shot2)
 		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
-
-}
-
-void CPlayer_Gunslinger::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)
-{
-	m_Parts[ePart]->Set_Render(Is_Render);
 }
 
 HRESULT CPlayer_Gunslinger::Ready_Components()

@@ -583,6 +583,60 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
       <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity\Iden_Skill">
+      <UniqueIdentifier>{e9ef2d6f-af19-423c-84d9-5ea97645a710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill">
+      <UniqueIdentifier>{c00bf8ca-c298-4caa-8c78-3073467180f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw">
+      <UniqueIdentifier>{c20cdf02-bf84-42c8-bc4f-b25a28be769a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword">
+      <UniqueIdentifier>{804efd1f-c3b6-401b-aab4-3cb7fb431f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\FuriousClaw">
+      <UniqueIdentifier>{19819387-9f50-4d40-b6f3-cbae6e32beba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\SpiningSword">
+      <UniqueIdentifier>{4e8070ba-ffd3-4a7d-9c68-fec68c177794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption">
+      <UniqueIdentifier>{77093d44-74f5-4463-be91-70593e1d913e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\VoclanoEruption">
+      <UniqueIdentifier>{0a7a39ec-e010-4531-8d62-4c5aaa382476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine">
+      <UniqueIdentifier>{f6ad96ab-1c21-4ac4-b898-6cd2593520bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\Guillotine">
+      <UniqueIdentifier>{a48c34d7-b486-4445-9c4a-49784dde4007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact">
+      <UniqueIdentifier>{48265af2-1167-410f-a5d7-0205b67c085f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\BrutalImpact">
+      <UniqueIdentifier>{90ea686b-07df-43b1-a097-f97ec7770c1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp">
+      <UniqueIdentifier>{aff96801-085e-49ba-bae1-8f16ddd4929a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp">
+      <UniqueIdentifier>{f67fc9f4-3439-4145-9201-830842d52d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade">
+      <UniqueIdentifier>{ce9619bd-0898-4bea-a4f1-33d2a7d2f37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade">
+      <UniqueIdentifier>{fd3dfb89-3de7-461f-837c-55da2f10bee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush">
+      <UniqueIdentifier>{025b0656-6b09-42f0-abe7-f4e4315884e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush">
+      <UniqueIdentifier>{839be27e-87a4-4c45-abef-f2439f78d3c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2315,15 +2369,115 @@
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Golem.h" />
-    <ClInclude Include="..\Public\UI.h">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Monster_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Iden_Skill.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity\Iden_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_FuriousClaw_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_FuriousClaw_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_FuriousClaw.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\FuriousClaw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_SpiningSword.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\SpiningSword</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_SpiningSword_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_SpiningSword_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_SpiningSword_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_VolcanoEruption.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_VolcanoEruption_Fail.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_VolcanoEruption_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_VolcanoEruption_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_VolcanoEruption_Success.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_VolcanoEruption_Start_1.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_VolcanoEruption_Start_2.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_Guillotine.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\Guillotine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Guillotine_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Guillotine_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Guillotine_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_BrutalImpact.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\BrutalImpact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_BrutalImpact_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_BrutalImpact_End_2.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_BrutalImpact_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_BrutalImpact_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildStomp.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_WildStomp.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_FlashBlade.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_FlashBalde.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WR_WildRush.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildRush_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildRush_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_WildRush_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+>>>>>>> origin/feature/HeeJun
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4027,15 +4181,114 @@
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
-    <ClCompile Include="..\Private\UI.cpp">
-      <Filter>02.GameObjects\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\Monster_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Iden_Skill.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity\Iden_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_FuriousClaw_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_FuriousClaw_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FuriousClaw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_FuriousClaw.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\FuriousClaw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_SpiningSword.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\SpiningSword</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_SpiningSword_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_SpiningSword_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_SpiningSword_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_VolcanoEruption.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_VolcanoEruption_Fail.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_VolcanoEruption_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_VolcanoEruption_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_VolcanoEruption_Success.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_VolcanoEruption_Start_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_VolcanoEruption_Start_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_Guillotine.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\Guillotine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Guillotine_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Guillotine_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Guillotine_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_BrutalImpact.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\BrutalImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_BrutalImpact_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_BrutalImpact_End_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_BrutalImpact_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_BrutalImpact_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildStomp.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_FlashBlade.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_FlashBalde.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WR_WildRush.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildRush_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildRush_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_WildRush_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

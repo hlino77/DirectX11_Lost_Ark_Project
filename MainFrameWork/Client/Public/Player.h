@@ -149,6 +149,7 @@ public:
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
 	void					Set_SuperArmorState(_bool IsSuperArmor) { m_bInvincible = IsSuperArmor; }
 
+	void					Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
 
 
 protected:

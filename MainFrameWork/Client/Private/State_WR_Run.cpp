@@ -138,6 +138,12 @@ void CState_WR_Run::Tick_State_NoneControl(_float fTimeDelta)
 	{
 		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
 	}
+
+	if (m_iRun == m_Run_Identity && false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_Run_Normal, 0.2f, 0, 0);
+		m_iRun = m_Run_Normal;
+	}
 	
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }

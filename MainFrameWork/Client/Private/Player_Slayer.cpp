@@ -29,11 +29,43 @@
 #include "State_WR_Identity_Attack_2.h"
 #include "State_WR_Identity_Attack_3.h"
 #include "State_WR_Identity_Attack_4.h"
+#include "State_WR_Iden_Skill.h"
 
 /* State_Skill */
-
+#include "State_WR_FuriousClaw_Start.h"
+#include "State_WR_FuriousClaw_Loop.h"
+#include "State_WR_FuriousClaw_End.h"
+#include "State_WR_SpiningSword_Start.h"
+#include "State_WR_SpiningSword_Loop.h"
+#include "State_WR_SpiningSword_End.h"
+#include "State_WR_VolcanoEruption_Start.h"
+#include "State_WR_VolcanoEruption_Start_1.h"
+#include "State_WR_VolcanoEruption_Start_2.h"
+#include "State_WR_VolcanoEruption_Loop.h"
+#include "State_WR_VolcanoEruption_Fail.h"
+#include "State_WR_VolcanoEruption_Success.h"
+#include "State_WR_Guillotine_Start.h"
+#include "State_WR_Guillotine_Loop.h"
+#include "State_WR_Guillotine_End.h"
+#include "State_WR_BrutalImpact_Start.h"
+#include "State_WR_BrutalImpact_Loop.h"
+#include "State_WR_BrutalImpact_End.h"
+#include "State_WR_BrutalImpact_End_2.h"
+#include "State_WR_WildStomp.h"
+#include "State_WR_FlashBalde.h"
+#include "State_WR_WildRush_Start.h"
+#include "State_WR_WildRush_End.h"
+#include "State_WR_WildRush_Stop.h"
 
 /* 스킬 */
+#include "Skill_WR_FuriousClaw.h"
+#include "Skill_WR_SpiningSword.h"
+#include "Skill_WR_VolcanoEruption.h"
+#include "Skill_WR_Guillotine.h"
+#include "Skill_WR_BrutalImpact.h"
+#include "Skill_WR_WildStomp.h"
+#include "Skill_WR_FlashBlade.h"
+#include "Skill_WR_WildRush.h"
 
 
 CPlayer_Slayer::CPlayer_Slayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -187,7 +219,45 @@ HRESULT CPlayer_Slayer::Render_ShadowDepth()
 
 void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-
+	if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
+	{
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				m_pController->Increase_IdenGage(10);
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				m_pController->Increase_IdenGage(10);
+			}
+		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				m_pController->Increase_IdenGage(50);
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				m_pController->Increase_IdenGage(50);
+			}
+		}
+	}
+	if (TEXT("Skill_WR_WildRush_End") == Get_State())
+	{
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+			}
+		}
+	}
 }
 
 void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -248,11 +318,6 @@ void CPlayer_Slayer::Set_Colliders(_float fTimeDelta)
 		if (Collider.second->IsActive())
 			Collider.second->Update_Collider();
 	}
-}
-
-void CPlayer_Slayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)
-{
-	m_Parts[ePart]->Set_Render(Is_Render);
 }
 
 HRESULT CPlayer_Slayer::Ready_Components()
@@ -341,22 +406,171 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Identity_Attack_4"), CState_WR_Identity_Attack_4::Create(TEXT("Identity_Attack_4"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("WR_Identity_Skill"), CState_WR_Iden_Skill::Create(TEXT("WR_Identity_Skill"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+	
+	/* 스킬 상태 */
+	m_pStateMachine->Add_State(TEXT("Skill_WR_FuriousClaw_Start"), CState_WR_FuriousClaw_Start::Create(TEXT("Skill_WR_FuriousClaw_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_FuriousClaw_Loop"), CState_WR_FuriousClaw_Loop::Create(TEXT("Skill_WR_FuriousClaw_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_FuriousClaw_End"), CState_WR_FuriousClaw_End::Create(TEXT("Skill_WR_FuriousClaw_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_SpiningSword_Start"), CState_WR_SpiningSword_Start::Create(TEXT("Skill_WR_SpiningSword_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_SpiningSword_Loop"), CState_WR_SpiningSword_Loop::Create(TEXT("Skill_WR_SpiningSword_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_SpiningSword_End"), CState_WR_SpiningSword_End::Create(TEXT("Skill_WR_SpiningSword_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_VolcanoEruption_Start"), CState_WR_VolcanoEruption_Start::Create(TEXT("Skill_WR_VolcanoEruption_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_VolcanoEruption_Start_1"), CState_WR_VolcanoEruption_Start_1::Create(TEXT("Skill_WR_VolcanoEruption_Start_1"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_VolcanoEruption_Start_2"), CState_WR_VolcanoEruption_Start_2::Create(TEXT("Skill_WR_VolcanoEruption_Start_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_VolcanoEruption_Loop"), CState_WR_VolcanoEruption_Loop::Create(TEXT("Skill_WR_VolcanoEruption_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_VolcanoEruption_Fail"), CState_WR_VolcanoEruption_Fail::Create(TEXT("Skill_WR_VolcanoEruption_Fail"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_VolcanoEruption_Success"), CState_WR_VolcanoEruption_Success::Create(TEXT("Skill_WR_VolcanoEruption_Success"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_Guillotine_Start"), CState_WR_Guillotine_Start::Create(TEXT("Skill_WR_Guillotine_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_Guillotine_Loop"), CState_WR_Guillotine_Loop::Create(TEXT("Skill_WR_Guillotine_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_Guillotine_End"), CState_WR_Guillotine_End::Create(TEXT("Skill_WR_Guillotine_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_BrutalImpact_Start"), CState_WR_BrutalImpact_Start::Create(TEXT("Skill_WR_BrutalImpact_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_BrutalImpact_Loop"), CState_WR_BrutalImpact_Loop::Create(TEXT("Skill_WR_BrutalImpact_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_BrutalImpact_End"), CState_WR_BrutalImpact_End::Create(TEXT("Skill_WR_BrutalImpact_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_BrutalImpact_End_2"), CState_WR_BrutalImpact_End_2::Create(TEXT("Skill_WR_BrutalImpact_End_2"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildStomp"), CState_WR_WildStomp::Create(TEXT("Skill_WR_WildStomp"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_FlashBlade"), CState_WR_FlashBalde::Create(TEXT("Skill_WR_FlashBlade"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Start"), CState_WR_WildRush_Start::Create(TEXT("Skill_WR_WildRush_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_End"), CState_WR_WildRush_End::Create(TEXT("Skill_WR_WildRush_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Stop"), CState_WR_WildRush_Stop::Create(TEXT("Skill_WR_WildRush_Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
 HRESULT CPlayer_Slayer::Ready_Skill()
 {
-	//CPlayer_Skill* pSkill = nullptr;
-	//CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
-	///* 핸드건 스킬 */
-	//SkillDesc.pOwner = this;
-	//SkillDesc.strSkill_StartName = TEXT("Skill_GN_QuickStep_Start");
-	//SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_Start")));
-	//SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_QuickStep_End")));
-	//pSkill = CSkill_GN_QuickStep::Create(m_pDevice, m_pContext, this, &SkillDesc);
-	//m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
-	//m_pController->Bind_HandSkill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
-	//SkillDesc.State_Skills.clear();
+	CPlayer_Skill* pSkill = nullptr;
+	CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
+	
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_FuriousClaw_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FuriousClaw_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FuriousClaw_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FuriousClaw_End")));
+	pSkill = CSkill_WR_FuriousClaw::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_SpiningSword_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_SpiningSword_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_SpiningSword_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_SpiningSword_End")));
+	pSkill = CSkill_WR_SpiningSword::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_VolcanoEruption_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_VolcanoEruption_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_VolcanoEruption_Start_1")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_VolcanoEruption_Start_2")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_VolcanoEruption_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_VolcanoEruption_Fail")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_VolcanoEruption_Success")));
+	pSkill = CSkill_WR_VolcanoEruption::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_Guillotine_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_Guillotine_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_Guillotine_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_Guillotine_End")));
+	pSkill = CSkill_WR_Guillotine::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::R, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_BrutalImpact_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_BrutalImpact_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_BrutalImpact_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_BrutalImpact_End")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_BrutalImpact_End_2")));
+	pSkill = CSkill_WR_BrutalImpact::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_WildStomp");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildStomp")));
+	pSkill = CSkill_WR_WildStomp::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_FlashBlade");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FlashBlade")));
+	pSkill = CSkill_WR_FlashBlade::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WR_WildRush_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildRush_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildRush_End")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_WildRush_Stop")));
+	pSkill = CSkill_WR_WildRush::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
 
 	return S_OK;
 }

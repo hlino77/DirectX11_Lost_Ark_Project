@@ -4,7 +4,7 @@
 #include "State_Skill.h"
 
 CSkill_GN_Apocalypse::CSkill_GN_Apocalypse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
-	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
+	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_Apocalypse"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
 {
 }
 

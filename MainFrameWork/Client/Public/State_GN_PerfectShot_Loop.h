@@ -30,9 +30,6 @@ private:
 	//Animation
 	_int m_iPerfectShot_Loop = 0;
 
-	_float m_fSuccess_MinTime = { 3.f };
-	_float m_fSuccess_MaxTime = { 3.5f };
-
 public:
 	static CState_GN_PerfectShot_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

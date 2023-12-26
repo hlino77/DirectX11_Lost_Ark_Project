@@ -21,19 +21,21 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();
-
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
 
 public:
+	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 	void			Set_Attack_Desc(_uint iIndex) { m_AttackDesc = m_Attack_Desces[iIndex]; }
 
 public:
 	virtual void	Get_AttackMessage() { Attack(); }
-	void			Get_WR_IdentityMessage() { m_IsIdentity = true; m_iIdentityGage = m_iMaxGage; }
-	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; }
+	void			Get_WR_IdentityMessage();
+	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_iIdentityGage -= 10; }
 
-
+	void			Increase_IdenGage(_uint iGage);
+	
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack() override;
@@ -42,11 +44,11 @@ private:
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 private:
-	PROJECTILE_DESC	m_Attack_Desces[2];
+	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
 	_uint   m_iIdentityGage = { 0 };
-	_uint	m_iMaxGage = { 50 };
+	_uint	m_iMaxGage = { 100 };
 	_float  m_fTimdeAcc = { 0.f };
 
 public:

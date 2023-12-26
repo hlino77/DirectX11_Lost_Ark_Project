@@ -34,10 +34,8 @@ public:
 	void			Send_PlayerInfo();
 	void			Set_Colliders(_float fTimeDelta);
 
-	void			Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
-
 public:
-	class CController_WR* Get_GN_Controller() { return m_pController; }
+	class CController_WR* Get_WR_Controller() { return m_pController; }
 
 private:
 	virtual HRESULT Ready_Components() override;

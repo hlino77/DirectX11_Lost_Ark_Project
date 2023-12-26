@@ -45,7 +45,7 @@ public:
 	_bool		Is_Interect();
 	_bool		Is_Dash();
 	_bool		Is_Attack();
-	const _uint& Is_Hit() { return m_eHitType; }
+	const _uint& Is_Hit() { return (_uint)m_eHitType; }
 
 	void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f) { m_vNextMove = vPos; m_bStop = false; m_IsDir = false; m_fMoveSpeed = fMoveSpeed; }
 	void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f)  { m_vNextMove = vPos; m_bStop = false; m_IsDir = true; m_fMoveSpeed = fMoveSpeed; }
@@ -61,6 +61,8 @@ public:
 	void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
 	void		Get_HitMessage(CGameObject* pHitObject);
 
+	void		Get_RootMessage();
+	void		Get_RootZeroMessage();
 public:
 	_bool		Is_Stop() { return m_bMoveStop; }
 
@@ -75,11 +77,11 @@ public:
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
 	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey]; }
 	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
-	const _float& Get_Skill_CoolDown(SKILL_KEY eKey) {
+	_float Get_Skill_CoolDown(SKILL_KEY eKey) {
 		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return 0.f;
 		else return m_fCoolDownAcc[eKey];
 	}
-	const _float& Get_Skill_CoolTime(SKILL_KEY eKey) {
+	_float Get_Skill_CoolTime(SKILL_KEY eKey) {
 		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return -1.f;
 		else return m_fCoolTime[eKey];
 	}

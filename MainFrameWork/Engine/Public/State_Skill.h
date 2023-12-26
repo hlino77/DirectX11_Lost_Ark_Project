@@ -21,6 +21,8 @@ public:
 
 	virtual const _float& Get_SkillEndTime() { return m_fSkillEndTime; }
 	virtual const _float& Get_SkillTimeAcc() { return m_fSkillTimeAcc; }
+	virtual const _float& Get_SkillSuccessTime_Min() { return m_fSkillSuccessTime_Min; }
+	virtual const _float& Get_SkillSuccessTime_Max() { return m_fSkillSuccessTime_Max; }
 
 	virtual const _bool& Is_SkillAttack() { return m_IsAttack; }
 
@@ -33,6 +35,9 @@ protected:
 
 	_float	m_fSkillTimeAcc = { 0.f };
 	_float	m_fSkillEndTime = { 0.f };
+
+	_float	m_fSkillSuccessTime_Min = { 0.f };
+	_float	m_fSkillSuccessTime_Max = { 0.f };
 
 	_bool	m_IsAttack = { false };
 

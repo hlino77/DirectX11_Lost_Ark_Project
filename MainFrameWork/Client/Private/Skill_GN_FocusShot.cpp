@@ -5,7 +5,7 @@
 #include "Model.h"
 
 CSkill_GN_FocusShot::CSkill_GN_FocusShot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
-	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
+	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_FocusShot"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
 {
 }
 

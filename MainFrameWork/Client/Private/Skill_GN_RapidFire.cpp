@@ -4,7 +4,7 @@
 #include "Projectile.h"
 
 CSkill_GN_RapidFire::CSkill_GN_RapidFire(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
-	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
+	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_Rapidfire"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
 {
 }
 

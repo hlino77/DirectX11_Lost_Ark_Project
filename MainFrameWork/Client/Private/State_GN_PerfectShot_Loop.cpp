@@ -22,8 +22,10 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_PerfectShot_Loop::Tick_State_NoneControl;
 
-
 	m_fSkillEndTime = 4.f;
+
+	m_fSkillSuccessTime_Min = 3.f;
+	m_fSkillSuccessTime_Max = 3.5f;
 
 	return S_OK;
 }
@@ -66,7 +68,7 @@ void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_TargetPos(vClickPos);
 		m_pPlayer->Set_State(TEXT("Skill_GN_PerfectShot_End"));
 
-		if (m_fSuccess_MinTime <= m_fSkillTimeAcc && m_fSuccess_MaxTime >= m_fSkillTimeAcc)
+		if (m_fSkillSuccessTime_Min <= m_fSkillTimeAcc && m_fSkillSuccessTime_Max >= m_fSkillTimeAcc)
 			m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Set_SkillSuccess(true);
 	}
 }
