@@ -36,7 +36,7 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 		{
 			m_bConnect = true;
 
-			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::GUNSLINGER);
+			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::SLAYER);
 			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
 
 

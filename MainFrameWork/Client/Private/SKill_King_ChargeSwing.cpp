@@ -3,17 +3,17 @@
 #include "GameInstance.h"
 
 
-CSKill_King_Eruption::CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSKill_King_ChargeSwing::CSKill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_King_Eruption::CSKill_King_Eruption(const CSKill_King_Eruption& rhs)
+CSKill_King_ChargeSwing::CSKill_King_ChargeSwing(const CSKill_King_ChargeSwing& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_King_Eruption::Initialize_Prototype()
+HRESULT CSKill_King_ChargeSwing::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -21,50 +21,50 @@ HRESULT CSKill_King_Eruption::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_King_Eruption::Initialize(void* pArg)
+HRESULT CSKill_King_ChargeSwing::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
     return S_OK;
 }
 
-void CSKill_King_Eruption::Tick(_float fTimeDelta)
+void CSKill_King_ChargeSwing::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
 }
 
-void CSKill_King_Eruption::LateTick(_float fTimeDelta)
+void CSKill_King_ChargeSwing::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_King_Eruption::Render()
+HRESULT CSKill_King_ChargeSwing::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
     return S_OK;
 }
 
-void CSKill_King_Eruption::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSKill_King_ChargeSwing::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_Eruption::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSKill_King_ChargeSwing::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_Eruption::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSKill_King_ChargeSwing::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_King_Eruption::Ready_Coliders()
+HRESULT CSKill_King_ChargeSwing::Ready_Coliders()
 {
     return S_OK;
 }
 
-HRESULT CSKill_King_Eruption::Ready_Components()
+HRESULT CSKill_King_ChargeSwing::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -72,9 +72,9 @@ HRESULT CSKill_King_Eruption::Ready_Components()
     return S_OK;
 }
 
-CSKill_King_Eruption* CSKill_King_Eruption::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSKill_King_ChargeSwing* CSKill_King_ChargeSwing::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_King_Eruption* pInstance = new CSKill_King_Eruption(pDevice, pContext);
+    CSKill_King_ChargeSwing* pInstance = new CSKill_King_ChargeSwing(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -85,9 +85,9 @@ CSKill_King_Eruption* CSKill_King_Eruption::Create(ID3D11Device* pDevice, ID3D11
 	return pInstance;
 }
 
-CGameObject* CSKill_King_Eruption::Clone(void* pArg)
+CGameObject* CSKill_King_ChargeSwing::Clone(void* pArg)
 {
-    CSKill_King_Eruption* pInstance = new CSKill_King_Eruption(*this);
+    CSKill_King_ChargeSwing* pInstance = new CSKill_King_ChargeSwing(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -98,7 +98,7 @@ CGameObject* CSKill_King_Eruption::Clone(void* pArg)
 	return pInstance;
 }
 
-void CSKill_King_Eruption::Free()
+void CSKill_King_ChargeSwing::Free()
 {
 	__super::Free();
 }

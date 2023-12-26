@@ -394,6 +394,7 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 HRESULT CMainApp::Ready_Prototype_Font()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	pGameInstance->AddFont(L"125", L"../Bin/Resources/Fonts/125.spritefont");
 	pGameInstance->AddFont(L"AdobeFont", L"../Bin/Resources/Fonts/AdobeFont.spritefont");

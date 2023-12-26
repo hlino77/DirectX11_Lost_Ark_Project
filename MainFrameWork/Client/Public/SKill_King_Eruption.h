@@ -1,7 +1,5 @@
 #pragma once
 #include "Skill.h"
-#include "Client_Defines.h"
-#include <atomic>
 
 BEGIN(Engine)
 class CTransform;
@@ -14,7 +12,7 @@ END
 
 BEGIN(Client)
 
-class CSKill_King_Eruption :	public CSkill
+class CSKill_King_Eruption : public CSkill
 {
 protected:
 	CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

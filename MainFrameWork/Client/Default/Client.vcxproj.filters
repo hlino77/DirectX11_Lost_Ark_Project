@@ -2374,9 +2374,6 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Monster_Golem.h">
@@ -4196,9 +4193,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />

@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_King_Eruption :	public CSkill
+class CSKill_King_ChargeSwing :	public CSkill
 {
 protected:
-	CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_King_Eruption(const CSKill_King_Eruption& rhs);
-	virtual ~CSKill_King_Eruption() = default;
+	CSKill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSKill_King_ChargeSwing(const CSKill_King_ChargeSwing& rhs);
+	virtual ~CSKill_King_ChargeSwing() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -48,7 +48,7 @@ protected:
 
 
 public:
-	CSKill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSKill_King_ChargeSwing* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 };
