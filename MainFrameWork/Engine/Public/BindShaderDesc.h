@@ -27,7 +27,7 @@ struct ENGINE_DLL LightDesc
 	Color emissive = Color(1.f, 1.f, 1.f, 1.f);
 
 	Vec3 direction;
-	float padding0;
+	_float padding0;
 };
 
 struct ENGINE_DLL MaterialDesc
@@ -64,9 +64,9 @@ struct ENGINE_DLL KeyframeDesc
 	int32 animIndex = 0;
 	uint32 currFrame = 0;
 	uint32 nextFrame = 0;
-	float ratio = 0.f;
-	float sumTime = 0.f;
-	float speed = 1.f;
+	_float ratio = 0.f;
+	_float sumTime = 0.f;
+	_float speed = 1.f;
 	Vec2 padding;
 };
 
@@ -88,10 +88,10 @@ struct ENGINE_DLL TweenDesc
 		tweenRatio = 0;
 	}
 	
-	float tweenDuration = 1.0f;
-	float tweenRatio = 0.f;
-	float tweenSumTime = 0.f;
-	float padding = 0.f;
+	_float tweenDuration = 1.0f;
+	_float tweenRatio = 0.f;
+	_float tweenSumTime = 0.f;
+	_float padding = 0.f;
 	KeyframeDesc curr;
 	KeyframeDesc next;
 };
@@ -106,13 +106,13 @@ struct ENGINE_DLL SnowBillboardDesc
 	Color color = Color(1, 1, 1, 1);
 
 	Vec3 velocity = Vec3(0, -5, 0);
-	float drawDistance = 0;
+	_float drawDistance = 0;
 
 	Vec3 origin = Vec3(0, 0, 0);
-	float turbulence = 5;
+	_float turbulence = 5;
 
 	Vec3 extent = Vec3(0, 0, 0);
-	float time;
+	_float time;
 };
 
 END

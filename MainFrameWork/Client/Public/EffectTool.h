@@ -26,8 +26,6 @@ public:
 
 private:
 	void	Input();
-	//void	PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition);
-	void	PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition);
 
 private:
 	void	InfoView();
@@ -43,9 +41,10 @@ private:
 	void	SelectMesh(string& strCurrentCategory);
 	pair<wstring, ID3D11ShaderResourceView*> SelectTexture(string& strCurrentCategory);
 
-	void	TreeGroups();
-
 private:
+	HRESULT EffectTool();
+	HRESULT EffectDetail();
+
 	HRESULT CreateEffect();
 	HRESULT Reset();
 
@@ -71,7 +70,7 @@ private:
 	class CVoidEffect*										m_pCurrentEffect = nullptr;
 
 	pair<wstring, string>									m_BaseMesh;
-	/*pair<path, pair<filename, srv>>*/
+
 	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_BaseTexture;
 	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentNoise;
 	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentMask;
@@ -80,6 +79,8 @@ private:
 
 	CUtils*					m_pUtils = nullptr;
 	class CCamera_Free*		m_pCamera = nullptr;
+
+	_bool		m_IsResetReserved = false;
 
 public:
 	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -36,41 +36,14 @@ HRESULT CEffectTool::Tick(const _float& fTimeDelta)
 {
 	Input();
 
-	ImGui::Begin("Effect Tool");
-	
-	InfoView();
-	//Categories();
-	if (-1 == m_iCurrentEffectType)
+	if (FAILED(EffectTool()))
+		return E_FAIL;
+
+	if (m_pCurrentEffect)
 	{
-		ImGui::End();
-		return S_OK;
+		if (FAILED(EffectDetail()))
+			return E_FAIL;
 	}
-
-	if (ImGui::Button("Reset"))
-		Reset(); ImGui::SameLine();
-	if (ImGui::Button("CreateEffect"))
-		CreateEffect();
-
-	ShowCurrentMaterials();
-
-	m_strCurrentMeshPath = TEXT("../Bin/Resources/Effects/FX_Meshes/") + m_pUtils->ToWString(m_strCurrentMeshCategory) + TEXT("/");
-	m_BaseMesh.first = m_strCurrentMeshPath;
-	if (0 == m_iCurrentEffectType)
-		SelectBaseMesh();
-
-	m_strCurrentPath = TEXT("../Bin/Resources/Effects/FX_Textures/") + m_pUtils->ToWString(m_strCurrentCategory) + TEXT("/");
-	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
-	if (ImGui::BeginTabBar("Material", tab_bar_flags))
-	{
-		SelectBaseTexture();
-		SelectNoiseTexture();
-		SelectMaskTexture();
-		SelectEmissiveTexture();
-		SelectDissolveTexture();
-		ImGui::EndTabBar();
-	}
-
-	ImGui::End();
 
 	return S_OK;
 }
@@ -85,16 +58,23 @@ HRESULT CEffectTool::LateTick(const _float& fTimeDelta)
 		Vec3 vCamForward = matCamWorld.Backward();
 		Vec3 vCamPos = matCamWorld.Translation();
 
-		m_pCurrentEffect->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vCamPos + 3.f * vCamForward);
+		//m_pCurrentEffect->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vCamPos + 3.f * vCamForward);
+		//m_pCamera->Get_TransformCom()->LookAt(Vec3::Zero);
 		
-		if(KEY_HOLD(KEY::LEFT_ARROW))
+		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::LEFT_ARROW))
 			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitY, fTimeDelta);
-		if(KEY_HOLD(KEY::RIGHT_ARROW))
+		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::RIGHT_ARROW))
 			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitY, -fTimeDelta);
-		if(KEY_HOLD(KEY::UP_ARROW))
+		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::UP_ARROW))
 			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitX, fTimeDelta);
-		if(KEY_HOLD(KEY::DOWN_ARROW))
+		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::DOWN_ARROW))
 			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitX, -fTimeDelta);
+	}
+
+	if (m_IsResetReserved)
+	{
+		Reset();
+		m_IsResetReserved = false;
 	}
 
 	return S_OK;
@@ -153,15 +133,44 @@ void CEffectTool::ShowCurrentMaterials()
 	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
 	ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);         // 
 
-	ImGui::Image(m_BaseTexture.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col);
+	if (ImGui::ImageButton("BaseTexture", m_BaseTexture.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col))
+	{
+		m_BaseTexture.first = TEXT("");
+		m_BaseTexture.second.first = TEXT("");
+		m_BaseTexture.second.second = nullptr;
+	}
 	ImGui::SameLine();
-	ImGui::Image(m_CurrentNoise.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col);
+
+	if (ImGui::ImageButton("CurrentNoise", m_CurrentNoise.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col))
+	{
+		m_CurrentNoise.first = TEXT("");
+		m_CurrentNoise.second.first = TEXT("");
+		m_CurrentNoise.second.second = nullptr;
+	}
 	ImGui::SameLine();
-	ImGui::Image(m_CurrentMask.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col);
+
+	if(ImGui::ImageButton("CurrentMask", m_CurrentMask.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col))
+	{
+		m_CurrentMask.first = TEXT("");
+		m_CurrentMask.second.first = TEXT("");
+		m_CurrentMask.second.second = nullptr;
+	}
 	ImGui::SameLine();
-	ImGui::Image(m_CurrentEmissive.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col);
+
+	if(ImGui::ImageButton("CurrentEmissive", m_CurrentEmissive.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col))
+	{
+		m_CurrentEmissive.first = TEXT("");
+		m_CurrentEmissive.second.first = TEXT("");
+		m_CurrentEmissive.second.second = nullptr;
+	}
 	ImGui::SameLine();
-	ImGui::Image(m_CurrentDissolve.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col);
+
+	if (ImGui::ImageButton("CurrentDissolve", m_CurrentDissolve.second.second, ImVec2(75.f, 75.f), uv0, uv1, tint_col, border_col))
+	{
+		m_CurrentDissolve.first = TEXT("");
+		m_CurrentDissolve.second.first = TEXT("");
+		m_CurrentDissolve.second.second = nullptr;
+	}
 }
 
 void CEffectTool::SelectBaseMesh()
@@ -384,9 +393,107 @@ pair<wstring, ID3D11ShaderResourceView*> CEffectTool::SelectTexture(string& strC
 	return selected;
 }
 
-void CEffectTool::TreeGroups()
+HRESULT CEffectTool::EffectTool()
 {
-	
+	ImGui::Begin("Effect Tool");
+
+	InfoView();
+	//Categories();
+	if (-1 == m_iCurrentEffectType)
+	{
+		ImGui::End();
+		return S_OK;
+	}
+
+	if (ImGui::Button("Reset"))
+	{	//Reset(); ImGui::SameLine();
+		m_IsResetReserved = true;
+		ImGui::SameLine();
+	}
+	if (ImGui::Button("CreateEffect"))
+		CreateEffect();
+
+	ShowCurrentMaterials();
+
+	m_strCurrentMeshPath = TEXT("../Bin/Resources/Effects/FX_Meshes/") + m_pUtils->ToWString(m_strCurrentMeshCategory) + TEXT("/");
+	m_BaseMesh.first = m_strCurrentMeshPath;
+	if (0 == m_iCurrentEffectType)
+		SelectBaseMesh();
+
+	m_strCurrentPath = TEXT("../Bin/Resources/Effects/FX_Textures/") + m_pUtils->ToWString(m_strCurrentCategory) + TEXT("/");
+	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+	if (ImGui::BeginTabBar("Material", tab_bar_flags))
+	{
+		SelectBaseTexture();
+		SelectNoiseTexture();
+		SelectMaskTexture();
+		SelectEmissiveTexture();
+		SelectDissolveTexture();
+		ImGui::EndTabBar();
+	}
+
+	ImGui::End();
+
+	return S_OK;
+}
+
+HRESULT CEffectTool::EffectDetail()
+{
+	ImGui::Begin("Effect Detail");
+
+	ImGui::Checkbox("Lerp Position", &m_pCurrentEffect->m_bPosition_Lerp);
+	ImGui::InputFloat3("Position_Start", (_float*)&m_pCurrentEffect->m_vPosition_Start);
+	if (m_pCurrentEffect->m_bPosition_Lerp)
+		ImGui::InputFloat3("Position_End", (_float*)&m_pCurrentEffect->m_vPosition_End);
+	else
+		m_pCurrentEffect->m_vPosition_End = m_pCurrentEffect->m_vPosition_Start;
+
+	ImGui::Checkbox("Lerp Rotation", &m_pCurrentEffect->m_bRotation_Lerp);
+	ImGui::InputFloat3("Rotation_Start", (_float*)&m_pCurrentEffect->m_vRotation_Start);
+	if (m_pCurrentEffect->m_bRotation_Lerp)
+		ImGui::InputFloat3("Rotation_End", (_float*)&m_pCurrentEffect->m_vRotation_End);
+	else
+		m_pCurrentEffect->m_vRotation_End = m_pCurrentEffect->m_vRotation_Start;
+
+	ImGui::Checkbox("Lerp Scaling", &m_pCurrentEffect->m_bScaling_Lerp);
+	ImGui::InputFloat3("Scaling_Start", (_float*)&m_pCurrentEffect->m_vScaling_Start);
+	if (m_pCurrentEffect->m_bScaling_Lerp)
+		ImGui::InputFloat3("Scaling_End", (_float*)&m_pCurrentEffect->m_vScaling_End);
+	else
+		m_pCurrentEffect->m_vScaling_End = m_pCurrentEffect->m_vScaling_Start;
+
+	ImGui::Checkbox("Lerp Velocity", &m_pCurrentEffect->m_bVelocity_Lerp);
+	ImGui::InputFloat3("Velocity_Start", (_float*)&m_pCurrentEffect->m_vVelocity_Start);
+	if (m_pCurrentEffect->m_bVelocity_Lerp)
+		ImGui::InputFloat3("Velocity_End", (_float*)&m_pCurrentEffect->m_vVelocity_End);
+	else
+		m_pCurrentEffect->m_vVelocity_End = m_pCurrentEffect->m_vVelocity_Start;
+
+	ImGui::Checkbox("Lerp ColorOffset", &m_pCurrentEffect->m_bColor_Lerp);
+	ImGui::InputFloat4("ColorOffset_Start", (_float*)&m_pCurrentEffect->m_vColor_Start);
+	if (m_pCurrentEffect->m_bColor_Lerp)
+		ImGui::InputFloat4("ColorOffset_End", (_float*)&m_pCurrentEffect->m_vColor_End);
+	else
+		m_pCurrentEffect->m_vColor_End = m_pCurrentEffect->m_vColor_Start;
+
+	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed);
+
+	ImGui::InputFloat2("UV_Position_Offset", (_float*)&m_pCurrentEffect->m_Variables.vUV_Offset);
+	ImGui::InputFloat2("UV_Direction_Offset", (_float*)&m_pCurrentEffect->m_Variables.vUV_Direction);
+	ImGui::InputFloat2("UV_TileCount", (_float*)&m_pCurrentEffect->m_Variables.vUV_TileCount);
+	ImGui::InputFloat2("UV_TileIndex", (_float*)&m_pCurrentEffect->m_Variables.vUV_TileIndex);
+
+	ImGui::InputFloat("Life Time", (_float*)&m_pCurrentEffect->m_fLifeTime);
+
+	/*ImGui::Text("UV_Rotation_Offset");
+	ImGui::Text("UV_Speed_Offset");
+	ImGui::Text("UV_Tiles_Offset");*/
+
+	//m_pCurrentEffect
+
+	ImGui::End();
+
+	return S_OK;
 }
 
 HRESULT CEffectTool::CreateEffect()
@@ -425,6 +532,12 @@ HRESULT CEffectTool::CreateEffect()
 	if (nullptr == m_pCurrentEffect)
 		return E_FAIL;
 
+	Matrix& matCamWorld = m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Vec3 vCamForward = matCamWorld.Backward();
+	Vec3 vCamPos = matCamWorld.Translation();
+
+	m_pCurrentEffect->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vCamPos + 3.f * vCamForward);
+
 	return S_OK;
 }
 
@@ -448,6 +561,9 @@ HRESULT CEffectTool::Reset()
 	m_strCurrentMeshCategory = "";
 	m_strCurrentMeshPath = TEXT("");
 	m_strCurrentPath = TEXT("");
+
+	//Safe_Release(m_pCurrentEffect);
+	m_pCurrentEffect = nullptr;
 
 	return S_OK;
 }
@@ -555,17 +671,6 @@ HRESULT CEffectTool::Ready_Camera()
 	m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
 
 	return S_OK;
-}
-
-void CEffectTool::PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition)
-{
-	if (eLayerTag == LAYER_TYPE::LAYER_END) return;
-
-	//const wstring strPrototypeTag = TEXT("Prototype_GameObject_") + strObjectTag;
-	CGameObject* pGameObject = m_pGameInstance->Add_GameObject(LEVEL_TOOL, (_int)LAYER_TYPE::LAYER_EFFECT, strPrototypeTag);
-
-	//pGameObject->Get_TransformCom()->Translate(vPickPosition);
-	pGameObject->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION,  vPickPosition);
 }
 
 CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

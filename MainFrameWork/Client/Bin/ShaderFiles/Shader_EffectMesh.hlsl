@@ -1,5 +1,6 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
+#include "Client_Shader_Effect.hlsl"
 
 VS_OUT VS_MAIN_FXMESH(STATIC_IN In)
 {
@@ -21,13 +22,16 @@ VS_OUT VS_MAIN_FXMESH(STATIC_IN In)
 
 float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
 {
-    float2 vNewUV = In.vTexUV;
-    float fMask = 0.f;
-    float3 vEmissive = float3(0.f, 0.f, 0.f);
-     
+    //float2 vUV_TileOffset = (1.f / vUV_TileCount) * vUV_TileIndex;
+    //float2 vNewUV = In.vTexUV + vUV_Offset * vUV_Direction;
+    float2 vNewUV = (In.vTexUV + vUV_Offset) * vUV_Direction;
+    
+    float fMask = 1.f;
+    float3 vEmissive = float3(0.f, 0.f, 0.f);    
+    
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, In.vTexUV).rg;
+        vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
         vNewUV += (vNewUV - 0.5f) * 2.f;
     }
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
@@ -36,7 +40,7 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
         clip(fMask);
     }
     
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
     vColor.a = fMask;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
@@ -57,14 +61,14 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
         //}
     }
     
-    return vColor;
+    return vColor + vColor_Offset;
 }
 
 technique11 DefaultTechnique
 {
     pass Default // 0
     {
-        SetRasterizerState(RS_Default);
+        SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 

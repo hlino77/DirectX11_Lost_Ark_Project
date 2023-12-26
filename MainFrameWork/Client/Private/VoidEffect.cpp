@@ -38,6 +38,17 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 
 void CVoidEffect::Tick(_float fTimeDelta)
 {
+	m_fTimeAcc += fTimeDelta;
+	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
+	if (m_fTimeAcc > m_fLifeTime) m_fTimeAcc -= m_fLifeTime;
+
+	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
+	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+	vOffsetRotation = Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z);
+	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
+
+	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
+		* XMMatrixRotationQuaternion(vOffsetRotation) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CVoidEffect::LateTick(_float fTimeDelta)
@@ -51,7 +62,29 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 HRESULT CVoidEffect::Render()
 {
-	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+	m_Variables.vUV_Offset.x += m_vUV_Speed.x * m_fTimeAcc * 0.001f;
+	m_Variables.vUV_Offset.y += m_vUV_Speed.y * m_fTimeAcc * 0.001f;
+
+	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
+	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;
+
+	m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagEffectVariables))))
+		return E_FAIL;
+	/*if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagIntensity))))
+		return E_FAIL;*/
+
+	//////////////////////////////
+
+#pragma region GlobalData
+	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
+	Matrix matCombined = m_matPivot * matWorld;
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &matCombined, sizeof(Matrix))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("EffectMaterialFlag", &m_tNoisMaskEmisDslv.NoisMaskEmisDslv, sizeof(EffectMaterialFlag))))
@@ -97,6 +130,7 @@ HRESULT CVoidEffect::Render()
 		m_pShaderCom->Begin("Default");
 		m_pBuffer->Render();
 	}
+#pragma endregion
 
 	return S_OK;
 }

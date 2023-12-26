@@ -2,6 +2,7 @@
 #include "Client_Shader_InOut.hlsl"
 #include "Client_Shader_Global.hlsl"
 #include "Client_Shader_Light.hlsl"
+#include "Client_Shader_Effect.hlsl"
 
 VS_OUT_FXTEX VS_MAIN_FXTEX( /* Á¤Á¡ */FXTEX_IN In)
 {
