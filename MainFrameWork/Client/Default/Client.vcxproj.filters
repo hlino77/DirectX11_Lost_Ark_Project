@@ -637,6 +637,12 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush">
       <UniqueIdentifier>{839be27e-87a4-4c45-abef-f2439f78d3c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\99.Base">
+      <UniqueIdentifier>{1f3b16a7-633f-4ceb-b80f-ad2be5eb5097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\02.Character_Select">
+      <UniqueIdentifier>{b671d02b-5b7c-4fd5-998a-12fd0a2dbf95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2477,7 +2483,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_WR_WildRush_Stop.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
->>>>>>> origin/feature/HeeJun
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4289,6 +4297,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_WildRush_Stop.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
