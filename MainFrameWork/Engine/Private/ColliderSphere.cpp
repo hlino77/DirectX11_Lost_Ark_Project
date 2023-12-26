@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "ColliderOBB.h"
 #include "ColliderSphereGroup.h"
+#include "ColliderFrustum.h"
 
 CSphereCollider::CSphereCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:Super(pDevice, pContext, ColliderType::Sphere)
@@ -108,6 +109,9 @@ _bool CSphereCollider::Intersects_Bounding(Super* other)
 		break;
 	case ColliderType::AABB:
 		bCollision = false;
+		break;
+	case ColliderType::Frustum:
+		bCollision = m_tBoundingSphere.Intersects(static_cast<CFrustumCollider*>(other)->GetBoundingFrustum());
 		break;
 	case ColliderType::Group:
 		bCollision = other->Intersects(this);

@@ -369,6 +369,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	}
 	if (m_iHp < 0)
 		Set_Die();
+
 	m_fStatusEffects[iStatusEffect] += fDuration;
 
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);

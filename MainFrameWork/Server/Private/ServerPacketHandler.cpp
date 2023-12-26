@@ -362,3 +362,24 @@ bool Handel_S_DELETEGAMEOBJECT_Server(PacketSessionRef& session, Protocol::S_DEL
 
 	return true;
 }
+
+bool Handel_S_IDENTITY_Server(PacketSessionRef& session, Protocol::S_IDENTITY& pkt)
+{
+	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+	CGameSessionManager::GetInstance()->Broadcast(pBuffer);
+
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+
+	if (pObject == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	pObject->Set_WeaponIndex(pkt.iweaponindex());
+
+	Safe_Release(pGameInstance);
+	return true;
+}

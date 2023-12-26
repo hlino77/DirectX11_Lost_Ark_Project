@@ -20,7 +20,7 @@ public:
 	virtual _bool	Intersects(SimpleMath::Ray& ray, OUT _float& distance)	override;
 	virtual _bool	Intersects(Super* other)					override;
 	virtual _bool	Intersects_Bounding(Super* other)						override;
-	virtual _bool			Intersects_Box(const BoundingBox& Collier) override;
+	virtual _bool	Intersects_Box(const BoundingBox& Collier) override;
 
 	void			Set_Scale(Vec3 vScale) { m_vScale = vScale; }
 	Vec3			Get_Scale() { return m_vScale; }

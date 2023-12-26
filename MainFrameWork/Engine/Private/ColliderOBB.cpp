@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "ColliderSphere.h"
 #include "ColliderSphereGroup.h"
+#include "ColliderFrustum.h"
 
 COBBCollider::COBBCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext, ColliderType::OBB)
@@ -94,6 +95,9 @@ _bool COBBCollider::Intersects_Bounding(Super* other)
 		break;
 	case ColliderType::AABB:
 		bCollision = false;
+		break;
+	case ColliderType::Frustum:
+		bCollision = m_tBoundingBox.Intersects(static_cast<CFrustumCollider*>(other)->GetBoundingFrustum());
 		break;
 	case ColliderType::Group:
 		bCollision = other->Intersects(this);

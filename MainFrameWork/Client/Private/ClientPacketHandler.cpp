@@ -544,3 +544,20 @@ bool Handel_S_DELETEGAMEOBJECT_Client(PacketSessionRef& session, Protocol::S_DEL
 	Safe_Release(pGameInstance);
 	return true;
 }
+
+bool Handel_S_IDENTITY_Client(PacketSessionRef& session, Protocol::S_IDENTITY& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+
+	if (pObject == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	pObject->Set_WeaponIndex(pkt.iweaponindex());
+
+	Safe_Release(pGameInstance);
+	return true;
+}

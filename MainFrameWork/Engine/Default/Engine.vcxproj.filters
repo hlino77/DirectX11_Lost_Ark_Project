@@ -578,6 +578,9 @@
     <ClInclude Include="..\Public\RandomManager.h">
       <Filter>01.Utiltiy\13.Random</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ColliderFrustum.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -906,6 +909,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RandomManager.cpp">
       <Filter>01.Utiltiy\13.Random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderFrustum.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

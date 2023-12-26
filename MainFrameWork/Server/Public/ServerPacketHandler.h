@@ -28,7 +28,8 @@ enum : uint16
 	PKT_S_CHAT = 17,
 	PKT_S_MONSTERSTATE = 18,
 	PKT_S_PLAYERLEVELMOVE = 19,
-	PKT_S_DELETEGAMEOBJECT = 20
+	PKT_S_DELETEGAMEOBJECT = 20,
+	PKT_S_IDENTITY = 20
 };
 
 //TODO
@@ -53,6 +54,7 @@ bool Handel_S_CHAT_Server(PacketSessionRef& session, Protocol::S_CHAT& pkt);
 bool Handel_S_MONSTERSTATE_Server(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt);
 bool Handel_S_PLAYERLEVELMOVE_Server(PacketSessionRef& session, Protocol::S_PLAYERLEVELMOVE& pkt);
 bool Handel_S_DELETEGAMEOBJECT_Server(PacketSessionRef& session, Protocol::S_DELETEGAMEOBJECT& pkt);
+bool Handel_S_IDENTITY_Server(PacketSessionRef& session, Protocol::S_IDENTITY& pkt);
 
 
 class CServerPacketHandler
@@ -84,6 +86,7 @@ public:
 		GPacketHandler[PKT_S_MONSTERSTATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_MONSTERSTATE>(Handel_S_MONSTERSTATE_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_PLAYERLEVELMOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PLAYERLEVELMOVE>(Handel_S_PLAYERLEVELMOVE_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_DELETEGAMEOBJECT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_DELETEGAMEOBJECT>(Handel_S_DELETEGAMEOBJECT_Server, session, buffer, len); };
+		GPacketHandler[PKT_S_IDENTITY] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_IDENTITY>(Handel_S_IDENTITY_Server, session, buffer, len); };
 
 	}
 
@@ -114,6 +117,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_MONSTERSTATE& pkt) { return MakeSendBuffer(pkt, PKT_S_MONSTERSTATE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_PLAYERLEVELMOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_PLAYERLEVELMOVE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_DELETEGAMEOBJECT& pkt) { return MakeSendBuffer(pkt, PKT_S_DELETEGAMEOBJECT); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_IDENTITY& pkt) { return MakeSendBuffer(pkt, PKT_S_IDENTITY); }
 
 
 private:

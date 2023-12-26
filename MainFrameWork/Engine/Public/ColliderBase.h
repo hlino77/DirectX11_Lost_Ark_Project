@@ -9,6 +9,7 @@ enum class ColliderType
 	Sphere,
 	AABB,
 	OBB,
+	Frustum,
 	Cylinder,
 	Group
 };
