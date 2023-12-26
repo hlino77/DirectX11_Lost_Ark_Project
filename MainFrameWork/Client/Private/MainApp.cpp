@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\MainApp.h"
+#include <filesystem>
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
@@ -40,6 +41,8 @@
 #include "LockFree_Transform.h"
 #include "Projectile.h"
 #include "Pool.h"
+
+namespace fs = std::filesystem;
 
 _float g_fVolume;
 
@@ -366,17 +369,57 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 HRESULT CMainApp::Ready_Prototype_Font()
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	m_pGameInstance->AddFont(L"125", L"../Bin/Resources/Fonts/125.spritefont");
+	m_pGameInstance->AddFont(L"AdobeFont", L"../Bin/Resources/Fonts/AdobeFont.spritefont");
+	m_pGameInstance->AddFont(L"Cascadia", L"../Bin/Resources/Fonts/Cascadia.spritefont");
+	m_pGameInstance->AddFont(L"한컴고딕", L"../Bin/Resources/Fonts/한컴고딕.spritefont");
+	m_pGameInstance->AddFont(L"단조", L"../Bin/Resources/Fonts/단조.spritefont");
+	m_pGameInstance->AddFont(L"던파연마된칼날", L"../Bin/Resources/Fonts/던파연마된칼날.spritefont");
 
-	pGameInstance->AddFont(L"125", L"../Bin/Resources/Fonts/125.spritefont");
-	pGameInstance->AddFont(L"AdobeFont", L"../Bin/Resources/Fonts/AdobeFont.spritefont");
-	pGameInstance->AddFont(L"Cascadia", L"../Bin/Resources/Fonts/Cascadia.spritefont");
-	pGameInstance->AddFont(L"한컴고딕", L"../Bin/Resources/Fonts/한컴고딕.spritefont");
-	pGameInstance->AddFont(L"단조", L"../Bin/Resources/Fonts/단조.spritefont");
-	pGameInstance->AddFont(L"던파연마된칼날", L"../Bin/Resources/Fonts/던파연마된칼날.spritefont");
+	return S_OK;
+}
 
-	Safe_Release(pGameInstance);
+HRESULT CMainApp::Ready_Prototype_Resource()
+{
+	//wstring strEffectPath = TEXT("../Bin/Resources/Effects/");
+	////for(fs::recursive_directory_iterator iter : strEffectPath)
+	//
+	//if (fs::exists(strEffectPath) && fs::is_directory(strEffectPath))
+	//{
+	//	for (const auto& entry : fs::recursive_directory_iterator(strEffectPath))
+	//	{
+	//		if (entry.is_regular_file())
+	//		{
+	//			wstring extension = entry.path().extension();
+	//			if (TEXT(".png") == extension || TEXT(".tga") == extension || TEXT(".dds") == extension)
+	//			{
+	//				wstring strFileName(entry.path().stem());
+	//				if (FAILED(Binarize_Model(strFileName, strFileName, MODEL_TYPE::NONANIM)))
+	//					return E_FAIL;
+
+	//				Free();
+	//			}
+	//		}
+
+
+	//		if (category.is_directory())
+	//		{
+	//			const _char* szKey = s2c(category.path().stem().generic_string());
+	//			vector<const _char*> meshes;
+
+	//			for (const auto& mesh : fs::directory_iterator(category))
+	//			{
+	//				const _char* szMeshFileName = s2c(mesh.path().stem().generic_string());
+	//				if (mesh.is_regular_file() && strcmp("desktop", szMeshFileName))
+	//				{
+	//					meshes.push_back(s2c(mesh.path().stem().generic_string()));
+	//				}
+	//			}
+	//			m_vecMeshes.push_back(make_pair(szKey, meshes));
+	//		}
+	//	}
+	//}
+
 	return S_OK;
 }
 

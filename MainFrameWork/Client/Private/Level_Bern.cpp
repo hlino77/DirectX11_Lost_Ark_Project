@@ -105,7 +105,7 @@ HRESULT CLevel_Bern::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Tick(_float fTimeDelta)
+HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
@@ -113,7 +113,7 @@ HRESULT CLevel_Bern::Tick(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::LateTick(_float fTimeDelta)
+HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
 {
 	CUI_Tool::GetInstance()->LateTick();
 	return S_OK;

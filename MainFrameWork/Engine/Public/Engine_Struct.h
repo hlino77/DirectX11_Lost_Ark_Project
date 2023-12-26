@@ -283,7 +283,7 @@ namespace Engine
 		XMFLOAT2        vTexcoord;
 		XMFLOAT3        vTangent;
 
-		Matrix            matWorld;
+		Matrix			matWorld;
 
 		static const unsigned int                iNumElements = 8;
 		static const D3D11_INPUT_ELEMENT_DESC    Elements[iNumElements];

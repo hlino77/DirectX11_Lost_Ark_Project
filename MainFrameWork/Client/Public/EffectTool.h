@@ -1,5 +1,6 @@
 #pragma once
 #include "ToolBase.h"
+#include "Hasher.h"
 #include "Client_Defines.h"
 
 BEGIN(Engine)
@@ -19,8 +20,8 @@ private:
 
 public:
 	virtual HRESULT Initialize(void* pArg = nullptr)	override;
-	virtual HRESULT Tick()					override;
-	virtual HRESULT LateTick()				override;
+	virtual HRESULT Tick(const _float& fTimeDelta)		override;
+	virtual HRESULT LateTick(const _float& fTimeDelta)	override;
 	virtual HRESULT	DebugRender()			override;
 
 private:
@@ -30,57 +31,55 @@ private:
 
 private:
 	void	InfoView();
-	void	Categories();
+	void	ShowCurrentMaterials();
 
-	void	SelectBaseMaterial();
+	void	SelectBaseMesh();
+	void	SelectBaseTexture();
 	void	SelectNoiseTexture();
 	void	SelectMaskTexture();
 	void	SelectEmissiveTexture();
 	void	SelectDissolveTexture();
 
-	void	ShowTextures(wstring strPath);
-
-	void	Meshes();
-	void	Textures();
+	void	SelectMesh(string& strCurrentCategory);
+	pair<wstring, ID3D11ShaderResourceView*> SelectTexture(string& strCurrentCategory);
 
 	void	TreeGroups();
 
-	void	Tex_Mask();
-	void	Tex_Noise();
-	void	Tex_Gradient();
-	void	Tex_Ex();
+private:
+	HRESULT CreateEffect();
+	HRESULT Reset();
 
 private:
 	HRESULT	LoadMeshes();
 	HRESULT	LoadTextures();
 
+	HRESULT Ready_Camera();
+
 private:
-	_int					m_iCurrentEffectType = 0;
-	const _char*			m_szCurrentCategory = "";
-	wstring					m_strCurrentPath = TEXT("");
-	_int					m_Item_Current = 0;
+	_int					m_iCurrentEffectType	= -1; // Mesh = 0, Texture = 1, Type_End = -1;
+	string					m_strCurrentCategory	= "";
+	string					m_strCurrentMeshCategory= "";
+	wstring					m_strCurrentPath		= TEXT("");
+	wstring					m_strCurrentMeshPath	= TEXT("");
+	_int					m_Item_Current			= 0;
 
-	vector<pair<const _char*, vector<const _char*>>> m_vecMeshes;
-	vector<pair<const _char*, vector<const _char*>>> m_vecTextures;
+	using MESHES = vector<pair<string, vector<string>>>;
+	using TEXTURES = vector<pair<string, vector<pair<wstring, ID3D11ShaderResourceView*>>>>;
+	MESHES					m_vecMeshes;
+	TEXTURES				m_vecTextures;
 
-	wstring					m_strBaseMaterial = TEXT("");
-	wstring					m_strNoiseTexture = TEXT("");
-	wstring					m_strMaskTexture = TEXT("");
-	wstring					m_strEmissiveTexture = TEXT("");
-	wstring					m_strDissolveTexture = TEXT("");
+	class CVoidEffect*										m_pCurrentEffect = nullptr;
 
-	vector<ImTextureID>		m_vecMaskTextureIDs;
-	vector<ImTextureID>		m_vecNoiseTextureIDs;
-	vector<ImTextureID>		m_vecGradientTextureIDs;
-	vector<ImTextureID>		m_vecExtraTextureIDs;
+	pair<wstring, string>									m_BaseMesh;
+	/*pair<path, pair<filename, srv>>*/
+	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_BaseTexture;
+	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentNoise;
+	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentMask;
+	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentEmissive;
+	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentDissolve;
 
-	ImTextureID				m_pTextureMask		= nullptr;
-	ImTextureID				m_pTextureNoise		= nullptr;
-	ImTextureID				m_pTextureGradient	= nullptr;
-	ImTextureID				m_pTextureEx0		= nullptr;
-	ImTextureID				m_pTextureEx1		= nullptr;
-
-	CUtils*					m_pUtils			= nullptr;
+	CUtils*					m_pUtils = nullptr;
+	class CCamera_Free*		m_pCamera = nullptr;
 
 public:
 	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

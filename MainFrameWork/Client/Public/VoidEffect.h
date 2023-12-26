@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "Monster.h"
-#include "StateMachine.h"
-#include <atomic>
+#include "BindShaderDesc.h"
 
 BEGIN(Engine)
 
@@ -25,6 +23,21 @@ public:
 		wstring protoMaskTexture		= TEXT("");
 		wstring protoEmissiveTexture	= TEXT("");
 		wstring protoDissolveTexture	= TEXT("");
+
+		//Vec2	vUV_Position		= Vec2(0.f, 0.f);
+		//Vec2	vUV_Rotation		= Vec2(0.f, 0.f);
+		//Vec2	vUV_Scaling			= Vec2(1.f, 1.f);
+		//Vec2	vUV_Tiles			= Vec2(1.f, 1.f);
+		//Vec2	vUV_Speed			= Vec2(0.f, 0.f);
+
+		//Vec3	vTransform_Position = Vec3(0.f, 0.f, 0.f);
+		//Vec3	vTransform_Rotation = Vec3(0.f, 0.f, 0.f);
+		//Vec3	vTransform_Scaling	= Vec3(1.f, 1.f, 1.f);
+
+		//_float	fLifeTime			= 0.f;
+		//_float	fBloomIntensity		= 0.f;
+		//_float	fRadialIntensity	= 0.f;
+		//_bool	bBlendNonBlend		= 0.f;
 	};
 private:
 	CVoidEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -50,7 +63,9 @@ private:
 	CTexture*	m_pEmissiveTexture	= nullptr;
 	CTexture*	m_pDissolveTexture	= nullptr;
 
-	friend class CEffectTool;
+	EffectMaterialFlag m_tNoisMaskEmisDslv;
+
+	//friend class CEffectTool;
 
 public:
 	static CVoidEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -59,4 +74,3 @@ public:
 };
 
 END
-

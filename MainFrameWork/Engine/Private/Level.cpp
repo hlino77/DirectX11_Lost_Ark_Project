@@ -13,12 +13,12 @@ HRESULT CLevel::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel::Tick(_float fTimeDelta)
+HRESULT CLevel::Tick(const _float& fTimeDelta)
 {
 	return S_OK;
 }
 
-HRESULT CLevel::LateTick(_float fTimeDelta)
+HRESULT CLevel::LateTick(const _float& fTimeDelta)
 {
 	return S_OK;
 }

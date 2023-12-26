@@ -2,6 +2,7 @@
 #include "Level_Tool.h"
 #include "UI.h"
 #include "EffectTool.h"
+#include "Camera_Free.h"
 
 #include "GameInstance.h"
 
@@ -35,14 +36,16 @@ HRESULT CLevel_Tool::Initialize()
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Camera()))
+		return E_FAIL;
+	
 	if (FAILED(Ready_Tools()))
 		return E_FAIL;
-
 
 	return S_OK;
 }
 
-HRESULT CLevel_Tool::Tick(_float fTimeDelta)
+HRESULT CLevel_Tool::Tick(const _float& fTimeDelta)
 {
 	if (!m_IsImGUIReady)
 	{
@@ -55,15 +58,19 @@ HRESULT CLevel_Tool::Tick(_float fTimeDelta)
 
 	
 	if (m_pEffectTool)
-		m_pEffectTool->Tick();
+		m_pEffectTool->Tick(fTimeDelta);
+
+	m_pCamera->Tick(fTimeDelta);
 
 	return S_OK;
 }
 
-HRESULT CLevel_Tool::LateTick(_float fTimeDelta)
+HRESULT CLevel_Tool::LateTick(const _float& fTimeDelta)
 {
-	
+	if (m_pEffectTool)
+		m_pEffectTool->LateTick(fTimeDelta);
 
+	m_pCamera->LateTick(fTimeDelta);
 
 	return S_OK;
 }
@@ -71,7 +78,6 @@ HRESULT CLevel_Tool::LateTick(_float fTimeDelta)
 HRESULT CLevel_Tool::Exit()
 {
 	CGameInstance::GetInstance()->StopSoundAll();
-
 
 	return S_OK;
 }
@@ -115,6 +121,27 @@ HRESULT CLevel_Tool::Ready_Layer_UI()
 	Safe_AddRef(pGameInstance);
 
 	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tool::Ready_Camera()
+{
+	CCamera::CAMERADESC tCameraDesc;
+
+	tCameraDesc.iLayer = (_uint)LAYER_TYPE::LAYER_CAMERA;
+	tCameraDesc.vEye = Vec4(0.f, 10.f, -10.f, 1.f);
+	tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
+	tCameraDesc.fFovy = XMConvertToRadians(60.0f);
+	tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	tCameraDesc.fNear = 0.2f;
+	tCameraDesc.fFar = 1200.0f;
+	tCameraDesc.TransformDesc.fRotationPerSec = 10.0f;
+	tCameraDesc.TransformDesc.fSpeedPerSec = 10.0f;
+
+	CGameObject* pCamera = CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free", &tCameraDesc);
+
+	m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
 
 	return S_OK;
 }

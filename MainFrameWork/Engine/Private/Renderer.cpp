@@ -457,10 +457,16 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_NonLight()))
 		return E_FAIL;
-	if (FAILED(Render_AlphaBlend()))
-		return E_FAIL;
+	/*if (FAILED(Render_AlphaBlend()))
+		return E_FAIL;*/
 	if (FAILED(Render_PostProcess()))
 		return E_FAIL;
+
+	// 툴 때문에 임시로 여기에...
+	if (FAILED(Render_AlphaBlend()))
+		return E_FAIL;
+	//
+
 	/*if (FAILED(Render_ModelEffectInstance()))
 		return E_FAIL;
 	if (FAILED(Render_EffectInstance()))
