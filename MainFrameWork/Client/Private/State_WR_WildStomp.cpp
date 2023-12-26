@@ -13,7 +13,7 @@ CState_WR_WildStomp::CState_WR_WildStomp(const wstring& strStateName, CStateMach
 
 HRESULT CState_WR_WildStomp::Initialize()
 {
-	m_iWildStomp = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_mountaincrash", 1.2f);
+	m_iWildStomp = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_mountaincrash", 1.f);
 	if (m_iWildStomp == -1)
 		return E_FAIL;
 
@@ -34,9 +34,9 @@ void CState_WR_WildStomp::Enter_State()
 
 	m_pPlayer->Reserve_Animation(m_iWildStomp, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.4f);
-	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.2f);
+	else
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.f);
 
 	m_pPlayer->Get_WR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -118,13 +118,13 @@ void CState_WR_WildStomp::Tick_State_Control(_float fTimeDelta)
 	}
 
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.2f);
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.f);
 }
 
 void CState_WR_WildStomp::Tick_State_NoneControl(_float fTimeDelta)
 {
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.2f);
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.f);
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }

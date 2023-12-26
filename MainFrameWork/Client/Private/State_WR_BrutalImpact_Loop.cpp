@@ -26,7 +26,7 @@ HRESULT CState_WR_BrutalImpact_Loop::Initialize()
 	m_fSkillEndTime = 2.f;
 
 	m_fSkillSuccessTime_Max = 2.f;
-	m_fSkillSuccessTime_Min = 1.5f;
+	m_fSkillSuccessTime_Min = 1.0f;
 
 	return S_OK;
 }
