@@ -6,7 +6,7 @@
 /* 클라이언트에 보여줘야할 함수들을 모두 정의하고 있는다. */
 
 BEGIN(Engine)
-
+class CSphereCollider;
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -47,6 +47,9 @@ public: /* For.Input_Device */
 	_char Get_DIMKeyState(DIMK eMouseKeyID);
 	_long Get_DIMMoveState(DIMM eMouseMoveID);
 
+	_bool Mouse_Down(DIMK eMouseKeyID);
+	_bool Mouse_Pressing(DIMK eMouseKeyID);
+	_bool Mouse_Up(DIMK eMouseKeyID);
 
 public: /* For.Level_Manager */
 	HRESULT			Open_Level(_uint iLevelIndex, class CLevel* pNewLevel);

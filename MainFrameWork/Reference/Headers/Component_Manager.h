@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_RectSSAO.h"
+#include "Hasher.h"
 
 BEGIN(Engine)
 class CComponent_Manager : public CBase
@@ -26,8 +27,8 @@ public:
 
 private:
     _uint   m_iNumLevels = 0;
-    map<const wstring, class CComponent*>* m_Prototypes = nullptr;
-    typedef map<const wstring, class CComponent*> PROTOTYPES;
+    unordered_map<const wstring, class CComponent*, djb2Hasher>* m_Prototypes = nullptr;
+    typedef unordered_map<const wstring, class CComponent*, djb2Hasher> PROTOTYPES;
 
 private:
     class CComponent* Find_Component(_uint iLevelIndex, const wstring& strProtoTypeTag);

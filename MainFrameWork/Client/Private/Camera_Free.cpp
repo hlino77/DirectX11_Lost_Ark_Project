@@ -39,7 +39,6 @@ void CCamera_Free::Tick(_float fTimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-
 	if (KEY_HOLD(KEY::UP_ARROW))
 	{
 		m_pTransformCom->Go_Straight(5.0f, fTimeDelta);
@@ -94,21 +93,26 @@ void CCamera_Free::Tick(_float fTimeDelta)
 		ClientToScreen(g_hWnd, &MousePos);
 		SetCursorPos(MousePos.x, MousePos.y);
 
-		_long	MouseMove = 0;
+		_long	MouseMove  = 0;
 
 		if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
 		{
-			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), MouseMove * fTimeDelta * 0.05f);
+			if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+				m_pTransformCom->Move_Dir(-m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta, MouseMove * 3.f);
+			else
+				m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), MouseMove * fTimeDelta * 0.05f);
 		}
 
 		if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
 		{
-			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), MouseMove * fTimeDelta * 0.05f);
+			if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+				m_pTransformCom->Move_Dir(m_pTransformCom->Get_State(CTransform::STATE_UP), fTimeDelta, MouseMove * 3.f);
+			else	
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), MouseMove * fTimeDelta * 0.05f);
+
 		}
 	}
 	
-	
-
 	Safe_Release(pGameInstance);
 
 	__super::Tick(fTimeDelta);

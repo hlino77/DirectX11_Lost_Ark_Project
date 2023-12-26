@@ -9,6 +9,7 @@ END
 
 BEGIN(Client)
 
+class CCamera_Free;
 class CLevel_Tool final : public CLevel
 {
 	using Super = CLevel;
@@ -18,8 +19,8 @@ private:
 
 public:
 	virtual HRESULT Initialize()				override;
-	virtual HRESULT Tick(_float fTimeDelta)		override;
-	virtual HRESULT LateTick(_float fTimeDelta)	override;
+	virtual HRESULT Tick(const _float& fTimeDelta)		override;
+	virtual HRESULT LateTick(const _float& fTimeDelta)	override;
 	virtual HRESULT Exit();
 	virtual HRESULT Render_Debug()				override;
 
@@ -28,6 +29,8 @@ private:
 	HRESULT Ready_Layer_BackGround();
 
 	HRESULT Ready_Layer_UI();
+
+	HRESULT	Ready_Camera();
 
 	HRESULT	Ready_Tools();
 
@@ -38,6 +41,7 @@ private:
 	Vec4	clear_color = Vec4(0.f);
 
 	CGameInstance* m_pGameInstance = nullptr;
+	CCamera_Free* m_pCamera = nullptr;
 
 public:
 	static class CLevel_Tool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

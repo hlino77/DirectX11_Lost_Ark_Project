@@ -227,6 +227,30 @@ _long CGameInstance::Get_DIMMoveState(DIMM eMouseMoveID)
 	return m_pInput_Device->Get_DIMMoveState(eMouseMoveID);
 }
 
+_bool CGameInstance::Mouse_Down(DIMK eMouseKeyID)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Mouse_Down(eMouseKeyID);
+}
+
+_bool CGameInstance::Mouse_Pressing(DIMK eMouseKeyID)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Mouse_Pressing(eMouseKeyID);
+}
+
+_bool CGameInstance::Mouse_Up(DIMK eMouseKeyID)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Mouse_Up(eMouseKeyID);
+}
+
 HRESULT CGameInstance::Open_Level(_uint iLevelIndex, CLevel * pNewLevel)
 {
 	if (nullptr == m_pLevel_Manager)

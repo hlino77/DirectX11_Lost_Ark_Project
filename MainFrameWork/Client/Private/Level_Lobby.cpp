@@ -28,7 +28,7 @@ HRESULT CLevel_Lobby::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Lobby::Tick(_float fTimeDelta)
+HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
 	if (KEY_TAP(KEY::ENTER))
 	{
@@ -71,7 +71,7 @@ HRESULT CLevel_Lobby::Tick(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Lobby::LateTick(_float fTimeDelta)
+HRESULT CLevel_Lobby::LateTick(const _float& fTimeDelta)
 {
 	
 

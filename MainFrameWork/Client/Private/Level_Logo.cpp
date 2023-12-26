@@ -29,7 +29,7 @@ HRESULT CLevel_Logo::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Logo::Tick(_float fTimeDelta)
+HRESULT CLevel_Logo::Tick(const _float& fTimeDelta)
 {
 	if (KEY_TAP(KEY::ENTER))
 	{
@@ -45,7 +45,7 @@ HRESULT CLevel_Logo::Tick(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Logo::LateTick(_float fTimeDelta)
+HRESULT CLevel_Logo::LateTick(const _float& fTimeDelta)
 {
 	
 

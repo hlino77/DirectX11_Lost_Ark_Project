@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "AsFileUtils.h"
 #include "AsUtils.h"
+#include <filesystem>
 
 /* 플레이어 */
 #include "Player_Slayer.h"
@@ -82,6 +83,8 @@
 #include <Monster_Pawn.h>
 #include <Weapon_Mn_PawnShield.h>
 #include <Weapon_Mn_PawnSword.h>
+
+#include "VoidEffect.h"
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -295,16 +298,62 @@ HRESULT CLoader::Loading_For_Level_Tool()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	/* For.Model */
+	m_strLoading = TEXT("모델을 로딩 중 입니다.");
+	{
+		wstring strMeshEffectFilePath = TEXT("../Bin/Resources/Effects/FX_Meshes/");
+		for (const auto& category : filesystem::directory_iterator(strMeshEffectFilePath))
+		{
+			if (!category.is_directory())
+				continue;
+			for (const auto& entry : filesystem::directory_iterator(category.path()))
+			{
+				Matrix matPivot = Matrix::Identity;
+				const wstring& strFileName = entry.path().stem();
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+				wstring strFinalPath = category.path().generic_wstring() + TEXT("/");
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFinalPath, strFileName, true, false))))
+					return E_FAIL;
+			}
+		}
+	}
+
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
+	{
+		/*wstring strTextureEffectFilePath = TEXT("../Bin/Resources/Effects/FX_Textures/");
+		for (const auto& category : filesystem::directory_iterator(strTextureEffectFilePath))
+		{
+			if (!category.is_directory())
+				continue;
+			for (const auto& entry : filesystem::directory_iterator(category.path()))
+			{
+				if (!entry.is_regular_file() || "desktop" == entry.path().stem().generic_string())
+					continue;
+
+				const wstring& strFileName = entry.path().stem();
+				wstring strComponentName = L"Prototype_Component_Texture_" + strFileName;
+				wstring strFinalPath = entry.path().generic_wstring();
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL, strComponentName,
+					CTexture::Create(m_pDevice, m_pContext, strFinalPath))))
+					return E_FAIL;
+			}
+		}*/
+	}
 
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
 
+
 	/* For.GameObject */
 	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
 
-
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_VoidEffect"),
+		CVoidEffect::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 

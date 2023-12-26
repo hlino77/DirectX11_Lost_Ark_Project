@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\MainApp.h"
+#include <filesystem>
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
@@ -44,6 +45,8 @@
 #include "Pool.h"
 #include "Damage_Manager.h"
 #include "ThreadManager.h"
+
+namespace fs = std::filesystem;
 
 _float g_fVolume;
 
@@ -391,8 +394,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 HRESULT CMainApp::Ready_Prototype_Font()
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
 
 	pGameInstance->AddFont(L"125", L"../Bin/Resources/Fonts/125.spritefont");
 	pGameInstance->AddFont(L"AdobeFont", L"../Bin/Resources/Fonts/AdobeFont.spritefont");

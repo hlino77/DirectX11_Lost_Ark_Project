@@ -57,12 +57,12 @@ HRESULT CLevel_Bern_Server::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Bern_Server::Tick(_float fTimeDelta)
+HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 {
 	return S_OK;
 }
 
-HRESULT CLevel_Bern_Server::LateTick(_float fTimeDelta)
+HRESULT CLevel_Bern_Server::LateTick(const _float& fTimeDelta)
 {
 	m_fBroadcastTime += fTimeDelta;
 	if (m_fBroadcastTime >= 0.05f)

@@ -25,8 +25,8 @@ protected:
 
 public:
 	virtual HRESULT Initialize(void* pArg = nullptr);
-	virtual HRESULT Tick()			PURE;
-	virtual HRESULT LateTick()		PURE;
+	virtual HRESULT Tick(const _float& fTimeDelta)		PURE;
+	virtual HRESULT LateTick(const _float& fTimeDelta)	PURE;
 	virtual HRESULT	DebugRender()	PURE;
 
 	void	DeactivatePicking() { m_IsPickingActivated = false; }

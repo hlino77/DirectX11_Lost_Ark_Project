@@ -42,14 +42,14 @@ private:
 	HRESULT Initialize_Client();
 	HRESULT Ready_Prototype_Component();
 	HRESULT Ready_Prototype_Font();
+	HRESULT Ready_Prototype_Resource();
 	HRESULT Ready_Camera_Free();
 	void	Active_Camera_Free();
-
-
 
 	_bool m_bMouse = false;
 	
 	CCamera_Free* m_pCamera = nullptr;
+
 public:
 	static CMainApp* Create();
 	virtual void Free() override;
