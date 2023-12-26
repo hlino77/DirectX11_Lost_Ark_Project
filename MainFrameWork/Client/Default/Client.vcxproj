@@ -249,6 +249,8 @@
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
     <ClInclude Include="..\Public\State_WR_BrutalImpact_End.h" />
+    <ClInclude Include="..\Public\SKill_King_ChargeSwing.h" />
+    <ClInclude Include="..\Public\SKill_King_Eruption.h" />
     <ClInclude Include="..\Public\State_GN_Dash_2_End.h" />
     <ClInclude Include="..\Public\State_GN_Dash_2.h" />
     <ClInclude Include="..\Public\State_GN_Dash_End.h" />
@@ -515,6 +517,8 @@
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\State_WR_BrutalImpact_End.cpp" />
+    <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp" />
+    <ClCompile Include="..\Private\SKill_King_Eruption.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_2_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_2.cpp" />
     <ClCompile Include="..\Private\State_GN_Dash_End.cpp" />

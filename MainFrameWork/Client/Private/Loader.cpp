@@ -1048,7 +1048,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	}
 
 	{
-		wstring strFileName = L"Monster_Golem";
+		wstring strFileName = L"Boss_Golem";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

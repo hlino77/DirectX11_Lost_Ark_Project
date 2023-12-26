@@ -30,10 +30,11 @@ public:
 	}MODELDESC;
 
 public:
-	enum SkillColliders
+	enum AttackColliders
 	{
-		SKILL1,
+		SKILL1 = 9,
 		SKILL2,
+		SKILL3,
 		ATTACK_END
 	};
 
@@ -78,9 +79,9 @@ public:
 
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
+	void Add_Colider(_int iColIndex, CSphereCollider* pCollider);
 
-
-	virtual void					Set_Die();
+	virtual void			Set_Die();
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -90,23 +91,11 @@ protected:
 protected:
 	void					CullingObject();
 	virtual	HRESULT			Ready_Coliders() { return S_OK; };
-	virtual HRESULT Ready_BehaviourTree();
+	virtual HRESULT			Ready_BehaviourTree();
 
 protected:
 
-	_float							m_fMoveSpeed = 0.0f;
-	_float							m_fAttackMoveSpeed = 0.0f;
-	_float							m_fAnimationSpeed = 1.0f;
 
-	unordered_map<wstring, _uint>	m_BoneIndex;
-protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
-
-
-	std::future<HRESULT>			m_PlayAnimation;
-
-	BoundingSphere m_tCullingSphere;
-
-	atomic<_int>					m_iSlowMotionCount = 0;
 
 public:
 	virtual CGameObject* Clone(void* pArg);

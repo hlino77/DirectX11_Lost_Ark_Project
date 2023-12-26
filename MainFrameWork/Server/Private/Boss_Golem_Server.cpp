@@ -169,7 +169,7 @@ HRESULT CBoss_Golem_Server::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_Monster_Golem";
+	wstring strComName = L"Prototype_Component_Model_Boss_Golem";
 	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 

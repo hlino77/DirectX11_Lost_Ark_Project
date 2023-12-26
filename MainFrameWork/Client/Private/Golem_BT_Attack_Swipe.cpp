@@ -13,19 +13,16 @@ void CGolem_BT_Attack_Swipe::OnStart()
 {
 	__super::OnStart(0);
 
-	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
-
-
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 {
 	if (18 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
 	{
-		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, true);
+		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, true);
 	}
 	if (26 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
-		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
+		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, false);
 	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex)&& !m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->IsActive())
 	{
 		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL3);
@@ -48,7 +45,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 
 void CGolem_BT_Attack_Swipe::OnEnd()
 {
-	dynamic_cast<CMonster*>(m_pGameObject)->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)->SetActive(false);
+	dynamic_cast<CMonster*>(m_pGameObject)->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->SetActive(false);
 	__super::OnEnd();
 

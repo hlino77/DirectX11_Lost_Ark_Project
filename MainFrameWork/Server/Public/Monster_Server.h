@@ -174,7 +174,7 @@ protected:
 	CBehaviorTree*					m_pBehaviorTree = nullptr;
 	_float							m_fScanCoolDown = 0.f;
 	std::future<HRESULT>			m_PlayAnimation;
-	_float							m_fMoveSpeed = 0.0f;
+	_float							m_fMoveSpeed = 1.5f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
 	vector<_float>					m_vecAttackRanges ;

@@ -81,7 +81,7 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 9999.f;
+	m_iHp = 99999.f;
 	return S_OK;
 }
 

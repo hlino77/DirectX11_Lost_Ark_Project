@@ -30,7 +30,7 @@ CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[0].iAnimIndex&& m_pGameObject->Get_ModelCom()->Get_NextAnim()	!= m_vecAnimIndexFrame[0].iAnimIndex)
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimIndexFrame[0].iAnimIndex, m_vecAnimIndexFrame[0].fChangeTime,
 			m_vecAnimIndexFrame[0].iStartFrame, m_vecAnimIndexFrame[0].iChangeFrame);
-	_float fSpeed = 1.5f;
+	_float fSpeed = 1.5f * static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed();
 	static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
 
 	return BT_RUNNING;

@@ -77,48 +77,7 @@ void CBoss::LateTick(_float fTimeDelta)
 
 HRESULT CBoss::Render()
 {
-	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
-
-	m_PlayAnimation.get();
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
-		return S_OK;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return S_OK;
-		}
-	}
-
-	Safe_Release(pGameInstance);
-
-
-
-    return S_OK;
+	return 	__super::Render();
 }
 
 void CBoss::Set_SlowMotion(_bool bSlow)
@@ -150,44 +109,7 @@ void CBoss::Set_SlowMotion(_bool bSlow)
 
 HRESULT CBoss::Render_ShadowDepth()
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	Matrix matLightVeiw = pGameInstance->Get_DirectionLightMatrix();
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &matLightVeiw)))
-		return S_OK;
-
-
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
-
-			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-				return E_FAIL;*/
-
-
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
-			return S_OK;
-	}
-
-	Safe_Release(pGameInstance);
-
-
-	return S_OK;
+	return __super::Render_ShadowDepth();
 }
 
 
@@ -218,7 +140,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 		}
 	}
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
@@ -275,7 +197,10 @@ void CBoss::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
 }
 
-
+void CBoss::Add_Colider(_int iColIndex , CSphereCollider* pCollider)
+{
+	m_Coliders.emplace(iColIndex, pCollider);
+}
 
 
 void CBoss::Set_Die()

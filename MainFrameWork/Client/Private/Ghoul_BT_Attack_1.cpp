@@ -12,7 +12,6 @@ CGhoul_BT_Attack_1::CGhoul_BT_Attack_1()
 void CGhoul_BT_Attack_1::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 
 }
 

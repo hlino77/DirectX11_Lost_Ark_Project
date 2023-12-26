@@ -21,14 +21,6 @@ END
 BEGIN(Client)
 class CBoss_Golem : public CBoss
 {
-public:
-	enum AttackColliders
-	{
-		SKILL1 =5,
-		SKILL2,
-		SKILL3,
-		ATTACK_END
-	};
 protected:
 	CBoss_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CBoss_Golem(const CBoss_Golem& rhs);

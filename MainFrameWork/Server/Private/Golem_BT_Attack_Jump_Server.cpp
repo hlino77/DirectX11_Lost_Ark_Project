@@ -13,7 +13,6 @@ void CGolem_BT_Attack_Jump_Server::OnStart()
 {
 	__super::OnStart(0);
 
-	static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 	static_cast<CBoss_Golem_Server*>(m_pGameObject)->Set_RootTargetDistance(0.f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();

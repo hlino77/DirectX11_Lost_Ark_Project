@@ -71,6 +71,9 @@ HRESULT CMonster::Initialize(void* pArg)
 		}
 	}
 
+	m_fAttackRange = 0.5f;
+	m_fMoveSpeed = 1.5f;
+
     return S_OK;
 }
 
@@ -117,49 +120,20 @@ void CMonster::LateTick(_float fTimeDelta)
 HRESULT CMonster::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return E_FAIL;
 
+	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
-		return S_OK;
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+		return E_FAIL;
 
-	GlobalDesc gDesc = {
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW),
-		pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
-		pGameInstance->Get_ViewProjMatrix(),
-		pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW)
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
-		return S_OK;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i)))
-				return S_OK;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return S_OK;
-		}
-	}
-
-	Safe_Release(pGameInstance);
-
+	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
 
 
     return S_OK;
@@ -167,43 +141,20 @@ HRESULT CMonster::Render()
 
 HRESULT CMonster::Render_ShadowDepth()
 {
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
 		return S_OK;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return S_OK;
-
-	Matrix matLightVeiw = pGameInstance->Get_DirectionLightMatrix();
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &matLightVeiw)))
-		return S_OK;
-
-
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
-
-			/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-				return E_FAIL;*/
 
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
 	}
-
-	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }
@@ -353,6 +304,7 @@ void CMonster::Set_SlowMotion(_bool bSlow)
 		}
 	}
 }
+
 void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
@@ -364,27 +316,28 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
 			{
 				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				vPos.y = 0.f;
 			}
 			else
 			{
-				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vPos.y = 1.f;
 			}
+
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
 			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
 				fStatusDuration += 100.f;
 
-			Send_Collision(iDammage, vPos,(STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
+
+			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
 			Show_Damage(iDamage);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
 
 		}
-	}
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
-	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
 			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
@@ -392,11 +345,14 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
 			{
 				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				vPos.y = 0.f;
 			}
 			else
 			{
-				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vPos.y = 1.f;
 			}
+
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
@@ -405,6 +361,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
 			Show_Damage(iDamage);
+			
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
@@ -447,12 +404,29 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 {
 	m_iHp -= iDamage;
 
-	Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	Vec3 vBack = -vLook;
-	vBack.Normalize();
 	if (!m_IsSuperArmor)
 	{
-		m_pTransformCom->LookAt(vHitPos);
+
+		Vec3 vLook = {};
+		Vec3 vBack = {};
+		if (vHitPos.y == 0.f)
+		{
+
+			m_pTransformCom->LookAt(vHitPos);
+			vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			vBack = -vLook;
+			vBack.Normalize();
+
+		}
+		else if (vHitPos.y == 1.f)
+		{
+			vHitPos.y = 0.f;
+			vBack = vHitPos;
+			vLook = -vBack;
+			vLook.Normalize();
+			vBack.Normalize();
+			m_pTransformCom->LookAt_Dir(vLook);
+		}
 		if (fForce < 20.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
@@ -895,6 +869,12 @@ HRESULT CMonster::Ready_AnimInstance_For_Render(_uint iSize)
 	m_pInstaceData->pInstanceAnimContext->Unmap(m_pInstaceData->pAnimInstanceTexture, 0);
 
 	return S_OK;
+}
+
+void CMonster::Deactivate_AllColliders()
+{
+	for (auto& Collider : m_Coliders)
+		Collider.second->SetActive(false);
 }
 
 void CMonster::CullingObject()

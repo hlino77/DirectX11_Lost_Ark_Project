@@ -11,7 +11,6 @@ CReaper_BT_Attack2::CReaper_BT_Attack2()
 void CReaper_BT_Attack2::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 
 }
 
