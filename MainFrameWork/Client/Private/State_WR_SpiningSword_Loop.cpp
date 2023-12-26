@@ -60,6 +60,15 @@ void CState_WR_SpiningSword_Loop::Tick_State_Control(_float fTimeDelta)
 	if (25 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_Loop))
 		m_pPlayer->Set_State(TEXT("Skill_WR_SpiningSword_End"));
 
+	Vec3 vClickPos;
+	if (true == m_pController->Is_Dash())
+	{
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
+		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iSpiningSword_Loop, 1.1f);
 }

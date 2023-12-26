@@ -73,6 +73,15 @@ void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 		}
 	}
 
+	Vec3 vClickPos;
+	if (true == m_pController->Is_Dash())
+	{
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+
+		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_Loop, 1.f);
 }

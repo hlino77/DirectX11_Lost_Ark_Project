@@ -112,13 +112,22 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 			m_fTimdeAcc = 0.f;
 			m_iIdentityGage--;
 		}
-	}
 
-	if (0 >= m_iIdentityGage)
+		if (0 >= m_iIdentityGage)
+		{
+			m_fTimdeAcc = 0.f;
+			m_IsIdentity = false;
+			m_iIdentityGage = -1;
+		}
+	}
+	if (false == m_IsIdentity && -1 == m_iIdentityGage)
 	{
-		m_fTimdeAcc = 0.f;
-		m_IsIdentity = false;
-		m_iIdentityGage = 0;
+		m_fIdenTimeAcc += fTimeDelta;
+		if (m_fIdenCoolTime <= m_fIdenTimeAcc)
+		{
+			m_fIdenTimeAcc = 0.f;
+			m_iIdentityGage = 0;
+		}
 	}
 }
 

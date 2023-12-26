@@ -21,9 +21,13 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	/* 아덴 관련 함수 */
 	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
+	const _int&		Get_IdenGage() { return m_iIdentityGage; }
+	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
+	const _float&	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -47,9 +51,13 @@ private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
-	_uint   m_iIdentityGage = { 0 };
-	_uint	m_iMaxGage = { 100 };
+	_int	m_iIdentityGage = { 0 };
+	_uint	m_iMaxGage = { 10 };
 	_float  m_fTimdeAcc = { 0.f };
+
+	_float	m_fIdenTimeAcc = { 0.f };
+	_float	m_fIdenCoolTime = { 30.f };
+
 
 public:
 	static CController_WR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

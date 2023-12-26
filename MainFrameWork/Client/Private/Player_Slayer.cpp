@@ -225,11 +225,13 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				m_pController->Increase_IdenGage(10);
+				if(-1 != m_pController->Get_IdenGage())
+					m_pController->Increase_IdenGage(10);
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
-				m_pController->Increase_IdenGage(10);
+				if (-1 != m_pController->Get_IdenGage())
+					m_pController->Increase_IdenGage(10);
 			}
 		}
 		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
