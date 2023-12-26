@@ -32,7 +32,7 @@ private:
 private:
 	_bool	Is_Twist()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit()&& static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist())
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist())
 			return true;
 
 		return false;

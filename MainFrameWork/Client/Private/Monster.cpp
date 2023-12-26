@@ -330,6 +330,8 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+			if (fForce > 30.f)
+				cout << endl<< fForce << endl;
 			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
 			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
@@ -363,7 +365,8 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
 			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
 				fStatusDuration += 100.f;
-
+			if (fForce > 30.f)
+				cout << endl << fForce << endl;
 			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
 			Show_Damage(iDamage);
 			

@@ -32,7 +32,7 @@ private:
 private:
 	_bool	Is_Hit()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit()|| static_cast<CMonster_Server*>(m_pGameObject)->Is_SecondHit())
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit()|| static_cast<CMonster_Server*>(m_pGameObject)->Is_SecondHit())
 			return true;
 
 		return false;
