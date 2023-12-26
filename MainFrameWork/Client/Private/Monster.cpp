@@ -257,22 +257,27 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 	if (iSize - 1 == iIndex)
 	{
-		ThreadManager::GetInstance()->EnqueueJob([=]()
+		m_pInstaceData->Future_AnimInstance = std::async(&CMonster::Ready_AnimInstance_For_Render, this, iSize);
+
+
+		/*ThreadManager::GetInstance()->EnqueueJob([=]()
 			{
 				promise<HRESULT> PromiseInstance;
 				m_pInstaceData->Future_AnimInstance = PromiseInstance.get_future();
 
 				PromiseInstance.set_value(Ready_AnimInstance_For_Render(iSize));
-			});
+			});*/
 
 
-		ThreadManager::GetInstance()->EnqueueJob([=]()
+		m_pInstaceData->Future_Instance = std::async(&CMonster::Ready_Instance_For_Render, this, iSize);
+
+		/*ThreadManager::GetInstance()->EnqueueJob([=]()
 			{
 				promise<HRESULT> PromiseInstance;
 				m_pInstaceData->Future_Instance = PromiseInstance.get_future();
 
 				PromiseInstance.set_value(Ready_Instance_For_Render(iSize));
-			});
+			});*/
 	}
 	else
 		++iIndex;
