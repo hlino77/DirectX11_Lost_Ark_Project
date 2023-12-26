@@ -108,6 +108,7 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		Desc.iObjectID = pkt.iobjectid();
 		Desc.iLayer = pkt.ilayer();
 		Desc.vPos = Vec3(pkt.vpos().data());
+		Desc.bInstance = true;
 
 		wstring szProtoName = L"Prototype_GameObject_" + Desc.strFileName;
 		CMonster* pMonster = dynamic_cast<CMonster*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szProtoName, &Desc));

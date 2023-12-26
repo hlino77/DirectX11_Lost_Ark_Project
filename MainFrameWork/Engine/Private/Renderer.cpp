@@ -403,6 +403,9 @@ HRESULT CRenderer::Ready_InstanceRender()
 {
 	for (_uint i = 0; i < CRenderer::RENDER_END; ++i)
 	{
+		if (i == RENDER_SHADOW)
+			continue;
+
 		if (!m_InstanceRenderObjects[i].empty())
 		{
 			for (auto& ObjectList : m_InstanceRenderObjects[i])
@@ -425,9 +428,9 @@ HRESULT CRenderer::Ready_InstanceRender()
 
 HRESULT CRenderer::Draw()
 {
-	CGameInstance::GetInstance()->Execute_BeforeRenderCommandList();
+	//CGameInstance::GetInstance()->Execute_BeforeRenderCommandList();
 
-	CGameInstance::GetInstance()->JobMutex_Lock();
+	
 
 	if (m_bRenderStaticShadow)
 		if (FAILED(Render_StaticShadow()))
@@ -479,8 +482,6 @@ HRESULT CRenderer::Draw()
 		if (FAILED(Render_Debug()))
 			return E_FAIL;
 
-	CGameInstance::GetInstance()->JobMutex_UnLock();
-
 	return S_OK;
 }
 
@@ -507,6 +508,8 @@ HRESULT CRenderer::Bind_TextBoxSRV(CShader* pShader)
 
 HRESULT CRenderer::Update_TextBox()
 {
+	CGameInstance::GetInstance()->JobMutex_Lock();
+
 	for (auto& iter : m_RenderObjects[UPDATE_TEXTBOX])
 	{
 		if (FAILED(iter->Render_MakeSRV()))
@@ -514,6 +517,8 @@ HRESULT CRenderer::Update_TextBox()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[UPDATE_TEXTBOX].clear();
+
+	CGameInstance::GetInstance()->JobMutex_UnLock();
 
 	return S_OK;
 }
@@ -603,6 +608,23 @@ HRESULT CRenderer::Render_ShadowDepth()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_SHADOW].clear();
+
+
+	for (auto& ObjectList : m_InstanceRenderObjects[RENDER_SHADOW])
+	{
+		if (!ObjectList.second.empty())
+		{
+			if (FAILED(ObjectList.second[0]->Render_ShadowDepth_Instance(ObjectList.second.size())))
+				return E_FAIL;
+
+			for (auto& Object : ObjectList.second)
+				Safe_Release(Object);
+
+			ObjectList.second.clear();
+		}
+	}
+
+
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;

@@ -355,9 +355,6 @@
     <Filter Include="01.Levels\98.Tool\ImGui\node_examples">
       <UniqueIdentifier>{c1d21703-2c0a-476f-a251-6001c56f3ca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\ImGuiNode\example">
-      <UniqueIdentifier>{cd58c136-6fb2-434e-97eb-c4979c4aead3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\02.VoidObject">
       <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
     </Filter>
@@ -1689,9 +1686,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
@@ -1941,9 +1935,6 @@
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
@@ -1952,9 +1943,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Plant.h">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_TextBox.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Dead.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -2127,12 +2115,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imnodes_internal.h">
       <Filter>01.Levels\98.Tool\ImGui\ImGuiNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\graph.h">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ImGUI\node_editor.h">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VoidEffect.h">
       <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
@@ -3435,9 +3417,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
@@ -3684,9 +3663,6 @@
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Monster\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
@@ -3695,9 +3671,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Plant.cpp">
       <Filter>02.GameObjects\Monster\Plant</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_TextBox.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Dead.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\01.Dead</Filter>
@@ -3861,24 +3834,6 @@
     <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp" />
-    <ClCompile Include="..\Public\ImGUI\imnodes.cpp">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\hello.cpp">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\main.cpp">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\multi_editor.cpp">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\save_load.cpp">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\ImGUI\color_node_editor.cpp">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode\example</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\VoidEffect.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
     </ClCompile>
@@ -4237,11 +4192,14 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelInstance.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Instance.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

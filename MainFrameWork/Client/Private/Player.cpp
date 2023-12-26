@@ -32,6 +32,7 @@ CPlayer::CPlayer(const CPlayer& rhs)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
 
 	return S_OK;
 }

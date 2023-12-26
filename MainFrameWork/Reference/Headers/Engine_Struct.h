@@ -290,6 +290,23 @@ namespace Engine
 	}VTXINSTANCE_MODEL;
 
 
+
+	typedef struct ENGINE_DLL tagVertexAnimModel_Instance
+	{
+		SimpleMath::Vector3		vPosition;
+		SimpleMath::Vector3		vNormal;
+		SimpleMath::Vector2		vTexture;
+		SimpleMath::Vector3		vTangent;
+		XMUINT4					vBlendIndex; /* 이 정점에 영향을 주는 뼈의 인덱스 네개. */
+		SimpleMath::Vector4		vBlendWeight; /* 영향르 주고 있는 각 뼈대의 영향 비율 */
+
+		_uint					iID;
+		Matrix					matWorld;
+
+		static const unsigned int iNumElements = 11;
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
+	}VTXINSTANCE_ANIMMODEL;
+
 	typedef struct ENGINE_DLL tagVertex_Rect_Instance
 	{
 		XMFLOAT4        vTranslation;
@@ -349,8 +366,6 @@ namespace Engine
 		_bool	bUseFactor = { true };
 
 	}PROJECTILE_DESC;
-
-
 
 }
 

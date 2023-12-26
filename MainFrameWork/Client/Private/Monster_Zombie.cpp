@@ -43,12 +43,13 @@ CMonster_Zombie::CMonster_Zombie(const CMonster_Zombie& rhs)
 
 HRESULT CMonster_Zombie::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
     return S_OK;
 }
 
 HRESULT CMonster_Zombie::Initialize(void* pArg)
 {
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 

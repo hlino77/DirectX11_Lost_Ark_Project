@@ -29,6 +29,7 @@ public:
 		_int	iObjectID;
 		_uint	iLayer;
 		Vec3	vPos;
+		_bool	bInstance = false;
 	}MODELDESC;
 
 public:
@@ -40,13 +41,17 @@ protected:
 	virtual ~CMonster() = default;
 
 public:
-	virtual HRESULT			Initialize_Prototype();
-	virtual HRESULT			Initialize(void* pArg);
-	virtual void			Tick(_float fTimeDelta);
-	virtual void			LateTick(_float fTimeDelta);
-	virtual HRESULT			Render();
-	virtual HRESULT			Render_ShadowDepth();
-	virtual HRESULT			Render_Debug();
+	virtual HRESULT			Initialize_Prototype() override;
+	virtual HRESULT			Initialize(void* pArg) override;
+	virtual void			Tick(_float fTimeDelta) override;
+	virtual void			LateTick(_float fTimeDelta) override;
+	virtual HRESULT			Render() override;
+	virtual HRESULT			Render_ShadowDepth() override;
+	virtual HRESULT			Render_ShadowDepth_Instance(_uint iSize) override;
+	virtual HRESULT			Render_Debug() override;
+
+	virtual HRESULT	Render_Instance(_uint iSize) override;
+	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
@@ -123,6 +128,10 @@ protected:
 	virtual HRESULT Ready_BehaviourTree();
 	HRESULT Ready_HP_UI();
 
+	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
+	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
+	HRESULT	Ready_AnimInstance_For_Render(_uint iSize);
+
 protected:
 	void					CullingObject();
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
@@ -153,6 +162,8 @@ protected:
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;
+
+	
 	std::future<HRESULT>			m_PlayAnimation;
 	//상태이상
 	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};

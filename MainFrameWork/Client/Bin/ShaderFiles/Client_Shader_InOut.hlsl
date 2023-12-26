@@ -44,6 +44,20 @@ struct SKELETAL_IN
     float4  vBlendWeight : BLENDWEIGHT;
 };
 
+struct SKELETAL_INSTANCE_IN
+{
+    float3  vPosition : POSITION;
+    float3  vNormal : NORMAL;
+    float3  vTangent : TANGENT;
+    float2  vTexUV : TEXCOORD0;
+    uint4   vBlendIndex : BLENDINDEX;
+    float4  vBlendWeight : BLENDWEIGHT;
+
+    uint    iID : INSTANCEID;
+    matrix	matWorld : INST;
+};
+
+
 struct VS_OUT
 {
     float4  vPosition : SV_POSITION;
@@ -52,6 +66,17 @@ struct VS_OUT
     float2  vTexUV : TEXCOORD0;
     float4  vProjPos : TEXCOORD1;
     float3  vTangent : TANGENT;
+};
+
+struct VS_OUT_INSTANCE
+{
+    float4  vPosition : SV_POSITION;
+    float4  vNormal : NORMAL;
+    float3  vNormalV : NORMALV;
+    float2  vTexUV : TEXCOORD0;
+    float4  vProjPos : TEXCOORD1;
+    float3  vTangent : TANGENT;
+    float   fRimLight : RIM;
 };
 
 struct VS_OUT_SHADOW

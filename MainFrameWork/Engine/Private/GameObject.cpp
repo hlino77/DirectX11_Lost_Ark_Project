@@ -4,6 +4,7 @@
 #include "ColliderBase.h"
 #include "ColliderSphere.h"
 #include "StateMachine.h"
+#include "Shader.h"
 
 CGameObject::CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, wstring strObjectTag, _int iObjType)
 	: m_pDevice(pDevice)
@@ -27,10 +28,8 @@ CGameObject::CGameObject(const CGameObject& rhs)
 	, m_matTargetWorld(rhs.m_matTargetWorld.load())
 	, m_pGameInstance(rhs.m_pGameInstance)
 	, m_bActive(rhs.m_bActive)
-	, m_iMaxInstanceCount(rhs.m_iMaxInstanceCount)
-	, m_pInstanceBuffer(rhs.m_pInstanceBuffer)
-	, m_pInstanceValue(rhs.m_pInstanceValue)
-	, m_pInstanceShader(rhs.m_pInstanceShader)
+	, m_pInstaceData(rhs.m_pInstaceData)
+
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
@@ -40,6 +39,9 @@ CGameObject::CGameObject(const CGameObject& rhs)
 HRESULT CGameObject::Initialize_Prototype()
 {
 	m_matTargetWorld = XMMatrixIdentity();
+
+	m_pInstaceData = make_shared<INSTANCEDATA>();
+
 	return S_OK;
 }
 
@@ -159,11 +161,16 @@ void CGameObject::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
-
-
-	Safe_Delete(m_pInstanceValue);
-	Safe_Release(m_pInstanceBuffer);
-	Safe_Release(m_pInstanceShader);
+	
 
 	RELEASE_INSTANCE(CGameInstance);
+}
+
+CGameObject::InstanceDataDesc::~InstanceDataDesc()
+{
+	Safe_Delete(pInstanceValue);
+	Safe_Release(pInstanceBuffer);
+	Safe_Release(pInstanceShader);
+	Safe_Release(pAnimInstanceTexture);
+	Safe_Release(pAnimSRV);
 }

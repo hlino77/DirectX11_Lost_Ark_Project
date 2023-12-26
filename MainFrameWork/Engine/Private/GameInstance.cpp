@@ -97,6 +97,7 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, _uint iNumLayerType,
 	if (FAILED(m_pSoundMgr->Ready_Sound()))
 		return E_FAIL;
 
+	Emplace_SleepContext(10);
 
 	return S_OK;
 }
@@ -599,33 +600,23 @@ ID3D11DeviceContext* CGameInstance::Get_BeforeRenderContext()
 	return pContext;
 }
 
-void CGameInstance::Release_BeforeRenderContext(ID3D11DeviceContext* pDeviceContext)
-{
-	std::unique_lock<std::mutex> lock(m_JobMutex);
 
-	m_pBeforeRenderContexts.emplace_back(pDeviceContext);
-}
-
-void CGameInstance::Execute_BeforeRenderCommandList()
+void CGameInstance::Execute_BeforeRenderCommandList(ID3D11DeviceContext* pDeviceContext)
 {
 	std::unique_lock<std::mutex> lock(m_JobMutex);
 
 	ID3D11CommandList* pCommandList = nullptr;
 
-	for (auto& elem : m_pBeforeRenderContexts)
-	{
-		elem->FinishCommandList(false, &pCommandList);
+	pDeviceContext->FinishCommandList(false, &pCommandList);
 
-		if (pCommandList)
-		{
-			Get_Context()->ExecuteCommandList(pCommandList, true);
-			pCommandList->Release();
-			pCommandList = nullptr;
-		}
+	if (pCommandList)
+	{
+		Get_Context()->ExecuteCommandList(pCommandList, true);
+		pCommandList->Release();
+		pCommandList = nullptr;
 	}
 
-	m_pBeforeRenderSleepContexts.insert(m_pBeforeRenderSleepContexts.begin(), m_pBeforeRenderContexts.begin(), m_pBeforeRenderContexts.end());
-	m_pBeforeRenderContexts.clear();
+	m_pBeforeRenderSleepContexts.push_back(pDeviceContext);
 }
 
 void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)

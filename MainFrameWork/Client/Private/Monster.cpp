@@ -31,6 +31,8 @@ CMonster::CMonster(const CMonster& rhs)
 
 HRESULT CMonster::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
     return S_OK;
 }
 
@@ -38,8 +40,10 @@ HRESULT CMonster::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_strObjectTag = Desc->strFileName;
+	m_szModelName = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
+	m_bInstance = Desc->bInstance;
 
 
 	if (FAILED(Ready_Components()))
@@ -52,15 +56,20 @@ HRESULT CMonster::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 
-
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
 
 	Find_NearTarget();
 
-
+	if (m_bInstance)
+	{
+		if (m_pInstaceData->pInstanceBuffer == nullptr)
+		{
+			if (FAILED(Ready_Proto_InstanceBuffer()))
+				return E_FAIL;
+		}
+	}
 
     return S_OK;
 }
@@ -71,6 +80,7 @@ void CMonster::Tick(_float fTimeDelta)
 	if (!m_bDie)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
 	Update_StatusEffect(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
 }
@@ -108,8 +118,6 @@ HRESULT CMonster::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
-
-	m_PlayAnimation.get();
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -200,6 +208,25 @@ HRESULT CMonster::Render_ShadowDepth()
 	return S_OK;
 }
 
+HRESULT CMonster::Render_ShadowDepth_Instance(_uint iSize)
+{
+	if (FAILED(m_pInstaceData->pInstanceShader->Push_ShadowWVP()))
+		return S_OK;
+
+	if (FAILED(m_pInstaceData->pInstanceShader->Bind_Texture("g_InstanceTransform", m_pInstaceData->pAnimSRV)))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->Render_Instance(m_pInstaceData->pInstanceBuffer, iSize, m_pInstaceData->pInstanceShader, i, sizeof(_uint) + sizeof(Matrix), "ShadowPass")))
+			return S_OK;
+	}
+
+	return S_OK;
+}
+
 HRESULT CMonster::Render_Debug()
 {
 	for (auto& Colider : m_Coliders)
@@ -214,6 +241,90 @@ HRESULT CMonster::Render_Debug()
 	}
 
 	return S_OK;
+}
+
+HRESULT CMonster::Render_Instance(_uint iSize)
+{
+	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+		return E_FAIL;
+
+	{
+		m_pInstaceData->Future_Instance.wait();
+		if (FAILED(m_pInstaceData->Future_Instance.get()))
+			return E_FAIL;
+
+		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList(m_pInstaceData->pInstanceContext);
+		m_pInstaceData->pInstanceContext = nullptr;
+	}
+	
+	{
+		m_pInstaceData->Future_AnimInstance.wait();
+		if (FAILED(m_pInstaceData->Future_AnimInstance.get()))
+			return E_FAIL;
+
+		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList(m_pInstaceData->pInstanceAnimContext);
+		m_pInstaceData->pInstanceAnimContext = nullptr;
+	}
+
+
+	if (FAILED(m_pInstaceData->pInstanceShader->Bind_Texture("g_InstanceTransform", m_pInstaceData->pAnimSRV)))
+		return E_FAIL;
+
+	if (FAILED(m_pInstaceData->pInstanceShader->Push_GlobalVP()))
+		return E_FAIL;
+
+	if (FAILED(m_pModelCom->Render_Instance(m_pInstaceData->pInstanceBuffer, iSize, m_pInstaceData->pInstanceShader, sizeof(_uint) + sizeof(Matrix))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
+{
+	{
+		BYTE* pInstanceValue = static_cast<BYTE*>(m_pInstaceData->pInstanceValue->GetValue());
+
+		size_t iSizePerInstance = sizeof(_uint) + sizeof(Matrix);
+		_uint iDataIndex = iIndex * iSizePerInstance;
+		_uint iID = iIndex;
+		Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
+		matWorld.m[0][3] = (_float)m_bRimLight;
+
+		memcpy(pInstanceValue + iDataIndex, &iID, sizeof(_uint));
+		memcpy(pInstanceValue + iDataIndex + sizeof(_uint), &matWorld, sizeof(Matrix));
+	}
+
+	{
+		Matrix* pAnimInstanceValue = static_cast<Matrix*>(m_pInstaceData->pAnimInstanceValue->GetValue());
+
+		size_t iSizePerInstance = m_pModelCom->Get_BoneCount() * sizeof(Matrix);
+		_uint iDataIndex = iIndex * m_pModelCom->Get_BoneCount();
+
+		memcpy(pAnimInstanceValue + iDataIndex, m_pModelCom->Get_CurrBoneMatrices().data(), iSizePerInstance);
+	}
+
+
+	if (iSize - 1 == iIndex)
+	{
+		ThreadManager::GetInstance()->EnqueueJob([=]()
+			{
+				promise<HRESULT> PromiseInstance;
+				m_pInstaceData->Future_AnimInstance = PromiseInstance.get_future();
+
+				PromiseInstance.set_value(Ready_AnimInstance_For_Render(iSize));
+			});
+
+
+		ThreadManager::GetInstance()->EnqueueJob([=]()
+			{
+				promise<HRESULT> PromiseInstance;
+				m_pInstaceData->Future_Instance = PromiseInstance.get_future();
+
+				PromiseInstance.set_value(Ready_Instance_For_Render(iSize));
+			});
+	}
+	else
+		++iIndex;
 }
 
 void CMonster::Set_SlowMotion(_bool bSlow)
@@ -638,6 +749,149 @@ HRESULT CMonster::Ready_HP_UI()
 	return S_OK;
 }
 
+HRESULT CMonster::Ready_Proto_InstanceBuffer()
+{
+	m_pInstaceData->iMaxInstanceCount = 100;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_AnimModelInstance"),
+		TEXT("Com_InstanceShader"), (CComponent**)&m_pInstaceData->pInstanceShader)))
+		return E_FAIL;
+
+	//Instance
+	{
+		size_t iSizePerInstacne = sizeof(_uint) + sizeof(Matrix);
+
+		tagTypeLessData<BYTE*>* pInstanceValue = new tagTypeLessData<BYTE*>();
+
+		BYTE* pData = new BYTE[iSizePerInstacne * m_pInstaceData->iMaxInstanceCount];
+		ZeroMemory(pData, iSizePerInstacne * m_pInstaceData->iMaxInstanceCount);
+
+		pInstanceValue->SetValue(pData);
+
+		m_pInstaceData->pInstanceValue = pInstanceValue;
+
+		{
+			D3D11_BUFFER_DESC			BufferDesc;
+
+			ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+			// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
+			BufferDesc.ByteWidth = m_pInstaceData->iMaxInstanceCount * iSizePerInstacne;
+			BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
+			BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			BufferDesc.MiscFlags = 0;
+			BufferDesc.StructureByteStride = iSizePerInstacne;
+
+			D3D11_SUBRESOURCE_DATA		InitialData;
+
+			InitialData.pSysMem = pInstanceValue->GetValue();
+
+			if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstaceData->pInstanceBuffer)))
+				return E_FAIL;
+		}
+	}
+	
+
+	//AnimationInstance
+	{
+		_uint iBoneCount = m_pModelCom->Get_BoneCount();
+
+		tagTypeLessData<Matrix*>* pInstanceValue = new tagTypeLessData<Matrix*>();
+
+		Matrix* pData = new Matrix[m_pInstaceData->iMaxInstanceCount * iBoneCount];
+		ZeroMemory(pData, m_pInstaceData->iMaxInstanceCount * iBoneCount);
+
+		pInstanceValue->SetValue(pData);
+
+		m_pInstaceData->pAnimInstanceValue = pInstanceValue;
+
+		// Creature Texture
+		{
+			D3D11_TEXTURE2D_DESC desc;
+			ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
+			desc.Width = iBoneCount * 4;
+			desc.Height = m_pInstaceData->iMaxInstanceCount;
+			desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; // 16바이트
+			desc.Usage = D3D11_USAGE_DYNAMIC;
+			desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+			desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			desc.MipLevels = 1;
+			desc.SampleDesc.Count = 1;
+			desc.ArraySize = 1;
+
+			D3D11_SUBRESOURCE_DATA tSubResources;
+
+			tSubResources.pSysMem = m_pInstaceData->pAnimInstanceValue->GetValue();
+			tSubResources.SysMemPitch = iBoneCount * sizeof(Matrix);
+
+			if (FAILED(m_pDevice->CreateTexture2D(&desc, &tSubResources, &m_pInstaceData->pAnimInstanceTexture)))
+				return E_FAIL;
+		}
+
+		// Create SRV
+		{
+			D3D11_SHADER_RESOURCE_VIEW_DESC desc;
+			ZeroMemory(&desc, sizeof(desc));
+			desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+			desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			desc.Texture2D.MipLevels = 1;
+
+			if (FAILED(m_pDevice->CreateShaderResourceView(m_pInstaceData->pAnimInstanceTexture, &desc, &m_pInstaceData->pAnimSRV)))
+				return E_FAIL;
+		}
+
+	}
+
+
+
+	
+	return S_OK;
+}
+
+HRESULT CMonster::Ready_Instance_For_Render(_uint iSize)
+{
+	size_t iSizePerInstance = sizeof(_uint) + sizeof(Matrix);
+
+	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
+
+	m_pInstaceData->pInstanceContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+
+	if (m_pInstaceData->pInstanceContext == nullptr)
+		return E_FAIL;
+
+	if (FAILED(m_pInstaceData->pInstanceContext->Map((m_pInstaceData->pInstanceBuffer), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+		return E_FAIL;
+
+	memcpy(SubResource.pData, m_pInstaceData->pInstanceValue->GetValue(), iSizePerInstance * iSize);
+
+	m_pInstaceData->pInstanceContext->Unmap(m_pInstaceData->pInstanceBuffer, 0);
+
+	return S_OK;
+}
+
+HRESULT CMonster::Ready_AnimInstance_For_Render(_uint iSize)
+{
+	size_t iSizePerInstance = m_pModelCom->Get_BoneCount() * sizeof(Matrix);
+
+	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
+
+	m_pInstaceData->pInstanceAnimContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+
+	if (m_pInstaceData->pInstanceAnimContext == nullptr)
+		return E_FAIL;
+
+	if (FAILED(m_pInstaceData->pInstanceAnimContext->Map(m_pInstaceData->pAnimInstanceTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+		return E_FAIL;
+
+	memcpy(SubResource.pData, m_pInstaceData->pAnimInstanceValue->GetValue(), iSizePerInstance * iSize);
+
+	m_pInstaceData->pInstanceAnimContext->Unmap(m_pInstaceData->pAnimInstanceTexture, 0);
+
+	return S_OK;
+}
+
 void CMonster::CullingObject()
 {
 	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -650,11 +904,20 @@ void CMonster::CullingObject()
 		
 	if (m_bRender)
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		if (m_bInstance)
+		{
+			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_NONBLEND, this);
+			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_SHADOW, this);
+		}
+		else
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		}
+			
 		m_pRendererCom->Add_DebugObject(this);
 	}
-		
+
 }
 
 void CMonster::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)

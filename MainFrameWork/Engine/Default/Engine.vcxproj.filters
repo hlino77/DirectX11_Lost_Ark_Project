@@ -575,7 +575,6 @@
     <ClInclude Include="..\Public\TypeLessValue.h">
       <Filter>98.Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\DamageBox.h" />
     <ClInclude Include="..\Public\RandomManager.h">
       <Filter>01.Utiltiy\13.Random</Filter>
     </ClInclude>
@@ -905,7 +904,6 @@
     <ClCompile Include="..\Private\BT_Node.cpp">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\DamageBox.cpp" />
     <ClCompile Include="..\Private\RandomManager.cpp">
       <Filter>01.Utiltiy\13.Random</Filter>
     </ClCompile>

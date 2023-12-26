@@ -17,6 +17,8 @@ CStaticModel::CStaticModel(const CStaticModel& rhs)
 
 HRESULT CStaticModel::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	if (FAILED(Ready_Proto_InstanceBuffer()))
 		return E_FAIL;
 
@@ -104,10 +106,19 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	if (FAILED(m_pInstanceShader->Push_GlobalVP()))
+	{
+		m_pInstaceData->Future_Instance.wait();
+		if (FAILED(m_pInstaceData->Future_Instance.get()))
+			return E_FAIL;
+
+		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList(m_pInstaceData->pInstanceContext);
+		m_pInstaceData->pInstanceContext = nullptr;
+	}
+
+	if (FAILED(m_pInstaceData->pInstanceShader->Push_GlobalVP()))
 		return E_FAIL;
 
-	if (FAILED(m_pModelCom->Render_Instance(m_pInstanceBuffer, iSize, m_pInstanceShader, sizeof(Matrix))))
+	if (FAILED(m_pModelCom->Render_Instance(m_pInstaceData->pInstanceBuffer, iSize, m_pInstaceData->pInstanceShader, sizeof(Matrix))))
 		return E_FAIL;
 
 
@@ -228,7 +239,7 @@ HRESULT CStaticModel::Ready_Components()
 
 void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 {
-	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(m_pInstanceValue->GetValue());
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>((m_pInstaceData->pInstanceValue)->GetValue());
 
 	(*pInstanceValue)[iIndex] = m_pTransformCom->Get_WorldMatrix();
 
@@ -236,7 +247,10 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 	{
 		ThreadManager::GetInstance()->EnqueueJob([=]()
 			{
-				Ready_Instance_For_Render(iSize);
+				promise<HRESULT> PromiseInstance;
+				m_pInstaceData->Future_Instance = PromiseInstance.get_future();
+
+				PromiseInstance.set_value(Ready_Instance_For_Render(iSize));
 			});
 	}
 	else
@@ -245,18 +259,18 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {
+	m_pInstaceData->iMaxInstanceCount = 100;
+
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),
-		TEXT("Com_InstanceShader"), (CComponent**)&m_pInstanceShader)))
+		TEXT("Com_InstanceShader"), (CComponent**)&m_pInstaceData->pInstanceShader)))
 		return E_FAIL;
 
-	m_iMaxInstanceCount = 100;
+	m_pInstaceData->pInstanceValue = new tagTypeLessData<vector<Matrix>>();
 
-	m_pInstanceValue = new tagTypeLessData<vector<Matrix>>();
-
-	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(m_pInstanceValue->GetValue());
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>((m_pInstaceData->pInstanceValue)->GetValue());
 	
-	pInstanceValue->resize(m_iMaxInstanceCount, XMMatrixIdentity());
+	pInstanceValue->resize(m_pInstaceData->iMaxInstanceCount, XMMatrixIdentity());
 
 	{
 		D3D11_BUFFER_DESC			BufferDesc;
@@ -264,7 +278,7 @@ HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
-		BufferDesc.ByteWidth = sizeof(Matrix) * m_iMaxInstanceCount;
+		BufferDesc.ByteWidth = sizeof(Matrix) * (m_pInstaceData->iMaxInstanceCount);
 		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -275,30 +289,30 @@ HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 
 		InitialData.pSysMem = pInstanceValue->data();
 
-		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstanceBuffer)))
+		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstaceData->pInstanceBuffer)))
 			return E_FAIL;
 	}
 }
 
 HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
 {
-	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(m_pInstanceValue->GetValue());
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>((m_pInstaceData->pInstanceValue)->GetValue());
 
 	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
 
-	ID3D11DeviceContext* pContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+	m_pInstaceData->pInstanceContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
 
-	if (pContext == nullptr)
+	if (m_pInstaceData->pInstanceContext == nullptr)
 		return E_FAIL;
 
-	if(FAILED(pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+	if(FAILED(m_pInstaceData->pInstanceContext->Map((m_pInstaceData->pInstanceBuffer), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
 		return E_FAIL;
 
 	memcpy(SubResource.pData, pInstanceValue->data(), sizeof(Matrix) * iSize);
 
-	pContext->Unmap(m_pInstanceBuffer, 0);
+	m_pInstaceData->pInstanceContext->Unmap(m_pInstaceData->pInstanceBuffer, 0);
 
-	CGameInstance::GetInstance()->Release_BeforeRenderContext(pContext);
+	return S_OK;
 }
 
 

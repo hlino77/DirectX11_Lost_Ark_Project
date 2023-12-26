@@ -149,15 +149,14 @@ public:
 public:
 	//Test
 	ID3D11DeviceContext* Get_BeforeRenderContext();
-	void Release_BeforeRenderContext(ID3D11DeviceContext* pDeviceContext);
-	void Execute_BeforeRenderCommandList();
+	//void Release_BeforeRenderContext(ID3D11DeviceContext* pDeviceContext);
+	void Execute_BeforeRenderCommandList(ID3D11DeviceContext* pDeviceContext);
 
 	void Emplace_SleepContext(const _uint In_iIndex);
 	void JobMutex_Lock() { m_JobMutex.lock(); }
 	void JobMutex_UnLock() { m_JobMutex.unlock(); }
 	mutex m_JobMutex;
 	vector<ID3D11DeviceContext*> m_pBeforeRenderSleepContexts;
-	vector<ID3D11DeviceContext*> m_pBeforeRenderContexts;
 
 private:
 	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
