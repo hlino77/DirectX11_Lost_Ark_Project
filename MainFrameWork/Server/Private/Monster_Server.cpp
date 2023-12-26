@@ -319,6 +319,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		}
 		Vec3 vLook = {};
 		Vec3 vBack = {};
+
 		if (vHitPos.y == 0.f) 
 		{
 

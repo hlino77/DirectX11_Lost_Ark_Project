@@ -41,6 +41,8 @@ CMonster_Plant::CMonster_Plant(const CMonster_Plant& rhs)
 
 HRESULT CMonster_Plant::Initialize_Prototype()
 {
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
     return S_OK;
 }
 

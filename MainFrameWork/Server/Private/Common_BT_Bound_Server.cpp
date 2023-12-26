@@ -15,8 +15,6 @@ void CCommon_BT_Bound_Server::OnStart()
 
 CBT_Node::BT_RETURN CCommon_BT_Bound_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_SecondHit()&& m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex) >0.8f )
-		return BT_SUCCESS;
 	return __super::OnUpdate(fTimeDelta);
 }
 

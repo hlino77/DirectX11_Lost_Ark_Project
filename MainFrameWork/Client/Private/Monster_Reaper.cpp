@@ -46,7 +46,8 @@ CMonster_Reaper::CMonster_Reaper(const CMonster_Reaper& rhs)
 
 HRESULT CMonster_Reaper::Initialize_Prototype()
 {
-    return S_OK;
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
 }
 
 HRESULT CMonster_Reaper::Initialize(void* pArg)

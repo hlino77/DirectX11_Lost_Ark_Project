@@ -2,6 +2,7 @@
 #include "Common_BT_Dead.h"
 #include "Monster.h"
 #include "Model.h"
+#include "GameInstance.h"
 
 CCommon_BT_Dead::CCommon_BT_Dead()
 {
@@ -30,6 +31,10 @@ void CCommon_BT_Dead::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_Left(false);
 	static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.f);
 	static_cast<CMonster*>(m_pGameObject)->Set_Die();
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+		CGameInstance::GetInstance()->Delete_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_MONSTER, m_pGameObject);
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
+		CGameInstance::GetInstance()->Delete_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_BOSS, m_pGameObject);
 }
 
 
