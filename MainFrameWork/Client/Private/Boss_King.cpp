@@ -65,31 +65,7 @@ void CBoss_King::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	Vec3 vOffset = {};
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	if (KEY_HOLD(KEY::DOWN_ARROW) || KEY_HOLD(KEY::UP_ARROW))
-	{
-		vOffset = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Offset();
-		if (KEY_HOLD(KEY::X) && KEY_HOLD(KEY::UP_ARROW))
-			vOffset.x += 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::X) && KEY_HOLD(KEY::DOWN_ARROW))
-			vOffset.x -= 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Y) && KEY_HOLD(KEY::UP_ARROW))
-			vOffset.y += 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Y) && KEY_HOLD(KEY::DOWN_ARROW))
-			vOffset.y -= 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Z) && KEY_HOLD(KEY::UP_ARROW))
-			vOffset.z += 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Z) && KEY_HOLD(KEY::DOWN_ARROW))
-			vOffset.z -= 1.f * fTimeDelta;
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(vOffset);
-	_float	fRadius = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Radius();
-	if (KEY_HOLD(KEY::S) && KEY_HOLD(KEY::UP_ARROW))
-		fRadius += 1.f * fTimeDelta;
-	else if (KEY_HOLD(KEY::S) && KEY_HOLD(KEY::DOWN_ARROW))
-		fRadius -= 1.f * fTimeDelta;
-	 m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(fRadius);
-	}
+
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);

@@ -147,6 +147,7 @@ public:
 	_bool					Is_Attacked() { return m_IsAttacked; }
 	void					Set_Attacked(_bool IsAttacked) { m_IsAttacked = IsAttacked; }
 
+	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
 
 
 	_bool					Is_Skill();
@@ -200,7 +201,7 @@ protected:
 	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};
 	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};
-
+	_float							m_fRootTargetDistance = 0.f;
 
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 

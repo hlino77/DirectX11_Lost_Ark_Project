@@ -51,7 +51,8 @@ CMonster_Ghoul_Server::CMonster_Ghoul_Server(const CMonster_Server& rhs)
 
 HRESULT CMonster_Ghoul_Server::Initialize_Prototype()
 {
-	
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -60,16 +61,10 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_szModelName = L"Ghoul";
 	m_strObjectTag = L"Monster_Ghoul";
-	m_iObjectID = Desc->iObjectID;
-	m_iLayer = Desc->iLayer;
 
-
-	if (FAILED(Ready_Components()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
@@ -79,38 +74,20 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
+	m_fRootTargetDistance = 0.5f;
 	m_iHp = 10.f;
 	return S_OK;
 }
 
 void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	m_pBehaviorTree->Tick(fTimeDelta);
 
-		Find_NearTarget(fTimeDelta);
-
-	m_pRigidBody->Tick(fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	m_fHitTerm -= fTimeDelta;
+	__super::Tick(fTimeDelta);
 }
 
 void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
 {
-	m_PlayAnimation.get();
-	Set_to_RootPosition(fTimeDelta, 0.5f);
-
-
-	{
-		READ_LOCK
-			for (auto& CollisionStay : m_CollisionList)
-				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
-	}
-
-	Set_Colliders(fTimeDelta);
-
-	if (m_bRender)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CMonster_Ghoul_Server::Render()

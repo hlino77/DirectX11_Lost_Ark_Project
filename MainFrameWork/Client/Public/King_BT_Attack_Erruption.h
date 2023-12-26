@@ -17,7 +17,8 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 
-
+private:
+    _bool m_Shoot = false;
 public:
     static	CKing_BT_Attack_Erruption* Create(void* pArg);
     virtual void Free() override;

@@ -59,10 +59,11 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 		return E_FAIL;
 	m_vecAttackRanges.clear();
 	m_fMoveSpeed = 2.f;
-	m_vecAttackRanges.push_back(1.5f);
-	m_vecAttackRanges.push_back(3.f);
+	m_vecAttackRanges.push_back(2.f);
+	m_vecAttackRanges.push_back(3.5f);
 	m_IsSuperArmor = true;
 	m_fAttackRange = m_vecAttackRanges[0];
+	m_fRootTargetDistance = 1.f;
 	m_iHp = 9999.f;
 	m_fNoticeRange = 50.f;
 	return S_OK;
@@ -71,7 +72,6 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 void CBoss_King_Server::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	m_fStopDistanceRootAnim = 1.f;
 }
 
 void CBoss_King_Server::LateTick(_float fTimeDelta)

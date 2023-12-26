@@ -44,11 +44,11 @@ protected:
 
 
 
-
 public:
-	CSKill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSKill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
+
 };
 
 END

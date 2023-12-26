@@ -83,6 +83,9 @@
 #include <Monster_Pawn.h>
 #include <Weapon_Mn_PawnShield.h>
 #include <Weapon_Mn_PawnSword.h>
+//BossSkills
+#include "SKill_King_ChargeSwing.h"
+#include "SKill_King_Eruption.h"
 
 #include "VoidEffect.h"
 
@@ -587,6 +590,14 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_King"),
 		CBoss_King::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_ChargeSwing"),
+		CSKill_King_ChargeSwing::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_Eruption"),
+		CSKill_King_Eruption::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_King"),

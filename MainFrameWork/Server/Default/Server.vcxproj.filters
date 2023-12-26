@@ -94,9 +94,6 @@
     <Filter Include="97. Manager\01. LevelControlManager">
       <UniqueIdentifier>{5b4ef1dc-47dc-46bd-9a31-a6419a0d1c80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. Boss\Behavior">
-      <UniqueIdentifier>{8c41d4ed-02d9-4110-99b5-c7a518e94905}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. Monster\Pawn">
       <UniqueIdentifier>{b6253a4d-d66e-4522-bc0e-210cc8c40e50}</UniqueIdentifier>
     </Filter>
@@ -126,6 +123,9 @@
     </Filter>
     <Filter Include="02. GameObject\04. Boss\Monster_Golem\Behavior">
       <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\King\Behavior">
+      <UniqueIdentifier>{8c41d4ed-02d9-4110-99b5-c7a518e94905}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -238,19 +238,19 @@
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Erruption_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Charge_Swing_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Attack2_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Attack3_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\King_BT_Attack_Attack4_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Pawn_Server.cpp">
       <Filter>02. GameObject\03. Monster\Pawn</Filter>
@@ -447,19 +447,19 @@
       <Filter>02. GameObject\04. Boss\King</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Erruption_Server.h">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing_Server.h">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Attack2_Server.h">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Attack3_Server.h">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\King_BT_Attack_Attack4_Server.h">
-      <Filter>02. GameObject\04. Boss\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Pawn_Server.h">
       <Filter>02. GameObject\03. Monster\Pawn</Filter>

@@ -38,6 +38,8 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render() = 0;
 
+	virtual HRESULT Render_Debug() override;
+
 
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
@@ -86,7 +88,8 @@ protected:
 	CRenderer*						m_pRendererCom = nullptr;
 	
 
-
+	_float							m_fLastTime = 0.f;
+	_uint							m_iAtk = 0;
 	_float							m_fMoveSpeed = 0.0f;
 
 

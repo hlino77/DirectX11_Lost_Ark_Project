@@ -60,6 +60,7 @@ void CBoss_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
+	m_fSkillCoolDown += fTimeDelta;
 		Find_NearTarget(fTimeDelta);
 	if(m_pBehaviorTree!= nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
@@ -72,7 +73,7 @@ void CBoss_Server::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, m_fStopDistanceRootAnim);
+		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 	{
 		READ_LOCK

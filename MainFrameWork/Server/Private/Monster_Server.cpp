@@ -28,7 +28,6 @@ HRESULT CMonster_Server::Initialize_Prototype()
 HRESULT CMonster_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 
@@ -50,13 +49,16 @@ void CMonster_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
-	m_fSkillCoolDown += fTimeDelta;
-	m_pBehaviorTree->Tick(fTimeDelta);
+	if (m_pBehaviorTree != nullptr)
+		m_pBehaviorTree->Tick(fTimeDelta);
+
 	Find_NearTarget(fTimeDelta);
 
 	m_pRigidBody->Tick(fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
+	m_fHitTerm -= fTimeDelta;
+
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
 void CMonster_Server::LateTick(_float fTimeDelta)
@@ -64,7 +66,7 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0);
+		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 	{
 		READ_LOCK
@@ -80,8 +82,6 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 
 HRESULT CMonster_Server::Render()
 {
-	m_PlayAnimation.get();
-
 	return S_OK;
 }
 

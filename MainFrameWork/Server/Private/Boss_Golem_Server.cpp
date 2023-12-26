@@ -55,23 +55,11 @@ HRESULT CBoss_Golem_Server::Initialize_Prototype()
 
 HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 {
-	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_szModelName = L"Boss_Golem";
-	m_strObjectTag = L"Boss_Golem";
-	m_iObjectID = Desc->iObjectID;
-	m_iLayer = Desc->iLayer;
-	m_strObjectTag = L"Boss";
 	m_iObjType = OBJ_TYPE::BOSS;
 
-	if (FAILED(Ready_Components()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
-
-	if (FAILED(Ready_BehaviourTree()))
-		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
 
@@ -79,7 +67,6 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
-	m_pRigidBody->SetMass(2.0f);
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
 	m_iHp = 20.f;
@@ -88,35 +75,12 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 
 void CBoss_Golem_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-
-	m_fSkillCoolDown += fTimeDelta;
-	m_pBehaviorTree->Tick(fTimeDelta);
-	Find_NearTarget(fTimeDelta);
-	
-
-	m_fHitTerm -= fTimeDelta;
-	m_pRigidBody->Tick(fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	__super::Tick(fTimeDelta);
 }
 
 void CBoss_Golem_Server::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
-	}
-	{
-		READ_LOCK
-			for (auto& CollisionStay : m_CollisionList)
-				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
-	}
-
-	Set_Colliders(fTimeDelta);
-
-	if (m_bRender)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CBoss_Golem_Server::Render()
