@@ -57,12 +57,12 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPlayer_Controller_GN::Tick(const _float& fTimeDelta)
+void CPlayer_Controller_GN::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 }
 
-void CPlayer_Controller_GN::LateTick(const _float& fTimeDelta)
+void CPlayer_Controller_GN::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }

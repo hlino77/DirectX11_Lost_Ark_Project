@@ -44,11 +44,11 @@ HRESULT CGameObject::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CGameObject::Tick(const _float& fTimeDelta)
+void CGameObject::Tick(_float fTimeDelta)
 {
 }
 
-void CGameObject::LateTick(const _float& fTimeDelta)
+void CGameObject::LateTick(_float fTimeDelta)
 {
 }
 

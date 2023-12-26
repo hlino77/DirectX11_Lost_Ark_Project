@@ -14,8 +14,8 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
-	virtual void Tick(const _float& fTimeDelta);
-	virtual void LateTick(const _float& fTimeDelta);
+	virtual void Tick(_float fTimeDelta);
+	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
 	virtual void UI_Tick(_float fTimeDelta) override;

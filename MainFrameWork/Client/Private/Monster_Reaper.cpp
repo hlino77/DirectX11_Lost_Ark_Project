@@ -82,7 +82,7 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Reaper::Tick(const _float& fTimeDelta)
+void CMonster_Reaper::Tick(_float fTimeDelta)
 {
 
 	__super::Tick(fTimeDelta);
@@ -91,7 +91,7 @@ void CMonster_Reaper::Tick(const _float& fTimeDelta)
 
 }
 
-void CMonster_Reaper::LateTick(const _float& fTimeDelta)
+void CMonster_Reaper::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Center_ToBone();

@@ -48,11 +48,11 @@ HRESULT CPlayer_Server::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPlayer_Server::Tick(const _float& fTimeDelta)
+void CPlayer_Server::Tick(_float fTimeDelta)
 {
 }
 
-void CPlayer_Server::LateTick(const _float& fTimeDelta)
+void CPlayer_Server::LateTick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 

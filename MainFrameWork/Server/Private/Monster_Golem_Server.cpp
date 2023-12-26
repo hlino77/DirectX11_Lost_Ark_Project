@@ -80,7 +80,7 @@ HRESULT CMonster_Golem_Server::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Golem_Server::Tick(const _float& fTimeDelta)
+void CMonster_Golem_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
@@ -96,7 +96,7 @@ void CMonster_Golem_Server::Tick(const _float& fTimeDelta)
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
-void CMonster_Golem_Server::LateTick(const _float& fTimeDelta)
+void CMonster_Golem_Server::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{

@@ -78,14 +78,14 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Ghoul::Tick(const _float& fTimeDelta)
+void CMonster_Ghoul::Tick(_float fTimeDelta)
 {
 
 	__super::Tick(fTimeDelta);
 
 }
 
-void CMonster_Ghoul::LateTick(const _float& fTimeDelta)
+void CMonster_Ghoul::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }

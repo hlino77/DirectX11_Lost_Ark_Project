@@ -50,7 +50,7 @@ HRESULT CUI_Player_HPFill::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_Player_HPFill::Tick(const _float& fTimeDelta)
+void CUI_Player_HPFill::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
@@ -62,7 +62,7 @@ void CUI_Player_HPFill::Tick(const _float& fTimeDelta)
     }
 }
 
-void CUI_Player_HPFill::LateTick(const _float& fTimeDelta)
+void CUI_Player_HPFill::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
     if (m_fCurrentRatio != m_fPreRatio)

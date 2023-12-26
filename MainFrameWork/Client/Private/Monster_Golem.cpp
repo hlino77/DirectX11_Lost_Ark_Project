@@ -77,7 +77,7 @@ HRESULT CMonster_Golem::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Golem::Tick(const _float& fTimeDelta)
+void CMonster_Golem::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
@@ -85,7 +85,7 @@ void CMonster_Golem::Tick(const _float& fTimeDelta)
 	
 }
 
-void CMonster_Golem::LateTick(const _float& fTimeDelta)
+void CMonster_Golem::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }

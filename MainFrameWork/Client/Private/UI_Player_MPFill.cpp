@@ -49,7 +49,7 @@ HRESULT CUI_Player_MPFill::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_Player_MPFill::Tick(const _float& fTimeDelta)
+void CUI_Player_MPFill::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     if (nullptr != m_pPlayer)
@@ -60,7 +60,7 @@ void CUI_Player_MPFill::Tick(const _float& fTimeDelta)
     }
 }
 
-void CUI_Player_MPFill::LateTick(const _float& fTimeDelta)
+void CUI_Player_MPFill::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }

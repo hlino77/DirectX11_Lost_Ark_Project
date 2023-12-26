@@ -61,11 +61,11 @@ HRESULT CTextBox::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CTextBox::Tick(const _float& fTimeDelta)
+void CTextBox::Tick(_float fTimeDelta)
 {
 }
 
-void CTextBox::LateTick(const _float& fTimeDelta)
+void CTextBox::LateTick(_float fTimeDelta)
 {
 	if (m_bUpdate)
 	{

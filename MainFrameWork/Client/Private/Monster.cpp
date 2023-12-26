@@ -54,7 +54,7 @@ HRESULT CMonster::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster::Tick(const _float& fTimeDelta)
+void CMonster::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
@@ -64,7 +64,7 @@ void CMonster::Tick(const _float& fTimeDelta)
 	m_pRigidBody->Tick(fTimeDelta);
 }
 
-void CMonster::LateTick(const _float& fTimeDelta)
+void CMonster::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{

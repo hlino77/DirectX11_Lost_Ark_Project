@@ -36,11 +36,11 @@ HRESULT CVoidEffect::Initialize(void* pArg)
     return S_OK;
 }
 
-void CVoidEffect::Tick(const _float& fTimeDelta)
+void CVoidEffect::Tick(_float fTimeDelta)
 {
 }
 
-void CVoidEffect::LateTick(const _float& fTimeDelta)
+void CVoidEffect::LateTick(_float fTimeDelta)
 {
 	if (nullptr == m_pRendererCom)
 		return;

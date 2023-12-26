@@ -26,6 +26,8 @@ public:
 
 private:
 	void	Input();
+	//void	PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition);
+	void	PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition);
 
 private:
 	void	InfoView();

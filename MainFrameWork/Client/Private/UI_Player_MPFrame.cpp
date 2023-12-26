@@ -44,12 +44,12 @@ HRESULT CUI_Player_MPFrame::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_Player_MPFrame::Tick(const _float& fTimeDelta)
+void CUI_Player_MPFrame::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 }
 
-void CUI_Player_MPFrame::LateTick(const _float& fTimeDelta)
+void CUI_Player_MPFrame::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }

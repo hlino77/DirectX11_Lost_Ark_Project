@@ -82,7 +82,7 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Ghoul_Server::Tick(const _float& fTimeDelta)
+void CMonster_Ghoul_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
@@ -97,7 +97,7 @@ void CMonster_Ghoul_Server::Tick(const _float& fTimeDelta)
 
 }
 
-void CMonster_Ghoul_Server::LateTick(const _float& fTimeDelta)
+void CMonster_Ghoul_Server::LateTick(_float fTimeDelta)
 {
 	m_PlayAnimation.get();
 	Set_to_RootPosition(fTimeDelta, 0.5f);

@@ -31,8 +31,8 @@ protected:
 public:
 	virtual HRESULT				Initialize_Prototype();
 	virtual HRESULT				Initialize(void* pArg);
-	virtual void				Tick(const _float& fTimeDelta);
-	virtual void				LateTick(const _float& fTimeDelta);
+	virtual void				Tick(_float fTimeDelta);
+	virtual void				LateTick(_float fTimeDelta);
 	virtual HRESULT				Render();
 	virtual HRESULT				Render_Instance(ID3D11Buffer * pInstanceBuffer, _uint iSize) { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
