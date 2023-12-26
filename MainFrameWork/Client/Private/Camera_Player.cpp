@@ -43,7 +43,7 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CCamera_Player::Tick(_float fTimeDelta)
+void CCamera_Player::Tick(const _float& fTimeDelta)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -64,7 +64,7 @@ void CCamera_Player::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 }
 
-void CCamera_Player::LateTick(_float fTimeDelta)
+void CCamera_Player::LateTick(const _float& fTimeDelta)
 {
 }
 

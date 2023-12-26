@@ -147,7 +147,7 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPlayer_Gunslinger::Tick(_float fTimeDelta)
+void CPlayer_Gunslinger::Tick(const _float& fTimeDelta)
 {
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
@@ -155,7 +155,7 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 }
 
-void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
+void CPlayer_Gunslinger::LateTick(const _float& fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 

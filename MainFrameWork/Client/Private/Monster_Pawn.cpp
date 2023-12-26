@@ -78,7 +78,7 @@ HRESULT CMonster_Pawn::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Pawn::Tick(_float fTimeDelta)
+void CMonster_Pawn::Tick(const _float& fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	if (m_pSword != nullptr)
@@ -87,7 +87,7 @@ void CMonster_Pawn::Tick(_float fTimeDelta)
 		m_pShield->Tick(fTimeDelta);
 }
 
-void CMonster_Pawn::LateTick(_float fTimeDelta)
+void CMonster_Pawn::LateTick(const _float& fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 	if (m_pSword != nullptr)

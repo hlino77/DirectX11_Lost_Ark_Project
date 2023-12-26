@@ -69,7 +69,7 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Zombie::Tick(_float fTimeDelta)
+void CMonster_Zombie::Tick(const _float& fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	if (!m_bDie)
@@ -78,7 +78,7 @@ void CMonster_Zombie::Tick(_float fTimeDelta)
 
 }
 
-void CMonster_Zombie::LateTick(_float fTimeDelta)
+void CMonster_Zombie::LateTick(const _float& fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{

@@ -34,7 +34,7 @@ HRESULT CPlayer_Controller::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPlayer_Controller::Tick(_float fTimeDelta)
+void CPlayer_Controller::Tick(const _float& fTimeDelta)
 {
 	if (false == m_bStop) 
 		Move(fTimeDelta);
@@ -48,7 +48,7 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 	Skill_Check_Collider();
 }
 
-void CPlayer_Controller::LateTick(_float fTimeDelta)
+void CPlayer_Controller::LateTick(const _float& fTimeDelta)
 {
 	m_vPrePos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
 }

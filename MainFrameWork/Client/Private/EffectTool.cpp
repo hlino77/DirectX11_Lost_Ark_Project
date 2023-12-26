@@ -557,17 +557,6 @@ HRESULT CEffectTool::Ready_Camera()
 	return S_OK;
 }
 
-void CEffectTool::PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition)
-{
-	if (eLayerTag == LAYER_TYPE::LAYER_END) return;
-
-	//const wstring strPrototypeTag = TEXT("Prototype_GameObject_") + strObjectTag;
-	CGameObject* pGameObject = m_pGameInstance->Add_GameObject(LEVEL_TOOL, (_int)LAYER_TYPE::LAYER_EFFECT, strPrototypeTag);
-
-	//pGameObject->Get_TransformCom()->Translate(vPickPosition);
-	pGameObject->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION,  vPickPosition);
-}
-
 CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEffectTool* pInstance = new CEffectTool(pDevice, pContext);

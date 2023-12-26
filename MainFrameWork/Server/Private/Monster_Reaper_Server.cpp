@@ -87,7 +87,7 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Reaper_Server::Tick(_float fTimeDelta)
+void CMonster_Reaper_Server::Tick(const _float& fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
@@ -102,7 +102,7 @@ void CMonster_Reaper_Server::Tick(_float fTimeDelta)
 
 }
 
-void CMonster_Reaper_Server::LateTick(_float fTimeDelta)
+void CMonster_Reaper_Server::LateTick(const _float& fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{

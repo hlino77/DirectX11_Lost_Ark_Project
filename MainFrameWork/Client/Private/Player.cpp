@@ -66,7 +66,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPlayer::Tick(_float fTimeDelta)
+void CPlayer::Tick(const _float& fTimeDelta)
 {
 	if (m_bNavi)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
@@ -80,7 +80,7 @@ void CPlayer::Tick(_float fTimeDelta)
 	}
 }
 
-void CPlayer::LateTick(_float fTimeDelta)
+void CPlayer::LateTick(const _float& fTimeDelta)
 {
 	if(m_PlayAnimation.valid())
 		m_PlayAnimation.get();

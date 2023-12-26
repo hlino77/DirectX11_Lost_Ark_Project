@@ -76,12 +76,12 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMonster_Plant::Tick(_float fTimeDelta)
+void CMonster_Plant::Tick(const _float& fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 }
 
-void CMonster_Plant::LateTick(_float fTimeDelta)
+void CMonster_Plant::LateTick(const _float& fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 }

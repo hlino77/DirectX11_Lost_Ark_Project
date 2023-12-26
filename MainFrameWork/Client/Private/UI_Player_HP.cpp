@@ -32,12 +32,12 @@ HRESULT CUI_Player_HP::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_Player_HP::Tick(_float fTimeDelta)
+void CUI_Player_HP::Tick(const _float& fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 }
 
-void CUI_Player_HP::LateTick(_float fTimeDelta)
+void CUI_Player_HP::LateTick(const _float& fTimeDelta)
 {
 }
 

@@ -85,7 +85,7 @@ HRESULT CMonster_Pawn_Server::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Pawn_Server::Tick(_float fTimeDelta)
+void CMonster_Pawn_Server::Tick(const _float& fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_fScanCoolDown += fTimeDelta;
@@ -100,7 +100,7 @@ void CMonster_Pawn_Server::Tick(_float fTimeDelta)
 
 }
 
-void CMonster_Pawn_Server::LateTick(_float fTimeDelta)
+void CMonster_Pawn_Server::LateTick(const _float& fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 	{

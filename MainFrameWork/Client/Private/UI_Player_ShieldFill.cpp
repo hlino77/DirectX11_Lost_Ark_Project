@@ -43,12 +43,12 @@ HRESULT CUI_Player_ShiedFill::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_Player_ShiedFill::Tick(_float fTimeDelta)
+void CUI_Player_ShiedFill::Tick(const _float& fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 }
 
-void CUI_Player_ShiedFill::LateTick(_float fTimeDelta)
+void CUI_Player_ShiedFill::LateTick(const _float& fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }

@@ -28,8 +28,8 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
-	virtual void	Tick(_float fTimeDelta);
-	virtual void	LateTick(_float fTimeDelta);
+	virtual void	Tick(const _float& fTimeDelta);
+	virtual void	LateTick(const _float& fTimeDelta);
 	virtual void	DebugRender();
 
 public:
