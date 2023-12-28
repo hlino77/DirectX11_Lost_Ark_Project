@@ -274,6 +274,7 @@
     <ClInclude Include="..\Public\State_WDR_Attack_2.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_3.h" />
     <ClInclude Include="..\Public\State_WDR_Dash.h" />
+    <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
     <ClInclude Include="..\Public\State_WDR_Identity.h" />
     <ClInclude Include="..\Public\State_WDR_Iden_Attack_1.h" />
@@ -583,6 +584,7 @@
     <ClCompile Include="..\Private\State_WDR_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_WDR_Dash.cpp" />
+    <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
     <ClCompile Include="..\Private\State_WDR_Identity.cpp" />
     <ClCompile Include="..\Private\State_WDR_Iden_Attack_1.cpp" />
