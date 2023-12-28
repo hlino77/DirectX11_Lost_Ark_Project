@@ -26,12 +26,14 @@ public:
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
 	const _int&		Get_IdenGage() { return m_iIdentityGage; }
+	const _int& Get_IdenMaxGauge() { return m_iMaxGage; }
 	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
 	const _float&	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 	void			Set_Attack_Desc(_uint iIndex) { m_AttackDesc = m_Attack_Desces[iIndex]; }
+	CPlayer_Skill* Get_PlayerSkill_WR(SKILL_KEY eKey);
 
 public:
 	virtual void	Get_AttackMessage() { Attack(); }

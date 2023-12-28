@@ -163,6 +163,11 @@ HRESULT CController_WR::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 	return S_OK;
 }
 
+CPlayer_Skill* CController_WR::Get_PlayerSkill_WR(SKILL_KEY eKey)
+{
+	return nullptr;
+}
+
 void CController_WR::Input(const _float& fTimeDelta)
 {
 

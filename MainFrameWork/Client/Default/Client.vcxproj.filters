@@ -397,9 +397,6 @@
     <Filter Include="02.GameObjects\UI\09.Mouse\00.MouseCursor">
       <UniqueIdentifier>{e5ef7062-0d09-40d8-b222-2d678d258545}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01.MouseUtility">
-      <UniqueIdentifier>{d3d71a88-2758-425c-973b-4a62fa1f4e2b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\01.SpaceBar">
       <UniqueIdentifier>{a0daad75-5a5c-4b1c-87b4-cbd0a4cc7de6}</UniqueIdentifier>
     </Filter>
@@ -657,6 +654,51 @@
     </Filter>
     <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel3">
       <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby">
+      <UniqueIdentifier>{2378bddd-d2f2-48d2-adda-b4de0e90e906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\00.NickName">
+      <UniqueIdentifier>{44c0d29d-fe62-4a8b-a71a-d497e876324d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\01.Class">
+      <UniqueIdentifier>{cfed0aef-97cb-4674-93fa-b9c837b63856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\02.">
+      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\Mouse_Manager">
+      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility">
+      <UniqueIdentifier>{51e9e0bf-ac00-47bc-b39f-126b7e06306f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip">
+      <UniqueIdentifier>{ce70cde3-4ad2-431d-8a83-01f4cafd1b78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Move_Point">
+      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon">
+      <UniqueIdentifier>{88317a8f-6525-4a1b-9f48-6d3cb2ee5a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\01.Clone_Icon">
+      <UniqueIdentifier>{4a53fccf-94c0-4aa2-817d-c1b6d92a0e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\00.Frame">
+      <UniqueIdentifier>{01501335-1150-4a01-992b-febf016f5667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\00.Identity_Body">
+      <UniqueIdentifier>{e7fbf0f9-ac60-4499-8def-7e161ebb30ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge">
+      <UniqueIdentifier>{0f2861ff-8b38-4856-b862-189896bd649b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\02.Identity_Spark">
+      <UniqueIdentifier>{d847d767-30c3-476e-aba6-137739478e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine">
+      <UniqueIdentifier>{ed94756e-0c88-429c-80de-4a262f7bd78b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2512,6 +2554,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel3.h">
       <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Mouse_ToolTip.h">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Mouse_ToolTip_Icon.h">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\01.Clone_Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Mouse_ToolTip_Frame.h">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\00.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_Body.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\00.Identity_Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4337,6 +4397,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel3.cpp">
       <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_ToolTip.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_ToolTip_Icon.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\01.Clone_Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_ToolTip_Frame.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\00.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_Body.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\00.Identity_Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -412,6 +412,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Mouse_Cursor.h" />
+    <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h" />
+    <ClInclude Include="..\Public\UI_Mouse_ToolTip.h" />
+    <ClInclude Include="..\Public\UI_Mouse_ToolTip_Frame.h" />
+    <ClInclude Include="..\Public\UI_Mouse_ToolTip_Icon.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h" />
     <ClInclude Include="..\Public\UI_Player_HPFill.h" />
@@ -432,6 +436,8 @@
     <ClInclude Include="..\Public\UI_SpaceBar_Icon.h" />
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
+    <ClInclude Include="..\Public\UI_WRIdentity.h" />
+    <ClInclude Include="..\Public\UI_WRIdentity_Body.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
     <ClInclude Include="..\Public\Weapon_Boss_King.h" />
     <ClInclude Include="..\Public\Weapon_Hand.h" />
@@ -685,6 +691,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_Cursor.cpp" />
+    <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp" />
+    <ClCompile Include="..\Private\UI_Mouse_ToolTip.cpp" />
+    <ClCompile Include="..\Private\UI_Mouse_ToolTip_Frame.cpp" />
+    <ClCompile Include="..\Private\UI_Mouse_ToolTip_Icon.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp" />
@@ -705,6 +715,8 @@
     <ClCompile Include="..\Private\UI_SpaceBar_Icon.cpp" />
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
+    <ClCompile Include="..\Private\UI_WRIdentity.cpp" />
+    <ClCompile Include="..\Private\UI_WRIdentity_Body.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
     <ClCompile Include="..\Private\Weapon_Mn_PawnShield.cpp" />

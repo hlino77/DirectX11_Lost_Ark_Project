@@ -6,6 +6,8 @@
 #include "ServerSessionManager.h"
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
+#include "Controller_WR.h"
+#include "Player_Slayer.h"
 
 CUI_SpaceBar_Icon::CUI_SpaceBar_Icon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -56,12 +58,20 @@ void CUI_SpaceBar_Icon::Tick(_float fTimeDelta)
 
     if (nullptr != pPlayer)
     {
-        if ((_uint)CHR_CLASS::GUNSLINGER == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectType())
+        if (nullptr != pPlayer && L"Gunslinger" == pPlayer->Get_ObjectTag())
         {
             m_fCoolMaxTime = static_cast<CPlayer_Gunslinger*>(pPlayer)->
                 Get_GN_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
             m_fCurrCool = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(pPlayer)->
                 Get_GN_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
+        }
+
+        else if (nullptr != pPlayer && L"WR" == pPlayer->Get_ObjectTag())
+        {
+            m_fCoolMaxTime = static_cast<CPlayer_Slayer*>(pPlayer)->
+                Get_WR_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
+            m_fCurrCool = static_cast<CController_WR*>(static_cast<CPlayer_Slayer*>(pPlayer)->
+                Get_WR_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
         }
     }
 
@@ -103,10 +113,22 @@ HRESULT CUI_SpaceBar_Icon::Ready_Components()
 {
     __super::Ready_Components();
 
+    CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+    CTexture* pTexture = nullptr;
+
     /* Com_Texture*/
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"),
-        TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-        return E_FAIL;
+    if (nullptr != pPlayer && L"Gunslinger" == pPlayer->Get_ObjectTag())
+    {
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"),
+            TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+            return E_FAIL;
+    }
+    else if (nullptr != pPlayer && L"WR" == pPlayer->Get_ObjectTag())
+    {
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WRSpace"),
+            TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }

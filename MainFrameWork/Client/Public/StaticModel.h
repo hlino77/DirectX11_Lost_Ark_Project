@@ -19,7 +19,9 @@ class CStaticModel final : public CGameObject
 public:
 	typedef struct ModelDesc
 	{
+		wstring strFilePath;
 		wstring strFileName;
+		Vec3	vPosition;
 		_uint	iLayer;
 	}MODELDESC;
 
