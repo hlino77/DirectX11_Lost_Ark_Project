@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "King_BT_Attack_Charge_Swing_Server.h"
-#include "Monster_Server.h"
 #include "Transform.h"
 #include "Model.h"
+#include <Boss_Server.h>
+
 CKing_BT_Attack_Charge_Swing_Server::CKing_BT_Attack_Charge_Swing_Server()
 {
 }
@@ -16,9 +17,14 @@ void CKing_BT_Attack_Charge_Swing_Server::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && !static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Countered())
+		return BT_SUCCESS;
 
-
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[1].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	return  __super::OnUpdate(fTimeDelta);
@@ -27,6 +33,8 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing_Server::OnUpdate(const _float& 
 void CKing_BT_Attack_Charge_Swing_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 }

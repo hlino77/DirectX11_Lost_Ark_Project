@@ -33,6 +33,8 @@
 #include <Common_BT_IF_Skill_Server.h>
 #include <Golem_BT_Attack_Dash_Server.h>
 #include <Golem_BT_Chase_Server.h>
+#include <Boss_BT_Counter_Server.h>
+#include <Boss_BT_IF_Countered_Server.h>
 
 CBoss_Golem_Server::CBoss_Golem_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss_Server(pDevice, pContext)
@@ -62,7 +64,6 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 
 
 	m_pRigidBody->SetMass(2.0f);
-
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
@@ -70,6 +71,7 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
 	m_iHp = 20.f;
+	m_iHp = 1000.f;
 	return S_OK;
 }
 
@@ -186,27 +188,34 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-	
-	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_Damage2_Server::Create(&ActionDesc);
 
+	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Counter";
+	ActionDesc.iLoopAnimationIndex = 1;
+	ActionDesc.fMaxLoopTime = 2.5f;
+	CBT_Action* pCounter = CBoss_BT_Counter_Server::Create(&ActionDesc);
+	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
-	
-	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_Damage1_Server::Create(&ActionDesc);
 
-	CBT_Decorator* pIfHitLeft = CCommon_BT_IF_SecondHit_Server::Create(&DecoratorDesc);//왼쪽을 맞았는가
-	if (FAILED(pIfHitLeft->AddChild(pDamageLeft)))
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfCountered = CBoss_BT_IF_Countered_Server::Create(&DecoratorDesc);//죽었는가
+	if (FAILED(pIfCountered->AddChild(pCounter)))
 		return E_FAIL;
 
 	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
@@ -215,9 +224,8 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pSelector_Hit = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Hit->AddChild(pIfDead))) return E_FAIL;
-	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
-//	if (FAILED(pSelector_Hit->AddChild(pIfHitLeft))) return E_FAIL;
-//	if (FAILED(pSelector_Hit->AddChild(pDamageRight))) return E_FAIL;
+
+	if (FAILED(pSelector_Hit->AddChild(pIfCountered))) return E_FAIL;
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))

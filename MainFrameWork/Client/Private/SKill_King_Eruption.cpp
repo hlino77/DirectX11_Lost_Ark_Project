@@ -27,17 +27,23 @@ HRESULT CSKill_King_Eruption::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 10.f;
+	m_fLastTime = 5.f;
     return S_OK;
 }
 
 void CSKill_King_Eruption::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//if ((_int)m_fLastTime % 2 == 0 && m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
-	//	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(false);
-	//if ((_int)m_fLastTime % 2 == 1 && !m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
-	//	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
+	m_fBlinkTime -= fTimeDelta;
+	if (m_fBlinkTime < 0.f)
+	{
+		m_fBlinkTime = 0.25f;
+		if ( m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(false);
+		else if (!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
+	}
+
 }
 
 void CSKill_King_Eruption::LateTick(_float fTimeDelta)

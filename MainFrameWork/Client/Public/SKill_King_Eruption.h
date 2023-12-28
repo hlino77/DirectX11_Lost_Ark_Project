@@ -14,7 +14,7 @@ BEGIN(Client)
 
 class CSKill_King_Eruption : public CSkill
 {
-protected:
+private:
 	CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CSKill_King_Eruption(const CSKill_King_Eruption& rhs);
 	virtual ~CSKill_King_Eruption() = default;
@@ -38,11 +38,12 @@ public:
 
 
 
-protected:
+private:
 	virtual HRESULT			Ready_Components();
 
 
-
+private:
+	_float m_fBlinkTime = 0.f;
 
 public:
 	static	CSKill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

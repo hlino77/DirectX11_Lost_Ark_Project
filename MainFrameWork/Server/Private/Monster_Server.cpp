@@ -39,6 +39,9 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+
 	m_pRigidBody->SetMass(2.0f);
 
 
@@ -285,12 +288,13 @@ void CMonster_Server::Set_SlowMotion(_bool bSlow)
 
 	Send_SlowMotion(bSlow);
 }
+
 void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
 
-
+	cout<< endl << m_iObjectID << m_iHp << endl;
 	if (!m_IsSuperArmor)
 	{
 		m_IsAttacked = true;
@@ -364,13 +368,11 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_IsTwist = true;
 		}
 	}
-	else if (fForce >= 30.f)
+	else if (fForce >= 20.f)
 	{ 
 		m_IsHit = true;
 	}
-	if (m_iHp < 0)
-		Set_Die();
-
+	ZeroMemory(m_fStatusEffects, sizeof(_float) * (_int)STATUSEFFECT::EFFECTEND);
 	m_fStatusEffects[iStatusEffect] += fDuration;
 
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);

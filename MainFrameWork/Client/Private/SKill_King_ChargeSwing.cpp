@@ -26,8 +26,8 @@ HRESULT CSKill_King_ChargeSwing::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fMoveSpeed = 5.f;
-	m_fLastTime = 10.f;
+	m_fMoveSpeed = 7.5f;
+	m_fLastTime = 5.f;
     return S_OK;
 }
 

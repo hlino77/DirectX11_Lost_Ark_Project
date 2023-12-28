@@ -18,7 +18,7 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Attack3_Server::OnUpdate(const _float& fTime
 {
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
-	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[2].iAnimIndex) < 51)
+	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) < 51)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	return __super::OnUpdate(fTimeDelta);;
 }

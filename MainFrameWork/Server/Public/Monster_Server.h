@@ -127,7 +127,7 @@ public:
 	_bool						Is_Twist() { return m_IsTwist; }
 	void						Set_Twist(_bool IsTwist) { m_IsTwist = IsTwist; }
 
-	_bool						Is_Downed() { return m_IsDowned; }
+	_bool						Is_Countered() { return m_IsDowned; }
 	void						Set_Downed(_bool IsDowned) { m_IsDowned = IsDowned; }
 
 	_bool						Is_TwistLanding() { return m_IsTwistLanding; }
@@ -163,11 +163,12 @@ public:
 	void					Set_Action(wstring strAction) { m_strAction = strAction; }
 	wstring					Get_Action() { return m_strAction; }
 	
+	_float					Get_StatusEffect(STATUSEFFECT eEffect) { return m_fStatusEffects[(_uint)eEffect]; }
 
 protected:
 	virtual HRESULT		Ready_Components();
 	void				Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance = 0.f);
-
+	virtual HRESULT		Ready_BehaviourTree() {		return S_OK;	}
 
 protected:
 	wstring							m_strAction = L"";

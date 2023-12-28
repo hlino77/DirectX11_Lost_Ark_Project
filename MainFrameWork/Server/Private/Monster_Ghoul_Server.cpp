@@ -66,9 +66,6 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	if (FAILED(Ready_BehaviourTree()))
-		return E_FAIL;
-
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(4.5f);
 	m_fAttackRange = m_vecAttackRanges[0];

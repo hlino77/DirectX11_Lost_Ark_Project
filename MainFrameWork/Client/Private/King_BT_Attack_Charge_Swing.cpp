@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Skill.h"
 #include "GameInstance.h"
+#include <Boss.h>
 CKing_BT_Attack_Charge_Swing::CKing_BT_Attack_Charge_Swing()
 {
 }
@@ -17,7 +18,7 @@ void CKing_BT_Attack_Charge_Swing::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[2].iAnimIndex) == 11&& m_Shoot)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) == 11&& m_Shoot)
 	{
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -37,9 +38,12 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDe
 			m_Shoot = false;
 		}
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[1].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
-
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	return  __super::OnUpdate(fTimeDelta);
 }
 

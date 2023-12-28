@@ -36,8 +36,8 @@ public:
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 protected:
 	virtual HRESULT		Ready_Components();
+	virtual HRESULT		Ready_BehaviourTree() override;
 
-	HRESULT Ready_BehaviourTree();
 public:
 	static CMonster_Ghoul_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

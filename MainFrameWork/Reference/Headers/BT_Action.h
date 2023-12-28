@@ -41,7 +41,7 @@ public:
 
 protected:
 	_int						m_iCurrAnimation = 0;
-	vector<ANIMATION_DESC>	m_vecAnimIndexFrame;
+	vector<ANIMATION_DESC>	m_vecAnimDesc;
 	_float						m_fFrame = 0.f;
 	_bool						m_bSoundOn = false;
 	wstring						m_strActionName;

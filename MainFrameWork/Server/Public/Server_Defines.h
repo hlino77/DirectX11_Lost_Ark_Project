@@ -66,7 +66,7 @@ namespace Server
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, CLASSEND };
 
 
-	enum class STATUSEFFECT { STUN, EFFECTEND };
+	enum class STATUSEFFECT { COUNTER, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, EFFECTEND };
 
 }
 

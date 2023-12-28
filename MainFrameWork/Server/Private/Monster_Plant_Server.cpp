@@ -65,9 +65,6 @@ HRESULT CMonster_Plant_Server::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Ready_BehaviourTree()))
-		return E_FAIL;
-
 	m_pRigidBody->SetMass(2.0f);
 
 	m_vecAttackRanges.push_back(1.f);

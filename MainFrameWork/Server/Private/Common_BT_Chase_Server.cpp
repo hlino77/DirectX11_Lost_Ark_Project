@@ -23,7 +23,8 @@ CBT_Node::BT_RETURN CCommon_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
-
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Skill())
+		return BT_FAIL;
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
 		return BT_FAIL;	
 	_float fSpeed = 1.5f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed();

@@ -53,7 +53,7 @@ public:
 	virtual HRESULT	Render_Instance(_uint iSize) override;
 	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 
-	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
+	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther);
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
@@ -122,7 +122,7 @@ public:
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
-	void					Show_Damage(_uint iDamage);
+	void					Show_Damage(_uint iDamage, _bool IsCritical);
 	void	Deactivate_AllColliders();
 protected:
 	virtual HRESULT Ready_Components();

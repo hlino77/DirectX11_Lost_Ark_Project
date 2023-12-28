@@ -72,7 +72,7 @@ public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 
 
-	void OnCollisionEnter(const _uint iColLayer, CCollider* pOther);
+	virtual	void OnCollisionEnter(const _uint iColLayer, CCollider* pOther);
 
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 
@@ -80,6 +80,9 @@ public:
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
 	void Add_Colider(_int iColIndex, CSphereCollider* pCollider);
+
+	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
+	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
 
 	virtual void			Set_Die();
 
@@ -94,6 +97,7 @@ protected:
 	virtual HRESULT			Ready_BehaviourTree();
 
 protected:
+	_bool m_IsCounterSkill = false;
 
 
 

@@ -20,7 +20,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-		m_bCondition = Is_Downed();
+		m_bCondition = Is_Countered();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -30,9 +30,9 @@ private:
 	}
 
 private:
-	_bool	Is_Downed()
+	_bool	Is_Countered()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Downed())
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Countered())
 			return true;
 
 		return false;

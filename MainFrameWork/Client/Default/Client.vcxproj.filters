@@ -646,6 +646,27 @@
     <Filter Include="02.GameObjects\Boss\King\Skill">
       <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\Behavior">
+      <UniqueIdentifier>{286df5fa-51d0-4cf1-a6f7-b52e19cab103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Behavior\Action">
+      <UniqueIdentifier>{c755ec45-360a-450d-ac28-95c62701bd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Bug">
+      <UniqueIdentifier>{c95c416d-8983-487c-8da7-854cc66610f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Earthquake">
+      <UniqueIdentifier>{25e4c81c-62c3-4ece-8630-3e924a9fa7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Fear">
+      <UniqueIdentifier>{be56f7c8-c2ee-4b50-80d7-53bcfaace5f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Shock">
+      <UniqueIdentifier>{1e606bf6-26dd-4284-a7e8-2718ca9a4944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Stun">
+      <UniqueIdentifier>{11e51978-dab3-4347-8c9c-d8bbc09c8a4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -799,9 +820,6 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Idle.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
@@ -2375,9 +2393,6 @@
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
@@ -2494,6 +2509,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_King_ChargeSwing.h">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_BT_Counter.h">
+      <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Bug.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Earthquake.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Earthquake</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Fear.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Fear</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Shock.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Shock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_Stun.h">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Stun</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2636,9 +2669,6 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
@@ -4191,9 +4221,6 @@
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
@@ -4313,6 +4340,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Slayer.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Boss_BT_Counter.cpp">
+      <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Bug.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Earthquake.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Earthquake</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Fear.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Fear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Shock.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Shock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Common_BT_Stun.cpp">
+      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Stun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
