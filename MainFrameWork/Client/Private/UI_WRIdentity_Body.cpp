@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "UI_WRIdentity_Body.h"
 #include "GameInstance.h"
-#include "Player.h"
 #include "Player_Skill.h"
 #include "ServerSessionManager.h"
 #include "Controller_WR.h"
@@ -47,10 +46,8 @@ HRESULT CUI_WRIdentity_Body::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 0.1f));
 
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
-    m_iIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->
-        Get_WR_Controller()->Get_IdenMaxGauge();
-    m_fIdentity_MaxCool = static_cast<CPlayer_Slayer*>(pPlayer)->
-        Get_WR_Controller()->Get_IdenCoolTime();
+    m_iIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenMaxGauge();
+    m_fIdentity_MaxCool = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenCoolTime();
 
     return S_OK;
 }
@@ -119,52 +116,49 @@ void CUI_WRIdentity_Body::Get_Identity_State(CPlayer* pPlayer)
 {
     if (nullptr != pPlayer)
     {
-        m_iIdentity_Gauge = static_cast<CPlayer_Slayer*>(pPlayer)->
-            Get_WR_Controller()->Get_IdenGage();
+        m_iIdentity_Gauge = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenGage();
 
-        m_bIdentity = static_cast<CPlayer_Slayer*>(pPlayer)->
-            Get_WR_Controller()->Is_In_Identity();
+        m_bIdentity = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Is_In_Identity();
 
-        m_fIdentity_CurrCool = static_cast<CPlayer_Slayer*>(pPlayer)->
-            Get_WR_Controller()->Get_IdenCoolAcc();
+        m_fIdentity_CurrCool = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenCoolAcc();
 
         if ((!m_bIdentity) && (m_iIdentity_Gauge != m_iIdentity_MaxGauge))
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_NORMAL;
+            m_iIdentity_CurrState = (_int)WRIDENTITY_NORMAL;
 
-        else if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_NORMAL)&&(m_iIdentity_Gauge == m_iIdentity_MaxGauge))
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_MAX;
+        else if ((!m_bIdentity) && (m_iIdentity_CurrState == (_int)WRIDENTITY_NORMAL)&&(m_iIdentity_Gauge == m_iIdentity_MaxGauge))
+            m_iIdentity_CurrState = (_int)WRIDENTITY_MAX;
 
-        else if ((m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_MAX))
+        else if ((m_bIdentity) && (m_iIdentity_CurrState == (_int)WRIDENTITY_MAX))
         {
             m_bTransfrom = true;
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_TRANSFORM_ON;
+            m_iIdentity_CurrState = (_int)WRIDENTITY_TRANSFORM_ON;
         }
-        else if ((!m_bTransfrom) && (m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_ON))
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_ON;
+        else if ((!m_bTransfrom) && (m_bIdentity) && (m_iIdentity_CurrState == (_int)WRIDENTITY_TRANSFORM_ON))
+            m_iIdentity_CurrState = (_int)WRIDENTITY_ON;
 
-        else if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_ON) && (0 == m_iIdentity_Gauge))
+        else if ((!m_bIdentity) && (m_iIdentity_CurrState == (_int)WRIDENTITY_ON) && (0 == m_iIdentity_Gauge))
         {
             m_bTransfrom = true;
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_TRANSFORM_OFF;
+            m_iIdentity_CurrState = (_int)WRIDENTITY_TRANSFORM_OFF;
         }
 
-        else if ((!m_bTransfrom) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_OFF))
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_COOL;
+        else if ((!m_bTransfrom) && (m_iIdentity_CurrState == (_int)WRIDENTITY_TRANSFORM_OFF))
+            m_iIdentity_CurrState = (_int)WRIDENTITY_COOL;
 
-        else if ((m_fIdentity_CurrCool >= m_fIdentity_MaxCool)&&(m_iIdentity_CurrState == WRIDENTITY_COOL))
-            m_iIdentity_CurrState = WRIDENTITY_NORMAL;
+        else if ((m_fIdentity_CurrCool >= m_fIdentity_MaxCool)&&(m_iIdentity_CurrState == (_int)WRIDENTITY_COOL))
+            m_iIdentity_CurrState = (_int)WRIDENTITY_NORMAL;
     }
 }
 
 void CUI_WRIdentity_Body::Identity_NormalState(_float fTimeDelta)
 {
-    if (m_iIdentity_CurrState != WRIDENTITY_NORMAL)
+    if (m_iIdentity_CurrState != (_int)WRIDENTITY_NORMAL)
         return;
 
     if (12 <= m_iTextureIndex)
         m_iTextureIndex = 0;
 
-    m_iTextureIndex += (_uint)(5.f * fTimeDelta);
+    m_iTextureIndex += (_int)(5.f * fTimeDelta);
 
 }
 
@@ -173,14 +167,14 @@ void CUI_WRIdentity_Body::Transform_Identity(_float fTimeDelta)
     if (!m_bTransfrom)
         return; 
 
-    if (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_ON)
+    if (m_iIdentity_CurrState == (_int)WRIDENTITY_TRANSFORM_ON)
     {   
         m_iTextureIndex += 5.f * fTimeDelta;
         if(24 < m_iTextureIndex)
             m_bTransfrom = false;
     }
 
-    else if (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_OFF)
+    else if (m_iIdentity_CurrState == (_int)WRIDENTITY_TRANSFORM_OFF)
     {
         m_iTextureIndex += 5.f * fTimeDelta;
         if (28 < m_iTextureIndex)

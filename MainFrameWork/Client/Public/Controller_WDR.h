@@ -26,6 +26,8 @@ public:
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
 	const _int&		Get_IdenGage() { return m_iIdentityGage; }
+	const _int&		Get_MaxGage() { return m_iMaxGage; }
+	const _uint&	Get_MarbleCnt() { return m_iMarbleCnt; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -40,7 +42,7 @@ public:
 	void			Get_UseMarbleMessage();
 	void			Get_HitMarbleMessage();
 
-	void			Increase_IdenGage(_uint iGage);
+public:
 
 private:
 	virtual void	Input(const _float& fTimeDelta) override;

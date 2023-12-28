@@ -1338,9 +1338,6 @@
     <ClInclude Include="..\Public\Common_BT_Idle.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
     </ClInclude>
@@ -1537,9 +1534,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Idle.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -2794,6 +2788,54 @@
     <ClInclude Include="..\Public\State_WDR_EarthEater.h">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Start.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Fail.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Success.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_HeavyCrush.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\HeavyCrush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Fail.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Start.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Success.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PowerShoulder_End.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PowerShoulder_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PowerShoulder_Start.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PowerStrike_End.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PowerStrike_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_PowerStrike_Start.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_SizemicHammer.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\SizemicHammer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3310,9 +3352,6 @@
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
     </ClCompile>
@@ -3503,9 +3542,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -4737,6 +4773,54 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
+    </ClCompile>
+    <ClCompile Include="State_WDR_FullSwing_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Success.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_HeavyCrush.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\HeavyCrush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Fail.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Success.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PowerShoulder_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PowerShoulder_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PowerShoulder_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PowerStrike_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PowerStrike_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_PowerStrike_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_SizemicHammer.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\SizemicHammer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

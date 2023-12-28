@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Skill_WDR_EarthEater.h"
 #include "Player_Destroyer.h"
+#include "Model.h"
 #include "Projectile.h"
 
 CSkill_WDR_EarthEater::CSkill_WDR_EarthEater(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
@@ -29,10 +30,10 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 1.5f;
+	Proj_Desc.fRadius = 1.2f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, -1.5f);
-	Proj_Desc.iDamage = 100.f;
-	Proj_Desc.fRepulsion = 0.5f;
+	Proj_Desc.iDamage = 100;
+	Proj_Desc.fRepulsion = 8.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
@@ -40,10 +41,11 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 1.2f;
+	Proj_Desc.fRadius = 1.4f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
-	Proj_Desc.iDamage = 50.f;
-	Proj_Desc.fRepulsion = 0.5f;
+	Proj_Desc.iDamage = 50;
+	Proj_Desc.fRepulsion = 2.f;
+	Proj_Desc.bUseProjPos = true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
 	Proj_Desc.pAttackOwner = m_pOwner;
@@ -52,8 +54,10 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 50.f;
-	Proj_Desc.fRepulsion = 1.f;
+	Proj_Desc.iDamage = 150;
+	Proj_Desc.fRepulsion = 10.f;
+	Proj_Desc.bUseProjPos = false;
+	Proj_Desc.bUseFactor = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
 	return S_OK;
@@ -73,6 +77,19 @@ HRESULT CSkill_WDR_EarthEater::Ready_Components()
 
 void CSkill_WDR_EarthEater::Check_ColliderState()
 {
+	_uint iAnimIndex = static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_CurrAnim();
+	if (25 >= static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[0];
+	}
+	if (25 < static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[1];
+	}
+	if (80 < static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[2];
+	}
 }
 
 CSkill_WDR_EarthEater* CSkill_WDR_EarthEater::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer, void* pArg)

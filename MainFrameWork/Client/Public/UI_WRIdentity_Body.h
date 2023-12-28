@@ -32,7 +32,7 @@ private:
     virtual HRESULT Bind_ShaderResources();
 
 private:
-    void    Get_Identity_State(CPlayer* pPlayer);
+    void    Get_Identity_State(class CPlayer* pPlayer);
     void    Identity_NormalState(_float fTimeDelta);
     void    Transform_Identity(_float fTimeDelta);
     void    Identity_CoolState(_float fTimeDelta);
@@ -43,8 +43,8 @@ private:
 
     _uint   m_iIdentity_CurrState = { 0 };
 
-    _uint  m_iIdentity_Gauge = { 0 };
-    _uint  m_iIdentity_MaxGauge = { 0 };
+    _int  m_iIdentity_Gauge = { 0 };
+    _int  m_iIdentity_MaxGauge = { 0 };
 
     _float  m_fIdentity_CurrCool = {0.f};
     _float  m_fIdentity_MaxCool = { 0.f };

@@ -55,6 +55,7 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
 	Proj_Desc.iDamage = 100.f;
 	Proj_Desc.fRepulsion = 5.f;
+	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[2] = Proj_Desc;
 
 	Proj_Desc.fRadius = 1.8f;
@@ -68,7 +69,7 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
 	Proj_Desc.iDamage = 250.f;
-	Proj_Desc.fRepulsion = -3.f;
+	Proj_Desc.fRepulsion = -6.f;
 	Proj_Desc.bUseProjPos = true;
 	m_Attack_Desces[4] = Proj_Desc;
 
@@ -222,19 +223,6 @@ void CController_WDR::Get_HitMarbleMessage()
 
 	m_IsAddMarble = false;
 	m_iReserveMarbleCnt = 0;
-}
-
-void CController_WDR::Increase_IdenGage(_uint iGage)
-{
-	if (true == m_IsIdentity)
-		return;
-
-	m_iIdentityGage += iGage;
-
-	if (m_iMaxGage <= m_iIdentityGage)
-	{
-		m_iIdentityGage = m_iMaxGage;
-	}
 }
 
 CController_WDR* CController_WDR::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

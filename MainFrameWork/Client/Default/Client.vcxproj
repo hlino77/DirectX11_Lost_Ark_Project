@@ -276,6 +276,11 @@
     <ClInclude Include="..\Public\State_WDR_Dash.h" />
     <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Fail.h" />
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Loop.h" />
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Start.h" />
+    <ClInclude Include="..\Public\State_WDR_FullSwing_Success.h" />
+    <ClInclude Include="..\Public\State_WDR_HeavyCrush.h" />
     <ClInclude Include="..\Public\State_WDR_Identity.h" />
     <ClInclude Include="..\Public\State_WDR_Iden_Attack_1.h" />
     <ClInclude Include="..\Public\State_WDR_Iden_Attack_2.h" />
@@ -284,7 +289,18 @@
     <ClInclude Include="..\Public\State_WDR_Iden_Idle.h" />
     <ClInclude Include="..\Public\State_WDR_Iden_Skill.h" />
     <ClInclude Include="..\Public\State_WDR_Idle.h" />
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Fail.h" />
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Loop.h" />
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Start.h" />
+    <ClInclude Include="..\Public\State_WDR_PerfectSwing_Success.h" />
+    <ClInclude Include="..\Public\State_WDR_PowerShoulder_End.h" />
+    <ClInclude Include="..\Public\State_WDR_PowerShoulder_Loop.h" />
+    <ClInclude Include="..\Public\State_WDR_PowerShoulder_Start.h" />
+    <ClInclude Include="..\Public\State_WDR_PowerStrike_End.h" />
+    <ClInclude Include="..\Public\State_WDR_PowerStrike_Loop.h" />
+    <ClInclude Include="..\Public\State_WDR_PowerStrike_Start.h" />
     <ClInclude Include="..\Public\State_WDR_Run.h" />
+    <ClInclude Include="..\Public\State_WDR_SizemicHammer.h" />
     <ClInclude Include="..\Public\State_WR_BrutalImpact_End.h" />
     <ClInclude Include="..\Public\SKill_King_ChargeSwing.h" />
     <ClInclude Include="..\Public\SKill_King_Eruption.h" />
@@ -586,6 +602,10 @@
     <ClCompile Include="..\Private\State_WDR_Dash.cpp" />
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp" />
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Loop.cpp" />
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Success.cpp" />
+    <ClCompile Include="..\Private\State_WDR_HeavyCrush.cpp" />
     <ClCompile Include="..\Private\State_WDR_Identity.cpp" />
     <ClCompile Include="..\Private\State_WDR_Iden_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_WDR_Iden_Attack_2.cpp" />
@@ -594,7 +614,18 @@
     <ClCompile Include="..\Private\State_WDR_Iden_Idle.cpp" />
     <ClCompile Include="..\Private\State_WDR_Iden_Skill.cpp" />
     <ClCompile Include="..\Private\State_WDR_Idle.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Fail.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Loop.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Start.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PerfectSwing_Success.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PowerShoulder_End.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PowerShoulder_Loop.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PowerShoulder_Start.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PowerStrike_End.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PowerStrike_Loop.cpp" />
+    <ClCompile Include="..\Private\State_WDR_PowerStrike_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_Run.cpp" />
+    <ClCompile Include="..\Private\State_WDR_SizemicHammer.cpp" />
     <ClCompile Include="..\Private\State_WR_BrutalImpact_End.cpp" />
     <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp" />
     <ClCompile Include="..\Private\SKill_King_Eruption.cpp" />
@@ -844,6 +875,7 @@
     </ClCompile>
     <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="State_WDR_FullSwing_Start.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
