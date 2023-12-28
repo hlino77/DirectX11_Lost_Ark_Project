@@ -129,7 +129,12 @@ HRESULT CUI_SpaceBar_Icon::Ready_Components()
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }
-
+    else
+    {
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WRSpace"),
+            TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
