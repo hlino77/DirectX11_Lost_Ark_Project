@@ -47,22 +47,24 @@ public:
 	_bool		Is_Attack();
 	const _uint& Is_Hit() { return (_uint)m_eHitType; }
 
-	void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f) { m_vNextMove = vPos; m_bStop = false; m_IsDir = false; m_fMoveSpeed = fMoveSpeed; }
-	void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f)  { m_vNextMove = vPos; m_bStop = false; m_IsDir = true; m_fMoveSpeed = fMoveSpeed; }
-	void		Get_StopMessage()									{ m_vNextMove = Vec3(); m_bStop = true;}
-	void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; m_IsDir = false; }
-	void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
-	void		Get_LookMessage(Vec3 vAt) { Look(vAt); }
-	void		Get_AttackMessage() { Attack(); }
-	void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
-	void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
-	void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
-	void		Get_DashMessage(Vec3 vPos, _float fCoolTime = -1.f) { Look(vPos); }
-	void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
-	void		Get_HitMessage(CGameObject* pHitObject);
+	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f) { m_vNextMove = vPos; m_bStop = false; m_IsDir = false; m_fMoveSpeed = fMoveSpeed; }
+	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f)  { m_vNextMove = vPos; m_bStop = false; m_IsDir = true; m_fMoveSpeed = fMoveSpeed; }
+	virtual void		Get_StopMessage()									{ m_vNextMove = Vec3(); m_bStop = true;}
+	virtual void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; m_IsDir = false; }
+	virtual void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
+	virtual void		Get_LookMessage(Vec3 vAt) { Look(vAt); }
+	virtual void		Get_AttackMessage() { Attack(); }
+	virtual void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
+	virtual void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
+	virtual void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
+	virtual void		Get_SkillChangeStatMessage(SKILL_KEY eKey) { ChangeStat(eKey); }
+	
+	virtual void		Get_DashMessage(Vec3 vPos, _float fCoolTime = -1.f) { Look(vPos); }
+	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
+	virtual void		Get_HitMessage(CGameObject* pHitObject);
 
-	void		Get_RootMessage();
-	void		Get_RootZeroMessage();
+	virtual void		Get_RootMessage();
+	virtual void		Get_RootZeroMessage();
 public:
 	_bool		Is_Stop() { return m_bMoveStop; }
 
@@ -100,9 +102,11 @@ protected:
 	virtual void	Input(const _float & fTimeDelta);
 	virtual void	Attack();
 	virtual void	Skill(SKILL_KEY eKey);
+	virtual void	ChangeStat(SKILL_KEY eKey);
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);
 	virtual void	Hit(CGameObject* pHitObject);
 	virtual void	Skill_CoolTime(const _float& fTimeDelta);
+	virtual void	ChangeStat_CoolTime(const _float& fTimeDelta);
 	virtual void	Skill_Check_Collider();
 
 protected:
@@ -135,8 +139,11 @@ protected:
 	PROJECTILE_DESC			m_AttackDesc;
 
 	/* 쿨 타임 */
-	_float					m_fCoolDownAcc[SKILL_KEY::_END] = { 0.f };
-	_float					m_fCoolTime[SKILL_KEY::_END] = { -1.f };
+	_float					m_fCoolDownAcc[SKILL_KEY::_END];
+	_float					m_fCoolTime[SKILL_KEY::_END];
+
+	_float					m_fChangeStatAcc[SKILL_KEY::_END];
+	_float					m_fChangeStatTime[SKILL_KEY::_END];
 
 
 	/* SG엔진 변수 */

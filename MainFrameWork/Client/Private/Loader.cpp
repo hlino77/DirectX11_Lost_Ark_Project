@@ -10,7 +10,6 @@
 #include "Controller_WR.h"
 #include "Weapon_WR.h"
 
-
 #include "Player_Gunslinger.h"
 #include "Weapon_Hand.h"
 #include "Weapon_Hand_2.h"
@@ -19,6 +18,12 @@
 #include "Weapon_Shot_2.h"
 #include "Player_Controller_GN.h"
 
+#include "Player_Destroyer.h"
+#include "Controller_WDR.h"
+#include "Weapon_WDR.h"
+
+
+/* 유틸*/
 #include "Camera_Free.h"
 #include "StaticModel.h"
 #include "ServerSession.h"
@@ -396,9 +401,12 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CPlayer_Controller_GN::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	m_strLoading = TEXT("컴포넌트를 로딩 중 입니다.");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Controller_WR"),
 		CController_WR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Controller_WDR"),
+		CController_WDR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Texture */
@@ -516,9 +524,8 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 		CStaticModel::Create(m_pDevice, m_pContext, OBJ_TYPE::PROP))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera"),
-		CCamera_Free::Create(m_pDevice, m_pContext, L"Free_Camera"))))
-		return E_FAIL;
+	Loading_Model_For_Level_Lobby();
+
 
 	Safe_Release(pGameInstance);
 
@@ -560,8 +567,16 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CPlayer_Slayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_WDR"),
+		CPlayer_Destroyer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WP_WR_Base"),
 		CWeapon_WR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WDR_WP_Base"),
+		CWeapon_WDR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Zombie"),
@@ -1073,29 +1088,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
 
-	/* 플레이어 */
-	{
-		wstring strFileName = L"Gunslinger";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-		pUIManager->Loading_UI(154.f);
-	}
-
-	{
-		wstring strFileName = L"WR";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-		pUIManager->Loading_UI(154.f);
-	}
-
 	/* 플레이어 장비 */
 	{
 		wstring strFileName = L"GN_Face";
@@ -1139,50 +1131,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Loading_UI(462.f);
-	}
-
-	{
-		wstring strFileName = L"GN_Mococo_Head";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Loading_UI(539.f);
-	}
-
-	{
-		wstring strFileName = L"GN_Mococo_Body";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Loading_UI(616.f);
-	}
-
-	{
-		wstring strFileName = L"WR_Body_Mococo";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Loading_UI(616.f);
-	}
-
-	{
-		wstring strFileName = L"WR_Head_Mococo";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Loading_UI(616.f);
 	}
 
 	/* 플레이어 무기 */
@@ -1230,9 +1178,19 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		pUIManager->Loading_UI(1000.f);
 	}
 
+	{
+		wstring strFileName = L"WDR_WP_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1000.f);
+	}
+
 
 	/* 지형 */
-
 	{
 		wstring strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
 		wstring strFilePath = L"../Bin/Resources/Meshes/Static/";
@@ -1255,7 +1213,99 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	Safe_AddRef(pGameInstance);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+
+	/* 플레이어 */
+	{
+		wstring strFileName = L"Gunslinger";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WR";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WDR";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"GN_Mococo_Head";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"GN_Mococo_Body";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WR_Body_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WR_Head_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WDR_Head_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WDR_Body_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
 
 	
 

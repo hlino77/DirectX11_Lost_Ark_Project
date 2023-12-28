@@ -146,6 +146,16 @@ HRESULT CLoader_Server::Loading_Model_For_Level_Bern()
 	}
 
 	{
+		wstring strFileName = L"WDR";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
 		wstring strFileName = L"Monster_Zombie";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;

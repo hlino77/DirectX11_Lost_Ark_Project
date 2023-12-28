@@ -25,6 +25,7 @@ public:
 	void			Set_Scale(Vec3 vScale) { m_vScale = vScale; }
 	Vec3			Get_Scale() { return m_vScale; }
 
+	Vec3			Get_Center() { return m_tBoundingBox.Center; }
 
 
 	BoundingOrientedBox& GetBoundingBox()		{ return m_tBoundingBox; }

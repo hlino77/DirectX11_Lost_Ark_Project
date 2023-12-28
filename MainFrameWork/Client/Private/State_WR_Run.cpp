@@ -43,7 +43,7 @@ void CState_WR_Run::Enter_State()
 		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	}
 
-	
+	m_pController->Get_SkillEndMessage();
 }
 
 void CState_WR_Run::Tick_State(_float fTimeDelta)
