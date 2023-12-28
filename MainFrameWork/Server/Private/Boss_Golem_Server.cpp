@@ -57,9 +57,6 @@ HRESULT CBoss_Golem_Server::Initialize_Prototype()
 
 HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 {
-	m_iObjType = OBJ_TYPE::BOSS;
-	m_iCurrLevel = Desc->iLevel;
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
