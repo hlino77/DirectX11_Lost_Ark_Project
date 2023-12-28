@@ -29,6 +29,7 @@
 #include "CollisionManager.h"
 #include "PartObject.h"
 #include "ColliderOBB.h"
+#include <Boss_BT_Counter.h>
 
 CBoss_King::CBoss_King(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CBoss(pDevice, pContext)
@@ -55,7 +56,9 @@ HRESULT CBoss_King::Initialize(void* pArg)
 	m_fFontScale = 0.5f;
 	m_IsSuperArmor = true;
 	m_fMoveSpeed = 2.f;
-	m_fRootTargetDistance = 1.f;
+	m_vecAttackRanges.clear();
+	m_fAttackRange = 1.5f;
+	m_fRootTargetDistance = 1.2f;
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 50;
 	return S_OK;
@@ -65,31 +68,7 @@ void CBoss_King::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	Vec3 vOffset = {};
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	if (KEY_HOLD(KEY::DOWN_ARROW) || KEY_HOLD(KEY::UP_ARROW))
-	{
-		vOffset = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Offset();
-		if (KEY_HOLD(KEY::X) && KEY_HOLD(KEY::UP_ARROW))
-			vOffset.x += 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::X) && KEY_HOLD(KEY::DOWN_ARROW))
-			vOffset.x -= 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Y) && KEY_HOLD(KEY::UP_ARROW))
-			vOffset.y += 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Y) && KEY_HOLD(KEY::DOWN_ARROW))
-			vOffset.y -= 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Z) && KEY_HOLD(KEY::UP_ARROW))
-			vOffset.z += 1.f * fTimeDelta;
-		else if (KEY_HOLD(KEY::Z) && KEY_HOLD(KEY::DOWN_ARROW))
-			vOffset.z -= 1.f * fTimeDelta;
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(vOffset);
-	_float	fRadius = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Radius();
-	if (KEY_HOLD(KEY::S) && KEY_HOLD(KEY::UP_ARROW))
-		fRadius += 1.f * fTimeDelta;
-	else if (KEY_HOLD(KEY::S) && KEY_HOLD(KEY::DOWN_ARROW))
-		fRadius -= 1.f * fTimeDelta;
-	 m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(fRadius);
-	}
+
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
@@ -277,6 +256,7 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
+
 	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -285,7 +265,7 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.4f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
@@ -294,10 +274,11 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage";
-	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
-	ActionDesc.vecAnimations.clear();
-
+	ActionDesc.strActionName = L"Action_Counter";
+	ActionDesc.iLoopAnimationIndex = 1;
+	ActionDesc.fMaxLoopTime = 2.5f;
+	CBT_Action* pCounter = CBoss_BT_Counter::Create(&ActionDesc);
+	ActionDesc.iLoopAnimationIndex = -1;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_7_01");

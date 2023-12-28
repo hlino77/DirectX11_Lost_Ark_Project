@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Server_Defines.h"
+#include "Client_Defines.h"
 #include "BT_Action.h"
 
-BEGIN(Server)
+BEGIN(Client)
 
-class CCommon_BT_Maz_Server :
+class CBoss_BT_Counter :
     public CBT_Action
 {
 private:
-    CCommon_BT_Maz_Server();
-    CCommon_BT_Maz_Server(const CCommon_BT_Maz_Server& rhs) = delete;
-    virtual ~CCommon_BT_Maz_Server() =  default;
+    CBoss_BT_Counter();
+    CBoss_BT_Counter(const CBoss_BT_Counter& rhs) = delete;
+    virtual ~CBoss_BT_Counter() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -20,7 +20,7 @@ private:
 
 
 public:
-    static	CCommon_BT_Maz_Server* Create(void* pArg);
+    static	CBoss_BT_Counter* Create(void* pArg);
     virtual void Free() override;
 };
 

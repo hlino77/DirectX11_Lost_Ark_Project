@@ -246,9 +246,8 @@ protected:
 
 	list<COLLISIONSTAY>			m_CollisionList;
 
-
-	_int						m_iHp;
-	_uint						m_iMaxHp;
+	int64							m_iHp;
+	uint64							m_iMaxHp;
 
 	_int						m_iWeaponIndex = -1;
 

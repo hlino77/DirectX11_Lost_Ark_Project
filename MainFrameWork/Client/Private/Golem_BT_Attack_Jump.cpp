@@ -17,7 +17,7 @@ void CGolem_BT_Attack_Jump::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 {
-	if (!m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive()  && 36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].iAnimIndex))
+	if (!m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive()  && 36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
 	{
 		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1);
 		pCollider->Set_Radius(3.f);
@@ -35,7 +35,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 		pChildCollider2->Set_Offset(Vec3(0.0f, 1.f, 0.f));
 	}
 
-	if (36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].iAnimIndex))
+	if (36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
 	{
 		Vec3 vScale = dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->Get_Child())->Get_Scale(); 
 		vScale.z += 3.f * fTimeDelta;

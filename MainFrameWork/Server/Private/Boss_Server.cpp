@@ -48,11 +48,9 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
-	m_vecAttackRanges.push_back(1.f);
-	m_vecAttackRanges.push_back(1.f);
-	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
+
 	return S_OK;
 }
 
@@ -60,6 +58,7 @@ void CBoss_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
+	m_fSkillCoolDown += fTimeDelta;
 		Find_NearTarget(fTimeDelta);
 	if(m_pBehaviorTree!= nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
@@ -72,7 +71,7 @@ void CBoss_Server::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, m_fStopDistanceRootAnim);
+		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 	{
 		READ_LOCK
@@ -135,6 +134,25 @@ void CBoss_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 	
 }
 
+void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
+{
+	WRITE_LOCK
+	m_iHp -= iDamage;
+	cout << endl << m_iObjectID << m_iHp << endl;
+
+
+	if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+	{
+		m_IsHit = true;
+		m_IsCounterSkill = false;
+		m_IsCountered = true;
+	}
+	m_fStatusEffects[iStatusEffect] += fDuration;
+	if(m_iHp<1.f)
+		m_IsHit = true;
+
+	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);
+}
 
 HRESULT CBoss_Server::Ready_Components()
 {

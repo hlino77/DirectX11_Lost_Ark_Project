@@ -17,13 +17,13 @@ void CGolem_BT_Attack_Swipe::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 {
-	if (18 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
+	if (18 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 	{
 		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, true);
 	}
-	if (26 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
+	if (26 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, false);
-	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex)&& !m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->IsActive())
+	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)&& !m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->IsActive())
 	{
 		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL3);
 		pCollider->Set_Radius(1.8f);
@@ -34,7 +34,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 		pChildCollider->Set_Scale(Vec3(0.5f, 1.f, 1.f));
 		pChildCollider->Set_Offset(Vec3(-1.f, 1.f, 1.2f));
 	}
-	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[m_iCurrAnimation].iAnimIndex))
+	if (43 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 	{
 		Vec3 vScale = dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL3)->Get_Child())->Get_Scale();
 		vScale.x +=  fTimeDelta;		

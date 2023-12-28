@@ -15,11 +15,13 @@ void CZombie_BT_Attack2_Server::OnStart()
 
 CBT_Node::BT_RETURN CZombie_BT_Attack2_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_ModelCom()->IsNext())
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
 
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;
 
 	return BT_RUNNING;

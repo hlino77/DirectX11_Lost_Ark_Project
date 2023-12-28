@@ -5,13 +5,13 @@
 
 BEGIN(Client)
 
-class CCommon_BT_Maz :
+class CCommon_BT_Earthquake :
     public CBT_Action
 {
 private:
-    CCommon_BT_Maz();
-    CCommon_BT_Maz(const CCommon_BT_Maz& rhs) = delete;
-    virtual ~CCommon_BT_Maz() =  default;
+    CCommon_BT_Earthquake();
+    CCommon_BT_Earthquake(const CCommon_BT_Earthquake& rhs) = delete;
+    virtual ~CCommon_BT_Earthquake() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -20,7 +20,7 @@ private:
 
 
 public:
-    static	CCommon_BT_Maz* Create(void* pArg);
+    static	CCommon_BT_Earthquake* Create(void* pArg);
     virtual void Free() override;
 };
 

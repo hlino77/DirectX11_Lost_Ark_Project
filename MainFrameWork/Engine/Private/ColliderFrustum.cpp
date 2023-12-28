@@ -9,7 +9,7 @@
 #include "ColliderOBB.h"
 
 CFrustumCollider::CFrustumCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: Super(pDevice, pContext, ColliderType::OBB)
+	: Super(pDevice, pContext, ColliderType::Frustum)
 {
 }
 
@@ -132,8 +132,13 @@ void CFrustumCollider::Set_BoundingFrustum()
 		vOffset.Normalize();
 		vOffset *= m_vOffset.Length();
 	}
-	vQuat= Quaternion::Concatenate(vQuat, Quaternion(m_tBoundingFrustum.Orientation));
-
+	vQuat= Quaternion::Concatenate(vQuat, m_vOrientation);
+	m_tBoundingFrustum.Near = m_fNear;
+	m_tBoundingFrustum.Far = m_fFar;
+	m_tBoundingFrustum.RightSlope = m_vSlopesTopBottomRightLeft.z;
+	m_tBoundingFrustum.LeftSlope = m_vSlopesTopBottomRightLeft.w;
+	m_tBoundingFrustum.TopSlope = m_vSlopesTopBottomRightLeft.x;
+	m_tBoundingFrustum.BottomSlope = m_vSlopesTopBottomRightLeft.y;
 	m_tBoundingFrustum.Origin = vPos + vOffset;
 	m_tBoundingFrustum.Orientation = vQuat;
 }

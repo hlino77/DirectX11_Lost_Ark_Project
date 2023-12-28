@@ -19,9 +19,9 @@ void CGolem_BT_Attack_Dash::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
+	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[0].iAnimIndex)<10)
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex)<10)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	return BT_RUNNING;
 }

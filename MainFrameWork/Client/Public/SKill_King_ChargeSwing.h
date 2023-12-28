@@ -16,7 +16,7 @@ BEGIN(Client)
 
 class CSKill_King_ChargeSwing :	public CSkill
 {
-protected:
+private:
 	CSKill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CSKill_King_ChargeSwing(const CSKill_King_ChargeSwing& rhs);
 	virtual ~CSKill_King_ChargeSwing() = default;
@@ -40,17 +40,16 @@ public:
 
 
 
-protected:
+private:
 	virtual HRESULT			Ready_Components();
 
 
 
-
-
 public:
-	CSKill_King_ChargeSwing* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSKill_King_ChargeSwing* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
+
 };
 
 END

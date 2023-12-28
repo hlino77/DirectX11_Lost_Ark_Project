@@ -47,16 +47,37 @@ HRESULT CSkill::Initialize(void* pArg)
 
 void CSkill::Tick(_float fTimeDelta)
 {
+	m_fLastTime -= fTimeDelta;
+	if (m_fLastTime < 0.f)
+		Set_Die();
+
 
 }
 
 void CSkill::LateTick(_float fTimeDelta)
 {
+	m_pRendererCom->Add_DebugObject(this);
 	Set_Colliders(fTimeDelta);
 }
 
 HRESULT CSkill::Render()
 {
+
+	return S_OK;
+}
+
+HRESULT CSkill::Render_Debug()
+{
+	for (auto& Colider : m_Coliders)
+	{
+		if (Colider.second->IsActive())
+		{
+			Colider.second->DebugRender();
+			if (Colider.second->Get_Child())
+				Colider.second->Get_Child()->DebugRender();
+		}
+
+	}
 
 	return S_OK;
 }
@@ -98,30 +119,6 @@ HRESULT CSkill::Ready_Components()
 	///* For.Com_RigidBody */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_RigidBody"), TEXT("Com_RigidBody"), (CComponent**)&m_pRigidBody)))
 		return E_FAIL;
-
-	/*{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY, pCollider);
-	}
-	
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK, pCollider);
-	}*/
 
 
 	Safe_Release(pGameInstance);
@@ -225,10 +222,11 @@ void CSkill::Send_ColliderState(const _uint& iLayer)
 
 void CSkill::Set_Colliders(_float fTimeDelta)
 {
-	/*m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY]->Set_Center();
-
-	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->IsActive())
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK]->Set_Center();*/
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second->IsActive())
+			Collider.second->Update_Collider();
+	}
 }
 
 

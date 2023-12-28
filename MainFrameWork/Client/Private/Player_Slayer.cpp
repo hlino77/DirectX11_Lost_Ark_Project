@@ -219,6 +219,12 @@ HRESULT CPlayer_Slayer::Render_ShadowDepth()
 
 void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
+	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS&&pOther->Get_Owner()->Get_ObjectType()==OBJ_TYPE::BOSS)		
+		cout << "보스의 직접 공격!" << endl;
+	else if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS && pOther->Get_Owner()->Get_ObjectType() == OBJ_TYPE::SKILL)
+		cout << "보스의 스킬 공격!" << endl;
+	else if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
+		cout << "넌 누구야?!" << endl;
 	if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)

@@ -317,7 +317,7 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{
-			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+			_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			Vec3 vPos = {};
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
 			{
@@ -331,59 +331,77 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
-			if (fForce > 30.f)
-				cout << endl<< fForce << endl;
-			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
-			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
-			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
-				fStatusDuration += 100.f;
-
-
-			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
-			Show_Damage(iDamage);
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
-
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
-		{
-			_int iDammage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
-			Vec3 vPos = {};
-			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
-			{
-				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-				vPos.y = 0.f;
-			}
-			else
-			{
-				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-				vPos.y = 1.f;
-			}
-
-			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
-			_uint iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
-			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
-			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
-				fStatusDuration += 100.f;
 			if (fForce > 30.f)
 				cout << endl << fForce << endl;
-			Send_Collision(iDammage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, fStatusDuration);
-			Show_Damage(iDamage);
-			
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
+			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
+			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+				fStatusDuration += 110.f;
+			STATUSEFFECT eEffect = (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
+			int iCritical = rand() % 10;
 
+			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
+			_bool IsCritical = false;
+			if (iCritical < 3)
+			{
+				IsCritical = true;
+				iDamage *= 2;
+
+
+				Send_Collision(iDamage, vPos, STATUSEFFECT::COUNTER, fForce, fStatusDuration);
+				Show_Damage(iDamage, IsCritical);
+			}
+			if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+			{
+
+			}
+			if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+			{
+				_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+				Vec3 vPos = {};
+				if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
+				{
+					vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+					vPos.y = 0.f;
+				}
+				else
+				{
+					vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+					vPos.y = 1.f;
+				}
+
+				_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+				_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
+				int iCritical = rand() % 10;
+
+				iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
+				_bool IsCritical = false;
+				if (iCritical < 3)
+				{
+					IsCritical = true;
+					iDamage *= 2;
+				}
+
+				if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+					fStatusDuration += 100.f;
+				_int iStatusEffect = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
+				iStatusEffect = rand() % (_uint)STATUSEFFECT::EFFECTEND;
+				Send_Collision(iDamage, vPos, (STATUSEFFECT)iStatusEffect, fForce, fStatusDuration);
+				Show_Damage(iDamage, IsCritical);
+
+			}
+			if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+			{
+
+			}
 		}
-	}
-	else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
-	{
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
 		{
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
+			if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+			{
+			}
+			if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+			{
+			}
 		}
 	}
 }
@@ -624,26 +642,11 @@ void CMonster::Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRad
 	}
 }
 
-void CMonster::Show_Damage(_uint iDamage)
+void CMonster::Show_Damage(_uint iDamage, _bool IsCritical)
 {
-	int iTemp = rand() % 10;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	CDamage_Manager::GetInstance()->Print_DamageFont(this , m_fFontScale, 100.f, 2.0f, IsCritical, iDamage);
 
-	int iTestDamage = (pGameInstance->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
-
-	if (iTemp < 3)
-	{
-		iTestDamage *= 2;
-		CDamage_Manager::GetInstance()->Print_DamageFont(this , m_fFontScale, 100.f, 2.0f, true, iTestDamage);
-	}
-	else
-	{
-		CDamage_Manager::GetInstance()->Print_DamageFont(this, m_fFontScale, 100.f, 2.0f, false, iTestDamage);
-	}
-
-	Safe_Release(pGameInstance);
 }
 
 HRESULT CMonster::Ready_Components()

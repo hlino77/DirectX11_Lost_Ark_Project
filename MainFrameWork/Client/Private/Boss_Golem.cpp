@@ -28,6 +28,7 @@
 #include <Golem_BT_Attack_Jump.h>
 #include <Golem_BT_Attack_Swipe.h>
 #include <ColliderOBB.h>
+#include <Boss_BT_Counter.h>
 
 CBoss_Golem::CBoss_Golem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CBoss(pDevice, pContext)
@@ -177,7 +178,7 @@ HRESULT CBoss_Golem::Ready_Components()
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pCollider);
 	}
 
 	{
@@ -281,9 +282,9 @@ HRESULT CBoss_Golem::Ready_Components()
 	}
 
 	{
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(true);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Radius(1.6f);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->Set_Offset(Vec3(0.0f, 1.3f, 0.0f));
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->SetActive(true);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Radius(1.6f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Offset(Vec3(0.0f, 1.3f, 0.0f));
 
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(false);
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.8f);
@@ -342,25 +343,29 @@ HRESULT CBoss_Golem::Ready_BehaviourTree()
 	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
+	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage_Left";
-	CBT_Action* pDamageLeft = CCommon_BT_Damage1::Create(&ActionDesc);
 
+	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Counter";
+	ActionDesc.iLoopAnimationIndex = 1;
+	ActionDesc.fMaxLoopTime = 2.5f;
+	CBT_Action* pCounter = CBoss_BT_Counter::Create(&ActionDesc);
+	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("dmg_idle_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = 1.5f;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Damage_Right";
-	CBT_Action* pDamageRight = CCommon_BT_Damage2::Create(&ActionDesc);
-
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;

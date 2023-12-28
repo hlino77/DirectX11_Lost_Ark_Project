@@ -16,6 +16,7 @@
 #include "ColliderOBB.h"
 #include "ColliderSphereGroup.h"
 #include "CollisionManager.h"
+#include "ColliderFrustum.h"
 #include "NavigationMgr.h"
 #include "EventMgr.h"
 #include "VIBuffer_Point.h"
@@ -247,6 +248,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"),
 		COBBCollider::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FrustumColider"),
+		CFrustumCollider::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MainLogo"),

@@ -37,7 +37,7 @@ public:
 protected:
 	virtual HRESULT		Ready_Components();
 
-	HRESULT Ready_BehaviourTree();
+	virtual HRESULT Ready_BehaviourTree() override;
 public:
 	static CMonster_Plant_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

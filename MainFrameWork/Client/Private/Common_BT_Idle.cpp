@@ -13,7 +13,7 @@ void CCommon_BT_Idle::OnStart()
 
 CBT_Node::BT_RETURN CCommon_BT_Idle::OnUpdate(const _float& fTimeDelta)
 {
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimIndexFrame[0].iAnimIndex))
+	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;
 
 	return BT_RUNNING;

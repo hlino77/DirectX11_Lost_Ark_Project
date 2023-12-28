@@ -28,7 +28,6 @@ HRESULT CMonster_Server::Initialize_Prototype()
 HRESULT CMonster_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 	m_iCurrLevel = Desc->iLevel;
@@ -41,6 +40,9 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+
 	m_pRigidBody->SetMass(2.0f);
 
 
@@ -51,13 +53,16 @@ void CMonster_Server::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 
-	m_fSkillCoolDown += fTimeDelta;
-	m_pBehaviorTree->Tick(fTimeDelta);
+	if (m_pBehaviorTree != nullptr)
+		m_pBehaviorTree->Tick(fTimeDelta);
+
 	Find_NearTarget(fTimeDelta);
 
 	m_pRigidBody->Tick(fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
+	m_fHitTerm -= fTimeDelta;
+
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
 void CMonster_Server::LateTick(_float fTimeDelta)
@@ -65,7 +70,7 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0);
+		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 	{
 		READ_LOCK
@@ -81,8 +86,6 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 
 HRESULT CMonster_Server::Render()
 {
-	m_PlayAnimation.get();
-
 	return S_OK;
 }
 
@@ -286,12 +289,13 @@ void CMonster_Server::Set_SlowMotion(_bool bSlow)
 
 	Send_SlowMotion(bSlow);
 }
+
 void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
 
-
+	cout<< endl << m_iObjectID << m_iHp << endl;
 	if (!m_IsSuperArmor)
 	{
 		m_IsAttacked = true;
@@ -365,11 +369,12 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_IsTwist = true;
 		}
 	}
-	else if (fForce >= 30.f)
+	else if (fForce >= 20.f)
 	{ 
 		m_IsHit = true;
 	}
-	
+
+	ZeroMemory(m_fStatusEffects, sizeof(_float) * (_int)STATUSEFFECT::EFFECTEND);
 	m_fStatusEffects[iStatusEffect] += fDuration;
 
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);

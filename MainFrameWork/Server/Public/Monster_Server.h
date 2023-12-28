@@ -128,7 +128,7 @@ public:
 	_bool						Is_Twist() { return m_IsTwist; }
 	void						Set_Twist(_bool IsTwist) { m_IsTwist = IsTwist; }
 
-	_bool						Is_Downed() { return m_IsDowned; }
+	_bool						Is_Countered() { return m_IsDowned; }
 	void						Set_Downed(_bool IsDowned) { m_IsDowned = IsDowned; }
 
 	_bool						Is_TwistLanding() { return m_IsTwistLanding; }
@@ -148,6 +148,7 @@ public:
 	_bool					Is_Attacked() { return m_IsAttacked; }
 	void					Set_Attacked(_bool IsAttacked) { m_IsAttacked = IsAttacked; }
 
+	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
 
 
 	_bool					Is_Skill();
@@ -163,11 +164,12 @@ public:
 	void					Set_Action(wstring strAction) { m_strAction = strAction; }
 	wstring					Get_Action() { return m_strAction; }
 	
+	_float					Get_StatusEffect(STATUSEFFECT eEffect) { return m_fStatusEffects[(_uint)eEffect]; }
 
 protected:
 	virtual HRESULT		Ready_Components();
 	void				Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance = 0.f);
-
+	virtual HRESULT		Ready_BehaviourTree() {		return S_OK;	}
 
 protected:
 	wstring							m_strAction = L"";
@@ -201,7 +203,7 @@ protected:
 	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};
 	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};
-
+	_float							m_fRootTargetDistance = 0.f;
 
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 

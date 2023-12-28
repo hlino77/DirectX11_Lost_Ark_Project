@@ -187,13 +187,19 @@
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Boss.h" />
+    <ClInclude Include="..\Public\Boss_BT_Counter.h" />
     <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
     <ClInclude Include="..\Public\Common_BT_Bound.h" />
     <ClInclude Include="..\Public\Common_BT_BoundLand.h" />
+    <ClInclude Include="..\Public\Common_BT_Bug.h" />
+    <ClInclude Include="..\Public\Common_BT_Earthquake.h" />
+    <ClInclude Include="..\Public\Common_BT_Fear.h" />
+    <ClInclude Include="..\Public\Common_BT_Shock.h" />
     <ClInclude Include="..\Public\Common_BT_Stand.h" />
+    <ClInclude Include="..\Public\Common_BT_Stun.h" />
     <ClInclude Include="..\Public\Common_BT_Twist.h" />
     <ClInclude Include="..\Public\Common_BT_TwistLand.h" />
     <ClInclude Include="..\Public\Controller_WR.h" />
@@ -457,7 +463,6 @@
     <ClInclude Include="..\Public\Common_BT_Damage1.h" />
     <ClInclude Include="..\Public\Common_BT_Dead.h" />
     <ClInclude Include="..\Public\Common_BT_Idle.h" />
-    <ClInclude Include="..\Public\Common_BT_Maz.h" />
     <ClInclude Include="..\Public\Common_BT_Move.h" />
     <ClInclude Include="..\Public\Common_BT_Spawn.h" />
     <ClInclude Include="Client.h" />
@@ -476,7 +481,12 @@
     <ClCompile Include="..\Private\ColMesh.cpp" />
     <ClCompile Include="..\Private\Common_BT_Bound.cpp" />
     <ClCompile Include="..\Private\Common_BT_BoundLand.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Bug.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Earthquake.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Fear.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Shock.cpp" />
     <ClCompile Include="..\Private\Common_BT_Stand.cpp" />
+    <ClCompile Include="..\Private\Common_BT_Stun.cpp" />
     <ClCompile Include="..\Private\Common_BT_Twist.cpp" />
     <ClCompile Include="..\Private\Common_BT_TwistLand.cpp" />
     <ClCompile Include="..\Private\Controller_WR.cpp" />
@@ -736,9 +746,9 @@
     <ClCompile Include="..\Private\Common_BT_Damage1.cpp" />
     <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
     <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
     <ClCompile Include="..\Private\Common_BT_Move.cpp" />
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
+    <ClCompile Include="..\Public\Boss_BT_Counter.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>

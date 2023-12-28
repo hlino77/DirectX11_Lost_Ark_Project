@@ -17,9 +17,9 @@ void CGolem_BT_Attack_Charge_Punch::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeDelta)
 {
-	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimIndexFrame[0].iAnimIndex)
+	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimDesc[0].iAnimIndex)
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
- 	if (!m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[3].iAnimIndex && 5 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[3].iAnimIndex))
+ 	if (!m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && 5 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex))
 	{
 		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1);
 		pCollider->Set_Radius(3.f);
@@ -29,12 +29,15 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeD
 		pChildCollider->Set_Scale(Vec3(1.5f, 1.f, 3.f));
 		pChildCollider->Set_Offset(Vec3(0.0f, 1.f, 3.f));
 	}
-	if (m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimIndexFrame[3].iAnimIndex && 20 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimIndexFrame[3].iAnimIndex))
+	if (m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive() && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && 20 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex))
 	{
 		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1);
 		pCollider->SetActive(false);
 	}
-
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	return __super::OnUpdate(fTimeDelta);
 }
 
