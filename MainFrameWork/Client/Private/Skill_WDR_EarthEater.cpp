@@ -26,17 +26,35 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 
 	PROJECTILE_DESC Proj_Desc;
 	Proj_Desc.pAttackOwner = m_pOwner;
-	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
-	Proj_Desc.fAttackTime = 0.1f;
-	Proj_Desc.fRadius = 2.5f;
+	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, -1.5f);
-	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, -1.3f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, -1.5f);
 	Proj_Desc.iDamage = 100.f;
-	Proj_Desc.fRepulsion = 1.f;
+	Proj_Desc.fRepulsion = 0.5f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fRadius = 1.2f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+	Proj_Desc.iDamage = 50.f;
+	Proj_Desc.fRepulsion = 0.5f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
+
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fRadius = 1.5f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
+	Proj_Desc.iDamage = 50.f;
+	Proj_Desc.fRepulsion = 1.f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
 
 	return S_OK;
 }

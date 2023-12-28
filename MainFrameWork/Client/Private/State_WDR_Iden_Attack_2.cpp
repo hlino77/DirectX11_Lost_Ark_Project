@@ -16,7 +16,7 @@ CState_WDR_Iden_Attack_2::CState_WDR_Iden_Attack_2(const wstring& strStateName, 
 
 HRESULT CState_WDR_Iden_Attack_2::Initialize()
 {
-	m_Attack_2 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_gravity_1_02", 1.2f);
+	m_Attack_2 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_gravity_1_02", 1.4f);
 	if (m_Attack_2 == -1)
 		return E_FAIL;
 

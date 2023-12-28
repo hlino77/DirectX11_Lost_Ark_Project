@@ -654,7 +654,7 @@
     </Filter>
     <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel3">
       <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\10.Lobby">
       <UniqueIdentifier>{2378bddd-d2f2-48d2-adda-b4de0e90e906}</UniqueIdentifier>
     </Filter>
@@ -699,7 +699,7 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine">
       <UniqueIdentifier>{ed94756e-0c88-429c-80de-4a262f7bd78b}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Boss\Behavior">
       <UniqueIdentifier>{286df5fa-51d0-4cf1-a6f7-b52e19cab103}</UniqueIdentifier>
     </Filter>
@@ -720,7 +720,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Stun">
       <UniqueIdentifier>{11e51978-dab3-4347-8c9c-d8bbc09c8a4d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Select">
       <UniqueIdentifier>{70a0d08f-44e8-4e69-a9a1-ea96cf6b92e0}</UniqueIdentifier>
     </Filter>
@@ -1121,7 +1121,6 @@
     <ClInclude Include="..\Public\Common_BT_Attack1.h" />
     <ClInclude Include="..\Public\Common_BT_Dead.h" />
     <ClInclude Include="..\Public\Common_BT_Idle.h" />
-    <ClInclude Include="..\Public\Common_BT_Maz.h" />
     <ClInclude Include="..\Public\Common_BT_Move.h" />
     <ClInclude Include="..\Public\Common_BT_Spawn.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
@@ -2671,7 +2670,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel3.h">
       <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
     </ClInclude>
@@ -2689,7 +2688,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_WRIdentity.h">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Boss_BT_Counter.h">
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClInclude>
@@ -2707,7 +2706,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Stun.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Stun</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Player_Select.h">
       <Filter>02.GameObjects\Player\Player_Select</Filter>
     </ClInclude>
@@ -2791,6 +2790,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_WDR_EndurePain.h">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EndurePain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_EarthEater.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3090,7 +3092,6 @@
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp" />
     <ClCompile Include="..\Private\Common_BT_Dead.cpp" />
     <ClCompile Include="..\Private\Common_BT_Idle.cpp" />
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp" />
     <ClCompile Include="..\Private\Common_BT_Move.cpp" />
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
@@ -4613,7 +4614,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel3.cpp">
       <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
     </ClCompile>
@@ -4649,7 +4650,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Stun.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Stun</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Player_Select.cpp">
       <Filter>02.GameObjects\Player\Player_Select</Filter>
     </ClCompile>
@@ -4733,6 +4734,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EndurePain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_EarthEater.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
