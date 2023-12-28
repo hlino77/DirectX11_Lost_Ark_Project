@@ -46,6 +46,9 @@ HRESULT CEffectTool::Tick(const _float& fTimeDelta)
 			return E_FAIL;
 	}
 
+	if (FAILED(EffectsList()))
+		return E_FAIL;
+
 	if (FAILED(DataFIles()))
 		return E_FAIL;
 
@@ -520,7 +523,7 @@ HRESULT CEffectTool::EffectsList()
 		for (size_t i = 0; i < m_vecEffects.size(); i++)
 		{
 			_bool isSelected = (m_vecEffects[i] == m_vecEffects[m_iSelectedEffectIndex]);
-			if (ImGui::Selectable("%d", i, isSelected))
+			if (ImGui::Selectable(to_string(i).c_str(), isSelected))
 			{
 				m_iSelectedEffectIndex = i;
 				m_pCurrentEffect = m_vecEffects[i];
