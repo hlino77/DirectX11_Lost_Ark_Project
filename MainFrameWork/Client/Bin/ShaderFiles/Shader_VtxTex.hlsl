@@ -268,7 +268,7 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
 		Out.vColor = pow(Out.vColor, 1.f / 2.2f);
 	else
-		Out.vColor *= 0.4f;
+		Out.vColor.rgb *= 0.4f;
 
 	return Out;
 }

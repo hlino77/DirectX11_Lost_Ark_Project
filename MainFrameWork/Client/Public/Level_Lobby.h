@@ -19,6 +19,7 @@ public:
 
 private:
 	HRESULT Ready_Layer_BackGround();
+	HRESULT Ready_CameraFree(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_UI();
 
 public:

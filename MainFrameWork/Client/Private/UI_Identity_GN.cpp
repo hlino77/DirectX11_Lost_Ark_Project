@@ -72,7 +72,7 @@ HRESULT CUI_IdentityGN::UI_Set()
 	Safe_AddRef(pGameInstance);
 
 	CUI* pUI = nullptr;
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGroundWing")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGroundWing")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
@@ -80,13 +80,13 @@ HRESULT CUI_IdentityGN::UI_Set()
 		m_vecUIParts.push_back(pUI);
 	}
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGround")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGround")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
 		m_vecUIParts.push_back(pUI);
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGroundShine")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_BackGroundShine")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
@@ -94,21 +94,21 @@ HRESULT CUI_IdentityGN::UI_Set()
 		m_vecUIParts.push_back(pUI);
 	}
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_Arrow")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_Arrow")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
 	{
 		m_vecUIParts.push_back(pUI);
 	}
-	m_pMainFrame = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_MainFrame")));
+	m_pMainFrame = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_MainFrame")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
 	{
 		m_vecUIParts.push_back(m_pMainFrame);
 	}
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_ShineFrame"), m_pMainFrame));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_ShineFrame"), m_pMainFrame));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
@@ -116,14 +116,14 @@ HRESULT CUI_IdentityGN::UI_Set()
 		
 		m_vecUIParts.push_back(pUI);
 	}
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Front")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Front")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
 	{
 		m_vecUIParts.push_back(pUI);
 	}
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Spark"), m_pMainFrame));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentityGN_WF_Spark"), m_pMainFrame));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else

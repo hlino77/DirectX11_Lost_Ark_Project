@@ -6,6 +6,9 @@
 #include "ServerSessionManager.h"
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
+#include "Controller_WR.h"
+#include "Player_Slayer.h"
+
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -146,9 +149,10 @@ void CUI_SkillIcon_Frame::Get_Player_BindingSkill()
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     CTexture* pTexture = nullptr;
 
-    if ((_uint)CHR_CLASS::GUNSLINGER == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectType())
+    if (nullptr != pPlayer && L"Gunslinger" == pPlayer->Get_ObjectTag())
         Get_Player_GN(pPlayer, pTexture);
-
+    else if (nullptr != pPlayer && L"WR" == pPlayer->Get_ObjectTag())
+        Get_Player_WR(pPlayer, pTexture);
 }
 
 void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
@@ -198,8 +202,31 @@ void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
     }
 }
 
-void CUI_SkillIcon_Frame::Get_Slayer_WR(CPlayer* _pPlayer, CTexture* _pTexture)
+void CUI_SkillIcon_Frame::Get_Player_WR(CPlayer* _pPlayer, CTexture* _pTexture)
 {
+    if (nullptr != _pPlayer)
+    {
+        m_pSkill = static_cast<CPlayer_Slayer*>(_pPlayer)->
+            Get_WR_Controller()->Get_PlayerSkill((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+        if (nullptr != m_pSkill)
+        {
+            _pTexture = (m_pSkill->Get_Skill_Texture());
+            m_fCoolMaxTime = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCurrCool = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            Safe_AddRef(_pTexture);
+            if (nullptr != _pTexture)
+            {
+                m_bHaveSkill = true;
+                m_pTextureCom_Skill = static_cast<CTexture*>(_pTexture->Clone(nullptr, nullptr));
+            }
+            Safe_Release(_pTexture);
+        }
+        else
+        {
+            m_bHaveSkill = false;
+            m_pTextureCom_Skill = nullptr;
+        }
+    }
 }
 
 HRESULT CUI_SkillIcon_Frame::Ready_Components()

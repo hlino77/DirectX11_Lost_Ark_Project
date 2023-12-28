@@ -56,7 +56,7 @@ HRESULT CUI_Player_MP::UI_Set()
 	Safe_AddRef(pGameInstance);
 
 	CUI* pUI = nullptr;
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPEmpty")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPEmpty")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
@@ -64,7 +64,7 @@ HRESULT CUI_Player_MP::UI_Set()
 		m_vecUIParts.push_back(pUI);
 	}
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPFill")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPFill")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
@@ -72,7 +72,7 @@ HRESULT CUI_Player_MP::UI_Set()
 		m_vecUIParts.push_back(pUI);
 	}
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPFrame")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPFrame")));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else

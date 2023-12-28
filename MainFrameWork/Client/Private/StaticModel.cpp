@@ -29,12 +29,12 @@ HRESULT CStaticModel::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
 	m_strObjectTag = Desc->strFileName;
-	m_iLayer = Desc->iLayer;
 	m_szModelName = Desc->strFileName;
+	m_iLayer = Desc->iLayer;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
     return S_OK;
