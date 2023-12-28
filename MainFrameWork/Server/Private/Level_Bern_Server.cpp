@@ -68,8 +68,7 @@ HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 
 		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL1);
 	}
-
-	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('2') & 0x8000)
+	else if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('2') & 0x8000)
 	{
 		if (m_bKey_Lock)
 			return S_OK;
@@ -77,8 +76,7 @@ HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 
 		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL2);
 	}
-
-	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('3') & 0x8000)
+	else if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('3') & 0x8000)
 	{
 		if (m_bKey_Lock)
 			return S_OK;
@@ -86,6 +84,8 @@ HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 
 		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL3);
 	}
+	else
+		m_bKey_Lock = false;
 
 
 	return S_OK;
@@ -404,6 +404,10 @@ void CLevel_Bern_Server::Enter_ChaosDungean(CHAOSDUNGEANLEVEL eLEVEL)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	vector<CGameObject*> LevelObjects = pGameInstance->Find_GameObjects(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER);
+
+	if (LevelObjects.empty())
+		return;
+
 	vector<CPlayer_Server*> Players;
 
 	for (auto& Object : LevelObjects)

@@ -61,6 +61,11 @@ void CChaosDungean_Server::Tick(_float fTimeDelta)
 		Spawn_Monster();
 		m_fCurrSpawn = 0.0f;
 	}
+
+	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('4') & 0x8000)
+	{
+		Exit_Dungean();
+	}
 }
 
 void CChaosDungean_Server::LateTick(_float fTimeDelta)
@@ -338,6 +343,19 @@ void CChaosDungean_Server::Send_OpenLevel()
 		Player->Get_GameSession()->Send(pSendBuffer);
 }
 
+void CChaosDungean_Server::Exit_Dungean()
+{
+	Protocol::S_OPEN_LEVEL pkt;
+	pkt.set_ilevelid(LEVEL_BERN);
+
+	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+
+	for (auto& Player : m_Players)
+		Player->Get_GameSession()->Send(pSendBuffer);
+
+	Set_Dead(true);
+}
+
 HRESULT CChaosDungean_Server::Broadcast_PlayerInfo()
 {
 	Protocol::S_OBJECTINFO pkt;
@@ -408,4 +426,10 @@ void CChaosDungean_Server::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
+
+	for (auto& Monster : m_Monsters)
+		Monster->Set_Dead(true);
+
+	for (auto& Boss : m_Bosses)
+		Boss->Set_Dead(true);
 }
