@@ -4502,6 +4502,9 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Effect.hlsl">
+      <Filter>97. ShaderFiles\KSG</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

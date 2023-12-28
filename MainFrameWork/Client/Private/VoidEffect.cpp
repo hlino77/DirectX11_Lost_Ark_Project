@@ -38,6 +38,17 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 
 void CVoidEffect::Tick(_float fTimeDelta)
 {
+	m_fTimeAcc += fTimeDelta;
+	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
+	while (m_fTimeAcc > m_fLifeTime) m_fTimeAcc -= m_fLifeTime;
+
+	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
+	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+	vOffsetRotation = Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z);
+	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
+
+	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
+		* XMMatrixRotationQuaternion(vOffsetRotation) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CVoidEffect::LateTick(_float fTimeDelta)
@@ -51,7 +62,51 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 HRESULT CVoidEffect::Render()
 {
-	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+	if (m_IsSequence)
+	{
+		++m_Variables.vUV_TileIndex.x;
+		++m_Variables.vUV_TileIndex.y;
+
+		if (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+		{
+			m_Variables.vUV_TileIndex.x = 0;
+			if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
+				m_Variables.vUV_TileIndex.y = 0;
+		}
+
+		/*m_Variables.vUV_Offset.x = m_Variables.vUV_TileIndex.x++ / m_Variables.vUV_TileCount.x;
+		m_Variables.vUV_Offset.y = m_Variables.vUV_TileIndex.y++ / m_Variables.vUV_TileCount.y;
+		if (m_Variables.vUV_TileIndex.x == m_Variables.vUV_TileCount.x)
+		{
+			m_Variables.vUV_TileIndex.x -= m_Variables.vUV_TileCount.x;
+			if(m_Variables.vUV_TileIndex.y == m_Variables.vUV_TileCount.y)
+				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
+		}*/
+	}
+
+	m_Variables.vUV_Offset.x += m_vUV_Speed.x * m_fTimeAcc * 0.001f;
+	m_Variables.vUV_Offset.y += m_vUV_Speed.y * m_fTimeAcc * 0.001f;
+
+	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
+	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;
+
+	m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagFX_Variables))))
+		return E_FAIL;
+	/*if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
+		return E_FAIL;*/
+
+	//////////////////////////////
+
+#pragma region GlobalData
+	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
+	Matrix matCombined = m_matPivot * matWorld;
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &matCombined, sizeof(Matrix))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("EffectMaterialFlag", &m_tNoisMaskEmisDslv.NoisMaskEmisDslv, sizeof(EffectMaterialFlag))))
@@ -90,13 +145,21 @@ HRESULT CVoidEffect::Render()
 	{
 		_int iMeshCount = m_pModelCom->Get_Meshes().size();
 		for (_int i = 0; i < iMeshCount; ++i)
-			m_pModelCom->Render(m_pShaderCom, i, "Default");
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Default")))
+				return E_FAIL;
+		}
 	}
 	else
 	{
-		m_pShaderCom->Begin("Default");
-		m_pBuffer->Render();
+		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Begin("Default")))
+			return E_FAIL;
+		if (FAILED(m_pBuffer->Render()))
+			return E_FAIL;
 	}
+#pragma endregion
 
 	return S_OK;
 }
@@ -121,7 +184,7 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 	if (TEXT("") != pDesc->protoModel)
 	{
 		/* For.Com_Model */
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, pDesc->protoModel, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Model_") + pDesc->protoModel, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 			return E_FAIL;
 
 		/* For.Com_Shader */
@@ -130,7 +193,7 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 	}
 	else
 	{
-		/* For.Com_Model */
+		/* For.Com_Buffer */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
 			return E_FAIL;
 

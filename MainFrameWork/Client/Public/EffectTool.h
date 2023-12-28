@@ -10,7 +10,7 @@ class CUtils;
 END
 
 BEGIN(Client)
-
+class CVoidEffect;
 class CEffectTool : public CToolBase
 {
     using Super = CToolBase;
@@ -26,8 +26,6 @@ public:
 
 private:
 	void	Input();
-	//void	PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition);
-	void	PlaceObject(const LAYER_TYPE& eLayerTag, const wstring& strPrototypeTag, const Vec3& vPickPosition);
 
 private:
 	void	InfoView();
@@ -43,11 +41,17 @@ private:
 	void	SelectMesh(string& strCurrentCategory);
 	pair<wstring, ID3D11ShaderResourceView*> SelectTexture(string& strCurrentCategory);
 
-	void	TreeGroups();
-
 private:
+	HRESULT EffectTool();
+	HRESULT EffectDetail();
+	HRESULT EffectsList();
+
+	HRESULT	DataFIles();
+
 	HRESULT CreateEffect();
 	HRESULT Reset();
+	HRESULT Save(_char* szFileName);
+	HRESULT Load();
 
 private:
 	HRESULT	LoadMeshes();
@@ -68,10 +72,12 @@ private:
 	MESHES					m_vecMeshes;
 	TEXTURES				m_vecTextures;
 
-	class CVoidEffect*										m_pCurrentEffect = nullptr;
+	CVoidEffect*			m_pCurrentEffect = nullptr;
+	vector<CVoidEffect*>	m_vecEffects;
+	_int					m_iSelectedEffectIndex = 0;
 
 	pair<wstring, string>									m_BaseMesh;
-	/*pair<path, pair<filename, srv>>*/
+
 	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_BaseTexture;
 	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentNoise;
 	pair<wstring, pair<wstring, ID3D11ShaderResourceView*>>	m_CurrentMask;
@@ -80,6 +86,12 @@ private:
 
 	CUtils*					m_pUtils = nullptr;
 	class CCamera_Free*		m_pCamera = nullptr;
+
+	_bool		m_IsResetReserved = false;
+
+	_int		m_iSelectedDataFileIndex = 0;
+	wstring		m_strSelectedDataFile = TEXT("");
+	_char		m_szFileNameBuf[128] = "";
 
 public:
 	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

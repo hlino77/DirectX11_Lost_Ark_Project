@@ -130,7 +130,7 @@ HRESULT CLevel_Tool::Ready_Camera()
 	CCamera::CAMERADESC tCameraDesc;
 
 	tCameraDesc.iLayer = (_uint)LAYER_TYPE::LAYER_CAMERA;
-	tCameraDesc.vEye = Vec4(0.f, 10.f, -10.f, 1.f);
+	tCameraDesc.vEye = Vec4(0.f, 3.f, -3.f, 1.f);
 	tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
 	tCameraDesc.fFovy = XMConvertToRadians(60.0f);
 	tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;

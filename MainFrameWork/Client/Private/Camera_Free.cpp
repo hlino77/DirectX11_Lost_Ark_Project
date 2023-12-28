@@ -39,6 +39,11 @@ void CCamera_Free::Tick(_float fTimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	__super::Tick(fTimeDelta);
+
+	if (LEVEL_TOOL == m_pGameInstance->Get_CurrLevelIndex())
+		return;
+
 	if (KEY_HOLD(KEY::UP_ARROW))
 	{
 		m_pTransformCom->Go_Straight(5.0f, fTimeDelta);
@@ -114,8 +119,6 @@ void CCamera_Free::Tick(_float fTimeDelta)
 	}
 	
 	Safe_Release(pGameInstance);
-
-	__super::Tick(fTimeDelta);
 }
 
 void CCamera_Free::LateTick(_float fTimeDelta)

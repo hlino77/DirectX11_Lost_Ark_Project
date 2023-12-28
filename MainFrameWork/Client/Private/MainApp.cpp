@@ -198,17 +198,15 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_VIBuffer_Rect */
+	/* For.Prototype_Component_VIBuffer_Point */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point"),
 		CVIBuffer_Point::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
 		Engine::CLockFree_Transform::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"),
 		CUseLock_Transform::Create(m_pDevice, m_pContext))))
