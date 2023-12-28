@@ -45,6 +45,7 @@
 #include "Pool.h"
 #include "Damage_Manager.h"
 #include "ThreadManager.h"
+#include "UI_Loading.h"
 
 namespace fs = std::filesystem;
 
@@ -111,6 +112,8 @@ void CMainApp::Tick(_float fTimeDelta)
 		Active_Camera_Free();
 	}
 
+	m_pGameInstance->FinalTick(fTimeDelta);
+
 	CServerSessionManager::GetInstance()->Tick(fTimeDelta);
 
 	/* 게임내에 존재하는 여러 객체들의 갱신. */
@@ -118,6 +121,7 @@ void CMainApp::Tick(_float fTimeDelta)
 	m_pGameInstance->Tick(fTimeDelta);
 
 	CChat_Manager::GetInstance()->CursurTick(fTimeDelta);
+	
 	
 }
 
@@ -171,6 +175,9 @@ HRESULT CMainApp::Initialize_Client()
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	ThreadManager::GetInstance()->ReserveManager(8);
+
+	if (FAILED(CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext)))
+		return E_FAIL;
 
 	// Manager Reserve
 	return S_OK;
@@ -374,6 +381,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TextBox"),
 		CTextBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingUI"),
+		CUI_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	CDamage_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);

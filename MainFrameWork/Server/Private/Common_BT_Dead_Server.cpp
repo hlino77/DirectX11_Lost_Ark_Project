@@ -31,10 +31,6 @@ void CCommon_BT_Dead_Server::OnEnd()
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Left(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_AnimationSpeed(0.f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Die();
-	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
-		CGameInstance::GetInstance()->Delete_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_MONSTER, m_pGameObject);
-	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE:: BOSS)
-		CGameInstance::GetInstance()->Delete_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_BOSS, m_pGameObject);
 }
 
 

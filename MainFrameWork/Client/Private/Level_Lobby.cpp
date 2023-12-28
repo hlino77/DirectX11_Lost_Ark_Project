@@ -30,7 +30,7 @@ HRESULT CLevel_Lobby::Initialize()
 
 HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
-	if (KEY_TAP(KEY::ENTER))
+	if (KEY_HOLD(KEY::ENTER) && KEY_TAP(KEY::NUM_1))
 	{
 		if (m_bConnect == false)
 		{
@@ -65,6 +65,45 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 					});
 			}
 		}
+		return S_OK;
+	}
+
+	if (KEY_HOLD(KEY::ENTER) && KEY_TAP(KEY::NUM_2))
+	{
+		if (m_bConnect == false)
+		{
+			m_bConnect = true;
+
+			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::GUNSLINGER);
+			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
+
+
+			SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));
+
+			CClientPacketHandler::Init();
+
+			this_thread::sleep_for(1s);
+
+			ClientServiceRef service = make_shared<ClientService>(
+				NetAddress(SERVER_IP, SERVER_PORT),
+				make_shared<IocpCore>(),
+				make_shared<CServerSession>, // TODO : SessionManager 등
+				1);
+
+			ASSERT_CRASH(service->Start());
+
+			for (int32 i = 0; i < 3; i++)
+			{
+				ThreadManager::GetInstance()->Launch([=]()
+					{
+						while (true)
+						{
+							service->GetIocpCore()->Dispatch();
+						}
+					});
+			}
+		}
+		return S_OK;
 	}
 
 

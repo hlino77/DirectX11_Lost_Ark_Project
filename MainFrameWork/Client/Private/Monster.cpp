@@ -44,6 +44,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 	m_bInstance = Desc->bInstance;
+	m_iCurrLevel = Desc->iLevel;
 
 
 	if (FAILED(Ready_Components()))
@@ -80,7 +81,7 @@ HRESULT CMonster::Initialize(void* pArg)
 void CMonster::Tick(_float fTimeDelta)
 {
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
-	if (!m_bDie)
+	if (!m_bDead)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
@@ -161,7 +162,7 @@ HRESULT CMonster::Render_ShadowDepth()
 
 HRESULT CMonster::Render_ShadowDepth_Instance(_uint iSize)
 {
-	if (FAILED(m_pInstaceData->pInstanceShader->Push_ShadowWVP()))
+	if (FAILED(m_pInstaceData->pInstanceShader->Push_ShadowVP()))
 		return S_OK;
 
 	if (FAILED(m_pInstaceData->pInstanceShader->Bind_Texture("g_InstanceTransform", m_pInstaceData->pAnimSRV)))
@@ -587,7 +588,7 @@ void CMonster::Set_Die()
 	for (auto& Collider : m_Coliders)
 		Collider.second->SetActive(false);
 
-	m_bDie = true;
+	m_bDead = true;
 }
 
 void CMonster::Set_AttackRange(_int iRangeIndex)
@@ -678,7 +679,7 @@ HRESULT CMonster::Ready_Components()
 
 	///* For.Com_Model */
 	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
-	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Component(m_iCurrLevel, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 

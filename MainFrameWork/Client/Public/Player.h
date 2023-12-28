@@ -151,10 +151,12 @@ public:
 
 	void					Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
 
+	virtual HRESULT			Ready_PhysxBoneBranch() { return S_OK; };
 
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
+	
 
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);

@@ -18,7 +18,7 @@ HRESULT CObject_Manager::Reserve_Manager(_uint iNumLevels, _uint iNumLayerTypes)
 
 	for (_uint i = 0; i < iNumLevels; ++i)
 	{
-		m_pLayers[i].reserve(iNumLevels + 1);
+		m_pLayers[i].reserve(iNumLayerTypes + 1);
 		for (_uint j = 0; j < iNumLayerTypes; ++j)
 			m_pLayers[i].push_back(CLayer::Create());
 	}
@@ -31,7 +31,7 @@ HRESULT CObject_Manager::Reserve_Manager(_uint iNumLevels, _uint iNumLayerTypes)
 HRESULT CObject_Manager::Add_Prototype(const wstring & strPrototypeTag, CGameObject * pPrototype)
 {
 	if (nullptr != Find_Prototype(strPrototypeTag))
-		return E_FAIL;
+		return S_OK;
 
 	m_Prototypes.emplace(strPrototypeTag, pPrototype);
 
@@ -168,7 +168,7 @@ CGameObject* CObject_Manager::Find_NearGameObject(_uint iLevelIndex, const _uint
 
 	for (auto& Object : ObjectList)
 	{
-		if (Object->Is_Die() || Object->Is_Active() == false)
+		if (Object->Is_Dead() || Object->Is_Active() == false)
 			continue;
 
 		if (pFindObject == nullptr)
@@ -227,6 +227,47 @@ void CObject_Manager::LateTick(_float fTimeDelta)
 			
 		}
 	}
+}
+
+void CObject_Manager::FinalTick(_float fTimeDelta)
+{
+	vector<CGameObject*> MoveList;
+
+	for (size_t i = 0; i < m_iNumLevels; i++)
+	{
+		for (auto& pLayer : m_pLayers[i])
+		{
+			vector<CGameObject*>& GameObjects = pLayer->Find_GameObjects();
+			
+			for (auto Objectiter = GameObjects.begin(); Objectiter != GameObjects.end();)
+			{
+				if ((*Objectiter)->Is_LevelMove())
+				{
+					MoveList.push_back(*Objectiter);
+					Objectiter = GameObjects.erase(Objectiter);
+				}
+				else
+					++Objectiter;
+			}
+		}
+	}
+
+	for (size_t i = 0; i < m_iNumLevels; i++)
+	{
+		for (auto& pLayer : m_pLayers[i])
+		{
+			pLayer->FinalTick(fTimeDelta);
+		}
+	}
+
+
+	for (auto& Object : MoveList)
+	{
+		m_pLayers[Object->Get_CurrLevel()][Object->Get_Layer()]->Add_GameObject(Object);
+		Object->Set_LevelMove(false);
+	}
+	MoveList.clear();
+
 }
 
 void CObject_Manager::Clear(_uint iLevelIndex)

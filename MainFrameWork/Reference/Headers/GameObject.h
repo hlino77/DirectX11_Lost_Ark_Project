@@ -111,8 +111,8 @@ public:
 	_bool						Is_Active() { return m_bActive; }
 	void						Set_Active(_bool bActive) { m_bActive = bActive; }
 
-	_bool						Is_Die() { return m_bDie; }
-	void						Set_Die(_bool bDie) { m_bDie = bDie; }
+	_bool						Is_Dead() { return m_bDead; }
+	void						Set_Dead(_bool bDead) { m_bDead = bDead; }
 
 	void						Set_Instance(_bool bInstace) { m_bInstance = bInstace; }
 
@@ -173,9 +173,16 @@ public:
 	void						Set_ServerState(const wstring& szState) { m_szState = szState; }
 	const wstring&				Get_ServerState() { return m_szState; }
 
-	_int		Get_WeaponIndex() { return m_iWeaponIndex; }
-	void		Set_WeaponIndex(_int iWeaponIndex) { m_iWeaponIndex = iWeaponIndex; }
+	_int						Get_WeaponIndex() { return m_iWeaponIndex; }
+	void						Set_WeaponIndex(_int iWeaponIndex) { m_iWeaponIndex = iWeaponIndex; }
 
+	_int						Get_CurrLevel() { return m_iCurrLevel; }
+	void						Set_CurrLevel(_uint iIndex) { m_iCurrLevel = iIndex; }
+
+	_bool						Is_LevelMove() { return m_bLevelMove; }
+	void						Set_LevelMove(_bool bLevelMove) { m_bLevelMove = bLevelMove; }
+
+	_int						Get_Layer() { return m_iLayer; }
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -214,11 +221,11 @@ protected:
 	_int				m_iObjType = -1;
 	_int				m_iObjectID = -1;
 	_bool				m_bControl = false;
-	_uint				m_iLayer = 0;
+	_int				m_iLayer = -1;
 
 	_bool				m_bRender = true;
 	_bool				m_bActive = true;
-	_bool				m_bDie = false;
+	_bool				m_bDead = false;
 	_bool				m_bNavi = true;
 	_bool				m_bInvincible = false;
 	atomic<Vec3>		m_vTargetPos;
@@ -240,15 +247,19 @@ protected:
 	list<COLLISIONSTAY>			m_CollisionList;
 
 
-	_int							m_iHp;
-	_uint							m_iMaxHp;
+	_int						m_iHp;
+	_uint						m_iMaxHp;
 
-	_int								m_iWeaponIndex = -1;
+	_int						m_iWeaponIndex = -1;
+
+	//Level
 	_int						m_iCurrLevel = -1;
+	_bool						m_bLevelMove = false;
 
 	//Instancing
 	_bool						m_bInstance = false;
 	shared_ptr<INSTANCEDATA>	m_pInstaceData = nullptr;
+
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

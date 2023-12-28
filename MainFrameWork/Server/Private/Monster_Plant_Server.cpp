@@ -62,7 +62,7 @@ HRESULT CMonster_Plant_Server::Initialize(void* pArg)
 	m_strObjectTag = L"Monster_Plant";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
-
+	m_iCurrLevel = Desc->iLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -90,7 +90,7 @@ void CMonster_Plant_Server::Tick(_float fTimeDelta)
 	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
 	m_pBehaviorTree->Tick(fTimeDelta);
 
-		Find_NearTarget(fTimeDelta);
+	Find_NearTarget(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
 	m_fHitTerm -= fTimeDelta;
 

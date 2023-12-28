@@ -272,7 +272,7 @@ void CPlayer_Gunslinger::Send_PlayerInfo()
 	auto tPlayerInfo = pkt.add_tobject();
 
 	tPlayerInfo->set_iobjectid(m_iObjectID);
-	tPlayerInfo->set_ilevel(LEVEL_STATIC);
+	tPlayerInfo->set_ilevel(m_iCurrLevel);
 	tPlayerInfo->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 
 

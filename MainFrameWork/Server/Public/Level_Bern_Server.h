@@ -41,6 +41,10 @@ private:
 
 	HRESULT			Ready_Events();
 
+
+	//Test
+	void			Enter_ChaosDungean(CHAOSDUNGEANLEVEL eLEVEL);
+
 public:
 	static class CLevel_Bern_Server* Create();
 	virtual void Free() override;

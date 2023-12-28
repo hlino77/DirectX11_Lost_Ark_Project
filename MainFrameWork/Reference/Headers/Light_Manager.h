@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.h"
+#include "Lock.h"
 
 BEGIN(Engine)
 
@@ -43,6 +44,7 @@ private:
 	Vec3 m_vLightOffset;
 	Vec3 m_vLightLook;
 
+	USE_LOCK
 public:
 	virtual void Free() override;
 };

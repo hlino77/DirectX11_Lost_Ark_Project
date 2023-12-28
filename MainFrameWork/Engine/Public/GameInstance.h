@@ -25,6 +25,7 @@ public: /* For.GameInstance */
 	HRESULT Initialize_Engine_Server(_uint iNumLevels, _uint iNumLayerType);
 
 	void Tick(_float fTimeDelta);
+	void FinalTick(_float fTimeDelta);
 	void Tick_Server(_float fTimeDelta);
 
 
@@ -33,7 +34,7 @@ public: /* For.GameInstance */
 public: /* For.Timer_Manager */
 	_float Compute_TimeDelta(const wstring& strTimerTag);
 	HRESULT	Add_Timer(const wstring& strTimerTag);
-
+	HRESULT	Delete_Timer(const wstring & strTimerTag);
 public: /* For.Graphic_Device */
 	HRESULT Clear_BackBuffer_View(Vec4 vClearColor);	
 	HRESULT Clear_DepthStencil_View();	

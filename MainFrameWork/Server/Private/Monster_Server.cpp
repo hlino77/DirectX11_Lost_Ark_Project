@@ -31,6 +31,7 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
+	m_iCurrLevel = Desc->iLevel;
 
 
 	if (FAILED(Ready_Components()))
@@ -254,7 +255,7 @@ void CMonster_Server::Hit_Attack(CCollider* pCollider)
 void CMonster_Server::Set_Die()
 {
 	m_IsHit = true;
-	m_bDie = true;
+	m_bDead = true;
 }
 
 void CMonster_Server::Set_SlowMotion(_bool bSlow)
@@ -368,9 +369,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	{ 
 		m_IsHit = true;
 	}
-	if (m_iHp < 0)
-		Set_Die();
-
+	
 	m_fStatusEffects[iStatusEffect] += fDuration;
 
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);
@@ -383,7 +382,7 @@ void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT e
 
 	Protocol::S_COLLISION pkt;
 
-	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
+	pkt.set_ilevel(m_iCurrLevel);
 	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_MONSTER);
 	pkt.set_iobjectid(m_iObjectID);
 
@@ -411,7 +410,7 @@ void CMonster_Server::Find_NearTarget(_float fTimeDelta)
 	{
 		m_fScanCoolDown = 0.f;
 		_float fDistance = 99999.f;
-		CGameObject* pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
+		CGameObject* pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
 		if (pNearTarget != nullptr)
 		{
 			Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -437,14 +436,20 @@ void CMonster_Server::Send_NearTarget()
 
 	Protocol::S_NEARTARGET pkt;
 	
-	pkt.set_ilevel(pGameInstance->Get_CurrLevelIndex());
+	pkt.set_ilevel(m_iCurrLevel);
 	pkt.set_iobjectid(m_iObjectID);
 	pkt.set_ilayer(m_iLayer);
 
-
-	pkt.set_itargetobjectid(m_pNearTarget->Get_ObjectID());
-	pkt.set_itargetobjectlayer(m_pNearTarget->Get_ObjectLayer());
-
+	if (m_pNearTarget == nullptr)
+	{
+		pkt.set_itargetobjectid(-1);
+		pkt.set_itargetobjectlayer(-1);
+	}
+	else
+	{
+		pkt.set_itargetobjectid(m_pNearTarget->Get_ObjectID());
+		pkt.set_itargetobjectlayer(m_pNearTarget->Get_ObjectLayer());
+	}
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
@@ -657,7 +662,7 @@ void CMonster_Server::Send_Monster_Action()
 {
 	Protocol::S_MONSTERSTATE pkt;
 
-	pkt.set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
+	pkt.set_ilevel(m_iCurrLevel);
 	pkt.set_iobjectid(m_iObjectID);
 	pkt.set_strstate(CAsUtils::ToString(m_strAction));
 	if (m_pNearTarget == nullptr)

@@ -14,6 +14,7 @@
 #include "Level_Loading_Server.h"
 #include "Monster_Server.h"
 #include "Monster_Zombie_Server.h"
+#include "ChaosDungean_Server.h"
 
 
 CLevel_Bern_Server::CLevel_Bern_Server()
@@ -59,6 +60,34 @@ HRESULT CLevel_Bern_Server::Initialize()
 
 HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 {
+	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('1') & 0x8000)
+	{
+		if (m_bKey_Lock)
+			return S_OK;
+		m_bKey_Lock = true;
+
+		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL1);
+	}
+
+	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('2') & 0x8000)
+	{
+		if (m_bKey_Lock)
+			return S_OK;
+		m_bKey_Lock = true;
+
+		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL2);
+	}
+
+	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('3') & 0x8000)
+	{
+		if (m_bKey_Lock)
+			return S_OK;
+		m_bKey_Lock = true;
+
+		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL3);
+	}
+
+
 	return S_OK;
 }
 
@@ -221,7 +250,7 @@ void CLevel_Bern_Server::Wait_ClientLevelState(LEVELSTATE eState)
 
 HRESULT CLevel_Bern_Server::Broadcast_PlayerInfo()
 {
-	auto& ObjectList = CGameInstance::GetInstance()->Find_GameObjects(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
+	auto& ObjectList = CGameInstance::GetInstance()->Find_GameObjects(LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
 	if (ObjectList.size() == 0)
 		return S_OK;
@@ -235,7 +264,7 @@ HRESULT CLevel_Bern_Server::Broadcast_PlayerInfo()
 
 		auto tObject = pkt.add_tobject();
 		tObject->set_iobjectid(Object->Get_ObjectID());
-		tObject->set_ilevel(LEVELID::LEVEL_STATIC);
+		tObject->set_ilevel(LEVELID::LEVEL_BERN);
 		tObject->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 
 
@@ -253,8 +282,9 @@ HRESULT CLevel_Bern_Server::Broadcast_PlayerInfo()
 
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
-
+	
+	for (auto& Player : ObjectList)
+		dynamic_cast<CPlayer_Server*>(Player)->Get_GameSession()->Send(pSendBuffer);
 
 	return S_OK;
 }
@@ -274,6 +304,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 			Desc.strFileName = ModelName;
 			Desc.iObjectID = g_iObjectID++;
 			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+			Desc.iLevel = LEVEL_BERN;
 
 			wstring szMonsterName = L"Prototype_GameObject_" + ModelName;
 			CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, szMonsterName, &Desc));
@@ -367,6 +398,32 @@ HRESULT CLevel_Bern_Server::Ready_Events()
 }
 
 
+
+void CLevel_Bern_Server::Enter_ChaosDungean(CHAOSDUNGEANLEVEL eLEVEL)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	vector<CGameObject*> LevelObjects = pGameInstance->Find_GameObjects(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER);
+	vector<CPlayer_Server*> Players;
+
+	for (auto& Object : LevelObjects)
+	{
+		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(Object);
+		if (pPlayer)
+			Players.push_back(pPlayer);
+	}
+
+
+
+	CChaosDungean_Server::DUNGEANDESC tDesc;
+	tDesc.eLevel = eLEVEL;
+	tDesc.Players = Players;
+
+	pGameInstance->Add_GameObject(LEVEL_CHAOS_1, (_uint)LAYER_TYPE::LAYER_BACKGROUND, L"Prototype_GameObject_ChaosDungean", &tDesc);
+
+
+	Safe_Release(pGameInstance);
+}
 
 CLevel_Bern_Server* CLevel_Bern_Server::Create()
 {

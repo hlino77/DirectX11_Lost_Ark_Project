@@ -22,7 +22,7 @@ public:
 	virtual HRESULT Tick(const _float& fTimeDelta) override;
 	virtual HRESULT LateTick(const _float& fTimeDelta) override;
 	virtual HRESULT Render_Debug();
-
+	virtual HRESULT Exit() override;
 private:
 	/* 로딩 다음레벨. */
 	LEVELID			m_eNextLevel = { LEVEL_END };

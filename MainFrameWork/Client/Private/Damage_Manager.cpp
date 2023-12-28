@@ -53,6 +53,8 @@ void CDamage_Manager::Reset()
 		Damage->Set_Active(false);
 
 	m_iDamageIndex = 0;
+
+	m_bStop = false;
 }
 
 void CDamage_Manager::Update_DamageFonts()

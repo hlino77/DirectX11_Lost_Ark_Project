@@ -134,6 +134,11 @@ void CGameInstance::Tick(_float fTimeDelta)
 	m_pLevel_Manager->LateTick(fTimeDelta);
 }
 
+void CGameInstance::FinalTick(_float fTimeDelta)
+{
+	m_pObject_Manager->FinalTick(fTimeDelta);
+}
+
 void CGameInstance::Tick_Server(_float fTimeDelta)
 {
 	m_pEventMgr->Tick(fTimeDelta);
@@ -169,6 +174,11 @@ HRESULT CGameInstance::Add_Timer(const wstring & strTimerTag)
 		return E_FAIL;
 
 	return m_pTimer_Manager->Add_Timer(strTimerTag);
+}
+
+HRESULT CGameInstance::Delete_Timer(const wstring& strTimerTag)
+{
+	return m_pTimer_Manager->Delete_Timer(strTimerTag);
 }
 
 HRESULT CGameInstance::Clear_BackBuffer_View(Vec4 vClearColor)

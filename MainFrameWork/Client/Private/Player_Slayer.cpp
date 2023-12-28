@@ -293,7 +293,7 @@ void CPlayer_Slayer::Send_PlayerInfo()
 	auto tPlayerInfo = pkt.add_tobject();
 
 	tPlayerInfo->set_iobjectid(m_iObjectID);
-	tPlayerInfo->set_ilevel(LEVEL_STATIC);
+	tPlayerInfo->set_ilevel(m_iCurrLevel);
 	tPlayerInfo->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 
 
@@ -608,78 +608,7 @@ HRESULT CPlayer_Slayer::Ready_Coliders()
 
 HRESULT CPlayer_Slayer::Ready_PhysxBoneBranch()
 {
-	m_pModelCom->Play_Animation(10.0f);
-
-
-	CPhysXMgr::GetInstance()->Add_Player(this);
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_04"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_05"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_04"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_05"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	/*{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}*/
+	
 
 	return S_OK;
 }

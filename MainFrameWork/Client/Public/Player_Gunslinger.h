@@ -36,9 +36,10 @@ public:
 	void			Set_Colliders(_float fTimeDelta);
 
 	void			Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2 = false);
-	
+	virtual HRESULT	Ready_PhysxBoneBranch() override;
 public:
 	class CPlayer_Controller_GN* Get_GN_Controller() { return m_pController; }
+
 
 private:
 	virtual HRESULT Ready_Components() override;
@@ -46,7 +47,7 @@ private:
 	HRESULT			Ready_State();
 	HRESULT			Ready_Skill();
 	HRESULT			Ready_Coliders();
-	HRESULT			Ready_PhysxBoneBranch();
+	
 
 private:
 	HRESULT			Ready_SkillUI();

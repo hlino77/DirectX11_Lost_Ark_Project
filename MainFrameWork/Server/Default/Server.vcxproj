@@ -153,6 +153,7 @@
     <ClCompile Include="..\Private\Boss_King_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Server.cpp" />
     <ClCompile Include="..\Private\Camera_Free_Server.cpp" />
+    <ClCompile Include="..\Private\ChaosDungean_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_BoundLand_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Bound_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Stand_Server.cpp" />
@@ -223,6 +224,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Boss_Server.h" />
     <ClInclude Include="..\Public\Camera_Free_Server.h" />
+    <ClInclude Include="..\Public\ChaosDungean_Server.h" />
     <ClInclude Include="..\Public\Common_BT_BoundLand_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Bound_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_BoundLand_Server.h" />

@@ -64,7 +64,7 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	m_strObjectTag = L"Monster_Zombie";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
-
+	m_iCurrLevel = Desc->iLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -81,7 +81,7 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 99999.f;
+	m_iHp = 1000;
 	return S_OK;
 }
 

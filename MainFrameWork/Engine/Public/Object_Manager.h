@@ -33,6 +33,7 @@ public:
 public:
 	void Tick(_float fTimeDelta);
 	void LateTick(_float fTimeDelta);
+	void FinalTick(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
 
 private:

@@ -134,7 +134,7 @@ void CSkill_Server::Set_Die()
 	for (auto& Collider : m_Coliders)
 		Collider.second->SetActive(false);
 
-	m_bDie = true;
+	m_bDead = true;
 }
 
 void CSkill_Server::Find_NearTarget()

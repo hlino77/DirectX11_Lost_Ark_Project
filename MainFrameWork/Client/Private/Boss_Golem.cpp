@@ -51,7 +51,7 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
-
+	m_iCurrLevel = Desc->iLevel;
 
 	
 

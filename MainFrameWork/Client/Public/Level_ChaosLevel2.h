@@ -15,11 +15,11 @@ END
 BEGIN(Client)
 
 
-class CLevel_Bern final : public CLevel
+class CLevel_ChaosLevel2 final : public CLevel
 {
 private:
-	CLevel_Bern(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual ~CLevel_Bern() = default;
+	CLevel_ChaosLevel2(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual ~CLevel_ChaosLevel2() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -66,11 +66,9 @@ private:
 
 	CRenderer* m_pRendererCom = nullptr;
 	//_bool m_bStaticShadow = false;
-private:
-	class CUI_Tool* m_pImGuiManager;
 
 public:
-	static class CLevel_Bern* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static class CLevel_ChaosLevel2* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;
 };
 

@@ -127,6 +127,9 @@
     <Filter Include="02. GameObject\04. Boss\Monster_Golem\Behavior">
       <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. ChaosDungean">
+      <UniqueIdentifier>{905bfbd3-3054-42ed-b6b9-d189078ec2a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -305,6 +308,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_BoundLand_Server.cpp">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChaosDungean_Server.cpp">
+      <Filter>02. GameObject\06. ChaosDungean</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_FirstHit_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChaosDungean_Server.h">
+      <Filter>02. GameObject\06. ChaosDungean</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

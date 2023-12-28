@@ -646,6 +646,18 @@
     <Filter Include="02.GameObjects\Boss\King\Skill">
       <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\03. ChaosDungean">
+      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel1">
+      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel2">
+      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel3">
+      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2375,9 +2387,6 @@
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
@@ -2494,6 +2503,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_King_ChargeSwing.h">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ChaosLevel1.h">
+      <Filter>01.Levels\03. ChaosDungean\ChaosLevel1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ChaosLevel2.h">
+      <Filter>01.Levels\03. ChaosDungean\ChaosLevel2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ChaosLevel3.h">
+      <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4191,9 +4209,6 @@
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
@@ -4311,8 +4326,17 @@
     <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Level_ChaosLevel1.cpp">
+      <Filter>01.Levels\03. ChaosDungean\ChaosLevel1</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\Player_Slayer.cpp">
-      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+      <Filter>02.GameObjects\Player\Player_Slayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_ChaosLevel2.cpp">
+      <Filter>01.Levels\03. ChaosDungean\ChaosLevel2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_ChaosLevel3.cpp">
+      <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

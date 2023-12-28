@@ -10,6 +10,7 @@
 #include "Monster_Reaper_Server.h"
 #include "Monster_Pawn_Server.h"
 #include "Boss_King_Server.h"
+#include "ChaosDungean_Server.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -99,6 +100,10 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	  
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Pawn"),
 		CMonster_Pawn_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungean"),
+		CChaosDungean_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 	Loading_Model_For_Level_Bern();

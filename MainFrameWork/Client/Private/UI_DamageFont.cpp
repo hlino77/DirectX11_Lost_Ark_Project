@@ -227,7 +227,7 @@ HRESULT CUI_DamageFont::Ready_TextBox()
         tTextDesc.szTextBoxTag += m_szRenderTargetIndex;
         tTextDesc.vSize = Vec2(600.f, 80.0f);
         m_vTextBoxScale = tTextDesc.vSize;
-        m_pDamageFontWnd = static_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+        m_pDamageFontWnd = static_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
     
         if (m_pDamageFontWnd == nullptr)
         {

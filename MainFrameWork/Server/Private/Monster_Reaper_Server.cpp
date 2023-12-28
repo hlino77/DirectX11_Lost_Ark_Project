@@ -65,7 +65,7 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 	m_strObjectTag = L"Monster_Reaper";
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
-
+	m_iCurrLevel = Desc->iLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;

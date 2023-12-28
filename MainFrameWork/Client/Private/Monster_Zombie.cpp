@@ -144,7 +144,7 @@ HRESULT CMonster_Zombie::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), TEXT("Prototype_Component_Model_Monster_Zombie"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Component(m_iCurrLevel, TEXT("Prototype_Component_Model_Monster_Zombie"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 

@@ -30,6 +30,7 @@ public:
 		_uint	iLayer;
 		Vec3	vPos;
 		_bool	bInstance = false;
+		_uint	iLevel;
 	}MODELDESC;
 
 public:

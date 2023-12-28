@@ -19,7 +19,7 @@ public:
 
 public:
 	HRESULT			Add_Timer(const wstring& strTimerTag);
-
+	HRESULT			Delete_Timer(const wstring& strTimerTag);
 private:
 	map<const wstring, class CTimer*>		m_Timers;
 

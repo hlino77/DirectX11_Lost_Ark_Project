@@ -94,25 +94,25 @@ HRESULT CUI_Chat::UI_Set()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CUI_ChatFrame* pServerLogo = static_cast<CUI_ChatFrame*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatFrame")));
+	CUI_ChatFrame* pServerLogo = static_cast<CUI_ChatFrame*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatFrame")));
 	if (nullptr == pServerLogo)
 		return E_FAIL;
 	else
 		m_vecUIParts.push_back(pServerLogo);
 
-	CUI_ChatWriteFrame* pServerWnd = static_cast<CUI_ChatWriteFrame*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatWriteFrame")));
+	CUI_ChatWriteFrame* pServerWnd = static_cast<CUI_ChatWriteFrame*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatWriteFrame")));
 	if (nullptr == pServerWnd)
 		return E_FAIL;
 	else
 		m_vecUIParts.push_back(pServerWnd);
 
-	CUI_ChatLanguageIcon* pChatLanguageIcon = static_cast<CUI_ChatLanguageIcon*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatLanguageIcon")));
+	CUI_ChatLanguageIcon* pChatLanguageIcon = static_cast<CUI_ChatLanguageIcon*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatLanguageIcon")));
 	if (nullptr == pChatLanguageIcon)
 		return E_FAIL;
 	else
 		m_vecUIParts.push_back(pChatLanguageIcon);
 
-	CUI_ChatSmallerButton* pChatSmaller = static_cast<CUI_ChatSmallerButton*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatSmallerButton")));
+	CUI_ChatSmallerButton* pChatSmaller = static_cast<CUI_ChatSmallerButton*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ChatSmallerButton")));
 	if (nullptr == pChatSmaller)
 		return E_FAIL;
 	else

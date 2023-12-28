@@ -20,6 +20,7 @@ public:
 	HRESULT Add_GameObject(class CGameObject* pGameObject);
 	void Tick(_float fTimeDelta);
 	void LateTick(_float fTimeDelta);
+	void FinalTick(_float fTimeDelta);
 	
 	void Clear();
 public:
@@ -27,6 +28,7 @@ public:
 	CGameObject* Find_GameObject(const wstring& strObjectTag);
 	CGameObject* Find_GameObject(_int iObjectID);
 	HRESULT Delete_GameObject(const CGameObject* pGameObject);
+
 private:
 	vector<class CGameObject*>	m_GameObjects;
 

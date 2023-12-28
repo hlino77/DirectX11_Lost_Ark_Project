@@ -9,6 +9,9 @@
 #include "Level_Lobby.h"
 #include "Level_ServerSelect.h"
 #include "Level_Tool.h"
+#include "Level_ChaosLevel1.h"
+#include "Level_ChaosLevel2.h"
+#include "Level_ChaosLevel3.h"
 
 #include "UI_Loading.h"
 #include "UI_Manager.h"
@@ -40,13 +43,9 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 	
 		CGameObject* pLoadingUI = pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_LoadingUI"));
 		if (nullptr == pLoadingUI)
-		{
-			pLoadingUI = CUI_Manager::GetInstance()->Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
-			if (nullptr == pLoadingUI)
-				return E_FAIL;
-		}
-		else
-			CUI_Manager::GetInstance()->Add_UI(LEVEL_LOADING, static_cast<CUI*>(pLoadingUI));
+			return E_FAIL;
+		
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_LOADING, static_cast<CUI*>(pLoadingUI));
 	
 	}
 
@@ -100,9 +99,21 @@ HRESULT CLevel_Loading::LateTick(const _float& fTimeDelta)
 		case LEVEL_BERN:
 			pNewLevel = CLevel_Bern::Create(m_pDevice, m_pContext);
 			break;
+		case LEVEL_CHAOS_1:
+			pNewLevel = CLevel_ChaosLevel1::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_CHAOS_2:
+			pNewLevel = CLevel_ChaosLevel2::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_CHAOS_3:
+			pNewLevel = CLevel_ChaosLevel3::Create(m_pDevice, m_pContext);
+			break;
 		}
 
 		if (nullptr == pNewLevel)
+			return E_FAIL;
+
+		if (FAILED(Exit()))
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Open_Level(m_eNextLevel, pNewLevel)))
@@ -118,6 +129,13 @@ HRESULT CLevel_Loading::LateTick(const _float& fTimeDelta)
 HRESULT CLevel_Loading::Render_Debug()
 {
 	
+	return S_OK;
+}
+
+HRESULT CLevel_Loading::Exit()
+{
+	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_LOADING);
+
 	return S_OK;
 }
 

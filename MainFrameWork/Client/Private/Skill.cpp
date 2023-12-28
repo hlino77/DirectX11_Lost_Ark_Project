@@ -151,7 +151,7 @@ void CSkill::Set_Die()
 
 
 
-	m_bDie = true;
+	m_bDead = true;
 }
 
 void CSkill::Find_NearTarget()

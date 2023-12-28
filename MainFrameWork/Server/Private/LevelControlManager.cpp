@@ -20,7 +20,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 {
 	WRITE_LOCK
 
-	_uint iLevel = LEVELID::LEVEL_STATIC;
+	_uint iLevel = LEVELID::LEVEL_BERN;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -137,27 +137,20 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 }
 
 
-
-
 HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerSession, _uint iCurrLevel, _uint iNextLevel)
 {
 	WRITE_LOCK
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObejct(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pOwnerSession->Get_PlayerID()));
-	pPlayer->AddRef();
-	Matrix matWorld = XMMatrixIdentity();
-	
-	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
-	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
-	pPlayer->Get_TransformCom()->Set_Scale(vScale);
-	pGameInstance->Delete_GameObject(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer);
-
 
 	vector<CGameObject*>& CurrLevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
+	pPlayer->Set_CurrLevel(iNextLevel);
+	pPlayer->Set_LevelMove(true);
+
 	{
-		Protocol::S_DELETEGAMEOBJECT tDeletePkt;
+		Protocol::S_DELETEGAMEOBJECT tDeletePkt;	
 
 		tDeletePkt.set_ilevel(iCurrLevel);
 		tDeletePkt.set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -171,10 +164,24 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 
 	}
 
+	Matrix matWorld = XMMatrixIdentity();
+	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
+	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
+	pPlayer->Get_TransformCom()->Set_Scale(vScale);
+
+	while (true)
+	{
+		if (pPlayer->Is_LevelMove() == false)	
+			break;
+	}
+
 	vector<CGameObject*>& NextLevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
 	for (auto& Player : NextLevelPlayers)
 	{
+		if (Player == pPlayer)
+			continue;
+
 		CPlayer_Server* pOtherPlayer = dynamic_cast<CPlayer_Server*>(Player);
 
 		Protocol::S_CREATE_PLAYER tPlayerPkt;
@@ -233,14 +240,6 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 				if (Player != pPlayer)
 					dynamic_cast<CPlayer_Server*>(Player)->Get_GameSession()->Send(pOtherSendBuffer);
 			}
-		}
-
-
-		pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer));
-		if (nullptr == pPlayer)
-		{
-			Safe_Release(pGameInstance);
-			return E_FAIL;
 		}
 	}
 

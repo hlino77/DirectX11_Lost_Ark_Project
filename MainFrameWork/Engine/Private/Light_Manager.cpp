@@ -42,6 +42,7 @@ HRESULT CLight_Manager::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pC
 
 HRESULT CLight_Manager::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 {
+	WRITE_LOCK
 	for (auto& pLight : m_Lights)
 		pLight->Render(pShader, pVIBuffer);
 
@@ -50,7 +51,13 @@ HRESULT CLight_Manager::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 
 HRESULT CLight_Manager::Reset_Lights()
 {
-	Free();
+	WRITE_LOCK
+
+	for (auto& pLight : m_Lights)
+		Safe_Release(pLight);
+
+	m_Lights.clear();
+
 	m_DirectionLightMatrix = XMMatrixIdentity();
 	return S_OK;
 }

@@ -80,6 +80,8 @@ HRESULT CMainApp_Server::Initialize()
 
 void CMainApp_Server::Tick(_float fTimeDelta)
 {
+	m_pGameInstance->FinalTick(fTimeDelta);
+
 	CGameSessionManager::GetInstance()->Tick(fTimeDelta);
 
 	m_pGameInstance->Tick_Server(fTimeDelta);

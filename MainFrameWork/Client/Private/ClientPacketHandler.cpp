@@ -109,6 +109,7 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		Desc.iLayer = pkt.ilayer();
 		Desc.vPos = Vec3(pkt.vpos().data());
 		Desc.bInstance = true;
+		Desc.iLevel = pkt.ilevel();
 
 		wstring szProtoName = L"Prototype_GameObject_" + Desc.strFileName;
 		CMonster* pMonster = dynamic_cast<CMonster*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szProtoName, &Desc));
@@ -243,11 +244,15 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 	pObject->Set_TargetMatrix(matTargetWorld);
 	pObject->Set_WeaponIndex(pkt.iweaponindex());
 
-	if (pkt.itargetobjectid() == -1)
+	_uint iTargetID = pkt.itargetobjectid();
+
+	if (iTargetID == -1)
 		pObject->Reset_NearTarget();
+	else if (iTargetID == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+		pObject->Set_NearTarget(CServerSessionManager::GetInstance()->Get_Player());
 	else
 	{
-		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(tObject.ilevel(), pkt.itargetobjectlayer(), pkt.itargetobjectid());
+		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(tObject.ilevel(), pkt.itargetobjectlayer(), iTargetID);
 		if (pNearTarget == nullptr)
 		{
 			Safe_Release(pGameInstance);
@@ -269,7 +274,6 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 		}
 		pObject->Set_HitObject(pHitObject);
 	}
-
 
 	wstring strState = CAsUtils::ToWString(pkt.strstate());
 	pObject->Set_NoneControlState(strState);
@@ -355,6 +359,8 @@ bool Handel_S_NEARTARGET_Client(PacketSessionRef& session, Protocol::S_NEARTARGE
 
 	if (iTargetID == -1)
 		pObject->Set_NearTarget(nullptr);
+	else if (iTargetID == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+		pObject->Set_NearTarget(CServerSessionManager::GetInstance()->Get_Player());
 	else
 	{
 		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.itargetobjectlayer(), iTargetID);
@@ -464,7 +470,13 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	Desc.iCurrLevel = pkt.ilevel();
 
 	wstring szProtoName = L"Prototype_GameObject_Player_" + Desc.strFileName;
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Add_GameObject(Desc.iCurrLevel, Desc.iLayer, szProtoName, &Desc));
+
+	CPlayer* pPlayer = nullptr;
+	if(Desc.bControl)
+		pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, Desc.iLayer, szProtoName, &Desc));
+	else
+		pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Add_GameObject(Desc.iCurrLevel, Desc.iLayer, szProtoName, &Desc));
+		
 	if (nullptr == pPlayer)
 	{
 		Safe_Release(pGameInstance);
@@ -509,9 +521,11 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 
 	if (iTargetID == -1)
 		pObject->Set_NearTarget(nullptr);
+	else if (iTargetID == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+		pObject->Set_NearTarget(CServerSessionManager::GetInstance()->Get_Player());
 	else
 	{
-		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(LEVEL_STATIC, pkt.itargetobjectlayer(), iTargetID);
+		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.itargetobjectlayer(), iTargetID);
 		pObject->Set_NearTarget(pNearTarget);
 	}
 
@@ -539,7 +553,7 @@ bool Handel_S_DELETEGAMEOBJECT_Client(PacketSessionRef& session, Protocol::S_DEL
 		return true;
 	}
 
-	pGameInstance->Delete_GameObject(pkt.ilevel(), pkt.ilayer(), pObject);
+	pObject->Set_Dead(true);
 
 	Safe_Release(pGameInstance);
 	return true;

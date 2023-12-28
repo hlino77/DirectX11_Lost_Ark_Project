@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Level_Bern.h"
+#include "Level_ChaosLevel2.h"
 #include "GameInstance.h"
 #include "Camera.h"
 #include "Player.h"
@@ -36,12 +36,12 @@
 #include "UI_SpaceBar_Icon.h"
 
 
-CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CLevel_ChaosLevel2::CLevel_ChaosLevel2(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
 }
 
-HRESULT CLevel_Bern::Initialize()
+HRESULT CLevel_ChaosLevel2::Initialize()
 {
 	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState(LEVELSTATE::INITREADY);
 
@@ -55,9 +55,6 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-
-	m_pImGuiManager = CUI_Tool::GetInstance();
-	Safe_AddRef(m_pImGuiManager);
 
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
@@ -107,7 +104,7 @@ HRESULT CLevel_Bern::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
+HRESULT CLevel_ChaosLevel2::Tick(const _float& fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
@@ -115,25 +112,24 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_ChaosLevel2::LateTick(const _float& fTimeDelta)
 {
 	CUI_Tool::GetInstance()->LateTick();
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Render_Debug()
+HRESULT CLevel_ChaosLevel2::Render_Debug()
 {
-	m_pImGuiManager->Tick();
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Exit()
+HRESULT CLevel_ChaosLevel2::Exit()
 {
 	End_Collision();
 	End_Picking();
 	End_Damage();
 	CPhysXMgr::GetInstance()->Reset();
-	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_BERN);
+	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_CHAOS_2);
 	CNavigationMgr::GetInstance()->Reset_Navigation();
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
@@ -142,7 +138,7 @@ HRESULT CLevel_Bern::Exit()
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Lights()
+HRESULT CLevel_ChaosLevel2::Ready_Lights()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -203,14 +199,14 @@ HRESULT CLevel_Bern::Ready_Lights()
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Layer_Camera(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Layer_Camera(const LAYER_TYPE eLayerType)
 {
 
 
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Layer_Player(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Layer_Player(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -221,7 +217,7 @@ HRESULT CLevel_Bern::Ready_Layer_Player(const LAYER_TYPE eLayerType)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -244,7 +240,7 @@ HRESULT CLevel_Bern::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	
 	for (_uint i = 0; i < 1; ++i)
 	{
-		CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+		CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
 		if (nullptr == pObject)
 		{
 			Safe_Release(pGameInstance);
@@ -261,7 +257,7 @@ HRESULT CLevel_Bern::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Layer_Monster(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Layer_Monster(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -289,62 +285,64 @@ HRESULT CLevel_Bern::Ready_Layer_Monster(const LAYER_TYPE eLayerType)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_ChatUI"));
+	LEVELID eLevel = LEVEL_BERN;
+
+	CGameObject* pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChatUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
 	if (L"Gunslinger" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
 	{
-		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityGNUI"));
+		pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityGNUI"));
 		if (nullptr == pUI)
 			return E_FAIL;
 		else
-			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+			CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 	}
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerMPUI"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerMPUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SpeechBubble"), 
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_SpeechBubble"),
 		CServerSessionManager::GetInstance()->Get_Player());
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_QuickSkillUI"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_QuickSkillUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SpaceBarIcon"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_SpaceBarIcon"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 	
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Layer_Effect(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Layer_Effect(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -356,7 +354,7 @@ HRESULT CLevel_Bern::Ready_Layer_Effect(const LAYER_TYPE eLayerType)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
+HRESULT CLevel_ChaosLevel2::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -381,7 +379,7 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 
 	CameraDesc.pPlayer = pPlayer;
 
-	CGameObject* pCamera = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_Camera_Player"), &CameraDesc);
+	CGameObject* pCamera = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, _uint(eLayerType), TEXT("Prototype_GameObject_Camera_Player"), &CameraDesc);
 	if (pCamera == nullptr)
 		return E_FAIL;
 
@@ -394,17 +392,11 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 
 
 
-HRESULT CLevel_Bern::Send_UserInfo()
+HRESULT CLevel_ChaosLevel2::Send_UserInfo()
 {
 	if (CServerSessionManager::GetInstance()->Get_Player() == nullptr)
 	{
-		Protocol::S_LOGIN pkt;
-
-		pkt.set_iclass(CServerSessionManager::GetInstance()->Get_Class());
-		pkt.set_strnickname(CAsUtils::ToString(CServerSessionManager::GetInstance()->Get_NickName()));
-
-		SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
-		CServerSessionManager::GetInstance()->Send(pSendBuffer);
+		return E_FAIL;
 	}
 	else
 	{
@@ -413,12 +405,12 @@ HRESULT CLevel_Bern::Send_UserInfo()
 		Protocol::S_PLAYERLEVELMOVE pkt;
 
 		pkt.set_icurrlevel(pPlayer->Get_CurrLevel());
-		pkt.set_inextlevel(LEVELID::LEVEL_BERN);
+		pkt.set_inextlevel(LEVELID::LEVEL_CHAOS_2);
 
 		SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 		CServerSessionManager::GetInstance()->Send(pSendBuffer);
 
-		pPlayer->Set_CurrLevel(LEVELID::LEVEL_BERN);
+		pPlayer->Set_CurrLevel(LEVELID::LEVEL_CHAOS_2);
 		Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 		pPlayer->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
@@ -429,7 +421,7 @@ HRESULT CLevel_Bern::Send_UserInfo()
 	return S_OK;
 }
 
-void CLevel_Bern::Send_LevelState(LEVELSTATE eState)
+void CLevel_ChaosLevel2::Send_LevelState(LEVELSTATE eState)
 {
 	Protocol::S_LEVEL_STATE pkt;
 	pkt.set_ilevelstate((uint32)eState);
@@ -438,7 +430,7 @@ void CLevel_Bern::Send_LevelState(LEVELSTATE eState)
 	CServerSessionManager::GetInstance()->Get_ServerSession()->Send(sendBuffer);
 }
 
-void CLevel_Bern::Wait_ServerLevelState(LEVELSTATE eState)
+void CLevel_ChaosLevel2::Wait_ServerLevelState(LEVELSTATE eState)
 {
 	ServerSessionRef& ServerSession = CServerSessionManager::GetInstance()->Get_ServerSession();
 
@@ -450,7 +442,7 @@ void CLevel_Bern::Wait_ServerLevelState(LEVELSTATE eState)
 }
 
 
-HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
+HRESULT CLevel_ChaosLevel2::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -543,13 +535,13 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 }
 
 
-HRESULT CLevel_Bern::Ready_Events()
+HRESULT CLevel_ChaosLevel2::Ready_Events()
 {
 
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Ready_Renderer()
+HRESULT CLevel_ChaosLevel2::Ready_Renderer()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -565,7 +557,7 @@ HRESULT CLevel_Bern::Ready_Renderer()
 }
 
 
-void CLevel_Bern::Set_CheckGruop()
+void CLevel_ChaosLevel2::Set_CheckGruop()
 {
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
@@ -574,7 +566,7 @@ void CLevel_Bern::Set_CheckGruop()
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS);
 }
 
-void CLevel_Bern::Start_Collision()
+void CLevel_ChaosLevel2::Start_Collision()
 {
 	Set_CheckGruop();
 
@@ -614,7 +606,7 @@ void CLevel_Bern::Start_Collision()
 	});
 }
 
-void CLevel_Bern::Start_Damage()
+void CLevel_ChaosLevel2::Start_Damage()
 {
 	m_pDamageThread = new thread([=]()
 		{
@@ -652,7 +644,7 @@ void CLevel_Bern::Start_Damage()
 		});
 }
 
-void CLevel_Bern::End_Damage()
+void CLevel_ChaosLevel2::End_Damage()
 {
 	if (m_pDamageThread == nullptr)
 		return;
@@ -664,7 +656,7 @@ void CLevel_Bern::End_Damage()
 }
 
 
-void CLevel_Bern::End_Picking()
+void CLevel_ChaosLevel2::End_Picking()
 {
 	if (m_pPickingThread == nullptr)
 		return;
@@ -675,7 +667,7 @@ void CLevel_Bern::End_Picking()
 	Safe_Delete(m_pPickingThread);
 }
 
-void CLevel_Bern::End_Collision()
+void CLevel_ChaosLevel2::End_Collision()
 {
 	if (m_pCollisionThread == nullptr)
 		return;
@@ -686,22 +678,20 @@ void CLevel_Bern::End_Collision()
 	Safe_Delete(m_pCollisionThread);
 }
 
-CLevel_Bern * CLevel_Bern::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CLevel_ChaosLevel2 * CLevel_ChaosLevel2::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CLevel_Bern*	pInstance = new CLevel_Bern(pDevice, pContext);
+	CLevel_ChaosLevel2*	pInstance = new CLevel_ChaosLevel2(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed to Created : CLevel_GamePlay");
+		MSG_BOX("Failed to Created : CLevel_ChaosLevel2");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CLevel_Bern::Free()
+void CLevel_ChaosLevel2::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pImGuiManager);
 }

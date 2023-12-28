@@ -45,6 +45,7 @@ HRESULT CBoss::Initialize(void* pArg)
 	m_strObjectTag = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
+	m_iCurrLevel = Desc->iLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -208,7 +209,7 @@ void CBoss::Set_Die()
 	for (auto& Collider : m_Coliders)
 		Collider.second->SetActive(false);
 
-	m_bDie = true;
+	m_bDead = true;
 }
 
 HRESULT CBoss::Ready_Components()

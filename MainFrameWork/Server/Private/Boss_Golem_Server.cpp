@@ -62,6 +62,7 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_iLayer = Desc->iLayer;
 	m_strObjectTag = L"Boss";
 	m_iObjType = OBJ_TYPE::BOSS;
+	m_iCurrLevel = Desc->iLevel;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;

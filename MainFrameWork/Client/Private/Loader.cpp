@@ -148,6 +148,15 @@ _int CLoader::Loading()
 	case LEVEL_BERN:
 		hr = Loading_For_Level_Bern();
 		break;
+	case LEVEL_CHAOS_1:
+		hr = Loading_For_Level_Chaos1();
+		break;
+	case LEVEL_CHAOS_2:
+		hr = Loading_For_Level_Chaos2();
+		break;
+	case LEVEL_CHAOS_3:
+		hr = Loading_For_Level_Chaos3();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -465,9 +474,9 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CUI_Server::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingUI"),
+	/*if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingUI"),
 		CUI_Loading::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 
 	Safe_Release(pGameInstance);
@@ -614,6 +623,185 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	Safe_Release(pGameInstance);
 
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_Chaos1()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
+	pUIManager->Loading_UI(0.1f);
+
+
+	{
+		wstring strFileName = L"Monster_Zombie";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(800.f);
+	}
+
+	{
+		wstring strFileName = L"Monster_Ghoul";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(15600.f);
+	}
+
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_Chaos2()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
+	pUIManager->Loading_UI(0.1f);
+
+	{
+		wstring strFileName = L"Monster_Plant";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(300.f);
+	}
+
+
+
+
+	{
+		wstring strFileName = L"Boss_Golem";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(600.f);
+	}
+
+	
+	{
+
+		wstring strFileName = L"Monster_Reaper";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1200.f);
+	}
+
+	{
+		wstring strFileName = L"Reaper_Wp";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1600.f);
+	}
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_Chaos3()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
+	pUIManager->Loading_UI(0.1f);
+
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	{
+		wstring strFileName = L"Boss_King";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(100.f);
+	}
+
+	{
+		wstring strFileName = L"Boss_Wp_KingSword";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(300.f);
+	}
+	{
+
+		wstring strFileName = L"Monster_Pawn";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(900.f);
+	}
+
+	{
+		wstring strFileName = L"Weapon_Mn_PawnShield";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1200.f);
+	}
+	{
+		wstring strFileName = L"Weapon_Mn_PawnSword";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1600.f);
+	}
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
@@ -1025,125 +1213,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		pUIManager->Loading_UI(1200.f);
 	}
 
-	{
-		wstring strFileName = L"Monster_Zombie";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Monster_Plant";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Boss_Golem";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Monster_Ghoul";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-	{
-
-		wstring strFileName = L"Monster_Reaper";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Reaper_Wp";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Boss_King";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Boss_Wp_KingSword";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-	{
-
-		wstring strFileName = L"Monster_Pawn";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-
-	{
-		wstring strFileName = L"Weapon_Mn_PawnShield";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
-	}
-	{
-		wstring strFileName = L"Weapon_Mn_PawnSword";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1600.f);
-	}
+	
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

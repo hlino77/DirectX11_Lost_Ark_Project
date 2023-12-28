@@ -178,6 +178,27 @@ void CPhysXMgr::Set_BranchesToBone()
 
 void CPhysXMgr::Reset()
 {
+	WRITE_LOCK
+	for (auto& Player : m_PlayerInfos)
+	{
+		for (auto& Branch : Player.Branches)
+		{
+			for (auto& Frame : Branch.Frames)
+			{
+				m_PxScene->removeActor(*Frame);
+				Frame->release();
+				Frame = nullptr;
+			}
+		}
+		if (Player.pPlayerActor)
+		{
+			m_PxScene->removeActor(*Player.pPlayerActor);
+			Player.pPlayerActor->release();
+			Player.pPlayerActor = nullptr;
+		}
+	}
+
+	m_PlayerInfos.clear();
 }
 
 void CPhysXMgr::Add_Player(CGameObject* pPlayer)

@@ -24,6 +24,7 @@ public:
 		wstring strFileName;
 		_int	iObjectID;
 		_uint	iLayer;
+		_uint	iLevel;
 	}MODELDESC;
 
 public:

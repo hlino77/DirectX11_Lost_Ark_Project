@@ -174,7 +174,7 @@ void CUI::Moving_Rect()
 
 void CUI::RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec)
 {
-	auto newEnd = std::remove_if(vec.begin(), vec.end(), [](CGameObject* item) { return item->Is_Die(); });
+	auto newEnd = std::remove_if(vec.begin(), vec.end(), [](CGameObject* item) { return item->Is_Dead(); });
 	vec.erase(newEnd, vec.end());
 }
 

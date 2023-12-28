@@ -352,7 +352,6 @@ void CUI_SkillIcon_Frame::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    Safe_Release(m_pSkill);
     Safe_Release(m_pTextureCom);//엠프티
     Safe_Release(m_pTextureCom_Skill);//테스트용
     Safe_Release(m_pTextureCom_Shine);//마우스 올릴시 빛나는 이펙트

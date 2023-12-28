@@ -32,6 +32,19 @@ HRESULT CTimer_Manager::Add_Timer(const wstring& strTimerTag)
 	return S_OK;
 }
 
+HRESULT CTimer_Manager::Delete_Timer(const wstring& strTimerTag)
+{
+	auto	iter = m_Timers.find(strTimerTag);
+
+	if (iter == m_Timers.end())
+		return E_FAIL;
+
+	Safe_Release((*iter).second);
+	m_Timers.erase(iter);
+
+	return S_OK;
+}
+
 
 
 

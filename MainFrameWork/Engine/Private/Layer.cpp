@@ -23,7 +23,7 @@ HRESULT CLayer::Add_GameObject(CGameObject * pGameObject)
 
 void CLayer::Tick(_float fTimeDelta)
 {
-	READ_LOCK
+	WRITE_LOCK
 	for (auto& pGameObject : m_GameObjects)
 	{
 		if (nullptr != pGameObject && pGameObject->Is_Active())
@@ -33,11 +33,26 @@ void CLayer::Tick(_float fTimeDelta)
 
 void CLayer::LateTick(_float fTimeDelta)
 {
-	READ_LOCK
+	WRITE_LOCK
 	for (auto& pGameObject : m_GameObjects)
 	{
 		if (nullptr != pGameObject && pGameObject->Is_Active())
 			pGameObject->LateTick(fTimeDelta);
+	}
+}
+
+void CLayer::FinalTick(_float fTimeDelta)
+{
+	WRITE_LOCK
+	for (auto& iter = m_GameObjects.begin(); iter != m_GameObjects.end();)
+	{
+		if ((*iter)->Is_Dead())
+		{
+			Safe_Release(*iter);
+			iter = m_GameObjects.erase(iter);
+		}
+		else
+			++iter;
 	}
 }
 

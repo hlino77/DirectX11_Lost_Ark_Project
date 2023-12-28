@@ -616,7 +616,7 @@ void CPlayer::Send_State(const wstring& szName)
 
 	auto tPlayer = pkt.mutable_tobject();
 
-	tPlayer->set_ilevel(LEVEL_STATIC);
+	tPlayer->set_ilevel(m_iCurrLevel);
 	tPlayer->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 	tPlayer->set_iobjectid(m_iObjectID);
 

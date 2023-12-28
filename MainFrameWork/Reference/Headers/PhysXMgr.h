@@ -85,17 +85,9 @@ private:
 	PxDefaultCpuDispatcher* m_PxDispatcher = nullptr;
 	PxScene* m_PxScene = nullptr;
 
-
-
-	map<wstring, vector<PxTriangleMeshGeometry*>> m_ColMesheGeom;
+ 
 	vector<PLAYERDESC> m_PlayerInfos;
 
-
-	
-
-	vector<PxRigidDynamic*> m_TestBones;
-	vector<PxRigidDynamic*> m_TestFrames;
-	vector<PxSphericalJoint*> m_Joints;
 	USE_LOCK
 public:
 	virtual void Free() override;

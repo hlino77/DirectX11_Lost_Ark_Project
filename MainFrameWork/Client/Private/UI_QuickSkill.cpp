@@ -63,7 +63,7 @@ HRESULT CUI_QuickSkill::UI_Set()
 
 	for (size_t i = 0; i < 8; i++)
 	{
-		pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SkillFrame")
+		pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SkillFrame")
 		, &i));
 		if (nullptr != pUI)
 		{
