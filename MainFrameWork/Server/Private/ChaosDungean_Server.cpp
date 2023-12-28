@@ -208,14 +208,14 @@ void CChaosDungean_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 
 
 	{
-		ModelName = L"Monster_" + ModelName;
+		wstring szComponentName = L"Monster_" + ModelName;
 		CMonster_Server::MODELDESC Desc;
 		Desc.strFileName = ModelName;
 		Desc.iObjectID = g_iObjectID++;
 		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
 		Desc.iLevel = iLevel;
 
-		wstring szMonsterName = L"Prototype_GameObject_" + ModelName;
+		wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
 		CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(iLevel, Desc.iLayer, szMonsterName, &Desc));
 		if (pMonster == nullptr)
 			return;
@@ -270,14 +270,14 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 
 	{
 
-		ModelName = L"Boss_" + ModelName;
+		wstring szComponentName = L"Boss_" + ModelName;
 		CBoss_Server::MODELDESC Desc;
 		Desc.strFileName = ModelName;
 		Desc.iObjectID = g_iObjectID++;
 		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
 		Desc.iLevel = iLevel;
 
-		wstring szMonsterName = L"Prototype_GameObject_" + ModelName;
+		wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
 		CBoss_Server* pBoss = dynamic_cast<CBoss_Server*>(pGameInstance->Add_GameObject(iLevel, Desc.iLayer, szMonsterName, &Desc));
 		if (pBoss == nullptr)
 			return;

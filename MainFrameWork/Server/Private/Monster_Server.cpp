@@ -28,14 +28,14 @@ HRESULT CMonster_Server::Initialize_Prototype()
 HRESULT CMonster_Server::Initialize(void* pArg)
 {
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
+	m_strObjectTag = Desc->strFileName;
+	m_szModelName = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
 	m_iCurrLevel = Desc->iLevel;
 
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;

@@ -39,7 +39,6 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 

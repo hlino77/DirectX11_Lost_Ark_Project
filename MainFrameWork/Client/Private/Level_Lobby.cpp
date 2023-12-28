@@ -160,7 +160,7 @@ HRESULT CLevel_Lobby::Ready_CameraFree(const LAYER_TYPE eLayerType)
 	CameraDesc.TransformDesc.fSpeedPerSec = 5.f;
 	CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
-	CGameObject* pCamera = pGameInstance->Add_GameObject(LEVEL_LOBBY, _uint(eLayerType), TEXT("Prototype_GameObject_Camera"), &CameraDesc);
+	CGameObject* pCamera = pGameInstance->Add_GameObject(LEVEL_LOBBY, _uint(eLayerType), TEXT("Prototype_GameObject_Camera_Free"), &CameraDesc);
 	if (pCamera == nullptr)
 		return E_FAIL;
 
