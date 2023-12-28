@@ -24,7 +24,7 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
 {
     //float2 vUV_TileOffset = (1.f / vUV_TileCount) * vUV_TileIndex;
     //float2 vNewUV = In.vTexUV + vUV_Offset * vUV_Direction;
-    float2 vNewUV = (In.vTexUV + vUV_Offset) * vUV_Direction;
+    float2 vNewUV = (In.vTexUV / vUV_TileCount * (vUV_TileIndex + 1.f) + vUV_Offset) * vUV_Direction;
     
     float fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);    
@@ -36,7 +36,7 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
     }
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
+        fMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV).r;
         clip(fMask);
     }
     

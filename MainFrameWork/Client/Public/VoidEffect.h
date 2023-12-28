@@ -72,7 +72,9 @@ public:
 
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
 
-	struct tagEffectVariables
+	_bool	m_IsSequence = false;
+
+	struct tagFX_Variables
 	{
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
 		Vec2	vUV_Direction = Vec2(1.f, 1.f);
@@ -81,12 +83,18 @@ public:
 		Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);
 	} m_Variables;
 
-	struct tagIntensity
+	struct tagFX_Intensity
 	{
 		_float	fBloom = 0.f;
 		_float	fRadial = 0.f;
 		Vec2	vPadding;
 	} m_Intensity;
+	
+	struct tagFX_Billboard
+	{
+		_int	iBillboard = true;
+		Vec3	vPadding;
+	} m_Billboard;
 
 	//_bool	m_bBlendNonBlend = 0.f;
 

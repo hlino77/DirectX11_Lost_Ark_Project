@@ -8,8 +8,8 @@ VS_OUT_FXTEX VS_MAIN_FXTEX( /* 정점 */FXTEX_IN In)
 {
     VS_OUT_FXTEX Out = (VS_OUT_FXTEX) 0;
 
-    vector vRight = WorldMatrix._11_12_13_14;
-    vector vUp = WorldMatrix._21_22_23_24;
+    float4 vRight = WorldMatrix._11_12_13_14;
+    float4 vUp = WorldMatrix._21_22_23_24;
 
     Out.vPosition = mul(float4(In.vPosition, 1.f), WorldMatrix);
 	Out.vPSize = float2(In.vPSize.x * length(vRight), In.vPSize.y * length(vUp));
@@ -20,9 +20,7 @@ VS_OUT_FXTEX VS_MAIN_FXTEX( /* 정점 */FXTEX_IN In)
 struct GS_OUT
 {
 	float4		vPosition : SV_POSITION;
-    //float4		vNormal : NORMAL;
 	float2		vTexcoord : TEXCOORD0;
-    //float4		vProjPos : TEXCOORD1;
 };
 
 /* 여러개의 정점을 생성한다. */
@@ -31,8 +29,11 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 {
 	GS_OUT		Out[4];
 
-	/* 받아온 정점을 기준으로하여 사각형을 구성하기위한 정점 여섯개를 만들거야. */
-    float3  vLook = CameraPosition() - In[0].vPosition.xyz;
+    float3 vLook = float3(0.f, 0.f, 0.f);
+    if (bBillboard)
+        vLook = CameraPosition() - In[0].vPosition.xyz;
+    else
+        vLook = WorldMatrix._31_32_33;
 
 	float3	vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * In[0].vPSize.x * 0.5f;
 	float3	vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;
@@ -76,22 +77,23 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 /* 전달받은 픽셀의 정보를 이용하여 픽셀의 최종적인 색을 결정하자. */
 float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
 {
-    float2 vNewUV = In.vTexcoord;
-    float  fMask = 0.f;
+    float2 vNewUV = ((In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset) * vUV_Direction;
+    
+    float  fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);
-     
+
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, In.vTexcoord).rg;
+        vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
         vNewUV += (vNewUV - 0.5f) * 2.f;
-    }   
+    }
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
+        fMask = g_MaskTexture.Sample(LinearSampler, In.vTexcoord).r;
         clip(fMask);
     }
-    
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
     vColor.a = fMask;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
@@ -112,14 +114,14 @@ float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
         //}
     }
     
-    return vColor;
+    return vColor + vColor_Offset;
 }
 
 technique11 DefaultTechnique
 {
 	pass Default
 	{
-		SetRasterizerState(RS_Default);
+        SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 

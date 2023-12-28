@@ -15,6 +15,9 @@ HRESULT CVIBuffer_Point::Initialize_Prototype()
 {
 	m_iStride = sizeof(VTXPOINT);
 	m_iNumVertices = 1;
+	m_iNumVertexBuffers = 1;
+	m_iNumPrimitives = 1;
+	m_iNumIndicesofPrimitive = 1;
 	/* 정점버퍼와 인덱스 버퍼를 만드낟. */
 	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
 
