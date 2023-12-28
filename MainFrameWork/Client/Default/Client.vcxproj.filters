@@ -646,6 +646,105 @@
     <Filter Include="02.GameObjects\Boss\King\Skill">
       <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select">
+      <UniqueIdentifier>{70a0d08f-44e8-4e69-a9a1-ea96cf6b92e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Gunslinger">
+      <UniqueIdentifier>{d502c6ff-6f13-48e8-80be-0e9a983449a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Slayer">
+      <UniqueIdentifier>{d797954d-9e20-41b8-a93d-89e3e640ab67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer">
+      <UniqueIdentifier>{9386f95b-4a3e-485e-840b-e48594287d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Controller_WDR">
+      <UniqueIdentifier>{12ce76bb-fbdb-475c-bfb3-bfd731547edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Part_WDR">
+      <UniqueIdentifier>{3a7f65fe-549a-4367-9022-4271f6452994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR">
+      <UniqueIdentifier>{26d026f4-5c43-4f57-900f-0cab2479deed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR">
+      <UniqueIdentifier>{59801178-babd-4604-994c-0ce74515d552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Idle">
+      <UniqueIdentifier>{dc060835-68de-4c51-8a3d-8281a6bb05b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Run">
+      <UniqueIdentifier>{61a02eb6-58e6-4901-b814-3372c59e002a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dash">
+      <UniqueIdentifier>{2aa2f1ec-8a94-4775-917f-381a26442577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Attack">
+      <UniqueIdentifier>{9220095d-5429-4b7a-bc0a-480273277101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Identity">
+      <UniqueIdentifier>{70f07533-730a-4493-8e91-642ca19f043f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Idle">
+      <UniqueIdentifier>{f0b07e9b-304e-4e81-8aa8-d8ee2d723d3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack">
+      <UniqueIdentifier>{5eb09a2c-c4e1-4c24-a848-57e40b9c2bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Skill">
+      <UniqueIdentifier>{0e0e4148-ffb7-434a-b6f9-43400f9de521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill">
+      <UniqueIdentifier>{0de5baba-5b3e-46ab-b290-f217b349b303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\EndurePain">
+      <UniqueIdentifier>{bc2814b7-d33e-4058-a961-9ab7f161f0d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\EarthEater">
+      <UniqueIdentifier>{de47ef54-f61c-44f3-bf55-9188d7e7458f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\FullSwing">
+      <UniqueIdentifier>{89b286fb-1170-4fac-8be7-4e72fcf21399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PerfectSwing">
+      <UniqueIdentifier>{2c6845db-cc84-49b2-b80c-76137cf6fad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\SizemicHammer">
+      <UniqueIdentifier>{51631d04-f151-45be-b28c-3f59ae34fcff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\HeavyCrush">
+      <UniqueIdentifier>{e9b3e281-dcdf-42ba-8579-ead6d1db0758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerStrike">
+      <UniqueIdentifier>{a8bee650-2532-437d-8d90-fe2d383943f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerShoulder">
+      <UniqueIdentifier>{33ac6b7f-5d0d-4eb1-ac8a-af191c58a7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EndurePain">
+      <UniqueIdentifier>{9f83da90-bc42-4086-8d2f-cd29329a9f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater">
+      <UniqueIdentifier>{b42d1f6a-fcd0-4118-9f83-fff0bbf9dc6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing">
+      <UniqueIdentifier>{ba6d41a0-9f6e-4230-b2dd-2d2c51c7ab46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\HeavyCrush">
+      <UniqueIdentifier>{378c92f8-5766-4647-b1e8-49c7938495ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerShoulder">
+      <UniqueIdentifier>{2e3d2b6b-83e6-43ea-80a0-c5a3ff81a326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\SizemicHammer">
+      <UniqueIdentifier>{6fa156a9-60ba-47ff-91eb-9c1d921736a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PerfectSwing">
+      <UniqueIdentifier>{4934bee0-8504-436f-b4fa-51b8cd0db6b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike">
+      <UniqueIdentifier>{a72e37d8-f046-422e-82dc-f4bb8ed80dc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2374,11 +2473,7 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Golem.h" />
     <ClInclude Include="..\Public\UI.h" />
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
@@ -2495,6 +2590,90 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_King_ChargeSwing.h">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Select.h">
+      <Filter>02.GameObjects\Player\Player_Select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Select_WR.h">
+      <Filter>02.GameObjects\Player\Player_Select\Slayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Select_GN.h">
+      <Filter>02.GameObjects\Player\Player_Select\Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Destroyer.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_WDR.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Part_WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Controller_WDR.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Controller_WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Idle.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Run.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Dash.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Iden_Idle.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Iden_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Iden_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Iden_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Iden_Attack_4.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Identity.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Iden_Skill.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_EarthEater.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\EarthEater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_EndurePain.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\EndurePain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_FullSwing.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\FullSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_HeavyCrush.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\HeavyCrush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_PowerShoulder.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerShoulder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_PerfectSwing.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\PerfectSwing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_PowerStrike.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerStrike</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_WDR_SizemicHammer.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\SizemicHammer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_EndurePain.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EndurePain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4194,11 +4373,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Golem.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
@@ -4315,6 +4490,90 @@
     </ClCompile>
     <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Select.cpp">
+      <Filter>02.GameObjects\Player\Player_Select</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Select_WR.cpp">
+      <Filter>02.GameObjects\Player\Player_Select\Slayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Select_GN.cpp">
+      <Filter>02.GameObjects\Player\Player_Select\Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Destroyer.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_WDR.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Part_WDR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Controller_WDR.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Controller_WDR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Idle.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Run.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Dash.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Iden_Idle.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Iden_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Iden_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Iden_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Iden_Attack_4.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Identity.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Iden_Skill.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Identity\Iden_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_EarthEater.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\EarthEater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_EndurePain.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\EndurePain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_FullSwing.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\FullSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_HeavyCrush.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\HeavyCrush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_PowerShoulder.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerShoulder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_PerfectSwing.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\PerfectSwing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_PowerStrike.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerStrike</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_WDR_SizemicHammer.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\Skill_WDR\SizemicHammer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_EndurePain.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EndurePain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

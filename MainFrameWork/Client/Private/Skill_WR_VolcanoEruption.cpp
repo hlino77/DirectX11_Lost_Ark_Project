@@ -43,6 +43,7 @@ HRESULT CSkill_WR_VolcanoEruption::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.f);
 	Proj_Desc.iDamage = 200.f;
 	Proj_Desc.fRepulsion = 35.f;
+	Proj_Desc.bUseProjPos = true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
 	return S_OK;

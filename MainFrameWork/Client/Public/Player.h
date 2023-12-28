@@ -149,6 +149,9 @@ public:
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
 	void					Set_SuperArmorState(_bool IsSuperArmor) { m_bInvincible = IsSuperArmor; }
 
+	const _bool&			Is_SuperiorArmor() { return  m_IsSuperiorArmor; }
+	void					Set_SuperiorArmorState(_bool IsSuperiorArmor) { m_IsSuperiorArmor = IsSuperiorArmor; }
+
 	void					Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
 
 
@@ -204,6 +207,8 @@ protected:
 	/* 플레이어 변수 설정 */
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
+
+	_bool	m_IsSuperiorArmor = false;
 
 public:
 	virtual void Free();

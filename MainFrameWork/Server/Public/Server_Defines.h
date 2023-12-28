@@ -63,7 +63,7 @@ namespace Server
 	};
 
 
-	enum class CHR_CLASS { GUNSLINGER, SLAYER, CLASSEND };
+	enum class CHR_CLASS { GUNSLINGER, SLAYER, DESTROYER, CLASSEND };
 
 
 	enum class STATUSEFFECT { STUN, EFFECTEND };

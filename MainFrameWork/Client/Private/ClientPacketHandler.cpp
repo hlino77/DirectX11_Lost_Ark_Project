@@ -449,6 +449,9 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	case (_uint)CHR_CLASS::SLAYER:
 		Desc.strFileName = L"WR";
 		break;
+	case (_uint)CHR_CLASS::DESTROYER:
+		Desc.strFileName = L"WDR";
+		break;
 	}
 
 	Matrix matWorld(pkt.matworld().data());

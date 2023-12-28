@@ -72,6 +72,9 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		case (_uint)CHR_CLASS::SLAYER:
 			Desc.strFileName = L"WR";
 			break;
+		case (_uint)CHR_CLASS::DESTROYER:
+			Desc.strFileName = L"WDR";
+			break;
 		}
 		Desc.iObjectID = g_iObjectID++;
 		pGameSession->Set_PlayerID(Desc.iObjectID);

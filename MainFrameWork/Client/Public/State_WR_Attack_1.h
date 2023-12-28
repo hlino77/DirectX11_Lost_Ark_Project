@@ -34,7 +34,6 @@ private:
 
 	_bool m_IsAttackContinue = false;
 
-
 public:
 	static CState_WR_Attack_1* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;

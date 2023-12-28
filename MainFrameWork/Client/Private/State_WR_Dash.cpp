@@ -43,7 +43,7 @@ void CState_WR_Dash::Enter_State()
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_SkillEndMessage();
-	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos(), 3.f);
+	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_WR_Dash::Tick_State(_float fTimeDelta)
@@ -53,6 +53,7 @@ void CState_WR_Dash::Tick_State(_float fTimeDelta)
 
 void CState_WR_Dash::Exit_State()
 {
+	m_pController->Get_DashEndMessage(3.f);
 }
 
 void CState_WR_Dash::Tick_State_Control(_float fTimeDelta)

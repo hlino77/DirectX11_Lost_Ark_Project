@@ -462,9 +462,6 @@
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>01.Utiltiy\11. SoundMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_Skill.h">
-      <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\BehaviorTree.h" />
     <ClInclude Include="..\Public\BindShaderDesc.h" />
     <ClInclude Include="..\Public\PartObject.h" />
@@ -577,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\RandomManager.h">
       <Filter>01.Utiltiy\13.Random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Skill.h">
+      <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

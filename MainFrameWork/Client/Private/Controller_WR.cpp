@@ -120,7 +120,7 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 			m_iIdentityGage = -1;
 		}
 	}
-	if (false == m_IsIdentity && -1 == m_iIdentityGage)
+	else if (false == m_IsIdentity && -1 == m_iIdentityGage)
 	{
 		m_fIdenTimeAcc += fTimeDelta;
 		if (m_fIdenCoolTime <= m_fIdenTimeAcc)

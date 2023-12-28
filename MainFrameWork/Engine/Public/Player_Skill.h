@@ -34,9 +34,8 @@ public:
 	virtual HRESULT			Ready_Collider() { return S_OK; };
 	
 public:
-	virtual HRESULT			Increase_Player_Stat() { return S_OK; }
-	virtual HRESULT			Decrease_Player_Stat() { return S_OK; }
-	virtual HRESULT			Restore_Player_Stat()  { return S_OK; }
+	virtual _float			Change_Player_Status() { return -1.f; }
+	virtual _float			Restore_Player_Status()  { return -1.f; }
 
 
 public:

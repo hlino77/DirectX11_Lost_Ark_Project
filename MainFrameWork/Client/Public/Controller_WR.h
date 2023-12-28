@@ -52,7 +52,7 @@ private:
 
 	_bool	m_IsIdentity = { false };
 	_int	m_iIdentityGage = { 0 };
-	_uint	m_iMaxGage = { 10 };
+	_int	m_iMaxGage = { 30 };
 	_float  m_fTimdeAcc = { 0.f };
 
 	_float	m_fIdenTimeAcc = { 0.f };

@@ -109,8 +109,6 @@ _bool COBBCollider::Intersects_Box(const BoundingBox& Collier)
 	return m_tBoundingBox.Intersects(Collier);
 }
 
-
-
 void COBBCollider::Set_StaticBoundingBox()
 {
 	Vec3 vPos = dynamic_cast<CTransform*>(m_pOwner->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);

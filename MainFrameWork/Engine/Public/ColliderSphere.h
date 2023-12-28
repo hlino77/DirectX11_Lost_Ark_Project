@@ -22,7 +22,6 @@ public:
 	virtual _bool	Intersects_Bounding(Super* other)						override;
 	virtual _bool	Intersects_Box(const BoundingBox& Collider) override;
 	
-	
 	void			Set_Center(Vec3 vPos) { m_tBoundingSphere.Center = vPos; }
 	void			Set_Center_ToBone();
 

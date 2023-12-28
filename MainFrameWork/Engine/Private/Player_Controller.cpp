@@ -12,10 +12,26 @@ CPlayer_Controller::CPlayer_Controller(ID3D11Device* pDevice, ID3D11DeviceContex
 CPlayer_Controller::CPlayer_Controller(const CPlayer_Controller& rhs)
 	: CComponent(rhs)
 {
+	for (size_t i = 0; i < SKILL_KEY::_END; i++)
+	{
+		m_fCoolDownAcc[i] = rhs.m_fCoolDownAcc[i];
+		m_fCoolTime[i] = rhs.m_fCoolTime[i];
+		m_fChangeStatAcc[i] = rhs.m_fChangeStatAcc[i];
+		m_fChangeStatTime[i] = rhs.m_fChangeStatTime[i];
+	}
 }
 
 HRESULT CPlayer_Controller::Initialize_Prototype()
 {
+	for (size_t i = 0; i < SKILL_KEY::_END; i++)
+	{
+		m_fCoolDownAcc[i] = 0.f;
+		m_fCoolTime[i] = -1.f;
+
+		m_fChangeStatAcc[i] = 0.f;
+		m_fChangeStatTime[i] = -1.f;
+	}
+
 	return S_OK;
 }
 
@@ -43,6 +59,7 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
+	ChangeStat_CoolTime(fTimeDelta);
 
 	/* Skill Collider */
 	Skill_Check_Collider();
@@ -226,9 +243,6 @@ HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 	if (nullptr == pSkill)
 		return E_FAIL;
 
-	if (SKILL_KEY::SPACE == eKey)
-		return S_OK;
-
 	m_pSkills[eKey] = pSkill;
 
 	return S_OK;
@@ -327,6 +341,15 @@ void CPlayer_Controller::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 {
 }
 
+void CPlayer_Controller::ChangeStat(SKILL_KEY eKey)
+{
+	if (nullptr == m_pSkills[eKey] || eKey == SKILL_KEY::_END)
+		return;
+
+	m_fChangeStatTime[eKey] = m_pSkills[eKey]->Change_Player_Status();
+	m_fChangeStatAcc[eKey] = 0.f;
+}
+
 void CPlayer_Controller::Hit(CGameObject* pHitObject)
 {
 	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
@@ -349,6 +372,22 @@ void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 	}
 }
 
+void CPlayer_Controller::ChangeStat_CoolTime(const _float& fTimeDelta)
+{
+	for (size_t i = 0; i < SKILL_KEY::_END; i++)
+	{
+		if (-1.f == m_fChangeStatTime[i]) continue;
+
+		m_fChangeStatAcc[i] += fTimeDelta;
+
+		if (m_fChangeStatTime[i] <= m_fChangeStatAcc[i])
+		{
+			m_fChangeStatTime[i] = m_pSkills[i]->Restore_Player_Status();
+			m_fChangeStatAcc[i] = 0.f;
+		}
+	}
+}
+
 void CPlayer_Controller::Skill_Check_Collider()
 {
 	if (SKILL_KEY::_END == m_eSelectedSkill)
@@ -360,4 +399,10 @@ void CPlayer_Controller::Skill_Check_Collider()
 void CPlayer_Controller::Free()
 {
 	__super::Free();
+
+	for (auto& iter : m_Skills)
+	{
+		Safe_Release(iter.second);
+	}
+	m_Skills.clear();
 }

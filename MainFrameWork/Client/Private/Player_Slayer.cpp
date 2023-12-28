@@ -219,7 +219,7 @@ HRESULT CPlayer_Slayer::Render_ShadowDepth()
 
 void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
+	if (TEXT("WR_Identity_Skill") != Get_State())
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{

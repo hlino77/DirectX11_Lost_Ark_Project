@@ -17,6 +17,8 @@
 #include "Damage_Manager.h"
 #include "UI_DamageFont.h"
 #include "Projectile.h"
+#include "ColliderSphere.h"
+#include "ColliderOBB.h"
 
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -320,7 +322,15 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
 			{
-				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				switch (pOther->GetColliderType())
+				{
+				case ColliderType::OBB:
+					vPos = static_cast<COBBCollider*>(pOther)->Get_Center();
+					break;
+				case ColliderType::Sphere:
+					vPos = static_cast<CSphereCollider*>(pOther)->Get_Center();
+					break;
+				}
 				vPos.y = 0.f;
 			}
 			else
@@ -349,7 +359,15 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Vec3 vPos = {};
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
 			{
-				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				switch (pOther->GetColliderType())
+				{
+				case ColliderType::OBB:
+					vPos = static_cast<COBBCollider*>(pOther)->Get_Center();
+					break;
+				case ColliderType::Sphere:
+					vPos = static_cast<CSphereCollider*>(pOther)->Get_Center();
+					break;
+				}
 				vPos.y = 0.f;
 			}
 			else
