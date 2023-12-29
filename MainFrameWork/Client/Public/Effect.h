@@ -29,18 +29,23 @@ public:
 
 		Vec3	vPosition_Start = Vec3(0.f, 0.f, 0.f);
 		Vec3	vPosition_End = Vec3(0.f, 0.f, 0.f);
+		_bool	bPosition_Lerp = true;
 
 		Vec3	vRotation_Start = Vec3(0.f, 0.f, 0.f);
 		Vec3	vRotation_End = Vec3(0.f, 0.f, 0.f);
+		_bool	bRotation_Lerp = true;
 
 		Vec3	vScaling_Start = Vec3(1.f, 1.f, 1.f);
 		Vec3	vScaling_End = Vec3(1.f, 1.f, 1.f);
+		_bool	bScaling_Lerp = true;
 
 		Vec3	vVelocity_Start = Vec3(0.f, 0.f, 0.f);
 		Vec3	vVelocity_End = Vec3(0.f, 0.f, 0.f);
+		_bool	bVelocity_Lerp = true;
 
 		Color	vColor_Start = Color(0.f, 0.f, 0.f, 0.f);
 		Color	vColor_End = Color(0.f, 0.f, 0.f, 0.f);
+		_bool	bColor_Lerp = true;
 
 		_float	fLifeTime = FLT_MAX;
 
@@ -82,18 +87,23 @@ public:
 protected:
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
+	_bool	m_bPosition_Lerp = true;
 
 	Vec3	m_vRotation_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vRotation_End = Vec3(0.f, 0.f, 0.f);
+	_bool	m_bRotation_Lerp = true;
 
 	Vec3	m_vScaling_Start = Vec3(1.f, 1.f, 1.f);
 	Vec3	m_vScaling_End = Vec3(1.f, 1.f, 1.f);
+	_bool	m_bScaling_Lerp = true;
 
 	Vec3	m_vVelocity_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vVelocity_End = Vec3(0.f, 0.f, 0.f);
+	_bool	m_bVelocity_Lerp = true;
 
 	Color	m_vColor_Start = Color(0.f, 0.f, 0.f, 0.f);
 	Color	m_vColor_End = Color(0.f, 0.f, 0.f, 0.f);
+	_bool	m_bColor_Lerp = true;
 
 	_float	m_fLifeTime = FLT_MAX;
 

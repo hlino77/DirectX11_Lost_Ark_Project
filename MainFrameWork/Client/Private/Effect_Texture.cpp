@@ -24,22 +24,18 @@ HRESULT CEffect_Texture::Initialize_Prototype(EFFECTDESC* pDesc)
 
 HRESULT CEffect_Texture::Initialize(void* pArg)
 {
-	Matrix& matPivot = reinterpret_cast<CTransform*>(pArg)->Get_WorldMatrix();
-	Vec3 vRight = matPivot.Right();
+	m_matPivot = reinterpret_cast<CTransform*>(pArg)->Get_WorldMatrix();
+	Vec3 vRight = m_matPivot.Right();
 	vRight.Normalize();
 	m_matPivot.m[0][0] = vRight.x; m_matPivot.m[0][1] = vRight.y; m_matPivot.m[0][2] = vRight.z;
 
-	Vec3 vUp = matPivot.Up();
+	Vec3 vUp = m_matPivot.Up();
 	vUp.Normalize();
-	m_matPivot.m[1][0] = vRight.x; m_matPivot.m[1][1] = vRight.y; m_matPivot.m[1][2] = vRight.z;
+	m_matPivot.m[1][0] = vUp.x; m_matPivot.m[1][1] = vUp.y; m_matPivot.m[1][2] = vUp.z;
 
-	Vec3 vLook = matPivot.Backward();
+	Vec3 vLook = m_matPivot.Backward();
 	vLook.Normalize();
-	m_matPivot.m[2][0] = vRight.x; m_matPivot.m[2][1] = vRight.y; m_matPivot.m[2][2] = vRight.z;
-
-	m_matPivot.m[3][0] = matPivot.m[3][0];
-	m_matPivot.m[3][1] = matPivot.m[3][1];
-	m_matPivot.m[3][2] = matPivot.m[3][2];
+	m_matPivot.m[2][0] = vLook.x; m_matPivot.m[2][1] = vLook.y; m_matPivot.m[2][2] = vLook.z;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;

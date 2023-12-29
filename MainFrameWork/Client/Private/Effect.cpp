@@ -47,18 +47,23 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 {
 	m_vPosition_Start = pDesc->vPosition_Start;
 	m_vPosition_End = pDesc->vPosition_End;
+	m_bPosition_Lerp = pDesc->bPosition_Lerp;
 
 	m_vRotation_Start = pDesc->vRotation_Start;
 	m_vRotation_End = pDesc->vRotation_End;
+	m_bRotation_Lerp = pDesc->bRotation_Lerp;
 
 	m_vScaling_Start = pDesc->vScaling_Start;
 	m_vScaling_End = pDesc->vScaling_End;
+	m_bScaling_Lerp = pDesc->bScaling_Lerp;
 
 	m_vVelocity_Start = pDesc->vVelocity_Start;
 	m_vVelocity_End = pDesc->vVelocity_End;
+	m_bVelocity_Lerp = pDesc->bVelocity_Lerp;
 
 	m_vColor_Start = pDesc->vColor_Start;
 	m_vColor_End = pDesc->vColor_End;
+	m_bColor_Lerp = pDesc->bColor_Lerp;
 
 	m_fLifeTime = pDesc->fLifeTime;
 
@@ -133,13 +138,36 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fTimeAcc += fTimeDelta;
 	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
 	
-	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
-	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
-	vOffsetRotation = Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z);
-	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+	Vec3 vOffsetScaling;
+	Vec3 vOffsetRotation;
+	Vec3 vOffsetPosition;
+	Vec3 vVelocity;
 
+	if (m_bScaling_Lerp)
+		vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
+	else
+		vOffsetScaling = m_vScaling_Start;
+
+	if (m_bRotation_Lerp)
+		vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+	else
+		vOffsetRotation = m_vRotation_Start;
+
+	if (m_bPosition_Lerp)
+		vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
+	else
+		vOffsetPosition = m_vPosition_Start;
+
+	if (m_bVelocity_Lerp)
+		vVelocity = 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+	else
+		vVelocity = 0.5f * m_fTimeAcc * m_vVelocity_Start;
+
+	Quaternion vOffsetRotationQuaternion(Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z));
+	vOffsetPosition += vVelocity;
+	 
 	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
-		* XMMatrixRotationQuaternion(vOffsetRotation) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+		* XMMatrixRotationQuaternion(vOffsetRotationQuaternion) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CEffect::LateTick(_float fTimeDelta)
@@ -159,7 +187,10 @@ HRESULT CEffect::Render()
 	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
 	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;
 
-	m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
+	if(m_bColor_Lerp)
+		m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
+	else
+		m_Variables.vColor_Offset = m_vColor_Start;
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagFX_Variables))))
 		return E_FAIL;
