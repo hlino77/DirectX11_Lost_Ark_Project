@@ -205,6 +205,9 @@
     <ClInclude Include="..\Public\Controller_WDR.h" />
     <ClInclude Include="..\Public\Controller_WR.h" />
     <ClInclude Include="..\Public\Damage_Manager.h" />
+    <ClInclude Include="..\Public\Effect_Manager.h" />
+    <ClInclude Include="..\Public\Effect_Mesh.h" />
+    <ClInclude Include="..\Public\Effect_Texture.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
@@ -520,6 +523,9 @@
     <ClCompile Include="..\Private\Controller_WDR.cpp" />
     <ClCompile Include="..\Private\Controller_WR.cpp" />
     <ClCompile Include="..\Private\Damage_Manager.cpp" />
+    <ClCompile Include="..\Private\Effect_Manager.cpp" />
+    <ClCompile Include="..\Private\Effect_Mesh.cpp" />
+    <ClCompile Include="..\Private\Effect_Texture.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />

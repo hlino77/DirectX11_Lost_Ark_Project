@@ -84,6 +84,8 @@
 #include "Skill_GN_TargetDown.h"
 #include "Skill_GN_TerminatingShot.h"
 
+#include "Effect_Manager.h"
+
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -143,7 +145,6 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(this);
 
-
 	return S_OK;
 }
 
@@ -151,6 +152,13 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 {
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
+
+	if (KEY_TAP(KEY::Q))
+	{
+		HRESULT hr = EFFECT_START(TEXT("tempGroup3"), m_pTransformCom)
+		if (E_FAIL == hr)
+			MSG_BOX("Failed to Create tempGroup3");
+	}
 
 	__super::Tick(fTimeDelta);
 }

@@ -40,7 +40,7 @@ HRESULT CEffectTool::Tick(const _float& fTimeDelta)
 	if (FAILED(EffectTool()))
 		return E_FAIL;
 
-	if (m_pCurrentEffect)
+	if (m_pCurrentEffect && m_vecEffects.size())
 	{
 		if (FAILED(EffectDetail()))
 			return E_FAIL;
@@ -96,6 +96,8 @@ void CEffectTool::Input()
 	//	return;
 }
 
+//extern Color vBackBuffer;
+
 void CEffectTool::InfoView()
 {
 	ImGui::Text("This window has some useful function for Effect Tool.");
@@ -104,6 +106,9 @@ void CEffectTool::InfoView()
 	const POINT& p = m_pGameInstance->GetMousePos();
 	ImGui::Text("Mouse Viewport Position : %d, %d", p.x, p.y);
 	ImGui::NewLine();
+
+	//ImGui::InputFloat3("BackBuffer", (_float*)&vBackBuffer);
+	//ImGui::NewLine();
 
 	ImGui::Text("Effect Type :");
 	ImGui::SameLine();
@@ -452,15 +457,12 @@ HRESULT CEffectTool::EffectDetail()
 	else
 		m_pCurrentEffect->m_vPosition_End = m_pCurrentEffect->m_vPosition_Start;
 
-	if (!m_pCurrentEffect->m_Billboard.iBillboard)
-	{
-		ImGui::Checkbox("Lerp Rotation", &m_pCurrentEffect->m_bRotation_Lerp);
-		ImGui::InputFloat3("Rotation_Start", (_float*)&m_pCurrentEffect->m_vRotation_Start);
-		if (m_pCurrentEffect->m_bRotation_Lerp)
-			ImGui::InputFloat3("Rotation_End", (_float*)&m_pCurrentEffect->m_vRotation_End);
-		else
-			m_pCurrentEffect->m_vRotation_End = m_pCurrentEffect->m_vRotation_Start;
-	}
+	ImGui::Checkbox("Lerp Rotation", &m_pCurrentEffect->m_bRotation_Lerp);
+	ImGui::InputFloat3("Rotation_Start", (_float*)&m_pCurrentEffect->m_vRotation_Start);
+	if (m_pCurrentEffect->m_bRotation_Lerp)
+		ImGui::InputFloat3("Rotation_End", (_float*)&m_pCurrentEffect->m_vRotation_End);
+	else
+		m_pCurrentEffect->m_vRotation_End = m_pCurrentEffect->m_vRotation_Start;
 
 	ImGui::Checkbox("Lerp Scaling", &m_pCurrentEffect->m_bScaling_Lerp);
 	ImGui::InputFloat3("Scaling_Start", (_float*)&m_pCurrentEffect->m_vScaling_Start);
@@ -483,15 +485,18 @@ HRESULT CEffectTool::EffectDetail()
 	else
 		m_pCurrentEffect->m_vColor_End = m_pCurrentEffect->m_vColor_Start;
 
-	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed);
+	ImGui::InputFloat2("UV Speed * 0.001f", (_float*)&m_pCurrentEffect->m_vUV_Speed);
 
-	ImGui::InputFloat2("UV_Position_Offset", (_float*)&m_pCurrentEffect->m_Variables.vUV_Offset);
-	ImGui::InputFloat2("UV_Direction_Offset", (_float*)&m_pCurrentEffect->m_Variables.vUV_Direction);
+	ImGui::InputFloat2("UV_Direction", (_float*)&m_pCurrentEffect->m_Variables.vUV_Direction);
 	ImGui::Checkbox("IsSequence", &m_pCurrentEffect->m_IsSequence);
+
+	if (m_pCurrentEffect->m_IsSequence)
+		ImGui::InputFloat("Sequence Term", &m_pCurrentEffect->m_fSequenceTerm);
+
 	ImGui::InputFloat2("UV_TileCount", (_float*)&m_pCurrentEffect->m_Variables.vUV_TileCount);
 	ImGui::InputFloat2("UV_TileIndex", (_float*)&m_pCurrentEffect->m_Variables.vUV_TileIndex);
 
-	ImGui::InputFloat("Life Time", (_float*)&m_pCurrentEffect->m_fLifeTime);
+	ImGui::InputFloat("Life Time", &m_pCurrentEffect->m_fLifeTime);
 
 	ImGui::Checkbox("Billboard", (_bool*)&m_pCurrentEffect->m_Billboard.iBillboard);
 	/*ImGui::Text("UV_Rotation_Offset");
@@ -511,7 +516,19 @@ HRESULT CEffectTool::EffectsList()
 
 	if (ImGui::Button("Delete"))
 	{
-	//
+		if (m_vecEffects.empty())
+		{
+			ImGui::End();
+			return S_OK;
+		}
+
+		m_vecEffects[m_iSelectedEffectIndex]->Set_Dead(true);
+
+		auto& iter = m_vecEffects.begin() + m_iSelectedEffectIndex;
+		m_vecEffects.erase(iter);
+
+		if (m_iSelectedEffectIndex >= m_vecEffects.size())
+			m_iSelectedEffectIndex = ::max(0, (_int)(m_vecEffects.size() - 1));
 	}
 
 	//vector<const _char*> vecItems;
@@ -523,7 +540,14 @@ HRESULT CEffectTool::EffectsList()
 		for (size_t i = 0; i < m_vecEffects.size(); i++)
 		{
 			_bool isSelected = (m_vecEffects[i] == m_vecEffects[m_iSelectedEffectIndex]);
-			if (ImGui::Selectable(to_string(i).c_str(), isSelected))
+
+			string strItem = "";
+			if (TEXT("") == m_vecEffects[i]->m_tVoidEffectDesc.protoModel)
+				strItem = "Effect_" + to_string(i) + "_T";
+			else
+				strItem = "Effect_" + to_string(i) + "_M";
+
+			if (ImGui::Selectable(strItem.c_str(), isSelected))
 			{
 				m_iSelectedEffectIndex = i;
 				m_pCurrentEffect = m_vecEffects[i];
@@ -534,9 +558,9 @@ HRESULT CEffectTool::EffectsList()
 		ImGui::EndListBox();
 	}
 
-	/*ImGui::ListBox("Effects", &m_iSelectedDataFileIndex, m_vecEffects.data(), m_vecEffects.size(), 5);
+	/*ImGui::ListBox("Effects", &m_iSelectedDataIndex, m_vecEffects.data(), m_vecEffects.size(), 5);
 	if (!vecItems.empty())
-		m_strSelectedDataFile = m_pUtils->ToWString(vecItems[m_iSelectedDataFileIndex]);*/
+		m_strSelectedGroup = m_pUtils->ToWString(vecItems[m_iSelectedDataIndex]);*/
 
 	ImGui::End();
 
@@ -548,13 +572,12 @@ HRESULT CEffectTool::DataFIles()
 	ImGui::Begin("Data Files");
 
 	const _char* hint = "Enter the Name of New file";
-	ImGui::InputTextWithHint("NewFileName", hint, m_szFileNameBuf, IM_ARRAYSIZE(m_szFileNameBuf));
+	ImGui::InputTextWithHint("NewFileName", hint, m_szGroupNameBuf, IM_ARRAYSIZE(m_szGroupNameBuf));
 
 	if (ImGui::Button("Save"))
 	{
-		if (FAILED(Save(m_szFileNameBuf)))
+		if (FAILED(Save(m_szGroupNameBuf)))
 			MSG_BOX("Save Failed");
-		
 	}ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
@@ -567,12 +590,12 @@ HRESULT CEffectTool::DataFIles()
 
 	if (fs::exists(strDirectory) && fs::is_directory(strDirectory))
 		for (const auto& entry : fs::directory_iterator(strDirectory))
-			if (entry.is_regular_file())
+			if (entry.is_directory())
 				s2cPushBack(vecItems, m_pUtils->ToString(entry.path().filename()));
 
-	ImGui::ListBox("Data Files", &m_iSelectedDataFileIndex, vecItems.data(), vecItems.size(), 5);
+	ImGui::ListBox("Saved Data", &m_iSelectedDataIndex, vecItems.data(), vecItems.size(), 5);
 	if(!vecItems.empty())
-		m_strSelectedDataFile = m_pUtils->ToWString(vecItems[m_iSelectedDataFileIndex]);
+		m_strSelectedGroup = m_pUtils->ToWString(vecItems[m_iSelectedDataIndex]);
 
 	ImGui::End();
 
@@ -584,7 +607,7 @@ HRESULT CEffectTool::CreateEffect()
 	CVoidEffect::tagVoidEffectDesc tDesc;
 	if (0 == m_iCurrentEffectType)
 	{
-		tDesc.protoModel = TEXT("Prototype_Component_Model_") + m_pUtils->ToWString(m_BaseMesh.second);
+		tDesc.protoModel = m_pUtils->ToWString(m_BaseMesh.second);
 	}
 	else if (1 == m_iCurrentEffectType)
 	{
@@ -642,202 +665,210 @@ HRESULT CEffectTool::Reset()
 	m_strCurrentMeshPath = TEXT("");
 	m_strCurrentPath = TEXT("");
 
-	//Safe_Release(m_pCurrentEffect);
-	m_pCurrentEffect = nullptr;
+	/*if (m_pCurrentEffect)
+	{
+		m_pCurrentEffect->Set_Dead(true);
+		m_pCurrentEffect = nullptr;
+	}*/
 
 	return S_OK;
 }
 
-HRESULT CEffectTool::Save(_char* szFileName)
+HRESULT CEffectTool::Save(_char* szGroupName)
 {
 	fs::path strPath;
-	if (0 == m_iCurrentEffectType || 1 == m_iCurrentEffectType)
-		strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szFileName) + ".xml");
-	//else if (1 == m_iCurrentEffectType)
-	//	strPath = fs::path("../Bin/Resources/Effects/Data_Textures/");
+	if (m_vecEffects.size())
+		//strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szFileName) + ".xml");
+		strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szGroupName) + "/");
 	else
 		MSG_BOX("You need to Create Effect");
 
-	filesystem::create_directories(strPath.parent_path());
+	fs::create_directories(strPath);
 
-	shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
-
-	tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
-	document->LinkEndChild(decl);
-
-	tinyxml2::XMLElement* root = document->NewElement("Properties");
-	document->LinkEndChild(root);
-
-	tinyxml2::XMLElement* node = document->NewElement("ProtoNames");
-	tinyxml2::XMLElement* element = nullptr;
-	root->LinkEndChild(node);
+	for (_int i = 0; i < m_vecEffects.size(); ++i)
 	{
-		element = document->NewElement("BaseMesh");
-		element->SetText(("Prototype_Component_Model_" + m_BaseMesh.second).c_str());
-		node->LinkEndChild(element);
+		shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
 
-		element = document->NewElement("BaseTexture");
-		if (m_BaseTexture.second.second)
-			element->SetText(m_pUtils->ToString(m_BaseTexture.first + m_BaseTexture.second.first + TEXT(".png")).c_str());
-		node->LinkEndChild(element);
+		fs::path finalPath;
+		if(TEXT("") == m_vecEffects[i]->m_tVoidEffectDesc.protoModel)
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
+		else
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_M" + ".xml";
 
-		element = document->NewElement("NoiseTexture");
-		if (m_CurrentNoise.second.second)
-			element->SetText(m_pUtils->ToString(m_CurrentNoise.first + m_CurrentNoise.second.first + TEXT(".png")).c_str());
-		node->LinkEndChild(element);
+		tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
+		document->LinkEndChild(decl);
 
-		element = document->NewElement("MaskTexture");
-		if (m_CurrentMask.second.second)
-			element->SetText(m_pUtils->ToString(m_CurrentMask.first + m_CurrentMask.second.first + TEXT(".png")).c_str());
-		node->LinkEndChild(element);
+		tinyxml2::XMLElement* root = document->NewElement("Properties");
+		document->LinkEndChild(root);
 
-		element = document->NewElement("EmissiveTexture");
-		if (m_CurrentEmissive.second.second)
-			element->SetText(m_pUtils->ToString(m_CurrentEmissive.first + m_CurrentEmissive.second.first + TEXT(".png")).c_str());
-		node->LinkEndChild(element);
+		tinyxml2::XMLElement* node = document->NewElement("ProtoNames");
+		tinyxml2::XMLElement* element = nullptr;
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("BaseMesh");
+			if(TEXT("") == m_vecEffects[i]->m_tVoidEffectDesc.protoModel)
+				element->SetText("");
+			else
+				element->SetText(m_pUtils->ToString(m_vecEffects[i]->m_tVoidEffectDesc.protoModel).c_str());
+			node->LinkEndChild(element);
 
-		element = document->NewElement("DissolveTexture");
-		if (m_CurrentDissolve.second.second)
-			element->SetText(m_pUtils->ToString(m_CurrentDissolve.first + m_CurrentDissolve.second.first + TEXT(".png")).c_str());
-		node->LinkEndChild(element);
+			element = document->NewElement("BaseTexture");
+			element->SetText(m_pUtils->ToString(m_vecEffects[i]->m_tVoidEffectDesc.protoDiffuseTexture).c_str());
+			node->LinkEndChild(element);
+
+			element = document->NewElement("NoiseTexture");
+			element->SetText(m_pUtils->ToString(m_vecEffects[i]->m_tVoidEffectDesc.protoNoiseTexture).c_str());
+			node->LinkEndChild(element);
+
+			element = document->NewElement("MaskTexture");
+			element->SetText(m_pUtils->ToString(m_vecEffects[i]->m_tVoidEffectDesc.protoMaskTexture).c_str());
+			node->LinkEndChild(element);
+
+			element = document->NewElement("EmissiveTexture");
+			element->SetText(m_pUtils->ToString(m_vecEffects[i]->m_tVoidEffectDesc.protoEmissiveTexture).c_str());
+			node->LinkEndChild(element);
+
+			element = document->NewElement("DissolveTexture");
+			element->SetText(m_pUtils->ToString(m_vecEffects[i]->m_tVoidEffectDesc.protoDissolveTexture).c_str());
+			node->LinkEndChild(element);
+		}
+
+		node = document->NewElement("Transform");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("Position_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vPosition_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vPosition_Start.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vPosition_Start.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Position_End");
+			element->SetAttribute("X", m_vecEffects[i]->m_vPosition_End.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vPosition_End.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vPosition_End.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Position_Lerp");
+			element->SetAttribute("Lerp", m_vecEffects[i]->m_bPosition_Lerp);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Rotation_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vRotation_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vRotation_Start.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vRotation_Start.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Rotation_End");
+			element->SetAttribute("X", m_vecEffects[i]->m_vRotation_End.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vRotation_End.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vRotation_End.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Rotation_Lerp");
+			element->SetAttribute("Lerp", m_vecEffects[i]->m_bRotation_Lerp);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Scaling_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vScaling_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vScaling_Start.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vScaling_Start.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Scaling_End");
+			element->SetAttribute("X", m_vecEffects[i]->m_vScaling_End.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vScaling_End.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vScaling_End.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Scaling_Lerp");
+			element->SetAttribute("Lerp", m_vecEffects[i]->m_bScaling_Lerp);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Velocity_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vVelocity_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vVelocity_Start.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vVelocity_Start.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Velocity_End");
+			element->SetAttribute("X", m_vecEffects[i]->m_vVelocity_End.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vVelocity_End.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vVelocity_End.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Velocity_Lerp");
+			element->SetAttribute("Lerp", m_vecEffects[i]->m_bVelocity_Lerp);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Color_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vColor_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vColor_Start.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vColor_Start.z);
+			element->SetAttribute("W", m_vecEffects[i]->m_vColor_Start.w);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Color_End");
+			element->SetAttribute("X", m_vecEffects[i]->m_vColor_End.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vColor_End.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vColor_End.z);
+			element->SetAttribute("W", m_vecEffects[i]->m_vColor_End.w);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Color_Lerp");
+			element->SetAttribute("Lerp", m_vecEffects[i]->m_bColor_Lerp);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("LifeTime");
+			element->SetAttribute("LifeTime", m_vecEffects[i]->m_fLifeTime);
+			node->LinkEndChild(element);
+		}
+
+		node = document->NewElement("UV_Variables");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("UV_Speed");
+			element->SetAttribute("X", m_vecEffects[i]->m_vUV_Speed.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vUV_Speed.y);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("UV_Direction");
+			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vUV_Direction.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vUV_Direction.y);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Is_Sequence");
+			element->SetAttribute("IsSequence", m_vecEffects[i]->m_IsSequence);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Sequence_Term");
+			element->SetAttribute("Sequence_Term", m_vecEffects[i]->m_fSequenceTerm);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("UV_TileCount");
+			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vUV_TileCount.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vUV_TileCount.y);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("UV_TileIndex");
+			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vUV_TileIndex.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vUV_TileIndex.y);
+			node->LinkEndChild(element);
+		}
+
+		node = document->NewElement("Intensity");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("Bloom");
+			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fBloom);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Radial");
+			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fRadial);
+			node->LinkEndChild(element);
+		}
+
+		document->SaveFile(m_pUtils->ToString(finalPath).c_str());
 	}
-
-	node = document->NewElement("Transform");
-	root->LinkEndChild(node);
-	{
-		element = document->NewElement("Position_Start");
-		element->SetAttribute("X", m_pCurrentEffect->m_vPosition_Start.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vPosition_Start.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vPosition_Start.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Position_End");
-		element->SetAttribute("X", m_pCurrentEffect->m_vPosition_End.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vPosition_End.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vPosition_End.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Position_Lerp");
-		element->SetAttribute("Lerp", m_pCurrentEffect->m_bPosition_Lerp);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Rotation_Start");
-		element->SetAttribute("X", m_pCurrentEffect->m_vRotation_Start.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vRotation_Start.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vRotation_Start.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Rotation_End");
-		element->SetAttribute("X", m_pCurrentEffect->m_vRotation_End.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vRotation_End.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vRotation_End.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Rotation_Lerp");
-		element->SetAttribute("Lerp", m_pCurrentEffect->m_bRotation_Lerp);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Scaling_Start");
-		element->SetAttribute("X", m_pCurrentEffect->m_vScaling_Start.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vScaling_Start.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vScaling_Start.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Scaling_End");
-		element->SetAttribute("X", m_pCurrentEffect->m_vScaling_End.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vScaling_End.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vScaling_End.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Scaling_Lerp");
-		element->SetAttribute("Lerp", m_pCurrentEffect->m_bScaling_Lerp);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Velocity_Start");
-		element->SetAttribute("X", m_pCurrentEffect->m_vVelocity_Start.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vVelocity_Start.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vVelocity_Start.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Velocity_End");
-		element->SetAttribute("X", m_pCurrentEffect->m_vVelocity_End.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vVelocity_End.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vVelocity_End.z);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Velocity_Lerp");
-		element->SetAttribute("Lerp", m_pCurrentEffect->m_bVelocity_Lerp);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Color_Start");
-		element->SetAttribute("X", m_pCurrentEffect->m_vColor_Start.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vColor_Start.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vColor_Start.z);
-		element->SetAttribute("W", m_pCurrentEffect->m_vColor_Start.w);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Color_End");
-		element->SetAttribute("X", m_pCurrentEffect->m_vColor_End.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vColor_End.y);
-		element->SetAttribute("Z", m_pCurrentEffect->m_vColor_End.z);
-		element->SetAttribute("W", m_pCurrentEffect->m_vColor_End.w);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Color_Lerp");
-		element->SetAttribute("Lerp", m_pCurrentEffect->m_bColor_Lerp);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("LifeTime");
-		element->SetAttribute("LifeTime", m_pCurrentEffect->m_fLifeTime);
-		node->LinkEndChild(element);
-	}
-
-	node = document->NewElement("UV_Variables");
-	root->LinkEndChild(node);
-	{
-		element = document->NewElement("UV_Speed");
-		element->SetAttribute("X", m_pCurrentEffect->m_vUV_Speed.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_vUV_Speed.y);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("UV_Offset");
-		element->SetAttribute("X", m_pCurrentEffect->m_Variables.vUV_Offset.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_Variables.vUV_Offset.y);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("UV_Direction");
-		element->SetAttribute("X", m_pCurrentEffect->m_Variables.vUV_Direction.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_Variables.vUV_Direction.y);
-		node->LinkEndChild(element);
-		
-		element = document->NewElement("Is_Sequence");
-		element->SetAttribute("IsSequence", m_pCurrentEffect->m_IsSequence);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("UV_TileCount");
-		element->SetAttribute("X", m_pCurrentEffect->m_Variables.vUV_TileCount.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_Variables.vUV_TileCount.y);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("UV_TileIndex");
-		element->SetAttribute("X", m_pCurrentEffect->m_Variables.vUV_TileIndex.x);
-		element->SetAttribute("Y", m_pCurrentEffect->m_Variables.vUV_TileIndex.y);
-		node->LinkEndChild(element);
-	}
-
-	node = document->NewElement("Intensity");
-	root->LinkEndChild(node);
-	{
-		element = document->NewElement("Bloom");
-		element->SetAttribute("Intensity", m_pCurrentEffect->m_Intensity.fBloom);
-		node->LinkEndChild(element);
-
-		element = document->NewElement("Radial");
-		element->SetAttribute("Intensity", m_pCurrentEffect->m_Intensity.fRadial);
-		node->LinkEndChild(element);
-	}
-
-	document->SaveFile(m_pUtils->ToString(strPath).c_str());
 
 	return S_OK;
 }
@@ -846,189 +877,196 @@ HRESULT CEffectTool::Load()
 {
 	Reset();
 
-	wstring strPath = TEXT("../Bin/Resources/Effects/EffectData/") + m_strSelectedDataFile;
+	wstring strPath = TEXT("../Bin/Resources/Effects/EffectData/") + m_strSelectedGroup + TEXT("/");
 
-	shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
-	tinyxml2::XMLError error = document->LoadFile(m_pUtils->ToString(strPath).c_str());
-	assert(error == tinyxml2::XML_SUCCESS);
-
-	tinyxml2::XMLElement* root = nullptr;
-	root = document->FirstChildElement();
-	tinyxml2::XMLElement* node = nullptr;
-	node = root->FirstChildElement();
-
-	CVoidEffect::tagVoidEffectDesc tDesc;
-	_bool IsMesh = false;
-
-	if (!node) { MSG_BOX("Fail to Load"); return E_FAIL; }
-	
-	tinyxml2::XMLElement* element = nullptr;
-	element = node->FirstChildElement();
-	if (element->GetText())
+	for (const auto& entry : fs::directory_iterator(strPath))
 	{
-		wstring strBaseMesh = m_pUtils->ToWString(element->GetText());
-		if (strBaseMesh.length() > 0)
+		if (!entry.is_regular_file() || ".xml" != entry.path().extension())
+			continue;
+
+		shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
+		tinyxml2::XMLError error = document->LoadFile(entry.path().generic_string().c_str());
+		assert(error == tinyxml2::XML_SUCCESS);
+
+		tinyxml2::XMLElement* root = nullptr;
+		root = document->FirstChildElement();
+		tinyxml2::XMLElement* node = nullptr;
+		node = root->FirstChildElement();
+
+		CVoidEffect::tagVoidEffectDesc tDesc;
+		_bool IsMesh = false;
+
+		if (!node) { MSG_BOX("Fail to Load"); return E_FAIL; }
+
+		tinyxml2::XMLElement* element = nullptr;
+		element = node->FirstChildElement();
+		if (element->GetText())
 		{
-			tDesc.protoModel = strBaseMesh;
-			IsMesh = true;
+			wstring strBaseMesh = m_pUtils->ToWString(element->GetText());
+			if (strBaseMesh.length() > 0)
+			{
+				tDesc.protoModel = strBaseMesh;
+				IsMesh = true;
+			}
 		}
-	}
-
-	element = element->NextSiblingElement();
-	if (element->GetText())
-	{
-		wstring strBaseTexture = m_pUtils->ToWString(element->GetText());
-		if (strBaseTexture.length() > 0)
-			tDesc.protoDiffuseTexture = strBaseTexture;
-	}
-
-	element = element->NextSiblingElement();
-	if (element->GetText())
-	{
-		wstring strNoiseTexture = m_pUtils->ToWString(element->GetText());
-		if (strNoiseTexture.length() > 0)
-			tDesc.protoNoiseTexture = strNoiseTexture;
-	}
-
-	element = element->NextSiblingElement();
-	if (element->GetText())
-	{
-		wstring strMaskTexture = m_pUtils->ToWString(element->GetText());
-		if (strMaskTexture.length() > 0)
-			tDesc.protoMaskTexture = strMaskTexture;
-	}
-
-	element = element->NextSiblingElement();
-	if (element->GetText())
-	{
-		wstring strEmissiveTexture = m_pUtils->ToWString(element->GetText());
-		if (strEmissiveTexture.length() > 0)
-			tDesc.protoEmissiveTexture = strEmissiveTexture;
-	}
-
-	element = element->NextSiblingElement();
-	if (element->GetText())
-	{
-		wstring strDissolveTexture = m_pUtils->ToWString(element->GetText());
-		if (strDissolveTexture.length() > 0)
-			tDesc.protoDissolveTexture = strDissolveTexture;
-	}
-
-	m_pCurrentEffect = static_cast<CVoidEffect*>(m_pGameInstance->Add_GameObject((_uint)LEVEL_TOOL, (_uint)LAYER_TYPE::LAYER_EFFECT, TEXT("Prototype_GameObject_VoidEffect"), &tDesc));
-	if (nullptr == m_pCurrentEffect)
-		return E_FAIL;
-
-	node = node->NextSiblingElement();
-	{
-		tinyxml2::XMLElement* element = nullptr;
-
-		element = node->FirstChildElement();
-
-		m_pCurrentEffect->m_vPosition_Start.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vPosition_Start.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vPosition_Start.z = element->FloatAttribute("Z");
 
 		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vPosition_End.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vPosition_End.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vPosition_End.z = element->FloatAttribute("Z");
+		if (element->GetText())
+		{
+			wstring strBaseTexture = m_pUtils->ToWString(element->GetText());
+			if (strBaseTexture.length() > 0)
+				tDesc.protoDiffuseTexture = strBaseTexture;
+		}
 
 		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_bPosition_Lerp = element->BoolAttribute("Lerp");
+		if (element->GetText())
+		{
+			wstring strNoiseTexture = m_pUtils->ToWString(element->GetText());
+			if (strNoiseTexture.length() > 0)
+				tDesc.protoNoiseTexture = strNoiseTexture;
+		}
 
 		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vRotation_Start.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vRotation_Start.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vRotation_Start.z = element->FloatAttribute("Z");
+		if (element->GetText())
+		{
+			wstring strMaskTexture = m_pUtils->ToWString(element->GetText());
+			if (strMaskTexture.length() > 0)
+				tDesc.protoMaskTexture = strMaskTexture;
+		}
 
 		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vRotation_End.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vRotation_End.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vRotation_End.z = element->FloatAttribute("Z");
+		if (element->GetText())
+		{
+			wstring strEmissiveTexture = m_pUtils->ToWString(element->GetText());
+			if (strEmissiveTexture.length() > 0)
+				tDesc.protoEmissiveTexture = strEmissiveTexture;
+		}
 
 		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_bRotation_Lerp = element->BoolAttribute("Lerp");
+		if (element->GetText())
+		{
+			wstring strDissolveTexture = m_pUtils->ToWString(element->GetText());
+			if (strDissolveTexture.length() > 0)
+				tDesc.protoDissolveTexture = strDissolveTexture;
+		}
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vScaling_Start.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vScaling_Start.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vScaling_Start.z = element->FloatAttribute("Z");
+		m_pCurrentEffect = static_cast<CVoidEffect*>(m_pGameInstance->Add_GameObject((_uint)LEVEL_TOOL, (_uint)LAYER_TYPE::LAYER_EFFECT, TEXT("Prototype_GameObject_VoidEffect"), &tDesc));
+		if (nullptr == m_pCurrentEffect)
+			return E_FAIL;
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vScaling_End.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vScaling_End.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vScaling_End.z = element->FloatAttribute("Z");
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_bScaling_Lerp = element->BoolAttribute("Lerp");
+			element = node->FirstChildElement();
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vVelocity_Start.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vVelocity_Start.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vVelocity_Start.z = element->FloatAttribute("Z");
+			m_pCurrentEffect->m_vPosition_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vPosition_Start.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vPosition_Start.z = element->FloatAttribute("Z");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vVelocity_End.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vVelocity_End.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vVelocity_End.z = element->FloatAttribute("Z");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vPosition_End.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vPosition_End.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vPosition_End.z = element->FloatAttribute("Z");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_bVelocity_Lerp = element->BoolAttribute("Lerp");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bPosition_Lerp = element->BoolAttribute("Lerp");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vColor_Start.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vColor_Start.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vColor_Start.z = element->FloatAttribute("Z");
-		m_pCurrentEffect->m_vColor_Start.w = element->FloatAttribute("W");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vRotation_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vRotation_Start.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vRotation_Start.z = element->FloatAttribute("Z");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_vColor_End.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vColor_End.y = element->FloatAttribute("Y");
-		m_pCurrentEffect->m_vColor_End.z = element->FloatAttribute("Z");
-		m_pCurrentEffect->m_vColor_End.w = element->FloatAttribute("W");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vRotation_End.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vRotation_End.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vRotation_End.z = element->FloatAttribute("Z");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_bColor_Lerp = element->BoolAttribute("Lerp");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bRotation_Lerp = element->BoolAttribute("Lerp");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_fLifeTime = element->FloatAttribute("LifeTime");
-	}
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vScaling_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vScaling_Start.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vScaling_Start.z = element->FloatAttribute("Z");
 
-	node = node->NextSiblingElement();
-	{
-		tinyxml2::XMLElement* element = nullptr;
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vScaling_End.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vScaling_End.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vScaling_End.z = element->FloatAttribute("Z");
 
-		element = node->FirstChildElement();
-		m_pCurrentEffect->m_vUV_Speed.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_vUV_Speed.y = element->FloatAttribute("Y");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bScaling_Lerp = element->BoolAttribute("Lerp");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_Variables.vUV_Offset.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_Variables.vUV_Offset.y = element->FloatAttribute("Y");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vVelocity_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vVelocity_Start.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vVelocity_Start.z = element->FloatAttribute("Z");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_Variables.vUV_Direction.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_Variables.vUV_Direction.y = element->FloatAttribute("Y");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vVelocity_End.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vVelocity_End.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vVelocity_End.z = element->FloatAttribute("Z");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_IsSequence = element->BoolAttribute("IsSequence");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bVelocity_Lerp = element->BoolAttribute("Lerp");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_Variables.vUV_TileCount.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_Variables.vUV_TileCount.y = element->FloatAttribute("Y");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vColor_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vColor_Start.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vColor_Start.z = element->FloatAttribute("Z");
+			m_pCurrentEffect->m_vColor_Start.w = element->FloatAttribute("W");
 
-		element = element->NextSiblingElement();
-		m_pCurrentEffect->m_Variables.vUV_TileIndex.x = element->FloatAttribute("X");
-		m_pCurrentEffect->m_Variables.vUV_TileIndex.y = element->FloatAttribute("Y");
-	}
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vColor_End.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vColor_End.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vColor_End.z = element->FloatAttribute("Z");
+			m_pCurrentEffect->m_vColor_End.w = element->FloatAttribute("W");
 
-	node = node->NextSiblingElement();
-	{
-		tinyxml2::XMLElement* element = nullptr;
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bColor_Lerp = element->BoolAttribute("Lerp");
 
-		element = node->FirstChildElement();
-		m_pCurrentEffect->m_Intensity.fBloom = element->FloatAttribute("Intensity");
-		m_pCurrentEffect->m_Intensity.fRadial = element->FloatAttribute("Intensity");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_fLifeTime = element->FloatAttribute("LifeTime");
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			m_pCurrentEffect->m_vUV_Speed.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vUV_Speed.y = element->FloatAttribute("Y");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_Variables.vUV_Direction.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_Variables.vUV_Direction.y = element->FloatAttribute("Y");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_IsSequence = element->BoolAttribute("IsSequence");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_fSequenceTerm = element->FloatAttribute("Sequence_Term");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_Variables.vUV_TileCount.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_Variables.vUV_TileCount.y = element->FloatAttribute("Y");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_Variables.vUV_TileIndex.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_Variables.vUV_TileIndex.y = element->FloatAttribute("Y");
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			m_pCurrentEffect->m_Intensity.fBloom = element->FloatAttribute("Intensity");
+			m_pCurrentEffect->m_Intensity.fRadial = element->FloatAttribute("Intensity");
+		}
+
+		m_vecEffects.push_back(m_pCurrentEffect);
 	}
 
 	return S_OK;

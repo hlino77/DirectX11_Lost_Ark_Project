@@ -309,7 +309,7 @@ CGameObject* CGameInstance::Add_GameObject(_uint iLevelIndex, _uint iNumLayerTyp
 	if (nullptr == m_pObject_Manager)
 		return nullptr;
 
-		return m_pObject_Manager->Add_GameObject(iLevelIndex, iNumLayerType, strPrototypeTag, pArg);
+	return m_pObject_Manager->Add_GameObject(iLevelIndex, iNumLayerType, strPrototypeTag, pArg);
 }
 
 CGameObject* CGameInstance::Add_GameObject(_uint iLevelIndex, _uint iNumLayerType, CGameObject* pObject)

@@ -79,17 +79,18 @@ namespace Client
 
 	enum CHANNELID {
 		CHANNEL_BGM,
-		CHANNEL_UI, CHANNEL_BACKGROUND,
+		CHANNEL_UI,
+		CHANNEL_BACKGROUND,
 		CHANNEL_LOOPSTART,
 		CHANNEL_END = 29
 	};
 
-
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, DESTROYER, CLASSEND };
 
-	enum class STATUSEFFECT {COUNTER, EARTHQUAKE,BUG,FEAR,SHOCK ,STUN, EFFECTEND };
-
+	enum class STATUSEFFECT { COUNTER, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, EFFECTEND };
 }
+
+#define EFFECT_START(name, transform)	CEffect_Manager::GetInstance()->Effect_Start(name, transform);
 
 extern _float g_fVolume;
 extern HWND g_hWnd;
