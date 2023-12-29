@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[27]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[28]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -116,6 +116,9 @@ extern S_OBJECTINFODefaultTypeInternal _S_OBJECTINFO_default_instance_;
 class S_OPEN_LEVEL;
 struct S_OPEN_LEVELDefaultTypeInternal;
 extern S_OPEN_LEVELDefaultTypeInternal _S_OPEN_LEVEL_default_instance_;
+class S_PARTY;
+struct S_PARTYDefaultTypeInternal;
+extern S_PARTYDefaultTypeInternal _S_PARTY_default_instance_;
 class S_PLAYERLEVELMOVE;
 struct S_PLAYERLEVELMOVEDefaultTypeInternal;
 extern S_PLAYERLEVELMOVEDefaultTypeInternal _S_PLAYERLEVELMOVE_default_instance_;
@@ -159,6 +162,7 @@ template<> ::Protocol::S_NEARTARGET* Arena::CreateMaybeMessage<::Protocol::S_NEA
 template<> ::Protocol::S_NICKNAME* Arena::CreateMaybeMessage<::Protocol::S_NICKNAME>(Arena*);
 template<> ::Protocol::S_OBJECTINFO* Arena::CreateMaybeMessage<::Protocol::S_OBJECTINFO>(Arena*);
 template<> ::Protocol::S_OPEN_LEVEL* Arena::CreateMaybeMessage<::Protocol::S_OPEN_LEVEL>(Arena*);
+template<> ::Protocol::S_PARTY* Arena::CreateMaybeMessage<::Protocol::S_PARTY>(Arena*);
 template<> ::Protocol::S_PLAYERLEVELMOVE* Arena::CreateMaybeMessage<::Protocol::S_PLAYERLEVELMOVE>(Arena*);
 template<> ::Protocol::S_SETSKILL* Arena::CreateMaybeMessage<::Protocol::S_SETSKILL>(Arena*);
 template<> ::Protocol::S_SKILLEXPLOSION* Arena::CreateMaybeMessage<::Protocol::S_SKILLEXPLOSION>(Arena*);
@@ -4218,14 +4222,15 @@ class S_MONSTERSTATE final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kVTargetPosFieldNumber = 6,
-    kStrStateFieldNumber = 3,
+    kVTargetPosFieldNumber = 7,
+    kStrStateFieldNumber = 4,
     kIObjectIDFieldNumber = 1,
     kILevelFieldNumber = 2,
-    kITargetObjectLayerFieldNumber = 4,
-    kITargetObjectIDFieldNumber = 5,
+    kILayerFieldNumber = 3,
+    kITargetObjectLayerFieldNumber = 5,
+    kITargetObjectIDFieldNumber = 6,
   };
-  // repeated float vTargetPos = 6 [packed = true];
+  // repeated float vTargetPos = 7 [packed = true];
   int vtargetpos_size() const;
   private:
   int _internal_vtargetpos_size() const;
@@ -4247,7 +4252,7 @@ class S_MONSTERSTATE final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_vtargetpos();
 
-  // string strState = 3;
+  // string strState = 4;
   void clear_strstate();
   const std::string& strstate() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -4279,7 +4284,16 @@ class S_MONSTERSTATE final :
   void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iTargetObjectLayer = 4;
+  // int32 iLayer = 3;
+  void clear_ilayer();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilayer() const;
+  void set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilayer() const;
+  void _internal_set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iTargetObjectLayer = 5;
   void clear_itargetobjectlayer();
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectlayer() const;
   void set_itargetobjectlayer(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4288,7 +4302,7 @@ class S_MONSTERSTATE final :
   void _internal_set_itargetobjectlayer(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iTargetObjectID = 5;
+  // int32 iTargetObjectID = 6;
   void clear_itargetobjectid();
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectid() const;
   void set_itargetobjectid(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4308,6 +4322,7 @@ class S_MONSTERSTATE final :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strstate_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilayer_;
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectlayer_;
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -4772,6 +4787,187 @@ class S_IDENTITY final :
   ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilayer_;
   ::PROTOBUF_NAMESPACE_ID::int32 iweaponindex_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_PARTY final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_PARTY) */ {
+ public:
+  inline S_PARTY() : S_PARTY(nullptr) {}
+  ~S_PARTY() override;
+  explicit constexpr S_PARTY(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_PARTY(const S_PARTY& from);
+  S_PARTY(S_PARTY&& from) noexcept
+    : S_PARTY() {
+    *this = ::std::move(from);
+  }
+
+  inline S_PARTY& operator=(const S_PARTY& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_PARTY& operator=(S_PARTY&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_PARTY& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_PARTY* internal_default_instance() {
+    return reinterpret_cast<const S_PARTY*>(
+               &_S_PARTY_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    27;
+
+  friend void swap(S_PARTY& a, S_PARTY& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_PARTY* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_PARTY* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_PARTY* New() const final {
+    return new S_PARTY();
+  }
+
+  S_PARTY* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_PARTY>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_PARTY& from);
+  void MergeFrom(const S_PARTY& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_PARTY* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_PARTY";
+  }
+  protected:
+  explicit S_PARTY(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTCreatePartyFieldNumber = 1,
+    kTJoinPartyFieldNumber = 2,
+    kTInvitationPartyFieldNumber = 3,
+  };
+  // repeated .Protocol.Create_Party tCreateParty = 1;
+  int tcreateparty_size() const;
+  private:
+  int _internal_tcreateparty_size() const;
+  public:
+  void clear_tcreateparty();
+  ::Protocol::Create_Party* mutable_tcreateparty(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Create_Party >*
+      mutable_tcreateparty();
+  private:
+  const ::Protocol::Create_Party& _internal_tcreateparty(int index) const;
+  ::Protocol::Create_Party* _internal_add_tcreateparty();
+  public:
+  const ::Protocol::Create_Party& tcreateparty(int index) const;
+  ::Protocol::Create_Party* add_tcreateparty();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Create_Party >&
+      tcreateparty() const;
+
+  // repeated .Protocol.Join_Party tJoinParty = 2;
+  int tjoinparty_size() const;
+  private:
+  int _internal_tjoinparty_size() const;
+  public:
+  void clear_tjoinparty();
+  ::Protocol::Join_Party* mutable_tjoinparty(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Join_Party >*
+      mutable_tjoinparty();
+  private:
+  const ::Protocol::Join_Party& _internal_tjoinparty(int index) const;
+  ::Protocol::Join_Party* _internal_add_tjoinparty();
+  public:
+  const ::Protocol::Join_Party& tjoinparty(int index) const;
+  ::Protocol::Join_Party* add_tjoinparty();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Join_Party >&
+      tjoinparty() const;
+
+  // repeated .Protocol.Invitation_Party tInvitationParty = 3;
+  int tinvitationparty_size() const;
+  private:
+  int _internal_tinvitationparty_size() const;
+  public:
+  void clear_tinvitationparty();
+  ::Protocol::Invitation_Party* mutable_tinvitationparty(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Invitation_Party >*
+      mutable_tinvitationparty();
+  private:
+  const ::Protocol::Invitation_Party& _internal_tinvitationparty(int index) const;
+  ::Protocol::Invitation_Party* _internal_add_tinvitationparty();
+  public:
+  const ::Protocol::Invitation_Party& tinvitationparty(int index) const;
+  ::Protocol::Invitation_Party* add_tinvitationparty();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Invitation_Party >&
+      tinvitationparty() const;
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_PARTY)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Create_Party > tcreateparty_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Join_Party > tjoinparty_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Invitation_Party > tinvitationparty_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -7267,7 +7463,27 @@ inline void S_MONSTERSTATE::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iLevel)
 }
 
-// string strState = 3;
+// int32 iLayer = 3;
+inline void S_MONSTERSTATE::clear_ilayer() {
+  ilayer_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_MONSTERSTATE::_internal_ilayer() const {
+  return ilayer_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_MONSTERSTATE::ilayer() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MONSTERSTATE.iLayer)
+  return _internal_ilayer();
+}
+inline void S_MONSTERSTATE::_internal_set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilayer_ = value;
+}
+inline void S_MONSTERSTATE::set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilayer(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iLayer)
+}
+
+// string strState = 4;
 inline void S_MONSTERSTATE::clear_strstate() {
   strstate_.ClearToEmpty();
 }
@@ -7312,7 +7528,7 @@ inline void S_MONSTERSTATE::set_allocated_strstate(std::string* strstate) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_MONSTERSTATE.strState)
 }
 
-// int32 iTargetObjectLayer = 4;
+// int32 iTargetObjectLayer = 5;
 inline void S_MONSTERSTATE::clear_itargetobjectlayer() {
   itargetobjectlayer_ = 0;
 }
@@ -7332,7 +7548,7 @@ inline void S_MONSTERSTATE::set_itargetobjectlayer(::PROTOBUF_NAMESPACE_ID::int3
   // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iTargetObjectLayer)
 }
 
-// int32 iTargetObjectID = 5;
+// int32 iTargetObjectID = 6;
 inline void S_MONSTERSTATE::clear_itargetobjectid() {
   itargetobjectid_ = 0;
 }
@@ -7352,7 +7568,7 @@ inline void S_MONSTERSTATE::set_itargetobjectid(::PROTOBUF_NAMESPACE_ID::int32 v
   // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iTargetObjectID)
 }
 
-// repeated float vTargetPos = 6 [packed = true];
+// repeated float vTargetPos = 7 [packed = true];
 inline int S_MONSTERSTATE::_internal_vtargetpos_size() const {
   return vtargetpos_.size();
 }
@@ -7591,9 +7807,123 @@ inline void S_IDENTITY::set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_IDENTITY.iWeaponIndex)
 }
 
+// -------------------------------------------------------------------
+
+// S_PARTY
+
+// repeated .Protocol.Create_Party tCreateParty = 1;
+inline int S_PARTY::_internal_tcreateparty_size() const {
+  return tcreateparty_.size();
+}
+inline int S_PARTY::tcreateparty_size() const {
+  return _internal_tcreateparty_size();
+}
+inline ::Protocol::Create_Party* S_PARTY::mutable_tcreateparty(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_PARTY.tCreateParty)
+  return tcreateparty_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Create_Party >*
+S_PARTY::mutable_tcreateparty() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_PARTY.tCreateParty)
+  return &tcreateparty_;
+}
+inline const ::Protocol::Create_Party& S_PARTY::_internal_tcreateparty(int index) const {
+  return tcreateparty_.Get(index);
+}
+inline const ::Protocol::Create_Party& S_PARTY::tcreateparty(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PARTY.tCreateParty)
+  return _internal_tcreateparty(index);
+}
+inline ::Protocol::Create_Party* S_PARTY::_internal_add_tcreateparty() {
+  return tcreateparty_.Add();
+}
+inline ::Protocol::Create_Party* S_PARTY::add_tcreateparty() {
+  // @@protoc_insertion_point(field_add:Protocol.S_PARTY.tCreateParty)
+  return _internal_add_tcreateparty();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Create_Party >&
+S_PARTY::tcreateparty() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_PARTY.tCreateParty)
+  return tcreateparty_;
+}
+
+// repeated .Protocol.Join_Party tJoinParty = 2;
+inline int S_PARTY::_internal_tjoinparty_size() const {
+  return tjoinparty_.size();
+}
+inline int S_PARTY::tjoinparty_size() const {
+  return _internal_tjoinparty_size();
+}
+inline ::Protocol::Join_Party* S_PARTY::mutable_tjoinparty(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_PARTY.tJoinParty)
+  return tjoinparty_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Join_Party >*
+S_PARTY::mutable_tjoinparty() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_PARTY.tJoinParty)
+  return &tjoinparty_;
+}
+inline const ::Protocol::Join_Party& S_PARTY::_internal_tjoinparty(int index) const {
+  return tjoinparty_.Get(index);
+}
+inline const ::Protocol::Join_Party& S_PARTY::tjoinparty(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PARTY.tJoinParty)
+  return _internal_tjoinparty(index);
+}
+inline ::Protocol::Join_Party* S_PARTY::_internal_add_tjoinparty() {
+  return tjoinparty_.Add();
+}
+inline ::Protocol::Join_Party* S_PARTY::add_tjoinparty() {
+  // @@protoc_insertion_point(field_add:Protocol.S_PARTY.tJoinParty)
+  return _internal_add_tjoinparty();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Join_Party >&
+S_PARTY::tjoinparty() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_PARTY.tJoinParty)
+  return tjoinparty_;
+}
+
+// repeated .Protocol.Invitation_Party tInvitationParty = 3;
+inline int S_PARTY::_internal_tinvitationparty_size() const {
+  return tinvitationparty_.size();
+}
+inline int S_PARTY::tinvitationparty_size() const {
+  return _internal_tinvitationparty_size();
+}
+inline ::Protocol::Invitation_Party* S_PARTY::mutable_tinvitationparty(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_PARTY.tInvitationParty)
+  return tinvitationparty_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Invitation_Party >*
+S_PARTY::mutable_tinvitationparty() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_PARTY.tInvitationParty)
+  return &tinvitationparty_;
+}
+inline const ::Protocol::Invitation_Party& S_PARTY::_internal_tinvitationparty(int index) const {
+  return tinvitationparty_.Get(index);
+}
+inline const ::Protocol::Invitation_Party& S_PARTY::tinvitationparty(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PARTY.tInvitationParty)
+  return _internal_tinvitationparty(index);
+}
+inline ::Protocol::Invitation_Party* S_PARTY::_internal_add_tinvitationparty() {
+  return tinvitationparty_.Add();
+}
+inline ::Protocol::Invitation_Party* S_PARTY::add_tinvitationparty() {
+  // @@protoc_insertion_point(field_add:Protocol.S_PARTY.tInvitationParty)
+  return _internal_add_tinvitationparty();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Invitation_Party >&
+S_PARTY::tinvitationparty() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_PARTY.tInvitationParty)
+  return tinvitationparty_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

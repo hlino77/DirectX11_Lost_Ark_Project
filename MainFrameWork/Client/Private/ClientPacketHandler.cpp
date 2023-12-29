@@ -16,6 +16,7 @@
 #include "Event.h"
 #include "NavigationMgr.h"
 #include "Chat_Manager.h"
+#include "Party.h"
 
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
@@ -124,7 +125,7 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	case OBJ_TYPE::BOSS:
 	{
 		CBoss::MODELDESC Desc;
-		Desc.strFileName = CAsUtils::ToWString(pkt.strname());
+		Desc.strFileName = L"Boss_" + CAsUtils::ToWString(pkt.strname());
 		Desc.iObjectID = pkt.iobjectid();
 		Desc.iLayer = pkt.ilayer();
 
@@ -574,6 +575,73 @@ bool Handel_S_IDENTITY_Client(PacketSessionRef& session, Protocol::S_IDENTITY& p
 	}
 
 	pObject->Set_WeaponIndex(pkt.iweaponindex());
+
+	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+
+	if (pkt.tcreateparty().empty() == false)
+	{
+		if (pPlayer->Get_Party() != nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+
+		auto& tCreateParty = pkt.tcreateparty(0);
+
+		vector<CGameObject*> Players;
+		
+
+		for (_uint i = 0; i < tCreateParty.tplayers().size(); ++i)
+		{
+			_uint iObjectID = tCreateParty.tplayers(i).iid();
+
+			if (iObjectID == pPlayer->Get_ObjectID())
+			{
+				Players.push_back(pPlayer);
+				continue;
+			}
+
+			CGameObject* pObject = pGameInstance->Find_GameObejct(tCreateParty.tplayers(i).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iObjectID);
+
+			if (pObject == nullptr)
+			{
+				Safe_Release(pGameInstance);
+				return true;
+			}
+			Players.push_back(pObject);
+
+		}
+
+
+		pPlayer->Set_Party(new CParty(tCreateParty.ipartyid(), Players));
+	}
+	else if (pkt.tjoinparty().empty() == false)
+	{
+		auto& tJoinParty = pkt.tjoinparty(0);
+
+		CGameObject* pObject = pGameInstance->Find_GameObejct(tJoinParty.tplayer().ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer().iid());
+		if (pObject == nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+
+		pPlayer->Get_Party()->Add_Player(pObject);
+	}
+	else if (pkt.tinvitationparty().empty() == false)
+	{
+		auto& tInvitation = pkt.tinvitationparty(0);
+
+		
+	}
 
 	Safe_Release(pGameInstance);
 	return true;

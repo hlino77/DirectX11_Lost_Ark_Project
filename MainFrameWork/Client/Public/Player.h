@@ -19,6 +19,8 @@ END
 
 
 BEGIN(Client)
+class CParty;
+
 
 class CPlayer : public CGameObject
 {
@@ -144,6 +146,10 @@ public:
 	void					Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+
+	CParty*					Get_Party() { return m_pParty; }
+	void					Set_Party(CParty* pParty) { m_pParty = pParty; }
+
 public:
 	/* 플레이어 상태 세팅 */
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
@@ -212,6 +218,8 @@ protected:
 
 	_bool	m_IsSuperiorArmor = false;
 
+
+	CParty* m_pParty = nullptr;
 public:
 	virtual void Free();
 

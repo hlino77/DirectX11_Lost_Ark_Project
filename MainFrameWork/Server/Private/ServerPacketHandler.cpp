@@ -15,7 +15,7 @@
 #include "Skill_Server.h"
 #include "Monster_Server.h"
 #include "LevelControlManager.h"
-
+#include "PartyManager.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -379,6 +379,38 @@ bool Handel_S_IDENTITY_Server(PacketSessionRef& session, Protocol::S_IDENTITY& p
 	}
 
 	pObject->Set_WeaponIndex(pkt.iweaponindex());
+
+	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_PARTY_Server(PacketSessionRef& session, Protocol::S_PARTY& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (pkt.tcreateparty().empty() == false)
+	{
+		auto& tCreateParty = pkt.tcreateparty(0);
+		CGameObject* pObject = pGameInstance->Find_GameObejct(tCreateParty.tplayers(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tCreateParty.tplayers(0).iid());
+		if (pObject == nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+
+		CPartyManager::GetInstance()->Create_Party(pObject);
+	}
+	else if (pkt.tjoinparty().empty() == false)
+	{
+		auto& tJoinParty = pkt.tjoinparty(0);
+
+	}
+	else if (pkt.tinvitationparty().empty() == false)
+	{
+		auto& tInvitation = pkt.tinvitationparty(0);
+
+
+	}
 
 	Safe_Release(pGameInstance);
 	return true;

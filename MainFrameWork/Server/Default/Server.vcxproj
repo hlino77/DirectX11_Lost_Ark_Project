@@ -196,6 +196,8 @@
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie_Server.cpp" />
+    <ClCompile Include="..\Private\Party_Server.cpp" />
+    <ClCompile Include="..\Private\PartyManager.cpp" />
     <ClCompile Include="..\Private\Pawn_BT_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\Player_Server.cpp" />
     <ClCompile Include="..\Private\Protocol.pb.cc">
@@ -280,6 +282,8 @@
     <ClInclude Include="..\Public\Monster_Server.h" />
     <ClInclude Include="..\Public\Monster_Zombie_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe_Server.h" />
+    <ClInclude Include="..\Public\Party_Server.h" />
+    <ClInclude Include="..\Public\PartyManager.h" />
     <ClInclude Include="..\Public\Pawn_BT_Attack2_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump_Server.h" />
     <ClInclude Include="..\Public\Player_Server.h" />

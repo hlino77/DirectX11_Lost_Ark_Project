@@ -685,8 +685,8 @@ void CLevel_Bern::End_Picking()
 
 void CLevel_Bern::End_Collision()
 {
-	if (m_pCollisionThread == nullptr)
-		return;
+	/*if (m_pCollisionThread == nullptr)
+		return;*/
 
 	CCollisionManager::GetInstance()->Set_Stop(true);
 	m_pCollisionThread->join();

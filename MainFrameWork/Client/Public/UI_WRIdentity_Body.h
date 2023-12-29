@@ -32,7 +32,7 @@ private:
     virtual HRESULT Bind_ShaderResources();
 
 private:
-    void    Get_Identity_State(CPlayer* pPlayer);
+    //void    Get_Identity_State(CPlayer* pPlayer);
     void    Identity_NormalState(_float fTimeDelta);
     void    Transform_Identity(_float fTimeDelta);
     void    Identity_CoolState(_float fTimeDelta);

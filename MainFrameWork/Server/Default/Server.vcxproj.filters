@@ -172,6 +172,12 @@
     <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Hit\Maz\Fear">
       <UniqueIdentifier>{281a8a76-5154-44ef-affb-f4797e4a03d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. Manager\02. PartyManager">
+      <UniqueIdentifier>{2d0c5fb4-2d2c-4917-97d1-047c6dde0d7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Manager\02. PartyManager\Party">
+      <UniqueIdentifier>{3cf39001-3f8d-4094-9887-bf7a5665ee21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -371,6 +377,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ChaosDungean_Server.cpp">
       <Filter>02. GameObject\06. ChaosDungean</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PartyManager.cpp">
+      <Filter>97. Manager\02. PartyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Party_Server.cpp">
+      <Filter>97. Manager\02. PartyManager\Party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -619,6 +631,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Shock_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit\Maz\Shock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PartyManager.h">
+      <Filter>97. Manager\02. PartyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Party_Server.h">
+      <Filter>97. Manager\02. PartyManager\Party</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

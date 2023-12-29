@@ -82,6 +82,7 @@ void CChaosDungean_Server::LateTick(_float fTimeDelta)
 	if (m_fBroadcastTime >= 0.05f)
 	{
 		Broadcast_PlayerInfo();
+		m_fBroadcastTime = 0.0f;
 	}
 }
 
@@ -106,14 +107,16 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	switch (m_eDungeanLevel)
 	{
 	case CHAOSDUNGEANLEVEL::LEVEL1:
+		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
 		m_fStartDelay = 3.0f;
 		m_iMonsterCount = 100;
-		m_iMonsterMaxSpawnCount = 30;
+		m_iMonsterMaxSpawnCount = 1;
 		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Zombie");
-		m_MonsterSpawnList.push_back(L"Ghoul");
+		//m_MonsterSpawnList.push_back(L"Ghoul");
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
+		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
 		m_fStartDelay = 3.0f;
 		m_iMonsterCount = 50;
 		m_iMonsterMaxSpawnCount = 50;
@@ -123,6 +126,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		m_BossSpawnList.push_back(L"Golem");
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:
+		m_iCurrLevel = LEVELID::LEVEL_CHAOS_3;
 		m_fStartDelay = 3.0f;
 		m_iMonsterCount = 50;
 		m_iMonsterMaxSpawnCount = 10;
@@ -196,21 +200,6 @@ void CChaosDungean_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	_uint iLevel;
-
-	switch (m_eDungeanLevel)
-	{
-	case CHAOSDUNGEANLEVEL::LEVEL1:
-		iLevel = LEVELID::LEVEL_CHAOS_1;
-		break;
-	case CHAOSDUNGEANLEVEL::LEVEL2:
-		iLevel = LEVELID::LEVEL_CHAOS_2;
-		break;
-	case CHAOSDUNGEANLEVEL::LEVEL3:
-		iLevel = LEVELID::LEVEL_CHAOS_3;
-		break;
-	}
-
 
 	{
 		wstring szComponentName = L"Monster_" + ModelName;
@@ -218,10 +207,10 @@ void CChaosDungean_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 		Desc.strFileName = ModelName;
 		Desc.iObjectID = g_iObjectID++;
 		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
-		Desc.iLevel = iLevel;
+		Desc.iLevel = m_iCurrLevel;
 
 		wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
-		CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(iLevel, Desc.iLayer, szMonsterName, &Desc));
+		CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(pGameInstance->Add_GameObject(m_iCurrLevel, Desc.iLayer, szMonsterName, &Desc));
 		if (pMonster == nullptr)
 			return;
 
@@ -236,7 +225,7 @@ void CChaosDungean_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 		tMonsterPkt.set_iobjecttype(pMonster->Get_ObjectType());
 		tMonsterPkt.set_strname(CAsUtils::ToString(pMonster->Get_ModelName()));
 		tMonsterPkt.set_ilayer(pMonster->Get_ObjectLayer());
-		tMonsterPkt.set_ilevel(iLevel);
+		tMonsterPkt.set_ilevel(m_iCurrLevel);
 
 		tMonsterPkt.set_bcontroll(true);
 
@@ -258,21 +247,6 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	_uint iLevel;
-
-	switch (m_eDungeanLevel)
-	{
-	case CHAOSDUNGEANLEVEL::LEVEL1:
-		iLevel = LEVELID::LEVEL_CHAOS_1;
-		break;
-	case CHAOSDUNGEANLEVEL::LEVEL2:
-		iLevel = LEVELID::LEVEL_CHAOS_2;
-		break;
-	case CHAOSDUNGEANLEVEL::LEVEL3:
-		iLevel = LEVELID::LEVEL_CHAOS_3;
-		break;
-	}
-
 	{
 
 		wstring szComponentName = L"Boss_" + ModelName;
@@ -280,10 +254,10 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 		Desc.strFileName = ModelName;
 		Desc.iObjectID = g_iObjectID++;
 		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
-		Desc.iLevel = iLevel;
+		Desc.iLevel = m_iCurrLevel;
 
 		wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
-		CBoss_Server* pBoss = dynamic_cast<CBoss_Server*>(pGameInstance->Add_GameObject(iLevel, Desc.iLayer, szMonsterName, &Desc));
+		CBoss_Server* pBoss = dynamic_cast<CBoss_Server*>(pGameInstance->Add_GameObject(m_iCurrLevel, Desc.iLayer, szMonsterName, &Desc));
 		if (pBoss == nullptr)
 			return;
 
@@ -298,7 +272,7 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 		tMonsterPkt.set_iobjecttype(pBoss->Get_ObjectType());
 		tMonsterPkt.set_strname(CAsUtils::ToString(pBoss->Get_ModelName()));
 		tMonsterPkt.set_ilayer(pBoss->Get_ObjectLayer());
-		tMonsterPkt.set_ilevel(iLevel);
+		tMonsterPkt.set_ilevel(m_iCurrLevel);
 
 		tMonsterPkt.set_bcontroll(true);
 
@@ -318,24 +292,8 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 
 void CChaosDungean_Server::Send_OpenLevel()
 {
-	_uint iLevel;
-
-	switch (m_eDungeanLevel)
-	{
-	case CHAOSDUNGEANLEVEL::LEVEL1:
-		iLevel = LEVELID::LEVEL_CHAOS_1;
-		break;
-	case CHAOSDUNGEANLEVEL::LEVEL2:
-		iLevel = LEVELID::LEVEL_CHAOS_2;
-		break;
-	case CHAOSDUNGEANLEVEL::LEVEL3:
-		iLevel = LEVELID::LEVEL_CHAOS_3;
-		break;
-	}
-
-
 	Protocol::S_OPEN_LEVEL pkt;
-	pkt.set_ilevelid(iLevel);
+	pkt.set_ilevelid(m_iCurrLevel);
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	
@@ -367,7 +325,7 @@ HRESULT CChaosDungean_Server::Broadcast_PlayerInfo()
 
 		auto tObject = pkt.add_tobject();
 		tObject->set_iobjectid(Object->Get_ObjectID());
-		tObject->set_ilevel(LEVELID::LEVEL_CHAOS_1);
+		tObject->set_ilevel(m_iCurrLevel);
 		tObject->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 
 

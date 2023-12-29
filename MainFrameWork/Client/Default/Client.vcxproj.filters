@@ -34,9 +34,6 @@
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{91ff704d-cfae-4d8f-8be1-b64393bcf977}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96. Manager">
-      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Static">
       <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
     </Filter>
@@ -157,9 +154,6 @@
     <Filter Include="02.GameObjects\BackGround\01.Server_Select">
       <UniqueIdentifier>{21159a71-e54f-496c-87ea-76a8e240f5e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96. Manager\UI_Manager">
-      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\00.Server">
       <UniqueIdentifier>{927e237e-4653-4b1d-ab5d-52e7caca486f}</UniqueIdentifier>
     </Filter>
@@ -204,9 +198,6 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar">
       <UniqueIdentifier>{38543f09-8f58-4ddb-9a24-0b501e5fbde8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96. Manager\Chat_Manager">
-      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
@@ -369,9 +360,6 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96. Manager\Damage_Manager">
-      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Event\99.Base">
       <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
@@ -667,9 +655,6 @@
     <Filter Include="02.GameObjects\UI\10.Lobby\02.">
       <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96. Manager\Mouse_Manager">
-      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility">
       <UniqueIdentifier>{51e9e0bf-ac00-47bc-b39f-126b7e06306f}</UniqueIdentifier>
     </Filter>
@@ -819,6 +804,24 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike">
       <UniqueIdentifier>{a72e37d8-f046-422e-82dc-f4bb8ed80dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager">
+      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\UI_Manager">
+      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\Chat_Manager">
+      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\Damage_Manager">
+      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Manager\Mouse_Manager">
+      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Party">
+      <UniqueIdentifier>{30ecc1fd-554f-43e3-b1db-c5fe418f0de0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1337,9 +1340,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Idle.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -2794,6 +2794,9 @@
     <ClInclude Include="..\Public\State_WDR_EarthEater.h">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Party.h">
+      <Filter>04. Party</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3309,9 +3312,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -4737,6 +4737,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Party.cpp">
+      <Filter>04. Party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
