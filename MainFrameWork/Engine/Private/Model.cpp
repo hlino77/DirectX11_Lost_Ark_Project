@@ -400,24 +400,27 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 	return S_OK;
 }
 
-_bool CModel::Is_HairTexture(_uint iMaterialIndex)
+_int CModel::Is_HairTexture()
 {
-	string strMaterialName = Get_Material_Name(iMaterialIndex);
-
-	size_t pos = strMaterialName.find("_");
-	while (pos != string::npos) 
+	for (size_t i = 0; i < m_Materials.size(); i++)
 	{
-		strMaterialName.replace(pos, 1, " ");
-		pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
+		string strMaterialName = Get_Material_Name(i);
+
+		size_t pos = strMaterialName.find("_");
+		while (pos != string::npos)
+		{
+			strMaterialName.replace(pos, 1, " ");
+			pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
+		}
+
+		string search_str = "hair";
+		size_t hair_pos = strMaterialName.find(search_str);
+
+		if (hair_pos != string::npos)
+			return i;
 	}
 
-	string search_str = "hair";
-	size_t hair_pos = strMaterialName.find(search_str);
-
-	if (hair_pos != string::npos) 
-		return true;
-	else 
-		return false;
+	return -1;
 }
 
 HRESULT CModel::Set_Animation_Transforms()

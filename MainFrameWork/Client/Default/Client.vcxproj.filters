@@ -820,6 +820,33 @@
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike">
       <UniqueIdentifier>{a72e37d8-f046-422e-82dc-f4bb8ed80dc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard">
+      <UniqueIdentifier>{3a3fafb1-85d2-44cc-9728-71532c6821e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG">
+      <UniqueIdentifier>{bcf9e205-4d1f-48c9-a88c-afa54bf5c0cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Controller_MG">
+      <UniqueIdentifier>{adcbaeb4-585d-4360-83aa-86504b66c126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG">
+      <UniqueIdentifier>{2dd291f2-183c-4610-a361-1786c5a760ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Part_MG">
+      <UniqueIdentifier>{363db636-7a39-4b43-a665-a958e9d6a005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Idle">
+      <UniqueIdentifier>{d1a6efbd-1b3c-4fc2-9e29-412838fa72ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Run">
+      <UniqueIdentifier>{abdbc747-8342-4496-b173-e2a022bb69e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dash">
+      <UniqueIdentifier>{b90ec9a4-8ade-40f0-9ca5-f9891ee0388b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Attack">
+      <UniqueIdentifier>{e3619efa-a947-4266-bc87-5a7f443cbd8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1724,9 +1751,6 @@
     <ClInclude Include="..\Public\Common_BT_Idle.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
     </ClInclude>
@@ -1927,9 +1951,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Idle.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -2176,9 +2197,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Idle.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Common_BT_Maz.h">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Move.h">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -2835,6 +2853,33 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_WDR_SizemicHammer.h">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\SizemicHammer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Controller_MG.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Controller_MG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Bard.h">
+      <Filter>02.GameObjects\Player\Player_Bard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Idle.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Run.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_MG.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Part_MG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Dash.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Attack_3.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Attack_1.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Attack_2.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3729,9 +3774,6 @@
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
     </ClCompile>
@@ -3932,9 +3974,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -4178,9 +4217,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Idle.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\07. Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Common_BT_Maz.cpp">
-      <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Move.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\06. Move</Filter>
@@ -4774,9 +4810,6 @@
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClCompile>
-    <ClCompile Include="State_WDR_FullSwing_Start.cpp">
-      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
     </ClCompile>
@@ -4821,6 +4854,36 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_SizemicHammer.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\SizemicHammer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Controller_MG.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Controller_MG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Bard.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Idle.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Run.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_MG.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Part_MG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Dash.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Attack_1.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Attack_2.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Attack_3.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

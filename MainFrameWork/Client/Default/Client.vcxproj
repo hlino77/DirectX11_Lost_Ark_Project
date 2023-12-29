@@ -202,6 +202,7 @@
     <ClInclude Include="..\Public\Common_BT_Stun.h" />
     <ClInclude Include="..\Public\Common_BT_Twist.h" />
     <ClInclude Include="..\Public\Common_BT_TwistLand.h" />
+    <ClInclude Include="..\Public\Controller_MG.h" />
     <ClInclude Include="..\Public\Controller_WDR.h" />
     <ClInclude Include="..\Public\Controller_WR.h" />
     <ClInclude Include="..\Public\Damage_Manager.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Player_Bard.h" />
     <ClInclude Include="..\Public\Player_Destroyer.h" />
     <ClInclude Include="..\Public\Player_Select.h" />
     <ClInclude Include="..\Public\Player_Select_GN.h" />
@@ -270,6 +272,12 @@
     <ClInclude Include="..\Public\Skill_WR_VolcanoEruption.h" />
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
+    <ClInclude Include="..\Public\State_MG_Attack_1.h" />
+    <ClInclude Include="..\Public\State_MG_Attack_2.h" />
+    <ClInclude Include="..\Public\State_MG_Attack_3.h" />
+    <ClInclude Include="..\Public\State_MG_Dash.h" />
+    <ClInclude Include="..\Public\State_MG_Idle.h" />
+    <ClInclude Include="..\Public\State_MG_Run.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_1.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_2.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_3.h" />
@@ -493,6 +501,7 @@
     <ClInclude Include="..\Public\Weapon_Hand.h" />
     <ClInclude Include="..\Public\Weapon_Hand_2.h" />
     <ClInclude Include="..\Public\Weapon_Long.h" />
+    <ClInclude Include="..\Public\Weapon_MG.h" />
     <ClInclude Include="..\Public\Weapon_Mn_PawnShield.h" />
     <ClInclude Include="..\Public\Weapon_Mn_PawnSword.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
@@ -534,6 +543,7 @@
     <ClCompile Include="..\Private\Common_BT_Stun.cpp" />
     <ClCompile Include="..\Private\Common_BT_Twist.cpp" />
     <ClCompile Include="..\Private\Common_BT_TwistLand.cpp" />
+    <ClCompile Include="..\Private\Controller_MG.cpp" />
     <ClCompile Include="..\Private\Controller_WDR.cpp" />
     <ClCompile Include="..\Private\Controller_WR.cpp" />
     <ClCompile Include="..\Private\Damage_Manager.cpp" />
@@ -558,6 +568,7 @@
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Player_Bard.cpp" />
     <ClCompile Include="..\Private\Player_Destroyer.cpp" />
     <ClCompile Include="..\Private\Player_Select.cpp" />
     <ClCompile Include="..\Private\Player_Select_GN.cpp" />
@@ -596,6 +607,12 @@
     <ClCompile Include="..\Private\Skill_WR_VolcanoEruption.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
+    <ClCompile Include="..\Private\State_MG_Attack_1.cpp" />
+    <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
+    <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
+    <ClCompile Include="..\Private\State_MG_Dash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Idle.cpp" />
+    <ClCompile Include="..\Private\State_MG_Run.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_3.cpp" />
@@ -604,6 +621,7 @@
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Loop.cpp" />
+    <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Success.cpp" />
     <ClCompile Include="..\Private\State_WDR_HeavyCrush.cpp" />
     <ClCompile Include="..\Private\State_WDR_Identity.cpp" />
@@ -817,6 +835,7 @@
     <ClCompile Include="..\Private\UI_WRIdentity_Body.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
+    <ClCompile Include="..\Private\Weapon_MG.cpp" />
     <ClCompile Include="..\Private\Weapon_Mn_PawnShield.cpp" />
     <ClCompile Include="..\Private\Weapon_Mn_PawnSword.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
@@ -875,7 +894,6 @@
     </ClCompile>
     <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="State_WDR_FullSwing_Start.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

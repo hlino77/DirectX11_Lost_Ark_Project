@@ -194,6 +194,7 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 	/* 장비 모델컴 */
 	CModel* m_pModelPartCom[(_uint)PART::_END] = { nullptr };
+	_int	m_IsHair = { -1 };
 
 	/* 컬링 절두체 */
 	BoundingSphere m_tCullingSphere;
