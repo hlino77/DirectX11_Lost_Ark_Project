@@ -60,13 +60,13 @@ void CUI_WRIdentity_Body::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     
-   /* CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+    CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     Get_Identity_State(pPlayer);
     Identity_NormalState(fTimeDelta);
     Identity_MaxGauage();
     Identity_On();
     Transform_Identity(fTimeDelta);
-    Identity_CoolState(fTimeDelta);*/
+    Identity_CoolState(fTimeDelta);
 }
 
 void CUI_WRIdentity_Body::LateTick(_float fTimeDelta)

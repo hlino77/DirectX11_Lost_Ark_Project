@@ -254,7 +254,7 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 		Desc.strFileName = ModelName;
 		Desc.iObjectID = g_iObjectID++;
 		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BOSS;
-		Desc.iLevel = iLevel;
+		Desc.iLevel = m_iCurrLevel;
 
 		wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
 		CBoss_Server* pBoss = dynamic_cast<CBoss_Server*>(pGameInstance->Add_GameObject(m_iCurrLevel, Desc.iLayer, szMonsterName, &Desc));

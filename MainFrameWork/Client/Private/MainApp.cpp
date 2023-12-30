@@ -97,8 +97,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_Font()))
 		return E_FAIL;
 	
-	if (FAILED(Ready_Prototype_Effect()))
-		return E_FAIL;
+	/*if (FAILED(Ready_Prototype_Effect()))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Camera_Free()))
 		return E_FAIL;
@@ -171,7 +171,7 @@ HRESULT CMainApp::Initialize_Client()
 
 	CUI_Manager::GetInstance()->Reserve_Manager();
 
-	CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
+	//CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	ThreadManager::GetInstance()->ReserveManager(8);
