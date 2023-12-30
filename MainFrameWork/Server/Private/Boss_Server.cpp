@@ -137,7 +137,6 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
-	cout << endl << m_iObjectID << m_iHp << endl;
 
 
 	if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
@@ -181,7 +180,7 @@ HRESULT CBoss_Server::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
+	wstring strComName = L"Prototype_Component_Model_Boss_" + m_strObjectTag;
 	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
@@ -207,7 +206,6 @@ HRESULT CBoss_Server::Ready_BehaviourTree()
 		return E_FAIL;
 	return S_OK;
 }
-
 
 
 

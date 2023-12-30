@@ -23,12 +23,17 @@ CBT_Node::BT_RETURN CCommon_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Skill())
+		
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS&&static_cast<CMonster_Server*>(m_pGameObject)->Is_Skill())
 		return BT_FAIL;
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Distance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
 		return BT_FAIL;	
 	_float fSpeed = 1.5f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed();
-	static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
+	if((static_cast<CMonster_Server*>(m_pGameObject)->Is_Close_To_TargetRandomPosition()))
+		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
+	else
+		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_RandomDirection(), fSpeed, fTimeDelta);
+
 	return BT_RUNNING;
 }
 

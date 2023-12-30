@@ -66,7 +66,7 @@ public:
 	virtual void Set_SlowMotion(_bool bSlow) override;
 
 
-	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
+
 public:
 	void					Find_NearTarget();
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
@@ -82,6 +82,10 @@ public:
 	void					LookAt_Target_Direction_Lerp(_float fTimeDelta);
 	void					LookAt_Target_Direction();
 	Vec3					Get_Target_Direction();
+
+	Vec3 Get_Target_RandomDirection();
+
+	_bool Is_Close_To_TargetRandomPosition();
 
 	void					Move_to_RandomPosition(_float fTimeDelta);
 	_bool					Is_Close_To_RandomPosition();
@@ -116,7 +120,7 @@ public:
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
 
 	Vec3 Get_RandomPosition() { return m_vRandomPosition; }
-	void Set_RandomPosition(Vec3 vPos) {m_vRandomPosition = vPos; }
+	void Set_RandomPosition(Vec3 vPos) {m_vTargetPos=  m_vRandomPosition = vPos; }
 
 	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
 
@@ -137,6 +141,9 @@ protected:
 protected:
 	void					CullingObject();
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
+	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
+	void					Send_CollidingInfo(const _uint iColLayer, CCollider* pOther);
+
 
 protected:
 	_float							m_fMoveSpeed = 1.f;

@@ -4218,14 +4218,15 @@ class S_MONSTERSTATE final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kVTargetPosFieldNumber = 6,
-    kStrStateFieldNumber = 3,
+    kVTargetPosFieldNumber = 7,
+    kStrStateFieldNumber = 4,
     kIObjectIDFieldNumber = 1,
     kILevelFieldNumber = 2,
-    kITargetObjectLayerFieldNumber = 4,
-    kITargetObjectIDFieldNumber = 5,
+    kILayerFieldNumber = 3,
+    kITargetObjectLayerFieldNumber = 5,
+    kITargetObjectIDFieldNumber = 6,
   };
-  // repeated float vTargetPos = 6 [packed = true];
+  // repeated float vTargetPos = 7 [packed = true];
   int vtargetpos_size() const;
   private:
   int _internal_vtargetpos_size() const;
@@ -4247,7 +4248,7 @@ class S_MONSTERSTATE final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_vtargetpos();
 
-  // string strState = 3;
+  // string strState = 4;
   void clear_strstate();
   const std::string& strstate() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -4279,7 +4280,16 @@ class S_MONSTERSTATE final :
   void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iTargetObjectLayer = 4;
+  // int32 iLayer = 3;
+  void clear_ilayer();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilayer() const;
+  void set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilayer() const;
+  void _internal_set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iTargetObjectLayer = 5;
   void clear_itargetobjectlayer();
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectlayer() const;
   void set_itargetobjectlayer(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4288,7 +4298,7 @@ class S_MONSTERSTATE final :
   void _internal_set_itargetobjectlayer(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 iTargetObjectID = 5;
+  // int32 iTargetObjectID = 6;
   void clear_itargetobjectid();
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectid() const;
   void set_itargetobjectid(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4308,6 +4318,7 @@ class S_MONSTERSTATE final :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strstate_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilayer_;
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectlayer_;
   ::PROTOBUF_NAMESPACE_ID::int32 itargetobjectid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -7267,7 +7278,27 @@ inline void S_MONSTERSTATE::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iLevel)
 }
 
-// string strState = 3;
+// int32 iLayer = 3;
+inline void S_MONSTERSTATE::clear_ilayer() {
+  ilayer_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_MONSTERSTATE::_internal_ilayer() const {
+  return ilayer_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_MONSTERSTATE::ilayer() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MONSTERSTATE.iLayer)
+  return _internal_ilayer();
+}
+inline void S_MONSTERSTATE::_internal_set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilayer_ = value;
+}
+inline void S_MONSTERSTATE::set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilayer(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iLayer)
+}
+
+// string strState = 4;
 inline void S_MONSTERSTATE::clear_strstate() {
   strstate_.ClearToEmpty();
 }
@@ -7312,7 +7343,7 @@ inline void S_MONSTERSTATE::set_allocated_strstate(std::string* strstate) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_MONSTERSTATE.strState)
 }
 
-// int32 iTargetObjectLayer = 4;
+// int32 iTargetObjectLayer = 5;
 inline void S_MONSTERSTATE::clear_itargetobjectlayer() {
   itargetobjectlayer_ = 0;
 }
@@ -7332,7 +7363,7 @@ inline void S_MONSTERSTATE::set_itargetobjectlayer(::PROTOBUF_NAMESPACE_ID::int3
   // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iTargetObjectLayer)
 }
 
-// int32 iTargetObjectID = 5;
+// int32 iTargetObjectID = 6;
 inline void S_MONSTERSTATE::clear_itargetobjectid() {
   itargetobjectid_ = 0;
 }
@@ -7352,7 +7383,7 @@ inline void S_MONSTERSTATE::set_itargetobjectid(::PROTOBUF_NAMESPACE_ID::int32 v
   // @@protoc_insertion_point(field_set:Protocol.S_MONSTERSTATE.iTargetObjectID)
 }
 
-// repeated float vTargetPos = 6 [packed = true];
+// repeated float vTargetPos = 7 [packed = true];
 inline int S_MONSTERSTATE::_internal_vtargetpos_size() const {
   return vtargetpos_.size();
 }

@@ -18,7 +18,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-		m_bCondition = IsZeroHP();
+		m_bCondition = IsMaz();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -28,10 +28,14 @@ private:
 	}
 
 private:
-	_bool	IsZeroHP()
+	_bool	IsMaz()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_Hp()<0)
-			return true;
+		for (size_t i = 1; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
+		{
+			if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect((STATUSEFFECT)i) > 0)
+				return true;
+		}
+
 
 		return false;
 	}

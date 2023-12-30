@@ -70,6 +70,7 @@ HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction)
 		return E_FAIL;
 	m_PreviousAction = iter;
 	m_PreviousAction->second->OnStart();
+	m_PreviousAction->second->Start_Animation();
 	return S_OK;
 }
 

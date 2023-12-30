@@ -33,6 +33,11 @@
 #include <Common_BT_BoundLand.h>
 #include <Common_BT_TwistLand.h>
 #include "PartObject.h"
+#include <Common_BT_Earthquake.h>
+#include <Common_BT_Bug.h>
+#include <Common_BT_Fear.h>
+#include <Common_BT_Stun.h>
+#include <Common_BT_Shock.h>
 
 CMonster_Reaper::CMonster_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -57,8 +62,10 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
 
 	m_tCullingSphere.Radius = 1.5f;
 	m_tCullingSphere.Center = Vec3(0.f, 1.5f, 0.f);
-	m_vecAttackRanges.push_back(1.f);
-	m_vecAttackRanges.push_back(5.f);
+	m_vecAttackRanges.clear();
+	m_vecAttackRanges.push_back(1.2f);
+	m_vecAttackRanges.push_back(1.2f);
+	m_fAttackRange = m_vecAttackRanges[0];
 	m_fFontScale = 0.5f;
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 33;
@@ -316,7 +323,54 @@ HRESULT CMonster_Reaper::Ready_BehaviourTree()
 	CBT_Action* pStandUp = Common_BT_Stand::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_bug_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bug";
+	CBT_Action* pBug = CCommon_BT_Bug::Create(&ActionDesc);
 
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_earthquake_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Earthquake";
+	CBT_Action* pEarthquake = CCommon_BT_Earthquake::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_fear_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Fear";
+	CBT_Action* pFear = CCommon_BT_Fear::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_shock_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Shock";
+	CBT_Action* pShock = CCommon_BT_Shock::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_stun_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stun";
+	CBT_Action* pStun = CCommon_BT_Stun::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;

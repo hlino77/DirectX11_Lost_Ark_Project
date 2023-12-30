@@ -33,7 +33,7 @@ HRESULT CSkill_WR_WildStomp::Initialize(void* pArg)
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.f);
 	Proj_Desc.iDamage = 100.f;
-	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::STUN;
+	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::EARTHQUAKE;
 	Proj_Desc.fStatusDuration = 3.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;

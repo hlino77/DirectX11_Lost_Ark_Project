@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Model.h"
 #include "BehaviorTree.h"
+#include "AsUtils.h"
 CBT_Action::CBT_Action()
 {
 }
@@ -45,6 +46,7 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[iAnimIndex].iAnimIndex, 
 		m_vecAnimDesc[iAnimIndex].fChangeTime, m_vecAnimDesc[iAnimIndex].iStartFrame, 
 		m_vecAnimDesc[iAnimIndex].iChangeFrame, m_vecAnimDesc[iAnimIndex].fRootDist);
+	cout << endl << CAsUtils::ToString( m_strActionName) << endl;
 	m_fFrame = 0.f;
 	m_fLoopTime = 0;
 	m_iCurrAnimation = 0;
@@ -75,6 +77,12 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 	}
 
 	return BT_RUNNING;
+}
+
+void CBT_Action::Start_Animation()
+{
+	m_pGameObject->Get_ModelCom()->Set_CurrAnim(m_vecAnimDesc[0].iAnimIndex);
+	m_pGameObject->Get_ModelCom()->Play_Animation(0.f);
 }
 
 void CBT_Action::Free()

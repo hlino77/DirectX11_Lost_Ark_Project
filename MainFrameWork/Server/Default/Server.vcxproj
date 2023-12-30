@@ -151,8 +151,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Boss_BT_Counter_Server.cpp" />
+    <ClCompile Include="..\Private\Boss_BT_Groggy_Server.cpp" />
     <ClCompile Include="..\Private\Boss_King_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Server.cpp" />
+    <ClCompile Include="..\Private\Boss_Valtan_Server.cpp" />
     <ClCompile Include="..\Private\Camera_Free_Server.cpp" />
     <ClCompile Include="..\Private\ChaosDungean_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_BoundLand_Server.cpp" />
@@ -213,6 +215,28 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Attack1_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack0_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack10_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack11_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack12_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack13_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack14_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack19_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack1_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack20_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack21_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack3_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack4_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack5_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack6_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack7_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9_Server.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Chase_Server.cpp" />
@@ -229,7 +253,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Boss_BT_Counter_Server.h" />
+    <ClInclude Include="..\Public\Boss_BT_Groggy_Server.h" />
+    <ClInclude Include="..\Public\Boss_BT_IF_Groggy_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_IF_Phase1_Server.h" />
     <ClInclude Include="..\Public\Boss_Server.h" />
+    <ClInclude Include="..\Public\Boss_Valtan_Server.h" />
     <ClInclude Include="..\Public\Camera_Free_Server.h" />
     <ClInclude Include="..\Public\ChaosDungean_Server.h" />
     <ClInclude Include="..\Public\Common_BT_BoundLand_Server.h" />
@@ -239,7 +267,12 @@
     <ClInclude Include="..\Public\Common_BT_Fear_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_BoundLand_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_IF_Countered_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Bug_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Earthquake_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Fear_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_FirstHit_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Shock_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Stun_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_TwistLand_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Bound_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Downed_Server.h" />
@@ -293,6 +326,28 @@
     <ClInclude Include="..\Public\Skill_Server.h" />
     <ClInclude Include="..\Public\Struct.pb.h" />
     <ClInclude Include="..\Public\Common_BT_Attack1_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack0_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack10_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack11_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack12_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack13_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack14_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack19_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack1_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack20_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack21_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack3_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack4_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack5_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack6_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack7_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9_Server.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2_Server.h" />
     <ClInclude Include="..\Public\Common_BT_BattleIdle_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Chase_Server.h" />

@@ -38,7 +38,8 @@ public:
 	CBT_Node::BT_RETURN OnUpdate(const _float& fTimeDelta);
 
 	virtual void		Reset()		override { m_eReturn = RETURN_END; }
-
+	
+	void				Start_Animation();
 protected:
 	_int						m_iCurrAnimation = 0;
 	vector<ANIMATION_DESC>	m_vecAnimDesc;

@@ -14,6 +14,8 @@ void CKing_BT_Attack_Erruption::OnStart()
 {
 	__super::OnStart(0);
 	m_Shoot = true;
+
+	m_bLookatRight = CGameInstance::GetInstance()->Random_Coin(0.5f);
 }
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta)
@@ -26,7 +28,7 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 		ModelDesc.pOwner = m_pGameObject;
 		//ModelDesc.strFileName
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		if (CGameInstance::GetInstance()->Get_RandomFloat(0.f, 1.f) > 0.5f)
+		if (m_bLookatRight)
 		{
 			Vec3 vRight = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT);
 			vRight.Normalize();

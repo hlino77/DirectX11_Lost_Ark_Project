@@ -365,6 +365,7 @@ constexpr S_MONSTERSTATE::S_MONSTERSTATE(
   , strstate_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
   , iobjectid_(0)
   , ilevel_(0)
+  , ilayer_(0)
   , itargetobjectlayer_(0)
   , itargetobjectid_(0){}
 struct S_MONSTERSTATEDefaultTypeInternal {
@@ -635,6 +636,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, iobjectid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, ilevel_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, ilayer_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, strstate_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, itargetobjectlayer_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, itargetobjectid_),
@@ -689,9 +691,9 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 184, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
   { 198, -1, sizeof(::Protocol::S_CHAT)},
   { 204, -1, sizeof(::Protocol::S_MONSTERSTATE)},
-  { 215, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
-  { 222, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
-  { 230, -1, sizeof(::Protocol::S_IDENTITY)},
+  { 216, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
+  { 223, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
+  { 231, -1, sizeof(::Protocol::S_IDENTITY)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -780,16 +782,17 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023\n\013strNickName\030\006 \001"
   "(\014\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\022\020\n\010strState\030\010"
   " \001(\t\022\024\n\014iWeaponIndex\030\t \001(\005\"\030\n\006S_CHAT\022\016\n\006"
-  "szChat\030\001 \001(\014\"\222\001\n\016S_MONSTERSTATE\022\021\n\tiObje"
-  "ctID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\020\n\010strState\030\003"
-  " \001(\t\022\032\n\022iTargetObjectLayer\030\004 \001(\005\022\027\n\017iTar"
-  "getObjectID\030\005 \001(\005\022\026\n\nvTargetPos\030\006 \003(\002B\002\020"
-  "\001\";\n\021S_PLAYERLEVELMOVE\022\022\n\niCurrLevel\030\001 \001"
-  "(\005\022\022\n\niNextLevel\030\002 \001(\005\"G\n\022S_DELETEGAMEOB"
-  "JECT\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022"
-  "\016\n\006iLayer\030\003 \001(\005\"U\n\nS_IDENTITY\022\021\n\tiObject"
-  "ID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005"
-  "\022\024\n\014iWeaponIndex\030\004 \001(\005b\006proto3"
+  "szChat\030\001 \001(\014\"\242\001\n\016S_MONSTERSTATE\022\021\n\tiObje"
+  "ctID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001"
+  "(\005\022\020\n\010strState\030\004 \001(\t\022\032\n\022iTargetObjectLay"
+  "er\030\005 \001(\005\022\027\n\017iTargetObjectID\030\006 \001(\005\022\026\n\nvTa"
+  "rgetPos\030\007 \003(\002B\002\020\001\";\n\021S_PLAYERLEVELMOVE\022\022"
+  "\n\niCurrLevel\030\001 \001(\005\022\022\n\niNextLevel\030\002 \001(\005\"G"
+  "\n\022S_DELETEGAMEOBJECT\022\021\n\tiObjectID\030\001 \001(\005\022"
+  "\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\"U\n\nS_IDE"
+  "NTITY\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005"
+  "\022\016\n\006iLayer\030\003 \001(\005\022\024\n\014iWeaponIndex\030\004 \001(\005b\006"
+  "proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -797,7 +800,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 2590, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 2606, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 27,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -7210,35 +7213,42 @@ const char* S_MONSTERSTATE::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string strState = 3;
+      // int32 iLayer = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ilayer_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string strState = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           auto str = _internal_mutable_strstate();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Protocol.S_MONSTERSTATE.strState"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 iTargetObjectLayer = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+      // int32 iTargetObjectLayer = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           itargetobjectlayer_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 iTargetObjectID = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+      // int32 iTargetObjectID = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           itargetobjectid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated float vTargetPos = 6 [packed = true];
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+      // repeated float vTargetPos = 7 [packed = true];
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_vtargetpos(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53) {
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61) {
           _internal_add_vtargetpos(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
           ptr += sizeof(float);
         } else goto handle_unusual;
@@ -7284,31 +7294,37 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_ilevel(), target);
   }
 
-  // string strState = 3;
+  // int32 iLayer = 3;
+  if (this->ilayer() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_ilayer(), target);
+  }
+
+  // string strState = 4;
   if (!this->strstate().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_strstate().data(), static_cast<int>(this->_internal_strstate().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "Protocol.S_MONSTERSTATE.strState");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_strstate(), target);
+        4, this->_internal_strstate(), target);
   }
 
-  // int32 iTargetObjectLayer = 4;
+  // int32 iTargetObjectLayer = 5;
   if (this->itargetobjectlayer() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_itargetobjectlayer(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_itargetobjectlayer(), target);
   }
 
-  // int32 iTargetObjectID = 5;
+  // int32 iTargetObjectID = 6;
   if (this->itargetobjectid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_itargetobjectid(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_itargetobjectid(), target);
   }
 
-  // repeated float vTargetPos = 6 [packed = true];
+  // repeated float vTargetPos = 7 [packed = true];
   if (this->_internal_vtargetpos_size() > 0) {
-    target = stream->WriteFixedPacked(6, _internal_vtargetpos(), target);
+    target = stream->WriteFixedPacked(7, _internal_vtargetpos(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7327,7 +7343,7 @@ size_t S_MONSTERSTATE::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated float vTargetPos = 6 [packed = true];
+  // repeated float vTargetPos = 7 [packed = true];
   {
     unsigned int count = static_cast<unsigned int>(this->_internal_vtargetpos_size());
     size_t data_size = 4UL * count;
@@ -7339,7 +7355,7 @@ size_t S_MONSTERSTATE::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // string strState = 3;
+  // string strState = 4;
   if (!this->strstate().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -7360,14 +7376,21 @@ size_t S_MONSTERSTATE::ByteSizeLong() const {
         this->_internal_ilevel());
   }
 
-  // int32 iTargetObjectLayer = 4;
+  // int32 iLayer = 3;
+  if (this->ilayer() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_ilayer());
+  }
+
+  // int32 iTargetObjectLayer = 5;
   if (this->itargetobjectlayer() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_itargetobjectlayer());
   }
 
-  // int32 iTargetObjectID = 5;
+  // int32 iTargetObjectID = 6;
   if (this->itargetobjectid() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
@@ -7414,6 +7437,9 @@ void S_MONSTERSTATE::MergeFrom(const S_MONSTERSTATE& from) {
   }
   if (from.ilevel() != 0) {
     _internal_set_ilevel(from._internal_ilevel());
+  }
+  if (from.ilayer() != 0) {
+    _internal_set_ilayer(from._internal_ilayer());
   }
   if (from.itargetobjectlayer() != 0) {
     _internal_set_itargetobjectlayer(from._internal_itargetobjectlayer());

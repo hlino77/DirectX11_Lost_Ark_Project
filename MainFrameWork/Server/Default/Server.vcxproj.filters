@@ -172,6 +172,18 @@
     <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Hit\Maz\Fear">
       <UniqueIdentifier>{281a8a76-5154-44ef-affb-f4797e4a03d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan">
+      <UniqueIdentifier>{17d6a960-767c-43db-b13d-9203e71372f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior">
+      <UniqueIdentifier>{fe5acdae-2913-484d-94ab-28a1e3ee497b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Decorator">
+      <UniqueIdentifier>{f452740a-d0cf-4aaa-a27a-b0442d5c6cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_Attack">
+      <UniqueIdentifier>{f5ead907-3ba0-44e8-9b85-dea4e4642d22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -218,9 +230,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Server.cpp">
       <Filter>02. GameObject\03. Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Boss_Server.cpp">
-      <Filter>02. GameObject\04. Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Server.cpp">
       <Filter>02. GameObject\05. Skill</Filter>
@@ -371,6 +380,81 @@
     </ClCompile>
     <ClCompile Include="..\Private\ChaosDungean_Server.cpp">
       <Filter>02. GameObject\06. ChaosDungean</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Server.cpp">
+      <Filter>02. GameObject\04. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_BT_Groggy_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack0_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack1_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack3_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack4_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack5_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack6_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack7_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack10_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack11_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack12_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack13_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack14_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack19_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack20_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack21_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -619,6 +703,99 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Shock_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit\Maz\Shock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Fear_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Shock_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Stun_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Bug_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Common_BT_IF_Earthquake_Server.h">
+      <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_BT_Groggy_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_BT_IF_Groggy_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack0_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack1_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack3_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack4_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack5_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack6_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack7_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack10_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack11_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack12_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack13_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack14_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack19_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack20_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack21_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_IF_Phase1_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

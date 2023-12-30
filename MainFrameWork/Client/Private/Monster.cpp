@@ -73,8 +73,6 @@ HRESULT CMonster::Initialize(void* pArg)
 				return E_FAIL;
 		}
 	}
-
-	m_fAttackRange = 0.5f;
 	m_fMoveSpeed = 1.5f;
 
     return S_OK;
@@ -319,103 +317,11 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{
-			_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
-			Vec3 vPos = {};
-			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
-			{
-				switch (pOther->GetColliderType())
-				{
-				case ColliderType::OBB:
-					vPos = static_cast<COBBCollider*>(pOther)->Get_Center();
-					break;
-				case ColliderType::Sphere:
-					vPos = static_cast<CSphereCollider*>(pOther)->Get_Center();
-					break;
-				}
-				vPos.y = 0.f;
-			}
-			else
-			{
-				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-				vPos.y = 1.f;
-			}
-
-			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
-			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
-			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
-				fStatusDuration += 110.f;
-			STATUSEFFECT eEffect = (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
-			int iCritical = rand() % 10;
-
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
-			_bool IsCritical = false;
-			if (iCritical < 3)
-			{
-				IsCritical = true;
-				iDamage *= 2;
-			}
-
-			Send_Collision(iDamage, vPos, STATUSEFFECT::COUNTER, fForce, fStatusDuration);
-			Show_Damage(iDamage, IsCritical);
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
-
+			Send_CollidingInfo(iColLayer, pOther);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
-			_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
-			Vec3 vPos = {};
-			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
-			{
-				switch (pOther->GetColliderType())
-				{
-				case ColliderType::OBB:
-					vPos = static_cast<COBBCollider*>(pOther)->Get_Center();
-					break;
-				case ColliderType::Sphere:
-					vPos = static_cast<CSphereCollider*>(pOther)->Get_Center();
-					break;
-				}
-				vPos.y = 0.f;
-			}
-			else
-			{
-				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-				vPos.y = 1.f;
-			}
-
-			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
-			_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
-			int iCritical = rand() % 10;
-
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
-			_bool IsCritical = false;
-			if (iCritical < 3)
-			{
-				IsCritical = true;
-				iDamage *= 2;
-			}
-
-			if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
-				fStatusDuration += 100.f;
-			_int iStatusEffect = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
-			Send_Collision(iDamage, vPos, (STATUSEFFECT)iStatusEffect, fForce, fStatusDuration);
-			Show_Damage(iDamage, IsCritical);
-
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
-
-		}
-	}
-	else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
-	{
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
+			Send_CollidingInfo(iColLayer, pOther);
 		}
 	}
 }
@@ -508,7 +414,7 @@ void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect,
 	Protocol::S_COLLISION pkt;
 
 	pkt.set_ilevel(m_iCurrLevel);
-	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_MONSTER);
+	pkt.set_ilayer(m_iLayer);
 	pkt.set_iobjectid(m_iObjectID);
 
 	pkt.set_idamage(iDamage);
@@ -568,14 +474,35 @@ _float CMonster::Get_Target_Distance()
 
 Vec3 CMonster::Get_Target_Direction()
 {
-	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)+ m_vRandomPosition;
+
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	Vec3 vDirection = (vTargetPosition - vCurrentPosition);
+	Vec3 vDirection = vTargetPosition - vCurrentPosition;
+
 	vDirection.Normalize();
 	return vDirection;
 }
 
+Vec3 CMonster::Get_Target_RandomDirection()
+{
 
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + m_vRandomPosition;
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDirection = vTargetPosition - vCurrentPosition;
+
+	vDirection.Normalize();
+	return vDirection;
+}
+
+_bool CMonster::Is_Close_To_TargetRandomPosition()
+{
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + m_vRandomPosition;
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	if ((vTargetPosition - vCurrentPosition).Length() < 0.2f)
+		return true;
+	else
+		return false;
+}
 
 void CMonster::Move_to_RandomPosition(_float fTimeDelta)
 {
@@ -935,6 +862,47 @@ void CMonster::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)
 {
 	if (Get_Target_Distance() > _TargetDistance)
 		m_pModelCom->Set_ToRootPos(m_pTransformCom);
+}
+
+void CMonster::Send_CollidingInfo(const _uint iColLayer, CCollider* pOther)
+{
+	_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+	Vec3 vPos = {};
+	if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
+	{
+		switch (pOther->GetColliderType())
+		{
+		case ColliderType::OBB:
+			vPos = static_cast<COBBCollider*>(pOther)->Get_Center();
+			break;
+		case ColliderType::Sphere:
+			vPos = static_cast<CSphereCollider*>(pOther)->Get_Center();
+			break;
+		}
+		vPos.y = 0.f;
+	}
+	else
+	{
+		vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vPos.y = 1.f;
+	}
+
+	_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+	_float fStatusDuration = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration;
+	if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
+		fStatusDuration += 100.f;
+	STATUSEFFECT eEffect = (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
+	_int iCritical = rand() % 10;
+
+	iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
+	_bool IsCritical = false;
+	if (iCritical < 3)
+	{
+		IsCritical = true;
+		iDamage *= 2;
+	};
+	Send_Collision(iDamage, vPos, eEffect, fForce, fStatusDuration);
+	Show_Damage(iDamage, IsCritical);
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

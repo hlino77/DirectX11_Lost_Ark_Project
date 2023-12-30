@@ -279,7 +279,7 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 		CBoss_Server::MODELDESC Desc;
 		Desc.strFileName = ModelName;
 		Desc.iObjectID = g_iObjectID++;
-		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BOSS;
 		Desc.iLevel = iLevel;
 
 		wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
@@ -298,7 +298,7 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 		tMonsterPkt.set_iobjecttype(pBoss->Get_ObjectType());
 		tMonsterPkt.set_strname(CAsUtils::ToString(pBoss->Get_ModelName()));
 		tMonsterPkt.set_ilayer(pBoss->Get_ObjectLayer());
-		tMonsterPkt.set_ilevel(iLevel);
+		tMonsterPkt.set_ilevel(pBoss->Get_CurrLevel());
 
 		tMonsterPkt.set_bcontroll(true);
 

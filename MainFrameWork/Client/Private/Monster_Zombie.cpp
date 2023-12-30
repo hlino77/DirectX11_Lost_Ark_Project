@@ -32,6 +32,7 @@
 #include <Common_BT_Bug.h>
 #include <Common_BT_Fear.h>
 #include <Common_BT_Stun.h>
+#include <Common_BT_Shock.h>
 
 
 
@@ -63,7 +64,10 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	m_iBasicAttackStartFrame = 34;
 	m_iBasicAttackEndFrame = 51;
 	m_fFontScale = 0.4f;
-
+	m_vecAttackRanges.clear();
+	m_vecAttackRanges.push_back(1.2f);
+	m_vecAttackRanges.push_back(1.2f);
+	m_fAttackRange = m_vecAttackRanges[0];
     return S_OK;
 }
 
@@ -293,7 +297,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Bug";
-	CBT_Action* pBug = CCommon_BT_Bound::Create(&ActionDesc);
+	CBT_Action* pBug = CCommon_BT_Bug::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -313,7 +317,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Fear";
-	CBT_Action* pFear = CCommon_BT_Bug::Create(&ActionDesc);
+	CBT_Action* pFear = CCommon_BT_Fear::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -323,7 +327,7 @@ HRESULT CMonster_Zombie::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Shock";
-	CBT_Action* pShock = CCommon_BT_Fear::Create(&ActionDesc);
+	CBT_Action* pShock = CCommon_BT_Shock::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("abn_stun_1");

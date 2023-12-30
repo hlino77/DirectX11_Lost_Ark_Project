@@ -61,7 +61,7 @@ void CMonster_Server::Tick(_float fTimeDelta)
 	m_pRigidBody->Tick(fTimeDelta);
 
 	m_fHitTerm -= fTimeDelta;
-
+	Update_StatusEffect(fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
@@ -294,21 +294,21 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
+	_float fStatusDuration = fDuration;
 
-	cout<< endl << m_iObjectID << m_iHp << endl;
 	if (!m_IsSuperArmor)
 	{
 		m_IsAttacked = true;
 		if (m_IsHit || m_IsSecondHit)
 		{
-			if (fForce < 20 && 100 != fDuration)
+			if (fForce < 20 && 100 != fStatusDuration)
 			{
 				fForce *= 0.2f;
 			}
-			if (100 <= fDuration )
-			{
-				fDuration -= 100.f;
-			}
+		}
+		if (100 <= fStatusDuration)
+		{
+			fStatusDuration -= 100.f;
 		}
 		if (m_IsHit&&m_fHitTerm <0.f)
 		{
@@ -374,9 +374,15 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		m_IsHit = true;
 	}
 
-	ZeroMemory(m_fStatusEffects, sizeof(_float) * (_int)STATUSEFFECT::EFFECTEND);
-	m_fStatusEffects[iStatusEffect] += fDuration;
-
+	if (iStatusEffect != (_int)STATUSEFFECT::COUNTER && fStatusDuration !=0&&iStatusEffect < (_int)STATUSEFFECT::EFFECTEND)
+	{
+		for (size_t i = 0; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
+		{
+				m_fStatusEffects[i] = 0;
+		}
+		m_fStatusEffects[iStatusEffect] += fStatusDuration;
+		cout<< endl << "상태이상:	" << iStatusEffect << endl << "지속시간:	" << fStatusDuration << endl;
+	}
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);
 }
 
@@ -388,7 +394,7 @@ void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT e
 	Protocol::S_COLLISION pkt;
 
 	pkt.set_ilevel(m_iCurrLevel);
-	pkt.set_ilayer((_uint)LAYER_TYPE::LAYER_MONSTER);
+	pkt.set_ilayer(m_iLayer);
 	pkt.set_iobjectid(m_iObjectID);
 
 	pkt.set_idamage(iDamage);
@@ -476,14 +482,34 @@ _float CMonster_Server::Get_NearTargetDistance()
 
 Vec3 CMonster_Server::Get_Target_Direction()
 {
-	if (m_pNearTarget == nullptr)
-		return Vec3();
+
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	Vec3 vDirection = vTargetPosition - vCurrentPosition;
+
+	vDirection.Normalize();
+	return vDirection;
+}
+
+Vec3 CMonster_Server::Get_Target_RandomDirection()
+{
 
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)+m_vRandomPosition;
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDirection = vTargetPosition - vCurrentPosition;
+
 	vDirection.Normalize();
 	return vDirection;
+}
+
+_bool CMonster_Server::Is_Close_To_TargetRandomPosition()
+{
+	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + m_vRandomPosition;
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	if ((vTargetPosition - vCurrentPosition).Length() < 0.2f)
+		return true;
+	else
+		return false;
 }
 
 void CMonster_Server::Set_RandomPosition()
@@ -495,7 +521,8 @@ void CMonster_Server::Set_RandomPosition()
 
 void CMonster_Server::Set_RandomPosition(_float fRange)
 {
-	m_vTargetPos = m_vRandomPosition = Vec3(CGameInstance::GetInstance()->Get_RandomFloat(-fRange, fRange), 0.f, CGameInstance::GetInstance()->Get_RandomFloat(-fRange, fRange));
+	float	fRandomRange = max(1.5f, fRange);
+	m_vTargetPos = m_vRandomPosition = Vec3(CGameInstance::GetInstance()->Get_RandomFloat(-fRandomRange, fRandomRange), 0.f, CGameInstance::GetInstance()->Get_RandomFloat(-fRandomRange, fRandomRange));
 
 }
 
@@ -504,6 +531,7 @@ void CMonster_Server::Move_to_RandomPosition(_float fTimeDelta)
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	Move_Dir(m_vRandomPosition - vCurrentPosition, 1.f, fTimeDelta);
 }
+
 _float CMonster_Server::Get_Target_Distance()
 {
 	if (m_pNearTarget == nullptr)
@@ -514,6 +542,7 @@ _float CMonster_Server::Get_Target_Distance()
 
 	return (vTargetPosition - vCurrentPosition).Length();
 }
+
 _bool CMonster_Server::Is_Close_To_RandomPosition()
 {
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -522,6 +551,7 @@ _bool CMonster_Server::Is_Close_To_RandomPosition()
 	else
 		return false;
 }
+
 
 void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 {
@@ -669,6 +699,7 @@ void CMonster_Server::Send_Monster_Action()
 
 	pkt.set_ilevel(m_iCurrLevel);
 	pkt.set_iobjectid(m_iObjectID);
+	pkt.set_ilayer(m_iLayer);
 	pkt.set_strstate(CAsUtils::ToString(m_strAction));
 	if (m_pNearTarget == nullptr)
 		pkt.set_itargetobjectid(-1);
