@@ -48,7 +48,7 @@ void CState_GN_TerminatingShot_Start::Tick_State(_float fTimeDelta)
 
 void CState_GN_TerminatingShot_Start::Exit_State()
 {
-	if (40 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	if (40 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::SHOT, m_eSkillSelectKey);
 
@@ -75,7 +75,8 @@ void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 	{
 		m_bComboContinue = true;
 	}
-	else if (40 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+
+	if (40 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
 	{
 		if (true == m_bComboContinue)
 		{
@@ -85,7 +86,9 @@ void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 
 			m_pPlayer->Set_State(TEXT("Skill_GN_TerminatingShot_End"));
 		}
-
+	}
+	else if (40 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	{
 		if (true == m_pController->Is_Dash())
 		{
 			Vec3 vClickPos;

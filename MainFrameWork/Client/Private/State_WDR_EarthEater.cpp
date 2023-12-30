@@ -13,7 +13,7 @@ CState_WDR_EarthEater::CState_WDR_EarthEater(const wstring& strStateName, CState
 
 HRESULT CState_WDR_EarthEater::Initialize()
 {
-	m_iEarthEater = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_endurepain", 1.2f);
+	m_iEarthEater = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_eartheater", 1.2f);
 	if (m_iEarthEater == -1)
 		return E_FAIL;
 
@@ -22,7 +22,11 @@ HRESULT CState_WDR_EarthEater::Initialize()
 	else
 		m_TickFunc = &CState_WDR_EarthEater::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(23);
+	m_SkillFrames.push_back(48);
+	m_SkillFrames.push_back(58);
+	m_SkillFrames.push_back(68);
+	m_SkillFrames.push_back(91);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;
@@ -36,9 +40,10 @@ void CState_WDR_EarthEater::Enter_State()
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+	m_pPlayer->Get_WDR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
-	m_pPlayer->Get_WDR_Controller()->Get_AddMarbleMessage(3.f);
+	m_pPlayer->Get_WDR_Controller()->Get_UseMarbleMessage();
 }
 
 void CState_WDR_EarthEater::Tick_State(_float fTimeDelta)
@@ -63,13 +68,43 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iEarthEater))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
+	Vec3 vClickPos;
 	if (true == m_pController->Is_Dash())
 	{
-		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 
 		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	if (110 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEarthEater))
+	{
+	
+		if (true == m_pController->Is_Skill())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
+		}
+		else if (true == m_pController->Is_Attack())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(TEXT("Attack_1"));
+		}
+		else if (true == static_cast<CController_WDR*>(m_pController)->Is_Identity())
+		{
+			m_pPlayer->Set_State(TEXT("WDR_Identity"));
+		}
+		else if (true == m_pController->Is_Run())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			{
+				m_pPlayer->Set_TargetPos(vClickPos);
+				m_pPlayer->Set_State(TEXT("Run"));
+			}
+		}
 	}
 }
 

@@ -63,6 +63,44 @@ void CState_WDR_EndurePain::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iEndurePain))
 		m_pPlayer->Set_State(TEXT("Idle"));
+
+	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEndurePain))
+	{
+		Vec3 vClickPos;
+		if (true == m_pController->Is_Dash())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(TEXT("Dash"));
+		}
+		else if (true == m_pController->Is_Skill())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
+		}
+		else if (true == m_pController->Is_Attack())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+				m_pPlayer->Set_TargetPos(vClickPos);
+
+			m_pPlayer->Set_State(TEXT("Attack_1"));
+		}
+		else if (true == static_cast<CController_WDR*>(m_pController)->Is_Identity())
+		{
+			m_pPlayer->Set_State(TEXT("WDR_Identity"));
+		}
+		else if (true == m_pController->Is_Run())
+		{
+			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			{
+				m_pPlayer->Set_TargetPos(vClickPos);
+				m_pPlayer->Set_State(TEXT("Run"));
+			}
+		}
+	}
 }
 
 void CState_WDR_EndurePain::Tick_State_NoneControl(_float fTimeDelta)

@@ -186,7 +186,7 @@ HRESULT CPlayer_Gunslinger::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			if (i == 1/*hair*/ && j == 1/*m_iHairIndex*/)
+			if (i == (_uint)PART::HELMET && j == m_IsHair)
 			{
 				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
 					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
@@ -349,6 +349,8 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 	wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
 		return E_FAIL;
+
+	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
 
 	strComName = L"Prototype_Component_Model_GN_Legend_Body";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))

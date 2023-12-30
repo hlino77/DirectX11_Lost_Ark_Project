@@ -26,7 +26,7 @@ public:
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
 	const _int&		Get_IdenGage() { return m_iIdentityGage; }
-	const _int& Get_IdenMaxGauge() { return m_iMaxGage; }
+	const _int&		Get_IdenMaxGauge() { return m_iMaxGage; }
 	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
 	const _float&	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
 

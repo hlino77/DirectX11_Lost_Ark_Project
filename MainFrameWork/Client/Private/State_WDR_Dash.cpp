@@ -26,7 +26,7 @@ HRESULT CState_WDR_Dash::Initialize()
 
 void CState_WDR_Dash::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 1.5f);
+	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 1.2f);
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());

@@ -33,10 +33,33 @@
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
+#include "State_WDR_EarthEater.h"
+#include "State_WDR_FullSwing_Start.h"
+#include "State_WDR_FullSwing_Loop.h"
+#include "State_WDR_FullSwing_Success.h"
+#include "State_WDR_FullSwing_Fail.h"
+#include "State_WDR_HeavyCrush.h"
+#include "State_WDR_PerfectSwing_Start.h"
+#include "State_WDR_PerfectSwing_Loop.h"
+#include "State_WDR_PerfectSwing_Success.h"
+#include "State_WDR_PerfectSwing_Fail.h"
+#include "State_WDR_PowerShoulder_Start.h"
+#include "State_WDR_PowerShoulder_Loop.h"
+#include "State_WDR_PowerShoulder_End.h"
+#include "State_WDR_PowerStrike_Start.h"
+#include "State_WDR_PowerStrike_Loop.h"
+#include "State_WDR_PowerStrike_End.h"
+#include "State_WDR_SizemicHammer.h"
 
 /* ½ºÅ³ */
 #include "Skill_WDR_EndurePain.h"
-
+#include "Skill_WDR_EarthEater.h"
+#include "Skill_WDR_FullSwing.h"
+#include "Skill_WDR_HeavyCrush.h"
+#include "Skill_WDR_PerfectSwing.h"
+#include "Skill_WDR_PowerShoulder.h"
+#include "Skill_WDR_PowerStrike.h"
+#include "Skill_WDR_SizemicHammer.h"
 
 CPlayer_Destroyer::CPlayer_Destroyer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -137,7 +160,7 @@ HRESULT CPlayer_Destroyer::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			if (i == 1/*hair*/ && j == 1/*m_iHairIndex*/)
+			if (i == (_uint)PART::HELMET && j == m_IsHair)
 			{
 				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
 					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
@@ -198,6 +221,21 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 		{
 			m_pController->Get_HitMarbleMessage();
+		}
+	}
+
+	if (TEXT("Skill_WDR_PowerShoulder_Start") == Get_State())
+	{
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+			}
 		}
 	}
 }
@@ -280,6 +318,8 @@ HRESULT CPlayer_Destroyer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
 		return E_FAIL;
 
+	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
+
 	strComName = L"Prototype_Component_Model_WDR_Body_Mococo";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
 		return E_FAIL;
@@ -354,6 +394,57 @@ HRESULT CPlayer_Destroyer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_WDR_EndurePain"), CState_WDR_EndurePain::Create(TEXT("Skill_WDR_EndurePain"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_EarthEater"), CState_WDR_EarthEater::Create(TEXT("Skill_WDR_EarthEater"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_FullSwing_Start"), CState_WDR_FullSwing_Start::Create(TEXT("Skill_WDR_FullSwing_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_FullSwing_Loop"), CState_WDR_FullSwing_Loop::Create(TEXT("Skill_WDR_FullSwing_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_FullSwing_Success"), CState_WDR_FullSwing_Success::Create(TEXT("Skill_WDR_FullSwing_Success"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_FullSwing_Fail"), CState_WDR_FullSwing_Fail::Create(TEXT("Skill_WDR_FullSwing_Fail"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_HeavyCrush"), CState_WDR_HeavyCrush::Create(TEXT("Skill_WDR_HeavyCrush"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PerfectSwing_Start"), CState_WDR_PerfectSwing_Start::Create(TEXT("Skill_WDR_PerfectSwing_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PerfectSwing_Loop"), CState_WDR_PerfectSwing_Loop::Create(TEXT("Skill_WDR_PerfectSwing_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PerfectSwing_Success"), CState_WDR_PerfectSwing_Success::Create(TEXT("Skill_WDR_PerfectSwing_Success"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PerfectSwing_Fail"), CState_WDR_PerfectSwing_Fail::Create(TEXT("Skill_WDR_PerfectSwing_Fail"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PowerShoulder_Start"), CState_WDR_PowerShoulder_Start::Create(TEXT("Skill_WDR_PowerShoulder_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PowerShoulder_Loop"), CState_WDR_PowerShoulder_Loop::Create(TEXT("Skill_WDR_PowerShoulder_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PowerShoulder_End"), CState_WDR_PowerShoulder_End::Create(TEXT("Skill_WDR_PowerShoulder_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PowerStrike_Start"), CState_WDR_PowerStrike_Start::Create(TEXT("Skill_WDR_PowerStrike_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PowerStrike_Loop"), CState_WDR_PowerStrike_Loop::Create(TEXT("Skill_WDR_PowerStrike_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_PowerStrike_End"), CState_WDR_PowerStrike_End::Create(TEXT("Skill_WDR_PowerStrike_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_WDR_SizemicHammer"), CState_WDR_SizemicHammer::Create(TEXT("Skill_WDR_SizemicHammer"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 
 	return S_OK;
 }
@@ -369,6 +460,72 @@ HRESULT CPlayer_Destroyer::Ready_Skill()
 	pSkill = CSkill_WDR_EndurePain::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_EarthEater");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_EarthEater")));
+	pSkill = CSkill_WDR_EarthEater::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_FullSwing_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_FullSwing_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_FullSwing_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_FullSwing_Success")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_FullSwing_Fail")));
+	pSkill = CSkill_WDR_FullSwing::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_HeavyCrush");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_HeavyCrush")));
+	pSkill = CSkill_WDR_HeavyCrush::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_PerfectSwing_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PerfectSwing_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PerfectSwing_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PerfectSwing_Success")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PerfectSwing_Fail")));
+	pSkill = CSkill_WDR_PerfectSwing::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_PowerShoulder_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PowerShoulder_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PowerShoulder_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PowerShoulder_End")));
+	pSkill = CSkill_WDR_PowerShoulder::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_PowerStrike_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PowerStrike_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PowerStrike_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_PowerStrike_End")));
+	pSkill = CSkill_WDR_PowerStrike::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_WDR_SizemicHammer");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WDR_SizemicHammer")));
+	pSkill = CSkill_WDR_SizemicHammer::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::R, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	return S_OK;

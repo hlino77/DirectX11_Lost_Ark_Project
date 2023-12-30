@@ -69,7 +69,7 @@ public:
 	_int	Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed);
 
 	_int	FindMaterialIndexByName(string strMaterialName);
-	_bool	Is_HairTexture(_uint iMaterialIndex);
+	_int	Is_HairTexture();
 
 	_bool	IsNext() { return m_bNext; }
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }

@@ -31,9 +31,8 @@ HRESULT CSkill_GN_LastSupper::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 1.5f);
-	Proj_Desc.iDamage = 150.f;
 	Proj_Desc.fRepulsion = 2.0f;
-	Proj_Desc.iDamage = 200.f;
+	Proj_Desc.iDamage = 200;
 	Proj_Desc.fRepulsion = 20.f;
 	m_SkillProjDesc = Proj_Desc;
 
