@@ -48,8 +48,10 @@ private:
 	HRESULT Loading_For_Level_Lobby();
 	HRESULT Loading_For_Level_Bern();
 
+
+
 	
-	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
+	HRESULT Load_MapData(const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT	Loading_IdentityTexture();
 

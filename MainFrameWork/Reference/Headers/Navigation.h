@@ -1,46 +1,83 @@
 #pragma once
 #include "Base.h"
 #include "AsTypes.h"
+#include <filesystem>
+#include <fstream>
+#include <commdlg.h>
 
 BEGIN(Engine)
 
-class CCell;
-class CGameObject;
-
 class CNavigation : public CBase
 {
+
+
 private:
 	CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CNavigation(const CNavigation& rhs);
 	virtual ~CNavigation() = default;
 
 
-
-
 public:
-	HRESULT Render();
 	HRESULT Initialize();
+	HRESULT Render();
+
+
+public: // Hwang's Founction
+
+	void	SetUp_OnCell(CGameObject* pObject);
+	void	Find_FirstCell(CGameObject* pObject);
+	_bool	Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist);
+	_int	Check_Pos_InCell(Vec3 vPos);
+	CCell*	Find_Cell(_uint iIndex) { return m_vecCells[iIndex]; }
+
+
 public:
-	CCell*		Find_Cell(_uint iIndex) { return m_Cells[iIndex]; }
-	void		Find_FirstCell(CGameObject* pObject);
-	_int		Check_Pos_InCell(Vec3 vPos);
-	_bool		Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist);
-	void		Load_Navigation(const wstring& szFileName);
+	HRESULT Add_Cell(Vec3 PointPos[3]);
+	HRESULT Delete_Cell();
+
+	HRESULT	Set_Neighbors();
+
+	HRESULT Add_IndexCell(Vec3 PointPos[3], _int Index);
+	HRESULT Delete_IndexCell( _int Index);
+
+	void	Save_Navigation(const wstring& szFileName);
+	void	Load_Navigation(const wstring& szFileName);
+
+	void	Cell_FileLoad(ifstream& file);
 
 
-	void		SetUp_OnCell(CGameObject* pObject);
+public:  // Get Set
+	vector <class CCell*> Get_Cells() { return m_vecCells; }
+
+	CCell* Get_Cell(_int Index) { return m_vecCells[Index]; }
+
+	void Set_SelectCell(_uint iIndex);
+
+	void Reset_CellPoint();
+
+
 private:
-	vector<CCell*>			m_Cells;
 
-	CCell*					m_pCurrCell = nullptr;
+	vector<class CCell*>			m_vecCells;
 
-private:
-	ID3D11Device* m_pDevice = { nullptr };
-	ID3D11DeviceContext* m_pContext = { nullptr };
-	PrimitiveBatch<VertexPositionColor>* m_pBatch = nullptr;
-	BasicEffect* m_pEffect = nullptr;
-	ID3D11InputLayout* m_pInputLayout = nullptr;
+	class CCellPoint*			   m_pCellPoint[3] = { nullptr, nullptr, nullptr };
 
+
+	_int				   m_iCurrentIndex = { -1 };
+
+	CCell*				   m_pCurrnetCell = nullptr;
+	CCell*				   m_pSelectCell = nullptr;
+
+
+private: // For Render
+	ID3D11Device*							 m_pDevice = { nullptr };
+	ID3D11DeviceContext*					 m_pContext = { nullptr };
+
+	PrimitiveBatch<VertexPositionColor>*	 m_pBatch = nullptr;
+	BasicEffect*							 m_pEffect = nullptr;
+	ID3D11InputLayout*						 m_pInputLayout = nullptr;
+	
+	_bool									 m_IsFirstRender = true;
 
 public:
 	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

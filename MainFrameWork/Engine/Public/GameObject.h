@@ -176,6 +176,10 @@ public:
 	_int		Get_WeaponIndex() { return m_iWeaponIndex; }
 	void		Set_WeaponIndex(_int iWeaponIndex) { m_iWeaponIndex = iWeaponIndex; }
 
+	_bool		Get_IsMapObject() { return m_IsMapObject; }
+	void		Set_IsMapObject() { m_IsMapObject = true; }
+
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -249,6 +253,10 @@ protected:
 	//Instancing
 	_bool						m_bInstance = false;
 	shared_ptr<INSTANCEDATA>	m_pInstaceData = nullptr;
+
+	// MapObject
+	_bool						m_IsMapObject = false;
+
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

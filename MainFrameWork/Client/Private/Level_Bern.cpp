@@ -35,6 +35,8 @@
 #include "Damage_Manager.h"
 #include "UI_SpaceBar_Icon.h"
 
+#include <filesystem>
+
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -47,7 +49,8 @@ HRESULT CLevel_Bern::Initialize()
 
 	Send_UserInfo();
 
-	CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
+	//CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(L"Chaos1.navi");
 
 	Ready_Renderer();
 
@@ -76,6 +79,12 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (FAILED(Ready_Layer_Effect(LAYER_TYPE::LAYER_EFFECT)))
 		return E_FAIL;
+
+
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/1.data"))))
+	{
+		return E_FAIL;
+	}
 
 
 	while (true)
@@ -127,6 +136,8 @@ HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
 HRESULT CLevel_Bern::Render_Debug()
 {
 	m_pImGuiManager->Tick();
+
+	CNavigationMgr::GetInstance()->Render();
 	return S_OK;
 }
 
@@ -217,6 +228,7 @@ HRESULT CLevel_Bern::Ready_Layer_Player(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+
 
 
 	Safe_Release(pGameInstance);
@@ -379,7 +391,7 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CameraDesc.tCameraDesc.fNear = 0.2f;
 	CameraDesc.tCameraDesc.fFar = 1200.0f;
 
-	CameraDesc.tCameraDesc.TransformDesc.fSpeedPerSec = 5.f;
+	CameraDesc.tCameraDesc.TransformDesc.fSpeedPerSec = 30.f;
 	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	CameraDesc.pPlayer = pPlayer;
@@ -443,81 +455,111 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
 	file->Open(szFullPath, FileMode::Read);
 
-	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	//Matrix		PivotMatrix = XMMatrixIdentity();
+	//PivotMatrix = XMMatrixRotationX(XMConvertToRadians(90.0f));
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/"
+	};
 
 
 	_uint iSize = file->Read<_uint>();
+	bool fileFound = false;
 
 	for (_uint i = 0; i < iSize; ++i)
 	{
-		wstring szModelName = CAsUtils::ToWString(file->Read<string>());
+		
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
+
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
 		Matrix	matWorld = file->Read<Matrix>();
 
 
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+		Desc.IsMapObject = true;
+
+		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+
+		if (nullptr == pObject)
 		{
-			CStaticModel::MODELDESC Desc;
-			Desc.strFileName = szModelName;
-			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
 
 
-			CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-			if (nullptr == pObject)
+		_uint iColliderCount = file->Read<_uint>();
+		CStaticModel* pStaticModel = dynamic_cast<CStaticModel*>(pObject);
+
+
+		for (_uint i = 0; i < iColliderCount; ++i)
+		{
+			pStaticModel->Add_Collider();
+
+			CSphereCollider* pCollider = pStaticModel->Get_StaticCollider(i);
+
 			{
-				Safe_Release(pGameInstance);
-				return E_FAIL;
+				Vec3 vOffset = file->Read<Vec3>();
+				pCollider->Set_Offset(vOffset);
+
+
+				_float fRadius = file->Read<_float>();
+				pCollider->Set_Radius(fRadius);
+
+
+				pCollider->Update_Collider();
 			}
 
-			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+			_bool bChild = file->Read<_bool>();
 
-
-			_uint iColliderCount = file->Read<_uint>();
-			CStaticModel* pStaticModel = dynamic_cast<CStaticModel*>(pObject);
-
-
-			for (_uint i = 0; i < iColliderCount; ++i)
+			if (bChild)
 			{
-				pStaticModel->Add_Collider();
+				pStaticModel->Add_ChildCollider(i);
 
-				CSphereCollider* pCollider = pStaticModel->Get_StaticCollider(i);
-
-				{
-					Vec3 vOffset = file->Read<Vec3>();
-					pCollider->Set_Offset(vOffset);
+				COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
 
 
-					_float fRadius = file->Read<_float>();
-					pCollider->Set_Radius(fRadius);
+				Vec3 vOffset = file->Read<Vec3>();
+				pChild->Set_Offset(vOffset);
 
+				Vec3 vScale = file->Read<Vec3>();
+				pChild->Set_Scale(vScale);
 
-					pCollider->Update_Collider();
-				}
+				Quaternion vQuat = file->Read<Quaternion>();
+				pChild->Set_Orientation(vQuat);
 
-				_bool bChild = file->Read<_bool>();
-
-				if (bChild)
-				{
-					pStaticModel->Add_ChildCollider(i);
-
-					COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
-
-
-					Vec3 vOffset = file->Read<Vec3>();
-					pChild->Set_Offset(vOffset);
-
-					Vec3 vScale = file->Read<Vec3>();
-					pChild->Set_Scale(vScale);
-
-					Quaternion vQuat = file->Read<Quaternion>();
-					pChild->Set_Orientation(vQuat);
-
-					pChild->Set_StaticBoundingBox();
-				}
+				pChild->Set_StaticBoundingBox();
 			}
+		}
 
 		
 			//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
-		}
+		
 	}
 
 

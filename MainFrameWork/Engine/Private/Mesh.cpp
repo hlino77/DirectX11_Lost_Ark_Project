@@ -31,7 +31,7 @@ HRESULT CMesh::Initialize(void * pArg)
 	return S_OK;
 }
 
-HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFileUtils, Matrix PivotMatrix, _bool bColMesh)
+HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFileUtils, Matrix PivotMatrix, _bool bIsMapObject)
 {
 	m_szName = CAsUtils::ToWString(pFileUtils->Read<string>());
 	m_iBoneIndex = pFileUtils->Read<int32>();
@@ -57,23 +57,30 @@ HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFil
 		m_BufferDesc.StructureByteStride = m_iStride;
 
 
-		if (bColMesh)
+		if (bIsMapObject)
 		{
-			m_pVertices = new VTXANIMMODEL[iVTXCount];
-			ZeroMemory(m_pVertices, sizeof(VTXANIMMODEL) * iVTXCount);
+			VTXANIMMODEL* pVertices = new VTXANIMMODEL[iVTXCount];
+			ZeroMemory(pVertices, sizeof(VTXANIMMODEL) * iVTXCount);
 
 
-			void* pData = m_pVertices;
+			void* pData = pVertices;
 			pFileUtils->Read(&pData, sizeof(VTXANIMMODEL) * iVTXCount);
 
+
 			if (eModelType == CModel::TYPE::TYPE_NONANIM)
-				Ready_Vertices(m_pVertices, PivotMatrix);
+			{
+				//Ready_Vertices(pVertices, PivotMatrix);
+				Ready_Vertilces_MapObject(pVertices, PivotMatrix);
+			}
+
 
 			ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
-			m_SubResourceData.pSysMem = m_pVertices;
+			m_SubResourceData.pSysMem = pVertices;
 
 			if (FAILED(__super::Create_VertexBuffer()))
 				return E_FAIL;
+
+			Safe_Delete_Array(pVertices);
 		}
 		else
 		{
@@ -84,8 +91,13 @@ HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFil
 			void* pData = pVertices;
 			pFileUtils->Read(&pData, sizeof(VTXANIMMODEL) * iVTXCount);
 
+
 			if (eModelType == CModel::TYPE::TYPE_NONANIM)
+			{
+				//Ready_Vertices(pVertices, PivotMatrix);
 				Ready_Vertices(pVertices, PivotMatrix);
+			}
+
 
 			ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 			m_SubResourceData.pSysMem = pVertices;
@@ -116,22 +128,6 @@ HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFil
 		m_BufferDesc.StructureByteStride = 0;
 
 
-		if (bColMesh)
-		{
-			m_pIndices = new FACEINDICES32[m_iNumPrimitives];
-			ZeroMemory(m_pIndices, sizeof(FACEINDICES32) * m_iNumPrimitives);
-
-			void* pData = m_pIndices;
-			pFileUtils->Read(&pData, sizeof(FACEINDICES32) * m_iNumPrimitives);
-
-			ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
-			m_SubResourceData.pSysMem = m_pIndices;
-
-			if (FAILED(__super::Create_IndexBuffer()))
-				return E_FAIL;
-		}
-		else
-		{
 			FACEINDICES32* pIndices = new FACEINDICES32[m_iNumPrimitives];
 			ZeroMemory(pIndices, sizeof(FACEINDICES32) * m_iNumPrimitives);
 
@@ -145,7 +141,7 @@ HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFil
 				return E_FAIL;
 
 			Safe_Delete_Array(pIndices);
-		}
+		
 	}
 
 	return S_OK;
@@ -185,7 +181,11 @@ HRESULT CMesh::LoadData_FromConverter(CModel::TYPE eModelType, shared_ptr<asMesh
 
 		
 		if (eModelType == CModel::TYPE::TYPE_NONANIM)
-			Ready_Vertices(pVertices, PivotMatrix);
+		{
+			//Ready_Vertices(pVertices, PivotMatrix);
+			Ready_Vertilces_MapObject(pVertices, PivotMatrix);
+		}
+	
 
 		ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 		m_SubResourceData.pSysMem = pVertices;
@@ -264,10 +264,40 @@ HRESULT CMesh::Ready_Vertices(VTXANIMMODEL* pVertices, Matrix PivotMatrix)
 	return S_OK;
 }
 
+HRESULT CMesh::Ready_Vertilces_MapObject(VTXANIMMODEL* pVertices, Matrix PivotMatrix)
+{
+	for (_uint i = 0; i < m_iNumVertices; ++i)
+	{
+		{
+			_float fY = *&pVertices[i].vPosition.y;
+			*&pVertices[i].vPosition.y = -*&pVertices[i].vPosition.z;
+			*&pVertices[i].vPosition.z = fY;
+		}
+
+		{
+			_float fY = *&pVertices[i].vNormal.y;
+			*&pVertices[i].vNormal.y = -*&pVertices[i].vNormal.z;
+			*&pVertices[i].vNormal.z = fY;
+		}
+
+		{
+			_float fY = *&pVertices[i].vTangent.y;
+			*&pVertices[i].vTangent.y = -*&pVertices[i].vTangent.z;
+			*&pVertices[i].vTangent.z = fY;
+		}
+
+		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix));
+		XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), PivotMatrix));
+	}
+
+	return S_OK;
+}
+
 
 CMesh * CMesh::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CModel::TYPE eModelType, CModel* pModel, Matrix PivotMatrix)
 {
-	CMesh*			pInstance = new CMesh(pDevice, pContext);
+	CMesh*		pInstance = new CMesh(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype(pModel, PivotMatrix)))
 	{

@@ -507,6 +507,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	Load_MapData(TEXT("../Bin/Resources/MapData/1.data"));
+
+
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
@@ -619,8 +622,13 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 
 
-HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
+HRESULT CLoader::Load_MapData(const wstring& szFilePath)
 {
+	// file Open
+	// Read Data File
+	// Create Prototype Object
+	// Create Prototype Model
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
@@ -628,21 +636,55 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 	file->Open(szFilePath, FileMode::Read);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+	
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/"
+	};
 
 
 	_uint iSize = file->Read<_uint>();
+    bool fileFound = false;
 
 	for (_uint i = 0; i < iSize; ++i)
 	{
-		wstring szModelName = CAsUtils::ToWString(file->Read<string>());
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
+
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+		
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
+	
 		Matrix	matWorld = file->Read<Matrix>();
 
-		wstring szModelPath = L"../Bin/Resources/Meshes/Static/";
 
-		wstring strComponentName = L"Prototype_Component_Model_" + szModelName;
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
 
-		if (FAILED(pGameInstance->Check_Prototype(eLevel, strComponentName)))
+		wstring strComponentName = L"Prototype_Component_Model_" + Desc.strFileName;
+
+		if (FAILED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 		{
 			_uint iColCount = file->Read<_uint>();
 			for (_uint i = 0; i < iColCount; ++i)
@@ -662,9 +704,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		}
 			
 
-
-		if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, szModelPath, szModelName, true, false, PivotMatrix))))
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
 			return E_FAIL;
 
 
@@ -698,7 +739,7 @@ HRESULT CLoader::Load_ColMesh(LEVELID eLevel, const wstring& szFilePath)
 	file->Open(szFilePath, FileMode::Read);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 
 	_uint iSize = file->Read<_uint>();

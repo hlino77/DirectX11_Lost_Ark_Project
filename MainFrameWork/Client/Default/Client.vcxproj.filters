@@ -2375,9 +2375,6 @@
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h" />
-    <ClInclude Include="..\Public\Monster_Golem.h">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
@@ -4191,9 +4188,6 @@
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
-    <ClCompile Include="..\Private\Monster_Golem.cpp">
-      <Filter>02.GameObjects\Boss\Golem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
@@ -4312,7 +4306,7 @@
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Slayer.cpp">
-      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp</Filter>
+      <Filter>02.GameObjects\Player\Player_Slayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

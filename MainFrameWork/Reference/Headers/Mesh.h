@@ -29,7 +29,8 @@ public:
 	virtual HRESULT Initialize(void* pArg);	
 
 public:
-	HRESULT	LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFileUtils, Matrix PivotMatrix, _bool bColMesh);
+	HRESULT	LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFileUtils, Matrix PivotMatrix, _bool bIsMapObject);
+	
 	HRESULT	LoadData_FromConverter(CModel::TYPE eModelType, shared_ptr<asMesh> pMesh, Matrix PivotMatrix);
 
 
@@ -51,8 +52,12 @@ private:
 
 	VTXANIMMODEL*					m_pVertices = nullptr;
 	FACEINDICES32*					m_pIndices = nullptr;
+
+
 private:
 	HRESULT Ready_Vertices(VTXANIMMODEL* pVertices, Matrix PivotMatrix);
+	HRESULT Ready_Vertilces_MapObject(VTXANIMMODEL* pVertices, Matrix PivotMatrix);
+
 
 public:
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType , class CModel* pModel, Matrix PivotMatrix);

@@ -1,12 +1,11 @@
 #include "Navigation.h"
-#include "Engine_Defines.h"
 #include "DebugDraw.h"
 #include "Cell.h"
+#include "CellPoint.h"
 #include "Engine_Defines.h"
 #include "GameInstance.h"
 #include "AsFileUtils.h"
-#include <filesystem>
-#include "GameObject.h"
+
 
 CNavigation::CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -18,49 +17,6 @@ CNavigation::CNavigation(const CNavigation& rhs)
 {
 }
 
-HRESULT CNavigation::Render()
-{
-	if (m_pDevice == nullptr)
-		return S_OK;
-
-	m_pEffect->SetWorld(XMMatrixIdentity());
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	m_pEffect->SetView(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
-	m_pEffect->SetProjection(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
-
-	Safe_Release(pGameInstance);
-
-	m_pEffect->Apply(m_pContext);
-
-	m_pContext->IASetInputLayout(m_pInputLayout);
-
-
-	m_pBatch->Begin();
-
-	if (!m_Cells.empty())
-	{
-		for (auto& Cell : m_Cells)
-		{
-			vector<Vec3> Points = Cell->Get_OriginPoints();
-
-			Points[0].y += 0.01f;
-			Points[1].y += 0.01f;
-			Points[2].y += 0.01f;
-
-			DX::DrawTriangle(m_pBatch, Points[0], Points[1], Points[2], Colors::Green);
-		}
-	}
-
-	
-
-	m_pBatch->End();
-
-
-    return S_OK;
-}
 
 HRESULT CNavigation::Initialize()
 {
@@ -88,6 +44,69 @@ HRESULT CNavigation::Initialize()
 }
 
 
+HRESULT CNavigation::Render()
+{
+	if (m_pDevice == nullptr)
+		return S_OK;
+
+	m_pEffect->SetWorld(XMMatrixIdentity());
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	m_pEffect->SetView(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
+	m_pEffect->SetProjection(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
+
+	Safe_Release(pGameInstance);
+
+	m_pEffect->Apply(m_pContext);
+
+	m_pContext->IASetInputLayout(m_pInputLayout);
+
+
+	m_pBatch->Begin();
+
+	if (!m_vecCells.empty())
+	{
+		for (auto& Cell : m_vecCells)
+		{
+			Vec3* Points = Cell->Get_Points();
+
+			// 원본 포인트 복사
+			Vec3 RenderPoints[3];
+			RenderPoints[0] = Points[0];
+			RenderPoints[1] = Points[1];
+			RenderPoints[2] = Points[2];
+
+			// 렌더링용 포인트만 조정
+			RenderPoints[0].y += 0.01f;
+			RenderPoints[1].y += 0.01f;
+			RenderPoints[2].y += 0.01f;
+
+			// 조정된 포인트로 렌더링
+			DX::DrawTriangle(m_pBatch, RenderPoints[0], RenderPoints[1], RenderPoints[2], Colors::Green);
+		}
+	}
+
+
+
+	m_pBatch->End();
+
+
+	return S_OK;
+
+}
+
+void CNavigation::SetUp_OnCell(CGameObject* pObject)
+{
+	_int iCurrCell = pObject->Get_CurrCell();
+
+	if (iCurrCell < 0 || iCurrCell >= m_vecCells.size())
+		return;
+
+	m_vecCells[pObject->Get_CurrCell()]->SetUp_OnCell(pObject, 0);
+
+}
 
 void CNavigation::Find_FirstCell(CGameObject* pObject)
 {
@@ -98,7 +117,7 @@ void CNavigation::Find_FirstCell(CGameObject* pObject)
 	Vec3 vDir(0.0f, -1.0f, 0.0f);
 	_float fDist = -1.0f;
 
-	for (auto& Cell : m_Cells)
+	for (auto& Cell : m_vecCells)
 	{
 		if (Cell->Intersects(vPos, vDir, fDist))
 		{
@@ -110,32 +129,13 @@ void CNavigation::Find_FirstCell(CGameObject* pObject)
 	pObject->Set_CurrCell(0);
 }
 
-_int CNavigation::Check_Pos_InCell(Vec3 vPos)
-{
-	vPos.y += 1.0f;
-
-	Vec3 vDir(0.0f, -1.0f, 0.0f);
-	_float fDist = -1.0f;
-
-
-	for (auto& Cell : m_Cells)
-	{
-		if (Cell->Intersects(vPos, vDir, fDist))
-		{
-			return Cell->Get_CellIndex();
-		}
-	}
-
-	return -1;
-}
-
 _bool CNavigation::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist)
 {
 	_float fResultDist = -1.0f;
 	_bool bPick = false;
 
 
-	for (auto& Cell : m_Cells)
+	for (auto& Cell : m_vecCells)
 	{
 		_float fCurrDist;
 		if (Cell->Intersects(vRayPos, vRayDir, fCurrDist))
@@ -160,61 +160,212 @@ _bool CNavigation::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist)
 	return bPick;
 }
 
+_int CNavigation::Check_Pos_InCell(Vec3 vPos)
+{
+	vPos.y += 1.0f;
 
+	Vec3 vDir(0.0f, -1.0f, 0.0f);
+	_float fDist = -1.0f;
+
+
+	for (auto& Cell : m_vecCells)
+	{
+		if (Cell->Intersects(vPos, vDir, fDist))
+		{
+			return Cell->Get_CellIndex();
+		}
+	}
+
+	return -1;
+}
+
+HRESULT CNavigation::Add_Cell(Vec3 PointPos[3])
+{
+	CCell* pCell = CCell::Create(this, PointPos, m_vecCells.size());
+
+	if (nullptr == pCell)
+	{
+		return E_FAIL;
+	}
+	else
+	{
+		m_vecCells.push_back(pCell);
+	}
+
+	//Setting Neighbor
+	if (FAILED(Set_Neighbors()))
+	{
+		return E_FAIL;
+	}
+
+
+	return S_OK;
+}
+
+HRESULT CNavigation::Delete_Cell()
+{
+	//if (m_vecCells.size() == 0)
+	//{
+	//	MessageBox(g_hWnd, L"All Navi Cell is Deleted ", L"Delete Fail", MB_OK);
+	//}
+
+	if (m_vecCells.size() > 0)
+	{
+		CCell* pCell = m_vecCells.back();
+
+		Safe_Release(pCell);
+
+		m_vecCells.pop_back();
+	}
+
+	return S_OK;
+}
+
+HRESULT CNavigation::Set_Neighbors()
+{
+	for (auto& pSourCell : m_vecCells)
+	{
+		for (auto& pDestCell : m_vecCells)
+		{
+			if (pSourCell == pDestCell)
+				continue;
+
+			if (true == pDestCell->Compare_Points(pSourCell->Get_Point(CCell::POINT_A), pSourCell->Get_Point(CCell::POINT_B)))
+			{
+				pSourCell->SetUp_Neighbor(CCell::LINE_AB, pDestCell);
+			}
+
+			else if (true == pDestCell->Compare_Points(pSourCell->Get_Point(CCell::POINT_B), pSourCell->Get_Point(CCell::POINT_C)))
+			{
+				pSourCell->SetUp_Neighbor(CCell::LINE_BC, pDestCell);
+			}
+
+			else if (true == pDestCell->Compare_Points(pSourCell->Get_Point(CCell::POINT_C), pSourCell->Get_Point(CCell::POINT_A)))
+			{
+				pSourCell->SetUp_Neighbor(CCell::LINE_CA, pDestCell);
+			}
+		}
+	}
+
+	return S_OK;
+}
+
+
+
+HRESULT CNavigation::Add_IndexCell(Vec3 PointPos[3], _int Index)
+{
+	CCell* pCell = CCell::Create(this, PointPos, Index);
+	if (nullptr == pCell)
+	{
+		return E_FAIL;
+	}
+
+	if (m_vecCells.size() <= Index)
+	{
+		m_vecCells.resize(Index + 1);
+	}
+	m_vecCells[Index] = pCell;
+
+	return S_OK;
+
+}
+
+HRESULT CNavigation::Delete_IndexCell(_int Index)
+{
+
+	CCell* pCell = m_vecCells[Index];
+
+	Safe_Release(pCell);
+
+	m_vecCells[Index] = nullptr;
+
+	return S_OK;
+}
+
+void CNavigation::Save_Navigation(const wstring& szFileName)
+{
+	//wstring szFullPath = L"../Bin/Resources/Navigation/";
+	//szFullPath += szFileName;
+
+	//auto path = filesystem::path(szFullPath);
+
+	//// 폴더가 없으면 만든다.
+	//filesystem::create_directory(path.parent_path());
+
+	//shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
+	//file->Open(szFullPath, FileMode::Write);
+
+
+	//file->Write<_uint>(m_Points.size());
+
+	//for (auto& Point : m_Points)
+	//{
+	//	file->Write<Vec3>(Point->Get_Pos());
+	//}
+
+
+	//file->Write<_uint>(m_vecCells.size());
+
+	//for (auto& Cell : m_vecCells)
+	//{
+	//	file->Write<_uint>(Cell->Get_CellIndex());
+
+	//	vector<_uint>& Points = Cell->Get_PointIndexes();
+
+	//	for (auto& Point : Points)
+	//		file->Write<_uint>(Point);
+
+
+	//	for (_uint i = 0; i < CCell::LINE_END; ++i)
+	//		file->Write<_int>(Cell->Get_Neighbor()[i]);
+	//}
+
+}
 
 void CNavigation::Load_Navigation(const wstring& szFileName)
 {
-	wstring szFullPath = L"../Bin/Resources/Navigation/";
-	szFullPath += szFileName;
-
-	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
-	file->Open(szFullPath, FileMode::Read);
-
-	_uint iPointSize = file->Read<_uint>();
-
-	vector<Vec3> PointPositions;
-
-	for (_uint i = 0; i < iPointSize; ++i)
-		PointPositions.push_back(file->Read<Vec3>());
-
-
-
-	_uint iCellSize = file->Read<_uint>();
-
-	for (_uint i = 0; i < iCellSize; ++i)
-	{
-		_uint iIndex = file->Read<_uint>();
-
-		CCell* pCell = CCell::Create(this, iIndex);
-
-
-		for (_uint i = 0; i < 3; ++i)
-		{
-			_uint iPointIndex = file->Read<_uint>();
-			pCell->Add_Point(PointPositions[iPointIndex]);
-		}
-
-		for (_uint i = 0; i < CCell::LINE_END; ++i)
-			pCell->Set_Neighbor(i, file->Read<_int>());
-
-		pCell->Set_Normal();
-
-		m_Cells.push_back(pCell);
-	}
+	wstring filePath = L"../Bin/Resources/Navigation/";
+	wstring FullPath = filePath + szFileName;
 
 	
+	ifstream fileStream(FullPath, ios::binary);
+
+	if (fileStream.is_open())
+	{
+		Cell_FileLoad(fileStream);
+		fileStream.close();
+	}
 
 }
 
-void CNavigation::SetUp_OnCell(CGameObject* pObject)
+void CNavigation::Cell_FileLoad(ifstream& file)
 {
-	_int iCurrCell = pObject->Get_CurrCell();
+	Vec3			vPoints[3];
 
-	if (iCurrCell < 0 || iCurrCell >= m_Cells.size())
-		return;
+	while (file.read(reinterpret_cast<char*>(vPoints), sizeof(Vec3) * 3))
+	{
+		Add_Cell(vPoints);
+	}
 
-	m_Cells[pObject->Get_CurrCell()]->SetUp_OnCell(pObject, 0);
 }
+
+void CNavigation::Set_SelectCell(_uint iIndex)
+{
+	m_pSelectCell = m_vecCells[iIndex];
+}
+
+void CNavigation::Reset_CellPoint()
+{
+	for (size_t i = 0; i < 3; i++)
+	{
+		Safe_Release(m_pCellPoint[i]);
+	}
+
+}
+
+
+
+
 
 CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -231,4 +382,10 @@ CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 void CNavigation::Free()
 {
+	for (auto& pCell : m_vecCells)
+	{
+		Safe_Release(pCell);
+	}
+	m_vecCells.clear();
+
 }

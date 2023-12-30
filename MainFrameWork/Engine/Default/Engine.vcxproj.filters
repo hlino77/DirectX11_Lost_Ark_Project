@@ -217,6 +217,9 @@
     <Filter Include="01.Utiltiy\13.Random">
       <UniqueIdentifier>{6f0dd9e2-da6b-4d05-94ee-4cc7627fea1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\06. Navigation\CellPoint">
+      <UniqueIdentifier>{2851f74c-b86d-42b5-acc6-0f9732d61c09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
@@ -420,12 +423,6 @@
     <ClInclude Include="..\Public\NavigationMgr.h">
       <Filter>01.Utiltiy\06. Navigation\Mgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Navigation.h">
-      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Cell.h">
-      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\GameObject.h">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
     </ClInclude>
@@ -580,6 +577,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\ColliderFrustum.h">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Navigation.h">
+      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cell.h">
+      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CellPoint.h">
+      <Filter>01.Utiltiy\06. Navigation\CellPoint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -763,12 +769,6 @@
     <ClCompile Include="..\Private\NavigationMgr.cpp">
       <Filter>01.Utiltiy\06. Navigation\Mgr</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Navigation.cpp">
-      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Cell.cpp">
-      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\GameObject.cpp">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
     </ClCompile>
@@ -912,6 +912,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\ColliderFrustum.cpp">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cell.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Navigation.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CellPoint.cpp">
+      <Filter>01.Utiltiy\06. Navigation\CellPoint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

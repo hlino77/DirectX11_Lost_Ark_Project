@@ -31,11 +31,18 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_strObjectTag = Desc->strFileName;
 	m_iLayer = Desc->iLayer;
 	m_szModelName = Desc->strFileName;
-
+	m_IsMapObject = Desc->IsMapObject;
+		
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	
+
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc->vPosition.x, Desc->vPosition.y, Desc->vPosition.z, 1.f));
+
+	//m_pTransformCom->My_Rotation(Vec3(90.f,180.f, 0.f));
+
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
+
+
 
     return S_OK;
 }

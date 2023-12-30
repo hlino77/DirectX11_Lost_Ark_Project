@@ -72,10 +72,12 @@ _bool CNavigationMgr::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
 
 _int CNavigationMgr::Check_Pos_InCell(Vec3 vPos)
 {
-	if (m_pNavigation == nullptr)
-		return -1;
+	//if (m_pNavigation == nullptr)
+	//	return -1;
 
-	return m_pNavigation->Check_Pos_InCell(vPos);
+	//return m_pNavigation->Check_Pos_InCell(vPos);
+
+	return _int();
 }
 
 void CNavigationMgr::Reset_Navigation()

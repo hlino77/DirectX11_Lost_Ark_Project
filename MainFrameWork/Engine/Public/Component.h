@@ -26,7 +26,7 @@ public:
 	CTransform*		Get_TransformCom() const;
 
 protected:
-	CGameObject* m_pOwner = nullptr;
+	CGameObject*			m_pOwner = nullptr;
 
 protected:
 	CGameInstance*			m_pGameInstance = nullptr;
