@@ -21,7 +21,8 @@ public:
 	void	Render();
 
 
-	void	Add_Navigation(const wstring& szFileName);
+	void	Add_Navigation(const wstring& szNavigationName, const wstring& szFileName);
+	void	Set_CurrNavigation(const wstring& szNavigationName);
 	void	SetUp_OnCell(CGameObject * pObject);
 	void	Find_FirstCell(CGameObject * pObject);
 	_bool	Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos);
@@ -31,12 +32,14 @@ public:
 	void	Reset_Navigation();
 
 private:
-	USE_LOCK
-	CNavigation* m_pNavigation;
+	unordered_map<wstring, CNavigation*> m_Navigations;
+	CNavigation* m_pCurrNavigation;
 
 private:
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_pContext = nullptr;
+	
+	USE_LOCK
 public:
 	virtual void Free() override;
 };

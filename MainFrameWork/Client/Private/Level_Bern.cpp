@@ -49,8 +49,9 @@ HRESULT CLevel_Bern::Initialize()
 
 	Send_UserInfo();
 
-	//CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
-	CNavigationMgr::GetInstance()->Add_Navigation(L"Chaos1.navi");
+	
+	//CNavigationMgr::GetInstance()->Add_Navigation(L"Bern.navi");
+	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
 
 	Ready_Renderer();
 
@@ -81,7 +82,7 @@ HRESULT CLevel_Bern::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/1.data"))))
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Bern.data"))))
 	{
 		return E_FAIL;
 	}

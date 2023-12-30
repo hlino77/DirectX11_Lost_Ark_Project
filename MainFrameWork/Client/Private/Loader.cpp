@@ -4,6 +4,8 @@
 #include "AsFileUtils.h"
 #include "AsUtils.h"
 #include <filesystem>
+#include "NavigationMgr.h"
+
 
 /* 플레이어 */
 #include "Player_Slayer.h"
@@ -507,7 +509,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	Load_MapData(TEXT("../Bin/Resources/MapData/1.data"));
+	Load_MapData(TEXT("../Bin/Resources/MapData/Bern.data"));
+	
+	CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Bern_Navi"), L"Bern.Navi");
 
 
 	/* For.Texture */

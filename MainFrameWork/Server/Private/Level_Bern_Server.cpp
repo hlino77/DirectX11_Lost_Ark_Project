@@ -23,7 +23,8 @@ CLevel_Bern_Server::CLevel_Bern_Server()
 
 HRESULT CLevel_Bern_Server::Initialize()
 {
-	CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
+	
+	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
 
 	Ready_Events();
 

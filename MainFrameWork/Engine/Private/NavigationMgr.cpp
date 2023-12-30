@@ -27,34 +27,51 @@ HRESULT CNavigationMgr::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceConte
 void CNavigationMgr::Render()
 {
 	WRITE_LOCK
-	if (m_pNavigation)
-		m_pNavigation->Render();
+	if (m_pCurrNavigation)
+		m_pCurrNavigation->Render();
 }
 
-void CNavigationMgr::Add_Navigation(const wstring& szFileName)
+void CNavigationMgr::Add_Navigation(const wstring& szNavigationName, const wstring& szFileName)
 {
 	WRITE_LOCK
-	m_pNavigation = CNavigation::Create(m_pDevice, m_pContext);
+	if (m_Navigations.find(szNavigationName) == m_Navigations.end())
+	{
 
-	m_pNavigation->Load_Navigation(szFileName);
+		CNavigation* pNavigation = CNavigation::Create(m_pDevice, m_pContext);
+
+		pNavigation->Load_Navigation(szFileName);
+
+		m_Navigations.emplace(szNavigationName, pNavigation);
+
+	}
+	
+}
+
+void CNavigationMgr::Set_CurrNavigation(const wstring& szNavigationName)
+{
+	WRITE_LOCK
+	if (m_Navigations.find(szNavigationName) == m_Navigations.end())
+		return;
+
+	m_pCurrNavigation = m_Navigations[szNavigationName];
 }
 
 void CNavigationMgr::SetUp_OnCell(CGameObject* pObject)
 {
-	if (m_pNavigation)
-		m_pNavigation->SetUp_OnCell(pObject);
+	if (m_pCurrNavigation)
+		m_pCurrNavigation->SetUp_OnCell(pObject);
 }
 
 void CNavigationMgr::Find_FirstCell(CGameObject* pObject)
 {
 	WRITE_LOCK
-	if (m_pNavigation)
-		m_pNavigation->Find_FirstCell(pObject);
+	if (m_pCurrNavigation)
+		m_pCurrNavigation->Find_FirstCell(pObject);
 }
 
 _bool CNavigationMgr::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
 {
-	if (m_pNavigation == nullptr)
+	if (m_pCurrNavigation == nullptr)
 		return false;
 
 	vRayDir.Normalize();
@@ -62,7 +79,7 @@ _bool CNavigationMgr::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
 	_bool bPick = false;
 	_float fDist = -1.0f;
 
-	if (m_pNavigation->Picking_Cell(vRayPos, vRayDir, fDist))
+	if (m_pCurrNavigation->Picking_Cell(vRayPos, vRayDir, fDist))
 	{
 		vResultPos = vRayPos + (vRayDir * fDist);
 		bPick = true;
@@ -83,8 +100,7 @@ _int CNavigationMgr::Check_Pos_InCell(Vec3 vPos)
 void CNavigationMgr::Reset_Navigation()
 {
 	WRITE_LOCK;
-	Safe_Release(m_pNavigation);
-	m_pNavigation = nullptr;
+	m_pCurrNavigation = nullptr;
 }
 
 

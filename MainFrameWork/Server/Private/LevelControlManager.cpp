@@ -83,7 +83,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		Desc.iCurrLevel = iLevel;
 
 		Matrix matWorld = XMMatrixIdentity();
-		matWorld.Translation(Vec3(100.f, 1.f, 140.f));
+		matWorld.Translation(Vec3(100.f, 1.f, 100.f));
 
 		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player"), &Desc));
 		if (nullptr == pPlayer)
