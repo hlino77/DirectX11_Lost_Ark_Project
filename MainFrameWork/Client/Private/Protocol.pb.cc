@@ -349,7 +349,9 @@ struct S_CREATE_PLAYERDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_CREATE_PLAYERDefaultTypeInternal _S_CREATE_PLAYER_default_instance_;
 constexpr S_CHAT::S_CHAT(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : szchat_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string){}
+  : szchat_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , iobjectid_(0)
+  , ilevel_(0){}
 struct S_CHATDefaultTypeInternal {
   constexpr S_CHATDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -642,6 +644,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_CHAT, iobjectid_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_CHAT, ilevel_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_CHAT, szchat_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MONSTERSTATE, _internal_metadata_),
@@ -712,11 +716,11 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 175, -1, sizeof(::Protocol::S_HP)},
   { 184, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
   { 198, -1, sizeof(::Protocol::S_CHAT)},
-  { 204, -1, sizeof(::Protocol::S_MONSTERSTATE)},
-  { 216, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
-  { 223, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
-  { 231, -1, sizeof(::Protocol::S_IDENTITY)},
-  { 240, -1, sizeof(::Protocol::S_PARTY)},
+  { 206, -1, sizeof(::Protocol::S_MONSTERSTATE)},
+  { 218, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
+  { 225, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
+  { 233, -1, sizeof(::Protocol::S_IDENTITY)},
+  { 242, -1, sizeof(::Protocol::S_PARTY)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -805,21 +809,22 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   " \001(\005\022\016\n\006iClass\030\003 \001(\005\022\021\n\tbControll\030\004 \001(\010\022"
   "\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023\n\013strNickName\030\006 \001"
   "(\014\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\022\020\n\010strState\030\010"
-  " \001(\t\022\024\n\014iWeaponIndex\030\t \001(\005\"\030\n\006S_CHAT\022\016\n\006"
-  "szChat\030\001 \001(\014\"\242\001\n\016S_MONSTERSTATE\022\021\n\tiObje"
-  "ctID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001"
-  "(\005\022\020\n\010strState\030\004 \001(\t\022\032\n\022iTargetObjectLay"
-  "er\030\005 \001(\005\022\027\n\017iTargetObjectID\030\006 \001(\005\022\026\n\nvTa"
-  "rgetPos\030\007 \003(\002B\002\020\001\";\n\021S_PLAYERLEVELMOVE\022\022"
-  "\n\niCurrLevel\030\001 \001(\005\022\022\n\niNextLevel\030\002 \001(\005\"G"
-  "\n\022S_DELETEGAMEOBJECT\022\021\n\tiObjectID\030\001 \001(\005\022"
-  "\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\"U\n\nS_IDE"
-  "NTITY\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005"
-  "\022\016\n\006iLayer\030\003 \001(\005\022\024\n\014iWeaponIndex\030\004 \001(\005\"\227"
-  "\001\n\007S_PARTY\022,\n\014tCreateParty\030\001 \003(\0132\026.Proto"
-  "col.Create_Party\022(\n\ntJoinParty\030\002 \003(\0132\024.P"
-  "rotocol.Join_Party\0224\n\020tInvitationParty\030\003"
-  " \003(\0132\032.Protocol.Invitation_Partyb\006proto3"
+  " \001(\t\022\024\n\014iWeaponIndex\030\t \001(\005\";\n\006S_CHAT\022\021\n\t"
+  "iObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006szCha"
+  "t\030\003 \001(\014\"\242\001\n\016S_MONSTERSTATE\022\021\n\tiObjectID\030"
+  "\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\020\n"
+  "\010strState\030\004 \001(\t\022\032\n\022iTargetObjectLayer\030\005 "
+  "\001(\005\022\027\n\017iTargetObjectID\030\006 \001(\005\022\026\n\nvTargetP"
+  "os\030\007 \003(\002B\002\020\001\";\n\021S_PLAYERLEVELMOVE\022\022\n\niCu"
+  "rrLevel\030\001 \001(\005\022\022\n\niNextLevel\030\002 \001(\005\"G\n\022S_D"
+  "ELETEGAMEOBJECT\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iL"
+  "evel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\"U\n\nS_IDENTITY"
+  "\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006i"
+  "Layer\030\003 \001(\005\022\024\n\014iWeaponIndex\030\004 \001(\005\"\227\001\n\007S_"
+  "PARTY\022,\n\014tCreateParty\030\001 \003(\0132\026.Protocol.C"
+  "reate_Party\022(\n\ntJoinParty\030\002 \003(\0132\024.Protoc"
+  "ol.Join_Party\0224\n\020tInvitationParty\030\003 \003(\0132"
+  "\032.Protocol.Invitation_Partyb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -827,7 +832,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 2760, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 2795, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 28,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -6969,11 +6974,18 @@ S_CHAT::S_CHAT(const S_CHAT& from)
     szchat_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_szchat(), 
       GetArenaForAllocation());
   }
+  ::memcpy(&iobjectid_, &from.iobjectid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&ilevel_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(ilevel_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_CHAT)
 }
 
 void S_CHAT::SharedCtor() {
 szchat_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&iobjectid_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&ilevel_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(ilevel_));
 }
 
 S_CHAT::~S_CHAT() {
@@ -7004,6 +7016,9 @@ void S_CHAT::Clear() {
   (void) cached_has_bits;
 
   szchat_.ClearToEmpty();
+  ::memset(&iobjectid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ilevel_) -
+      reinterpret_cast<char*>(&iobjectid_)) + sizeof(ilevel_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -7013,9 +7028,23 @@ const char* S_CHAT::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // bytes szChat = 1;
+      // int32 iObjectID = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          iobjectid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 iLevel = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          ilevel_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes szChat = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           auto str = _internal_mutable_szchat();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -7050,10 +7079,22 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes szChat = 1;
+  // int32 iObjectID = 1;
+  if (this->iobjectid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_iobjectid(), target);
+  }
+
+  // int32 iLevel = 2;
+  if (this->ilevel() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_ilevel(), target);
+  }
+
+  // bytes szChat = 3;
   if (!this->szchat().empty()) {
     target = stream->WriteBytesMaybeAliased(
-        1, this->_internal_szchat(), target);
+        3, this->_internal_szchat(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7072,11 +7113,25 @@ size_t S_CHAT::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes szChat = 1;
+  // bytes szChat = 3;
   if (!this->szchat().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_szchat());
+  }
+
+  // int32 iObjectID = 1;
+  if (this->iobjectid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_iobjectid());
+  }
+
+  // int32 iLevel = 2;
+  if (this->ilevel() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_ilevel());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7113,6 +7168,12 @@ void S_CHAT::MergeFrom(const S_CHAT& from) {
   if (!from.szchat().empty()) {
     _internal_set_szchat(from._internal_szchat());
   }
+  if (from.iobjectid() != 0) {
+    _internal_set_iobjectid(from._internal_iobjectid());
+  }
+  if (from.ilevel() != 0) {
+    _internal_set_ilevel(from._internal_ilevel());
+  }
 }
 
 void S_CHAT::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -7141,6 +7202,12 @@ void S_CHAT::InternalSwap(S_CHAT* other) {
       &szchat_, GetArenaForAllocation(),
       &other->szchat_, other->GetArenaForAllocation()
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(S_CHAT, ilevel_)
+      + sizeof(S_CHAT::ilevel_)
+      - PROTOBUF_FIELD_OFFSET(S_CHAT, iobjectid_)>(
+          reinterpret_cast<char*>(&iobjectid_),
+          reinterpret_cast<char*>(&other->iobjectid_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S_CHAT::GetMetadata() const {

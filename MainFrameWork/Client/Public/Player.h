@@ -20,7 +20,7 @@ END
 
 BEGIN(Client)
 class CParty;
-
+class CUI_SpeechBubble;
 
 class CPlayer : public CGameObject
 {
@@ -161,15 +161,17 @@ public:
 	void					Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
 
 	virtual HRESULT			Ready_PhysxBoneBranch() { return S_OK; };
-
+	void					Show_SpeechBuble(const wstring& szChat);
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
+	HRESULT					Ready_SpeechBuble();
 	
 
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 
+	
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
 	
@@ -220,6 +222,7 @@ protected:
 
 
 	CParty* m_pParty = nullptr;
+	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
 public:
 	virtual void Free();
 

@@ -40,8 +40,8 @@ HRESULT CUI_SpeechBubble::Initialize(void* pArg)
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = g_iWinSizeY * 0.5f;
     m_fSizeX = 200.f;
-    m_fSizeY = 100.f;
-    m_fAlpha = 0.4;
+    m_fSizeY = 70.f;
+    m_fAlpha = 0.4f;
 
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -61,26 +61,16 @@ void CUI_SpeechBubble::Tick(_float fTimeDelta)
 
     Setting_HostPos();
 
-    if (!CChat_Manager::GetInstance()->Is_Chat())
-        m_bChatOff = false;
-    else
-    {
-        m_bChatting = true;
-        Set_Alpha(0.4f);
-    }
-    if ((!m_bChatOff) && (m_bChatting))
+
+    if (m_fDuration > 0.0f)
     {
         m_fDuration -= fTimeDelta;
-        if (1.f >= m_fDuration)
+        if (m_fDuration <= 0.0f)
         {
-            Decrease_Alpha(fTimeDelta);
-        }
-        else if (0 >= m_fDuration)
-        {
-            m_bChatting = false;
-            m_fDuration = 3.f;
+            Set_Active(false);
         }
     }
+ 
 }
 
 void CUI_SpeechBubble::LateTick(_float fTimeDelta)
@@ -96,6 +86,15 @@ HRESULT CUI_SpeechBubble::Render()
     m_pShaderCom->Begin(2);
 
     m_pVIBufferCom->Render();
+
+    return S_OK;
+}
+
+HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
+{
+    Set_Active(true);
+    m_fDuration = 3.0f;
+    m_fAlpha = 0.4f;
 
     return S_OK;
 }

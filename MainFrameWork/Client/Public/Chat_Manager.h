@@ -43,7 +43,7 @@ public:
 	//Chating
 
 
-	void	Add_Chat(wstring& szChat);
+	void	Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat);
 	void	Send_Chat(const wstring& szChat);
 
 	static wstring S2W(const string& strValue);

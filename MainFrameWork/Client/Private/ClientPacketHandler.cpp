@@ -501,7 +501,7 @@ bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 
-	CChat_Manager::GetInstance()->Add_Chat(CChat_Manager::S2W(pkt.szchat()));
+	CChat_Manager::GetInstance()->Add_Chat(pkt.iobjectid(), pkt.ilevel() ,CChat_Manager::S2W(pkt.szchat()));
 
 	Safe_Release(pGameInstance);
 	return true;

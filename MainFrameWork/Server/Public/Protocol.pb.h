@@ -4085,9 +4085,11 @@ class S_CHAT final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSzChatFieldNumber = 1,
+    kSzChatFieldNumber = 3,
+    kIObjectIDFieldNumber = 1,
+    kILevelFieldNumber = 2,
   };
-  // bytes szChat = 1;
+  // bytes szChat = 3;
   void clear_szchat();
   const std::string& szchat() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -4101,6 +4103,24 @@ class S_CHAT final :
   std::string* _internal_mutable_szchat();
   public:
 
+  // int32 iObjectID = 1;
+  void clear_iobjectid();
+  ::PROTOBUF_NAMESPACE_ID::int32 iobjectid() const;
+  void set_iobjectid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iobjectid() const;
+  void _internal_set_iobjectid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iLevel = 2;
+  void clear_ilevel();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel() const;
+  void set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilevel() const;
+  void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_CHAT)
  private:
   class _Internal;
@@ -4109,6 +4129,8 @@ class S_CHAT final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr szchat_;
+  ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -7374,7 +7396,47 @@ inline void S_CREATE_PLAYER::set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 val
 
 // S_CHAT
 
-// bytes szChat = 1;
+// int32 iObjectID = 1;
+inline void S_CHAT::clear_iobjectid() {
+  iobjectid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHAT::_internal_iobjectid() const {
+  return iobjectid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHAT::iobjectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHAT.iObjectID)
+  return _internal_iobjectid();
+}
+inline void S_CHAT::_internal_set_iobjectid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  iobjectid_ = value;
+}
+inline void S_CHAT::set_iobjectid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_iobjectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CHAT.iObjectID)
+}
+
+// int32 iLevel = 2;
+inline void S_CHAT::clear_ilevel() {
+  ilevel_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHAT::_internal_ilevel() const {
+  return ilevel_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHAT::ilevel() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHAT.iLevel)
+  return _internal_ilevel();
+}
+inline void S_CHAT::_internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilevel_ = value;
+}
+inline void S_CHAT::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilevel(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CHAT.iLevel)
+}
+
+// bytes szChat = 3;
 inline void S_CHAT::clear_szchat() {
   szchat_.ClearToEmpty();
 }

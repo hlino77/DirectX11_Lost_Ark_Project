@@ -21,6 +21,8 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
 
+    HRESULT Active_SpeechBuble(wstring szChat);
+
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
@@ -30,10 +32,7 @@ private:
     Vec4    m_vHostProjPos = { 0.f, 0.f, 0.f, 0.f };
     CGameObject* m_pHost = { nullptr };
 
-    _bool	m_bChatting = { false };
-    _bool	m_bChatOff = { false };
     _float	m_fDuration = { 3.f };
-
 public:
     static  CUI_SpeechBubble* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

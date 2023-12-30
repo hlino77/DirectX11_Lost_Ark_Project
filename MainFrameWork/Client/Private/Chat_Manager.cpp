@@ -249,10 +249,12 @@ void CChat_Manager::ResetBlink()
     Update_InputChat();
 }
 
-void CChat_Manager::Add_Chat(wstring& szChat)
+void CChat_Manager::Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat)
 {
-    //WRITE_LOCK
- 
+    WRITE_LOCK
+
+    CServerSessionManager::GetInstance()->Get_Player()->Show_SpeechBuble(szChat);
+
     wstring szLine;
 
     for (_uint i = 0; i < szChat.length(); ++i)
@@ -292,11 +294,11 @@ void CChat_Manager::Send_Chat(const wstring& szChat)
     string szSendChat = W2S(szSendChatW);
 
     pkt.set_szchat(szSendChat);
-
+    pkt.set_iobjectid(CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID());
+    pkt.set_iobjectid(CServerSessionManager::GetInstance()->Get_Player()->Get_CurrLevel());
 
     SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
     CServerSessionManager::GetInstance()->Send(pSendBuffer);
-
 }
 
 void CChat_Manager::StartChat()

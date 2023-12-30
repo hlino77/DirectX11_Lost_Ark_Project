@@ -18,7 +18,8 @@
 
 #include "Chat_Manager.h"
 #include "BindShaderDesc.h"
-
+#include "UI_Manager.h"
+#include "UI_SpeechBubble.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
@@ -63,6 +64,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_iHp = 100;
 	m_iMaxHp = 100;
+
+	if (FAILED(Ready_SpeechBuble()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -531,6 +535,25 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
+HRESULT CPlayer::Ready_SpeechBuble()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CGameObject* pUI = pGameInstance->Add_GameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SpeechBubble"),
+		this);
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI((LEVELID)m_iCurrLevel, static_cast<CUI*>(pUI));
+	
+	m_pSpeechBuble = dynamic_cast<CUI_SpeechBubble*>(pUI);
+	if (nullptr == m_pSpeechBuble)
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 void CPlayer::CullingObject()
 {
 	if (m_bControl)
@@ -574,6 +597,11 @@ void CPlayer::Update_Skill(SKILLINFO& tSkill, _float fTimeDelta)
 			tSkill.m_bReady = true;
 		}
 	}
+}
+
+void CPlayer::Show_SpeechBuble(const wstring& szChat)
+{
+	m_pSpeechBuble->Active_SpeechBuble(szChat);
 }
 
 
