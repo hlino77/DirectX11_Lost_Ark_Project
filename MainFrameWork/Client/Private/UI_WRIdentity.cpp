@@ -58,13 +58,54 @@ HRESULT CUI_WRIdentity::UI_Set()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CUI* pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_Body")));
+	CUI* pUIBody = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_Body")));
+	if (nullptr != pUIBody)
+	{
+		m_vecUIParts.push_back(pUIBody);
+	}
+	CUI* pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_GaugeFrame")));
 	if (nullptr != pUI)
 	{
 		m_vecUIParts.push_back(pUI);
 	}
-
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_Gauge")));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_GaugeShine"), pUIBody));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_EyeShine"), pUIBody));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_Spark"), pUIBody));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_SkillIcon"), pUIBody));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_Boomb"), pUIBody));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WRIdentity_BindingKey"), pUIBody));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
 	Safe_Release(pGameInstance);
+
+	Load_UIData(TEXT("WRIdentity_Gauge_Desc"));
 
 	return S_OK;
 }

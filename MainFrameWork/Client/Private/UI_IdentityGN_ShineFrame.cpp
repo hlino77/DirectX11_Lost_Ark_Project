@@ -161,7 +161,7 @@ CGameObject* CUI_IdentityGN_ShineFrame::Clone(void* pArg)
 void CUI_IdentityGN_ShineFrame::Free()
 {
 	__super::Free();
-	Safe_Release(m_pMainFrame);
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 

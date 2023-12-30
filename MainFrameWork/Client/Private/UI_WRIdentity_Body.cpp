@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "UI_WRIdentity_Body.h"
 #include "GameInstance.h"
-#include "Player.h"
 #include "Player_Skill.h"
 #include "ServerSessionManager.h"
 #include "Controller_WR.h"
@@ -52,6 +51,9 @@ HRESULT CUI_WRIdentity_Body::Initialize(void* pArg)
     m_fIdentity_MaxCool = static_cast<CPlayer_Slayer*>(pPlayer)->
         Get_WR_Controller()->Get_IdenCoolTime();
 
+    m_iIdentity_CurrState = (_uint)WRIDENTITY_NORMAL;
+    m_fFrame = 0.f;
+
     return S_OK;
 }
 
@@ -62,6 +64,8 @@ void CUI_WRIdentity_Body::Tick(_float fTimeDelta)
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     Get_Identity_State(pPlayer);
     Identity_NormalState(fTimeDelta);
+    Identity_MaxGauage();
+    Identity_On();
     Transform_Identity(fTimeDelta);
     Identity_CoolState(fTimeDelta);
 }
@@ -110,12 +114,12 @@ HRESULT CUI_WRIdentity_Body::Bind_ShaderResources()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
-    m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
+    m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fFrame);
 
     return S_OK;
 }
 
-void CUI_WRIdentity_Body::Get_Identity_State(CPlayer* pPlayer)
+void CUI_WRIdentity_Body::Get_Identity_State(class CPlayer* pPlayer)
 {
     if (nullptr != pPlayer)
     {
@@ -128,10 +132,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(CPlayer* pPlayer)
         m_fIdentity_CurrCool = static_cast<CPlayer_Slayer*>(pPlayer)->
             Get_WR_Controller()->Get_IdenCoolAcc();
 
-        if ((!m_bIdentity) && (m_iIdentity_Gauge != m_iIdentity_MaxGauge))
-            m_iIdentity_CurrState = (_uint)WRIDENTITY_NORMAL;
-
-        else if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_NORMAL)&&(m_iIdentity_Gauge == m_iIdentity_MaxGauge))
+        if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_NORMAL)&&(m_iIdentity_Gauge == m_iIdentity_MaxGauge))
             m_iIdentity_CurrState = (_uint)WRIDENTITY_MAX;
 
         else if ((m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_MAX))
@@ -142,7 +143,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(CPlayer* pPlayer)
         else if ((!m_bTransfrom) && (m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_ON))
             m_iIdentity_CurrState = (_uint)WRIDENTITY_ON;
 
-        else if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_ON) && (0 == m_iIdentity_Gauge))
+        else if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_ON))
         {
             m_bTransfrom = true;
             m_iIdentity_CurrState = (_uint)WRIDENTITY_TRANSFORM_OFF;
@@ -151,7 +152,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(CPlayer* pPlayer)
         else if ((!m_bTransfrom) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_OFF))
             m_iIdentity_CurrState = (_uint)WRIDENTITY_COOL;
 
-        else if ((m_fIdentity_CurrCool >= m_fIdentity_MaxCool)&&(m_iIdentity_CurrState == WRIDENTITY_COOL))
+        else if ((m_fIdentity_CurrCool >= m_fIdentity_MaxCool-1.f)&&(m_iIdentity_CurrState == WRIDENTITY_COOL))
             m_iIdentity_CurrState = WRIDENTITY_NORMAL;
     }
 }
@@ -161,11 +162,26 @@ void CUI_WRIdentity_Body::Identity_NormalState(_float fTimeDelta)
     if (m_iIdentity_CurrState != WRIDENTITY_NORMAL)
         return;
 
-    if (12 <= m_iTextureIndex)
-        m_iTextureIndex = 0;
+    if (12 <= m_fFrame)
+        m_fFrame = 0.f;
 
-    m_iTextureIndex += (_uint)(5.f * fTimeDelta);
+    m_fFrame += 5.f * fTimeDelta;
+}
 
+void CUI_WRIdentity_Body::Identity_MaxGauage()
+{
+    if (m_iIdentity_CurrState != WRIDENTITY_MAX)
+        return;
+
+    m_fFrame = 6.f;
+}
+
+void CUI_WRIdentity_Body::Identity_On()
+{
+    if (m_iIdentity_CurrState != WRIDENTITY_ON)
+        return;
+
+    m_fFrame = 24.f;
 }
 
 void CUI_WRIdentity_Body::Transform_Identity(_float fTimeDelta)
@@ -175,21 +191,29 @@ void CUI_WRIdentity_Body::Transform_Identity(_float fTimeDelta)
 
     if (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_ON)
     {   
-        m_iTextureIndex += 5.f * fTimeDelta;
-        if(24 < m_iTextureIndex)
+        m_fFrame += 30.f * fTimeDelta;
+        if(24 < m_fFrame)
             m_bTransfrom = false;
     }
 
     else if (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_OFF)
     {
-        m_iTextureIndex += 5.f * fTimeDelta;
-        if (28 < m_iTextureIndex)
+        m_fFrame += 15.f * fTimeDelta;
+        if (30 < m_fFrame)
             m_bTransfrom = false;
     }
 }
 
 void CUI_WRIdentity_Body::Identity_CoolState(_float fTimeDelta)
 {
+    if (m_iIdentity_CurrState != WRIDENTITY_COOL)
+        return;
+    if (43 <= m_fFrame)
+    {
+        m_fFrame = 31;
+    }
+
+    m_fFrame += 20.f * fTimeDelta;
 }
 
 CUI_WRIdentity_Body* CUI_WRIdentity_Body::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
