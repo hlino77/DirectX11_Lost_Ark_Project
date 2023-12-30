@@ -27,6 +27,7 @@ HRESULT CVoidEffect::Initialize_Prototype()
 HRESULT CVoidEffect::Initialize(void* pArg)
 {
 	tagVoidEffectDesc* pDesc = reinterpret_cast<tagVoidEffectDesc*>(pArg);
+	m_tVoidEffectDesc = *pDesc;
 
 	if (FAILED(Ready_Components(pDesc)))
 		return E_FAIL;
@@ -38,14 +39,39 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 
 void CVoidEffect::Tick(_float fTimeDelta)
 {
+	m_fLifeTime = ::max(0.05f, m_fLifeTime);
+	
 	m_fTimeAcc += fTimeDelta;
 	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
 	while (m_fTimeAcc > m_fLifeTime) m_fTimeAcc -= m_fLifeTime;
 
+	if (m_IsSequence)
+	{
+		m_Variables.vUV_TileCount.x = ::max(1.f, m_Variables.vUV_TileCount.x);
+		m_Variables.vUV_TileCount.y = ::max(1.f, m_Variables.vUV_TileCount.y);
+		m_fSequenceTerm = ::max(0.01f, m_fSequenceTerm);
+
+		m_fSequenceTimer += fTimeDelta;
+		while (m_fSequenceTimer > m_fSequenceTerm + 0.0001f)
+		{
+			m_fSequenceTimer -= m_fSequenceTerm;
+			++m_Variables.vUV_TileIndex.x;
+		}
+
+		while (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+		{
+			m_Variables.vUV_TileIndex.x -= m_Variables.vUV_TileCount.x;
+			++m_Variables.vUV_TileIndex.y;
+
+			while (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
+				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
+		}
+	}
+
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
 	vOffsetRotation = Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z);
-	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
+	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 
 	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationQuaternion(vOffsetRotation) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
@@ -62,28 +88,6 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 HRESULT CVoidEffect::Render()
 {
-	if (m_IsSequence)
-	{
-		++m_Variables.vUV_TileIndex.x;
-		++m_Variables.vUV_TileIndex.y;
-
-		if (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
-		{
-			m_Variables.vUV_TileIndex.x = 0;
-			if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
-				m_Variables.vUV_TileIndex.y = 0;
-		}
-
-		/*m_Variables.vUV_Offset.x = m_Variables.vUV_TileIndex.x++ / m_Variables.vUV_TileCount.x;
-		m_Variables.vUV_Offset.y = m_Variables.vUV_TileIndex.y++ / m_Variables.vUV_TileCount.y;
-		if (m_Variables.vUV_TileIndex.x == m_Variables.vUV_TileCount.x)
-		{
-			m_Variables.vUV_TileIndex.x -= m_Variables.vUV_TileCount.x;
-			if(m_Variables.vUV_TileIndex.y == m_Variables.vUV_TileCount.y)
-				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
-		}*/
-	}
-
 	m_Variables.vUV_Offset.x += m_vUV_Speed.x * m_fTimeAcc * 0.001f;
 	m_Variables.vUV_Offset.y += m_vUV_Speed.y * m_fTimeAcc * 0.001f;
 

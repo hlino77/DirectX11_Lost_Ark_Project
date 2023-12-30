@@ -37,11 +37,12 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
         fMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV).r;
-        clip(fMask);
+        clip(fMask - 0.01f);
     }
     
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    vColor.a = fMask;
+    clip(vColor.a - 0.01f);
+    vColor *= fMask;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {

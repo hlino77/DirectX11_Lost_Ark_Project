@@ -23,12 +23,12 @@ HRESULT CLevel_Tool::Initialize()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
 	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsLight();
+	//ImGui::StyleColorsDark();
+	ImGui::StyleColorsLight();
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_Init(g_hWnd);
-	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
+	//ImGui_ImplWin32_Init(g_hWnd);
+	//ImGui_ImplDX11_Init(m_pDevice, m_pContext);
 
 	if (FAILED(Ready_Layer_BackGround()))
 		return E_FAIL;

@@ -369,25 +369,7 @@ HRESULT CLoader::Loading_For_Level_Tool()
 
 	/* For.Model */
 	m_strLoading = TEXT("모델을 로딩 중 입니다.");
-	{
-		wstring strMeshEffectFilePath = TEXT("../Bin/Resources/Effects/FX_Meshes/");
-		for (const auto& category : filesystem::directory_iterator(strMeshEffectFilePath))
-		{
-			if (!category.is_directory())
-				continue;
-			for (const auto& entry : filesystem::directory_iterator(category.path()))
-			{
-				Matrix matPivot = Matrix::Identity;
-				const wstring& strFileName = entry.path().stem();
-				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-				wstring strFinalPath = category.path().generic_wstring() + TEXT("/");
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFinalPath, strFileName, true, false))))
-					return E_FAIL;
-			}
-		}
-	}
+	
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");

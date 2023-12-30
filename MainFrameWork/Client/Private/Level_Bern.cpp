@@ -350,8 +350,8 @@ HRESULT CLevel_Bern::Ready_Layer_Effect(const LAYER_TYPE eLayerType)
 	Safe_AddRef(pGameInstance);
 
 
-	Safe_Release(pGameInstance);
 
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

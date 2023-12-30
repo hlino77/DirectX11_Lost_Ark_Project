@@ -50,6 +50,7 @@ private:
 
 	HRESULT CreateEffect();
 	HRESULT Reset();
+
 	HRESULT Save(_char* szFileName);
 	HRESULT Load();
 
@@ -89,9 +90,9 @@ private:
 
 	_bool		m_IsResetReserved = false;
 
-	_int		m_iSelectedDataFileIndex = 0;
-	wstring		m_strSelectedDataFile = TEXT("");
-	_char		m_szFileNameBuf[128] = "";
+	_int		m_iSelectedDataIndex = 0;
+	wstring		m_strSelectedGroup = TEXT("");
+	_char		m_szGroupNameBuf[128] = "";
 
 public:
 	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

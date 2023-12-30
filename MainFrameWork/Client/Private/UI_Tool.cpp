@@ -37,7 +37,7 @@ HRESULT CUI_Tool::Reserve_Manager(HWND hWnd, ID3D11Device* pDevice, ID3D11Device
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	ImGui::StyleColorsDark();
-	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\batang.ttc", 15.f, NULL, io.Fonts->GetGlyphRangesKorean());
+	//io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\batang.ttc", 15.f, NULL, io.Fonts->GetGlyphRangesKorean());
 
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(pDevice, pContext);

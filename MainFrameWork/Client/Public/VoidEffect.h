@@ -44,8 +44,6 @@ private:
 	virtual HRESULT Ready_Components() override { return E_FAIL; };
 
 public:
-	Matrix	m_matPivot = Matrix::Identity;
-
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bPosition_Lerp = false;
@@ -67,12 +65,12 @@ public:
 	_bool	m_bColor_Lerp = false;
 
 	_float	m_fLifeTime = FLT_MAX;
-	_float	m_fTimeAcc = 0.f;
-	_float	m_fLifeTimeRatio = 0.f;
 
+	Vec2	m_vUV_Start = Vec2(0.f, 0.f);
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
 
 	_bool	m_IsSequence = false;
+	_float	m_fSequenceTerm = 0.05f;
 
 	struct tagFX_Variables
 	{
@@ -97,6 +95,16 @@ public:
 	} m_Billboard;
 
 	//_bool	m_bBlendNonBlend = 0.f;
+
+	tagVoidEffectDesc m_tVoidEffectDesc;
+
+private:
+	Matrix	m_matPivot = Matrix::Identity;
+
+	_float	m_fTimeAcc = 0.f;
+	_float	m_fLifeTimeRatio = 0.f;
+
+	_float	m_fSequenceTimer = 0.0f;
 
 private:
 	CVIBuffer_Point* m_pBuffer		= nullptr;

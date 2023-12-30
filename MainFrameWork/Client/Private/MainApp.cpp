@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\MainApp.h"
 #include <filesystem>
+#include "tinyxml2.h"
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
@@ -45,8 +46,10 @@
 #include "UI_DamageFont.h"
 #include "Pool.h"
 #include "Damage_Manager.h"
+#include "Effect_Manager.h"
 #include "ThreadManager.h"
 #include "UI_Loading.h"
+#include "Effect.h"
 
 namespace fs = std::filesystem;
 
@@ -58,12 +61,9 @@ CMainApp::CMainApp()
 	Safe_AddRef(m_pGameInstance);
 }
 
-
-
 HRESULT CMainApp::Initialize()
 {
 	g_fVolume = 0.5f;
-
 
 	/* 1. 내 게임의 초기화를 수행할꺼야. */
 	/* 1-1. 그래픽장치를 초기화한다. */
@@ -81,8 +81,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, _uint(LAYER_TYPE::LAYER_END), GraphicDesc, &m_pDevice, &m_pContext, g_hWnd, g_hInstance)))
 		return E_FAIL;
-
-	
+		
 	if (FAILED(Initialize_Client()))
 		return E_FAIL;
 
@@ -93,15 +92,16 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
-
 	/* 1-4-1. 게임내에서 사용할 여러 자원(텍스쳐, 모델, 객체) 들을 준비한다.  */
 
 	if (FAILED(Ready_Prototype_Font()))
 		return E_FAIL;
+	
+	if (FAILED(Ready_Prototype_Effect()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Camera_Free()))
 		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -122,8 +122,6 @@ void CMainApp::Tick(_float fTimeDelta)
 	m_pGameInstance->Tick(fTimeDelta);
 
 	CChat_Manager::GetInstance()->CursurTick(fTimeDelta);
-	
-	
 }
 
 HRESULT CMainApp::Render()
@@ -173,6 +171,7 @@ HRESULT CMainApp::Initialize_Client()
 
 	CUI_Manager::GetInstance()->Reserve_Manager();
 
+	CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	ThreadManager::GetInstance()->ReserveManager(8);
@@ -392,7 +391,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	CDamage_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 	
-
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Projectile"),
 		CProjectile::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -420,6 +418,37 @@ HRESULT CMainApp::Ready_Prototype_Font()
 	pGameInstance->AddFont(L"빛의계승자", L"../Bin/Resources/Fonts/빛의계승자.spritefont");
 	
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_Effect()
+{	
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	// Mesh
+	wstring strMeshEffectFilePath = TEXT("../Bin/Resources/Effects/FX_Meshes/");
+	for (const auto& category : fs::directory_iterator(strMeshEffectFilePath))
+	{
+		if (!category.is_directory())
+			continue;
+		for (const auto& entry : fs::directory_iterator(category.path()))
+		{
+			Matrix matPivot = Matrix::Identity;
+			const wstring& strFileName = entry.path().stem();
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+			wstring strFinalPath = category.path().generic_wstring() + TEXT("/");
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFinalPath, strFileName, true, false))))
+				return E_FAIL;
+		}
+	}
+
+	// Effect
+	
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 

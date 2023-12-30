@@ -37,12 +37,6 @@
     <Filter Include="02.GameObjects\Static">
       <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
     </Filter>
-    <Filter Include="95. Network">
-      <UniqueIdentifier>{f4d5c8ea-35ca-4bad-b50d-727a9f9a5344}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="95. Network\Protocol">
-      <UniqueIdentifier>{75ccef97-ae7f-480a-827d-edaa1f40fd79}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster">
       <UniqueIdentifier>{5b216187-dcb0-48f0-97da-18e9b63474c2}</UniqueIdentifier>
     </Filter>
@@ -54,9 +48,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Skill">
       <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Event">
-      <UniqueIdentifier>{9338aac2-f157-4c4d-9f44-0aa0463ceabe}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
@@ -279,36 +270,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Reaper\Part">
       <UniqueIdentifier>{aa29f5c9-35d7-4ded-99ea-6ff7ec8d41fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP">
-      <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP">
-      <UniqueIdentifier>{50d9aeef-578e-4720-9824-cdda2f7bfe38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP">
-      <UniqueIdentifier>{259a876f-4aa3-41cc-81e4-2f1b3aed6576}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\99.Shield">
-      <UniqueIdentifier>{dd58f161-b8e4-4de9-ac25-ec1d7aa85116}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP\02.Frame">
-      <UniqueIdentifier>{fa2dfef5-d526-469e-8cf1-6bc4f2036c32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP\00.Empty">
-      <UniqueIdentifier>{0ceba15d-960d-41b1-b95a-fc55c8a0ec76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\01.MP\01.Fill">
-      <UniqueIdentifier>{167bc56c-ded9-48f3-b764-492821bb9019}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\00.Empty">
-      <UniqueIdentifier>{81dd785f-a4d5-4f73-a041-af3aea85a88d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\02.Frame">
-      <UniqueIdentifier>{eecbf04b-39f7-4454-bba9-763280cfe506}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04. HP/MP\00.HP\01.Fill">
-      <UniqueIdentifier>{70ec6b31-cc32-4ae0-9516-601309ce1db4}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\06.Speech_Bubble">
       <UniqueIdentifier>{9df4ac39-51a7-49d4-ad93-2125f11f7bb6}</UniqueIdentifier>
@@ -874,6 +835,75 @@
     <Filter Include="02.GameObjects\Boss\Valtan">
       <UniqueIdentifier>{a2450736-a999-44ae-b816-ad09c1e28a92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean">
+      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel1">
+      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel2">
+      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel3">
+      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP">
+      <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP">
+      <UniqueIdentifier>{50d9aeef-578e-4720-9824-cdda2f7bfe38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\99.Shield">
+      <UniqueIdentifier>{dd58f161-b8e4-4de9-ac25-ec1d7aa85116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\00.Empty">
+      <UniqueIdentifier>{81dd785f-a4d5-4f73-a041-af3aea85a88d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\02.Frame">
+      <UniqueIdentifier>{eecbf04b-39f7-4454-bba9-763280cfe506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\01.Fill">
+      <UniqueIdentifier>{70ec6b31-cc32-4ae0-9516-601309ce1db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP">
+      <UniqueIdentifier>{259a876f-4aa3-41cc-81e4-2f1b3aed6576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\02.Frame">
+      <UniqueIdentifier>{fa2dfef5-d526-469e-8cf1-6bc4f2036c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\00.Empty">
+      <UniqueIdentifier>{0ceba15d-960d-41b1-b95a-fc55c8a0ec76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\01.Fill">
+      <UniqueIdentifier>{167bc56c-ded9-48f3-b764-492821bb9019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager">
+      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\UI_Manager">
+      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Chat_Manager">
+      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Damage_Manager">
+      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Mouse_Manager">
+      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Network">
+      <UniqueIdentifier>{f4d5c8ea-35ca-4bad-b50d-727a9f9a5344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Network\Protocol">
+      <UniqueIdentifier>{75ccef97-ae7f-480a-827d-edaa1f40fd79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Event">
+      <UniqueIdentifier>{9338aac2-f157-4c4d-9f44-0aa0463ceabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Event\99.Base">
+      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -916,22 +946,22 @@
       <Filter>02.GameObjects\Static</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Enum.pb.h">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Protocol.pb.h">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Struct.pb.h">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ClientPacketHandler.h">
-      <Filter>95. Network</Filter>
+      <Filter>95.Network</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ServerSession.h">
-      <Filter>95. Network</Filter>
+      <Filter>95.Network</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ServerSessionManager.h">
-      <Filter>95. Network</Filter>
+      <Filter>95.Network</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Player.h">
       <Filter>02.GameObjects\Camera</Filter>
@@ -958,13 +988,13 @@
       <Filter>02.GameObjects\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ClientEvent.h">
-      <Filter>03. Event</Filter>
+      <Filter>03.Event</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pool.h">
-      <Filter>96. Manager</Filter>
+      <Filter>96.Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MainLogo.h">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -1003,7 +1033,7 @@
       <Filter>02.GameObjects\UI\01.Loading\02.Bar\02.Arrow</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chat_Manager.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
+      <Filter>96.Manager\Chat_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h">
       <Filter>02.GameObjects\Monster\Zombie</Filter>
@@ -2262,19 +2292,19 @@
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_HPFrame.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\02.Frame</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\02.Frame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_MPFrame.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\02.Frame</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP\02.Frame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_HPFill.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\01.Fill</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\01.Fill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_MPFill.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\01.Fill</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP\01.Fill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_ShieldFill.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\99.Shield</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\99.Shield</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
@@ -2295,16 +2325,16 @@
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\00.Empty</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\00.Empty</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_MPEmpty.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\00.Empty</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP\00.Empty</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_HP.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_MP.h">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_SkillIcon_Frame.h">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\00.IconFrame</Filter>
@@ -2476,7 +2506,7 @@
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dash</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Damage_Manager.h">
-      <Filter>96. Manager\Damage_Manager</Filter>
+      <Filter>96.Manager\Damage_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_GN_Apocalypse.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
@@ -2699,13 +2729,13 @@
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel1.h">
-      <Filter>01.Levels\03. ChaosDungean\ChaosLevel1</Filter>
+      <Filter>01.Levels\03.ChaosDungean\ChaosLevel1</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel2.h">
-      <Filter>01.Levels\03. ChaosDungean\ChaosLevel2</Filter>
+      <Filter>01.Levels\03.ChaosDungean\ChaosLevel2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel3.h">
-      <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
+      <Filter>01.Levels\03.ChaosDungean\ChaosLevel3</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
@@ -2938,6 +2968,15 @@
     <ClInclude Include="..\Public\Monster_Pawn.h">
       <Filter>02.GameObjects\Monster\Pawn</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Mesh.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Texture.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Manager.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2971,22 +3010,22 @@
       <Filter>02.GameObjects\Static</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Enum.pb.cc">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Protocol.pb.cc">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Struct.pb.cc">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ClientPacketHandler.cpp">
-      <Filter>95. Network</Filter>
+      <Filter>95.Network</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ServerSession.cpp">
-      <Filter>95. Network</Filter>
+      <Filter>95.Network</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ServerSessionManager.cpp">
-      <Filter>95. Network</Filter>
+      <Filter>95.Network</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Player.cpp">
       <Filter>02.GameObjects\Camera</Filter>
@@ -3016,7 +3055,7 @@
       <Filter>02.GameObjects\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ClientEvent.cpp">
-      <Filter>03. Event</Filter>
+      <Filter>03.Event</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
@@ -3058,7 +3097,7 @@
       <Filter>02.GameObjects\UI\01.Loading\02.Bar\01.Fill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chat_Manager.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
+      <Filter>96.Manager\Chat_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp">
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
@@ -4330,31 +4369,31 @@
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_HPFrame.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\02.Frame</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\02.Frame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_MPFrame.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\02.Frame</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP\02.Frame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\01.Fill</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\01.Fill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_MPFill.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\01.Fill</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP\01.Fill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_ShieldFill.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\99.Shield</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\99.Shield</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP\00.Empty</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP\00.Empty</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_MPEmpty.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP\00.Empty</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP\00.Empty</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_HP.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\00.HP</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\00.HP</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_MP.cpp">
-      <Filter>02.GameObjects\UI\04. HP/MP\01.MP</Filter>
+      <Filter>02.GameObjects\UI\04.HP/MP\01.MP</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_SkillIcon_Frame.cpp">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\00.IconFrame</Filter>
@@ -4510,7 +4549,7 @@
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dash</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Damage_Manager.cpp">
-      <Filter>96. Manager\Damage_Manager</Filter>
+      <Filter>96.Manager\Damage_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_GN_Apocalypse.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Skill_GN\Long</Filter>
@@ -4733,16 +4772,16 @@
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel1.cpp">
-      <Filter>01.Levels\03. ChaosDungean\ChaosLevel1</Filter>
+      <Filter>01.Levels\03.ChaosDungean\ChaosLevel1</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Slayer.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel2.cpp">
-      <Filter>01.Levels\03. ChaosDungean\ChaosLevel2</Filter>
+      <Filter>01.Levels\03.ChaosDungean\ChaosLevel2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel3.cpp">
-      <Filter>01.Levels\03. ChaosDungean\ChaosLevel3</Filter>
+      <Filter>01.Levels\03.ChaosDungean\ChaosLevel3</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
@@ -4972,6 +5011,15 @@
     <ClCompile Include="..\Private\Boss_BT_Counter.cpp">
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_Mesh.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Texture.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Manager.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -5142,18 +5190,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </None>
     <None Include="..\..\Protobuf\bin\Protocol.proto">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </None>
     <None Include="..\..\Protobuf\bin\Struct.proto">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt">
-      <Filter>95. Network\Protocol</Filter>
+      <Filter>95.Network\Protocol</Filter>
     </Text>
   </ItemGroup>
 </Project>

@@ -42,7 +42,7 @@ private:
 	HRESULT Initialize_Client();
 	HRESULT Ready_Prototype_Component();
 	HRESULT Ready_Prototype_Font();
-	HRESULT Ready_Prototype_Resource();
+	HRESULT Ready_Prototype_Effect();
 	HRESULT Ready_Camera_Free();
 	void	Active_Camera_Free();
 
