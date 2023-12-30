@@ -28,7 +28,7 @@ public:
 	const _int&		Get_IdenGage() { return m_iIdentityGage; }
 	const _int&		Get_IdenMaxGauge() { return m_iMaxGage; }
 	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
-	const _float&	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
+	const _float Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);

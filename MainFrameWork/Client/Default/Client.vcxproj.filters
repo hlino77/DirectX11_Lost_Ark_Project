@@ -849,6 +849,27 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Attack">
       <UniqueIdentifier>{e3619efa-a947-4266-bc87-5a7f443cbd8a}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame">
+      <UniqueIdentifier>{fee6be2b-ab00-434f-b41e-d8ebf2ea73ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge">
+      <UniqueIdentifier>{fe644e52-6045-4635-8a7a-f7d2bd16ea09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\02.Shine">
+      <UniqueIdentifier>{75f81f70-544e-4b68-859c-9152ba3d47d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\04.UI_WRIdentity_SkillFrame">
+      <UniqueIdentifier>{43f7cd0f-79d5-4c8a-93c1-4e8aa135cd1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\05.UI_WRIdentity_Boomb">
+      <UniqueIdentifier>{25d224f2-f387-4a15-b46a-72ce9b8afad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine\00.Eye_Shine">
+      <UniqueIdentifier>{35a5d918-a1e0-4699-9269-244347049e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey">
+      <UniqueIdentifier>{f4247b1c-d42a-475c-94f8-08ae5c735a4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2886,6 +2907,33 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_MG_Attack_2.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_Gauge.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_GaugeFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_GaugeShine.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\02.Shine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_Spark.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\02.Identity_Spark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_Shine.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_EyeShine.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine\00.Eye_Shine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_SkillIcon.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\04.UI_WRIdentity_SkillFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_Boomb.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\05.UI_WRIdentity_Boomb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WRIdentity_BindingKey.h">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4893,6 +4941,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_Gauge.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_GaugeFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_GaugeShine.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\02.Shine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_Spark.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\02.Identity_Spark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_Shine.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_EyeShine.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine\00.Eye_Shine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_SkillIcon.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\04.UI_WRIdentity_SkillFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_Boomb.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\05.UI_WRIdentity_Boomb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WRIdentity_BindingKey.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

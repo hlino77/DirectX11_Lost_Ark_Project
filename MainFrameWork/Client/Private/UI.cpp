@@ -282,6 +282,14 @@ void CUI::Set_Size(_float fSizeX, _float fSizeY)
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 }
 
+void CUI::Set_Z(_float fZ)
+{
+	_float Z = fZ;
+	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, Z));
+}
+
 void CUI::Set_Pos(Vec2 vPos)
 {
 	m_fX = vPos.x;

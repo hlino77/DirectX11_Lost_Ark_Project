@@ -86,6 +86,7 @@ public://IMGUI
 	void	Change_SizeB(_float MMY);
 
 	void	Set_Size(_float fSizeX, _float fSizeY);
+	void	Set_Z(_float fZ);
 	void	Set_Pos(Vec2 vPos);
 	void	Move_UI(POINT pt);
 

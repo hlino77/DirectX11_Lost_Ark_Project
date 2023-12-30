@@ -293,6 +293,66 @@ PS_OUT PS_MAIN_COLORFRAME(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_WRGAUGE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+
+	float2 Distance = abs(In.vTexUV - 0.5f);
+	float fAlpha = (2.f * g_Alpha) - (saturate(length(Distance)));
+	
+	Out.vColor.a *= g_Alpha;
+
+	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	float fAngle = atan2(-fTempUV.x, fTempUV.y);
+
+	if ((-g_PI < fAngle) && (g_fRatio < fAngle))
+		return Out;//Out.vColor = pow(Out.vColor, 1.f / 2.2f);
+	else
+		Out.vColor.rgb *= 0.f;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_WRSHINE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+
+	float2 Distance = abs(In.vTexUV - 0.5f);
+
+	float fAlpha = (2.f * g_Alpha) - (saturate(length(Distance)));
+	Out.vColor.a *= fAlpha;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	Out.vColor = pow(Out.vColor, 1.f / 2.2f);
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_WREYESHINE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+
+	float2 Distance = abs(In.vTexUV - 0.5f);
+
+	float fAlpha = (2.f * g_Alpha) - (saturate(length(Distance)));
+	Out.vColor.a *= fAlpha;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	return Out;
+}
+	
+
 technique11 DefaultTechnique
 {
 	pass DefaultPass
@@ -397,7 +457,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME();
 	}
 
-	pass PS_MAIN_SKILLICON
+	pass PS_MAIN_WRGAUGE
 	{
 		SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
@@ -405,7 +465,29 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_COLORFRAME();
+		PixelShader = compile ps_5_0 PS_MAIN_WRGAUGE();
+	}
+
+	pass PS_MAIN_WRSHINE
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_WRSHINE();
+	}
+
+	pass PS_MAIN_WREYESHINE
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_WREYESHINE();
 	}
 
 }
