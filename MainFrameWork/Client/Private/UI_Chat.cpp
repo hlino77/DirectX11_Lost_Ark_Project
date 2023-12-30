@@ -123,6 +123,11 @@ HRESULT CUI_Chat::UI_Set()
 
 	Load_UIData(TEXT("Chat_Desc"));
 
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Z(1.f);
+	}
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
