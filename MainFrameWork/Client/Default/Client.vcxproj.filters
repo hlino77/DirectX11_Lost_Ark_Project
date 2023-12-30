@@ -871,6 +871,9 @@
     <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey">
       <UniqueIdentifier>{f4247b1c-d42a-475c-94f8-08ae5c735a4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\Valtan">
+      <UniqueIdentifier>{a2450736-a999-44ae-b816-ad09c1e28a92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2333,9 +2336,6 @@
     <ClInclude Include="..\Public\State_GN_DeadHard_Loop.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Pawn.h">
-      <Filter>02.GameObjects\Monster\Pawn</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Mn_PawnShield.h">
       <Filter>02.GameObjects\Monster\Pawn\Parts</Filter>
     </ClInclude>
@@ -2934,6 +2934,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_WRIdentity_BindingKey.h">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Pawn.h">
+      <Filter>02.GameObjects\Monster\Pawn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4759,9 +4762,6 @@
     <ClCompile Include="..\Private\UI_WRIdentity.cpp">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\Boss_BT_Counter.cpp">
-      <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Bug.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\02.Maz\Bug</Filter>
     </ClCompile>
@@ -4968,6 +4968,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_WRIdentity_BindingKey.cpp">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_BT_Counter.cpp">
+      <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

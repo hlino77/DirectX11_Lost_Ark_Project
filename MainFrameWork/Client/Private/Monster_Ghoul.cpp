@@ -30,6 +30,13 @@
 #include <Common_BT_Twist.h>
 #include <Common_BT_Bound.h>
 #include <Common_BT_Stand.h>
+#include <Common_BT_BoundLand.h>
+#include <Common_BT_TwistLand.h>
+#include <Common_BT_Earthquake.h>
+#include <Common_BT_Bug.h>
+#include <Common_BT_Fear.h>
+#include <Common_BT_Stun.h>
+#include <Common_BT_Shock.h>
 
 
 
@@ -63,7 +70,7 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
-	m_fRootTargetDistance = 0.5f;
+	m_fRootTargetDistance = 0.9f;
     return S_OK;
 }
 
@@ -262,11 +269,6 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Twist";
 	CBT_Action* pTwist = CCommon_BT_Twist::Create(&ActionDesc);
 
@@ -276,13 +278,74 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bound";
+	CBT_Action* pBound = CCommon_BT_Bound::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("bound_land");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Bound";
-	CBT_Action* pBound = CCommon_BT_Bound::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_BoundLand";
+	CBT_Action* pBoundLand = CCommon_BT_BoundLand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_TwistLand";
+	CBT_Action* pTwistLand = CCommon_BT_TwistLand::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_bug_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bug";
+	CBT_Action* pBug = CCommon_BT_Bug::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_earthquake_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Earthquake";
+	CBT_Action* pEarthquake = CCommon_BT_Earthquake::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_fear_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Fear";
+	CBT_Action* pFear = CCommon_BT_Fear::Create(&ActionDesc);
+
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_shock_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Shock";
+	CBT_Action* pShock = CCommon_BT_Shock::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_stun_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stun";
+	CBT_Action* pStun = CCommon_BT_Stun::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_normal_1");

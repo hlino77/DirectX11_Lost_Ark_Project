@@ -30,7 +30,7 @@ CBoss_BT_Counter* CBoss_BT_Counter::Create(void* pArg)
 	CBoss_BT_Counter* pInstance = new CBoss_BT_Counter;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CZombie_BT_Damage");
+		MSG_BOX("Failed to Created : CBoss_BT_Counter");
 		Safe_Release(pInstance);
 	}
 

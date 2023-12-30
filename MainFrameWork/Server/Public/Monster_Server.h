@@ -61,7 +61,7 @@ public:
 	
 	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
 
-	virtual void				Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)override;
+	virtual void				Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration);
 	
 public:
 
@@ -73,6 +73,8 @@ public:
 
 	Vec3 Get_Target_Direction();
 
+	Vec3 Get_Target_RandomDirection();
+
 	void Set_RandomPosition();
 
 	void Set_RandomPosition(_float fRange);
@@ -82,6 +84,8 @@ public:
 	_float Get_Target_Distance();
 
 	_bool Is_Close_To_RandomPosition();
+
+	_bool Is_Close_To_TargetRandomPosition();
 	
 	Vec3 Get_RandomPosition() { return m_vRandomPosition; }
 
@@ -136,6 +140,9 @@ public:
 
 	_bool						Is_SecondHit() { return m_IsSecondHit; }
 	void						Set_SecondHit(_bool bHit) { m_IsSecondHit = bHit; }
+
+	_bool						Was_Maz() { return m_bWasMaz; }
+	void						Set_WasMaz(_bool bWasMaz) { m_bWasMaz = bWasMaz; }
 
 
 	_bool						Is_BoundLanding() { return m_IsBoundLanding; }
@@ -199,6 +206,7 @@ protected:
 	_bool							m_IsDowned = false;
 	_bool							m_IsTwistLanding = false;
 	_bool							m_IsBoundLanding = false;
+	_bool							m_bWasMaz = false;
 	_uint							m_iSkillStack	=	0;
 	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};

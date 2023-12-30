@@ -128,6 +128,7 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		Desc.strFileName = L"Boss_" + CAsUtils::ToWString(pkt.strname());
 		Desc.iObjectID = pkt.iobjectid();
 		Desc.iLayer = pkt.ilayer();
+		Desc.iLevel = pkt.ilevel();
 
 		wstring szProtoName = L"Prototype_GameObject_" + Desc.strFileName;
 		CBoss* pBoss = dynamic_cast<CBoss*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szProtoName, &Desc));
@@ -513,7 +514,7 @@ bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(),(_uint) LAYER_TYPE::LAYER_MONSTER, pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer() , pkt.iobjectid());
 
 
 	if (pObject == nullptr)

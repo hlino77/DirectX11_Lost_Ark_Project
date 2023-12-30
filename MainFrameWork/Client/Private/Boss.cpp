@@ -303,6 +303,7 @@ HRESULT CBoss::Ready_Components()
     return S_OK;
 }
 
+
 HRESULT CBoss::Ready_HP_UI(_uint iTextureIndex)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

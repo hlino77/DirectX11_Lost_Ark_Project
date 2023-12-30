@@ -41,6 +41,18 @@
 #include <Common_BT_IF_Downed_Server.h>
 #include <Common_BT_Stand_Server.h>
 #include <Common_BT_IF_FirstHit_Server.h>
+#include <Common_BT_Bug_Server.h>
+#include <Common_BT_Bug_Server.h>
+#include <Common_BT_IF_Bug_Server.h>
+#include <Common_BT_IF_Maz_Server.h>
+#include <Common_BT_IF_Stun_Server.h>
+#include <Common_BT_Stun_Server.h>
+#include <Common_BT_IF_Shock_Server.h>
+#include <Common_BT_Shock_Server.h>
+#include <Common_BT_IF_Fear_Server.h>
+#include <Common_BT_Fear_Server.h>
+#include <Common_BT_IF_Earthquake_Server.h>
+#include <Common_BT_Earthquake_Server.h>
 
 CMonster_Reaper_Server::CMonster_Reaper_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CMonster_Server(pDevice, pContext)
@@ -69,11 +81,13 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 	m_fRootTargetDistance = 0.5f;
-	m_vecAttackRanges.push_back(1.f);
-	m_vecAttackRanges.push_back(2.f);
+	m_vecAttackRanges.clear();
+	m_vecAttackRanges.push_back(1.2f);
+	m_vecAttackRanges.push_back(2.2f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
-	m_iHp = 15.f;
+	m_iMaxHp = 9999999;
+	m_iHp = m_iMaxHp;
 	return S_OK;
 }
 
@@ -217,6 +231,97 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_bug_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Bug";
+	CBT_Action* pBug = CCommon_BT_Bug_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfBug = CCommon_BT_IF_Bug_Server::Create(&DecoratorDesc);//넉백인가
+	if (FAILED(pIfBug->AddChild(pBug)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_earthquake_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Earthquake";
+	CBT_Action* pEarthquake = CCommon_BT_Earthquake_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfEarthquake = CCommon_BT_IF_Earthquake_Server::Create(&DecoratorDesc);//넉백인가
+	if (FAILED(pIfEarthquake->AddChild(pEarthquake)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_fear_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Fear";
+	CBT_Action* pFear = CCommon_BT_Fear_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfFear = CCommon_BT_IF_Fear_Server::Create(&DecoratorDesc);//넉백인가
+	if (FAILED(pIfFear->AddChild(pFear)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_shock_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Shock";
+	CBT_Action* pShock = CCommon_BT_Shock_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfShock = CCommon_BT_IF_Shock_Server::Create(&DecoratorDesc);//넉백인가
+	if (FAILED(pIfShock->AddChild(pShock)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("abn_stun_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Stun";
+	CBT_Action* pStun = CCommon_BT_Stun_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfStun = CCommon_BT_IF_Stun_Server::Create(&DecoratorDesc);//넉백인가
+	if (FAILED(pIfStun->AddChild(pStun)))
+		return E_FAIL;
+
+	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
+	CompositeDesc.pGameObject = this;
+	CompositeDesc.pBehaviorTree = m_pBehaviorTree;
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+	CBT_Composite* pSelector_Maz = CBT_Composite::Create(&CompositeDesc);
+	if (FAILED(pSelector_Maz->AddChild(pIfStun)))
+		return E_FAIL;
+	if (FAILED(pSelector_Maz->AddChild(pIfShock)))
+		return E_FAIL;
+	if (FAILED(pSelector_Maz->AddChild(pIfFear)))
+		return E_FAIL;
+	if (FAILED(pSelector_Maz->AddChild(pIfEarthquake)))
+		return E_FAIL;
+	if (FAILED(pSelector_Maz->AddChild(pIfBug)))
+		return E_FAIL;
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfMaz = CCommon_BT_IF_Maz_Server::Create(&DecoratorDesc);//상태이상인가?
+	if (FAILED(pIfMaz->AddChild(pSelector_Maz)))
+		return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("dmg_idle_2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.1f;
@@ -242,15 +347,12 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	if (FAILED(pIfSecondHit->AddChild(pDamageRight)))
 		return E_FAIL;
 
-	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
-	CompositeDesc.pGameObject = this;
-	CompositeDesc.pBehaviorTree = m_pBehaviorTree;
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pSelector_Hit = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Hit->AddChild(pIfDead))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfTwist))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfBound))) return E_FAIL;
-	//if (FAILED(pSelector_Hit->AddChild(pIfMaz))) return E_FAIL; 상태이상 보류중
+	if (FAILED(pSelector_Hit->AddChild(pIfMaz)))return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfFirstHit))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfSecondHit))) return E_FAIL;
 

@@ -55,13 +55,17 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
-	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration);
+	virtual void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)override;
 public:
 
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
 	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
 	_bool						Is_Countered() { return m_IsCountered; }
 	void						Set_Countered(_bool IsCountered) { m_IsCountered = IsCountered; }
+
+	_uint						Get_Phase() { return m_iPhase; }
+	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
+
 
 protected:
 	virtual HRESULT		Ready_Components();
@@ -72,6 +76,8 @@ protected:
 protected:
 	_bool m_IsCounterSkill = false;
 	_bool m_IsCountered = false;
+	_uint m_iPhase = 1;
+	_uint m_iArmor = 2;
 
 public:
 	virtual CGameObject* Clone(void* pArg);

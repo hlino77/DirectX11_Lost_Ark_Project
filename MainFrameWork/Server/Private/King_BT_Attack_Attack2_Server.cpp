@@ -38,7 +38,7 @@ CKing_BT_Attack_Attack2_Server* CKing_BT_Attack_Attack2_Server::Create(void* pAr
 	CKing_BT_Attack_Attack2_Server* pInstance = new CKing_BT_Attack_Attack2_Server;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CKing_BT_Attack_Attack2_Server");
+		MSG_BOX("Failed to Created : CValtan_BT_Attack_Attack0_Server");
 		Safe_Release(pInstance);
 	}
 

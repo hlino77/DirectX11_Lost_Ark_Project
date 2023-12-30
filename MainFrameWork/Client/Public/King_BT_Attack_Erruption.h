@@ -19,6 +19,7 @@ private:
 
 private:
     _bool m_Shoot = false;
+    _bool m_bLookatRight;
 public:
     static	CKing_BT_Attack_Erruption* Create(void* pArg);
     virtual void Free() override;

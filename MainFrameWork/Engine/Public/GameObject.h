@@ -165,8 +165,8 @@ public:
 	void						Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
 	_bool						Is_Invincible() { return m_bInvincible; }
 
-	_int						Get_Hp() { return m_iHp; }
-	_uint						Get_MaxHp() { return m_iMaxHp; }
+	int64						Get_Hp() { return m_iHp; }
+	uint64						Get_MaxHp() { return m_iMaxHp; }
 	void						Set_Hp(_int iHp) { m_iHp = iHp; }
 
 

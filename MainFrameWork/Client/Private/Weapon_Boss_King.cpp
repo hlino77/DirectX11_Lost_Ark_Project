@@ -32,9 +32,8 @@ HRESULT CWeapon_Boss_King::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 0.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f,0.f, 0.f));
-
+	m_pTransformCom->My_Rotation(Vec3(-90.f, 90.f, 90.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(5.f, 0.f, 0.f));
 	return S_OK;
 }
 

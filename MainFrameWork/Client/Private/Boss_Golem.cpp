@@ -48,18 +48,7 @@ HRESULT CBoss_Golem::Initialize_Prototype()
 
 HRESULT CBoss_Golem::Initialize(void* pArg)
 {
-	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
-	m_iObjectID = Desc->iObjectID;
-	m_iLayer = Desc->iLayer;
-	m_iCurrLevel = Desc->iLevel;
-
-	
-
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-	if (FAILED(Ready_BehaviourTree()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
