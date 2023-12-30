@@ -51,6 +51,17 @@
 #include <Valtan_BT_Attack_Attack13_Server.h>
 #include <Valtan_BT_Attack_Attack14_Server.h>
 #include <Valtan_BT_Attack_Attack15_Server.h>
+#include <Valtan_BT_IF_Phase1_Server.h>
+#include <Valtan_BT_IF_NoArmor_Server.h>
+#include <Valtan_BT_Attack_Attack16_Server.h>
+#include <Valtan_BT_Attack_Attack18_Server.h>
+#include <Valtan_BT_Attack_Attack17_Server.h>
+#include <Valtan_BT_Attack_Attack19_Server.h>
+#include <Valtan_BT_Attack_Attack20_Server.h>
+#include <Valtan_BT_Attack_Attack21_Server.h>
+#include <Valtan_BT_Attack_Attack22_Server.h>
+#include <Valtan_BT_Attack_Attack23_Server.h>
+#include <Valtan_BT_Attack_Attack24_Server.h>
 
 
 
@@ -265,8 +276,47 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))
 		return E_FAIL;
+	ActionDesc.vecAnimations.clear();
 
-	// Readt all Actions
+	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_start");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+
+	//65번 2페 시작 모션
+	ActionDesc.strActionName = L"Action_Phase2";
+	CBT_Action* pPhase2 = CCommon_BT_Spawn_Server::Create(&ActionDesc);
+
+	// Ready all AttackActions
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
 	AnimationDesc.iStartFrame = 0;
@@ -375,19 +425,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack5";
 	CBT_Action* pAttack5 = CValtan_BT_Attack_Attack5_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_18_01");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_18_03-1");
-	AnimationDesc.iStartFrame = 42;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	// 어디로든지문 낙하
 	ActionDesc.strActionName = L"Action_Attack6";
 	CBT_Action* pAttack6 = CValtan_BT_Attack_Attack6_Server::Create(&ActionDesc);
 
@@ -606,40 +644,542 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack15";
 	CBT_Action* pAttack15 = CValtan_BT_Attack_Attack15_Server::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-2");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//카운터
+	ActionDesc.strActionName = L"Action_Attack16";
+	CBT_Action* pAttack17= CValtan_BT_Attack_Attack17_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_11_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//원혼구슬
+	ActionDesc.strActionName = L"Action_Attack18";
+	CBT_Action* pAttack18 = CValtan_BT_Attack_Attack18_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_21_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//잡기
+	ActionDesc.strActionName = L"Action_Attack19";
+	CBT_Action* pAttack19 = CValtan_BT_Attack_Attack19_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_02_start");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_02_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_15_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_15_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_15_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_15_05");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//130줄 전멸기
+	ActionDesc.strActionName = L"Action_Attack20";
+	CBT_Action* pAttack20 = CValtan_BT_Attack_Attack20_Server::Create(&ActionDesc);
+
+		ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_05");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_07");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_08");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_09");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_10");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_11");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//130줄 임포스터
+	ActionDesc.strActionName = L"Action_Attack21";
+	CBT_Action* pAttack21 = CValtan_BT_Attack_Attack21_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_start");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("att_battle_12_09");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_10");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_11");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//88번 지형파괴
+	ActionDesc.strActionName = L"Action_Attack0";
+	CBT_Action* pAttack0 = CValtan_BT_Attack_Attack0_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_02-1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//65번 버러지패턴
+	ActionDesc.strActionName = L"Action_Attack22";
+	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_18_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_18_03-1");
+	AnimationDesc.iStartFrame = 42;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_start");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_05");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_19_06");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//65번 연환파신권
+	ActionDesc.strActionName = L"Action_Attack23";
+	CBT_Action* pAttack23 = CValtan_BT_Attack_Attack23_Server::Create(&ActionDesc);
+
+
 	//for Phase1
-	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
-	CBT_Composite* pSequencePhase1 = CBT_Composite::Create(&CompositeDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Phase1 = CValtan_BT_IF_Phase1_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+
 
 	{
-	
-
-		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-		CBT_Decorator* pIf_Far = CCommon_BT_IF_Far_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
-		if (FAILED(pIf_Far->AddChild(pAttack14))) return E_FAIL;
-
-
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
-
+		if (FAILED(pSequenceSkill->AddChild(pAttack14)))
+			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 		if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
+		
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+		CBT_Composite* pSequenceNoArmor = CBT_Composite::Create(&CompositeDesc);
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack2)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack4)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack5)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack6)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack7)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack9)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack10)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack11)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack12)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack13)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack15)))
+			return E_FAIL;
 
-
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_NoArmor = CValtan_BT_IF_NoArmor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+		if (FAILED(pIf_NoArmor->AddChild(pSequenceNoArmor))) return E_FAIL;
 
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
 		if (FAILED(pSequenceNear->AddChild(pAttack1)))
 			return E_FAIL;
-		if (FAILED(pSequenceNear->AddChild(pAttack2)))
+		if (FAILED(pSequenceNear->AddChild(pAttack8)))
 			return E_FAIL;
-		if (FAILED(pSequenceNear->AddChild(pAttack3)))
+		if (FAILED(pSequenceNear->AddChild(pIf_NoArmor)))
 			return E_FAIL;
-		if (FAILED(pSequenceNear->AddChild(pAttack4)))
-			return E_FAIL;
+		
+
 
 		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
 		if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
@@ -671,13 +1211,12 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
 
-
-		if (FAILED(pSelector_Within_Range->AddChild(pIf_Far)))
-			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
 			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
 			return E_FAIL;
+
+		if (FAILED(pIf_Phase1->AddChild(pSelector_Within_Range))) return E_FAIL;
 	}
 
 	ActionDesc.vecAnimations.clear();
@@ -710,10 +1249,14 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pSequenceIdle->AddChild(pMove)))
 		return E_FAIL;
 
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+	CBT_Composite* pSelector_Phase = CBT_Composite::Create(&CompositeDesc);
+	if (FAILED(pSelector_Phase->AddChild(pIf_Phase1)))
+		return E_FAIL;
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::WHILE;
 	CBT_Decorator* pWhile_Within_Range = CCommon_BT_WHILE_Within_Range_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
-	if (FAILED(pWhile_Within_Range->AddChild(pSequencePhase1)))
+	if (FAILED(pWhile_Within_Range->AddChild(pSelector_Phase)))
 		return E_FAIL;
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
