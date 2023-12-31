@@ -8,6 +8,8 @@
 #include "Player_Gunslinger.h"
 #include "Controller_WR.h"
 #include "Player_Slayer.h"
+#include "Controller_WDR.h"
+#include "Player_Destroyer.h"
 
 CUI_SpaceBar_Icon::CUI_SpaceBar_Icon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -73,6 +75,14 @@ void CUI_SpaceBar_Icon::Tick(_float fTimeDelta)
             m_fCurrCool = static_cast<CController_WR*>(static_cast<CPlayer_Slayer*>(pPlayer)->
                 Get_WR_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
         }
+
+        else if (nullptr != pPlayer && L"WDR" == pPlayer->Get_ObjectTag())
+        {
+            m_fCoolMaxTime = static_cast<CPlayer_Destroyer*>(pPlayer)->
+                Get_WDR_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
+            m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(pPlayer)->
+                Get_WDR_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
+        }
     }
 
     m_fResultCool = m_fCoolMaxTime - m_fCurrCool;
@@ -129,12 +139,19 @@ HRESULT CUI_SpaceBar_Icon::Ready_Components()
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }
-    else
+    else if (nullptr != pPlayer && L"WDR" == pPlayer->Get_ObjectTag())
     {
-        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WRSpace"),
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WDRSpace"),
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }
+    else
+    {
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WDRSpace"),
+            TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+            return E_FAIL;
+    }
+
     return S_OK;
 }
 

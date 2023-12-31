@@ -125,7 +125,7 @@ HRESULT CUI_Chat::UI_Set()
 
 	for (auto& iter : m_vecUIParts)
 	{
-		iter->Set_Z(1.f);
+		iter->Set_Z(0.1f);
 	}
 
 	Safe_Release(pGameInstance);

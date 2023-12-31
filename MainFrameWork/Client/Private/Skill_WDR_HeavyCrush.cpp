@@ -46,9 +46,9 @@ HRESULT CSkill_WDR_HeavyCrush::Ready_Components()
 	if (false == m_pPlayer->Is_Control())
 		return S_OK;
 
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bullet_Rain"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Heavy_Crush"),
 		TEXT("Com_Texture"), (CComponent**)&m_pSkillTextureCom)))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -24,16 +24,10 @@
 #include "Chat_Manager.h"
 #include "UI_Tool.h"
 #include "UI_Manager.h"
-#include "UI_IdentityGN_BackGroundWing.h"
-#include "UI_IdentityGN_BackGroundFrame.h"
-#include "UI_IdentityGN_BackGroundShine.h"
-#include "UI_IdentityGN_MainFrame.h"
-#include "UI_IdentityGN_WF_Front.h"
 #include "Projectile.h"
 #include "UI_DamageFont.h"
 #include "Damage_Manager.h"
 #include "UI_SpaceBar_Icon.h"
-#include "UI_WRIdentity_Body.h"
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -310,6 +304,14 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else if (L"WR" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
 	{
 		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_WRIdentity"));
+		if (nullptr == pUI)
+			return E_FAIL;
+		else
+			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+	}
+	else if (L"WDR" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
+	{
+		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_WDRIdentity_UI"));
 		if (nullptr == pUI)
 			return E_FAIL;
 		else

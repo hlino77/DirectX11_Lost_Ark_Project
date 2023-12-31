@@ -107,7 +107,7 @@ void CController_WDR::Check_Iden_State(_float fTimeDelta)
 		{
 			m_fTimdeAcc = 0.f;
 			m_IsIdentity = false;
-			m_iIdentityGage = m_iMaxGage;
+			m_iIdentityGage = 0;
 			static_cast<CPlayer_Destroyer*>(m_pOwner)->Set_SuperiorArmorState(false);
 		}
 	}

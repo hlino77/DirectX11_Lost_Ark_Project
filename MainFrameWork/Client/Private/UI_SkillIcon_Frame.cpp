@@ -8,6 +8,8 @@
 #include "Player_Gunslinger.h"
 #include "Controller_WR.h"
 #include "Player_Slayer.h"
+#include "Controller_WDR.h"
+#include "Player_Destroyer.h"
 
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -153,6 +155,8 @@ void CUI_SkillIcon_Frame::Get_Player_BindingSkill()
         Get_Player_GN(pPlayer, pTexture);
     else if (nullptr != pPlayer && L"WR" == pPlayer->Get_ObjectTag())
         Get_Player_WR(pPlayer, pTexture);
+    else if (nullptr != pPlayer && L"WDR" == pPlayer->Get_ObjectTag())
+        Get_Player_WDR(pPlayer, pTexture);
 }
 
 void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
@@ -211,8 +215,35 @@ void CUI_SkillIcon_Frame::Get_Player_WR(CPlayer* _pPlayer, CTexture* _pTexture)
         if (nullptr != m_pSkill)
         {
             _pTexture = (m_pSkill->Get_Skill_Texture());
-            m_fCoolMaxTime = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
-            m_fCurrCool = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCoolMaxTime = static_cast<CController_WR*>(static_cast<CPlayer_Slayer*>(_pPlayer)->Get_WR_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCurrCool = static_cast<CController_WR*>(static_cast<CPlayer_Slayer*>(_pPlayer)->Get_WR_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            Safe_AddRef(_pTexture);
+            if (nullptr != _pTexture)
+            {
+                m_bHaveSkill = true;
+                m_pTextureCom_Skill = static_cast<CTexture*>(_pTexture->Clone(nullptr, nullptr));
+            }
+            Safe_Release(_pTexture);
+        }
+        else
+        {
+            m_bHaveSkill = false;
+            m_pTextureCom_Skill = nullptr;
+        }
+    }
+}
+
+void CUI_SkillIcon_Frame::Get_Player_WDR(CPlayer* _pPlayer, CTexture* _pTexture)
+{
+    if (nullptr != _pPlayer)
+    {
+        m_pSkill = static_cast<CPlayer_Destroyer*>(_pPlayer)->
+            Get_WDR_Controller()->Get_PlayerSkill((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+        if (nullptr != m_pSkill)
+        {
+            _pTexture = (m_pSkill->Get_Skill_Texture());
+            m_fCoolMaxTime = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             Safe_AddRef(_pTexture);
             if (nullptr != _pTexture)
             {

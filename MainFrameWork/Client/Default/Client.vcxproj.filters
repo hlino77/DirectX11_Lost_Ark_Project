@@ -322,9 +322,6 @@
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Event\99.Base">
-      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse">
       <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
     </Filter>
@@ -592,18 +589,6 @@
     <Filter Include="02.GameObjects\Boss\King\Skill">
       <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\03. ChaosDungean">
-      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel1">
-      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel2">
-      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03. ChaosDungean\ChaosLevel3">
-      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\10.Lobby">
       <UniqueIdentifier>{2378bddd-d2f2-48d2-adda-b4de0e90e906}</UniqueIdentifier>
     </Filter>
@@ -810,7 +795,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Attack">
       <UniqueIdentifier>{e3619efa-a947-4266-bc87-5a7f443cbd8a}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame">
       <UniqueIdentifier>{fee6be2b-ab00-434f-b41e-d8ebf2ea73ed}</UniqueIdentifier>
     </Filter>
@@ -903,6 +888,33 @@
     </Filter>
     <Filter Include="03.Event\99.Base">
       <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer">
+      <UniqueIdentifier>{3a375cb1-475d-4cda-a444-c85bf524498b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\00.BackGround">
+      <UniqueIdentifier>{cf197a3f-61a2-453a-987c-87b79b48c4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\07.Effect">
+      <UniqueIdentifier>{082c682d-06db-4f6b-aaa9-0340f528e623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\01.GaugeFrame">
+      <UniqueIdentifier>{982eb2fe-1bcc-4442-847b-16d25c86cd36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\02.Gauge">
+      <UniqueIdentifier>{1de7965e-7295-437c-86b1-68a8ecb75848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\03.Hammer">
+      <UniqueIdentifier>{1a51a241-0a4e-42a7-af92-26bbd33f322c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.Bubble">
+      <UniqueIdentifier>{dad4c1f6-5554-4d4b-a12a-7b4549028428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\05.BubblesFrame">
+      <UniqueIdentifier>{23af48b0-beb6-4531-a437-d9b09d4a53aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\04.Chain">
+      <UniqueIdentifier>{57962d16-85ac-491d-a5c4-0e88c76d876a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2937,7 +2949,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_MG_Attack_2.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_WRIdentity_Gauge.h">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge</Filter>
     </ClInclude>
@@ -2976,6 +2988,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Manager.h">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_BackGround.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\00.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_GaugeFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\01.GaugeFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Gauge.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\02.Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Hammer.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\03.Hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Bubbles_Frame.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\05.BubblesFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Bubble.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.Bubble</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Chain.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\04.Chain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4980,7 +5016,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_WRIdentity_Gauge.cpp">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge</Filter>
     </ClCompile>
@@ -5019,6 +5055,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Manager.cpp">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_BackGround.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\00.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_GaugeFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\01.GaugeFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Gauge.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\02.Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Hammer.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\03.Hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Bubbles_Frame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\05.BubblesFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Bubble.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.Bubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Chain.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\04.Chain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
