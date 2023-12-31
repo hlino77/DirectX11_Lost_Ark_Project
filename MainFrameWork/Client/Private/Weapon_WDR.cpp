@@ -96,10 +96,15 @@ HRESULT CWeapon_WDR::Ready_Components()
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_WDR_WP_Mococo";
+	/* For.Com_Model */
+	CModel::CHANGECOLOR pColor;
+	pColor.vColor_R = Vec4(1.97778f, 0.99757f, 0.127675f, 0.724719f);
+	pColor.vColor_G = Vec4(0.423077f, 1.36923f, 1.24686f, 0.825843f);
+	pColor.vColor_B = Vec4();
+
+	wstring strComName = L"Prototype_Component_Model_WDR_WP_Base";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
-		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+		TEXT("Com_Model"), (CComponent**)&m_pModelCom, &pColor)))
 		return E_FAIL;
 
 	Vec3 vScale;

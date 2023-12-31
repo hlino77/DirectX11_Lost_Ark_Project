@@ -33,4 +33,8 @@ Texture2D g_DissolveTexture;
 Texture2D g_MaskTexture;
 Texture2D g_NoiseTexture;
 
+float4    g_vColor_R;
+float4    g_vColor_G;
+float4    g_vColor_B;
+
 #endif

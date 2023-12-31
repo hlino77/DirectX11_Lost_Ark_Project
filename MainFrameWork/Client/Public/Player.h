@@ -161,6 +161,8 @@ public:
 	void					Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render);
 
 	virtual HRESULT			Ready_PhysxBoneBranch() { return S_OK; };
+	virtual HRESULT			Ready_Coliders() { return S_OK; }
+
 	void					Show_SpeechBuble(const wstring& szChat);
 protected:
 	virtual HRESULT			Ready_Components();

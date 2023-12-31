@@ -83,6 +83,50 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
     return Out;
 }
 
+PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
+{
+    PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
+
+    Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	
+    if (0.2f >= Out.vDiffuse.a)
+        discard;
+
+    float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
+    float4 vGiven;
+    
+    float maxColor = max(max(vMRMask.r, vMRMask.g), vMRMask.b);
+        
+    if (0 != maxColor)
+    {
+        if (vMRMask.r == maxColor)
+            vGiven = g_vColor_R;
+        else if (0 != vMRMask.r && vMRMask.r == vMRMask.g)
+            vGiven = g_vColor_G;
+        else if (0 != vMRMask.r && vMRMask.r == vMRMask.b)
+            vGiven = g_vColor_R;
+        else if (0 != vMRMask.g && vMRMask.g == vMRMask.b)
+            vGiven = g_vColor_B;
+        else if (vMRMask.g == maxColor)
+            vGiven = g_vColor_G;
+        else
+            vGiven = g_vColor_B;
+        
+        if (0 != vGiven.a)
+        {
+            Out.vDiffuse.rgb *= (vGiven.rgb * vGiven.a);
+            Out.vDiffuse.a = 1.f;
+        }
+    }
+        
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+	
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
+	
+    return Out;
+}
+
 PS_OUT_PHONG PS_NARUTO(VS_OUT In)
 {
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
@@ -160,6 +204,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_NARUTO();
+    }
+
+    pass ChangeColor // 4
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_CHANGECOLOR();
     }
 
 }

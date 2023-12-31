@@ -1260,6 +1260,17 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	}
 
 	{
+		wstring strFileName = L"WDR_WP_Base";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1000.f);
+	}
+
+	{
 		wstring strFileName = L"MG_WP_Mococo";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
@@ -1340,7 +1351,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 
 	/* Àåºñ */
 	{
-		wstring strFileName = L"GN_Mococo_Head";
+		wstring strFileName = L"GN_Head_Mococo";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
@@ -1350,7 +1361,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	}
 
 	{
-		wstring strFileName = L"GN_Mococo_Body";
+		wstring strFileName = L"GN_Body_Mococo";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
@@ -1391,6 +1402,26 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 
 	{
 		wstring strFileName = L"WDR_Body_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WDR_Body_BaseMococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"WDR_Head_BaseMococo";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

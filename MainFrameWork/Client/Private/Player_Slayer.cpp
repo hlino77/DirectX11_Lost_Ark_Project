@@ -219,12 +219,6 @@ HRESULT CPlayer_Slayer::Render_ShadowDepth()
 
 void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS&&pOther->Get_Owner()->Get_ObjectType()==OBJ_TYPE::BOSS)		
-		cout << "보스의 직접 공격!" << endl;
-	else if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS && pOther->Get_Owner()->Get_ObjectType() == OBJ_TYPE::SKILL)
-		cout << "보스의 스킬 공격!" << endl;
-	else if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
-		cout << "넌 누구야?!" << endl;
 	if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
@@ -232,6 +226,19 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
 				if(-1 != m_pController->Get_IdenGage())
+					m_pController->Increase_IdenGage(1);
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				if (-1 != m_pController->Get_IdenGage())
+					m_pController->Increase_IdenGage(1);
+			}
+		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				if (-1 != m_pController->Get_IdenGage())
 					m_pController->Increase_IdenGage(10);
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
@@ -240,18 +247,8 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 					m_pController->Increase_IdenGage(10);
 			}
 		}
-		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
-		{
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
-			{
-				m_pController->Increase_IdenGage(50);
-			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
-			{
-				m_pController->Increase_IdenGage(50);
-			}
-		}
 	}
+
 	if (TEXT("Skill_WR_WildRush_End") == Get_State())
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)

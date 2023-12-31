@@ -55,7 +55,7 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	m_fSkillTimeAcc += fTimeDelta;
 
-	if (m_fSkillTimeAcc >= m_fSkillEndTime)
+	if (m_fSkillTimeAcc > m_fSkillEndTime)
 	{
 		m_pPlayer->Set_State(TEXT("Skill_WDR_PerfectSwing_Success"));
 	}
