@@ -537,20 +537,13 @@ HRESULT CPlayer::Ready_Components()
 
 HRESULT CPlayer::Ready_SpeechBuble()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	m_pSpeechBuble = CPool<CUI_SpeechBubble>::Get_Obj();
 
-	CGameObject* pUI = pGameInstance->Add_GameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SpeechBubble"),
-		this);
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-		CUI_Manager::GetInstance()->Add_UI((LEVELID)m_iCurrLevel, static_cast<CUI*>(pUI));
-	
-	m_pSpeechBuble = dynamic_cast<CUI_SpeechBubble*>(pUI);
-	if (nullptr == m_pSpeechBuble)
+	if (m_pSpeechBuble == nullptr)
 		return E_FAIL;
 
-	Safe_Release(pGameInstance);
+	m_pSpeechBuble->Set_Host(this);
+
 	return S_OK;
 }
 
@@ -787,4 +780,7 @@ void CPlayer::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
+
+	CPool<CUI_SpeechBubble>::Return_Obj(m_pSpeechBuble);
+	m_pSpeechBuble = nullptr;
 }

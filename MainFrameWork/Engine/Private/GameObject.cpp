@@ -40,7 +40,7 @@ HRESULT CGameObject::Initialize_Prototype()
 {
 	m_matTargetWorld = XMMatrixIdentity();
 
-	m_pInstaceData = make_shared<INSTANCEDATA>();
+	m_pInstaceData = make_shared<unordered_map<wstring, INSTANCEDATA>>();
 
 	return S_OK;
 }
@@ -166,11 +166,11 @@ void CGameObject::Free()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-CGameObject::InstanceDataDesc::~InstanceDataDesc()
-{
-	Safe_Delete(pInstanceValue);
-	Safe_Release(pInstanceBuffer);
-	Safe_Release(pInstanceShader);
-	Safe_Release(pAnimInstanceTexture);
-	Safe_Release(pAnimSRV);
-}
+//CGameObject::InstanceDataDesc::~InstanceDataDesc()
+//{
+//	/*Safe_Delete(pInstanceValue);
+//	Safe_Release(pInstanceBuffer);
+//	Safe_Release(pInstanceShader);
+//	Safe_Release(pAnimInstanceTexture);
+//	Safe_Release(pAnimSRV);*/
+//}

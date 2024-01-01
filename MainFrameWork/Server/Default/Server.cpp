@@ -5,7 +5,7 @@
 #include "GameInstance.h"
 #include "ThreadManager.h"
 
-atomic<_uint> g_iObjectID = 0;
+atomic<_uint> g_iObjectID = 1;
 
 int main()
 {

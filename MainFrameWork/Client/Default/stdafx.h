@@ -24,6 +24,8 @@
 #include "Base.h"
 #include "ThreadManager.h"
 
+#include "TypeLessValue.h"
+
 #define _CLIENT
 
 #ifdef UNICODE                                                                                      

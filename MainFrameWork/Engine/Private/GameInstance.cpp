@@ -97,7 +97,7 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, _uint iNumLayerType,
 	if (FAILED(m_pSoundMgr->Ready_Sound()))
 		return E_FAIL;
 
-	Emplace_SleepContext(10);
+	Emplace_SleepContext(1);
 
 	return S_OK;
 }
@@ -521,9 +521,9 @@ HRESULT CGameInstance::Reset_QaudTree()
 	return m_pQuadTreeMgr->Reset_QaudTree();
 }
 
-_bool CGameInstance::Add_Object_To_QuadTree(CSphereCollider* pCollider)
+_bool CGameInstance::Add_Object_To_QuadTree(CGameObject* pObject, _uint iIndex)
 {
-	return m_pQuadTreeMgr->Add_Object(pCollider);
+	return m_pQuadTreeMgr->Add_Object(pObject, iIndex);
 }
 
 void CGameInstance::AddFont(const wstring& szTextName, const wstring& szFontPath)
@@ -661,7 +661,7 @@ void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 	{
 		if (SUCCEEDED(Get_Device()->CreateDeferredContext(0, &pContext)))
 		{
-			m_pGraphic_Device->SyncronizeDeferredContext(pContext);
+			//m_pGraphic_Device->SyncronizeDeferredContext(pContext);
 			m_pBeforeRenderSleepContexts.emplace_back(pContext);
 		}
 	}

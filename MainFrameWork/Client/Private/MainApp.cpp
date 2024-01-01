@@ -50,6 +50,7 @@
 #include "ThreadManager.h"
 #include "UI_Loading.h"
 #include "Effect.h"
+#include "UI_SpeechBubble.h"
 
 namespace fs = std::filesystem;
 
@@ -174,7 +175,7 @@ HRESULT CMainApp::Initialize_Client()
 	//CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
-	ThreadManager::GetInstance()->ReserveManager(8);
+	ThreadManager::GetInstance()->ReserveManager(0);
 
 	if (FAILED(CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext)))
 		return E_FAIL;
@@ -399,6 +400,30 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	{
 		CProjectile* pProjectile = dynamic_cast<CProjectile*>(m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Projectile"));
 		CPool<CProjectile>::Return_Obj(pProjectile);
+	}
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Bubble_Middle"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chat_Bubble_Middle.png"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Bubble_Up"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chat_Bubble_Up.png"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Bubble_Down"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chat_Bubble_Down.png"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SpeechBubble"),
+		CUI_SpeechBubble::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	for (_uint i = 0; i < 10; ++i)
+	{
+		_uint iIndex = i;
+		CUI_SpeechBubble* pUI = dynamic_cast<CUI_SpeechBubble*>(m_pGameInstance->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SpeechBubble"), &iIndex));
+		CPool<CUI_SpeechBubble>::Return_Obj(pUI);
 	}
 
 	return S_OK;

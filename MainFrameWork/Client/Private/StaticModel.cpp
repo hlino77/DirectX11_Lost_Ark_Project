@@ -19,9 +19,6 @@ HRESULT CStaticModel::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
 
-	if (FAILED(Ready_Proto_InstanceBuffer()))
-		return E_FAIL;
-
     return S_OK;
 }
 
@@ -36,6 +33,17 @@ HRESULT CStaticModel::Initialize(void* pArg)
 		return E_FAIL;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
+
+	m_bInstance = true;
+
+	if (m_bInstance)
+	{
+		if (m_pInstaceData->find(m_szModelName) == m_pInstaceData->end())
+		{
+			if (FAILED(Ready_Proto_InstanceBuffer()))
+				return E_FAIL;
+		}
+	}
 
     return S_OK;
 }
@@ -107,18 +115,18 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 		return E_FAIL;
 
 	{
-		m_pInstaceData->Future_Instance.wait();
-		if (FAILED(m_pInstaceData->Future_Instance.get()))
+		(*m_pInstaceData)[m_szModelName].Future_Instance.wait();
+		if (FAILED((*m_pInstaceData)[m_szModelName].Future_Instance.get()))
 			return E_FAIL;
 
-		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList(m_pInstaceData->pInstanceContext);
-		m_pInstaceData->pInstanceContext = nullptr;
+		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList((*m_pInstaceData)[m_szModelName].pInstanceContext);
+		(*m_pInstaceData)[m_szModelName].pInstanceContext = nullptr;
 	}
 
-	if (FAILED(m_pInstaceData->pInstanceShader->Push_GlobalVP()))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_GlobalVP()))
 		return E_FAIL;
 
-	if (FAILED(m_pModelCom->Render_Instance(m_pInstaceData->pInstanceBuffer, iSize, m_pInstaceData->pInstanceShader, sizeof(Matrix))))
+	if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
 		return E_FAIL;
 
 
@@ -239,7 +247,7 @@ HRESULT CStaticModel::Ready_Components()
 
 void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 {
-	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>((m_pInstaceData->pInstanceValue)->GetValue());
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(((*m_pInstaceData)[m_szModelName].pInstanceValue)->GetValue());
 
 	(*pInstanceValue)[iIndex] = m_pTransformCom->Get_WorldMatrix();
 
@@ -248,7 +256,7 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 		//m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
-		m_pInstaceData->Future_Instance = std::async(&CStaticModel::Ready_Instance_For_Render, this, iSize);
+		(*m_pInstaceData)[m_szModelName].Future_Instance = std::async(&CStaticModel::Ready_Instance_For_Render, this, iSize);
 
 		//ThreadManager::GetInstance()->EnqueueJob([=]()
 		//	{
@@ -263,18 +271,18 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {
-	m_pInstaceData->iMaxInstanceCount = 100;
+	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 100;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),
-		TEXT("Com_InstanceShader"), (CComponent**)&m_pInstaceData->pInstanceShader)))
+		TEXT("Com_InstanceShader"), (CComponent**)&(*m_pInstaceData)[m_szModelName].pInstanceShader)))
 		return E_FAIL;
 
-	m_pInstaceData->pInstanceValue = new tagTypeLessData<vector<Matrix>>();
+	(*m_pInstaceData)[m_szModelName].pInstanceValue = new tagTypeLessData<vector<Matrix>>();
 
-	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>((m_pInstaceData->pInstanceValue)->GetValue());
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(((*m_pInstaceData)[m_szModelName].pInstanceValue)->GetValue());
 	
-	pInstanceValue->resize(m_pInstaceData->iMaxInstanceCount, XMMatrixIdentity());
+	pInstanceValue->resize((*m_pInstaceData)[m_szModelName].iMaxInstanceCount, XMMatrixIdentity());
 
 	{
 		D3D11_BUFFER_DESC			BufferDesc;
@@ -282,7 +290,7 @@ HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
-		BufferDesc.ByteWidth = sizeof(Matrix) * (m_pInstaceData->iMaxInstanceCount);
+		BufferDesc.ByteWidth = sizeof(Matrix) * ((*m_pInstaceData)[m_szModelName].iMaxInstanceCount);
 		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -293,28 +301,28 @@ HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 
 		InitialData.pSysMem = pInstanceValue->data();
 
-		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstaceData->pInstanceBuffer)))
+		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &(*m_pInstaceData)[m_szModelName].pInstanceBuffer)))
 			return E_FAIL;
 	}
 }
 
 HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
 {
-	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>((m_pInstaceData->pInstanceValue)->GetValue());
+	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(((*m_pInstaceData)[m_szModelName].pInstanceValue)->GetValue());
 
 	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
 
-	m_pInstaceData->pInstanceContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+	(*m_pInstaceData)[m_szModelName].pInstanceContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
 
-	if (m_pInstaceData->pInstanceContext == nullptr)
+	if ((*m_pInstaceData)[m_szModelName].pInstanceContext == nullptr)
 		return E_FAIL;
 
-	if(FAILED(m_pInstaceData->pInstanceContext->Map((m_pInstaceData->pInstanceBuffer), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+	if(FAILED((*m_pInstaceData)[m_szModelName].pInstanceContext->Map(((*m_pInstaceData)[m_szModelName].pInstanceBuffer), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
 		return E_FAIL;
 
 	memcpy(SubResource.pData, pInstanceValue->data(), sizeof(Matrix) * iSize);
 
-	m_pInstaceData->pInstanceContext->Unmap(m_pInstaceData->pInstanceBuffer, 0);
+	(*m_pInstaceData)[m_szModelName].pInstanceContext->Unmap((*m_pInstaceData)[m_szModelName].pInstanceBuffer, 0);
 
 	return S_OK;
 }

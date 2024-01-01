@@ -3,16 +3,13 @@
 #include "Base.h"
 #include "AsTypes.h"
 #include "Lock.h"
-#include "TypeLessValue.h"
-#include <future>
+#include "InstanceData.h"
 
 /* 클라이엉ㄴ트에서 제작할 다양한 게임오브젝트들의 부모가된다. */
 BEGIN(Engine)
 
 class CCollider;
 class CGameInstance;
-
-
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
@@ -23,26 +20,6 @@ public:
 		_uint iColLayer;
 	}COLLISIONSTAY;
 
-
-	typedef struct InstanceDataDesc
-	{
-		_uint iMaxInstanceCount = 0;
-		ID3D11Buffer* pInstanceBuffer = nullptr;
-		tagTypeLess* pInstanceValue = nullptr;
-		class CShader* pInstanceShader = nullptr;
-
-		tagTypeLess* pAnimInstanceValue = nullptr;
-		ID3D11Texture2D* pAnimInstanceTexture = nullptr;
-		ID3D11ShaderResourceView* pAnimSRV = nullptr;
-
-		ID3D11DeviceContext* pInstanceContext = nullptr;
-		ID3D11DeviceContext* pInstanceAnimContext = nullptr;
-		future<HRESULT> Future_Instance;
-		future<HRESULT> Future_AnimInstance;
-		InstanceDataDesc() {};
-		~InstanceDataDesc();
-
-	}INSTANCEDATA;
 
 protected:
 	/* 원형을 생성할 때 */
@@ -75,7 +52,7 @@ public:
 	virtual void				Set_Skill(CGameObject * pGameObject) {};
 	virtual void				Set_SlowMotion(_bool bSlow) {};
 
-	ID3D11Buffer*				Get_InstanceBuffer() { return m_pInstaceData->pInstanceBuffer; }
+	//ID3D11Buffer*				Get_InstanceBuffer() { return m_pInstaceData->pInstanceBuffer; }
 	virtual void				Add_InstanceData(_uint iSize, _uint& iIndex) {};
 public:
 	class CComponent*			Get_Component(const wstring & strComponentTag);
@@ -257,7 +234,7 @@ protected:
 
 	//Instancing
 	_bool						m_bInstance = false;
-	shared_ptr<INSTANCEDATA>	m_pInstaceData = nullptr;
+	shared_ptr<unordered_map<wstring, INSTANCEDATA>>	m_pInstaceData = nullptr;
 
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);

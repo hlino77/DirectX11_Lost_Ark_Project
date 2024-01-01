@@ -191,6 +191,7 @@
     <ClInclude Include="..\Public\EventMgr.h" />
     <ClInclude Include="..\Public\GameObject.h" />
     <ClInclude Include="..\Public\Hasher.h" />
+    <ClInclude Include="..\Public\InstanceData.h" />
     <ClInclude Include="..\Public\LockFree_Transform.h" />
     <ClInclude Include="..\Public\Navigation.h" />
     <ClInclude Include="..\Public\NavigationMgr.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="..\Private\Event.cpp" />
     <ClCompile Include="..\Private\EventMgr.cpp" />
     <ClCompile Include="..\Private\GameObject.cpp" />
+    <ClCompile Include="..\Private\InstanceData.cpp" />
     <ClCompile Include="..\Private\LockFree_Transform.cpp" />
     <ClCompile Include="..\Private\Navigation.cpp" />
     <ClCompile Include="..\Private\NavigationMgr.cpp" />

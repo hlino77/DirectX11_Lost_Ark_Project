@@ -117,7 +117,7 @@ public:
 public:
 	HRESULT Make_QaudTree(Vec3 vPos, Vec3 vScale, _uint iMaxDepth);
 	HRESULT Reset_QaudTree();
-	_bool	Add_Object_To_QuadTree(CSphereCollider * pCollider);
+	_bool	Add_Object_To_QuadTree(CGameObject* pObject, _uint iIndex);
 
 
 	/* For. FontManager */

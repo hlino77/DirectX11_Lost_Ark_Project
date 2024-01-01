@@ -577,9 +577,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\ColliderFrustum.h">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Player_Skill.h">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InstanceData.h">
+      <Filter>01.Utiltiy\03.GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -912,6 +915,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ColliderFrustum.cpp">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InstanceData.cpp">
+      <Filter>01.Utiltiy\03.GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

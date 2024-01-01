@@ -67,7 +67,7 @@ HRESULT CMonster::Initialize(void* pArg)
 
 	if (m_bInstance)
 	{
-		if (m_pInstaceData->pInstanceBuffer == nullptr)
+		if (m_pInstaceData->find(m_szModelName) == m_pInstaceData->end())
 		{
 			if (FAILED(Ready_Proto_InstanceBuffer()))
 				return E_FAIL;
@@ -162,17 +162,17 @@ HRESULT CMonster::Render_ShadowDepth()
 
 HRESULT CMonster::Render_ShadowDepth_Instance(_uint iSize)
 {
-	if (FAILED(m_pInstaceData->pInstanceShader->Push_ShadowVP()))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_ShadowVP()))
 		return S_OK;
 
-	if (FAILED(m_pInstaceData->pInstanceShader->Bind_Texture("g_InstanceTransform", m_pInstaceData->pAnimSRV)))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_Texture("g_InstanceTransform", (*m_pInstaceData)[m_szModelName].pAnimSRV)))
 		return E_FAIL;
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->Render_Instance(m_pInstaceData->pInstanceBuffer, iSize, m_pInstaceData->pInstanceShader, i, sizeof(_uint) + sizeof(Matrix), "ShadowPass")))
+		if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, i, sizeof(_uint) + sizeof(Matrix), "ShadowPass")))
 			return S_OK;
 	}
 
@@ -201,31 +201,31 @@ HRESULT CMonster::Render_Instance(_uint iSize)
 		return E_FAIL;
 
 	{
-		m_pInstaceData->Future_Instance.wait();
-		if (FAILED(m_pInstaceData->Future_Instance.get()))
+		(*m_pInstaceData)[m_szModelName].Future_Instance.wait();
+		if (FAILED((*m_pInstaceData)[m_szModelName].Future_Instance.get()))
 			return E_FAIL;
 
-		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList(m_pInstaceData->pInstanceContext);
-		m_pInstaceData->pInstanceContext = nullptr;
+		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList((*m_pInstaceData)[m_szModelName].pInstanceContext);
+		(*m_pInstaceData)[m_szModelName].pInstanceContext = nullptr;
 	}
 	
 	{
-		m_pInstaceData->Future_AnimInstance.wait();
-		if (FAILED(m_pInstaceData->Future_AnimInstance.get()))
+		(*m_pInstaceData)[m_szModelName].Future_AnimInstance.wait();
+		if (FAILED((*m_pInstaceData)[m_szModelName].Future_AnimInstance.get()))
 			return E_FAIL;
 
-		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList(m_pInstaceData->pInstanceAnimContext);
-		m_pInstaceData->pInstanceAnimContext = nullptr;
+		CGameInstance::GetInstance()->Execute_BeforeRenderCommandList((*m_pInstaceData)[m_szModelName].pInstanceAnimContext);
+		(*m_pInstaceData)[m_szModelName].pInstanceAnimContext = nullptr;
 	}
 
 
-	if (FAILED(m_pInstaceData->pInstanceShader->Bind_Texture("g_InstanceTransform", m_pInstaceData->pAnimSRV)))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_Texture("g_InstanceTransform", (*m_pInstaceData)[m_szModelName].pAnimSRV)))
 		return E_FAIL;
 
-	if (FAILED(m_pInstaceData->pInstanceShader->Push_GlobalVP()))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_GlobalVP()))
 		return E_FAIL;
 
-	if (FAILED(m_pModelCom->Render_Instance(m_pInstaceData->pInstanceBuffer, iSize, m_pInstaceData->pInstanceShader, sizeof(_uint) + sizeof(Matrix))))
+	if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(_uint) + sizeof(Matrix))))
 		return E_FAIL;
 
 	return S_OK;
@@ -234,7 +234,7 @@ HRESULT CMonster::Render_Instance(_uint iSize)
 void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 {
 	{
-		BYTE* pInstanceValue = static_cast<BYTE*>(m_pInstaceData->pInstanceValue->GetValue());
+		BYTE* pInstanceValue = static_cast<BYTE*>((*m_pInstaceData)[m_szModelName].pInstanceValue->GetValue());
 
 		size_t iSizePerInstance = sizeof(_uint) + sizeof(Matrix);
 		_uint iDataIndex = iIndex * iSizePerInstance;
@@ -247,7 +247,7 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 	}
 
 	{
-		Matrix* pAnimInstanceValue = static_cast<Matrix*>(m_pInstaceData->pAnimInstanceValue->GetValue());
+		Matrix* pAnimInstanceValue = static_cast<Matrix*>((*m_pInstaceData)[m_szModelName].pAnimInstanceValue->GetValue());
 
 		size_t iSizePerInstance = m_pModelCom->Get_BoneCount() * sizeof(Matrix);
 		_uint iDataIndex = iIndex * m_pModelCom->Get_BoneCount();
@@ -258,7 +258,7 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 	if (iSize - 1 == iIndex)
 	{
-		m_pInstaceData->Future_AnimInstance = std::async(&CMonster::Ready_AnimInstance_For_Render, this, iSize);
+		(*m_pInstaceData)[m_szModelName].Future_AnimInstance = std::async(&CMonster::Ready_AnimInstance_For_Render, this, iSize);
 
 
 		/*ThreadManager::GetInstance()->EnqueueJob([=]()
@@ -270,7 +270,7 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 			});*/
 
 
-		m_pInstaceData->Future_Instance = std::async(&CMonster::Ready_Instance_For_Render, this, iSize);
+		(*m_pInstaceData)[m_szModelName].Future_Instance = std::async(&CMonster::Ready_Instance_For_Render, this, iSize);
 
 		/*ThreadManager::GetInstance()->EnqueueJob([=]()
 			{
@@ -683,11 +683,11 @@ HRESULT CMonster::Ready_HP_UI()
 
 HRESULT CMonster::Ready_Proto_InstanceBuffer()
 {
-	m_pInstaceData->iMaxInstanceCount = 100;
+	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 100;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_AnimModelInstance"),
-		TEXT("Com_InstanceShader"), (CComponent**)&m_pInstaceData->pInstanceShader)))
+		TEXT("Com_InstanceShader"), (CComponent**)&(*m_pInstaceData)[m_szModelName].pInstanceShader)))
 		return E_FAIL;
 
 	//Instance
@@ -696,12 +696,12 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 
 		tagTypeLessData<BYTE*>* pInstanceValue = new tagTypeLessData<BYTE*>();
 
-		BYTE* pData = new BYTE[iSizePerInstacne * m_pInstaceData->iMaxInstanceCount];
-		ZeroMemory(pData, iSizePerInstacne * m_pInstaceData->iMaxInstanceCount);
+		BYTE* pData = new BYTE[iSizePerInstacne * (*m_pInstaceData)[m_szModelName].iMaxInstanceCount];
+		ZeroMemory(pData, iSizePerInstacne * (*m_pInstaceData)[m_szModelName].iMaxInstanceCount);
 
 		pInstanceValue->SetValue(pData);
 
-		m_pInstaceData->pInstanceValue = pInstanceValue;
+		(*m_pInstaceData)[m_szModelName].pInstanceValue = pInstanceValue;
 
 		{
 			D3D11_BUFFER_DESC			BufferDesc;
@@ -709,7 +709,7 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 			ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 			// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
-			BufferDesc.ByteWidth = m_pInstaceData->iMaxInstanceCount * iSizePerInstacne;
+			BufferDesc.ByteWidth = (*m_pInstaceData)[m_szModelName].iMaxInstanceCount * iSizePerInstacne;
 			BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 			BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -720,7 +720,7 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 
 			InitialData.pSysMem = pInstanceValue->GetValue();
 
-			if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &m_pInstaceData->pInstanceBuffer)))
+			if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &(*m_pInstaceData)[m_szModelName].pInstanceBuffer)))
 				return E_FAIL;
 		}
 	}
@@ -732,19 +732,19 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 
 		tagTypeLessData<Matrix*>* pInstanceValue = new tagTypeLessData<Matrix*>();
 
-		Matrix* pData = new Matrix[m_pInstaceData->iMaxInstanceCount * iBoneCount];
-		ZeroMemory(pData, m_pInstaceData->iMaxInstanceCount * iBoneCount);
+		Matrix* pData = new Matrix[(*m_pInstaceData)[m_szModelName].iMaxInstanceCount * iBoneCount];
+		ZeroMemory(pData, (*m_pInstaceData)[m_szModelName].iMaxInstanceCount * iBoneCount);
 
 		pInstanceValue->SetValue(pData);
 
-		m_pInstaceData->pAnimInstanceValue = pInstanceValue;
+		(*m_pInstaceData)[m_szModelName].pAnimInstanceValue = pInstanceValue;
 
 		// Creature Texture
 		{
 			D3D11_TEXTURE2D_DESC desc;
 			ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
 			desc.Width = iBoneCount * 4;
-			desc.Height = m_pInstaceData->iMaxInstanceCount;
+			desc.Height = (*m_pInstaceData)[m_szModelName].iMaxInstanceCount;
 			desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; // 16바이트
 			desc.Usage = D3D11_USAGE_DYNAMIC;
 			desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
@@ -755,10 +755,10 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 
 			D3D11_SUBRESOURCE_DATA tSubResources;
 
-			tSubResources.pSysMem = m_pInstaceData->pAnimInstanceValue->GetValue();
+			tSubResources.pSysMem = (*m_pInstaceData)[m_szModelName].pAnimInstanceValue->GetValue();
 			tSubResources.SysMemPitch = iBoneCount * sizeof(Matrix);
 
-			if (FAILED(m_pDevice->CreateTexture2D(&desc, &tSubResources, &m_pInstaceData->pAnimInstanceTexture)))
+			if (FAILED(m_pDevice->CreateTexture2D(&desc, &tSubResources, &(*m_pInstaceData)[m_szModelName].pAnimInstanceTexture)))
 				return E_FAIL;
 		}
 
@@ -770,7 +770,7 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 			desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 			desc.Texture2D.MipLevels = 1;
 
-			if (FAILED(m_pDevice->CreateShaderResourceView(m_pInstaceData->pAnimInstanceTexture, &desc, &m_pInstaceData->pAnimSRV)))
+			if (FAILED(m_pDevice->CreateShaderResourceView((*m_pInstaceData)[m_szModelName].pAnimInstanceTexture, &desc, &(*m_pInstaceData)[m_szModelName].pAnimSRV)))
 				return E_FAIL;
 		}
 
@@ -788,17 +788,17 @@ HRESULT CMonster::Ready_Instance_For_Render(_uint iSize)
 
 	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
 
-	m_pInstaceData->pInstanceContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+	(*m_pInstaceData)[m_szModelName].pInstanceContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
 
-	if (m_pInstaceData->pInstanceContext == nullptr)
+	if ((*m_pInstaceData)[m_szModelName].pInstanceContext == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pInstaceData->pInstanceContext->Map((m_pInstaceData->pInstanceBuffer), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceContext->Map(((*m_pInstaceData)[m_szModelName].pInstanceBuffer), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
 		return E_FAIL;
 
-	memcpy(SubResource.pData, m_pInstaceData->pInstanceValue->GetValue(), iSizePerInstance * iSize);
+	memcpy(SubResource.pData, (*m_pInstaceData)[m_szModelName].pInstanceValue->GetValue(), iSizePerInstance * iSize);
 
-	m_pInstaceData->pInstanceContext->Unmap(m_pInstaceData->pInstanceBuffer, 0);
+	(*m_pInstaceData)[m_szModelName].pInstanceContext->Unmap((*m_pInstaceData)[m_szModelName].pInstanceBuffer, 0);
 
 	return S_OK;
 }
@@ -809,17 +809,17 @@ HRESULT CMonster::Ready_AnimInstance_For_Render(_uint iSize)
 
 	D3D11_MAPPED_SUBRESOURCE		SubResource = {};
 
-	m_pInstaceData->pInstanceAnimContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+	(*m_pInstaceData)[m_szModelName].pInstanceAnimContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
 
-	if (m_pInstaceData->pInstanceAnimContext == nullptr)
+	if ((*m_pInstaceData)[m_szModelName].pInstanceAnimContext == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pInstaceData->pInstanceAnimContext->Map(m_pInstaceData->pAnimInstanceTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceAnimContext->Map((*m_pInstaceData)[m_szModelName].pAnimInstanceTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
 		return E_FAIL;
 
-	memcpy(SubResource.pData, m_pInstaceData->pAnimInstanceValue->GetValue(), iSizePerInstance * iSize);
+	memcpy(SubResource.pData, (*m_pInstaceData)[m_szModelName].pAnimInstanceValue->GetValue(), iSizePerInstance * iSize);
 
-	m_pInstaceData->pInstanceAnimContext->Unmap(m_pInstaceData->pAnimInstanceTexture, 0);
+	(*m_pInstaceData)[m_szModelName].pInstanceAnimContext->Unmap((*m_pInstaceData)[m_szModelName].pAnimInstanceTexture, 0);
 
 	return S_OK;
 }

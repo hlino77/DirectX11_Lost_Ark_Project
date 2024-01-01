@@ -252,8 +252,21 @@ void CChat_Manager::ResetBlink()
 void CChat_Manager::Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat)
 {
     WRITE_LOCK
+    CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-    CServerSessionManager::GetInstance()->Get_Player()->Show_SpeechBuble(szChat);
+    if(CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID() == iPlayerID)
+        CServerSessionManager::GetInstance()->Get_Player()->Show_SpeechBuble(szChat);
+    else
+    {
+        CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObejct(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
+        if (pPlayer == nullptr)
+        {
+            Safe_Release(pGameInstance);
+            return;
+        }
+
+        pPlayer->Show_SpeechBuble(szChat);
+    }
 
     wstring szLine;
 
@@ -261,7 +274,7 @@ void CChat_Manager::Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat)
     {
         szLine += szChat[i];
 
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szLine);
+        Vec2 vMeasure = pGameInstance->MeasureString(m_szFont, szLine);
         if (vMeasure.x * m_vTextScale.x > m_fChatWinSizeX)
         {
             szLine.pop_back();
@@ -283,6 +296,8 @@ void CChat_Manager::Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat)
     }
 
     Update_ChatWindow();
+
+    Safe_Release(pGameInstance);
 }
 
 void CChat_Manager::Send_Chat(const wstring& szChat)
@@ -295,7 +310,7 @@ void CChat_Manager::Send_Chat(const wstring& szChat)
 
     pkt.set_szchat(szSendChat);
     pkt.set_iobjectid(CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID());
-    pkt.set_iobjectid(CServerSessionManager::GetInstance()->Get_Player()->Get_CurrLevel());
+    pkt.set_ilevel(CServerSessionManager::GetInstance()->Get_Player()->Get_CurrLevel());
 
     SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
     CServerSessionManager::GetInstance()->Send(pSendBuffer);
