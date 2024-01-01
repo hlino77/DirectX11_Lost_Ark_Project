@@ -94,7 +94,12 @@ float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    clip(vColor.a - 0.01f);
+    
+    clip(vColor.a - vColor_Clip.a);
+    
+    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
+        discard;
+    
     vColor *= fMask;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive

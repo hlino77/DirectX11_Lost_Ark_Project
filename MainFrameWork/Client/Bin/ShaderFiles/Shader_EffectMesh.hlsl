@@ -24,7 +24,8 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
 {
     //float2 vUV_TileOffset = (1.f / vUV_TileCount) * vUV_TileIndex;
     //float2 vNewUV = In.vTexUV + vUV_Offset * vUV_Direction;
-    float2 vNewUV = (In.vTexUV / vUV_TileCount * (vUV_TileIndex + 1.f) + vUV_Offset) * vUV_Direction;
+    //float2 vNewUV = (In.vTexUV / vUV_TileCount * (vUV_TileIndex + 1.f) + vUV_Offset) * vUV_Direction;
+    float2 vNewUV = ((In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset) * vUV_Direction;
     
     float fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);    
@@ -41,7 +42,12 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
     }
     
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    clip(vColor.a - 0.01f);
+    
+    clip(vColor.a - vColor_Clip.a);
+    
+    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
+        discard;
+    
     vColor *= fMask;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive

@@ -76,11 +76,10 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
-	vOffsetRotation = Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z);
 	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 
 	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
-		* XMMatrixRotationQuaternion(vOffsetRotation) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+		* XMMatrixRotationRollPitchYaw(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CVoidEffect::LateTick(_float fTimeDelta)

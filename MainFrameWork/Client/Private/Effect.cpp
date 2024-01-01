@@ -168,11 +168,8 @@ void CEffect::Tick(_float fTimeDelta)
 	else
 		vVelocity = 0.5f * m_fTimeAcc * m_vVelocity_Start;
 
-	Quaternion vOffsetRotationQuaternion(Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z));
-	vOffsetPosition += vVelocity;
-	 
-	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
-		* XMMatrixRotationQuaternion(vOffsetRotationQuaternion) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
+		* XMMatrixRotationRollPitchYaw(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CEffect::LateTick(_float fTimeDelta)
