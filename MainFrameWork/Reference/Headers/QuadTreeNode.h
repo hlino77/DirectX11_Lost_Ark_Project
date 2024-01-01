@@ -13,14 +13,18 @@ public:
 
 public:
 	HRESULT Make_Child(_uint iMaxDepth);
-	_bool Add_Object(CSphereCollider* pCollider);
+	void	Set_Object_NodeIndex(CGameObject* pObject);
+	HRESULT Add_Object(CGameObject* pObject);
 
 	void	Tick(_float fTimeDelta);
 	void	Set_ObjectRender(const BoundingFrustum& tFrustum);
 
+	void	Render_DeBug();
+
 private:
 	vector<CQuadTreeNode*> m_Childs;
 	_uint m_iDepth;
+	_uint m_iIndex;
 	BoundingBox m_tBoudingBox;
 
 	vector<CGameObject*> m_Objects;

@@ -179,6 +179,10 @@ public:
 	_bool		Get_IsMapObject() { return m_IsMapObject; }
 	void		Set_IsMapObject() { m_IsMapObject = true; }
 
+	void			Add_QuadTreeIndex(_uint Index) { m_vecQuadTreeIndex.push_back(Index); }
+	void			Set_QuadTreeIndices(vector<_uint> Indices) { m_vecQuadTreeIndex = Indices; }
+	vector<_uint>  Get_QuadTreeIndices() { return m_vecQuadTreeIndex; }
+
 
 protected:
 	virtual HRESULT Ready_Components() PURE;
@@ -256,6 +260,9 @@ protected:
 
 	// MapObject
 	_bool						m_IsMapObject = false;
+
+	// QuadTreeIndex 
+	vector<_uint>       m_vecQuadTreeIndex;
 
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);

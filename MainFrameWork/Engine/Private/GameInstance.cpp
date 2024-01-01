@@ -506,15 +506,27 @@ HRESULT CGameInstance::Make_QaudTree(Vec3 vPos, Vec3 vScale, _uint iMaxDepth)
 	return m_pQuadTreeMgr->Make_QaudTree(vPos, vScale, iMaxDepth);
 }
 
+_uint CGameInstance::Add_Node(CQuadTreeNode* pNode)
+{
+	return m_pQuadTreeMgr->Add_Node(pNode);
+}
+
 HRESULT CGameInstance::Reset_QaudTree()
 {
 	return m_pQuadTreeMgr->Reset_QaudTree();
 }
 
-_bool CGameInstance::Add_Object_To_QuadTree(CSphereCollider* pCollider)
+void CGameInstance::Set_Object_NodeIndex(CGameObject* pObject)
 {
-	return m_pQuadTreeMgr->Add_Object(pCollider);
+	return m_pQuadTreeMgr->Set_Object_NodeIndex(pObject);
 }
+
+HRESULT CGameInstance::Add_Object(CGameObject* pObject, _uint iIndex)
+{
+	return m_pQuadTreeMgr->Add_Object(pObject, iIndex);
+}
+
+
 
 void CGameInstance::AddFont(const wstring& szTextName, const wstring& szFontPath)
 {

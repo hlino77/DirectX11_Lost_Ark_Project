@@ -26,6 +26,9 @@ HRESULT CLevel_Bern_Server::Initialize()
 	
 	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
 
+	//CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Choas1_Navi"));
+
+
 	Ready_Events();
 
 	if (FAILED(__super::Initialize()))

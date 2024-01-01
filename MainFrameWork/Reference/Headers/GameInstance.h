@@ -58,6 +58,7 @@ public: /* For.Level_Manager */
 	void			Set_Loading(_bool bLoading);
 	void			Set_LoadingNext(_uint iNextLevel);
 	class CLevel*	Get_CurrLevel();
+
 public: /* For.Object_Manager */
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	CGameObject* Add_GameObject(_uint iLevelIndex, _uint iNumLayerType, const wstring& strPrototypeTag, void* pArg = nullptr);
@@ -115,8 +116,11 @@ public:
 	/* For. QuadTreeManager */
 public:
 	HRESULT Make_QaudTree(Vec3 vPos, Vec3 vScale, _uint iMaxDepth);
+	_uint	Add_Node(class CQuadTreeNode* pNode);
 	HRESULT Reset_QaudTree();
-	_bool	Add_Object_To_QuadTree(CSphereCollider * pCollider);
+	void	Set_Object_NodeIndex(CGameObject* pObject);
+	HRESULT Add_Object(CGameObject* pObject, _uint iIndex);
+	
 
 
 	/* For. FontManager */

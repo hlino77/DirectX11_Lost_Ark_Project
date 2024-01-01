@@ -1,11 +1,13 @@
 #include "QuadTreeNode.h"
 #include "ColliderSphere.h"
 #include "PipeLine.h"
+#include "QuadTreeMgr.h"
 
 CQuadTreeNode::CQuadTreeNode(_uint iDepth, Vec3 vPos, Vec3 vScale)
 	: m_iDepth(iDepth)
 {
 	m_tBoudingBox = BoundingBox(vPos, vScale);
+	m_iIndex = CQuadTreeMgr::GetInstance()->Add_Node(this);
 }
 
 
@@ -43,23 +45,27 @@ HRESULT CQuadTreeNode::Make_Child(_uint iMaxDepth)
 	return S_OK;
 }
 
-_bool CQuadTreeNode::Add_Object(CSphereCollider* pCollider)
+void CQuadTreeNode::Set_Object_NodeIndex(CGameObject* pObject)
 {
-	if (pCollider->Intersects_Box(m_tBoudingBox) == false)
-		return false;
-		
-	m_Objects.push_back(pCollider->Get_Owner());
+	//오브젝트와 노드 충돌처리
 
 
-	if (m_Childs.empty())
-		return true;
 
 
-	for (auto& Child : m_Childs)
-		Child->Add_Object(pCollider);
+	//
+
+	//for (auto& Child : m_Childs)
+	//{
+	//	Child->Set_Object_NodeIndex(pObject);
+	//}
+}
 
 
-	return true;
+
+HRESULT CQuadTreeNode::Add_Object(CGameObject* pObject)
+{	
+	m_Objects.push_back(pObject);
+	return S_OK;
 }
 
 void CQuadTreeNode::Tick(_float fTimeDelta)
@@ -112,6 +118,10 @@ void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
 	return;
 	}
 
+}
+
+void CQuadTreeNode::Render_DeBug()
+{
 }
 
 CQuadTreeNode::~CQuadTreeNode()

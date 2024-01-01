@@ -36,7 +36,8 @@
 #include "UI_SpaceBar_Icon.h"
 
 #include <filesystem>
-
+#include "QuadTreeMgr.h"
+#include "Engine_Defines.h"
 
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -49,9 +50,13 @@ HRESULT CLevel_Bern::Initialize()
 
 	Send_UserInfo();
 
-	
-	//CNavigationMgr::GetInstance()->Add_Navigation(L"Bern.navi");
+
+	//CQuadTreeMgr::GetInstance()->Make_QaudTree(Vec3{ 140.f, 0.f, 115.f }, Vec3{ 75.f, 30.f, 55.f }, 3);
+
+
 	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
+
+	//CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Chaos_Navi"));
 
 	Ready_Renderer();
 
@@ -82,7 +87,7 @@ HRESULT CLevel_Bern::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Bern.data"))))
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"))))
 	{
 		return E_FAIL;
 	}
@@ -107,6 +112,7 @@ HRESULT CLevel_Bern::Initialize()
 	Start_Collision();
 	Start_Damage();
 
+
 	CChat_Manager::GetInstance()->Set_Active(true);
 
 
@@ -124,6 +130,7 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
+
 
 	return S_OK;
 }
@@ -154,6 +161,10 @@ HRESULT CLevel_Bern::Exit()
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	CUI_Tool::GetInstance()->Set_ToolMode(false);
+
+	CQuadTreeMgr::GetInstance()->Reset_QaudTree();
+	
+
 	return S_OK;
 }
 
@@ -459,6 +470,18 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	//Matrix		PivotMatrix = XMMatrixIdentity();
 	//PivotMatrix = XMMatrixRotationX(XMConvertToRadians(90.0f));
 
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
+
 	vector<wstring> paths =
 	{
 	L"../Bin/Resources/Export/Bern/",
@@ -497,6 +520,7 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		Matrix	matWorld = file->Read<Matrix>();
 
 
+
 		CStaticModel::MODELDESC Desc;
 		Desc.strFileName = CAsUtils::ToWString(strFileName);
 		Desc.strFilePath = selectedPath;
@@ -514,60 +538,29 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
 
 
-		_uint iColliderCount = file->Read<_uint>();
-		CStaticModel* pStaticModel = dynamic_cast<CStaticModel*>(pObject);
+		_uint			QuadTreeSize = {};
 
+		file->Read<_uint>(QuadTreeSize);
 
-		for (_uint i = 0; i < iColliderCount; ++i)
+		for (size_t i = 0; i < QuadTreeSize; i++)
 		{
-			pStaticModel->Add_Collider();
-
-			CSphereCollider* pCollider = pStaticModel->Get_StaticCollider(i);
-
-			{
-				Vec3 vOffset = file->Read<Vec3>();
-				pCollider->Set_Offset(vOffset);
-
-
-				_float fRadius = file->Read<_float>();
-				pCollider->Set_Radius(fRadius);
-
-
-				pCollider->Update_Collider();
-			}
-
-			_bool bChild = file->Read<_bool>();
-
-			if (bChild)
-			{
-				pStaticModel->Add_ChildCollider(i);
-
-				COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
-
-
-				Vec3 vOffset = file->Read<Vec3>();
-				pChild->Set_Offset(vOffset);
-
-				Vec3 vScale = file->Read<Vec3>();
-				pChild->Set_Scale(vScale);
-
-				Quaternion vQuat = file->Read<Quaternion>();
-				pChild->Set_Orientation(vQuat);
-
-				pChild->Set_StaticBoundingBox();
-			}
+			_uint Index = {};
+			file->Read<_uint>(Index);
+			
+			pObject->Add_QuadTreeIndex(Index);
+			CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
 		}
 
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
 		
-			//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
-		
+		// pObject->Set_Instance(bInstance);
 	}
-
-
 
 
 	Safe_Release(pGameInstance);
 	return S_OK;
+
 }
 
 HRESULT CLevel_Bern::Load_ColMesh(LEVELID eLevel, const wstring& szFullPath)

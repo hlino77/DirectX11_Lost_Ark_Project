@@ -51,7 +51,7 @@ private:
 
 
 	
-	HRESULT Load_MapData(const wstring& szFilePath);
+	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT	Loading_IdentityTexture();
 

@@ -27,22 +27,51 @@ HRESULT CQuadTreeMgr::Make_QaudTree(Vec3 vPos, Vec3 vScale, _uint iMaxDepth)
 {
 	WRITE_LOCK
 	m_pSuperNode = new CQuadTreeNode(0, vPos, vScale);
-
 	m_pSuperNode->Make_Child(iMaxDepth);
 
 	return S_OK;
 }
 
+_uint CQuadTreeMgr::Add_Node(CQuadTreeNode* pNode)
+{
+	m_Nodes.push_back(pNode);
+	return m_Nodes.size() - 1;
+}
+
 HRESULT CQuadTreeMgr::Reset_QaudTree()
 {
 	WRITE_LOCK
-	Safe_Delete(m_pSuperNode);
+
+	if (nullptr != m_pSuperNode)
+	{
+		Safe_Delete(m_pSuperNode);
+
+		for (auto& Node : m_Nodes)
+		{
+			Safe_Delete(Node);
+		}
+		m_Nodes.clear();
+	}
+
+
 	return S_OK;
 }
 
-_bool CQuadTreeMgr::Add_Object(CSphereCollider* pCollider)
+void CQuadTreeMgr::Set_Object_NodeIndex(CGameObject* pObject)
 {
-	return m_pSuperNode->Add_Object(pCollider);
+	m_pSuperNode->Set_Object_NodeIndex(pObject);
+}
+
+
+HRESULT CQuadTreeMgr::Add_Object(CGameObject* pObject, _uint iIndex)
+{
+	if (iIndex >= m_Nodes.size())
+		return E_FAIL;
+
+	if (FAILED(m_Nodes[iIndex]->Add_Object(pObject)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CQuadTreeMgr::Tick(_float fTimeDelta)

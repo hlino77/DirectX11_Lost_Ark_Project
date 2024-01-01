@@ -21,7 +21,7 @@ public:
 	{
 		wstring strFileName;
 		wstring	strFilePath;
-
+		
 		Vec3	vPosition;
 		_bool	IsMapObject = false;
 		_uint	iLayer;

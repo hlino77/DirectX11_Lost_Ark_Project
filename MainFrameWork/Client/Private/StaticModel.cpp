@@ -43,13 +43,12 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
 
-
     return S_OK;
 }
 
 void CStaticModel::Tick(_float fTimeDelta)
 {
-
+	
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)

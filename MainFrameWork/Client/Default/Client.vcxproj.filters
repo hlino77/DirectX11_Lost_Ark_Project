@@ -67,9 +67,6 @@
     <Filter Include="02.GameObjects\SkyBox">
       <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Lobby">
-      <UniqueIdentifier>{c638b4eb-3186-47c1-aaa7-9c50b2c693a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\ServerSelect">
       <UniqueIdentifier>{44dfca2f-bdb9-49ba-b981-3cfca469ecb6}</UniqueIdentifier>
     </Filter>
@@ -645,6 +642,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Boss\King\Skill">
       <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99.Loading\Lobby">
+      <UniqueIdentifier>{c638b4eb-3186-47c1-aaa7-9c50b2c693a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
