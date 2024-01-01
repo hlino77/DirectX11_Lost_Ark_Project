@@ -21,6 +21,7 @@
 #include "NavigationMgr.h"
 #include "EventMgr.h"
 #include "VIBuffer_Point.h"
+#include "VIBuffer_Particle.h"
 #include "PhysXMgr.h"
 
 #include "UseLock_Transform.h"
@@ -97,8 +98,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_Font()))
 		return E_FAIL;
 	
-	/*if (FAILED(Ready_Prototype_Effect()))
-		return E_FAIL;*/
+	if (FAILED(Ready_Prototype_Effect()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Camera_Free()))
 		return E_FAIL;
@@ -171,7 +172,7 @@ HRESULT CMainApp::Initialize_Client()
 
 	CUI_Manager::GetInstance()->Reserve_Manager();
 
-	//CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
+	CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	ThreadManager::GetInstance()->ReserveManager(8);
@@ -201,6 +202,11 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	/* For.Prototype_Component_VIBuffer_Point */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point"),
 		CVIBuffer_Point::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	/* For.Prototype_Component_VIBuffer_Particle */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Particle"),
+		CVIBuffer_Particle::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Transform */
@@ -370,6 +376,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_EffectTex.hlsl"), VTXPOINT::Elements, VTXPOINT::iNumElements))))
+		return E_FAIL;
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_ParticleSystem"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_ParticleSystem.hlsl"), VTXPARTICLE::Elements, VTXPARTICLE::iNumElements))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),

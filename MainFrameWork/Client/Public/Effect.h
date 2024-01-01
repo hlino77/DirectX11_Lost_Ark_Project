@@ -20,6 +20,7 @@ class CEffect : public CGameObject
 public:
 	typedef struct tagEffectDesc
 	{
+		_int	iEffectType = -1;
 		wstring protoModel = TEXT("");
 		wstring protoDiffuseTexture = TEXT("");
 		wstring protoNoiseTexture = TEXT("");
@@ -55,21 +56,26 @@ public:
 		_bool	IsSequence = false;
 		_float	fSequenceTerm = 0.05f;
 
-		struct tagFX_Variables
-		{
-			Vec2	vUV_Offset = Vec2(0.f, 0.f);
-			Vec2	vUV_Direction = Vec2(1.f, 1.f);
-			Vec2	vUV_TileCount = Vec2(1.f, 1.f);
-			Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
-			Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);
-		} tVariables;
+		// Variables
+		Vec2	vUV_Offset = Vec2(0.f, 0.f);
+		Vec2	vUV_Direction = Vec2(1.f, 1.f);
+		Vec2	vUV_TileCount = Vec2(1.f, 1.f);
+		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
+		Color	vColor_Offset = Color(0.f, 0.f, 0.f, 0.f);
+		Color	vColor_Clip = Color(0.f, 0.f, 0.f, 0.f);
 
-		struct tagFX_Intensity
-		{
-			_float	fBloom = 0.f;
-			_float	fRadial = 0.f;
-			Vec2	vPadding;
-		} tIntensity;
+		// Intensity
+		_float	fBloom = 0.f;
+		_float	fRadial = 0.f;
+		
+		// Billboard
+		_int	iBillboard = true;
+		
+		// Particle
+		Vec3	vEmitPosition = Vec3(0.f, 0.f, 0.f);
+		Vec3	vEmitDirection = Vec3(0.f, 0.f, 0.f);
+		string	strParticlePassName = "Smoke";
+
 	}EFFECTDESC;
 
 protected:
@@ -120,6 +126,7 @@ protected:
 		Vec2	vUV_TileCount = Vec2(1.f, 1.f);
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);
+		Color	vColor_Clip = Vec4(0.01f, 0.01f, 0.01f, 0.01f);
 	} m_Variables;
 
 	struct tagFX_Intensity
@@ -134,6 +141,7 @@ protected:
 protected:
 	Matrix	m_matPivot = Matrix::Identity;
 	Matrix	m_matOffset = Matrix::Identity;
+	Matrix	m_matCombined = Matrix::Identity;
 
 	_float	m_fTimeAcc = 0.f;
 	_float	m_fLifeTimeRatio = 0.f;

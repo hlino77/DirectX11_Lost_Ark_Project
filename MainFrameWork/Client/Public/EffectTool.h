@@ -46,7 +46,7 @@ private:
 	HRESULT EffectDetail();
 	HRESULT EffectsList();
 
-	HRESULT	DataFIles();
+	HRESULT	DataFiles();
 
 	HRESULT CreateEffect();
 	HRESULT Reset();
@@ -92,7 +92,7 @@ private:
 
 	_int		m_iSelectedDataIndex = 0;
 	wstring		m_strSelectedGroup = TEXT("");
-	_char		m_szGroupNameBuf[128] = "";
+	_char		m_szBundleNameBuf[128] = "";
 
 public:
 	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

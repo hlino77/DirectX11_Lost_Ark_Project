@@ -162,7 +162,7 @@ HRESULT CMesh::LoadData_FromConverter(CModel::TYPE eModelType, shared_ptr<asMesh
 
 	//VertexData
 	{
-		const uint32 iVTXCount = pMesh->vertices.size();
+		const uint32 iVTXCount = (uint32)pMesh->vertices.size();
 
 		m_iNumVertexBuffers = 1;
 		m_iNumVertices = iVTXCount;
@@ -198,7 +198,7 @@ HRESULT CMesh::LoadData_FromConverter(CModel::TYPE eModelType, shared_ptr<asMesh
 
 	//IndexData
 	{
-		const uint32 iIDXCount = pMesh->indices.size();
+		const uint32 iIDXCount = (uint32)pMesh->indices.size();
 
 		m_iNumPrimitives = iIDXCount / 3;
 		m_iIndexSizeofPrimitive = sizeof(FACEINDICES32);

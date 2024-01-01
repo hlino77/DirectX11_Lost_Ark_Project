@@ -32,7 +32,7 @@ HRESULT CBT_Action::Initialize(void* pArg)
 	m_eNodeType = BT_NODETYPE::ACTION;
 	m_iLoopAnimationIndex = pActionDesc->iLoopAnimationIndex;
 	m_fMaxLoopTime = pActionDesc->fMaxLoopTime;
-	m_iMaxAnimation = m_vecAnimDesc.size();
+	m_iMaxAnimation = (_uint)m_vecAnimDesc.size();
 	if (FAILED(pActionDesc->pBehaviorTree->Add_Action(pActionDesc->strActionName, this)))
 		return E_FAIL;
 	m_strActionName = pActionDesc->strActionName;

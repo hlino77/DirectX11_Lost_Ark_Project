@@ -12,9 +12,9 @@ struct ENGINE_DLL djb2Hasher
 	size_t operator() (const wstring& str) const
 	{
 		_ulong	hash = 5381;
-		_uint	size = str.length();
+		size_t	size = str.length();
 
-		for (_uint i = 0; i < size; i++)
+		for (size_t i = 0; i < size; i++)
 			hash = ((hash << 5) + hash) + (str[i]); /* hash * 33 + c */
 
 		return hash;
@@ -23,9 +23,9 @@ struct ENGINE_DLL djb2Hasher
 	size_t operator() (const string& str) const
 	{
 		_ulong	hash = 5381;
-		_uint	size = str.length();
+		size_t	size = str.length();
 
-		for (_uint i = 0; i < size; i++)
+		for (size_t i = 0; i < size; i++)
 			hash = ((hash << 5) + hash) + (str[i]); /* hash * 33 + c */
 
 		return hash;

@@ -69,7 +69,7 @@ void CModel::Set_CurrAnim(_int iCurrAnim)
 
 _uint CModel::Get_MaxAnimIndex()
 {
-	return m_Animations.size() - 1;
+	return (_uint)(m_Animations.size() - 1);
 }
 
 _int CModel::Find_AnimIndex(const wstring& szAnimName)
@@ -192,7 +192,7 @@ HRESULT CModel::SetUp_OnShader(CShader * pShader, _uint iMaterialIndex, aiTextur
 
 HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 {
-	if (FAILED(pShader->Bind_Matrices("g_BoneMatrices", m_matCurrTransforms.data(), m_matCurrTransforms.size())))
+	if (FAILED(pShader->Bind_Matrices("g_BoneMatrices", m_matCurrTransforms.data(), (size_t)m_matCurrTransforms.size())))
 		return S_OK;
 
 	return S_OK;
@@ -417,7 +417,7 @@ _int CModel::Is_HairTexture()
 		size_t hair_pos = strMaterialName.find(search_str);
 
 		if (hair_pos != string::npos)
-			return i;
+			return (_int)i;
 	}
 
 	return -1;
@@ -869,7 +869,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 		MaterialNode = MaterialNode->NextSiblingElement();
 	}
 
-	m_iNumMaterials = m_Materials.size();
+	m_iNumMaterials = (_uint)m_Materials.size();
 }
 
 HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)
@@ -899,7 +899,7 @@ HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)
 
 _int CModel::FindMaterialIndexByName(string strMaterialName)
 {
-	for (_int i = 0; i < m_iNumMaterials; ++i)
+	for (_uint i = 0; i < m_iNumMaterials; ++i)
 	{
 		string strFullName = "";
 		strFullName = Get_Material_Name(i);
@@ -914,7 +914,7 @@ _int CModel::FindMaterialIndexByName(string strMaterialName)
 		size_t hair_pos = strMaterialName.find(strMaterialName);
 
 		if (hair_pos != string::npos)
-			return i;
+			return (_int)i;
 	}
 
 	return -1;

@@ -14,14 +14,19 @@ CEffect::CEffect(const CEffect& rhs)
 	: Super(rhs)
 	, m_vPosition_Start(rhs.m_vPosition_Start)
 	, m_vPosition_End(rhs.m_vPosition_End)
+	, m_bPosition_Lerp(rhs.m_bPosition_Lerp)
 	, m_vRotation_Start(rhs.m_vRotation_Start)
 	, m_vRotation_End(rhs.m_vRotation_End)
+	, m_bRotation_Lerp(rhs.m_bRotation_Lerp)
 	, m_vScaling_Start(rhs.m_vScaling_Start)
 	, m_vScaling_End(rhs.m_vScaling_End)
+	, m_bScaling_Lerp(rhs.m_bScaling_Lerp)
 	, m_vVelocity_Start(rhs.m_vVelocity_Start)
 	, m_vVelocity_End(rhs.m_vVelocity_End)
+	, m_bVelocity_Lerp(rhs.m_bVelocity_Lerp)
 	, m_vColor_Start(rhs.m_vColor_Start)
 	, m_vColor_End(rhs.m_vColor_End)
+	, m_bColor_Lerp(rhs.m_bColor_Lerp)
 	, m_fLifeTime(rhs.m_fLifeTime)
 	, m_vUV_Start(rhs.m_vUV_Start)
 	, m_vUV_Speed(rhs.m_vUV_Speed)
@@ -73,14 +78,14 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_IsSequence = pDesc->IsSequence;
 	m_fSequenceTerm = pDesc->fSequenceTerm;
 
-	m_Variables.vUV_Offset = pDesc->tVariables.vUV_Offset;
-	m_Variables.vUV_Direction = pDesc->tVariables.vUV_Direction;
-	m_Variables.vUV_TileCount = pDesc->tVariables.vUV_TileCount;
-	m_Variables.vUV_TileIndex = pDesc->tVariables.vUV_TileIndex;
-	m_Variables.vColor_Offset = pDesc->tVariables.vColor_Offset;
+	m_Variables.vUV_Offset = pDesc->vUV_Offset;
+	m_Variables.vUV_Direction = pDesc->vUV_Direction;
+	m_Variables.vUV_TileCount = pDesc->vUV_TileCount;
+	m_Variables.vUV_TileIndex = pDesc->vUV_TileIndex;
+	m_Variables.vColor_Offset = pDesc->vColor_Offset;
 
-	m_Intensity.fBloom = pDesc->tIntensity.fBloom;
-	m_Intensity.fRadial = pDesc->tIntensity.fRadial;
+	m_Intensity.fBloom = pDesc->fBloom;
+	m_Intensity.fRadial = pDesc->fRadial;
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);
@@ -199,9 +204,9 @@ HRESULT CEffect::Render()
 
 #pragma region GlobalData
 	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
-	Matrix matCombined = m_matOffset * m_matPivot;
+	m_matCombined = m_matOffset * m_matPivot;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &matCombined, sizeof(Matrix))))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))

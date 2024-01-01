@@ -657,7 +657,7 @@ void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 {
 	ID3D11DeviceContext* pContext = nullptr;
 
-	for (_int i = 0; i < In_iIndex; ++i)
+	for (_uint i = 0; i < In_iIndex; ++i)
 	{
 		if (SUCCEEDED(Get_Device()->CreateDeferredContext(0, &pContext)))
 		{

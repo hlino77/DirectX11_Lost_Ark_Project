@@ -102,6 +102,20 @@ BlendState BS_AlphaBlend
 	BlendOp = Add;
 };
 
+BlendState BS_AlphaBlendEx
+{
+	BlendEnable[0] = true;
+    BlendEnable[1] = true;
+
+    SrcBlend = Src_Alpha;
+    DestBlend = Inv_Src_Alpha;
+	BlendOp = Add;
+
+    SrcBlendAlpha = Src_Alpha;
+    DestBlendAlpha = Inv_Src_Alpha;
+    BlendOpAlpha = MIN;
+};
+
 BlendState BS_AlphaBlendDest
 {
 	BlendEnable[0] = true;

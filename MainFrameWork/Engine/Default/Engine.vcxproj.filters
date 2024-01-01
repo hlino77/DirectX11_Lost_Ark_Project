@@ -217,6 +217,9 @@
     <Filter Include="01.Utiltiy\13.Random">
       <UniqueIdentifier>{6f0dd9e2-da6b-4d05-94ee-4cc7627fea1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle">
+      <UniqueIdentifier>{21e0a24e-2ad2-4d84-9d3e-8076f9424e2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
@@ -577,9 +580,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\ColliderFrustum.h">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Player_Skill.h">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller\Player_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Particle.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -912,6 +918,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ColliderFrustum.cpp">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Particle.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

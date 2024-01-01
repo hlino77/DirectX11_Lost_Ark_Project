@@ -76,7 +76,7 @@ void CCell::Set_Normal()
 		m_Points[2] = vPoint[0];
 
 
-		_uint iNeighbor[3] = { m_iNeighbor[LINE::LINE_AB], m_iNeighbor[LINE::LINE_BC], m_iNeighbor[LINE::LINE_CA] };
+		_uint iNeighbor[3] = { (_uint)m_iNeighbor[LINE::LINE_AB], (_uint)m_iNeighbor[LINE::LINE_BC], (_uint)m_iNeighbor[LINE::LINE_CA] };
 
 		m_iNeighbor[LINE::LINE_AB] = iNeighbor[LINE::LINE_BC];
 		m_iNeighbor[LINE::LINE_BC] = iNeighbor[LINE::LINE_AB];

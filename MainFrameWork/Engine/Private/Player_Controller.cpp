@@ -326,7 +326,6 @@ const _bool& CPlayer_Controller::Is_SkillSuccess(SKILL_KEY eKey)
 	return m_pSkills[eKey]->Is_SkillSuccess();
 }
 
-
 const wstring& CPlayer_Controller::Get_SkillStartName(SKILL_KEY eKey)
 {
 	return m_pSkills[eKey]->Get_Skill_StartName();

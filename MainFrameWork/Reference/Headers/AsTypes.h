@@ -45,10 +45,10 @@ struct asBlendWeight
 
 		switch (index)
 		{
-		case 0: indices.x = i; weights.x = w; break;
-		case 1: indices.y = i; weights.y = w; break;
-		case 2: indices.z = i; weights.z = w; break;
-		case 3: indices.w = i; weights.w = w; break;
+		case 0: indices.x = (uint32_t)i; weights.x = w; break;
+		case 1: indices.y = (uint32_t)i; weights.y = w; break;
+		case 2: indices.z = (uint32_t)i; weights.z = w; break;
+		case 3: indices.w = (uint32_t)i; weights.w = w; break;
 		}
 	}
 
@@ -74,12 +74,12 @@ struct asBoneWeights
 	{
 		asBlendWeight blendWeights;
 
-		for (uint32 i = 0; i < boneWeights.size(); i++)
+		for (size_t i = 0; i < boneWeights.size(); i++)
 		{
 			if (i >= 4)
 				break;
 
-			blendWeights.Set(i, boneWeights[i].first, boneWeights[i].second);
+			blendWeights.Set((uint32)i, (uint32)boneWeights[i].first, boneWeights[i].second);
 		}
 
 		return blendWeights;

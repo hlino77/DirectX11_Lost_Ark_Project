@@ -7,7 +7,9 @@
 #include "RigidBody.h"
 #include "BindShaderDesc.h"
 #include "VIBuffer_Point.h"
+#include "VIBuffer_Particle.h"
 #include "BindShaderDesc.h"
+#include "Utils.h"
 
 CVoidEffect::CVoidEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext, TEXT("VoidEffect"), -1)
@@ -27,6 +29,7 @@ HRESULT CVoidEffect::Initialize_Prototype()
 HRESULT CVoidEffect::Initialize(void* pArg)
 {
 	tagVoidEffectDesc* pDesc = reinterpret_cast<tagVoidEffectDesc*>(pArg);
+	m_iEffectType = pDesc->iEffectType;
 	m_tVoidEffectDesc = *pDesc;
 
 	if (FAILED(Ready_Components(pDesc)))
@@ -68,6 +71,9 @@ void CVoidEffect::Tick(_float fTimeDelta)
 		}
 	}
 
+	m_Particle.fGameTime = m_fTimeAcc;
+	m_Particle.fTimeStep = fTimeDelta;
+
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
 	vOffsetRotation = Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z);
@@ -107,6 +113,8 @@ HRESULT CVoidEffect::Render()
 	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
 	Matrix matCombined = m_matPivot * matWorld;
 
+	m_Particle.vEmitPosition = matCombined.Translation();
+
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &matCombined, sizeof(Matrix))))
 		return E_FAIL;
 
@@ -145,7 +153,7 @@ HRESULT CVoidEffect::Render()
 			return E_FAIL;
 	}
 
-	if (m_pModelCom)
+	if (0 == m_iEffectType)
 	{
 		_int iMeshCount = m_pModelCom->Get_Meshes().size();
 		for (_int i = 0; i < iMeshCount; ++i)
@@ -154,16 +162,34 @@ HRESULT CVoidEffect::Render()
 				return E_FAIL;
 		}
 	}
-	else
+	else if (1 == m_iEffectType)
 	{
 		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
 			return E_FAIL;
 		if (FAILED(m_pShaderCom->Begin("Default")))
 			return E_FAIL;
-		if (FAILED(m_pBuffer->Render()))
+		if (FAILED(static_cast<CVIBuffer_Point*>(m_pBuffer)->Render()))
+			return E_FAIL;
+	}
+	else if (2 == m_iEffectType)
+	{
+		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Particle", &m_Particle, sizeof(tagFX_Particle))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture("g_RandomTexture", m_pRandomTextureSRV)))
+			return E_FAIL;
+		if (FAILED(static_cast<CVIBuffer_Particle*>(m_pBuffer)->Render("Smoke")))
 			return E_FAIL;
 	}
 #pragma endregion
+
+	return S_OK;
+}
+
+HRESULT CVoidEffect::Render_Particle()
+{
+
 
 	return S_OK;
 }
@@ -185,7 +211,8 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
 		return E_FAIL;
 
-	if (TEXT("") != pDesc->protoModel)
+	//if (TEXT("") != pDesc->protoModel)
+	if (0 == m_iEffectType)
 	{
 		/* For.Com_Model */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Model_") + pDesc->protoModel, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
@@ -195,7 +222,7 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectMesh"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 			return E_FAIL;
 	}
-	else
+	else if(1 == m_iEffectType)
 	{
 		/* For.Com_Buffer */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
@@ -204,6 +231,20 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		/* For.Com_Shader */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectTex"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 			return E_FAIL;
+	}
+	else if(2 == m_iEffectType)
+	{
+		/* For.Com_Buffer */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Particle"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
+			return E_FAIL;
+
+		/* For.Com_Shader */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_ParticleSystem"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+			return E_FAIL;
+
+		CUtils* pUtils = GET_INSTANCE(CUtils);
+		pUtils->CreateRandomTexture1DSRV(m_pDevice, &m_pRandomTextureSRV);
+		RELEASE_INSTANCE(CUtils);
 	}
 
 	//////////

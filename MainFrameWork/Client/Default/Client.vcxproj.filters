@@ -322,9 +322,6 @@
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Event\99.Base">
-      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse">
       <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
     </Filter>
@@ -810,7 +807,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Attack">
       <UniqueIdentifier>{e3619efa-a947-4266-bc87-5a7f443cbd8a}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame">
       <UniqueIdentifier>{fee6be2b-ab00-434f-b41e-d8ebf2ea73ed}</UniqueIdentifier>
     </Filter>
@@ -2937,7 +2934,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_MG_Attack_2.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Attack</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_WRIdentity_Gauge.h">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge</Filter>
     </ClInclude>
@@ -2975,6 +2972,9 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Manager.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Particle.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
   </ItemGroup>
@@ -4980,7 +4980,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_WRIdentity_Gauge.cpp">
       <Filter>02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge</Filter>
     </ClCompile>
@@ -5018,6 +5018,9 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Manager.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Particle.cpp">
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
   </ItemGroup>
@@ -5163,10 +5166,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Stream.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Draw.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
