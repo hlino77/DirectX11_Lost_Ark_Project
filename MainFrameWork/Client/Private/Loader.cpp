@@ -512,7 +512,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 
 	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
-	CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Bern_Navi"), L"Bern.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Bern_Navi"), L"BernCastle.Navi");
 
 
 
