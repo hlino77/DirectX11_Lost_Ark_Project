@@ -160,6 +160,14 @@ public:
 	void						Set_LevelMove(_bool bLevelMove) { m_bLevelMove = bLevelMove; }
 
 	_int						Get_Layer() { return m_iLayer; }
+
+	_bool		Get_IsMapObject() { return m_IsMapObject; }
+	void		Set_IsMapObject() { m_IsMapObject = true; }
+
+	void			Add_QuadTreeIndex(_uint Index) { m_vecQuadTreeIndex.push_back(Index); }
+	void			Set_QuadTreeIndices(vector<_uint> Indices) { m_vecQuadTreeIndex = Indices; }
+	vector<_uint>  Get_QuadTreeIndices() { return m_vecQuadTreeIndex; }
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -235,6 +243,12 @@ protected:
 	//Instancing
 	_bool						m_bInstance = false;
 	shared_ptr<unordered_map<wstring, INSTANCEDATA>>	m_pInstaceData = nullptr;
+
+	// MapObject
+	_bool						m_IsMapObject = false;
+
+	// QuadTreeIndex 
+	vector<_uint>       m_vecQuadTreeIndex;
 
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);

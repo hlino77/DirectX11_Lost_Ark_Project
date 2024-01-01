@@ -47,12 +47,8 @@ HRESULT CQuadTreeNode::Make_Child(_uint iMaxDepth)
 
 void CQuadTreeNode::Set_Object_NodeIndex(CGameObject* pObject)
 {
-	//오브젝트와 노드 충돌처리
-
 
 }
-
-
 
 HRESULT CQuadTreeNode::Add_Object(CGameObject* pObject)
 {	
@@ -110,6 +106,10 @@ void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
 	return;
 	}
 
+}
+
+void CQuadTreeNode::Render_DeBug()
+{
 }
 
 CQuadTreeNode::~CQuadTreeNode()

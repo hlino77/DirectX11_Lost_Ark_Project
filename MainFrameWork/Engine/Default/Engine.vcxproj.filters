@@ -109,18 +109,6 @@
     <Filter Include="01.Utiltiy\04.Component\08. Colider\Manager">
       <UniqueIdentifier>{d0570285-1a6b-4138-a0a5-18c302d62a11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. ServerCore">
-      <UniqueIdentifier>{59a4ac5c-8663-4742-8a54-565c36642629}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. ServerCore\01. Memory">
-      <UniqueIdentifier>{8bbbeafd-2c79-4831-a1b6-8e31dfd72791}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. ServerCore\02. Network">
-      <UniqueIdentifier>{796eff8e-3c66-4eda-a1f7-fabab782113b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. ServerCore\03. Thread">
-      <UniqueIdentifier>{576ee108-bcde-471d-ace4-2bd595f781f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utiltiy\04.Component\09. RigidBody">
       <UniqueIdentifier>{e6ba49fc-8819-46a0-9d67-76e6172063cf}</UniqueIdentifier>
     </Filter>
@@ -216,6 +204,21 @@
     </Filter>
     <Filter Include="01.Utiltiy\13.Random">
       <UniqueIdentifier>{6f0dd9e2-da6b-4d05-94ee-4cc7627fea1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\06. Navigation\CellPoint">
+      <UniqueIdentifier>{2851f74c-b86d-42b5-acc6-0f9732d61c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore">
+      <UniqueIdentifier>{59a4ac5c-8663-4742-8a54-565c36642629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore\01. Memory">
+      <UniqueIdentifier>{8bbbeafd-2c79-4831-a1b6-8e31dfd72791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore\02. Network">
+      <UniqueIdentifier>{796eff8e-3c66-4eda-a1f7-fabab782113b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ServerCore\03. Thread">
+      <UniqueIdentifier>{576ee108-bcde-471d-ace4-2bd595f781f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -420,12 +423,6 @@
     <ClInclude Include="..\Public\NavigationMgr.h">
       <Filter>01.Utiltiy\06. Navigation\Mgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Navigation.h">
-      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Cell.h">
-      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\GameObject.h">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
     </ClInclude>
@@ -452,12 +449,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UseLock_Transform.h">
       <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\QuadTreeMgr.h">
-      <Filter>01.Utiltiy\10. QuadTree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\QuadTreeNode.h">
-      <Filter>01.Utiltiy\10. QuadTree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>01.Utiltiy\11. SoundMgr</Filter>
@@ -583,6 +574,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\InstanceData.h">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Navigation.h">
+      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cell.h">
+      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CellPoint.h">
+      <Filter>01.Utiltiy\06. Navigation\CellPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuadTreeMgr.h">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuadTreeNode.h">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -766,12 +772,6 @@
     <ClCompile Include="..\Private\NavigationMgr.cpp">
       <Filter>01.Utiltiy\06. Navigation\Mgr</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Navigation.cpp">
-      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Cell.cpp">
-      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\GameObject.cpp">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
     </ClCompile>
@@ -798,12 +798,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UseLock_Transform.cpp">
       <Filter>01.Utiltiy\04.Component\05. Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\QuadTreeMgr.cpp">
-      <Filter>01.Utiltiy\10. QuadTree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\QuadTreeNode.cpp">
-      <Filter>01.Utiltiy\10. QuadTree</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Sound_Manager.cpp">
       <Filter>01.Utiltiy\11. SoundMgr</Filter>
@@ -918,6 +912,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\InstanceData.cpp">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Cell.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Navigation.cpp">
+      <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CellPoint.cpp">
+      <Filter>01.Utiltiy\06. Navigation\CellPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuadTreeNode.cpp">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuadTreeMgr.cpp">
+      <Filter>01.Utiltiy\10. QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

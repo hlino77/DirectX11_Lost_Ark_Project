@@ -51,6 +51,7 @@ private:
 	HRESULT Loading_For_Level_Chaos2();
 	HRESULT Loading_For_Level_Chaos3();
 
+
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT	Loading_IdentityTexture();

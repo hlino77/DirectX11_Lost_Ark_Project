@@ -9,7 +9,7 @@ class CGameObject;
 class CQuadTreeNode;
 class CSphereCollider;
 
-class CQuadTreeMgr : public CBase
+class ENGINE_DLL CQuadTreeMgr : public CBase
 {
 	DECLARE_SINGLETON(CQuadTreeMgr);
 
@@ -26,6 +26,11 @@ public:
 	HRESULT Add_Object(CGameObject* pObject, _uint iIndex);
 
 	void	Tick(_float fTimeDelta);
+
+public: // Get Set
+	CQuadTreeNode* Get_SuperNode() {return m_pSuperNode;}
+
+
 private:
 	USE_LOCK
 

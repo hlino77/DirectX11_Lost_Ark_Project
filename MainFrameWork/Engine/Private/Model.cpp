@@ -153,12 +153,18 @@ _int CModel::Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed)
 	return iAnimationIndex;
 }
 
-HRESULT CModel::Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool bColMesh)
+HRESULT CModel::Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool IsMapObject)
 {
 	XMStoreFloat4x4(&m_PivotMatrix, PivotMatrix);
 
-	if(FAILED(Load_AssetFile_FromBinary(strFilePath, strFileName, bClient, bColMesh)))
+	m_IsMapObject = IsMapObject;
+
+
+
+	if (FAILED(Load_AssetFile_FromBinary(strFilePath, strFileName, bClient, IsMapObject)))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -579,25 +585,38 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 
 
 
-HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bColMesh)
+HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bIsMapObject)
 {
+
 	m_strFileName = pFileName;
 	m_strFilePath = pFilePath;
 
 
-	if (FAILED(Load_ModelData_FromFile(XMLoadFloat4x4(&m_PivotMatrix), bClient, bColMesh)))
+	if (FAILED(Load_ModelData_FromFile(XMLoadFloat4x4(&m_PivotMatrix), bClient, bIsMapObject)))
 	{
 		return E_FAIL;
 	}
-		
 
 	if (bClient)
 	{
-		if (FAILED(Load_MaterialData_FromFile()))
-			return E_FAIL;
+		if (m_strFilePath == L"../Bin/Resources/Export/Bern/" ||
+			m_strFilePath == L"../Bin/Resources/Export/Chaos1/" ||
+			m_strFilePath == L"../Bin/Resources/Export/Chaos2/" ||
+			m_strFilePath == L"../Bin/Resources/Export/Chaos3/" ||
+			m_strFilePath == L"../Bin/Resources/Export/Boss/")
+		{
+			if (FAILED(Load_MapMaterialData_FromFile()))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(Load_MaterialData_FromFile()))
+				return E_FAIL;
+		}
 
 	}
 
+	
 	if (m_eModelType == TYPE::TYPE_ANIM)
 	{
 		if (FAILED(Load_AnimationData_FromFile(XMLoadFloat4x4(&m_PivotMatrix), bClient)))
@@ -608,7 +627,7 @@ HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstrin
 	return S_OK;
 }
 
-HRESULT CModel::Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh)
+HRESULT CModel::Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bIsMapObject)
 {
 	wstring strfullPath = m_strFilePath + m_strFileName + L"/" + m_strFileName + L".mesh";
 
@@ -646,7 +665,7 @@ HRESULT CModel::Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool
 			if (nullptr == pMeshContainer)
 				return E_FAIL;
 
-			pMeshContainer->LoadData_FromMeshFile(m_eModelType, pFileUtils.get(), PivotMatrix, bColMesh);
+			pMeshContainer->LoadData_FromMeshFile(m_eModelType, pFileUtils.get(), PivotMatrix, bIsMapObject);
 
 			m_Meshes.push_back(pMeshContainer);
 		}
@@ -716,10 +735,11 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
-		
+
 				MaterialDesc.pTexture[aiTextureType_DIFFUSE] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE])
 					return E_FAIL;
+
 			}
 		}
 
@@ -870,6 +890,208 @@ HRESULT CModel::Load_MaterialData_FromFile()
 	}
 
 	m_iNumMaterials = m_Materials.size();
+
+	return S_OK;
+}
+
+HRESULT CModel::Load_MapMaterialData_FromFile()
+{
+	wstring strFullPath = m_strFilePath + m_strFileName + L"/" + m_strFileName + L".xml";
+	auto parentPath = filesystem::path(strFullPath).parent_path();
+
+	tinyxml2::XMLDocument* Document = new tinyxml2::XMLDocument();
+	tinyxml2::XMLError error = Document->LoadFile(CAsUtils::ToString(strFullPath).c_str());
+
+#ifdef _DEBUG
+	assert(error == tinyxml2::XML_SUCCESS);
+#else
+#endif
+
+
+	tinyxml2::XMLElement* Root = Document->FirstChildElement();
+	tinyxml2::XMLElement* MaterialNode = Root->FirstChildElement();
+
+	while (MaterialNode)
+	{
+		MATERIALDESC		MaterialDesc;
+		ZeroMemory(&MaterialDesc, sizeof(MATERIALDESC));
+
+		tinyxml2::XMLElement* Node = nullptr;
+
+		Node = MaterialNode->FirstChildElement();
+
+		strncpy_s(MaterialDesc.strName, Node->GetText(), strlen(Node->GetText()));
+
+		// Diffuse Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_DIFFUSE] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE])
+					return E_FAIL;
+
+			}
+		}
+
+		// Specular Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_SPECULAR] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_SPECULAR])
+					return E_FAIL;
+			}
+		}
+
+		// Normal Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_NORMALS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_NORMALS])
+					return E_FAIL;
+			}
+		}
+
+		// Emissive Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_EMISSIVE] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_EMISSIVE])
+					return E_FAIL;
+			}
+		}
+
+		// Metalic Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_METALNESS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_METALNESS])
+					return E_FAIL;
+			}
+		}
+
+		// Roughness Texture
+		Node = Node->NextSiblingElement();
+		if (Node->GetText())
+		{
+			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+			if (strTexture.length() > 0)
+			{
+				wstring szFullPath = L"";
+
+				if (m_eModelType == TYPE::TYPE_ANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+				else if (m_eModelType == TYPE::TYPE_NONANIM)
+					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+
+				MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS] = Create_Texture(szFullPath);
+				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS])
+					return E_FAIL;
+			}
+		}
+
+		// Ambient
+		{
+			Node = Node->NextSiblingElement();
+
+			MaterialDesc.vAmbient.x = Node->FloatAttribute("R");
+			MaterialDesc.vAmbient.y = Node->FloatAttribute("G");
+			MaterialDesc.vAmbient.z = Node->FloatAttribute("B");
+			MaterialDesc.vAmbient.w = Node->FloatAttribute("A");
+		}
+
+		// Diffuse
+		{
+			Node = Node->NextSiblingElement();
+
+			MaterialDesc.vDiffuse.x = Node->FloatAttribute("R");
+			MaterialDesc.vDiffuse.y = Node->FloatAttribute("G");
+			MaterialDesc.vDiffuse.z = Node->FloatAttribute("B");
+			MaterialDesc.vDiffuse.w = Node->FloatAttribute("A");
+		}
+
+		// Specular
+		{
+			Node = Node->NextSiblingElement();
+
+			MaterialDesc.vSpecular.x = Node->FloatAttribute("R");
+			MaterialDesc.vSpecular.y = Node->FloatAttribute("G");
+			MaterialDesc.vSpecular.z = Node->FloatAttribute("B");
+			MaterialDesc.vSpecular.w = Node->FloatAttribute("A");
+		}
+
+		// Emissive
+		{
+			Node = Node->NextSiblingElement();
+
+			MaterialDesc.vEmissive.x = Node->FloatAttribute("R");
+			MaterialDesc.vEmissive.y = Node->FloatAttribute("G");
+			MaterialDesc.vEmissive.z = Node->FloatAttribute("B");
+			MaterialDesc.vEmissive.w = Node->FloatAttribute("A");
+		}
+
+		m_Materials.push_back(MaterialDesc);
+
+		// Next Material
+		MaterialNode = MaterialNode->NextSiblingElement();
+	}
+
+	m_iNumMaterials = m_Materials.size();
+
+	return S_OK;
 }
 
 HRESULT CModel::Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient)

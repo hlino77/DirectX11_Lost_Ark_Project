@@ -41,7 +41,19 @@ _uint CQuadTreeMgr::Add_Node(CQuadTreeNode* pNode)
 HRESULT CQuadTreeMgr::Reset_QaudTree()
 {
 	WRITE_LOCK
-	Safe_Delete(m_pSuperNode);
+
+	if (nullptr != m_pSuperNode)
+	{
+		Safe_Delete(m_pSuperNode);
+
+		for (auto& Node : m_Nodes)
+		{
+			Safe_Delete(Node);
+		}
+		m_Nodes.clear();
+	}
+
+
 	return S_OK;
 }
 

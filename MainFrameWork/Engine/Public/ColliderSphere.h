@@ -33,7 +33,7 @@ public:
 
 	BoundingSphere&	GetBoundingSphere()		{ return m_tBoundingSphere; }
 
-private:
+public:
 	void			Set_Center();
 
 

@@ -44,13 +44,23 @@ HRESULT CStaticModel::Initialize(void* pArg)
 				return E_FAIL;
 		}
 	}
+	m_IsMapObject = Desc->IsMapObject;
+		
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc->vPosition.x, Desc->vPosition.y, Desc->vPosition.z, 1.f));
+
+	//m_pTransformCom->My_Rotation(Vec3(90.f,180.f, 0.f));
+
+	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
     return S_OK;
 }
 
 void CStaticModel::Tick(_float fTimeDelta)
 {
-
+	
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)

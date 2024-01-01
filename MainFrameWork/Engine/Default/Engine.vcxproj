@@ -176,6 +176,7 @@
     <ClInclude Include="..\Public\BufferWriter.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Cell.h" />
+    <ClInclude Include="..\Public\CellPoint.h" />
     <ClInclude Include="..\Public\ColliderBase.h" />
     <ClInclude Include="..\Public\ColliderFrustum.h" />
     <ClInclude Include="..\Public\ColliderOBB.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="..\Private\BufferWriter.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\Cell.cpp" />
+    <ClCompile Include="..\Private\CellPoint.cpp" />
     <ClCompile Include="..\Private\ColliderBase.cpp" />
     <ClCompile Include="..\Private\ColliderFrustum.cpp" />
     <ClCompile Include="..\Private\ColliderOBB.cpp" />

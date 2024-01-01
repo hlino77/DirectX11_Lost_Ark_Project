@@ -22,7 +22,12 @@ public:
 		wstring strFilePath;
 		wstring strFileName;
 		Vec3	vPosition;
+		wstring	strFilePath;
+		
+		Vec3	vPosition;
+		_bool	IsMapObject = false;
 		_uint	iLayer;
+
 	}MODELDESC;
 
 public:

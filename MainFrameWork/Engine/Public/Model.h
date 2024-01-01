@@ -74,7 +74,7 @@ public:
 	_bool	IsNext() { return m_bNext; }
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
 public:
-	virtual HRESULT Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool bColMesh);
+	virtual HRESULT Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool IsMapObject);
 	virtual HRESULT Initialize(void* pArg);
 
 
@@ -103,7 +103,7 @@ public:
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, _uint iStride);
 	HRESULT Render_SingleMeshInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, const _int& iMeshIndex, _uint iStride);
 
-	HRESULT Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bColMesh);
+	HRESULT Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bIsMapObject);
 
 public: /* ;hj가 추가한 함수 */
 	string  Get_Material_Name(_uint iMaterialIndex) { return m_Materials[iMaterialIndex].strName; }
@@ -113,8 +113,9 @@ public: /* ;hj가 추가한 함수 */
 
 
 private:
-	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bColMesh);
+	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bIsMapObject);
 	HRESULT Load_MaterialData_FromFile();
+	HRESULT Load_MapMaterialData_FromFile();
 	HRESULT Load_AnimationData_FromFile(Matrix PivotMatrix, _bool bClient);
 
 	void	Change_NextAnimation();
@@ -173,11 +174,14 @@ private:
 	shared_ptr<ModelBone>				m_RootBone;
 
 	_bool								m_bClient = true;
+
+	_bool								m_IsMapObject = false;
+
 private:
 	USE_LOCK
 
 public:
-	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool bColMesh, Matrix PivotMatrix = XMMatrixIdentity());
+	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool IsMapObject, Matrix PivotMatrix = XMMatrixIdentity());
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg = nullptr);
 	virtual void Free() override;
 };

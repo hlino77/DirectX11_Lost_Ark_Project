@@ -35,6 +35,11 @@
 #include "UI_SpaceBar_Icon.h"
 #include "UI_WRIdentity_Body.h"
 
+#include <filesystem>
+#include "QuadTreeMgr.h"
+#include "Engine_Defines.h"
+
+
 CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -46,7 +51,13 @@ HRESULT CLevel_Bern::Initialize()
 
 	Send_UserInfo();
 
-	CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
+
+	//CQuadTreeMgr::GetInstance()->Make_QaudTree(Vec3{ 140.f, 0.f, 115.f }, Vec3{ 75.f, 30.f, 55.f }, 3);
+
+
+	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
+
+	//CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Chaos_Navi"));
 
 	Ready_Renderer();
 
@@ -77,6 +88,12 @@ HRESULT CLevel_Bern::Initialize()
 		return E_FAIL;
 
 
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"))))
+	{
+		return E_FAIL;
+	}
+
+
 	while (true)
 	{
 		CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
@@ -92,6 +109,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	Start_Collision();
 	Start_Damage();
+
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
@@ -111,6 +129,7 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
 
+
 	return S_OK;
 }
 
@@ -123,6 +142,8 @@ HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
 HRESULT CLevel_Bern::Render_Debug()
 {
 	m_pImGuiManager->Tick();
+
+	CNavigationMgr::GetInstance()->Render();
 	return S_OK;
 }
 
@@ -138,6 +159,10 @@ HRESULT CLevel_Bern::Exit()
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	CUI_Tool::GetInstance()->Set_ToolMode(false);
+
+	CQuadTreeMgr::GetInstance()->Reset_QaudTree();
+	
+
 	return S_OK;
 }
 
@@ -213,6 +238,7 @@ HRESULT CLevel_Bern::Ready_Layer_Player(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+
 
 
 	Safe_Release(pGameInstance);
@@ -376,7 +402,7 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CameraDesc.tCameraDesc.fNear = 0.2f;
 	CameraDesc.tCameraDesc.fFar = 1200.0f;
 
-	CameraDesc.tCameraDesc.TransformDesc.fSpeedPerSec = 5.f;
+	CameraDesc.tCameraDesc.TransformDesc.fSpeedPerSec = 30.f;
 	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	CameraDesc.pPlayer = pPlayer;
@@ -458,88 +484,100 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
 	file->Open(szFullPath, FileMode::Read);
 
-	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	//Matrix		PivotMatrix = XMMatrixIdentity();
+	//PivotMatrix = XMMatrixRotationX(XMConvertToRadians(90.0f));
+
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/"
+	};
 
 
 	_uint iSize = file->Read<_uint>();
+	bool fileFound = false;
 
 	for (_uint i = 0; i < iSize; ++i)
 	{
-		wstring szModelName = CAsUtils::ToWString(file->Read<string>());
+		
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
+
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
 		Matrix	matWorld = file->Read<Matrix>();
 
 
+
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+		Desc.IsMapObject = true;
+
+		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+
+		if (nullptr == pObject)
 		{
-			CStaticModel::MODELDESC Desc;
-			Desc.strFileName = szModelName;
-			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
-
-
-			CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-			if (nullptr == pObject)
-			{
-				Safe_Release(pGameInstance);
-				return E_FAIL;
-			}
-
-			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-
-
-			_uint iColliderCount = file->Read<_uint>();
-			CStaticModel* pStaticModel = dynamic_cast<CStaticModel*>(pObject);
-
-
-			for (_uint i = 0; i < iColliderCount; ++i)
-			{
-				pStaticModel->Add_Collider();
-
-				CSphereCollider* pCollider = pStaticModel->Get_StaticCollider(i);
-
-				{
-					Vec3 vOffset = file->Read<Vec3>();
-					pCollider->Set_Offset(vOffset);
-
-
-					_float fRadius = file->Read<_float>();
-					pCollider->Set_Radius(fRadius);
-
-
-					pCollider->Update_Collider();
-				}
-
-				_bool bChild = file->Read<_bool>();
-
-				if (bChild)
-				{
-					pStaticModel->Add_ChildCollider(i);
-
-					COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
-
-
-					Vec3 vOffset = file->Read<Vec3>();
-					pChild->Set_Offset(vOffset);
-
-					Vec3 vScale = file->Read<Vec3>();
-					pChild->Set_Scale(vScale);
-
-					Quaternion vQuat = file->Read<Quaternion>();
-					pChild->Set_Orientation(vQuat);
-
-					pChild->Set_StaticBoundingBox();
-				}
-			}
-
-		
-			//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
+			Safe_Release(pGameInstance);
+			return E_FAIL;
 		}
+
+		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+
+
+		_uint			QuadTreeSize = {};
+
+		file->Read<_uint>(QuadTreeSize);
+
+		for (size_t i = 0; i < QuadTreeSize; i++)
+		{
+			_uint Index = {};
+			file->Read<_uint>(Index);
+			
+			pObject->Add_QuadTreeIndex(Index);
+			CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
+		}
+
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
+		
+		// pObject->Set_Instance(bInstance);
 	}
-
-
 
 
 	Safe_Release(pGameInstance);
 	return S_OK;
+
 }
 
 

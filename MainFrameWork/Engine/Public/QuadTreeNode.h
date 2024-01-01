@@ -19,6 +19,8 @@ public:
 	void	Tick(_float fTimeDelta);
 	void	Set_ObjectRender(const BoundingFrustum& tFrustum);
 
+	void	Render_DeBug();
+
 private:
 	vector<CQuadTreeNode*> m_Childs;
 	_uint m_iDepth;

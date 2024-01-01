@@ -4,6 +4,8 @@
 #include "AsFileUtils.h"
 #include "AsUtils.h"
 #include <filesystem>
+#include "NavigationMgr.h"
+#include "QuadTreeMgr.h"
 
 /* 플레이어 */
 #include "Player_Slayer.h"
@@ -564,6 +566,18 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+
+
+	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
+	CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Bern_Navi"), L"BernCastle.Navi");
+
+
+
+	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
+	//CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Chaos_Navi"), L"Chaos1.Navi");
+
+
+
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
@@ -881,70 +895,107 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 
 HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 {
+	// file Open
+	// Read Data File
+	// Create Prototype Object
+	// Create Prototype Model
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
 	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
 	file->Open(szFilePath, FileMode::Read);
 
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	//CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
+
+
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+	
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/"
+	};
 
 
 	_uint iSize = file->Read<_uint>();
+    bool fileFound = false;
 
 	for (_uint i = 0; i < iSize; ++i)
 	{
-		wstring szModelName = CAsUtils::ToWString(file->Read<string>());
+
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
+
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+		
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
 		Matrix	matWorld = file->Read<Matrix>();
 
-		wstring szModelPath = L"../Bin/Resources/Meshes/Static/";
 
-		wstring strComponentName = L"Prototype_Component_Model_" + szModelName;
+		vector<_uint>	QuadTreeIndex;
+		_uint			QuadTreeSize = {};
+		file->Read<_uint>(QuadTreeSize);
+	
 
-		if (FAILED(pGameInstance->Check_Prototype(eLevel, strComponentName)))
+		for (size_t i = 0; i < QuadTreeSize; i++)
 		{
-			_uint iColCount = file->Read<_uint>();
-			for (_uint i = 0; i < iColCount; ++i)
-			{
-				Vec3 vOffset = file->Read<Vec3>();
-				_float fRadius = file->Read<_float>();
-
-
-				if (file->Read<_bool>())
-				{
-					Vec3 vOffset = file->Read<Vec3>();
-					Vec3 vScale = file->Read<Vec3>();
-					Quaternion vQuat = file->Read<Quaternion>();
-				}
-			}
-			continue;
+			_uint Index = {};
+			file->Read<_uint>(Index);
 		}
-			
 
 
-		if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, szModelPath, szModelName, true, false, PivotMatrix))))
-			return E_FAIL;
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
 
 
-		_uint iColCount = file->Read<_uint>();
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
+		
 
-		for (_uint i = 0; i < iColCount; ++i)
+		wstring strComponentName = L"Prototype_Component_Model_" + Desc.strFileName;
+
+		if (FAILED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 		{
-			Vec3 vOffset = file->Read<Vec3>();
-			_float fRadius = file->Read<_float>();
 
-
-			if (file->Read<_bool>())
-			{
-				Vec3 vOffset = file->Read<Vec3>();
-				Vec3 vScale = file->Read<Vec3>();
-				Quaternion vQuat = file->Read<Quaternion>();
-			}
 		}
+		else
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
+				return E_FAIL;
+		}
+
 	}
-
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -958,7 +1009,7 @@ HRESULT CLoader::Load_ColMesh(LEVELID eLevel, const wstring& szFilePath)
 	file->Open(szFilePath, FileMode::Read);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 
 	_uint iSize = file->Read<_uint>();
