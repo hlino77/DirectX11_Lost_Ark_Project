@@ -14,14 +14,19 @@ CEffect::CEffect(const CEffect& rhs)
 	: Super(rhs)
 	, m_vPosition_Start(rhs.m_vPosition_Start)
 	, m_vPosition_End(rhs.m_vPosition_End)
+	, m_bPosition_Lerp(rhs.m_bPosition_Lerp)
 	, m_vRotation_Start(rhs.m_vRotation_Start)
 	, m_vRotation_End(rhs.m_vRotation_End)
+	, m_bRotation_Lerp(rhs.m_bRotation_Lerp)
 	, m_vScaling_Start(rhs.m_vScaling_Start)
 	, m_vScaling_End(rhs.m_vScaling_End)
+	, m_bScaling_Lerp(rhs.m_bScaling_Lerp)
 	, m_vVelocity_Start(rhs.m_vVelocity_Start)
 	, m_vVelocity_End(rhs.m_vVelocity_End)
+	, m_bVelocity_Lerp(rhs.m_bVelocity_Lerp)
 	, m_vColor_Start(rhs.m_vColor_Start)
 	, m_vColor_End(rhs.m_vColor_End)
+	, m_bColor_Lerp(rhs.m_bColor_Lerp)
 	, m_fLifeTime(rhs.m_fLifeTime)
 	, m_vUV_Start(rhs.m_vUV_Start)
 	, m_vUV_Speed(rhs.m_vUV_Speed)
@@ -73,14 +78,15 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_IsSequence = pDesc->IsSequence;
 	m_fSequenceTerm = pDesc->fSequenceTerm;
 
-	m_Variables.vUV_Offset = pDesc->tVariables.vUV_Offset;
-	m_Variables.vUV_Direction = pDesc->tVariables.vUV_Direction;
-	m_Variables.vUV_TileCount = pDesc->tVariables.vUV_TileCount;
-	m_Variables.vUV_TileIndex = pDesc->tVariables.vUV_TileIndex;
-	m_Variables.vColor_Offset = pDesc->tVariables.vColor_Offset;
+	m_Variables.vUV_Offset = pDesc->vUV_Offset;
+	m_Variables.iUV_Wave = pDesc->iUV_Wave;
+	m_Variables.fUV_WaveSpeed = pDesc->fUV_WaveSpeed;
+	m_Variables.vUV_TileCount = pDesc->vUV_TileCount;
+	m_Variables.vUV_TileIndex = pDesc->vUV_TileIndex;
+	m_Variables.vColor_Offset = pDesc->vColor_Offset;
 
-	m_Intensity.fBloom = pDesc->tIntensity.fBloom;
-	m_Intensity.fRadial = pDesc->tIntensity.fRadial;
+	m_Intensity.fBloom = pDesc->fBloom;
+	m_Intensity.fRadial = pDesc->fRadial;
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);
@@ -163,11 +169,9 @@ void CEffect::Tick(_float fTimeDelta)
 	else
 		vVelocity = 0.5f * m_fTimeAcc * m_vVelocity_Start;
 
-	Quaternion vOffsetRotationQuaternion(Quaternion::CreateFromYawPitchRoll(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z));
-	vOffsetPosition += vVelocity;
-	 
-	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
-		* XMMatrixRotationQuaternion(vOffsetRotationQuaternion) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
+		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))
+		* XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CEffect::LateTick(_float fTimeDelta)
@@ -181,8 +185,8 @@ void CEffect::LateTick(_float fTimeDelta)
 
 HRESULT CEffect::Render()
 {
-	m_Variables.vUV_Offset.x += m_vUV_Speed.x * m_fTimeAcc * 0.001f;
-	m_Variables.vUV_Offset.y += m_vUV_Speed.y * m_fTimeAcc * 0.001f;
+	m_Variables.vUV_Offset.x = m_vUV_Speed.x * m_fTimeAcc;
+	m_Variables.vUV_Offset.y = m_vUV_Speed.y * m_fTimeAcc;
 
 	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
 	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;
@@ -199,9 +203,9 @@ HRESULT CEffect::Render()
 
 #pragma region GlobalData
 	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
-	Matrix matCombined = m_matOffset * m_matPivot;
+	m_matCombined = m_matOffset * m_matPivot;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &matCombined, sizeof(Matrix))))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))

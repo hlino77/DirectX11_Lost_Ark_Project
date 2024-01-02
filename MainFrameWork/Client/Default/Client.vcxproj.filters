@@ -3021,6 +3021,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_WDRIdentity_Identity_Skill.h">
       <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Effect_Particle.h">
+      <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5094,6 +5097,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_WDRIdentity_Identity_Skill.cpp">
       <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Effect_Particle.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -5238,10 +5244,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Stream.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem_Draw.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">

@@ -72,7 +72,7 @@ public:
 	void	Set_CurrBoneMatrix(_uint iIndex, Matrix matValue);
 	vector<Matrix>& Get_CurrBoneMatrices() { return m_matCurrTransforms; }
 	Matrix	Get_BoneOffsetMatrix(_uint iIndex);
-	_uint	Get_BoneCount() { return m_ModelBones.size(); }
+	_uint	Get_BoneCount() { return (_uint)m_ModelBones.size(); }
 
 	_int	Initailize_FindAnimation(const wstring& szAnimName, _float fSpeed);
 

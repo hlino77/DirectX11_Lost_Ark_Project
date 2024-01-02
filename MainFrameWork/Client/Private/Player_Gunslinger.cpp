@@ -153,12 +153,12 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
 
-	/*if (KEY_TAP(KEY::Q))
+	if (KEY_TAP(KEY::Q))
 	{
-		HRESULT hr = EFFECT_START(TEXT("tempGroup3"), m_pTransformCom)
-		if (E_FAIL == hr)6
-			MSG_BOX("Failed to Create tempGroup3");
-	}*/
+		HRESULT hr = EFFECT_START(TEXT("tempHelix0"), m_pTransformCom)
+		if (E_FAIL == hr)
+			MSG_BOX("Failed to Create tempHelix0");
+	}
 
 	__super::Tick(fTimeDelta);
 }

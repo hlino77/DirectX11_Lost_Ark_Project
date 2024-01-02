@@ -30,8 +30,7 @@ HRESULT CSound_Manager::Initialize_LoopChannel(_uint iStart, _uint iEnd)
 	for (_uint i = iStart; i <= iEnd; ++i)
 		m_LoopChannelList.push_back(i);
 
-
-	m_iLoopChannelSize = m_LoopChannelList.size();
+	m_iLoopChannelSize = (_uint)m_LoopChannelList.size();
 
 	return S_OK;
 }

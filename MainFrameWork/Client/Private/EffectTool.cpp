@@ -49,7 +49,7 @@ HRESULT CEffectTool::Tick(const _float& fTimeDelta)
 	if (FAILED(EffectsList()))
 		return E_FAIL;
 
-	if (FAILED(DataFIles()))
+	if (FAILED(DataFiles()))
 		return E_FAIL;
 
 	return S_OK;
@@ -116,6 +116,9 @@ void CEffectTool::InfoView()
 		m_strCurrentMeshCategory = "";
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Texture", &m_iCurrentEffectType, 1))
+		m_strCurrentCategory = "";
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Particle", &m_iCurrentEffectType, 2))
 		m_strCurrentCategory = "";
 }
 
@@ -485,9 +488,12 @@ HRESULT CEffectTool::EffectDetail()
 	else
 		m_pCurrentEffect->m_vColor_End = m_pCurrentEffect->m_vColor_Start;
 
-	ImGui::InputFloat2("UV Speed * 0.001f", (_float*)&m_pCurrentEffect->m_vUV_Speed);
+	ImGui::InputFloat4("Color Clip", (_float*)&m_pCurrentEffect->m_Variables.vColor_Clip);
 
-	ImGui::InputFloat2("UV_Direction", (_float*)&m_pCurrentEffect->m_Variables.vUV_Direction);
+	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
+
+	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);
+	ImGui::InputFloat("UV_Wave_Speed", (_float*)&m_pCurrentEffect->m_Variables.fUV_WaveSpeed);
 	ImGui::Checkbox("IsSequence", &m_pCurrentEffect->m_IsSequence);
 
 	if (m_pCurrentEffect->m_IsSequence)
@@ -503,7 +509,17 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::Text("UV_Speed_Offset");
 	ImGui::Text("UV_Tiles_Offset");*/
 
-	//m_pCurrentEffect
+	if (2 == m_pCurrentEffect->m_iEffectType)
+	{
+		ImGui::InputFloat3("Particle Direction", (_float*)&m_pCurrentEffect->m_Particle.vEmitDirection);
+
+		const _char* hint = "Pass Name";
+		static _char szPassName[128] = "";
+		if (ImGui::Button("Select Pass"))
+			m_pCurrentEffect->m_strParticlePassName = szPassName;
+
+		ImGui::InputTextWithHint("Pass Name", hint, szPassName, IM_ARRAYSIZE(szPassName));
+	}
 
 	ImGui::End();
 
@@ -542,10 +558,12 @@ HRESULT CEffectTool::EffectsList()
 			_bool isSelected = (m_vecEffects[i] == m_vecEffects[m_iSelectedEffectIndex]);
 
 			string strItem = "";
-			if (TEXT("") == m_vecEffects[i]->m_tVoidEffectDesc.protoModel)
-				strItem = "Effect_" + to_string(i) + "_T";
-			else
+			if (0 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_M";
+			else if(1 == m_vecEffects[i]->m_iEffectType)
+				strItem = "Effect_" + to_string(i) + "_T";
+			else if(2 == m_vecEffects[i]->m_iEffectType)
+				strItem = "Effect_" + to_string(i) + "_P";
 
 			if (ImGui::Selectable(strItem.c_str(), isSelected))
 			{
@@ -567,16 +585,16 @@ HRESULT CEffectTool::EffectsList()
 	return S_OK;
 }
 
-HRESULT CEffectTool::DataFIles()
+HRESULT CEffectTool::DataFiles()
 {
 	ImGui::Begin("Data Files");
 
 	const _char* hint = "Enter the Name of New file";
-	ImGui::InputTextWithHint("NewFileName", hint, m_szGroupNameBuf, IM_ARRAYSIZE(m_szGroupNameBuf));
+	ImGui::InputTextWithHint("NewFileName", hint, m_szBundleNameBuf, IM_ARRAYSIZE(m_szBundleNameBuf));
 
 	if (ImGui::Button("Save"))
 	{
-		if (FAILED(Save(m_szGroupNameBuf)))
+		if (FAILED(Save(m_szBundleNameBuf)))
 			MSG_BOX("Save Failed");
 	}ImGui::SameLine();
 	if (ImGui::Button("Load"))
@@ -613,11 +631,15 @@ HRESULT CEffectTool::CreateEffect()
 	{
 		//tDesc.protoDiffuseTexture = TEXT("Prototype_Component_Texture_") + fs::path(m_BaseTexture.second.first).stem().generic_wstring();
 	}
+	else if (2 == m_iCurrentEffectType)
+	{
+	}
 	else
 	{
 		MSG_BOX("You need to select BaseMaterial");
 	}
 
+	tDesc.iEffectType = m_iCurrentEffectType;
 	tDesc.protoDiffuseTexture = m_BaseTexture.first + fs::path(m_BaseTexture.second.first).generic_wstring() + TEXT(".png");
 
 	if (TEXT("") != m_CurrentNoise.second.first)
@@ -690,10 +712,12 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 		shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
 
 		fs::path finalPath;
-		if(TEXT("") == m_vecEffects[i]->m_tVoidEffectDesc.protoModel)
-			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
-		else
+		if(0 == m_iCurrentEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_M" + ".xml";
+		else if (1 == m_iCurrentEffectType)
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
+		else if (2 == m_iCurrentEffectType)
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_P" + ".xml";
 
 		tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
 		document->LinkEndChild(decl);
@@ -703,8 +727,13 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 
 		tinyxml2::XMLElement* node = document->NewElement("ProtoNames");
 		tinyxml2::XMLElement* element = nullptr;
+		
 		root->LinkEndChild(node);
 		{
+			element = document->NewElement("EffectType");
+			element->SetAttribute("EffectType", m_vecEffects[i]->m_iEffectType);
+			node->LinkEndChild(element);
+
 			element = document->NewElement("BaseMesh");
 			if(TEXT("") == m_vecEffects[i]->m_tVoidEffectDesc.protoModel)
 				element->SetText("");
@@ -818,6 +847,13 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("Lerp", m_vecEffects[i]->m_bColor_Lerp);
 			node->LinkEndChild(element);
 
+			element = document->NewElement("Color_Clip");
+			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vColor_Clip.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vColor_Clip.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_Variables.vColor_Clip.z);
+			element->SetAttribute("W", m_vecEffects[i]->m_Variables.vColor_Clip.w);
+			node->LinkEndChild(element);
+
 			element = document->NewElement("LifeTime");
 			element->SetAttribute("LifeTime", m_vecEffects[i]->m_fLifeTime);
 			node->LinkEndChild(element);
@@ -831,9 +867,9 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("Y", m_vecEffects[i]->m_vUV_Speed.y);
 			node->LinkEndChild(element);
 
-			element = document->NewElement("UV_Direction");
-			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vUV_Direction.x);
-			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vUV_Direction.y);
+			element = document->NewElement("UV_Wave");
+			element->SetAttribute("Wave", m_vecEffects[i]->m_Variables.iUV_Wave);
+			element->SetAttribute("WaveSpeed", m_vecEffects[i]->m_Variables.fUV_WaveSpeed);
 			node->LinkEndChild(element);
 
 			element = document->NewElement("Is_Sequence");
@@ -864,6 +900,28 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 
 			element = document->NewElement("Radial");
 			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fRadial);
+			node->LinkEndChild(element);
+		}
+
+		node = document->NewElement("Billboard");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("Billboard");
+			element->SetAttribute("Billboard", m_vecEffects[i]->m_Billboard.iBillboard);
+			node->LinkEndChild(element);
+		}
+
+		node = document->NewElement("Particle");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("EmitDirection");
+			element->SetAttribute("X", m_vecEffects[i]->m_Particle.vEmitDirection.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Particle.vEmitDirection.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_Particle.vEmitDirection.z);
+			node->LinkEndChild(element);
+			
+			element = document->NewElement("PassName");
+			element->SetText(m_vecEffects[i]->m_strParticlePassName.c_str());
 			node->LinkEndChild(element);
 		}
 
@@ -899,7 +957,11 @@ HRESULT CEffectTool::Load()
 		if (!node) { MSG_BOX("Fail to Load"); return E_FAIL; }
 
 		tinyxml2::XMLElement* element = nullptr;
+
 		element = node->FirstChildElement();
+		tDesc.iEffectType = element->IntAttribute("EffectType");
+	
+		element = element->NextSiblingElement();
 		if (element->GetText())
 		{
 			wstring strBaseMesh = m_pUtils->ToWString(element->GetText());
@@ -959,7 +1021,6 @@ HRESULT CEffectTool::Load()
 			tinyxml2::XMLElement* element = nullptr;
 
 			element = node->FirstChildElement();
-
 			m_pCurrentEffect->m_vPosition_Start.x = element->FloatAttribute("X");
 			m_pCurrentEffect->m_vPosition_Start.y = element->FloatAttribute("Y");
 			m_pCurrentEffect->m_vPosition_Start.z = element->FloatAttribute("Z");
@@ -1027,6 +1088,12 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_bColor_Lerp = element->BoolAttribute("Lerp");
 
 			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_Variables.vColor_Clip.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_Variables.vColor_Clip.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_Variables.vColor_Clip.z = element->FloatAttribute("Z");
+			m_pCurrentEffect->m_Variables.vColor_Clip.w = element->FloatAttribute("W");
+			
+			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_fLifeTime = element->FloatAttribute("LifeTime");
 		}
 
@@ -1039,8 +1106,8 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_vUV_Speed.y = element->FloatAttribute("Y");
 
 			element = element->NextSiblingElement();
-			m_pCurrentEffect->m_Variables.vUV_Direction.x = element->FloatAttribute("X");
-			m_pCurrentEffect->m_Variables.vUV_Direction.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_Variables.iUV_Wave = element->FloatAttribute("Wave");
+			m_pCurrentEffect->m_Variables.fUV_WaveSpeed = element->FloatAttribute("WaveSpeed");
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_IsSequence = element->BoolAttribute("IsSequence");
@@ -1064,6 +1131,32 @@ HRESULT CEffectTool::Load()
 			element = node->FirstChildElement();
 			m_pCurrentEffect->m_Intensity.fBloom = element->FloatAttribute("Intensity");
 			m_pCurrentEffect->m_Intensity.fRadial = element->FloatAttribute("Intensity");
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			m_pCurrentEffect->m_Billboard.iBillboard = element->IntAttribute("Billboard");
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			m_pCurrentEffect->m_Particle.vEmitDirection.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_Particle.vEmitDirection.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_Particle.vEmitDirection.z = element->FloatAttribute("Z");
+
+			element = element->NextSiblingElement();
+			if (element->GetText())
+			{
+				string strParticlePassName = element->GetText();
+				if (strParticlePassName.length() > 0)
+					m_pCurrentEffect->m_strParticlePassName = strParticlePassName;
+			}
 		}
 
 		m_vecEffects.push_back(m_pCurrentEffect);

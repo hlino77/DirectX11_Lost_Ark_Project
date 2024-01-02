@@ -7,6 +7,7 @@
 BEGIN(Engine)
 
 class CTexture;
+class CShader;
 class CVIBuffer_Point;
 
 END
@@ -20,6 +21,7 @@ class CVoidEffect : public CGameObject
 public:
 	struct tagVoidEffectDesc
 	{
+		_int	iEffectType				= -1;
 		wstring protoModel				= TEXT("");
 		wstring protoDiffuseTexture		= TEXT("");
 		wstring protoNoiseTexture		= TEXT("");
@@ -38,12 +40,15 @@ public:
 	virtual void	Tick(_float fTimeDelta);
 	virtual void	LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual HRESULT Render_Particle();
 
 private:
 	HRESULT Ready_Components(tagVoidEffectDesc* pDesc);
 	virtual HRESULT Ready_Components() override { return E_FAIL; };
 
 public:
+	_int	m_iEffectType = -1;
+
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bPosition_Lerp = false;
@@ -75,26 +80,37 @@ public:
 	struct tagFX_Variables
 	{
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
-		Vec2	vUV_Direction = Vec2(1.f, 1.f);
+		//Vec2	vUV_Direction = Vec2(1.f, 1.f);
+		_int	iUV_Wave = 0;
+		_float	fUV_WaveSpeed = 1.f;
 		Vec2	vUV_TileCount = Vec2(1.f, 1.f);
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);
+		Color	vColor_Clip = Vec4(0.f, 0.f, 0.f, 0.f);
 	} m_Variables;
 
 	struct tagFX_Intensity
 	{
 		_float	fBloom = 0.f;
 		_float	fRadial = 0.f;
-		Vec2	vPadding;
+		Vec2	padding;
 	} m_Intensity;
 	
 	struct tagFX_Billboard
 	{
 		_int	iBillboard = true;
-		Vec3	vPadding;
+		Vec3	padding;
 	} m_Billboard;
 
-	//_bool	m_bBlendNonBlend = 0.f;
+	struct tagFX_Particle
+	{
+		_float	fGameTime = 0.f;
+		Vec3	vEmitPosition = Vec3(0.f, 0.f, 0.f);
+		Vec3	vEmitDirection = Vec3(0.f, 0.f, 0.f);
+		_float	fTimeStep = 0.f;
+	} m_Particle;
+
+	string m_strParticlePassName = "Smoke";
 
 	tagVoidEffectDesc m_tVoidEffectDesc;
 
@@ -107,7 +123,7 @@ private:
 	_float	m_fSequenceTimer = 0.0f;
 
 private:
-	CVIBuffer_Point* m_pBuffer		= nullptr;
+	CVIBuffer*	m_pBuffer		= nullptr;
 	CTexture*	m_pDiffuseTexture	= nullptr;
 	CTexture*	m_pNoiseTexture		= nullptr;
 	CTexture*	m_pMaskTexture		= nullptr;
@@ -115,6 +131,8 @@ private:
 	CTexture*	m_pDissolveTexture	= nullptr;
 
 	EffectMaterialFlag m_tNoisMaskEmisDslv;
+
+	ID3D11ShaderResourceView* m_pRandomTextureSRV = nullptr;
 
 public:
 	static CVoidEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

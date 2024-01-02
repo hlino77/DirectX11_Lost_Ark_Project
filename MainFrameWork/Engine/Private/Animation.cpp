@@ -81,7 +81,7 @@ HRESULT CAnimation::Play_Animation(_float fTimeDelta)
 
 	if (m_tKeyDesc.fSumTime >= fTimePerFrame)
 	{
-		_uint iFrame = m_tKeyDesc.fSumTime / fTimePerFrame;
+		_uint iFrame = (_uint)(m_tKeyDesc.fSumTime / fTimePerFrame);
 		m_tKeyDesc.fSumTime -= fTimePerFrame * iFrame;
 		m_tKeyDesc.iCurrFrame = (m_tKeyDesc.iCurrFrame + iFrame) % m_iFrameCount;
 		m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame + 1) % m_iFrameCount;
@@ -106,7 +106,7 @@ HRESULT CAnimation::Play_Reverse_Animation(_float fTimeDelta)
 
 	if (m_tKeyDesc.fSumTime >= fTimePerFrame)
 	{
-		_uint iFrame = m_tKeyDesc.fSumTime / fTimePerFrame;
+		_uint iFrame = (_uint)(m_tKeyDesc.fSumTime / fTimePerFrame);
 		m_tKeyDesc.fSumTime -= fTimePerFrame * iFrame;
 		m_tKeyDesc.iCurrFrame = (m_tKeyDesc.iCurrFrame - iFrame) % m_iFrameCount;
 		m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame - 1) % m_iFrameCount;

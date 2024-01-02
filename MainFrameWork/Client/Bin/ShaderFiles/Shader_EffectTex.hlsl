@@ -77,7 +77,12 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 /* 전달받은 픽셀의 정보를 이용하여 픽셀의 최종적인 색을 결정하자. */
 float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
 {
-    float2 vNewUV = ((In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset) * vUV_Direction;
+    float2 vNewUV = float2(0.f, 0.f);
+    
+    if (!bUV_Wave)
+        vNewUV = (In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
+    else
+        vNewUV = ((((In.vTexcoord + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
     
     float  fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);
@@ -94,7 +99,12 @@ float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    clip(vColor.a - 0.01f);
+    
+    clip(vColor.a - vColor_Clip.a);
+    
+    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
+        discard;
+    
     vColor *= fMask;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive

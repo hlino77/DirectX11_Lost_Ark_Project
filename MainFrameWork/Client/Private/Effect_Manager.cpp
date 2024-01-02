@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "Effect_Mesh.h"
 #include "Effect_Texture.h"
+#include "Effect_Particle.h"
 #include <filesystem>
 #include "tinyxml2.h"
 #include "GameInstance.h"
@@ -54,6 +55,9 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 			tinyxml2::XMLElement* element = nullptr;
 			element = node->FirstChildElement();
+			tDesc.iEffectType = element->IntAttribute("EffectType");
+
+			element = element->NextSiblingElement();
 			if (element->GetText())
 			{
 				wstring strBaseMesh = pUtils->ToWString(element->GetText());
@@ -119,6 +123,8 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vPosition_End.z = element->FloatAttribute("Z");
 
 				element = element->NextSiblingElement();
+				tDesc.bPosition_Lerp = element->BoolAttribute("Lerp");
+
 				element = element->NextSiblingElement();
 				tDesc.vRotation_Start.x = element->FloatAttribute("X");
 				tDesc.vRotation_Start.y = element->FloatAttribute("Y");
@@ -130,6 +136,8 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vRotation_End.z = element->FloatAttribute("Z");
 
 				element = element->NextSiblingElement();
+				tDesc.bRotation_Lerp = element->BoolAttribute("Lerp");
+
 				element = element->NextSiblingElement();
 				tDesc.vScaling_Start.x = element->FloatAttribute("X");
 				tDesc.vScaling_Start.y = element->FloatAttribute("Y");
@@ -141,6 +149,8 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vScaling_End.z = element->FloatAttribute("Z");
 
 				element = element->NextSiblingElement();
+				tDesc.bScaling_Lerp = element->BoolAttribute("Lerp");
+
 				element = element->NextSiblingElement();
 				tDesc.vVelocity_Start.x = element->FloatAttribute("X");
 				tDesc.vVelocity_Start.y = element->FloatAttribute("Y");
@@ -152,6 +162,8 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vVelocity_End.z = element->FloatAttribute("Z");
 
 				element = element->NextSiblingElement();
+				tDesc.bVelocity_Lerp = element->BoolAttribute("Lerp");
+
 				element = element->NextSiblingElement();
 				tDesc.vColor_Start.x = element->FloatAttribute("X");
 				tDesc.vColor_Start.y = element->FloatAttribute("Y");
@@ -165,6 +177,13 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vColor_End.w = element->FloatAttribute("W");
 
 				element = element->NextSiblingElement();
+				tDesc.bColor_Lerp = element->BoolAttribute("Lerp");
+
+				element = element->NextSiblingElement();
+				tDesc.vColor_Clip.x = element->FloatAttribute("X");
+				tDesc.vColor_Clip.y = element->FloatAttribute("Y");
+				tDesc.vColor_Clip.z = element->FloatAttribute("Z");
+				tDesc.vColor_Clip.w = element->FloatAttribute("W");
 
 				element = element->NextSiblingElement();
 				tDesc.fLifeTime = element->FloatAttribute("LifeTime");
@@ -179,8 +198,8 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vUV_Speed.y = element->FloatAttribute("Y");
 
 				element = element->NextSiblingElement();
-				tDesc.tVariables.vUV_Direction.x = element->FloatAttribute("X");
-				tDesc.tVariables.vUV_Direction.y = element->FloatAttribute("Y");
+				tDesc.iUV_Wave = element->IntAttribute("Wave");
+				tDesc.fUV_WaveSpeed = element->FloatAttribute("WaveSpeed");
 
 				element = element->NextSiblingElement();
 				tDesc.IsSequence = element->BoolAttribute("IsSequence");
@@ -189,12 +208,12 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.fSequenceTerm = element->FloatAttribute("Sequence_Term");
 
 				element = element->NextSiblingElement();
-				tDesc.tVariables.vUV_TileCount.x = element->FloatAttribute("X");
-				tDesc.tVariables.vUV_TileCount.y = element->FloatAttribute("Y");
+				tDesc.vUV_TileCount.x = element->FloatAttribute("X");
+				tDesc.vUV_TileCount.y = element->FloatAttribute("Y");
 
 				element = element->NextSiblingElement();
-				tDesc.tVariables.vUV_TileIndex.x = element->FloatAttribute("X");
-				tDesc.tVariables.vUV_TileIndex.y = element->FloatAttribute("Y");
+				tDesc.vUV_TileIndex.x = element->FloatAttribute("X");
+				tDesc.vUV_TileIndex.y = element->FloatAttribute("Y");
 			}
 
 			node = node->NextSiblingElement();
@@ -202,19 +221,50 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tinyxml2::XMLElement* element = nullptr;
 
 				element = node->FirstChildElement();
-				tDesc.tIntensity.fBloom = element->FloatAttribute("Intensity");
-				tDesc.tIntensity.fRadial = element->FloatAttribute("Intensity");
+				tDesc.fBloom = element->FloatAttribute("Intensity");
+				tDesc.fRadial = element->FloatAttribute("Intensity");
+			}
+
+			node = node->NextSiblingElement();
+			{
+				tinyxml2::XMLElement* element = nullptr;
+
+				element = node->FirstChildElement();
+				tDesc.iBillboard = element->IntAttribute("Billboard");
+			}
+
+			node = node->NextSiblingElement();
+			{
+				tinyxml2::XMLElement* element = nullptr;
+
+				element = node->FirstChildElement();
+				tDesc.vEmitDirection.x = element->FloatAttribute("X");
+				tDesc.vEmitDirection.y = element->FloatAttribute("Y");
+				tDesc.vEmitDirection.z = element->FloatAttribute("Z");
+
+				element = element->NextSiblingElement();
+				if (element->GetText())
+				{
+					string strParticlePassName = element->GetText();
+					if (strParticlePassName.length() > 0)
+						tDesc.strParticlePassName = strParticlePassName;
+				}
 			}
 
 			wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + strBundleTag + TEXT("_") + entry.path().stem().generic_wstring();
-			if (TEXT("") == tDesc.protoModel)
+			if (0 == tDesc.iEffectType)
+			{
+				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Mesh::Create(m_pDevice, m_pContext, &tDesc))))
+					return E_FAIL;
+			}
+			else if(1 == tDesc.iEffectType)
 			{
 				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Texture::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
-			else
+			else if(2 == tDesc.iEffectType)
 			{
-				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Mesh::Create(m_pDevice, m_pContext, &tDesc))))
+				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Particle::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
 

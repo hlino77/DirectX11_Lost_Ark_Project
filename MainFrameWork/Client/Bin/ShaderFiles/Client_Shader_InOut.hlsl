@@ -19,7 +19,6 @@ struct STATIC_INSTANCE_IN
     matrix		matWorld : INST;
 };
 
-
 struct FXMESH_IN
 {
     float3  vPosition : POSITION;
@@ -57,6 +56,14 @@ struct SKELETAL_INSTANCE_IN
     matrix	matWorld : INST;
 };
 
+struct PARTICLE_IN
+{
+    float3 vPosition : POSITION;
+    float3 vVelocity : VELOCITY;
+    float2 vSize : SIZE;
+    float fAge : AGE;
+    uint iType : TYPE;
+};
 
 struct VS_OUT
 {

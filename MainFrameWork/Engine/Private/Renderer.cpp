@@ -415,7 +415,7 @@ HRESULT CRenderer::Ready_InstanceRender()
 					_uint iIndex = 0;
 					for (auto& Object : ObjectList.second)
 					{
-						Object->Add_InstanceData(ObjectList.second.size(), iIndex);
+						Object->Add_InstanceData((_uint)ObjectList.second.size(), iIndex);
 					}
 				}
 			}
@@ -629,7 +629,7 @@ HRESULT CRenderer::Render_ShadowDepth()
 	{
 		if (!ObjectList.second.empty())
 		{
-			if (FAILED(ObjectList.second[0]->Render_ShadowDepth_Instance(ObjectList.second.size())))
+			if (FAILED(ObjectList.second[0]->Render_ShadowDepth_Instance((_uint)ObjectList.second.size())))
 				return E_FAIL;
 
 			for (auto& Object : ObjectList.second)
@@ -715,7 +715,7 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 	{
 		if (!ObjectList.second.empty())
 		{
-			if (FAILED(ObjectList.second[0]->Render_Instance(ObjectList.second.size())))
+			if (FAILED(ObjectList.second[0]->Render_Instance((_uint)ObjectList.second.size())))
 				return E_FAIL;
 
 			for (auto& Object : ObjectList.second)
@@ -1426,8 +1426,8 @@ HRESULT CRenderer::Ready_ShadowDSV()
 		D3D11_TEXTURE2D_DESC	TextureDesc;
 		ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-		TextureDesc.Width = m_fShadowTargetSizeRatio * ViewportDesc.Width;
-		TextureDesc.Height = m_fShadowTargetSizeRatio * ViewportDesc.Height;
+		TextureDesc.Width = (_uint)(m_fShadowTargetSizeRatio * ViewportDesc.Width);
+		TextureDesc.Height = (_uint)(m_fShadowTargetSizeRatio * ViewportDesc.Height);
 		TextureDesc.MipLevels = 1;
 		TextureDesc.ArraySize = 1;
 		TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1454,8 +1454,8 @@ HRESULT CRenderer::Ready_ShadowDSV()
 		D3D11_TEXTURE2D_DESC	TextureDesc;
 		ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-		TextureDesc.Width = m_fStaticShadowTargetSizeRatio * ViewportDesc.Width;
-		TextureDesc.Height = m_fStaticShadowTargetSizeRatio * ViewportDesc.Height;
+		TextureDesc.Width = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Width);
+		TextureDesc.Height = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Height);
 		TextureDesc.MipLevels = 1;
 		TextureDesc.ArraySize = 1;
 		TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1517,8 +1517,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = ViewportDesc.Width / m_fSampleRatio4x4;
-	TextureDesc.Height = 0.25f * ViewportDesc.Height / m_fSampleRatio4x4;
+	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio4x4);
+	TextureDesc.Height = (_uint)(0.25f * ViewportDesc.Height / m_fSampleRatio4x4);
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1535,8 +1535,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = ViewportDesc.Width / m_fSampleRatio16x16;
-	TextureDesc.Height = ViewportDesc.Height / m_fSampleRatio16x16;
+	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio16x16);
+	TextureDesc.Height = (_uint)(ViewportDesc.Height / m_fSampleRatio16x16);
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1553,8 +1553,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = ViewportDesc.Width / m_fSampleRatio64x64;
-	TextureDesc.Height = ViewportDesc.Height / m_fSampleRatio64x64;
+	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio64x64);
+	TextureDesc.Height = (_uint)(ViewportDesc.Height / m_fSampleRatio64x64);
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;

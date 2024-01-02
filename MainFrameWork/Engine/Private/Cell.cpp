@@ -165,13 +165,11 @@ void CCell::Set_Normal()
 
 		Vec3 vPoint[3] = { m_vPoints[0], m_vPoints[1], m_vPoints[2] };
 
-
 		m_vPoints[0] = vPoint[2];
 		m_vPoints[1] = vPoint[1];
 		m_vPoints[2] = vPoint[0];
 
-
-		_uint iNeighbor[3] = { m_iNeighbor[CELLLINE::LINE_AB], m_iNeighbor[CELLLINE::LINE_BC], m_iNeighbor[CELLLINE::LINE_CA] };
+		_uint iNeighbor[3] = { (_uint)m_iNeighbor[LINE::LINE_AB], (_uint)m_iNeighbor[LINE::LINE_BC], (_uint)m_iNeighbor[LINE::LINE_CA] };
 
 		m_iNeighbor[CELLLINE::LINE_AB] = iNeighbor[CELLLINE::LINE_BC];
 		m_iNeighbor[CELLLINE::LINE_BC] = iNeighbor[CELLLINE::LINE_AB];

@@ -220,6 +220,9 @@
     <Filter Include="02. ServerCore\03. Thread">
       <UniqueIdentifier>{576ee108-bcde-471d-ace4-2bd595f781f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle">
+      <UniqueIdentifier>{21e0a24e-2ad2-4d84-9d3e-8076f9424e2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
@@ -590,6 +593,9 @@
     <ClInclude Include="..\Public\QuadTreeNode.h">
       <Filter>01.Utiltiy\10. QuadTree</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Particle.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -927,6 +933,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\QuadTreeMgr.cpp">
       <Filter>01.Utiltiy\10. QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Particle.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
