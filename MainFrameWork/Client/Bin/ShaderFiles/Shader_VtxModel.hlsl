@@ -50,9 +50,14 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         }
         else
         {
-            Out.vMetallic = Out.vDiffuse * vSpecular.r * (1.f - vSpecular.a);
-            Out.vRoughness = Out.vDiffuse * vSpecular.g * vSpecular.a;
+            Out.vMetallic = Out.vDiffuse * (1.f - vSpecular);
+            Out.vRoughness = Out.vDiffuse * vSpecular;
         }
+    }
+    else
+    {
+        Out.vMetallic = 0.f;
+        Out.vRoughness = Out.vDiffuse;
     }
     
     if (1.f == SpecMaskEmisExtr.z)
