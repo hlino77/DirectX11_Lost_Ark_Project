@@ -29,7 +29,7 @@ public:
 
 
 private:
-
+	Vec3 Get_LevelSpawnPos(LEVELID eLevel);
 
 	USE_LOCK
 

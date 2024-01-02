@@ -441,6 +441,7 @@ HRESULT CLevel_Bern::Send_UserInfo()
 		Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 		pPlayer->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
+		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(90.63f, 0.0f, 99.44f));
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();

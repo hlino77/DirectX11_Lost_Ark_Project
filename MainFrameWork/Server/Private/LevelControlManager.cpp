@@ -89,7 +89,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		Desc.iCurrLevel = iLevel;
 
 		Matrix matWorld = XMMatrixIdentity();
-		matWorld.Translation(Vec3(100.f, 1.f, 100.f));
+		matWorld.Translation(Get_LevelSpawnPos((LEVELID)iLevel));
 
 		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player"), &Desc));
 		if (nullptr == pPlayer)
@@ -174,6 +174,7 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 	Matrix matWorld = XMMatrixIdentity();
 	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
+	matWorld.Translation(Get_LevelSpawnPos((LEVELID)iNextLevel));
 	pPlayer->Get_TransformCom()->Set_Scale(vScale);
 
 	vector<CGameObject*> NextLevelPlayers;
@@ -181,12 +182,15 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 	_bool bEnter = false;
 	while (!bEnter)
 	{
-		NextLevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+		vector<CGameObject*>& LevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
-		for (auto& Player : NextLevelPlayers)
+		for (auto& Player : LevelPlayers)
 		{
 			if (Player == pPlayer)
+			{
 				bEnter = true;
+				NextLevelPlayers = LevelPlayers;
+			}
 		}
 	}
 
@@ -273,6 +277,26 @@ void CLevelControlManager::Send_LevelState(shared_ptr<CGameSession>& pSession, _
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	pSession->Send(pSendBuffer);
+}
+
+Vec3 CLevelControlManager::Get_LevelSpawnPos(LEVELID eLevel)
+{
+	Vec3 vPos;
+
+	switch (eLevel)
+	{
+	case LEVELID::LEVEL_BERN:
+		vPos = Vec3(90.63f, 0.0f, 99.44f);
+		break;
+	case LEVELID::LEVEL_CHAOS_1:
+		vPos = Vec3(117.93f, 0.19f, 100.2f);
+		break;
+	case LEVELID::LEVEL_CHAOS_2:
+		break;
+	}
+
+
+	return vPos;
 }
 
 

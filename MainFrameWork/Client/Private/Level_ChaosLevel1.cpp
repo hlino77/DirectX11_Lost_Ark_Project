@@ -68,7 +68,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	if (FAILED(Ready_Layer_Effect(LAYER_TYPE::LAYER_EFFECT)))
 		return E_FAIL;
 
-	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
+	if (FAILED(Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
 	{
 		return E_FAIL;
 	}
@@ -391,6 +391,7 @@ HRESULT CLevel_ChaosLevel1::Send_UserInfo()
 		Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 		pPlayer->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
+		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.93f, 0.19f, 100.2f));
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();
