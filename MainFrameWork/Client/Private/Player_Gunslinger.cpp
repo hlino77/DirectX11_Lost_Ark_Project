@@ -155,9 +155,9 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 
 	if (KEY_TAP(KEY::Q))
 	{
-		HRESULT hr = EFFECT_START(TEXT("tempParticle"), m_pTransformCom)
+		HRESULT hr = EFFECT_START(TEXT("tempHelix0"), m_pTransformCom)
 		if (E_FAIL == hr)
-			MSG_BOX("Failed to Create tempParticle");
+			MSG_BOX("Failed to Create tempHelix0");
 	}
 
 	__super::Tick(fTimeDelta);

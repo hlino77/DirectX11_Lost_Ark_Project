@@ -198,8 +198,8 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vUV_Speed.y = element->FloatAttribute("Y");
 
 				element = element->NextSiblingElement();
-				tDesc.vUV_Direction.x = element->FloatAttribute("X");
-				tDesc.vUV_Direction.y = element->FloatAttribute("Y");
+				tDesc.iUV_Wave = element->IntAttribute("Wave");
+				tDesc.fUV_WaveSpeed = element->FloatAttribute("WaveSpeed");
 
 				element = element->NextSiblingElement();
 				tDesc.IsSequence = element->BoolAttribute("IsSequence");

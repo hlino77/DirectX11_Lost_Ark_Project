@@ -58,7 +58,8 @@ public:
 
 		// Variables
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
-		Vec2	vUV_Direction = Vec2(1.f, 1.f);
+		_int	iUV_Wave = false;
+		_float	fUV_WaveSpeed = 1.f;
 		Vec2	vUV_TileCount = Vec2(1.f, 1.f);
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Color(0.f, 0.f, 0.f, 0.f);
@@ -122,7 +123,8 @@ protected:
 	struct tagFX_Variables
 	{
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
-		Vec2	vUV_Direction = Vec2(1.f, 1.f);
+		_int	iUV_Wave = false;
+		_float	fUV_WaveSpeed = 1.f;
 		Vec2	vUV_TileCount = Vec2(1.f, 1.f);
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);

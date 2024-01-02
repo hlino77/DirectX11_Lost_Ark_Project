@@ -490,9 +490,10 @@ HRESULT CEffectTool::EffectDetail()
 
 	ImGui::InputFloat4("Color Clip", (_float*)&m_pCurrentEffect->m_Variables.vColor_Clip);
 
-	ImGui::InputFloat2("UV Speed * 0.001f", (_float*)&m_pCurrentEffect->m_vUV_Speed);
+	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
-	ImGui::InputFloat2("UV_Direction", (_float*)&m_pCurrentEffect->m_Variables.vUV_Direction);
+	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);
+	ImGui::InputFloat("UV_Wave_Speed", (_float*)&m_pCurrentEffect->m_Variables.fUV_WaveSpeed);
 	ImGui::Checkbox("IsSequence", &m_pCurrentEffect->m_IsSequence);
 
 	if (m_pCurrentEffect->m_IsSequence)
@@ -712,9 +713,9 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 
 		fs::path finalPath;
 		if(0 == m_iCurrentEffectType)
-			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
-		else if (1 == m_iCurrentEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_M" + ".xml";
+		else if (1 == m_iCurrentEffectType)
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
 		else if (2 == m_iCurrentEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_P" + ".xml";
 
@@ -866,9 +867,9 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("Y", m_vecEffects[i]->m_vUV_Speed.y);
 			node->LinkEndChild(element);
 
-			element = document->NewElement("UV_Direction");
-			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vUV_Direction.x);
-			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vUV_Direction.y);
+			element = document->NewElement("UV_Wave");
+			element->SetAttribute("Wave", m_vecEffects[i]->m_Variables.iUV_Wave);
+			element->SetAttribute("WaveSpeed", m_vecEffects[i]->m_Variables.fUV_WaveSpeed);
 			node->LinkEndChild(element);
 
 			element = document->NewElement("Is_Sequence");
@@ -1105,8 +1106,8 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_vUV_Speed.y = element->FloatAttribute("Y");
 
 			element = element->NextSiblingElement();
-			m_pCurrentEffect->m_Variables.vUV_Direction.x = element->FloatAttribute("X");
-			m_pCurrentEffect->m_Variables.vUV_Direction.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_Variables.iUV_Wave = element->FloatAttribute("Wave");
+			m_pCurrentEffect->m_Variables.fUV_WaveSpeed = element->FloatAttribute("WaveSpeed");
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_IsSequence = element->BoolAttribute("IsSequence");

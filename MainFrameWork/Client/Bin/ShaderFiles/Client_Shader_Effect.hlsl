@@ -5,7 +5,8 @@
 cbuffer FX_Variables
 {
     float2 vUV_Offset = float2(0.f, 0.f);
-    float2 vUV_Direction = float2(1.f, 1.f);
+    bool bUV_Wave = false;
+    float fUV_WaveSpeed = 1.f;
     float2 vUV_TileCount = float2(1.f, 1.f);
     float2 vUV_TileIndex = float2(0.f, 0.f);
     float4 vColor_Offset = float4(0.f, 0.f, 0.f, 0.f);

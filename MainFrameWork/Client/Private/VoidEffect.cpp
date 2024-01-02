@@ -79,7 +79,8 @@ void CVoidEffect::Tick(_float fTimeDelta)
 	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 
 	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
-		* XMMatrixRotationRollPitchYaw(vOffsetRotation.y, vOffsetRotation.x, vOffsetRotation.z) * XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))
+		* XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
 
 void CVoidEffect::LateTick(_float fTimeDelta)
@@ -93,8 +94,8 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 HRESULT CVoidEffect::Render()
 {
-	m_Variables.vUV_Offset.x += m_vUV_Speed.x * m_fTimeAcc * 0.001f;
-	m_Variables.vUV_Offset.y += m_vUV_Speed.y * m_fTimeAcc * 0.001f;
+	m_Variables.vUV_Offset.x = m_vUV_Speed.x * m_fTimeAcc;
+	m_Variables.vUV_Offset.y = m_vUV_Speed.y * m_fTimeAcc;
 
 	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
 	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;

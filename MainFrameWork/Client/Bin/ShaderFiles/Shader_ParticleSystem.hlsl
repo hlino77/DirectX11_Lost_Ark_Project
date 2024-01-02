@@ -184,7 +184,12 @@ void GS_DRAW_SMOKE(point VS_OUT_SMOKE In[1], inout TriangleStream<GS_OUT_SMOKE> 
 
 float4 PS_DRAW_SMOKE(GS_OUT_SMOKE In) : SV_Target
 {
-    float2 vNewUV = ((In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset) * vUV_Direction;
+    float2 vNewUV = float2(0.f, 0.f);
+    
+    if (!bUV_Wave)
+        vNewUV = (In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
+    else
+        vNewUV = ((((In.vTexcoord + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
     
     float fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);

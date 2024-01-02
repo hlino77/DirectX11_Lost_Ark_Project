@@ -22,10 +22,12 @@ VS_OUT VS_MAIN_FXMESH(STATIC_IN In)
 
 float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
 {
-    //float2 vUV_TileOffset = (1.f / vUV_TileCount) * vUV_TileIndex;
-    //float2 vNewUV = In.vTexUV + vUV_Offset * vUV_Direction;
-    //float2 vNewUV = (In.vTexUV / vUV_TileCount * (vUV_TileIndex + 1.f) + vUV_Offset) * vUV_Direction;
-    float2 vNewUV = ((In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset) * vUV_Direction;
+    float2 vNewUV = float2(0.f, 0.f);
+    
+    if (!bUV_Wave)
+        vNewUV = (In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
+    else
+        vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
     
     float fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);    
