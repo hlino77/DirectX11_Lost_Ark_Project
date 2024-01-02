@@ -581,12 +581,7 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 		return E_FAIL;
 
 	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
-	{
-		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))	// 임시 패스
-			return E_FAIL;
-
 		return S_OK;
-	}
 
 	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
 
@@ -619,7 +614,41 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 	return S_OK;
 }
 
+HRESULT CModel::Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CShader*& pShader, _uint iStride)
+{
+	for (_uint i = 0; i < m_iNumMeshes; ++i)
+		Render_SingleMeshInstance(pInstanceBuffer, iSize, pShader, i, iStride);
 
+	return S_OK;
+}
+
+HRESULT CModel::Render_SingleMeshInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CShader*& pShader, const _int& iMeshIndex, _uint iStride)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+		return S_OK;
+
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tFlag.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tFlag.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tFlag.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+		return E_FAIL;
+
+	if (FAILED(Render_Instance(pInstanceBuffer, iSize, pShader, iMeshIndex, iStride, "PBRInstance")))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstring& pFileName, _bool bClient, _bool bIsMapObject)
 {
@@ -1305,47 +1334,6 @@ HRESULT CModel::Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CSha
 		return E_FAIL;
 
 	if (FAILED(m_Meshes[iMeshIndex]->Render_Instance(pInstanceBuffer, iSize, iStride)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CModel::Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CShader*& pShader, _uint iStride)
-{
-	for (_uint i = 0; i < m_iNumMeshes; ++i)
-		Render_SingleMeshInstance(pInstanceBuffer, iSize, pShader, i, iStride);
-
-	return S_OK;
-}
-
-HRESULT CModel::Render_SingleMeshInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CShader*& pShader, const _int& iMeshIndex, _uint iStride)
-{
-	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-		return E_FAIL;
-
-	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
-	{
-		if (FAILED(Render_Instance(pInstanceBuffer, iSize, pShader, iMeshIndex, iStride, "Diffuse")))	// 임시 패스
-			return E_FAIL;
-
-		return S_OK;
-	}
-
-	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
-
-	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
-		tFlag.SpecMaskEmisExtr.x = 1.f;
-
-	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
-		tFlag.SpecMaskEmisExtr.y = 1.f;
-
-	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
-		tFlag.SpecMaskEmisExtr.z = 1.f;
-
-	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
-		return E_FAIL;
-
-	if (FAILED(Render_Instance(pInstanceBuffer, iSize, pShader, iMeshIndex, iStride, "PBRInstance")))
 		return E_FAIL;
 
 	return S_OK;

@@ -1419,9 +1419,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			return E_FAIL;
 		pUIManager->Loading_UI(1000.f);
 	}
-
-
-
 	
 	Safe_Release(pGameInstance);
 	return S_OK;
