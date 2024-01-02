@@ -259,14 +259,19 @@ void CPlayer_Controller::Input(const _float& fTimeDelta)
 
 void CPlayer_Controller::Move(const _float& fTimeDelta)
 {
-	if (Vec3(m_vNextMove - m_vPrePos).Length() <= 0.05f)
+	Vec3 vNext = m_vNextMove;
+	Vec3 vCur = m_vPrePos;
+	vNext.y = 0.0f; vCur.y = 0.0f;
+
+	if (Vec3(vNext - vCur).Length() <= 0.05f)
 	{
 		m_bMoveStop = true;
 		return;
 	}
 	else
+	{
 		m_bMoveStop = false;
-
+	}
 
 	if (false == m_IsDir)
 	{
@@ -297,7 +302,6 @@ void CPlayer_Controller::Look_Lerp(const _float& fTimeDelta)
 	{
 		m_pOwnerTransform->LookAt_Lerp_ForLand(m_vNextMove, m_fLerpLook_Speed, fTimeDelta);
 	}
-	
 }
 
 void CPlayer_Controller::Look(Vec3 vAt)
@@ -318,10 +322,10 @@ HRESULT CPlayer_Controller::Set_SkillSuccess(SKILL_KEY eKey, _bool IsSuccess)
 	return S_OK;
 }
 
-const _bool& CPlayer_Controller::Is_SkillSuccess(SKILL_KEY eKey)
+_bool CPlayer_Controller::Is_SkillSuccess(SKILL_KEY eKey)
 {
 	if (nullptr == m_pSkills[eKey])
-		return E_FAIL;
+		return false;
 
 	return m_pSkills[eKey]->Is_SkillSuccess();
 }

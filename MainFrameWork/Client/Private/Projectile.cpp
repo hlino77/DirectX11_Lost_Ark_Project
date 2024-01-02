@@ -68,11 +68,7 @@ void CProjectile::LateTick(_float fTimeDelta)
 				if (m_bColliderOut[i])
 					CCollisionManager::GetInstance()->Out_Colider(m_AttackCollider[i]);
 			}
-			if (true == m_IsMove) 
-				m_IsMove = false;
-
-			ZeroMemory(&m_ProjInfoDesc, sizeof(PROJINFO_DESC));
-			Set_Active(false);
+			Reset_Projectile();
 			CPool<CProjectile>::Return_Obj(this);
 		}
 		return;
@@ -140,6 +136,7 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 	m_ProjInfoDesc.bUseProjPos = pProjectileDesc->bUseProjPos;
 	m_ProjInfoDesc.bUseFactor = pProjectileDesc->bUseFactor;
 
+
 	Shoot(pProjectileDesc->fAttackTime);
 
 	return S_OK;
@@ -190,6 +187,14 @@ void CProjectile::AttackEnd()
 		}
 	}
 	m_bEnd = true;
+}
+
+void CProjectile::Reset_Projectile()
+{
+	m_IsMove = false;
+
+	ZeroMemory(&m_ProjInfoDesc, sizeof(PROJINFO_DESC));
+	Set_Active(false);
 }
 
 HRESULT CProjectile::Ready_Components()

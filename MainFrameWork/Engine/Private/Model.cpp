@@ -182,6 +182,19 @@ HRESULT CModel::Initialize(void * pArg)
 		m_PrevKeyFrameDatas.resize(m_ModelBones.size(), KeyData);
 	}
 		
+	if (nullptr != pArg)
+	{
+		CHANGECOLOR* pColorDesc = (CHANGECOLOR*)pArg;
+
+		for (size_t i = 0; i < 20; i++)
+		{
+			m_vColor_R = pColorDesc->vColor_R;
+			m_vColor_G = pColorDesc->vColor_G;
+			m_vColor_B = pColorDesc->vColor_B;
+			m_bChangeColor = true;
+		}
+	}
+
 	return S_OK;
 }
 
@@ -406,6 +419,18 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 	return S_OK;
 }
 
+HRESULT CModel::Bind_ChangeColor(CShader* pShader, _uint iMeshIndex)
+{
+	if (false == m_bChangeColor)
+		return E_FAIL;
+
+	pShader->Bind_RawValue("g_vColor_R", &m_vColor_R, sizeof(Vec4));
+	pShader->Bind_RawValue("g_vColor_G", &m_vColor_G, sizeof(Vec4));
+	pShader->Bind_RawValue("g_vColor_B", &m_vColor_B, sizeof(Vec4));
+
+	return S_OK;
+}
+
 _int CModel::Is_HairTexture()
 {
 	for (size_t i = 0; i < m_Materials.size(); i++)
@@ -577,8 +602,19 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
-	if (FAILED(Render(pShader, iMeshIndex, "PBR")))
-		return E_FAIL;
+	if (true == m_bChangeColor)
+	{
+		if (FAILED(Bind_ChangeColor(pShader, iMeshIndex)))
+			return E_FAIL;
+
+		if (FAILED(Render(pShader, iMeshIndex, "ChangeColor")))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "PBR")))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -755,7 +791,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				if (m_eModelType == TYPE::TYPE_ANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
 				MaterialDesc.pTexture[aiTextureType_SPECULAR] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_SPECULAR])
@@ -775,7 +811,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				if (m_eModelType == TYPE::TYPE_ANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
 				MaterialDesc.pTexture[aiTextureType_NORMALS] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_NORMALS])
@@ -795,7 +831,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				if (m_eModelType == TYPE::TYPE_ANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
 				MaterialDesc.pTexture[aiTextureType_EMISSIVE] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_EMISSIVE])
@@ -815,7 +851,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				if (m_eModelType == TYPE::TYPE_ANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
 				MaterialDesc.pTexture[aiTextureType_METALNESS] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_METALNESS])
@@ -835,7 +871,7 @@ HRESULT CModel::Load_MaterialData_FromFile()
 				if (m_eModelType == TYPE::TYPE_ANIM)
 					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = m_strFilePath + L"Texture/" + strTexture;
+					szFullPath = m_strFilePath + m_strFileName + L"/" + strTexture;
 
 				MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS])

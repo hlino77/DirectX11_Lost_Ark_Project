@@ -74,7 +74,7 @@ public:
 	HRESULT					Set_SkillSuccess(SKILL_KEY eKey, _bool IsSuccess);
 
 public:
-	const _bool&			Is_SkillSuccess(SKILL_KEY eKey);
+	_bool			Is_SkillSuccess(SKILL_KEY eKey);
 
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
 	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey]; }

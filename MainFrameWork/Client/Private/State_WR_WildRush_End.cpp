@@ -66,7 +66,6 @@ void CState_WR_WildRush_End::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Skill_WR_WildRush_Stop"));
 	}
 
-
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iWildRush))
 		m_pPlayer->Set_State(TEXT("Idle"));
 

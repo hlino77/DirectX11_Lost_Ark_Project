@@ -29,7 +29,7 @@ HRESULT CSkill_WDR_EndurePain::Initialize(void* pArg)
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.1f;
-	Proj_Desc.fRadius = 1.2f;
+	Proj_Desc.fRadius = 1.3f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 	Proj_Desc.iDamage = 50;
 	Proj_Desc.fRepulsion = 1.f;

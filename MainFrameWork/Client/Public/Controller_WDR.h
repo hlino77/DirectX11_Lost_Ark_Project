@@ -55,7 +55,7 @@ private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
-	_int	m_iIdentityGage = { 50 };
+	_int	m_iIdentityGage = { 0 };
 	_int	m_iMaxGage = { 50 };
 	_float  m_fTimdeAcc = { 0.f };
 

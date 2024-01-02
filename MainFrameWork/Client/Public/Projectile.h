@@ -57,6 +57,8 @@ public:
 	void	Shoot(_float fActiveTime);
 	void	AttackEnd();
 
+	void	Reset_Projectile();
+
 public:
 	CGameObject*			Get_AttackOwner() { return m_pAttackOwner; }
 

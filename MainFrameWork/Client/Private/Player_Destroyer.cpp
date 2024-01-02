@@ -314,13 +314,13 @@ HRESULT CPlayer_Destroyer::Ready_Components()
 		return E_FAIL;
 
 	/* 초기 장비 및 얼굴 설정 */
-	wstring strComName = L"Prototype_Component_Model_WDR_Head_Mococo";
+	wstring strComName = L"Prototype_Component_Model_WDR_Head_BaseMococo";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
 		return E_FAIL;
 
 	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
 
-	strComName = L"Prototype_Component_Model_WDR_Body_Mococo";
+	strComName = L"Prototype_Component_Model_WDR_Body_BaseMococo";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
 		return E_FAIL;
 

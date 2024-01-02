@@ -441,6 +441,7 @@ HRESULT CLevel_Bern::Send_UserInfo()
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
+		pPlayer->Ready_Coliders();
 	}
 
 	return S_OK;

@@ -107,7 +107,7 @@ void CController_WDR::Check_Iden_State(_float fTimeDelta)
 		{
 			m_fTimdeAcc = 0.f;
 			m_IsIdentity = false;
-			m_iIdentityGage = m_iMaxGage;
+			m_iIdentityGage = 0;
 			static_cast<CPlayer_Destroyer*>(m_pOwner)->Set_SuperiorArmorState(false);
 		}
 	}
@@ -197,17 +197,17 @@ void CController_WDR::Get_UseMarbleMessage()
 
 	if (1 == m_iMarbleCnt)
 	{
-		m_iIdentityGage += 10;
+		m_iIdentityGage += 5;
 		m_iMarbleCnt = 0;
 	}
 	else if (2 == m_iMarbleCnt)
 	{
-		m_iIdentityGage += 20;
+		m_iIdentityGage += 10;
 		m_iMarbleCnt = 0;
 	}
 	else if (3 == m_iMarbleCnt)
 	{
-		m_iIdentityGage += 30;
+		m_iIdentityGage += 15;
 		m_iMarbleCnt = 0;
 	}
 }
