@@ -583,9 +583,7 @@ void CMonster::Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRad
 
 void CMonster::Show_Damage(_uint iDamage, _bool IsCritical)
 {
-
 	CDamage_Manager::GetInstance()->Print_DamageFont(this , m_fFontScale, 100.f, 2.0f, IsCritical, iDamage);
-
 }
 
 HRESULT CMonster::Ready_Components()

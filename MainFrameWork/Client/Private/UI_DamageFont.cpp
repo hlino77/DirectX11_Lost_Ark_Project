@@ -55,6 +55,7 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
         vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
         vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
         m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
+        m_vHostPos += m_vOffset;
         m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + m_fOffSetY, m_fRandomZ));
 
         if (1.f < m_fDuration)
@@ -71,7 +72,7 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
             {
                 m_pDamageFontWnd->Decrease_Alpha(2.f * fTimeDelta);
                 m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
-                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x + (25.f * m_fRandomX), m_vHostPos.y + m_fOffSetY*1.5f, m_fRandomZ));
+                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x + (25.f * m_fRandomX), m_vHostPos.y + m_fOffSetY * 1.5f, m_fRandomZ));
             }
         }
         else
@@ -82,8 +83,7 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
             }
             else if ((0.2f < m_fDuration) && ((_uint)(m_fDuration * 10.f)) % 8 == 0.f)
             {
-                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x -= (m_vTextBoxMaxScale.x * 0.01f)
-                    , m_vTextBoxMaxScale.y -= (m_vTextBoxMaxScale.y * 0.01f), m_fRandomZ));
+                m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x -= (m_vTextBoxMaxScale.x * 0.01f), m_vTextBoxMaxScale.y -= (m_vTextBoxMaxScale.y * 0.01f), m_fRandomZ));
                 m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + m_fOffSetY, m_fRandomZ));
             }
         }
@@ -129,13 +129,15 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
 
     Vec2 vOffSet;
-    vOffSet.x =   CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
+    vOffSet.x = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
     vOffSet.y = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
 
     vOffSet.Normalize();
-    vOffSet *= ( rand() % 10 ) * fLength;
+    vOffSet *= ( rand() % 20 ) * fLength;
     m_vHostPos += vOffSet;
-    m_vHostPos.y += (m_vHostPos.y * 0.5f);
+    m_vOffset = vOffSet;
+
+
 
     if (0 < iDamage)
     {

@@ -67,6 +67,7 @@ private:
     Vec2    m_vHostPos = {};
     Vec3    m_vHostSize = {};
 
+    Vec2    m_vOffset;
     CTextBox* m_pDamageFontWnd = nullptr;
 public:
     static  CUI_DamageFont* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

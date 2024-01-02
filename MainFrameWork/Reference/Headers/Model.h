@@ -17,6 +17,14 @@ public:
 		_uint	m_iChangeFrame = 0, m_iNextAnimFrame = 0;
 	}CHANGEANIM;
 
+	typedef struct ChangeColor
+	{
+		Vec4	vColor_R;
+		Vec4	vColor_G;
+		Vec4	vColor_B;
+
+	}CHANGECOLOR;
+
 public:
 	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_END };
 
@@ -111,6 +119,8 @@ public: /* ;hj가 추가한 함수 */
 	void	Set_RootDist(_float fDist) { m_fRootDist = fDist; }
 	HRESULT	Set_ToRootPos(class CTransform* pTransform);
 
+	HRESULT Bind_ChangeColor(class CShader* pShader, _uint iMeshIndex);
+
 
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bIsMapObject);
@@ -176,6 +186,11 @@ private:
 	_bool								m_bClient = true;
 
 	_bool								m_IsMapObject = false;
+
+	Vec4								m_vColor_R;
+	Vec4								m_vColor_G;
+	Vec4								m_vColor_B;
+	_bool								m_bChangeColor = { false };
 
 private:
 	USE_LOCK
