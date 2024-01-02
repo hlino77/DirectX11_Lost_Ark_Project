@@ -60,6 +60,9 @@ void CUI_WDRIdentity_Identity_Skill::Tick(_float fTimeDelta)
 	{
 		m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(pPlayer)->
 			Get_WDR_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::Z);
+
+		m_bIdentity_On = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(pPlayer)->
+			Get_WDR_Controller())->Is_In_Identity();
 	}
 
 	
@@ -74,7 +77,7 @@ void CUI_WDRIdentity_Identity_Skill::Tick(_float fTimeDelta)
 
 void CUI_WDRIdentity_Identity_Skill::LateTick(_float fTimeDelta)
 {
-	if(!m_bIdentity_On)
+	if(m_bIdentity_On)
 		__super::LateTick(fTimeDelta);
 
 	m_fResultCool = m_fCoolMaxTime - m_fCurrCool;
