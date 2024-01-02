@@ -85,33 +85,12 @@ HRESULT CMonster_Pawn_Server::Initialize(void* pArg)
 
 void CMonster_Pawn_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
-	m_pBehaviorTree->Tick(fTimeDelta);
-		Find_NearTarget(fTimeDelta);
-	m_fHitTerm -= fTimeDelta;
-	m_pRigidBody->Tick(fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
+	__super::Tick(fTimeDelta);
 }
 
 void CMonster_Pawn_Server::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		Set_to_RootPosition(fTimeDelta, 0.f);
-	}
-
-	{
-		READ_LOCK
-			for (auto& CollisionStay : m_CollisionList)
-				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
-	}
-
-	Set_Colliders(fTimeDelta);
-
-	if (m_bRender)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CMonster_Pawn_Server::Render()

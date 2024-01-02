@@ -197,18 +197,18 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.4f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.bIsLoop = false;
 	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Counter";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 2.5f;
+
 	CBT_Action* pCounter = CBoss_BT_Counter_Server::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -276,18 +276,17 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	
+	AnimationDesc.bIsLoop = false;
 	AnimationDesc.strAnimName = TEXT("att_battle_7_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Charge_Punch";
-	ActionDesc.iLoopAnimationIndex = 3;
-	ActionDesc.fMaxLoopTime = 1.f;
 	CBT_Action* pPunch = CGolem_BT_Attack_Charge_Punch_Server::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
 	
 	AnimationDesc.strAnimName = TEXT("att_battle_4_01");

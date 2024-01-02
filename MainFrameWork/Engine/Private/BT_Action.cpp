@@ -30,8 +30,6 @@ HRESULT CBT_Action::Initialize(void* pArg)
 		m_vecAnimDesc.push_back(AnimDesc);
 	}
 	m_eNodeType = BT_NODETYPE::ACTION;
-	m_iLoopAnimationIndex = pActionDesc->iLoopAnimationIndex;
-	m_fMaxLoopTime = pActionDesc->fMaxLoopTime;
 	m_iMaxAnimation = m_vecAnimDesc.size();
 	if (FAILED(pActionDesc->pBehaviorTree->Add_Action(pActionDesc->strActionName, this)))
 		return E_FAIL;
@@ -46,7 +44,6 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[iAnimIndex].iAnimIndex, 
 		m_vecAnimDesc[iAnimIndex].fChangeTime, m_vecAnimDesc[iAnimIndex].iStartFrame, 
 		m_vecAnimDesc[iAnimIndex].iChangeFrame, m_vecAnimDesc[iAnimIndex].fRootDist);
-	cout << endl << CAsUtils::ToString( m_strActionName) << endl;
 	m_fFrame = 0.f;
 	m_fLoopTime = 0;
 	m_iCurrAnimation = 0;
@@ -55,23 +52,28 @@ void CBT_Action::OnStart(_int iAnimIndex)
 
 CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_iLoopAnimationIndex != -1)
-		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iLoopAnimationIndex].iAnimIndex && m_fLoopTime < m_fMaxLoopTime)
+	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop )
+	{
+		m_fLoopTime += fTimeDelta;
+		if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
+			m_pGameObject->Get_ModelCom()->Set_CurrAnim(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex);
+		if (m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime)
 		{
-			m_fLoopTime += fTimeDelta;
-			if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[m_iLoopAnimationIndex].iAnimIndex))
-				m_pGameObject->Get_ModelCom()->Set_CurrAnim(m_vecAnimDesc[m_iLoopAnimationIndex].iAnimIndex);
+			m_iCurrAnimation++;
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+			m_fLoopTime = 0;
 		}
-
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)-2)
+	}
+	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 2)
 	{
 		if (m_iCurrAnimation == m_vecAnimDesc.size() - 1)
 			return BT_SUCCESS;
 		else
 		{
 			m_iCurrAnimation++;
-		
-			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime, 
+
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 		}
 	}

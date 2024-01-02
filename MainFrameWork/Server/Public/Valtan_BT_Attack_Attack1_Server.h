@@ -16,7 +16,8 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
-
+private:
+    _int   m_iLoop = 0;
 
 public:
     static	CValtan_BT_Attack_Attack1_Server* Create(void* pArg);

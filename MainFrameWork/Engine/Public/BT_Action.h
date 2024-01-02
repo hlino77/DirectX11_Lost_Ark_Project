@@ -15,14 +15,14 @@ public:
 		_uint iChangeFrame;
 		_float fAnimSpeed = 1.2f;
 		_float fRootDist = 1.5f;
+		_bool  bIsLoop = false;
+		_float fMaxLoopTime = 0.f;
 	}ANIMATION_DESC;
 
 	typedef struct tagAction_Desc : public NODE_DESC
 	{
 		wstring					strActionName;
 		vector<ANIMATION_DESC>	vecAnimations;
-		_int				  iLoopAnimationIndex = -1;
-		_float                fMaxLoopTime = 0.f;
 	}ACTION_DESC;
 
 protected:
@@ -46,8 +46,6 @@ protected:
 	_float						m_fFrame = 0.f;
 	_bool						m_bSoundOn = false;
 	wstring						m_strActionName;
-	_int						m_iLoopAnimationIndex = -1;
-	_float						m_fMaxLoopTime = 0.f;
 	_float						m_fLoopTime = 0.f;
 	_uint						m_iMaxAnimation = 0;
 public:

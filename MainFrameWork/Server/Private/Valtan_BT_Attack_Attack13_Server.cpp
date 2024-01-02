@@ -3,6 +3,7 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
+#include "GameInstance.h"
 
 CValtan_BT_Attack_Attack13_Server::CValtan_BT_Attack_Attack13_Server()
 {
@@ -11,6 +12,8 @@ CValtan_BT_Attack_Attack13_Server::CValtan_BT_Attack_Attack13_Server()
 void CValtan_BT_Attack_Attack13_Server::OnStart()
 {
 	__super::OnStart(0);
+	m_bOutSide = CGameInstance::GetInstance()->Random_Coin(0.5f);
+	m_pGameObject->Set_TargetPos(Vec3((_float)m_bOutSide, (_float)m_bOutSide, (_float)m_bOutSide));
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 
@@ -18,15 +21,13 @@ void CValtan_BT_Attack_Attack13_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack13_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex)
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_Attack13_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(1);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

@@ -16,8 +16,6 @@ void CCommon_BT_Chase::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 {
 
-	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
-		return BT_FAIL;
 
 	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <0.5f)
 	{

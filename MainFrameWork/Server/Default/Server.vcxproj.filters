@@ -468,6 +468,15 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack21_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack22_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack23_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack24_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -813,6 +822,27 @@
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_IF_Phase1_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_IF_NoArmor_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack23_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack24_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack22_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_IF_Phase2_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_IF_Phase3_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderSpecialSkillRatio.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
     </ClInclude>
   </ItemGroup>

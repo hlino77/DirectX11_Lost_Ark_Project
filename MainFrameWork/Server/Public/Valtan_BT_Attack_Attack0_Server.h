@@ -16,7 +16,8 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
-
+private:
+    Vec3                m_vLandPosition = {};
 
 public:
     static	CValtan_BT_Attack_Attack0_Server* Create(void* pArg);
