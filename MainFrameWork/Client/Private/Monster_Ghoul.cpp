@@ -434,18 +434,20 @@ HRESULT CMonster_Ghoul::Ready_BehaviourTree()
 	AnimationDesc.strAnimName = TEXT("att_battle_2_loop");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.iChangeFrame = 0;	
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.3f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 	AnimationDesc.strAnimName = TEXT("att_battle_2_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	ActionDesc.strActionName = L"Action_Attack2";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 1.3f;
 	CBT_Action* pAttack2 = CGhoul_BT_Attack_1::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
+
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_3_01");
 	AnimationDesc.iStartFrame = 0;

@@ -48,6 +48,7 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fNoticeRange = 20.f;
+	
 	m_pRigidBody->SetMass(2.0f);
 
 	return S_OK;

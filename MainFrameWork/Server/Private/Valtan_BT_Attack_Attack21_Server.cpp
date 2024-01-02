@@ -3,6 +3,7 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
+#include <Boss_Server.h>
 
 CValtan_BT_Attack_Attack21_Server::CValtan_BT_Attack_Attack21_Server()
 {
@@ -18,15 +19,21 @@ void CValtan_BT_Attack_Attack21_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex)
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iCurrAnimation].iAnimIndex && m_fLoopTime > 1.f)
+	{
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	}
+	if (m_vecAnimDesc[1].bIsLoop && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	{
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition());
+		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_Attack21_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(1);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

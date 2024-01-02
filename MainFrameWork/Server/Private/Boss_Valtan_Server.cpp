@@ -31,37 +31,40 @@
 #include "King_BT_Attack_Attack4_Server.h"
 #include "King_BT_Attack_Charge_Swing_Server.h"
 #include "King_BT_Attack_Erruption_Server.h"
-#include <Boss_BT_Counter_Server.h>
-#include <Boss_BT_IF_Countered_Server.h>
-#include <Boss_BT_Groggy_Server.h>
-#include <Boss_BT_IF_Groggy_Server.h>
-#include <Valtan_BT_Attack_Attack0_Server.h>
-#include <Valtan_BT_Attack_Attack1_Server.h>
-#include <Valtan_BT_Attack_Attack2_Server.h>
-#include <Valtan_BT_Attack_Attack3_Server.h>
-#include <Valtan_BT_Attack_Attack4_Server.h>
-#include <Valtan_BT_Attack_Attack5_Server.h>
-#include <Valtan_BT_Attack_Attack6_Server.h>
-#include <Valtan_BT_Attack_Attack7_Server.h>
-#include <Valtan_BT_Attack_Attack8_Server.h>
-#include <Valtan_BT_Attack_Attack9_Server.h>
-#include <Valtan_BT_Attack_Attack10_Server.h>
-#include <Valtan_BT_Attack_Attack11_Server.h>
-#include <Valtan_BT_Attack_Attack12_Server.h>
-#include <Valtan_BT_Attack_Attack13_Server.h>
-#include <Valtan_BT_Attack_Attack14_Server.h>
-#include <Valtan_BT_Attack_Attack15_Server.h>
-#include <Valtan_BT_IF_Phase1_Server.h>
-#include <Valtan_BT_IF_NoArmor_Server.h>
-#include <Valtan_BT_Attack_Attack16_Server.h>
-#include <Valtan_BT_Attack_Attack18_Server.h>
-#include <Valtan_BT_Attack_Attack17_Server.h>
-#include <Valtan_BT_Attack_Attack19_Server.h>
-#include <Valtan_BT_Attack_Attack20_Server.h>
-#include <Valtan_BT_Attack_Attack21_Server.h>
-#include <Valtan_BT_Attack_Attack22_Server.h>
-#include <Valtan_BT_Attack_Attack23_Server.h>
-#include <Valtan_BT_Attack_Attack24_Server.h>
+#include "Boss_BT_Counter_Server.h"
+#include "Boss_BT_IF_Countered_Server.h"
+#include "Boss_BT_Groggy_Server.h"
+#include "Boss_BT_IF_Groggy_Server.h"
+#include "Valtan_BT_Attack_Attack0_Server.h"
+#include "Valtan_BT_Attack_Attack1_Server.h"
+#include "Valtan_BT_Attack_Attack2_Server.h"
+#include "Valtan_BT_Attack_Attack3_Server.h"
+#include "Valtan_BT_Attack_Attack4_Server.h"
+#include "Valtan_BT_Attack_Attack5_Server.h"
+#include "Valtan_BT_Attack_Attack6_Server.h"
+#include "Valtan_BT_Attack_Attack7_Server.h"
+#include "Valtan_BT_Attack_Attack8_Server.h"
+#include "Valtan_BT_Attack_Attack9_Server.h"
+#include "Valtan_BT_Attack_Attack10_Server.h"
+#include "Valtan_BT_Attack_Attack11_Server.h"
+#include "Valtan_BT_Attack_Attack12_Server.h"
+#include "Valtan_BT_Attack_Attack13_Server.h"
+#include "Valtan_BT_Attack_Attack14_Server.h"
+#include "Valtan_BT_Attack_Attack15_Server.h"
+#include "Valtan_BT_IF_Phase1_Server.h"
+#include "Valtan_BT_IF_NoArmor_Server.h"
+#include "Valtan_BT_Attack_Attack16_Server.h"
+#include "Valtan_BT_Attack_Attack18_Server.h"
+#include "Valtan_BT_Attack_Attack17_Server.h"
+#include "Valtan_BT_Attack_Attack19_Server.h"
+#include "Valtan_BT_Attack_Attack20_Server.h"
+#include "Valtan_BT_Attack_Attack21_Server.h"
+#include "Valtan_BT_Attack_Attack22_Server.h"
+#include "Valtan_BT_Attack_Attack23_Server.h"
+#include "Valtan_BT_Attack_Attack24_Server.h"
+#include "Valtan_BT_IF_Phase2_Server.h"
+#include "Valtan_BT_IF_Phase3_Server.h"
+#include <Valtan_BT_IF_Hp_UnderSpecialSkillRatio.h>
 
 
 
@@ -94,9 +97,10 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 1.2f;
-	m_iMaxHp = 9999999999;
+	m_iMaxHp = 1991561183;
 	m_iHp = m_iMaxHp;
 	m_fNoticeRange = 50.f;
+	m_vSpawnPosition = Vec3(0.f,0.f,0.f);
 	return S_OK;
 }
 
@@ -189,7 +193,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.4f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
 	AnimationDesc.iStartFrame = 0;
@@ -197,10 +204,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Counter";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 2.5f;
+
 	CBT_Action* pCounter = CBoss_BT_Counter_Server::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -219,7 +224,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.4f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
 	AnimationDesc.iStartFrame = 0;
@@ -227,10 +235,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Counter";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 2.5f;
 	CBT_Action* pGroggy = CBoss_BT_Groggy_Server::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
 	ActionDesc.vecAnimations.clear();
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -276,6 +281,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))
 		return E_FAIL;
+
 	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
@@ -314,7 +320,34 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	//65번 2페 시작 모션
 	ActionDesc.strActionName = L"Action_Phase2";
+
 	CBT_Action* pPhase2 = CCommon_BT_Spawn_Server::Create(&ActionDesc);
+	CValtan_BT_IF_Hp_UnderSpecialSkillRatio::IF_HPUNDERSPECIALSKILLRATIO_DESC pDesc;
+	pDesc.pBehaviorTree = m_pBehaviorTree;
+	pDesc.pGameObject = this;
+	pDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	pDesc.fSpecialSkillRatio = 120.f / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio120 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio120->AddChild(pPhase2))) return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("respawn_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//65번 유령페이즈 시작 모션
+	ActionDesc.strActionName = L"Action_Phase3";
+	CBT_Action* pPhase3 = CCommon_BT_Spawn_Server::Create(&ActionDesc);
+
+	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+	CBT_Composite* pSequenceLine16 = CBT_Composite::Create(&CompositeDesc);	
+
+	pDesc.fSpecialSkillRatio = 16.f / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio16 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio16->AddChild(pSequenceLine16))) return E_FAIL;
 
 	// Ready all AttackActions
 	ActionDesc.vecAnimations.clear();
@@ -348,8 +381,12 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.strAnimName = TEXT("att_battle_9_01_loop");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
-	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.iChangeFrame = 0;	
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
 	AnimationDesc.strAnimName = TEXT("att_battle_9_01_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
@@ -372,7 +409,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
 	AnimationDesc.iStartFrame = 0;
@@ -394,7 +434,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_19_04");
-	AnimationDesc.iStartFrame = 42;
+	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
@@ -414,7 +454,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 42;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 4.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_18_03-2");
 	AnimationDesc.iStartFrame = 42;
@@ -424,10 +467,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	// 어디로든지문 돌격
 	ActionDesc.strActionName = L"Action_Attack5";
 	CBT_Action* pAttack5 = CValtan_BT_Attack_Attack5_Server::Create(&ActionDesc);
-
-
-	ActionDesc.strActionName = L"Action_Attack6";
-	CBT_Action* pAttack6 = CValtan_BT_Attack_Attack6_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_19_01");
@@ -516,10 +555,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	//점프 십자 찍기
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 2.f;
 	ActionDesc.strActionName = L"Action_Attack10";
-	CBT_Action* pAttack10 = CValtan_BT_Attack_Attack9_Server::Create(&ActionDesc);
+	CBT_Action* pAttack10 = CValtan_BT_Attack_Attack10_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_5_02_start");
@@ -532,8 +569,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.bIsLoop = false;
 	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -541,11 +580,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//십자 찍기
 	ActionDesc.strActionName = L"Action_Attack10";
-	ActionDesc.iLoopAnimationIndex = 1;
-	ActionDesc.fMaxLoopTime = 1.f;
 	CBT_Action* pAttack11 = CValtan_BT_Attack_Attack11_Server::Create(&ActionDesc);
-	ActionDesc.iLoopAnimationIndex = -1;
-	ActionDesc.fMaxLoopTime = 0.f;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
@@ -610,8 +645,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 4.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.bIsLoop = false;
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -633,7 +671,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;
@@ -656,7 +697,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
 	AnimationDesc.iStartFrame = 0;
@@ -681,7 +725,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
 	AnimationDesc.iStartFrame = 0;
@@ -705,7 +752,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
 	AnimationDesc.iStartFrame = 0;
@@ -719,8 +769,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	//카운터
-	ActionDesc.strActionName = L"Action_Attack16";
+	//3카운터
+	ActionDesc.strActionName = L"Action_Attack17";
 	CBT_Action* pAttack17= CValtan_BT_Attack_Attack17_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
@@ -755,12 +805,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_13_02");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("att_battle_13_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -818,7 +862,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
 	AnimationDesc.iStartFrame = 0;
@@ -837,7 +884,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 0.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_15_03");
 	AnimationDesc.iStartFrame = 0;
@@ -861,7 +911,12 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack20";
 	CBT_Action* pAttack20 = CValtan_BT_Attack_Attack20_Server::Create(&ActionDesc);
 
-		ActionDesc.vecAnimations.clear();
+	pDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	pDesc.fSpecialSkillRatio = 130.f / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio130 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio130->AddChild(pAttack20))) return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
 	AnimationDesc.iStartFrame = 0;
@@ -894,6 +949,15 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.strAnimName = TEXT("att_battle_12_06");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 4.f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
 	AnimationDesc.strAnimName = TEXT("att_battle_12_07");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -916,7 +980,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_12_11");
 	AnimationDesc.iStartFrame = 0;
@@ -924,9 +991,13 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	//130줄 임포스터
+	//110줄 임포스터
 	ActionDesc.strActionName = L"Action_Attack21";
 	CBT_Action* pAttack21 = CValtan_BT_Attack_Attack21_Server::Create(&ActionDesc);
+
+	pDesc.fSpecialSkillRatio = 110.f / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio110 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio110->AddChild(pAttack21))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 
@@ -940,9 +1011,33 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_12_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_20_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -959,7 +1054,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;
@@ -977,7 +1075,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_12_11");
 	AnimationDesc.iStartFrame = 0;
@@ -989,8 +1090,105 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack0";
 	CBT_Action* pAttack0 = CValtan_BT_Attack_Attack0_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
+	pDesc.fSpecialSkillRatio = 88 / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio88 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio88->AddChild(pAttack0))) return E_FAIL;
 
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_20_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_start");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_09");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_10");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_12_11");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//30줄 지형파괴
+	ActionDesc.strActionName = L"Action_Attack16";
+	CBT_Action* pAttack16 = CValtan_BT_Attack_Attack16_Server::Create(&ActionDesc);
+
+	pDesc.fSpecialSkillRatio = 30 / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio30 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio30->AddChild(pAttack16))) return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_13_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1026,8 +1224,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack22";
 	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22_Server::Create(&ActionDesc);
 
-	ActionDesc.vecAnimations.clear();
+	pDesc.fSpecialSkillRatio = 65 / 160.f;
+	CBT_Decorator* pIf_Hp_UnderRatio65 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pAttack22))) return E_FAIL;
 
+	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_18_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1094,7 +1295,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;
@@ -1114,10 +1318,52 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	//65번 연환파신권
+	//16번 연환파신권
 	ActionDesc.strActionName = L"Action_Attack23";
 	CBT_Action* pAttack23 = CValtan_BT_Attack_Attack23_Server::Create(&ActionDesc);
 
+	if (FAILED(pSequenceLine16->AddChild(pAttack23))) return E_FAIL;
+	if (FAILED(pSequenceLine16->AddChild(pPhase3))) return E_FAIL;
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_02");
+	AnimationDesc.iStartFrame = 42;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_21_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//유령 잡기
+	ActionDesc.strActionName = L"Action_Attack24";
+	CBT_Action* pAttack24 = CValtan_BT_Attack_Attack24_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_BattleIdle";
+	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
 
 	//for Phase1
 
@@ -1146,8 +1392,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 		if (FAILED(pSequenceNoArmor->AddChild(pAttack5)))
 			return E_FAIL;
-		if (FAILED(pSequenceNoArmor->AddChild(pAttack6)))
-			return E_FAIL;
 		if (FAILED(pSequenceNoArmor->AddChild(pAttack7)))
 			return E_FAIL;
 		if (FAILED(pSequenceNoArmor->AddChild(pAttack9)))
@@ -1160,8 +1404,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 		if (FAILED(pSequenceNoArmor->AddChild(pAttack13)))
 			return E_FAIL;
-		if (FAILED(pSequenceNoArmor->AddChild(pAttack14)))
-			return E_FAIL;
 		if (FAILED(pSequenceNoArmor->AddChild(pAttack15)))
 			return E_FAIL;
 
@@ -1171,30 +1413,106 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
-		CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
-		if (FAILED(pSequenceNear->AddChild(pAttack1)))
+		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
-		if (FAILED(pSequenceNear->AddChild(pAttack8)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
 			return E_FAIL;
-		if (FAILED(pSequenceNear->AddChild(pIf_NoArmor)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pIf_NoArmor)))
 			return E_FAIL;
 		
 
 
 		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
-		if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
+		if (FAILED(pIfAttacked->AddChild(pSequenceNormalAttack)))
+			return E_FAIL;
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+		CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
+
+		if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
+			return E_FAIL;
+		if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
+			return E_FAIL;
+		
+
+
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
+
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
+			return E_FAIL;
+
+		if (FAILED(pIf_Phase1->AddChild(pSelector_Within_Range))) return E_FAIL;
+	}
+
+	//for Phase2
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Phase2 = CValtan_BT_IF_Phase2_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+
+
+	{
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+		CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
+
+		if (FAILED(pSequenceSkill->AddChild(pAttack17)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceSkill->AddChild(pAttack18)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceSkill->AddChild(pAttack19)))
+			return E_FAIL;
+
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+		if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
+
+
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack2)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack5)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
 			return E_FAIL;
 
 
-		ActionDesc.vecAnimations.clear();
+		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
+		if (FAILED(pIfAttacked->AddChild(pSequenceNormalAttack)))
+			return E_FAIL;
 
-		AnimationDesc.strAnimName = TEXT("idle_battle_1");
-		AnimationDesc.iStartFrame = 0;
-		AnimationDesc.fChangeTime = 0.2f;
-		AnimationDesc.iChangeFrame = 0;
-		ActionDesc.vecAnimations.push_back(AnimationDesc);
-		ActionDesc.strActionName = L"Action_BattleIdle";
-		CBT_Action* pBattleIdle = CCommon_BT_BattleIdle_Server::Create(&ActionDesc);
+
+
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
@@ -1204,19 +1522,100 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
 			return E_FAIL;
 
-		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-		CBT_Decorator* pIf_Near = CCommon_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
-		if (FAILED(pIf_Near->AddChild(pSelectorNear))) return E_FAIL;
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
 
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
 			return E_FAIL;
-		if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
+		if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
 			return E_FAIL;
 
-		if (FAILED(pIf_Phase1->AddChild(pSelector_Within_Range))) return E_FAIL;
+		if (FAILED(pIf_Phase2->AddChild(pSelector_Within_Range))) return E_FAIL;
+	}
+
+	//for Phase 3
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Phase3 = CValtan_BT_IF_Phase3_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+
+
+	{
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+		CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
+		if (FAILED(pSequenceSkill->AddChild(pAttack17)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceSkill->AddChild(pAttack18)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceSkill->AddChild(pAttack19)))
+			return E_FAIL;
+
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+		if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
+
+
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
+		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack2)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack5)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
+			return E_FAIL;
+
+
+		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
+		if (FAILED(pIfAttacked->AddChild(pSequenceNormalAttack)))
+			return E_FAIL;
+
+
+
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+		CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
+
+		if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
+			return E_FAIL;
+		if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
+			return E_FAIL;
+
+
+		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
+		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
+
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
+			return E_FAIL;
+		if (FAILED(pIf_Phase3->AddChild(pSelector_Within_Range)))
+			return E_FAIL;
 	}
 
 	ActionDesc.vecAnimations.clear();
@@ -1253,6 +1652,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Composite* pSelector_Phase = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Phase->AddChild(pIf_Phase1)))
 		return E_FAIL;
+	if (FAILED(pSelector_Phase->AddChild(pIf_Phase2)))
+		return E_FAIL;
+	if (FAILED(pSelector_Phase->AddChild(pIf_Phase3)))
+		return E_FAIL;
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::WHILE;
 	CBT_Decorator* pWhile_Within_Range = CCommon_BT_WHILE_Within_Range_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
@@ -1264,6 +1667,20 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pRoot->AddChild(pIfHit)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pIfSpawn)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio130)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio120)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio110)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio88)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio65)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio30)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio16)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pWhile_Within_Range)))
 		return E_FAIL;

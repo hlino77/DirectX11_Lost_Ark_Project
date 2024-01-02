@@ -66,6 +66,8 @@ public:
 	_uint						Get_Phase() { return m_iPhase; }
 	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
 
+	Vec3						Get_SpawnPosition() { return m_vSpawnPosition; }
+	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
 
 protected:
 	virtual HRESULT		Ready_Components();
@@ -78,7 +80,7 @@ protected:
 	_bool m_IsCountered = false;
 	_uint m_iPhase = 1;
 	_uint m_iArmor = 2;
-
+	Vec3 m_vSpawnPosition;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

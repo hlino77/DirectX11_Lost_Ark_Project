@@ -19,14 +19,13 @@ void CValtan_BT_Attack_Attack2_Server::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex)
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_Attack2_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(1);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
