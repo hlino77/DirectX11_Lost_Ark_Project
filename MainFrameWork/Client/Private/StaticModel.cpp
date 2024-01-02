@@ -28,13 +28,14 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_strObjectTag = Desc->strFileName;
 	m_szModelName = Desc->strFileName;
 	m_iLayer = Desc->iLayer;
+	m_IsMapObject = Desc->IsMapObject;
+	m_bInstance = Desc->bInstance;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
-
-	m_bInstance = true;
 
 	if (m_bInstance)
 	{
@@ -44,10 +45,7 @@ HRESULT CStaticModel::Initialize(void* pArg)
 				return E_FAIL;
 		}
 	}
-	m_IsMapObject = Desc->IsMapObject;
-		
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+	
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc->vPosition.x, Desc->vPosition.y, Desc->vPosition.z, 1.f));
 
@@ -231,17 +229,10 @@ HRESULT CStaticModel::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 	
-	/* For.Com_Shader */
-	if (m_pModelCom)
-	{
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-			return E_FAIL;
-	}
-	else
-	{
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-			return E_FAIL;
-	}
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 
@@ -281,7 +272,7 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {
-	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 100;
+	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 200;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),

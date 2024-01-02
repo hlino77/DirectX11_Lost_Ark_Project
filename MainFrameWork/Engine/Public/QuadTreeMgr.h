@@ -27,6 +27,9 @@ public:
 
 	void	Tick(_float fTimeDelta);
 
+	_bool	Is_End() { return m_bEnd; }
+	void	Set_End(_bool bEnd) { m_bEnd = bEnd; }
+	void	Set_Stop(_bool bStop) { m_bStop = bStop; }
 public: // Get Set
 	CQuadTreeNode* Get_SuperNode() {return m_pSuperNode;}
 
@@ -40,6 +43,9 @@ private:
 
 	CQuadTreeNode* m_pSuperNode = nullptr;
 	vector<CQuadTreeNode*> m_Nodes;
+
+	_bool m_bStop = false;
+	_bool m_bEnd = false;
 public:
 	virtual void Free() override;
 };

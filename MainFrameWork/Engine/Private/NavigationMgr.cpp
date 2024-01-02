@@ -24,54 +24,49 @@ HRESULT CNavigationMgr::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceConte
 
 
 
-void CNavigationMgr::Render()
+void CNavigationMgr::Render(_uint iLevel)
 {
 	WRITE_LOCK
-	if (m_pCurrNavigation)
-		m_pCurrNavigation->Render();
+	if (m_Navigations.find(iLevel) == m_Navigations.end())
+		return;
+	m_Navigations[iLevel]->Render();
 }
 
-void CNavigationMgr::Add_Navigation(const wstring& szNavigationName, const wstring& szFileName)
+void CNavigationMgr::Add_Navigation(_uint iLevel, const wstring& szFileName)
 {
 	WRITE_LOCK
-	if (m_Navigations.find(szNavigationName) == m_Navigations.end())
+	if (m_Navigations.find(iLevel) == m_Navigations.end())
 	{
 
 		CNavigation* pNavigation = CNavigation::Create(m_pDevice, m_pContext);
 
 		pNavigation->Load_Navigation(szFileName);
 
-		m_Navigations.emplace(szNavigationName, pNavigation);
+		m_Navigations.emplace(iLevel, pNavigation);
 
 	}
 	
 }
 
-void CNavigationMgr::Set_CurrNavigation(const wstring& szNavigationName)
+void CNavigationMgr::SetUp_OnCell(_uint iLevel, CGameObject* pObject)
 {
-	WRITE_LOCK
-	if (m_Navigations.find(szNavigationName) == m_Navigations.end())
+	if (m_Navigations.find(iLevel) == m_Navigations.end())
 		return;
 
-	m_pCurrNavigation = m_Navigations[szNavigationName];
+	m_Navigations[iLevel]->SetUp_OnCell(pObject);
 }
 
-void CNavigationMgr::SetUp_OnCell(CGameObject* pObject)
+void CNavigationMgr::Find_FirstCell(_uint iLevel, CGameObject* pObject)
 {
-	if (m_pCurrNavigation)
-		m_pCurrNavigation->SetUp_OnCell(pObject);
+	if (m_Navigations.find(iLevel) == m_Navigations.end())
+		return;
+
+	m_Navigations[iLevel]->Find_FirstCell(pObject);
 }
 
-void CNavigationMgr::Find_FirstCell(CGameObject* pObject)
+_bool CNavigationMgr::Picking_Cell(_uint iLevel, Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
 {
-	WRITE_LOCK
-	if (m_pCurrNavigation)
-		m_pCurrNavigation->Find_FirstCell(pObject);
-}
-
-_bool CNavigationMgr::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
-{
-	if (m_pCurrNavigation == nullptr)
+	if (m_Navigations.find(iLevel) == m_Navigations.end())
 		return false;
 
 	vRayDir.Normalize();
@@ -79,28 +74,12 @@ _bool CNavigationMgr::Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos)
 	_bool bPick = false;
 	_float fDist = -1.0f;
 
-	if (m_pCurrNavigation->Picking_Cell(vRayPos, vRayDir, fDist))
+	if (m_Navigations[iLevel]->Picking_Cell(vRayPos, vRayDir, fDist))
 	{
 		vResultPos = vRayPos + (vRayDir * fDist);
 		bPick = true;
 	}
 	return bPick;
-}
-
-_int CNavigationMgr::Check_Pos_InCell(Vec3 vPos)
-{
-	//if (m_pNavigation == nullptr)
-	//	return -1;
-
-	//return m_pNavigation->Check_Pos_InCell(vPos);
-
-	return _int();
-}
-
-void CNavigationMgr::Reset_Navigation()
-{
-	WRITE_LOCK;
-	m_pCurrNavigation = nullptr;
 }
 
 

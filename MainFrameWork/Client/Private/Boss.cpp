@@ -52,7 +52,9 @@ HRESULT CBoss::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 
-	CNavigationMgr::GetInstance()->Find_FirstCell(this);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
+	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
 
 	m_tCullingSphere.Radius = 2.0f;

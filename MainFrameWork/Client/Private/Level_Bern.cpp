@@ -54,9 +54,6 @@ HRESULT CLevel_Bern::Initialize()
 
 	//CQuadTreeMgr::GetInstance()->Make_QaudTree(Vec3{ 140.f, 0.f, 115.f }, Vec3{ 75.f, 30.f, 55.f }, 3);
 
-
-	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
-
 	//CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Chaos_Navi"));
 
 	Ready_Renderer();
@@ -109,17 +106,15 @@ HRESULT CLevel_Bern::Initialize()
 
 	Start_Collision();
 	Start_Damage();
-
+	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
-
 
 	while (true)
 	{
 		if (CServerSessionManager::GetInstance()->Get_ServerSession()->Get_LevelState() == LEVELSTATE::INITEND)
 			break;
 	}
-
 
 	return S_OK;
 }
@@ -143,7 +138,6 @@ HRESULT CLevel_Bern::Render_Debug()
 {
 	m_pImGuiManager->Tick();
 
-	CNavigationMgr::GetInstance()->Render();
 	return S_OK;
 }
 
@@ -152,16 +146,13 @@ HRESULT CLevel_Bern::Exit()
 	End_Collision();
 	End_Picking();
 	End_Damage();
+	End_QuadTree();
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_BERN);
-	CNavigationMgr::GetInstance()->Reset_Navigation();
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	CUI_Tool::GetInstance()->Set_ToolMode(false);
-
-	CQuadTreeMgr::GetInstance()->Reset_QaudTree();
-	
 
 	return S_OK;
 }
@@ -261,26 +252,26 @@ HRESULT CLevel_Bern::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	//pGameInstance->GetInstance()->Add_GameObject(LEVELID::LEVEL_ARENA, (_uint)LAYER_TYPE::LAYER_SKYBOX, L"Prototype_GameObject_SkyBoxDay");
 
 
-	CStaticModel::MODELDESC Desc;
-	Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
-	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
-	Vec3 vPos(0.0f, 0.0f, 0.0f);
+	//CStaticModel::MODELDESC Desc;
+	//Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
+	//Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+	//Vec3 vPos(0.0f, 0.0f, 0.0f);
 
-	
-	for (_uint i = 0; i < 1; ++i)
-	{
-		CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-		if (nullptr == pObject)
-		{
-			Safe_Release(pGameInstance);
-			return E_FAIL;
-		}
+	//
+	//for (_uint i = 0; i < 1; ++i)
+	//{
+	//	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_BERN, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+	//	if (nullptr == pObject)
+	//	{
+	//		Safe_Release(pGameInstance);
+	//		return E_FAIL;
+	//	}
 
-		pObject->Set_Instance(true);
-		pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		vPos.y += 1.0f;
-	}
-	
+	//	pObject->Set_Instance(true);
+	//	pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+	//	vPos.y += 1.0f;
+	//}
+	//
 
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -535,14 +526,15 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 		Matrix	matWorld = file->Read<Matrix>();
-
-
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
 
 		CStaticModel::MODELDESC Desc;
 		Desc.strFileName = CAsUtils::ToWString(strFileName);
 		Desc.strFilePath = selectedPath;
 		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
 		Desc.IsMapObject = true;
+		Desc.bInstance = bInstance;
 
 		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
 
@@ -567,11 +559,7 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 			pObject->Add_QuadTreeIndex(Index);
 			CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
 		}
-
-		_bool bInstance = false;
-		file->Read<_bool>(bInstance);
-		
-		// pObject->Set_Instance(bInstance);
+	
 	}
 
 
@@ -691,6 +679,44 @@ void CLevel_Bern::Start_Damage()
 		});
 }
 
+void CLevel_Bern::Start_QuadTree()
+{
+	m_pQuadTreeThread = new thread([=]()
+		{
+			CGameInstance* pGameInstance = CGameInstance::GetInstance();
+			Safe_AddRef(pGameInstance);
+
+			CQuadTreeMgr* pQuadTreeManager = CQuadTreeMgr::GetInstance();
+			pQuadTreeManager->AddRef();
+
+			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_QuadTree"))))
+				return FALSE;
+
+			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_QuadTree_60"))))
+				return FALSE;
+
+			_float		fTimeAcc = 0.f;
+
+
+			while (!pQuadTreeManager->Is_End())
+			{
+				fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_QuadTree"));
+
+				if (fTimeAcc >= 1.f / 60.0f)
+				{
+					pQuadTreeManager->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_QuadTree_60")));
+					fTimeAcc = 0.f;
+				}
+			}
+
+			Safe_Release(pQuadTreeManager);
+			Safe_Release(pGameInstance);
+
+			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree");
+			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree_60");
+		});
+}
+
 void CLevel_Bern::End_Damage()
 {
 	if (m_pDamageThread == nullptr)
@@ -723,6 +749,17 @@ void CLevel_Bern::End_Collision()
 	m_pCollisionThread->join();
 	CCollisionManager::GetInstance()->Reset();
 	Safe_Delete(m_pCollisionThread);
+}
+
+void CLevel_Bern::End_QuadTree()
+{
+	if (m_pQuadTreeThread == nullptr)
+		return;
+
+	CQuadTreeMgr::GetInstance()->Set_End(true);
+	m_pQuadTreeThread->join();
+	CQuadTreeMgr::GetInstance()->Reset_QaudTree();
+	Safe_Delete(m_pQuadTreeThread);
 }
 
 CLevel_Bern * CLevel_Bern::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

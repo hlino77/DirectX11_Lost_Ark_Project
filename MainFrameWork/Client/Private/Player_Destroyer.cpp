@@ -115,7 +115,7 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 	m_pStateMachine->Change_State(Desc->szState);
 
-	CNavigationMgr::GetInstance()->Find_FirstCell(this);
+	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
 
 	return S_OK;

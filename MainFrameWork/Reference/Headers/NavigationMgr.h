@@ -18,24 +18,22 @@ public:
 
 public:
 	HRESULT Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	void	Render();
+	void	Render(_uint iLevel);
 
 
-	void	Add_Navigation(const wstring& szNavigationName, const wstring& szFileName);
-	void	Set_CurrNavigation(const wstring& szNavigationName);
-	void	SetUp_OnCell(CGameObject * pObject);
-	void	Find_FirstCell(CGameObject * pObject);
-	_bool	Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos);
-	_int	Check_Pos_InCell(Vec3 vPos);
+	void	Add_Navigation(_uint iLevel, const wstring& szFileName);
+	void	SetUp_OnCell(_uint iLevel, CGameObject * pObject);
+	void	Find_FirstCell(_uint iLevel, CGameObject * pObject);
+	_bool	Picking_Cell(_uint iLevel, Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos);
 
 
-	void	Reset_Navigation();
+	void	OnOff_Render() { m_bRender = !m_bRender; }
+private:
+	unordered_map<_uint, CNavigation*> m_Navigations;
 
 private:
-	unordered_map<wstring, CNavigation*> m_Navigations;
-	CNavigation* m_pCurrNavigation;
+	_bool m_bRender = true;
 
-private:
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_pContext = nullptr;
 	

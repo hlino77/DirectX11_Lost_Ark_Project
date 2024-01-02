@@ -28,6 +28,7 @@ public:
 		_int	iObjectID;
 		_uint	iLayer;
 		_uint	iLevel;
+		Vec3	vPos;
 	}MODELDESC;
 
 public:

@@ -121,6 +121,8 @@ public:
 
 	void						Set_Render(_bool bRender) { m_bRender = bRender; }
 	_bool						Is_Render() { return m_bRender; }
+	void						Set_RenderMarking(_bool bRenderMarking) { m_bRenderMarking = bRenderMarking; }
+	_bool						Is_RenderMarking() { return m_bRenderMarking; }
 
 	_uint						Get_ObjectType() { return m_iObjType; }
 
@@ -160,6 +162,14 @@ public:
 	void						Set_LevelMove(_bool bLevelMove) { m_bLevelMove = bLevelMove; }
 
 	_int						Get_Layer() { return m_iLayer; }
+
+	_bool		Get_IsMapObject() { return m_IsMapObject; }
+	void		Set_IsMapObject() { m_IsMapObject = true; }
+
+	void			Add_QuadTreeIndex(_uint Index) { m_vecQuadTreeIndex.push_back(Index); }
+	void			Set_QuadTreeIndices(vector<_uint> Indices) { m_vecQuadTreeIndex = Indices; }
+	vector<_uint>  Get_QuadTreeIndices() { return m_vecQuadTreeIndex; }
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -200,7 +210,7 @@ protected:
 	_bool				m_bControl = false;
 	_int				m_iLayer = -1;
 
-	_bool				m_bRender = true;
+
 	_bool				m_bActive = true;
 	_bool				m_bDead = false;
 	_bool				m_bNavi = true;
@@ -211,6 +221,9 @@ protected:
 	CGameObject*		m_pNearTarget = nullptr;
 	CGameObject*		m_pHitObject = nullptr;
 
+	//QuadTree
+	_bool				m_bRenderMarking = false;
+	_bool				m_bRender = true;
 
 	//WallPicking
 	_bool						m_bPicking = false;
@@ -235,6 +248,12 @@ protected:
 	//Instancing
 	_bool						m_bInstance = false;
 	shared_ptr<unordered_map<wstring, INSTANCEDATA>>	m_pInstaceData = nullptr;
+
+	// MapObject
+	_bool						m_IsMapObject = false;
+
+	// QuadTreeIndex 
+	vector<_uint>       m_vecQuadTreeIndex;
 
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);

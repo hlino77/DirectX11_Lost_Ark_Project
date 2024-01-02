@@ -115,16 +115,15 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 	Vec3 vDirPlane = -m_vOriginNormal * fDistance;
 	Vec3 vPlanePos = vPlayerPos + vDirPlane;
 	
-	if (vPlayerPos.y < vPlanePos.y)
-		vPlayerPos.y = vPlanePos.y;
+	vPlayerPos.y = vPlanePos.y;
 
-	TRIAGLEDESC tTriangle;
-	tTriangle.vPos0 = m_vPoints_Original[0];
-	tTriangle.vPos1 = m_vPoints_Original[1];
-	tTriangle.vPos2 = m_vPoints_Original[2];
-	tTriangle.vNormal = m_vOriginNormal;
+	//TRIAGLEDESC tTriangle;
+	//tTriangle.vPos0 = m_vPoints_Original[0];
+	//tTriangle.vPos1 = m_vPoints_Original[1];
+	//tTriangle.vPos2 = m_vPoints_Original[2];
+	//tTriangle.vNormal = m_vOriginNormal;
 
-	pObject->Set_Pick(tTriangle);
+	//pObject->Set_Pick(tTriangle);
 	pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPos);
 }
 

@@ -11,6 +11,7 @@
 #include "Monster_Pawn_Server.h"
 #include "Boss_King_Server.h"
 #include "ChaosDungean_Server.h"
+#include "NavigationMgr.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -67,6 +68,11 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_1, L"Chaos1.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Arena.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Arena.Navi");
 
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),

@@ -192,12 +192,6 @@ HRESULT CNavigation::Add_Cell(Vec3 PointPos[3])
 		m_vecCells.push_back(pCell);
 	}
 
-	//Setting Neighbor
-	if (FAILED(Set_Neighbors()))
-	{
-		return E_FAIL;
-	}
-
 
 	return S_OK;
 }
@@ -347,6 +341,7 @@ void CNavigation::Cell_FileLoad(ifstream& file)
 		Add_Cell(vPoints);
 	}
 
+	Set_Neighbors();
 }
 
 void CNavigation::Set_SelectCell(_uint iIndex)

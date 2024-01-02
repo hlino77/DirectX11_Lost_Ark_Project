@@ -34,7 +34,8 @@
 #include "UI_DamageFont.h"
 #include "Damage_Manager.h"
 #include "UI_SpaceBar_Icon.h"
-
+#include "QuadTreeMgr.h"
+#include <filesystem>
 
 CLevel_ChaosLevel1::CLevel_ChaosLevel1(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -46,8 +47,6 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState(LEVELSTATE::INITREADY);
 
 	Send_UserInfo();
-
-	CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
 
 	Ready_Renderer();
 
@@ -74,6 +73,10 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	if (FAILED(Ready_Layer_Effect(LAYER_TYPE::LAYER_EFFECT)))
 		return E_FAIL;
 
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
+	{
+		return E_FAIL;
+	}
 
 	while (true)
 	{
@@ -90,6 +93,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 
 	Start_Collision();
 	Start_Damage();
+	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
@@ -128,9 +132,9 @@ HRESULT CLevel_ChaosLevel1::Exit()
 	End_Collision();
 	End_Picking();
 	End_Damage();
+	End_QuadTree();
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_CHAOS_1);
-	CNavigationMgr::GetInstance()->Reset_Navigation();
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
@@ -222,36 +226,6 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-
-	//Load_ColMesh(LEVELID::LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
-	//Load_MapData(LEVELID::LEVEL_BERN, L"../Bin/Resources/MapData/Arena.data");
-	//m_pRendererCom->Set_StaticShadowMap();
-
-	//Prototype_GameObject_SkyBoxDay
-
-	//pGameInstance->GetInstance()->Add_GameObject(LEVELID::LEVEL_ARENA, (_uint)LAYER_TYPE::LAYER_SKYBOX, L"Prototype_GameObject_SkyBoxDay");
-
-
-	CStaticModel::MODELDESC Desc;
-	Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
-	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
-	Vec3 vPos(0.0f, 0.0f, 0.0f);
-
-	
-	for (_uint i = 0; i < 1; ++i)
-	{
-		CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_CHAOS_1, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-		if (nullptr == pObject)
-		{
-			Safe_Release(pGameInstance);
-			return E_FAIL;
-		}
-
-		pObject->Set_Instance(true);
-		pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		vPos.y += 1.0f;
-	}
-	
 
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -451,84 +425,92 @@ HRESULT CLevel_ChaosLevel1::Load_MapData(LEVELID eLevel, const wstring& szFullPa
 	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
 	file->Open(szFullPath, FileMode::Read);
 
-	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	//Matrix		PivotMatrix = XMMatrixIdentity();
+	//PivotMatrix = XMMatrixRotationX(XMConvertToRadians(90.0f));
+
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/"
+	};
 
 
 	_uint iSize = file->Read<_uint>();
+	bool fileFound = false;
 
 	for (_uint i = 0; i < iSize; ++i)
 	{
-		wstring szModelName = CAsUtils::ToWString(file->Read<string>());
-		Matrix	matWorld = file->Read<Matrix>();
 
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
 
+		for (const auto& path : paths)
 		{
-			CStaticModel::MODELDESC Desc;
-			Desc.strFileName = szModelName;
-			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
 
-
-			CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-			if (nullptr == pObject)
+			if (std::filesystem::exists(fullPath))
 			{
-				Safe_Release(pGameInstance);
-				return E_FAIL;
+				selectedPath = path;
 			}
-
-			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-
-
-			_uint iColliderCount = file->Read<_uint>();
-			CStaticModel* pStaticModel = dynamic_cast<CStaticModel*>(pObject);
-
-
-			for (_uint i = 0; i < iColliderCount; ++i)
-			{
-				pStaticModel->Add_Collider();
-
-				CSphereCollider* pCollider = pStaticModel->Get_StaticCollider(i);
-
-				{
-					Vec3 vOffset = file->Read<Vec3>();
-					pCollider->Set_Offset(vOffset);
-
-
-					_float fRadius = file->Read<_float>();
-					pCollider->Set_Radius(fRadius);
-
-
-					pCollider->Update_Collider();
-				}
-
-				_bool bChild = file->Read<_bool>();
-
-				if (bChild)
-				{
-					pStaticModel->Add_ChildCollider(i);
-
-					COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
-
-
-					Vec3 vOffset = file->Read<Vec3>();
-					pChild->Set_Offset(vOffset);
-
-					Vec3 vScale = file->Read<Vec3>();
-					pChild->Set_Scale(vScale);
-
-					Quaternion vQuat = file->Read<Quaternion>();
-					pChild->Set_Orientation(vQuat);
-
-					pChild->Set_StaticBoundingBox();
-				}
-			}
-
-		
-			//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
 		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
+		Matrix	matWorld = file->Read<Matrix>();
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
+
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+		Desc.IsMapObject = true;
+		Desc.bInstance = bInstance;
+
+		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+
+		if (nullptr == pObject)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+
+
+		_uint			QuadTreeSize = {};
+
+		file->Read<_uint>(QuadTreeSize);
+
+		for (size_t i = 0; i < QuadTreeSize; i++)
+		{
+			_uint Index = {};
+			file->Read<_uint>(Index);
+
+			pObject->Add_QuadTreeIndex(Index);
+			CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
+		}
+
 	}
-
-
 
 
 	Safe_Release(pGameInstance);
@@ -645,6 +627,44 @@ void CLevel_ChaosLevel1::Start_Damage()
 		});
 }
 
+void CLevel_ChaosLevel1::Start_QuadTree()
+{
+	m_pQuadTreeThread = new thread([=]()
+		{
+			CGameInstance* pGameInstance = CGameInstance::GetInstance();
+			Safe_AddRef(pGameInstance);
+
+			CQuadTreeMgr* pQuadTreeManager = CQuadTreeMgr::GetInstance();
+			pQuadTreeManager->AddRef();
+
+			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_QuadTree"))))
+				return FALSE;
+
+			if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_QuadTree_60"))))
+				return FALSE;
+
+			_float		fTimeAcc = 0.f;
+
+
+			while (!pQuadTreeManager->Is_End())
+			{
+				fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_QuadTree"));
+
+				if (fTimeAcc >= 1.f / 60.0f)
+				{
+					pQuadTreeManager->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_QuadTree_60")));
+					fTimeAcc = 0.f;
+				}
+			}
+
+			Safe_Release(pQuadTreeManager);
+			Safe_Release(pGameInstance);
+
+			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree");
+			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree_60");
+		});
+}
+
 void CLevel_ChaosLevel1::End_Damage()
 {
 	if (m_pDamageThread == nullptr)
@@ -677,6 +697,17 @@ void CLevel_ChaosLevel1::End_Collision()
 	m_pCollisionThread->join();
 	CCollisionManager::GetInstance()->Reset();
 	Safe_Delete(m_pCollisionThread);
+}
+
+void CLevel_ChaosLevel1::End_QuadTree()
+{
+	if (m_pQuadTreeThread == nullptr)
+		return;
+
+	CQuadTreeMgr::GetInstance()->Set_End(true);
+	m_pQuadTreeThread->join();
+	CQuadTreeMgr::GetInstance()->Reset_QaudTree();
+	Safe_Delete(m_pQuadTreeThread);
 }
 
 CLevel_ChaosLevel1 * CLevel_ChaosLevel1::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

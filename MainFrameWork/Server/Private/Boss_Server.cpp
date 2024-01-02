@@ -55,7 +55,7 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 
 void CBoss_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
+	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 
 	m_fSkillCoolDown += fTimeDelta;
 		Find_NearTarget(fTimeDelta);

@@ -215,7 +215,7 @@ void CChaosDungean_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 			return;
 
 		pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
-		CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+		CNavigationMgr::GetInstance()->Find_FirstCell(pMonster->Get_CurrLevel(), pMonster);
 		m_Monsters.push_back(pMonster);
 		--m_iMonsterCount;
 
@@ -262,7 +262,7 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 			return;
 
 		pBoss->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
-		CNavigationMgr::GetInstance()->Find_FirstCell(pBoss);
+		CNavigationMgr::GetInstance()->Find_FirstCell(pBoss->Get_CurrLevel(), pBoss);
 		m_Bosses.push_back(pBoss);
 		--m_iBossCount;
 

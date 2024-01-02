@@ -42,16 +42,13 @@ HRESULT CQuadTreeMgr::Reset_QaudTree()
 {
 	WRITE_LOCK
 
-	if (nullptr != m_pSuperNode)
-	{
-		Safe_Delete(m_pSuperNode);
+	m_bEnd = false;
 
-		for (auto& Node : m_Nodes)
-		{
-			Safe_Delete(Node);
-		}
-		m_Nodes.clear();
+	for (auto& Node : m_Nodes)
+	{
+		Safe_Delete(Node);
 	}
+	m_Nodes.clear();
 
 
 	return S_OK;
@@ -77,7 +74,7 @@ HRESULT CQuadTreeMgr::Add_Object(CGameObject* pObject, _uint iIndex)
 void CQuadTreeMgr::Tick(_float fTimeDelta)
 {
 	READ_LOCK
-	if(m_pSuperNode)
+	if(m_pSuperNode && m_bStop == false)
 		m_pSuperNode->Tick(fTimeDelta);
 }
 

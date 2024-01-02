@@ -74,7 +74,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 void CPlayer::Tick(_float fTimeDelta)
 {
 	if (m_bNavi)
-		CNavigationMgr::GetInstance()->SetUp_OnCell(this);
+	{
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+	}
+		
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
@@ -445,7 +448,7 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 	vRayPos = XMVector3TransformCoord(vRayPos, matViewInv);
 	vRayDir = XMVector3TransformNormal(vRayDir, matViewInv);
 
-	return CNavigationMgr::GetInstance()->Picking_Cell(vRayPos, vRayDir, vPickPos);
+	return CNavigationMgr::GetInstance()->Picking_Cell(m_iCurrLevel, vRayPos, vRayDir, vPickPos);
 }
 
 void CPlayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)

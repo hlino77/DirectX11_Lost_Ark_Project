@@ -59,10 +59,6 @@ HRESULT CMonster::Initialize(void* pArg)
 
 	m_pRigidBody->SetMass(2.0f);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
-
-	m_pRigidBody->SetMass(2.0f);
-
 	Find_NearTarget();
 
 	if (m_bInstance)
@@ -75,12 +71,14 @@ HRESULT CMonster::Initialize(void* pArg)
 	}
 	m_fMoveSpeed = 1.5f;
 
+	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
+
     return S_OK;
 }
 
 void CMonster::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
+	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	if (!m_bDead)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);

@@ -121,6 +121,8 @@ public:
 
 	void						Set_Render(_bool bRender) { m_bRender = bRender; }
 	_bool						Is_Render() { return m_bRender; }
+	void						Set_RenderMarking(_bool bRenderMarking) { m_bRenderMarking = bRenderMarking; }
+	_bool						Is_RenderMarking() { return m_bRenderMarking; }
 
 	_uint						Get_ObjectType() { return m_iObjType; }
 
@@ -208,7 +210,7 @@ protected:
 	_bool				m_bControl = false;
 	_int				m_iLayer = -1;
 
-	_bool				m_bRender = true;
+
 	_bool				m_bActive = true;
 	_bool				m_bDead = false;
 	_bool				m_bNavi = true;
@@ -219,6 +221,9 @@ protected:
 	CGameObject*		m_pNearTarget = nullptr;
 	CGameObject*		m_pHitObject = nullptr;
 
+	//QuadTree
+	_bool				m_bRenderMarking = false;
+	_bool				m_bRender = true;
 
 	//WallPicking
 	_bool						m_bPicking = false;

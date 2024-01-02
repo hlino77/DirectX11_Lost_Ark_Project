@@ -47,8 +47,6 @@ HRESULT CLevel_ChaosLevel3::Initialize()
 
 	Send_UserInfo();
 
-	CNavigationMgr::GetInstance()->Add_Navigation(L"Arena.navi");
-
 	Ready_Renderer();
 
 	Ready_Events();
@@ -130,7 +128,6 @@ HRESULT CLevel_ChaosLevel3::Exit()
 	End_Damage();
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_CHAOS_3);
-	CNavigationMgr::GetInstance()->Reset_Navigation();
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);

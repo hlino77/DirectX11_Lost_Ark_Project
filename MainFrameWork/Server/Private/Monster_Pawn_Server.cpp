@@ -85,7 +85,7 @@ HRESULT CMonster_Pawn_Server::Initialize(void* pArg)
 
 void CMonster_Pawn_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(this);
+	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	m_pBehaviorTree->Tick(fTimeDelta);
 		Find_NearTarget(fTimeDelta);
 	m_fHitTerm -= fTimeDelta;

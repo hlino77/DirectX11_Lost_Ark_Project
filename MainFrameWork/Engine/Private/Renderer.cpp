@@ -709,9 +709,7 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 		Safe_Release(iter);
 	}
 
-	
 	m_RenderObjects[RENDER_NONBLEND].clear();
-
 
 	for (auto& ObjectList : m_InstanceRenderObjects[RENDER_NONBLEND])
 	{

@@ -51,6 +51,7 @@
 #include "UI_Loading.h"
 #include "Effect.h"
 #include "UI_SpeechBubble.h"
+#include "QuadTreeMgr.h"
 
 namespace fs = std::filesystem;
 
@@ -113,6 +114,17 @@ void CMainApp::Tick(_float fTimeDelta)
 	{
 		Active_Camera_Free();
 	}
+	if (KEY_TAP(KEY::F3))
+	{
+		CQuadTreeMgr::GetInstance()->Set_Stop(false);
+	}
+	if (KEY_TAP(KEY::F4))
+	{
+		CQuadTreeMgr::GetInstance()->Set_Stop(true);
+	}
+
+	if (KEY_HOLD(KEY::N) && KEY_TAP(KEY::NUM_1))
+		CNavigationMgr::GetInstance()->OnOff_Render();
 
 	m_pGameInstance->FinalTick(fTimeDelta);
 
@@ -136,9 +148,13 @@ HRESULT CMainApp::Render()
 	
 	CChat_Manager::GetInstance()->Render();
 
+	CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
+
 	m_pGameInstance->Render_Debug();
 	/* 초기화한 장면에 객체들을 그린다. */
 	m_pGameInstance->Present();
+
+	
 
 	return S_OK;
 }

@@ -58,21 +58,27 @@ HRESULT CQuadTreeNode::Add_Object(CGameObject* pObject)
 
 void CQuadTreeNode::Tick(_float fTimeDelta)
 {
-	for (auto& Object : m_Objects)
-	{
-		Object->Set_Render(false);
-	}
-
 	const BoundingFrustum& tCamFrustum = CPipeLine::GetInstance()->Get_CamFrustum();
 
+	for (auto& Object : m_Objects)
+	{
+		Object->Set_RenderMarking(false);
+	}
 
 	Set_ObjectRender(tCamFrustum);
+
+	for (auto& Object : m_Objects)
+	{
+		if (Object->Is_RenderMarking() == true)
+			Object->Set_Render(true);
+		else
+			Object->Set_Render(false);
+	}
 }
 
 void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
 {
 	ContainmentType eContain = tFrustum.Contains(m_tBoudingBox);
-
 
 	switch (eContain)
 	{
@@ -82,7 +88,7 @@ void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
 	{
 		for (auto& Object : m_Objects)
 		{
-			Object->Set_Render(true);
+			Object->Set_RenderMarking(true);
 		}
 		
 	}
@@ -93,7 +99,7 @@ void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
 		{
 			for (auto& Object : m_Objects)
 			{
-				Object->Set_Render(true);
+				Object->Set_RenderMarking(true);
 			}
 			return;
 		}
@@ -114,6 +120,4 @@ void CQuadTreeNode::Render_DeBug()
 
 CQuadTreeNode::~CQuadTreeNode()
 {
-	for (auto& Child : m_Childs)
-		Safe_Delete(Child);
 }

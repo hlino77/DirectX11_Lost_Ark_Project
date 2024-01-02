@@ -40,10 +40,6 @@ HRESULT CPlayer_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	if (FAILED(Ready_Animations()))
-		return E_FAIL;
-
-
 
     return S_OK;
 }
@@ -89,41 +85,6 @@ void CPlayer_Server::Set_Colliders(_float fTimeDelta)
 
 }
 
-HRESULT CPlayer_Server::Ready_Animations()
-{
-	if (m_strObjectTag == L"Naruto")
-		Ready_NarutoAnimation();
-	else if (m_strObjectTag == L"Sasuke")
-		Ready_SasukeAnimation();
-
-	return S_OK;
-}
-
-HRESULT CPlayer_Server::Ready_SasukeAnimation()
-{
-	m_pModelCom->Initailize_FindAnimation(L"Idle_Loop", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Run_End", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Run_Loop", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_cmb01", 1.3f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_cmb03", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_cmb06", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_cmb08", 1.0f);
-
-	return S_OK;
-}
-
-HRESULT CPlayer_Server::Ready_NarutoAnimation()
-{
-	m_pModelCom->Initailize_FindAnimation(L"Idle_Loop", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Run_End", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Run_Loop", 1.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_ElbowStrike", 2.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_JumpDoubleKick", 2.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_Punch_Left", 2.0f);
-	m_pModelCom->Initailize_FindAnimation(L"Attack_Punch_Right", 2.0f);
-
-	return S_OK;
-}
 
 
 HRESULT CPlayer_Server::Ready_Components()

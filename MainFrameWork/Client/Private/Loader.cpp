@@ -569,7 +569,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 
 	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
-	CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Bern_Navi"), L"BernCastle.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 
 
 
@@ -721,6 +721,9 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
 
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_1, L"Chaos1.Navi");
+
+	Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"));
 
 	{
 		wstring strFileName = L"Monster_Zombie";
@@ -760,6 +763,9 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
+
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Arena.Navi");
+
 
 	{
 		wstring strFileName = L"Monster_Plant";
@@ -829,6 +835,8 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Arena.Navi");
 
 	{
 		wstring strFileName = L"Boss_King";
@@ -959,7 +967,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		}
 
 		Matrix	matWorld = file->Read<Matrix>();
-
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
 
 		vector<_uint>	QuadTreeIndex;
 		_uint			QuadTreeSize = {};
@@ -972,9 +981,6 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 			file->Read<_uint>(Index);
 		}
 
-
-		_bool bInstance = false;
-		file->Read<_bool>(bInstance);
 
 
 		CStaticModel::MODELDESC Desc;

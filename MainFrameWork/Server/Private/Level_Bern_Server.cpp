@@ -24,9 +24,6 @@ CLevel_Bern_Server::CLevel_Bern_Server()
 
 HRESULT CLevel_Bern_Server::Initialize()
 {
-	
-	CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Bern_Navi"));
-
 	//CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Choas1_Navi"));
 
 
@@ -173,7 +170,6 @@ HRESULT CLevel_Bern_Server::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_Bern_Server::Exit()
 {
-	CNavigationMgr::GetInstance()->Reset_Navigation();
 	return S_OK;
 }
 
@@ -317,7 +313,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 
 			pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
 
-			CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+			CNavigationMgr::GetInstance()->Find_FirstCell(pMonster->Get_CurrLevel(), pMonster);
 			Protocol::S_CREATE_OBJCECT tMonsterPkt;
 
 			tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
@@ -364,7 +360,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Boss(const wstring& szName, Vec3 vPos)
 
 		pMonster->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
 
-		CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
+		CNavigationMgr::GetInstance()->Find_FirstCell(pMonster->Get_CurrLevel(), pMonster);
 		
 		Protocol::S_CREATE_OBJCECT tMonsterPkt;
 

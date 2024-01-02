@@ -61,11 +61,6 @@ public:
 	void				Set_Colliders(_float fTimeDelta);
 
 
-private:
-	HRESULT				Ready_Animations();
-	HRESULT				Ready_SasukeAnimation();
-	HRESULT				Ready_NarutoAnimation();
-
 protected:
 	virtual HRESULT Ready_Components() override;
 

@@ -119,7 +119,6 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 			Safe_Release(pGameInstance);
 			return true;
 		}
-		CNavigationMgr::GetInstance()->Find_FirstCell(pMonster);
 		break;
 	}
 	case OBJ_TYPE::BOSS:
@@ -129,6 +128,7 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		Desc.iObjectID = pkt.iobjectid();
 		Desc.iLayer = pkt.ilayer();
 		Desc.iLevel = pkt.ilevel();
+		Desc.vPos = Vec3(pkt.vpos().data());
 
 		wstring szProtoName = L"Prototype_GameObject_" + Desc.strFileName;
 		CBoss* pBoss = dynamic_cast<CBoss*>(pGameInstance->Add_GameObject(pkt.ilevel(), pkt.ilayer(), szProtoName, &Desc));
@@ -137,8 +137,6 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 			Safe_Release(pGameInstance);
 			return true;
 		}
-		pBoss->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, Vec3(pkt.vpos().data()));
-		CNavigationMgr::GetInstance()->Find_FirstCell(pBoss);
 		break;
 	}
 	case OBJ_TYPE::SPAWNER:
