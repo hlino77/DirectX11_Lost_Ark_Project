@@ -27,9 +27,12 @@ HRESULT CNavigationMgr::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceConte
 void CNavigationMgr::Render(_uint iLevel)
 {
 	WRITE_LOCK
-	if (m_Navigations.find(iLevel) == m_Navigations.end())
-		return;
-	m_Navigations[iLevel]->Render();
+	if (m_bRender)
+	{
+		if (m_Navigations.find(iLevel) == m_Navigations.end())
+			return;
+		m_Navigations[iLevel]->Render();
+	}
 }
 
 void CNavigationMgr::Add_Navigation(_uint iLevel, const wstring& szFileName)

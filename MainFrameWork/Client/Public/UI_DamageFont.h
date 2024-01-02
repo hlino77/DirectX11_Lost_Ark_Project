@@ -58,7 +58,6 @@ private:
     _bool   m_bCriticalHit = { false };
 
     _float  m_fDuration = { 0.f };
-    _float m_fRandomX = { 0.f };
     _float m_fOffSetY = { 0.f };
     _float m_fRandomZ = { 0.f };
 

@@ -52,11 +52,13 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
         Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
         Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 
+        vHostPos.y += m_fOffSetY;
         vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
         vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
+
         m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
         m_vHostPos += m_vOffset;
-        m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + m_fOffSetY, m_fRandomZ));
+        m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
 
         if (1.f < m_fDuration)
         {
@@ -72,7 +74,7 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
             {
                 m_pDamageFontWnd->Decrease_Alpha(2.f * fTimeDelta);
                 m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
-                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x + (25.f * m_fRandomX), m_vHostPos.y + m_fOffSetY * 1.5f, m_fRandomZ));
+                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + 30.0f * 1.5f, m_fRandomZ));
             }
         }
         else
@@ -84,7 +86,7 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
             else if ((0.2f < m_fDuration) && ((_uint)(m_fDuration * 10.f)) % 8 == 0.f)
             {
                 m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x -= (m_vTextBoxMaxScale.x * 0.01f), m_vTextBoxMaxScale.y -= (m_vTextBoxMaxScale.y * 0.01f), m_fRandomZ));
-                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + m_fOffSetY, m_fRandomZ));
+                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
             }
         }
     }
@@ -119,6 +121,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     m_bCriticalHit = IsCritical;
     Vec2 vTextPos(300.0f, 40.0f);
     Vec3 vHostPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+    vHostPos.y += fOffsetY;
     m_fOffSetY = fOffsetY;
 
     Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
@@ -192,7 +195,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
         m_vTextBoxMaxScale = m_vTextBoxScale * 1.4f;
 
         m_fRandomZ = CGameInstance::GetInstance()->Get_RandomFloat(0.f, 1.f);
-        m_fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
+       // m_fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
 
         m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
         m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));

@@ -224,26 +224,27 @@ HRESULT CLevel_ChaosLevel2::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	//pGameInstance->GetInstance()->Add_GameObject(LEVELID::LEVEL_ARENA, (_uint)LAYER_TYPE::LAYER_SKYBOX, L"Prototype_GameObject_SkyBoxDay");
 
 
-	CStaticModel::MODELDESC Desc;
-	Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
-	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
-	Vec3 vPos(0.0f, 0.0f, 0.0f);
+	//CStaticModel::MODELDESC Desc;
+	//Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
+	//Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+	//Desc.bInstance = false;
+	//Vec3 vPos(0.0f, 0.0f, 0.0f);
 
-	
-	for (_uint i = 0; i < 1; ++i)
-	{
-		CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-		if (nullptr == pObject)
-		{
-			Safe_Release(pGameInstance);
-			return E_FAIL;
-		}
+	//
+	//for (_uint i = 0; i < 1; ++i)
+	//{
+	//	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+	//	if (nullptr == pObject)
+	//	{
+	//		Safe_Release(pGameInstance);
+	//		return E_FAIL;
+	//	}
 
-		pObject->Set_Instance(true);
-		pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		vPos.y += 1.0f;
-	}
-	
+	//	pObject->Set_Instance(true);
+	//	pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+	//	vPos.y += 1.0f;
+	//}
+	//
 
 	Safe_Release(pGameInstance);
 	return S_OK;

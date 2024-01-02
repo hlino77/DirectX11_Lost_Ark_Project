@@ -224,7 +224,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	//pGameInstance->GetInstance()->Add_GameObject(LEVELID::LEVEL_ARENA, (_uint)LAYER_TYPE::LAYER_SKYBOX, L"Prototype_GameObject_SkyBoxDay");
 
 
-	CStaticModel::MODELDESC Desc;
+	/*CStaticModel::MODELDESC Desc;
 	Desc.strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
 	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
 	Vec3 vPos(0.0f, 0.0f, 0.0f);
@@ -242,7 +242,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 		pObject->Set_Instance(true);
 		pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 		vPos.y += 1.0f;
-	}
+	}*/
 	
 
 	Safe_Release(pGameInstance);
