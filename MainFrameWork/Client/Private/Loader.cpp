@@ -1421,17 +1421,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	}
 
 
-	/* ÁöÇü */
-	{
-		wstring strFileName = L"SM_ENV_TCHEXA_ArenaGround_Aa";
-		wstring strFilePath = L"../Bin/Resources/Meshes/Static/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1200.f);
-	}
 
 	
 	Safe_Release(pGameInstance);
