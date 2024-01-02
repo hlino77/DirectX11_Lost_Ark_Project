@@ -25,11 +25,6 @@
 #include "Chat_Manager.h"
 #include "UI_Tool.h"
 #include "UI_Manager.h"
-#include "UI_IdentityGN_BackGroundWing.h"
-#include "UI_IdentityGN_BackGroundFrame.h"
-#include "UI_IdentityGN_BackGroundShine.h"
-#include "UI_IdentityGN_MainFrame.h"
-#include "UI_IdentityGN_WF_Front.h"
 #include "Projectile.h"
 #include "UI_DamageFont.h"
 #include "Damage_Manager.h"
@@ -264,7 +259,7 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	LEVELID eLevel = LEVEL_BERN;
+	LEVELID eLevel = LEVEL_CHAOS_1;
 
 	CGameObject* pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChatUI"));
 	if (nullptr == pUI)
@@ -282,11 +277,19 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	}
 	else if (L"WR" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
 	{
-		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_WRIdentity"));
+		pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_WRIdentity"));
 		if (nullptr == pUI)
 			return E_FAIL;
 		else
-			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+			CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
+	}
+	else if (L"WDR" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
+	{
+		pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_WDRIdentity_UI"));
+		if (nullptr == pUI)
+			return E_FAIL;
+		else
+			CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 	}
 
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
@@ -312,7 +315,6 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 	else
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
-	
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

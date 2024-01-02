@@ -235,7 +235,7 @@ PS_OUT PS_MAIN_PIX_COLOR(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_MAIN_TEXTURE_CUT(PS_IN In)
+PS_OUT PS_MAIN_TEXTURE_CUTX(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
@@ -247,6 +247,23 @@ PS_OUT PS_MAIN_TEXTURE_CUT(PS_IN In)
 		discard;
 
 	if (g_fRatio <= In.vTexUV.x)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_TEXTURE_CUTY(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor = pow(Out.vColor, 1.f / 2.2f);
+	Out.vColor.a *= g_Alpha;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	if ((1.f - g_fRatio) >= In.vTexUV.y)
 		discard;
 
 	return Out;
@@ -352,6 +369,19 @@ PS_OUT PS_MAIN_WREYESHINE(PS_IN In)
 	return Out;
 }
 	
+PS_OUT PS_MAIN_SATURATION(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	Out.vColor.a *= g_Alpha;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	Out.vColor.rgb *= g_fRoughness;
+
+	return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -435,7 +465,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_PIX_COLOR();
 	}
 
-	pass PixTexturePass
+	pass PixTexturePassX
 	{
 		SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
@@ -443,7 +473,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUT();
+		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUTX();
 	}
 
 	pass CoolTimePass
@@ -468,7 +498,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_WRGAUGE();
 	}
 
-	pass PS_MAIN_WRSHINE
+	pass PS_MAIN_WRSHINE//Num.10
 	{
 		SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
@@ -490,4 +520,25 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_WREYESHINE();
 	}
 
+	pass PixTexturePassY
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUTY();
+	}
+
+	pass PixTextureSaturation
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_SATURATION();
+	}
 }
