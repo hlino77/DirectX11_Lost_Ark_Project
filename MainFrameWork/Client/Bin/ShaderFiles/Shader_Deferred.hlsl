@@ -308,7 +308,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
     float3	N = vNormal.xyz * 2.f - 1.f;
 	float4	vMetallic = g_MetallicTarget.Sample(LinearSampler, In.vTexcoord);
-    float	fMetallic = vMetallic.x;
+    float	fMetallic = vMetallic.x /* 임시 */ * 0.8f;
 	float	fRimLight = vMetallic.w;
     float	fRoughness = g_RoughnessTarget.Sample(LinearSampler, In.vTexcoord).x;
 	
@@ -331,14 +331,14 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
     vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 	
-    float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
+    float3 V = normalize(CameraPosition() - vWorldPos.xyz);
 	
     float3 vSpecular = float3(0.04f, 0.04f, 0.04f);
     vSpecular = lerp(vSpecular, vAlbedo.xyz, fMetallic);
 
 	// calculate per-light radiance
     float3 L = -g_vLightDir;
-    float3 H = normalize(V + L);	
+    float3 H = normalize(V + L);
 	
 	// irradianceMap을 ShadeTarget으로 대체해 봄. 이상하면 여긴 빼자
     float3 vIrradiance = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
@@ -354,12 +354,14 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float3 kD = 1.0f - kS;
     kD *= 1.0f - fMetallic;
 	
+	//
+    kD *= /*임시*/5.f;
+	//
+	
     float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;
 	
     float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
 	
-
-
     vColor = vAmbient + vColor + vEmissive;
 
 	if (fRimLight != 0.0f)

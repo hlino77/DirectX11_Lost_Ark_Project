@@ -42,7 +42,7 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 
 void CVoidEffect::Tick(_float fTimeDelta)
 {
-	m_fLifeTime = ::max(0.05f, m_fLifeTime);
+	m_fLifeTime = ::max(0.02f, m_fLifeTime);
 	
 	m_fTimeAcc += fTimeDelta;
 	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;

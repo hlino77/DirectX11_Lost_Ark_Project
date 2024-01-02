@@ -279,7 +279,7 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 	return S_OK;
 }
 
-HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, CTransform* pTransform)
+HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc)
 {
 	auto& Effects = m_hashEffectBundles.find(strEffectBundle);
 
@@ -290,8 +290,8 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, CTransform* pTran
 		for (auto& iter : Effects->second)
 		{
 			CEffect* pEffect = nullptr;
-			
-			pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, iter, pTransform));
+
+			pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, iter, pDesc));
 			if (nullptr == pEffect)
 				return E_FAIL;
 		}
