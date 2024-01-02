@@ -895,9 +895,6 @@
     <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\00.BackGround">
       <UniqueIdentifier>{cf197a3f-61a2-453a-987c-87b79b48c4ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\07.Effect">
-      <UniqueIdentifier>{082c682d-06db-4f6b-aaa9-0340f528e623}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\01.GaugeFrame">
       <UniqueIdentifier>{982eb2fe-1bcc-4442-847b-16d25c86cd36}</UniqueIdentifier>
     </Filter>
@@ -915,6 +912,27 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\04.Chain">
       <UniqueIdentifier>{57962d16-85ac-491d-a5c4-0e88c76d876a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect">
+      <UniqueIdentifier>{082c682d-06db-4f6b-aaa9-0340f528e623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer">
+      <UniqueIdentifier>{12d43528-0cd8-4690-be8f-b0ab3e863c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\00.Hammer_Off">
+      <UniqueIdentifier>{ac992580-504e-4e00-a4da-a2be4d5171e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\01.Hammer_On">
+      <UniqueIdentifier>{e06913d6-587e-49b1-a019-c4dff8002042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\02.Horizon">
+      <UniqueIdentifier>{97abe618-37e5-4944-8630-59e09be58e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\01.Bubble">
+      <UniqueIdentifier>{6502945d-35c0-41e2-b559-6891129de3bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame">
+      <UniqueIdentifier>{271b4d89-d1be-45b0-8cda-9975becff6bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3013,6 +3031,12 @@
     <ClInclude Include="..\Public\UI_WDRIdentity.h">
       <Filter>02.GameObjects\UI\03.Identity\02.Destroyer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Shine_IdenOff.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\00.Hammer_Off</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WDRIdentity_Identity_Skill.h">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5079,6 +5103,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_WDRIdentity.cpp">
       <Filter>02.GameObjects\UI\03.Identity\02.Destroyer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Shine_IdenOff.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\00.Hammer_Off</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WDRIdentity_Identity_Skill.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

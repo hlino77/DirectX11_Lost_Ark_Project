@@ -94,6 +94,7 @@
 #include "UI_WDRIdentity_Chain.h"
 #include "UI_WDRIdentity_Bubbles_Frame.h"
 #include "UI_WDRIdentity_Bubble.h"
+#include "UI_WDRIdentity_Identity_Skill.h"
 #include "UI_WDRIdentity.h"
 
 //Monsters
@@ -388,6 +389,10 @@ HRESULT CLoader::Loading_For_Level_Logo()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WDRIdentity_Bubble"),
 		CUI_WDRIdentity_Bubble::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WDRIdentity_Skill"),
+		CUI_WDRIdentity_Identity_Skill::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WDRIdentity_UI"),

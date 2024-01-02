@@ -506,6 +506,8 @@
     <ClInclude Include="..\Public\UI_WDRIdentity_Gauge.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity_GaugeFrame.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity_Hammer.h" />
+    <ClInclude Include="..\Public\UI_WDRIdentity_Identity_Skill.h" />
+    <ClInclude Include="..\Public\UI_WDRIdentity_Shine_IdenOff.h" />
     <ClInclude Include="..\Public\UI_WRIdentity.h" />
     <ClInclude Include="..\Public\UI_WRIdentity_BindingKey.h" />
     <ClInclude Include="..\Public\UI_WRIdentity_Body.h" />
@@ -865,6 +867,8 @@
     <ClCompile Include="..\Private\UI_WDRIdentity_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity_GaugeFrame.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity_Hammer.cpp" />
+    <ClCompile Include="..\Private\UI_WDRIdentity_Identity_Skill.cpp" />
+    <ClCompile Include="..\Private\UI_WDRIdentity_Shine_IdenOff.cpp" />
     <ClCompile Include="..\Private\UI_WRIdentity.cpp" />
     <ClCompile Include="..\Private\UI_WRIdentity_BindingKey.cpp" />
     <ClCompile Include="..\Private\UI_WRIdentity_Body.cpp" />

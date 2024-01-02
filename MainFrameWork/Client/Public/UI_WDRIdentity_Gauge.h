@@ -34,6 +34,7 @@ private:
     CGameObject* m_pPlayer = { nullptr };
     _uint m_iIdentity_MaxGauge = { 0 };
     _uint  m_iIdentity_CurrGauge = { 0 };
+    _uint   m_iIdentity_PreGauge = { 0 };
     _float  m_fIdentity_Ratio = { 0.f };
     _bool   m_bIdentityOn = { false };
 

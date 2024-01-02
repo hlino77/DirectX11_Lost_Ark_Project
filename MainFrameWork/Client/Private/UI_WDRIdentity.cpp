@@ -129,6 +129,14 @@ HRESULT CUI_WDRIdentity::UI_Set()
 		}
 	}
 
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_WDRIdentity_Skill")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+
 	Load_UIData(TEXT("Identity_Dstroyer_Desc"));
 
 	Safe_Release(pGameInstance);

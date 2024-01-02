@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "UI_WDRIdentity_Bubble.h"
 #include "GameInstance.h"
+#include "ServerSessionManager.h"
+#include "Controller_WDR.h"
+#include "Player_Destroyer.h"
 
 CUI_WDRIdentity_Bubble::CUI_WDRIdentity_Bubble(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -42,7 +45,7 @@ HRESULT CUI_WDRIdentity_Bubble::Initialize(void* pArg)
 	m_fX = g_iWinSizeX * 0.5f;
 	m_fY = g_iWinSizeY * 0.5f;
 	m_fAlpha = 1.f;
-	m_vColor = { 3.f, 3.f, 3.f, 1.f };
+	m_vColor = Vec4(100.f, 100.f, 100.f, 1.f);
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
@@ -50,17 +53,27 @@ HRESULT CUI_WDRIdentity_Bubble::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+
+	m_pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr != m_pPlayer)
+		m_iBubbleCurrCount = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
+		Get_WDR_Controller()->Get_MarbleCnt();
+
+	m_iBubblePreCount = m_iBubbleCurrCount;
+
 	return S_OK;
 }
 
 void CUI_WDRIdentity_Bubble::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	Update_Bubbles(fTimeDelta);
 }
 
 void CUI_WDRIdentity_Bubble::LateTick(_float fTimeDelta)
 {
-	__super::LateTick(fTimeDelta);
+	if(m_iBubbleCurrCount >= m_iBubbleIndex)
+		__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_WDRIdentity_Bubble::Render()
@@ -102,6 +115,39 @@ HRESULT CUI_WDRIdentity_Bubble::Bind_ShaderResources()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CUI_WDRIdentity_Bubble::Update_Bubbles(_float fTimeDelta)
+{
+	m_iBubbleCurrCount = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
+		Get_WDR_Controller()->Get_MarbleCnt();
+
+	if (m_iBubbleCurrCount != m_iBubblePreCount)
+	{
+		m_bSpawnBubbleAnim = false;
+		m_iBubblePreCount = m_iBubbleCurrCount;
+		m_vColor = Vec4(100.f, 100.f, 100.f, 1.f);
+	}
+
+	Spawan_BubbleAnim(m_iBubbleCurrCount, fTimeDelta);
+}
+
+void CUI_WDRIdentity_Bubble::Spawan_BubbleAnim(_uint iBubbleCount, _float fTimeDelta)
+{
+	if ((0 == iBubbleCount)||(m_bSpawnBubbleAnim))
+		return;
+
+	if (iBubbleCount >= m_iBubbleIndex)
+	{
+		m_vColor -= (m_vColor - Vec4(1.f, 1.f, 1.f, 1.f)) *  (20.f *fTimeDelta);
+
+		if (1.f >= m_vColor.x)
+		{
+			m_vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+			m_bSpawnBubbleAnim = true;
+		}
+	}
+
 }
 
 CUI_WDRIdentity_Bubble* CUI_WDRIdentity_Bubble::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
