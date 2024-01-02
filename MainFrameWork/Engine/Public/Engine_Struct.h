@@ -329,8 +329,6 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[iNumElements];
 	}VTX_TRAIL_INSTANCE;
 
-
-
 	typedef struct ENGINE_DLL tagVertex_ModelEffect_Declaration
 	{
 		static const unsigned int				iNumElements = 10;
@@ -344,18 +342,18 @@ namespace Engine
 		_bool	IsMove = { false };
 		_float	fMoveSpeed = { 1.f };
 
-		_uint eUseCollider;
-		_uint eLayer_Collider;
+		_uint	eUseCollider;
+		_uint	eLayer_Collider;
 
-		Vec3   vAttackPos = { 0.f, 0.f, 0.f };
+		Vec3	vAttackPos = { 0.f, 0.f, 0.f };
 
-		_float fAttackTime;
+		_float	fAttackTime;
 
-		_float fRadius;
-		Vec3 vOffset;
+		_float	fRadius;
+		Vec3	vOffset;
 
-		Vec3 vChildScale;
-		Vec3 vChildOffset;
+		Vec3	vChildScale;
+		Vec3	vChildOffset;
 
 		/* 투사체 정보 */
 		_uint	iDamage = { 0 };
@@ -364,6 +362,15 @@ namespace Engine
 		_float	fRepulsion = { 0.f };
 		_bool	bUseProjPos = { false };
 		_bool	bUseFactor = { true };
+
+		_bool	IsSpawner = { false };
+		_bool	IsColliSpawn = { false };
+		/* 스폰투사체 정보 */
+		_bool	bRansdomSpawn = { false };
+		Vec4	vRandSpawnFigure;
+		_uint	iSpawnAmount = { 1 };
+		_float	fSpawnTime = { 0.0f };
+		_float  fSpawnAttackTime = { 0.0f };
 
 	}PROJECTILE_DESC;
 

@@ -220,7 +220,8 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
         
         if (0 != vGiven.a)
         {
-            Out.vDiffuse.rgb *= (vGiven.rgb * vGiven.a);
+            Out.vDiffuse.rgb *= vGiven.rgb;
+            Out.vDiffuse.rgb *= vGiven.a;
             Out.vDiffuse.a = 1.f;
         }
     }
