@@ -37,7 +37,7 @@ void CState_GN_Attack_Shot2::Enter_State()
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Shot2, 0.1f, 0, 0);
-	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
+	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_GN_Attack_Shot2::Tick_State(_float fTimeDelta)
@@ -68,6 +68,8 @@ void CState_GN_Attack_Shot2::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
@@ -83,7 +85,8 @@ void CState_GN_Attack_Shot2::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
-
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
@@ -95,6 +98,8 @@ void CState_GN_Attack_Shot2::Tick_State_Control(_float fTimeDelta)
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Attack_Shot_1"));
 		}

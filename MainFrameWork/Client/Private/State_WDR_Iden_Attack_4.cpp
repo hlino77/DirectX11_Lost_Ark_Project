@@ -92,6 +92,8 @@ void CState_WDR_Iden_Attack_4::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
@@ -100,25 +102,18 @@ void CState_WDR_Iden_Attack_4::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Iden_Skill"));
-	}
-	else if (true == m_IsSkillContinue && 17 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_4))
-	{
-		Vec3 vClickPos;
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			m_pPlayer->Set_TargetPos(vClickPos);
-
-		if (true == static_cast<CController_WDR*>(m_pController)->Is_In_Identity())
-		{
-			m_pPlayer->Set_State(TEXT("Iden_Skill"));
-		}
 	}
 	else if (true == m_IsAttackContinue && 17 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_4))
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		if (true == static_cast<CController_WDR*>(m_pController)->Is_In_Identity())
 		{

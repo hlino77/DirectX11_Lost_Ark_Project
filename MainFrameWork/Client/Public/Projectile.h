@@ -83,6 +83,9 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	_float m_fMoveSpeed = 1.f;
 	_bool  m_IsMove = { false };
 
+	_bool  m_bReserveColli = { false };
+	_bool  m_IsSpawner = { false };
+
 	_bool m_bEnd = false;
 
 	_bool m_bColliderOut[COLEND];

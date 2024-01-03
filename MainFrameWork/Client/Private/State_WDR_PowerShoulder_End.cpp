@@ -33,6 +33,7 @@ void CState_WDR_PowerShoulder_End::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPowerShoulder_End, 0.1f, 0, 0, 1.f);
+
 }
 
 void CState_WDR_PowerShoulder_End::Tick_State(_float fTimeDelta)
@@ -46,6 +47,7 @@ void CState_WDR_PowerShoulder_End::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
 }
 
 void CState_WDR_PowerShoulder_End::Tick_State_Control(_float fTimeDelta)
@@ -67,6 +69,8 @@ void CState_WDR_PowerShoulder_End::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Dash"));
 		}
@@ -74,6 +78,8 @@ void CState_WDR_PowerShoulder_End::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
 		}
@@ -81,6 +87,8 @@ void CState_WDR_PowerShoulder_End::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Attack_1"));
 		}

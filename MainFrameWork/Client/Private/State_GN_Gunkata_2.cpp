@@ -36,7 +36,7 @@ void CState_GN_Gunkata_2::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iGunkata_2, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
-	m_pPlayer->Get_GN_Controller()->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_GN_Gunkata_2::Tick_State(_float fTimeDelta)
@@ -79,6 +79,8 @@ void CState_GN_Gunkata_2::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Skill_GN_Gunkata_3"));
 	}

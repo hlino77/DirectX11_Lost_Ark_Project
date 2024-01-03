@@ -78,45 +78,9 @@ void CState_GN_Run_Identity::Exit_State()
 
 void CState_GN_Run_Identity::Tick_State_Control(_float fTimeDelta)
 {
-	if (true == m_pController->Is_Dash())
+	if (true == m_pController->Is_Run())
 	{
-		Vec3 vClickPos;
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			m_pPlayer->Set_TargetPos(vClickPos);
-
-		m_pPlayer->Set_State(TEXT("Dash"));
-	}
-	else if (true == m_pController->Is_Run())
-	{
-		Vec3 vClickPos;
-		if (m_pPlayer->Get_CellPickingPos(vClickPos))
-		{
-			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pController->Get_MoveMessage(vClickPos);
-		}
-
 		m_pPlayer->Set_State(TEXT("Run"));
-	}
-	else if (true == m_pController->Is_Attack())
-	{
-		Vec3 vClickPos;
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			m_pPlayer->Set_TargetPos(vClickPos);
-
-		CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
-
-		switch (eIden)
-		{
-		case Client::CPlayer_Controller_GN::HAND:
-			m_pPlayer->Set_State(TEXT("Attack_Hand_1"));
-			break;
-		case Client::CPlayer_Controller_GN::SHOT:
-			m_pPlayer->Set_State(TEXT("Attack_Shot_1"));
-			break;
-		case Client::CPlayer_Controller_GN::LONG:
-			m_pPlayer->Set_State(TEXT("Attack_Long_1"));
-			break;
-		}
 	}
 	else if (true == m_pController->Is_Idle())
 	{

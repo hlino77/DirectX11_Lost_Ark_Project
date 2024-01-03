@@ -30,7 +30,7 @@ void CState_GN_QuickStep_Start::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iQuickStep_Start, 0.1f, 0, 0, 1.8f);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
-	m_pPlayer->Get_GN_Controller()->Get_LookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
@@ -73,6 +73,8 @@ void CState_GN_QuickStep_Start::Tick_State_Control(_float fTimeDelta)
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Dash"));
 		}
@@ -81,6 +83,8 @@ void CState_GN_QuickStep_Start::Tick_State_Control(_float fTimeDelta)
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 				
 			m_pPlayer->Set_State(TEXT("Run"));
 		}

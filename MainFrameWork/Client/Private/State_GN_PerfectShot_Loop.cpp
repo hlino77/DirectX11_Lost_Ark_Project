@@ -34,7 +34,7 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iPerfectShot_Loop, 0.1f, 0, 0);
 
-	m_pPlayer->Get_GN_Controller()->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 8.f);
+	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
@@ -55,7 +55,7 @@ void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 	if (m_pPlayer->Get_CellPickingPos(vClickPos))
 	{
 		m_pPlayer->Set_TargetPos(vClickPos);
-		m_pController->Get_LerpLookMessage(vClickPos, 5.f);
+		m_pController->Get_LerpDirLookMessage(vClickPos, 10.f);
 	}
 
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
@@ -75,7 +75,7 @@ void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 
 void CState_GN_PerfectShot_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
-	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 8.f);
+	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

@@ -47,6 +47,13 @@ void CProjectile::Tick(_float fTimeDelta)
 	if (true == m_IsMove)
 		m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
 
+
+	if (false == m_bReserveColli && true == m_IsSpawner)
+	{
+
+	}
+
+
 	for (auto& Collider : m_AttackCollider)
 	{
 		if (Collider->IsActive())
@@ -103,7 +110,7 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 
 	PROJECTILE_DESC* pProjectileDesc = (PROJECTILE_DESC*)pArg;
 
-	if (true == pProjectileDesc->IsSpawner)
+	if (false == pProjectileDesc->IsSpawner)
 	{
 		InitAsAttack(pProjectileDesc);
 	}
@@ -165,6 +172,9 @@ void CProjectile::InitAsSpawner(PROJECTILE_DESC* pDesc)
 void CProjectile::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 	m_pAttackOwner->OnCollisionEnter(iColLayer, pOther);
+
+	if (true == m_bReserveColli)
+		m_bReserveColli = false;
 }
 
 void CProjectile::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
