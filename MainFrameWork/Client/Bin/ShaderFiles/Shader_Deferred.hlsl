@@ -354,10 +354,6 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float3 kD = 1.0f - kS;
     kD *= 1.0f - fMetallic;
 	
-	//
-    kD *= /*юс╫ц*/5.f;
-	//
-	
     float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;
 	
     float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
