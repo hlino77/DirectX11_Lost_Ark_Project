@@ -600,7 +600,7 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 		CCamera_Lobby::Create(m_pDevice, m_pContext,TEXT("Camera_Lobby")))))
 		return E_FAIL;
 
-	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
+	//Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
 
 	Loading_Model_For_Level_Lobby();
 

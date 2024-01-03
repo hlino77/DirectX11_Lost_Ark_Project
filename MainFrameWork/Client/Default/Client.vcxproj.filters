@@ -871,9 +871,6 @@
     <Filter Include="03.Event\99.Base">
       <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\99.Loading\Lobby">
-      <UniqueIdentifier>{c638b4eb-3186-47c1-aaa7-9c50b2c693a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer">
       <UniqueIdentifier>{3a375cb1-475d-4cda-a444-c85bf524498b}</UniqueIdentifier>
     </Filter>
@@ -924,9 +921,12 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
       <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Camera\00.Lobby">
       <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Lobby">
+      <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1102,7 +1102,6 @@
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_Server.h" />
-    <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\Level_Tool.h">
@@ -3122,10 +3121,13 @@
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MannequinPart.h">
-          <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
-	</ClInclude>
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Camera_Lobby.h">
       <Filter>02.GameObjects\Camera\00.Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Lobby.h">
+      <Filter>01.Levels\01.Lobby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3296,7 +3298,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
-    <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp">
       <Filter>01.Levels\98.Tool</Filter>
@@ -5292,9 +5293,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\MannequinPart.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Camera_Lobby.cpp">
       <Filter>02.GameObjects\Camera\00.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lobby.cpp">
+      <Filter>01.Levels\01.Lobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
