@@ -103,7 +103,7 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 
 	PROJECTILE_DESC* pProjectileDesc = (PROJECTILE_DESC*)pArg;
 
-	if (true == pProjectileDesc->IsSpawner)
+	if (false == pProjectileDesc->IsSpawner)
 	{
 		InitAsAttack(pProjectileDesc);
 	}

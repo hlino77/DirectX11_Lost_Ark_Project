@@ -35,7 +35,7 @@
 #include <Common_BT_Stand_Server.h>
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
-#include <Common_BT_IF_Attacked.h>
+#include <Common_BT_IF_Attacked_Server.h>
 #include <Common_BT_IF_Far_Server.h>
 #include <Common_BT_IF_FirstHit_Server.h>
 #include <Common_BT_Bug_Server.h>

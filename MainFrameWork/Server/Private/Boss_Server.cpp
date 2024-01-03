@@ -48,21 +48,22 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fNoticeRange = 20.f;
-	
-	m_pRigidBody->SetMass(2.0f);
 
 	return S_OK;
 }
 
 void CBoss_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 
 	m_fSkillCoolDown += fTimeDelta;
 		Find_NearTarget(fTimeDelta);
 	if(m_pBehaviorTree!= nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
-	m_pRigidBody->Tick(fTimeDelta);
+	if (m_IsSetuponCell)
+	{
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+		m_pRigidBody->Tick(fTimeDelta);
+	}
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
@@ -73,6 +74,8 @@ void CBoss_Server::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+	if (m_IsSetuponCell)
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)
@@ -147,6 +150,11 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 		m_IsHit = true;
 		m_IsCounterSkill = false;
 		m_IsCountered = true;
+	}
+	if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect)
+	{
+		m_IsHit = true;
+		m_IsGroggy = true;
 	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
 	if (m_iHp < 1.f)

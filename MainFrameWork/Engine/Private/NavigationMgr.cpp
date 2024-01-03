@@ -59,6 +59,14 @@ void CNavigationMgr::SetUp_OnCell(_uint iLevel, CGameObject* pObject)
 	m_Navigations[iLevel]->SetUp_OnCell(pObject);
 }
 
+_bool CNavigationMgr::Is_Outside(_uint iLevel, CGameObject* pObject, _float fOffset)
+{
+	if (m_Navigations.find(iLevel) == m_Navigations.end())
+		return false;
+
+	return	m_Navigations[iLevel]->Is_Outside(pObject,fOffset);
+}
+
 void CNavigationMgr::Find_FirstCell(_uint iLevel, CGameObject* pObject)
 {
 	if (m_Navigations.find(iLevel) == m_Navigations.end())

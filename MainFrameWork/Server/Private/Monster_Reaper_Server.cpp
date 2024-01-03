@@ -25,7 +25,7 @@
 #include "Common_BT_WHILE_Within_Range_Server.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
-#include "Common_BT_IF_Attacked.h"
+#include "Common_BT_IF_Attacked_Server.h"
 #include "Common_BT_IF_Far_Server.h"
 #include "Reaper_BT_Attack3_Server.h"
 #include "Reaper_BT_Attack2_Server.h"

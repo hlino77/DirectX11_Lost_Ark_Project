@@ -22,6 +22,7 @@ void CBoss_BT_Counter_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
 }
 
 

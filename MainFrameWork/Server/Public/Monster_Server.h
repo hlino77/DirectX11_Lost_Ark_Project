@@ -154,6 +154,8 @@ public:
 
 	_bool					Is_Attacked() { return m_IsAttacked; }
 	void					Set_Attacked(_bool IsAttacked) { m_IsAttacked = IsAttacked; }
+	_bool						Is_SetuponCell() { return m_IsSetuponCell; }
+	void						Set_SetuponCell(_bool IsSetuponCell) { m_IsSetuponCell = IsSetuponCell; }
 
 	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
 
@@ -212,7 +214,7 @@ protected:
 	Vec3							m_vRandomPosition = {};
 	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};
 	_float							m_fRootTargetDistance = 0.f;
-
+	_bool							m_IsSetuponCell = true;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 

@@ -25,6 +25,7 @@ public:
 public: // Hwang's Founction
 
 	void	SetUp_OnCell(CGameObject* pObject);
+	_bool Is_Outside(CGameObject* pObject, _float fOffset);
 	void	Find_FirstCell(CGameObject* pObject);
 	_bool	Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist);
 	_int	Check_Pos_InCell(Vec3 vPos);

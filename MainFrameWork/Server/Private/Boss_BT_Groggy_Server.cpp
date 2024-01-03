@@ -22,6 +22,8 @@ void CBoss_BT_Groggy_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Armor(static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() - 1);
 }
 
 

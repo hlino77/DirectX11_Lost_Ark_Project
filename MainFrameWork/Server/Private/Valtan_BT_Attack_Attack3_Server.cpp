@@ -18,8 +18,6 @@ void CValtan_BT_Attack_Attack3_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack3_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)
-		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 0.5f,fTimeDelta );
 
 	return __super::OnUpdate(fTimeDelta);
 }

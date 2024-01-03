@@ -51,14 +51,15 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 
 void CMonster_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
-
+	if (m_IsSetuponCell)
+	{
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+		m_pRigidBody->Tick(fTimeDelta);
+	}
 	if (m_pBehaviorTree != nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
 
 	Find_NearTarget(fTimeDelta);
-
-	m_pRigidBody->Tick(fTimeDelta);
 
 	m_fHitTerm -= fTimeDelta;
 	Update_StatusEffect(fTimeDelta);
@@ -72,6 +73,8 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+	if (m_IsSetuponCell)
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)

@@ -87,7 +87,7 @@ namespace Client
 
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, DESTROYER, BARD, CLASSEND };
 
-	enum class STATUSEFFECT { COUNTER, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, EFFECTEND };
+	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, EFFECTEND };
 }
 
 #define EFFECT_START(name, pivotDesc)	CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc);

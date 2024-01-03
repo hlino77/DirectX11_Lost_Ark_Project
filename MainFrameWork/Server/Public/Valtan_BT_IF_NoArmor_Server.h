@@ -20,7 +20,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-		m_bCondition = Is_Countered();
+		m_bCondition = Is_NoArmor();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -30,9 +30,9 @@ private:
 	}
 
 private:
-	_bool	Is_Countered()
+	_bool	Is_NoArmor()
 	{
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==1)
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() <= 0)
 			return true;
 
 		return false;

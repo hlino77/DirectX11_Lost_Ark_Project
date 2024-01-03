@@ -3,7 +3,7 @@
 #include "Monster.h"
 #include "Model.h"
 #include "Transform.h"
-
+#include "NavigationMgr.h"
 CValtan_BT_Attack_Attack1::CValtan_BT_Attack_Attack1()
 {
 }
@@ -30,8 +30,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1::OnUpdate(const _float& fTimeDelta
 		m_iCurrAnimation = 1;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[1].iAnimIndex, m_vecAnimDesc[1].fChangeTime, m_vecAnimDesc[1].iStartFrame, m_vecAnimDesc[1].iChangeFrame);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
-		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed() * 1.5f, fTimeDelta);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex&& m_iCurrAnimation==1)
+	{
+		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
+		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 2.f))
+		{
+			m_iCurrAnimation = 2;
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[2].iAnimIndex, m_vecAnimDesc[2].fChangeTime,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[2].iChangeFrame);
+		}
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

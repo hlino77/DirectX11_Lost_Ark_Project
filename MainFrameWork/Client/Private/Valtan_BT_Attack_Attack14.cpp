@@ -16,7 +16,7 @@ void CValtan_BT_Attack_Attack14::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();

@@ -260,10 +260,13 @@
     <ClInclude Include="..\Public\Boss_BT_Counter_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_Groggy_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_IF_Groggy_Server.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack22_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack23_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack24_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Repeat_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderSpecialSkillRatio.h" />
+    <ClInclude Include="..\Public\Valtan_BT_IF_Armor_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_NoArmor_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_Phase2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_Phase3_Server.h" />
@@ -300,7 +303,7 @@
     <ClInclude Include="..\Public\King_BT_Attack_Erruption_Server.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Charge_Swing_Server.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase_Server.h" />
-    <ClInclude Include="..\Public\Common_BT_IF_Attacked.h" />
+    <ClInclude Include="..\Public\Common_BT_IF_Attacked_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Far_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Skill_Server.h" />
     <ClInclude Include="..\Public\Enum.pb.h" />
@@ -370,7 +373,6 @@
     <ClInclude Include="..\Public\Common_BT_Dead_Server.h" />
     <ClInclude Include="..\Public\Common_BT_Idle_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Dead_Server.h" />
-    <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Hit_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Maz_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_Near_Server.h" />

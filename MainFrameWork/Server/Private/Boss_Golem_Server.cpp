@@ -23,7 +23,7 @@
 #include "Common_BT_IF_Near_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
 #include "Common_BT_IF_Far_Server.h"
-#include "Common_BT_IF_Attacked.h"
+#include "Common_BT_IF_Attacked_Server.h"
 #include "Common_BT_WHILE_Within_Range_Server.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
@@ -68,8 +68,8 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
-	m_iHp = 20.f;
-	m_iHp = 1000.f;
+	m_iMaxHp = 2999999999;
+	m_iHp = m_iMaxHp;
 	return S_OK;
 }
 
