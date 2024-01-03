@@ -42,26 +42,26 @@ void CMannequin::Tick(_float fTimeDelta)
 	if (nullptr == m_pModelCom)
 		return;
 
-	if (KEY_HOLD(KEY::DOWN_ARROW))
-	{
-		m_pTransformCom->Go_Down(fTimeDelta);
-	}
+	//if (KEY_HOLD(KEY::DOWN_ARROW))
+	//{
+	//	m_pTransformCom->Go_Down(fTimeDelta);
+	//}
 
-	if (KEY_HOLD(KEY::LEFT_ARROW))
-	{
-		m_pTransformCom->Turn(Vec3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
-	}
+	//if (KEY_HOLD(KEY::LEFT_ARROW))
+	//{
+	//	m_pTransformCom->Turn(Vec3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+	//}
 
-	if (KEY_HOLD(KEY::RIGHT_ARROW))
-	{
-		m_pTransformCom->Turn(Vec3(0.f, 1.f, 0.f), fTimeDelta);
-	}
-	if (KEY_HOLD(KEY::UP_ARROW))
-	{
-		m_pTransformCom->Go_Up(fTimeDelta);
-	}
+	//if (KEY_HOLD(KEY::RIGHT_ARROW))
+	//{
+	//	m_pTransformCom->Turn(Vec3(0.f, 1.f, 0.f), fTimeDelta);
+	//}
+	//if (KEY_HOLD(KEY::UP_ARROW))
+	//{
+	//	m_pTransformCom->Go_Up(fTimeDelta);
+	//}
 
-	if (KEY_TAP(KEY::O))
+	/*if (KEY_TAP(KEY::O))
 	{
 		_uint iCurrAnimIdx = m_pModelCom->Get_CurrAnim();
 		if (iCurrAnimIdx <= 0)
@@ -78,7 +78,7 @@ void CMannequin::Tick(_float fTimeDelta)
 			m_pModelCom->Set_CurrAnim(m_pModelCom->Get_MaxAnimIndex());
 		else
 			m_pModelCom->Set_CurrAnim(++iCurrAnimIdx);
-	}
+	}*/
 
 	for (size_t i = 0; i < PART_END; i++)
 	{

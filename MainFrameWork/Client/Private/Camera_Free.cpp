@@ -41,53 +41,52 @@ void CCamera_Free::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
-	if (LEVEL_TOOL == m_pGameInstance->Get_CurrLevelIndex())
-		return;
-
-	if (KEY_HOLD(KEY::UP_ARROW))
-	{
-		m_pTransformCom->Go_Straight(5.0f, fTimeDelta);
-	}
-
-	if (KEY_HOLD(KEY::DOWN_ARROW))
-	{
-		m_pTransformCom->Go_Backward(5.0f, fTimeDelta);
-	}
-
-	if (KEY_HOLD(KEY::LEFT_ARROW))
-	{
-		m_pTransformCom->Go_Left(5.0f, fTimeDelta);
-	}
-
-	if (KEY_HOLD(KEY::RIGHT_ARROW))
-	{
-		m_pTransformCom->Go_Right(5.0f, fTimeDelta);
-	}
-
-	if (KEY_HOLD(KEY::P))
-	{
-		m_pTransformCom->Go_Up(fTimeDelta * 5.f);
-	}
-
-	if (KEY_HOLD(KEY::O))
-	{
-		m_pTransformCom->Go_Down(fTimeDelta * 5.f);
-	}
-
-	if (KEY_TAP(KEY::F2))
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMLoadFloat4(&m_CameraDesc.vEye));
-		m_pTransformCom->LookAt(XMLoadFloat4(&m_CameraDesc.vAt));
-	}
-
 	if (KEY_TAP(KEY::TAB))
 	{
 		m_bMouse = !m_bMouse;
 		ShowCursor(m_bMouse);
 	}
 
+
 	if (!m_bMouse)
 	{
+		if (KEY_HOLD(KEY::UP_ARROW))
+		{
+			m_pTransformCom->Go_Straight(5.0f, fTimeDelta);
+		}
+
+		if (KEY_HOLD(KEY::DOWN_ARROW))
+		{
+			m_pTransformCom->Go_Backward(5.0f, fTimeDelta);
+		}
+
+		if (KEY_HOLD(KEY::LEFT_ARROW))
+		{
+			m_pTransformCom->Go_Left(5.0f, fTimeDelta);
+		}
+
+		if (KEY_HOLD(KEY::RIGHT_ARROW))
+		{
+			m_pTransformCom->Go_Right(5.0f, fTimeDelta);
+		}
+
+		if (KEY_HOLD(KEY::P))
+		{
+			m_pTransformCom->Go_Up(fTimeDelta * 5.f);
+		}
+
+		if (KEY_HOLD(KEY::O))
+		{
+			m_pTransformCom->Go_Down(fTimeDelta * 5.f);
+		}
+
+		if (KEY_TAP(KEY::F2))
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMLoadFloat4(&m_CameraDesc.vEye));
+			m_pTransformCom->LookAt(XMLoadFloat4(&m_CameraDesc.vAt));
+		}
+
+
 
 		POINT MousePos;
 
