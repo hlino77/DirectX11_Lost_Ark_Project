@@ -43,7 +43,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 
 		auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
 		vPktTargetPos->Resize(3, 0.0f);
-		Vec3 vTargetPos = pOtherPlayer->Get_TargetPos();
+		Vec3 vTargetPos = pOtherPlayer->Get_TargetPos(); 
 		memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
 
 
@@ -173,8 +173,8 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 
 	Matrix matWorld = XMMatrixIdentity();
 	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
-	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
 	matWorld.Translation(Get_LevelSpawnPos((LEVELID)iNextLevel));
+	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
 	pPlayer->Get_TransformCom()->Set_Scale(vScale);
 
 	vector<CGameObject*> NextLevelPlayers;
@@ -182,7 +182,7 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 	_bool bEnter = false;
 	while (!bEnter)
 	{
-		vector<CGameObject*>& LevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+		vector<CGameObject*> LevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
 		for (auto& Player : LevelPlayers)
 		{

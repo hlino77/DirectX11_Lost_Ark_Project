@@ -530,7 +530,7 @@ void CMainApp::Active_Camera_Free()
 	{
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(true);
 		m_pCamera->Set_Active(false);
-	}
+	}                                 
 	else
 	{
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(false);

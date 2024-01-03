@@ -44,7 +44,7 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
-
+	m_pRigidBody->Set_Gravity(false);
 
     return S_OK;
 }

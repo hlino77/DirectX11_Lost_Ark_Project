@@ -656,7 +656,6 @@ HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstrin
 	m_strFileName = pFileName;
 	m_strFilePath = pFilePath;
 
-
 	if (FAILED(Load_ModelData_FromFile(XMLoadFloat4x4(&m_PivotMatrix), bClient, bIsMapObject)))
 	{
 		return E_FAIL;

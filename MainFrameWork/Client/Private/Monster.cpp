@@ -58,6 +58,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
+	m_pRigidBody->Set_Gravity(false);
 
 	Find_NearTarget();
 

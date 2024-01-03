@@ -39,6 +39,8 @@ private:
 	HANDLE					m_hThread = { 0 };
 	CRITICAL_SECTION		m_Critical_Section;
 
+	vector<future<HRESULT>> m_Futures;
+
 
 
 private:
@@ -59,6 +61,7 @@ private:
 	HRESULT Loading_Model_For_Level_Bern();
 	HRESULT Loading_Model_For_Level_Lobby();
 	HRESULT	Loading_Skill_For_Level_Bern();
+
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVELID eNextLevel);
 	virtual void Free() override;

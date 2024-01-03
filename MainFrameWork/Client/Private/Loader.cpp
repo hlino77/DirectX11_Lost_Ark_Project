@@ -600,6 +600,30 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 
 	Safe_Release(pGameInstance);
 
+	while (true)
+	{
+		if (m_Futures.empty())
+			break;
+
+		for (auto iter = m_Futures.begin(); iter != m_Futures.end();)
+		{
+			if (iter->valid())
+			{
+				if (iter->wait_for(std::chrono::seconds(1)) == future_status::ready)
+				{
+					if (FAILED(iter->get()))
+						return E_FAIL;
+
+					iter = m_Futures.erase(iter);
+				}
+				else
+					++iter;
+			}
+			else
+				++iter;
+		}
+	}
+
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
 
@@ -1432,46 +1456,69 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
+	
 
 	/* 플레이어 */
 	{
-		wstring strFileName = L"Gunslinger";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"Gunslinger";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+
+				return S_OK;
+			}));
 	}
 
 	{
-		wstring strFileName = L"WR";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"WR";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+
+				return S_OK;
+			}));
+	}
+
+	
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"WDR";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+
+				return S_OK;
+			}));
 	}
 
 	{
-		wstring strFileName = L"WDR";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"MG";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
 
-	{
-		wstring strFileName = L"MG";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+				return S_OK;
+			}));
 	}
 
 	/* 장비 */
