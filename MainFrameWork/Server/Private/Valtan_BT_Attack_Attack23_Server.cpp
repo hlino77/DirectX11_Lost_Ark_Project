@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Valtan_BT_Attack_Attack23_Server.h"
-#include "Monster_Server.h"
+#include "Boss_Server.h"
 #include "Model.h"
 #include "Transform.h"
 
@@ -18,15 +18,19 @@ void CValtan_BT_Attack_Attack23_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex)
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
+		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	if (m_iCurrAnimation == m_iMaxAnimation - 1)
+		m_pGameObject->Set_Invincible(true);
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_Attack23_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_AttackRange(1);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

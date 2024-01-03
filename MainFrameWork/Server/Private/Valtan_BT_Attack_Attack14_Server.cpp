@@ -18,12 +18,11 @@ void CValtan_BT_Attack_Attack14_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop&& m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)
-		m_pGameObject->Set_Invincible(true);
-	else 
-		m_pGameObject->Set_Invincible(false);
-	if (m_fLoopTime < 0.f&& m_vecAnimDesc[m_iCurrAnimation].bIsLoop && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition());
+	if (m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	{
+		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

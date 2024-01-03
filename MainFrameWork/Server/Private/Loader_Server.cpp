@@ -10,6 +10,7 @@
 #include "Monster_Reaper_Server.h"
 #include "Monster_Pawn_Server.h"
 #include "Boss_King_Server.h"
+#include "Boss_Valtan_Server.h"
 #include "ChaosDungean_Server.h"
 #include "NavigationMgr.h"
 
@@ -106,6 +107,10 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	  
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Pawn"),
 		CMonster_Pawn_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan"),
+		CBoss_Valtan_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungean"),
@@ -240,6 +245,17 @@ HRESULT CLoader_Server::Loading_Model_For_Level_Bern()
 			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
 	}
+
+	{
+		wstring strFileName = L"Boss_Valtan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(nullptr, nullptr, strFilePath, strFileName, false, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+	}
+
 	Safe_Release(pGameInstance);
 
 

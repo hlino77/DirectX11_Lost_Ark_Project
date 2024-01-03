@@ -20,7 +20,7 @@ void CValtan_BT_Attack_Attack0_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[1].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vLandPosition);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
 		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition()- m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION)

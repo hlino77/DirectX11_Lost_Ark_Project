@@ -25,7 +25,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21_Server::OnUpdate(const _float& fT
 	}
 	if (m_vecAnimDesc[1].bIsLoop && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition());
+		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	}
 	return __super::OnUpdate(fTimeDelta);

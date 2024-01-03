@@ -38,8 +38,7 @@
 #include "Camera_Player.h"
 #include "BackGround_Server.h"
 
-#include "Monster_Zombie.h"
-#include "Monster_Plant.h"
+
 #include "Projectile.h"
 
 //UI
@@ -108,6 +107,7 @@
 #include "Weapon_Boss_King.h"
 #include "Weapon_Mn_Reaper.h"
 #include "Boss_King.h"
+#include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
 #include <Weapon_Mn_PawnShield.h>
 #include <Weapon_Mn_PawnSword.h>
@@ -742,6 +742,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CWeapon_Mn_PawnSword::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan"),
+		CBoss_Valtan::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
 	if (FAILED(Loading_Skill_For_Level_Bern()))
 		return E_FAIL;
 
@@ -783,6 +788,17 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 
 	{
 		wstring strFileName = L"Monster_Ghoul";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(15600.f);
+	}
+
+	{
+		wstring strFileName = L"Boss_Valtan";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
