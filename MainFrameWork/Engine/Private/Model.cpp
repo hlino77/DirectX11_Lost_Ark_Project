@@ -581,7 +581,12 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 		return E_FAIL;
 
 	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+
 		return S_OK;
+	}
 
 	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
 

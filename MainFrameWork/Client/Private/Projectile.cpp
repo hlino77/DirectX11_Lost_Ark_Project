@@ -102,44 +102,64 @@ HRESULT CProjectile::InitProjectile(void* pArg)
 		return E_FAIL;
 
 	PROJECTILE_DESC* pProjectileDesc = (PROJECTILE_DESC*)pArg;
-	m_pAttackOwner = pProjectileDesc->pAttackOwner;
 
-	if (Vec3() != pProjectileDesc->vAttackPos)
-		Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pProjectileDesc->vAttackPos);
+	if (true == pProjectileDesc->IsSpawner)
+	{
+		InitAsAttack(pProjectileDesc);
+	}
+	else
+	{
+		InitAsSpawner(pProjectileDesc);
+	}
+
+	return S_OK;
+}
+
+void CProjectile::InitAsAttack(PROJECTILE_DESC* pDesc)
+{
+	m_pAttackOwner = pDesc->pAttackOwner;
+
+	if (Vec3() != pDesc->vAttackPos)
+		Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pDesc->vAttackPos);
 	else
 		Get_TransformCom()->Set_WorldMatrix(m_pAttackOwner->Get_TransformCom()->Get_WorldMatrix());
 
-	CSphereCollider* pCollider = m_AttackCollider[pProjectileDesc->eUseCollider];
-	pCollider->Set_ColLayer(pProjectileDesc->eLayer_Collider);
-	pCollider->Set_Radius(pProjectileDesc->fRadius);
-	pCollider->Set_Offset(pProjectileDesc->vOffset);
+	CSphereCollider* pCollider = m_AttackCollider[pDesc->eUseCollider];
+	pCollider->Set_ColLayer(pDesc->eLayer_Collider);
+	pCollider->Set_Radius(pDesc->fRadius);
+	pCollider->Set_Offset(pDesc->vOffset);
 	pCollider->SetActive(true);
 
-	if (ATTACKCOLLIDER::OBB == pProjectileDesc->eUseCollider)
+	if (ATTACKCOLLIDER::OBB == pDesc->eUseCollider)
 	{
 		COBBCollider* pChildCollider = static_cast<COBBCollider*>(pCollider->Get_Child());
-		pChildCollider->Set_Scale(pProjectileDesc->vChildScale);
-		pChildCollider->Set_Offset(pProjectileDesc->vChildOffset);
+		pChildCollider->Set_Scale(pDesc->vChildScale);
+		pChildCollider->Set_Offset(pDesc->vChildOffset);
 		pChildCollider->SetActive(true);
 	}
 
-	if (true == pProjectileDesc->IsMove)
+	if (true == pDesc->IsMove)
 	{
 		m_IsMove = true;
-		m_fMoveSpeed = pProjectileDesc->fMoveSpeed;
+		m_fMoveSpeed = pDesc->fMoveSpeed;
 	}
-	
-	m_ProjInfoDesc.iDamage = pProjectileDesc->iDamage;
-	m_ProjInfoDesc.iStatusEffect = pProjectileDesc->iStatusEffect;
-	m_ProjInfoDesc.fStatusDuration = pProjectileDesc->fStatusDuration;
-	m_ProjInfoDesc.fRepulsion = pProjectileDesc->fRepulsion;
-	m_ProjInfoDesc.bUseProjPos = pProjectileDesc->bUseProjPos;
-	m_ProjInfoDesc.bUseFactor = pProjectileDesc->bUseFactor;
+
+	m_ProjInfoDesc.iDamage = pDesc->iDamage;
+	m_ProjInfoDesc.iStatusEffect = pDesc->iStatusEffect;
+	m_ProjInfoDesc.fStatusDuration = pDesc->fStatusDuration;
+	m_ProjInfoDesc.fRepulsion = pDesc->fRepulsion;
+	m_ProjInfoDesc.bUseProjPos = pDesc->bUseProjPos;
+	m_ProjInfoDesc.bUseFactor = pDesc->bUseFactor;
+
+	Shoot(pDesc->fAttackTime);
+}
+
+void CProjectile::InitAsSpawner(PROJECTILE_DESC* pDesc)
+{
 
 
-	Shoot(pProjectileDesc->fAttackTime);
 
-	return S_OK;
+
 }
 
 void CProjectile::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)

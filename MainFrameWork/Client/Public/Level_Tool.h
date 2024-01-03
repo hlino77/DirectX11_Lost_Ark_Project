@@ -36,12 +36,16 @@ private:
 
 private:
 	class CEffectTool* m_pEffectTool = nullptr;
+	class CEffect_PcModel* m_pEffectModel = nullptr;
 
 	_bool	m_IsImGUIReady = false;
 	Vec4	clear_color = Vec4(0.f);
 
 	CGameInstance* m_pGameInstance = nullptr;
 	CCamera_Free* m_pCamera = nullptr;
+
+private:
+
 
 public:
 	static class CLevel_Tool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

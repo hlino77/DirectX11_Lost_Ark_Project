@@ -34,6 +34,22 @@ HRESULT CToolBase::Initialize(void* pArg)
 //	return szCopy;
 //}
 
+const Matrix& CToolBase::Get_MQ_Part_Matrix(_uint iIndex)
+{
+	if (0 == iIndex)
+		return m_matMq_Part_R;
+	else if (1 == iIndex)
+		return m_matMq_Part_L;
+}
+
+void CToolBase::Set_MQ_Part_Matrix(_uint iIndex, Matrix matMq)
+{
+	if (0 == iIndex)
+		m_matMq_Part_R = matMq;
+	else if (1 == iIndex)
+		m_matMq_Part_L = matMq;
+}
+
 const _char* CToolBase::s2c(const string& str)
 {
 	const _char* szSrc = str.c_str();

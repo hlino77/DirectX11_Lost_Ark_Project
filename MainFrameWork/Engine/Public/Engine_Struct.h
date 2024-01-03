@@ -347,9 +347,9 @@ namespace Engine
 
 		Vec3	vAttackPos = { 0.f, 0.f, 0.f };
 
-		_float	fAttackTime;
+		_float	fAttackTime = { 0.5f };
 
-		_float	fRadius;
+		_float	fRadius = { 1.f };
 		Vec3	vOffset;
 
 		Vec3	vChildScale;
@@ -363,14 +363,20 @@ namespace Engine
 		_bool	bUseProjPos = { false };
 		_bool	bUseFactor = { true };
 
+		/* 스폰투사체 정보 */
 		_bool	IsSpawner = { false };
 		_bool	IsColliSpawn = { false };
-		/* 스폰투사체 정보 */
 		_bool	bRansdomSpawn = { false };
 		Vec4	vRandSpawnFigure;
+
+		_uint	eUse_SpawnCollider;
+		_uint	eLayer_SpawnCollider;
+
 		_uint	iSpawnAmount = { 1 };
 		_float	fSpawnTime = { 0.0f };
 		_float  fSpawnAttackTime = { 0.0f };
+
+
 
 	}PROJECTILE_DESC;
 

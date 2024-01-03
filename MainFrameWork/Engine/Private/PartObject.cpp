@@ -37,7 +37,6 @@ HRESULT CPartObject::Initialize(void* pArg)
 		m_SocketPivotMatrix = pPartDesc->SocketPivotMatrix;
 	}
 
-
 	return S_OK;
 }
 

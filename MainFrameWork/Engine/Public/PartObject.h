@@ -41,6 +41,9 @@ public:
 	void					Set_RenderState(_bool IsRender) { m_IsRender = IsRender; }
 
 	void					Change_ModelCom(class CModel* pModel) { m_pModelCom = pModel; }
+	void					Change_ParentModelCom(class CModel* pModel) { m_pParentModel = pModel; }
+	void					Change_Pivot(Matrix matPivot) { m_SocketPivotMatrix = matPivot; }
+	void					Change_BoneIndex(_uint	iBoneIndex) { m_iSocketBoneIndex = iBoneIndex; }
 
 protected:
 	class CTransform*		m_pParentTransform = { nullptr };

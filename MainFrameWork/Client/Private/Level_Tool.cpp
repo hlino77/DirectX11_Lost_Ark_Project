@@ -2,6 +2,7 @@
 #include "Level_Tool.h"
 #include "UI.h"
 #include "EffectTool.h"
+#include "Effect_PcModel.h"
 #include "Camera_Free.h"
 
 #include "GameInstance.h"
@@ -60,6 +61,9 @@ HRESULT CLevel_Tool::Tick(const _float& fTimeDelta)
 	if (m_pEffectTool)
 		m_pEffectTool->Tick(fTimeDelta);
 
+	if (m_pEffectModel)
+		m_pEffectModel->Tick(fTimeDelta);
+
 	m_pCamera->Tick(fTimeDelta);
 
 	return S_OK;
@@ -69,6 +73,9 @@ HRESULT CLevel_Tool::LateTick(const _float& fTimeDelta)
 {
 	if (m_pEffectTool)
 		m_pEffectTool->LateTick(fTimeDelta);
+
+	if (m_pEffectModel)
+		m_pEffectModel->LateTick(fTimeDelta);
 
 	m_pCamera->LateTick(fTimeDelta);
 
@@ -151,6 +158,7 @@ HRESULT CLevel_Tool::Ready_Tools()
 	m_pEffectTool = CEffectTool::Create(m_pDevice, m_pContext);
 	//m_pMediator->SetPrefabsView(m_pPrefabsView);
 
+	m_pEffectModel = CEffect_PcModel::Create(m_pDevice, m_pContext);
 	return S_OK;
 }
 
@@ -170,6 +178,7 @@ CLevel_Tool * CLevel_Tool::Create(ID3D11Device * pDevice, ID3D11DeviceContext * 
 void CLevel_Tool::Free()
 {
 	Safe_Release(m_pEffectTool);
+	Safe_Release(m_pEffectModel);
 
 	Super::Free();
 

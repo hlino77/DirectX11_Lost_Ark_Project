@@ -537,7 +537,6 @@ void CMainApp::Active_Camera_Free()
 		m_pCamera->Get_TransformCom()->Set_WorldMatrix(CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Get_TransformCom()->Get_WorldMatrix());
 		m_pCamera->Set_Active(true);
 	}
-
 }
 
 CMainApp * CMainApp::Create()
@@ -560,9 +559,6 @@ void Client::CMainApp::Free()
 	Safe_Release(m_pRenderer_Com);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
-
-
-
 	Safe_Release(m_pGameInstance);
 	CGameInstance::Release_Engine();
 
