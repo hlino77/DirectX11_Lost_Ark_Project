@@ -54,7 +54,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     }
     else
     {
-        Out.vMetallic = 0.f;
+        Out.vMetallic = EPSILON;
         Out.vRoughness = Out.vDiffuse;
     }
 

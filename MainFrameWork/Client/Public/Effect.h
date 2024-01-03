@@ -49,6 +49,7 @@ public:
 		_bool	bColor_Lerp = true;
 
 		_float	fLifeTime = FLT_MAX;
+		_bool	bParentPivot = false;
 
 		Vec2	vUV_Start = Vec2(0.f, 0.f);
 		Vec2	vUV_Speed = Vec2(0.f, 0.f);

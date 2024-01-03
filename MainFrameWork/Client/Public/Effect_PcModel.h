@@ -14,7 +14,7 @@ BEGIN(Client)
 class CVoidEffect;
 class CMannequin;
 class CMannequinPart;
-
+class CLevel_Tool;
 class CEffect_PcModel : public CToolBase
 {
 	using Super = CToolBase;
@@ -66,6 +66,9 @@ private:
 
 	CTransform* m_pTransformCom = { nullptr };
 
+	CGameObject* m_pCurrentPlayer = nullptr;
+	CPartObject* m_pCurrentWeapon = nullptr;
+
 private:
 	CLASS m_eSelectClass = { CLASS_END };
 	WEAPON m_eSelectWeapon = { WEAPON_END };
@@ -84,7 +87,7 @@ private:
 	_bool	m_bAnimationPlay = true;
 
 public:
-	static class CEffect_PcModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static class CEffect_PcModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool* pLevel_Tool);
 	virtual void Free() override;
 };
 

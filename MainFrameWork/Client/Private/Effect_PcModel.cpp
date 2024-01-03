@@ -13,6 +13,8 @@
 #include "Mannequin.h"
 #include "Model.h"
 #include "Animation.h"
+#include "PartObject.h"
+#include "Level_Tool.h"
 
 namespace fs = std::filesystem;
 
@@ -143,6 +145,13 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 			}
 
 			ZeroMemory(m_szAnimationName, sizeof(m_szAnimationName));
+			m_pCurrentPlayer = nullptr;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Button("Set Effect Pivot Player"))
+		{
+			m_pLevel_Tool->SetPivotObject(m_pCurrentPlayer);
 		}
 	}
 }
@@ -222,6 +231,18 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 			{
 				m_WPCheckBoxStates[i] = false;
 			}
+
+			m_pCurrentWeapon = nullptr;
+		}
+
+		if (ImGui::Button("Set Effect Pivot WP"))
+		{
+			m_pLevel_Tool->SetPivotObject(m_pCurrentWeapon);
+		}
+
+		if (ImGui::Button("Clear Effect Pivot"))
+		{
+			m_pLevel_Tool->SetPivotObject(nullptr);
 		}
 	}
 }
@@ -233,7 +254,6 @@ void CEffect_PcModel::Animaition(const _float& fTimeDelta)
 		ImGui::SeparatorText("MQ Animation");
 		
 		ImGui::InputText("AnimName", m_szAnimationName, MAX_PATH);
-
 
 		string StopButtonName;
 		if (m_bAnimationPlay)
@@ -281,7 +301,6 @@ void CEffect_PcModel::Animaition(const _float& fTimeDelta)
 				ImGui::EndListBox();
 			}
 		}
-
 	}
 }
 
@@ -295,15 +314,19 @@ void CEffect_PcModel::SelectClass(CLASS eClass)
 	{
 	case Client::CEffect_PcModel::SLAYER:
 		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[SLAYER]);
+		m_pCurrentPlayer = m_pMannequin;
 		break;
 	case Client::CEffect_PcModel::GUNSLINGER:
 		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[GUNSLINGER]);
+		m_pCurrentPlayer = m_pMannequin;
 		break;
 	case Client::CEffect_PcModel::DESTROYER:
 		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[DESTROYER]);
+		m_pCurrentPlayer = m_pMannequin;
 		break;
 	case Client::CEffect_PcModel::BARD:
 		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[BARD]);
+		m_pCurrentPlayer = m_pMannequin;
 		break;
 	}
 
@@ -322,33 +345,33 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 90.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(5.f, 0.f, 0.f));
-		static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SWORD], m_pTransformCom->Get_WorldMatrix());
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SWORD], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::HAND:
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 		m_pTransformCom->My_Rotation(Vec3(-80.f, 45.f, 40.f));
-		static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[HAND], m_pTransformCom->Get_WorldMatrix());
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[HAND], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::SHOT:
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 		m_pTransformCom->My_Rotation(Vec3(-80.f, 45.f, 40.f));
-		static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SHOT], m_pTransformCom->Get_WorldMatrix());
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SHOT], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::LONG:
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 		m_pTransformCom->My_Rotation(Vec3(-80.f, 45.f, 40.f));
-		static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[LONG], m_pTransformCom->Get_WorldMatrix());
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[LONG], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::HAMMER:
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 		m_pTransformCom->My_Rotation(Vec3(-10.f, 100.f, -90.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -3.f, 0.f));
-		static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[HAMMER], m_pTransformCom->Get_WorldMatrix());
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[HAMMER], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::MUSE:
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 70.f, 70.f));
-		static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[MUSE], m_pTransformCom->Get_WorldMatrix());
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[MUSE], m_pTransformCom->Get_WorldMatrix());
 		break;
 	}
 }
@@ -515,11 +538,11 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 	return S_OK;
 }
 
-CEffect_PcModel* CEffect_PcModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CEffect_PcModel* CEffect_PcModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool* pLevel_Tool)
 {
 	CEffect_PcModel* pInstance = new CEffect_PcModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize()))
+	if (FAILED(pInstance->Initialize(pLevel_Tool)))
 	{
 		MSG_BOX("Failed to Created : CEffect_PcModel");
 		Safe_Release(pInstance);

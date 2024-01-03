@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "RigidBody.h"
 #include "Effect_Manager.h"
+#include "PartObject.h"
 
 CEffect::CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Effect", OBJ_TYPE::EFFECT)
@@ -32,6 +33,7 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_vUV_Speed(rhs.m_vUV_Speed)
 	, m_IsSequence(rhs.m_IsSequence)
 	, m_fSequenceTerm(rhs.m_fSequenceTerm)
+	, m_fDissolveStart(rhs.m_fDissolveStart)
 	, m_Variables(rhs.m_Variables)
 	, m_Intensity(rhs.m_Intensity)
 	, m_pDiffuseTexture(rhs.m_pDiffuseTexture)
@@ -130,22 +132,27 @@ HRESULT CEffect::Initialize(void* pArg)
 {
 	CEffect_Manager::EFFECTPIVOTDESC* pDesc = reinterpret_cast<CEffect_Manager::EFFECTPIVOTDESC*>(pArg);
 
-	if(pDesc->pPivotTransform)
-		m_matPivot = pDesc->pPivotTransform->Get_WorldMatrix();
+	if (pDesc->pPivotTransform)
+	{
+		if (pDesc->bParentPivot)
+			m_matPivot = static_cast<CPartObject*>(pDesc->pPivotTransform->Get_GameObject())->Get_PartOwner()->Get_TransformCom()->Get_WorldMatrix();
+		else
+			m_matPivot = static_cast<CPartObject*>(pDesc->pPivotTransform->Get_GameObject())->Get_Part_WorldMatrix();
+	}
 	else
 		m_matPivot = *pDesc->pPivotMatrix;
 
 	Vec3 vRight = m_matPivot.Right();
 	vRight.Normalize();
-	m_matPivot.m[0][0] = vRight.x; m_matPivot.m[0][1] = vRight.y; m_matPivot.m[0][2] = vRight.z;
+	m_matPivot.Right(vRight);
 
 	Vec3 vUp = m_matPivot.Up();
 	vUp.Normalize();
-	m_matPivot.m[1][0] = vUp.x; m_matPivot.m[1][1] = vUp.y; m_matPivot.m[1][2] = vUp.z;
+	m_matPivot.Up(vUp);
 
 	Vec3 vLook = m_matPivot.Backward();
 	vLook.Normalize();
-	m_matPivot.m[2][0] = vLook.x; m_matPivot.m[2][1] = vLook.y; m_matPivot.m[2][2] = vLook.z;
+	m_matPivot.Backward(vLook);
 
 	return S_OK;
 }
@@ -183,9 +190,11 @@ void CEffect::Tick(_float fTimeDelta)
 		vOffsetPosition = m_vPosition_Start;
 
 	if (m_bVelocity_Lerp)
-		vVelocity = 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+		vVelocity = 0.5f * fTimeDelta * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 	else
-		vVelocity = 0.5f * m_fTimeAcc * m_vVelocity_Start;
+		vVelocity = 0.5f * fTimeDelta * m_vVelocity_Start;
+
+	vOffsetPosition += vVelocity;
 
 	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))

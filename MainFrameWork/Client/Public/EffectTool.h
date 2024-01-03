@@ -10,7 +10,9 @@ class CUtils;
 END
 
 BEGIN(Client)
+
 class CVoidEffect;
+class CLevel_Tool;
 class CEffectTool : public CToolBase
 {
     using Super = CToolBase;
@@ -95,7 +97,7 @@ private:
 	_char		m_szBundleNameBuf[128] = "";
 
 public:
-	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static class CEffectTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool* pLevel_Tool);
 	virtual void Free() override;
 };
 

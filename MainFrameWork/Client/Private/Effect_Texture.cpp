@@ -11,6 +11,7 @@ CEffect_Texture::CEffect_Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 CEffect_Texture::CEffect_Texture(const CEffect_Texture& rhs)
 	: Super(rhs)
+	, m_Billboard(rhs.m_Billboard)
 {
 }
 

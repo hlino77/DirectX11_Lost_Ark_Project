@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "VoidEffect.h"
 #include "Camera_Player.h"
+#include "PartObject.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
 #include "RigidBody.h"
@@ -10,6 +11,7 @@
 #include "VIBuffer_Particle.h"
 #include "BindShaderDesc.h"
 #include "Utils.h"
+#include "Level_Tool.h"
 
 CVoidEffect::CVoidEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext, TEXT("VoidEffect"), -1)
@@ -45,8 +47,43 @@ void CVoidEffect::Tick(_float fTimeDelta)
 	m_fLifeTime = ::max(0.02f, m_fLifeTime);
 	
 	m_fTimeAcc += fTimeDelta;
+	
+	while (m_fTimeAcc > m_fLifeTime)
+	{
+		m_fTimeAcc -= m_fLifeTime;
+
+		if (nullptr != m_pEffectTool->GetLevelTool()->GetPivotObject())
+		{
+			const _char* szTypeID = typeid(*m_pEffectTool->GetLevelTool()->GetPivotObject()).name();
+
+			if (!strcmp(szTypeID, "class Client::CMannequin"))
+			{
+				m_matPivot = m_pEffectTool->GetLevelTool()->GetPivotObject()->Get_TransformCom()->Get_WorldMatrix();
+				m_bParentPivot = true;
+			}
+			else
+			{
+				m_matPivot = static_cast<CPartObject*>(m_pEffectTool->GetLevelTool()->GetPivotObject())->Get_Part_WorldMatrix();
+				m_bParentPivot = false;
+			}
+
+			Vec3 vRight = m_matPivot.Right();
+			vRight.Normalize();
+			m_matPivot.Right(vRight);
+
+			Vec3 vUp = m_matPivot.Up();
+			vUp.Normalize();
+			m_matPivot.Up(vUp);
+
+			Vec3 vLook = m_matPivot.Backward();
+			vLook.Normalize();
+			m_matPivot.Backward(vLook);
+		}
+		else
+			m_matPivot = Matrix::Identity;
+	}
+
 	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
-	while (m_fTimeAcc > m_fLifeTime) m_fTimeAcc -= m_fLifeTime;
 
 	if (m_IsSequence)
 	{
@@ -76,9 +113,9 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
-	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 
-	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
+	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))
 		* XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
 }
@@ -108,8 +145,7 @@ HRESULT CVoidEffect::Render()
 	//////////////////////////////
 
 #pragma region GlobalData
-	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
-	Matrix matCombined = m_matPivot * matWorld;
+	Matrix matCombined = m_matOffset * m_matPivot;
 
 	m_Particle.vEmitPosition = matCombined.Translation();
 

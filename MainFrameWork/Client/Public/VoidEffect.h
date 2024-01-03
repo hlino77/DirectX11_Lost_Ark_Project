@@ -113,12 +113,18 @@ public:
 		_float	fTimeStep = 0.f;
 	} m_Particle;
 
-	string m_strParticlePassName = "Smoke";
+	string	m_strParticlePassName = "Smoke";
 
 	tagVoidEffectDesc m_tVoidEffectDesc;
 
+	_bool	m_bParentPivot = false;
+
+	void SetEffectTool(CEffectTool* pEffectTool) { m_pEffectTool = pEffectTool; }
+
 private:
+	CEffectTool* m_pEffectTool = nullptr;
 	Matrix	m_matPivot = Matrix::Identity;
+	Matrix	m_matOffset = Matrix::Identity;
 
 	_float	m_fTimeAcc = 0.f;
 	_float	m_fLifeTimeRatio = 0.f;

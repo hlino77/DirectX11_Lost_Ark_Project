@@ -35,8 +35,9 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
     else
         vLook = WorldMatrix._31_32_33;
 
-	float3	vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * In[0].vPSize.x * 0.5f;
-	float3	vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;
+    float3  vUp = WorldMatrix._21_22_23;
+    float3 vRight = normalize(cross(vUp, vLook)) * In[0].vPSize.x * 0.5f;
+	vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;
 
 	matrix		matVP;
 
