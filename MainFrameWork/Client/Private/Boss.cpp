@@ -230,6 +230,11 @@ void CBoss::Set_Die()
 	m_bDead = true;
 }
 
+void CBoss::Move_to_SpawnPosition()
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSpawnPosition);
+}
+
 HRESULT CBoss::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

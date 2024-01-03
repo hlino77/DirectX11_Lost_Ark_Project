@@ -88,6 +88,10 @@ public:
 
 	virtual void			Set_Die();
 
+	Vec3						Get_SpawnPosition() { return m_vSpawnPosition; }
+	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
+	void						Move_to_SpawnPosition();
+
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -100,7 +104,7 @@ protected:
 
 protected:
 	_bool m_IsCounterSkill = false;
-
+	Vec3  m_vSpawnPosition = {};
 
 
 public:

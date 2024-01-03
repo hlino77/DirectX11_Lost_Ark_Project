@@ -16,8 +16,6 @@ void CCommon_BT_Spawn::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 {
 
-
-
 	return __super::OnUpdate(fTimeDelta);
 }
 

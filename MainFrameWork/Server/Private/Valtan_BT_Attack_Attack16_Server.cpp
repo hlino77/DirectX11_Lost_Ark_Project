@@ -12,7 +12,7 @@ CValtan_BT_Attack_Attack16_Server::CValtan_BT_Attack_Attack16_Server()
 void CValtan_BT_Attack_Attack16_Server::OnStart()
 {
 	__super::OnStart(0);
-	Vec3 vDirection = Vec3(-2.f, 0.f, -0.25f);
+	Vec3 vDirection = Vec3(2.f, 0.f, 0.25f);
 	vDirection.Normalize();
 	m_vLandPosition = static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition() + vDirection * 3.f;
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);

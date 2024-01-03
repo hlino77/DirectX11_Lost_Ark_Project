@@ -54,11 +54,8 @@ void CBT_Action::OnStart(_int iAnimIndex)
 
 CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop )
+	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop&& m_vecAnimDesc[m_iCurrAnimation].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
-		m_fLoopTime += fTimeDelta;
-		if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
-			m_pGameObject->Get_ModelCom()->Set_CurrAnim(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex);
 		if (m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime)
 		{
 			m_iCurrAnimation++;
@@ -66,10 +63,16 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 			m_fLoopTime = 0;
 		}
+		if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 2)
+		{
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, 0,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+		}
+		m_fLoopTime += fTimeDelta;
 	}
-	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 2)
+	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 3)
 	{
-		if (m_iCurrAnimation == m_vecAnimDesc.size() - 1)
+		if (m_iCurrAnimation == m_iMaxAnimation - 1)
 			return BT_SUCCESS;
 		else
 		{

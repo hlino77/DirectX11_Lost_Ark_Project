@@ -137,7 +137,9 @@ void CBoss_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
 	WRITE_LOCK
-	m_iHp -= iDamage;
+
+		if (!m_bInvincible)
+			m_iHp -= iDamage;
 
 
 	if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
@@ -147,10 +149,15 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 		m_IsCountered = true;
 	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
-	if(m_iHp<1.f)
+	if (m_iHp < 1.f)
 		m_IsHit = true;
 
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);
+}
+
+void CBoss_Server::Move_to_SpawnPosition()
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSpawnPosition);
 }
 
 HRESULT CBoss_Server::Ready_Components()

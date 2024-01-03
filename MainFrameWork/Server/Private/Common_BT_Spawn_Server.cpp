@@ -19,11 +19,8 @@ CBT_Node::BT_RETURN CCommon_BT_Spawn_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (IsOut())
 		return BT_FAIL;
-	
-	if( m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) == m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex)-3)
-		return BT_FAIL;
 
-	return BT_RUNNING;
+	return __super::OnUpdate(fTimeDelta);
 }
 
 void CCommon_BT_Spawn_Server::OnEnd()

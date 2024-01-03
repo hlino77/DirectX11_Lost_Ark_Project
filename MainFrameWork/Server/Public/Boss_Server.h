@@ -68,6 +68,8 @@ public:
 
 	Vec3						Get_SpawnPosition() { return m_vSpawnPosition; }
 	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
+	void						Move_to_SpawnPosition();
+
 
 protected:
 	virtual HRESULT		Ready_Components();
