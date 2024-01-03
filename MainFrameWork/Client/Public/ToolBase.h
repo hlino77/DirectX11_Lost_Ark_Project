@@ -33,6 +33,13 @@ public:
 
 	//void	SetMediator(CToolMediator* pMediator);
 
+public:
+	const Matrix& Get_MQ_Matrix() { return m_matMq; }
+	const Matrix& Get_MQ_Part_Matrix(_uint iIndex);
+
+	void  Set_MQ_Matrix(Matrix matMq) { m_matMq = matMq; }
+	void  Set_MQ_Part_Matrix(_uint iIndex, Matrix matMq);
+
 protected:
 	//const _char* s2c(string str);
 	const _char* s2c(const string& str);
@@ -43,6 +50,8 @@ protected:
 	void	s2cPushBackRef(vector<const _char*>& vecChar, string& str);
 
 protected:
+
+protected:
 	CGameInstance*			m_pGameInstance = nullptr;
 	//CToolMediator*			m_pMediator = nullptr;
 
@@ -50,6 +59,11 @@ protected:
 
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
+
+protected:
+	Matrix					m_matMq;
+	Matrix					m_matMq_Part_L;
+	Matrix					m_matMq_Part_R;
 
 public:
 	virtual void Free() override;

@@ -132,6 +132,8 @@ void CAnimation::Set_Frame(_uint iFrame)
 {
 	m_tKeyDesc.iCurrFrame = iFrame % m_iFrameCount;
 	m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame + 1) % m_iFrameCount;
+	m_tKeyDesc.fRatio = 0.0f;
+	m_tKeyDesc.fSumTime = 0.0f;
 }
 
 void CAnimation::Set_Reverse_Frame(_uint iFrame)

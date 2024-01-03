@@ -211,6 +211,7 @@
     <ClInclude Include="..\Public\Effect_Manager.h" />
     <ClInclude Include="..\Public\Effect_Mesh.h" />
     <ClInclude Include="..\Public\Effect_Particle.h" />
+    <ClInclude Include="..\Public\Effect_PcModel.h" />
     <ClInclude Include="..\Public\Effect_Texture.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
@@ -239,6 +240,8 @@
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Mannequin.h" />
+    <ClInclude Include="..\Public\MannequinPart.h" />
     <ClInclude Include="..\Public\Party.h" />
     <ClInclude Include="..\Public\Player_Bard.h" />
     <ClInclude Include="..\Public\Player_Destroyer.h" />
@@ -604,6 +607,7 @@
     <ClCompile Include="..\Private\Effect_Manager.cpp" />
     <ClCompile Include="..\Private\Effect_Mesh.cpp" />
     <ClCompile Include="..\Private\Effect_Particle.cpp" />
+    <ClCompile Include="..\Private\Effect_PcModel.cpp" />
     <ClCompile Include="..\Private\Effect_Texture.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
@@ -626,6 +630,8 @@
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Mannequin.cpp" />
+    <ClCompile Include="..\Private\MannequinPart.cpp" />
     <ClCompile Include="..\Private\Party.cpp" />
     <ClCompile Include="..\Private\Player_Bard.cpp" />
     <ClCompile Include="..\Private\Player_Destroyer.cpp" />

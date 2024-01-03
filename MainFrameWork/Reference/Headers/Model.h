@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "AsTypes.h"
 #include "Lock.h"
+#include "Animation.h"
 
 
 BEGIN(Engine)
@@ -56,7 +57,12 @@ public:
 		return m_CombinedMatrix[iBoneIndex];
 	}
 
+	void Set_CurrAnimFrame(_uint iFrame)
+	{
+		m_Animations[m_iCurrAnim]->Set_Frame(iFrame);
+	}
 
+	vector<class CAnimation*> Get_Animations() { return m_Animations; }
 	_int	Find_AnimIndex(const wstring& szAnimName);
 	_bool	Is_AnimationEnd(_uint iAnimation);
 	_float	Get_Anim_MaxFrameRatio(_uint iAnimation);
@@ -94,8 +100,6 @@ public:
 	HRESULT Set_NextAnimation();
 
 	HRESULT Play_Animation(_float fTimeDelta);
-	HRESULT Play_Proceed_Animation(_float fTimeDelta);
-	HRESULT Play_Reverse_Animation(_float fTimeDelta);
 
 	HRESULT Set_Animation_Transforms();
 	HRESULT Set_AnimationBlend_Transforms();
@@ -121,6 +125,9 @@ public: /* ;hj가 추가한 함수 */
 
 	HRESULT Bind_ChangeColor(class CShader* pShader, _uint iMeshIndex);
 
+private:
+	HRESULT Play_Proceed_Animation(_float fTimeDelta);
+	HRESULT Play_Reverse_Animation(_float fTimeDelta);
 
 private:
 	HRESULT Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool bIsMapObject);

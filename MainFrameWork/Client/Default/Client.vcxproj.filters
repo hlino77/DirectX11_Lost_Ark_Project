@@ -922,6 +922,9 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Behavior">
       <UniqueIdentifier>{6d1e938d-b4a9-482a-b8cb-caaa2981fa98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
+      <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3109,6 +3112,15 @@
     <ClInclude Include="..\Public\Boss_BT_Groggy.h">
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_PcModel.h">
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mannequin.h">
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MannequinPart.h">
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5265,6 +5277,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_BT_Groggy.cpp">
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_PcModel.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mannequin.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MannequinPart.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

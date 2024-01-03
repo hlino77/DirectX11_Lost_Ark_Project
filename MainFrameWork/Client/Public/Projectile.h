@@ -21,12 +21,13 @@ public:
 public:
 	typedef struct tagProjectileDesc
 	{
-		_bool   bUseFactor;
-		_bool	bUseProjPos;
-		_uint	iDamage;
-		_uint	iStatusEffect;
-		_float	fStatusDuration;
-		_float	fRepulsion;
+		_bool   bUseFactor = { true };
+		_bool	bUseProjPos = { false };
+		_uint	iDamage = { 0 };
+		_uint	iStatusEffect = { (_uint)STATUSEFFECT::EFFECTEND };
+		_float	fStatusDuration = { 0.f };
+		_float	fRepulsion = { false };
+
 	}PROJINFO_DESC;
 
 protected:
@@ -65,12 +66,16 @@ public:
 protected:
 	virtual HRESULT			Ready_Components();
 
+	void	InitAsSpawner(PROJECTILE_DESC* pDesc);
+	void	InitAsAttack(PROJECTILE_DESC* pDesc);
+
 protected:
 	CRenderer*						m_pRendererCom = nullptr;
 
 	CGameObject*					m_pAttackOwner = nullptr;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
-	PROJINFO_DESC m_ProjInfoDesc;
+	PROJINFO_DESC			m_ProjInfoDesc;
+	PROJINFO_DESC			m_SpawnProjDesc;
 
 	_float m_fActiveTime = 0.0f;
 	_float m_fCurrTime = 0.0f;
