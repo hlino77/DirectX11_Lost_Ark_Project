@@ -37,6 +37,7 @@
 #include "ServerSessionManager.h"
 #include "Camera_Player.h"
 #include "BackGround_Server.h"
+#include "Camera_Lobby.h"
 
 
 #include "Projectile.h"
@@ -593,7 +594,13 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel_Lobby"),
 		CStaticModel::Create(m_pDevice, m_pContext, OBJ_TYPE::PROP))))
+		return E_FAIL; 
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Lobby"),
+		CCamera_Lobby::Create(m_pDevice, m_pContext,TEXT("Camera_Lobby")))))
 		return E_FAIL;
+
+	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
 
 	Loading_Model_For_Level_Lobby();
 
@@ -1022,7 +1029,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 	L"../Bin/Resources/Export/Chaos1/",
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
-	L"../Bin/Resources/Export/Boss/"
+	L"../Bin/Resources/Export/Boss/",
+	L"../Bin/Resources/Export/Lobby/"
 	};
 
 

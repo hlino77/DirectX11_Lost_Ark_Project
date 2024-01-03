@@ -71,9 +71,6 @@ private:
 private:
 	class CUI_Tool* m_pImGuiManager;
 
-	
-
-
 public:
 	static class CLevel_Bern* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

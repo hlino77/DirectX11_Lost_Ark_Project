@@ -924,6 +924,9 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
       <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\Camera\00.Lobby">
+      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3119,7 +3122,10 @@
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MannequinPart.h">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+          <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Camera_Lobby.h">
+      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5286,6 +5292,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MannequinPart.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Camera_Lobby.cpp">
+      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

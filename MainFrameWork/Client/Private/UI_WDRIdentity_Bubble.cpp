@@ -60,6 +60,7 @@ HRESULT CUI_WDRIdentity_Bubble::Initialize(void* pArg)
 		Get_WDR_Controller()->Get_MarbleCnt();
 
 	m_iBubblePreCount = m_iBubbleCurrCount;
+	m_bRender = false;
 
 	return S_OK;
 }
@@ -72,8 +73,7 @@ void CUI_WDRIdentity_Bubble::Tick(_float fTimeDelta)
 
 void CUI_WDRIdentity_Bubble::LateTick(_float fTimeDelta)
 {
-	if(m_iBubbleCurrCount >= m_iBubbleIndex)
-		__super::LateTick(fTimeDelta);
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_WDRIdentity_Bubble::Render()
@@ -119,22 +119,38 @@ HRESULT CUI_WDRIdentity_Bubble::Bind_ShaderResources()
 
 void CUI_WDRIdentity_Bubble::Update_Bubbles(_float fTimeDelta)
 {
-	m_iBubbleCurrCount = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
-		Get_WDR_Controller()->Get_MarbleCnt();
-
-	if (m_iBubbleCurrCount != m_iBubblePreCount)
+	if (nullptr != m_pPlayer)
 	{
-		m_bSpawnBubbleAnim = false;
-		m_iBubblePreCount = m_iBubbleCurrCount;
-		m_vColor = Vec4(100.f, 100.f, 100.f, 1.f);
-	}
+		m_iBubbleCurrCount = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
+			Get_WDR_Controller()->Get_MarbleCnt();
 
-	Spawan_BubbleAnim(m_iBubbleCurrCount, fTimeDelta);
+		if (m_iBubblePreCount != m_iBubbleCurrCount)
+		{
+			if (m_iBubblePreCount < m_iBubbleCurrCount)
+			{
+				m_bSpawnBubbleAnim = false;
+				m_bDecrease = false;
+
+				if (m_iBubbleCurrCount >= m_iBubbleIndex)
+					m_bRender = true;
+			}
+			else if (m_iBubblePreCount > m_iBubbleCurrCount)
+			{
+				m_bSpawnBubbleAnim = true;
+				m_bDecrease = true;
+			}
+			m_iBubblePreCount = m_iBubbleCurrCount;
+			m_vColor = Vec4(100.f, 100.f, 100.f, 1.f);
+		}
+
+		Decrease_Bubble(fTimeDelta);
+		Spawan_BubbleAnim(m_iBubbleCurrCount, fTimeDelta);
+	}
 }
 
 void CUI_WDRIdentity_Bubble::Spawan_BubbleAnim(_uint iBubbleCount, _float fTimeDelta)
 {
-	if ((0 == iBubbleCount)||(m_bSpawnBubbleAnim))
+	if (m_bSpawnBubbleAnim)
 		return;
 
 	if (iBubbleCount >= m_iBubbleIndex)
@@ -146,6 +162,22 @@ void CUI_WDRIdentity_Bubble::Spawan_BubbleAnim(_uint iBubbleCount, _float fTimeD
 			m_vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 			m_bSpawnBubbleAnim = true;
 		}
+	}
+
+}
+
+void CUI_WDRIdentity_Bubble::Decrease_Bubble(_float fTimeDelta)
+{
+	if (!m_bDecrease)
+		return;
+
+	m_vColor -= (m_vColor - Vec4(0.f, 0.f, 0.f, 1.f)) * (20.f * fTimeDelta);
+
+	if (0.f >= m_vColor.x)
+	{
+		m_vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		m_bDecrease = false;
+		m_bRender = false;
 	}
 
 }

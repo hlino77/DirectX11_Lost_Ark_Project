@@ -86,7 +86,6 @@ void CCamera_Free::Tick(_float fTimeDelta)
 		ShowCursor(m_bMouse);
 	}
 
-
 	if (!m_bMouse)
 	{
 
@@ -117,7 +116,7 @@ void CCamera_Free::Tick(_float fTimeDelta)
 
 		}
 	}
-	
+
 	Safe_Release(pGameInstance);
 }
 
