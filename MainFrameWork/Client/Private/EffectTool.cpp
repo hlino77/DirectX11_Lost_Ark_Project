@@ -708,7 +708,6 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 {
 	fs::path strPath;
 	if (m_vecEffects.size())
-		//strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szFileName) + ".xml");
 		strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szGroupName) + "/");
 	else
 		MSG_BOX("You need to Create Effect");
@@ -720,11 +719,11 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 		shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
 
 		fs::path finalPath;
-		if(0 == m_iCurrentEffectType)
+		if(0 == m_vecEffects[i]->m_iEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_M" + ".xml";
-		else if (1 == m_iCurrentEffectType)
+		else if (1 == m_vecEffects[i]->m_iEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
-		else if (2 == m_iCurrentEffectType)
+		else if (2 == m_vecEffects[i]->m_iEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_P" + ".xml";
 
 		tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
