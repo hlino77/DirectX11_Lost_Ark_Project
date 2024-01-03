@@ -528,13 +528,19 @@ void CMainApp::Active_Camera_Free()
 {
 	if (m_pCamera->Is_Active())
 	{
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(true);
+		if (nullptr != CServerSessionManager::GetInstance()->Get_Player())
+		{
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(true);
+		}
 		m_pCamera->Set_Active(false);
 	}
 	else
 	{
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(false);
-		m_pCamera->Get_TransformCom()->Set_WorldMatrix(CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Get_TransformCom()->Get_WorldMatrix());
+		if (nullptr != CServerSessionManager::GetInstance()->Get_Player())
+		{
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Active(false);
+			m_pCamera->Get_TransformCom()->Set_WorldMatrix(CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Get_TransformCom()->Get_WorldMatrix());
+		}
 		m_pCamera->Set_Active(true);
 	}
 

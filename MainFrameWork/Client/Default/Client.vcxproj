@@ -189,6 +189,7 @@
     <ClInclude Include="..\Public\Boss.h" />
     <ClInclude Include="..\Public\Boss_BT_Counter.h" />
     <ClInclude Include="..\Public\Boss_Golem.h" />
+    <ClInclude Include="..\Public\Camera_Lobby.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
@@ -555,6 +556,7 @@
     <ClCompile Include="..\Private\Boss.cpp" />
     <ClCompile Include="..\Private\Boss_BT_Counter.cpp" />
     <ClCompile Include="..\Private\Boss_Golem.cpp" />
+    <ClCompile Include="..\Private\Camera_Lobby.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />

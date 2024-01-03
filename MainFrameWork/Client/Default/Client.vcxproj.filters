@@ -919,6 +919,9 @@
     <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame">
       <UniqueIdentifier>{271b4d89-d1be-45b0-8cda-9975becff6bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera\00.Lobby">
+      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3021,9 +3024,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_WDRIdentity_Identity_Skill.h">
       <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Effect_Particle.h">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Lobby.h">
+      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5097,9 +5103,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_WDRIdentity_Identity_Skill.cpp">
       <Filter>02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Effect_Particle.cpp">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Lobby.cpp">
+      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

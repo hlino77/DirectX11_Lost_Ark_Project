@@ -28,11 +28,13 @@ private:
 private:
     void Update_Bubbles(_float fTimeDelta);
     void Spawan_BubbleAnim(_uint iBubbleCount , _float fTimeDelta);
+    void Decrease_Bubble(_float fTimeDelta);
 
 private:
     CGameObject* m_pPlayer = { nullptr };
     _bool   m_bSpawnBubbleAnim = { false };
-    _bool   m_bMaxGauge = { false };
+    _bool   m_bDecrease = { false };
+
     _uint   m_iBubbleCurrCount = { 0 };
     _uint   m_iBubblePreCount = { 0 };
     _uint   m_iBubbleIndex = { 0 };
