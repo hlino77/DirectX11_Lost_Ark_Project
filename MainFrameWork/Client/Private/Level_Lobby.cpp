@@ -76,12 +76,12 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 			for (int32 i = 0; i < 3; i++)
 			{
 				ThreadManager::GetInstance()->Launch([=]()
+				{
+					while (true)
 					{
-						while (true)
-						{
-							service->GetIocpCore()->Dispatch();
-						}
-					});
+						service->GetIocpCore()->Dispatch();
+					}
+				});
 			}
 		}
 		return S_OK;
@@ -114,12 +114,12 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 			for (int32 i = 0; i < 3; i++)
 			{
 				ThreadManager::GetInstance()->Launch([=]()
+				{
+					while (true)
 					{
-						while (true)
-						{
-							service->GetIocpCore()->Dispatch();
-						}
-					});
+						service->GetIocpCore()->Dispatch();
+					}
+				});
 			}
 		}
 		return S_OK;
@@ -152,12 +152,12 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 			for (int32 i = 0; i < 3; i++)
 			{
 				ThreadManager::GetInstance()->Launch([=]()
+				{
+					while (true)
 					{
-						while (true)
-						{
-							service->GetIocpCore()->Dispatch();
-						}
-					});
+						service->GetIocpCore()->Dispatch();
+					}
+				});
 			}
 		}
 		return S_OK;
@@ -190,12 +190,12 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 			for (int32 i = 0; i < 3; i++)
 			{
 				ThreadManager::GetInstance()->Launch([=]()
+				{
+					while (true)
 					{
-						while (true)
-						{
-							service->GetIocpCore()->Dispatch();
-						}
-					});
+						service->GetIocpCore()->Dispatch();
+					}
+				});
 			}
 		}
 		return S_OK;
@@ -210,17 +210,17 @@ HRESULT CLevel_Lobby::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_Lobby::Exit()
 {
-	
 	End_QuadTree();
+
 	CGameInstance::GetInstance()->StopSoundAll();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_LOBBY);
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, m_pCamera);
 
+	Safe_Release(m_pCamera);
 
 	return S_OK;
 }
-
 
 HRESULT CLevel_Lobby::Ready_Lights()
 {
