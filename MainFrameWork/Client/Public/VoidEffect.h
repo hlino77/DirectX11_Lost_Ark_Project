@@ -77,6 +77,8 @@ public:
 	_bool	m_IsSequence = false;
 	_float	m_fSequenceTerm = 0.05f;
 
+	_float	m_fDissolveStart = 1.f;
+
 	struct tagFX_Variables
 	{
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
@@ -93,7 +95,8 @@ public:
 	{
 		_float	fBloom = 0.f;
 		_float	fRadial = 0.f;
-		Vec2	padding;
+		_float	fDissolveAmount = 0.f;
+		_float	padding;
 	} m_Intensity;
 	
 	struct tagFX_Billboard

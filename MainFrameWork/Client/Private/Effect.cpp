@@ -88,6 +88,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 
 	m_Intensity.fBloom = pDesc->fBloom;
 	m_Intensity.fRadial = pDesc->fRadial;
+	m_Intensity.fDissolveAmount = pDesc->fDissolveAmount;
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);
@@ -256,8 +257,13 @@ HRESULT CEffect::Render()
 	}
 	if (m_pDissolveTexture)
 	{
-		if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
-			return E_FAIL;
+		if (m_fLifeTimeRatio >= m_fDissolveStart)
+		{
+			m_Intensity.fDissolveAmount = (m_fLifeTimeRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
+
+			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
+				return E_FAIL;
+		}
 	}
 
 	return S_OK;

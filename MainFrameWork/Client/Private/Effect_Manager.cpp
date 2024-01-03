@@ -206,6 +206,9 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = element->NextSiblingElement();
 				tDesc.fSequenceTerm = element->FloatAttribute("Sequence_Term");
+				
+				element = element->NextSiblingElement();
+				tDesc.fDissolveStart = element->FloatAttribute("Dissolve_Start");
 
 				element = element->NextSiblingElement();
 				tDesc.vUV_TileCount.x = element->FloatAttribute("X");
@@ -223,6 +226,7 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				element = node->FirstChildElement();
 				tDesc.fBloom = element->FloatAttribute("Intensity");
 				tDesc.fRadial = element->FloatAttribute("Intensity");
+				tDesc.fDissolveAmount = element->FloatAttribute("Amount");
 			}
 
 			node = node->NextSiblingElement();

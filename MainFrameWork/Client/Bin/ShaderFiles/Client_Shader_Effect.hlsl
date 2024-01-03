@@ -17,8 +17,8 @@ cbuffer FX_Intensity
 {
     float fIntensity_Bloom = 1.f;
     float fIntensity_Radial = 0.f;
-    //float fDissolve_Amount = 0.f;
-    float2 padding;
+    float fDissolve_Amount = 0.f;
+    float padding;
 };
 
 cbuffer FX_Billboard

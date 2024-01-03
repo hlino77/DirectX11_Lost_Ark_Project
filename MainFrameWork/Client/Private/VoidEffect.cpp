@@ -104,8 +104,6 @@ HRESULT CVoidEffect::Render()
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagFX_Variables))))
 		return E_FAIL;
-	/*if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
-		return E_FAIL;*/
 
 	//////////////////////////////
 
@@ -149,9 +147,17 @@ HRESULT CVoidEffect::Render()
 	}
 	if (m_pDissolveTexture)
 	{
-		if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
-			return E_FAIL;
+		if (m_fLifeTimeRatio >= m_fDissolveStart)
+		{
+			m_Intensity.fDissolveAmount = (m_fLifeTimeRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
+
+			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
+				return E_FAIL;
+		}
 	}
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
+		return E_FAIL;
 
 	if (0 == m_iEffectType)
 	{

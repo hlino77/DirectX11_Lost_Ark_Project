@@ -513,7 +513,8 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::Text("UV_Tiles_Offset");*/
 
 	// 여기에 디졸브
-	
+	if (TEXT("") != m_pCurrentEffect->m_tVoidEffectDesc.protoDissolveTexture)
+		ImGui::InputFloat("Dissolve Start (ratio)", &m_pCurrentEffect->m_fDissolveStart);
 	//
 
 	if (2 == m_pCurrentEffect->m_iEffectType)
@@ -886,6 +887,10 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element = document->NewElement("Sequence_Term");
 			element->SetAttribute("Sequence_Term", m_vecEffects[i]->m_fSequenceTerm);
 			node->LinkEndChild(element);
+			
+			element = document->NewElement("Dissolve_Start");
+			element->SetAttribute("Dissolve_Start", m_vecEffects[i]->m_fDissolveStart);
+			node->LinkEndChild(element);
 
 			element = document->NewElement("UV_TileCount");
 			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vUV_TileCount.x);
@@ -907,6 +912,10 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 
 			element = document->NewElement("Radial");
 			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fRadial);
+			node->LinkEndChild(element);
+			
+			element = document->NewElement("Dissolve");
+			element->SetAttribute("Amount", m_vecEffects[i]->m_Intensity.fDissolveAmount);
 			node->LinkEndChild(element);
 		}
 
@@ -1123,6 +1132,9 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_fSequenceTerm = element->FloatAttribute("Sequence_Term");
 
 			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_fDissolveStart = element->FloatAttribute("Dissolve_Start");
+
+			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Variables.vUV_TileCount.x = element->FloatAttribute("X");
 			m_pCurrentEffect->m_Variables.vUV_TileCount.y = element->FloatAttribute("Y");
 
@@ -1138,6 +1150,7 @@ HRESULT CEffectTool::Load()
 			element = node->FirstChildElement();
 			m_pCurrentEffect->m_Intensity.fBloom = element->FloatAttribute("Intensity");
 			m_pCurrentEffect->m_Intensity.fRadial = element->FloatAttribute("Intensity");
+			m_pCurrentEffect->m_Intensity.fDissolveAmount = element->FloatAttribute("Amount");
 		}
 
 		node = node->NextSiblingElement();

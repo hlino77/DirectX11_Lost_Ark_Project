@@ -1,7 +1,6 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
 
-
 VS_OUT VS_MAIN(STATIC_INSTANCE_IN In)
 {
     VS_OUT		Out = (VS_OUT)0;
