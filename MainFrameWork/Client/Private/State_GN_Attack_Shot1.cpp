@@ -5,6 +5,7 @@
 #include "Player_Controller_GN.h"
 #include "Model.h"
 #include "ColliderSphere.h"
+#include "Effect_Manager.h"
 
 CState_GN_Attack_Shot1::CState_GN_Attack_Shot1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -53,8 +54,11 @@ void CState_GN_Attack_Shot1::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
-	}
 
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &const_cast<Matrix&>(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix());
+		EFFECT_START(TEXT("tempPlane0"), &desc)
+	}
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 

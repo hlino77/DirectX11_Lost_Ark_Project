@@ -17,7 +17,12 @@ class CEffect_Manager final : public CBase
 	DECLARE_SINGLETON(CEffect_Manager);
 
 public:
-	
+	typedef struct tagEffectPivot
+	{
+		CTransform* pPivotTransform = nullptr;
+		Matrix*		pPivotMatrix = nullptr;
+	}EFFECTPIVOTDESC;
+
 public:
 	CEffect_Manager();
 	virtual ~CEffect_Manager() = default;
@@ -26,7 +31,7 @@ public:
 	HRESULT Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	void	Tick(_float fTimedelta);
 
-	HRESULT Effect_Start(wstring strEffectBundle, CTransform* pTransform);
+	HRESULT Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc);
 
 private:
 	unordered_map<wstring, vector<wstring>, djb2Hasher> m_hashEffectBundles;

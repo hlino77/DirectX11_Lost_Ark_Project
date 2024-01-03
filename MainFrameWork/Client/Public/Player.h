@@ -143,6 +143,8 @@ public:
 
 	_bool					Get_CellPickingPos(Vec3& vPickPos);
 
+	CGameObject*			Get_Parts(const CPartObject::PARTS& ePart) { return m_Parts[ePart]; }
+
 	void					Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }

@@ -3,7 +3,7 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "RigidBody.h"
-
+#include "Effect_Manager.h"
 
 CEffect::CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Effect", OBJ_TYPE::EFFECT)
@@ -84,9 +84,11 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Variables.vUV_TileCount = pDesc->vUV_TileCount;
 	m_Variables.vUV_TileIndex = pDesc->vUV_TileIndex;
 	m_Variables.vColor_Offset = pDesc->vColor_Offset;
+	m_Variables.vColor_Clip = pDesc->vColor_Clip;
 
 	m_Intensity.fBloom = pDesc->fBloom;
 	m_Intensity.fRadial = pDesc->fRadial;
+	m_Intensity.fDissolveAmount = pDesc->fDissolveAmount;
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);
@@ -126,8 +128,24 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 
 HRESULT CEffect::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+	CEffect_Manager::EFFECTPIVOTDESC* pDesc = reinterpret_cast<CEffect_Manager::EFFECTPIVOTDESC*>(pArg);
+
+	if(pDesc->pPivotTransform)
+		m_matPivot = pDesc->pPivotTransform->Get_WorldMatrix();
+	else
+		m_matPivot = *pDesc->pPivotMatrix;
+
+	Vec3 vRight = m_matPivot.Right();
+	vRight.Normalize();
+	m_matPivot.m[0][0] = vRight.x; m_matPivot.m[0][1] = vRight.y; m_matPivot.m[0][2] = vRight.z;
+
+	Vec3 vUp = m_matPivot.Up();
+	vUp.Normalize();
+	m_matPivot.m[1][0] = vUp.x; m_matPivot.m[1][1] = vUp.y; m_matPivot.m[1][2] = vUp.z;
+
+	Vec3 vLook = m_matPivot.Backward();
+	vLook.Normalize();
+	m_matPivot.m[2][0] = vLook.x; m_matPivot.m[2][1] = vLook.y; m_matPivot.m[2][2] = vLook.z;
 
 	return S_OK;
 }
@@ -239,8 +257,13 @@ HRESULT CEffect::Render()
 	}
 	if (m_pDissolveTexture)
 	{
-		if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
-			return E_FAIL;
+		if (m_fLifeTimeRatio >= m_fDissolveStart)
+		{
+			m_Intensity.fDissolveAmount = (m_fLifeTimeRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
+
+			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
+				return E_FAIL;
+		}
 	}
 
 	return S_OK;

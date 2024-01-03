@@ -206,6 +206,9 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = element->NextSiblingElement();
 				tDesc.fSequenceTerm = element->FloatAttribute("Sequence_Term");
+				
+				element = element->NextSiblingElement();
+				tDesc.fDissolveStart = element->FloatAttribute("Dissolve_Start");
 
 				element = element->NextSiblingElement();
 				tDesc.vUV_TileCount.x = element->FloatAttribute("X");
@@ -223,6 +226,7 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				element = node->FirstChildElement();
 				tDesc.fBloom = element->FloatAttribute("Intensity");
 				tDesc.fRadial = element->FloatAttribute("Intensity");
+				tDesc.fDissolveAmount = element->FloatAttribute("Amount");
 			}
 
 			node = node->NextSiblingElement();
@@ -279,7 +283,7 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 	return S_OK;
 }
 
-HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, CTransform* pTransform)
+HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc)
 {
 	auto& Effects = m_hashEffectBundles.find(strEffectBundle);
 
@@ -290,8 +294,8 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, CTransform* pTran
 		for (auto& iter : Effects->second)
 		{
 			CEffect* pEffect = nullptr;
-			
-			pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, iter, pTransform));
+
+			pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, iter, pDesc));
 			if (nullptr == pEffect)
 				return E_FAIL;
 		}

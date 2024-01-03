@@ -633,7 +633,7 @@ HRESULT CModel::Render_SingleMeshInstance(ID3D11Buffer* pInstanceBuffer, _uint i
 		return E_FAIL;
 
 	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
-		return S_OK;
+		return E_FAIL;
 
 	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
 

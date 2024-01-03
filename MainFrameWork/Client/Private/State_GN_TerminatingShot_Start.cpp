@@ -5,6 +5,7 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
 
 CState_GN_TerminatingShot_Start::CState_GN_TerminatingShot_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -61,9 +62,13 @@ void CState_GN_TerminatingShot_Start::Exit_State()
 void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
-	{
+	{ 
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+
+		/*CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &const_cast<Matrix&>(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix());
+		EFFECT_START(TEXT("tempPlane0"), &desc)*/
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTerminatingShot1))

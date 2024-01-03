@@ -55,6 +55,7 @@ public:
 
 		_bool	IsSequence = false;
 		_float	fSequenceTerm = 0.05f;
+		_float	fDissolveStart = 1.f;
 
 		// Variables
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
@@ -68,6 +69,7 @@ public:
 		// Intensity
 		_float	fBloom = 0.f;
 		_float	fRadial = 0.f;
+		_float	fDissolveAmount = 0.f;
 		
 		// Billboard
 		_int	iBillboard = true;
@@ -135,7 +137,8 @@ protected:
 	{
 		_float	fBloom = 0.f;
 		_float	fRadial = 0.f;
-		Vec2	vPadding;
+		_float	fDissolveAmount = 0.f;
+		_float	padding;
 	} m_Intensity;
 
 	tagEffectDesc m_tVoidEffectDesc;
@@ -149,6 +152,7 @@ protected:
 	_float	m_fLifeTimeRatio = 0.f;
 
 	_float	m_fSequenceTimer = 0.0f;
+	_float	m_fDissolveStart = 1.f;
 	//random_device*		m_RandomDevice = nullptr;
 
 	CTexture* m_pDiffuseTexture		= nullptr;

@@ -90,7 +90,7 @@ namespace Client
 	enum class STATUSEFFECT { COUNTER, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, EFFECTEND };
 }
 
-#define EFFECT_START(name, transform)	CEffect_Manager::GetInstance()->Effect_Start(name, transform);
+#define EFFECT_START(name, pivotDesc)	CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc);
 
 extern _float g_fVolume;
 extern HWND g_hWnd;

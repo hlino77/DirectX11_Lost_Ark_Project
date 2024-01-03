@@ -77,7 +77,7 @@ float4 ComputeForwardLight(float3 normal, float2 uv, float3 worldPosition)
 void ComputeNormalMapping(inout float4 normal, float3 tangent, float2 texcoord)
 {
 	// [0,255] 범위에서 [0,1]로 변환
-    float4 map = g_NormalTexture.Sample(LinearSampler, texcoord);
+    float4 map = g_NormalTexture.Sample(LinearBorderSampler, texcoord);
     if (any(map.rgb) == false)
         return;
 

@@ -62,7 +62,7 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
         float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
         
 	    //Discard the pixel if the value is below zero
-        clip(fDissolve - g_fDissolveAmount);
+        clip(fDissolve - fDissolve_Amount);
 	    //Make the pixel emissive if the value is below ~f
         //if (fDissolve - g_fDissolveAmount < 0.25f)/*0.08f*/
         //{
