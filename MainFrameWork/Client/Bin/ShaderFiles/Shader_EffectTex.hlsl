@@ -30,13 +30,26 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 	GS_OUT		Out[4];
 
     float3 vLook = float3(0.f, 0.f, 0.f);
-    if (bBillboard)
-        vLook = CameraPosition() - In[0].vPosition.xyz;
-    else
-        vLook = WorldMatrix._31_32_33;
+    float3  vUp, vRight;
 
-	float3	vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * In[0].vPSize.x * 0.5f;
-	float3	vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;
+    if (bBillboard)
+    {
+        vLook = CameraPosition() - In[0].vPosition.xyz;
+        vRight = normalize(cross(float3(0.0f, 1.0f, 0.0f), vLook)) * In[0].vPSize.x * 0.5f;
+        vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;
+    }
+    else
+    {
+        float3 vCamLook = CameraPosition() - In[0].vPosition.xyz;
+        vUp = WorldMatrix._21_22_23 * In[0].vPSize.y * 0.5f;
+        vRight = normalize(cross(vUp, vCamLook)) * In[0].vPSize.x * 0.5f;
+
+       /* vLook = WorldMatrix._31_32_33;
+        vUp = WorldMatrix._21_22_23;
+        vRight = normalize(cross(vUp, vLook)) * In[0].vPSize.x * 0.5f;
+        vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;*/
+    }
+ 
 
 	matrix		matVP;
 

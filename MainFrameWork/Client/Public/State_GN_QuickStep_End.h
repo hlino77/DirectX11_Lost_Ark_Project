@@ -30,6 +30,8 @@ private:
 	//Animation
 	_int m_iQuickStep_End = 0;
 
+
+
 public:
 	static CState_GN_QuickStep_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

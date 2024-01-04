@@ -32,6 +32,7 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_vUV_Speed(rhs.m_vUV_Speed)
 	, m_IsSequence(rhs.m_IsSequence)
 	, m_fSequenceTerm(rhs.m_fSequenceTerm)
+	, m_fDissolveStart(rhs.m_fDissolveStart)
 	, m_Variables(rhs.m_Variables)
 	, m_Intensity(rhs.m_Intensity)
 	, m_pDiffuseTexture(rhs.m_pDiffuseTexture)
@@ -41,6 +42,8 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_pDissolveTexture(rhs.m_pDissolveTexture)
 	, m_tNoisMaskEmisDslv(rhs.m_tNoisMaskEmisDslv)
 {
+	m_szModelName = rhs.m_szModelName;
+
 	Safe_AddRef(m_pDiffuseTexture);
 	Safe_AddRef(m_pNoiseTexture);
 	Safe_AddRef(m_pMaskTexture);
@@ -50,6 +53,8 @@ CEffect::CEffect(const CEffect& rhs)
 
 HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 {
+	m_szModelName = pDesc->EffectTag;
+
 	m_vPosition_Start = pDesc->vPosition_Start;
 	m_vPosition_End = pDesc->vPosition_End;
 	m_bPosition_Lerp = pDesc->bPosition_Lerp;
@@ -82,7 +87,6 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Variables.iUV_Wave = pDesc->iUV_Wave;
 	m_Variables.fUV_WaveSpeed = pDesc->fUV_WaveSpeed;
 	m_Variables.vUV_TileCount = pDesc->vUV_TileCount;
-	m_Variables.vUV_TileIndex = pDesc->vUV_TileIndex;
 	m_Variables.vColor_Offset = pDesc->vColor_Offset;
 	m_Variables.vColor_Clip = pDesc->vColor_Clip;
 
@@ -128,24 +132,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 
 HRESULT CEffect::Initialize(void* pArg)
 {
-	CEffect_Manager::EFFECTPIVOTDESC* pDesc = reinterpret_cast<CEffect_Manager::EFFECTPIVOTDESC*>(pArg);
-
-	if(pDesc->pPivotTransform)
-		m_matPivot = pDesc->pPivotTransform->Get_WorldMatrix();
-	else
-		m_matPivot = *pDesc->pPivotMatrix;
-
-	Vec3 vRight = m_matPivot.Right();
-	vRight.Normalize();
-	m_matPivot.m[0][0] = vRight.x; m_matPivot.m[0][1] = vRight.y; m_matPivot.m[0][2] = vRight.z;
-
-	Vec3 vUp = m_matPivot.Up();
-	vUp.Normalize();
-	m_matPivot.m[1][0] = vUp.x; m_matPivot.m[1][1] = vUp.y; m_matPivot.m[1][2] = vUp.z;
-
-	Vec3 vLook = m_matPivot.Backward();
-	vLook.Normalize();
-	m_matPivot.m[2][0] = vLook.x; m_matPivot.m[2][1] = vLook.y; m_matPivot.m[2][2] = vLook.z;
+	Set_Active(false);
 
 	return S_OK;
 }
@@ -155,7 +142,7 @@ void CEffect::Tick(_float fTimeDelta)
 	if (m_fLifeTime < m_fTimeAcc)
 	{
 		Set_Active(false);
-		Set_Dead(true);
+		CEffect_Manager::GetInstance()->Return_Effect(this);
 		return;
 	}
 
@@ -183,9 +170,11 @@ void CEffect::Tick(_float fTimeDelta)
 		vOffsetPosition = m_vPosition_Start;
 
 	if (m_bVelocity_Lerp)
-		vVelocity = 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+		vVelocity = 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 	else
-		vVelocity = 0.5f * m_fTimeAcc * m_vVelocity_Start;
+		vVelocity = 0.5f * m_fLifeTimeRatio * m_vVelocity_Start;
+
+	vOffsetPosition += vVelocity;
 
 	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))
@@ -220,7 +209,6 @@ HRESULT CEffect::Render()
 		return E_FAIL;*/
 
 #pragma region GlobalData
-	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
 	m_matCombined = m_matOffset * m_matPivot;
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
@@ -269,6 +257,31 @@ HRESULT CEffect::Render()
 	return S_OK;
 }
 
+void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
+{
+	if (tEffectDesc.pPivotTransform)
+		m_matPivot = tEffectDesc.pPivotTransform->Get_WorldMatrix();
+	else
+		m_matPivot = *tEffectDesc.pPivotMatrix;
+
+	Vec3 vRight = m_matPivot.Right();
+	vRight.Normalize();
+	m_matPivot.m[0][0] = vRight.x; m_matPivot.m[0][1] = vRight.y; m_matPivot.m[0][2] = vRight.z;
+
+	Vec3 vUp = m_matPivot.Up();
+	vUp.Normalize();
+	m_matPivot.m[1][0] = vUp.x; m_matPivot.m[1][1] = vUp.y; m_matPivot.m[1][2] = vUp.z;
+
+	Vec3 vLook = m_matPivot.Backward();
+	vLook.Normalize();
+	m_matPivot.m[2][0] = vLook.x; m_matPivot.m[2][1] = vLook.y; m_matPivot.m[2][2] = vLook.z;
+
+	//Reset
+	m_fSequenceTimer = 0.0f;
+	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
+	m_fTimeAcc = 0.0f;
+}
+
 HRESULT CEffect::Ready_Components()
 {
 	/* For.Com_Transform */
@@ -279,7 +292,7 @@ HRESULT CEffect::Ready_Components()
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	/* For.Com_Transform */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
 	/* For.Com_Renderer */

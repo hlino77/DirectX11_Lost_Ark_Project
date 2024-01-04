@@ -45,14 +45,19 @@ void CVoidEffect::Tick(_float fTimeDelta)
 	m_fLifeTime = ::max(0.02f, m_fLifeTime);
 	
 	m_fTimeAcc += fTimeDelta;
+	while (m_fTimeAcc > m_fLifeTime)
+	{
+		m_fTimeAcc -= m_fLifeTime;
+		m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
+		m_fSequenceTimer = 0.0f;
+	}
 	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
-	while (m_fTimeAcc > m_fLifeTime) m_fTimeAcc -= m_fLifeTime;
 
 	if (m_IsSequence)
 	{
 		m_Variables.vUV_TileCount.x = ::max(1.f, m_Variables.vUV_TileCount.x);
 		m_Variables.vUV_TileCount.y = ::max(1.f, m_Variables.vUV_TileCount.y);
-		m_fSequenceTerm = ::max(0.01f, m_fSequenceTerm);
+		m_fSequenceTerm = ::max(0.001f, m_fSequenceTerm);
 
 		m_fSequenceTimer += fTimeDelta;
 		while (m_fSequenceTimer > m_fSequenceTerm + 0.0001f)
@@ -76,7 +81,7 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
-	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fTimeAcc * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 
 	XMStoreFloat4x4(&m_matPivot, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))

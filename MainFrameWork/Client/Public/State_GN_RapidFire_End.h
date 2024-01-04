@@ -20,6 +20,9 @@ public:
 public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
+	
+private:
+	void	Effect_Shot();
 
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;

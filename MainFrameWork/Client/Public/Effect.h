@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "BindShaderDesc.h"
 #include <random>
+#include "Effect_Manager.h"
 
 BEGIN(Engine)
 
@@ -21,6 +22,7 @@ public:
 	typedef struct tagEffectDesc
 	{
 		_int	iEffectType = -1;
+		wstring EffectTag = TEXT("");
 		wstring protoModel = TEXT("");
 		wstring protoDiffuseTexture = TEXT("");
 		wstring protoNoiseTexture = TEXT("");
@@ -92,7 +94,8 @@ public:
 	virtual void Tick(_float fTimeDelta)		override;
 	virtual void LateTick(_float fTimeDelta)	override;
 	virtual HRESULT Render()					override;
-	
+
+	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc);
 protected:
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);

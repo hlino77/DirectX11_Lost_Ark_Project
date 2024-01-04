@@ -5,6 +5,7 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
 
 CState_GN_QuickStep_End::CState_GN_QuickStep_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -22,9 +23,14 @@ HRESULT CState_GN_QuickStep_End::Initialize()
 	else
 		m_TickFunc = &CState_GN_QuickStep_End::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(6);
-	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(4);
+	m_SkillFrames.push_back(8);
 	m_SkillFrames.push_back(-1);
+
+
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(4, (_uint)CPartObject::PARTS::WEAPON_2));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(8, (_uint)CPartObject::PARTS::WEAPON_1));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
 	return S_OK;
 }
@@ -32,6 +38,7 @@ HRESULT CState_GN_QuickStep_End::Initialize()
 void CState_GN_QuickStep_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iEffectCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iQuickStep_End, 0.1f, 0, 0);
 
@@ -54,10 +61,23 @@ void CState_GN_QuickStep_End::Exit_State()
 
 void CState_GN_QuickStep_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		matWorld.Translation(static_cast<CPartObject*>(m_pPlayer->Get_Parts((CPartObject::PARTS)m_EffectFrames[m_iEffectCnt].iWeapon))->Get_Part_WorldMatrix().Translation());
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("QuickStepBullet"), &desc)
+
+		m_iEffectCnt++;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iQuickStep_End))

@@ -11,6 +11,7 @@ CEffect_Texture::CEffect_Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 CEffect_Texture::CEffect_Texture(const CEffect_Texture& rhs)
 	: Super(rhs)
+	, m_Billboard(rhs.m_Billboard)
 {
 }
 
@@ -46,16 +47,24 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 		{
 			m_fSequenceTimer -= m_fSequenceTerm;
 			++m_Variables.vUV_TileIndex.x;
+
+			if (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+			{
+				m_Variables.vUV_TileIndex.x = 0.0f;
+				++m_Variables.vUV_TileIndex.y;
+				if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
+					m_Variables.vUV_TileIndex.y = 0.0f;
+			}
 		}
 
-		while (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+	/*	while (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
 		{
 			m_Variables.vUV_TileIndex.x -= m_Variables.vUV_TileCount.x;
 			++m_Variables.vUV_TileIndex.y;
 
 			while (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
 				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
-		}
+		}*/
 	}
 }
 

@@ -153,16 +153,6 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
 
-	if (KEY_TAP(KEY::Q))
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotTransform = m_pTransformCom;
-
-		HRESULT hr = EFFECT_START(TEXT("tempHelix0"), &desc)
-		if (E_FAIL == hr)
-			MSG_BOX("Failed to Create tempHelix0");
-	}
-
 	__super::Tick(fTimeDelta);
 }
 

@@ -498,6 +498,8 @@ HRESULT CMainApp::Ready_Prototype_Effect()
 	// Effect
 	
 
+	CEffect_Manager::GetInstance()->Ready_EffectPool(10);
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

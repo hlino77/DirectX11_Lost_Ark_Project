@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "ColliderSphere.h"
 #include "Effect_Manager.h"
+#include "GameInstance.h"
 
 CState_GN_Attack_Shot1::CState_GN_Attack_Shot1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -55,9 +56,7 @@ void CState_GN_Attack_Shot1::Tick_State_Control(_float fTimeDelta)
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &const_cast<Matrix&>(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix());
-		EFFECT_START(TEXT("tempPlane0"), &desc)
+		Effect_Shot();
 	}
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
@@ -120,6 +119,43 @@ void CState_GN_Attack_Shot1::Tick_State_Control(_float fTimeDelta)
 void CState_GN_Attack_Shot1::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_Attack_Shot1::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix().Translation();
+	Vec3 vOriginLook = matWorld.Backward();
+	vOriginLook.Normalize();
+	vPos += vOriginLook * 0.4f;
+	Vec3 vOriginUp = matWorld.Up();
+	Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+	vOriginUp.Normalize();
+	vOriginRight.Normalize();
+
+	{
+		matWorld.Translation(vPos);
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+
+		EFFECT_START(TEXT("ShotMuzzleFlash"), &desc)
+	}
+
+	for (_uint i = 0; i < 10; ++i)
+	{
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+
+
+		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+		Matrix matEffectWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matEffectWorld;
+
+		EFFECT_START(TEXT("ShotBullet"), &desc)
+	}
 }
 
 CState_GN_Attack_Shot1* CState_GN_Attack_Shot1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

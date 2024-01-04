@@ -206,7 +206,7 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = element->NextSiblingElement();
 				tDesc.fSequenceTerm = element->FloatAttribute("Sequence_Term");
-				
+
 				element = element->NextSiblingElement();
 				tDesc.fDissolveStart = element->FloatAttribute("Dissolve_Start");
 
@@ -256,23 +256,25 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 			}
 
 			wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + strBundleTag + TEXT("_") + entry.path().stem().generic_wstring();
+			wstring strEffectTag = strBundleTag + TEXT("_") + entry.path().stem().generic_wstring();
+			tDesc.EffectTag = strEffectTag;
 			if (0 == tDesc.iEffectType)
 			{
 				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Mesh::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
-			else if(1 == tDesc.iEffectType)
+			else if (1 == tDesc.iEffectType)
 			{
 				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Texture::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
-			else if(2 == tDesc.iEffectType)
+			else if (2 == tDesc.iEffectType)
 			{
 				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Particle::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
 
-			vecEffects.push_back(strProtoTag);
+			vecEffects.push_back(strEffectTag);
 		}
 
 		m_hashEffectBundles.emplace(strBundleTag, vecEffects);
@@ -291,13 +293,57 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 		return E_FAIL;
 	else
 	{
-		for (auto& iter : Effects->second)
+		for (auto& EffectTag : Effects->second)
 		{
 			CEffect* pEffect = nullptr;
 
-			pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, iter, pDesc));
-			if (nullptr == pEffect)
-				return E_FAIL;
+			if (m_hashEffectPools[EffectTag].empty())
+			{
+				wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + EffectTag;
+
+				pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag, pDesc));
+				if (nullptr == pEffect)
+					return E_FAIL;
+			}
+			else
+			{
+				pEffect = m_hashEffectPools[EffectTag].front();
+				m_hashEffectPools[EffectTag].pop();
+			}
+
+			pEffect->Reset(*pDesc);
+			pEffect->Tick(0.0f);
+			pEffect->Set_Active(true);
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CEffect_Manager::Return_Effect(CEffect* pEffect)
+{
+	m_hashEffectPools[pEffect->Get_ModelName()].push(pEffect);
+
+	return S_OK;
+}
+
+HRESULT CEffect_Manager::Ready_EffectPool(_uint iDefaultSize)
+{
+	for (auto& Bundle : m_hashEffectBundles)
+	{
+		for (auto& EffectTag : Bundle.second)
+		{
+			wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + EffectTag;
+
+			for (_uint i = 0; i < iDefaultSize; ++i)
+			{
+				CEffect* pEffect = dynamic_cast<CEffect*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag));
+
+				if (pEffect == nullptr)
+					return E_FAIL;
+
+				m_hashEffectPools[EffectTag].push(pEffect);
+			}
 		}
 	}
 

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Base.h"
-#include "Effect.h"
 #include "hasher.h"
 
 BEGIN(Engine)
@@ -11,6 +10,7 @@ class CGameInstance;
 END
 
 BEGIN(Client)
+class CEffect;
 
 class CEffect_Manager final : public CBase
 {
@@ -32,9 +32,12 @@ public:
 	void	Tick(_float fTimedelta);
 
 	HRESULT Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc);
+	HRESULT Return_Effect(CEffect* pEffect);
+	HRESULT Ready_EffectPool(_uint iDefaultSize);
 
 private:
 	unordered_map<wstring, vector<wstring>, djb2Hasher> m_hashEffectBundles;
+	unordered_map<wstring, queue<CEffect*>, djb2Hasher> m_hashEffectPools;
 
 	CGameInstance* m_pGameInstance = nullptr;
 	ID3D11Device* m_pDevice = nullptr;

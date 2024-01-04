@@ -8,6 +8,8 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
+#include "GameInstance.h"
 
 CState_GN_Attack_Hand1::CState_GN_Attack_Hand1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -31,12 +33,17 @@ HRESULT CState_GN_Attack_Hand1::Initialize()
 	m_AttackFrames.push_back(8);
 	m_AttackFrames.push_back(-1);
 
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(4, (_uint)CPartObject::PARTS::WEAPON_2));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(8, (_uint)CPartObject::PARTS::WEAPON_1));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Attack_Hand1::Enter_State()
 {
 	m_iAttackCnt = 0;
+	m_iEffectCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Hand1, 0.1f, 0, 0);
 	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos());
@@ -53,11 +60,20 @@ void CState_GN_Attack_Hand1::Exit_State()
 
 void CState_GN_Attack_Hand1::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand1))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand1);
+
+	if (m_AttackFrames[m_iAttackCnt] == iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		Effect_Shot();
+		m_iEffectCnt++;
+	}
+
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 
@@ -137,6 +153,44 @@ void CState_GN_Attack_Hand1::Attack_Hand(_float fAttackTime)
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 1.7f));
 
 
+}
+
+void CState_GN_Attack_Hand1::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts((CPartObject::PARTS)m_EffectFrames[m_iEffectCnt].iWeapon))->Get_Part_WorldMatrix().Translation();
+
+	Vec3 vOriginLook = matWorld.Backward();
+	vOriginLook.Normalize();
+
+	Vec3 vOriginUp = matWorld.Up();
+	vOriginUp.Normalize();
+
+	Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+	vOriginRight.Normalize();
+
+	matWorld.Translation(vPos);
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("HandBullet"), &desc)
+
+
+	_uint iCount = rand() % 2 + 1;
+	for(_uint i = 0; i < iCount; ++i)
+	{
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);
+
+
+		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+		Matrix matEffectWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matEffectWorld;
+
+		EFFECT_START(TEXT("HandBulletParticle"), &desc)
+	}
 }
 
 CState_GN_Attack_Hand1* CState_GN_Attack_Hand1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

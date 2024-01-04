@@ -22,6 +22,11 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Shot();
+	void	Effect_Shot_Right();
+	void	Effect_RandomShot();
+
+private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
 	std::function<void(CState_GN_DeathFire_Start&, _float)> m_TickFunc;

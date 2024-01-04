@@ -84,6 +84,30 @@ HRESULT CTarget_Manager::Clear_RenderTarget(const wstring& strTargetTag)
 	return pRenderTarget->Clear();
 }
 
+HRESULT CTarget_Manager::Delete_RenderTarget(const wstring& strTargetTag)
+{
+	auto& iter = m_RenderTargets.find(strTargetTag);
+
+	if (iter == m_RenderTargets.end())
+		return E_FAIL;
+
+	m_RenderTargets.erase(iter);
+
+	return S_OK;
+}
+
+HRESULT CTarget_Manager::Delete_MRT(const wstring& strMRTTag)
+{
+	auto& iter = m_MRTs.find(strMRTTag);
+
+	if (iter == m_MRTs.end())
+		return E_FAIL;
+
+	m_MRTs.erase(iter);
+
+	return S_OK;
+}
+
 HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const wstring & strMRTTag, _bool bClear)
 {
 	vector<CRenderTarget*>*		pMRTList = Find_MRT(strMRTTag);

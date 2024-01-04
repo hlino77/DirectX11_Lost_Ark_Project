@@ -6,6 +6,16 @@ BEGIN(Engine)
 
 class ENGINE_DLL CState_Skill abstract : public CState
 {
+protected:
+	typedef struct EffectFrameDesc
+	{
+		EffectFrameDesc() {};
+		EffectFrameDesc(_uint iFrameIndex, _uint iWeaponIndex) : iFrame(iFrameIndex), iWeapon(iWeaponIndex) {}
+
+		_int iFrame = -1;
+		_int iWeapon = -1;
+	}EFFECTFRAMEDESC;
+
 public:
 	CState_Skill(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController);
 	virtual ~CState_Skill() = default;
@@ -43,6 +53,9 @@ protected:
 
 	_uint m_iSkillCnt = 0;
 	vector<_int> m_SkillFrames;
+
+	_uint m_iEffectCnt = 0;
+	vector<EffectFrameDesc> m_EffectFrames;
 
 public:
 	virtual void Free() override;

@@ -229,4 +229,7 @@ void CTextBox::Free()
 	Safe_Release(m_pContext);
 
 	Safe_Release(m_pTransformCom);
+
+	CTarget_Manager::GetInstance()->Delete_RenderTarget(m_szTargetTag);
+	CTarget_Manager::GetInstance()->Delete_MRT(m_szMRTTag);
 }
