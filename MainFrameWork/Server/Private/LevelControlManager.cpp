@@ -292,6 +292,7 @@ Vec3 CLevelControlManager::Get_LevelSpawnPos(LEVELID eLevel)
 		vPos = Vec3(117.93f, 0.19f, 100.2f);
 		break;
 	case LEVELID::LEVEL_CHAOS_2:
+		vPos = Vec3(100.f, 0.19f, 100.f);
 		break;
 	}
 

@@ -913,7 +913,12 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
 
-	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Arena.Navi");
+	//CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Arena.Navi");
+
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Chaos2.Navi");
+
+	Load_MapData(LEVEL_CHAOS_2, TEXT("../Bin/Resources/MapData/Chaos2.data"));
+
 
 
 	{
