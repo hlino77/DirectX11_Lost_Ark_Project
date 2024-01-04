@@ -346,8 +346,9 @@ namespace Engine
 		_uint	eLayer_Collider;
 
 		Vec3	vAttackPos = { 0.f, 0.f, 0.f };
+		Matrix  AttackMatrix;
 
-		_float	fAttackTime = { 0.5f };
+		_float	fAttackTime = { 0.05f };
 
 		_float	fRadius = { 1.f };
 		Vec3	vOffset;
@@ -372,10 +373,12 @@ namespace Engine
 		_uint	eUse_SpawnCollider;
 		_uint	eLayer_SpawnCollider;
 
-		_uint	iSpawnAmount = { 1 };
+		_int	iSpawnAmount = { -1 };
 		_float	fSpawnTime = { 0.0f };
 		_float  fSpawnAttackTime = { 0.0f };
 
+		_float	fSpawnRadius = { 1.f };
+		Vec3	vSpawnOffset;
 
 
 	}PROJECTILE_DESC;

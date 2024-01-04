@@ -48,17 +48,22 @@ void CProjectile::Tick(_float fTimeDelta)
 		m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
 
 
-	if (false == m_bReserveColli && true == m_IsSpawner)
-	{
-
-	}
-
-
 	for (auto& Collider : m_AttackCollider)
 	{
 		if (Collider->IsActive())
 		{
 			Collider->Update_Collider();
+		}
+	}
+
+	if (false == m_bReserveColli && true == m_IsSpawner)
+	{
+		m_fSpawnAcc += fTimeDelta;
+		if (m_fSpawnTime <= m_fSpawnAcc)
+		{
+			m_fSpawnAcc = 0.f;
+			m_iSpawnCnt++;
+			Spawn_Projectile(fTimeDelta);
 		}
 	}
 }
@@ -87,7 +92,17 @@ void CProjectile::LateTick(_float fTimeDelta)
 	if (m_fCurrTime >= m_fActiveTime)
 	{
 		AttackEnd();
+		m_IsSpawner = false;
 	}
+	else if (true == m_IsSpawner && m_iSpawnMaxCnt <= m_iSpawnCnt)
+	{
+		if (-1 != m_iSpawnMaxCnt)
+		{
+			AttackEnd();
+			m_IsSpawner = false;
+		}
+	}
+
 }
 
 HRESULT CProjectile::Render_Debug()
@@ -129,7 +144,7 @@ void CProjectile::InitAsAttack(PROJECTILE_DESC* pDesc)
 	if (Vec3() != pDesc->vAttackPos)
 		Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pDesc->vAttackPos);
 	else
-		Get_TransformCom()->Set_WorldMatrix(m_pAttackOwner->Get_TransformCom()->Get_WorldMatrix());
+		Get_TransformCom()->Set_WorldMatrix(pDesc->AttackMatrix);
 
 	CSphereCollider* pCollider = m_AttackCollider[pDesc->eUseCollider];
 	pCollider->Set_ColLayer(pDesc->eLayer_Collider);
@@ -163,10 +178,58 @@ void CProjectile::InitAsAttack(PROJECTILE_DESC* pDesc)
 
 void CProjectile::InitAsSpawner(PROJECTILE_DESC* pDesc)
 {
+	m_IsSpawner = true;
 
+	m_pAttackOwner = pDesc->pAttackOwner;
 
+	if (Vec3() != pDesc->vAttackPos)
+		Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pDesc->vAttackPos);
+	else
+		Get_TransformCom()->Set_WorldMatrix(pDesc->AttackMatrix);
 
+	CSphereCollider* pCollider = m_AttackCollider[SPHERE];
+	pCollider->Set_ColLayer((_uint)LAYER_COLLIDER::LAYER_SPAWNER);
+	pCollider->Set_Radius(pDesc->fRadius);
+	pCollider->Set_Offset(pDesc->vOffset);
+	pCollider->SetActive(true);
 
+	if (true == pDesc->IsMove)
+	{
+		m_IsMove = true;
+		m_fMoveSpeed = pDesc->fMoveSpeed;
+	}
+
+	if (true == pDesc->IsColliSpawn)
+		m_bReserveColli = true;
+
+	if (true == pDesc->bRansdomSpawn)
+	{
+		m_vRandSpawnFigure = pDesc->vRandSpawnFigure;
+		m_IsRandomSpawn = true;
+	}
+
+	m_fSpawnAttackTime = pDesc->fSpawnAttackTime;
+	m_fSpawnAcc = m_fSpawnAttackTime;
+
+	m_iSpawnUseCol = pDesc->eUseCollider;
+	m_iSpawnColLayer = pDesc->eLayer_Collider;
+	m_iSpawnMaxCnt = pDesc->iSpawnAmount;
+	m_fSpawnTime = pDesc->fSpawnTime;
+
+	m_fSpawnRadius = pDesc->fSpawnRadius;
+	m_vSpawnOffset = pDesc->vSpawnOffset;
+
+	m_vSpawnChildScale = pDesc->vChildScale;
+	m_vSpawnChildOffset = pDesc->vChildOffset;
+
+	m_SpawnProjDesc.iDamage = pDesc->iDamage;
+	m_SpawnProjDesc.iStatusEffect = pDesc->iStatusEffect;
+	m_SpawnProjDesc.fStatusDuration = pDesc->fStatusDuration;
+	m_SpawnProjDesc.fRepulsion = pDesc->fRepulsion;
+	m_SpawnProjDesc.bUseProjPos = pDesc->bUseProjPos;
+	m_SpawnProjDesc.bUseFactor = pDesc->bUseFactor;
+
+	Shoot(pDesc->fAttackTime);
 }
 
 void CProjectile::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
@@ -174,7 +237,13 @@ void CProjectile::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	m_pAttackOwner->OnCollisionEnter(iColLayer, pOther);
 
 	if (true == m_bReserveColli)
-		m_bReserveColli = false;
+	{
+		if (OBJ_TYPE::BOSS == pOther->Get_Owner()->Get_ObjectType() || OBJ_TYPE::MONSTER == pOther->Get_Owner()->Get_ObjectType())
+		{
+			m_bReserveColli = false;
+			m_IsMove = false;
+		}
+	}
 }
 
 void CProjectile::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -219,11 +288,64 @@ void CProjectile::AttackEnd()
 	m_bEnd = true;
 }
 
+void CProjectile::Spawn_Projectile(const _float& fTimeDelta)
+{
+	PROJECTILE_DESC pProjectileDesc;
+
+	pProjectileDesc.pAttackOwner = m_pAttackOwner;
+
+	Matrix matSpawn = m_pTransformCom->Get_WorldMatrix();
+	Vec3 vPos = static_cast<CSphereCollider*>(m_AttackCollider[SPHERE])->Get_Center();
+	matSpawn._41 = vPos.x; matSpawn._42 = vPos.y; matSpawn._43 = vPos.z;
+
+	pProjectileDesc.AttackMatrix = matSpawn;
+
+	pProjectileDesc.fAttackTime = m_fSpawnAttackTime;
+
+	pProjectileDesc.eUseCollider = m_iSpawnUseCol;
+	pProjectileDesc.eLayer_Collider = m_iSpawnColLayer;
+	pProjectileDesc.fRadius = m_fSpawnRadius;
+
+	if (true == m_IsRandomSpawn)
+	{
+		pProjectileDesc.vOffset.x = m_pGameInstance->Random_Float(m_vRandSpawnFigure.x, m_vRandSpawnFigure.y);
+		pProjectileDesc.vOffset.y = 0.2f;
+		pProjectileDesc.vOffset.z = m_pGameInstance->Random_Float(m_vRandSpawnFigure.z, m_vRandSpawnFigure.w);
+	}
+	else
+		pProjectileDesc.vOffset = m_vSpawnOffset;
+
+
+	if (ATTACKCOLLIDER::OBB == pProjectileDesc.eUseCollider)
+	{
+		pProjectileDesc.vChildScale = m_vSpawnChildScale;
+		pProjectileDesc.vChildOffset = m_vSpawnChildOffset;
+	}
+
+	pProjectileDesc.iDamage = m_SpawnProjDesc.iDamage;
+	pProjectileDesc.iStatusEffect = m_SpawnProjDesc.iStatusEffect;
+	pProjectileDesc.fStatusDuration = m_SpawnProjDesc.fStatusDuration;
+	pProjectileDesc.fRepulsion = m_SpawnProjDesc.fRepulsion;
+	pProjectileDesc.bUseProjPos = m_SpawnProjDesc.bUseProjPos;
+	pProjectileDesc.bUseFactor = m_SpawnProjDesc.bUseFactor;
+
+	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
+	pAttack->InitProjectile(&pProjectileDesc);
+}
+
 void CProjectile::Reset_Projectile()
 {
 	m_IsMove = false;
 
+	m_bReserveColli = false;
+	m_IsSpawner = false;
+	m_IsRandomSpawn = false;
+
+	m_iSpawnCnt = 0;
+	m_fSpawnAcc = 0.f;
+
 	ZeroMemory(&m_ProjInfoDesc, sizeof(PROJINFO_DESC));
+	ZeroMemory(&m_SpawnProjDesc, sizeof(PROJINFO_DESC));
 	Set_Active(false);
 }
 

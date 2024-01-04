@@ -202,9 +202,9 @@ HRESULT CMannequin::Ready_Components()
 	RELEASE_INSTANCE(CGameInstance);
 
 	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
+	vScale.x = 0.009f;
+	vScale.y = 0.009f;
+	vScale.z = 0.009f;
 
 	m_pTransformCom->Set_Scale(vScale);
 

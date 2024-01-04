@@ -56,7 +56,6 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pController->Get_LerpDirLookMessage(vClickPos, 10.f);
 	}
 
-
 	m_fSkillTimeAcc += fTimeDelta;
 
 	if (2 < m_iShotCount)
@@ -95,7 +94,7 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 
 void CState_GN_TargetDown_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
-	m_pController->Get_LerpLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
+	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

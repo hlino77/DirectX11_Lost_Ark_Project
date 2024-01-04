@@ -153,6 +153,7 @@ void CController_WDR::Input(const _float& fTimeDelta)
 void CController_WDR::Attack()
 {
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
+	m_AttackDesc.AttackMatrix = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
 	pAttack->InitProjectile(&m_AttackDesc);
 }
 
@@ -165,6 +166,10 @@ void CController_WDR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	if (Vec3() != vPos)
 	{
 		m_pSkills[eKey]->Set_SkillProjPos(vPos);
+	}
+	else
+	{
+		m_pSkills[eKey]->Set_SkillProjMat(m_pOwner->Get_TransformCom()->Get_WorldMatrix());
 	}
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
 }

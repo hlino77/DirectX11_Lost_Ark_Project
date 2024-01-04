@@ -25,8 +25,24 @@
 #include "State_MG_Attack_3.h"
 
 /* State_Skill */
+#include "State_MG_SoundShock.h"
+#include "State_MG_Sonatine.h"
+#include "State_MG_SongOfStome.h"
+#include "State_MG_SongOfLight_Loop.h"
+#include "State_MG_SongOfLight_End.h"
+#include "State_MG_SongOfWind.h"
+#include "State_MG_SonicVibe_Start.h"
+#include "State_MG_SonicVibe_End.h"
 
 /* ½ºÅ³ */
+#include "Skill_MG_SoundShock.h"
+#include "Skill_MG_Sonatine.h"
+#include "Skill_MG_SongOfStome.h"
+#include "Skill_MG_SongOfLight.h"
+#include "Skill_MG_SongOfWind.h"
+#include "Skill_MG_SonicVibe.h"
+#include "Skill_MG_SongOfHeaven.h"
+#include "Skill_MG_SongOfGuard.h"
 
 
 CPlayer_Bard::CPlayer_Bard(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -336,23 +352,88 @@ HRESULT CPlayer_Bard::Ready_State()
 
 
 
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SoundShock"), CState_MG_SoundShock::Create(TEXT("Skill_MG_SoundShock"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_Sonatine"), CState_MG_Sonatine::Create(TEXT("Skill_MG_Sonatine"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SongOfStome"), CState_MG_SongOfStome::Create(TEXT("Skill_MG_SongOfStome"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SongOfLight_Loop"), CState_MG_SongOfLight_Loop::Create(TEXT("Skill_MG_SongOfLight_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SongOfLight_End"), CState_MG_SongOfLight_End::Create(TEXT("Skill_MG_SongOfLight_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SongOfWind"), CState_MG_SongOfWind::Create(TEXT("Skill_MG_SongOfWind"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SonicVibe_Start"), CState_MG_SonicVibe_Start::Create(TEXT("Skill_MG_SonicVibe_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SonicVibe_End"), CState_MG_SonicVibe_End::Create(TEXT("Skill_MG_SonicVibe_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+
 	return S_OK;
 }
 
 HRESULT CPlayer_Bard::Ready_Skill()
 {
-	/*CPlayer_Skill* pSkill = nullptr;
+	CPlayer_Skill* pSkill = nullptr;
 	CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
 
 	SkillDesc.pOwner = this;
-	SkillDesc.strSkill_StartName = TEXT("Skill_WR_FuriousClaw_Start");
-	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FuriousClaw_Start")));
-	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FuriousClaw_Loop")));
-	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_WR_FuriousClaw_End")));
-	pSkill = CSkill_WR_FuriousClaw::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SoundShock");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SoundShock")));
+	pSkill = CSkill_MG_SoundShock::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
-	SkillDesc.State_Skills.clear();*/
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_Sonatine");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_Sonatine")));
+	pSkill = CSkill_MG_Sonatine::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SongOfStome");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SongOfStome")));
+	pSkill = CSkill_MG_SongOfStome::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SongOfWind");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SongOfWind")));
+	pSkill = CSkill_MG_SongOfWind::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::R, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SongOfLight_Loop");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SongOfLight_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SongOfLight_End")));
+	pSkill = CSkill_MG_SongOfLight::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SonicVibe_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SonicVibe_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SonicVibe_End")));
+	pSkill = CSkill_MG_SonicVibe::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
 
 
 	return S_OK;

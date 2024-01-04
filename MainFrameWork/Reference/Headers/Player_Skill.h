@@ -55,6 +55,7 @@ public:
 
 public:
 	virtual void			Set_SkillProjPos(Vec3 vPos) { m_SkillProjDesc.vAttackPos = vPos; }
+	virtual void			Set_SkillProjMat(Matrix mat) { m_SkillProjDesc.AttackMatrix = mat; }
 	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
 	virtual void			Set_SkillSuccess(_bool IsSuccess) { m_IsSkillSuccess = IsSuccess; }
 	virtual void			Set_BindKey(CPlayer_Controller::SKILL_KEY eKey);

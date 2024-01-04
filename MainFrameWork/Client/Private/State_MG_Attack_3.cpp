@@ -61,8 +61,8 @@ void CState_MG_Attack_3::Tick_State_Control(_float fTimeDelta)
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		35 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
-		25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
+		10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		m_IsAttackContinue = true;
 	}
@@ -101,7 +101,7 @@ void CState_MG_Attack_3::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 35 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	else if (true == m_IsAttackContinue && 20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -114,7 +114,7 @@ void CState_MG_Attack_3::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (true == m_pController->Is_Run())
 	{
-		if (35 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		if (20 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 		{
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
