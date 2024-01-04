@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CUtils;
 class CModel;
 class CTransform;
+class CPartObject;
 END
 
 BEGIN(Client)

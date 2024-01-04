@@ -237,9 +237,9 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
     //float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
     
-    //return (kD * diffuse_factor + specular_factor) * NdotL;
+    return (kD * diffuse_factor + specular_factor) * NdotL;
     //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
     //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
-    return (kD * vDiffuseColor + specular_factor) * NdotL;
+    //return (kD * vDiffuseColor + specular_factor) * NdotL;
 }
 #endif

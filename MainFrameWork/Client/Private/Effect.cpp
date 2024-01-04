@@ -260,15 +260,15 @@ HRESULT CEffect::Render()
 
 void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 {
-	if (tEffectDesc->pPivotTransform)
+	if (tEffectDesc.pPivotTransform)
 	{
-		if (pDesc->bParentPivot)
-			m_matPivot = static_cast<CPartObject*>(tEffectDesc->pPivotTransform->Get_GameObject())->Get_PartOwner()->Get_TransformCom()->Get_WorldMatrix();
+		if (tEffectDesc.bParentPivot)
+			m_matPivot = static_cast<CPartObject*>(tEffectDesc.pPivotTransform->Get_GameObject())->Get_PartOwner()->Get_TransformCom()->Get_WorldMatrix();
 		else
-			m_matPivot = static_cast<CPartObject*>(tEffectDesc->pPivotTransform->Get_GameObject())->Get_Part_WorldMatrix();
+			m_matPivot = static_cast<CPartObject*>(tEffectDesc.pPivotTransform->Get_GameObject())->Get_Part_WorldMatrix();
 	}
 	else
-		m_matPivot = *pDesc->pPivotMatrix;
+		m_matPivot = *tEffectDesc.pPivotMatrix;
 
 	Vec3 vRight = m_matPivot.Right();
 	vRight.Normalize();

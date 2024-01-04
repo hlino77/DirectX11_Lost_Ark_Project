@@ -304,7 +304,7 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 			{
 				wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + EffectTag;
 
-				pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(m_pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag, pDesc));
+				pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag, pDesc));
 				if (nullptr == pEffect)
 					return E_FAIL;
 			}

@@ -789,10 +789,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
-	if (FAILED(Loading_Skill_For_Level_Bern()))
-		return E_FAIL;
-
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
 
