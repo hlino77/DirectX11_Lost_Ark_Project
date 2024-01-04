@@ -20,6 +20,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    virtual HRESULT Initialize_Percent();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -43,14 +44,18 @@ private:
     HRESULT Bind_ShaderResources_Shine();
     HRESULT Bind_ShaderResources_Skill();
     HRESULT Bind_ShaderResources_ChangeFrame();
+    void    Print_CoolTime();
+    void	Set_Active(_bool bActive);
+    HRESULT Ready_TextBox();
+    void	Start_CoolTimeText();
+    void	End_CoolTimeText();
+    void    Set_StringCoolTime();
 
 private:
     _uint  m_eSkillKey = { 0 };
 
     _bool   m_bHaveSkill = { false };
     _bool   m_bPicked = { false };
-    wstring m_strCurrSkillName = TEXT("");
-    wstring m_strPreSkillName = TEXT("");
     _float  m_fAlphaShine = (0.f);
     Vec4    m_vecPickedColor = { 0.5f, 0.5f, 0.5f, 1.f };
 
@@ -65,6 +70,12 @@ private:
     _float  m_fResultCool = { 0.f };
     _float  m_fCoolRatio = { 0.f };
     _float  m_fCoolAngle = { 0.f };
+
+    CTextBox* m_pCoolTimetWnd = nullptr;
+    wstring m_szFont;
+    _bool   m_bTextOn = false;
+    wstring m_strCoolTime = TEXT("");
+    wstring m_strWndName;
 
 public:
     static  CUI_SkillIcon_Frame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

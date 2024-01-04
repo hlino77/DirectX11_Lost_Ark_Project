@@ -139,6 +139,11 @@ HRESULT CUI_WDRIdentity::UI_Set()
 
 	Load_UIData(TEXT("Identity_Dstroyer_Desc"));
 
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Z(0.2f);
+	}
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

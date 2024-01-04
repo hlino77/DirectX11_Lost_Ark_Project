@@ -2,6 +2,7 @@
 #include "UI.h"
 
 BEGIN(Engine)
+class CTextBox;
 class CPlayer_Skill;
 END
 
@@ -18,6 +19,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    virtual HRESULT Initialize_Percent();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -28,6 +30,12 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    void    Print_CoolTime();
+    void	Set_Active(_bool bActive);
+    HRESULT Ready_TextBox();
+    void	Start_CoolTimeText();
+    void	End_CoolTimeText();
+    void    Set_StringCoolTime();
 
 private:
     wstring m_strCurrSkillName = TEXT("");
@@ -39,6 +47,12 @@ private:
     _float  m_fResultCool = { 0.f };
     _float  m_fCoolRatio = { 0.f };
     _float  m_fCoolAngle = { 0.f };
+
+    CTextBox* m_pCoolTimetWnd = nullptr;
+    wstring m_szFont;
+    _bool   m_bTextOn = false;
+    wstring m_strCoolTime = TEXT("");
+    wstring m_strWndName;
 
 public:
     static  CUI_SpaceBar_Icon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

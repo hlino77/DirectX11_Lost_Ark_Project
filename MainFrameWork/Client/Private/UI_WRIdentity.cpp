@@ -107,6 +107,11 @@ HRESULT CUI_WRIdentity::UI_Set()
 
 	Load_UIData(TEXT("WRIdentity_Gauge_Desc"));
 
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Z(0.2f);
+	}
+
 	return S_OK;
 }
 

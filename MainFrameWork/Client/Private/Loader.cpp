@@ -76,6 +76,8 @@
 #include "UI_Player_MP.h"
 #include "UI_SpeechBubble.h"
 #include "UI_SkillIcon_Frame.h"
+#include "UI_ItemIcon_Frame.h"
+#include "UI_ETCIcon_Frame.h"
 #include "UI_QuickSkill.h"
 #include "UI_Skill_MoveIcon.h"
 #include "UI_SpaceBar_Icon.h"
@@ -98,6 +100,14 @@
 #include "UI_WDRIdentity_Bubble.h"
 #include "UI_WDRIdentity_Identity_Skill.h"
 #include "UI_WDRIdentity.h"
+#include "UI_ChaosDungeon_GaugeFrame.h"
+#include "UI_ChaosDungeon_GaugeShine.h"
+#include "UI_ChaosDungeon_GaugeSpinShine.h"
+#include "UI_ChaosDungeon_Gauge.h"
+#include "UI_ChaosDungeon_Gauge_Cut.h"
+#include "UI_ChaosDungeon_NameFrame.h"
+#include "UI_ChaosDungeon_TimerFrame.h"
+#include "UI_ChaosDungeon.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -228,9 +238,6 @@ HRESULT CLoader::Loading_For_Level_Logo()
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_State"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chat/Chatting_State%d.png", 2))))
-		return E_FAIL;
-
-	if(FAILED(Loading_IdentityTexture()))
 		return E_FAIL;
 
 	/* For.Shader */
@@ -604,7 +611,7 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 		CCamera_Lobby::Create(m_pDevice, m_pContext,TEXT("Camera_Lobby")))))
 		return E_FAIL;
 
-	//Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
+	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
 
 	Loading_Model_For_Level_Lobby();
 
@@ -646,17 +653,14 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-
+	if (FAILED(Loading_QuickSlot()))
+		return E_FAIL;
 
 	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 
-
-
 	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
 	//CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Chaos_Navi"), L"Chaos1.Navi");
-
-
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
@@ -890,6 +894,8 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 			return E_FAIL;
 		pUIManager->Loading_UI(1600.f);
 	}
+
+	Loading_ChaosDungeon_UI();
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
@@ -1219,11 +1225,47 @@ HRESULT CLoader::Load_ColMesh(LEVELID eLevel, const wstring& szFilePath)
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_IdentityTexture()
+HRESULT CLoader::Loading_QuickSlot()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	//SkillFrame
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Empty"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Empty%d.png", 2))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Shine"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Shine.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Frame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Frame.png"))))
+		return E_FAIL;
+
+	//ItemFrame
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Empty"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/Item_Empty.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_SlotFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/Item_SlotFrame.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_SlotFrame_Shine"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/Item_SlotFrame_Shine.png"))))
+		return E_FAIL;
+
+	//ETC
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ETC_Empty"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/ETC_Empty.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ETC_SlotFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/ETC_SlotFrame.png"))))
+		return E_FAIL;
+
+	//Identity
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_BackGround"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_BackGround.png"))))
 		return E_FAIL;
@@ -1377,8 +1419,139 @@ HRESULT CLoader::Loading_IdentityTexture()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Chain_Cut/Chain_Cut%d.png", 50))))
 		return E_FAIL;
 
+	//Bard
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Background_Shadow"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Background_Shadow.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Background"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Background.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Harp_Roapknot"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Harp_Roapknot.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Harp"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Harp.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_HarpHolder"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_HarpHolder.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_SkillIconHolder"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_SkillIconHolder.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Serenade_of_Courage"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Serenade_of_Courage.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Serenade_of_Salvation"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Serenade_of_Salvation.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_SkillFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_SkillFrame.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_SkillICap"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_SkillICap.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_GaugeEmpty"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_GaugeEmpty.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Gauge"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Gauge%d.png",2))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_GaugeCut"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_GaugeCut.png"))))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
+	if (FAILED(Loading_SkillIcon()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ChaosDungeon_UI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	//Texture
+	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gauge_Frame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Gauge_Frame.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gague_BackGround_Shine"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gague_BackGround_Shine/Gague_BackGround_Shine%d.png", 50))))
+			return E_FAIL; 
+		
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gague_BackGround_SpinShine"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Circle/Gauge_Circle%d.png", 78))))
+			return E_FAIL;
+	
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gauge"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Gauge.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gauge_Cut"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Gauge_Cut.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Dungeon_NameFrame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Dungeon_NameFrame.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Dungeon_TimerFrame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Timer.png"))))
+			return E_FAIL;
+	}
+
+	//Class
+	{
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeFrame"),
+			CUI_ChaosDungeon_GaugeFrame::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeShine"),
+			CUI_ChaosDungeon_GaugeShine::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeSpinShine"),
+			CUI_ChaosDungeon_GaugeSpinShine::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_Gauge"),
+			CUI_ChaosDungeon_Gauge::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeCut"),
+			CUI_ChaosDungeon_GaugeCut::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_NameFrame"),
+			CUI_ChaosDungeon_NameFrame::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_TimerFrame"),
+			CUI_ChaosDungeon_TimerFrame::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeonUI"),
+			CUI_ChaosDungeon::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		
+	}
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
@@ -1703,23 +1876,10 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_Skill_For_Level_Bern()
+HRESULT CLoader::Loading_SkillIcon()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Empty"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Empty%d.png",2))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Shine"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Shine.png"))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Frame"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Frame.png"))))
-		return E_FAIL;
-	
+	Safe_AddRef(pGameInstance);	
 	//GN_SKILL
 	{
 		//HG SKILL
@@ -1975,6 +2135,42 @@ HRESULT CLoader::Loading_Skill_For_Level_Bern()
 			return E_FAIL;
 
 	}
+
+	//Bard
+	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sonatina"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Sonatina.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sound_Shock"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Sound_Shock.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Prelude_of_Storm"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Prelude_of_Storm.png"))))
+			return E_FAIL;
+		
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Rhapsody_of_Light"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Rhapsody_of_Light.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Wind_of_Music"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Wind_of_Music.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sonic_Vibration"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Sonic_Vibration.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Heavenly_Tune"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Heavenly_Tune.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Guardian_Tune"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Normal/Guardian_Tune.png"))))
+			return E_FAIL;
+	}
+
 	//Space
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"),//GN
@@ -1987,6 +2183,10 @@ HRESULT CLoader::Loading_Skill_For_Level_Bern()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WDRSpace"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Space%d.png", 2))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WGSpace"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WG_SkillIcon/Space%d.png", 2))))
 			return E_FAIL;
 	}
 
@@ -2011,6 +2211,14 @@ HRESULT CLoader::Loading_Skill_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillFrame"),
 		CUI_SkillIcon_Frame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ItemFrame"),
+		CUI_ItemIcon_Frame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ETCFrame"),
+		CUI_ETCIcon_Frame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuickSkillUI"),

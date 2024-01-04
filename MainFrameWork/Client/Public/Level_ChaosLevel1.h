@@ -69,6 +69,8 @@ private:
 	CRenderer* m_pRendererCom = nullptr;
 	//_bool m_bStaticShadow = false;
 
+	class CUI_Tool* m_pImGuiManager;
+
 public:
 	static class CLevel_ChaosLevel1* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

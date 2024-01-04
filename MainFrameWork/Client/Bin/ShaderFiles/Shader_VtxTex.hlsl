@@ -383,6 +383,47 @@ PS_OUT PS_MAIN_SATURATION(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_ORANGE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	Out.vColor.a *= g_Alpha;
+	float2 distanceFromCenter = abs(In.vTexUV - 0.5);
+	float roughness = 0.5;
+
+	float fAlphaTemp = Out.vColor.r;
+	//Out.vColor.a = fAlphaTemp;
+	//float alpha = saturate(Out.vColor.a - smoothstep(0, roughness, length(distanceFromCenter)));
+	Out.vColor.a *= fAlphaTemp;
+
+	if( 0.1f >= Out.vColor.a)
+		discard;
+
+	//Out.vColor.rgb = float3(1.f, 1.f, 1.f);
+
+	float3 vOrangeColor = float3(0.83f, 0.55f, 0.26f);
+	vOrangeColor *= g_Color;
+	Out.vColor.rgb = vOrangeColor;
+	//float roughFactor = saturate(1.0 - smoothstep(0, roughness, length(distanceFromCenter)));
+	//float3 interpolatedColor = lerp(Out.vColor.rgb, vOrangeColor, roughFactor);
+	//Out.vColor.rgb = interpolatedColor;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_DISCARDBLACK(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	float fAlphaTemp = Out.vColor.r;
+	Out.vColor.a *= fAlphaTemp;
+
+	if (0.1f >= Out.vColor.a)
+		discard;
+
+	return Out;
+}
+
 technique11 DefaultTechnique
 {
 	pass DefaultPass
@@ -540,5 +581,27 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_SATURATION();
+	}
+
+	pass PixTextureRoughOrange//No.14
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_ORANGE();
+	}
+
+	pass PixTextureDeleteBlack
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DISCARDBLACK();
 	}
 }

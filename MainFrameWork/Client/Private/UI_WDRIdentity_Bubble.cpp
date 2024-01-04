@@ -133,6 +133,8 @@ void CUI_WDRIdentity_Bubble::Update_Bubbles(_float fTimeDelta)
 
 				if (m_iBubbleCurrCount >= m_iBubbleIndex)
 					m_bRender = true;
+				else
+					m_bRender = false;
 			}
 			else if (m_iBubblePreCount > m_iBubbleCurrCount)
 			{

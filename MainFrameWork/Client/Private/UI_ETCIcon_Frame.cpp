@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UI_ItemIcon_Frame.h"
+#include "UI_ETCIcon_Frame.h"
 #include "GameInstance.h"
 
-CUI_ItemIcon_Frame::CUI_ItemIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ETCIcon_Frame::CUI_ETCIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
 {
     m_pDevice = pDevice;
@@ -12,17 +12,17 @@ CUI_ItemIcon_Frame::CUI_ItemIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContex
     Safe_AddRef(m_pContext);
 }
 
-CUI_ItemIcon_Frame::CUI_ItemIcon_Frame(const CUI& rhs)
+CUI_ETCIcon_Frame::CUI_ETCIcon_Frame(const CUI& rhs)
     : CUI(rhs)
 {
 }
 
-HRESULT CUI_ItemIcon_Frame::Initialize_Prototype()
+HRESULT CUI_ETCIcon_Frame::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_ItemIcon_Frame::Initialize(void* pArg)
+HRESULT CUI_ETCIcon_Frame::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -30,11 +30,11 @@ HRESULT CUI_ItemIcon_Frame::Initialize(void* pArg)
     if (nullptr != pArg)
     {
         _uint* strIndex = static_cast<_uint*>(pArg);
-        m_strUITag = TEXT("ItemIcon_Frame");
+        m_strUITag = TEXT("ETCIcon_Frame");
         m_strUITag += to_wstring(*strIndex);
     }
     else
-        m_strUITag = TEXT("ItemIcon_Frame");
+        m_strUITag = TEXT("ETCIcon_Frame");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = g_iWinSizeY * 0.5f;
@@ -51,14 +51,14 @@ HRESULT CUI_ItemIcon_Frame::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_ItemIcon_Frame::Tick(_float fTimeDelta)
+void CUI_ETCIcon_Frame::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     Picking_UI();
    
 }
 
-void CUI_ItemIcon_Frame::LateTick(_float fTimeDelta)
+void CUI_ETCIcon_Frame::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
    
@@ -71,7 +71,7 @@ void CUI_ItemIcon_Frame::LateTick(_float fTimeDelta)
     }
 }
 
-HRESULT CUI_ItemIcon_Frame::Render()
+HRESULT CUI_ETCIcon_Frame::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -113,16 +113,16 @@ HRESULT CUI_ItemIcon_Frame::Render()
     return S_OK;
 }
 
-void CUI_ItemIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
+void CUI_ETCIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
 {
 }
 
-HRESULT CUI_ItemIcon_Frame::Ready_Components()
+HRESULT CUI_ETCIcon_Frame::Ready_Components()
 {
     __super::Ready_Components();
 
     /* Com_Texture*/
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Empty"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ETC_Empty"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
@@ -134,14 +134,14 @@ HRESULT CUI_ItemIcon_Frame::Ready_Components()
         TEXT("Com_TextureShine"), (CComponent**)&m_pTextureCom_Shine)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_SlotFrame"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ETC_SlotFrame"),
         TEXT("Com_TextureFrame"), (CComponent**)&m_pTextureCom_Frame)))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources()
+HRESULT CUI_ETCIcon_Frame::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -159,7 +159,7 @@ HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources()
     return S_OK;
 }
 
-HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Picked()
+HRESULT CUI_ETCIcon_Frame::Bind_ShaderResources_Picked()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -177,7 +177,7 @@ HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Picked()
     return S_OK;
 }
 
-HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Shine()
+HRESULT CUI_ETCIcon_Frame::Bind_ShaderResources_Shine()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -195,7 +195,7 @@ HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Shine()
     return S_OK;
 }
 
-HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Test()
+HRESULT CUI_ETCIcon_Frame::Bind_ShaderResources_Test()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
         return S_OK;
@@ -216,33 +216,33 @@ HRESULT CUI_ItemIcon_Frame::Bind_ShaderResources_Test()
     return S_OK;
 }
 
-CUI_ItemIcon_Frame* CUI_ItemIcon_Frame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ETCIcon_Frame* CUI_ETCIcon_Frame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_ItemIcon_Frame* pInstance = new CUI_ItemIcon_Frame(pDevice, pContext);
+    CUI_ETCIcon_Frame* pInstance = new CUI_ETCIcon_Frame(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CUI_ItemIcon_Frame");
+        MSG_BOX("Failed to Created : CUI_ETCIcon_Frame");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_ItemIcon_Frame::Clone(void* pArg)
+CGameObject* CUI_ETCIcon_Frame::Clone(void* pArg)
 {
-    CUI_ItemIcon_Frame* pInstance = new CUI_ItemIcon_Frame(*this);
+    CUI_ETCIcon_Frame* pInstance = new CUI_ETCIcon_Frame(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CUI_ItemIcon_Frame");
+        MSG_BOX("Failed to Cloned : CUI_ETCIcon_Frame");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_ItemIcon_Frame::Free()
+void CUI_ETCIcon_Frame::Free()
 {
     __super::Free();
     Safe_Release(m_pDevice);
