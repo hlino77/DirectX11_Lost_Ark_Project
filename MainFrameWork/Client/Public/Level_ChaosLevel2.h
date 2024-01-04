@@ -39,6 +39,7 @@ private:
 	HRESULT Ready_Player_Camera(const LAYER_TYPE eLayerType);
 
 	HRESULT Send_UserInfo();
+
 private:
 	void		Send_LevelState(LEVELSTATE eState);
 	void		Wait_ServerLevelState(LEVELSTATE eState);
@@ -55,14 +56,18 @@ private:
 	void			Set_CheckGruop();
 	void			Start_Collision();
 	void			Start_Damage();
+	void			Start_QuadTree();
+
 	void			End_Damage();
 	void			End_Picking();
 	void			End_Collision();
+	void			End_QuadTree();
 
 private:
 	thread* m_pCollisionThread = nullptr;
 	thread* m_pPickingThread = nullptr;
 	thread* m_pDamageThread = nullptr;
+	thread* m_pQuadTreeThread = nullptr;
 
 	CRenderer* m_pRendererCom = nullptr;
 	//_bool m_bStaticShadow = false;
