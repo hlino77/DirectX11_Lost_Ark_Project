@@ -65,6 +65,8 @@ void CState_WR_SpiningSword_Loop::Tick_State_Control(_float fTimeDelta)
 	{
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}

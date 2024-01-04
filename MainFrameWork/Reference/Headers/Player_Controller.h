@@ -47,26 +47,26 @@ public:
 	_bool		Is_Attack();
 	const _uint& Is_Hit() { return (_uint)m_eHitType; }
 
-	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f) { m_vNextMove = vPos; m_bStop = false; m_IsDir = false; m_fMoveSpeed = fMoveSpeed; }
-	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f)  { m_vNextMove = vPos; m_bStop = false; m_IsDir = true; m_fMoveSpeed = fMoveSpeed; }
-	virtual void		Get_StopMessage()									{ m_vNextMove = Vec3(); m_bStop = true;}
-	virtual void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f) { m_vNextMove = vAt; m_fLerpLook_Speed = fSpeed, m_bStop = true; m_IsDir = false; }
+	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f);  
+	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f); 
+	virtual void		Get_StopMessage()	{ m_vNextMove = Vec3(); m_bStop = true;}
+	virtual void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f); 
 	virtual void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
-	virtual void		Get_LookMessage(Vec3 vAt) { Look(vAt); }
-	virtual void		Get_AttackMessage() { Attack(); }
+	virtual void		Get_LookMessage(Vec3 vAt);
+	virtual void		Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	virtual void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
 	virtual void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
 	virtual void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
 	virtual void		Get_SkillChangeStatMessage(SKILL_KEY eKey) { ChangeStat(eKey); }
 	
-	virtual void		Get_DashMessage(Vec3 vPos, _float fCoolTime = -1.f) { Look(vPos); }
+	virtual void		Get_DashMessage(Vec3 vPos);
 	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
 	virtual void		Get_HitMessage(CGameObject* pHitObject);
 
 	virtual void		Get_RootMessage();
 	virtual void		Get_RootZeroMessage();
 public:
-	_bool		Is_Stop() { return m_bMoveStop; }
+	_bool				Is_Stop() { return m_bMoveStop; }
 
 	/* 스킬 함수 */
 public:
@@ -100,7 +100,7 @@ protected:
 	virtual void	Look_Lerp(const _float& fTimeDelta);
 	virtual void	Look(Vec3 vAt);
 	virtual void	Input(const _float & fTimeDelta);
-	virtual void	Attack();
+	virtual void	Attack(Vec3 vPos);
 	virtual void	Skill(SKILL_KEY eKey);
 	virtual void	ChangeStat(SKILL_KEY eKey);
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);

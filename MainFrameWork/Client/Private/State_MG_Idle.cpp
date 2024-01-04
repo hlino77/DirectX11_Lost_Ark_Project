@@ -30,6 +30,7 @@ HRESULT CState_MG_Idle::Initialize()
 
 void CState_MG_Idle::Enter_State()
 {
+	m_fSPTimeAcc = 0.f;
 	m_iIdle = m_iIdle_N;
 	m_pPlayer->Reserve_Animation(m_iIdle, 0.1f, 0, 0);
 
@@ -57,6 +58,8 @@ void CState_MG_Idle::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
@@ -66,6 +69,12 @@ void CState_MG_Idle::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (0 != iIdentity)
 	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
 		if (1 == iIdentity)
 			m_pPlayer->Set_State(TEXT("Identity_MG"));
 		else if (2 == iIdentity)
@@ -76,6 +85,8 @@ void CState_MG_Idle::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
@@ -85,6 +96,8 @@ void CState_MG_Idle::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Attack_1"));
 	}

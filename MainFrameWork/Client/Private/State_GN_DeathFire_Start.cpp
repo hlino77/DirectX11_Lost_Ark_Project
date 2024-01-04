@@ -64,7 +64,7 @@ void CState_GN_DeathFire_Start::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iDeathFire_Start, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
-	m_pPlayer->Get_GN_Controller()->Get_LookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }

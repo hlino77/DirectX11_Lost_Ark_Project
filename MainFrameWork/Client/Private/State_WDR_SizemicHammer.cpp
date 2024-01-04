@@ -35,7 +35,6 @@ void CState_WDR_SizemicHammer::Enter_State()
 
 	m_pPlayer->Reserve_Animation(m_iSizemicHammer, 0.1f, 0, 0);
 
-	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Get_WDR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
@@ -70,16 +69,19 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 	{
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
 	if (100 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer))
 	{
-
 		if (true == m_pController->Is_Skill())
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
 		}
@@ -87,6 +89,8 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Attack_1"));
 		}

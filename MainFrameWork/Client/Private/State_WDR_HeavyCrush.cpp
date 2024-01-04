@@ -51,6 +51,7 @@ void CState_WDR_HeavyCrush::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
 }
 
 void CState_WDR_HeavyCrush::Tick_State_Control(_float fTimeDelta)
@@ -72,6 +73,8 @@ void CState_WDR_HeavyCrush::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Dash"));
 		}

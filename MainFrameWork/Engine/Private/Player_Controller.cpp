@@ -226,8 +226,56 @@ void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)
 	Hit(pHitObject);
 }
 
+void CPlayer_Controller::Get_MoveMessage(Vec3 vPos, _float fMoveSpeed)
+{
+	if (Vec3() == vPos)
+	{
+		Get_StopMessage();
+		return;
+	}
+
+	m_vNextMove = vPos; 
+	m_bStop = false; 
+	m_IsDir = false; 
+	m_fMoveSpeed = fMoveSpeed;
+}
+
+void CPlayer_Controller::Get_DirMessage(Vec3 vPos, _float fMoveSpeed)
+{
+	if (Vec3() == vPos)
+	{
+		Get_StopMessage();
+		return;
+	}
+
+	m_vNextMove = vPos; 
+	m_bStop = false; 
+	m_IsDir = true; 
+	m_fMoveSpeed = fMoveSpeed;
+}
+
+void CPlayer_Controller::Get_LerpLookMessage(Vec3 vAt, _float fSpeed)
+{
+	if (Vec3() == vAt)
+	{
+		Get_StopMessage();
+		return;
+	}
+
+	m_vNextMove = vAt; 
+	m_fLerpLook_Speed = fSpeed;
+	m_bStop = true; 
+	m_IsDir = false; 
+}
+
 void CPlayer_Controller::Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed)
 {
+	if (Vec3() == vAt)
+	{
+		Get_StopMessage();
+		return;
+	}
+
 	Vec3 vPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = vAt - vPos;
 	vDir.Normalize();
@@ -236,6 +284,28 @@ void CPlayer_Controller::Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed)
 	m_fLerpLook_Speed = fSpeed;
 	m_bStop = true; 
 	m_IsDir = true;
+}
+
+void CPlayer_Controller::Get_LookMessage(Vec3 vAt)
+{
+	if (Vec3() == vAt)
+	{
+		Get_StopMessage();
+		return;
+	}
+
+	Look(vAt);
+}
+
+void CPlayer_Controller::Get_DashMessage(Vec3 vPos)
+{
+	if (Vec3() == vPos)
+	{
+		Get_StopMessage();
+		return;
+	}
+
+	Look(vPos);
 }
 
 HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
@@ -309,7 +379,7 @@ void CPlayer_Controller::Look(Vec3 vAt)
 	m_pOwnerTransform->LookAt_ForLandObject(vAt);
 }
 
-void CPlayer_Controller::Attack()
+void CPlayer_Controller::Attack(Vec3 vPos)
 {
 }
 

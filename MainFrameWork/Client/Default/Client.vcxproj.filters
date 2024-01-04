@@ -931,6 +931,60 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Parts">
       <UniqueIdentifier>{be8098da-7f2b-4a0f-97c3-697f5ad0a24a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SoundShock">
+      <UniqueIdentifier>{7fea122d-09f8-4005-97dd-b5c9feba10a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\Sonatine">
+      <UniqueIdentifier>{8fe17b54-cf5e-4ca1-8313-fc0d6131f77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfStome">
+      <UniqueIdentifier>{fa4d1efb-f13d-4dca-9f89-3736a5103caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfLight">
+      <UniqueIdentifier>{b5c86fb2-3afd-49ce-ac20-0f8d17cf1cad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfWind">
+      <UniqueIdentifier>{5f699960-2da7-4c6a-955e-b8f871d1b9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SonicVibe">
+      <UniqueIdentifier>{37cbf72a-45e7-47eb-9121-89bc2aed6f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfHeaven">
+      <UniqueIdentifier>{663541b1-46d8-4772-abb6-a36c47cf0d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfGuard">
+      <UniqueIdentifier>{f3d08776-3799-44c1-a499-90071d511900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill">
+      <UniqueIdentifier>{d23ddf6a-c4b2-4e1c-abc3-d35aef089335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Identity">
+      <UniqueIdentifier>{81c214e5-a4e5-4136-ad9a-29999853ebee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfGuard">
+      <UniqueIdentifier>{8cb247f5-75af-46b5-908a-0656d1525719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfHeaven">
+      <UniqueIdentifier>{4b76059b-d2cd-4500-a7ae-856802e1e715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe">
+      <UniqueIdentifier>{d2891345-f759-4b00-aa09-7e556b18f8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfWind">
+      <UniqueIdentifier>{def3fa89-10d8-47ae-b909-89325d0eb3a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfLight">
+      <UniqueIdentifier>{1b2915ab-4f3f-4f3b-b850-d41e83ae7aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfStorm">
+      <UniqueIdentifier>{4d0785d0-f50f-4db6-882f-9b0217ca0230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\Sonatine">
+      <UniqueIdentifier>{9ce514e3-9f19-4c58-9119-2846ae617ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SoundShock">
+      <UniqueIdentifier>{0bf5c998-75eb-4bac-b900-729a2d1bc152}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3138,6 +3192,66 @@
     <ClInclude Include="..\Public\Boss_BT_ArmorBreak.h">
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SongOfGuard.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfGuard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SongOfHeaven.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfHeaven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SongOfWind.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfWind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SonicVibe.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SonicVibe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SongOfLight.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SongOfStome.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfStome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_Sonatine.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\Sonatine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_MG_SoundShock.h">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SoundShock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SoundShock.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SoundShock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Sonatine.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\Sonatine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfStome.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfStorm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfLight_End.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfLight_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfWind.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfWind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SonicVibe_End.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SonicVibe_Start.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfGuard.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfGuard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfHeaven.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfHeaven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Identity.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Identity_Back.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5314,6 +5428,66 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_BT_ArmorBreak.cpp">
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SongOfGuard.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfGuard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SongOfHeaven.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfHeaven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SongOfWind.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfWind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SonicVibe.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SonicVibe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SongOfLight.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SongOfStome.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SongOfStome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_Sonatine.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\Sonatine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_MG_SoundShock.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\Skill_MG\SoundShock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SoundShock.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SoundShock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Sonatine.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\Sonatine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfStome.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfStorm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfLight_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfLight_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfWind.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfWind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SonicVibe_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SonicVibe_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfGuard.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfGuard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfHeaven.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfHeaven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Identity.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Identity_Back.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

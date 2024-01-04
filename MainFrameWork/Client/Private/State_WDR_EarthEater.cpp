@@ -73,6 +73,8 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 	{
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
@@ -83,6 +85,8 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
 		}
@@ -90,6 +94,8 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 				m_pPlayer->Set_TargetPos(vClickPos);
+			else
+				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Attack_1"));
 		}

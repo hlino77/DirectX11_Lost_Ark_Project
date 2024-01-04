@@ -99,6 +99,7 @@ public:
 	void					Set_State(const wstring& szName);
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false, Vec4 vRootTargetPos = Vec4());
 	const	wstring&		Get_State() { return m_pStateMachine->Get_CurState(); }
+	const	wstring&		Get_PreState() { return m_pStateMachine->Get_PreState(); }
 
 	void					Find_NearTarget();
 	void					Send_NearTarget();

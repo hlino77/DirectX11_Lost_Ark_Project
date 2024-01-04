@@ -55,13 +55,15 @@ public:
 
 	CSphereCollider* Get_Collider(ATTACKCOLLIDER eCollider) { return m_AttackCollider[eCollider]; }
 
+public:
+	CGameObject*			Get_AttackOwner() { return m_pAttackOwner; }
+
+private:
 	void	Shoot(_float fActiveTime);
 	void	AttackEnd();
 
+	void	Spawn_Projectile(const _float& fTimeDelta);
 	void	Reset_Projectile();
-
-public:
-	CGameObject*			Get_AttackOwner() { return m_pAttackOwner; }
 
 protected:
 	virtual HRESULT			Ready_Components();
@@ -82,6 +84,25 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 	_float m_fMoveSpeed = 1.f;
 	_bool  m_IsMove = { false };
+
+	/* 스폰 변수 */
+	_bool  m_bReserveColli = { false };
+	_bool  m_IsSpawner = { false };
+	_bool  m_IsRandomSpawn = { false };
+
+	_uint  m_iSpawnColLayer = { 0 };
+	_uint  m_iSpawnUseCol = { 0 };
+	_uint  m_iSpawnCnt = { 0 };
+	_int   m_iSpawnMaxCnt = { 0 };
+	_float m_fSpawnAttackTime = { 0.f };
+	_float m_fSpawnTime = { 0.f };
+	_float m_fSpawnAcc = { 0.f };
+	_float m_fSpawnRadius = { 0.f };
+	Vec3   m_vSpawnOffset;
+	Vec3   m_vSpawnChildScale;
+	Vec3   m_vSpawnChildOffset;
+	Vec4   m_vRandSpawnFigure;
+	Matrix m_matSpawn;
 
 	_bool m_bEnd = false;
 

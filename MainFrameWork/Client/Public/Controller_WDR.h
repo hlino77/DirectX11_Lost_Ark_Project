@@ -34,7 +34,7 @@ public:
 	void			Set_Attack_Desc(_uint iIndex) { m_AttackDesc = m_Attack_Desces[iIndex]; }
 
 public:
-	virtual void	Get_AttackMessage() { Attack(); }
+	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	void			Get_WDR_IdentityMessage();
 	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_iIdentityGage -= 10; }
 	void			Get_AddMarbleMessage(_uint iMarbleCnt) { m_IsAddMarble = true;  m_iReserveMarbleCnt = iMarbleCnt; }
@@ -46,7 +46,7 @@ public:
 
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
-	virtual void	Attack() override;
+	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
@@ -56,7 +56,7 @@ private:
 
 	_bool	m_IsIdentity = { false };
 	_int	m_iIdentityGage = { 0 };
-	_int	m_iMaxGage = { 100 };
+	_int	m_iMaxGage = { 50 };
 	_float  m_fTimdeAcc = { 0.f };
 
 	_uint	m_iMarbleCnt = { 0 };

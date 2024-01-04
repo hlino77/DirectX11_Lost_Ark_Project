@@ -50,11 +50,19 @@ void CState_MG_Run::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
 	else if (0 != iIdentity)
 	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
 		if (1 == iIdentity)
 			m_pPlayer->Set_State(TEXT("Identity_MG"));
 		else if (2 == iIdentity)
@@ -65,6 +73,8 @@ void CState_MG_Run::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
 	}
@@ -73,6 +83,8 @@ void CState_MG_Run::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Attack_1"));
 	}

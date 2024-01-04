@@ -29,35 +29,124 @@ HRESULT CController_MG::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
+	PROJECTILE_DESC Proj_Base_Desc;
+	Proj_Base_Desc.pAttackOwner = m_pOwner;
+	Proj_Base_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Base_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
+	Proj_Base_Desc.fAttackTime = 3.f;
+
+	/* 기본공격 */
+	Proj_Base_Desc.IsSpawner = true;
+	Proj_Base_Desc.fSpawnAttackTime = 0.5f;
+	Proj_Base_Desc.iSpawnAmount = 1;
+	Proj_Base_Desc.fSpawnTime = 0.f;
+	Proj_Base_Desc.fSpawnRadius = 0.7f;
+	Proj_Base_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
+	Proj_Base_Desc.IsColliSpawn = true;
+
+	Proj_Base_Desc.fRadius = 0.5f;
+	Proj_Base_Desc.vOffset = Vec3(0.0f, 0.2f, 0.8f);
+	Proj_Base_Desc.iDamage = 50.f;
+	Proj_Base_Desc.fRepulsion = 0.f;
+	Proj_Base_Desc.bUseProjPos = true;
+	Proj_Base_Desc.IsMove = true;
+	Proj_Base_Desc.fMoveSpeed = 8.f;
+	m_Attack_Desces[0] = Proj_Base_Desc;
+
 	PROJECTILE_DESC Proj_Desc;
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
-	Proj_Desc.fAttackTime = 0.5f;
-
-	/* 기본공격 */
-	Proj_Desc.fRadius = 0.8f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.1f;
+	Proj_Desc.fRadius = 2.4f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+	Proj_Desc.iDamage = 150;
 	Proj_Desc.fRepulsion = 0.f;
-	Proj_Desc.fMoveSpeed = 10.f;
-	Proj_Desc.IsMove = true;
-	m_Attack_Desces[0] = Proj_Desc;
+	Proj_Desc.bUseProjPos = true;
+	m_Attack_Desces[1] = Proj_Desc;
 
 	Proj_Desc.pAttackOwner = m_pOwner;
-	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
-	Proj_Desc.fAttackTime = 0.1;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.1f;
+	Proj_Desc.fRadius = 2.4f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+	Proj_Desc.iDamage = 200;
+	Proj_Desc.fRepulsion = 0.f;
+	Proj_Desc.bUseProjPos = true;
+	m_Attack_Desces[2] = Proj_Desc;
 
-	/* 아덴스킬 */
-	Proj_Desc.fRadius = 2.5f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
-	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
-	Proj_Desc.iDamage = 100.f;
-	Proj_Desc.fRepulsion = 8.f;
-	Proj_Desc.bUseFactor = true;
-	m_Attack_Desces[4] = Proj_Desc;
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.1f;
+	Proj_Desc.fRadius = 2.4f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+	Proj_Desc.iDamage = 250;
+	Proj_Desc.fRepulsion = 0.f;
+	Proj_Desc.bUseProjPos = true;
+	m_Attack_Desces[3] = Proj_Desc;
+
+	PROJECTILE_DESC Proj_Spawn_Desc;
+	Proj_Spawn_Desc.pAttackOwner = m_pOwner;
+	Proj_Spawn_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+
+	Proj_Spawn_Desc.fAttackTime = 12.f;
+	Proj_Spawn_Desc.fRadius = 2.4f;
+	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+
+	Proj_Spawn_Desc.IsSpawner = true;
+	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
+	Proj_Spawn_Desc.iSpawnAmount = 8;
+	Proj_Spawn_Desc.fSpawnTime = 1.f;
+	Proj_Spawn_Desc.fSpawnRadius = 2.4f;
+	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
+
+	Proj_Spawn_Desc.iDamage = 0.f;
+	Proj_Spawn_Desc.fRepulsion = 0.f;
+	Proj_Spawn_Desc.bUseProjPos = true;
+	m_Attack_Desces[4] = Proj_Spawn_Desc;
+
+	Proj_Spawn_Desc.pAttackOwner = m_pOwner;
+	Proj_Spawn_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+
+	Proj_Spawn_Desc.fAttackTime = 18.f;
+	Proj_Spawn_Desc.fRadius = 2.4f;
+	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+
+	Proj_Spawn_Desc.IsSpawner = true;
+	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
+	Proj_Spawn_Desc.iSpawnAmount = 12;
+	Proj_Spawn_Desc.fSpawnTime = 1.f;
+	Proj_Spawn_Desc.fSpawnRadius = 2.4f;
+	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
+
+	Proj_Spawn_Desc.iDamage = 0.f;
+	Proj_Spawn_Desc.fRepulsion = 0.f;
+	Proj_Spawn_Desc.bUseProjPos = true;
+	m_Attack_Desces[5] = Proj_Spawn_Desc;
+
+	Proj_Spawn_Desc.pAttackOwner = m_pOwner;
+	Proj_Spawn_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+
+	Proj_Spawn_Desc.fAttackTime = 24.f;
+	Proj_Spawn_Desc.fRadius = 2.f;
+	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
+
+	Proj_Spawn_Desc.IsSpawner = true;
+	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
+	Proj_Spawn_Desc.iSpawnAmount = 16;
+	Proj_Spawn_Desc.fSpawnTime = 1.f;
+	Proj_Spawn_Desc.fSpawnRadius = 2.4f;
+	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
+
+	Proj_Spawn_Desc.iDamage = 0.f;
+	Proj_Spawn_Desc.fRepulsion = 0.f;
+	Proj_Spawn_Desc.bUseProjPos = true;
+	m_Attack_Desces[6] = Proj_Spawn_Desc;
 
 	return S_OK;
 }
@@ -85,11 +174,11 @@ _uint CController_MG::Is_MG_Identity()
 
 	if (KEY_TAP(KEY::Z))
 	{
-		return 2;
+		return 1;
 	}
 	else if (KEY_TAP(KEY::X))
 	{
-		return 1;
+		return 2;
 	}
 
 	return 0;
@@ -116,9 +205,19 @@ void CController_MG::Input(const _float& fTimeDelta)
 
 }
 
-void CController_MG::Attack()
+void CController_MG::Attack(Vec3 vPos)
 {
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
+
+	if (Vec3() != vPos)
+	{
+		m_AttackDesc.vAttackPos = vPos;
+	}
+	else
+	{
+		m_AttackDesc.AttackMatrix = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
+	}
+
 	pAttack->InitProjectile(&m_AttackDesc);
 }
 
@@ -131,6 +230,10 @@ void CController_MG::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	if (Vec3() != vPos)
 	{
 		m_pSkills[eKey]->Set_SkillProjPos(vPos);
+	}
+	else
+	{
+		m_pSkills[eKey]->Set_SkillProjMat(m_pOwner->Get_TransformCom()->Get_WorldMatrix());
 	}
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
 }
@@ -149,11 +252,11 @@ void CController_MG::Skill_CoolTime(const _float& fTimeDelta)
 void CController_MG::Get_MG_IdentityMessage()
 {
 	if (100 <= m_iIdentityGage)
-		m_iBubble = 1;
+		m_iGage = 1;
 	if (200 <= m_iIdentityGage)
-		m_iBubble = 2;
+		m_iGage = 2;
 	if (300 <= m_iIdentityGage)
-		m_iBubble = 3;
+		m_iGage = 3;
 
 	m_iIdentityGage = 0;
 }

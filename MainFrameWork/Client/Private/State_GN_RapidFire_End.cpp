@@ -49,7 +49,7 @@ void CState_GN_RapidFire_End::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iRapidFire_End, 0.2f, 2, 0, 1.8f);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
-	m_pPlayer->Get_GN_Controller()->Get_LookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 }
 
 void CState_GN_RapidFire_End::Tick_State(_float fTimeDelta)

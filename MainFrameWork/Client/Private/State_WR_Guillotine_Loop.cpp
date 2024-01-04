@@ -59,12 +59,13 @@ void CState_WR_Guillotine_Loop::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGuillotine_Loop))
 		m_pPlayer->Set_State(TEXT("Skill_WR_Guillotine_End"));
 
-
 	Vec3 vClickPos;
 	if (true == m_pController->Is_Dash())
 	{
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}

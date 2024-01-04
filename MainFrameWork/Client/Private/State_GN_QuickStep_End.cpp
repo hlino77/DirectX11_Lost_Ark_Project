@@ -99,6 +99,8 @@ void CState_GN_QuickStep_End::Tick_State_Control(_float fTimeDelta)
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
