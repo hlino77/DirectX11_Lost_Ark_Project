@@ -92,6 +92,11 @@ public:
 	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
 	void						Move_to_SpawnPosition();
 
+	_int						Get_Armor() { return m_iArmor; }
+	void						Set_Armor(_int iArmor) { m_iArmor = iArmor; }
+
+	_uint						Get_Phase() { return m_iPhase; }
+	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -105,8 +110,8 @@ protected:
 protected:
 	_bool m_IsCounterSkill = false;
 	Vec3  m_vSpawnPosition = {};
-
-
+	_int m_iArmor = 0;
+	_uint m_iPhase = 1;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

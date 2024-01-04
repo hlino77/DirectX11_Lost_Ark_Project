@@ -30,14 +30,12 @@ private:
 private:
 	_bool	IsMaz()
 	{
-		for (size_t i = 1; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
-		{
-			if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect((STATUSEFFECT)i) > 0)
-				return true;
-		}
+
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Maz()||m_eReturn== BT_RUNNING )
+			return true;
 
 
-		return false;
+			return false;
 	}
 
 public:

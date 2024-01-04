@@ -3,7 +3,8 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
-
+#include "NavigationMgr.h"
+#include <Boss_Golem_Server.h>
 CValtan_BT_Attack_Attack1_Server::CValtan_BT_Attack_Attack1_Server()
 {
 }
@@ -32,8 +33,21 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1_Server::OnUpdate(const _float& fTi
 		m_iCurrAnimation = 1;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[1].iAnimIndex, m_vecAnimDesc[1].fChangeTime,	m_vecAnimDesc[1].iStartFrame, m_vecAnimDesc[1].iChangeFrame);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)		
-		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 1.5f, fTimeDelta);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iCurrAnimation == 1)
+	{
+		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
+		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 2.f))
+		{
+			m_iCurrAnimation=2;
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[2].iAnimIndex, m_vecAnimDesc[2].fChangeTime,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[2].iChangeFrame);
+			//벽박이 테스트용
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Hit(true);
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(true);
+		}
+	}
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Groggy())
+		return BT_SUCCESS;
 	return __super::OnUpdate(fTimeDelta);
 }
 

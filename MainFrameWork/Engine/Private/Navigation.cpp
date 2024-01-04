@@ -108,6 +108,36 @@ void CNavigation::SetUp_OnCell(CGameObject* pObject)
 
 }
 
+_bool CNavigation::Is_Outside(CGameObject* pObject, _float fOffset)
+{
+	_int		iNeighborIndex = 0;
+	Vec3 vPosition = pObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vLook = pObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+	vLook.Normalize();
+	if (true == m_vecCells[pObject->Get_CurrCell()]->isOut(vPosition + vLook * fOffset, &iNeighborIndex))
+	{
+		if (-1 != iNeighborIndex)
+		{
+			while (true)
+			{
+				if (-1 == iNeighborIndex)
+					return true;
+
+				if (false == m_vecCells[iNeighborIndex]->isOut(vPosition + vLook * fOffset, &iNeighborIndex))
+				{
+					break;
+				}
+			}
+			return false;
+		}
+		else
+			return true;
+
+	}
+	else
+		return false;
+}
+
 void CNavigation::Find_FirstCell(CGameObject* pObject)
 {
 	Vec3 vPos = pObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);

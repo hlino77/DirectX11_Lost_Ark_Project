@@ -127,6 +127,24 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 	pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPos);
 }
 
+_bool CCell::isOut(Vec3 vPoint, _int* pNeighborIndex)
+{
+	for (size_t i = 0; i < LINE_END; i++)
+	{
+		Vec3 vDir = vPoint - m_vPoints[i];
+		vDir.Normalize();
+
+		_float fDot = vDir.Dot(m_vNormals[i]);
+		if (fDot > 0.001f)
+		{
+			*pNeighborIndex = m_iNeighbor[i];
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void CCell::Set_Normal()
 {
 	for (_uint i = 0; i < 3; ++i)

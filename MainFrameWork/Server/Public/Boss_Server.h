@@ -60,8 +60,22 @@ public:
 
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
 	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
+	
 	_bool						Is_Countered() { return m_IsCountered; }
 	void						Set_Countered(_bool IsCountered) { m_IsCountered = IsCountered; }
+
+	_bool						Is_Groggy() { return m_IsGroggy; }
+	void						Set_Groggy(_bool IsGroggy) { m_IsGroggy = IsGroggy; }
+
+	
+	_int						Get_Armor() { return m_iArmor; }
+	void						Set_Armor(_int iArmor) { m_iArmor = iArmor; }
+
+	_int						Get_ArmorDurability() { return m_iArmorDurability; }
+	void						Set_ArmorDurability(_int iArmorDurability) { m_iArmorDurability = iArmorDurability; }
+
+	_int						Get_MaxArmorDurability() { return m_iMaxArmorDurability; }
+
 
 	_uint						Get_Phase() { return m_iPhase; }
 	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
@@ -80,8 +94,12 @@ protected:
 protected:
 	_bool m_IsCounterSkill = false;
 	_bool m_IsCountered = false;
-	_uint m_iPhase = 1;
-	_uint m_iArmor = 2;
+	_bool m_IsGroggy = false;
+
+	_int m_iArmorDurability = 0;
+	_uint m_iMaxArmorDurability = 0;
+	_uint m_iPhase = 0;
+	_int m_iArmor = 0;
 	Vec3 m_vSpawnPosition;
 public:
 	virtual CGameObject* Clone(void* pArg);

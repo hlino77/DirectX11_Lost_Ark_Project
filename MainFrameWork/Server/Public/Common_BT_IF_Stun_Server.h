@@ -30,7 +30,7 @@ private:
 private:
 	_bool	IsStun()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect(STATUSEFFECT::STUN) > 0)
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect(STATUSEFFECT::STUN) > 0 || m_eReturn == BT_RUNNING)
 			return true;
 
 

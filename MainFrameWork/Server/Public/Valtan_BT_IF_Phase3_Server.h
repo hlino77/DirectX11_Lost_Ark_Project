@@ -32,7 +32,7 @@ private:
 private:
 	_bool	Is_Phase3()
 	{
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==3)
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==3 )
 			return true;
 
 		return false;

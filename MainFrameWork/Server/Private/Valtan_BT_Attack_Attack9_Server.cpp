@@ -19,7 +19,7 @@ void CValtan_BT_Attack_Attack9_Server::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack9_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)<10 || m_pGameObject->Get_ModelCom()->IsNext())
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 2.f);
 	return __super::OnUpdate(fTimeDelta);
 }
 

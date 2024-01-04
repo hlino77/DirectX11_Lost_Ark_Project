@@ -105,13 +105,17 @@
 #include "Boss_Golem.h"
 #include "Monster_Ghoul.h"
 #include <Monster_Reaper.h>
-#include "Weapon_Boss_King.h"
-#include "Weapon_Mn_Reaper.h"
 #include "Boss_King.h"
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
+
+//Weapons
+#include "Weapon_Boss_King.h"
+#include "Weapon_Mn_Reaper.h"
 #include <Weapon_Mn_PawnShield.h>
 #include <Weapon_Mn_PawnSword.h>
+#include "Weapon_Boss_Valtan.h"
+
 //BossSkills
 #include "SKill_King_ChargeSwing.h"
 #include "SKill_King_Eruption.h"
@@ -777,6 +781,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CBoss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
+		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	if (FAILED(Loading_Skill_For_Level_Bern()))
 		return E_FAIL;
@@ -825,7 +833,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(15600.f);
+		pUIManager->Loading_UI(1200.f);
 	}
 
 	{
@@ -836,9 +844,52 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(15600.f);
+		pUIManager->Loading_UI(1300.f);
 	}
 
+	{
+		wstring strFileName = L"Boss_Valtan_Parts1";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1400.f);
+	}
+
+	{
+		wstring strFileName = L"Boss_Valtan_Parts2";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1500.f);
+	}
+
+	{
+		wstring strFileName = L"Boss_Valtan_Ghost";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1550.f);
+	}
+
+	{
+		wstring strFileName = L"Wp_Boss_Valtan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1600.f);
+	}
 
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;

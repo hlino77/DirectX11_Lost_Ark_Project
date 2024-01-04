@@ -35,6 +35,8 @@ HRESULT CBT_Decorator::Initialize(void* pArg)
 void CBT_Decorator::OnStart()
 {
 	__super::OnStart();
+	if (m_eDecoratorType == DecoratorType::REPEAT)
+		m_iCounter = m_iRepeatCount;
 }
 
 CBT_Node::BT_RETURN CBT_Decorator::OnUpdate(const _float& fTimeDelta)
@@ -62,9 +64,12 @@ CBT_Node::BT_RETURN CBT_Decorator::OnUpdate(const _float& fTimeDelta)
 	break;
 	case DecoratorType::REPEAT:
 	{
-		if (0 < m_iCounter||m_bCondition)
+		if (0 < m_iCounter&&m_bCondition)
 		{
-			m_vecChildren.front()->Tick(fTimeDelta);
+			if (BT_SUCCESS == m_vecChildren[0]->Tick(fTimeDelta))
+				m_iCounter--;
+
+			m_eReturn = BT_RUNNING;
 			return BT_RUNNING;
 		}
 		else

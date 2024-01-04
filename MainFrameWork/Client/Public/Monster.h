@@ -118,6 +118,9 @@ public:
 
 	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
+	_bool						Is_SetuponCell() { return m_IsSetuponCell; }
+	void						Set_SetuponCell(_bool IsSetuponCell) { m_IsSetuponCell = IsSetuponCell; }
+
 
 	Vec3 Get_RandomPosition() { return m_vRandomPosition; }
 	void Set_RandomPosition(Vec3 vPos) {m_vTargetPos=  m_vRandomPosition = vPos; }
@@ -167,7 +170,7 @@ protected:
 	_float							m_fFontScale=0.4f;
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
-
+	_bool							m_IsSetuponCell = true;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;

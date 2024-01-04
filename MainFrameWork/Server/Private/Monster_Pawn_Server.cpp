@@ -23,7 +23,7 @@
 #include "Common_BT_IF_Near_Server.h"
 #include "Common_BT_IF_Spawn_Server.h"
 #include "Common_BT_WHILE_Within_Range_Server.h"
-#include "Common_BT_IF_Attacked.h"
+#include "Common_BT_IF_Attacked_Server.h"
 #include "Common_BT_IF_Far_Server.h"
 #include <Pawn_BT_Attack2_Server.h>
 #include <Common_BT_BoundLand_Server.h>

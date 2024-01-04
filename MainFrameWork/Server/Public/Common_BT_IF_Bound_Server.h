@@ -32,7 +32,7 @@ private:
 private:
 	_bool	Is_Bound()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound())
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || m_eReturn == BT_RUNNING)
 			return true;
 
 		return false;

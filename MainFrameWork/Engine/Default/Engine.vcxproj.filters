@@ -190,9 +190,6 @@
     <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator">
       <UniqueIdentifier>{d6234566-b8a8-4c8c-925b-97565296c484}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action">
-      <UniqueIdentifier>{a6dddb17-b096-4154-bea3-d5ab408a86e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.Default">
       <UniqueIdentifier>{6a30a28b-8c12-48bc-94a0-9f8db5085741}</UniqueIdentifier>
     </Filter>
@@ -222,6 +219,9 @@
     </Filter>
     <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle">
       <UniqueIdentifier>{21e0a24e-2ad2-4d84-9d3e-8076f9424e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite\Action">
+      <UniqueIdentifier>{a6dddb17-b096-4154-bea3-d5ab408a86e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -520,7 +520,7 @@
       <Filter>01.Utiltiy\04.Component\11. Player_Controller</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BT_Action.h">
-      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite\Action</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BT_Composite.h">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
@@ -577,7 +577,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\InstanceData.h">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Navigation.h">
       <Filter>01.Utiltiy\06. Navigation\Navigation</Filter>
     </ClInclude>
@@ -833,7 +833,7 @@
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BT_Action.cpp">
-      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite\Action</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
     <ClCompile Include="..\Private\PartObject.cpp" />
@@ -918,7 +918,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\InstanceData.cpp">
       <Filter>01.Utiltiy\03.GameObjects</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Cell.cpp">
       <Filter>01.Utiltiy\06. Navigation\Cell</Filter>
     </ClCompile>

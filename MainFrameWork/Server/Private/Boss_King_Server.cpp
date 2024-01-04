@@ -23,7 +23,7 @@
 #include "Common_BT_IF_Spawn_Server.h"
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
-#include "Common_BT_IF_Attacked.h"
+#include "Common_BT_IF_Attacked_Server.h"
 #include "Common_BT_Attack1_Server.h"
 #include "Common_BT_Spawn_Server.h"
 #include <Common_BT_IF_Skill_Server.h>

@@ -31,7 +31,7 @@ private:
 	_bool	IsBug()
 	{
 
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect(STATUSEFFECT::BUG) > 0)
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect(STATUSEFFECT::BUG) > 0 || m_eReturn == BT_RUNNING)
 			return true;
 
 

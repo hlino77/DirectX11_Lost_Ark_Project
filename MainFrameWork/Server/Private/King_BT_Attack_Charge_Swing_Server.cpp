@@ -34,7 +34,7 @@ void CKing_BT_Attack_Charge_Swing_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
-	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
+
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 }

@@ -51,14 +51,15 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 
 void CMonster_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
-
+	if (m_IsSetuponCell)
+	{
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+		m_pRigidBody->Tick(fTimeDelta);
+	}
 	if (m_pBehaviorTree != nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
 
 	Find_NearTarget(fTimeDelta);
-
-	m_pRigidBody->Tick(fTimeDelta);
 
 	m_fHitTerm -= fTimeDelta;
 	Update_StatusEffect(fTimeDelta);
@@ -72,6 +73,8 @@ void CMonster_Server::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+	if (m_IsSetuponCell)
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)
@@ -114,6 +117,16 @@ void CMonster_Server::Update_StatusEffect(_float fTimeDelta)
 	}
 }
 
+
+_bool CMonster_Server::Is_Maz()
+{
+	for (size_t i = 1; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
+	{
+		if (m_fStatusEffects[i]>0)
+			return true;
+	}
+	return false;
+}
 
 _bool CMonster_Server::Is_Skill()
 {
@@ -356,15 +369,15 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.0f;
-			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+			m_pRigidBody->AddForce(vBack * (fForce - 20.f), ForceMode::FORCE);
 			m_IsBound = true;
 		}
 		else if (fForce >= 30.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.0f;
-			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		
+			m_pRigidBody->AddForce(vBack * (fForce - 30.f), ForceMode::FORCE);
 			m_IsBound = false;
 			m_IsTwist = true;
 		}

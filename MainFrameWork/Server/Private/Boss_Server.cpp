@@ -48,21 +48,22 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fNoticeRange = 20.f;
-	
-	m_pRigidBody->SetMass(2.0f);
 
 	return S_OK;
 }
 
 void CBoss_Server::Tick(_float fTimeDelta)
 {
-	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 
 	m_fSkillCoolDown += fTimeDelta;
 		Find_NearTarget(fTimeDelta);
 	if(m_pBehaviorTree!= nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
-	m_pRigidBody->Tick(fTimeDelta);
+	if (m_IsSetuponCell)
+	{
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+		m_pRigidBody->Tick(fTimeDelta);
+	}
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
@@ -73,6 +74,8 @@ void CBoss_Server::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
+	if (m_IsSetuponCell)
+		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	{
 		READ_LOCK
 			for (auto& CollisionStay : m_CollisionList)
@@ -137,16 +140,25 @@ void CBoss_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
 {
 	WRITE_LOCK
+		_uint Damage_Result = iDamage * ((10 - m_iArmor)/10);
 
 		if (!m_bInvincible)
 			m_iHp -= iDamage;
-
+		if (m_IsGroggy)
+			m_iArmorDurability -= iDamage;
+	_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;
+	cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << (_int)(dPercent*160.f) << "	/	" << 160 << endl<< "¾Æ¸Ó: "<< m_iArmor<<"	/ °©¿Ê ³»±¸µµ: "<<m_iArmorDurability<<endl ;
 
 	if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
 	{
 		m_IsHit = true;
 		m_IsCounterSkill = false;
 		m_IsCountered = true;
+	}
+	if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect)
+	{
+		m_IsHit = true;
+		m_IsGroggy = true;
 	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
 	if (m_iHp < 1.f)

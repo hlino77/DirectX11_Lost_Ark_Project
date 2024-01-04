@@ -30,7 +30,7 @@ private:
 private:
 	_bool	IsFear()
 	{
-		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect(STATUSEFFECT::FEAR) > 0)
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Get_StatusEffect(STATUSEFFECT::FEAR) > 0 || m_eReturn == BT_RUNNING)
 			return true;
 
 

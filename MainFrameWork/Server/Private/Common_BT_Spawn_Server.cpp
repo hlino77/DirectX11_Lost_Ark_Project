@@ -10,7 +10,8 @@ void CCommon_BT_Spawn_Server::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Find_NearTarget(1.f);
-	static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
@@ -19,7 +20,6 @@ CBT_Node::BT_RETURN CCommon_BT_Spawn_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (IsOut())
 		return BT_FAIL;
-
 	return __super::OnUpdate(fTimeDelta);
 }
 

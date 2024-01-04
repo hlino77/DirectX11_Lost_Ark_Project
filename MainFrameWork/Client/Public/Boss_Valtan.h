@@ -1,11 +1,25 @@
 #pragma once
 #include "Boss.h"
 
+BEGIN(Engine)
+class CPartObject;
+END
+
 BEGIN(Client)
 
 class CBoss_Valtan :
     public CBoss
 {
+public:
+	enum class PARTS
+	{
+		BODY,
+		PART1,
+		PART2,
+		GHOST,
+		PARTS_END
+
+	};
 	CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CBoss_Valtan(const CBoss_Valtan& rhs);
 	virtual ~CBoss_Valtan() = default;
@@ -17,20 +31,19 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
-
-	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
-	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
-	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 public:
+	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame);
 
-	void				Set_Colliders(_float fTimeDelta);
-	HRESULT				Ready_Coliders();
-
-
-protected:
+private:
 	virtual HRESULT		Ready_Components();
+	virtual HRESULT		Ready_Coliders();
 	virtual	HRESULT		Ready_BehaviourTree();
-public:
+
+private:
+	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
+private:
+	CPartObject* m_pWeapon = nullptr;
+
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

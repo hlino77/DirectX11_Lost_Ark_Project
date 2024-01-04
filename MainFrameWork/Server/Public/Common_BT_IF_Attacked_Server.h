@@ -18,7 +18,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-			m_bCondition = Is_Landing();
+			m_bCondition = Is_Attacked();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -28,7 +28,7 @@ private:
 	}
 
 private:
-	_bool	Is_Landing()
+	_bool	Is_Attacked()
 	{
 		if (!static_cast<CMonster_Server*>(m_pGameObject)->Is_Attacked())
 			return true;

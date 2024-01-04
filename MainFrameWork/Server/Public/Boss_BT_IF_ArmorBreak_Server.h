@@ -5,13 +5,13 @@
 
 BEGIN(Server)
 
-class CBoss_BT_IF_Groggy_Server :
+class CBoss_BT_IF_ArmorBreak_Server :
     public CBT_Decorator
 {
 private:
-	CBoss_BT_IF_Groggy_Server() = default;
-	CBoss_BT_IF_Groggy_Server(const CBoss_BT_IF_Groggy_Server& rhs) = delete;
-	virtual ~CBoss_BT_IF_Groggy_Server() = default;
+	CBoss_BT_IF_ArmorBreak_Server() = default;
+	CBoss_BT_IF_ArmorBreak_Server(const CBoss_BT_IF_ArmorBreak_Server& rhs) = delete;
+	virtual ~CBoss_BT_IF_ArmorBreak_Server() = default;
 
 	virtual void OnStart() override
 	{
@@ -20,7 +20,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-		m_bCondition = Is_Countered();
+		m_bCondition = Is_ArmorZero();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -30,22 +30,22 @@ private:
 	}
 
 private:
-	_bool	Is_Countered()
+	_bool	Is_ArmorZero()
 	{
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Groggy())
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_ArmorDurability()<=0)
 			return true;
 
 		return false;
 	}
 
 public:
-	static	CBoss_BT_IF_Groggy_Server* Create(void* pArg)
+	static	CBoss_BT_IF_ArmorBreak_Server* Create(void* pArg)
 	{
-		CBoss_BT_IF_Groggy_Server* pInstance = new CBoss_BT_IF_Groggy_Server;
+		CBoss_BT_IF_ArmorBreak_Server* pInstance = new CBoss_BT_IF_ArmorBreak_Server;
 
 		if (FAILED(pInstance->Initialize(pArg)))
 		{
-			MSG_BOX("Failed to Created : CBoss_BT_IF_Groggy_Server");
+			MSG_BOX("Failed to Created : CBoss_BT_IF_ArmorBreak_Server");
 			Safe_Release(pInstance);
 		}
 
