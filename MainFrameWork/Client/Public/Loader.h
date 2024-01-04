@@ -56,11 +56,12 @@ private:
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);
-	HRESULT	Loading_IdentityTexture();
+	HRESULT	Loading_QuickSlot();
+	HRESULT	Loading_SkillIcon();
+	HRESULT Loading_ChaosDungeon_UI();
 
 	HRESULT Loading_Model_For_Level_Bern();
 	HRESULT Loading_Model_For_Level_Lobby();
-	HRESULT	Loading_Skill_For_Level_Bern();
 
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVELID eNextLevel);

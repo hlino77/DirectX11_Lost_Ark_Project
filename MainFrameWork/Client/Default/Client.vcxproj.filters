@@ -928,6 +928,57 @@
     <Filter Include="01.Levels\01.Lobby">
       <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard">
+      <UniqueIdentifier>{9d6a79e9-620d-45d7-836c-aef4d89804c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon">
+      <UniqueIdentifier>{384f8c92-4d10-4fed-b44f-b34fd059c5ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge">
+      <UniqueIdentifier>{368630c9-f27d-405d-8bbb-1080f51e9df6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\01.Timer">
+      <UniqueIdentifier>{53662c39-f3a0-4a74-a01a-434834142930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\99.Clear">
+      <UniqueIdentifier>{0a5f9a88-cf92-457b-8edc-6530ff01223c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\00.BackGround">
+      <UniqueIdentifier>{c578e440-13a6-4284-bff3-a95740fe694d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Gauge">
+      <UniqueIdentifier>{82e352c7-010a-4a5c-963f-a429382703cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame">
+      <UniqueIdentifier>{5d0167f9-f97e-44b2-a673-fdf2a18f3487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine">
+      <UniqueIdentifier>{b590642c-74d7-4b10-b6f5-38019c46d7f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\02.Gauge">
+      <UniqueIdentifier>{445ea6ee-7525-41ff-aac9-7ba96c15d250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\03.Gague_Cut">
+      <UniqueIdentifier>{039ee05e-7036-42a3-80e4-71addefe08b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\04.NameFrame">
+      <UniqueIdentifier>{81fa7011-c4fd-4652-8f8c-7036882b1082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\00.Spin">
+      <UniqueIdentifier>{cfe4419f-332e-4d09-9229-ec39e313c7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\01.Shine">
+      <UniqueIdentifier>{0e7a25b6-3491-459a-a5fb-05a12e2300c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory">
+      <UniqueIdentifier>{f1688ecf-426b-4cbb-a680-eada5ceb4dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Wnd">
+      <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\02.ETCSlot">
+      <UniqueIdentifier>{7bf0f105-e25d-4849-96e5-0d0c3085df11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3129,6 +3180,33 @@
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Lobby</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeFrame.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\02.Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge_Cut.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\03.Gague_Cut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_NameFrame.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\04.NameFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeShine.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\01.Shine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeSpinShine.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\00.Spin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_TimerFrame.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\01.Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ETCIcon_Frame.h">
+      <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5299,6 +5377,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\02.Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge_Cut.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\03.Gague_Cut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_NameFrame.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\04.NameFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeShine.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\01.Shine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeSpinShine.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\00.Spin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_TimerFrame.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\01.Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp">
+      <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@
 #include "Player_Slayer.h"
 #include "Controller_WDR.h"
 #include "Player_Destroyer.h"
-
+#include "TextBox.h"
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -59,6 +59,19 @@ HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+    //if (FAILED(Initialize_Percent()))
+       // return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_SkillIcon_Frame::Initialize_Percent()
+{
+    m_szFont = L"ºûÀÇ°è½ÂÀÚ";
+    Ready_TextBox();
+
+    Set_Active(false);
+
     return S_OK;
 }
 
@@ -90,13 +103,17 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
     }
 
     if (m_fCoolMaxTime == m_fResultCool)
+    {
         m_fCoolAngle = XM_PI;
+        if(nullptr != m_pCoolTimetWnd)
+            m_pCoolTimetWnd->Set_Active(false);
+    }
     else
     {
         m_fCoolRatio = 1.0f - (m_fResultCool / m_fCoolMaxTime);
         m_fCoolAngle = -XM_PI + (2 * XM_PI * m_fCoolRatio);
+        Print_CoolTime();
     }
-
 }
 
 HRESULT CUI_SkillIcon_Frame::Render()
@@ -201,7 +218,7 @@ void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
         else
         {
             m_bHaveSkill = false;
-            m_pTextureCom_Skill = nullptr;
+            Safe_Release(m_pTextureCom_Skill);//m_pTextureCom_Skill = nullptr;
         }
     }
 }
@@ -228,7 +245,7 @@ void CUI_SkillIcon_Frame::Get_Player_WR(CPlayer* _pPlayer, CTexture* _pTexture)
         else
         {
             m_bHaveSkill = false;
-            m_pTextureCom_Skill = nullptr;
+            Safe_Release(m_pTextureCom_Skill);//m_pTextureCom_Skill = nullptr;
         }
     }
 }
@@ -255,7 +272,7 @@ void CUI_SkillIcon_Frame::Get_Player_WDR(CPlayer* _pPlayer, CTexture* _pTexture)
         else
         {
             m_bHaveSkill = false;
-            m_pTextureCom_Skill = nullptr;
+            Safe_Release(m_pTextureCom_Skill); //m_pTextureCom_Skill = nullptr;
         }
     }
 }
@@ -373,9 +390,77 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_ChangeFrame()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
-  
-
     return S_OK;
+}
+
+void CUI_SkillIcon_Frame::Print_CoolTime()
+{
+    if (nullptr == m_pCoolTimetWnd)
+        return;
+
+    m_pCoolTimetWnd->Set_Active(true);
+    m_pCoolTimetWnd->Clear_Text();
+    m_pCoolTimetWnd->Set_Alpha(1.f);
+
+    Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+    m_pCoolTimetWnd->Get_TransformCom()->Set_Scale(Vec3(22.f, 22.f, 0.f));
+    m_pCoolTimetWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
+
+    Set_StringCoolTime();
+    Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strCoolTime);
+    Vec2 vOrigin = vMeasure * 0.5f;
+    m_pCoolTimetWnd->Set_Text(m_strWndName, m_szFont, m_strCoolTime, Vec2(22.f, 22.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
+}
+
+void CUI_SkillIcon_Frame::Set_Active(_bool bActive)
+{
+    m_pCoolTimetWnd->Set_Active(bActive);
+}
+
+HRESULT CUI_SkillIcon_Frame::Ready_TextBox()
+{
+    CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+    Safe_AddRef(pGameInstance);
+    if (nullptr == m_pCoolTimetWnd)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = TEXT("SkillCoolWnd");
+        tTextDesc.szTextBoxTag += m_eSkillKey;
+        m_strWndName = tTextDesc.szTextBoxTag;
+        tTextDesc.vSize = Vec2(44.f, 44.0f);
+        m_pCoolTimetWnd = static_cast<CTextBox*>(pGameInstance->
+            Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+        if (nullptr == m_pCoolTimetWnd)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+
+        m_pCoolTimetWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pCoolTimetWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+    }
+    Safe_Release(pGameInstance);
+    return S_OK;
+}
+
+void CUI_SkillIcon_Frame::Start_CoolTimeText()
+{
+    m_strCoolTime.clear();
+    m_pCoolTimetWnd->Set_Active(true);
+}
+
+void CUI_SkillIcon_Frame::End_CoolTimeText()
+{
+    m_strCoolTime.clear();
+    m_pCoolTimetWnd->Set_Active(false);
+}
+
+void CUI_SkillIcon_Frame::Set_StringCoolTime()
+{
+    wstring strCool = to_wstring((_uint)m_fResultCool);
+    m_strCoolTime.clear();
+    m_strCoolTime = strCool + TEXT("s");
 }
 
 CUI_SkillIcon_Frame* CUI_SkillIcon_Frame::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

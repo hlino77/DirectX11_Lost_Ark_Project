@@ -36,8 +36,8 @@ HRESULT CLevel_Lobby::Initialize()
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
 
-	//if (FAILED(Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"))))
-		//return E_FAIL;
+	if (FAILED(Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"))))
+		return E_FAIL;
 
 	Start_QuadTree();
 

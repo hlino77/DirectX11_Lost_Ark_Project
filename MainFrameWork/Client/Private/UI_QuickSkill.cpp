@@ -30,7 +30,7 @@ HRESULT CUI_QuickSkill::Initialize(void* pArg)
 	if (FAILED(UI_Set()))
 		return E_FAIL;
 
-	m_strUITag = TEXT("UI_QuickSkill");
+	m_strUITag = TEXT("UI_QuickSlot");
 
 	return S_OK;
 }
@@ -71,12 +71,34 @@ HRESULT CUI_QuickSkill::UI_Set()
 		}
 	}
 
-	Load_UIData(TEXT("Skill_Icon_Desc"));
+	for (size_t i = 0; i < 4; i++)
+	{
+		pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ItemFrame")
+			, &i));
+		if (nullptr != pUI)
+		{
+			m_vecUIParts.push_back(pUI);
+		}
+	}
+
+	for (size_t i = 0; i < 6; i++)
+	{
+		pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ETCFrame")
+			, &i));
+		if (nullptr != pUI)
+		{
+			m_vecUIParts.push_back(pUI);
+		}
+	}
+
+	Load_UIData(TEXT("QuickSlot_Icon_Desc"));
 
 	for (auto& iter : m_vecUIParts)
 	{
 		iter->Create_Rect();
+		iter->Set_Z(0.2f);
 	}
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

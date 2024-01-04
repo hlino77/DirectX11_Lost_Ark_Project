@@ -81,7 +81,10 @@ HRESULT CUI_Player_HP::UI_Set()
 	}
 
 	Load_UIData(TEXT("PlayerHP_UIDesc"));
-
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Z(0.2f);
+	}
 	Safe_Release(pGameInstance);
 
 	return S_OK;

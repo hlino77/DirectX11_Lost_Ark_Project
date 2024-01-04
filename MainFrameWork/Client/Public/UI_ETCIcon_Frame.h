@@ -8,13 +8,13 @@ END
 
 BEGIN(Client)
 
-class CUI_ItemIcon_Frame :
+class CUI_ETCIcon_Frame :
     public CUI
 {
 private:
-    CUI_ItemIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_ItemIcon_Frame(const CUI& rhs);
-    virtual ~CUI_ItemIcon_Frame() = default;
+    CUI_ETCIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_ETCIcon_Frame(const CUI& rhs);
+    virtual ~CUI_ETCIcon_Frame() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -62,7 +62,7 @@ private:
     wstring m_strWndName;
 
 public:
-    static  CUI_ItemIcon_Frame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_ETCIcon_Frame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };
