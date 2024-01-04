@@ -21,6 +21,7 @@ public:
 	{
 		CTransform* pPivotTransform = nullptr;
 		Matrix*		pPivotMatrix = nullptr;
+		_bool		bParentPivot = false;
 	}EFFECTPIVOTDESC;
 
 public:

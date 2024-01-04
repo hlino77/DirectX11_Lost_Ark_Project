@@ -8,6 +8,7 @@
 #include "Utils.h"
 #include "VoidEffect.h"
 #include "Camera_Free.h"
+#include "Level_Tool.h"
 #include "tinyxml2.h"
 
 namespace fs = std::filesystem;
@@ -65,14 +66,7 @@ HRESULT CEffectTool::LateTick(const _float& fTimeDelta)
 		//m_pCurrentEffect->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vCamPos + 3.f * vCamForward);
 		//m_pCamera->Get_TransformCom()->LookAt(Vec3::Zero);
 		
-		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::LEFT_ARROW))
-			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitY, fTimeDelta);
-		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::RIGHT_ARROW))
-			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitY, -fTimeDelta);
-		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::UP_ARROW))
-			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitX, fTimeDelta);
-		if(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::DOWN_ARROW))
-			m_pCurrentEffect->Get_TransformCom()->Turn(Vec3::UnitX, -fTimeDelta);
+
 	}
 
 	if (m_IsResetReserved)
@@ -663,6 +657,8 @@ HRESULT CEffectTool::CreateEffect()
 	if (nullptr == m_pCurrentEffect)
 		return E_FAIL;
 
+	m_pCurrentEffect->SetEffectTool(this);
+
 	m_vecEffects.push_back(m_pCurrentEffect);
 
 	//Matrix& matCamWorld = m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
@@ -864,6 +860,10 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element = document->NewElement("LifeTime");
 			element->SetAttribute("LifeTime", m_vecEffects[i]->m_fLifeTime);
 			node->LinkEndChild(element);
+			
+			element = document->NewElement("ParentPivot");
+			element->SetAttribute("ParentPivot", m_vecEffects[i]->m_bParentPivot);
+			node->LinkEndChild(element);
 		}
 
 		node = document->NewElement("UV_Variables");
@@ -1031,6 +1031,8 @@ HRESULT CEffectTool::Load()
 		if (nullptr == m_pCurrentEffect)
 			return E_FAIL;
 
+		m_pCurrentEffect->SetEffectTool(this);
+
 		node = node->NextSiblingElement();
 		{
 			tinyxml2::XMLElement* element = nullptr;
@@ -1110,6 +1112,9 @@ HRESULT CEffectTool::Load()
 			
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_fLifeTime = element->FloatAttribute("LifeTime");
+			
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bParentPivot = element->BoolAttribute("ParentPivot");
 		}
 
 		node = node->NextSiblingElement();
@@ -1289,11 +1294,11 @@ HRESULT CEffectTool::Ready_Camera()
 	return S_OK;
 }
 
-CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool* pLevel_Tool)
 {
 	CEffectTool* pInstance = new CEffectTool(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize()))
+	if (FAILED(pInstance->Initialize(pLevel_Tool)))
 	{
 		MSG_BOX("Failed to Created : CEffectTool");
 		Safe_Release(pInstance);

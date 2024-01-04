@@ -3,9 +3,11 @@
 #include "Level.h"
 
 BEGIN(Engine)
-class CGameInstance;
-END
 
+class CGameInstance;
+class CGameObject;
+
+END
 
 BEGIN(Client)
 
@@ -25,6 +27,11 @@ public:
 	virtual HRESULT Render_Debug()				override;
 
 	HRESULT Ready_SoundTrack();
+
+public:
+	CGameObject*	GetPivotObject();
+	void			SetPivotObject(CGameObject* pPartObject);
+
 private:
 	HRESULT Ready_Layer_BackGround();
 
@@ -35,14 +42,16 @@ private:
 	HRESULT	Ready_Tools();
 
 private:
-	class CEffectTool* m_pEffectTool = nullptr;
-	class CEffect_PcModel* m_pEffectModel = nullptr;
+	class CEffectTool*		m_pEffectTool = nullptr;
+	class CEffect_PcModel*	m_pEffectModel = nullptr;
 
-	_bool	m_IsImGUIReady = false;
+	CGameObject*			m_pPivotObject = nullptr;
+
+	_bool					m_IsImGUIReady = false;
 	Vec4	clear_color = Vec4(0.f);
 
-	CGameInstance* m_pGameInstance = nullptr;
-	CCamera_Free* m_pCamera = nullptr;
+	CGameInstance*			m_pGameInstance = nullptr;
+	CCamera_Free*			m_pCamera = nullptr;
 
 private:
 

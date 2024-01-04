@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "RigidBody.h"
 #include "Effect_Manager.h"
+#include "PartObject.h"
 
 CEffect::CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Effect", OBJ_TYPE::EFFECT)
@@ -259,22 +260,27 @@ HRESULT CEffect::Render()
 
 void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 {
-	if (tEffectDesc.pPivotTransform)
-		m_matPivot = tEffectDesc.pPivotTransform->Get_WorldMatrix();
+	if (tEffectDesc->pPivotTransform)
+	{
+		if (pDesc->bParentPivot)
+			m_matPivot = static_cast<CPartObject*>(tEffectDesc->pPivotTransform->Get_GameObject())->Get_PartOwner()->Get_TransformCom()->Get_WorldMatrix();
+		else
+			m_matPivot = static_cast<CPartObject*>(tEffectDesc->pPivotTransform->Get_GameObject())->Get_Part_WorldMatrix();
+	}
 	else
-		m_matPivot = *tEffectDesc.pPivotMatrix;
+		m_matPivot = *pDesc->pPivotMatrix;
 
 	Vec3 vRight = m_matPivot.Right();
 	vRight.Normalize();
-	m_matPivot.m[0][0] = vRight.x; m_matPivot.m[0][1] = vRight.y; m_matPivot.m[0][2] = vRight.z;
+	m_matPivot.Right(vRight);
 
 	Vec3 vUp = m_matPivot.Up();
 	vUp.Normalize();
-	m_matPivot.m[1][0] = vUp.x; m_matPivot.m[1][1] = vUp.y; m_matPivot.m[1][2] = vUp.z;
+	m_matPivot.Up(vUp);
 
 	Vec3 vLook = m_matPivot.Backward();
 	vLook.Normalize();
-	m_matPivot.m[2][0] = vLook.x; m_matPivot.m[2][1] = vLook.y; m_matPivot.m[2][2] = vLook.z;
+	m_matPivot.Backward(vLook);
 
 	//Reset
 	m_fSequenceTimer = 0.0f;

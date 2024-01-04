@@ -135,16 +135,17 @@ void CMannequin::Set_ModelCom(CModel* pModel)
 		static_cast<CPartObject*>(m_pPart[i])->Change_ParentModelCom(m_pModelCom);
 		static_cast<CPartObject*>(m_pPart[i])->Change_ModelCom(nullptr);
 	}
+
 	if(nullptr != m_pModelCom)
 		m_pModelCom->Set_CurrAnim(0);
 }
 
-void CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix)
+CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix)
 {
 	if (nullptr == pModel)
 	{
 		static_cast<CPartObject*>(m_pPart[PartType])->Change_ModelCom(nullptr);
-		return;
+		return nullptr;
 	}
 
 	_int iBoneIndex = -1;
@@ -161,6 +162,8 @@ void CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix)
 		static_cast<CPartObject*>(m_pPart[PART_R])->Change_BoneIndex(iBoneIndex);
 		static_cast<CPartObject*>(m_pPart[PART_R])->Change_Pivot(m_pModelCom->Get_PivotMatrix());
 		static_cast<CPartObject*>(m_pPart[PART_R])->Get_TransformCom()->Set_WorldMatrix(LocalMatrix);
+
+		return static_cast<CPartObject*>(m_pPart[PART_R]);
 	}
 	else
 	{
@@ -174,6 +177,8 @@ void CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix)
 		static_cast<CPartObject*>(m_pPart[PART_L])->Change_BoneIndex(iBoneIndex);
 		static_cast<CPartObject*>(m_pPart[PART_L])->Change_Pivot(m_pModelCom->Get_PivotMatrix());
 		static_cast<CPartObject*>(m_pPart[PART_L])->Get_TransformCom()->Set_WorldMatrix(LocalMatrix);
+
+		return static_cast<CPartObject*>(m_pPart[PART_L]);
 	}
 }
 

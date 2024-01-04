@@ -133,8 +133,8 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
         }
         else
         {
-            Out.vMetallic = Out.vDiffuse * vSpecular.r * (1.f - vSpecular.a);
-            Out.vRoughness = Out.vDiffuse * vSpecular.g * vSpecular.a;
+            Out.vMetallic = 1.2f * vSpecular.r;
+            Out.vRoughness = pow(vSpecular.b, 3.f);
         }
     }
     

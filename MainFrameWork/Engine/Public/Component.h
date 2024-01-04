@@ -23,6 +23,7 @@ public:
 	virtual void	DebugRender() {};
 
 public:
+	CGameObject*	Get_GameObject() { return m_pOwner; }
 	CTransform*		Get_TransformCom() const;
 
 protected:

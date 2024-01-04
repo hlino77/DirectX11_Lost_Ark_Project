@@ -4,6 +4,7 @@
 #include "EffectTool.h"
 #include "Effect_PcModel.h"
 #include "Camera_Free.h"
+#include "PartObject.h"
 
 #include "GameInstance.h"
 
@@ -111,6 +112,16 @@ HRESULT CLevel_Tool::Ready_SoundTrack()
 	return S_OK;
 }
 
+CGameObject* CLevel_Tool::GetPivotObject()
+{
+	return m_pPivotObject;
+}
+
+void CLevel_Tool::SetPivotObject(CGameObject* pPartObject)
+{
+	m_pPivotObject = pPartObject;
+}
+
 HRESULT CLevel_Tool::Ready_Layer_BackGround()
 {
 	/* 원형객체를 복제하여 사본객체를 생성하고 레이어에 추가한다. */
@@ -155,10 +166,10 @@ HRESULT CLevel_Tool::Ready_Camera()
 
 HRESULT CLevel_Tool::Ready_Tools()
 {
-	m_pEffectTool = CEffectTool::Create(m_pDevice, m_pContext);
+	m_pEffectTool = CEffectTool::Create(m_pDevice, m_pContext, this);
 	//m_pMediator->SetPrefabsView(m_pPrefabsView);
 
-	m_pEffectModel = CEffect_PcModel::Create(m_pDevice, m_pContext);
+	m_pEffectModel = CEffect_PcModel::Create(m_pDevice, m_pContext, this);
 	return S_OK;
 }
 

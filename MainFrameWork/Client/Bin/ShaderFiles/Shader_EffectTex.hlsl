@@ -49,7 +49,6 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
         vRight = normalize(cross(vUp, vLook)) * In[0].vPSize.x * 0.5f;
         vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;*/
     }
- 
 
 	matrix		matVP;
 

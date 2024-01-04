@@ -6,7 +6,7 @@
 
 float3 fresnelSchlick(float cosTheta, float3 F0)
 {
-    return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.f, 1.f), 5.0);
 }
 
 float3 FresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
@@ -48,6 +48,14 @@ float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
     return ggx1 * ggx2;
 }
 
+float GeometrySmith(float NdotV, float NdotL, float roughness)
+{
+    float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+    float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+	
+    return ggx1 * ggx2;
+}
+
 float D_GGX(float roughness, float NoH, const float3 NxH)
 {
     float a = NoH * roughness;
@@ -69,6 +77,19 @@ float D_GGX(in float roughness2, in float NdotH)
     //const float lower = (NdotH2 * (alpha - 1.0f)) + 1.0f;
     const float lower = NdotH2 * alpha + (1.0f - NdotH2);
     return alpha / (PI * lower * lower);
+}
+
+float NormalDistributionGGXTR(float NdotH, float roughness)
+{
+    float roughness2 = roughness * roughness;
+    float roughness4 = roughness2 * roughness2;
+    float NdotH2 = NdotH * NdotH;
+
+    float nom = roughness4;
+    float denom = (NdotH2 * (roughness4 - 1.0f) + 1.0f);
+    denom = PI * denom * denom;
+
+    return nom / denom;
 }
 
 // Shlick's approximation of Fresnel By Unity Engine
@@ -186,10 +207,10 @@ float3 Specular_BRDF(in float roughness2, in float3 specularColor, in float Ndot
     return (specular_D * specular_G) * specular_F;
 }
 
-float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 vSpecularColor, in float3 N, in float3 V, in float3 L, in float3 H)
+float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float3 L, in float3 H)
 {
     const float NdotL = max(dot(N, L), EPSILON);
-    const float NdotV = abs(dot(N, V)) + EPSILON;
+    const float NdotV = max(dot(N, V), EPSILON);
     const float NdotH = max(dot(N, H), EPSILON);
     const float HdotV = max(dot(H, V), EPSILON);
     
@@ -197,21 +218,28 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     //float NDF = DistributionGGX(N, H, fRoughness);
     //float G = GeometrySmith(N, V, L, fRoughness);
     //float3 F = fresnelSchlick(HdotV, vSpecularColor);
-    float D = D_GGX(fRoughness, NdotH);
-    float G = G_GGX(fRoughness, NdotV, NdotL);
-    float3 F = F_Shlick(fRoughness, HdotV);
+    //float D = D_GGX(fRoughness, NdotH);
+    //float G = G_GGX(fRoughness, NdotV, NdotL);
+    //float3 F = F_Shlick(vSpecularColor, HdotV);
+    float D = NormalDistributionGGXTR(NdotH, fRoughness);
+    float G = GeometrySmith(NdotV, NdotL, fRoughness);
+    float3 F = fresnelSchlick(HdotV, F0);
     
     float3 kS = F;
     float3 kD = float3(1.0f, 1.0f, 1.0f) - kS;
-    kD *= 1.0f - fMetallic;
+    kD = kD * (1.0f - fMetallic);
     
     // Diffuse & Specular factors
-    float denom = max(4.0f * NdotV * NdotL, 0.001f); // 0.001f just in case product is 0
-    float3 specular_factor = saturate((D * F * G) / denom);
+    //float denom = max(4.0f * NdotV * NdotL, 0.001f); // 0.001f just in case product is 0
+    float denom = 4.0 * NdotV * NdotL + 0.0001f;
+    float3 specular_factor = (D * G * F) / denom;
     //float3 diffuse_factor = kD * vDiffuseColor / PI;
     float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
     //float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
     
-    return (diffuse_factor + specular_factor) * NdotL;
+    //return (kD * diffuse_factor + specular_factor) * NdotL;
+    //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
+    //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
+    return (kD * vDiffuseColor + specular_factor) * NdotL;
 }
 #endif

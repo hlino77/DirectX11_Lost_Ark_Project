@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ToolBase.h"
 //#include "ToolMediator.h"
+#include "Level_Tool.h"
 #include "GameInstance.h"
 
 CToolBase::CToolBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -13,6 +14,8 @@ CToolBase::CToolBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CToolBase::Initialize(void* pArg)
 {
+	m_pLevel_Tool = reinterpret_cast<CLevel_Tool*>(pArg);
+
 	m_pGameInstance = GET_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -33,6 +36,11 @@ HRESULT CToolBase::Initialize(void* pArg)
 //	strcpy_s(szCopy, len, szSrc);
 //	return szCopy;
 //}
+
+CLevel_Tool* CToolBase::GetLevelTool()
+{
+	return m_pLevel_Tool;
+}
 
 const Matrix& CToolBase::Get_MQ_Part_Matrix(_uint iIndex)
 {

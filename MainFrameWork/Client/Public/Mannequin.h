@@ -9,6 +9,7 @@ class CTexture;
 class CRenderer;
 class CTransform;
 class CPipeLine;
+class CPartObject;
 END
 
 BEGIN(Client)
@@ -38,7 +39,7 @@ public:
 
 public:
 	void		Set_ModelCom(CModel* pModel);
-	void		Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix);
+	CPartObject* Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix);
 
 public:
 	void		Set_AnimationPlay() { m_bAnimationPlay = !m_bAnimationPlay; }

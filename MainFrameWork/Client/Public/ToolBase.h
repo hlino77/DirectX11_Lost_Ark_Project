@@ -14,6 +14,7 @@ END
 
 BEGIN(Client)
 
+class CLevel_Tool;
 //class CToolMediator;
 class CToolBase : public CBase
 {
@@ -27,14 +28,16 @@ public:
 	virtual HRESULT Initialize(void* pArg = nullptr);
 	virtual HRESULT Tick(const _float& fTimeDelta)		PURE;
 	virtual HRESULT LateTick(const _float& fTimeDelta)	PURE;
-	virtual HRESULT	DebugRender()	PURE;
+	virtual HRESULT	DebugRender()						PURE;
 
 	void	DeactivatePicking() { m_IsPickingActivated = false; }
 
 	//void	SetMediator(CToolMediator* pMediator);
 
 public:
-	const Matrix& Get_MQ_Matrix() { return m_matMq; }
+	CLevel_Tool* GetLevelTool();
+
+	const Matrix& Get_MQ_Matrix()	{ return m_matMq; }
 	const Matrix& Get_MQ_Part_Matrix(_uint iIndex);
 
 	void  Set_MQ_Matrix(Matrix matMq) { m_matMq = matMq; }
@@ -50,10 +53,8 @@ protected:
 	void	s2cPushBackRef(vector<const _char*>& vecChar, string& str);
 
 protected:
-
-protected:
 	CGameInstance*			m_pGameInstance = nullptr;
-	//CToolMediator*			m_pMediator = nullptr;
+	CLevel_Tool*			m_pLevel_Tool = nullptr;
 
 	_bool					m_IsPickingActivated = false;
 
