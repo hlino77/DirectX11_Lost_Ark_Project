@@ -33,13 +33,15 @@ private:
 	virtual void OnEnd() override
 	{
 		Reset();
-		m_bIsPlayed = true;
+		if (m_eReturn == BT_SUCCESS)
+			m_bIsPlayed = true;
 	}
 
 private:
 	_bool	Is_UnderCertainHp()
 	{
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Hp()/ m_pGameObject->Get_MaxHp()<= m_fSpecialSkillRatio&& !m_bIsPlayed)
+		_float dPercent =	_float(m_pGameObject->Get_Hp()) / _float(m_pGameObject->Get_MaxHp());
+		if (dPercent <= m_fSpecialSkillRatio&& !m_bIsPlayed)
 			return true;
 
 		return false;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Valtan_BT_Attack_Attack11.h"
-#include "Monster.h"
+#include "Boss_Valtan.h"
 #include "Model.h"
 #include "Transform.h"
 
@@ -11,7 +11,7 @@ CValtan_BT_Attack_Attack11::CValtan_BT_Attack_Attack11()
 void CValtan_BT_Attack_Attack11::OnStart()
 {
 	__super::OnStart(0);
-
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelta)

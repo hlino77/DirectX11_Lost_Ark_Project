@@ -57,6 +57,9 @@ HRESULT CBoss::Initialize(void* pArg)
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
 
+	if (FAILED(Ready_Coliders()))
+		return E_FAIL;
+
 	m_tCullingSphere.Radius = 2.0f;
 
 	if (FAILED(Ready_BehaviourTree()))
@@ -270,31 +273,6 @@ HRESULT CBoss::Ready_Components()
 	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
 	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
-
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_SphereColider"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pCollider);
-	}
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		if (pCollider)
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
-	}
 
 
 

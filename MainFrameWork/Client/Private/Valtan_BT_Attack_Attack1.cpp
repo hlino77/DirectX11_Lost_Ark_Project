@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Transform.h"
 #include "NavigationMgr.h"
+#include <Boss.h>
 CValtan_BT_Attack_Attack1::CValtan_BT_Attack_Attack1()
 {
 }
@@ -38,6 +39,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1::OnUpdate(const _float& fTimeDelta
 			m_iCurrAnimation = 2;
 			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[2].iAnimIndex, m_vecAnimDesc[2].fChangeTime,
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[2].iChangeFrame);
+			//_int iArmor = static_cast<CBoss*>(m_pGameObject)->Get_Armor();
+			//if (iArmor != 0)
+			//	static_cast<CBoss*>(m_pGameObject)->Set_Armor(iArmor - 1);
+			//else
+			//{
+			//	_int iPhase = static_cast<CBoss*>(m_pGameObject)->Get_Phase();
+			//	if (iPhase != 3)
+			//		static_cast<CBoss*>(m_pGameObject)->Set_Phase(iPhase + 1);
+			//}
 		}
 	}
 	return __super::OnUpdate(fTimeDelta);

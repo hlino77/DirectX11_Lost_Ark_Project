@@ -477,6 +477,9 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack24_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Boss_BT_ArmorBreak_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Behavior\Action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -850,6 +853,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_BT_IF_ArmorBreak_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_BT_ArmorBreak_Server.h">
+      <Filter>02. GameObject\04. Boss\Behavior\Action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

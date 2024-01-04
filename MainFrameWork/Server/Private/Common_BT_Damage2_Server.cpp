@@ -17,18 +17,12 @@ void CCommon_BT_Damage2_Server::OnStart()
 
 CBT_Node::BT_RETURN CCommon_BT_Damage2_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist() || m_pGameObject->Get_Hp() < 1)
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist() || m_pGameObject->Get_Hp() < 1 || static_cast<CMonster_Server*>(m_pGameObject)->Is_Maz())
 	{
 	
 		return BT_SUCCESS;
 	}
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Was_Maz()) 
-	{
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_SecondHit(false);
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_WasMaz(false);
-		return BT_SUCCESS;
-	}
+
 	if (m_fDuration < 0.f)
 	{
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_SecondHit(false);

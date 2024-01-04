@@ -9,7 +9,9 @@ CCommon_BT_Spawn::CCommon_BT_Spawn()
 void CCommon_BT_Spawn::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CMonster*>(m_pGameObject)->	LookAt_Target_Direction();
+
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 
 }
 

@@ -68,8 +68,14 @@ public:
 	void						Set_Groggy(_bool IsGroggy) { m_IsGroggy = IsGroggy; }
 
 	
-	_uint						Get_Armor() { return m_iArmor; }
-	void						Set_Armor(_uint iArmor) { m_iArmor = iArmor; }
+	_int						Get_Armor() { return m_iArmor; }
+	void						Set_Armor(_int iArmor) { m_iArmor = iArmor; }
+
+	_int						Get_ArmorDurability() { return m_iArmorDurability; }
+	void						Set_ArmorDurability(_int iArmorDurability) { m_iArmorDurability = iArmorDurability; }
+
+	_int						Get_MaxArmorDurability() { return m_iMaxArmorDurability; }
+
 
 	_uint						Get_Phase() { return m_iPhase; }
 	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
@@ -90,10 +96,10 @@ protected:
 	_bool m_IsCountered = false;
 	_bool m_IsGroggy = false;
 
-
-	
-	_uint m_iPhase = 1;
-	_int m_iArmor = 2;
+	_int m_iArmorDurability = 0;
+	_uint m_iMaxArmorDurability = 0;
+	_uint m_iPhase = 0;
+	_int m_iArmor = 0;
 	Vec3 m_vSpawnPosition;
 public:
 	virtual CGameObject* Clone(void* pArg);

@@ -118,6 +118,16 @@ void CMonster_Server::Update_StatusEffect(_float fTimeDelta)
 }
 
 
+_bool CMonster_Server::Is_Maz()
+{
+	for (size_t i = 1; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
+	{
+		if (m_fStatusEffects[i]>0)
+			return true;
+	}
+	return false;
+}
+
 _bool CMonster_Server::Is_Skill()
 {
 	if (m_iSkillStack > 3 || m_fSkillCoolDown > 15.f)
@@ -359,15 +369,15 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
 			fForce = 1.0f;
-			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+			m_pRigidBody->AddForce(vBack * (fForce - 20.f), ForceMode::FORCE);
 			m_IsBound = true;
 		}
 		else if (fForce >= 30.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.0f;
-			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+		
+			m_pRigidBody->AddForce(vBack * (fForce - 30.f), ForceMode::FORCE);
 			m_IsBound = false;
 			m_IsTwist = true;
 		}

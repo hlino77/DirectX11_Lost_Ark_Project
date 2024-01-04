@@ -141,6 +141,7 @@ public:
 	_bool						Is_SecondHit() { return m_IsSecondHit; }
 	void						Set_SecondHit(_bool bHit) { m_IsSecondHit = bHit; }
 
+	_bool						Is_Maz();
 	_bool						Was_Maz() { return m_bWasMaz; }
 	void						Set_WasMaz(_bool bWasMaz) { m_bWasMaz = bWasMaz; }
 

@@ -52,7 +52,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	Ready_Coliders();
+	
 	m_fFontScale = 0.5f;
 	m_IsSuperArmor = true;
 	m_fMoveSpeed = 2.f;

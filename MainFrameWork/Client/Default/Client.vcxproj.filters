@@ -928,6 +928,9 @@
     <Filter Include="01.Levels\01.Lobby">
       <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\Valtan\Parts">
+      <UniqueIdentifier>{be8098da-7f2b-4a0f-97c3-697f5ad0a24a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3129,6 +3132,12 @@
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Lobby</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Boss_Valtan.h">
+      <Filter>02.GameObjects\Boss\Valtan\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_BT_ArmorBreak.h">
+      <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5299,6 +5308,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Boss_Valtan.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_BT_ArmorBreak.cpp">
+      <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

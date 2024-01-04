@@ -67,6 +67,8 @@
 #include <Valtan_BT_IF_Hp_UnderSpecialSkillRatio.h>
 #include <Valtan_BT_IF_Armor_Server.h>
 #include <Valtan_BT_Repeat_Server.h>
+#include <Boss_BT_ArmorBreak_Server.h>
+#include <Boss_BT_IF_ArmorBreak_Server.h>
 
 
 
@@ -103,8 +105,11 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_fRootTargetDistance = 0.f;
 	m_iMaxHp = 1991561183;
 	m_iHp = m_iMaxHp;
+	m_iMaxArmorDurability = (_uint)((_float)m_iMaxHp / 160.f * 3.f);
+	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
 	m_vSpawnPosition = Vec3(117.f, 0.f, 100.f);
+	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	return S_OK;
 }
 
@@ -225,7 +230,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
 	AnimationDesc.fMaxLoopTime = 2.5f;
@@ -245,6 +250,36 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIfGroggy = CBoss_BT_IF_Groggy_Server::Create(&DecoratorDesc);//죽었는가
 	if (FAILED(pIfGroggy->AddChild(pGroggy)))
 		return E_FAIL;
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("dmg_parts_start_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dmg_parts_loop_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("dmg_parts_end_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_ArmorBreak";
+	CBT_Action* pArmorBreak = CBoss_BT_ArmorBreak_Server::Create(&ActionDesc);
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfArmorBreak = CBoss_BT_IF_ArmorBreak_Server::Create(&DecoratorDesc);//죽었는가
+	if (FAILED(pIfArmorBreak->AddChild(pArmorBreak)))
+		return E_FAIL;
+
+
+	ActionDesc.vecAnimations.clear();
 
 	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
 	CompositeDesc.pGameObject = this;
@@ -254,6 +289,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Hit->AddChild(pIfDead))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfCountered))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfGroggy))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfArmorBreak))) return E_FAIL;
+
 
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
@@ -273,7 +310,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("turn_l_1");
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -347,7 +384,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Composite* pSequenceLine16 = CBT_Composite::Create(&CompositeDesc);	
 
 	CBT_Decorator* pIf_Hp_UnderRatio16 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio120)->Set_Ratio(16.f / 160.f);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio16)->Set_Ratio(16.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio16->AddChild(pSequenceLine16))) return E_FAIL;
 
 	// Ready all AttackActions
@@ -410,7 +447,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.3f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
@@ -551,9 +588,12 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 0.7f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
 	AnimationDesc.iStartFrame = 0;
@@ -920,8 +960,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 
 	CBT_Decorator* pIf_Hp_UnderRatio130 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio120)->Set_Ratio(130.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio130->AddChild(pAttack20))) return E_FAIL;
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio130)->Set_Ratio(130.f / 160.f);
 
 	ActionDesc.vecAnimations.clear();
 
@@ -1003,7 +1043,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack21 = CValtan_BT_Attack_Attack21_Server::Create(&ActionDesc);
 
 	CBT_Decorator* pIf_Hp_UnderRatio110 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio120)->Set_Ratio(110.f / 160.f);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio110)->Set_Ratio(110.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio110->AddChild(pAttack21))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1037,10 +1077,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 0.7f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1099,7 +1139,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 
 	CBT_Decorator* pIf_Hp_UnderRatio88 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio120)->Set_Ratio(88.f / 160.f);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio88)->Set_Ratio(88.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio88->AddChild(pAttack0))) return E_FAIL;
 
 
@@ -1132,10 +1172,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 0.7f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1193,7 +1233,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack16 = CValtan_BT_Attack_Attack16_Server::Create(&ActionDesc);
 
 	CBT_Decorator* pIf_Hp_UnderRatio30 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio120)->Set_Ratio(30.f / 160.f);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio30)->Set_Ratio(30.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio30->AddChild(pAttack16))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1251,7 +1291,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22_Server::Create(&ActionDesc);
 
 	CBT_Decorator* pIf_Hp_UnderRatio65 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio120)->Set_Ratio(65.f / 160.f);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio65)->Set_Ratio(65.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pAttack22))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1426,6 +1466,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 			return E_FAIL;
