@@ -379,7 +379,7 @@ void CPlayer_Controller::Look(Vec3 vAt)
 	m_pOwnerTransform->LookAt_ForLandObject(vAt);
 }
 
-void CPlayer_Controller::Attack()
+void CPlayer_Controller::Attack(Vec3 vPos)
 {
 }
 

@@ -36,7 +36,7 @@ public:
 	CPlayer_Skill* Get_PlayerSkill_WR(SKILL_KEY eKey);
 
 public:
-	virtual void	Get_AttackMessage() { Attack(); }
+	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	void			Get_WR_IdentityMessage();
 	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_iIdentityGage -= 10; }
 
@@ -44,7 +44,7 @@ public:
 	
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
-	virtual void	Attack() override;
+	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;

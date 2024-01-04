@@ -173,10 +173,19 @@ void CController_WR::Input(const _float& fTimeDelta)
 
 }
 
-void CController_WR::Attack()
+void CController_WR::Attack(Vec3 vPos)
 {
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
-	m_AttackDesc.AttackMatrix = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
+
+	if (Vec3() != vPos)
+	{
+		m_AttackDesc.vAttackPos = vPos;
+	}
+	else
+	{
+		m_AttackDesc.AttackMatrix = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
+	}
+	
 	pAttack->InitProjectile(&m_AttackDesc);
 }
 

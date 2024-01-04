@@ -1,39 +1,38 @@
 #include "stdafx.h"
-#include "..\Public\State_MG_SongOfWind.h"
+#include "..\Public\State_MG_SongOfHeaven.h"
 #include "StateMachine.h"
 #include "Player_Bard.h"
 #include "Controller_MG.h"
 #include "Player_Skill.h"
 #include "Model.h"
 
-CState_MG_SongOfWind::CState_MG_SongOfWind(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Bard* pOwner)
+CState_MG_SongOfHeaven::CState_MG_SongOfHeaven(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Bard* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
 {
 }
 
-HRESULT CState_MG_SongOfWind::Initialize()
+HRESULT CState_MG_SongOfHeaven::Initialize()
 {
-	m_iSongOfWind = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_windofmusic", 1.2f);
-	if (m_iSongOfWind == -1)
+	m_iSongOfHeaven = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_heavenperformance", 1.2f);
+	if (m_iSongOfHeaven == -1)
 		return E_FAIL;
 
 	if (m_pPlayer->Is_Control())
-		m_TickFunc = &CState_MG_SongOfWind::Tick_State_Control;
+		m_TickFunc = &CState_MG_SongOfHeaven::Tick_State_Control;
 	else
-		m_TickFunc = &CState_MG_SongOfWind::Tick_State_NoneControl;
+		m_TickFunc = &CState_MG_SongOfHeaven::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(15);
-	m_SkillFrames.push_back(25);
+	m_SkillFrames.push_back(30);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;
 }
 
-void CState_MG_SongOfWind::Enter_State()
+void CState_MG_SongOfHeaven::Enter_State()
 {
 	m_iSkillCnt = 0;
 
-	m_pPlayer->Reserve_Animation(m_iSongOfWind, 0.1f, 0, 0);
+	m_pPlayer->Reserve_Animation(m_iSongOfHeaven, 0.1f, 0, 0);
 
 	m_pPlayer->Get_MG_Controller()->Get_StopMessage();
 	m_pPlayer->Get_MG_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -42,30 +41,30 @@ void CState_MG_SongOfWind::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
-void CState_MG_SongOfWind::Tick_State(_float fTimeDelta)
+void CState_MG_SongOfHeaven::Tick_State(_float fTimeDelta)
 {
 	m_TickFunc(*this, fTimeDelta);
 }
 
-void CState_MG_SongOfWind::Exit_State()
+void CState_MG_SongOfHeaven::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 }
 
-void CState_MG_SongOfWind::Tick_State_Control(_float fTimeDelta)
+void CState_MG_SongOfHeaven::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSongOfWind))
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSongOfHeaven))
 	{
 		m_iSkillCnt++;
 		static_cast<CController_MG*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSongOfWind))
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSongOfHeaven))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	
-	if (40 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSongOfWind))
+
+	if (40 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSongOfHeaven))
 	{
 		_uint iIdentity = static_cast<CController_MG*>(m_pController)->Is_MG_Identity();
 
@@ -121,25 +120,25 @@ void CState_MG_SongOfWind::Tick_State_Control(_float fTimeDelta)
 	}
 }
 
-void CState_MG_SongOfWind::Tick_State_NoneControl(_float fTimeDelta)
+void CState_MG_SongOfHeaven::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
-CState_MG_SongOfWind* CState_MG_SongOfWind::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Bard* pOwner)
+CState_MG_SongOfHeaven* CState_MG_SongOfHeaven::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Bard* pOwner)
 {
-	CState_MG_SongOfWind* pInstance = new CState_MG_SongOfWind(strStateName, pMachine, pController, pOwner);
+	CState_MG_SongOfHeaven* pInstance = new CState_MG_SongOfHeaven(strStateName, pMachine, pController, pOwner);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed To Cloned : CState_MG_SongOfWind");
+		MSG_BOX("Failed To Cloned : CState_MG_SongOfHeaven");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CState_MG_SongOfWind::Free()
+void CState_MG_SongOfHeaven::Free()
 {
 	__super::Free();
 }

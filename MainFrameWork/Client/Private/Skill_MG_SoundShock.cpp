@@ -22,7 +22,7 @@ HRESULT CSkill_MG_SoundShock::Initialize(void* pArg)
 
 	m_eAttackType = SKILL_ATTACKTYPE::NORMAL;;
 	m_eCtrlType = SKILL_CTRLTYPE::NORMAL;
-	m_IsSuperArmor = true;
+	m_IsSuperArmor = false;
 
 	PROJECTILE_DESC Proj_Desc;
 	Proj_Desc.pAttackOwner = m_pOwner;

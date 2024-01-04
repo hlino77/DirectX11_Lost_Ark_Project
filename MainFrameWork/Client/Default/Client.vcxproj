@@ -295,9 +295,13 @@
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
     <ClInclude Include="..\Public\State_MG_Dash.h" />
+    <ClInclude Include="..\Public\State_MG_Identity.h" />
+    <ClInclude Include="..\Public\State_MG_Identity_Back.h" />
     <ClInclude Include="..\Public\State_MG_Idle.h" />
     <ClInclude Include="..\Public\State_MG_Run.h" />
     <ClInclude Include="..\Public\State_MG_Sonatine.h" />
+    <ClInclude Include="..\Public\State_MG_SongOfGuard.h" />
+    <ClInclude Include="..\Public\State_MG_SongOfHeaven.h" />
     <ClInclude Include="..\Public\State_MG_SongOfLight_End.h" />
     <ClInclude Include="..\Public\State_MG_SongOfLight_Loop.h" />
     <ClInclude Include="..\Public\State_MG_SongOfStome.h" />
@@ -702,9 +706,13 @@
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Identity.cpp" />
+    <ClCompile Include="..\Private\State_MG_Identity_Back.cpp" />
     <ClCompile Include="..\Private\State_MG_Idle.cpp" />
     <ClCompile Include="..\Private\State_MG_Run.cpp" />
     <ClCompile Include="..\Private\State_MG_Sonatine.cpp" />
+    <ClCompile Include="..\Private\State_MG_SongOfGuard.cpp" />
+    <ClCompile Include="..\Private\State_MG_SongOfHeaven.cpp" />
     <ClCompile Include="..\Private\State_MG_SongOfLight_End.cpp" />
     <ClCompile Include="..\Private\State_MG_SongOfLight_Loop.cpp" />
     <ClCompile Include="..\Private\State_MG_SongOfStome.cpp" />

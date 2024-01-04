@@ -23,6 +23,8 @@
 #include "State_MG_Attack_1.h"
 #include "State_MG_Attack_2.h"
 #include "State_MG_Attack_3.h"
+#include "State_MG_Identity.h"
+#include "State_MG_Identity_Back.h"
 
 /* State_Skill */
 #include "State_MG_SoundShock.h"
@@ -33,6 +35,8 @@
 #include "State_MG_SongOfWind.h"
 #include "State_MG_SonicVibe_Start.h"
 #include "State_MG_SonicVibe_End.h"
+#include "State_MG_SongOfHeaven.h"
+#include "State_MG_SongOfGuard.h"
 
 /* ½ºÅ³ */
 #include "Skill_MG_SoundShock.h"
@@ -200,22 +204,22 @@ void CPlayer_Bard::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			m_pController->Increase_IdenGage(5);
+			m_pController->Increase_IdenGage(1);
 		}
 		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 		{
-			m_pController->Increase_IdenGage(5);
+			m_pController->Increase_IdenGage(1);
 		}
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			m_pController->Increase_IdenGage(30);
+			m_pController->Increase_IdenGage(10);
 		}
 		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 		{
-			m_pController->Increase_IdenGage(30);
+			m_pController->Increase_IdenGage(10);
 		}
 	}
 }
@@ -350,7 +354,11 @@ HRESULT CPlayer_Bard::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Attack_3"), CState_MG_Attack_3::Create(TEXT("Attack_3"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Identity_MG"), CState_MG_Identity::Create(TEXT("Identity_MG"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Identity_MG_Back"), CState_MG_Identity_Back::Create(TEXT("Identity_MG_Back"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Skill_MG_SoundShock"), CState_MG_SoundShock::Create(TEXT("Skill_MG_SoundShock"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
@@ -374,6 +382,15 @@ HRESULT CPlayer_Bard::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Skill_MG_SonicVibe_End"), CState_MG_SonicVibe_End::Create(TEXT("Skill_MG_SonicVibe_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SonicVibe_End"), CState_MG_SonicVibe_End::Create(TEXT("Skill_MG_SonicVibe_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SongOfHeaven"), CState_MG_SongOfHeaven::Create(TEXT("Skill_MG_SongOfHeaven"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_MG_SongOfGuard"), CState_MG_SongOfGuard::Create(TEXT("Skill_MG_SongOfGuard"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 
@@ -433,6 +450,22 @@ HRESULT CPlayer_Bard::Ready_Skill()
 	pSkill = CSkill_MG_SonicVibe::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SongOfHeaven");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SongOfHeaven")));
+	pSkill = CSkill_MG_SongOfHeaven::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SongOfGuard");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SongOfGuard")));
+	pSkill = CSkill_MG_SongOfGuard::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 

@@ -178,10 +178,19 @@ void CPlayer_Controller_GN::Input(const _float& fTimeDelta)
 
 }
 
-void CPlayer_Controller_GN::Attack()
+void CPlayer_Controller_GN::Attack(Vec3 vPos)
 {
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
-	m_AttackDesc.AttackMatrix = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
+
+	if (Vec3() != vPos)
+	{
+		m_AttackDesc.vAttackPos = vPos;
+	}
+	else
+	{
+		m_AttackDesc.AttackMatrix = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
+	}
+
 	pAttack->InitProjectile(&m_AttackDesc);
 }
 

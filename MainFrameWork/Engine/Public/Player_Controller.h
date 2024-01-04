@@ -53,7 +53,7 @@ public:
 	virtual void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f); 
 	virtual void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
 	virtual void		Get_LookMessage(Vec3 vAt);
-	virtual void		Get_AttackMessage() { Attack(); }
+	virtual void		Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	virtual void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
 	virtual void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
 	virtual void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
@@ -100,7 +100,7 @@ protected:
 	virtual void	Look_Lerp(const _float& fTimeDelta);
 	virtual void	Look(Vec3 vAt);
 	virtual void	Input(const _float & fTimeDelta);
-	virtual void	Attack();
+	virtual void	Attack(Vec3 vPos);
 	virtual void	Skill(SKILL_KEY eKey);
 	virtual void	ChangeStat(SKILL_KEY eKey);
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);

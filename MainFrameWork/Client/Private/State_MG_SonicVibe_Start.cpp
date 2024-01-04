@@ -27,7 +27,8 @@ HRESULT CState_MG_SonicVibe_Start::Initialize()
 
 void CState_MG_SonicVibe_Start::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iSonicVibe, 0.1f, 0, 0);
+	if(TEXT("Idle") != m_pPlayer->Get_PreState())
+		m_pPlayer->Reserve_Animation(m_iSonicVibe, 0.1f, 0, 0);
 
 	m_pPlayer->Get_MG_Controller()->Get_StopMessage();
 

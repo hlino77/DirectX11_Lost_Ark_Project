@@ -3231,6 +3231,18 @@
     <ClInclude Include="..\Public\State_MG_SonicVibe_Start.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfGuard.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfGuard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_SongOfHeaven.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfHeaven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Identity.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Identity_Back.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5449,6 +5461,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_SonicVibe_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SonicVibe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfGuard.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfGuard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_SongOfHeaven.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfHeaven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Identity.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Identity_Back.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -32,15 +32,16 @@ public:
 	CPlayer_Skill*  Get_PlayerSkill_MG(SKILL_KEY eKey);
 
 public:
-	virtual void	Get_AttackMessage() { Attack(); }
+	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	void			Get_MG_IdentityMessage();
-	void			Get_MG_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_iIdentityGage -= 10; }
+	void			Get_MG_IdenSkillMessage() { m_iGage = 0; }
 
+	const _uint&	Get_MG_Gage() { return m_iGage; }
 	void			Increase_IdenGage(_uint iGage);
 
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
-	virtual void	Attack() override;
+	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
@@ -52,7 +53,7 @@ private:
 	_int	m_iMaxGage = { 300 };
 	_float  m_fTimdeAcc = { 0.f };
 
-	_uint	m_iBubble = { 0 };
+	_uint	m_iGage = { 0 };
 
 public:
 	static CController_MG* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
