@@ -48,14 +48,18 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         }
         else
         {
-            Out.vMetallic = Out.vDiffuse * (1.f - vSpecular);
-            Out.vRoughness = Out.vDiffuse * vSpecular;
+            //Out.vMetallic = smoothstep(0.f, 1.f, pow(vSpecular.r - 0.01f, 5.f));
+            Out.vMetallic = 1.2f * vSpecular.r;
+            Out.vRoughness = pow(vSpecular.b, 3.f);
+            
+            //Out.vMetallic = Out.vDiffuse * vSpecular;
+            //Out.vRoughness = Out.vDiffuse * (1.f - vSpecular);
         }
     }
     else
     {
         Out.vMetallic = EPSILON;
-        Out.vRoughness = Out.vDiffuse;
+        Out.vRoughness = 1.f;
     }
 
     if (1.f == SpecMaskEmisExtr.z)

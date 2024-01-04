@@ -308,9 +308,10 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
     float3	N = vNormal.xyz * 2.f - 1.f;
 	float4	vMetallic = g_MetallicTarget.Sample(LinearSampler, In.vTexcoord);
-    float	fMetallic = vMetallic.x /* 임시 */ * 0.8f;
-	float	fRimLight = vMetallic.w;
-    float	fRoughness = g_RoughnessTarget.Sample(LinearSampler, In.vTexcoord).x;
+    
+    float fMetallic = vMetallic.x /* 임시 */ /* * 0.8f*/;
+	float fRimLight = vMetallic.w;
+    float fRoughness = g_RoughnessTarget.Sample(LinearSampler, In.vTexcoord).x;
 	
     float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 	
@@ -331,10 +332,10 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
     vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 	
-    float3 V = normalize(CameraPosition() - vWorldPos.xyz);
+    float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
 	
-    float3 vSpecular = float3(0.04f, 0.04f, 0.04f);
-    vSpecular = lerp(vSpecular, vAlbedo.xyz, fMetallic);
+    float3 F0 = float3(0.04f, 0.04f, 0.04f);
+    F0 = lerp(F0, vAlbedo.xyz, fMetallic); // 반사율 F0
 
 	// calculate per-light radiance
     float3 L = -g_vLightDir;
@@ -344,21 +345,24 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float3 vIrradiance = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
     float3 vDiffuse = vIrradiance * vAlbedo.xyz;
 	
-    float3 vBRDF_factor = BRDF(fRoughness, fMetallic, vDiffuse, vSpecular, N, V, L, H);
+    float3 vBRDF_factor = BRDF(fRoughness, fMetallic, vDiffuse, F0, N, V, L, H);
     float3 vColor = float3(0.f, 0.f, 0.f);
-    vColor += g_vLightDiffuse.rgb * /*shadow * */vBRDF_factor;
+    vColor += g_vLightDiffuse.rgb * /*shadow * */vBRDF_factor * fAO;
+    //vColor = vColor / (vColor + float3(1.f, 1.f, 1.f));
+    vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
 	
-    float3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), vDiffuse, fRoughness);
-
-    float3 kS = F;
-    float3 kD = 1.0f - kS;
-    kD *= 1.0f - fMetallic;
+    //float3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), vDiffuse, fRoughness);
+    
+    //float3 kS = F;
+    //float3 kD = 1.0f - kS;
+    //kD *= 1.0f - fMetallic;
 	
-    float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;  
+    //float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;  
 	
     float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
 	
-    vColor = vAmbient + vColor + vEmissive;
+    //vColor = vAmbient + vColor + vEmissive;
+    vColor += vEmissive;
 
 	if (fRimLight != 0.0f)
 	{
