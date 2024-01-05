@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
-#include "Player_Select_GN.h"
+#include "Player_Select_WDR.h"
 #include "Key_Manager.h"
 #include "Camera_Player.h"
 #include "ServerSessionManager.h"
@@ -14,33 +14,33 @@
 #include "ColliderSphereGroup.h"
 #include "Player_Skill.h"
 
-CPlayer_Select_GN::CPlayer_Select_GN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPlayer_Select_WDR::CPlayer_Select_WDR(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer_Select(pDevice, pContext)
 {
 }
 
-CPlayer_Select_GN::CPlayer_Select_GN(const CPlayer_Select_GN& rhs)
+CPlayer_Select_WDR::CPlayer_Select_WDR(const CPlayer_Select_WDR& rhs)
 	: CPlayer_Select(rhs)
 {
 }
 
-HRESULT CPlayer_Select_GN::Initialize_Prototype()
+HRESULT CPlayer_Select_WDR::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CPlayer_Select_GN::Initialize(void* pArg)
+HRESULT CPlayer_Select_WDR::Initialize(void* pArg)
 {
-	m_strObjectTag = TEXT("Gunslinger");
+	m_strObjectTag = TEXT("WDR");
 
 	__super::Initialize(pArg);
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
-	m_vSelectPos = Vec3(-0.2f, 0.04f, 0.642f);
+	m_vSelectPos = Vec3(0.4f, 0.04f, 0.927f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSelectPos);
-	m_pTransformCom->My_Rotation(Vec3(0.f, 140.f, 0.f));
+	m_pTransformCom->My_Rotation(Vec3(0.f, 170.f, 0.f));
 
 	m_iSelectAnim_Normal = m_pModelCom->Initailize_FindAnimation(L"characterdeselection_normal_loop_1", 1.0f);
 	if (m_iSelectAnim_Normal == -1)
@@ -64,7 +64,7 @@ HRESULT CPlayer_Select_GN::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPlayer_Select_GN::Tick(_float fTimeDelta)
+void CPlayer_Select_WDR::Tick(_float fTimeDelta)
 {
 	if (m_iSelectAnim != m_iSelectAnim_Normal && m_pModelCom->Is_AnimationEnd(m_iSelectAnim))
 	{
@@ -83,7 +83,7 @@ void CPlayer_Select_GN::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 }
 
-void CPlayer_Select_GN::LateTick(_float fTimeDelta)
+void CPlayer_Select_WDR::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
@@ -91,7 +91,7 @@ void CPlayer_Select_GN::LateTick(_float fTimeDelta)
 
 }
 
-HRESULT CPlayer_Select_GN::Render()
+HRESULT CPlayer_Select_WDR::Render()
 {
 	__super::Render();
 
@@ -111,7 +111,7 @@ HRESULT CPlayer_Select_GN::Render()
 	return S_OK;
 }
 
-HRESULT CPlayer_Select_GN::Render_ShadowDepth()
+HRESULT CPlayer_Select_WDR::Render_ShadowDepth()
 {
 	__super::Render_ShadowDepth();
 
@@ -137,7 +137,7 @@ HRESULT CPlayer_Select_GN::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CPlayer_Select_GN::Set_Colliders(_float fTimeDelta)
+void CPlayer_Select_WDR::Set_Colliders(_float fTimeDelta)
 {
 	for (auto& Collider : m_Coliders)
 	{
@@ -146,28 +146,23 @@ void CPlayer_Select_GN::Set_Colliders(_float fTimeDelta)
 	}
 }
 
-HRESULT CPlayer_Select_GN::Ready_Components()
+HRESULT CPlayer_Select_WDR::Ready_Components()
 {
 	__super::Ready_Components();
 
 	/* 초기 장비 및 얼굴 설정 */
-	CModel::CHANGECOLOR pChangeColor;
-	pChangeColor.vColor_R = Vec4(1.f, 1.f, 1.f, 1.f);
-	pChangeColor.vColor_G = Vec4(1.f, 0.01f, 0.f, 0.692807f);
-	pChangeColor.vColor_B = Vec4(0.01f, 1.f, 0.24f, 0.587838f);
-
-	wstring strComName = L"Prototype_Component_Model_GN_Head_Mococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET], &pChangeColor)))
+	wstring strComName = L"Prototype_Component_Model_WDR_Head_BaseMococo";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
 		return E_FAIL;
 
-	strComName = L"Prototype_Component_Model_GN_Body_Mococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY], &pChangeColor)))
-		return E_FAIL; 
+	strComName = L"Prototype_Component_Model_WDR_Body_BaseMococo";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
+		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CPlayer_Select_GN::Ready_Coliders()
+HRESULT CPlayer_Select_WDR::Ready_Coliders()
 {
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->SetActive(true);
@@ -193,33 +188,33 @@ HRESULT CPlayer_Select_GN::Ready_Coliders()
 	return S_OK;
 }
 
-CPlayer_Select_GN* CPlayer_Select_GN::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPlayer_Select_WDR* CPlayer_Select_WDR::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CPlayer_Select_GN* pInstance = new CPlayer_Select_GN(pDevice, pContext);
+	CPlayer_Select_WDR* pInstance = new CPlayer_Select_WDR(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CPlayer_Select_GN");
+		MSG_BOX("Failed To Created : CPlayer_Select_WDR");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CPlayer_Select_GN::Clone(void* pArg)
+CGameObject* CPlayer_Select_WDR::Clone(void* pArg)
 {
-	CPlayer_Select_GN* pInstance = new CPlayer_Select_GN(*this);
+	CPlayer_Select_WDR* pInstance = new CPlayer_Select_WDR(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CPlayer_Select_GN");
+		MSG_BOX("Failed To Cloned : CPlayer_Select_WDR");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CPlayer_Select_GN::Free()
+void CPlayer_Select_WDR::Free()
 {
 	__super::Free();
 }

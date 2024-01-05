@@ -249,6 +249,8 @@
     <ClInclude Include="..\Public\Player_Destroyer.h" />
     <ClInclude Include="..\Public\Player_Select.h" />
     <ClInclude Include="..\Public\Player_Select_GN.h" />
+    <ClInclude Include="..\Public\Player_Select_MG.h" />
+    <ClInclude Include="..\Public\Player_Select_WDR.h" />
     <ClInclude Include="..\Public\Player_Select_WR.h" />
     <ClInclude Include="..\Public\Player_Slayer.h" />
     <ClInclude Include="..\Public\Projectile.h" />
@@ -671,6 +673,8 @@
     <ClCompile Include="..\Private\Player_Destroyer.cpp" />
     <ClCompile Include="..\Private\Player_Select.cpp" />
     <ClCompile Include="..\Private\Player_Select_GN.cpp" />
+    <ClCompile Include="..\Private\Player_Select_MG.cpp" />
+    <ClCompile Include="..\Private\Player_Select_WDR.cpp" />
     <ClCompile Include="..\Private\Player_Select_WR.cpp" />
     <ClCompile Include="..\Private\Player_Slayer.cpp" />
     <ClCompile Include="..\Private\Projectile.cpp" />

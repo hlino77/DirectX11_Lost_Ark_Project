@@ -984,7 +984,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SoundShock">
       <UniqueIdentifier>{0bf5c998-75eb-4bac-b900-729a2d1bc152}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\03.Bard">
       <UniqueIdentifier>{9d6a79e9-620d-45d7-836c-aef4d89804c9}</UniqueIdentifier>
     </Filter>
@@ -1035,6 +1035,12 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\02.ETCSlot">
       <UniqueIdentifier>{7bf0f105-e25d-4849-96e5-0d0c3085df11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Destroyer">
+      <UniqueIdentifier>{dfe85bd2-5e8c-477a-831c-804f18537c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Bard">
+      <UniqueIdentifier>{52feb653-c91e-4682-8482-704c974d39c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3302,7 +3308,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_MG_Identity_Back.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeFrame.h">
       <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame</Filter>
     </ClInclude>
@@ -3329,6 +3335,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_ETCIcon_Frame.h">
       <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Select_MG.h">
+      <Filter>02.GameObjects\Player\Player_Select\Bard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Select_WDR.h">
+      <Filter>02.GameObjects\Player\Player_Select\Destroyer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5566,7 +5578,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_Identity_Back.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp">
       <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame</Filter>
     </ClCompile>
@@ -5593,6 +5605,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp">
       <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Select_MG.cpp">
+      <Filter>02.GameObjects\Player\Player_Select\Bard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Select_WDR.cpp">
+      <Filter>02.GameObjects\Player\Player_Select\Destroyer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -70,7 +70,16 @@ void CSphereCollider::DebugRender()
 }
 _bool CSphereCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 {
-	return m_tBoundingSphere.Intersects(ray.position, ray.direction, OUT distance);
+	if (m_tBoundingSphere.Intersects(ray.position, ray.direction, OUT distance) == false)
+		return false;
+
+	if (m_pChild)
+	{
+		if (m_pChild->Intersects(ray, distance) == false)
+			return false;
+	}
+
+	return true;
 }
 
 _bool CSphereCollider::Intersects(Super* other)

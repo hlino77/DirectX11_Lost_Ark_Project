@@ -132,6 +132,12 @@
 
 #include "VoidEffect.h"
 
+//Lobby MQ
+#include "Player_Select_GN.h"
+#include "Player_Select_MG.h"
+#include "Player_Select_WDR.h"
+#include "Player_Select_WR.h"
+
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -568,7 +574,6 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ServerEntranceButton"),
 		CUI_ServerEntranceButton::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_TextBox"),
 	//	CUI_TextBox::Create(m_pDevice, m_pContext))))
 	//	return E_FAIL;
@@ -581,6 +586,9 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	/*if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingUI"),
 		CUI_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;*/
+
+
+
 
 	Safe_Release(pGameInstance);
 
@@ -614,6 +622,23 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
 
 	Loading_Model_For_Level_Lobby();
+
+	//Mannequin
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_GN"),
+		CPlayer_Select_GN::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_WR"),
+		CPlayer_Select_WR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_WDR"),
+		CPlayer_Select_WDR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_MG"),
+		CPlayer_Select_MG::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 	Safe_Release(pGameInstance);
@@ -1705,8 +1730,6 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
-	
-
 	/* 플레이어 */
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
@@ -1724,7 +1747,6 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	}
 
 	{
-
 		m_Futures.push_back(std::async([=]()->HRESULT
 			{
 				wstring strFileName = L"WR";
@@ -1870,8 +1892,6 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 	}
-
-	
 
 	Safe_Release(pGameInstance);
 	return S_OK;

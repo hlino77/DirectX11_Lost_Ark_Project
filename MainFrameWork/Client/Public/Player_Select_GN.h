@@ -28,7 +28,6 @@ public:
 private:
 	virtual HRESULT Ready_Components() override;
 	HRESULT			Ready_Coliders();
-	HRESULT			Ready_PhysxBoneBranch();
 
 public:
 	static CPlayer_Select_GN* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

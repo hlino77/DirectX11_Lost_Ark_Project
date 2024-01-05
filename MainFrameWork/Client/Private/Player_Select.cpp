@@ -39,15 +39,6 @@ HRESULT CPlayer_Select::Initialize_Prototype()
 
 HRESULT CPlayer_Select::Initialize(void* pArg)
 {
-	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	m_strObjectTag = Desc->strFileName;
-	m_bControl = Desc->bControl;
-	m_iObjectID = Desc->iObjectID;
-	m_iLayer = Desc->iLayer;
-	m_iWeaponIndex = Desc->iWeaponIndex;
-	m_szNickName = Desc->szNickName;
-	m_iCurrLevel = Desc->iCurrLevel;
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -58,6 +49,18 @@ HRESULT CPlayer_Select::Initialize(void* pArg)
 
 void CPlayer_Select::Tick(_float fTimeDelta)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		if (true == Intersect_Mouse())
+		{
+			Clicked();
+		}
+		else
+		{
+			Unclicked();
+		}
+	}
+
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 }
 
@@ -76,11 +79,12 @@ void CPlayer_Select::LateTick(_float fTimeDelta)
 				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
 	}
 
-	/*if (m_bControl)
+	if (m_bRender)
 	{
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		CGameInstance::GetInstance()->Update_LightMatrix(vPos);
-	}*/
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		m_pRendererCom->Add_DebugObject(this);
+	}
 
 	if (m_bRimLight)
 	{
@@ -133,10 +137,62 @@ HRESULT CPlayer_Select::Render_Debug()
 		{
 			Colider.second->DebugRender();
 		}
-
 	}
 
 	return S_OK;
+}
+
+_bool CPlayer_Select::Intersect_Mouse()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	_float viewX = (+2.0f * pt.x / g_iWinSizeX - 1.0f) / m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ)(0, 0);
+	_float viewY = (-2.0f * pt.y / g_iWinSizeY + 1.0f) / m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ)(1, 1);
+
+	Vec4 vRayOrigin = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	Vec4 vRayDir = Vec4(viewX, viewY, 1.0f, 0.0f);
+
+	Vec3 vWorldRayOrigin = XMVector3TransformCoord(vRayOrigin, m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW));
+	Vec3 vWorldRayDir = XMVector3TransformNormal(vRayDir, m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW));
+	vWorldRayDir.Normalize();
+
+	Ray MouseRay = Ray(vWorldRayOrigin, vWorldRayDir);
+
+	_float fDist;
+	for (auto& Colider : m_Coliders)
+	{
+		if (Colider.second->IsActive())
+		{
+			return Colider.second->Intersects(MouseRay, fDist);
+		}
+
+	}
+
+	return false;
+}
+
+void CPlayer_Select::Clicked()
+{
+	if (true == m_bSelected)
+		return;
+
+	m_bSelected = true;
+
+	m_iSelectAnim = m_iSelectAnim_Start;
+	Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
+}
+
+void CPlayer_Select::Unclicked()
+{
+	m_bSelected = false;
+
+	if (m_iSelectAnim == m_iSelectAnim_Loop || m_iSelectAnim == m_iSelectAnim_Start)
+	{
+		m_iSelectAnim = m_iSelectAnim_End;
+		Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
+	}
 }
 
 HRESULT CPlayer_Select::Ready_Components()
@@ -162,16 +218,6 @@ HRESULT CPlayer_Select::Ready_Components()
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_AnimModel"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	///* For.Com_State */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StateMachine"),
-		TEXT("Com_StateMachine"), (CComponent**)&m_pStateMachine)))
-		return E_FAIL;
-
-	///* For.Com_RigidBody */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_RigidBody"),
-		TEXT("Com_RigidBody"), (CComponent**)&m_pRigidBody)))
 		return E_FAIL;
 
 	///* For.Com_Model */
@@ -208,9 +254,9 @@ HRESULT CPlayer_Select::Ready_Components()
 	RELEASE_INSTANCE(CGameInstance);
 
 	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
+	vScale.x = 0.005f;
+	vScale.y = 0.005f;
+	vScale.z = 0.005f;
 
 	m_pTransformCom->Set_Scale(vScale);
 

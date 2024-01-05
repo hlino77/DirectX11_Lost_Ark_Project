@@ -16,6 +16,7 @@
 #include <filesystem>
 #include "QuadTreeMgr.h"
 #include "Engine_Defines.h"
+#include "Player_Select.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -39,6 +40,9 @@ HRESULT CLevel_Lobby::Initialize()
 	if (FAILED(Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Mannequin()))
+		return E_FAIL;
+
 	Start_QuadTree();
 
 	m_bConnect = false;
@@ -48,14 +52,15 @@ HRESULT CLevel_Lobby::Initialize()
 
 HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
+	Select_Player();
 
-	if (KEY_HOLD(KEY::ENTER) && KEY_TAP(KEY::NUM_1))
+	if (KEY_HOLD(KEY::ENTER) && m_eSelectClass != CHR_CLASS::CLASSEND)
 	{
 		if (m_bConnect == false)
 		{
 			m_bConnect = true;
 
-			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::SLAYER);
+			CServerSessionManager::GetInstance()->Set_Class((_uint)m_eSelectClass);
 			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
 
 
@@ -87,119 +92,7 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 		return S_OK;
 	}
 
-	if (KEY_HOLD(KEY::ENTER) && KEY_TAP(KEY::NUM_2))
-	{
-		if (m_bConnect == false)
-		{
-			m_bConnect = true;
-
-			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::GUNSLINGER);
-			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
-
-
-			SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));
-
-			CClientPacketHandler::Init();
-
-			this_thread::sleep_for(1s);
-
-			ClientServiceRef service = make_shared<ClientService>(
-				NetAddress(SERVER_IP, SERVER_PORT),
-				make_shared<IocpCore>(),
-				make_shared<CServerSession>, // TODO : SessionManager 등
-				1);
-
-			ASSERT_CRASH(service->Start());
-
-			for (int32 i = 0; i < 3; i++)
-			{
-				ThreadManager::GetInstance()->Launch([=]()
-				{
-					while (true)
-					{
-						service->GetIocpCore()->Dispatch();
-					}
-				});
-			}
-		}
-		return S_OK;
-	}
-
-	if (KEY_HOLD(KEY::ENTER) && KEY_TAP(KEY::NUM_3))
-	{
-		if (m_bConnect == false)
-		{
-			m_bConnect = true;
-
-			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::DESTROYER);
-			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
-
-
-			SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));
-
-			CClientPacketHandler::Init();
-
-			this_thread::sleep_for(1s);
-
-			ClientServiceRef service = make_shared<ClientService>(
-				NetAddress(SERVER_IP, SERVER_PORT),
-				make_shared<IocpCore>(),
-				make_shared<CServerSession>, // TODO : SessionManager 등
-				1);
-
-			ASSERT_CRASH(service->Start());
-
-			for (int32 i = 0; i < 3; i++)
-			{
-				ThreadManager::GetInstance()->Launch([=]()
-				{
-					while (true)
-					{
-						service->GetIocpCore()->Dispatch();
-					}
-				});
-			}
-		}
-		return S_OK;
-	}
-
-	if (KEY_HOLD(KEY::ENTER) && KEY_TAP(KEY::NUM_4))
-	{
-		if (m_bConnect == false)
-		{
-			m_bConnect = true;
-
-			CServerSessionManager::GetInstance()->Set_Class((_uint)CHR_CLASS::BARD);
-			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
-
-
-			SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));
-
-			CClientPacketHandler::Init();
-
-			this_thread::sleep_for(1s);
-
-			ClientServiceRef service = make_shared<ClientService>(
-				NetAddress(SERVER_IP, SERVER_PORT),
-				make_shared<IocpCore>(),
-				make_shared<CServerSession>, // TODO : SessionManager 등
-				1);
-
-			ASSERT_CRASH(service->Start());
-
-			for (int32 i = 0; i < 3; i++)
-			{
-				ThreadManager::GetInstance()->Launch([=]()
-				{
-					while (true)
-					{
-						service->GetIocpCore()->Dispatch();
-					}
-				});
-			}
-		}
-		return S_OK;
-	}
+	
 	return S_OK;
 }
 
@@ -406,6 +299,63 @@ HRESULT CLevel_Lobby::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	return S_OK;
 }
 
+HRESULT CLevel_Lobby::Ready_Mannequin()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CGameObject* pObject = pGameInstance->Add_GameObject(LEVEL_LOBBY, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player_Select_GN"));
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pPC_Select[(_uint)CHR_CLASS::GUNSLINGER] = pObject;
+
+	pObject = pGameInstance->Add_GameObject(LEVEL_LOBBY, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player_Select_WR"));
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pPC_Select[(_uint)CHR_CLASS::SLAYER] = pObject;
+
+	pObject = pGameInstance->Add_GameObject(LEVEL_LOBBY, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player_Select_WDR"));
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pPC_Select[(_uint)CHR_CLASS::DESTROYER] = pObject;
+
+	pObject = pGameInstance->Add_GameObject(LEVEL_LOBBY, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player_Select_MG"));
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pPC_Select[(_uint)CHR_CLASS::BARD] = pObject;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+void CLevel_Lobby::Select_Player()
+{
+	if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::GUNSLINGER])->Is_Selected())
+	{
+		m_eSelectClass = CHR_CLASS::GUNSLINGER;
+	}
+	else if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::SLAYER])->Is_Selected())
+	{
+		m_eSelectClass = CHR_CLASS::SLAYER;
+	}
+	else if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::DESTROYER])->Is_Selected())
+	{
+		m_eSelectClass = CHR_CLASS::DESTROYER;
+	}
+	else if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::BARD])->Is_Selected())
+	{
+		m_eSelectClass = CHR_CLASS::BARD;
+	}
+	else
+	{
+		m_eSelectClass = CHR_CLASS::CLASSEND;
+	}
+}
+
 void CLevel_Lobby::Start_QuadTree()
 {
 	m_pQuadTreeThread = new thread([=]()
@@ -454,6 +404,7 @@ void CLevel_Lobby::End_QuadTree()
 	CQuadTreeMgr::GetInstance()->Reset_QaudTree();
 	Safe_Delete(m_pQuadTreeThread);
 }
+
 
 CLevel_Lobby * CLevel_Lobby::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

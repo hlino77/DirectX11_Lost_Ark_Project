@@ -5,14 +5,14 @@ BEGIN(Client)
 
 class CLineCircle;
 
-class CPlayer_Select_WR : public CPlayer_Select
+class CPlayer_Select_WDR : public CPlayer_Select
 {
 public:
 
 private:
-	CPlayer_Select_WR(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPlayer_Select_WR(const CPlayer_Select_WR& rhs);
-	virtual ~CPlayer_Select_WR() = default;
+	CPlayer_Select_WDR(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CPlayer_Select_WDR(const CPlayer_Select_WDR& rhs);
+	virtual ~CPlayer_Select_WDR() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -28,9 +28,9 @@ public:
 private:
 	virtual HRESULT Ready_Components() override;
 	HRESULT			Ready_Coliders();
-	
+
 public:
-	static CPlayer_Select_WR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CPlayer_Select_WDR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 
