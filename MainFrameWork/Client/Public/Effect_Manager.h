@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Base.h"
 #include "hasher.h"
+#include "Delegate.h"
 
 BEGIN(Engine)
 

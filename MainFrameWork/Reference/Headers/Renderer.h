@@ -21,7 +21,7 @@ public:
 	}MAKESRV;
 
 public:
-	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BLEND, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_MOUSE, RENDER_END };
+	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, RENDER_NONBLEND, RENDER_EFFECT, RENDER_SHADOW, RENDER_BLEND, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_MOUSE, RENDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -54,6 +54,7 @@ private:
 
 	HRESULT Render_StaticShadow();
 	HRESULT Render_NonAlphaBlend();
+	HRESULT Render_Effect();
 	HRESULT	Render_ShadowDepth();
 	HRESULT Render_Lights();
 	HRESULT Render_LightAcc();
@@ -177,9 +178,9 @@ private:
 		Vec2	vPadding;
 	};
 
-	_float m_fSampleRatio4x4 = 4.f;
-	_float m_fSampleRatio16x16 = 24.f;
-	_float m_fSampleRatio64x64 = 144.f;
+	_float m_fSampleRatio4x4 = 5.f;
+	_float m_fSampleRatio16x16 = 25.f;
+	_float m_fSampleRatio64x64 = 125.f;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

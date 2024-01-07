@@ -48,12 +48,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         }
         else
         {
-            //Out.vMetallic = smoothstep(0.f, 1.f, pow(vSpecular.r - 0.01f, 5.f));
-            Out.vMetallic = 1.2f * vSpecular.r;
-            Out.vRoughness = pow(vSpecular.b, 3.f);
-            
-            //Out.vMetallic = Out.vDiffuse * vSpecular;
-            //Out.vRoughness = Out.vDiffuse * (1.f - vSpecular);
+            Out.vMetallic = 1.1f * vSpecular * Out.vDiffuse;
+            Out.vRoughness = 1.f - vSpecular;
         }
     }
     else
@@ -93,6 +89,17 @@ technique11 DefaultTechnique
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR();
+    }
+
+    pass PBRInstance_Alpha // 0
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;

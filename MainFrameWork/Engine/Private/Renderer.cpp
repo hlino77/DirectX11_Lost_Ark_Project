@@ -63,7 +63,15 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Emissive"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_EffectAlphaBlend"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
 	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_EffectEmissive"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -80,7 +88,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 	
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSAO_Blur_V"),
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSAO_Blur_HV"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
@@ -94,24 +102,24 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	// Bloom
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomDownSample1"),
-		ViewportDesc.Width / m_fSampleRatio4x4, ViewportDesc.Height / m_fSampleRatio4x4, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	// ViewportDesc.Width, ViewportDesc.Height 요거 조절 할 것
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomDownSample2"),
-		ViewportDesc.Width / m_fSampleRatio16x16, ViewportDesc.Height / m_fSampleRatio16x16, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio25x25, ViewportDesc.Height / m_fSampleRatio25x25, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomDownSample3"),
-		ViewportDesc.Width / m_fSampleRatio64x64, ViewportDesc.Height / m_fSampleRatio64x64, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio125x125, ViewportDesc.Height / m_fSampleRatio125x125, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample1"),
-		ViewportDesc.Width / m_fSampleRatio16x16, ViewportDesc.Height / m_fSampleRatio16x16, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio25x25, ViewportDesc.Height / m_fSampleRatio25x25, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample2"),
-		ViewportDesc.Width / m_fSampleRatio4x4, ViewportDesc.Height / m_fSampleRatio4x4, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample3"),
@@ -124,27 +132,27 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_H_4x4"),
-		ViewportDesc.Width / m_fSampleRatio4x4, ViewportDesc.Height / m_fSampleRatio4x4, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_HV_4x4"),
-		ViewportDesc.Width / m_fSampleRatio4x4, ViewportDesc.Height / m_fSampleRatio4x4, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_H_24x24"),
-		ViewportDesc.Width / m_fSampleRatio16x16, ViewportDesc.Height / m_fSampleRatio16x16, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio25x25, ViewportDesc.Height / m_fSampleRatio25x25, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_HV_24x24"),
-		ViewportDesc.Width / m_fSampleRatio16x16, ViewportDesc.Height / m_fSampleRatio16x16, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio25x25, ViewportDesc.Height / m_fSampleRatio25x25, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_H_144x144"),
-		ViewportDesc.Width / m_fSampleRatio64x64, ViewportDesc.Height / m_fSampleRatio64x64, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio125x125, ViewportDesc.Height / m_fSampleRatio125x125, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_HV_144x144"),
-		ViewportDesc.Width / m_fSampleRatio64x64, ViewportDesc.Height / m_fSampleRatio64x64, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width / m_fSampleRatio125x125, ViewportDesc.Height / m_fSampleRatio125x125, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlendBloom"),
@@ -193,9 +201,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_StaticShadowDepth"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectAlphaBlend"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_V"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectEmissive"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;*/
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;*/
@@ -232,11 +244,17 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Emissive"))))
 		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectAlphaBlend"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectEmissive"))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO"), TEXT("Target_SSAO"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_H"), TEXT("Target_SSAO_Blur_H"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_V"), TEXT("Target_SSAO_Blur_V"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_V"), TEXT("Target_SSAO_Blur_HV"))))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bright"), TEXT("Target_Bright"))))
@@ -271,7 +289,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlendBloom"), TEXT("Target_BlendBloom"))))
 		return E_FAIL;
 
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
@@ -289,10 +306,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	//BlurEffect
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectDiffuse"))))
+	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectDiffuse"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectBlur"))))
-		return E_FAIL;
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_EffectBlurX"), TEXT("Target_EffectBlurX"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_EffectBlurY"), TEXT("Target_EffectBlur"))))
@@ -444,6 +461,8 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_NonAlphaBlend()))
 		return E_FAIL;
+	if (FAILED(Render_Effect()))
+		return E_FAIL;
 	if (FAILED(Render_ShadowDepth()))
 		return E_FAIL;
 	if (FAILED(Render_Lights()))
@@ -452,6 +471,7 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_SSAO()))
 		return E_FAIL;
+
 	if (FAILED(Render_Bloom()))
 		return E_FAIL;
 	if (FAILED(Render_Deferred()))
@@ -731,6 +751,25 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_Effect()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Effects"))))
+		return E_FAIL;
+
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_EFFECT])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_EFFECT].clear();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_Lights()
 {
 	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_LIGHT])
@@ -904,7 +943,7 @@ HRESULT CRenderer::Render_SSAO()
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO_Blur_H"))))
 			return E_FAIL;
 
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_SSAO_Blur_V"), "g_SSAOBlurTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSAOShader, TEXT("Target_SSAO_Blur_HV"), "g_SSAOBlurTarget")))
 			return E_FAIL;
 
 		if (FAILED(m_pSSAOShader->Begin("SSAO_Blur_H")))
@@ -959,7 +998,7 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_bSSAO", &m_iSSAO_Switch, sizeof(_int))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_V"), "g_SSAOBlurTarget")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_HV"), "g_SSAOBlurTarget")))
 		return E_FAIL;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::B))
@@ -1054,10 +1093,10 @@ HRESULT CRenderer::Render_Bloom()
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;*/
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample1"), m_pDownSample4x4_DSV)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample1"), m_pDownSample5x5_DSV)))
 		return E_FAIL;
 
-	//m_pContext->ClearDepthStencilView(m_pDownSample4x4_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	//m_pContext->ClearDepthStencilView(m_pDownSample5x5_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	if (FAILED(m_pBloomShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)) ||
 		FAILED(m_pBloomShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)) ||
 		FAILED(m_pBloomShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
@@ -1071,54 +1110,55 @@ HRESULT CRenderer::Render_Bloom()
 	_float fOriginalWidth = ViewportDesc.Width;
 	_float fOriginalHeight = ViewportDesc.Height;
 
-	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio4x4;
-	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio4x4;
+	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio5x5;
+	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio5x5;
 	
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_Emissive"), "g_BloomBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_EffectEmissive"), "g_EffectBloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("DownSample_Bright")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 	// 1
 
-	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio16x16;
-	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio16x16;
+	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio25x25;
+	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio25x25;
 
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample2"), m_pDownSample24x24_DSV)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample2"), m_pDownSample25x25_DSV)))
 		return E_FAIL;
 	    
-	//m_pContext->ClearDepthStencilView(m_pDownSample24x24_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	//m_pContext->ClearDepthStencilView(m_pDownSample25x25_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample1"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("DownSample")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 	// 2
 
-	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio64x64;
-	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio64x64;
+	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio125x125;
+	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio125x125;
 
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample3"), m_pDownSample144x144_DSV)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample3"), m_pDownSample125x125_DSV)))
 		return E_FAIL;
 
-	//m_pContext->ClearDepthStencilView(m_pDownSample144x144_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	//m_pContext->ClearDepthStencilView(m_pDownSample125x125_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample2"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("DownSample")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 	// 3
 
-	tagPerFrame tBloomData = { m_fSampleRatio64x64 / fOriginalWidth, m_fSampleRatio64x64 / fOriginalHeight };
+	tagPerFrame tBloomData = { m_fSampleRatio125x125 / fOriginalWidth, m_fSampleRatio125x125 / fOriginalHeight };
 	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
 		return E_FAIL;
 	// 144x144에서 블러
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_144x144"), m_pDownSample144x144_DSV)) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_144x144"), m_pDownSample125x125_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample3"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_144x144"), m_pDownSample144x144_DSV)) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_144x144"), m_pDownSample125x125_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_H_144x144"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurV")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -1127,15 +1167,15 @@ HRESULT CRenderer::Render_Bloom()
 	
 	// 여기부터 UpSample
 
-	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio16x16;
-	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio16x16;
+	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio25x25;
+	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio25x25;
 	// 6x6 Up
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomUpSample1"), m_pDownSample24x24_DSV)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomUpSample1"), m_pDownSample25x25_DSV)))
 		return E_FAIL;
 
 	// Target_BloomBlur_HV 얘가 날아가는건지 안뜸.
-	//m_pContext->ClearDepthStencilView(m_pDownSample24x24_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	//m_pContext->ClearDepthStencilView(m_pDownSample25x25_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample2"), "g_BloomBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_HV_144x144"), "g_DownSampledTarget")) ||
 		FAILED(m_pBloomShader->Begin("UpSample")) || FAILED(m_pVIBuffer->Render()) ||
@@ -1145,29 +1185,29 @@ HRESULT CRenderer::Render_Bloom()
 
 
 	// 24x24에서 블러
-	tBloomData = { m_fSampleRatio16x16 / fOriginalWidth, m_fSampleRatio16x16 / fOriginalHeight };
+	tBloomData = { m_fSampleRatio25x25 / fOriginalWidth, m_fSampleRatio25x25 / fOriginalHeight };
 	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_24x24"), m_pDownSample24x24_DSV)) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_24x24"), m_pDownSample25x25_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomUpSample1"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_24x24"), m_pDownSample24x24_DSV)) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_24x24"), m_pDownSample25x25_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_H_24x24"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurV")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 	// 6
 
-	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio4x4;
-	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio4x4;
+	ViewportDesc.Width = fOriginalWidth / m_fSampleRatio5x5;
+	ViewportDesc.Height = fOriginalHeight / m_fSampleRatio5x5;
 	// 6x6 up
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomUpSample2"), m_pDownSample4x4_DSV)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomUpSample2"), m_pDownSample5x5_DSV)))
 		return E_FAIL;
 
-	//m_pContext->ClearDepthStencilView(m_pDownSample4x4_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	//m_pContext->ClearDepthStencilView(m_pDownSample5x5_DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomDownSample1"), "g_BloomBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_HV_24x24"), "g_DownSampledTarget")) ||
 		FAILED(m_pBloomShader->Begin("UpSample")) || FAILED(m_pVIBuffer->Render()) ||
@@ -1176,15 +1216,15 @@ HRESULT CRenderer::Render_Bloom()
 	//7
 
 	// 4x4에서 블러
-	tBloomData = { m_fSampleRatio4x4 / fOriginalWidth, m_fSampleRatio4x4 / fOriginalHeight };
+	tBloomData = { m_fSampleRatio5x5 / fOriginalWidth, m_fSampleRatio5x5 / fOriginalHeight };
 	if (FAILED(m_pBloomShader->Bind_CBuffer("PerFrame", &tBloomData, sizeof(tagPerFrame))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_4x4"), m_pDownSample4x4_DSV)) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_H_4x4"), m_pDownSample5x5_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomUpSample2"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_4x4"), m_pDownSample4x4_DSV)) ||
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomBlur_HV_4x4"), m_pDownSample5x5_DSV)) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_BloomBlur_H_4x4"), "g_BloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("BloomBlurV")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -1209,9 +1249,9 @@ HRESULT CRenderer::Render_Bloom()
 HRESULT CRenderer::Render_PostProcess()
 {
 	/* 디퓨즈 타겟과 셰이드 타겟을 서로 곱하여 백버퍼에 최종적으로 찍어낸다. */
-	//if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendBloom"), m_pDownSample4x4_DSV)))
+	//if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendBloom"), m_pDownSample5x5_DSV)))
 	//	return E_FAIL;
-
+	
 	if (FAILED(m_pPostProccessor->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pPostProccessor->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -1219,7 +1259,9 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pPostProccessor->Begin("BlendBloom")))
+	if (FAILED(m_pPostProccessor->Begin("BlendEffect")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_EffectAlphaBlend"), "g_EffectTarget")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_PrePostProcess"), "g_PrePostProcessTarget")))
 		return E_FAIL;
@@ -1332,6 +1374,9 @@ HRESULT CRenderer::Render_Debug()
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
@@ -1517,8 +1562,8 @@ HRESULT CRenderer::Ready_Bloom()
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio4x4);
-	TextureDesc.Height = (_uint)(0.25f * ViewportDesc.Height / m_fSampleRatio4x4);
+	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio5x5);
+	TextureDesc.Height = (_uint)(0.25f * ViewportDesc.Height / m_fSampleRatio5x5);
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1530,13 +1575,13 @@ HRESULT CRenderer::Ready_Bloom()
 	TextureDesc.MiscFlags = 0;
 
 	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)) ||
-		FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDownSample4x4_DSV)))
+		FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDownSample5x5_DSV)))
 		return E_FAIL;
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio16x16);
-	TextureDesc.Height = (_uint)(ViewportDesc.Height / m_fSampleRatio16x16);
+	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio25x25);
+	TextureDesc.Height = (_uint)(ViewportDesc.Height / m_fSampleRatio25x25);
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1548,13 +1593,13 @@ HRESULT CRenderer::Ready_Bloom()
 	TextureDesc.MiscFlags = 0;
 
 	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)) ||
-		FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDownSample24x24_DSV)))
+		FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDownSample25x25_DSV)))
 		return E_FAIL;
 
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio64x64);
-	TextureDesc.Height = (_uint)(ViewportDesc.Height / m_fSampleRatio64x64);
+	TextureDesc.Width = (_uint)(ViewportDesc.Width / m_fSampleRatio125x125);
+	TextureDesc.Height = (_uint)(ViewportDesc.Height / m_fSampleRatio125x125);
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -1566,7 +1611,7 @@ HRESULT CRenderer::Ready_Bloom()
 	TextureDesc.MiscFlags = 0;
 
 	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)) ||
-		FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDownSample144x144_DSV)))
+		FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDownSample125x125_DSV)))
 		return E_FAIL;
 
 	return S_OK;

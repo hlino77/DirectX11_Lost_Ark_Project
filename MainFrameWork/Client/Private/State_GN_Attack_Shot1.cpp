@@ -24,7 +24,6 @@ HRESULT CState_GN_Attack_Shot1::Initialize()
 	else
 		m_TickFunc = &CState_GN_Attack_Shot1::Tick_State_NoneControl;
 
-
 	/* 일반공격 프레임 */
 	m_AttackFrames.push_back(8);
 	m_AttackFrames.push_back(-1);

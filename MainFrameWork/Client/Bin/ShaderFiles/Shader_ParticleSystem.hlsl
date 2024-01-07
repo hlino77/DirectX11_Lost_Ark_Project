@@ -182,8 +182,10 @@ void GS_DRAW_SMOKE(point VS_OUT_SMOKE In[1], inout TriangleStream<GS_OUT_SMOKE> 
     }
 }
 
-float4 PS_DRAW_SMOKE(GS_OUT_SMOKE In) : SV_Target
+PS_OUT_EFFECT PS_DRAW_SMOKE(GS_OUT_SMOKE In)
 {
+    PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
+    
     float2 vNewUV = float2(0.f, 0.f);
     
     if (!bUV_Wave)
@@ -216,8 +218,7 @@ float4 PS_DRAW_SMOKE(GS_OUT_SMOKE In) : SV_Target
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
-        float3 vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV).rgb;
-        vColor.rgb += vEmissive;
+        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
     }
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
@@ -232,7 +233,9 @@ float4 PS_DRAW_SMOKE(GS_OUT_SMOKE In) : SV_Target
         //}
     }
     
-    return vColor * In.vColor;
+    Out.vColor = vColor * In.vColor;
+    
+    return Out;
 }
 
 technique11 DrawTech

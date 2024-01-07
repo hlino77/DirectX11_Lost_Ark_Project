@@ -143,7 +143,6 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 	return S_OK;
 }
 
-
 HRESULT CStaticModel::Add_ModelComponent(const wstring& strComName)
 {
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))

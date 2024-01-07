@@ -187,7 +187,7 @@ void CEffect::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 
-	if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this)))
+	if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
 		__debugbreak();
 }
 
@@ -206,8 +206,8 @@ HRESULT CEffect::Render()
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagFX_Variables))))
 		return E_FAIL;
-	/*if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
-		return E_FAIL;*/
+	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
+		return E_FAIL;
 
 #pragma region GlobalData
 	m_matCombined = m_matOffset * m_matPivot;

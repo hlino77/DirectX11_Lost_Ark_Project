@@ -141,6 +141,7 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
     if (1.f == SpecMaskEmisExtr.z)
     {
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+        //Out.vEmissive *= fBloom_Intensity;
     }
 
     Out.vMetallic.w = In.fRimLight;
@@ -181,7 +182,7 @@ float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
-PS_OUT_PHONG PS_DIFFUSE(VS_OUT In) : SV_TARGET0
+PS_OUT_PHONG PS_DIFFUSE(VS_OUT In)
 {
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
     

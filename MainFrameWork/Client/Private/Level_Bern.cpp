@@ -183,6 +183,7 @@ HRESULT CLevel_Bern::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
 	LightDesc.vDirection = Vec4(0.705f, -0.667f, -0.239f, 0.f);
+	LightDesc.vDirection.Normalize();
 	LightDesc.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);

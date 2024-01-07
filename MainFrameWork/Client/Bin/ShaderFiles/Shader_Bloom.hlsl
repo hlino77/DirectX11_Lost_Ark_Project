@@ -6,6 +6,7 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D		g_BrightTarget;
 Texture2D		g_BloomBlurTarget;
+Texture2D		g_EffectBloomBlurTarget;
 Texture2D		g_DownSampledTarget;
 
 cbuffer BloomOption
@@ -75,16 +76,17 @@ float4 PS_DOWNSAMPLE_BRIGHT(VS_OUT_TARGET In) : SV_TARGET
 {
     float3 outColor = float3(0.0f, 0.0f, 0.0f);
     
-    for (int y = -2; y < 2; y++)
+    for (int y = -2; y < 3; y++)
     {
-        for (int x = -2; x < 2; x++)
+        for (int x = -2; x < 3; x++)
         {
             // Compute the sum of color values
             outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
+            outColor += g_EffectBloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
         }
     }
     
-    outColor /= 16;
+    outColor /= 25;
     
     //float intensity = max(dot(outColor, float3(1.f, 1.f, 1.f)), 0.000001f);
     ////float intensity = max(dot(outColor, float3(0.3f, 0.59f, 0.11f)), 0.000001f);
@@ -104,16 +106,16 @@ float4 PS_DOWNSAMPLE(VS_OUT_TARGET In) : SV_TARGET
 {
     float3 outColor = float3(0.0f, 0.0f, 0.0f);
     
-    for (int y = -3; y < 3; y++)
+    for (int y = -2; y < 3; y++)
     {
-        for (int x = -3; x < 3; x++)
+        for (int x = -2; x < 3; x++)
         {
             // Compute the sum of color values
             outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
         }
     }
     
-    outColor /= 36.f;
+    outColor /= 25.f;
     
     return float4(outColor, 1.0f);
 }
