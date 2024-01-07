@@ -16,6 +16,7 @@ public:
 		class CTransform*	pParentTransform = { nullptr };
 		class CModel*		pPartenModel = { nullptr };
 		_uint				iSocketBoneIndex = { 0 };
+		_uint				iStoreSocketBoneIndex = { 0 };
 		Matrix				SocketPivotMatrix;
 	}PART_DESC;
 
@@ -38,12 +39,18 @@ public:
 	const Matrix&			Get_Part_WorldMatrix() const { return m_WorldMatrix; }
 
 public:
+	virtual void			Store_Socket();
+	virtual void			UnStore_Socket();
+
+public:
 	void					Set_RenderState(_bool IsRender) { m_IsRender = IsRender; }
 
 	void					Change_ModelCom(class CModel* pModel) { m_pModelCom = pModel; }
 	void					Change_ParentModelCom(class CModel* pModel) { m_pParentModel = pModel; }
 	void					Change_Pivot(Matrix matPivot) { m_SocketPivotMatrix = matPivot; }
 	void					Change_BoneIndex(_uint	iBoneIndex) { m_iSocketBoneIndex = iBoneIndex; }
+
+	void					Set_UpdateState(_bool bUpdate) { m_bStopUpdate = bUpdate; }
 
 protected:
 	class CTransform*		m_pParentTransform = { nullptr };
@@ -52,12 +59,19 @@ protected:
 protected:
 	CGameObject*			m_pOwner = { nullptr };
 	PARTS					m_ePart = { PARTS::_END };
-	Matrix					m_SocketPivotMatrix = { XMMatrixIdentity() };
-	Matrix					m_WorldMatrix = { XMMatrixIdentity() };
+
+	Vec3					m_StoreSocketPos;
+	Matrix					m_StoreSocketMatrix;
+	Matrix					m_SocketPivotMatrix;
+	Matrix					m_WorldMatrix;
+
 	Vec4					m_vAnimTargetPos;
 	_uint					m_iSocketBoneIndex;
+	_uint					m_iStoreSocketBoneIndex;
 
 	_bool					m_IsRender = { true };
+	_bool					m_IsStored = { false };
+	_bool					m_bStopUpdate = { false };
 
 protected:
 	HRESULT Compute_RenderMatrix(Matrix ChildMatrix);

@@ -217,7 +217,7 @@ HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse, Vec4 vRootTargetPos)
+HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse)
 {
 	WRITE_LOCK
 
@@ -258,7 +258,7 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int 
 	}
 	
 	m_fRootDist = fRootDist;
-	m_vRootTargetPos = vRootTargetPos;
+	m_bRootRotation = bRootRot;
 
 	m_bReserved = true;
 	return S_OK;
@@ -410,7 +410,7 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 	vWorldDir *= -1.f;
 
 	Vec3 vCalculePos = vPos;
-	
+
 	vCalculePos += vWorldDir * fDist * m_fRootDist;
 	vCalculePos.y = vPos.y;
 
@@ -486,6 +486,7 @@ HRESULT CModel::Set_Animation_Transforms()
 
 		if (TEXT("b_root") == m_ModelBones[i]->strName)
 		{
+			// 이동 제거
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
 
 			Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
@@ -521,7 +522,6 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 			XMLoadFloat4(&m_CurrKeyFrameDatas[i].vRotation),
 			XMVectorSetW(XMLoadFloat3(&m_CurrKeyFrameDatas[i].vTranslation), 1.f));
 
-
 		int32 iParentIndex = m_ModelBones[i]->iParentID;
 
 		if (iParentIndex < 0)
@@ -531,6 +531,7 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 			
 		if (TEXT("b_root") == m_ModelBones[i]->strName)
 		{
+			// 이동 제거
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
 
 			Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
@@ -1320,6 +1321,28 @@ CTexture* CModel::Create_Texture(const wstring& szFullPath)
 
 	Safe_Release(pGameInstance);
 	return pTexture;
+}
+
+Vec3 CModel::ToEulerAngles(Quaternion q)
+{
+	Vec3 angles;
+
+	// roll (x-axis rotation)
+	_float sinr_cosp = 2.f * (q.w * q.x + q.y * q.z);
+	_float cosr_cosp = 1.f - 2.f * (q.x * q.x + q.y * q.y);
+	angles.x = std::atan2(sinr_cosp, cosr_cosp);
+
+	// pitch (y-axis rotation)
+	_float sinp = std::sqrt(1.f + 2.f * (q.w * q.y - q.x * q.z));
+	_float cosp = std::sqrt(1.f - 2.f * (q.w * q.y - q.x * q.z));
+	angles.y = 2.f * std::atan2(sinp, cosp) - 3.14159265f / 2.f;
+
+	// yaw (z-axis rotation)
+	_float siny_cosp = 2.f * (q.w * q.z + q.x * q.y);
+	_float cosy_cosp = 1.f - 2.f * (q.y * q.y + q.z * q.z);
+	angles.z = std::atan2(siny_cosp, cosy_cosp);
+
+	return angles;
 }
 
 HRESULT CModel::Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CShader* pShader, _uint iMeshIndex, _uint iStride, _uint iPassIndex)

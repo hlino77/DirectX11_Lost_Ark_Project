@@ -31,14 +31,38 @@ HRESULT CPlayer_Select_GN::Initialize_Prototype()
 
 HRESULT CPlayer_Select_GN::Initialize(void* pArg)
 {
+	m_strObjectTag = TEXT("Gunslinger");
+
 	__super::Initialize(pArg);
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
-	if (FAILED(Ready_PhysxBoneBranch()))
+	if (FAILED(Ready_Part()))
 		return E_FAIL;
 
+	m_vSelectPos = Vec3(-0.2f, 0.04f, 0.642f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSelectPos);
+	m_pTransformCom->My_Rotation(Vec3(0.f, 140.f, 0.f));
+
+	m_iSelectAnim_Normal = m_pModelCom->Initailize_FindAnimation(L"characterdeselection_normal_loop_4", 1.0f);
+	if (m_iSelectAnim_Normal == -1)
+		return E_FAIL;
+
+	m_iSelectAnim_Start = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_start_4", 1.0f);
+	if (m_iSelectAnim_Start == -1)
+		return E_FAIL;
+
+	m_iSelectAnim_Loop = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_loop_4", 1.0f);
+	if (m_iSelectAnim_Start == -1)
+		return E_FAIL;
+
+	m_iSelectAnim_End = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_end_4", 1.0f);
+	if (m_iSelectAnim_Start == -1)
+		return E_FAIL;
+
+	m_iSelectAnim = m_iSelectAnim_Normal;
+	m_pModelCom->Set_CurrAnim(m_iSelectAnim);
 
 	return S_OK;
 }
@@ -46,6 +70,8 @@ HRESULT CPlayer_Select_GN::Initialize(void* pArg)
 void CPlayer_Select_GN::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	m_pPart->Tick(fTimeDelta);
 }
 
 void CPlayer_Select_GN::LateTick(_float fTimeDelta)
@@ -54,6 +80,7 @@ void CPlayer_Select_GN::LateTick(_float fTimeDelta)
 
 	Set_Colliders(fTimeDelta);
 
+	m_pPart->LateTick(fTimeDelta);
 }
 
 HRESULT CPlayer_Select_GN::Render()
@@ -68,24 +95,8 @@ HRESULT CPlayer_Select_GN::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			if (i == 1/*hair*/ && j == 1/*m_iHairIndex*/)
-			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
-					return E_FAIL;
-
-				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
-					return E_FAIL;
-
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
-					return E_FAIL;
-			}
-			else
-			{
-				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
-					return E_FAIL;
-			}
+			if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
+				return E_FAIL;
 		}
 	}
 
@@ -132,31 +143,33 @@ HRESULT CPlayer_Select_GN::Ready_Components()
 	__super::Ready_Components();
 
 	/* 초기 장비 및 얼굴 설정 */
-	wstring strComName = L"Prototype_Component_Model_GN_Mococo_Head";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
+	CModel::CHANGECOLOR pChangeColor;
+	pChangeColor.vColor_R = Vec4(1.f, 1.f, 1.f, 1.f);
+	pChangeColor.vColor_G = Vec4(1.f, 0.01f, 0.f, 0.692807f);
+	pChangeColor.vColor_B = Vec4(0.01f, 1.f, 0.24f, 0.587838f);
+
+	wstring strComName = L"Prototype_Component_Model_GN_Head_Mococo";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET], &pChangeColor)))
 		return E_FAIL;
 
-	strComName = L"Prototype_Component_Model_GN_Mococo_Body";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
-		return E_FAIL;
+	strComName = L"Prototype_Component_Model_GN_Body_Mococo";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY], &pChangeColor)))
+		return E_FAIL; 
 
 	return S_OK;
 }
 
 HRESULT CPlayer_Select_GN::Ready_Coliders()
 {
-	if (false == m_bControl)
-		return S_OK;
-
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->SetActive(true);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Radius(0.7f);
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Radius(0.5f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Offset(Vec3(0.0f, 0.4f, 0.0f));
 
 
 		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Get_Child());
-		pChildCollider->Set_Scale(Vec3(0.2f, 0.6f, 0.2f));
-		pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
+		pChildCollider->Set_Scale(Vec3(0.15f, 0.4f, 0.15f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 0.4f, 0.0f));
 		pChildCollider->SetActive(true);
 	}
 
@@ -172,81 +185,26 @@ HRESULT CPlayer_Select_GN::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CPlayer_Select_GN::Ready_PhysxBoneBranch()
+HRESULT CPlayer_Select_GN::Ready_Part()
 {
-	m_pModelCom->Play_Animation(10.0f);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
+	CGameObject* pParts = nullptr;
 
-	CPhysXMgr::GetInstance()->Add_Player(this);
+	/* For.Part_Weapon_1 */
+	CPartObject::PART_DESC			PartDesc_Weapon;
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Tea"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_pPart = pParts;
 
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_04"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_r_05"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_04"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_capatcloth_l_05"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_br_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_b_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_skirt_bl_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}
-
-	/*{
-		vector<_uint> Bones;
-
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_01"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_02"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_03"));
-		Bones.push_back(m_pModelCom->Find_BoneIndex(L"b_hair02_b_04"));
-
-		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
-	}*/
-
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

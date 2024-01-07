@@ -32,6 +32,7 @@ HRESULT CCamera_Lobby::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCameraPos);
 	m_pTransformCom->LookAt_SetUp(vLook);
+	m_pTransformCom->My_Rotation(Vec3(0.f, 0.f, -0.8f));
 
 	return S_OK;
 }

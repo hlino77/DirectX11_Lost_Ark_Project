@@ -93,14 +93,14 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 
 	Proj_Spawn_Desc.fAttackTime = 12.f;
-	Proj_Spawn_Desc.fRadius = 2.4f;
+	Proj_Spawn_Desc.fRadius = 2.5f;
 	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 
 	Proj_Spawn_Desc.IsSpawner = true;
 	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
 	Proj_Spawn_Desc.iSpawnAmount = 8;
 	Proj_Spawn_Desc.fSpawnTime = 1.f;
-	Proj_Spawn_Desc.fSpawnRadius = 2.4f;
+	Proj_Spawn_Desc.fSpawnRadius = 2.5f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
 	Proj_Spawn_Desc.iDamage = 0.f;
@@ -113,14 +113,14 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 
 	Proj_Spawn_Desc.fAttackTime = 18.f;
-	Proj_Spawn_Desc.fRadius = 2.4f;
+	Proj_Spawn_Desc.fRadius = 2.5f;
 	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 
 	Proj_Spawn_Desc.IsSpawner = true;
 	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
 	Proj_Spawn_Desc.iSpawnAmount = 12;
 	Proj_Spawn_Desc.fSpawnTime = 1.f;
-	Proj_Spawn_Desc.fSpawnRadius = 2.4f;
+	Proj_Spawn_Desc.fSpawnRadius = 2.5f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
 	Proj_Spawn_Desc.iDamage = 0.f;
@@ -133,14 +133,14 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 
 	Proj_Spawn_Desc.fAttackTime = 24.f;
-	Proj_Spawn_Desc.fRadius = 2.f;
+	Proj_Spawn_Desc.fRadius = 2.5f;
 	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 
 	Proj_Spawn_Desc.IsSpawner = true;
 	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
 	Proj_Spawn_Desc.iSpawnAmount = 16;
 	Proj_Spawn_Desc.fSpawnTime = 1.f;
-	Proj_Spawn_Desc.fSpawnRadius = 2.4f;
+	Proj_Spawn_Desc.fSpawnRadius = 2.5f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
 	Proj_Spawn_Desc.iDamage = 0.f;

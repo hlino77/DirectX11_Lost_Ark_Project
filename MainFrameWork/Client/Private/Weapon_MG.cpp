@@ -38,10 +38,19 @@ HRESULT CWeapon_MG::Initialize(void* pArg)
 
 void CWeapon_MG::Tick(_float fTimeDelta)
 {
-	if (false == Is_Render())
+	if (false == Is_Render() || true == m_bStopUpdate)
 		return;
 
-	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	XMMATRIX	WorldMatrix;
+
+	if (false == m_IsStored)
+		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	if (true == m_IsStored)
+	{
+		Matrix matSocket = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex);
+		memcpy(matSocket.m[3], &m_StoreSocketPos, sizeof(Vec3));
+		WorldMatrix = matSocket * m_SocketPivotMatrix;
+	}
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
 	WorldMatrix.r[1] = XMVector3Normalize(WorldMatrix.r[1]);

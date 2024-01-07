@@ -55,14 +55,20 @@ public:
 	virtual HRESULT			Render_Debug();
 
 public:
+	virtual const _bool&	Is_Selected() { return m_bSelected; }
+
+	virtual _bool			Intersect_Mouse();
+	virtual void			Clicked();
+	virtual void			Unclicked();
+
+public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
 
 	void					Set_Camera(class CCamera_Player* pCamera) { m_pCamera = pCamera; }
 	class CCamera_Player*	Get_Camera() { return m_pCamera; }
 
-
 public:
-	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false, Vec4 vRootTargetPos = Vec4());
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false);
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
 protected:
@@ -87,10 +93,20 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CModel* m_pModelPartCom[(_uint)PART::_END] = { nullptr };
 
 protected:
+	class CGameObject* m_pPart = { nullptr };
+
 	/* 플레이어 변수 설정 */
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 
+	Vec3	m_vSelectPos;
+
+	_uint	m_iSelectAnim = { 0 };
+	_uint	m_iSelectAnim_Start = { 0 };
+	_uint	m_iSelectAnim_Loop = { 0 };
+	_uint	m_iSelectAnim_End = { 0 };
+	_uint	m_iSelectAnim_Normal = { 0 };
+	_bool	m_bSelected = false;
 
 public:
 	virtual void Free();

@@ -86,7 +86,10 @@ public:
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
-	
+	void					Store_Part();
+	void					UnStore_Part();
+	void					Stop_Update_Part(_bool bUpdate);
+
 public:
 	//Send Packet
 	void					Send_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
@@ -97,7 +100,7 @@ public:
 
 
 	void					Set_State(const wstring& szName);
-	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false, Vec4 vRootTargetPos = Vec4());
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false ,_bool bReverse = false);
 	const	wstring&		Get_State() { return m_pStateMachine->Get_CurState(); }
 	const	wstring&		Get_PreState() { return m_pStateMachine->Get_PreState(); }
 
@@ -225,7 +228,6 @@ protected:
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 
 	_bool	m_IsSuperiorArmor = false;
-
 
 	CParty* m_pParty = nullptr;
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;

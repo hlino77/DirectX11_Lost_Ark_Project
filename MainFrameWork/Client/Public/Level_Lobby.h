@@ -24,16 +24,22 @@ private:
 	HRESULT Ready_Layer_Player(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_UI();
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFullPath);
+	HRESULT Ready_Mannequin();
 
-	void Start_QuadTree();
+	void	Start_QuadTree();
 	void	End_QuadTree();
 
-private:
-	CGameObject* m_pCamera = { nullptr };
+	void	Select_Player();
 
-	_bool m_bConnect = false;
-	thread* m_pQuadTreeThread = nullptr;
-	Matrix m_CameraMatrix = {};
+private:
+	CGameObject*	m_pCamera = { nullptr };
+
+	CGameObject*	m_pPC_Select[(_uint)CHR_CLASS::CLASSEND] = { nullptr };
+	CHR_CLASS		m_eSelectClass = { CHR_CLASS::CLASSEND };
+
+	_bool			m_bConnect = false;
+	thread*			m_pQuadTreeThread = nullptr;
+	Matrix			m_CameraMatrix = {};
 
 public:
 	static class CLevel_Lobby* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -31,18 +31,27 @@ HRESULT CWeapon_WR::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
+	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 90.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(5.f, 0.f, 0.f));
 
 	return S_OK;
 }
 
 void CWeapon_WR::Tick(_float fTimeDelta)
 {
-	if (false == Is_Render())
+	if (false == Is_Render() || true == m_bStopUpdate)
 		return;
 
-	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	XMMATRIX	WorldMatrix;
+	
+	if (false == m_IsStored)
+	{
+		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	}
+	else if (true == m_IsStored)
+	{
+		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iStoreSocketBoneIndex) * m_SocketPivotMatrix;
+	}
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
 	WorldMatrix.r[1] = XMVector3Normalize(WorldMatrix.r[1]);
@@ -79,6 +88,25 @@ HRESULT CWeapon_WR::Render_ShadowDepth()
 	return S_OK;
 }
 
+void CWeapon_WR::Store_Socket()
+{
+	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
+	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+	m_pTransformCom->My_Rotation(Vec3(-110.f, -18.f, 93.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-11.5f, -22.5f, 6.f));
+
+	__super::Store_Socket();
+}
+
+void CWeapon_WR::UnStore_Socket()
+{
+	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
+	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 90.f));
+
+	__super::UnStore_Socket();
+}
+
 HRESULT CWeapon_WR::Ready_Components()
 {
 	/* For.Com_Transform */
@@ -101,13 +129,6 @@ HRESULT CWeapon_WR::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
-
-	Vec3 vScale;
-	vScale.x = 100.f;
-	vScale.y = 100.f;
-	vScale.z = 100.f;
-
-	m_pTransformCom->Set_Scale(vScale);
 
 	return S_OK;
 }

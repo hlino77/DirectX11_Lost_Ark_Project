@@ -51,18 +51,18 @@ void CState_GN_Identity::Enter_State()
 	if (CPlayer_Controller_GN::GN_IDENTITY::HAND == eChangeIdentity)
 	{
 		m_iIdentity = m_iIdentity_ShottoHand;
-		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, true);
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, false, true);
 		
 	}
 	else if (CPlayer_Controller_GN::GN_IDENTITY::SHOT == eChangeIdentity)
 	{
 		m_iIdentity = m_iIdentity_LongtoShot;
-		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, true);
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, false, true);
 	}
 	else if (CPlayer_Controller_GN::GN_IDENTITY::LONG == eChangeIdentity)
 	{
 		m_iIdentity = m_iIdentity_HandtoLong;
-		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, true);
+		m_pPlayer->Reserve_Animation(m_iIdentity, 0.1f, -1, 0, 1.5f, false, true);
 	}
 	
 	static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_IdentityMessage(eChangeIdentity);

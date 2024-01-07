@@ -132,6 +132,13 @@
 
 #include "VoidEffect.h"
 
+//Lobby MQ
+#include "Player_Select_GN.h"
+#include "Player_Select_MG.h"
+#include "Player_Select_WDR.h"
+#include "Player_Select_WR.h"
+#include "Tea.h"
+
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -568,7 +575,6 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ServerEntranceButton"),
 		CUI_ServerEntranceButton::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_TextBox"),
 	//	CUI_TextBox::Create(m_pDevice, m_pContext))))
 	//	return E_FAIL;
@@ -581,6 +587,31 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	/*if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingUI"),
 		CUI_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;*/
+
+
+	// 로비를 서버셀렉트에서 로딩
+	Loading_Model_For_Level_Lobby();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Tea"),
+		CTea::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//Mannequin
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_GN"),
+		CPlayer_Select_GN::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_WR"),
+		CPlayer_Select_WR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_WDR"),
+		CPlayer_Select_WDR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_MG"),
+		CPlayer_Select_MG::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -612,8 +643,6 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 		return E_FAIL;
 
 	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
-
-	Loading_Model_For_Level_Lobby();
 
 
 	Safe_Release(pGameInstance);
@@ -1705,8 +1734,6 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
-	
-
 	/* 플레이어 */
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
@@ -1724,7 +1751,6 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	}
 
 	{
-
 		m_Futures.push_back(std::async([=]()->HRESULT
 			{
 				wstring strFileName = L"WR";
@@ -1871,7 +1897,15 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 			return E_FAIL;
 	}
 
-	
+	{
+		wstring strFileName = L"Tea";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOBBY, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
 
 	Safe_Release(pGameInstance);
 	return S_OK;

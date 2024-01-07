@@ -19,6 +19,10 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 
+public:
+	virtual void	Store_Socket() override;
+	virtual void	UnStore_Socket() override;
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();

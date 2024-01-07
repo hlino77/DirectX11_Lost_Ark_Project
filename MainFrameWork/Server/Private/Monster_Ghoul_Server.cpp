@@ -207,11 +207,6 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("twistknockdown_land");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Twist";
 	CBT_Action* pTwist = CCommon_BT_Twist_Server::Create(&ActionDesc);
 
@@ -223,11 +218,6 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("bound");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.strAnimName = TEXT("bound_land");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;

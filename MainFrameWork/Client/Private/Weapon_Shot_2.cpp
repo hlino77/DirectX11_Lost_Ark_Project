@@ -38,10 +38,19 @@ HRESULT CWeapon_Shot_2::Initialize(void* pArg)
 
 void CWeapon_Shot_2::Tick(_float fTimeDelta)
 {
-	if (false == Is_Render())
+	if (false == Is_Render() || true == m_bStopUpdate)
 		return;
 
-	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	XMMATRIX	WorldMatrix;
+
+	if (false == m_IsStored)
+		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	if (true == m_IsStored)
+	{
+		Matrix matSocket = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex);
+		memcpy(matSocket.m[3], &m_StoreSocketPos, sizeof(Vec3));
+		WorldMatrix = matSocket * m_SocketPivotMatrix;
+	}
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
 	WorldMatrix.r[1] = XMVector3Normalize(WorldMatrix.r[1]);
@@ -102,14 +111,12 @@ HRESULT CWeapon_Shot_2::Ready_Components()
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
 	RELEASE_INSTANCE(CGameInstance);
 
-
 	Vec3 vScale;
-	vScale.x = 100.f;
 	vScale.y = 100.f;
 	vScale.z = 100.f;
+	vScale.x = 100.f;
 
 	m_pTransformCom->Set_Scale(vScale);
 
