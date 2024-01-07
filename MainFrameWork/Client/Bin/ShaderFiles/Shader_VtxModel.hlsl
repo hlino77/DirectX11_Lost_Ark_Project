@@ -50,10 +50,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         }
         else
         {
-            //pow(vSpecular.r, 10.f);
-            //Out.vMetallic = smoothstep(0.f, 1.f, pow(vSpecular.r - 0.01f, 5.f));
-            Out.vMetallic = vSpecular.r;
-            Out.vRoughness = pow(vSpecular.b, 3.f);
+            Out.vMetallic = 1.1f * vSpecular * Out.vDiffuse;
+            Out.vRoughness = 1.f - vSpecular;
         }
     }
     else
@@ -67,7 +65,6 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
     }
     
-
     Out.vMetallic.w = g_fRimLight;
 
     return Out;
@@ -203,7 +200,18 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_SHADOW();
     }
 
-    pass Diffuse // 3 임시
+    pass PBR_AlphaBlend // 3
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR();
+    }
+
+    pass Diffuse // 4 임시
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -214,7 +222,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_NARUTO();
     }
 
-    pass ChangeColor // 4
+    pass ChangeColor // 5
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);

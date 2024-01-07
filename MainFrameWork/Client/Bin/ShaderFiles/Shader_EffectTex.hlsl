@@ -87,8 +87,10 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 /* 픽셀정보는 정점정보에 기반한다. */
 
 /* 전달받은 픽셀의 정보를 이용하여 픽셀의 최종적인 색을 결정하자. */
-float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
+PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
 {
+    PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
+    
     float2 vNewUV = float2(0.f, 0.f);
     
     if (!bUV_Wave)
@@ -119,11 +121,6 @@ float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
     
     vColor *= fMask;
     
-    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
-    {
-        float3 vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV).rgb;
-        vColor.rgb += vEmissive;
-    }
 	if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
         float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
@@ -137,7 +134,16 @@ float4 PS_MAIN_FXTEX(GS_OUT In) : SV_TARGET0
         //}
     }
     
-    return vColor + vColor_Offset;
+    //if (any(vColor_Offset))
+    
+    Out.vColor = vColor + vColor_Offset;
+    
+    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
+    {
+        Out.vEmissive = Out.vColor * fIntensity_Bloom;
+    }
+    
+    return Out;
 }
 
 technique11 DefaultTechnique

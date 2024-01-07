@@ -64,8 +64,6 @@ CComponent* CComponent_Manager::Find_Component(_uint iLevelIndex, const wstring&
     return iter->second;
 }
 
-
-
 void CComponent_Manager::Free()
 {
     for (_uint i = 0; i < m_iNumLevels; ++i)

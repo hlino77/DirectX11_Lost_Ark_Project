@@ -1,9 +1,10 @@
-
 #include "Client_Shader_Defines.hlsl"
+#include "Client_Shader_Light.hlsl"
 
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D	g_PrePostProcessTarget;
+Texture2D	g_EffectTarget;
 Texture2D	g_ShadeTarget;
 Texture2D	g_BloomTarget;
 Texture2D	g_BlurTarget;
@@ -96,7 +97,7 @@ float Tonemap_ACES(float x)
     return (x * (a * x + b)) / (x * (c * x + d) + e);
 }
 
-float4 PS_MAIN_BLENDBLOOM(PS_IN In) : SV_TARGET0
+float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 {
     float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
     float4 vBloom = g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
@@ -105,6 +106,12 @@ float4 PS_MAIN_BLENDBLOOM(PS_IN In) : SV_TARGET0
     vBloom *= Tonemap_ACES(fBrightness);
 	
     vColor += vBloom;
+    
+	float4 vEffect = g_EffectTarget.Sample(LinearSampler, In.vTexcoord);
+	
+    if (EPSILON < vEffect.a)
+		vColor = float4(vEffect.rgb * 1.f + vColor.rgb * 1.f, 1.f);
+	
     return vColor;
 }
 
@@ -136,18 +143,18 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_SCREENTONE();
     }
 
-    pass BlendBloom // 3
+    pass BlendEffect // 3
     {
-		SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_None, 0);
-        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-		VertexShader = compile vs_5_0 VS_MAIN();
-		GeometryShader = NULL;
-		HullShader = NULL;
-		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_BLENDBLOOM();
-	}
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_BLENDEFFECT();
+    }
 }
 
 

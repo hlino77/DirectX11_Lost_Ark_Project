@@ -20,8 +20,10 @@ VS_OUT VS_MAIN_FXMESH(STATIC_IN In)
 	return Out;
 }
 
-float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
+PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
 {
+    PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
+    
     float2 vNewUV = float2(0.f, 0.f);
     
     if (!bUV_Wave)
@@ -54,8 +56,7 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
-        float3 vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV).rgb;
-        vColor.rgb += vEmissive;
+        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
     }
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
@@ -70,7 +71,9 @@ float4 PS_MAIN_FXMESH(VS_OUT In) : SV_TARGET0
         //}
     }
     
-    return vColor + vColor_Offset;
+    Out.vColor = vColor + vColor_Offset;
+    
+    return Out;
 }
 
 technique11 DefaultTechnique
