@@ -14,6 +14,7 @@ void CValtan_BT_Attack_Attack5::OnStart()
 {
 	__super::OnStart(0);
 	m_vDirection = 	static_cast<CMonster*>(m_pGameObject)->Get_TargetPos();
+	static_cast<CMonster*>(m_pGameObject)->Set_SetuponCell(false);
 	m_iStack = 0;
 }
 
@@ -21,19 +22,18 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5::OnUpdate(const _float& fTimeDelta
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime && m_iStack < 5)
 	{
-		static_cast<CMonster*>(m_pGameObject)->Set_SetuponCell(false);
 		m_iStack++;
-		m_fLoopTime = 0.f;	
+		m_fLoopTime = 0.f;
 		Vec3 vPlayerPosition = static_cast<CMonster*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition + m_vDirection*1.5f);
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition + m_vDirection * 2.f);
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 		m_vDirection = Vec3::TransformNormal(m_vDirection, Matrix::CreateRotationY(XMConvertToRadians(195.f)));
 		m_vDirection.Normalize();
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == (m_vecAnimDesc[2].iAnimIndex) && m_iStack==5)
 	{
 		m_iStack++;
-		static_cast<CMonster*>(m_pGameObject)->Set_SetuponCell(true);
 		Vec3 vPlayerPosition = static_cast<CMonster*>(m_pGameObject)->Get_TargetPos();
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition() + m_vDirection * 1.5f);
 		static_cast<CMonster*>(m_pGameObject)->Get_TransformCom()->LookAt(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
@@ -45,6 +45,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5::OnUpdate(const _float& fTimeDelta
 void CValtan_BT_Attack_Attack5::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CMonster*>(m_pGameObject)->Set_SetuponCell(true);
 }
 
 

@@ -65,7 +65,7 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 		}
 		m_fLoopTime += fTimeDelta;
 	}
-	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 3)
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iCurrAnimation].iAnimIndex && m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex)&& !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		if (m_iCurrAnimation == m_iMaxAnimation - 1)
 			return BT_SUCCESS;

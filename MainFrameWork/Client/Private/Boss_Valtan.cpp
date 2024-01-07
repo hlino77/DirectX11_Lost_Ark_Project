@@ -570,23 +570,12 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_5_02_start");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("att_battle_5_02_loop");
+	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//¾ÕµÚ¾Õ
 	ActionDesc.strActionName = L"Action_Attack7";
 	CBT_Action* pAttack7 = CValtan_BT_Attack_Attack7::Create(&ActionDesc);
