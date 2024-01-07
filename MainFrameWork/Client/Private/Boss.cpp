@@ -279,12 +279,12 @@ HRESULT CBoss::Ready_Components()
 
 	Safe_Release(pGameInstance);
 
-	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
+	
+	m_vOriginScale.x = 0.01f;
+	m_vOriginScale.y = 0.01f;
+	m_vOriginScale.z = 0.01f;
 
-	m_pTransformCom->Set_Scale(vScale);
+	m_pTransformCom->Set_Scale(m_vOriginScale);
 
     return S_OK;
 }

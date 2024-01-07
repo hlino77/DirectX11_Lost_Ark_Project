@@ -1424,7 +1424,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.IsRootRot = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.IsRootRot = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_21_02");
 	AnimationDesc.iStartFrame = 0;
@@ -1443,8 +1445,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
 	//유령 잡기
+
 	ActionDesc.strActionName = L"Action_Attack24";
 	CBT_Action* pAttack24 = CValtan_BT_Attack_Attack24_Server::Create(&ActionDesc);
 

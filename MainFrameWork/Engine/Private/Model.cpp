@@ -258,7 +258,12 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int 
 	}
 	
 	m_fRootDist = fRootDist;
+	m_IsPreRootRot = m_bRootRotation;
 	m_bRootRotation = bRootRot;
+	if (true == m_bRootRotation)
+	{
+		m_OriginMatrix = XMMatrixIdentity();
+	}
 
 	m_bReserved = true;
 	return S_OK;
@@ -401,20 +406,48 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 		return S_OK;
 	}
 
-	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
-	Vec3 vLocalDir = m_vPreRootPos - m_vCurRootPos;
-	vLocalDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
-	Vec3 vWorldDir = XMVector3TransformNormal(vLocalDir, pTransform->Get_WorldMatrix());
-	_float fDist = vWorldDir.Length();
-	vWorldDir.Normalize();
-	vWorldDir *= -1.f;
+	if (false == m_bRootRotation)
+	{
+		Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+		Vec3 vLocalDir = m_vPreRootPos - m_vCurRootPos;
+		vLocalDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
+		Vec3 vWorldDir = XMVector3TransformNormal(vLocalDir, pTransform->Get_WorldMatrix());
+		_float fDist = vWorldDir.Length();
+		vWorldDir.Normalize();
+		vWorldDir *= -1.f;
 
-	Vec3 vCalculePos = vPos;
+		Vec3 vCalculePos = vPos;
 
-	vCalculePos += vWorldDir * fDist * m_fRootDist;
-	vCalculePos.y = vPos.y;
+		vCalculePos += vWorldDir * fDist * m_fRootDist;
+		vCalculePos.y = vPos.y;
 
-	pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
+		pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
+	}
+	else
+	{
+		Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+		Vec3 vLocalDir = m_vPreRootPos - m_vCurRootPos;
+		vLocalDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
+		Vec3 vWorldDir = XMVector3TransformNormal(vLocalDir, pTransform->Get_WorldMatrix());
+		_float fDist = vWorldDir.Length();
+		vWorldDir.Normalize();
+		vWorldDir *= -1.f;
+
+		Vec3 vCalculePos = vPos;
+
+		vCalculePos += vWorldDir * fDist * m_fRootDist;
+		vCalculePos.y = vPos.y;
+
+		if (m_OriginMatrix == XMMatrixIdentity())
+		{
+			m_OriginMatrix = pTransform->Get_WorldMatrix();
+		}
+
+		Matrix RootWorld = pTransform->Q_Rotation(m_RootRotation, m_OriginMatrix);
+		pTransform->Set_WorldMatrix(RootWorld);
+
+		pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
+	}
 		
 	return S_OK;
 }
@@ -487,10 +520,28 @@ HRESULT CModel::Set_Animation_Transforms()
 		if (TEXT("b_root") == m_ModelBones[i]->strName)
 		{
 			// 이동 제거
-			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+			if (false == m_bRootRotation)
+			{
+				memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+				Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+				memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
+			}
+			else if (true == m_bRootRotation)
+			{
+				memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+				m_RootMatrix = m_matCurrTransforms[i];
+			
+				Vec3 vScale, vPos;
+				m_matCurrTransforms[i].Decompose(vScale, m_RootRotation, vPos);
+				Quaternion rotationQuaternion = Quaternion::CreateFromAxisAngle(Vector3(0.0f, 1.0f, 0.0f), XMConvertToRadians(90.0f));
+				m_RootRotation = m_RootRotation * rotationQuaternion;
 
-			Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
-			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
+				m_matCurrTransforms[i] = XMMatrixScalingFromVector(vScale) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+				Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+				memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
+			}
+		
 		}
 
 	}
@@ -516,7 +567,11 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 		m_CurrKeyFrameDatas[i].vScale = Vec3::Lerp(CurrKeyDatas[i].vScale, NextKeyDatas[i].vScale, fRatio);
 		m_CurrKeyFrameDatas[i].vRotation = Quaternion::Slerp(CurrKeyDatas[i].vRotation, NextKeyDatas[i].vRotation, fRatio);
 
-
+		if (true == m_IsPreRootRot && TEXT("b_root") == m_ModelBones[i]->strName)
+		{
+			m_CurrKeyFrameDatas[i].vRotation = NextKeyDatas[i].vRotation;
+		}
+		
 		matResult = XMMatrixAffineTransformation(XMLoadFloat3(&m_CurrKeyFrameDatas[i].vScale),
 			XMVectorSet(0.f, 0.f, 0.f, 1.f),
 			XMLoadFloat4(&m_CurrKeyFrameDatas[i].vRotation),

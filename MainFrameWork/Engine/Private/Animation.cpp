@@ -148,7 +148,6 @@ void CAnimation::Set_Enforce_Frame(_uint iFrame)
 	m_tKeyDesc.fSumTime = 0.0f;
 }
 
-
 HRESULT CAnimation::Make_KeyframeData(vector<shared_ptr<ModelKeyframe>>& KeyFrames)
 {
 	m_KeyFrameBones = new vector<vector<ModelKeyframeData>>();

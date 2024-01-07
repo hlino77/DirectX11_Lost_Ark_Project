@@ -1352,7 +1352,9 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.IsRootRot = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.IsRootRot = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_21_02");
 	AnimationDesc.iStartFrame = 0;

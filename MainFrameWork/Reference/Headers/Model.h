@@ -156,10 +156,16 @@ private:
 private:
 	/* HJ Ãß°¡ */	
 	_bool						m_bRootRotation = { false };
+	_bool						m_IsPreRootRot = { false };
+
+	Matrix						m_RootMatrix;
+	Matrix						m_OriginMatrix;
+	Quaternion					m_RootRotation;
 
 	Vec3						m_vRootPos;
 	Vec3						m_vPreRootPos;
 	Vec3						m_vCurRootPos;
+	
 
 	Vec4						m_vRootTargetPos = { Vec4() };
 	_float						m_fRootDist = { 1.f };
