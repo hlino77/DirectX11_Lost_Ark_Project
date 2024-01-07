@@ -505,9 +505,10 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if(FAILED(Render_Mouse()))
 		return E_FAIL;
+
+
 	if (FAILED(Render_DebugObject()))
 		return E_FAIL;
-
 
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::T))
