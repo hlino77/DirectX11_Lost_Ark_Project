@@ -4,12 +4,12 @@
 
 BEGIN(Client)
 
-class CWeapon_WR final : public CPartObject
+class CTea final : public CPartObject
 {
 protected:
-	CWeapon_WR(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWeapon_WR(const CWeapon_WR& rhs);
-	virtual ~CWeapon_WR() = default;
+	CTea(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CTea(const CTea& rhs);
+	virtual ~CTea() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -19,10 +19,6 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 
-public:
-	virtual void	Store_Socket() override;
-	virtual void	UnStore_Socket() override;
-
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
@@ -30,7 +26,7 @@ private:
 private:
 
 public:
-	static CWeapon_WR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CTea* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

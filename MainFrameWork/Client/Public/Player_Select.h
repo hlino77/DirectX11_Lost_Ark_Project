@@ -68,7 +68,7 @@ public:
 	class CCamera_Player*	Get_Camera() { return m_pCamera; }
 
 public:
-	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false, Vec4 vRootTargetPos = Vec4());
+	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false);
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
 protected:
@@ -93,6 +93,8 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CModel* m_pModelPartCom[(_uint)PART::_END] = { nullptr };
 
 protected:
+	class CGameObject* m_pPart = { nullptr };
+
 	/* 플레이어 변수 설정 */
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };

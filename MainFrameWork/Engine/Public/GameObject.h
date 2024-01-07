@@ -163,12 +163,16 @@ public:
 
 	_int						Get_Layer() { return m_iLayer; }
 
-	_bool		Get_IsMapObject() { return m_IsMapObject; }
-	void		Set_IsMapObject() { m_IsMapObject = true; }
+	_bool						Get_IsMapObject() { return m_IsMapObject; }
+	void						Set_IsMapObject() { m_IsMapObject = true; }
 
-	void			Add_QuadTreeIndex(_uint Index) { m_vecQuadTreeIndex.push_back(Index); }
-	void			Set_QuadTreeIndices(vector<_uint> Indices) { m_vecQuadTreeIndex = Indices; }
-	vector<_uint>  Get_QuadTreeIndices() { return m_vecQuadTreeIndex; }
+	void						Add_QuadTreeIndex(_uint Index) { m_vecQuadTreeIndex.push_back(Index); }
+	void						Set_QuadTreeIndices(vector<_uint> Indices) { m_vecQuadTreeIndex = Indices; }
+	vector<_uint>				Get_QuadTreeIndices() { return m_vecQuadTreeIndex; }
+
+
+	void						Set_OriginScale(Vec3 vScale) { m_vOriginScale = vScale; }
+	Vec3						Get_OriginScale() {  return m_vOriginScale; }
 
 protected:
 	virtual HRESULT Ready_Components() PURE;
@@ -254,6 +258,9 @@ protected:
 
 	// QuadTreeIndex 
 	vector<_uint>       m_vecQuadTreeIndex;
+
+	// For.Model
+	Vec3	m_vOriginScale;
 
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);

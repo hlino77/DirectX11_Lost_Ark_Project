@@ -91,6 +91,8 @@ void CPlayer::LateTick(_float fTimeDelta)
 
 	for (auto& pPart : m_Parts)
 	{
+		if (nullptr == pPart.second) continue;
+
 		pPart.second->Tick(fTimeDelta);
 	}
 
@@ -108,6 +110,8 @@ void CPlayer::LateTick(_float fTimeDelta)
 
 	for (auto& pPart : m_Parts)
 	{
+		if (nullptr == pPart.second) continue;
+
 		pPart.second->LateTick(fTimeDelta);
 	}
 
@@ -453,6 +457,9 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 
 void CPlayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)
 {
+	if (nullptr == m_Parts[ePart])
+		return;
+
 	m_Parts[ePart]->Set_Render(Is_Render);
 }
 
@@ -528,12 +535,11 @@ HRESULT CPlayer::Ready_Components()
 
 	Safe_Release(pGameInstance);
 
-	Vec3 vScale;
-	vScale.x = 0.009f;
-	vScale.y = 0.009f;
-	vScale.z = 0.009f;
+	m_vOriginScale.x = 0.009f;
+	m_vOriginScale.y = 0.009f;
+	m_vOriginScale.z = 0.009f;
 
-	m_pTransformCom->Set_Scale(vScale);
+	m_pTransformCom->Set_Scale(m_vOriginScale);
 
 	return S_OK;
 }
@@ -600,6 +606,39 @@ void CPlayer::Show_SpeechBuble(const wstring& szChat)
 	m_pSpeechBuble->Active_SpeechBuble(szChat);
 }
 
+
+void CPlayer::Store_Part()
+{
+	for (auto& Part : m_Parts)
+	{
+		if (nullptr == Part.second) continue;
+		if (false == Part.second->Is_Render()) continue;
+
+		static_cast<CPartObject*>(Part.second)->Store_Socket();
+	}
+}
+
+void CPlayer::UnStore_Part()
+{
+	for (auto& Part : m_Parts)
+	{
+		if (nullptr == Part.second) continue;
+		if (false == Part.second->Is_Render()) continue;
+
+		static_cast<CPartObject*>(Part.second)->UnStore_Socket();
+	}
+}
+
+void CPlayer::Stop_Update_Part(_bool bUpdate)
+{
+	for (auto& Part : m_Parts)
+	{
+		if (nullptr == Part.second) continue;
+		if (false == Part.second->Is_Render()) continue;
+
+		static_cast<CPartObject*>(Part.second)->Set_UpdateState(bUpdate);
+	}
+}
 
 void CPlayer::Send_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
 {
@@ -765,9 +804,12 @@ void CPlayer::Set_State(const wstring& szName)
 	Send_State(szName);
 }
 
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse, Vec4 vRootTargetPos)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReverse, vRootTargetPos);
+	if (nullptr == m_pModelCom)
+		return;
+
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse);
 }
 
 void CPlayer::Free()

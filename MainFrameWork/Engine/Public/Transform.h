@@ -66,6 +66,7 @@ public:
 
 	virtual	void Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta) PURE;
 	virtual	void My_Rotation(Vec3 vEulers) PURE;
+	virtual Matrix Q_Rotation(Quaternion qRot, Matrix OriginMatrix) PURE;
 
 	virtual	void	Set_MovementSpeed(float fSpeed)PURE;
 

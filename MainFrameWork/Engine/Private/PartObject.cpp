@@ -33,6 +33,7 @@ HRESULT CPartObject::Initialize(void* pArg)
 		Safe_AddRef(m_pParentModel);
 
 		m_iSocketBoneIndex = pPartDesc->iSocketBoneIndex;
+		m_iStoreSocketBoneIndex = pPartDesc->iStoreSocketBoneIndex;
 
 		m_SocketPivotMatrix = pPartDesc->SocketPivotMatrix;
 	}
@@ -63,6 +64,25 @@ HRESULT CPartObject::Render_ShadowDepth()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
 	}
+}
+
+void CPartObject::Store_Socket()
+{
+	if (nullptr == m_pParentModel)
+		return;
+
+	m_StoreSocketMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex);
+	memcpy(&m_StoreSocketPos, m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex).m[3], sizeof(Vec3));
+
+	m_IsStored = true;
+}
+
+void CPartObject::UnStore_Socket()
+{
+	m_StoreSocketMatrix = XMMatrixIdentity();
+	m_StoreSocketPos = Vec3();
+
+	m_IsStored = false;
 }
 
 HRESULT CPartObject::Compute_RenderMatrix(Matrix ChildMatrix)

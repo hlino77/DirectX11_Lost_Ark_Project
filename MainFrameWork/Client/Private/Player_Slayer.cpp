@@ -31,6 +31,11 @@
 #include "State_WR_Identity_Attack_4.h"
 #include "State_WR_Iden_Skill.h"
 
+#include "State_WR_Idle_Normal.h"
+#include "State_WR_Mode_ToBattle.h"
+#include "State_WR_Mode_ToNormal.h"
+#include "State_WR_Run_Normal.h"
+
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
 #include "State_WR_FuriousClaw_Loop.h"
@@ -365,6 +370,7 @@ HRESULT CPlayer_Slayer::Ready_Parts()
 	PartDesc_Weapon.pParentTransform = m_pTransformCom;
 	PartDesc_Weapon.pPartenModel = m_pModelCom;
 	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_weapon_rhand"));
+	PartDesc_Weapon.iStoreSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_capatcloth_r_01"));
 	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
 	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_WP_WR_Base"), &PartDesc_Weapon);
 	if (nullptr == pParts)
@@ -416,6 +422,19 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("WR_Identity_Skill"), CState_WR_Iden_Skill::Create(TEXT("WR_Identity_Skill"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 	
+	m_pStateMachine->Add_State(TEXT("Idle_Normal"), CState_WR_Idle_Normal::Create(TEXT("Idle_Normal"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Run_Normal"), CState_WR_Run_Normal::Create(TEXT("Run_Normal"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Mode_Battle"), CState_WR_Mode_ToBattle::Create(TEXT("Mode_Battle"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Mode_Normal"), CState_WR_Mode_ToNormal::Create(TEXT("Mode_Normal"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+
 	/* 스킬 상태 */
 	m_pStateMachine->Add_State(TEXT("Skill_WR_FuriousClaw_Start"), CState_WR_FuriousClaw_Start::Create(TEXT("Skill_WR_FuriousClaw_Start"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));

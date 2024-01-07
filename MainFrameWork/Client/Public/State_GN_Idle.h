@@ -31,6 +31,8 @@ private:
 	_int m_iIdle_S = 0;
 	_int m_iIdle_L = 0;
 
+	_float m_fTimeAcc = 0.f;
+
 public:
 	static CState_GN_Idle* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

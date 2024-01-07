@@ -206,6 +206,22 @@ void CLockFree_Transform::My_Rotation(Vec3 vEulers)
 	}
 }
 
+Matrix CLockFree_Transform::Q_Rotation(Quaternion qRot, Matrix OriginMatrix)
+{
+	Matrix matRotation = Matrix::CreateFromQuaternion(qRot);
+
+	for (_uint i = 0; i < 3; ++i)
+	{
+		Vec3 v(OriginMatrix.m[i]);
+		v = Vec3::TransformNormal(v, matRotation);
+
+		for (_uint j = 0; j < 3; ++j)
+			OriginMatrix.m[i][j] = *((_float*)&v + j);
+	}
+
+	return OriginMatrix;
+}
+
 void CLockFree_Transform::Set_MovementSpeed(float fSpeed)
 {
 	m_TransformDesc.fSpeedPerSec = fSpeed;

@@ -56,10 +56,13 @@ public:
 
 	virtual	void Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta) override;
 	virtual	void My_Rotation(Vec3 vEulers) override;
+	virtual Matrix Q_Rotation(Quaternion qRot, Matrix OriginMatrix) override;
 
 	virtual	void Set_MovementSpeed(float fSpeed)override;
 
 	virtual _float	Get_TargetDegree(Vec3 vTarget) override;
+
+public:
 
 public:
 	static CLockFree_Transform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

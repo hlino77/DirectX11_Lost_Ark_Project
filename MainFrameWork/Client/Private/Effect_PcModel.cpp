@@ -278,7 +278,7 @@ void CEffect_PcModel::Animaition(const _float& fTimeDelta)
 			ImGui::SliderInt("Frame", &iCurrFrame, 0, iMaxFrame);
 
 			if (!m_bAnimationPlay)
-				m_pMannequin->Get_ModelCom()->Set_CurrAnimFrame(iCurrFrame);
+				m_pMannequin->Get_ModelCom()->Set_Enforce_CurrAnimFrame(iCurrFrame);
 		}
 
 		if (m_pMannequin->Get_ModelCom())

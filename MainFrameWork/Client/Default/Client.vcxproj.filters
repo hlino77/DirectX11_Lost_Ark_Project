@@ -652,12 +652,6 @@
     <Filter Include="02.GameObjects\Player\Player_Select">
       <UniqueIdentifier>{70a0d08f-44e8-4e69-a9a1-ea96cf6b92e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Gunslinger">
-      <UniqueIdentifier>{d502c6ff-6f13-48e8-80be-0e9a983449a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Slayer">
-      <UniqueIdentifier>{d797954d-9e20-41b8-a93d-89e3e640ab67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Destroyer">
       <UniqueIdentifier>{9386f95b-4a3e-485e-840b-e48594287d0b}</UniqueIdentifier>
     </Filter>
@@ -1036,11 +1030,26 @@
     <Filter Include="02.GameObjects\UI\05.QuickSlot\02.ETCSlot">
       <UniqueIdentifier>{7bf0f105-e25d-4849-96e5-0d0c3085df11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Destroyer">
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Bard">
+      <UniqueIdentifier>{52feb653-c91e-4682-8482-704c974d39c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Destroyer">
       <UniqueIdentifier>{dfe85bd2-5e8c-477a-831c-804f18537c68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Bard">
-      <UniqueIdentifier>{52feb653-c91e-4682-8482-704c974d39c5}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Gunslinger">
+      <UniqueIdentifier>{d502c6ff-6f13-48e8-80be-0e9a983449a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Slayer">
+      <UniqueIdentifier>{d797954d-9e20-41b8-a93d-89e3e640ab67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Mode">
+      <UniqueIdentifier>{430e107f-3c75-49bb-872d-06a484d278e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Mode">
+      <UniqueIdentifier>{1cb05851-1908-420d-8e92-23d8face3cde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Tea">
+      <UniqueIdentifier>{d11ab814-f540-4a5c-a0f0-aeb6bce7f898}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1103,9 +1112,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Player.h">
       <Filter>02.GameObjects\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Player_Gunslinger.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -2905,10 +2911,10 @@
       <Filter>02.GameObjects\Player\Player_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Select_WR.h">
-      <Filter>02.GameObjects\Player\Player_Select\Slayer</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Slayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Select_GN.h">
-      <Filter>02.GameObjects\Player\Player_Select\Gunslinger</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Gunslinger</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Destroyer.h">
       <Filter>02.GameObjects\Player\Player_Destroyer</Filter>
@@ -3337,10 +3343,37 @@
       <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Select_MG.h">
-      <Filter>02.GameObjects\Player\Player_Select\Bard</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Bard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Select_WDR.h">
-      <Filter>02.GameObjects\Player\Player_Select\Destroyer</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Destroyer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Gunslinger.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Idle_Normal.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Mode_ToBattle.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Mode_ToNormal.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Mode_ToBattle.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Mode_ToNormal.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Idle_Normal.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Run_Normal.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Tea.h">
+      <Filter>02.GameObjects\Player\Player_Select\Tea</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3394,9 +3427,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Player.cpp">
       <Filter>02.GameObjects\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -5178,10 +5208,10 @@
       <Filter>02.GameObjects\Player\Player_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Select_WR.cpp">
-      <Filter>02.GameObjects\Player\Player_Select\Slayer</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Slayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Select_GN.cpp">
-      <Filter>02.GameObjects\Player\Player_Select\Gunslinger</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Gunslinger</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Destroyer.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer</Filter>
@@ -5607,10 +5637,37 @@
       <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Select_MG.cpp">
-      <Filter>02.GameObjects\Player\Player_Select\Bard</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Bard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Select_WDR.cpp">
-      <Filter>02.GameObjects\Player\Player_Select\Destroyer</Filter>
+      <Filter>02.GameObjects\Player\Player_Select\Select_Destroyer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Idle_Normal.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Mode_ToBattle.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Mode_ToNormal.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Mode_ToBattle.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Mode_ToNormal.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Idle_Normal.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Run_Normal.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Tea.cpp">
+      <Filter>02.GameObjects\Player\Player_Select\Tea</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

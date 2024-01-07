@@ -28,7 +28,10 @@ public:
 private:
 	virtual HRESULT Ready_Components() override;
 	HRESULT			Ready_Coliders();
+	HRESULT			Ready_Part();
 	
+private:
+
 public:
 	static CPlayer_Select_WR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

@@ -294,6 +294,9 @@
     <ClInclude Include="..\Public\Skill_WR_VolcanoEruption.h" />
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
+    <ClInclude Include="..\Public\State_GN_Idle_Normal.h" />
+    <ClInclude Include="..\Public\State_GN_Mode_ToBattle.h" />
+    <ClInclude Include="..\Public\State_GN_Mode_ToNormal.h" />
     <ClInclude Include="..\Public\State_MG_Attack_1.h" />
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
@@ -384,7 +387,11 @@
     <ClInclude Include="..\Public\State_WR_Identity_Attack_4.h" />
     <ClInclude Include="..\Public\State_WR_Iden_Skill.h" />
     <ClInclude Include="..\Public\State_WR_Idle.h" />
+    <ClInclude Include="..\Public\State_WR_Idle_Normal.h" />
+    <ClInclude Include="..\Public\State_WR_Mode_ToBattle.h" />
+    <ClInclude Include="..\Public\State_WR_Mode_ToNormal.h" />
     <ClInclude Include="..\Public\State_WR_Run.h" />
+    <ClInclude Include="..\Public\State_WR_Run_Normal.h" />
     <ClInclude Include="..\Public\State_WR_SpiningSword_End.h" />
     <ClInclude Include="..\Public\State_WR_SpiningSword_Loop.h" />
     <ClInclude Include="..\Public\State_WR_SpiningSword_Start.h" />
@@ -398,6 +405,7 @@
     <ClInclude Include="..\Public\State_WR_WildRush_Start.h" />
     <ClInclude Include="..\Public\State_WR_WildRush_Stop.h" />
     <ClInclude Include="..\Public\State_WR_WildStomp.h" />
+    <ClInclude Include="..\Public\Tea.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge.h" />
@@ -718,6 +726,9 @@
     <ClCompile Include="..\Private\Skill_WR_VolcanoEruption.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
+    <ClCompile Include="..\Private\State_GN_Idle_Normal.cpp" />
+    <ClCompile Include="..\Private\State_GN_Mode_ToBattle.cpp" />
+    <ClCompile Include="..\Private\State_GN_Mode_ToNormal.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
@@ -808,7 +819,11 @@
     <ClCompile Include="..\Private\State_WR_Identity_Attack_4.cpp" />
     <ClCompile Include="..\Private\State_WR_Iden_Skill.cpp" />
     <ClCompile Include="..\Private\State_WR_Idle.cpp" />
+    <ClCompile Include="..\Private\State_WR_Idle_Normal.cpp" />
+    <ClCompile Include="..\Private\State_WR_Mode_ToBattle.cpp" />
+    <ClCompile Include="..\Private\State_WR_Mode_ToNormal.cpp" />
     <ClCompile Include="..\Private\State_WR_Run.cpp" />
+    <ClCompile Include="..\Private\State_WR_Run_Normal.cpp" />
     <ClCompile Include="..\Private\State_WR_SpiningSword_End.cpp" />
     <ClCompile Include="..\Private\State_WR_SpiningSword_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_SpiningSword_Start.cpp" />
@@ -822,6 +837,7 @@
     <ClCompile Include="..\Private\State_WR_WildRush_Start.cpp" />
     <ClCompile Include="..\Private\State_WR_WildRush_Stop.cpp" />
     <ClCompile Include="..\Private\State_WR_WildStomp.cpp" />
+    <ClCompile Include="..\Private\Tea.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp" />

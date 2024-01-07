@@ -38,49 +38,40 @@ HRESULT CPlayer_Select_GN::Initialize(void* pArg)
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Part()))
+		return E_FAIL;
+
 	m_vSelectPos = Vec3(-0.2f, 0.04f, 0.642f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSelectPos);
 	m_pTransformCom->My_Rotation(Vec3(0.f, 140.f, 0.f));
 
-	m_iSelectAnim_Normal = m_pModelCom->Initailize_FindAnimation(L"characterdeselection_normal_loop_1", 1.0f);
+	m_iSelectAnim_Normal = m_pModelCom->Initailize_FindAnimation(L"characterdeselection_normal_loop_4", 1.0f);
 	if (m_iSelectAnim_Normal == -1)
 		return E_FAIL;
 
-	m_iSelectAnim_Start = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_start_1", 1.0f);
+	m_iSelectAnim_Start = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_start_4", 1.0f);
 	if (m_iSelectAnim_Start == -1)
 		return E_FAIL;
 
-	m_iSelectAnim_Loop = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_loop_1", 1.0f);
+	m_iSelectAnim_Loop = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_loop_4", 1.0f);
 	if (m_iSelectAnim_Start == -1)
 		return E_FAIL;
 
-	m_iSelectAnim_End = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_end_1", 1.0f);
+	m_iSelectAnim_End = m_pModelCom->Initailize_FindAnimation(L"characterselection_normal_end_4", 1.0f);
 	if (m_iSelectAnim_Start == -1)
 		return E_FAIL;
 
 	m_iSelectAnim = m_iSelectAnim_Normal;
-	Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
+	m_pModelCom->Set_CurrAnim(m_iSelectAnim);
 
 	return S_OK;
 }
 
 void CPlayer_Select_GN::Tick(_float fTimeDelta)
 {
-	if (m_iSelectAnim != m_iSelectAnim_Normal && m_pModelCom->Is_AnimationEnd(m_iSelectAnim))
-	{
-		if (m_iSelectAnim == m_iSelectAnim_Start)
-		{
-			m_iSelectAnim = m_iSelectAnim_Loop;
-			Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
-		}
-		else if (m_iSelectAnim == m_iSelectAnim_End)
-		{
-			m_iSelectAnim = m_iSelectAnim_Normal;
-			Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
-		}
-	}
-
 	__super::Tick(fTimeDelta);
+
+	m_pPart->Tick(fTimeDelta);
 }
 
 void CPlayer_Select_GN::LateTick(_float fTimeDelta)
@@ -89,6 +80,7 @@ void CPlayer_Select_GN::LateTick(_float fTimeDelta)
 
 	Set_Colliders(fTimeDelta);
 
+	m_pPart->LateTick(fTimeDelta);
 }
 
 HRESULT CPlayer_Select_GN::Render()
@@ -190,6 +182,29 @@ HRESULT CPlayer_Select_GN::Ready_Coliders()
 		}
 	}
 
+	return S_OK;
+}
+
+HRESULT CPlayer_Select_GN::Ready_Part()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CGameObject* pParts = nullptr;
+
+	/* For.Part_Weapon_1 */
+	CPartObject::PART_DESC			PartDesc_Weapon;
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	pParts = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Tea"), &PartDesc_Weapon);
+	if (nullptr == pParts)
+		return E_FAIL;
+	m_pPart = pParts;
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

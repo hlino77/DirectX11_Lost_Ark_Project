@@ -61,6 +61,21 @@ void CPlayer_Select::Tick(_float fTimeDelta)
 		}
 	}
 
+	if (m_iSelectAnim != m_iSelectAnim_Normal && m_pModelCom->Is_AnimationEnd(m_iSelectAnim))
+	{
+		if (m_iSelectAnim == m_iSelectAnim_Start)
+		{
+			m_iSelectAnim = m_iSelectAnim_Loop;
+			Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
+		}
+		else if (m_iSelectAnim == m_iSelectAnim_End)
+		{
+			m_iSelectAnim = m_iSelectAnim_Normal;
+			Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
+		}
+	}
+
+
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 }
 
@@ -68,8 +83,6 @@ void CPlayer_Select::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
-
-	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
 	if (nullptr == m_pRendererCom)
 		return;
@@ -263,9 +276,9 @@ HRESULT CPlayer_Select::Ready_Components()
 	return S_OK;
 }
 
-void CPlayer_Select::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse, Vec4 vRootTargetPos)
+void CPlayer_Select::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bReverse)
 {
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReverse, vRootTargetPos);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bReverse);
 }
 
 void CPlayer_Select::Free()

@@ -110,8 +110,6 @@ HRESULT CLevel_Lobby::Exit()
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, m_pCamera);
 
-	Safe_Release(m_pCamera);
-
 	return S_OK;
 }
 

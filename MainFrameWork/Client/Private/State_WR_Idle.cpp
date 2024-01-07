@@ -30,6 +30,8 @@ HRESULT CState_WR_Idle::Initialize()
 
 void CState_WR_Idle::Enter_State()
 {
+	m_fTimeAcc = 0.f;
+
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 	{
 		m_pPlayer->Reserve_Animation(m_Idle_Identity, 0.2f, 0, 0);
@@ -57,6 +59,11 @@ void CState_WR_Idle::Exit_State()
 
 void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 {
+	m_fTimeAcc += fTimeDelta;
+	if(m_fTimeToNormal <= m_fTimeAcc)
+		m_pPlayer->Set_State(TEXT("Mode_Normal"));
+
+
 	if (true == m_pController->Is_Dash())
 	{
 		Vec3 vClickPos;

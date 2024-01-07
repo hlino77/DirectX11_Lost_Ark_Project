@@ -29,6 +29,7 @@ public:
 	_uint	 Get_Frame() { return m_tKeyDesc.iCurrFrame; }
 	void	 Set_Frame(_uint iFrame);
 	void	 Set_Reverse_Frame(_uint iFrame);
+	void	 Set_Enforce_Frame(_uint iFrame);
 	_uint	 Get_MaxFrame() { return m_iFrameCount - 1; }
 	
 

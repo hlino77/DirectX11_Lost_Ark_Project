@@ -62,6 +62,11 @@ public:
 		m_Animations[m_iCurrAnim]->Set_Frame(iFrame);
 	}
 
+	void Set_Enforce_CurrAnimFrame(_uint iFrame)
+	{
+		m_Animations[m_iCurrAnim]->Set_Enforce_Frame(iFrame);
+	}
+
 	vector<class CAnimation*> Get_Animations() { return m_Animations; }
 	_int	Find_AnimIndex(const wstring& szAnimName);
 	_bool	Is_AnimationEnd(_uint iAnimation);
@@ -96,7 +101,7 @@ public:
 	HRESULT SetUp_OnShader(class CShader* pShader, _uint iMaterialIndex, aiTextureType eTextureType, const char* strConstantName);
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader);
 
-	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bReverse = false, Vec4 vRootTargetPos = Vec4());
+	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false);
 	HRESULT Set_NextAnimation();
 
 	HRESULT Play_Animation(_float fTimeDelta);
@@ -139,13 +144,19 @@ private:
 
 
 	class CTexture*	Create_Texture(const wstring& szFullPath);
+
+private:
+	Vec3	ToEulerAngles(Quaternion q);
+
 private:
 	Matrix						m_CombinedMatrix[500];
 	Matrix						m_PivotMatrix;
 	TYPE						m_eModelType = TYPE_END;
 
 private:
-	/* HJ 추가 */
+	/* HJ 추가 */	
+	_bool						m_bRootRotation = { false };
+
 	Vec3						m_vRootPos;
 	Vec3						m_vPreRootPos;
 	Vec3						m_vCurRootPos;

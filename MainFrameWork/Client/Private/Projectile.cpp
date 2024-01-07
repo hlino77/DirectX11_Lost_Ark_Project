@@ -209,12 +209,13 @@ void CProjectile::InitAsSpawner(PROJECTILE_DESC* pDesc)
 	}
 
 	m_fSpawnAttackTime = pDesc->fSpawnAttackTime;
-	m_fSpawnAcc = m_fSpawnAttackTime;
+	
 
 	m_iSpawnUseCol = pDesc->eUseCollider;
 	m_iSpawnColLayer = pDesc->eLayer_Collider;
 	m_iSpawnMaxCnt = pDesc->iSpawnAmount;
 	m_fSpawnTime = pDesc->fSpawnTime;
+	m_fSpawnAcc = m_fSpawnTime;
 
 	m_fSpawnRadius = pDesc->fSpawnRadius;
 	m_vSpawnOffset = pDesc->vSpawnOffset;

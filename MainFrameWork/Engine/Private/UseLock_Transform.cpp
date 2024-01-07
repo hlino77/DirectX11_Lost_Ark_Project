@@ -549,6 +549,22 @@ void CUseLock_Transform::My_Rotation(Vec3 vEulers)
 	}
 }
 
+Matrix CUseLock_Transform::Q_Rotation(Quaternion qRot, Matrix OriginMatrix)
+{
+	Matrix matRotation = Matrix::CreateFromQuaternion(qRot);
+
+	for (_uint i = 0; i < 3; ++i)
+	{
+		Vec3 v(OriginMatrix.m[i]);
+		v = Vec3::TransformNormal(v, matRotation);
+
+		for (_uint j = 0; j < 3; ++j)
+			OriginMatrix.m[i][j] = *((_float*)&v + j);
+	}
+
+	return OriginMatrix;
+}
+
 void CUseLock_Transform::Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta)
 {
 	Quaternion vRot = Quaternion::CreateFromAxisAngle(vAxis, fSpeed * fTimeDelta);
