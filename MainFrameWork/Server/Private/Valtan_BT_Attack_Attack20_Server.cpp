@@ -3,6 +3,7 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
+#include <Boss_Server.h>
 
 CValtan_BT_Attack_Attack20_Server::CValtan_BT_Attack_Attack20_Server()
 {

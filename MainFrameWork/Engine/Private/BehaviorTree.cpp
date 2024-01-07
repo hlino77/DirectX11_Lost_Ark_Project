@@ -51,15 +51,21 @@ HRESULT CBehaviorTree::Tick_Action(wstring strActionName, const _float& fTimeDel
 	const auto& iter = m_hashActions.find(strActionName);
 	if (iter == m_hashActions.end())
 		return E_FAIL;
-	if( iter != m_PreviousAction)
-	{
-		m_PreviousAction->second->OnEnd();
-		m_PreviousAction->second->Reset();
+		if (CBT_Node::RETURN_END == iter->second->Get_Return())
+			iter->second->OnStart();
+
+		iter->second->Set_Return(iter->second->OnUpdate(fTimeDelta));
 		m_PreviousAction = iter;
-	}
-	iter->second->Tick(fTimeDelta);
+	return S_OK;
+}
 
-
+HRESULT CBehaviorTree::Change_Action(wstring strActionName)
+{
+	const auto& iter = m_hashActions.find(strActionName);
+	if (iter == m_hashActions.end())
+		return E_FAIL;
+	m_PreviousAction->second->OnEnd();
+	m_PreviousAction->second->Reset();
 	return S_OK;
 }
 
@@ -69,8 +75,7 @@ HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction)
 	if (iter == m_hashActions.end())
 		return E_FAIL;
 	m_PreviousAction = iter;
-	m_PreviousAction->second->OnStart();
-	m_PreviousAction->second->Start_Animation();
+	static_cast<CBT_Action*>(m_PreviousAction->second)->Start_Animation();
 	return S_OK;
 }
 

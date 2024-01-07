@@ -26,6 +26,8 @@ CBT_Node::BT_RETURN CBoss_BT_Groggy_Server::OnUpdate(const _float& fTimeDelta)
 void CBoss_BT_Groggy_Server::OnEnd()
 {
 	__super::OnEnd();	
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_GroggyGauge() < 1)
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyGauge(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyGauge());
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(false);
 }
 

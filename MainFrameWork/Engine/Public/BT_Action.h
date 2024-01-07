@@ -35,7 +35,10 @@ public:
 
 	virtual void		OnStart(_int iAnimIndex = 0);
 
-	CBT_Node::BT_RETURN OnUpdate(const _float& fTimeDelta);
+	virtual CBT_Node::BT_RETURN OnUpdate(const _float& fTimeDelta);
+
+	virtual    void		OnEnd();
+
 
 	virtual void		Reset()		override { m_eReturn = RETURN_END; }
 	

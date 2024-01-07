@@ -18,7 +18,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-			m_bCondition = static_cast<CMonster_Server*>(m_pGameObject)->Is_Skill();
+		m_bCondition = Is_Skill();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -27,7 +27,13 @@ private:
 		Reset();
 
 	}
+	_bool	Is_Skill()
+	{
+		if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Skill() && !static_cast<CMonster_Server*>(m_pGameObject)->Is_Attacked())
+			return true;
 
+		return false;
+	}
 
 public:
 	static	CCommon_BT_IF_Skill_Server* Create(void* pArg)

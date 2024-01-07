@@ -220,7 +220,7 @@
     <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle">
       <UniqueIdentifier>{21e0a24e-2ad2-4d84-9d3e-8076f9424e2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite\Action">
+    <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action">
       <UniqueIdentifier>{a6dddb17-b096-4154-bea3-d5ab408a86e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -519,9 +519,6 @@
     <ClInclude Include="..\Public\Player_Controller.h">
       <Filter>01.Utiltiy\04.Component\11. Player_Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\BT_Action.h">
-      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite\Action</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\BT_Composite.h">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite</Filter>
     </ClInclude>
@@ -595,6 +592,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Particle.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BT_Action.h">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -832,9 +832,6 @@
     <ClCompile Include="..\Private\BT_Decorator.cpp">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Decorator</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\BT_Action.cpp">
-      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Composite\Action</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\ColliderSphereGroup.cpp" />
     <ClCompile Include="..\Private\PartObject.cpp" />
     <ClCompile Include="..\Private\Player_Controller.cpp" />
@@ -936,6 +933,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Particle.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BT_Action.cpp">
+      <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

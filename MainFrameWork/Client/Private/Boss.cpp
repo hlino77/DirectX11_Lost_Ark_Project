@@ -146,7 +146,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				IsCritical = true;
 				iDamage *= 2;
 			}
-			Send_Collision(iDamage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+			Send_Collision(iDamage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,2);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -180,7 +180,8 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				IsCritical = true;
 				iDamage *= 2;
 			}
-			Send_Collision(iDamage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+			(STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
+			Send_Collision(iDamage, vPos, STATUSEFFECT::COUNTER ,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,5);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)

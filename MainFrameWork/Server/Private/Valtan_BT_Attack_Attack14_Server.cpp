@@ -18,6 +18,12 @@ void CValtan_BT_Attack_Attack14_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));

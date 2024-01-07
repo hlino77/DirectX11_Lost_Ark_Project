@@ -193,7 +193,8 @@ constexpr S_COLLISION::S_COLLISION(
   , ilayer_(0)
   , istatuseffect_(0)
   , fforce_(0)
-  , fduration_(0){}
+  , fduration_(0)
+  , igroggy_(0){}
 struct S_COLLISIONDefaultTypeInternal {
   constexpr S_COLLISIONDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -555,6 +556,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, istatuseffect_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, fforce_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, fduration_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_COLLISION, igroggy_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_NICKNAME, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -705,22 +707,22 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 73, -1, sizeof(::Protocol::S_STATE)},
   { 85, -1, sizeof(::Protocol::S_COLLIDERSTATE)},
   { 101, -1, sizeof(::Protocol::S_COLLISION)},
-  { 114, -1, sizeof(::Protocol::S_NICKNAME)},
-  { 120, -1, sizeof(::Protocol::S_USERINFO)},
-  { 126, -1, sizeof(::Protocol::S_NEARTARGET)},
-  { 136, -1, sizeof(::Protocol::S_SETSKILL)},
-  { 146, -1, sizeof(::Protocol::S_SLOWMOTION)},
-  { 155, -1, sizeof(::Protocol::S_CAMSHAKE)},
-  { 162, -1, sizeof(::Protocol::S_EVENT)},
-  { 169, -1, sizeof(::Protocol::S_SKILLEXPLOSION)},
-  { 175, -1, sizeof(::Protocol::S_HP)},
-  { 184, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
-  { 198, -1, sizeof(::Protocol::S_CHAT)},
-  { 206, -1, sizeof(::Protocol::S_MONSTERSTATE)},
-  { 218, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
-  { 225, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
-  { 233, -1, sizeof(::Protocol::S_IDENTITY)},
-  { 242, -1, sizeof(::Protocol::S_PARTY)},
+  { 115, -1, sizeof(::Protocol::S_NICKNAME)},
+  { 121, -1, sizeof(::Protocol::S_USERINFO)},
+  { 127, -1, sizeof(::Protocol::S_NEARTARGET)},
+  { 137, -1, sizeof(::Protocol::S_SETSKILL)},
+  { 147, -1, sizeof(::Protocol::S_SLOWMOTION)},
+  { 156, -1, sizeof(::Protocol::S_CAMSHAKE)},
+  { 163, -1, sizeof(::Protocol::S_EVENT)},
+  { 170, -1, sizeof(::Protocol::S_SKILLEXPLOSION)},
+  { 176, -1, sizeof(::Protocol::S_HP)},
+  { 185, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
+  { 199, -1, sizeof(::Protocol::S_CHAT)},
+  { 207, -1, sizeof(::Protocol::S_MONSTERSTATE)},
+  { 219, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
+  { 226, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
+  { 234, -1, sizeof(::Protocol::S_IDENTITY)},
+  { 243, -1, sizeof(::Protocol::S_PARTY)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -785,46 +787,47 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\030\006 \003(\002B\002\020\001\022\017\n\007bActive\030\007 \001(\010\022\023\n\013iAttackTy"
   "pe\030\010 \001(\005\022\017\n\007iAttack\030\t \001(\005\022\r\n\005bSlow\030\n \001(\010"
   "\022\'\n\006tChild\030\013 \003(\0132\027.Protocol.ChildCollide"
-  "r\"\240\001\n\013S_COLLISION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006"
+  "r\"\261\001\n\013S_COLLISION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006"
   "iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\017\n\007iDamage\030"
   "\004 \001(\003\022\023\n\007vHitPos\030\005 \003(\002B\002\020\001\022\025\n\riStatusEff"
   "ect\030\006 \001(\005\022\016\n\006fForce\030\007 \001(\002\022\021\n\tfDuration\030\010"
-  " \001(\002\"!\n\nS_NICKNAME\022\023\n\013strNickName\030\001 \001(\014\""
-  "/\n\nS_USERINFO\022!\n\005tUser\030\001 \003(\0132\022.Protocol."
-  "UserInfo\"v\n\014S_NEARTARGET\022\021\n\tiObjectID\030\001 "
-  "\001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\032\n\022i"
-  "TargetObjectLayer\030\004 \001(\005\022\027\n\017iTargetObject"
-  "ID\030\005 \001(\005\"l\n\nS_SETSKILL\022\021\n\tiObjectID\030\001 \001("
-  "\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\023\n\013szS"
-  "killName\030\004 \001(\t\022\026\n\016iSkillObjectID\030\005 \001(\005\"P"
-  "\n\014S_SLOWMOTION\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLe"
-  "vel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\r\n\005bSlow\030\004 \001(\010"
-  "\"3\n\nS_CAMSHAKE\022\021\n\tfCamShake\030\001 \001(\002\022\022\n\nfSh"
-  "akeTime\030\002 \001(\002\"+\n\007S_EVENT\022\020\n\010iEventID\030\001 \001"
-  "(\005\022\016\n\006iState\030\002 \001(\005\"9\n\020S_SKILLEXPLOSION\022%"
-  "\n\007tObject\030\001 \001(\0132\024.Protocol.ObjectInfo\"F\n"
-  "\004S_HP\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005"
-  "\022\016\n\006iLayer\030\003 \001(\005\022\013\n\003iHP\030\004 \001(\005\"\302\001\n\017S_CREA"
-  "TE_PLAYER\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002"
-  " \001(\005\022\016\n\006iClass\030\003 \001(\005\022\021\n\tbControll\030\004 \001(\010\022"
-  "\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023\n\013strNickName\030\006 \001"
-  "(\014\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\022\020\n\010strState\030\010"
-  " \001(\t\022\024\n\014iWeaponIndex\030\t \001(\005\";\n\006S_CHAT\022\021\n\t"
-  "iObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006szCha"
-  "t\030\003 \001(\014\"\242\001\n\016S_MONSTERSTATE\022\021\n\tiObjectID\030"
-  "\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\020\n"
-  "\010strState\030\004 \001(\t\022\032\n\022iTargetObjectLayer\030\005 "
-  "\001(\005\022\027\n\017iTargetObjectID\030\006 \001(\005\022\026\n\nvTargetP"
-  "os\030\007 \003(\002B\002\020\001\";\n\021S_PLAYERLEVELMOVE\022\022\n\niCu"
-  "rrLevel\030\001 \001(\005\022\022\n\niNextLevel\030\002 \001(\005\"G\n\022S_D"
-  "ELETEGAMEOBJECT\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iL"
-  "evel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\"U\n\nS_IDENTITY"
-  "\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006i"
-  "Layer\030\003 \001(\005\022\024\n\014iWeaponIndex\030\004 \001(\005\"\227\001\n\007S_"
-  "PARTY\022,\n\014tCreateParty\030\001 \003(\0132\026.Protocol.C"
-  "reate_Party\022(\n\ntJoinParty\030\002 \003(\0132\024.Protoc"
-  "ol.Join_Party\0224\n\020tInvitationParty\030\003 \003(\0132"
-  "\032.Protocol.Invitation_Partyb\006proto3"
+  " \001(\002\022\017\n\007iGroggy\030\t \001(\005\"!\n\nS_NICKNAME\022\023\n\013s"
+  "trNickName\030\001 \001(\014\"/\n\nS_USERINFO\022!\n\005tUser\030"
+  "\001 \003(\0132\022.Protocol.UserInfo\"v\n\014S_NEARTARGE"
+  "T\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006"
+  "iLayer\030\003 \001(\005\022\032\n\022iTargetObjectLayer\030\004 \001(\005"
+  "\022\027\n\017iTargetObjectID\030\005 \001(\005\"l\n\nS_SETSKILL\022"
+  "\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iL"
+  "ayer\030\003 \001(\005\022\023\n\013szSkillName\030\004 \001(\t\022\026\n\016iSkil"
+  "lObjectID\030\005 \001(\005\"P\n\014S_SLOWMOTION\022\021\n\tiObje"
+  "ctID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001"
+  "(\005\022\r\n\005bSlow\030\004 \001(\010\"3\n\nS_CAMSHAKE\022\021\n\tfCamS"
+  "hake\030\001 \001(\002\022\022\n\nfShakeTime\030\002 \001(\002\"+\n\007S_EVEN"
+  "T\022\020\n\010iEventID\030\001 \001(\005\022\016\n\006iState\030\002 \001(\005\"9\n\020S"
+  "_SKILLEXPLOSION\022%\n\007tObject\030\001 \001(\0132\024.Proto"
+  "col.ObjectInfo\"F\n\004S_HP\022\021\n\tiObjectID\030\001 \001("
+  "\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\013\n\003iHP"
+  "\030\004 \001(\005\"\302\001\n\017S_CREATE_PLAYER\022\021\n\tiObjectID\030"
+  "\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iClass\030\003 \001(\005\022\021\n"
+  "\tbControll\030\004 \001(\010\022\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023"
+  "\n\013strNickName\030\006 \001(\014\022\026\n\nvTargetPos\030\007 \003(\002B"
+  "\002\020\001\022\020\n\010strState\030\010 \001(\t\022\024\n\014iWeaponIndex\030\t "
+  "\001(\005\";\n\006S_CHAT\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLev"
+  "el\030\002 \001(\005\022\016\n\006szChat\030\003 \001(\014\"\242\001\n\016S_MONSTERST"
+  "ATE\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016"
+  "\n\006iLayer\030\003 \001(\005\022\020\n\010strState\030\004 \001(\t\022\032\n\022iTar"
+  "getObjectLayer\030\005 \001(\005\022\027\n\017iTargetObjectID\030"
+  "\006 \001(\005\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\";\n\021S_PLAYE"
+  "RLEVELMOVE\022\022\n\niCurrLevel\030\001 \001(\005\022\022\n\niNextL"
+  "evel\030\002 \001(\005\"G\n\022S_DELETEGAMEOBJECT\022\021\n\tiObj"
+  "ectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 "
+  "\001(\005\"U\n\nS_IDENTITY\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006"
+  "iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\024\n\014iWeaponI"
+  "ndex\030\004 \001(\005\"\227\001\n\007S_PARTY\022,\n\014tCreateParty\030\001"
+  " \003(\0132\026.Protocol.Create_Party\022(\n\ntJoinPar"
+  "ty\030\002 \003(\0132\024.Protocol.Join_Party\0224\n\020tInvit"
+  "ationParty\030\003 \003(\0132\032.Protocol.Invitation_P"
+  "artyb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -832,7 +835,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 2795, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 2812, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 28,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -3967,16 +3970,16 @@ S_COLLISION::S_COLLISION(const S_COLLISION& from)
       vhitpos_(from.vhitpos_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&iobjectid_, &from.iobjectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&fduration_) -
-    reinterpret_cast<char*>(&iobjectid_)) + sizeof(fduration_));
+    static_cast<size_t>(reinterpret_cast<char*>(&igroggy_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(igroggy_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_COLLISION)
 }
 
 void S_COLLISION::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&iobjectid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&fduration_) -
-    reinterpret_cast<char*>(&iobjectid_)) + sizeof(fduration_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&igroggy_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(igroggy_));
 }
 
 S_COLLISION::~S_COLLISION() {
@@ -4007,8 +4010,8 @@ void S_COLLISION::Clear() {
 
   vhitpos_.Clear();
   ::memset(&iobjectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fduration_) -
-      reinterpret_cast<char*>(&iobjectid_)) + sizeof(fduration_));
+      reinterpret_cast<char*>(&igroggy_) -
+      reinterpret_cast<char*>(&iobjectid_)) + sizeof(igroggy_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4075,6 +4078,13 @@ const char* S_COLLISION::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 69)) {
           fduration_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // int32 iGroggy = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          igroggy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -4153,6 +4163,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(8, this->_internal_fduration(), target);
   }
 
+  // int32 iGroggy = 9;
+  if (this->igroggy() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(9, this->_internal_igroggy(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4226,6 +4242,13 @@ size_t S_COLLISION::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
+  // int32 iGroggy = 9;
+  if (this->igroggy() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_igroggy());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -4279,6 +4302,9 @@ void S_COLLISION::MergeFrom(const S_COLLISION& from) {
   if (!(from.fduration() <= 0 && from.fduration() >= 0)) {
     _internal_set_fduration(from._internal_fduration());
   }
+  if (from.igroggy() != 0) {
+    _internal_set_igroggy(from._internal_igroggy());
+  }
 }
 
 void S_COLLISION::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -4304,8 +4330,8 @@ void S_COLLISION::InternalSwap(S_COLLISION* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   vhitpos_.InternalSwap(&other->vhitpos_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_COLLISION, fduration_)
-      + sizeof(S_COLLISION::fduration_)
+      PROTOBUF_FIELD_OFFSET(S_COLLISION, igroggy_)
+      + sizeof(S_COLLISION::igroggy_)
       - PROTOBUF_FIELD_OFFSET(S_COLLISION, iobjectid_)>(
           reinterpret_cast<char*>(&iobjectid_),
           reinterpret_cast<char*>(&other->iobjectid_));

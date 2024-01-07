@@ -66,8 +66,10 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 1.2f;
-	m_iMaxHp = 9999999999;
+	m_iMaxHp = 1999999999;
 	m_iHp = m_iMaxHp;
+	m_iMaxGroggyGauge = 50;
+	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_fNoticeRange = 50.f;
 	return S_OK;
 }

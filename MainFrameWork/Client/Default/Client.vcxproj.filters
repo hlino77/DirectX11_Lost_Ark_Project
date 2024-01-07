@@ -984,7 +984,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SoundShock">
       <UniqueIdentifier>{0bf5c998-75eb-4bac-b900-729a2d1bc152}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\03.Bard">
       <UniqueIdentifier>{9d6a79e9-620d-45d7-836c-aef4d89804c9}</UniqueIdentifier>
     </Filter>
@@ -3195,9 +3195,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17.h">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
@@ -3302,7 +3299,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_MG_Identity_Back.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeFrame.h">
       <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame</Filter>
     </ClInclude>
@@ -3329,6 +3326,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_ETCIcon_Frame.h">
       <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Phase2.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Phase3.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_1.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5459,9 +5471,6 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17.cpp">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
@@ -5566,7 +5575,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_Identity_Back.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Identity</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp">
       <Filter>02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame</Filter>
     </ClCompile>
@@ -5593,6 +5602,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp">
       <Filter>02.GameObjects\UI\05.QuickSlot\02.ETCSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_1.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_2.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_3.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

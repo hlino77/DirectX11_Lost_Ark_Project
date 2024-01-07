@@ -21,7 +21,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch_Server::OnUpdate(const _float&
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Countered())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Countered()|| static_cast<CBoss_Server*>(m_pGameObject)->Is_Groggy())
 		return BT_SUCCESS;
 	return __super::OnUpdate(fTimeDelta);
 }

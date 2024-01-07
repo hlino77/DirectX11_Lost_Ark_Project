@@ -5,13 +5,13 @@
 
 BEGIN(Client)
 
-class CValtan_BT_Attack_Attack17 :
+class CValtan_BT_Attack_Attack17_3 :
     public CBT_Action
 {
 private:
-    CValtan_BT_Attack_Attack17();
-    CValtan_BT_Attack_Attack17(const CValtan_BT_Attack_Attack17& rhs) = delete;
-    virtual ~CValtan_BT_Attack_Attack17() =  default;
+    CValtan_BT_Attack_Attack17_3();
+    CValtan_BT_Attack_Attack17_3(const CValtan_BT_Attack_Attack17_3& rhs) = delete;
+    virtual ~CValtan_BT_Attack_Attack17_3() =  default;
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
@@ -19,7 +19,7 @@ private:
 
 
 public:
-    static	CValtan_BT_Attack_Attack17* Create(void* pArg);
+    static	CValtan_BT_Attack_Attack17_3* Create(void* pArg);
     virtual void Free() override;
 };
 
