@@ -5,6 +5,9 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "GameInstance.h"
+#include "Effect.h"
 
 CState_GN_PerfectShot_Loop::CState_GN_PerfectShot_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -35,6 +38,8 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iPerfectShot_Loop, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
+
+	m_bEffect = false;
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
@@ -45,6 +50,8 @@ void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
 void CState_GN_PerfectShot_Loop::Exit_State()
 {
 	m_fSkillTimeAcc = 0.f;
+
+	Effect_Glow(false);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
@@ -71,12 +78,57 @@ void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 		if (m_fSkillSuccessTime_Min <= m_fSkillTimeAcc && m_fSkillSuccessTime_Max >= m_fSkillTimeAcc)
 			m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Set_SkillSuccess(true);
 	}
+
+	if (m_pPlayer->Get_ModelCom()->Get_CurrAnim() == m_iPerfectShot_Loop)
+	{
+		if (m_bEffect == false)
+		{
+			Effect_Glow(true);
+			m_bEffect = true;
+		}
+
+		Update_Effect(fTimeDelta);
+	}
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	Update_Effect(fTimeDelta);
+}
+
+
+
+void CState_GN_PerfectShot_Loop::Effect_Glow(_bool bOnOff)
+{
+	if (bOnOff)
+	{
+		vector<CEffect*> EffectList;
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = const_cast<Matrix*>(&static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix());
+		EFFECT_START_OUTLIST(TEXT("PerpectShotGlow"), &desc, EffectList);
+
+		m_pEffectGlow = EffectList.front();
+	}
+	else
+	{
+		m_pEffectGlow->EffectEnd();
+		m_pEffectGlow = nullptr;
+	}
+
+	
+
+}
+
+void CState_GN_PerfectShot_Loop::Update_Effect(_float fTimeDelta)
+{
+	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix();
+
+	if(m_pEffectGlow)
+		m_pEffectGlow->Update_Pivot(matWorld);
 }
 
 CState_GN_PerfectShot_Loop* CState_GN_PerfectShot_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

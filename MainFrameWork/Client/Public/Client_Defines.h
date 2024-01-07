@@ -93,6 +93,7 @@ namespace Client
 }
 
 #define EFFECT_START(name, pivotDesc)	CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc);
+#define EFFECT_START_OUTLIST(name, pivotDesc, effectlist)	CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc, effectlist);
 
 extern _float g_fVolume;
 extern HWND g_hWnd;

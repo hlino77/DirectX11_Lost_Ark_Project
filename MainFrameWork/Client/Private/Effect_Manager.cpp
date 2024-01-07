@@ -187,6 +187,10 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = element->NextSiblingElement();
 				tDesc.fLifeTime = element->FloatAttribute("LifeTime");
+				element = element->NextSiblingElement();
+				tDesc.fWaitingTime = element->FloatAttribute("WaitingTime");
+				element = element->NextSiblingElement();
+				tDesc.fRemainTime = element->FloatAttribute("RemainTime");
 				
 				element = element->NextSiblingElement();
 				tDesc.bParentPivot = element->BoolAttribute("ParentPivot");
@@ -317,6 +321,43 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 			pEffect->Reset(*pDesc);
 			pEffect->Tick(0.0f);
 			pEffect->Set_Active(true);
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc, vector<CEffect*>& EffectList)
+{
+	auto& Effects = m_hashEffectBundles.find(strEffectBundle);
+
+	if (Effects == m_hashEffectBundles.end())
+		return E_FAIL;
+	else
+	{
+		for (auto& EffectTag : Effects->second)
+		{
+			CEffect* pEffect = nullptr;
+
+			if (m_hashEffectPools[EffectTag].empty())
+			{
+				wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + EffectTag;
+
+				pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag, pDesc));
+				if (nullptr == pEffect)
+					return E_FAIL;
+			}
+			else
+			{
+				pEffect = m_hashEffectPools[EffectTag].front();
+				m_hashEffectPools[EffectTag].pop();
+			}
+
+			pEffect->Reset(*pDesc);
+			pEffect->Tick(0.0f);
+			pEffect->Set_Active(true);
+
+			EffectList.push_back(pEffect);
 		}
 	}
 

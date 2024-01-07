@@ -500,6 +500,8 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::InputFloat2("UV_TileIndex", (_float*)&m_pCurrentEffect->m_Variables.vUV_TileIndex);
 
 	ImGui::InputFloat("Life Time", &m_pCurrentEffect->m_fLifeTime);
+	ImGui::InputFloat("Waiting Time", &m_pCurrentEffect->m_fWaitingTime);
+	ImGui::InputFloat("Remain Time", &m_pCurrentEffect->m_fRemainTime);
 
 	ImGui::Checkbox("Billboard", (_bool*)&m_pCurrentEffect->m_Billboard.iBillboard);
 	/*ImGui::Text("UV_Rotation_Offset");
@@ -531,6 +533,14 @@ HRESULT CEffectTool::EffectDetail()
 HRESULT CEffectTool::EffectsList()
 {
 	ImGui::Begin("All Effects");
+
+	if (ImGui::Button("Reset All"))
+	{
+		for (auto& Effect : m_vecEffects)
+		{
+			Effect->Reset();
+		}
+	}
 
 	if (ImGui::Button("Delete"))
 	{
@@ -860,6 +870,12 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element = document->NewElement("LifeTime");
 			element->SetAttribute("LifeTime", m_vecEffects[i]->m_fLifeTime);
 			node->LinkEndChild(element);
+			element = document->NewElement("WaitingTime");
+			element->SetAttribute("WaitingTime", m_vecEffects[i]->m_fWaitingTime);
+			node->LinkEndChild(element);
+			element = document->NewElement("RemainTime");
+			element->SetAttribute("RemainTime", m_vecEffects[i]->m_fRemainTime);
+			node->LinkEndChild(element);
 			
 			element = document->NewElement("ParentPivot");
 			element->SetAttribute("ParentPivot", m_vecEffects[i]->m_bParentPivot);
@@ -1112,6 +1128,10 @@ HRESULT CEffectTool::Load()
 			
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_fLifeTime = element->FloatAttribute("LifeTime");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_fWaitingTime = element->FloatAttribute("WaitingTime");
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_fRemainTime = element->FloatAttribute("RemainTime");
 			
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_bParentPivot = element->BoolAttribute("ParentPivot");
@@ -1183,6 +1203,7 @@ HRESULT CEffectTool::Load()
 			}
 		}
 
+		m_pCurrentEffect->Reset();
 		m_vecEffects.push_back(m_pCurrentEffect);
 	}
 

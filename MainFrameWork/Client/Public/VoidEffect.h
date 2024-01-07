@@ -42,6 +42,9 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_Particle();
 
+public:
+	void	Reset();
+
 private:
 	HRESULT Ready_Components(tagVoidEffectDesc* pDesc);
 	virtual HRESULT Ready_Components() override { return E_FAIL; };
@@ -70,6 +73,9 @@ public:
 	_bool	m_bColor_Lerp = false;
 
 	_float	m_fLifeTime = FLT_MAX;
+	_float	m_fRemainTime = 0.0f;
+	_float	m_fWaitingTime = 0.0f;
+
 
 	Vec2	m_vUV_Start = Vec2(0.f, 0.f);
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
@@ -127,6 +133,7 @@ private:
 	Matrix	m_matOffset = Matrix::Identity;
 
 	_float	m_fTimeAcc = 0.f;
+	_float	m_fWaitingAcc = 0.0f;
 	_float	m_fLifeTimeRatio = 0.f;
 
 	_float	m_fSequenceTimer = 0.0f;

@@ -44,48 +44,23 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 
 void CVoidEffect::Tick(_float fTimeDelta)
 {
-	m_fLifeTime = ::max(0.02f, m_fLifeTime);
-	
-	m_fTimeAcc += fTimeDelta;
+	m_fLifeTime = ::max(0.001f, m_fLifeTime);
 
-	while (m_fTimeAcc > m_fLifeTime)
+	if (m_fWaitingTime > 0.0f)
 	{
-		m_fTimeAcc -= m_fLifeTime;
-		m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
-		m_fSequenceTimer = 0.0f;
-
-		if (nullptr != m_pEffectTool->GetLevelTool()->GetPivotObject())
-		{
-			const _char* szTypeID = typeid(*m_pEffectTool->GetLevelTool()->GetPivotObject()).name();
-
-			if (!strcmp(szTypeID, "class Client::CMannequin"))
-			{
-				m_matPivot = m_pEffectTool->GetLevelTool()->GetPivotObject()->Get_TransformCom()->Get_WorldMatrix();
-				m_bParentPivot = true;
-			}
-			else
-			{
-				m_matPivot = static_cast<CPartObject*>(m_pEffectTool->GetLevelTool()->GetPivotObject())->Get_Part_WorldMatrix();
-				m_bParentPivot = false;
-			}
-
-			Vec3 vRight = m_matPivot.Right();
-			vRight.Normalize();
-			m_matPivot.Right(vRight);
-
-			Vec3 vUp = m_matPivot.Up();
-			vUp.Normalize();
-			m_matPivot.Up(vUp);
-
-			Vec3 vLook = m_matPivot.Backward();
-			vLook.Normalize();
-			m_matPivot.Backward(vLook);
-		}
+		m_fWaitingAcc += fTimeDelta;
+		if (m_fWaitingAcc >= m_fWaitingTime)
+			m_bRender = true;
 		else
-			m_matPivot = Matrix::Identity;
+			return;
 	}
 
-	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
+	m_fTimeAcc += fTimeDelta;
+	if (m_fTimeAcc >= m_fLifeTime + m_fRemainTime)
+		Reset();
+	
+
+	m_fLifeTimeRatio = min(1.0f, m_fTimeAcc / m_fLifeTime);
 
 	if (m_IsSequence)
 	{
@@ -127,8 +102,11 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 
-	if(FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this)))
-		__debugbreak();
+	if (m_bRender)
+	{
+		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this)))
+			__debugbreak();
+	}
 }
 
 HRESULT CVoidEffect::Render()
@@ -236,6 +214,50 @@ HRESULT CVoidEffect::Render_Particle()
 
 
 	return S_OK;
+}
+
+void CVoidEffect::Reset()
+{
+	m_fTimeAcc = 0.0f;
+	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
+	m_fSequenceTimer = 0.0f;
+	
+	if (m_fWaitingTime > 0.0f)
+	{
+		m_bRender = false;
+		m_fWaitingAcc = 0.0f;
+	}
+		
+
+	if (nullptr != m_pEffectTool->GetLevelTool()->GetPivotObject())
+	{
+		const _char* szTypeID = typeid(*m_pEffectTool->GetLevelTool()->GetPivotObject()).name();
+
+		if (!strcmp(szTypeID, "class Client::CMannequin"))
+		{
+			m_matPivot = m_pEffectTool->GetLevelTool()->GetPivotObject()->Get_TransformCom()->Get_WorldMatrix();
+			m_bParentPivot = true;
+		}
+		else
+		{
+			m_matPivot = static_cast<CPartObject*>(m_pEffectTool->GetLevelTool()->GetPivotObject())->Get_Part_WorldMatrix();
+			m_bParentPivot = false;
+		}
+
+		Vec3 vRight = m_matPivot.Right();
+		vRight.Normalize();
+		m_matPivot.Right(vRight);
+
+		Vec3 vUp = m_matPivot.Up();
+		vUp.Normalize();
+		m_matPivot.Up(vUp);
+
+		Vec3 vLook = m_matPivot.Backward();
+		vLook.Normalize();
+		m_matPivot.Backward(vLook);
+	}
+	else
+		m_matPivot = Matrix::Identity;
 }
 
 HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)

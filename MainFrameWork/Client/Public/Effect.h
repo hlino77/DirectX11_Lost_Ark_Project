@@ -51,6 +51,8 @@ public:
 		_bool	bColor_Lerp = true;
 
 		_float	fLifeTime = FLT_MAX;
+		_float	fWaitingTime = 0.0f;
+		_float	fRemainTime = 0.0f;
 		_bool	bParentPivot = false;
 
 		Vec2	vUV_Start = Vec2(0.f, 0.f);
@@ -97,6 +99,9 @@ public:
 	virtual HRESULT Render()					override;
 
 	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc);
+	virtual void EffectEnd();
+	virtual void Update_Pivot(Matrix& matPivot);
+
 protected:
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
@@ -119,6 +124,8 @@ protected:
 	_bool	m_bColor_Lerp = true;
 
 	_float	m_fLifeTime = FLT_MAX;
+	_float	m_fWaitingTime = 0.0f;
+	_float	m_fRemainTime = 0.0f;
 
 	Vec2	m_vUV_Start = Vec2(0.f, 0.f);
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
@@ -153,6 +160,7 @@ protected:
 	Matrix	m_matCombined = Matrix::Identity;
 
 	_float	m_fTimeAcc = 0.f;
+	_float	m_fWaitingAcc = 0.0f;
 	_float	m_fLifeTimeRatio = 0.f;
 
 	_float	m_fSequenceTimer = 0.0f;

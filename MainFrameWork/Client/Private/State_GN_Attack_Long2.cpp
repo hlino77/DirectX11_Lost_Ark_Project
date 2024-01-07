@@ -5,6 +5,9 @@
 #include "Player_Controller_GN.h"
 #include "Model.h"
 #include "ColliderSphere.h"
+#include "Effect_Manager.h"
+#include "GameInstance.h"
+
 
 CState_GN_Attack_Long2::CState_GN_Attack_Long2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -55,6 +58,8 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2))
 	{
+		Effect_Shot();
+
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
@@ -151,6 +156,44 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 void CState_GN_Attack_Long2::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_Attack_Long2::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix().Translation();
+
+	Vec3 vOriginLook = matWorld.Backward();
+	vOriginLook.Normalize();
+
+	Vec3 vOriginUp = matWorld.Up();
+	vOriginUp.Normalize();
+
+	Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+	vOriginRight.Normalize();
+
+	matWorld.Translation(vPos);
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("LongBullet"), &desc)
+	EFFECT_START(TEXT("LongMuzzleFlash"), &desc)
+
+		_uint iCount = rand() % 3 + 3;
+	for (_uint i = 0; i < iCount; ++i)
+	{
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);
+
+
+		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+		Matrix matEffectWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matEffectWorld;
+
+		EFFECT_START(TEXT("LongBulletParticle"), &desc)
+	}
 }
 
 CState_GN_Attack_Long2* CState_GN_Attack_Long2::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

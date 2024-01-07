@@ -27,6 +27,7 @@ HRESULT CComponent_Manager::Add_Prototype(_uint iLevelIndex, const wstring& strP
     if (nullptr != Find_Component(iLevelIndex, strProtoTypeTag))
         return S_OK;
 
+    WRITE_LOCK
     m_Prototypes[iLevelIndex].emplace(strProtoTypeTag, pPrototype);
 
     return S_OK;
@@ -53,7 +54,9 @@ HRESULT CComponent_Manager::Check_Prototype(_uint iLevelIndex, const wstring& st
 
 CComponent* CComponent_Manager::Find_Component(_uint iLevelIndex, const wstring& strProtoTypeTag)
 {
-    auto	iter = m_Prototypes[iLevelIndex].find(strProtoTypeTag);
+    READ_LOCK
+
+    auto iter = m_Prototypes[iLevelIndex].find(strProtoTypeTag);
 
     if (iter == m_Prototypes[iLevelIndex].end())
         return nullptr;

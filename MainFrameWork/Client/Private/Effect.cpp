@@ -42,6 +42,8 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_pEmissiveTexture(rhs.m_pEmissiveTexture)
 	, m_pDissolveTexture(rhs.m_pDissolveTexture)
 	, m_tNoisMaskEmisDslv(rhs.m_tNoisMaskEmisDslv)
+	, m_fWaitingTime(rhs.m_fWaitingTime)
+	, m_fRemainTime(rhs.m_fRemainTime)
 {
 	m_szModelName = rhs.m_szModelName;
 
@@ -77,6 +79,8 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_bColor_Lerp = pDesc->bColor_Lerp;
 
 	m_fLifeTime = pDesc->fLifeTime;
+	m_fWaitingTime = pDesc->fWaitingTime;
+	m_fRemainTime = pDesc->fRemainTime;
 
 	m_vUV_Start = pDesc->vUV_Start;
 	m_vUV_Speed = pDesc->vUV_Speed;
@@ -140,15 +144,23 @@ HRESULT CEffect::Initialize(void* pArg)
 
 void CEffect::Tick(_float fTimeDelta)
 {
-	if (m_fLifeTime < m_fTimeAcc)
+	if (m_fWaitingAcc < m_fWaitingTime)
 	{
-		Set_Active(false);
-		CEffect_Manager::GetInstance()->Return_Effect(this);
+		m_fWaitingAcc += fTimeDelta;
+		if (m_fWaitingAcc >= m_fWaitingTime)
+			m_bRender = true;
+		else
+			return;
+	}
+
+	if (m_fTimeAcc >= m_fLifeTime + m_fRemainTime)
+	{
+		EffectEnd();
 		return;
 	}
 
 	m_fTimeAcc += fTimeDelta;
-	m_fLifeTimeRatio = m_fTimeAcc / m_fLifeTime;
+	m_fLifeTimeRatio = min(1.0f, m_fTimeAcc / m_fLifeTime);
 	
 	Vec3 vOffsetScaling;
 	Vec3 vOffsetRotation;
@@ -187,8 +199,12 @@ void CEffect::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 
-	if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this)))
-		__debugbreak();
+	if (m_bRender)
+	{
+		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this)))
+			__debugbreak();
+	}
+	
 }
 
 HRESULT CEffect::Render()
@@ -286,7 +302,38 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 	m_fSequenceTimer = 0.0f;
 	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
 	m_fTimeAcc = 0.0f;
+
+	if (m_fWaitingTime > 0.0f)
+	{
+		m_fWaitingAcc = 0.0f;
+		m_bRender = false;
+	}
+	
 }
+
+void CEffect::EffectEnd()
+{
+	Set_Active(false);
+	CEffect_Manager::GetInstance()->Return_Effect(this);
+}
+
+void CEffect::Update_Pivot(Matrix& matPivot)
+{
+	m_matPivot = matPivot;
+
+	Vec3 vRight = m_matPivot.Right();
+	vRight.Normalize();
+	m_matPivot.Right(vRight);
+
+	Vec3 vUp = m_matPivot.Up();
+	vUp.Normalize();
+	m_matPivot.Up(vUp);
+
+	Vec3 vLook = m_matPivot.Backward();
+	vLook.Normalize();
+	m_matPivot.Backward(vLook);
+}
+
 
 HRESULT CEffect::Ready_Components()
 {

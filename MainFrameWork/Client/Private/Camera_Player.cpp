@@ -33,7 +33,7 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 
 	m_vOffset = Vec3(0.0f, 1.6f, -1.0f);
 	m_vOffset.Normalize();
-	m_fCameraLength = 7.0f;
+	m_fCameraLength = 6.5f;
 	
 
 	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);

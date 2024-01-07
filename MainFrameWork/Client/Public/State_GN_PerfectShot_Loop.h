@@ -4,6 +4,8 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
+class CEffect;
+
 
 class CState_GN_PerfectShot_Loop final : public CState_Skill
 {
@@ -20,6 +22,9 @@ public:
 public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
+private:
+	void	Effect_Glow(_bool bOnOff);
+	void	Update_Effect(_float fTimeDelta);
 
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
@@ -30,6 +35,8 @@ private:
 	//Animation
 	_int m_iPerfectShot_Loop = 0;
 
+	_bool m_bEffect = false;
+	CEffect* m_pEffectGlow = nullptr;
 public:
 	static CState_GN_PerfectShot_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

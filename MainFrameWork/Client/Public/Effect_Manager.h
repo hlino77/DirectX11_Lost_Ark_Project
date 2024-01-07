@@ -33,6 +33,7 @@ public:
 	void	Tick(_float fTimedelta);
 
 	HRESULT Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc);
+	HRESULT Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc, vector<CEffect*>& EffectList);
 	HRESULT Return_Effect(CEffect* pEffect);
 	HRESULT Ready_EffectPool(_uint iDefaultSize);
 

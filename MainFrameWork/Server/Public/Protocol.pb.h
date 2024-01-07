@@ -2223,6 +2223,7 @@ class S_COLLISION final :
     kIStatusEffectFieldNumber = 6,
     kFForceFieldNumber = 7,
     kFDurationFieldNumber = 8,
+    kIGroggyFieldNumber = 9,
   };
   // repeated float vHitPos = 5 [packed = true];
   int vhitpos_size() const;
@@ -2309,6 +2310,15 @@ class S_COLLISION final :
   void _internal_set_fduration(float value);
   public:
 
+  // int32 iGroggy = 9;
+  void clear_igroggy();
+  ::PROTOBUF_NAMESPACE_ID::int32 igroggy() const;
+  void set_igroggy(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_igroggy() const;
+  void _internal_set_igroggy(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_COLLISION)
  private:
   class _Internal;
@@ -2324,6 +2334,7 @@ class S_COLLISION final :
   ::PROTOBUF_NAMESPACE_ID::int32 istatuseffect_;
   float fforce_;
   float fduration_;
+  ::PROTOBUF_NAMESPACE_ID::int32 igroggy_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -6441,6 +6452,26 @@ inline void S_COLLISION::_internal_set_fduration(float value) {
 inline void S_COLLISION::set_fduration(float value) {
   _internal_set_fduration(value);
   // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.fDuration)
+}
+
+// int32 iGroggy = 9;
+inline void S_COLLISION::clear_igroggy() {
+  igroggy_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::_internal_igroggy() const {
+  return igroggy_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_COLLISION::igroggy() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_COLLISION.iGroggy)
+  return _internal_igroggy();
+}
+inline void S_COLLISION::_internal_set_igroggy(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  igroggy_ = value;
+}
+inline void S_COLLISION::set_igroggy(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_igroggy(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_COLLISION.iGroggy)
 }
 
 // -------------------------------------------------------------------

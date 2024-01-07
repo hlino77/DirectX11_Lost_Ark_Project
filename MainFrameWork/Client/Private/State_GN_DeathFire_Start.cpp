@@ -235,7 +235,7 @@ void CState_GN_DeathFire_Start::Effect_RandomShot()
 		Vec3 vOriginLook = matWorld.Backward();
 		vOriginLook.Normalize();
 		vPos.y += 0.7f;
-		vPos += vOriginLook * 0.7f;
+		vPos += vOriginLook * 0.4f;
 
 		Vec3 vOriginUp = matWorld.Up();
 		vOriginUp.Normalize();
