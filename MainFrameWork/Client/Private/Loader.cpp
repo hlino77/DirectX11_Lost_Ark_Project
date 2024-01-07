@@ -481,6 +481,9 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	// 로비를 서버셀렉트에서 로딩
+	Loading_Model_For_Level_Lobby();
+
 	/* For.Component*/
 	m_strLoading = TEXT("컴포넌트를 로딩 중 입니다.");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Controller_GN"),
@@ -589,8 +592,7 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		return E_FAIL;*/
 
 
-	// 로비를 서버셀렉트에서 로딩
-	Loading_Model_For_Level_Lobby();
+
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Tea"),
 		CTea::Create(m_pDevice, m_pContext))))
@@ -612,6 +614,32 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_MG"),
 		CPlayer_Select_MG::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+
+	while (true)
+	{
+		if (m_Futures.empty())
+			break;
+
+		for (auto iter = m_Futures.begin(); iter != m_Futures.end();)
+		{
+			if (iter->valid())
+			{
+				if (iter->wait_for(std::chrono::seconds(1)) == future_status::ready)
+				{
+					if (FAILED(iter->get()))
+						return E_FAIL;
+
+					iter = m_Futures.erase(iter);
+				}
+				else
+					++iter;
+			}
+			else
+				++iter;
+		}
+	}
+
 
 	Safe_Release(pGameInstance);
 
@@ -647,29 +675,6 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 
 	Safe_Release(pGameInstance);
 
-	while (true)
-	{
-		if (m_Futures.empty())
-			break;
-
-		for (auto iter = m_Futures.begin(); iter != m_Futures.end();)
-		{
-			if (iter->valid())
-			{
-				if (iter->wait_for(std::chrono::seconds(1)) == future_status::ready)
-				{
-					if (FAILED(iter->get()))
-						return E_FAIL;
-
-					iter = m_Futures.erase(iter);
-				}
-				else
-					++iter;
-			}
-			else
-				++iter;
-		}
-	}
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;

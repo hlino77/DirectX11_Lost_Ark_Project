@@ -167,9 +167,9 @@ private:
 	class CTexture* m_pRandomTexture = nullptr;
 
 	// Bloom
-	ID3D11DepthStencilView* m_pDownSample4x4_DSV = nullptr;
-	ID3D11DepthStencilView* m_pDownSample24x24_DSV = nullptr;
-	ID3D11DepthStencilView* m_pDownSample144x144_DSV = nullptr;
+	ID3D11DepthStencilView* m_pDownSample5x5_DSV = nullptr;
+	ID3D11DepthStencilView* m_pDownSample25x25_DSV = nullptr;
+	ID3D11DepthStencilView* m_pDownSample125x125_DSV = nullptr;
 	CShader* m_pBloomShader = { nullptr };
 	struct tagPerFrame
 	{
@@ -178,9 +178,9 @@ private:
 		Vec2	vPadding;
 	};
 
-	_float m_fSampleRatio4x4 = 5.f;
-	_float m_fSampleRatio16x16 = 25.f;
-	_float m_fSampleRatio64x64 = 125.f;
+	_float m_fSampleRatio5x5 = 5.f;
+	_float m_fSampleRatio25x25 = 25.f;
+	_float m_fSampleRatio125x125 = 125.f;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
