@@ -19,7 +19,7 @@ void CValtan_BT_Attack_Attack7_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack7_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 83&& m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex&&!m_pGameObject->Get_ModelCom()->IsNext())
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 80 & m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex&&!m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_iCurrAnimation++;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex,

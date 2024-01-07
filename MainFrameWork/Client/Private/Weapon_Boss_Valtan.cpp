@@ -46,7 +46,7 @@ void CWeapon_Boss_Valtan::Tick(_float fTimeDelta)
 
 	Compute_RenderMatrix(m_pTransformCom->Get_WorldMatrix() * WorldMatrix);
 	
-	if (m_pModelCom->Is_AnimationEnd(m_pModelCom->Get_CurrAnim()))
+	if (m_pModelCom->Is_AnimationEnd(m_pModelCom->Get_CurrAnim())&& !m_pModelCom->IsNext()&& (m_pModelCom->Get_CurrAnim()!= m_pModelCom->Find_AnimIndex(L"att_battle_5_01_loop")))
 	{
 		m_pModelCom->Reserve_NextAnimation(m_pModelCom->Find_AnimIndex(L"att_battle_5_01_loop"), 0.2f,0, 0);
 	}

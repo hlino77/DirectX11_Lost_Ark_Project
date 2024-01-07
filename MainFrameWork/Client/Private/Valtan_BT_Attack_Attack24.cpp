@@ -17,10 +17,6 @@ void CValtan_BT_Attack_Attack24::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack24::OnUpdate(const _float& fTimeDelta)
 {
-	/*if (m_pGameObject->Get_ModelCom()->Get_CurrAnim()==m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext())
-	{
-		m_pGameObject->Get_TransformCom()->Turn_Speed(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_UP),XMConvertToRadians(930.f),fTimeDelta);
-	}*/
 
 	return __super::OnUpdate(fTimeDelta);
 }
