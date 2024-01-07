@@ -18,6 +18,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack19::OnUpdate(const _float& fTimeDelt
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[2].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext())
+		m_pGameObject->Get_TransformCom()->Turn_Speed(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(360.f), fTimeDelta);
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

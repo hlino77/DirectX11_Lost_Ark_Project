@@ -3,6 +3,7 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
+#include <Boss_Server.h>
 
 CValtan_BT_Attack_Attack7_Server::CValtan_BT_Attack_Attack7_Server()
 {
@@ -18,12 +19,18 @@ void CValtan_BT_Attack_Attack7_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack7_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 68&& m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex&&!m_pGameObject->Get_ModelCom()->IsNext())
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 83&& m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex&&!m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_iCurrAnimation++;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex,
 			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
 			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+	}
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

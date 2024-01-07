@@ -43,6 +43,7 @@ public:
 	virtual HRESULT Render();
 	virtual void Set_SlowMotion(_bool bSlow) override;
 
+
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
@@ -51,6 +52,7 @@ public:
 
 public:
 
+	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
 
 	void					Set_MoveSpeed(_float fSpeed) { m_fMoveSpeed = fSpeed; }
 	_float					Get_MoveSpeed() { return m_fMoveSpeed; }
@@ -59,10 +61,9 @@ public:
 	void					Set_FollowDistance(_float fDistance) { m_fFollowDistance = fDistance; }
 	_float					Get_FollowDistance() { return m_fFollowDistance; }
 	
-	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
+	void					Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy);
 
-	virtual void				Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration);
-	
+
 public:
 
 	void Find_NearTarget(_float fTimeDelta);

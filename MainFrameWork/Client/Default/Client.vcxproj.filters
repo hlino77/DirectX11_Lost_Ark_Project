@@ -3207,9 +3207,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17.h">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
@@ -3374,6 +3371,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\Tea.h">
       <Filter>02.GameObjects\Player\Player_Select\Tea</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Phase2.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Phase3.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_1.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5501,9 +5513,6 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17.cpp">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
@@ -5668,6 +5677,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Tea.cpp">
       <Filter>02.GameObjects\Player\Player_Select\Tea</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_1.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_2.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_3.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

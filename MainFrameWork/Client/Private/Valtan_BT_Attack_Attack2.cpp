@@ -42,7 +42,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2::OnUpdate(const _float& fTimeDelta
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 		}
 	}
-
+	return  BT_RUNNING;
 }
 
 void CValtan_BT_Attack_Attack2::OnEnd()

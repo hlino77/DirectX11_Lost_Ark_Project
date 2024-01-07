@@ -32,7 +32,7 @@ private:
 private:
 	_bool	Is_Phase2()
 	{
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==2 )
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==2 && !static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 			return true;
 
 		return false;

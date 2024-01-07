@@ -38,6 +38,7 @@ public:
 	HRESULT					AddChild(CBT_Node* pChild);
 
 	BT_RETURN					Get_Return() { return m_eReturn ; }
+	void						Set_Return(BT_RETURN eReturn) { m_eReturn = eReturn; }
 
 protected:
 	CGameObject*				m_pGameObject = nullptr;

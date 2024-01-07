@@ -55,7 +55,7 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
-	virtual void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)override;
+	virtual void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration,_uint iGroggy)override;
 public:
 
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
@@ -67,6 +67,13 @@ public:
 	_bool						Is_Groggy() { return m_IsGroggy; }
 	void						Set_Groggy(_bool IsGroggy) { m_IsGroggy = IsGroggy; }
 
+	_bool						Get_Counter() { return m_bCounter; }
+	void						Set_Counter(_bool bCounter) { m_bCounter = bCounter; }
+	
+		
+	_bool						Get_Grogginess() { return m_bGrogginess; }
+	void						Set_Grogginess(_bool bGrogginess) { m_bGrogginess = bGrogginess; }
+
 	
 	_int						Get_Armor() { return m_iArmor; }
 	void						Set_Armor(_int iArmor) { m_iArmor = iArmor; }
@@ -76,6 +83,10 @@ public:
 
 	_int						Get_MaxArmorDurability() { return m_iMaxArmorDurability; }
 
+	_int						Get_GroggyGauge() { return m_iGroggyGauge; }
+	void						Set_GroggyGauge(_int iArmorDurability) { m_iGroggyGauge = iArmorDurability; }
+
+	_int						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
 
 	_uint						Get_Phase() { return m_iPhase; }
 	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
@@ -96,6 +107,11 @@ protected:
 	_bool m_IsCountered = false;
 	_bool m_IsGroggy = false;
 
+	_bool m_bCounter = false;
+	_bool m_bGrogginess = false;
+
+	_int m_iGroggyGauge = 0;
+	_uint m_iMaxGroggyGauge = 0;
 	_int m_iArmorDurability = 0;
 	_uint m_iMaxArmorDurability = 0;
 	_uint m_iPhase = 0;

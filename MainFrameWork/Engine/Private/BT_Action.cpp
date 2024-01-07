@@ -42,7 +42,7 @@ HRESULT CBT_Action::Initialize(void* pArg)
 void CBT_Action::OnStart(_int iAnimIndex)
 {
 	__super::OnStart();
-
+	/*cout << "Start:	" << CAsUtils::ToString( m_strActionName) << endl;*/
 	m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[iAnimIndex].iAnimIndex, 
 		m_vecAnimDesc[iAnimIndex].fChangeTime, m_vecAnimDesc[iAnimIndex].iStartFrame, 
 		m_vecAnimDesc[iAnimIndex].iChangeFrame, m_vecAnimDesc[iAnimIndex].fRootDist);
@@ -79,6 +79,12 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 	}
 
 	return BT_RUNNING;
+}
+
+void CBT_Action::OnEnd()
+{
+	__super::OnEnd();
+	//cout << "End:%t" << CAsUtils::ToString(m_strActionName) << endl;
 }
 
 void CBT_Action::Start_Animation()

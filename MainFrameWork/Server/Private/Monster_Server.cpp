@@ -303,7 +303,7 @@ void CMonster_Server::Set_SlowMotion(_bool bSlow)
 	Send_SlowMotion(bSlow);
 }
 
-void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
+void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
@@ -340,8 +340,8 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 
 		if (vHitPos.y == 0.f) 
 		{
-
-			m_pTransformCom->LookAt(vHitPos);
+			
+			m_pTransformCom->LookAt_Dir(vHitPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 			vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 			vBack = -vLook;
 			vBack.Normalize();
@@ -349,15 +349,14 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		}
 		else if (vHitPos.y == 1.f)
 		{
-			vHitPos.y = 0.f;
 			vBack = vHitPos;
+			vBack.y = 0.f;
 			vLook = -vBack;
 			vLook.Normalize();
-			vBack.Normalize();
 			m_pTransformCom->LookAt_Dir(vLook);
-			vHitPos.y = 1.f;
 		}
-	
+		vBack = m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.f;
+		vBack.Normalize();
 		if (fForce < 20.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
@@ -368,7 +367,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.0f;
+
 			m_pRigidBody->AddForce(vBack * (fForce - 20.f), ForceMode::FORCE);
 			m_IsBound = true;
 		}
@@ -382,10 +381,6 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 			m_IsTwist = true;
 		}
 	}
-	else if (fForce >= 20.f)
-	{ 
-		m_IsHit = true;
-	}
 
 	if (iStatusEffect != (_int)STATUSEFFECT::COUNTER && fStatusDuration !=0&&iStatusEffect < (_int)STATUSEFFECT::EFFECTEND)
 	{
@@ -396,10 +391,10 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		m_fStatusEffects[iStatusEffect] += fStatusDuration;
 		cout<< endl << "상태이상:	" << iStatusEffect << endl << "지속시간:	" << fStatusDuration << endl;
 	}
-	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration);
+	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
 }
 
-void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)
+void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	pGameInstance->AddRef();
@@ -414,6 +409,7 @@ void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT e
 	pkt.set_istatuseffect((_uint)eEffect);
 	pkt.set_fforce(fForce);
 	pkt.set_fduration(fDuration);
+	pkt.set_igroggy(iGroggy);
 
 	auto vSendHitPos = pkt.mutable_vhitpos();
 	vSendHitPos->Resize(3, 0.0f);
@@ -450,6 +446,7 @@ void CMonster_Server::Find_NearTarget(_float fTimeDelta)
 			m_pNearTarget = pNearTarget;
 			Send_NearTarget();
 		}
+
 	}
 }
 

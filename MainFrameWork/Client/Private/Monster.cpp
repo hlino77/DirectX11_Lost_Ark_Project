@@ -352,7 +352,7 @@ void CMonster::Update_StatusEffect(_float fTimeDelta)
 }
 
 
-void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration)
+void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	m_iHp -= iDamage;
 
@@ -364,7 +364,7 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 		if (vHitPos.y == 0.f)
 		{
 
-			m_pTransformCom->LookAt(vHitPos);
+			m_pTransformCom->LookAt_Dir(vHitPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 			vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 			vBack = -vLook;
 			vBack.Normalize();
@@ -372,13 +372,15 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 		}
 		else if (vHitPos.y == 1.f)
 		{
-			vHitPos.y = 0.f;
 			vBack = vHitPos;
+
 			vLook = -vBack;
 			vLook.Normalize();
-			vBack.Normalize();
 			m_pTransformCom->LookAt_Dir(vLook);
+
 		}
+		vBack = m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.f;
+		vBack.Normalize();
 		if (fForce < 20.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
@@ -389,20 +391,16 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.f;
-			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+
+			m_pRigidBody->AddForce(vBack * (fForce - 20.f), ForceMode::FORCE);
 		}
 		else if (fForce >= 30.f)
 		{
 			m_pRigidBody->ClearForce(ForceMode::FORCE);
 			m_pRigidBody->ClearForce(ForceMode::VELOCITY_CHANGE);
-			fForce = 1.f;
-			m_pRigidBody->AddForce(vBack * fForce, ForceMode::FORCE);
+
+			m_pRigidBody->AddForce(vBack * (fForce - 30.f), ForceMode::FORCE);
 		}
-	}
-	else if (fForce >= 30.f)
-	{
-		m_IsHit = true;
 	}
 	m_fStatusEffects[iStatusEffect] += fDuration;
 
@@ -411,7 +409,7 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 	Set_RimLight(0.05f);
 }
 
-void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration)
+void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	pGameInstance->AddRef();
@@ -426,7 +424,8 @@ void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect,
 	pkt.set_istatuseffect((_uint)eEffect);
 	pkt.set_fforce(fForce);
 	pkt.set_fduration(fDuration);
-	
+	pkt.set_igroggy(iGroggy);
+
 	auto vSendHitPos = pkt.mutable_vhitpos();
 	vSendHitPos->Resize(3, 0.0f);
 	memcpy(vSendHitPos->mutable_data(), &vHitPos, sizeof(Vec3));
@@ -553,6 +552,12 @@ void CMonster::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
+}
+
+void CMonster::Set_Action(wstring strAction)
+{
+	m_pBehaviorTree->Change_Action(strAction);
+	m_strAction = strAction;
 }
 
 void CMonster::Set_AttackRange(_int iRangeIndex)
@@ -904,7 +909,7 @@ void CMonster::Send_CollidingInfo(const _uint iColLayer, CCollider* pOther)
 		IsCritical = true;
 		iDamage *= 2;
 	};
-	Send_Collision(iDamage, vPos, eEffect, fForce, fStatusDuration);
+	Send_Collision(iDamage, vPos, eEffect, fForce, fStatusDuration,0);
 	Show_Damage(iDamage, IsCritical);
 }
 

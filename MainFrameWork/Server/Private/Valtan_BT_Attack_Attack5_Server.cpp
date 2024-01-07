@@ -23,6 +23,12 @@ void CValtan_BT_Attack_Attack5_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime && m_iStack<5)
 	{
 		

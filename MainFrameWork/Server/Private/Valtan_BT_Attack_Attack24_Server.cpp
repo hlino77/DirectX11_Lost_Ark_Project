@@ -3,6 +3,7 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
+#include <Boss_Server.h>
 
 CValtan_BT_Attack_Attack24_Server::CValtan_BT_Attack_Attack24_Server()
 {
@@ -18,8 +19,16 @@ void CValtan_BT_Attack_Attack24_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack24_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_iCurrAnimation==0&&m_pGameObject->Get_ModelCom()->IsNext())
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		m_pGameObject->Get_TransformCom()->Turn_Speed(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(930.f), fTimeDelta);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

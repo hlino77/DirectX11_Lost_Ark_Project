@@ -60,7 +60,7 @@ public:
 
 	void	 Update_StatusEffect(_float fTimeDelta);
 
-	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration);
+	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
 
 
 	virtual void Set_SlowMotion(_bool bSlow) override;
@@ -103,7 +103,7 @@ public:
 	void					Set_AnimationSpeed(_float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
-	void					Set_Action(wstring strAction) { m_strAction = strAction; }
+	void					Set_Action(wstring strAction);
 	wstring					Get_Action() { return m_strAction; }
 
 	void					Set_AttackRange(_int iRangeIndex);
@@ -118,8 +118,8 @@ public:
 
 	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
-	_bool						Is_SetuponCell() { return m_IsSetuponCell; }
-	void						Set_SetuponCell(_bool IsSetuponCell) { m_IsSetuponCell = IsSetuponCell; }
+	_bool					Is_SetuponCell() { return m_IsSetuponCell; }
+	void					Set_SetuponCell(_bool IsSetuponCell) { m_IsSetuponCell = IsSetuponCell; }
 
 
 	Vec3 Get_RandomPosition() { return m_vRandomPosition; }
@@ -144,7 +144,7 @@ protected:
 protected:
 	void					CullingObject();
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
-	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration);
+	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy);
 	void					Send_CollidingInfo(const _uint iColLayer, CCollider* pOther);
 
 

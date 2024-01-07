@@ -32,7 +32,7 @@ private:
 private:
 	_bool	Is_NoArmor()
 	{
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() <= 0)
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() == 0)
 			return true;
 
 		return false;

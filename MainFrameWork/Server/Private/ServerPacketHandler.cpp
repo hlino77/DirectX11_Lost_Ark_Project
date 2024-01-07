@@ -252,7 +252,7 @@ bool Handel_S_COLLISION_Server(PacketSessionRef& session, Protocol::S_COLLISION&
 		return true;
 	}
 
-	pObject->Hit_Collision(pkt.idamage(), Vec3(pkt.vhitpos().data()), pkt.istatuseffect(), pkt.fforce(), pkt.fduration());
+	pObject->Hit_Collision(pkt.idamage(), Vec3(pkt.vhitpos().data()), pkt.istatuseffect(), pkt.fforce(), pkt.fduration(), pkt.igroggy());
 	
 	Safe_Release(pGameInstance);
 

@@ -22,13 +22,15 @@ public:
 
 	HRESULT	 Tick_Action(wstring strActionName, const _float & fTimeDelta);
 
+	HRESULT Change_Action(wstring strActionName);
+
 	void			SetRoot(class CBT_Composite * pComposite) { m_pRootNode = pComposite; }
 	HRESULT			Init_PreviousAction(wstring strAction);
 	void			ResetAll();
 
 protected:
 	class CBT_Composite* m_pRootNode = nullptr;
-	using Actions = unordered_map<wstring, class CBT_Action*, djb2Hasher>;
+	using Actions = unordered_map<wstring, class CBT_Node*, djb2Hasher>;
 	Actions m_hashActions;
 	Actions::iterator		m_PreviousAction;
 

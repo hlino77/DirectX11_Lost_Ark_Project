@@ -19,14 +19,6 @@ void CValtan_BT_Attack_Attack22_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_fLoopTime < 0.f && m_vecAnimDesc[1].bIsLoop && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
-	{
-		m_pGameObject->Set_Invincible(true);
-		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));		
-		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
-	}
-	else if(m_pGameObject->Is_Invincible())
-		m_pGameObject->Set_Invincible(false);
 	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex)
 	{
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
