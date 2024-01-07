@@ -20,6 +20,9 @@ public:
 public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
+	
+private:
+	void	Effect_Shot();
 
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
@@ -30,6 +33,7 @@ private:
 	//Animation
 	_int m_iPerfectShot_End = 0;
 
+	vector<wstring> m_ParticleName;
 public:
 	static CState_GN_PerfectShot_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

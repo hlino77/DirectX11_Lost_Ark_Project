@@ -5,6 +5,8 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "Effect_Manager.h"
 
 CState_GN_PerfectShot_End::CState_GN_PerfectShot_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -26,6 +28,11 @@ HRESULT CState_GN_PerfectShot_End::Initialize()
 	m_SkillFrames.push_back(2);
 
 	m_SkillFrames.push_back(-1);
+
+	m_ParticleName.push_back(L"PerpectShotParticle1");
+	m_ParticleName.push_back(L"PerpectShotParticle2");
+	m_ParticleName.push_back(L"PerpectShotParticle3");
+	m_ParticleName.push_back(L"PerpectShotParticle4");
 
 	return S_OK;
 }
@@ -56,6 +63,8 @@ void CState_GN_PerfectShot_End::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPerfectShot_End))
 	{
+		Effect_Shot();
+
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
@@ -67,6 +76,45 @@ void CState_GN_PerfectShot_End::Tick_State_Control(_float fTimeDelta)
 void CState_GN_PerfectShot_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_PerfectShot_End::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix().Translation();
+
+	Vec3 vOriginLook = matWorld.Backward();
+	vOriginLook.Normalize();
+
+	Vec3 vOriginUp = matWorld.Up();
+	vOriginUp.Normalize();
+
+	Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+	vOriginRight.Normalize();
+
+	matWorld.Translation(vPos);
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("PerpectShotBullet"), &desc)
+	EFFECT_START(TEXT("PerpectShotMuzzleFlash"), &desc)
+	
+
+	for (_uint i = 0; i < 60; ++i)
+	{
+		Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 10) * 0.1f);
+
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.15f, 0.15f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.15f, 0.15f);
+
+		_uint iParticleNameIndex = rand() % 4;
+
+		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+	}
 }
 
 CState_GN_PerfectShot_End* CState_GN_PerfectShot_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

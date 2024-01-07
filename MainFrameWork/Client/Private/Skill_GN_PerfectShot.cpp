@@ -28,13 +28,13 @@ HRESULT CSkill_GN_PerfectShot::Initialize(void* pArg)
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
-	Proj_Desc.fAttackTime = 0.5f;
+	Proj_Desc.fAttackTime = 0.3f;
 	Proj_Desc.fRadius = 0.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.5f);
 	Proj_Desc.IsMove = true;
-	Proj_Desc.fMoveSpeed = 20.f;
+	Proj_Desc.fMoveSpeed = 30.f;
 	Proj_Desc.iDamage = 120;
-	Proj_Desc.fRepulsion = 21.f;
+	Proj_Desc.fRepulsion = 21.f;	
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 

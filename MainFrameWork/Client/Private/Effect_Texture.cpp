@@ -40,6 +40,9 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 {
 	Super::Tick(fTimeDelta);
 
+	if (m_fWaitingAcc < m_fWaitingTime)
+		return;
+
 	if (m_IsSequence)
 	{
 		m_fSequenceTimer += fTimeDelta;
