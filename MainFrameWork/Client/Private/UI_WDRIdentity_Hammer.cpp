@@ -41,7 +41,7 @@ HRESULT CUI_WDRIdentity_Hammer::Initialize(void* pArg)
 	m_vColor = { 3.f, 3.f, 3.f, 1.f };
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));;
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -128,7 +128,7 @@ void CUI_WDRIdentity_Hammer::Identity_Hammer_Normal(_float fTimeDelta)
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 }
 
 void CUI_WDRIdentity_Hammer::Identity_Hammer_Transform_On(_float fTimeDelta)
@@ -156,7 +156,7 @@ void CUI_WDRIdentity_Hammer::Identity_Hammer_Transform_On(_float fTimeDelta)
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
 	if (1.f >= m_vColor.x)
 	{
@@ -167,7 +167,7 @@ void CUI_WDRIdentity_Hammer::Identity_Hammer_Transform_On(_float fTimeDelta)
 
 		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
 	}
 	else if (5.f <= m_vColor.x)
@@ -219,7 +219,7 @@ void CUI_WDRIdentity_Hammer::Identity_Hammer_Transform_Off(_float fTimeDelta)
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));;
 
 	if (1.f >= m_vColor.x)
 	{
@@ -230,7 +230,7 @@ void CUI_WDRIdentity_Hammer::Identity_Hammer_Transform_Off(_float fTimeDelta)
 
 		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));;
 	}
 	else if (5.f <= m_vColor.x)
 	{
@@ -241,7 +241,7 @@ void CUI_WDRIdentity_Hammer::Identity_Hammer_Transform_Off(_float fTimeDelta)
 
 		m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));;
 	}
 }
 

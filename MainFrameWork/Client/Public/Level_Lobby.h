@@ -15,8 +15,9 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual HRESULT Tick(const _float& fTimeDelta) override;
 	virtual HRESULT LateTick(const _float& fTimeDelta) override;
+	virtual HRESULT Render_Debug();
 	virtual HRESULT Exit();
-
+	
 private:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_BackGround(const LAYER_TYPE eLayerType);
@@ -31,6 +32,7 @@ private:
 private:
 	CGameObject* m_pCamera = { nullptr };
 
+	wstring m_strObjectTag = TEXT("");
 	_bool m_bConnect = false;
 	thread* m_pQuadTreeThread = nullptr;
 	Matrix m_CameraMatrix = {};

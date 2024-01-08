@@ -43,7 +43,7 @@ HRESULT CUI_IdentityGN_Spark::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f) +(m_fSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - (g_iWinSizeX * 0.5f) +(m_fSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -70,7 +70,7 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 
 			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 			m_bHidden = true;
 	}
 	else if (m_bHidden)
@@ -82,7 +82,7 @@ void CUI_IdentityGN_Spark::Tick(_float fTimeDelta)
 			m_fAlpha -= 3.f * fTimeDelta;
 			m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+				Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 		}
 		if (0 >= m_fAlpha)
 		{

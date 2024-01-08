@@ -9,6 +9,7 @@
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_RectSSAO.h"
 #include "Hasher.h"
+#include "Lock.h"
 
 BEGIN(Engine)
 class CComponent_Manager : public CBase
@@ -32,7 +33,7 @@ private:
 
 private:
     class CComponent* Find_Component(_uint iLevelIndex, const wstring& strProtoTypeTag);
-
+    USE_LOCK
 public:
     virtual void Free() override;
 

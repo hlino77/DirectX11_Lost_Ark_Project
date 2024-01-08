@@ -73,8 +73,8 @@ public:
 	virtual void	RemoveDeadItem_And_ReOrder(vector<CGameObject*>& vec);  // º¤ÅÍ Á¤·Ä
 	CUI*			Get_UIPart(const wstring & strPartTag);
 	vector<CUI*>	Get_UIParts();
-	_uint			Get_ButtonState() { return m_eButtonState; }
-	_uint			Set_ButtonState(_uint iButtonState) { m_eButtonState = (BUTTON_STATE)iButtonState; }
+	_uint			Get_ButtonState() { return m_iButtonState; }
+	_uint			Set_ButtonState(_uint iButtonState) { m_iButtonState = (BUTTON_STATE)iButtonState; }
 	void			Load_UIData(const wstring& _FilePath);
 
 public://IMGUI
@@ -123,7 +123,7 @@ protected:
 	_float					m_fAlpha = 1.0f;
 	Vec4					m_vColor = { 1.f, 1.f, 1.f ,1.f };
 
-	BUTTON_STATE		m_eButtonState = { BUTTON_NORMAL };
+	_uint		m_iButtonState = { BUTTON_NORMAL };
 	_bool				m_bPick = { false };
 	_bool				m_bTool = { false };
 	_bool				m_bChange = { false };
