@@ -111,6 +111,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		m_fStartDelay = 10.0f;
 		m_iMonsterCount = 100;
 		m_iMonsterMaxSpawnCount = 30;
+		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Ghoul");
 		//m_iBossCount = 1;

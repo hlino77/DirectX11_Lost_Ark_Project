@@ -56,6 +56,7 @@ private:
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);
+	HRESULT Loading_LobbyUI();
 	HRESULT	Loading_QuickSlot();
 	HRESULT	Loading_SkillIcon();
 	HRESULT Loading_ChaosDungeon_UI();

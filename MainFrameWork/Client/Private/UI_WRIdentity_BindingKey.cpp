@@ -48,7 +48,7 @@ HRESULT CUI_WRIdentity_BindingKey::Initialize(void* pArg)
         Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-    XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 0.1f));
+    XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
     return S_OK;
 }

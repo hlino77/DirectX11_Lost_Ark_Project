@@ -17,6 +17,7 @@
 #include "QuadTreeMgr.h"
 #include "Engine_Defines.h"
 #include "Player_Select.h"
+#include "UI_Tool.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -28,7 +29,7 @@ HRESULT CLevel_Lobby::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_BackGround(LAYER_TYPE::LAYER_UI)))
+	if (FAILED(Ready_Layer_BackGround(LAYER_TYPE::LAYER_BACKGROUND)))
 		return E_FAIL;
 
 	if (FAILED(Ready_CameraFree(LAYER_TYPE::LAYER_CAMERA)))
@@ -98,6 +99,14 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 
 HRESULT CLevel_Lobby::LateTick(const _float& fTimeDelta)
 {
+	CUI_Tool::GetInstance()->LateTick();
+	return S_OK;
+}
+
+HRESULT CLevel_Lobby::Render_Debug()
+{
+	CUI_Tool::GetInstance()->Tick();
+
 	return S_OK;
 }
 
@@ -109,6 +118,9 @@ HRESULT CLevel_Lobby::Exit()
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_LOBBY);
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, m_pCamera);
+
+	CUI_Tool::GetInstance()->Set_ToolMode(false);
+
 
 	return S_OK;
 }
@@ -199,6 +211,14 @@ HRESULT CLevel_Lobby::Ready_Layer_UI()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	_uint iLevelIndex= (_uint)pGameInstance->Get_CurrLevelIndex();
+
+	CGameObject* pUI = pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI((LEVELID)iLevelIndex, static_cast<CUI*>(pUI));
+	
 	Safe_Release(pGameInstance);
 
 	return S_OK;

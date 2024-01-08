@@ -453,6 +453,13 @@
     <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Spark.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG_BackGround.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG_Gauge.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG_Harp.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG_Roap.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG_Skill.h" />
+    <ClInclude Include="..\Public\UI_IdentityMG_SkillFrame.h" />
     <ClInclude Include="..\Public\UI_Identity_GN.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
     <ClInclude Include="..\Public\ImGUI\imgui.h" />
@@ -516,6 +523,10 @@
     <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
     <ClInclude Include="..\Public\UI_LoadingWnd.h" />
+    <ClInclude Include="..\Public\UI_Lobby.h" />
+    <ClInclude Include="..\Public\UI_Lobby_EntranceServer_Button.h" />
+    <ClInclude Include="..\Public\UI_Lobby_NickName.h" />
+    <ClInclude Include="..\Public\UI_Lobby_StageName.h" />
     <ClInclude Include="..\Public\UI_Manager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -889,6 +900,13 @@
     <ClCompile Include="..\Private\UI_IdentityGN_MainFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG_BackGround.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG_Gauge.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG_Harp.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG_Roap.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG_Skill.cpp" />
+    <ClCompile Include="..\Private\UI_IdentityMG_SkillFrame.cpp" />
     <ClCompile Include="..\Private\UI_Identity_GN.cpp" />
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
@@ -954,6 +972,10 @@
     <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
     <ClCompile Include="..\Private\UI_LoadingWnd.cpp" />
+    <ClCompile Include="..\Private\UI_Lobby.cpp" />
+    <ClCompile Include="..\Private\UI_Lobby_EntranceSetver_Button.cpp" />
+    <ClCompile Include="..\Private\UI_Lobby_NickName.cpp" />
+    <ClCompile Include="..\Private\UI_Lobby_StageName.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

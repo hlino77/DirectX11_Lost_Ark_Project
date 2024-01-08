@@ -335,6 +335,14 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		else
 			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 	}
+	else if (L"MG" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
+	{
+		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityMG_UI"));
+		if (nullptr == pUI)
+			return E_FAIL;
+		else
+			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+	}
 	
 	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
 	if (nullptr == pUI)

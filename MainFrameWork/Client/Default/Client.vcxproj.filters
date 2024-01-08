@@ -577,9 +577,6 @@
     <Filter Include="02.GameObjects\UI\99.Base">
       <UniqueIdentifier>{1f3b16a7-633f-4ceb-b80f-ad2be5eb5097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\BackGround\02.Character_Select">
-      <UniqueIdentifier>{b671d02b-5b7c-4fd5-998a-12fd0a2dbf95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\05. Chase">
       <UniqueIdentifier>{e91db7db-6f55-4c43-aec6-74ef7f395b77}</UniqueIdentifier>
     </Filter>
@@ -591,12 +588,6 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\10.Lobby\00.NickName">
       <UniqueIdentifier>{44c0d29d-fe62-4a8b-a71a-d497e876324d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\01.Class">
-      <UniqueIdentifier>{cfed0aef-97cb-4674-93fa-b9c837b63856}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\02.">
-      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility">
       <UniqueIdentifier>{51e9e0bf-ac00-47bc-b39f-126b7e06306f}</UniqueIdentifier>
@@ -994,12 +985,6 @@
     <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\99.Clear">
       <UniqueIdentifier>{0a5f9a88-cf92-457b-8edc-6530ff01223c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\00.BackGround">
-      <UniqueIdentifier>{c578e440-13a6-4284-bff3-a95740fe694d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Gauge">
-      <UniqueIdentifier>{82e352c7-010a-4a5c-963f-a429382703cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame">
       <UniqueIdentifier>{5d0167f9-f97e-44b2-a673-fdf2a18f3487}</UniqueIdentifier>
     </Filter>
@@ -1050,6 +1035,45 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Select\Tea">
       <UniqueIdentifier>{d11ab814-f540-4a5c-a0f0-aeb6bce7f898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\02.Gauge">
+      <UniqueIdentifier>{82e352c7-010a-4a5c-963f-a429382703cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\00.BackGround">
+      <UniqueIdentifier>{230a873c-b3a3-4041-aa95-ba46e086fd3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp">
+      <UniqueIdentifier>{bbab1f58-8e8a-4150-be4d-abae5e7e6a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill">
+      <UniqueIdentifier>{c10ae4b9-4be5-4858-9dac-7a9eec24c8df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp\00.Roap">
+      <UniqueIdentifier>{2daee74a-debf-4510-9647-3fbab8c3d0ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\00.Skill_Icon">
+      <UniqueIdentifier>{23950ebd-ab8a-43ab-b149-dd627a826ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\01.Skill_Frame">
+      <UniqueIdentifier>{88b56b4f-47f9-4960-b2de-1f7083e109b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\01.Stage_Name">
+      <UniqueIdentifier>{cfed0aef-97cb-4674-93fa-b9c837b63856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\02.00.Entrance_Server_Button">
+      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\03.Utility">
+      <UniqueIdentifier>{00fa55b2-ca37-44c3-a3a7-2cb1819add0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\04.Main_Charcter_Flag">
+      <UniqueIdentifier>{09e78b58-5fa5-4449-98b6-0145ed40ef66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\05.Expedition_Level">
+      <UniqueIdentifier>{bef9bcfb-c3ce-47df-ac29-d70fe8d97225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp\01.Body">
+      <UniqueIdentifier>{53ce6378-6a1e-4fba-adec-451f6a3c83a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3387,6 +3411,40 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG_BackGround.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\00.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG_Roap.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\01.Harp\00.Roap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG_Harp.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\01.Harp\01.Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG_Gauge.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\02.Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG_Skill.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\00.Skill_Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityMG_SkillFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\01.Skill_Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Lobby_NickName.h">
+      <Filter>02.GameObjects\UI\10.Lobby\00.NickName</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Lobby_EntranceServer_Button.h">
+      <Filter>02.GameObjects\UI\10.Lobby\02.00.Entrance_Server_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Lobby.h">
+      <Filter>02.GameObjects\UI\10.Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Lobby_StageName.h">
+      <Filter>02.GameObjects\UI\10.Lobby\01.Stage_Name</Filter>
+>>>>>>> origin/feature/Seokhyeon
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5692,6 +5750,39 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_3.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG_BackGround.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\00.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG_Roap.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\01.Harp\00.Roap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG_Harp.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\01.Harp\01.Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG_Gauge.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\02.Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG_Skill.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\00.Skill_Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityMG_SkillFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\01.Skill_Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Lobby_NickName.cpp">
+      <Filter>02.GameObjects\UI\10.Lobby\00.NickName</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Lobby_EntranceSetver_Button.cpp">
+      <Filter>02.GameObjects\UI\10.Lobby\02.00.Entrance_Server_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Lobby.cpp">
+      <Filter>02.GameObjects\UI\10.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Lobby_StageName.cpp">
+      <Filter>02.GameObjects\UI\10.Lobby\01.Stage_Name</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

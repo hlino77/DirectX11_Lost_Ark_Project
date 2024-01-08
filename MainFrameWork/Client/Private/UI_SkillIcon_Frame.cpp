@@ -10,6 +10,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WDR.h"
 #include "Player_Destroyer.h"
+#include "Controller_MG.h"
+#include "Player_Bard.h"
 #include "TextBox.h"
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
