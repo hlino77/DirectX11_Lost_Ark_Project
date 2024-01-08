@@ -182,6 +182,12 @@ private:
 	_float m_fSampleRatio25x25 = 25.f;
 	_float m_fSampleRatio125x125 = 125.f;
 
+	// IBL
+	HRESULT		Ready_IBL();
+	CTexture*	m_pIrradianceTexture = nullptr;
+	CTexture*	m_pPreFilteredTexture = nullptr;
+	CTexture*	m_pBRDFTexture = nullptr;
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

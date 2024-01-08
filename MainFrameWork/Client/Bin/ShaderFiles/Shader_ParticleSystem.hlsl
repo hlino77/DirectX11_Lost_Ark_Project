@@ -4,8 +4,6 @@
 #include "Client_Shader_InOut.hlsl"
 #include "Client_Shader_Effect.hlsl"
 
-matrix g_WorldMatrix;
-
 /* For ParticleSystem */
 
 // STREAM-OUT TECH

@@ -1130,6 +1130,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_IBL.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl" />

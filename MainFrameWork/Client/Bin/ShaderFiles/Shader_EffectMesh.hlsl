@@ -30,7 +30,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
         vNewUV = (In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
     else
         vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
-    
+
     float fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);    
     
@@ -44,7 +44,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
         fMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV).r;
         clip(fMask - 0.01f);
     }
-    
+
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
     
     clip(vColor.a - vColor_Clip.a);

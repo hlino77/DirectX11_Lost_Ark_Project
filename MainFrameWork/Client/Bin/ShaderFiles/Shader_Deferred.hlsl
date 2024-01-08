@@ -342,13 +342,20 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float3 H = normalize(V + L);
 	
 	// irradianceMap을 ShadeTarget으로 대체해 봄. 이상하면 여긴 빼자
-    float3 vIrradiance = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
-    float3 vDiffuse = vIrradiance * vAlbedo.xyz;
+    //float3 vIrradiance = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
+    //float3 vDiffuse = vIrradiance * vAlbedo.xyz;
 	
-    float3 vBRDF_factor = BRDF(fRoughness, fMetallic, vDiffuse, F0, N, V, L, H);
+	//////////
+	//////////
+	
+	
+    float3 vBRDF_factor = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, L, H, fAO);
+	
+    float3 vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
+	
     float3 vColor = float3(0.f, 0.f, 0.f);
-    vColor += g_vLightDiffuse.rgb * /*shadow * */vBRDF_factor * (1.f + fAO);
-    //vColor = vColor / (vColor + float3(1.f, 1.f, 1.f));
+    vColor += /*g_vLightDiffuse.rgb * */ /*shadow * */vBRDF_factor * vShade;
+    vColor = vColor / (vColor + float3(1.f, 1.f, 1.f));
     vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
 	
     //float3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), vDiffuse, fRoughness);
