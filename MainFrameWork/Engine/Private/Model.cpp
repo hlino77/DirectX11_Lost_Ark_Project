@@ -217,7 +217,7 @@ HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse)
+HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY)
 {
 	WRITE_LOCK
 
@@ -258,6 +258,7 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int 
 	}
 	
 	m_fRootDist = fRootDist;
+	m_bUseRootY = bUseY;
 	m_IsPreRootRot = m_bRootRotation;
 	m_bRootRotation = bRootRot;
 	if (true == m_bRootRotation)
@@ -419,7 +420,8 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 		Vec3 vCalculePos = vPos;
 
 		vCalculePos += vWorldDir * fDist * m_fRootDist;
-		vCalculePos.y = vPos.y;
+		if (false == m_bUseRootY)
+			vCalculePos.y = vPos.y;
 
 		pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
 	}
@@ -436,7 +438,8 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 		Vec3 vCalculePos = vPos;
 
 		vCalculePos += vWorldDir * fDist * m_fRootDist;
-		vCalculePos.y = vPos.y;
+		if (false == m_bUseRootY)
+			vCalculePos.y = vPos.y;
 
 		if (m_OriginMatrix == XMMatrixIdentity())
 		{
@@ -519,15 +522,25 @@ HRESULT CModel::Set_Animation_Transforms()
 
 		if (TEXT("b_root") == m_ModelBones[i]->strName)
 		{
-			// 이동 제거
+			
 			if (false == m_bRootRotation)
 			{
+				// 이동 제거
 				memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
-				Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+				Vec4 Zero;
+				if (true == m_bUseRootY)
+				{
+					Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+				}
+				else
+				{
+					Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+				}
 				memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 			}
 			else if (true == m_bRootRotation)
 			{
+				// 이동, 회전 제거
 				memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
 				m_RootMatrix = m_matCurrTransforms[i];
 			
@@ -538,7 +551,15 @@ HRESULT CModel::Set_Animation_Transforms()
 
 				m_matCurrTransforms[i] = XMMatrixScalingFromVector(vScale) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
-				Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+				Vec4 Zero;
+				if (true == m_bUseRootY)
+				{
+					Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+				}
+				else
+				{
+					Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+				}
 				memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 			}
 		
@@ -589,7 +610,15 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 			// 이동 제거
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
 
-			Vec4 Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+			Vec4 Zero;
+			if (true == m_bUseRootY)
+			{
+				Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+			}
+			else
+			{
+				Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+			}
 			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 		}
 	}

@@ -101,7 +101,7 @@ public:
 	HRESULT SetUp_OnShader(class CShader* pShader, _uint iMaterialIndex, aiTextureType eTextureType, const char* strConstantName);
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader);
 
-	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false);
+	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false);
 	HRESULT Set_NextAnimation();
 
 	HRESULT Play_Animation(_float fTimeDelta);
@@ -157,6 +157,7 @@ private:
 	/* HJ Ãß°¡ */	
 	_bool						m_bRootRotation = { false };
 	_bool						m_IsPreRootRot = { false };
+	_bool						m_bUseRootY = { false };
 
 	Matrix						m_RootMatrix;
 	Matrix						m_OriginMatrix;

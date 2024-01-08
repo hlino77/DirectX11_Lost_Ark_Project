@@ -78,7 +78,6 @@ void CPlayer::Tick(_float fTimeDelta)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	}
 		
-
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
@@ -158,21 +157,6 @@ HRESULT CPlayer::Render_ShadowDepth()
 		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-	//_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	//for (_uint i = 0; i < iNumMeshes; ++i)
-	//{
-	//	/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-	//		return S_OK;*/
-
-	//		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-	//			return S_OK;*/
-
-
-	//	if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
-	//		return S_OK;
-	//}
 
 	return S_OK;
 }
@@ -289,7 +273,6 @@ void CPlayer::Set_PlayerUp(_float fTimeDelta)
 	vUp.Normalize();
 	Vec3 vTargetUp(0.0f, 1.0f, 0.0f);
 
-
 	if (vUp.Dot(vTargetUp) != 1.0f)
 	{
 		Vec3 vDir = vTargetUp - vUp;
@@ -310,7 +293,6 @@ void CPlayer::Set_PlayerUp(_float fTimeDelta)
 
 		m_pTransformCom->Set_Up(vUp);
 	}
-
 
 }
 
@@ -804,12 +786,12 @@ void CPlayer::Set_State(const wstring& szName)
 	Send_State(szName);
 }
 
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY)
 {
 	if (nullptr == m_pModelCom)
 		return;
 
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse, bUseY);
 }
 
 void CPlayer::Free()

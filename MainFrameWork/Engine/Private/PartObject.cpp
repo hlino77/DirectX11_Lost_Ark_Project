@@ -36,6 +36,10 @@ HRESULT CPartObject::Initialize(void* pArg)
 		m_iStoreSocketBoneIndex = pPartDesc->iStoreSocketBoneIndex;
 
 		m_SocketPivotMatrix = pPartDesc->SocketPivotMatrix;
+
+		m_vPartScale = pPartDesc->vPartScale;
+		m_vPartRot = pPartDesc->vPartRot;
+		m_vPartPos = pPartDesc->vPartPos;
 	}
 
 	return S_OK;
