@@ -115,8 +115,11 @@ void CState_GN_PerfectShot_Loop::Effect_Glow(_bool bOnOff)
 	}
 	else
 	{
-		m_pEffectGlow->EffectEnd();
-		m_pEffectGlow = nullptr;
+		if (m_pEffectGlow)
+		{
+			m_pEffectGlow->EffectEnd();
+			m_pEffectGlow = nullptr;
+		}	
 	}
 
 	

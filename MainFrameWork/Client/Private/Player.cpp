@@ -535,9 +535,9 @@ HRESULT CPlayer::Ready_Components()
 
 	Safe_Release(pGameInstance);
 
-	m_vOriginScale.x = 0.009f;
-	m_vOriginScale.y = 0.009f;
-	m_vOriginScale.z = 0.009f;
+	m_vOriginScale.x = 0.01f;
+	m_vOriginScale.y = 0.01f;
+	m_vOriginScale.z = 0.01f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 

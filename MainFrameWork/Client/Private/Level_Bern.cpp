@@ -397,7 +397,7 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CameraDesc.tCameraDesc.fFar = 1200.0f;
 
 	CameraDesc.tCameraDesc.TransformDesc.fSpeedPerSec = 30.f;
-	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
+	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(60.0f);
 
 	CameraDesc.pPlayer = pPlayer;
 

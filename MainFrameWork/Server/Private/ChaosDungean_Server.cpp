@@ -123,7 +123,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		m_iMonsterMaxSpawnCount = 50;
 		m_iBossCount = 3;
 		m_MonsterSpawnList.push_back(L"Reaper");
-		m_MonsterSpawnList.push_back(L"Plant");
+		m_MonsterSpawnList.push_back(L"Plant");	
 		m_BossSpawnList.push_back(L"Golem");
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:

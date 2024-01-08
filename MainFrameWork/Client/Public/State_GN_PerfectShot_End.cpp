@@ -96,6 +96,8 @@ void CState_GN_PerfectShot_End::Effect_Shot()
 	matWorld.Translation(vPos);
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("PerpectShotBullet"), &desc)
+	EFFECT_START(TEXT("PerpectShotSmokeRight"), &desc)
+	EFFECT_START(TEXT("PerpectShotSmokeLeft"), &desc)
 	EFFECT_START(TEXT("PerpectShotMuzzleFlash"), &desc)
 	
 
@@ -103,8 +105,8 @@ void CState_GN_PerfectShot_End::Effect_Shot()
 	{
 		Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 10) * 0.1f);
 
-		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.15f, 0.15f);
-		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.15f, 0.15f);
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.5f, 0.5f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.5f, 0.5f);
 
 		_uint iParticleNameIndex = rand() % 4;
 
