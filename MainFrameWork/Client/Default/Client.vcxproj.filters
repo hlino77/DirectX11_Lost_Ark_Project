@@ -1051,6 +1051,15 @@
     <Filter Include="02.GameObjects\Player\Player_Select\Tea">
       <UniqueIdentifier>{d11ab814-f540-4a5c-a0f0-aeb6bce7f898}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Npc">
+      <UniqueIdentifier>{9ec8e60e-6851-433e-9b78-e9603bc749f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc">
+      <UniqueIdentifier>{65d579a8-de2c-476f-b44b-014e0000bb55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Deco_Npc">
+      <UniqueIdentifier>{aaa31dd6-d2e7-4b8d-9ba1-d7c0d151c2d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3387,6 +3396,15 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Npc.h">
+      <Filter>02.GameObjects\Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Function_Npc.h">
+      <Filter>02.GameObjects\Npc\Function_Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Deco_Npc.h">
+      <Filter>02.GameObjects\Npc\Deco_Npc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5692,6 +5710,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_3.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Npc.cpp">
+      <Filter>02.GameObjects\Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Function_Npc.cpp">
+      <Filter>02.GameObjects\Npc\Function_Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Deco_Npc.cpp">
+      <Filter>02.GameObjects\Npc\Deco_Npc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

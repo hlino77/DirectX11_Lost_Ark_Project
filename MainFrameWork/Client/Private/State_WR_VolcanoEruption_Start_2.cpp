@@ -28,6 +28,7 @@ HRESULT CState_WR_VolcanoEruption_Start_2::Initialize()
 void CState_WR_VolcanoEruption_Start_2::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iVolcano_Start_2, 0.1f, 0, 0);
+
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Start_2, 1.2f);
 	else

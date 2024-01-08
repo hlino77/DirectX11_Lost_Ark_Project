@@ -18,6 +18,11 @@ public:
 		_uint				iSocketBoneIndex = { 0 };
 		_uint				iStoreSocketBoneIndex = { 0 };
 		Matrix				SocketPivotMatrix;
+
+		Vec3				vPartScale;
+		Vec3				vPartRot;
+		Vec3				vPartPos;
+
 	}PART_DESC;
 
 protected:
@@ -72,6 +77,11 @@ protected:
 	_bool					m_IsRender = { true };
 	_bool					m_IsStored = { false };
 	_bool					m_bStopUpdate = { false };
+
+	Vec3					m_vPartScale;
+	Vec3					m_vPartRot;
+	Vec3					m_vPartPos;
+
 
 protected:
 	HRESULT Compute_RenderMatrix(Matrix ChildMatrix);
