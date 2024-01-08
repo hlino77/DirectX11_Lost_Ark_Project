@@ -42,12 +42,7 @@ private:
 	thread*			m_pQuadTreeThread = nullptr;
 	Matrix			m_CameraMatrix = {};
 
-
 	wstring m_strObjectTag = TEXT("");
-	_bool m_bConnect = false;
-	thread* m_pQuadTreeThread = nullptr;
-	Matrix m_CameraMatrix = {};
-
 public:
 	static class CLevel_Lobby* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

@@ -21,8 +21,6 @@ HRESULT CComponent_Manager::Reserve_Manager(_uint iNumLevels)
 
 HRESULT CComponent_Manager::Add_Prototype(_uint iLevelIndex, const wstring& strProtoTypeTag, CComponent* pPrototype)
 {
-    WRITE_LOCK
-
     if (iLevelIndex >= m_iNumLevels)
         return E_FAIL;
 
