@@ -31,7 +31,8 @@ HRESULT CWeapon_Boss_Valtan::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
+	m_pTransformCom->My_Rotation(Vec3(-30.5, -100.2f , 147.4f));
+
 	return S_OK;
 }
 
@@ -43,23 +44,11 @@ void CWeapon_Boss_Valtan::Tick(_float fTimeDelta)
 	WorldMatrix.r[1] = XMVector3Normalize(WorldMatrix.r[1]);
 	WorldMatrix.r[2] = XMVector3Normalize(WorldMatrix.r[2]);
 
-
 	Compute_RenderMatrix(m_pTransformCom->Get_WorldMatrix() * WorldMatrix);
-	
-	if (m_pModelCom->Is_AnimationEnd(m_pModelCom->Get_CurrAnim())&& !m_pModelCom->IsNext()&& (m_pModelCom->Get_CurrAnim()!= m_pModelCom->Find_AnimIndex(L"att_battle_5_01_loop")))
-	{
-		m_pModelCom->Reserve_NextAnimation(m_pModelCom->Find_AnimIndex(L"att_battle_5_01_loop"), 0.2f,0, 0);
-	}
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
 void CWeapon_Boss_Valtan::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
-	{
-		m_PlayAnimation.get();
-		m_pModelCom->Set_ToRootPos(m_pTransformCom);
-	}
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
@@ -84,7 +73,6 @@ HRESULT CWeapon_Boss_Valtan::Render()
 
 HRESULT CWeapon_Boss_Valtan::Render_ShadowDepth()
 {
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 	__super::Render_ShadowDepth();
 
 	return S_OK;

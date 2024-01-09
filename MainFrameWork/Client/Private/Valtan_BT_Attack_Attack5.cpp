@@ -20,7 +20,7 @@ void CValtan_BT_Attack_Attack5::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime && m_iStack < 5)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime && m_iStack < 9)
 	{
 		m_iStack++;
 		m_fLoopTime = 0.f;
@@ -31,11 +31,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5::OnUpdate(const _float& fTimeDelta
 		m_vDirection.Normalize();
 	}
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == (m_vecAnimDesc[2].iAnimIndex) && m_iStack==5)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == (m_vecAnimDesc[2].iAnimIndex) && m_iStack==9)
 	{
 		m_iStack++;
 		Vec3 vPlayerPosition = static_cast<CMonster*>(m_pGameObject)->Get_TargetPos();
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition() + m_vDirection * 1.5f);
+		static_cast<CMonster*>(m_pGameObject)->Set_SetuponCell(true);
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition() + m_vDirection * 1.4f);
 		static_cast<CMonster*>(m_pGameObject)->Get_TransformCom()->LookAt(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
 	}
 

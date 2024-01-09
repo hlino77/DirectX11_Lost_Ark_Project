@@ -28,6 +28,8 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2_Server::OnUpdate(const _float& fTimeDelta)
 void CValtan_BT_Phase2_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(2);
 }
 
