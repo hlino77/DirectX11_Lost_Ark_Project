@@ -41,6 +41,11 @@ HRESULT CLevel_Logo::Tick(const _float& fTimeDelta)
 		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_TOOL, L"None"))))
 			return E_FAIL;
 	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::N))
+	{
+		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_TOOL_NPC, L"None"))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

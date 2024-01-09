@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Key_Manager.h"
 #include "MannequinPart.h"
+#include "NavigationMgr.h"
 
 CMannequin::CMannequin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Mannequin", OBJ_TYPE::PLAYER)
@@ -33,7 +34,6 @@ HRESULT CMannequin::Initialize_Prototype()
 HRESULT CMannequin::Initialize(void* pArg)
 {
 
-
 	return S_OK;
 }
 
@@ -42,43 +42,10 @@ void CMannequin::Tick(_float fTimeDelta)
 	if (nullptr == m_pModelCom)
 		return;
 
-	//if (KEY_HOLD(KEY::DOWN_ARROW))
-	//{
-	//	m_pTransformCom->Go_Down(fTimeDelta);
-	//}
+	if((_uint)LEVEL_TOOL_NPC == m_iCurrLevel)
+		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
 
-	//if (KEY_HOLD(KEY::LEFT_ARROW))
-	//{
-	//	m_pTransformCom->Turn(Vec3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
-	//}
-
-	//if (KEY_HOLD(KEY::RIGHT_ARROW))
-	//{
-	//	m_pTransformCom->Turn(Vec3(0.f, 1.f, 0.f), fTimeDelta);
-	//}
-	//if (KEY_HOLD(KEY::UP_ARROW))
-	//{
-	//	m_pTransformCom->Go_Up(fTimeDelta);
-	//}
-
-	/*if (KEY_TAP(KEY::O))
-	{
-		_uint iCurrAnimIdx = m_pModelCom->Get_CurrAnim();
-		if (iCurrAnimIdx <= 0)
-			m_pModelCom->Set_CurrAnim(0);
-		else
-			m_pModelCom->Set_CurrAnim(--iCurrAnimIdx);
-	}
-
-	if (KEY_TAP(KEY::P))
-	{
-		_uint iCurrAnimIdx = m_pModelCom->Get_CurrAnim();
-
-		if (iCurrAnimIdx >= m_pModelCom->Get_MaxAnimIndex())
-			m_pModelCom->Set_CurrAnim(m_pModelCom->Get_MaxAnimIndex());
-		else
-			m_pModelCom->Set_CurrAnim(++iCurrAnimIdx);
-	}*/
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 
 	for (size_t i = 0; i < PART_END; i++)
 	{
@@ -92,9 +59,8 @@ void CMannequin::LateTick(_float fTimeDelta)
 {
 	if (nullptr == m_pRendererCom || nullptr == m_pModelCom)
 		return;
-
 	
-	m_pModelCom->Play_Animation(fTimeDelta);
+	m_PlayAnimation.get();
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
@@ -120,20 +86,105 @@ HRESULT CMannequin::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
- 	for (_uint i = 0; i < m_pModelCom->Get_NumMeshes(); ++i)
+	if (nullptr != m_pModelPart[HEAD] && nullptr != m_pModelPart[BODY])
 	{
-		if (FAILED(m_pModelCom->Render_SingleMesh(m_pShaderCom, i)))
-			return E_FAIL;
+		for (_uint i = 0; i < m_pModelPart[HEAD]->Get_NumMeshes(); ++i)
+		{
+			if (i == m_IsHair)
+			{
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+					return E_FAIL;
+
+				if (FAILED(m_pModelPart[HEAD]->Render_SingleMesh(m_pShaderCom, i)))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelPart[HEAD]->Render_SingleMesh(m_pShaderCom, i)))
+					return E_FAIL;
+			}
+		}
+
+		for (_uint i = 0; i < m_pModelPart[BODY]->Get_NumMeshes(); ++i)
+		{
+			if (FAILED(m_pModelPart[BODY]->Render_SingleMesh(m_pShaderCom, i)))
+				return E_FAIL;
+		}
 	}
+	else
+	{
+		for (_uint i = 0; i < m_pModelCom->Get_NumMeshes(); ++i)
+		{
+			if (FAILED(m_pModelCom->Render_SingleMesh(m_pShaderCom, i)))
+				return E_FAIL;
+		}
+
+		if (nullptr != m_pModelPart[HEAD])
+		{
+			for (_uint i = 0; i < m_pModelPart[HEAD]->Get_NumMeshes(); ++i)
+			{
+				if (i == m_IsHair)
+				{
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
+						FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+						return E_FAIL;
+
+					if (FAILED(m_pModelPart[HEAD]->Render_SingleMesh(m_pShaderCom, i)))
+						return E_FAIL;
+
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
+						FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+						return E_FAIL;
+				}
+				else
+				{
+					if (FAILED(m_pModelPart[HEAD]->Render_SingleMesh(m_pShaderCom, i)))
+						return E_FAIL;
+				}
+			}
+		}
+
+		if (nullptr != m_pModelPart[BODY])
+		{
+			for (_uint i = 0; i < m_pModelPart[BODY]->Get_NumMeshes(); ++i)
+			{
+				if (FAILED(m_pModelPart[BODY]->Render_SingleMesh(m_pShaderCom, i)))
+					return E_FAIL;
+			}
+		}
+	}
+}
+
+void CMannequin::Clear_MQ()
+{
+	m_pModelCom = nullptr;
+	for (size_t i = 0; i < PART_END; i++)
+	{
+		static_cast<CPartObject*>(m_pPart[i])->Change_ParentModelCom(nullptr);
+		static_cast<CPartObject*>(m_pPart[i])->Change_ModelCom(nullptr);
+		m_pModelPart[i] = nullptr;
+	}
+
+	if (nullptr != m_pModelCom)
+		m_pModelCom->Set_CurrAnim(0);
 }
 
 void CMannequin::Set_ModelCom(CModel* pModel)
 {
+	if (nullptr != m_pModelCom)
+		Safe_Release(m_pModelCom);
+
 	m_pModelCom = pModel;
 	for (size_t i = 0; i < PART_END; i++)
 	{
 		static_cast<CPartObject*>(m_pPart[i])->Change_ParentModelCom(m_pModelCom);
 		static_cast<CPartObject*>(m_pPart[i])->Change_ModelCom(nullptr);
+		m_pModelPart[i] = nullptr;
 	}
 
 	if(nullptr != m_pModelCom)
@@ -159,6 +210,12 @@ CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMa
 		{
 			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
 		}
+		if (-1 == iBoneIndex)
+		{
+			return nullptr;
+		}
+
+
 		static_cast<CPartObject*>(m_pPart[PART_R])->Change_BoneIndex(iBoneIndex);
 		static_cast<CPartObject*>(m_pPart[PART_R])->Change_Pivot(m_pModelCom->Get_PivotMatrix());
 		static_cast<CPartObject*>(m_pPart[PART_R])->Get_TransformCom()->Set_WorldMatrix(LocalMatrix);
@@ -174,12 +231,37 @@ CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMa
 		{
 			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
 		}
+		if (-1 == iBoneIndex)
+		{
+			return nullptr;
+		}
+
 		static_cast<CPartObject*>(m_pPart[PART_L])->Change_BoneIndex(iBoneIndex);
 		static_cast<CPartObject*>(m_pPart[PART_L])->Change_Pivot(m_pModelCom->Get_PivotMatrix());
 		static_cast<CPartObject*>(m_pPart[PART_L])->Get_TransformCom()->Set_WorldMatrix(LocalMatrix);
 
 		return static_cast<CPartObject*>(m_pPart[PART_L]);
 	}
+}
+
+void CMannequin::Set_ModelPart(_uint iIndex, CModel* pModel)
+{
+	switch (iIndex)
+	{
+	case MODELTYPE::HEAD:
+		m_pModelPart[HEAD] = pModel;
+		m_IsHair = m_pModelPart[HEAD]->Is_HairTexture();
+		break;
+	case MODELTYPE::BODY:
+		m_pModelPart[BODY] = pModel;
+		break;
+	}
+}
+
+void CMannequin::Set_HairColor(Vec3 rgb1, Vec3 rgb2)
+{
+	m_vHairColor_1 = Vec4(rgb1.x, rgb1.y, rgb1.z, 1.f);
+	m_vHairColor_2 = Vec4(rgb2.x, rgb2.y, rgb2.z, 1.f);
 }
 
 HRESULT CMannequin::Ready_Components()
@@ -190,7 +272,7 @@ HRESULT CMannequin::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 5.f;
+	TransformDesc.fSpeedPerSec = 3.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -207,9 +289,9 @@ HRESULT CMannequin::Ready_Components()
 	RELEASE_INSTANCE(CGameInstance);
 
 	Vec3 vScale;
-	vScale.x = 0.009f;
-	vScale.y = 0.009f;
-	vScale.z = 0.009f;
+	vScale.x = 0.01f;
+	vScale.y = 0.01f;
+	vScale.z = 0.01f;
 
 	m_pTransformCom->Set_Scale(vScale);
 

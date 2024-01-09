@@ -266,12 +266,11 @@ HRESULT CPlayer_Select::Ready_Components()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	Vec3 vScale;
-	vScale.x = 0.005f;
-	vScale.y = 0.005f;
-	vScale.z = 0.005f;
+	m_vOriginScale.x = 0.005f;
+	m_vOriginScale.y = 0.005f;
+	m_vOriginScale.z = 0.005f;
 
-	m_pTransformCom->Set_Scale(vScale);
+	m_pTransformCom->Set_Scale(m_vOriginScale);
 
 	return S_OK;
 }

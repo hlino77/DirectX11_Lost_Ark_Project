@@ -53,6 +53,9 @@ protected:
 	void	s2cPushBackRef(vector<const _char*>& vecChar, string& str);
 
 protected:
+	_bool	Is_MouseClickedGUI();
+
+protected:
 	CGameInstance*			m_pGameInstance = nullptr;
 	CLevel_Tool*			m_pLevel_Tool = nullptr;
 

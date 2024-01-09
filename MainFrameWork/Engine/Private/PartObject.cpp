@@ -40,6 +40,7 @@ HRESULT CPartObject::Initialize(void* pArg)
 		m_vPartScale = pPartDesc->vPartScale;
 		m_vPartRot = pPartDesc->vPartRot;
 		m_vPartPos = pPartDesc->vPartPos;
+		m_strPartModel = pPartDesc->strModel;
 	}
 
 	return S_OK;

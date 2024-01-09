@@ -244,9 +244,12 @@
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
+    <ClInclude Include="..\Public\Level_Tool_Npc.h" />
     <ClInclude Include="..\Public\Mannequin.h" />
     <ClInclude Include="..\Public\MannequinPart.h" />
     <ClInclude Include="..\Public\Npc.h" />
+    <ClInclude Include="..\Public\NpcTool.h" />
+    <ClInclude Include="..\Public\Npc_Part.h" />
     <ClInclude Include="..\Public\Party.h" />
     <ClInclude Include="..\Public\Player_Bard.h" />
     <ClInclude Include="..\Public\Player_Destroyer.h" />
@@ -694,9 +697,12 @@
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
+    <ClCompile Include="..\Private\Level_Tool_Npc.cpp" />
     <ClCompile Include="..\Private\Mannequin.cpp" />
     <ClCompile Include="..\Private\MannequinPart.cpp" />
     <ClCompile Include="..\Private\Npc.cpp" />
+    <ClCompile Include="..\Private\NpcTool.cpp" />
+    <ClCompile Include="..\Private\Npc_Part.cpp" />
     <ClCompile Include="..\Private\Party.cpp" />
     <ClCompile Include="..\Private\Player_Bard.cpp" />
     <ClCompile Include="..\Private\Player_Destroyer.cpp" />

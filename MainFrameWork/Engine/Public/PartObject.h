@@ -22,6 +22,7 @@ public:
 		Vec3				vPartScale;
 		Vec3				vPartRot;
 		Vec3				vPartPos;
+		wstring				strModel;
 
 	}PART_DESC;
 
@@ -81,7 +82,7 @@ protected:
 	Vec3					m_vPartScale;
 	Vec3					m_vPartRot;
 	Vec3					m_vPartPos;
-
+	wstring					m_strPartModel;
 
 protected:
 	HRESULT Compute_RenderMatrix(Matrix ChildMatrix);

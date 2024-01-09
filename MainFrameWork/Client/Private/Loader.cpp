@@ -221,6 +221,9 @@ _int CLoader::Loading()
 	case LEVEL_CHAOS_3:
 		hr = Loading_For_Level_Chaos3();
 		break;
+	case LEVEL_TOOL_NPC:
+		hr = Loading_For_Level_Tool_Npc();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -508,6 +511,45 @@ HRESULT CLoader::Loading_For_Level_Tool()
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_Tool_Npc()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
+		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
+		return E_FAIL;
+
+	m_strLoading = TEXT("맵을 로딩 중 입니다.");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_TOOL_NPC, L"BernCastle.Navi");
+
+	if (FAILED(Load_MapData(LEVEL_TOOL_NPC, TEXT("../Bin/Resources/MapData/BernCastle.data"))))
+	{
+		return E_FAIL;
+	}
+
+	/* For.Model */
+	m_strLoading = TEXT("모델을 로딩 중 입니다.");
+	Loading_Model_For_Level_Tool_Npc();
+
+	/* For.Texture */
+	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
+	
+
+	/* For.Shader */
+	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
+
+
+	/* For.GameObject */
+	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
@@ -2002,6 +2044,73 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	}
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+	/* Npc 마네킹 및 모델 */
+	{
+		wstring strFileName = L"GN_Face";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	/* Npc 머리 */
+	{
+		wstring strFileName = L"GN_Face";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	/* Npc 머리 */
+	{
+		wstring strFileName = L"GN_Face";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	/* Npc 몸 */
+	{
+		wstring strFileName = L"GN_Face";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	/* Npc 파츠 */
+	{
+		wstring strFileName = L"GN_WP_Hand_Legend";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

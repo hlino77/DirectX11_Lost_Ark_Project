@@ -44,12 +44,12 @@ void CWeapon_Hand::Tick(_float fTimeDelta)
 	XMMATRIX	WorldMatrix;
 
 	if (false == m_IsStored)
-		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
-	if (true == m_IsStored)
 	{
-		Matrix matSocket = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex);
-		memcpy(matSocket.m[3], &m_StoreSocketPos, sizeof(Vec3));
-		WorldMatrix = matSocket * m_SocketPivotMatrix;
+		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
+	}
+	else if (true == m_IsStored)
+	{
+		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iStoreSocketBoneIndex) * m_SocketPivotMatrix;
 	}
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
