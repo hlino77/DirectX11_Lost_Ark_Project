@@ -1087,6 +1087,15 @@
     <Filter Include="02.GameObjects\UI\10.Lobby\03.NickName_Change">
       <UniqueIdentifier>{00fa55b2-ca37-44c3-a3a7-2cb1819add0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Npc\Npc_Part">
+      <UniqueIdentifier>{da97641d-adb7-4e67-a047-72a78f3ed6d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\For_Npc">
+      <UniqueIdentifier>{1caa94d9-469c-4016-abe2-45d8eb992adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\For_Npc\NpcTool">
+      <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3474,6 +3483,15 @@
     <ClInclude Include="..\Public\UI_Lobby_NickNameChange.h">
       <Filter>02.GameObjects\UI\10.Lobby\03.NickName_Change</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Npc_Part.h">
+      <Filter>02.GameObjects\Npc\Npc_Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Tool_Npc.h">
+      <Filter>01.Levels\98.Tool\For_Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NpcTool.h">
+      <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5830,6 +5848,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Lobby_NickNameChange.cpp">
       <Filter>02.GameObjects\UI\10.Lobby\03.NickName_Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Npc_Part.cpp">
+      <Filter>02.GameObjects\Npc\Npc_Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Tool_Npc.cpp">
+      <Filter>01.Levels\98.Tool\For_Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NpcTool.cpp">
+      <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

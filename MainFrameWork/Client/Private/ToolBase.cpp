@@ -1,8 +1,13 @@
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include "stdafx.h"
 #include "ToolBase.h"
 //#include "ToolMediator.h"
 #include "Level_Tool.h"
 #include "GameInstance.h"
+#include "ImGUI\imgui.h"
+#include "ImGUI\imgui_impl_win32.h"
+#include "ImGUI\imgui_impl_dx11.h"
+#include "ImGUI\imgui_internal.h"
 
 CToolBase::CToolBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -101,6 +106,25 @@ void CToolBase::s2cPushBackRef(vector<const _char*>& vecChar, string& str)
 	_char* szCopy = new _char[len];
 	strcpy_s(szCopy, len, szSrc);
 	vecChar.push_back(szCopy);
+}
+
+_bool CToolBase::Is_MouseClickedGUI()
+{
+	ImGuiContext* Context = ImGui::GetCurrentContext();
+	if (!Context)
+		return false;
+
+	for (int i = 0; i < Context->Windows.Size; i++)
+	{
+		ImGuiWindow* window = Context->Windows[i];
+		if (window->Flags & ImGuiWindowFlags_NoMouseInputs)
+			continue;
+
+		if (window->Rect().Contains(Context->IO.MousePos))
+			return true;
+	}
+
+	return false;
 }
 
 void CToolBase::Free()

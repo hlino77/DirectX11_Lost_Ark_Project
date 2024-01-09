@@ -1,28 +1,28 @@
 #include "stdafx.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
-#include "Weapon_MG.h"
+#include "Npc_Part.h"
 
-CWeapon_MG::CWeapon_MG(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CPartObject(pDevice, pContext, L"MG_Weapon", OBJ_TYPE::PART)
+CNpc_Part::CNpc_Part(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	: CPartObject(pDevice, pContext, L"Npc_Part", OBJ_TYPE::PART)
 {
 
 }
 
-CWeapon_MG::CWeapon_MG(const CWeapon_MG& rhs)
+CNpc_Part::CNpc_Part(const CNpc_Part& rhs)
 	: CPartObject(rhs)
 {
 
 }
 
-HRESULT CWeapon_MG::Initialize_Prototype()
+HRESULT CNpc_Part::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
 
 	return S_OK;
 }
 
-HRESULT CWeapon_MG::Initialize(void* pArg)
+HRESULT CNpc_Part::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -31,12 +31,14 @@ HRESULT CWeapon_MG::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	m_pTransformCom->My_Rotation(Vec3(0.f, 70.f, 70.f));
+	m_pTransformCom->Set_Scale(m_vPartScale);
+	m_pTransformCom->My_Rotation(m_vPartRot);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPartPos);
 
 	return S_OK;
 }
 
-void CWeapon_MG::Tick(_float fTimeDelta)
+void CNpc_Part::Tick(_float fTimeDelta)
 {
 	if (false == Is_Render() || true == m_bStopUpdate)
 		return;
@@ -59,7 +61,7 @@ void CWeapon_MG::Tick(_float fTimeDelta)
 	Compute_RenderMatrix(m_pTransformCom->Get_WorldMatrix() * WorldMatrix);
 }
 
-void CWeapon_MG::LateTick(_float fTimeDelta)
+void CNpc_Part::LateTick(_float fTimeDelta)
 {
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
@@ -68,7 +70,7 @@ void CWeapon_MG::LateTick(_float fTimeDelta)
 	}
 }
 
-HRESULT CWeapon_MG::Render()
+HRESULT CNpc_Part::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -80,14 +82,14 @@ HRESULT CWeapon_MG::Render()
 	return S_OK;
 }
 
-HRESULT CWeapon_MG::Render_ShadowDepth()
+HRESULT CNpc_Part::Render_ShadowDepth()
 {
 	__super::Render_ShadowDepth();
 
 	return S_OK;
 }
 
-HRESULT CWeapon_MG::Ready_Components()
+HRESULT CNpc_Part::Ready_Components()
 {
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"),
@@ -105,12 +107,12 @@ HRESULT CWeapon_MG::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_MG_WP_Mococo";
+	wstring strComName = TEXT("Prototype_Component_Model_") + m_strPartModel;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	
+
 	m_vOriginScale.x = 100.f;
 	m_vOriginScale.y = 100.f;
 	m_vOriginScale.z = 100.f;
@@ -120,7 +122,7 @@ HRESULT CWeapon_MG::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CWeapon_MG::Bind_ShaderResources()
+HRESULT CNpc_Part::Bind_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
 		return E_FAIL;
@@ -130,35 +132,35 @@ HRESULT CWeapon_MG::Bind_ShaderResources()
 	return S_OK;
 }
 
-CWeapon_MG* CWeapon_MG::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CNpc_Part* CNpc_Part::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CWeapon_MG* pInstance = new CWeapon_MG(pDevice, pContext);
+	CNpc_Part* pInstance = new CNpc_Part(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CWeapon_MG");
+		MSG_BOX("Failed to Created : CNpc_Part");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CWeapon_MG::Clone(void* pArg)
+CGameObject* CNpc_Part::Clone(void* pArg)
 {
 	__super::Clone(pArg);
 
-	CWeapon_MG* pInstance = new CWeapon_MG(*this);
+	CNpc_Part* pInstance = new CNpc_Part(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CWeapon_MG");
+		MSG_BOX("Failed to Cloned : CNpc_Part");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CWeapon_MG::Free()
+void CNpc_Part::Free()
 {
 	__super::Free();
 

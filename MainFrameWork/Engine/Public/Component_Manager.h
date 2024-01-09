@@ -26,6 +26,8 @@ public:
     class CComponent* Clone_Component(CGameObject* pObject, _uint iLevelIndex, const wstring& strProtoTypeTag, void* pArg);
     HRESULT Check_Prototype(_uint iLevelIndex, const wstring& strProtoTypeTag);
 
+    unordered_map<const wstring, class CComponent*, djb2Hasher>* Get_Prototype(_uint iLevelIndex) { return &m_Prototypes[iLevelIndex]; }
+
 private:
     _uint   m_iNumLevels = 0;
     unordered_map<const wstring, class CComponent*, djb2Hasher>* m_Prototypes = nullptr;

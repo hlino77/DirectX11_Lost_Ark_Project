@@ -160,7 +160,6 @@ HRESULT CModel::Initialize_Prototype(Matrix PivotMatrix, const wstring& strFileP
 	m_IsMapObject = IsMapObject;
 
 
-
 	if (FAILED(Load_AssetFile_FromBinary(strFilePath, strFileName, bClient, IsMapObject)))
 		return E_FAIL;
 

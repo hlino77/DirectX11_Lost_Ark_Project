@@ -38,14 +38,60 @@ HRESULT CNpc::Initialize_Prototype()
 
 HRESULT CNpc::Initialize(void* pArg)
 {
-	//MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
-	//m_strObjectTag = Desc->strFileName;
-	//m_bControl = Desc->bControl;
-	//m_iObjectID = Desc->iObjectID;
-	//m_iLayer = Desc->iLayer;
-	//m_szNickName = Desc->szNickName;
-	//m_iWeaponIndex = Desc->iWeaponIndex;
-	//m_iCurrLevel = Desc->iCurrLevel;
+	if (nullptr == pArg)
+		return E_FAIL;
+
+	{
+		NPCDESC* pDesc = static_cast<NPCDESC*>(pArg);
+
+		m_iCurrLevel = pDesc->iCurLevel;
+
+		m_eNpcType = (NPCTYPE)pDesc->iNpcType;
+		m_strObjectTag = pDesc->strNpcTag;
+		m_strNpcName = pDesc->strNpcName;
+		m_matStart = pDesc->matStart;
+		memcpy(&m_vStartPos, m_matStart.m[3], sizeof(Vec3));
+
+		m_eNpcShape = (NPCSHAPE)pDesc->iNpcShape;
+		m_strNpcMq = pDesc->strNpcMq;
+		m_strNpcHead = pDesc->strNpcHead;
+		m_strNpcBody = pDesc->strNpcBody;
+
+		m_strIdleAnim = pDesc->strIdleAnim;
+		m_strActAnim = pDesc->strActAnim;
+		m_fChangeAnimTime = pDesc->fChangeAnimTime;
+
+		m_IsMove = pDesc->IsMove;
+		m_fMoveLength = pDesc->fMoveLength;
+
+		m_IsTalk = pDesc->IsTalk;
+		m_fTalkStartTime = pDesc->fTalkStartTime;
+		m_vecTalks = pDesc->vecTalks;
+
+		m_bUseWeaponPart = pDesc->bUseWeaponPart;
+		m_strLeftPart = pDesc->strLeftPart;
+		m_vLeftOffset[(_uint)WEAPON_OFFSET::SCALE] = pDesc->vLeftOffset[(_uint)WEAPON_OFFSET::SCALE];
+		m_vLeftOffset[(_uint)WEAPON_OFFSET::ROTATION] = pDesc->vLeftOffset[(_uint)WEAPON_OFFSET::ROTATION];
+		m_vLeftOffset[(_uint)WEAPON_OFFSET::POSITION] = pDesc->vLeftOffset[(_uint)WEAPON_OFFSET::POSITION];
+		m_strRightPart = pDesc->strRightPart;
+		m_vRightOffset[(_uint)WEAPON_OFFSET::SCALE] = pDesc->vRightOffset[(_uint)WEAPON_OFFSET::SCALE];
+		m_vRightOffset[(_uint)WEAPON_OFFSET::ROTATION] = pDesc->vRightOffset[(_uint)WEAPON_OFFSET::ROTATION];
+		m_vRightOffset[(_uint)WEAPON_OFFSET::POSITION] = pDesc->vRightOffset[(_uint)WEAPON_OFFSET::POSITION];
+
+		m_iLeftBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
+		m_iRightBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	}
+	
+	if (true == m_IsMove)
+	{
+		Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+
+		m_vMovePos = m_vStartPos + (vLook * m_fMoveLength);
+	}
+
+	//
+	m_iLayer = (_uint)LAYER_TYPE::LAYER_NPC;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -53,12 +99,22 @@ HRESULT CNpc::Initialize(void* pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 
-	m_pRigidBody->SetMass(2.0f);
-
-	m_tCullingSphere.Radius = 2.0f;
-
 	if (FAILED(Ready_SpeechBuble()))
 		return E_FAIL;
+
+	m_pRigidBody->SetMass(2.0f);
+	m_pTransformCom->Set_WorldMatrix(m_matStart);
+	m_tCullingSphere.Radius = 2.0f;
+
+	m_iIdleAnimIndex = m_pModelCom->Initailize_FindAnimation(m_strIdleAnim, 1.0f);
+	if (m_iIdleAnimIndex == -1)
+		return E_FAIL;
+
+	m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_strActAnim, 1.0f);
+	if (m_iActAnimIndex == -1)
+		return E_FAIL;
+
+	m_pModelCom->Set_CurrAnim(m_iIdleAnimIndex);
 
 	return S_OK;
 }
@@ -70,6 +126,8 @@ void CNpc::Tick(_float fTimeDelta)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	}
 
+	Check_ChangeAnim(fTimeDelta);
+
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 }
 
@@ -77,8 +135,6 @@ void CNpc::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
-
-	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
 	for (auto& pPart : m_pWeaponPart)
 	{
@@ -104,12 +160,6 @@ void CNpc::LateTick(_float fTimeDelta)
 		if (nullptr == pPart) continue;
 
 		pPart->LateTick(fTimeDelta);
-	}
-
-	if (m_bControl)
-	{
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		CGameInstance::GetInstance()->Update_LightMatrix(vPos);
 	}
 
 	if (m_bRimLight)
@@ -153,8 +203,6 @@ HRESULT CNpc::Render_ShadowDepth()
 	return S_OK;
 }
 
-
-
 HRESULT CNpc::Render_Debug()
 {
 	for (auto& Colider : m_Coliders)
@@ -187,7 +235,6 @@ void CNpc::Body_Collision(CGameObject* pObject)
 
 	Vec3 vDir = vPos - vOtherPos;
 	_float fDistance = vDir.Length();
-
 
 	if (fDistance < 0.5f)
 	{
@@ -254,15 +301,15 @@ HRESULT CNpc::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
+	wstring strComName = L"Prototype_Component_Model_" + m_strNpcMq;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	if (true == m_bControl)
+	if (NPCTYPE::FUNCTION == m_eNpcType)
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_BODY_NPC;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderBody"), (CComponent**)&pCollider, &tColliderInfo)))
@@ -282,10 +329,9 @@ HRESULT CNpc::Ready_Components()
 				pCollider->Set_Child(pChildCollider);
 			}
 
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, pCollider);
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_NPC, pCollider);
 		}
 	}
-
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -295,6 +341,59 @@ HRESULT CNpc::Ready_Components()
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 
+	return S_OK;
+}
+
+HRESULT CNpc::Ready_Parts()
+{
+	if (false == m_bUseWeaponPart)
+		return S_OK;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CGameObject* pParts = nullptr;
+
+	if (TEXT("") != m_strRightPart)
+	{
+		CPartObject::PART_DESC			PartDesc_Weapon;
+		PartDesc_Weapon.pOwner = this;
+		PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+		PartDesc_Weapon.pParentTransform = m_pTransformCom;
+		PartDesc_Weapon.pPartenModel = m_pModelCom;
+		PartDesc_Weapon.iSocketBoneIndex = m_iRightBoneIndex;
+		PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+		PartDesc_Weapon.strModel = m_strRightPart;
+		PartDesc_Weapon.vPartScale = m_vRightOffset[(_uint)WEAPON_OFFSET::SCALE];
+		PartDesc_Weapon.vPartRot = m_vRightOffset[(_uint)WEAPON_OFFSET::ROTATION];
+		PartDesc_Weapon.vPartPos = m_vRightOffset[(_uint)WEAPON_OFFSET::POSITION];
+
+		wstring strObject = TEXT("Prototype_GameObject_NpcPart");
+		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
+		if (nullptr == pParts)
+			return E_FAIL;
+	}
+
+	if (TEXT("") != m_strLeftPart)
+	{
+		CPartObject::PART_DESC			PartDesc_Weapon;
+		PartDesc_Weapon.pOwner = this;
+		PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_2;
+		PartDesc_Weapon.pParentTransform = m_pTransformCom;
+		PartDesc_Weapon.pPartenModel = m_pModelCom;
+		PartDesc_Weapon.iSocketBoneIndex = m_iLeftBoneIndex;
+		PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+		PartDesc_Weapon.strModel = m_strLeftPart;
+		PartDesc_Weapon.vPartScale = m_vLeftOffset[(_uint)WEAPON_OFFSET::SCALE];
+		PartDesc_Weapon.vPartRot = m_vLeftOffset[(_uint)WEAPON_OFFSET::ROTATION];
+		PartDesc_Weapon.vPartPos = m_vLeftOffset[(_uint)WEAPON_OFFSET::POSITION];
+
+		wstring strObject = TEXT("Prototype_GameObject_NpcPart");
+		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
+		if (nullptr == pParts)
+			return E_FAIL;
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -312,18 +411,6 @@ HRESULT CNpc::Ready_SpeechBuble()
 
 void CNpc::CullingObject()
 {
-	if (m_bControl)
-	{
-		if (m_bRender)
-		{
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
-			m_pRendererCom->Add_DebugObject(this);
-		}
-
-		return;
-	}
-
 	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_tCullingSphere.Center = vPos;
 
@@ -339,6 +426,30 @@ void CNpc::CullingObject()
 		m_pRendererCom->Add_DebugObject(this);
 	}
 
+}
+
+void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
+{
+	if (-1 == m_iActAnimIndex)
+		return;
+
+	if (m_pModelCom->Get_CurrAnim() == m_iIdleAnimIndex)
+	{
+		m_fChangeAnimAcc += fTimeDelta;
+
+		if (m_fChangeAnimTime <= m_fChangeAnimAcc)
+		{
+			Reserve_Animation(m_iActAnimIndex, 0.2f, 0, 0);
+		}
+	}
+	else if (m_pModelCom->Get_CurrAnim() == m_iActAnimIndex)
+	{
+		if (true == m_pModelCom->Is_AnimationEnd(m_iActAnimIndex))
+		{
+			m_fChangeAnimAcc = 0.f;
+			Reserve_Animation(m_iIdleAnimIndex, 0.2f, 0, 0);
+		}
+	}
 }
 
 void CNpc::Show_SpeechBuble(const wstring& szChat)
@@ -366,6 +477,11 @@ void CNpc::Free()
 	for (size_t i = 0; i < (_uint)PART::_END; i++)
 	{
 		Safe_Release(m_pNpcPartCom[i]);
+	}
+
+	for (size_t i = 0; i < (_uint)WEAPON_PART::_END; i++)
+	{
+		Safe_Release(m_pWeaponPart[i]);
 	}
 
 	Safe_Release(m_pModelCom);

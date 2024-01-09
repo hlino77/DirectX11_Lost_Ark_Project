@@ -19,6 +19,7 @@ class CMannequin final : public CGameObject
 public:
 	enum STATE { STATE_IDLE, STATE_WALK, STATE_RUN, STATE_JUMP, STATE_END };
 	enum PARTTYPE { PART_R, PART_L, PART_END };
+	enum MODELTYPE { HEAD, BODY, MODEL_END };
 
 private:
 	CMannequin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -38,11 +39,16 @@ public:
 	CModel*		Get_ModelCom() { return m_pModelCom; }
 
 public:
-	void		Set_ModelCom(CModel* pModel);
-	CPartObject* Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix);
+	void			Clear_MQ();
+
+	void			Set_ModelCom(CModel* pModel);
+	CPartObject*	Set_Part(_uint PartType, CModel* pModel, Matrix LocalMatrix);
+	void			Set_ModelPart(_uint iIndex, CModel* pModel);
+
+	void			Set_HairColor(Vec3 rgb1, Vec3 rgb2);
 
 public:
-	void		Set_AnimationPlay() { m_bAnimationPlay = !m_bAnimationPlay; }
+	void			Set_AnimationPlay() { m_bAnimationPlay = !m_bAnimationPlay; }
 
 private:
 	virtual HRESULT Ready_Components() override;
@@ -50,6 +56,7 @@ private:
 
 private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CGameObject*	m_pPart[PART_END] = { nullptr };
+	CModel*			m_pModelPart[MODEL_END] = { nullptr };
 
 private:
 	_bool			m_bAnimationPlay = true;
@@ -58,6 +65,12 @@ private:
 	_float			m_fRimLightTime = 0.0f;
 
 	std::future<HRESULT>			m_PlayAnimation;
+
+	_int			m_IsHair = { -1 };
+
+	Vec4			m_vHairColor_1;
+	Vec4			m_vHairColor_2;
+
 
 public:
 	static CMannequin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
