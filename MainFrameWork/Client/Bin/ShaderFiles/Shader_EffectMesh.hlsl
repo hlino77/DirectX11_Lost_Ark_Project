@@ -46,14 +46,14 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    
+
     clip(vColor.a - vColor_Clip.a);
-    
+
     if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
         discard;
-    
+
     vColor *= fMask;
-    
+
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
@@ -70,7 +70,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
         //    vEmissive = float3(0.3f, 0.3f, 0.3f);
         //}
     }
-    
+
     Out.vColor = vColor + vColor_Offset;
     
     return Out;

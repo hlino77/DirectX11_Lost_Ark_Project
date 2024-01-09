@@ -66,6 +66,9 @@ HRESULT CLevel_Bern::Initialize()
 	if (FAILED(Ready_Layer_Camera(LAYER_TYPE::LAYER_CAMERA)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_SkyBox(LAYER_TYPE::LAYER_SKYBOX)))
+		return E_FAIL;
+	
 	if (FAILED(Ready_Layer_BackGround(LAYER_TYPE::LAYER_BACKGROUND)))
 		return E_FAIL;
 
@@ -227,6 +230,20 @@ HRESULT CLevel_Bern::Ready_Layer_Player(const LAYER_TYPE eLayerType)
 
 
 
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+	
+	CGameObject* pSkyDome = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyDome"));
+	if (nullptr == pSkyDome)
+		return E_FAIL;
+	
 	Safe_Release(pGameInstance);
 
 	return S_OK;

@@ -294,6 +294,7 @@
     <ClInclude Include="..\Public\Skill_WR_VolcanoEruption.h" />
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
+    <ClInclude Include="..\Public\SkyDome.h" />
     <ClInclude Include="..\Public\State_GN_Idle_Normal.h" />
     <ClInclude Include="..\Public\State_GN_Mode_ToBattle.h" />
     <ClInclude Include="..\Public\State_GN_Mode_ToNormal.h" />
@@ -730,9 +731,11 @@
     <ClCompile Include="..\Private\Skill_WR_VolcanoEruption.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
+    <ClCompile Include="..\Private\SkyDome.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle_Normal.cpp" />
     <ClCompile Include="..\Private\State_GN_Mode_ToBattle.cpp" />
     <ClCompile Include="..\Private\State_GN_Mode_ToNormal.cpp" />
+    <ClCompile Include="..\Private\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
@@ -1092,7 +1095,6 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -1138,7 +1140,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyBox.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl" />
