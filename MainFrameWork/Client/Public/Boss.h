@@ -112,6 +112,9 @@ protected:
 	Vec3  m_vSpawnPosition = {};
 	_int m_iArmor = 0;
 	_uint m_iPhase = 1;
+	_int m_iGroggyGauge = 0;
+	_uint m_iMaxGroggyGauge = 0;
+
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

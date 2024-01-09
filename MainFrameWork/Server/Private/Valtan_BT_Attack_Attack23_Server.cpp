@@ -18,10 +18,12 @@ void CValtan_BT_Attack_Attack23_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Get_TransformCom()->LookAt_Dir(Vec3(0.f,0.f,-1.f));
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
-
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
+	}
+	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	if (m_iCurrAnimation == m_iMaxAnimation - 1)
 		m_pGameObject->Set_Invincible(true);
@@ -31,7 +33,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23_Server::OnUpdate(const _float& fT
 void CValtan_BT_Attack_Attack23_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 

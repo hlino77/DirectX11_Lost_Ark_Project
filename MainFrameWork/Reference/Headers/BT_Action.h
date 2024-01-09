@@ -17,6 +17,7 @@ public:
 		_float fRootDist = 1.5f;
 		_bool  bIsLoop = false;
 		_float fMaxLoopTime = 0.f;
+		_bool  IsEndInstant = false;
 		_bool	IsRootRot = false;
 	}ANIMATION_DESC;
 

@@ -600,6 +600,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack22.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack23.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack24.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_1.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack3.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack4.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack5.h" />
@@ -1052,6 +1053,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack22.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack23.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack24.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2_1.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack3.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack4.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack5.cpp" />

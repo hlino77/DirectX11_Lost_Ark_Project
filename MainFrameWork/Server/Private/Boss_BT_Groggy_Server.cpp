@@ -28,6 +28,7 @@ void CBoss_BT_Groggy_Server::OnEnd()
 	__super::OnEnd();	
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_GroggyGauge() < 1)
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyGauge(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyGauge());
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(false);
 }
 

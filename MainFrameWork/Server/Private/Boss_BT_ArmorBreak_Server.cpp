@@ -22,6 +22,8 @@ CBT_Node::BT_RETURN CBoss_BT_ArmorBreak_Server::OnUpdate(const _float& fTimeDelt
 void CBoss_BT_ArmorBreak_Server::OnEnd()
 {
 	__super::OnEnd();
+
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_ArmorDurability(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxArmorDurability());
 
