@@ -15,8 +15,8 @@ PARTICLE_IN VS_MAIN_STREAM_SMOKE(PARTICLE_IN In)
     float4 vRight = WorldMatrix._11_12_13_14;
     float4 vUp = WorldMatrix._21_22_23_24;
     
-    In.vSize.x *= length(vRight);
-    In.vSize.y *= length(vUp);
+    In.vSize.x = length(vRight);
+    In.vSize.y = length(vUp);
     
     return In;
 }
@@ -29,15 +29,16 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
     if (In[0].iType == PT_EMITTER)
     {
 		// time to emit a new particle?
-        if (In[0].fAge > 0.001f)
+        if (In[0].fAge > 0.005f)
         {
             // Spread rain drops out above the camera.
             float3 vRandom = RandUnitVec3(0.0f);
+            vRandom *= 0.8f;
             
             PARTICLE_IN p;
 
             p.vPosition = vEmitPosition;
-            p.vPosition += vRandom;
+            //p.vPosition += vRandom;
             p.vVelocity = vEmitDirection + vRandom;
             p.vSize = In[0].vSize;
             //p.vSize = float2(1.f, 1.f);
@@ -55,7 +56,7 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
     else
     {
 		// Specify conditions to keep particle; this may vary from system to system.
-        if (In[0].fAge <= 2.f)
+        if (In[0].fAge <= 1.5f)
             OutStream.Append(In[0]);
     }
 }
@@ -117,7 +118,7 @@ VS_OUT_SMOKE VS_MAIN_DRAW_SMOKE(PARTICLE_IN In)
     //Out.vPosition = 0.5f * t * t * g_WaveSplashAcc + t * In.vVelocity + In.vPosition;
     Out.vPosition = t * In.vVelocity + In.vPosition;
 
-    float opacity = smoothstep(0.0f, 1.0f, 1.f - 1.5f * t);
+    float opacity = 1.f - smoothstep(0.0f, 1.0f, 1.f * t);
     Out.vColor = float4(1.0f, 1.0f, 1.0f, opacity);
     
     Out.vSize = In.vSize * (1.f + t);
@@ -214,10 +215,6 @@ PS_OUT_EFFECT PS_DRAW_SMOKE(GS_OUT_SMOKE In)
     
     vColor *= fMask;
     
-    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
-    {
-        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
-    }
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
         float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
@@ -231,7 +228,13 @@ PS_OUT_EFFECT PS_DRAW_SMOKE(GS_OUT_SMOKE In)
         //}
     }
     
-    Out.vColor = vColor * In.vColor;
+    //Out.vColor = vColor * In.vColor;
+    Out.vColor = vColor + vColor_Offset;
+    
+    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
+    {
+        Out.vEmissive = Out.vColor * fIntensity_Bloom;
+    }
     
     return Out;
 }
@@ -243,7 +246,7 @@ technique11 DrawTech
         //SetRasterizerState(RS_Default);
         SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         //SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
