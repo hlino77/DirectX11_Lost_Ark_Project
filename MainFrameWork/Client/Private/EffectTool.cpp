@@ -484,6 +484,8 @@ HRESULT CEffectTool::EffectDetail()
 
 	ImGui::InputFloat4("Color Clip", (_float*)&m_pCurrentEffect->m_Variables.vColor_Clip);
 
+	ImGui::InputFloat4("Color Mul", (_float*)&m_pCurrentEffect->m_Variables.vColor_Mul);
+
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
 	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);
@@ -867,6 +869,13 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("W", m_vecEffects[i]->m_Variables.vColor_Clip.w);
 			node->LinkEndChild(element);
 
+			element = document->NewElement("Color_Mul");
+			element->SetAttribute("X", m_vecEffects[i]->m_Variables.vColor_Mul.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Variables.vColor_Mul.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_Variables.vColor_Mul.z);
+			element->SetAttribute("W", m_vecEffects[i]->m_Variables.vColor_Mul.w);
+			node->LinkEndChild(element);
+
 			element = document->NewElement("LifeTime");
 			element->SetAttribute("LifeTime", m_vecEffects[i]->m_fLifeTime);
 			node->LinkEndChild(element);
@@ -1125,6 +1134,12 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_Variables.vColor_Clip.y = element->FloatAttribute("Y");
 			m_pCurrentEffect->m_Variables.vColor_Clip.z = element->FloatAttribute("Z");
 			m_pCurrentEffect->m_Variables.vColor_Clip.w = element->FloatAttribute("W");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_Variables.vColor_Mul.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_Variables.vColor_Mul.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_Variables.vColor_Mul.z = element->FloatAttribute("Z");
+			m_pCurrentEffect->m_Variables.vColor_Mul.w = element->FloatAttribute("W");
 			
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_fLifeTime = element->FloatAttribute("LifeTime");

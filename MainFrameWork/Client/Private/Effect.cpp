@@ -78,6 +78,8 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_vColor_End = pDesc->vColor_End;
 	m_bColor_Lerp = pDesc->bColor_Lerp;
 
+
+
 	m_fLifeTime = pDesc->fLifeTime;
 	m_fWaitingTime = pDesc->fWaitingTime;
 	m_fRemainTime = pDesc->fRemainTime;
@@ -94,6 +96,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Variables.vUV_TileCount = pDesc->vUV_TileCount;
 	m_Variables.vColor_Offset = pDesc->vColor_Offset;
 	m_Variables.vColor_Clip = pDesc->vColor_Clip;
+	m_Variables.vColor_Mul = pDesc->vColor_Mul;
 
 	m_Intensity.fBloom = pDesc->fBloom;
 	m_Intensity.fRadial = pDesc->fRadial;

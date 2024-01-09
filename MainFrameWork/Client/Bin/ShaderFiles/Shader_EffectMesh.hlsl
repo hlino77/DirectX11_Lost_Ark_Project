@@ -41,7 +41,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
     }
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
-        fMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV).r;
+        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
         clip(fMask - 0.01f);
     }
  

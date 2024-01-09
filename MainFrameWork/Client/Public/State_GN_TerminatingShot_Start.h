@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Shot();
+
+private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
 	std::function<void(CState_GN_TerminatingShot_Start&, _float)> m_TickFunc;
@@ -30,7 +33,7 @@ private:
 	//Animation
 	_int m_iTerminatingShot1 = 0;
 
-
+	vector<wstring> m_ParticleName;
 public:
 	static CState_GN_TerminatingShot_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

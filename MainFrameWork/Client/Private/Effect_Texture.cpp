@@ -46,7 +46,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 	if (m_IsSequence)
 	{
 		m_fSequenceTimer += fTimeDelta;
-		while (m_fSequenceTimer > m_fSequenceTerm)
+		while (m_fSequenceTimer >= m_fSequenceTerm)
 		{
 			m_fSequenceTimer -= m_fSequenceTerm;
 			++m_Variables.vUV_TileIndex.x;

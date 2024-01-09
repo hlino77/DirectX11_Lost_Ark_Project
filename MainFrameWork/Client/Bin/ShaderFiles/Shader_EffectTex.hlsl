@@ -96,7 +96,15 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
     if (!bUV_Wave)
         vNewUV = (In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
     else
-        vNewUV = ((((In.vTexcoord + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
+    {
+        vNewUV = (In.vTexcoord - 0.5f) * 2.f;
+        float2 vDir = normalize(vNewUV);
+        vNewUV += vDir * vUV_Offset.x;
+        vNewUV.x -= int(vNewUV.x);
+        vNewUV.y -= int(vNewUV.y);
+        vNewUV = vNewUV * 0.5f + 0.5f;
+    }
+       
     
     float  fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);
@@ -108,19 +116,21 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
     }
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
-        fMask = g_MaskTexture.Sample(LinearSampler, In.vTexcoord).r;
+        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
         clip(fMask - 0.01f);
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
     
-    clip(vColor.a - vColor_Clip.a);
-    
+    vColor += vColor_Offset;
+
+    vColor *= vColor_Mul * fMask;
+
     if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
         discard;
-    
-    vColor *= fMask;
-    
+
+    clip(vColor.a - vColor_Clip.a);
+
 	if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
         float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
@@ -136,7 +146,7 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
     
     //if (any(vColor_Offset))
     
-    Out.vColor = vColor + vColor_Offset;
+    Out.vColor = vColor;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {

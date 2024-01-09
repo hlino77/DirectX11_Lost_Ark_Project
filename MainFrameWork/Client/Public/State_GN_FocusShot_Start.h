@@ -4,6 +4,7 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CState_GN_FocusShot_Start final : public CState_Skill
 {
@@ -21,10 +22,20 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+
+
+private:
+	void	Effect_Glow(_bool bOnOff);
+	void	Update_Effect(_float fTimeDelta);
+
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
 	std::function<void(CState_GN_FocusShot_Start&, _float)> m_TickFunc;
+
+	_bool m_bEffect = false;
+	CEffect* m_pEffectGlow = nullptr;
+	CEffect* m_pEffectLazer = nullptr;
 
 private:
 	//Animation

@@ -8,6 +8,7 @@
 #include "Effect_Manager.h"
 #include "GameInstance.h"
 
+
 CState_GN_FocusShot_Loop::CState_GN_FocusShot_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
 {
@@ -24,9 +25,15 @@ HRESULT CState_GN_FocusShot_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_FocusShot_Loop::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(2);
+	m_SkillFrames.push_back(0);
 
 	m_SkillFrames.push_back(-1);
+
+	m_ParticleName.push_back(L"FocusShotParticle1");
+	m_ParticleName.push_back(L"FocusShotParticle2");
+	m_ParticleName.push_back(L"FocusShotParticle3");
+	m_ParticleName.push_back(L"FocusShotParticle4");
+	m_ParticleName.push_back(L"FocusShotParticle5");
 
 	return S_OK;
 }
@@ -103,7 +110,25 @@ void CState_GN_FocusShot_Loop::Effect_Shot()
 
 	matWorld.Translation(vPos);
 	desc.pPivotMatrix = &matWorld;
-	EFFECT_START(TEXT("FocusShotBullet"), &desc)
+	EFFECT_START(TEXT("FocusShotBullet1"), &desc)
+	EFFECT_START(TEXT("FocusShotMuzzleFlash1"), &desc);
+
+	for (_uint i = 0; i < 30; ++i)
+	{
+		Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 30) * 0.02f + 0.4f);
+
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.2f, 0.2f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.2f, 0.2f);
+
+		_uint iParticleNameIndex = rand() % 5;
+
+		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+	}
 }
 
 CState_GN_FocusShot_Loop* CState_GN_FocusShot_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

@@ -22,6 +22,10 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Shot();
+	void	Effect_LastShot();
+
+private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
 	std::function<void(CState_GN_FreeShooter&, _float)> m_TickFunc;
@@ -30,6 +34,9 @@ private:
 	//Animation
 	_int m_iFreeShoter = 0;
 
+	_bool m_bLastShotEffect = false;
+
+	vector<wstring> m_ParticleName;
 public:
 	static CState_GN_FreeShooter* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

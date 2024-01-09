@@ -95,6 +95,7 @@ public:
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);
 		Color	vColor_Clip = Vec4(0.f, 0.f, 0.f, 0.f);
+		Color	vColor_Mul = Vec4(1.f, 1.f, 1.f, 1.f);
 	} m_Variables;
 
 	struct tagFX_Intensity

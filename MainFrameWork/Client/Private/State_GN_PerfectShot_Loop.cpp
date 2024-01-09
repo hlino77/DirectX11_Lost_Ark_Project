@@ -30,6 +30,10 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 	m_fSkillSuccessTime_Min = 3.f;
 	m_fSkillSuccessTime_Max = 3.5f;
 
+	m_fEffectChargeTime = 0.23f;
+
+	m_fEffectCharge2Time = 0.4f;
+
 	return S_OK;
 }
 
@@ -40,6 +44,9 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 
 	m_bEffect = false;
+
+	m_fEffectChargeAcc = 0.4f;
+	m_fEffectCharge2Acc = 0.3f;
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
@@ -52,6 +59,13 @@ void CState_GN_PerfectShot_Loop::Exit_State()
 	m_fSkillTimeAcc = 0.f;
 
 	Effect_Glow(false);
+
+
+	for (auto& Effect : m_ChargeEffects)
+	{
+		Effect->EffectEnd();
+	}
+	m_ChargeEffects.clear();
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
@@ -109,9 +123,11 @@ void CState_GN_PerfectShot_Loop::Effect_Glow(_bool bOnOff)
 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = const_cast<Matrix*>(&static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix());
+		EFFECT_START_OUTLIST(TEXT("LongLazer"), &desc, EffectList);
 		EFFECT_START_OUTLIST(TEXT("PerpectShotGlow"), &desc, EffectList);
 
-		m_pEffectGlow = EffectList.front();
+		m_pEffectGlow = EffectList[0];
+		m_pEffectLazer = EffectList[1];
 	}
 	else
 	{
@@ -119,7 +135,13 @@ void CState_GN_PerfectShot_Loop::Effect_Glow(_bool bOnOff)
 		{
 			m_pEffectGlow->EffectEnd();
 			m_pEffectGlow = nullptr;
-		}	
+		}
+
+		if (m_pEffectLazer)
+		{
+			m_pEffectLazer->EffectEnd();
+			m_pEffectLazer = nullptr;
+		}
 	}
 
 	
@@ -130,8 +152,45 @@ void CState_GN_PerfectShot_Loop::Update_Effect(_float fTimeDelta)
 {
 	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix();
 
-	if(m_pEffectGlow)
+	if (m_pEffectGlow)
 		m_pEffectGlow->Update_Pivot(matWorld);
+
+	if (m_pEffectLazer)
+		m_pEffectLazer->Update_Pivot(matWorld);
+
+
+	for (auto& iter = m_ChargeEffects.begin(); iter != m_ChargeEffects.end();)
+	{
+		if ((*iter)->Is_Active())
+		{
+			(*iter)->Update_Pivot(matWorld);
+			++iter;
+		}
+		else
+		{
+			iter = m_ChargeEffects.erase(iter);
+		}
+	}
+
+	m_fEffectChargeAcc += fTimeDelta;
+
+	if (m_fEffectChargeAcc >= m_fEffectChargeTime)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START_OUTLIST(TEXT("PerpectShotCharge"), &desc, m_ChargeEffects);
+		m_fEffectChargeAcc = 0.0f;
+	}
+
+	m_fEffectCharge2Acc += fTimeDelta;
+
+	if (m_fEffectCharge2Acc >= m_fEffectCharge2Time)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START_OUTLIST(TEXT("PerpectShotCharge2"), &desc, m_ChargeEffects);
+		m_fEffectCharge2Acc = 0.0f;
+	}
 }
 
 CState_GN_PerfectShot_Loop* CState_GN_PerfectShot_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

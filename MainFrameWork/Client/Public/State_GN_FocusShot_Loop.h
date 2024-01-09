@@ -5,6 +5,7 @@
 
 BEGIN(Client)
 
+
 class CState_GN_FocusShot_Loop final : public CState_Skill
 {
 public:
@@ -37,6 +38,7 @@ private:
 private:
 	_uint	m_iShotCount = 0;
 
+	vector<wstring> m_ParticleName;
 public:
 	static CState_GN_FocusShot_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

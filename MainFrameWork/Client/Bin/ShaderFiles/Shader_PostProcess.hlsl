@@ -109,8 +109,11 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     
 	float4 vEffect = g_EffectTarget.Sample(LinearSampler, In.vTexcoord);
 	
-    if (EPSILON < vEffect.a)
+	if (EPSILON < vEffect.a)
+	{
 		vColor = float4(vEffect.rgb * 1.f + vColor.rgb * 1.f, 1.f);
+	}
+		
 	
     return vColor;
 }

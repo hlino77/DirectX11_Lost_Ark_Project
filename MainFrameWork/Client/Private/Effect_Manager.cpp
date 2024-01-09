@@ -186,6 +186,12 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.vColor_Clip.w = element->FloatAttribute("W");
 
 				element = element->NextSiblingElement();
+				tDesc.vColor_Mul.x = element->FloatAttribute("X");
+				tDesc.vColor_Mul.y = element->FloatAttribute("Y");
+				tDesc.vColor_Mul.z = element->FloatAttribute("Z");
+				tDesc.vColor_Mul.w = element->FloatAttribute("W");
+
+				element = element->NextSiblingElement();
 				tDesc.fLifeTime = element->FloatAttribute("LifeTime");
 				element = element->NextSiblingElement();
 				tDesc.fWaitingTime = element->FloatAttribute("WaitingTime");

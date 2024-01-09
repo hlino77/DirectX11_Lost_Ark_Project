@@ -11,6 +11,7 @@ cbuffer FX_Variables
     float2 vUV_TileIndex = float2(0.f, 0.f);
     float4 vColor_Offset = float4(0.f, 0.f, 0.f, 0.f);
     float4 vColor_Clip = float4(0.f, 0.f, 0.f, 0.f);
+    float4 vColor_Mul = float4(1.f, 1.f, 1.f, 1.f);
 };
 
 cbuffer FX_Intensity

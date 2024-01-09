@@ -37,6 +37,16 @@ private:
 
 	_bool m_bEffect = false;
 	CEffect* m_pEffectGlow = nullptr;
+	CEffect* m_pEffectLazer = nullptr;
+
+	vector<CEffect*> m_ChargeEffects;
+
+	_float m_fEffectChargeAcc = 0.0f;
+	_float m_fEffectChargeTime = 0.0f;
+
+	_float m_fEffectCharge2Acc = 0.0f;
+	_float m_fEffectCharge2Time = 0.0f;
+
 public:
 	static CState_GN_PerfectShot_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

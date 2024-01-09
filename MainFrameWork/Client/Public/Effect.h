@@ -70,6 +70,7 @@ public:
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Color(0.f, 0.f, 0.f, 0.f);
 		Color	vColor_Clip = Color(0.f, 0.f, 0.f, 0.f);
+		Color	vColor_Mul = Color(1.f, 1.f, 1.f, 1.f);
 
 		// Intensity
 		_float	fBloom = 0.f;
@@ -142,6 +143,7 @@ protected:
 		Vec2	vUV_TileIndex = Vec2(0.f, 0.f);
 		Color	vColor_Offset = Vec4(0.f, 0.f, 0.f, 0.f);
 		Color	vColor_Clip = Vec4(0.01f, 0.01f, 0.01f, 0.01f);
+		Color	vColor_Mul = Color(1.f, 1.f, 1.f, 1.f);
 	} m_Variables;
 
 	struct tagFX_Intensity

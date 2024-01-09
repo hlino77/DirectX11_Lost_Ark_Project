@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect_Manager.h"
+#include "GameInstance.h"
 
 CState_GN_FreeShooter::CState_GN_FreeShooter(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -31,9 +32,28 @@ HRESULT CState_GN_FreeShooter::Initialize()
 	m_SkillFrames.push_back(63);
 	m_SkillFrames.push_back(78);
 	m_SkillFrames.push_back(100);
-	m_SkillFrames.push_back(101);
 
 	m_SkillFrames.push_back(-1);
+
+
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(7, (_uint)CPartObject::PARTS::WEAPON_4));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(10, (_uint)CPartObject::PARTS::WEAPON_5));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(22, (_uint)CPartObject::PARTS::WEAPON_5));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(35, (_uint)CPartObject::PARTS::WEAPON_4));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(50, (_uint)CPartObject::PARTS::WEAPON_5));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(63, (_uint)CPartObject::PARTS::WEAPON_4));
+	m_EffectFrames.push_back(EFFECTFRAMEDESC(78, (_uint)CPartObject::PARTS::WEAPON_5));
+
+	m_EffectFrames.push_back(EFFECTFRAMEDESC());
+
+
+	m_ParticleName.push_back(L"TerminateParticle1");
+	m_ParticleName.push_back(L"TerminateParticle2");
+	m_ParticleName.push_back(L"TerminateParticle3");
+	m_ParticleName.push_back(L"TerminateParticle4");
+	m_ParticleName.push_back(L"TerminateParticle5");
+	m_ParticleName.push_back(L"TerminateParticle6");
+	m_ParticleName.push_back(L"TerminateParticle7");
 
 	return S_OK;
 }
@@ -50,6 +70,10 @@ void CState_GN_FreeShooter::Enter_State()
 
 	m_pPlayer->Set_Several_Weapon_RenderState(CPartObject::PARTS::WEAPON_5, true);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_iEffectCnt = 0;
+
+	m_bLastShotEffect = false;
 }
 
 void CState_GN_FreeShooter::Tick_State(_float fTimeDelta)
@@ -67,15 +91,29 @@ void CState_GN_FreeShooter::Exit_State()
 
 void CState_GN_FreeShooter::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFreeShoter))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFreeShoter);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
-
-		/*CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &const_cast<Matrix&>(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_5))->Get_Part_WorldMatrix());
-		EFFECT_START(TEXT("tempPlane0"), &desc)*/
 	}
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		Effect_Shot();
+		m_iEffectCnt++;
+	}
+
+	if (m_bLastShotEffect == false)
+	{
+		if (iAnimFrame == 100)
+		{
+			Effect_LastShot();
+			m_bLastShotEffect = true;
+		}
+	}
+	
 
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFreeShoter))
@@ -113,6 +151,120 @@ void CState_GN_FreeShooter::Tick_State_NoneControl(_float fTimeDelta)
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
+
+void CState_GN_FreeShooter::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS(m_EffectFrames[m_iEffectCnt].iWeapon)))->Get_Part_WorldMatrix().Translation();
+	matWorld.Translation(vPos);
+
+	Vec3 vOriginLook = matWorld.Backward();
+	vOriginLook.Normalize();
+
+	Vec3 vOriginUp = matWorld.Up();
+	vOriginUp.Normalize();
+
+	Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+	vOriginRight.Normalize();
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("FreeShooterMuzzle"), &desc);
+
+	for (_uint i = 0; i < 20; ++i)
+	{
+		//Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 50) * 0.02f);
+
+		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+		_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+
+		_uint iParticleNameIndex = rand() % 5;
+
+		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+	}
+}
+
+void CState_GN_FreeShooter::Effect_LastShot()
+{
+	{
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix().Translation();
+		matWorld.Translation(vPos);
+
+		Vec3 vOriginLook = matWorld.Backward();
+		vOriginLook.Normalize();
+
+		Vec3 vOriginUp = matWorld.Up();
+		vOriginUp.Normalize();
+
+		Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+		vOriginRight.Normalize();
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("FreeShooterMuzzle"), &desc);
+
+		for (_uint i = 0; i < 20; ++i)
+		{
+			//Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 50) * 0.02f);
+
+			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+			_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+
+			_uint iParticleNameIndex = rand() % 5;
+
+			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+			CEffect_Manager::EFFECTPIVOTDESC desc;
+			desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+		}
+	}
+
+
+	{
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_5))->Get_Part_WorldMatrix().Translation();
+		matWorld.Translation(vPos);
+
+		Vec3 vOriginLook = matWorld.Backward();
+		vOriginLook.Normalize();
+
+		Vec3 vOriginUp = matWorld.Up();
+		vOriginUp.Normalize();
+
+		Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+		vOriginRight.Normalize();
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("FreeShooterMuzzle"), &desc);
+
+		for (_uint i = 0; i < 20; ++i)
+		{
+			//Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 50) * 0.02f);
+
+			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+			_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
+
+			_uint iParticleNameIndex = rand() % 5;
+
+			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+			CEffect_Manager::EFFECTPIVOTDESC desc;
+			desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+		}
+	}
+}
+
 
 CState_GN_FreeShooter* CState_GN_FreeShooter::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 {
