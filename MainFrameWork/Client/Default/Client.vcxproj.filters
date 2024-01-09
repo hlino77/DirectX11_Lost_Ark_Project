@@ -28,9 +28,6 @@
     <Filter Include="02.GameObjects\BackGround">
       <UniqueIdentifier>{327a42a0-45f0-4b4d-b8cd-bb209baedc94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97. ShaderFiles">
-      <UniqueIdentifier>{97b53119-8317-43a4-a8ee-44ae8e440ad2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{91ff704d-cfae-4d8f-8be1-b64393bcf977}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\SkyBox">
-      <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\ServerSelect">
       <UniqueIdentifier>{44dfca2f-bdb9-49ba-b981-3cfca469ecb6}</UniqueIdentifier>
@@ -81,12 +75,6 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\01.EffectTool">
       <UniqueIdentifier>{5e4218f1-35f7-4f4b-a472-57b919a72e66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97. ShaderFiles\Legacy">
-      <UniqueIdentifier>{269297ff-170b-42ad-86cd-e9138b42df83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97. ShaderFiles\KSG">
-      <UniqueIdentifier>{66e51349-7e47-4d74-bfed-2715a16f0a29}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{50d83e71-1df7-44a6-8f18-38b2106e8b6b}</UniqueIdentifier>
@@ -733,24 +721,6 @@
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike">
       <UniqueIdentifier>{a72e37d8-f046-422e-82dc-f4bb8ed80dc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96. Manager">
-      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96. Manager\UI_Manager">
-      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96. Manager\Chat_Manager">
-      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96. Manager\Damage_Manager">
-      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96. Manager\Mouse_Manager">
-      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Party">
-      <UniqueIdentifier>{30ecc1fd-554f-43e3-b1db-c5fe418f0de0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard">
       <UniqueIdentifier>{3a3fafb1-85d2-44cc-9728-71532c6821e8}</UniqueIdentifier>
     </Filter>
@@ -1095,6 +1065,36 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\For_Npc\NpcTool">
       <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\SkyDome">
+      <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager">
+      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\UI_Manager">
+      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Chat_Manager">
+      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Damage_Manager">
+      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Mouse_Manager">
+      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles">
+      <UniqueIdentifier>{97b53119-8317-43a4-a8ee-44ae8e440ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Legacy">
+      <UniqueIdentifier>{269297ff-170b-42ad-86cd-e9138b42df83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\KSG">
+      <UniqueIdentifier>{66e51349-7e47-4d74-bfed-2715a16f0a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Party">
+      <UniqueIdentifier>{30ecc1fd-554f-43e3-b1db-c5fe418f0de0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3040,7 +3040,7 @@
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Party.h">
-      <Filter>04. Party</Filter>
+      <Filter>04.Party</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_WDR_FullSwing_Start.h">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
@@ -3157,10 +3157,10 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Damage_Manager.h">
-      <Filter>96. Manager\Damage_Manager</Filter>
+      <Filter>96.Manager\Damage_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pool.h">
-      <Filter>96. Manager</Filter>
+      <Filter>96.Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chat_Manager.h">
       <Filter>96. Manager\Chat_Manager</Filter>
@@ -3491,6 +3491,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\NpcTool.h">
       <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\SkyDome.h">
+      <Filter>02.GameObjects\SkyDome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4630,9 +4633,6 @@
     <ClCompile Include="..\Private\State_GN_PerfectShot_Loop.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\State_GN_PerfectShot_End.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_GN_Apocalypse_Loop.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\Apocalypse</Filter>
     </ClCompile>
@@ -5409,7 +5409,7 @@
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EarthEater</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Party.cpp">
-      <Filter>04. Party</Filter>
+      <Filter>04.Party</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp">
       <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\FullSwing</Filter>
@@ -5526,7 +5526,7 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Damage_Manager.cpp">
-      <Filter>96. Manager\Damage_Manager</Filter>
+      <Filter>96.Manager\Damage_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chat_Manager.cpp">
       <Filter>96. Manager\Chat_Manager</Filter>
@@ -5857,6 +5857,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\NpcTool.cpp">
       <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\SkyDome.cpp">
+      <Filter>02.GameObjects\SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_PerfectShot_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -5873,45 +5879,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyBox.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97. ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
@@ -5930,35 +5897,17 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyBox.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97. ShaderFiles\Legacy</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_SSAO.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
@@ -5993,34 +5942,91 @@
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
+      <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Instance.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Effect.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_IBL.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

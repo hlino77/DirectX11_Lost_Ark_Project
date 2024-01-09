@@ -357,6 +357,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	//SSAO
 	if (FAILED(Ready_SSAO()))
 		return E_FAIL;
+	//IBL
+	if (FAILED(Ready_IBL()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -1009,6 +1012,11 @@ HRESULT CRenderer::Render_Deferred()
 	{
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
 			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
+			return E_FAIL;
+
+		if (FAILED(m_pMRTShader->Bind_Texture("g_IrradianceTexture", m_pIrradianceTexture->Get_SRV())) ||
+			FAILED(m_pMRTShader->Bind_Texture("g_PreFilteredTexture", m_pPreFilteredTexture->Get_SRV())) ||
+			FAILED(m_pMRTShader->Bind_Texture("g_BRDFTexture", m_pBRDFTexture->Get_SRV())))
 			return E_FAIL;
 
 		if (FAILED(m_pMRTShader->Begin("PBR_Deferred")))
@@ -1697,6 +1705,18 @@ HRESULT CRenderer::Ready_SSAO()
 
 	Safe_AddRef(m_pRandomSRV);
 	Safe_Release(pRandomTexture);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Ready_IBL()
+{
+	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap0.dds"));
+	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilter0.dds"));
+	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf0.dds"));
+
+	if (nullptr == m_pIrradianceTexture || nullptr == m_pPreFilteredTexture || nullptr == m_pBRDFTexture)
+		return E_FAIL;
 
 	return S_OK;
 }

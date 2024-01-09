@@ -30,7 +30,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
         vNewUV = (In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
     else
         vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
-    
+
     float fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);    
     
@@ -56,6 +56,10 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
 
     clip(vColor.a - vColor_Clip.a);
 
+    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
+    {
+        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
+    }
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
         float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;

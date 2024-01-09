@@ -625,7 +625,6 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 	for (_uint i = 0; i < m_ModelBones.size(); ++i)
 		m_matCurrTransforms[i] = m_ModelBones[i]->matTransform * m_matCurrTransforms[i] * m_PivotMatrix;
 
-
 	return S_OK;
 }
 
@@ -654,7 +653,10 @@ HRESULT CModel::Render(CShader*& pShader, const _uint& iMeshIndex, const string&
 HRESULT CModel::Render(CShader*& pShader)
 {
 	for (_uint i = 0; i < m_iNumMeshes; ++i)
-		Render_SingleMesh(pShader, i);
+	{
+		if (FAILED(Render_SingleMesh(pShader, i)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

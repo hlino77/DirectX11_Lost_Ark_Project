@@ -207,7 +207,11 @@ float3 Specular_BRDF(in float roughness2, in float3 specularColor, in float Ndot
     return (specular_D * specular_G) * specular_F;
 }
 
-float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float3 L, in float3 H)
+TextureCube g_IrradianceTexture;
+TextureCube g_PreFilteredTexture;
+Texture2D g_BRDFTexture;
+
+float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float3 L, in float3 H, in float fAO)
 {
     const float NdotL = max(dot(N, L), EPSILON);
     const float NdotV = max(dot(N, V), EPSILON);
@@ -233,11 +237,26 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     //float denom = max(4.0f * NdotV * NdotL, 0.001f); // 0.001f just in case product is 0
     float denom = 4.0 * NdotV * NdotL + 0.0001f;
     float3 specular_factor = (D * G * F) / denom;
-    //float3 diffuse_factor = kD * vDiffuseColor / PI;
-    float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
+    float3 diffuse_factor = kD * vDiffuseColor / PI;
+    //float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
     //float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
     
-    return (kD * diffuse_factor + specular_factor) * NdotL;
+    /////////////////////////
+    float3 R = reflect(-V, N);
+    
+    float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
+    float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
+
+    const float MAX_REFLECTION_LOD = 10.0f;
+    float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
+    float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
+    
+    float3 F1 = FresnelSchlickRoughness(max(NdotV, 0.0), F0, fRoughness);
+    float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
+
+    float3 ambient = (kD * vDiffuse + specular) * fAO;
+    
+    return (kD * diffuse_factor + specular_factor) * NdotL + ambient;
     //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
     //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
     //return (kD * vDiffuseColor + specular_factor) * NdotL;

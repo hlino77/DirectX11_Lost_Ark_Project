@@ -127,6 +127,8 @@ HRESULT CShader::Push_GlobalWVP()
 
 	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CShader::Push_GlobalVP()

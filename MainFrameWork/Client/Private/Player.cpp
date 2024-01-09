@@ -134,16 +134,17 @@ void CPlayer::LateTick(_float fTimeDelta)
 HRESULT CPlayer::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
-		return S_OK;
+		return E_FAIL;
 
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
+	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -151,10 +152,10 @@ HRESULT CPlayer::Render()
 HRESULT CPlayer::Render_ShadowDepth()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
+		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
-		return S_OK;
+		return E_FAIL;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 

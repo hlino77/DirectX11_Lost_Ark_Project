@@ -28,6 +28,8 @@
 #include "Controller_MG.h"
 #include "Weapon_MG.h"
 
+#include "SkyDome.h"
+
 /* 유틸*/
 #include "Camera_Free.h"
 #include "StaticModel.h"
@@ -913,6 +915,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
+		CSkyDome::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -1763,6 +1769,21 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
+
+	/* SkyDome */
+	{
+		wstring strFileName = L"SkyDome0";
+		wstring strFilePath = L"../Bin/Resources/SkyDome/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		Matrix matPivot = Matrix::Identity;
+		XMStoreFloat4x4(&matPivot, XMMatrixRotationX(XMConvertToRadians(90.0f)));
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+		pUIManager->Loading_UI(144.f);
+	}
 
 	/* 플레이어 장비 */
 	{

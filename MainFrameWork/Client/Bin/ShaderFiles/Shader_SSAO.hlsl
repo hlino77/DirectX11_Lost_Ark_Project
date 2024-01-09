@@ -3,8 +3,6 @@
 #include "Client_Shader_InOut.hlsl"
 
 matrix	g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-matrix	g_ViewMatrixInv, g_ProjMatrixInv;
-matrix	g_CamViewMatrix;
 
 cbuffer PerFrame
 {

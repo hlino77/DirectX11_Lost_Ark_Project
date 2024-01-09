@@ -76,7 +76,6 @@ HRESULT CWeapon_Hand::Render()
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
