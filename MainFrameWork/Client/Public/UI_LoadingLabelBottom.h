@@ -20,7 +20,7 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Set_ToolTip(const wstring& strToolTip);
+    void    Set_ToolTip();
 
 private:
     virtual HRESULT Ready_Components();

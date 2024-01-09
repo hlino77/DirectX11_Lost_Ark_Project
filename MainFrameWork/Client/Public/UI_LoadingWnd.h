@@ -17,6 +17,7 @@ public:
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
+    void    Set_TextureIndex(_uint iLevelIndex);
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}

@@ -74,7 +74,7 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
             {
                 m_pDamageFontWnd->Decrease_Alpha(2.f * fTimeDelta);
                 m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxScale.x, m_vTextBoxScale.y, 0.f));
-                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + 30.0f * 1.5f, m_fRandomZ));
+                m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y + 30.0f * 1.2f, m_fRandomZ));
             }
         }
         else

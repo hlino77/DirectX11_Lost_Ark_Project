@@ -18,6 +18,8 @@
 #include "Engine_Defines.h"
 #include "Player_Select.h"
 #include "UI_Tool.h"
+#include "UI_Lobby.h"
+#include "UI_Lobby_EntranceServer_Button.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -35,13 +37,13 @@ HRESULT CLevel_Lobby::Initialize()
 	if (FAILED(Ready_CameraFree(LAYER_TYPE::LAYER_CAMERA)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
-
 	if (FAILED(Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Mannequin()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
 
 	Start_QuadTree();
@@ -53,9 +55,15 @@ HRESULT CLevel_Lobby::Initialize()
 
 HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
+	CUI* pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Button_Entrance_to_Server"));
+	if (nullptr == pUI)
+		return E_FAIL;
+
 	Select_Player();
 
-	if (KEY_HOLD(KEY::ENTER) && m_eSelectClass != CHR_CLASS::CLASSEND)
+	if (m_eSelectClass == CHR_CLASS::CLASSEND)
+		static_cast<CUILobby_Entrance_to_ServrerButton*>(pUI)->Set_Entrance(false);
+	else if ((m_eSelectClass != CHR_CLASS::CLASSEND) && (static_cast<CUILobby_Entrance_to_ServrerButton*>(pUI)->Get_Entrance()))
 	{
 		if (m_bConnect == false)
 		{
@@ -163,7 +171,14 @@ HRESULT CLevel_Lobby::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 	/* 원형객체를 복제하여 사본객체를 생성하고 레이어에 추가한다. */
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	_uint iLevelIndex = (_uint)pGameInstance->Get_CurrLevelIndex();
 
+	CGameObject* pUI = pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_BackGround_Lobby"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI((LEVELID)iLevelIndex, static_cast<CUI*>(pUI));
+;
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -354,6 +369,10 @@ HRESULT CLevel_Lobby::Ready_Mannequin()
 
 void CLevel_Lobby::Select_Player()
 {
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+	_uint iLevelIndex =	CGameInstance::GetInstance()->Get_CurrLevelIndex();
+
 	if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::GUNSLINGER])->Is_Selected())
 	{
 		m_eSelectClass = CHR_CLASS::GUNSLINGER;
@@ -374,6 +393,8 @@ void CLevel_Lobby::Select_Player()
 	{
 		m_eSelectClass = CHR_CLASS::CLASSEND;
 	}
+
+	Safe_Release(pUIManager);
 }
 
 void CLevel_Lobby::Start_QuadTree()

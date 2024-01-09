@@ -113,7 +113,7 @@ HRESULT CUI_ServerEntranceButton::Ready_Components()
 	__super::Ready_Components();
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_EntranceButton"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_EntranceButton"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 

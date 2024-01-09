@@ -40,6 +40,7 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 private:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	Matrix					m_ViewMatrix, m_ProjMatrix;
+	_uint					m_iTextureIndex = 0;
 
 private:
 	HRESULT Ready_Components();

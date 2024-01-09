@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "UI_Lobby_StageName.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "UI_Lobby_NickName.h"
 
 CUI_Lobby_StageName::CUI_Lobby_StageName(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -29,20 +31,23 @@ HRESULT CUI_Lobby_StageName::Initialize(void* pArg)
 
 	if (nullptr != pArg)
 	{
-		_uint* strIndex = static_cast<_uint*>(pArg);
+		LOBBYSTAGE_DESC* UIDesc = static_cast<LOBBYSTAGE_DESC*>(pArg);
+		_uint strIndex = UIDesc->iIndex;
+		m_iCharacterIndex = strIndex;
 		m_strUITag = TEXT("Lobby_StageName");
-		m_strUITag += to_wstring(*strIndex + 1);
+		m_strUITag += to_wstring(m_iCharacterIndex + 1);
+		m_pNickName = UIDesc->pUI;
 	}
 	else
 		m_strUITag = TEXT("Lobby_StageName");
 
-	m_fSizeX = 200.f;
-	m_fSizeY = 200.f;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = g_iWinSizeY * 0.5f;
+	m_fSizeX = 205.f;
+	m_fSizeY = 43.f;
+	m_fX = m_pNickName->Get_UIDesc().fX;
+	m_fY = 754.f;
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -53,8 +58,7 @@ HRESULT CUI_Lobby_StageName::Initialize(void* pArg)
 void CUI_Lobby_StageName::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	Moving_Rect();
-	Picking_UI();
+
 }
 
 void CUI_Lobby_StageName::LateTick(_float fTimeDelta)
@@ -71,12 +75,6 @@ HRESULT CUI_Lobby_StageName::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
-	if (FAILED(__super::Bind_ShaderResources()))
-		return E_FAIL;
-	m_pTextureCom_NickNameShine->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
-	m_pShaderCom->Begin(0);
-	m_pVIBufferCom->Render();
-
 	return S_OK;
 }
 
@@ -87,10 +85,6 @@ HRESULT CUI_Lobby_StageName::Ready_Components()
 	/* Com_Texture*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Current_TownFrame"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NickName_ShineEffect"),
-		TEXT("Com_Texture_Shine"), (CComponent**)&m_pTextureCom_NickNameShine)))
 		return E_FAIL;
 
 	return S_OK;
@@ -115,15 +109,13 @@ HRESULT CUI_Lobby_StageName::Bind_ShaderResources()
 
 void CUI_Lobby_StageName::Update_NickNameFrame()
 {
-	if (!m_bPick)
-		return;
-
-	if ((m_bPick) && ((KEY_HOLD(KEY::LBTN)) || KEY_TAP(KEY::LBTN)))
-	{
-		m_iTextureIndex = 1;
-	}
+	if (1 == m_pNickName->Get_TextureIndex())
+		m_bRender = true;
 	else
-		m_iTextureIndex = 0;
+		m_bRender = false;
+
+
+
 }
 
 CUI_Lobby_StageName* CUI_Lobby_StageName::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

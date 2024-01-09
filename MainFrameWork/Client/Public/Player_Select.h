@@ -60,6 +60,7 @@ public:
 	virtual _bool			Intersect_Mouse();
 	virtual void			Clicked();
 	virtual void			Unclicked();
+	virtual void			Set_Entrance();
 
 public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
@@ -107,6 +108,11 @@ protected:
 	_uint	m_iSelectAnim_End = { 0 };
 	_uint	m_iSelectAnim_Normal = { 0 };
 	_bool	m_bSelected = false;
+
+protected:
+	class CUI* m_pEntranceButton = { nullptr };
+	class CUI* m_pEntranceNameChanger = { nullptr };
+	_bool	m_bSetEntrance = { false };
 
 public:
 	virtual void Free();

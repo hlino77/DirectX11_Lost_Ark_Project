@@ -20,6 +20,8 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    _bool   Get_Entrance() { return m_bEntrance; }
+    void    Set_Entrance(_bool bEntrance) { m_bEntrance = bEntrance; }
 
 private:
     virtual HRESULT Ready_Components();
@@ -29,7 +31,8 @@ private:
     void    Update_Buttton();
     void    Update_Button_Texture();
     
-
+private:
+    _bool   m_bEntrance = { false };
    
 public:
     static  CUILobby_Entrance_to_ServrerButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

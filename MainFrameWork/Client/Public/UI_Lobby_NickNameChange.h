@@ -7,7 +7,7 @@ END
 
 BEGIN(Client)
 
-class CUI_Lobby_StageName final:
+class CUI_Lobby_NickNameChange final:
     public CUI
 {
 public:
@@ -17,9 +17,9 @@ public:
     };
 
 private:
-    CUI_Lobby_StageName(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_Lobby_StageName(const CUI& rhs);
-    virtual ~CUI_Lobby_StageName() = default;
+    CUI_Lobby_NickNameChange(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_Lobby_NickNameChange(const CUI& rhs);
+    virtual ~CUI_Lobby_NickNameChange() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -30,21 +30,29 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Set_CharacterIndex(_uint iIndex) { m_iCharacterIndex = iIndex; }
+    void    Set_NickNmaeFrame(CUI* pUI) { m_pNickName = pUI; }
 
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    virtual HRESULT Bind_ShaderResources_NewWnd();
+    void    Render_InputString();
 
 private:
     void    Update_NickNameFrame();
+    void    Update_NickNameChangeWnd();
 
 private:
     _uint   m_iCharacterIndex = { 0 };
     CUI*     m_pNickName = { nullptr };
 
+    //new wnd
+    CTexture* m_pTextureCom_NewWnd = { nullptr };
+    CTransform* m_pTransformCom_NewWnd = { nullptr };
+    _bool       m_bOnWnd = { false };
+
 public:
-    static  CUI_Lobby_StageName* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_Lobby_NickNameChange* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

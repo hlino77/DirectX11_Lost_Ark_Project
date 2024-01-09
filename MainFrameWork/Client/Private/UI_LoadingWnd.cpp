@@ -77,6 +77,16 @@ HRESULT CUI_LoadingWnd::Render()
 	return S_OK;
 }
 
+void CUI_LoadingWnd::Set_TextureIndex(_uint iLevelIndex)
+{
+	if ((_uint)LEVEL_BERN == iLevelIndex)
+		m_iTextureIndex = 0;
+	else if (((_uint)LEVEL_CHAOS_1 == iLevelIndex)||((_uint)LEVEL_CHAOS_2 == iLevelIndex) ||
+		((_uint)LEVEL_CHAOS_3 == iLevelIndex))
+		m_iTextureIndex = 0;
+
+}
+
 HRESULT CUI_LoadingWnd::Ready_Components()
 {
 	__super::Ready_Components();
@@ -110,7 +120,7 @@ HRESULT CUI_LoadingWnd::Bind_ShaderResourcesImg()
 	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pTextureComImg->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTextureComImg->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
 }
 
 HRESULT CUI_LoadingWnd::Bind_ShaderResourcesFrame()

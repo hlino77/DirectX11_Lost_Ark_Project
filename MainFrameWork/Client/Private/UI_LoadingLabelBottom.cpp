@@ -29,14 +29,14 @@ HRESULT CUI_LoadingLabelBottom::Initialize(void* pArg)
 
     m_strUITag = TEXT("Loading_LabelBottom");
 
-    m_fX = g_iWinSizeX * 0.5f - 9.f;
+    m_fX = g_iWinSizeX * 0.5f;
     m_fY = 800.f;
     m_fSizeX = g_iWinSizeX * 0.5f;
     m_fSizeY = 100.f;
 
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3((m_fX - 10.f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -71,9 +71,31 @@ HRESULT CUI_LoadingLabelBottom::Render()
     return S_OK;
 }
 
-void CUI_LoadingLabelBottom::Set_ToolTip(const wstring& strToolTip)
+void CUI_LoadingLabelBottom::Set_ToolTip()
 {
-    m_strToolTips = strToolTip;
+    _uint iRandomIndex = CGameInstance::GetInstance()->Random_Int(0, 5);
+    switch (iRandomIndex)
+    {
+    case 0:
+        m_strToolTips = TEXT("건슬링어가 아니라 건걸이빈다.");
+        break;
+
+    case 1:
+        m_strToolTips = TEXT("돈치스팸은 무적입니다.");
+        break;
+
+    case 2:
+        m_strToolTips = TEXT("로아가 뜯길 줄 몰랐스빈다.");
+        break;
+
+    case 3:
+        m_strToolTips = TEXT("툴팁 뭐적지");
+        break;
+
+    case 4:
+        m_strToolTips = TEXT("쓸게없다");
+        break;
+    }
 }
 
 HRESULT CUI_LoadingLabelBottom::Ready_Components()

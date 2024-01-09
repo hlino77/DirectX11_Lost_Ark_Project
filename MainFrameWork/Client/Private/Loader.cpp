@@ -51,9 +51,11 @@
 #include "UI_Loading.h"
 #include "UI_LoadingFill.h"
 #include "UI_TextBox.h"
+#include "BackGround_Lobby.h"
 #include "UI_Lobby_NickName.h"
 #include "UI_Lobby_EntranceServer_Button.h"
 #include "UI_Lobby_StageName.h"
+#include "UI_Lobby_NickNameChange.h"
 #include "UI_Lobby.h"
 #include "UI_ChatFrame.h"
 #include "UI_ChatWriteFrame.h"
@@ -587,7 +589,7 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Logo/LostArk_Logo.png"))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_EntranceButton"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_EntranceButton"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Button_UI/Button%d.png",2))))
 		return E_FAIL;
 
@@ -695,6 +697,9 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Character_Lobby"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/BackGround/Lobby/Character_Lobby.png"))))
+		return E_FAIL;
 
 	/* For.Shader */
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
@@ -707,6 +712,10 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 	
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Lobby"),
 		CCamera_Lobby::Create(m_pDevice, m_pContext,TEXT("Camera_Lobby")))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Lobby"),
+		CBackGround_Lobby::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
@@ -1325,12 +1334,28 @@ HRESULT CLoader::Loading_LobbyUI()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Character_Select/Equipment_Level.png"))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NickName_Changer"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Character_Select/NickName_Changer.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NickName_Change"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Character_Select/NickName_Change%d.png",2))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Lobby_NickName"),
 		CUI_Lobby_NickName::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Lobby_StageName"),
 		CUI_Lobby_StageName::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Lobby_EntranceButton"),
+		CUILobby_Entrance_to_ServrerButton::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Lobby_NameChanger"),
+		CUI_Lobby_NickNameChange::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Lobby"),

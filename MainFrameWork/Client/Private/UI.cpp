@@ -182,7 +182,7 @@ CUI* CUI::Get_UIPart(const wstring& strPartTag)
 {
 	for (auto& iter : m_vecUIParts)
 	{
-		if (strPartTag == iter->Get_UITag());
+		if (strPartTag == iter->Get_UITag())
 			return	 iter;
 	}
 
@@ -339,7 +339,7 @@ HRESULT CUI::Bind_ShaderResources()
 {
 	/* 셰이더 전역변수로 던져야 할 값들을 던지자. */
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))

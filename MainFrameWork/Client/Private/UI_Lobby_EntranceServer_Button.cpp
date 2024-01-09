@@ -27,12 +27,12 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strUITag = TEXT("Button_Entrance_to_Servrer");
+	m_strUITag = TEXT("Button_Entrance_to_Server");
 
 	m_fSizeX = 200.f;
-	m_fSizeY = 200.f;
+	m_fSizeY = 60.f;
 	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = g_iWinSizeY * 0.5f;
+	m_fY = 865.f;
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.2f));
@@ -58,7 +58,7 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(2);
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -69,7 +69,7 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Ready_Components()
 	__super::Ready_Components();
 
 	/* Com_Texture*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NickName_Frame"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Server_EntranceButton"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
@@ -89,38 +89,50 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
 
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_iTextureIndex);
 
 	return S_OK;
 }
 
 void CUILobby_Entrance_to_ServrerButton::Update_Buttton()
 {
-
 	Create_Rect();
 	Picking_UI();
 
-	if (!m_bPick)
-		return;
-
 	if ((BUTTON_STATE::BUTTON_NORMAL == m_iButtonState) && (m_bPick))
+	{
+		m_bEntrance = false;
 		m_iButtonState = (_uint)BUTTON_STATE::BUTTON_PICKING;
-
-	else if ((BUTTON_STATE::BUTTON_PICKING == m_iButtonState) && ((KEY_TAP(KEY::LBTN))|| (KEY_HOLD(KEY::LBTN))))
+	}
+	else if ((BUTTON_STATE::BUTTON_PICKING == m_iButtonState) && ((KEY_TAP(KEY::LBTN)) || (KEY_HOLD(KEY::LBTN))))
+	{
+		m_bEntrance = false;
 		m_iButtonState = (_uint)BUTTON_STATE::BUTTON_PICKED;
-
-	else if((m_iButtonState == (_uint)BUTTON_STATE::BUTTON_PICKED)&& ((KEY_TAP(KEY::RBTN)) || (KEY_HOLD(KEY::RBTN))))
+	}
+	else if ((m_iButtonState == (_uint)BUTTON_STATE::BUTTON_PICKED) && (KEY_AWAY(KEY::LBTN) && (m_bPick)))
+	{
+		m_bEntrance = true;
 		m_iButtonState = (_uint)BUTTON_STATE::BUTTON_NORMAL;
+	}
 
+	if (!m_bPick)
+	{
+		m_bEntrance = false;
+		m_iButtonState = BUTTON_STATE::BUTTON_NORMAL;
+	}
 	Update_Button_Texture();
 }
 
 void CUILobby_Entrance_to_ServrerButton::Update_Button_Texture()
 {
-	if ((_uint)BUTTON_NORMAL >= m_iButtonState)
-		m_iTextureIndex = 0;
-	else
-		m_iTextureIndex = 1;
+	m_vColor = Vec4{ 1.f, 1.f ,1.f, 1.f };
+	if ((_uint)BUTTON_PICKED == m_iButtonState)
+		m_vColor *= Vec4{ 0.6f, 0.6f ,0.6f, 1.f };
+	else if((_uint)BUTTON_PICKING == m_iButtonState)
+		m_vColor *= Vec4{ 3.f, 3.f ,3.f, 1.f };
+	else if((_uint)BUTTON_NORMAL == m_iButtonState)
+		m_vColor = Vec4{ 1.f, 1.f ,1.f, 1.f };
+
 }
 
 CUILobby_Entrance_to_ServrerButton* CUILobby_Entrance_to_ServrerButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
