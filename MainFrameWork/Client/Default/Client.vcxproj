@@ -184,6 +184,7 @@
       </EntryPointName>
     </FxCompile>
     <ClInclude Include="..\Public\BackGround_Loading.h" />
+    <ClInclude Include="..\Public\BackGround_Lobby.h" />
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\BackGround_Server.h" />
     <ClInclude Include="..\Public\Boss.h" />
@@ -529,6 +530,7 @@
     <ClInclude Include="..\Public\UI_Lobby.h" />
     <ClInclude Include="..\Public\UI_Lobby_EntranceServer_Button.h" />
     <ClInclude Include="..\Public\UI_Lobby_NickName.h" />
+    <ClInclude Include="..\Public\UI_Lobby_NickNameChange.h" />
     <ClInclude Include="..\Public\UI_Lobby_StageName.h" />
     <ClInclude Include="..\Public\UI_Manager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -641,6 +643,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround_Loading.cpp" />
+    <ClCompile Include="..\Private\BackGround_Lobby.cpp" />
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Boss.cpp" />
@@ -980,8 +983,9 @@
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
     <ClCompile Include="..\Private\UI_LoadingWnd.cpp" />
     <ClCompile Include="..\Private\UI_Lobby.cpp" />
-    <ClCompile Include="..\Private\UI_Lobby_EntranceSetver_Button.cpp" />
+    <ClCompile Include="..\Private\UI_Lobby_EntranceServer_Button.cpp" />
     <ClCompile Include="..\Private\UI_Lobby_NickName.cpp" />
+    <ClCompile Include="..\Private\UI_Lobby_NickNameChange.cpp" />
     <ClCompile Include="..\Private\UI_Lobby_StageName.cpp" />
     <ClCompile Include="..\Private\UI_Manager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

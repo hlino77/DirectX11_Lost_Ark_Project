@@ -66,9 +66,24 @@ HRESULT CUI_LoadingLabelTop::Render()
     return S_OK;
 }
 
-void CUI_LoadingLabelTop::Set_StageName(const wstring& strStageName)
+void CUI_LoadingLabelTop::Set_StageName(const _uint iNextLevel)
 {
-    m_strStage = strStageName;
+    switch ((LEVELID)iNextLevel)
+    {
+    case LEVELID::LEVEL_BERN:
+        m_strStage = TEXT("베른 성");
+        break;
+    case  LEVELID::LEVEL_CHAOS_1:
+        m_strStage = TEXT("카오스 던전");
+        break;
+    case  LEVELID::LEVEL_CHAOS_2:
+        m_strStage = TEXT("카오스 던전");
+        break;
+    case  LEVELID::LEVEL_CHAOS_3:
+        m_strStage = TEXT("카오스 던전");
+        break;
+    }
+
 }
 
 HRESULT CUI_LoadingLabelTop::Ready_Components()

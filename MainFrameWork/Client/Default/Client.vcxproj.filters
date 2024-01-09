@@ -1060,12 +1060,6 @@
     <Filter Include="02.GameObjects\UI\10.Lobby\01.Stage_Name">
       <UniqueIdentifier>{cfed0aef-97cb-4674-93fa-b9c837b63856}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\02.00.Entrance_Server_Button">
-      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\03.Utility">
-      <UniqueIdentifier>{00fa55b2-ca37-44c3-a3a7-2cb1819add0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\10.Lobby\04.Main_Charcter_Flag">
       <UniqueIdentifier>{09e78b58-5fa5-4449-98b6-0145ed40ef66}</UniqueIdentifier>
     </Filter>
@@ -1083,6 +1077,15 @@
     </Filter>
     <Filter Include="02.GameObjects\Npc\Deco_Npc">
       <UniqueIdentifier>{aaa31dd6-d2e7-4b8d-9ba1-d7c0d151c2d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\02.Entrance_Server_Button">
+      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\02.Lobby">
+      <UniqueIdentifier>{9529f3c3-c5d7-4481-a8fe-47c752ed7086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\03.NickName_Change">
+      <UniqueIdentifier>{00fa55b2-ca37-44c3-a3a7-2cb1819add0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3445,7 +3448,7 @@
       <Filter>02.GameObjects\UI\10.Lobby\00.NickName</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Lobby_EntranceServer_Button.h">
-      <Filter>02.GameObjects\UI\10.Lobby\02.00.Entrance_Server_Button</Filter>
+      <Filter>02.GameObjects\UI\10.Lobby\02.Entrance_Server_Button</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Lobby.h">
       <Filter>02.GameObjects\UI\10.Lobby</Filter>
@@ -3464,6 +3467,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_1.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\BackGround_Lobby.h">
+      <Filter>02.GameObjects\BackGround\02.Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Lobby_NickNameChange.h">
+      <Filter>02.GameObjects\UI\10.Lobby\03.NickName_Change</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5795,8 +5804,8 @@
     <ClCompile Include="..\Private\UI_Lobby_NickName.cpp">
       <Filter>02.GameObjects\UI\10.Lobby\00.NickName</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Lobby_EntranceSetver_Button.cpp">
-      <Filter>02.GameObjects\UI\10.Lobby\02.00.Entrance_Server_Button</Filter>
+    <ClCompile Include="..\Private\UI_Lobby_EntranceServer_Button.cpp">
+      <Filter>02.GameObjects\UI\10.Lobby\02.Entrance_Server_Button</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Lobby.cpp">
       <Filter>02.GameObjects\UI\10.Lobby</Filter>
@@ -5815,6 +5824,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2_1.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\BackGround_Lobby.cpp">
+      <Filter>02.GameObjects\BackGround\02.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Lobby_NickNameChange.cpp">
+      <Filter>02.GameObjects\UI\10.Lobby\03.NickName_Change</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

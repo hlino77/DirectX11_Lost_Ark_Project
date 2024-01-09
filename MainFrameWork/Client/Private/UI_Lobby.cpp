@@ -2,6 +2,8 @@
 #include "UI_Lobby.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "UI_Lobby_NickName.h"
+#include "UI_Lobby_StageName.h"
 
 CUI_Lobby::CUI_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -37,7 +39,11 @@ HRESULT CUI_Lobby::Initialize(void* pArg)
 void CUI_Lobby::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	
+
+	for (auto& iter : m_vecUIParts)
+	{
+		
+	}
 }
 
 void CUI_Lobby::LateTick(_float fTimeDelta)
@@ -58,28 +64,42 @@ HRESULT CUI_Lobby::UI_Set()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 	_uint iLevelIndex = (_uint)pGameInstance->Get_CurrLevelIndex();
+	CUI_Lobby_StageName::LOBBYSTAGE_DESC LobbyStageNameDesc;
 
 	for (size_t i = 0; i < 4; i++)
 	{
-		CUI* pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_NickName"),&i));
-		if (nullptr == pUI)
+		CUI* pUINickName = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_NickName"),&i));
+		if (nullptr == pUINickName)
 			return E_FAIL;
 		else
-			m_vecUIParts.push_back(pUI);
+		{
+			m_vecUIParts.push_back(pUINickName);
+			pUINickName->Create_Rect();
+		}
 
-	}
+		LobbyStageNameDesc.iIndex = i;
+		LobbyStageNameDesc.pUI = pUINickName;
 
-	for (size_t i = 0; i < 4; i++)
-	{
-		CUI* pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_StageName"), &i));
-		if (nullptr == pUI)
+		CUI* pUIStageName = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_StageName"), &LobbyStageNameDesc));
+		if (nullptr == pUIStageName)
 			return E_FAIL;
 		else
-			m_vecUIParts.push_back(pUI);
-
+			m_vecUIParts.push_back(pUIStageName);
 	}
 
-	Load_UIData(TEXT("Lobby_UI_Desc"));
+	CUI* pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_EntranceButton")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		m_vecUIParts.push_back(pUI);
+
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_NameChanger")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		m_vecUIParts.push_back(pUI);
+
+	//Load_UIData(TEXT("Lobby_UI_Desc"));
 
 	for (auto& iter : m_vecUIParts)
 	{

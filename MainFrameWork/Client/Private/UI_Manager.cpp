@@ -52,6 +52,8 @@ HRESULT CUI_Manager::ObjectManager_to_UIManager(LEVELID eLevelIndex)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	m_pUIList[eLevelIndex].clear();
+
 	vector<CGameObject*>pUIList = pGameInstance->Find_GameObjects(eLevelIndex, (_uint)LAYER_TYPE::LAYER_UI);
 	for (auto iter : pUIList)
 	{
@@ -93,12 +95,12 @@ list<class CUI*>* CUI_Manager::Get_UIList(LEVELID eLevelIndex)
 	return &m_pUIList[eLevelIndex];
 }
 
-CUI* CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag)
+vector<CUI*> CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag)
 {
 	CUI* pUI = 	Find_UI(eLevelIndex, UITag);
 	pUI->Get_UIParts();
 
-	return pUI;
+	return pUI->Get_UIParts();
 }
 
 CUI* CUI_Manager::Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag)
@@ -107,9 +109,7 @@ CUI* CUI_Manager::Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const w
 	if (nullptr == pUI)
 		return nullptr;
 
-	pUI->Get_UIPart(PartTag);
-
-	return pUI;
+	return pUI->Get_UIPart(PartTag);
 }
 
 HRESULT CUI_Manager::Delete_UI(LEVELID eLevelIndex, const wstring& UITag)

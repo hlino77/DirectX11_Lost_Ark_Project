@@ -15,6 +15,9 @@
 
 #include "UI_Loading.h"
 #include "UI_Manager.h"
+#include "UI_LoadingWnd.h"
+#include "UI_LoadingLabelTop.h"
+#include "UI_LoadingLabelBottom.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -38,7 +41,8 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 	if (szBackGruond != L"None")
 	{
  		wstring szProtoName = L"Prototype_GameObject_BackGround_" + szBackGruond;
-		if (nullptr == pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName))
+		CGameObject* pUIBackGround = pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_BACKGROUND), szProtoName);
+		if (nullptr == pUIBackGround)
 			return E_FAIL;
 	
 		CGameObject* pLoadingUI = pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_LoadingUI"));
@@ -46,7 +50,15 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 			return E_FAIL;
 		
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_LOADING, static_cast<CUI*>(pLoadingUI));
-	
+
+		static_cast<CUI_LoadingWnd*>(pUIBackGround)->Set_TextureIndex(m_eNextLevel);
+
+		CUI* pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVEL_LOADING, TEXT("UI_Loading"), TEXT("Loading_LabelTop"));
+		if (nullptr != pUI)
+			static_cast<CUI_LoadingLabelTop*>(pUI)->Set_StageName(m_eNextLevel);
+		pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVEL_LOADING, TEXT("UI_Loading"), TEXT("Loading_LabelBottom"));
+		if (nullptr != pUI)
+			static_cast<CUI_LoadingLabelBottom*>(pUI)->Set_ToolTip();
 	}
 
 	pGameInstance->Set_Loading(true);

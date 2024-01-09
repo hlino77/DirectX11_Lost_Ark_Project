@@ -18,7 +18,8 @@
 
 #include "Chat_Manager.h"
 #include "BindShaderDesc.h"
-
+#include "UI_Manager.h"
+#include "UI_Lobby_NickName.h"
 
 CPlayer_Select::CPlayer_Select(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player_Select", OBJ_TYPE::PLAYER)
@@ -49,15 +50,20 @@ HRESULT CPlayer_Select::Initialize(void* pArg)
 
 void CPlayer_Select::Tick(_float fTimeDelta)
 {
-	if (KEY_TAP(KEY::LBTN))
+	Set_Entrance();
+
+	if ((!m_pEntranceButton->Get_Pick())&&(!m_pEntranceNameChanger->Get_Pick()))
 	{
-		if (true == Intersect_Mouse())
+		if (KEY_TAP(KEY::LBTN))
 		{
-			Clicked();
-		}
-		else
-		{
-			Unclicked();
+			if (true == Intersect_Mouse())
+			{
+				Clicked();
+			}
+			else
+			{
+				Unclicked();
+			}
 		}
 	}
 
@@ -206,6 +212,20 @@ void CPlayer_Select::Unclicked()
 		m_iSelectAnim = m_iSelectAnim_End;
 		Reserve_Animation(m_iSelectAnim, 0.2f, 0, 0);
 	}
+}
+
+void CPlayer_Select::Set_Entrance()
+{
+	if (m_bSetEntrance)
+		return;
+
+	m_pEntranceButton = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Button_Entrance_to_Server"));
+	if (nullptr == m_pEntranceButton)
+		return;
+
+	m_pEntranceNameChanger = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Lobby_NameChanger"));
+
+	m_bSetEntrance = true;
 }
 
 HRESULT CPlayer_Select::Ready_Components()
