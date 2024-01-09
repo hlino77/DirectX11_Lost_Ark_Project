@@ -161,6 +161,7 @@ void CChaosDungean_Server::Spawn_Monster()
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 	{
+		vPos = Vec3(100.0f, 0.0f, 100.0f);
 		_uint iMonster = rand() % m_MonsterSpawnList.size();
 		szMonsterName = m_MonsterSpawnList[iMonster];
 		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
@@ -185,6 +186,7 @@ void CChaosDungean_Server::Spawn_Monster()
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:
 	{
+		vPos = Vec3(99.84f, -1.8f, 111.9f);
 		_uint iMonster = rand() % m_MonsterSpawnList.size();
 		szMonsterName = m_MonsterSpawnList[iMonster];
 		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
