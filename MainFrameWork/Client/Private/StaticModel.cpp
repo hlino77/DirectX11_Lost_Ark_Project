@@ -58,6 +58,11 @@ HRESULT CStaticModel::Initialize(void* pArg)
 
 void CStaticModel::Tick(_float fTimeDelta)
 {
+
+	if (m_szModelName == TEXT("Vol_ETC_C_Ship01f") || m_szModelName == TEXT("Vol_Knaly_D_Decocore01h"))
+	{
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1 * fTimeDelta);
+	}
 	
 }
 

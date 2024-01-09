@@ -1057,10 +1057,14 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
 
+
+
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Arena.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Chaos3.Navi");
+
+	Load_MapData(LEVEL_CHAOS_3, TEXT("../Bin/Resources/MapData/Chaos3.data"));
 
 	{
 		wstring strFileName = L"Boss_King";
