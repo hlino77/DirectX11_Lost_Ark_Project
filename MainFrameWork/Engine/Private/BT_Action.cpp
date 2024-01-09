@@ -55,7 +55,14 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop&& m_vecAnimDesc[m_iCurrAnimation].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
-		if (m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime)
+		if (m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime&& m_vecAnimDesc[m_iCurrAnimation].IsEndInstant)
+		{
+			m_iCurrAnimation++;
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
+			m_fLoopTime = 0;
+		}
+		else if(m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime && !m_vecAnimDesc[m_iCurrAnimation].IsEndInstant&& m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 		{
 			m_iCurrAnimation++;
 			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,

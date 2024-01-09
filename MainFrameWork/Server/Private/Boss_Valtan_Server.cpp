@@ -185,7 +185,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
-	AnimationDesc.fAnimSpeed = 1.1f;
+	AnimationDesc.fAnimSpeed = 1.f;
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -548,10 +550,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
 	AnimationDesc.fMaxLoopTime = 0.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
-
+	AnimationDesc.IsEndInstant = false;
 	AnimationDesc.strAnimName = TEXT("att_battle_2_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1348,6 +1351,12 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.strAnimName = TEXT("att_battle_8_01_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;	
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	AnimationDesc.strAnimName = TEXT("att_battle_18_03-1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1494,64 +1503,29 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
-		//	return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack0)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack5)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack16)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pSequenceAttack17)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack16)))
-			return E_FAIL;
+
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 		if (FAILED(pIf_Armor->AddChild(pSequenceNormalAttack))) return E_FAIL;
@@ -1633,7 +1607,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack2)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
