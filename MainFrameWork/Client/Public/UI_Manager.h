@@ -2,6 +2,7 @@
 #include "Client_Defines.h"
 #include "Base.h"
 #include "UI.h"
+#include "Lock.h"
 
 BEGIN(Client)
 
@@ -42,6 +43,9 @@ private:
     _uint   m_iCurrentLevel = { 0 };
     _uint   m_iNextLevel = { 0 };
     POINT   m_pt = {};
+
+
+    USE_LOCK
 public:
     virtual void Free() override;
 };

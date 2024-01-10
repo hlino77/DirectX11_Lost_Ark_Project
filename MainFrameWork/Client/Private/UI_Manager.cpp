@@ -39,6 +39,7 @@ void CUI_Manager::Render()
 
 HRESULT CUI_Manager::Add_UI(LEVELID eLevelIndex, CUI* pUI)
 {
+	WRITE_LOCK
 	auto iter = find(m_pUIList[eLevelIndex].begin(), m_pUIList[eLevelIndex].end(), pUI);
 	if (iter != m_pUIList[eLevelIndex].end())
 		return E_FAIL;
@@ -50,6 +51,7 @@ HRESULT CUI_Manager::Add_UI(LEVELID eLevelIndex, CUI* pUI)
 
 HRESULT CUI_Manager::ObjectManager_to_UIManager(LEVELID eLevelIndex)
 {
+	WRITE_LOCK
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 	m_pUIList[eLevelIndex].clear();
@@ -69,6 +71,7 @@ HRESULT CUI_Manager::ObjectManager_to_UIManager(LEVELID eLevelIndex)
 
 HRESULT CUI_Manager::Loading_UI(_float fSizeX)
 {
+	WRITE_LOCK
 	CUI* pUI = Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
 	if (nullptr == pUI)
 		return E_FAIL;
@@ -81,6 +84,7 @@ HRESULT CUI_Manager::Loading_UI(_float fSizeX)
 
 CUI* CUI_Manager::Find_UI(LEVELID eLevelIndex, const wstring& UITag)
 {
+	WRITE_LOCK
 	for (auto& iter : m_pUIList[eLevelIndex])
 	{
 		if (UITag == iter->Get_UITag())
@@ -97,6 +101,7 @@ list<class CUI*>* CUI_Manager::Get_UIList(LEVELID eLevelIndex)
 
 vector<CUI*> CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag)
 {
+	WRITE_LOCK
 	CUI* pUI = 	Find_UI(eLevelIndex, UITag);
 	pUI->Get_UIParts();
 
@@ -105,6 +110,7 @@ vector<CUI*> CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag
 
 CUI* CUI_Manager::Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag)
 {
+	WRITE_LOCK
 	CUI* pUI = Find_UI(eLevelIndex, UITag);
 	if (nullptr == pUI)
 		return nullptr;
@@ -114,6 +120,7 @@ CUI* CUI_Manager::Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const w
 
 HRESULT CUI_Manager::Delete_UI(LEVELID eLevelIndex, const wstring& UITag)
 {
+	WRITE_LOCK
 	CUI* pUI = Find_UI(eLevelIndex, UITag);
 	if (nullptr == pUI)
 		return E_FAIL;
@@ -125,6 +132,7 @@ HRESULT CUI_Manager::Delete_UI(LEVELID eLevelIndex, const wstring& UITag)
 
 HRESULT CUI_Manager::Delete_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag)
 {
+	WRITE_LOCK
 	CUI* pUI = Find_UI(eLevelIndex, UITag);
 	if (nullptr != pUI)
 	{
@@ -144,6 +152,7 @@ void CUI_Manager::Sorting_UI()
 
 void CUI_Manager::Set_UIState(LEVELID iLevelIndex, CUI::UISTATE eState)
 {
+	WRITE_LOCK
 	for (auto iter : m_pUIList[iLevelIndex])
 	{
 		iter->Set_State(eState);
@@ -152,6 +161,7 @@ void CUI_Manager::Set_UIState(LEVELID iLevelIndex, CUI::UISTATE eState)
 
 void CUI_Manager::Set_UIState(LEVELID iLevelIndex, const wstring& strUITag, CUI::UISTATE eState)
 {
+	WRITE_LOCK
 	for (auto iter : m_pUIList[iLevelIndex])
 	{
 		if (strUITag == iter->Get_UITag())
