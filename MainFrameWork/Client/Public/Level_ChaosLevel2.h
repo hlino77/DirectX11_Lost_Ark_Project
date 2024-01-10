@@ -30,6 +30,7 @@ public:
 
 private:
 	HRESULT Ready_Lights();
+	HRESULT Ready_Layer_SkyBox(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_Camera(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_Player(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_BackGround(const LAYER_TYPE eLayerType);

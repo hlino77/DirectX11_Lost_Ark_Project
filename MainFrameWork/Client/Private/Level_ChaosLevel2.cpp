@@ -54,6 +54,9 @@ HRESULT CLevel_ChaosLevel2::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_SkyBox(LAYER_TYPE::LAYER_SKYBOX)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(LAYER_TYPE::LAYER_CAMERA)))
 		return E_FAIL;
 
@@ -194,6 +197,20 @@ HRESULT CLevel_ChaosLevel2::Ready_Lights()
 	vOffset *= 30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_ChaosLevel2::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CGameObject* pSkyDome = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, _uint(eLayerType), TEXT("Prototype_GameObject_SkyDome"));
+	if (nullptr == pSkyDome)
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 

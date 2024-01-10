@@ -56,6 +56,9 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_SkyBox(LAYER_TYPE::LAYER_SKYBOX)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(LAYER_TYPE::LAYER_CAMERA)))
 		return E_FAIL;
 
@@ -172,7 +175,8 @@ HRESULT CLevel_ChaosLevel1::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = Vec4(0.705f, -0.667f, -0.239f, 0.f);
+	LightDesc.vDirection = Vec4(0.705f, -0.667f, 0.7f, 0.f);
+	LightDesc.vDirection.Normalize();
 	LightDesc.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
@@ -196,6 +200,20 @@ HRESULT CLevel_ChaosLevel1::Ready_Lights()
 	vOffset *= 30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_ChaosLevel1::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CGameObject* pSkyDome = pGameInstance->Add_GameObject(LEVEL_CHAOS_1, _uint(eLayerType), TEXT("Prototype_GameObject_SkyDome"));
+	if (nullptr == pSkyDome)
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -297,11 +315,11 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	}
 	else if (L"MG" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
 	{
-		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityMG_UI"));
+		pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_IdentityMG_UI"));
 		if (nullptr == pUI)
 			return E_FAIL;
 		else
-			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+			CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 	}
 
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));

@@ -285,9 +285,9 @@ float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	vector		vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
 	if (vDiffuse.a == 0.f)
 		discard;
-	vector		vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
-	vector		vSpecular = g_SpecularTarget.Sample(LinearSampler, In.vTexcoord);
-    float4		vEmissive =	g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
+    float4	vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
+    float4	vSpecular = g_SpecularTarget.Sample(LinearSampler, In.vTexcoord);
+    float4	vEmissive =	g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
 	
     float fAO = 1.f;
 	
@@ -338,16 +338,8 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     F0 = lerp(F0, vAlbedo.xyz, fMetallic); // 반사율 F0
 
 	// calculate per-light radiance
-    float3 L = -g_vLightDir;
+    float3 L = -normalize(g_vLightDir);
     float3 H = normalize(V + L);
-	
-	// irradianceMap을 ShadeTarget으로 대체해 봄. 이상하면 여긴 빼자
-    //float3 vIrradiance = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
-    //float3 vDiffuse = vIrradiance * vAlbedo.xyz;
-	
-	//////////
-	//////////
-	
 	
     float3 vBRDF_factor = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, L, H, fAO);
 	
@@ -358,17 +350,8 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     vColor = vColor / (vColor + float3(1.f, 1.f, 1.f));
     vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
 	
-    //float3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), vDiffuse, fRoughness);
-    
-    //float3 kS = F;
-    //float3 kD = 1.0f - kS;
-    //kD *= 1.0f - fMetallic;
-	
-    //float3 vAmbient = (kD * vDiffuse + vSpecular) * fAO;  
-	
     float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
-	
-    //vColor = vAmbient + vColor + vEmissive;
+
     vColor += vEmissive;
 
 	if (fRimLight != 0.0f)
@@ -463,9 +446,6 @@ float4 PS_MAIN_BLUR(VS_OUT_TARGET In) : SV_TARGET
 //
 //	return Out;
 //}
-
-
-
 
 technique11 DefaultTechnique
 {
