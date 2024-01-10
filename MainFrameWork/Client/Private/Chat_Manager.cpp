@@ -84,6 +84,9 @@ void CChat_Manager::Set_CombineText(const wstring& szText)
 
 LRESULT CChat_Manager::Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    if (m_InputTextObject.empty() == false)
+        InputTextObject_WndProcHandler(hwnd, uMsg, wParam, lParam);
+
     if (m_bActive == false)
         return 0;
 
@@ -101,7 +104,7 @@ LRESULT CChat_Manager::Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, 
         }
         return 0;
     }
-      
+
     HIMC hIMC = ImmGetContext(hwnd);
     _uint iLanguage = ImmGetOpenStatus(hIMC);
 
@@ -159,6 +162,66 @@ LRESULT CChat_Manager::Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, 
         ClearCombineText();
         break;
     }
+    }
+
+    return 0;
+}
+
+LRESULT CChat_Manager::InputTextObject_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    HIMC hIMC = ImmGetContext(hwnd);
+    _uint iLanguage = ImmGetOpenStatus(hIMC);
+
+    for (auto& InputTextObject : m_InputTextObject)
+    {
+        switch (uMsg)
+        {
+        case WM_CHAR:
+        {
+            wchar_t charInput = static_cast<wchar_t>(wParam);
+            wstring szInput(&charInput, 1);
+            if (szInput.length() > 0)
+            {
+                if (szInput == L" ")
+                {
+                    InputTextObject.second.szText += szInput;
+                }
+                else if (szInput == L"\b")
+                {
+                    if (InputTextObject.second.szCombineText.length() == 0)
+                    {
+                        InputTextObject.second.szText.pop_back();
+                    }
+                }
+                else if (szInput == L"\t")
+                {
+                }
+                else
+                {
+                    InputTextObject.second.szText += szInput;
+                }
+            }
+            break;
+        }
+        case WM_IME_COMPOSITION:
+        {
+            if (lParam & GCS_COMPSTR)
+            {
+                wchar_t resultString[2];
+                UINT resultLength = ImmGetCompositionStringW(hIMC, GCS_COMPSTR, resultString, sizeof(resultString) / sizeof(wchar_t));
+
+                // 조합 완료된 문자열을 현재 문자열에 추가
+                if (resultLength > 1)
+                    InputTextObject.second.szCombineText = wstring(resultString, resultLength - 1);
+            }
+            break;
+        }
+        case WM_IME_ENDCOMPOSITION:
+        {
+            InputTextObject.second.szCombineText.clear();
+            break;
+        }
+        }
     }
 
     return 0;
@@ -476,11 +539,34 @@ HRESULT CChat_Manager::Ready_ChatWindows()
     return S_OK;
 }
 
+void CChat_Manager::Add_InputTextObject(CGameObject* pObject)
+{
+    if (m_InputTextObject.find(pObject) == m_InputTextObject.end())
+        return;
+
+    m_InputTextObject.emplace(pObject, InputTextObjectDesc());
+}
+
+wstring CChat_Manager::Get_InputText(CGameObject* pObject)
+{
+    return m_InputTextObject[pObject].szText + m_InputTextObject[pObject].szCombineText;
+}
+
+void CChat_Manager::Delete_InputTextObject(CGameObject* pObject)
+{
+    if (m_InputTextObject.find(pObject) == m_InputTextObject.end())
+        return;
+
+    m_InputTextObject.erase(pObject);
+}
+
+
 void CChat_Manager::Release_ChatWindows()
 {
     Safe_Release(m_pChatWindow);
     Safe_Release(m_pInputWindow);
 }
+
 
 
 

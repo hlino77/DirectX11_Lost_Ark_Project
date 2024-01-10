@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Base.h"
 #include "Lock.h"
+#include "GameObject.h"
 
 BEGIN(Engine)
 class CTextBox;
@@ -13,6 +14,13 @@ class CUI_TextBox;
 class CChat_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CChat_Manager);
+
+	typedef struct InputTextObjectDesc
+	{
+		wstring szText;
+		wstring szCombineText;
+	};
+
 
 public:
 	CChat_Manager();
@@ -28,6 +36,8 @@ public:
 	void	Set_CombineText(const wstring& szText);
 
 	LRESULT Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	LRESULT InputTextObject_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 
 	HRESULT Render();
 
@@ -52,6 +62,12 @@ public:
 
 	HRESULT Ready_ChatWindows();
 	void	Release_ChatWindows();
+
+
+	//InputTextObject
+	void		Add_InputTextObject(CGameObject* pObject);
+	wstring		Get_InputText(CGameObject* pObject);
+	void		Delete_InputTextObject(CGameObject* pObject);
 private:
 	void	StartChat();
 	void	EndChat();
@@ -98,6 +114,8 @@ private:
 	//TextBox
 	CTextBox* m_pInputWindow = nullptr;
 	CTextBox* m_pChatWindow = nullptr;
+
+	unordered_map<CGameObject*, InputTextObjectDesc> m_InputTextObject;
 
 	USE_LOCK
 public:

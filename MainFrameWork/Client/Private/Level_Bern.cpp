@@ -185,16 +185,16 @@ HRESULT CLevel_Bern::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = Vec4(0.705f, -0.667f, -0.239f, 0.f);
+	LightDesc.vDirection = Vec4(-0.136f, -0.818f, -0.558f, 0.f);
 	LightDesc.vDirection.Normalize();
 	LightDesc.vDiffuse = Vec4(0.8f, 0.8f, 0.8f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 
 
-	//CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/ArenaLight.dds");
+	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Bern.dds");
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
 		return E_FAIL;
 
 
@@ -203,11 +203,10 @@ HRESULT CLevel_Bern::Ready_Lights()
 	//Vec3 vPos = Vec3(-80.78f, 83.75f, 33.80f);
 	//Matrix matLightView = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
 
-	Vec3 vOffset = Vec3(-117.04f, 110.27f, 36.20f);
+	Vec3 vOffset = Vec3(176.86f, 60.15f, 168.38f);
 
 	pGameInstance->Ready_StaticLightMatrix(vOffset, vLook);
-	vOffset.Normalize();
-	vOffset *= 30.0f;
+	vOffset = -vLook * 30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
 
@@ -575,7 +574,7 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
 
 		_uint			QuadTreeSize = {};
 

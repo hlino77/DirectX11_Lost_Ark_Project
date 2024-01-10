@@ -252,27 +252,27 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT_TARGET In)
 	vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
 	vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
 
-	//float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
+	float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
 
-	//if (fStaticShadow > 0.51f)
-	//{
-	//	vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
-	//	vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
+	if (fStaticShadow > 0.51f)
+	{
+		vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
+		vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
 
-	//	float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
+		float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
 
-	//	fResultShadow = min(fStaticShadow, fShadow);
-	//}
-	//else
-	//	fResultShadow = fStaticShadow;
+		fResultShadow = min(fStaticShadow, fShadow);
+	}
+	else
+		fResultShadow = fStaticShadow;
 
 	//
-	vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
-	vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
+	//vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
+	//vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
 
-	float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
+	//float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
 
-	fResultShadow = fShadow;
+	//fResultShadow = fShadow;
 	//
 
 	Out.vShade *= saturate(float4(fResultShadow, fResultShadow, fResultShadow, 1.f));

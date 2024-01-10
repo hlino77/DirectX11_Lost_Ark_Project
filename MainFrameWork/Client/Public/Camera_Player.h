@@ -12,6 +12,7 @@ public:
 	{
 		class CPlayer* pPlayer = nullptr;
 		CCamera::CAMERADESC tCameraDesc;
+		Vec3 vOffset = Vec3(-1.0f, 0.0f, -1.0f);
 	};
 
 private:

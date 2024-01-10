@@ -89,6 +89,7 @@ struct VS_OUT_INSTANCE
 struct VS_OUT_SHADOW
 {
     float4  vPosition : SV_POSITION;
+    float2  vTexUV : TEXCOORD0;
     float4  vProjPos : TEXCOORD1;
 };
 

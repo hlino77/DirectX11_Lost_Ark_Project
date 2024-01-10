@@ -707,7 +707,7 @@ HRESULT CRenderer::Render_StaticShadow()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
-	m_pTarget_Manager->Make_SRVTexture(L"../Bin/Resources/Textures/LightMap/LightMap.dds", L"Target_StaticShadowDepth");
+	m_pTarget_Manager->Make_SRVTexture(L"../Bin/Resources/Textures/LightMap/LightMap1.dds", L"Target_StaticShadowDepth");
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	ViewportDesc.Width = fOriginalWidth;

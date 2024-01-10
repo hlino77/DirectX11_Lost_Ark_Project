@@ -31,8 +31,13 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&pDesc->tCameraDesc)))
 		return E_FAIL;
 
-	m_vOffset = Vec3(-1.0f, 1.8f, -1.0f);
+	m_vOffset = pDesc->vOffset;
 	m_vOffset.Normalize();
+
+	Vec3 vRight = m_vOffset.Cross(Vec3(0.0f, 1.0f, 0.0f));
+	
+	m_vOffset = XMVector3TransformNormal(m_vOffset, Matrix::CreateFromAxisAngle(vRight, XMConvertToRadians(50.0f)));
+
 	m_fCameraLength = 7.5f;
 
 	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);

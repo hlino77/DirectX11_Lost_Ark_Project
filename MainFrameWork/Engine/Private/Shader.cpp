@@ -159,6 +159,23 @@ HRESULT CShader::Push_ShadowWVP()
 		return S_OK;
 }
 
+HRESULT CShader::Push_StaticShadowWVP()
+{
+	if (FAILED(Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
+		return S_OK;
+
+	GlobalDesc gDesc = {
+		m_pGameInstance->Get_StaticLightMatrix(),
+		m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+		m_pGameInstance->Get_StaticLightMatrix() * m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ),
+	};
+
+	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return S_OK;
+
+	return S_OK;
+}
+
 HRESULT CShader::Push_ShadowVP()
 {
 	GlobalDesc gDesc = {

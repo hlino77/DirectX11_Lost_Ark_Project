@@ -101,21 +101,20 @@ HRESULT CStaticModel::Render_ShadowDepth()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	m_pShaderCom->Push_ShadowWVP();
+	m_pShaderCom->Push_StaticShadowWVP();
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;*/
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+			return S_OK;
 
 		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
 			return E_FAIL;*/
 
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
 			return S_OK;
 	}
 

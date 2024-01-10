@@ -46,6 +46,7 @@ public:
 	HRESULT Push_GlobalWVP();
 	HRESULT Push_GlobalVP();
 	HRESULT Push_ShadowWVP();
+	HRESULT Push_StaticShadowWVP();
 	HRESULT Push_ShadowVP();
 
 	HRESULT Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength = 0);

@@ -155,11 +155,18 @@ VS_OUT_SHADOW VS_SHADOW(STATIC_IN In)
     Out.vPosition = vPosition;
     Out.vProjPos = Out.vPosition;
 
+    Out.vTexUV = In.vTexUV;
+
     return Out;
 }
 
 float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
 {
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+    if (vColor.a <= 0.1f)
+        discard;
+
     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
@@ -189,7 +196,7 @@ technique11 DefaultTechnique
 
     pass ShadowPass // 2
     {
-        SetRasterizerState(RS_Default);
+        SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 

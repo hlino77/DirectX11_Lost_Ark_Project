@@ -127,6 +127,9 @@ void CMainApp::Tick(_float fTimeDelta)
 	if (KEY_HOLD(KEY::N) && KEY_TAP(KEY::NUM_1))
 		CNavigationMgr::GetInstance()->OnOff_Render();
 
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::S))
+		m_pRenderer_Com->Set_StaticShadow();
+
 	m_pGameInstance->FinalTick(fTimeDelta);
 
 	CServerSessionManager::GetInstance()->Tick(fTimeDelta);
