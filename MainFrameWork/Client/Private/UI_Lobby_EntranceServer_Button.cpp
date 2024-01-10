@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_Lobby_EntranceServer_Button.h"
 #include "GameInstance.h"
+#include "TextBox.h"
 
 CUILobby_Entrance_to_ServrerButton::CUILobby_Entrance_to_ServrerButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -40,6 +41,17 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	if(FAILED(Initialize_TextBox()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CUILobby_Entrance_to_ServrerButton::Initialize_TextBox()
+{
+	m_strFont = L"ÇÑÄÄ°íµñ";
+	Ready_TextBox();
+	m_pTextWnd->Set_Active(false);
 	return S_OK;
 }
 
@@ -56,6 +68,8 @@ void CUILobby_Entrance_to_ServrerButton::LateTick(_float fTimeDelta)
 
 HRESULT CUILobby_Entrance_to_ServrerButton::Render()
 {
+	Print_TextBox();
+
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 	m_pShaderCom->Begin(2);
@@ -135,6 +149,61 @@ void CUILobby_Entrance_to_ServrerButton::Update_Button_Texture()
 
 }
 
+void CUILobby_Entrance_to_ServrerButton::Print_TextBox()
+{
+	m_pTextWnd->Set_Active(true);
+	m_pTextWnd->Clear_Text();
+	m_pTextWnd->Set_Alpha(1.f);
+
+	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+	m_pTextWnd->Get_TransformCom()->Set_Scale(Vec3(200.f, 60.f, 0.f));
+	m_pTextWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
+
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strText);
+	Vec2 vOrigin = vMeasure * 0.5f;
+
+	m_pTextWnd->Set_Text(TEXT("EntranceWnd"), m_strFont, m_strText, Vec2(100.0f, 30.0f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+}
+
+HRESULT CUILobby_Entrance_to_ServrerButton::Ready_TextBox()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	Safe_AddRef(pGameInstance);
+
+	if (nullptr == m_pTextWnd)
+	{
+		CTextBox::TEXTBOXDESC tTextDesc;
+		tTextDesc.szTextBoxTag = TEXT("EntranceWnd");
+		tTextDesc.vSize = Vec2(200.f, 60.0f);
+		m_pTextWnd = static_cast<CTextBox*>(pGameInstance->
+			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+		if (nullptr == m_pTextWnd)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		m_pTextWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+		m_pTextWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+	}
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+void CUILobby_Entrance_to_ServrerButton::Start_TextBox()
+{
+	m_strText.clear();
+	m_pTextWnd->Set_Active(true);
+}
+
+void CUILobby_Entrance_to_ServrerButton::End_TextBox()
+{
+	m_strText.clear();
+	m_pTextWnd->Set_Active(false);
+}
+
 CUILobby_Entrance_to_ServrerButton* CUILobby_Entrance_to_ServrerButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUILobby_Entrance_to_ServrerButton* pInstance = new CUILobby_Entrance_to_ServrerButton(pDevice, pContext);
@@ -167,6 +236,7 @@ void CUILobby_Entrance_to_ServrerButton::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
+	m_pTextWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

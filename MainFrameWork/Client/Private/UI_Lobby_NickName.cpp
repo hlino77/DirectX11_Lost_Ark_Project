@@ -354,7 +354,7 @@ void CUI_Lobby_NickName::Random_NickName()
 		m_strNickName = TEXT("도와줘Gpt");
 		break;
 	case 6:
-		m_strNickName = TEXT("할게너무많은데");
+		m_strNickName = TEXT("할게너무많아");
 		break;
 	case 7:
 		m_strNickName = TEXT("로아가뜯기네");

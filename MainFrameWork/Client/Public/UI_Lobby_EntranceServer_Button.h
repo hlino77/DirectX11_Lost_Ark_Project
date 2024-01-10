@@ -19,6 +19,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    HRESULT Initialize_TextBox();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -35,10 +36,18 @@ private:
 private:
     void    Update_Buttton();
     void    Update_Button_Texture();
-    
+
+private:
+    void    Print_TextBox();
+    HRESULT Ready_TextBox();
+    void	Start_TextBox();
+    void	End_TextBox();
+
 private:
     _bool   m_bEntrance = { false };
     CTextBox* m_pTextWnd = { nullptr };
+    wstring m_strFont;
+    wstring m_strText = TEXT("게임시작");
 
 public:
     static  CUILobby_Entrance_to_ServrerButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
