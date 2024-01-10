@@ -79,7 +79,7 @@ public: /* For. Componenet_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const wstring & strProtoTypeTag, class CComponent* pPrototype);
 	class CComponent* Clone_Component(CGameObject * pObject, _uint iLevelIndex, const wstring & strProtoTypeTag, void* pArg = nullptr);
 	HRESULT Check_Prototype(_uint iLevelIndex, const wstring & strProtoTypeTag);
-	unordered_map<const wstring, class CComponent*, djb2Hasher>* Get_Prototype(_uint iLevelIndex);
+	unordered_map<const wstring, class CComponent*, djb2Hasher>* Get_Component_Prototype(_uint iLevelIndex);
 
 public: /* For.Light_Manager */
 	const LIGHTDESC* Get_LightDesc(_uint iIndex);

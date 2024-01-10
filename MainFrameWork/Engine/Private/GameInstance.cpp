@@ -379,7 +379,7 @@ HRESULT CGameInstance::Check_Prototype(_uint iLevelIndex, const wstring& strProt
 	return m_pComponent_Manager->Check_Prototype(iLevelIndex, strProtoTypeTag);
 }
 
-unordered_map<const wstring, class CComponent*, djb2Hasher>* CGameInstance::Get_Prototype(_uint iLevelIndex)
+unordered_map<const wstring, class CComponent*, djb2Hasher>* CGameInstance::Get_Component_Prototype(_uint iLevelIndex)
 {
 	if (nullptr == m_pComponent_Manager)
 		return nullptr;

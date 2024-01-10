@@ -46,49 +46,40 @@ HRESULT CNpc::Initialize(void* pArg)
 
 		m_iCurrLevel = pDesc->iCurLevel;
 
-		m_eNpcType = (NPCTYPE)pDesc->iNpcType;
-		m_strObjectTag = pDesc->strNpcTag;
-		m_strNpcName = pDesc->strNpcName;
-		m_matStart = pDesc->matStart;
-		memcpy(&m_vStartPos, m_matStart.m[3], sizeof(Vec3));
+		m_NpcDesc.iNpcType = pDesc->iNpcType;
+		m_NpcDesc.strNpcTag = pDesc->strNpcTag;
+		m_NpcDesc.strNpcName = pDesc->strNpcName;
+		m_NpcDesc.matStart = pDesc->matStart;
+		memcpy(&m_vStartPos, m_NpcDesc.matStart.m[3], sizeof(Vec3));
 
-		m_eNpcShape = (NPCSHAPE)pDesc->iNpcShape;
-		m_strNpcMq = pDesc->strNpcMq;
-		m_strNpcHead = pDesc->strNpcHead;
-		m_strNpcBody = pDesc->strNpcBody;
+		m_NpcDesc.iNpcShape = pDesc->iNpcShape;
+		m_NpcDesc.strNpcMq = pDesc->strNpcMq;
+		m_NpcDesc.strNpcHead = pDesc->strNpcHead;
+		m_NpcDesc.strNpcBody = pDesc->strNpcBody;
 
-		m_strIdleAnim = pDesc->strIdleAnim;
-		m_strActAnim = pDesc->strActAnim;
-		m_fChangeAnimTime = pDesc->fChangeAnimTime;
+		m_NpcDesc.strIdleAnim = pDesc->strIdleAnim;
+		m_NpcDesc.strActAnim = pDesc->strActAnim;
+		m_NpcDesc.fChangeAnimTime = pDesc->fChangeAnimTime;
 
-		m_IsMove = pDesc->IsMove;
-		m_fMoveLength = pDesc->fMoveLength;
+		m_NpcDesc.IsMove = pDesc->IsMove;
+		m_NpcDesc.vecMovePos = pDesc->vecMovePos;
 
-		m_IsTalk = pDesc->IsTalk;
-		m_fTalkStartTime = pDesc->fTalkStartTime;
-		m_vecTalks = pDesc->vecTalks;
+		m_NpcDesc.IsTalk = pDesc->IsTalk;
+		m_NpcDesc.fTalkStartTime = pDesc->fTalkStartTime;
+		m_NpcDesc.vecTalks = pDesc->vecTalks;
+		m_NpcDesc.vecTalkSound = pDesc->vecTalkSound;
 
-		m_bUseWeaponPart = pDesc->bUseWeaponPart;
-		m_strLeftPart = pDesc->strLeftPart;
-		m_vLeftOffset[(_uint)WEAPON_OFFSET::SCALE] = pDesc->vLeftOffset[(_uint)WEAPON_OFFSET::SCALE];
-		m_vLeftOffset[(_uint)WEAPON_OFFSET::ROTATION] = pDesc->vLeftOffset[(_uint)WEAPON_OFFSET::ROTATION];
-		m_vLeftOffset[(_uint)WEAPON_OFFSET::POSITION] = pDesc->vLeftOffset[(_uint)WEAPON_OFFSET::POSITION];
-		m_strRightPart = pDesc->strRightPart;
-		m_vRightOffset[(_uint)WEAPON_OFFSET::SCALE] = pDesc->vRightOffset[(_uint)WEAPON_OFFSET::SCALE];
-		m_vRightOffset[(_uint)WEAPON_OFFSET::ROTATION] = pDesc->vRightOffset[(_uint)WEAPON_OFFSET::ROTATION];
-		m_vRightOffset[(_uint)WEAPON_OFFSET::POSITION] = pDesc->vRightOffset[(_uint)WEAPON_OFFSET::POSITION];
+		m_NpcDesc.bUseWeaponPart = pDesc->bUseWeaponPart;
+		m_NpcDesc.strLeftPart = pDesc->strLeftPart;
+		m_NpcDesc.Left_OffsetMatrix = pDesc->Left_OffsetMatrix;
+		m_NpcDesc.strRightPart = pDesc->strRightPart;
+		m_NpcDesc.Right_OffsetMatrix = pDesc->Right_OffsetMatrix;
+	
 
 		m_iLeftBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
 		m_iRightBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
 	}
-	
-	if (true == m_IsMove)
-	{
-		Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		vLook.Normalize();
 
-		m_vMovePos = m_vStartPos + (vLook * m_fMoveLength);
-	}
 
 	//
 	m_iLayer = (_uint)LAYER_TYPE::LAYER_NPC;
@@ -103,14 +94,14 @@ HRESULT CNpc::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
-	m_pTransformCom->Set_WorldMatrix(m_matStart);
+	m_pTransformCom->Set_WorldMatrix(m_NpcDesc.matStart);
 	m_tCullingSphere.Radius = 2.0f;
 
-	m_iIdleAnimIndex = m_pModelCom->Initailize_FindAnimation(m_strIdleAnim, 1.0f);
+	m_iIdleAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strIdleAnim, 1.0f);
 	if (m_iIdleAnimIndex == -1)
 		return E_FAIL;
 
-	m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_strActAnim, 1.0f);
+	m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strActAnim, 1.0f);
 	if (m_iActAnimIndex == -1)
 		return E_FAIL;
 
@@ -301,11 +292,11 @@ HRESULT CNpc::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_" + m_strNpcMq;
+	wstring strComName = L"Prototype_Component_Model_" + m_NpcDesc.strNpcMq;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	if (NPCTYPE::FUNCTION == m_eNpcType)
+	if (NPCTYPE::FUNCTION == (NPCTYPE)m_NpcDesc.iNpcType)
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
@@ -346,14 +337,14 @@ HRESULT CNpc::Ready_Components()
 
 HRESULT CNpc::Ready_Parts()
 {
-	if (false == m_bUseWeaponPart)
+	if (false == m_NpcDesc.bUseWeaponPart)
 		return S_OK;
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CGameObject* pParts = nullptr;
 
-	if (TEXT("") != m_strRightPart)
+	if (TEXT("") != m_NpcDesc.strRightPart)
 	{
 		CPartObject::PART_DESC			PartDesc_Weapon;
 		PartDesc_Weapon.pOwner = this;
@@ -362,10 +353,8 @@ HRESULT CNpc::Ready_Parts()
 		PartDesc_Weapon.pPartenModel = m_pModelCom;
 		PartDesc_Weapon.iSocketBoneIndex = m_iRightBoneIndex;
 		PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-		PartDesc_Weapon.strModel = m_strRightPart;
-		PartDesc_Weapon.vPartScale = m_vRightOffset[(_uint)WEAPON_OFFSET::SCALE];
-		PartDesc_Weapon.vPartRot = m_vRightOffset[(_uint)WEAPON_OFFSET::ROTATION];
-		PartDesc_Weapon.vPartPos = m_vRightOffset[(_uint)WEAPON_OFFSET::POSITION];
+		PartDesc_Weapon.strModel = m_NpcDesc.strRightPart;
+		PartDesc_Weapon.OffsetMatrix = m_NpcDesc.Right_OffsetMatrix;
 
 		wstring strObject = TEXT("Prototype_GameObject_NpcPart");
 		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
@@ -373,7 +362,7 @@ HRESULT CNpc::Ready_Parts()
 			return E_FAIL;
 	}
 
-	if (TEXT("") != m_strLeftPart)
+	if (TEXT("") != m_NpcDesc.strLeftPart)
 	{
 		CPartObject::PART_DESC			PartDesc_Weapon;
 		PartDesc_Weapon.pOwner = this;
@@ -382,10 +371,8 @@ HRESULT CNpc::Ready_Parts()
 		PartDesc_Weapon.pPartenModel = m_pModelCom;
 		PartDesc_Weapon.iSocketBoneIndex = m_iLeftBoneIndex;
 		PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-		PartDesc_Weapon.strModel = m_strLeftPart;
-		PartDesc_Weapon.vPartScale = m_vLeftOffset[(_uint)WEAPON_OFFSET::SCALE];
-		PartDesc_Weapon.vPartRot = m_vLeftOffset[(_uint)WEAPON_OFFSET::ROTATION];
-		PartDesc_Weapon.vPartPos = m_vLeftOffset[(_uint)WEAPON_OFFSET::POSITION];
+		PartDesc_Weapon.strModel = m_NpcDesc.strLeftPart;
+		PartDesc_Weapon.OffsetMatrix = m_NpcDesc.Left_OffsetMatrix;
 
 		wstring strObject = TEXT("Prototype_GameObject_NpcPart");
 		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
@@ -437,7 +424,7 @@ void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
 	{
 		m_fChangeAnimAcc += fTimeDelta;
 
-		if (m_fChangeAnimTime <= m_fChangeAnimAcc)
+		if (m_NpcDesc.fChangeAnimTime <= m_fChangeAnimAcc)
 		{
 			Reserve_Animation(m_iActAnimIndex, 0.2f, 0, 0);
 		}
