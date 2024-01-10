@@ -39,11 +39,6 @@ HRESULT CUI_Lobby::Initialize(void* pArg)
 void CUI_Lobby::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-	for (auto& iter : m_vecUIParts)
-	{
-		
-	}
 }
 
 void CUI_Lobby::LateTick(_float fTimeDelta)

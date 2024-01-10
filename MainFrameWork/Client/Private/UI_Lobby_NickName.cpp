@@ -272,16 +272,16 @@ void CUI_Lobby_NickName::Print_NickName()
 	m_pNickNameWnd->Clear_Text();
 	m_pNickNameWnd->Set_Alpha(1.f);
 
-	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+	Vec3 vResultPos = Vec3((m_fX+10.f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
 	m_pNickNameWnd->Get_TransformCom()->Set_Scale(Vec3(102.5f, 26.5f, 0.f));
 	m_pNickNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strNickName);
 	Vec2 vOrigin = vMeasure * 0.5f;
 
-	m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex) + TEXT("-1"), m_strFont, m_strNickName, Vec2(102.5f - 2.f, 26.5f), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-	m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex) + TEXT("-2"), m_strFont, m_strNickName, Vec2(102.5f+2.f, 26.5f), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-	m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex),	m_strFont,	m_strNickName,	Vec2(102.5f, 26.5f),	Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex) + TEXT("-1"), m_strFont, m_strNickName, Vec2(102.5f - 2.f, 26.5f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+	m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex) + TEXT("-2"), m_strFont, m_strNickName, Vec2(102.5f+2.f, 26.5f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+	m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex),	m_strFont,	m_strNickName,	Vec2(102.5f, 26.5f),	Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 }            
 
 HRESULT CUI_Lobby_NickName::Ready_TextBox()

@@ -1,6 +1,11 @@
 #pragma once
 #include "UI.h"
 
+BEGIN(Engine)
+class CTextBox;
+END
+
+
 BEGIN(Client)
 
 class CUILobby_Entrance_to_ServrerButton final:
@@ -33,7 +38,8 @@ private:
     
 private:
     _bool   m_bEntrance = { false };
-   
+    CTextBox* m_pTextWnd = { nullptr };
+
 public:
     static  CUILobby_Entrance_to_ServrerButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

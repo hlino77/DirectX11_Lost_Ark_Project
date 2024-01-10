@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "UI_Lobby_NickName.h"
+#include "TextBox.h"
 
 CUI_Lobby_NickNameChange::CUI_Lobby_NickNameChange(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -46,6 +47,15 @@ HRESULT CUI_Lobby_NickNameChange::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	Initialize_Textbox();
+	return S_OK;
+}
+
+HRESULT CUI_Lobby_NickNameChange::Initialize_Textbox()
+{
+	m_strFont = L"´øÆÄ¿¬¸¶µÈÄ®³¯";
+	Ready_TextBox();
+	m_pInputWnd->Set_Active(false);
 	return S_OK;
 }
 
@@ -59,7 +69,8 @@ void CUI_Lobby_NickNameChange::Tick(_float fTimeDelta)
 void CUI_Lobby_NickNameChange::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-	
+
+
 }
 
 HRESULT CUI_Lobby_NickNameChange::Render()
@@ -70,6 +81,7 @@ HRESULT CUI_Lobby_NickNameChange::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
+	Print_NickNameChange();
 
 	if (FAILED(Bind_ShaderResources_NewWnd()))
 		return E_FAIL;
@@ -77,9 +89,16 @@ HRESULT CUI_Lobby_NickNameChange::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
-	Render_InputString();
-
+	//Render_InputString();
+	
 	return S_OK;
+}
+
+
+const wstring CUI_Lobby_NickNameChange::Get_NickName()
+{
+	if (nullptr != m_pNickName)
+		return static_cast<CUI_Lobby_NickName*>(m_pNickName)->Get_NickName();
 }
 
 HRESULT CUI_Lobby_NickNameChange::Ready_Components()
@@ -141,7 +160,7 @@ void CUI_Lobby_NickNameChange::Render_InputString()
 	if (!m_bOnWnd)
 		return;
 
-	Vec2 vPos((g_iWinSizeX * 0.5f), (g_iWinSizeY * 0.5f) + 30.f);
+	Vec2 vPos((g_iWinSizeX * 0.5f), (g_iWinSizeY * 0.5f) + 25.f);
 	Vec2 vScale(0.7f, 0.7f);
 
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñ", 
@@ -175,18 +194,88 @@ void CUI_Lobby_NickNameChange::Update_NickNameFrame()
 
 void CUI_Lobby_NickNameChange::Update_NickNameChangeWnd()
 {
-	if (nullptr != m_pNickName)
+	if ((nullptr != m_pNickName)&&(true == m_bOnWnd))
 	{
 		wstring strCurrNickName = static_cast<CUI_Lobby_NickName*>(m_pNickName)->Get_NickName();
 		wstring strNewNickName;
+		m_strNickName = strCurrNickName;
 		CGameInstance::GetInstance()->InputText(strNewNickName);
 
 		if (KEY_TAP(KEY::ENTER))
 		{
 			static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName(strNewNickName);
+			m_bOnWnd = false;
+			m_iTextureIndex = 0;
 		}
 		//static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName();
 	}
+}
+
+void CUI_Lobby_NickNameChange::Update_InputString()
+{
+	if (!m_bOnWnd)
+		return;
+
+}
+
+void CUI_Lobby_NickNameChange::Print_NickNameChange()
+{
+	if ((nullptr == m_pInputWnd)||(!m_bOnWnd))
+		return;
+
+	m_pInputWnd->Set_Active(true);
+	m_pInputWnd->Clear_Text();
+	m_pInputWnd->Set_Alpha(1.f);
+
+	Vec3 vResultPos = Vec3(800.f - g_iWinSizeX * 0.5f, -470.f + g_iWinSizeY * 0.5f, 0.f);
+	m_pInputWnd->Get_TransformCom()->Set_Scale(Vec3(458.f, 90.f, 0.f));
+	m_pInputWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
+
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strNickName);
+	Vec2 vOrigin = vMeasure * 0.5f;
+
+	m_pInputWnd->Set_Text(TEXT("InputNickNameWnd1"), m_strFont, m_strNickName, Vec2(458.f * 0.5f, 45.f), Vec2(0.6f, 0.6f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.f));
+	m_pInputWnd->Set_Text(TEXT("InputNickNameWnd2"), m_strFont, m_strNickName, Vec2(458.f * 0.5f, 45.f), Vec2(0.6f, 0.6f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.f));
+	m_pInputWnd->Set_Text(TEXT("InputNickNameWnd"), m_strFont, m_strNickName, Vec2(458.f * 0.5f, 45.f), Vec2(0.6f, 0.6f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+}
+
+HRESULT CUI_Lobby_NickNameChange::Ready_TextBox()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	Safe_AddRef(pGameInstance);
+
+	if (nullptr == m_pInputWnd)
+	{
+		CTextBox::TEXTBOXDESC tTextDesc;
+		tTextDesc.szTextBoxTag = TEXT("InputNickNameWnd");
+		tTextDesc.vSize = Vec2(458.f, 90.0f);
+		m_pInputWnd = static_cast<CTextBox*>(pGameInstance->
+			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+		if (nullptr == m_pInputWnd)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		m_pInputWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+		m_pInputWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+	}
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+void CUI_Lobby_NickNameChange::Start_NickNameText()
+{
+	m_strNickName.clear();
+	m_pInputWnd->Set_Active(true);
+}
+
+void CUI_Lobby_NickNameChange::End_NickNameText()
+{
+	m_strNickName.clear();
+	m_pInputWnd->Set_Active(false);
 }
 
 CUI_Lobby_NickNameChange* CUI_Lobby_NickNameChange::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -221,6 +310,7 @@ void CUI_Lobby_NickNameChange::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
+	m_pInputWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTextureCom_NewWnd);
 	Safe_Release(m_pTransformCom);

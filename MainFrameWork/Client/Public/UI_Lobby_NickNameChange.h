@@ -24,6 +24,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    HRESULT Initialize_Textbox();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -31,6 +32,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_NickNmaeFrame(CUI* pUI) { m_pNickName = pUI; }
+    const wstring Get_NickName();
 
 private:
     virtual HRESULT Ready_Components();
@@ -41,15 +43,28 @@ private:
 private:
     void    Update_NickNameFrame();
     void    Update_NickNameChangeWnd();
+    void    Update_InputString();
+
+private:
+    void    Print_NickNameChange();
+    HRESULT Ready_TextBox();
+    void	Start_NickNameText();
+    void	End_NickNameText();
+
+public:
+    void    Set_NickName(const wstring& strNickName) { m_strNickName.clear(); m_strNickName = strNickName; }
 
 private:
     _uint   m_iCharacterIndex = { 0 };
     CUI*     m_pNickName = { nullptr };
 
     //new wnd
-    CTexture* m_pTextureCom_NewWnd = { nullptr };
+    CTexture*   m_pTextureCom_NewWnd = { nullptr };
     CTransform* m_pTransformCom_NewWnd = { nullptr };
     _bool       m_bOnWnd = { false };
+    CTextBox*   m_pInputWnd = { nullptr };
+    wstring     m_strNickName;
+    wstring     m_strFont;
 
 public:
     static  CUI_Lobby_NickNameChange* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
