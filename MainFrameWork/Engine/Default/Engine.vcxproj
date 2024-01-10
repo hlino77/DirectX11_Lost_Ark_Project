@@ -178,6 +178,7 @@
     <ClInclude Include="..\Public\Cell.h" />
     <ClInclude Include="..\Public\CellPoint.h" />
     <ClInclude Include="..\Public\ColliderBase.h" />
+    <ClInclude Include="..\Public\ColliderDoughnut.h" />
     <ClInclude Include="..\Public\ColliderFrustum.h" />
     <ClInclude Include="..\Public\ColliderOBB.h" />
     <ClInclude Include="..\Public\ColliderSphere.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="..\Private\Cell.cpp" />
     <ClCompile Include="..\Private\CellPoint.cpp" />
     <ClCompile Include="..\Private\ColliderBase.cpp" />
+    <ClCompile Include="..\Private\ColliderDoughnut.cpp" />
     <ClCompile Include="..\Private\ColliderFrustum.cpp" />
     <ClCompile Include="..\Private\ColliderOBB.cpp" />
     <ClCompile Include="..\Private\ColliderSphere.cpp" />

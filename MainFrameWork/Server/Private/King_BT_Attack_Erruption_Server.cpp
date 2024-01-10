@@ -2,6 +2,8 @@
 #include "King_BT_Attack_Erruption_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include <Boss_Server.h>
+
 CKing_BT_Attack_Erruption_Server::CKing_BT_Attack_Erruption_Server()
 {
 }
@@ -15,7 +17,12 @@ void CKing_BT_Attack_Erruption_Server::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Erruption_Server::OnUpdate(const _float& fTimeDelta)
 {
-
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

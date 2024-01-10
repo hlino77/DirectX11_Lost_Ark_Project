@@ -18,7 +18,12 @@ void CGolem_BT_Attack_Dash_Server::OnStart()
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash_Server::OnUpdate(const _float& fTimeDelta)
 {
-
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrameRatio(m_vecAnimDesc[0].iAnimIndex)>0.8f)
 		return BT_SUCCESS;
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) < 10)

@@ -363,6 +363,7 @@ namespace Engine
 		_float	fRepulsion = { 0.f };
 		_bool	bUseProjPos = { false };
 		_bool	bUseFactor = { true };
+		_bool	IsCounter = { false };
 
 		/* 스폰투사체 정보 */
 		_bool	IsSpawner = { false };

@@ -20,7 +20,7 @@ HRESULT CSkill_WR_WildStomp::Initialize(void* pArg)
 	m_fSkillDamage = 0.f;
 	m_fSkillCoolTime = 3.f;
 
-	m_eAttackType = SKILL_ATTACKTYPE::COUNTER;;
+	m_eAttackType = SKILL_ATTACKTYPE::COUNTER;
 	m_eCtrlType = SKILL_CTRLTYPE::NORMAL;
 	m_IsSuperArmor = false;
 
@@ -35,6 +35,7 @@ HRESULT CSkill_WR_WildStomp::Initialize(void* pArg)
 	Proj_Desc.iDamage = 100.f;
 	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::EARTHQUAKE;
 	Proj_Desc.fStatusDuration = 3.f;
+	Proj_Desc.IsCounter =true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 

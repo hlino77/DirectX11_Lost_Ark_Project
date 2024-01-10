@@ -30,6 +30,7 @@
 #include "PartObject.h"
 #include "ColliderOBB.h"
 #include <Boss_BT_Counter.h>
+#include <Boss_BT_Groggy.h>
 
 CBoss_King::CBoss_King(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CBoss(pDevice, pContext)
@@ -281,6 +282,29 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 
 	CBT_Action* pCounter = CBoss_BT_Counter::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Groggy";
+	CBT_Action* pGroggy = CBoss_BT_Groggy::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_7_01");

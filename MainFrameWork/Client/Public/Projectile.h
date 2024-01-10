@@ -27,6 +27,7 @@ public:
 		_uint	iStatusEffect = { (_uint)STATUSEFFECT::EFFECTEND };
 		_float	fStatusDuration = { 0.f };
 		_float	fRepulsion = { false };
+		_bool	IsCounter = { false };
 
 	}PROJINFO_DESC;
 

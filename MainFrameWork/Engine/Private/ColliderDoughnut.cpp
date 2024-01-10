@@ -1,33 +1,34 @@
 #include "Engine_Defines.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "ColliderSphere.h"
+#include "ColliderDoughnut.h"
 #include "DebugDraw.h"
 #include "Model.h"
 #include "ColliderOBB.h"
 #include "ColliderSphereGroup.h"
 #include "ColliderFrustum.h"
+#include <ColliderSphere.h>
 
-CSphereCollider::CSphereCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	:Super(pDevice, pContext, ColliderType::Sphere)
+CDoughnutCollider::CDoughnutCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:Super(pDevice, pContext, ColliderType::Doughnut)
 {
 }
 
-CSphereCollider::CSphereCollider(const CSphereCollider& rhs)
+CDoughnutCollider::CDoughnutCollider(const CDoughnutCollider& rhs)
 	:Super(rhs)
 	, m_tBoundingSphere(rhs.m_tBoundingSphere)
 {
 
 }
 
-HRESULT CSphereCollider::Initialize_Prototype()
+HRESULT CDoughnutCollider::Initialize_Prototype()
 {
 	Super::Initialize_Prototype();
 
 	return S_OK;
 }
 
-HRESULT CSphereCollider::Initialize(void* pArg)
+HRESULT CDoughnutCollider::Initialize(void* pArg)
 {
 	m_tBoundingSphere.Center = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
 	m_tBoundingSphere.Radius = 1.0f;
@@ -43,16 +44,13 @@ HRESULT CSphereCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CSphereCollider::Update_Collider()
+void CDoughnutCollider::Update_Collider()
 {
 	Set_Center();
-
-	if (m_pChild)
-		m_pChild->Update_Collider();
 }
 
 
-void CSphereCollider::DebugRender()
+void CDoughnutCollider::DebugRender()
 {
 #ifdef _DEBUG
 	Super::DebugRender();
@@ -68,43 +66,31 @@ void CSphereCollider::DebugRender()
 		m_pChild->DebugRender();
 #endif // DEBUG
 }
-_bool CSphereCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
+_bool CDoughnutCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 {
 	if (m_tBoundingSphere.Intersects(ray.position, ray.direction, OUT distance) == false)
 		return false;
 
-	if (m_pChild)
-	{
-		if (m_pChild->Intersects(ray, distance) == false)
-			return false;
-	}
-
 	return true;
 }
 
-_bool CSphereCollider::Intersects(Super* other)
+_bool CDoughnutCollider::Intersects(Super* other)
 {
-	if (Intersects_Bounding(other) == false)
+	if (Intersects_Bounding(other) == true)
 		return false;
 
 	if(other->Get_Child())
 	{
-		if (Intersects_Bounding(other->Get_Child()) == false)
+		if (Intersects_Bounding(other->Get_Child()) == true)
 			return false;
 	}
 
-
-	if (m_pChild)
-	{
-		if(m_pChild->Intersects(other) == false)
-			return false;
-	}
 
 
 	return true;
 }
 
-_bool CSphereCollider::Intersects_Bounding(Super* other)
+_bool CDoughnutCollider::Intersects_Bounding(Super* other)
 {
 	_bool bCollision = false;
 
@@ -126,29 +112,23 @@ _bool CSphereCollider::Intersects_Bounding(Super* other)
 		bCollision = other->Intersects(this);
 		break;
 	case ColliderType::Doughnut:
-		bCollision = other->Intersects(this);
+		bCollision = m_tBoundingSphere.Intersects(static_cast<CDoughnutCollider*>(other)->GetBoundingSphere());
 		break;
 	}
 
-	return bCollision;
+	return !bCollision;
 }
 
-_bool CSphereCollider::Intersects_Box(const BoundingBox& Collider)
+_bool CDoughnutCollider::Intersects_Box(const BoundingBox& Collider)
 {
 	if (m_tBoundingSphere.Intersects(Collider))
-	{
-		if (m_pChild)
-		{
-			return m_pChild->Intersects_Box(Collider);
-		}
-		else
-			return true;
-	}
+		return false;
 
-	return false;
+
+	return true;
 }
 
-void CSphereCollider::Set_Center()
+void CDoughnutCollider::Set_Center()
 {
 	Matrix matObjectWorld = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
 
@@ -167,7 +147,7 @@ void CSphereCollider::Set_Center()
 	}
 }
 
-void CSphereCollider::Set_Center_ToBone()
+void CDoughnutCollider::Set_Center_ToBone()
 {
 	Matrix matOwnerWolrd = m_pOwner->Get_TransformCom()->Get_WorldMatrix();
 
@@ -190,34 +170,34 @@ void CSphereCollider::Set_Center_ToBone()
 }
 
 
-CSphereCollider* CSphereCollider::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CDoughnutCollider* CDoughnutCollider::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CSphereCollider* pInstance = new CSphereCollider(pDevice, pContext);
+	CDoughnutCollider* pInstance = new CDoughnutCollider(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CSphereCollider");
+		MSG_BOX("Failed to Created : CDoughnutCollider");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CComponent* CSphereCollider::Clone(CGameObject* pGameObject, void* pArg)
+CComponent* CDoughnutCollider::Clone(CGameObject* pGameObject, void* pArg)
 {
-	CSphereCollider* pInstance = new CSphereCollider(*this);
+	CDoughnutCollider* pInstance = new CDoughnutCollider(*this);
 	pInstance->m_pOwner = pGameObject;
 	//pInstance->m_pRigidBody = pInstance->m_pGameObject->GetRigidBody();
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSphereCollider");
+		MSG_BOX("Failed To Cloned : CDoughnutCollider");
 		Safe_Release(pInstance);
 	}
 	return pInstance;
 }
 
-void CSphereCollider::Free()
+void CDoughnutCollider::Free()
 {
 	Super::Free();
 }

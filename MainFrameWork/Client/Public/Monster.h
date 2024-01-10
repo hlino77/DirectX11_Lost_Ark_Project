@@ -129,6 +129,7 @@ public:
 
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+	_bool					Get_RimLight() {	return m_bRimLight;	}
 
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
 	void	Deactivate_AllColliders();

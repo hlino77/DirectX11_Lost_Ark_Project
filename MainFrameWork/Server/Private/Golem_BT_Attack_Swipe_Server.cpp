@@ -2,6 +2,7 @@
 #include "Golem_BT_Attack_Swipe_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include <Boss_Server.h>
 CGolem_BT_Attack_Swipe_Server::CGolem_BT_Attack_Swipe_Server()
 {
 }
@@ -17,9 +18,14 @@ void CGolem_BT_Attack_Swipe_Server::OnStart()
 CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe_Server::OnUpdate(const _float& fTimeDelta)
 {
 
+if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+{
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+	return BT_SUCCESS;
+}
 if(m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;
-
 	return BT_RUNNING;
 }
 

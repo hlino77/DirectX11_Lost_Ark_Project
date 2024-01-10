@@ -11,6 +11,7 @@ enum class ColliderType
 	OBB,
 	Frustum,
 	Cylinder,
+	Doughnut,
 	Group
 };
 

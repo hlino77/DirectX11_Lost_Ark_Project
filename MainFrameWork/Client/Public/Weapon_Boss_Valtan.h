@@ -29,6 +29,8 @@ private:
 private:
 	_float							m_fAnimationSpeed = 1.0f;
 	Vec3							m_vRotationms;
+	std::future<HRESULT>			m_PlayAnimation;
+
 public:
 	static CWeapon_Boss_Valtan* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

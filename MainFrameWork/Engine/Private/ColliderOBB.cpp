@@ -7,7 +7,7 @@
 #include "ColliderSphere.h"
 #include "ColliderSphereGroup.h"
 #include "ColliderFrustum.h"
-
+#include "ColliderDoughnut.h"
 COBBCollider::COBBCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext, ColliderType::OBB)
 	, m_vScale(Vec3(1.0f, 1.0f, 1.0f))
@@ -100,6 +100,9 @@ _bool COBBCollider::Intersects_Bounding(Super* other)
 		bCollision = m_tBoundingBox.Intersects(static_cast<CFrustumCollider*>(other)->GetBoundingFrustum());
 		break;
 	case ColliderType::Group:
+		bCollision = other->Intersects(this);
+		break;
+	case ColliderType::Doughnut:
 		bCollision = other->Intersects(this);
 		break;
 	}
