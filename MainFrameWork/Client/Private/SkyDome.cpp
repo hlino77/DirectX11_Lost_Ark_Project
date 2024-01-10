@@ -44,8 +44,8 @@ void CSkyDome::LateTick(_float fTimeDelta)
 
 HRESULT CSkyDome::Render()
 {
-	Vec3 vCamPos = m_pGameInstance->Get_CamPosition();
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCamPos);
+	//Vec3 vCamPos = m_pGameInstance->Get_CamPosition();
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCamPos);
 	
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;

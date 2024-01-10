@@ -8,6 +8,8 @@
 #include "Texture.h"
 #include "Utils.h"
 
+_uint CRenderer::m_iIBLTextureIndex = 0;
+
 CRenderer::CRenderer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
 	, m_pTarget_Manager(CTarget_Manager::GetInstance())
@@ -1013,8 +1015,8 @@ HRESULT CRenderer::Render_Deferred()
 			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
 			return E_FAIL;
 
-		if (FAILED(m_pMRTShader->Bind_Texture("g_IrradianceTexture", m_pIrradianceTexture->Get_SRV())) ||
-			FAILED(m_pMRTShader->Bind_Texture("g_PreFilteredTexture", m_pPreFilteredTexture->Get_SRV())) ||
+		if (FAILED(m_pMRTShader->Bind_Texture("g_IrradianceTexture", m_pIrradianceTexture->Get_SRV(m_iIBLTextureIndex))) ||
+			FAILED(m_pMRTShader->Bind_Texture("g_PreFilteredTexture", m_pPreFilteredTexture->Get_SRV(m_iIBLTextureIndex))) ||
 			FAILED(m_pMRTShader->Bind_Texture("g_BRDFTexture", m_pBRDFTexture->Get_SRV())))
 			return E_FAIL;
 
@@ -1710,9 +1712,9 @@ HRESULT CRenderer::Ready_SSAO()
 
 HRESULT CRenderer::Ready_IBL()
 {
-	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap0.dds"));
-	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilter0.dds"));
-	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf0.dds"));
+	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap/IrradianceMap%d.dds"), 4);
+	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilteredMap/PreFilteredMap%d.dds"), 4);
+	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf/Brdf0.dds"));
 
 	if (nullptr == m_pIrradianceTexture || nullptr == m_pPreFilteredTexture || nullptr == m_pBRDFTexture)
 		return E_FAIL;

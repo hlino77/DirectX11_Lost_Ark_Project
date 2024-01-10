@@ -215,6 +215,8 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
+	CRenderer::Set_IBLTexture(3);
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

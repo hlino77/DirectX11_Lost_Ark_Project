@@ -174,7 +174,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = Vec4(0.705f, -0.667f, -0.239f, 0.f);
+	LightDesc.vDirection = Vec4(-1.f, -1.f, -1.f, 0.f);
 	LightDesc.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
@@ -191,7 +191,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Lights()
 	//Vec3 vPos = Vec3(-80.78f, 83.75f, 33.80f);
 	//Matrix matLightView = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
 
-	Vec3 vOffset = Vec3(-117.04f, 110.27f, 36.20f);
+	Vec3 vOffset = Vec3(100.f, 100.f, 100.f);
 
 	pGameInstance->Ready_StaticLightMatrix(vOffset, vLook);
 	vOffset.Normalize();
@@ -212,6 +212,10 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	CGameObject* pSkyDome = pGameInstance->Add_GameObject(LEVEL_CHAOS_3, _uint(eLayerType), TEXT("Prototype_GameObject_SkyDome"));
 	if (nullptr == pSkyDome)
 		return E_FAIL;
+
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 98.f));
+
+	CRenderer::Set_IBLTexture(0);
 
 	Safe_Release(pGameInstance);
 
