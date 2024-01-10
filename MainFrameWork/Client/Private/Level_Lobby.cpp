@@ -20,6 +20,7 @@
 #include "UI_Tool.h"
 #include "UI_Lobby.h"
 #include "UI_Lobby_EntranceServer_Button.h"
+#include "UI_Lobby_NickNameChange.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -69,8 +70,9 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 		{
 			m_bConnect = true;
 
+			pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Lobby_NameChanger"));
 			CServerSessionManager::GetInstance()->Set_Class((_uint)m_eSelectClass);
-			CServerSessionManager::GetInstance()->Set_NickName(L"HellowWorld");
+			CServerSessionManager::GetInstance()->Set_NickName(static_cast<CUI_Lobby_NickNameChange*>(pUI)->Get_NickName())//(L"HellowWorld");
 
 
 			SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));
