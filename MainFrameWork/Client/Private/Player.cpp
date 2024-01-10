@@ -548,10 +548,18 @@ HRESULT CPlayer::Ready_NamePlate()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(),
-		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
+	if (m_bControl)
+	{
+		m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+			(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
+	}
+	else
+	{
+		m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(m_iCurrLevel,
+			(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
+	}
 
-	if (m_pSpeechBuble == nullptr)
+	if (m_pNamePlate == nullptr)
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

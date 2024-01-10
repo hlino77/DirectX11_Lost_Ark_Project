@@ -14,7 +14,7 @@ class CGameObject;
 END
 
 BEGIN(Client)
-
+class CMannequin;
 class CLevel_Tool_Npc;
 class CNpc;
 

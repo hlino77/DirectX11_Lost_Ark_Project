@@ -271,10 +271,4 @@ CGameObject* CBoss_Server::Clone(void* pArg)
 void CBoss_Server::Free()
 {
 	__super::Free();
-
-
-
-	Safe_Release(m_pModelCom);
-	Safe_Release(m_pBehaviorTree);
-	Safe_Release(m_pTransformCom);
 }
