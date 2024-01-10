@@ -56,8 +56,7 @@ public:
 	void	Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat);
 	void	Send_Chat(const wstring& szChat);
 
-	static wstring S2W(const string& strValue);
-	static string W2S(const wstring& szValue);
+	
 
 
 	HRESULT Ready_ChatWindows();

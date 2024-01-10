@@ -369,7 +369,7 @@ void CChat_Manager::Send_Chat(const wstring& szChat)
 
     wstring szSendChatW = CServerSessionManager::GetInstance()->Get_Player()->Get_NickName() + L" : " + szChat;
 
-    string szSendChat = W2S(szSendChatW);
+    string szSendChat = CAsUtils::W2S(szSendChatW);
 
     pkt.set_szchat(szSendChat);
     pkt.set_iobjectid(CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID());
@@ -462,35 +462,6 @@ void CChat_Manager::Update_ChatWindow()
     }
 }
 
-wstring CChat_Manager::S2W(const string& strValue)
-{
-    _int iLength = MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), -1, NULL, 0);
-
-    wchar_t* szString = new wchar_t[iLength];
-
-    MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), -1, szString, iLength);
-
-    wstring szResult = szString;
-    
-    Safe_Delete_Array(szString);
-    
-    return szResult;
-}
-
-string CChat_Manager::W2S(const wstring& szValue)
-{
-    _int iLength = WideCharToMultiByte(CP_ACP, 0, szValue.c_str(), -1, NULL, 0, NULL, NULL);
-
-    char* strString = new char[iLength];
-    
-    WideCharToMultiByte(CP_ACP, 0, szValue.c_str(), -1, strString, iLength, NULL, NULL);
-
-    string strResult = strString;
-
-    Safe_Delete_Array(strString);
-
-    return strResult;
-}
 
 HRESULT CChat_Manager::Ready_ChatWindows()
 {

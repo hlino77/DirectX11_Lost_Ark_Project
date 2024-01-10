@@ -12,5 +12,8 @@ public:
 
 	static wstring ToWString(string value);
 	static string ToString(wstring value);
+
+	static wstring S2W(const string& strValue);
+	static string W2S(const wstring& szValue);
 };
 

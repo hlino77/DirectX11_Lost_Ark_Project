@@ -57,7 +57,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 	}
 
 	pGameSession->Set_Class(pkt.iclass());
-	pGameSession->Set_NickName(CAsUtils::ToWString(pkt.strnickname()));
+	pGameSession->Set_NickName(CAsUtils::S2W(pkt.strnickname()));
 
 	{
 		CPlayer_Server::MODELDESC Desc;

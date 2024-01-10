@@ -445,7 +445,7 @@ HRESULT CLevel_Bern::Send_UserInfo()
 		Protocol::S_LOGIN pkt;
 
 		pkt.set_iclass(CServerSessionManager::GetInstance()->Get_Class());
-		pkt.set_strnickname(CAsUtils::ToString(CServerSessionManager::GetInstance()->Get_NickName()));
+		pkt.set_strnickname(CAsUtils::W2S(CServerSessionManager::GetInstance()->Get_NickName()));
 
 		SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 		CServerSessionManager::GetInstance()->Send(pSendBuffer);

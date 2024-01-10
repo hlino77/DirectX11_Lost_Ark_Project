@@ -55,3 +55,33 @@ string CAsUtils::ToString(wstring value)
 {
 	return string(value.begin(), value.end());
 }
+
+wstring CAsUtils::S2W(const string& strValue)
+{
+	_int iLength = MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), -1, NULL, 0);
+
+	wchar_t* szString = new wchar_t[iLength];
+
+	MultiByteToWideChar(CP_ACP, 0, strValue.c_str(), -1, szString, iLength);
+
+	wstring szResult = szString;
+
+	Safe_Delete_Array(szString);
+
+	return szResult;
+}
+
+string CAsUtils::W2S(const wstring& szValue)
+{
+	_int iLength = WideCharToMultiByte(CP_ACP, 0, szValue.c_str(), -1, NULL, 0, NULL, NULL);
+
+	char* strString = new char[iLength];
+
+	WideCharToMultiByte(CP_ACP, 0, szValue.c_str(), -1, strString, iLength, NULL, NULL);
+
+	string strResult = strString;
+
+	Safe_Delete_Array(strString);
+
+	return strResult;
+}
