@@ -277,6 +277,9 @@
     <ClInclude Include="..\Public\Skill_GN_TerminatingShot.h" />
     <ClInclude Include="..\Public\Monster_Pawn.h" />
     <ClInclude Include="..\Public\Pawn_BT_Attack2.h" />
+    <ClInclude Include="..\Public\SKill_Golem_Charge_Punch.h" />
+    <ClInclude Include="..\Public\SKill_Golem_Jump.h" />
+    <ClInclude Include="..\Public\SKill_Golem_Swipe.h" />
     <ClInclude Include="..\Public\Skill_MG_Sonatine.h" />
     <ClInclude Include="..\Public\Skill_MG_SongOfGuard.h" />
     <ClInclude Include="..\Public\Skill_MG_SongOfHeaven.h" />
@@ -737,6 +740,9 @@
     <ClCompile Include="..\Private\Skill_GN_TerminatingShot.cpp" />
     <ClCompile Include="..\Private\Monster_Pawn.cpp" />
     <ClCompile Include="..\Private\Pawn_BT_Attack2.cpp" />
+    <ClCompile Include="..\Private\SKill_Golem_Charge_Punch.cpp" />
+    <ClCompile Include="..\Private\SKill_Golem_Jump.cpp" />
+    <ClCompile Include="..\Private\SKill_Golem_Swipe.cpp" />
     <ClCompile Include="..\Private\Skill_MG_Sonatine.cpp" />
     <ClCompile Include="..\Private\Skill_MG_SongOfGuard.cpp" />
     <ClCompile Include="..\Private\Skill_MG_SongOfHeaven.cpp" />

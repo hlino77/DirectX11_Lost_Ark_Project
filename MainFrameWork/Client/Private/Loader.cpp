@@ -154,6 +154,9 @@
 #include "Player_Select_WDR.h"
 #include "Player_Select_WR.h"
 #include "Tea.h"
+#include <SKill_Golem_Charge_Punch.h>
+#include <SKill_Golem_Jump.h>
+#include <SKill_Golem_Swipe.h>
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -873,9 +876,22 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CBoss_Golem::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Charge_Punch"),
+		CSKill_Golem_Charge_Punch::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Jump"),
+		CSKill_Golem_Jump::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Swipe"),
+		CSKill_Golem_Swipe::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Ghoul"),
 		CMonster_Ghoul::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Reaper"),
 		CMonster_Reaper::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
