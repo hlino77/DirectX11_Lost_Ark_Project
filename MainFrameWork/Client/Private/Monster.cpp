@@ -100,9 +100,6 @@ void CMonster::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
-	if (m_IsSetuponCell)
-		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
-	Set_Colliders(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)
 		return;

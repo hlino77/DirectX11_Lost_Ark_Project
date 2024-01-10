@@ -1105,6 +1105,9 @@
     <Filter Include="02.GameObjects\UI\15.Boss_Hp">
       <UniqueIdentifier>{413137b5-cadc-4ac6-b627-5c409cdd5867}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Boss\Golem\Skill">
+      <UniqueIdentifier>{47f10e7a-f1c1-4c8e-add9-cc0cccf4b164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3513,6 +3516,15 @@
     <ClInclude Include="..\Public\UI_Boss_Hp.h">
       <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SKill_Golem_Swipe.h">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_Golem_Jump.h">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_Golem_Charge_Punch.h">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5890,6 +5902,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_BossHp.cpp">
       <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Golem_Swipe.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Golem_Charge_Punch.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Golem_Jump.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
