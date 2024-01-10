@@ -598,7 +598,6 @@ HRESULT CRenderer::Render_MakeSRV()
 	}
 	m_MakeSRVObjects.clear();
 
-	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	ViewportDesc.Width = fOriginalWidth;
 	ViewportDesc.Height = fOriginalHeight;
 

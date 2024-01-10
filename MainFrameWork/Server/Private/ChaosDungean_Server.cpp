@@ -119,7 +119,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
-		m_fStartDelay = 3.0f;
+		m_fStartDelay = 10.0f;
 		m_iMonsterCount = 50;
 		m_iMonsterMaxSpawnCount = 50;
 		m_iBossCount = 3;
@@ -129,7 +129,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_3;
-		m_fStartDelay = 3.0f;
+		m_fStartDelay = 10.0f;
 		m_iMonsterCount = 50;
 		m_iMonsterMaxSpawnCount = 10;
 		m_iBossCount = 1;

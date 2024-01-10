@@ -55,8 +55,6 @@ void CChat_Manager::PopText()
 
     if(m_szInputText.length() > 0)
         m_szInputText.pop_back();
-
-    ResetBlink();
 }
 
 void CChat_Manager::ClearCombineText()
@@ -129,6 +127,7 @@ LRESULT CChat_Manager::Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, 
             else if (szInput == L"\b")
             {
                 PopText();
+                ResetBlink();
             }
             else if (szInput == L"\t")
             {
