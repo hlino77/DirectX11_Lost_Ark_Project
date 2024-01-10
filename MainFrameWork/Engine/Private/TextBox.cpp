@@ -39,8 +39,9 @@ HRESULT CTextBox::Initialize(void* pArg)
 	D3D11_VIEWPORT		ViewportDesc;
 
 	_uint				iNumViewports = 1;
+	CGameInstance::GetInstance()->JobMutex_Lock();
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-
+	CGameInstance::GetInstance()->JobMutex_UnLock();
 
 	m_fWinSizeX = ViewportDesc.Width;
 	m_fWinSizeY = ViewportDesc.Height;

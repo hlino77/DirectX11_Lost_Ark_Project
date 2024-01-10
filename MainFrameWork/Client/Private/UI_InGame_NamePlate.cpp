@@ -4,6 +4,7 @@
 #include "PipeLine.h"
 #include "TextBox.h"
 #include "ServerSessionManager.h"
+#include "Player.h"
 
 CUI_InGame_NamePlate::CUI_InGame_NamePlate(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -47,7 +48,7 @@ HRESULT CUI_InGame_NamePlate::Initialize(void* pArg)
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
-		if (FAILED(Initialize_StageName(CServerSessionManager::GetInstance()->Get_NickName())))
+		if (FAILED(Initialize_StageName(dynamic_cast<CPlayer*>(m_pOwner)->Get_NickName())))
 			return E_FAIL;
 	}
 
@@ -67,12 +68,13 @@ HRESULT CUI_InGame_NamePlate::Initialize_StageName(const wstring& strName)
 void CUI_InGame_NamePlate::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	Update_NamePlatePos();
+	
 }
 
 void CUI_InGame_NamePlate::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	Update_NamePlatePos();
 }
 
 HRESULT CUI_InGame_NamePlate::Render()
@@ -133,7 +135,7 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 		Vec3 vScale = m_pTransformCom->Get_Scale();
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x, vHostPos.y + (vScale.y * 0.35f), 0.1f));
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f + (vScale.y * 0.35f), 0.1f));
 
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 

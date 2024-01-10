@@ -77,9 +77,7 @@ void CUI_SpeechBubble::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-    Setting_HostPos();
-
-
+   
     if (m_fDuration > 0.0f)
     {
         m_fDuration -= fTimeDelta;
@@ -95,6 +93,8 @@ void CUI_SpeechBubble::Tick(_float fTimeDelta)
 void CUI_SpeechBubble::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
+
+    Setting_HostPos();
 }
 
 HRESULT CUI_SpeechBubble::Render()

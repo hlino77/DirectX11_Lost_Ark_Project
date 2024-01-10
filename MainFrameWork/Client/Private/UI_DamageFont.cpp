@@ -44,10 +44,18 @@ HRESULT CUI_DamageFont::Initialize_DamageFont(_uint iIndex)
 
 void CUI_DamageFont::Tick(_float fTimeDelta)
 {
+    
+}
+
+
+void CUI_DamageFont::LateTick(_float fTimeDelta)
+{
+    //__super::LateTick(fTimeDelta);
+
     if (m_bActive)
     {
         m_fDuration += fTimeDelta;
-        
+
         Vec3 vHostPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
         Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
         Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
@@ -90,12 +98,6 @@ void CUI_DamageFont::Tick(_float fTimeDelta)
             }
         }
     }
-}
-
-
-void CUI_DamageFont::LateTick(_float fTimeDelta)
-{
-    //__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_DamageFont::Render()
