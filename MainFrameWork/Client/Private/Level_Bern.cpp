@@ -574,7 +574,6 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
 
 		_uint			QuadTreeSize = {};
 

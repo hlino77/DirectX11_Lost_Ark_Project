@@ -346,7 +346,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float3 vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
 	
     float3 vColor = float3(0.f, 0.f, 0.f);
-    vColor += /*g_vLightDiffuse.rgb * */ /*shadow * */vBRDF_factor * vShade;
+    vColor += g_vLightDiffuse.rgb *  /*shadow * */vBRDF_factor * vShade;
     vColor = vColor / (vColor + float3(1.f, 1.f, 1.f));
     vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
 	

@@ -149,39 +149,19 @@ HRESULT CLevel_ChaosLevel2::Ready_Lights()
 
 	LIGHTDESC			LightDesc;
 
-	//ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	//LightDesc.eType = LIGHTDESC::TYPE_POINT;
-	//LightDesc.vPosition = Vec4(15.0f, 5.0f, 15.0f, 1.f);
-	//LightDesc.fRange = 10.f;
-	//LightDesc.vDiffuse = Vec4(1.f, 0.0f, 0.f, 1.f);
-	//LightDesc.vAmbient = Vec4(0.5f, 0.5f, 0.5f, 1.f);
-	//LightDesc.vSpecular = LightDesc.vDiffuse;
-
-	//if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
-	//	return E_FAIL;
-
-	//ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	//LightDesc.eType = LIGHTDESC::TYPE_POINT;
-	//LightDesc.vPosition = Vec4(25.0f, 5.0f, 15.0f, 1.f);
-	//LightDesc.fRange = 10.f;
-	//LightDesc.vDiffuse = Vec4(0.0f, 1.f, 0.f, 1.f);
-	//LightDesc.vAmbient = Vec4(0.5f, 0.5f, 0.5f, 1.f);
-	//LightDesc.vSpecular = LightDesc.vDiffuse;
-
-	//if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
-	//	return E_FAIL;
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = Vec4(0.705f, -0.667f, -0.239f, 0.f);
-	LightDesc.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vDirection = Vec4(0.025f, -0.528f, 0.848f, 0.f);
+	LightDesc.vDirection.Normalize();
+	LightDesc.vDiffuse = Vec4(0.9f, 0.6f, 0.3f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 
 
-	//CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/ArenaLight.dds");
+	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos2.dds");
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
 		return E_FAIL;
 
 
@@ -190,11 +170,10 @@ HRESULT CLevel_ChaosLevel2::Ready_Lights()
 	//Vec3 vPos = Vec3(-80.78f, 83.75f, 33.80f);
 	//Matrix matLightView = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
 
-	Vec3 vOffset = Vec3(-117.04f, 110.27f, 36.20f);
+	Vec3 vOffset = Vec3(96.51f, 21.73f, 45.38f);
 
 	pGameInstance->Ready_StaticLightMatrix(vOffset, vLook);
-	vOffset.Normalize();
-	vOffset *= 30.0f;
+	vOffset = vLook * -30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
 
@@ -550,7 +529,7 @@ HRESULT CLevel_ChaosLevel2::Load_MapData(LEVELID eLevel, const wstring& szFullPa
 		}
 
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-
+		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
 
 		_uint			QuadTreeSize = {};
 
