@@ -28,8 +28,10 @@ CBT_Node::BT_RETURN CCommon_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 		return BT_FAIL;
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Distance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_AttackRange())
 		return BT_FAIL;	
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Distance() < 1.f)
+		return BT_RUNNING;
 	_float fSpeed = 1.5f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed();
-	if((static_cast<CMonster_Server*>(m_pGameObject)->Is_Close_To_TargetRandomPosition()))
+	if(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Distance() < 2.f)
 		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
 	else
 		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_RandomDirection(), fSpeed, fTimeDelta);

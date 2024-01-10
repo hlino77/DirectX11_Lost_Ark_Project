@@ -30,9 +30,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack3_Server::OnUpdate(const _float& fTi
 
 void CValtan_BT_Attack_Attack3_Server::OnEnd()
 {
-	__super::OnEnd();	
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() != 1)
-		static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
+	__super::OnEnd();
+	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 

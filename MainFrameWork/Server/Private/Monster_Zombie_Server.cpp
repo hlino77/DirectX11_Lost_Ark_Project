@@ -78,11 +78,11 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 
 
 	m_vecAttackRanges.clear();
-	m_vecAttackRanges.push_back(1.2f);
-	m_vecAttackRanges.push_back(1.2f);
+	m_vecAttackRanges.push_back(1.f);
+	m_vecAttackRanges.push_back(1.f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
-	m_iMaxHp = 9999999999;
+	m_iMaxHp = 9999999;
 	m_iHp = m_iMaxHp;
 
 	return S_OK;
@@ -591,7 +591,4 @@ void CMonster_Zombie_Server::Free()
 
 
 
-	Safe_Release(m_pModelCom);
-
-	Safe_Release(m_pTransformCom);
 }

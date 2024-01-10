@@ -35,6 +35,7 @@ HRESULT CSkill_WDR_PowerStrike::Initialize(void* pArg)
 	Proj_Desc.iDamage = 150;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = false;
+	Proj_Desc.IsCounter = true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 

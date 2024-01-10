@@ -30,14 +30,15 @@ HRESULT CWeapon_Boss_Valtan::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
 	m_pTransformCom->My_Rotation(Vec3(-30.5, -100.2f , 147.4f));
-
+	m_fAnimationSpeed = 1.15f;
 	return S_OK;
 }
 
 void CWeapon_Boss_Valtan::Tick(_float fTimeDelta)
 {
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	
 	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);
@@ -49,6 +50,10 @@ void CWeapon_Boss_Valtan::Tick(_float fTimeDelta)
 
 void CWeapon_Boss_Valtan::LateTick(_float fTimeDelta)
 {
+	if (m_PlayAnimation.valid())
+	{
+		m_PlayAnimation.get();
+	}
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
@@ -66,7 +71,6 @@ HRESULT CWeapon_Boss_Valtan::Render()
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
-
 
 	return S_OK;
 }

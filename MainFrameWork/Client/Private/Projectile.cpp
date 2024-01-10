@@ -172,6 +172,7 @@ void CProjectile::InitAsAttack(PROJECTILE_DESC* pDesc)
 	m_ProjInfoDesc.fRepulsion = pDesc->fRepulsion;
 	m_ProjInfoDesc.bUseProjPos = pDesc->bUseProjPos;
 	m_ProjInfoDesc.bUseFactor = pDesc->bUseFactor;
+	m_ProjInfoDesc.IsCounter = pDesc->IsCounter;
 
 	Shoot(pDesc->fAttackTime);
 }
@@ -229,6 +230,7 @@ void CProjectile::InitAsSpawner(PROJECTILE_DESC* pDesc)
 	m_SpawnProjDesc.fRepulsion = pDesc->fRepulsion;
 	m_SpawnProjDesc.bUseProjPos = pDesc->bUseProjPos;
 	m_SpawnProjDesc.bUseFactor = pDesc->bUseFactor;
+	m_SpawnProjDesc.IsCounter = pDesc->IsCounter;
 
 	Shoot(pDesc->fAttackTime);
 }
@@ -329,6 +331,7 @@ void CProjectile::Spawn_Projectile(const _float& fTimeDelta)
 	pProjectileDesc.fRepulsion = m_SpawnProjDesc.fRepulsion;
 	pProjectileDesc.bUseProjPos = m_SpawnProjDesc.bUseProjPos;
 	pProjectileDesc.bUseFactor = m_SpawnProjDesc.bUseFactor;
+	pProjectileDesc.IsCounter = m_SpawnProjDesc.IsCounter;
 
 	CProjectile* pAttack = CPool<CProjectile>::Get_Obj();
 	pAttack->InitProjectile(&pProjectileDesc);

@@ -32,7 +32,7 @@ void CValtan_BT_Attack_Attack2_Server::OnEnd()
 	__super::OnEnd();
 	if (m_eReturn == BT_SUCCESS)
 	{
-		static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
+			static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	}
 }

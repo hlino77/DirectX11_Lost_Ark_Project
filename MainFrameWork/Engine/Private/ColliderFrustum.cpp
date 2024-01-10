@@ -100,6 +100,9 @@ _bool CFrustumCollider::Intersects_Bounding(Super* other)
 	case ColliderType::Group:
 		bCollision = other->Intersects(this);
 		break;
+	case ColliderType::Doughnut:
+		bCollision = other->Intersects(this);
+		break;
 	}
 
 

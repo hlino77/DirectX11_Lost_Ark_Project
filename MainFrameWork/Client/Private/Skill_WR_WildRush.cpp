@@ -35,6 +35,7 @@ HRESULT CSkill_WR_WildRush::Initialize(void* pArg)
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.6f);
 	Proj_Desc.iDamage = 100.f;
 	Proj_Desc.fRepulsion = 5.f;
+	Proj_Desc.IsCounter = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 

@@ -17,7 +17,7 @@ CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 {
 
 
-	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <0.5f)
+	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() <1.f)
 	{
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimDesc[1].iAnimIndex &&m_pGameObject->Get_ModelCom()->Get_NextAnim() != m_vecAnimDesc[1].iAnimIndex)
@@ -29,7 +29,7 @@ CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[0].iAnimIndex, m_vecAnimDesc[0].fChangeTime,
 			m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame);
 	_float fSpeed = 1.5f * static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed();
-	if ((static_cast<CMonster*>(m_pGameObject)->Is_Close_To_TargetRandomPosition()))
+	if (static_cast<CMonster*>(m_pGameObject)->Get_Target_Distance() < 2.f)
 		static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
 	else
 		static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_RandomDirection(), fSpeed, fTimeDelta);

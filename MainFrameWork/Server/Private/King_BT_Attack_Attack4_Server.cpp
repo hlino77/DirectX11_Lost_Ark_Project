@@ -2,6 +2,7 @@
 #include "King_BT_Attack_Attack4_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include <Boss_Server.h>
 CKing_BT_Attack_Attack4_Server::CKing_BT_Attack_Attack4_Server()
 {
 }
@@ -17,6 +18,12 @@ void CKing_BT_Attack_Attack4_Server::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Attack4_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		return BT_SUCCESS;
+	}
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
 	return  __super::OnUpdate(fTimeDelta);;

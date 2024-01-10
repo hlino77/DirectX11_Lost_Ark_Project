@@ -2,6 +2,7 @@
 #include "Common_BT_Attack1_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include <Boss_Server.h>
 
 CCommon_BT_Attack1_Server::CCommon_BT_Attack1_Server()
 {
@@ -17,6 +18,13 @@ void CCommon_BT_Attack1_Server::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_Attack1_Server::OnUpdate(const _float& fTimeDelta)
 {
 
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+		{
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+			return BT_SUCCESS;
+		}
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 	if (m_pGameObject->Get_ModelCom()->IsNext())

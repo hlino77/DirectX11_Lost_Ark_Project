@@ -34,6 +34,7 @@ HRESULT CSkill_GN_LastSupper::Initialize(void* pArg)
 	Proj_Desc.fRepulsion = 2.0f;
 	Proj_Desc.iDamage = 200;
 	Proj_Desc.fRepulsion = 21.f;
+	Proj_Desc.IsCounter = true;
 	m_SkillProjDesc = Proj_Desc;
 
 	return S_OK;

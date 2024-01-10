@@ -165,6 +165,7 @@ public:
 	_bool					Is_Skill();
 	void					Reset_SkillStack(){		m_iSkillStack = 0;			m_fSkillCoolDown = 0.f; }
 	void					Add_SkillStack() { m_iSkillStack++; }
+	void					Set_MaxSkillStack(_int MaxSkillStack) { m_iMaxSkillStack = MaxSkillStack; }
 
 	void					Set_AttackRange(_int iRangeIndex);
 	_float					Get_AttackRange() { return m_fAttackRange; }
@@ -212,6 +213,8 @@ protected:
 	_bool							m_IsBoundLanding = false;
 	_bool							m_bWasMaz = false;
 	_uint							m_iSkillStack	=	0;
+	_uint							m_iMaxSkillStack = 3;
+
 	_float							m_fSkillCoolDown = 0.f;
 	Vec3							m_vRandomPosition = {};
 	_float							m_fStatusEffects[(_uint)STATUSEFFECT::EFFECTEND] = {};

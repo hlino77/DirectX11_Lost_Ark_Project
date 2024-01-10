@@ -110,6 +110,8 @@ void CBoss_Valtan::Tick(_float fTimeDelta)
 void CBoss_Valtan::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	if (m_iPhase == 3)
+		Move_to_SpawnPosition();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Center_ToBone();
 	if (m_pWeapon != nullptr)
@@ -279,7 +281,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
-	AnimationDesc.fAnimSpeed = 1.f;
+	AnimationDesc.fAnimSpeed = 1.15f;
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.IsEndInstant = false;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
@@ -789,6 +791,27 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack12";
 	CBT_Action* pAttack12 = CValtan_BT_Attack_Attack12::Create(&ActionDesc);
 
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//3번 찍기 페이즈3
+	ActionDesc.strActionName = L"Action_Attack12_1";
+	CBT_Action* pAttack12_1 = CValtan_BT_Attack_Attack12::Create(&ActionDesc);
 	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("att_battle_14_01");

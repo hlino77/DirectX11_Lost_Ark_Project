@@ -130,7 +130,7 @@ _bool CMonster_Server::Is_Maz()
 
 _bool CMonster_Server::Is_Skill()
 {
-	if (m_iSkillStack > 3 || m_fSkillCoolDown > 15.f)
+	if (m_iSkillStack > m_iMaxSkillStack || m_fSkillCoolDown > 15.f)
 		return true;
 	return false;
 }
@@ -389,7 +389,6 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 				m_fStatusEffects[i] = 0;
 		}
 		m_fStatusEffects[iStatusEffect] += fStatusDuration;
-		cout<< endl << "상태이상:	" << iStatusEffect << endl << "지속시간:	" << fStatusDuration << endl;
 	}
 	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
 }
@@ -516,7 +515,7 @@ _bool CMonster_Server::Is_Close_To_TargetRandomPosition()
 {
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + m_vRandomPosition;
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	if ((vTargetPosition - vCurrentPosition).Length() < 0.2f)
+	if ((vTargetPosition - vCurrentPosition).Length() < 1.5f)
 		return true;
 	else
 		return false;
@@ -569,8 +568,9 @@ void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 		return;
 
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->LookAt_Lerp(vTargetPosition, 5.0f, fTimeDelta);
+	m_pTransformCom->LookAt_Lerp(vTargetPosition- vCurrentPosition, 5.0f, fTimeDelta);
 }
 
 void CMonster_Server::LookAt_Target_Direction()

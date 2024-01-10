@@ -128,6 +128,8 @@ void CBoss_Valtan_Server::Tick(_float fTimeDelta)
 void CBoss_Valtan_Server::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	if (m_iPhase == 3)
+		Move_to_SpawnPosition();
 }
 
 HRESULT CBoss_Valtan_Server::Render()
@@ -185,7 +187,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 1.5f;
-	AnimationDesc.fAnimSpeed = 1.f;
+	AnimationDesc.fAnimSpeed = 1.15f;
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.IsEndInstant = false;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
@@ -301,7 +303,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pSelector_Hit->AddChild(pIfArmorBreak))) return E_FAIL;
 
 
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
 	if (FAILED(pIfHit->AddChild(pSelector_Hit)))
 		return E_FAIL;
@@ -327,7 +329,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	ActionDesc.strActionName = L"Action_Respawn";
 	CBT_Action* pSpawn = CCommon_BT_Spawn_Server::Create(&ActionDesc);
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))
 		return E_FAIL;
@@ -372,7 +374,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Phase2";
 
 	CBT_Action* pPhase2 = CValtan_BT_Phase2_Server::Create(&ActionDesc);
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio120 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>( pIf_Hp_UnderRatio120 )->Set_Ratio( 120.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio120->AddChild(pPhase2))) return E_FAIL;
@@ -391,7 +393,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceLine16 = CBT_Composite::Create(&CompositeDesc);	
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio16 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio16)->Set_Ratio(16.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio16->AddChild(pSequenceLine16))) return E_FAIL;
@@ -682,6 +684,28 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack12 = CValtan_BT_Attack_Attack12_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_2_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//3번 찍기 페이즈3
+	ActionDesc.strActionName = L"Action_Attack12_1";
+	CBT_Action* pAttack12_1 = CValtan_BT_Attack_Attack12_Server::Create(&ActionDesc);
+
+	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
 	AnimationDesc.iStartFrame = 0;
@@ -856,6 +880,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pSequenceAttack17->AddChild(pAttack17_2))) return E_FAIL;
 	if (FAILED(pSequenceAttack17->AddChild(pAttack17_3))) return E_FAIL;
 
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Hp_UnderRatio54 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio54)->Set_Ratio(54.f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio54->AddChild(pSequenceAttack17))) return E_FAIL;
+
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_11_01");
 	AnimationDesc.iStartFrame = 0;
@@ -890,6 +919,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//원혼구슬
 	ActionDesc.strActionName = L"Action_Attack18";
 	CBT_Action* pAttack18 = CValtan_BT_Attack_Attack18_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Hp_UnderRatio43 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio43)->Set_Ratio(54.f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio43->AddChild(pAttack18))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_13_01");
@@ -999,7 +1033,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack20";
 	CBT_Action* pAttack20 = CValtan_BT_Attack_Attack20_Server::Create(&ActionDesc);
 
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio130 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	if (FAILED(pIf_Hp_UnderRatio130->AddChild(pAttack20))) return E_FAIL;
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio130)->Set_Ratio(130.f / 160.f);
@@ -1082,7 +1116,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//110줄 임포스터
 	ActionDesc.strActionName = L"Action_Attack21";
 	CBT_Action* pAttack21 = CValtan_BT_Attack_Attack21_Server::Create(&ActionDesc);
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio110 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio110)->Set_Ratio(110.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio110->AddChild(pAttack21))) return E_FAIL;
@@ -1179,7 +1213,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack0";
 	CBT_Action* pAttack0 = CValtan_BT_Attack_Attack0_Server::Create(&ActionDesc);
 
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio88 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio88)->Set_Ratio(88.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio88->AddChild(pAttack0))) return E_FAIL;
@@ -1274,7 +1308,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//30줄 지형파괴
 	ActionDesc.strActionName = L"Action_Attack16";
 	CBT_Action* pAttack16 = CValtan_BT_Attack_Attack16_Server::Create(&ActionDesc);
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio30 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio30)->Set_Ratio(30.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio30->AddChild(pAttack16))) return E_FAIL;
@@ -1333,7 +1367,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//65번 버러지패턴
 	ActionDesc.strActionName = L"Action_Attack22";
 	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22_Server::Create(&ActionDesc);
-
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio65 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio65)->Set_Ratio(65.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pAttack22))) return E_FAIL;
@@ -1479,6 +1513,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack24";
 	CBT_Action* pAttack24 = CValtan_BT_Attack_Attack24_Server::Create(&ActionDesc);
 
+
+
 	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
@@ -1552,6 +1588,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 		if (FAILED(pSelectorAttack->AddChild(pIf_NoArmor)))
 			return E_FAIL;
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
 		if (FAILED(pIfAttacked->AddChild(pSelectorAttack)))
 			return E_FAIL;
@@ -1584,57 +1621,66 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	{
 
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_Hp_UnderRatio88_Skill = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio88_Skill)->Set_Ratio(88.f / 160.f);
+		if (FAILED(pIf_Hp_UnderRatio88_Skill->AddChild(pAttack19))) return E_FAIL;
+
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
 
-		if (FAILED(pSequenceSkill->AddChild(pSequenceAttack17)))
-			return E_FAIL;
-		if (FAILED(pSequenceSkill->AddChild(pAttack17_2)))
-
-		if (FAILED(pSequenceSkill->AddChild(pAttack18)))
+		if (FAILED(pSequenceSkill->AddChild(pSelectorAttack2)))
 			return E_FAIL;
 
-		if (FAILED(pSequenceSkill->AddChild(pAttack19)))
+		if (FAILED(pSequenceSkill->AddChild(pAttack5)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceSkill->AddChild(pIf_Hp_UnderRatio88_Skill)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceSkill->AddChild(pAttack15)))
 			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 		if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
 
-
-
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
-			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack5)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
 			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
 			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
 			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
-			return E_FAIL;
 
-
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
 		if (FAILED(pIfAttacked->AddChild(pSequenceNormalAttack)))
 			return E_FAIL;
@@ -1671,10 +1717,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
 
-		if (FAILED(pSequenceSkill->AddChild(pAttack18)))
+		if (FAILED(pSequenceSkill->AddChild(pSelectorAttack2)))
 			return E_FAIL;
 
-		if (FAILED(pSequenceSkill->AddChild(pAttack24)))
+		if (FAILED(pSequenceSkill->AddChild(pAttack8)))
 			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -1685,36 +1731,23 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack2)))
-			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack5)))
-			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-			return E_FAIL;
+
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
 			return E_FAIL;
 
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12_1)))
+			return E_FAIL;
 
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
 		if (FAILED(pIfAttacked->AddChild(pSequenceNormalAttack)))
 			return E_FAIL;
@@ -1730,10 +1763,28 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
 			return E_FAIL;
 
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_Hp_UnderRatio39 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio39)->Set_Ratio(39.f / 160.f);
+		if (FAILED(pIf_Hp_UnderRatio39->AddChild(pAttack24))) return E_FAIL;
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_Hp_UnderRatio26 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio26)->Set_Ratio(26.f / 160.f);
+		if (FAILED(pIf_Hp_UnderRatio26->AddChild(pAttack24))) return E_FAIL;
+		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+		CBT_Decorator* pIf_Hp_UnderRatio13 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio13)->Set_Ratio(13.f / 160.f);
+		if (FAILED(pIf_Hp_UnderRatio13->AddChild(pAttack24))) return E_FAIL;
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
 
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio39)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio26)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio13)))
+			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
 			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
@@ -1770,6 +1821,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio88)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio65)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio54)))
+		return E_FAIL;
+	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio43)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio30)))
 		return E_FAIL;

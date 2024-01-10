@@ -34,6 +34,8 @@
 #include "King_BT_Attack_Erruption_Server.h"
 #include <Boss_BT_Counter_Server.h>
 #include <Boss_BT_IF_Countered_Server.h>
+#include <Boss_BT_IF_Groggy_Server.h>
+#include <Boss_BT_Groggy_Server.h>
 
 
 
@@ -182,6 +184,36 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	if (FAILED(pIfCountered->AddChild(pCounter)))
 		return E_FAIL;
 
+	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	ActionDesc.strActionName = L"Action_Groggy";
+	CBT_Action* pGroggy = CBoss_BT_Groggy_Server::Create(&ActionDesc);
+	ActionDesc.vecAnimations.clear();
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIfGroggy = CBoss_BT_IF_Groggy_Server::Create(&DecoratorDesc);//죽었는가
+	if (FAILED(pIfGroggy->AddChild(pGroggy)))
+		return E_FAIL;
+
 	CBT_Composite::COMPOSITE_DESC CompositeDesc = {};
 	CompositeDesc.pGameObject = this;
 	CompositeDesc.pBehaviorTree = m_pBehaviorTree;
@@ -189,6 +221,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	CBT_Composite* pSelector_Hit = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSelector_Hit->AddChild(pIfDead))) return E_FAIL;
 	if (FAILED(pSelector_Hit->AddChild(pIfCountered))) return E_FAIL;
+	if (FAILED(pSelector_Hit->AddChild(pIfGroggy))) return E_FAIL;
 
 
 	CBT_Decorator* pIfHit = CCommon_BT_IF_Hit_Server::Create(&DecoratorDesc);//맞았는가
