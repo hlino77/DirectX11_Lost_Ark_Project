@@ -50,17 +50,18 @@ public:
 		_float			fChangeAnimTime = { 0.f };
 
 		_bool			IsMove = { false };
-		_float			fMoveLength = { 0.f };
+		vector<Vec3>	vecMovePos;
 
 		_bool			IsTalk = { false };
 		_float			fTalkStartTime = { 0.f };
 		vector<wstring> vecTalks;
+		vector<wstring> vecTalkSound;
 
 		_bool			bUseWeaponPart = { false };
 		wstring			strLeftPart = { TEXT("") };
-		Vec3			vLeftOffset[(_uint)WEAPON_OFFSET::_END];
+		Matrix			Left_OffsetMatrix;
 		wstring			strRightPart = { TEXT("") };
-		Vec3			vRightOffset[(_uint)WEAPON_OFFSET::_END];
+		Matrix			Right_OffsetMatrix;
 
 	}NPCDESC;
 
@@ -79,7 +80,7 @@ public:
 	virtual HRESULT			Render_Debug();
 
 public:
-	CShader* Get_ShaderCom() { return m_pShaderCom; }
+	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
 	void					Set_MoveSpeed(_float fSpeed) { m_fMoveSpeed = fSpeed; }
 	_float					Get_MoveSpeed() { return m_fMoveSpeed; }
@@ -91,8 +92,8 @@ public:
 public:
 	void					Set_State(const wstring& szName);
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false);
-	const	wstring& Get_State() { return m_pStateMachine->Get_CurState(); }
-	const	wstring& Get_PreState() { return m_pStateMachine->Get_PreState(); }
+	const	wstring&		Get_State() { return m_pStateMachine->Get_CurState(); }
+	const	wstring&		Get_PreState() { return m_pStateMachine->Get_PreState(); }
 
 	void					Go_Straight(_float fSpeed, _float fTimeDelta);
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
@@ -101,11 +102,10 @@ public:
 
 	void					Body_Collision(CGameObject* pObject);
 
-	const wstring& Get_NpcName() { return m_strNpcName; }
-	void					Set_NpckName(const wstring& szNpcName) { m_strNpcName = szNpcName; }
+	const wstring&			Get_NpcName() { return m_NpcDesc.strNpcName; }
 
 
-	const wstring& Get_VoiceSoundKey() { return m_VoiceSoundKey; }
+	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
 	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
 	void					Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
 	_bool					Stop_VoiceSound();
@@ -143,42 +143,22 @@ protected:
 
 protected:
 	/* NPC Á¤º¸ */
-	NPCTYPE			m_eNpcType;
-	wstring			m_strNpcName;
-	Matrix			m_matStart;
+	Npc_Desc		m_NpcDesc;
+
 	Vec3			m_vStartPos;
 
-	NPCSHAPE		m_eNpcShape;
-	wstring			m_strNpcMq;
-	wstring			m_strNpcHead;
-	wstring			m_strNpcBody;
-
-	wstring			m_strIdleAnim = { TEXT("") };
-	wstring			m_strActAnim = { TEXT("") };
-	_float			m_fChangeAnimTime = { 0.f };
 	_float			m_fChangeAnimAcc = { 0.f };
+
+	_bool			m_IsReach = { false };
+
+	_float			m_fTalkTimeAcc = { 0.f };
+
 	_int			m_iIdleAnimIndex = { -1 };
 	_int			m_iActAnimIndex = { -1 };
-
-	_bool			m_IsMove = { false };
-	_bool			m_IsReach = { false };
-	_float			m_fMoveLength = { 0.f };
-	Vec3			m_vMovePos;
-
-	_bool			m_IsTalk = { false };
-	_float			m_fTalkStartTime = { 0.f };
-	_float			m_fTalkTimeAcc = { 0.f };
-	vector<wstring> m_vecTalks;
 
 	/* ÆÄÃ÷ */
 	CModel*			m_pNpcPartCom[(_uint)PART::_END] = { nullptr };
 	CPartObject*	m_pWeaponPart[(_uint)WEAPON_PART::_END] = { nullptr };
-
-	_bool			m_bUseWeaponPart = { false };
-	wstring			m_strLeftPart = { TEXT("") };
-	Vec3			m_vLeftOffset[(_uint)WEAPON_OFFSET::_END];
-	wstring			m_strRightPart = { TEXT("") };
-	Vec3			m_vRightOffset[(_uint)WEAPON_OFFSET::_END];
 
 	_int			m_iLeftBoneIndex = { -1 };
 	_int			m_iRightBoneIndex = { -1 };

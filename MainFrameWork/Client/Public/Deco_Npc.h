@@ -23,10 +23,12 @@ private:
 	virtual HRESULT			Ready_Components() override;
 	virtual HRESULT			Ready_Parts();
 
-	HRESULT	Render_Model();
-	HRESULT	Render_Model_Shadow();
-	HRESULT	Render_PartModel();
-	HRESULT	Render_PartModel_Shadow();
+	HRESULT					Render_Model();
+	HRESULT					Render_Model_Shadow();
+	HRESULT					Render_PartModel();
+	HRESULT					Render_PartModel_Shadow();
+
+	void					Set_Colliders(_float fTimeDelta);
 
 private:
 	void	Move(const _float& fTimeDelta);
@@ -35,6 +37,7 @@ private:
 private:
 	_float	m_fTalkStartAcc = { 0.f };
 	_uint	m_iCurrTalk = { 0 };
+	_uint	m_iMoveCnt = { 0 };
 
 public:
 	static CDeco_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

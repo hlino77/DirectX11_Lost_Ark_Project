@@ -37,9 +37,7 @@ HRESULT CPartObject::Initialize(void* pArg)
 
 		m_SocketPivotMatrix = pPartDesc->SocketPivotMatrix;
 
-		m_vPartScale = pPartDesc->vPartScale;
-		m_vPartRot = pPartDesc->vPartRot;
-		m_vPartPos = pPartDesc->vPartPos;
+		m_OffSetMatrix = pPartDesc->OffsetMatrix;
 		m_strPartModel = pPartDesc->strModel;
 	}
 

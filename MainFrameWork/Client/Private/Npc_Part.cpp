@@ -31,9 +31,7 @@ HRESULT CNpc_Part::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	m_pTransformCom->Set_Scale(m_vPartScale);
-	m_pTransformCom->My_Rotation(m_vPartRot);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPartPos);
+	m_pTransformCom->Set_WorldMatrix(m_OffSetMatrix);
 
 	return S_OK;
 }

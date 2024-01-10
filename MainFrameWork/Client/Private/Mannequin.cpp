@@ -5,6 +5,8 @@
 #include "Key_Manager.h"
 #include "MannequinPart.h"
 #include "NavigationMgr.h"
+#include "Pool.h"
+#include "UI_SpeechBubble.h"
 
 CMannequin::CMannequin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Mannequin", OBJ_TYPE::PLAYER)
@@ -24,9 +26,14 @@ HRESULT CMannequin::Initialize_Prototype()
 	if (FAILED(Ready_PlayerPart()))
 		return E_FAIL;
 
+	if (FAILED(Ready_SpeechBuble()))
+		return E_FAIL;
+
 	m_pModelCom = nullptr;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -1.f, 0.f));
+
+
 
 	return S_OK;
 }
@@ -44,6 +51,15 @@ void CMannequin::Tick(_float fTimeDelta)
 
 	if((_uint)LEVEL_TOOL_NPC == m_iCurrLevel)
 		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
+
+	if (true == m_IsMove)
+	{
+		Move(fTimeDelta);
+	}
+	if (true == m_IsTalk)
+	{
+		Talk(fTimeDelta);
+	}
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 
@@ -172,6 +188,11 @@ void CMannequin::Clear_MQ()
 
 	if (nullptr != m_pModelCom)
 		m_pModelCom->Set_CurrAnim(0);
+
+	m_IsMove = false;
+	m_iMoveCnt = 0;
+	m_vecMovePos.clear();
+	m_vStartPos = Vec3();
 }
 
 void CMannequin::Set_ModelCom(CModel* pModel)
@@ -264,6 +285,32 @@ void CMannequin::Set_HairColor(Vec3 rgb1, Vec3 rgb2)
 	m_vHairColor_2 = Vec4(rgb2.x, rgb2.y, rgb2.z, 1.f);
 }
 
+void CMannequin::Set_Move_State(_bool IsMove)
+{
+	m_IsMove = IsMove;
+	if (false == m_IsMove)
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vStartPos);
+	}
+}
+
+void CMannequin::Set_Talk_State(_bool IsTalk, vector<wstring> TalkScript, _float fTalkTime)
+{
+	m_IsTalk = IsTalk;
+	if (true == m_IsTalk)
+	{
+		m_vecTalkScript = TalkScript;
+		m_fTalkTime = fTalkTime;
+		m_fTalkStartAcc = 0.f;
+	}
+	else if (false == m_IsTalk)
+	{
+		m_vecTalkScript.clear();
+		m_fTalkTime = 0.f;
+		m_fTalkStartAcc = 0.f;
+	}
+}
+
 HRESULT CMannequin::Ready_Components()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
@@ -324,6 +371,65 @@ HRESULT CMannequin::Ready_PlayerPart()
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
+}
+
+HRESULT CMannequin::Ready_SpeechBuble()
+{
+	m_pSpeechBuble = CPool<CUI_SpeechBubble>::Get_Obj();
+
+	if (m_pSpeechBuble == nullptr)
+		return E_FAIL;
+
+	m_pSpeechBuble->Set_Host(this);
+
+	return S_OK;
+}
+
+void CMannequin::Move(const _float& fTimeDelta)
+{
+	Vec3 vMove;
+	if (m_vecMovePos.size() == m_iMoveCnt)
+	{
+		vMove = m_vStartPos;
+	}
+	else
+	{
+		vMove = m_vecMovePos[m_iMoveCnt];
+	}
+
+	Vec3 vDir = vMove - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->Move_ToPos(vDir, 10.f, 1.f, fTimeDelta);
+
+	if (Vec3(m_pTransformCom->Get_State(CTransform::STATE_POSITION) - vMove).Length() <= 0.05f)
+	{
+		m_iMoveCnt++;
+		if (m_vecMovePos.size() < m_iMoveCnt)
+		{
+			m_iMoveCnt = 0;
+		}
+	}
+}
+
+void CMannequin::Talk(const _float& fTimeDelta)
+{
+	if (true == m_pSpeechBuble->Is_Active())
+		return;
+
+	m_fTalkStartAcc += fTimeDelta;
+	if (m_fTalkTime <= m_fTalkStartAcc)
+	{
+		m_fTalkStartAcc = 0.f;
+
+		m_pSpeechBuble->Active_SpeechBuble(m_vecTalkScript[m_iCurrTalk]);
+
+		m_iCurrTalk++;
+		if (m_vecTalkScript.size() <= m_iCurrTalk)
+		{
+			m_iCurrTalk = 0;
+			m_fTalkStartAcc = -10.f;
+		}
+	}
+
 }
 
 CMannequin* CMannequin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

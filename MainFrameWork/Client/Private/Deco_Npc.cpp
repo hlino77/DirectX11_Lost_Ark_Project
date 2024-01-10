@@ -3,6 +3,9 @@
 #include "Deco_Npc.h"
 #include "Npc.h"
 #include "UI_SpeechBubble.h"
+#include "ColliderSphere.h"
+#include "ColliderOBB.h"
+#include "CollisionManager.h"
 
 CDeco_Npc::CDeco_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CNpc(pDevice, pContext)
@@ -35,12 +38,12 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (true == m_IsMove)
+	if (true == m_NpcDesc.IsMove)
 	{
 		Move(fTimeDelta);
 	}
 
-	if (true == m_IsTalk)
+	if (true == m_NpcDesc.IsTalk)
 	{
 		Talk(fTimeDelta);
 	}
@@ -48,6 +51,8 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 
 void CDeco_Npc::LateTick(_float fTimeDelta)
 {
+	Set_Colliders(fTimeDelta);
+
 	__super::LateTick(fTimeDelta);
 }
 
@@ -55,7 +60,7 @@ HRESULT CDeco_Npc::Render()
 {
 	__super::Render();
 
-	if (NPCSHAPE::SOL != m_eNpcShape && NPCSHAPE::SP != m_eNpcShape)
+	if (NPCSHAPE::SOL != (NPCSHAPE)m_NpcDesc.iNpcShape && NPCSHAPE::SP != (NPCSHAPE)m_NpcDesc.iNpcShape)
 	{
 		if (FAILED(Render_PartModel()))
 			return E_FAIL;
@@ -73,7 +78,7 @@ HRESULT CDeco_Npc::Render_ShadowDepth()
 {
 	__super::Render_ShadowDepth();
 
-	if (NPCSHAPE::SOL != m_eNpcShape && NPCSHAPE::SP != m_eNpcShape)
+	if (NPCSHAPE::SOL != (NPCSHAPE)m_NpcDesc.iNpcShape && NPCSHAPE::SP != (NPCSHAPE)m_NpcDesc.iNpcShape)
 	{
 		if (FAILED(Render_PartModel_Shadow()))
 			return E_FAIL;
@@ -98,6 +103,30 @@ HRESULT CDeco_Npc::Ready_Components()
 {
 	__super::Ready_Components();
 
+	if ((_uint)LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
+	{
+		{
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->SetActive(true);
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Radius(0.7f);
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
+
+
+			COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Get_Child());
+			pChildCollider->Set_Scale(Vec3(0.2f, 0.6f, 0.2f));
+			pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
+			pChildCollider->SetActive(true);
+		}
+
+		for (auto& Collider : m_Coliders)
+		{
+			if (Collider.second)
+			{
+				Collider.second->Update_Collider();
+				CCollisionManager::GetInstance()->Add_Colider(Collider.second);
+			}
+		}
+	}
+
 	return S_OK;
 }
 
@@ -105,16 +134,16 @@ HRESULT CDeco_Npc::Ready_Parts()
 {
 	__super::Ready_Parts();
 
-	if (NPCSHAPE::SOL != m_eNpcShape && NPCSHAPE::SP != m_eNpcShape)
+	if (NPCSHAPE::SOL != (NPCSHAPE)m_NpcDesc.iNpcShape && NPCSHAPE::SP != (NPCSHAPE)m_NpcDesc.iNpcShape)
 	{
 		/* 초기 장비 및 얼굴 설정 */
-		wstring strComName = TEXT("Prototype_Component_Model_") + m_strNpcHead;
+		wstring strComName = TEXT("Prototype_Component_Model_") + m_NpcDesc.strNpcHead;
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pNpcPartCom[(_uint)PART::FACE])))
 			return E_FAIL;
 
 		m_IsHair = m_pNpcPartCom[(_uint)PART::FACE]->Is_HairTexture();
 
-		strComName = TEXT("Prototype_Component_Model_") + m_strNpcBody;
+		strComName = TEXT("Prototype_Component_Model_") + m_NpcDesc.strNpcBody;
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pNpcPartCom[(_uint)PART::BODY])))
 			return E_FAIL;
 	}
@@ -210,32 +239,38 @@ HRESULT CDeco_Npc::Render_PartModel_Shadow()
 	return S_OK;
 }
 
+void CDeco_Npc::Set_Colliders(_float fTimeDelta)
+{
+	for (auto& Collider : m_Coliders)
+	{
+		if (Collider.second->IsActive())
+			Collider.second->Update_Collider();
+	}
+}
+
 void CDeco_Npc::Move(const _float& fTimeDelta)
 {
-	if (false == m_IsReach)
+	Vec3 vMove;
+	if (m_NpcDesc.vecMovePos.size() == m_iMoveCnt)
 	{
-		Vec3 vDir = m_vMovePos - m_vStartPos;
-		vDir.Normalize();
-		m_pTransformCom->Move_ToPos(vDir, 20.f, 2.5f, fTimeDelta);
-
-		if (Vec3(m_vMovePos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length() <= 0.05f)
-		{
-			m_IsReach = true;
-		}
+		vMove = m_vStartPos;
 	}
-	else if (true == m_IsReach)
+	else
 	{
-		Vec3 vDir = m_vStartPos - m_vMovePos;
-		vDir.Normalize();
-		m_pTransformCom->Move_ToPos(vDir, 20.f, 2.5f, fTimeDelta);
-
-		if (Vec3(m_vStartPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length() <= 0.05f)
-		{
-			m_IsReach = false;
-		}
+		vMove = m_NpcDesc.vecMovePos[m_iMoveCnt];
 	}
 
+	Vec3 vDir = vMove - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->Move_ToPos(vDir, 10.f, 1.f, fTimeDelta);
 
+	if (Vec3(m_pTransformCom->Get_State(CTransform::STATE_POSITION) - vMove).Length() <= 0.05f)
+	{
+		m_iMoveCnt++;
+		if (m_NpcDesc.vecMovePos.size() < m_iMoveCnt)
+		{
+			m_iMoveCnt = 0;
+		}
+	}
 }
 
 void CDeco_Npc::Talk(const _float& fTimeDelta)
@@ -244,15 +279,18 @@ void CDeco_Npc::Talk(const _float& fTimeDelta)
 		return;
 
 	m_fTalkStartAcc += fTimeDelta;
-	if (m_fTalkStartTime <= m_fTalkStartAcc)
+	if (m_NpcDesc.fTalkStartTime <= m_fTalkStartAcc)
 	{
 		m_fTalkStartAcc = 0.f;
 
-		Show_SpeechBuble(m_vecTalks[m_iCurrTalk]);
+		Show_SpeechBuble(m_NpcDesc.vecTalks[m_iCurrTalk]);
 
 		m_iCurrTalk++;
-		if (m_vecTalks.size() <= m_iCurrTalk)
+		if (m_NpcDesc.vecTalks.size() <= m_iCurrTalk)
+		{
 			m_iCurrTalk = 0;
+			m_fTalkStartAcc = -10.f;
+		}
 	}
 }
 

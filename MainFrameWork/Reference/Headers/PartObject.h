@@ -19,9 +19,7 @@ public:
 		_uint				iStoreSocketBoneIndex = { 0 };
 		Matrix				SocketPivotMatrix;
 
-		Vec3				vPartScale;
-		Vec3				vPartRot;
-		Vec3				vPartPos;
+		Matrix				OffsetMatrix;
 		wstring				strModel;
 
 	}PART_DESC;
@@ -79,9 +77,7 @@ protected:
 	_bool					m_IsStored = { false };
 	_bool					m_bStopUpdate = { false };
 
-	Vec3					m_vPartScale;
-	Vec3					m_vPartRot;
-	Vec3					m_vPartPos;
+	Matrix					m_OffSetMatrix;
 	wstring					m_strPartModel;
 
 protected:
