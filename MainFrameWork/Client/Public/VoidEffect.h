@@ -8,7 +8,7 @@ BEGIN(Engine)
 
 class CTexture;
 class CShader;
-class CVIBuffer_Point;
+class CVIBuffer;
 
 END
 

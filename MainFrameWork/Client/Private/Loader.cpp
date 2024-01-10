@@ -1796,6 +1796,21 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 			return E_FAIL;
+		
+		strFileName = L"SkyDome3";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+		
+		strFileName = L"SkyDome4";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
 		pUIManager->Loading_UI(144.f);
 	}
 

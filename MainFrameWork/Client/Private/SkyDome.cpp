@@ -44,8 +44,8 @@ void CSkyDome::LateTick(_float fTimeDelta)
 
 HRESULT CSkyDome::Render()
 {
-	//Vec3 vCamPos = m_pGameInstance->Get_CamPosition();
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCamPos);
+	/*Vec3 vCamPos = m_pGameInstance->Get_CamPosition();
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCamPos);*/
 	
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
@@ -73,8 +73,10 @@ HRESULT CSkyDome::Ready_Components()
 	else if(LEVEL_CHAOS_1 == m_pGameInstance->Get_CurrLevelIndex())
 		m_strObjectTag = TEXT("SkyDome1");
 	else if(LEVEL_CHAOS_2 == m_pGameInstance->Get_CurrLevelIndex())
-		m_strObjectTag = TEXT("SkyDome1");
+		m_strObjectTag = TEXT("SkyDome3");
 	else if(LEVEL_CHAOS_3 == m_pGameInstance->Get_CurrLevelIndex())
+		m_strObjectTag = TEXT("SkyDome4");
+	else
 		m_strObjectTag = TEXT("SkyDome0");
 
 	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
