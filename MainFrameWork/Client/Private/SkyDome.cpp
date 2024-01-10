@@ -68,6 +68,15 @@ HRESULT CSkyDome::Ready_Components()
 	if (FAILED(Super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
 
+	if (LEVEL_BERN == m_pGameInstance->Get_CurrLevelIndex())
+		m_strObjectTag = TEXT("SkyDome0");
+	else if(LEVEL_CHAOS_1 == m_pGameInstance->Get_CurrLevelIndex())
+		m_strObjectTag = TEXT("SkyDome1");
+	else if(LEVEL_CHAOS_2 == m_pGameInstance->Get_CurrLevelIndex())
+		m_strObjectTag = TEXT("SkyDome1");
+	else if(LEVEL_CHAOS_3 == m_pGameInstance->Get_CurrLevelIndex())
+		m_strObjectTag = TEXT("SkyDome0");
+
 	wstring strComName = L"Prototype_Component_Model_" + m_strObjectTag;
 	if (FAILED(Super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
