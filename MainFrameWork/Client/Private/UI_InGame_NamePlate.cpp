@@ -121,25 +121,11 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 	{
 		Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
-		vHostPos.y += 1.7f;
-
-		Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
-		Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
-
-		vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
-		vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
-
-		//vHostPos.x *= g_iWinSizeX * 0.5f;
-		//vHostPos.y *= g_iWinSizeY * 0.5f;
-
-		Vec3 vScale = m_pTransformCom->Get_Scale();
-
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f + (vScale.y * 0.35f), 0.1f));
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.0f));
 
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(vPos.x, vPos.y, 0.0f));
+		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION
+			, Vec3(m_pTransformCom->Get_State(CTransform::STATE_POSITION).x, m_pTransformCom->Get_State(CTransform::STATE_POSITION).y, 0.0f));
 	}
 }
 

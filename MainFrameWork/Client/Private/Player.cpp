@@ -90,8 +90,9 @@ void CPlayer::LateTick(_float fTimeDelta)
 	if(m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
-	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 	Set_EffectPos();
+	m_pModelCom->Set_ToRootPos(m_pTransformCom);
+	
 
 	for (auto& pPart : m_Parts)
 	{
@@ -611,6 +612,18 @@ void CPlayer::Update_Skill(SKILLINFO& tSkill, _float fTimeDelta)
 			tSkill.m_bReady = true;
 		}
 	}
+}
+
+void CPlayer::Set_EffectPos()
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	matEffect *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
 }
 
 void CPlayer::Show_SpeechBuble(const wstring& szChat)

@@ -179,7 +179,7 @@ protected:
 
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
-
+	virtual void			Set_EffectPos() override;
 	
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
