@@ -269,7 +269,7 @@ void CUI_IdentityMG_Gauge::Setting_GaugeScale()
 
 void CUI_IdentityMG_Gauge::Update_Identity_Cut()
 {
-	if ((0>= m_fIdentity_Ratio)||(1.0f <= m_fIdentity_Ratio))
+	if ((0.1>= m_fIdentity_Ratio)||(0.9f <= m_fIdentity_Ratio))
 	{
 		m_iGaugeCutTextureIndex = 0;
 		m_fGaugeCutOffSet = (m_fSizeY * 0.9f);

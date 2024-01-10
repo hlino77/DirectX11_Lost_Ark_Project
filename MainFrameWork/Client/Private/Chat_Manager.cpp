@@ -190,7 +190,8 @@ LRESULT CChat_Manager::InputTextObject_WndProcHandler(HWND hwnd, UINT uMsg, WPAR
                 {
                     if (InputTextObject.second.szCombineText.length() == 0)
                     {
-                        InputTextObject.second.szText.pop_back();
+                        if(InputTextObject.second.szText.length() > 0)
+                            InputTextObject.second.szText.pop_back();
                     }
                 }
                 else if (szInput == L"\t")
