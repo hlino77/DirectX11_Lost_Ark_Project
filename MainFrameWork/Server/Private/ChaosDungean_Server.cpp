@@ -109,21 +109,21 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL1:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
 		m_fStartDelay = 10.0f;
-		m_iMonsterCount = 100;
-		m_iMonsterMaxSpawnCount = 10;
+		m_iMonsterCount = 150;
+		m_iMonsterMaxSpawnCount = 30;
 		//m_iBossCount = 0;
-		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Ghoul");
-		m_iBossCount = 1;
-		m_BossSpawnList.push_back(L"Valtan");
+		m_MonsterSpawnList.push_back(L"Reaper");
+		m_iBossCount = 0;
+		//m_BossSpawnList.push_back(L"Valtan");
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
 		m_fStartDelay = 10.0f;
 		m_iMonsterCount = 50;
-		m_iMonsterMaxSpawnCount = 50;
+		m_iMonsterMaxSpawnCount = 30;
 		m_iBossCount = 3;
-		m_MonsterSpawnList.push_back(L"Reaper");
+		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Plant");	
 		m_BossSpawnList.push_back(L"Golem");
 		break;
@@ -152,7 +152,11 @@ void CChaosDungean_Server::Spawn_Monster()
 	case CHAOSDUNGEANLEVEL::LEVEL1:
 	{
 		vPos = Vec3(117.93f, 0.19f, 100.2f);
-		_uint iMonster = rand() % m_MonsterSpawnList.size();
+		_uint iMonster = rand() % 10;
+		if (iMonster < 8)
+			iMonster = 0;
+		else
+			iMonster = 1;
 		szMonsterName = m_MonsterSpawnList[iMonster];
 		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
 		if (m_iBossCount > 0)
@@ -162,7 +166,11 @@ void CChaosDungean_Server::Spawn_Monster()
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 	{
 		vPos = Vec3(100.0f, 0.0f, 100.0f);
-		_uint iMonster = rand() % m_MonsterSpawnList.size();
+		_uint iMonster = rand() % 10;
+		if (iMonster < 8)
+			iMonster = 0;
+		else
+			iMonster = 1;
 		szMonsterName = m_MonsterSpawnList[iMonster];
 		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
 

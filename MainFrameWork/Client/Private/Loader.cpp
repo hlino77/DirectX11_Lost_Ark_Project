@@ -945,16 +945,6 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 
 	Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"));
 
-	{
-		wstring strFileName = L"Monster_Zombie";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(800.f);
-	}
 
 	{
 		wstring strFileName = L"Monster_Ghoul";
@@ -965,6 +955,30 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
 		pUIManager->Loading_UI(1200.f);
+	}
+
+
+	{
+
+		wstring strFileName = L"Monster_Reaper";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1200.f);
+	}
+
+	{
+		wstring strFileName = L"Reaper_Wp";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1600.f);
 	}
 
 	{
@@ -1060,6 +1074,16 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 	}
 
 
+	{
+		wstring strFileName = L"Monster_Zombie";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Loading_UI(800.f);
+	}
 
 
 	{
@@ -1073,29 +1097,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		pUIManager->Loading_UI(600.f);
 	}
 
-	
-	{
 
-		wstring strFileName = L"Monster_Reaper";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1200.f);
-	}
-
-	{
-		wstring strFileName = L"Reaper_Wp";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Loading_UI(1600.f);
-	}
 
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;
