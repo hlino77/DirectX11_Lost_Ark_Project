@@ -21,6 +21,7 @@ END
 BEGIN(Client)
 class CParty;
 class CUI_SpeechBubble;
+class CUI_InGame_NamePlate;
 
 class CPlayer : public CGameObject
 {
@@ -174,7 +175,7 @@ protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
 	HRESULT					Ready_SpeechBuble();
-	
+	HRESULT					Ready_NamePlate();
 
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
@@ -231,6 +232,7 @@ protected:
 
 	CParty* m_pParty = nullptr;
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
+	CUI_InGame_NamePlate* m_pNamePlate = { nullptr };
 public:
 	virtual void Free();
 

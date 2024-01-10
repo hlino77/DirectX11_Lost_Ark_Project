@@ -20,6 +20,7 @@
 #include "BindShaderDesc.h"
 #include "UI_Manager.h"
 #include "UI_SpeechBubble.h"
+#include "UI_InGame_NamePlate.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
@@ -66,6 +67,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iMaxHp = 100;
 
 	if (FAILED(Ready_SpeechBuble()))
+		return E_FAIL;
+
+	if (FAILED(Ready_NamePlate()))
 		return E_FAIL;
 
 	return S_OK;
@@ -539,6 +543,22 @@ HRESULT CPlayer::Ready_SpeechBuble()
 	return S_OK;
 }
 
+HRESULT CPlayer::Ready_NamePlate()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(),
+		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
+
+	if (m_pSpeechBuble == nullptr)
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 void CPlayer::CullingObject()
 {
 	if (m_bControl)
@@ -811,4 +831,5 @@ void CPlayer::Free()
 
 	CPool<CUI_SpeechBubble>::Return_Obj(m_pSpeechBuble);
 	m_pSpeechBuble = nullptr;
+	m_pNamePlate->Set_Dead(true);
 }

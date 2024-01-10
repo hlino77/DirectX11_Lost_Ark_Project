@@ -67,9 +67,9 @@ HRESULT CSkill_MG_SonicVibe::Ready_Components()
 	if (false == m_pPlayer->Is_Control())
 		return S_OK;
 
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Endure_Pain"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sonic_Vibration"),
 		TEXT("Com_Texture"), (CComponent**)&m_pSkillTextureCom)))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	return S_OK;
 }

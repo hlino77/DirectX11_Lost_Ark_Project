@@ -1065,7 +1065,7 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\For_Npc\NpcTool">
       <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\SkyDome">
       <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
     </Filter>
@@ -1095,6 +1095,15 @@
     </Filter>
     <Filter Include="04.Party">
       <UniqueIdentifier>{30ecc1fd-554f-43e3-b1db-c5fe418f0de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\13.InGame_NamePlate">
+      <UniqueIdentifier>{dcec988b-44f4-46db-a206-537fe8e160f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\14.Monster_Hp">
+      <UniqueIdentifier>{04ee81fb-865f-41d5-b551-2c7d3e518f9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\15.Boss_Hp">
+      <UniqueIdentifier>{413137b5-cadc-4ac6-b627-5c409cdd5867}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3476,7 +3485,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_1.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\BackGround_Lobby.h">
       <Filter>02.GameObjects\BackGround\02.Lobby</Filter>
     </ClInclude>
@@ -3491,9 +3500,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\NpcTool.h">
       <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\SkyDome.h">
       <Filter>02.GameObjects\SkyDome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_InGame_NamePlate.h">
+      <Filter>02.GameObjects\UI\13.InGame_NamePlate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Monster_Hp.h">
+      <Filter>02.GameObjects\UI\14.Monster_Hp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Boss_Hp.h">
+      <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5842,7 +5860,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2_1.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\BackGround_Lobby.cpp">
       <Filter>02.GameObjects\BackGround\02.Lobby</Filter>
     </ClCompile>
@@ -5857,12 +5875,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\NpcTool.cpp">
       <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\SkyDome.cpp">
       <Filter>02.GameObjects\SkyDome</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_PerfectShot_End.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\PerfectShot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_InGame_NamePlate.cpp">
+      <Filter>02.GameObjects\UI\13.InGame_NamePlate</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Monster_Hp.cpp">
+      <Filter>02.GameObjects\UI\14.Monster_Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_BossHp.cpp">
+      <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -5879,41 +5906,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
-      <Filter>97. ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_SSAO.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl" />
@@ -5955,9 +5949,6 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
@@ -6028,6 +6019,18 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">
