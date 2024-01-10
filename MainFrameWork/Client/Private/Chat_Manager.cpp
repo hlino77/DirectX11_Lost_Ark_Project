@@ -194,6 +194,9 @@ LRESULT CChat_Manager::InputTextObject_WndProcHandler(HWND hwnd, UINT uMsg, WPAR
                             InputTextObject.second.szText.pop_back();
                     }
                 }
+                else if (szInput == L"\r")
+                {
+                }
                 else if (szInput == L"\t")
                 {
                 }
@@ -368,7 +371,8 @@ void CChat_Manager::Send_Chat(const wstring& szChat)
 {
     Protocol::S_CHAT pkt;
 
-    wstring szSendChatW = CServerSessionManager::GetInstance()->Get_Player()->Get_NickName() + L" : " + szChat;
+    wstring szNickName = CServerSessionManager::GetInstance()->Get_Player()->Get_NickName();
+    wstring szSendChatW = szNickName + L" : " + szChat;
 
     string szSendChat = CAsUtils::W2S(szSendChatW);
 

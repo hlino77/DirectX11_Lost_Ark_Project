@@ -471,7 +471,7 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	Desc.matWorld = matWorld;
 	Desc.vTargetPos = Vec3(pkt.vtargetpos().data());
 	Desc.szState = CAsUtils::ToWString(pkt.strstate());
-	Desc.szNickName = CAsUtils::ToWString(pkt.strnickname());
+	Desc.szNickName = CAsUtils::S2W(pkt.strnickname());
 	Desc.iWeaponIndex = pkt.iweaponindex();
 	Desc.iCurrLevel = pkt.ilevel();
 
