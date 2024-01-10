@@ -35,8 +35,8 @@ HRESULT CChat_Manager::Reserve_Manager(HWND hwnd, ID3D11Device* pDevice, ID3D11D
     
     m_bActive = false;
     
-    m_fChatWinSizeX = 397.0f;
-    m_fInputWindowSizeX = 357.0f;
+    m_fChatWinSizeX = 400.0f;
+    m_fInputWindowSizeX = 360.0f;
 
     m_szFont = L"던파연마된칼날";
 
@@ -475,7 +475,7 @@ HRESULT CChat_Manager::Ready_ChatWindows()
     {
         CTextBox::TEXTBOXDESC tTextDesc;
         tTextDesc.szTextBoxTag = L"InputWindow";
-        tTextDesc.vSize = Vec2(359.0f, 41.0f);
+        tTextDesc.vSize = Vec2(400.0f, 40.0f);
 
         m_pInputWindow = dynamic_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
         if (m_pInputWindow == nullptr)
@@ -485,7 +485,7 @@ HRESULT CChat_Manager::Ready_ChatWindows()
         }
 
         m_pInputWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
-        m_pInputWindow->Set_Pos(189.5f, 693.f);
+        m_pInputWindow->Set_Pos(207.0f, 877.f);
     }
     
     
@@ -493,7 +493,7 @@ HRESULT CChat_Manager::Ready_ChatWindows()
     {
         CTextBox::TEXTBOXDESC tTextDesc;
         tTextDesc.szTextBoxTag = L"ChatWindow";
-        tTextDesc.vSize = Vec2(399.0f, 192.0f);
+        tTextDesc.vSize = Vec2(400.0f, 192.0f);
 
 
         m_pChatWindow = dynamic_cast<CTextBox*>(pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
@@ -503,9 +503,9 @@ HRESULT CChat_Manager::Ready_ChatWindows()
             return E_FAIL;
         }
 
-
+        
         m_pChatWindow->Set_ScaleUV(Vec2(1.0f, 1.0f));
-        m_pChatWindow->Set_Pos(210.5f, 571.f);
+        m_pChatWindow->Set_Pos(207.0f, 760.0f);
     }
 
 

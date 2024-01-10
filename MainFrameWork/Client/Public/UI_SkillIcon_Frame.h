@@ -38,6 +38,7 @@ private:
     void Get_Player_GN(class CPlayer* _pPlayer, CTexture* _pTexture);
     void Get_Player_WR(class CPlayer* _pPlayer, CTexture* _pTexture);
     void Get_Player_WDR(class CPlayer* _pPlayer, CTexture* _pTexture);
+    void Get_Player_MG(class CPlayer* _pPlayer, CTexture* _pTexture);
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
     HRESULT Bind_ShaderResources_Picked();

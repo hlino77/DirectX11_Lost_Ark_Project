@@ -415,6 +415,7 @@
     <ClInclude Include="..\Public\State_WR_WildStomp.h" />
     <ClInclude Include="..\Public\Tea.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
+    <ClInclude Include="..\Public\UI_Boss_Hp.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeFrame.h" />
@@ -522,6 +523,7 @@
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_WF_Front.h" />
+    <ClInclude Include="..\Public\UI_InGame_NamePlate.h" />
     <ClInclude Include="..\Public\UI_ItemIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
@@ -540,6 +542,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Monster_Hp.h" />
     <ClInclude Include="..\Public\UI_Mouse_Cursor.h" />
     <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h" />
     <ClInclude Include="..\Public\UI_Mouse_ToolTip.h" />
@@ -873,6 +876,7 @@
     <ClCompile Include="..\Private\State_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\Tea.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
+    <ClCompile Include="..\Private\UI_BossHp.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp" />
@@ -982,6 +986,7 @@
     <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_WF_Front.cpp" />
+    <ClCompile Include="..\Private\UI_InGame_NamePlate.cpp" />
     <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
@@ -1000,6 +1005,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Monster_Hp.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_ToolTip.cpp" />

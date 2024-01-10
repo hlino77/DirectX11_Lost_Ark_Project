@@ -123,6 +123,7 @@
 #include "UI_ChaosDungeon_NameFrame.h"
 #include "UI_ChaosDungeon_TimerFrame.h"
 #include "UI_ChaosDungeon.h"
+#include "UI_InGame_NamePlate.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -918,6 +919,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
 		CSkyDome::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NamePlate"),
+		CUI_InGame_NamePlate::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");

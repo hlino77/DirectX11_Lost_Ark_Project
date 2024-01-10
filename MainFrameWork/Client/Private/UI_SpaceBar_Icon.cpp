@@ -10,6 +10,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WDR.h"
 #include "Player_Destroyer.h"
+#include "Controller_MG.h"
+#include "Player_Bard.h"
 #include "TextBox.h"
 
 CUI_SpaceBar_Icon::CUI_SpaceBar_Icon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -51,8 +53,8 @@ HRESULT CUI_SpaceBar_Icon::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-    //if (FAILED(Initialize_Percent()))
-        //return E_FAIL;
+    if (FAILED(Initialize_Percent()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -96,6 +98,14 @@ void CUI_SpaceBar_Icon::Tick(_float fTimeDelta)
                 Get_WDR_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
             m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(pPlayer)->
                 Get_WDR_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
+        }
+
+        else if (nullptr != pPlayer && L"MG" == pPlayer->Get_ObjectTag())
+        {
+            m_fCoolMaxTime = static_cast<CPlayer_Bard*>(pPlayer)->
+                Get_MG_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
+            m_fCurrCool = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(pPlayer)->
+                Get_MG_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
         }
     }
 
@@ -161,9 +171,9 @@ HRESULT CUI_SpaceBar_Icon::Ready_Components()
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }
-    else
+    else if (nullptr != pPlayer && L"MG" == pPlayer->Get_ObjectTag())
     {
-        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WDRSpace"),
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_MGSpace"),
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }
@@ -293,6 +303,7 @@ void CUI_SpaceBar_Icon::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
+    m_pCoolTimetWnd->Set_Dead(true);
     Safe_Release(m_pTextureCom);//¿¥ÇÁÆ¼
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pShaderCom);

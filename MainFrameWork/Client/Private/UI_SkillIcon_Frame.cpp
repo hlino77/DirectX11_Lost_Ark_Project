@@ -61,8 +61,8 @@ HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-    //if (FAILED(Initialize_Percent()))
-       // return E_FAIL;
+    if (FAILED(Initialize_Percent()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -176,6 +176,8 @@ void CUI_SkillIcon_Frame::Get_Player_BindingSkill()
         Get_Player_WR(pPlayer, pTexture);
     else if (nullptr != pPlayer && L"WDR" == pPlayer->Get_ObjectTag())
         Get_Player_WDR(pPlayer, pTexture);
+    else if (nullptr != pPlayer && L"MG" == pPlayer->Get_ObjectTag())
+        Get_Player_MG(pPlayer, pTexture);
 }
 
 void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
@@ -263,6 +265,33 @@ void CUI_SkillIcon_Frame::Get_Player_WDR(CPlayer* _pPlayer, CTexture* _pTexture)
             _pTexture = (m_pSkill->Get_Skill_Texture());
             m_fCoolMaxTime = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            Safe_AddRef(_pTexture);
+            if (nullptr != _pTexture)
+            {
+                m_bHaveSkill = true;
+                m_pTextureCom_Skill = static_cast<CTexture*>(_pTexture->Clone(nullptr, nullptr));
+            }
+            Safe_Release(_pTexture);
+        }
+        else
+        {
+            m_bHaveSkill = false;
+            Safe_Release(m_pTextureCom_Skill); //m_pTextureCom_Skill = nullptr;
+        }
+    }
+}
+
+void CUI_SkillIcon_Frame::Get_Player_MG(CPlayer* _pPlayer, CTexture* _pTexture)
+{
+    if (nullptr != _pPlayer)
+    {
+        m_pSkill = static_cast<CPlayer_Bard*>(_pPlayer)->
+            Get_MG_Controller()->Get_PlayerSkill((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+        if (nullptr != m_pSkill)
+        {
+            _pTexture = (m_pSkill->Get_Skill_Texture());
+            m_fCoolMaxTime = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCurrCool = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             Safe_AddRef(_pTexture);
             if (nullptr != _pTexture)
             {
@@ -497,6 +526,7 @@ void CUI_SkillIcon_Frame::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
+    m_pCoolTimetWnd->Set_Dead(true);
     Safe_Release(m_pTextureCom);//엠프티
     Safe_Release(m_pTextureCom_Skill);//테스트용
     Safe_Release(m_pTextureCom_Shine);//마우스 올릴시 빛나는 이펙트
