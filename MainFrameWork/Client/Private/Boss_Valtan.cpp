@@ -94,6 +94,7 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_vSpawnPosition = Vec3(117.f,0.f,100.f);
 	m_iArmor = 2;
 	m_iPhase = 1;
+	m_fFontScale = 0.55f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	return S_OK;
 }

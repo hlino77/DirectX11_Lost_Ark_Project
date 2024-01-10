@@ -67,7 +67,7 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 	m_fRootTargetDistance = 0.5f;
 	m_iBasicAttackStartFrame = 18;
 	m_iBasicAttackEndFrame = 30;
-
+	m_fFontScale = 0.525f;
 	m_tCullingSphere.Radius = 5.f;
 	m_tCullingSphere.Center = Vec3(0.f, 0.75f, 0.f);
     return S_OK;
