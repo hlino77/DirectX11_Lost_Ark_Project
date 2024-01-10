@@ -26,11 +26,17 @@ struct FXMESH_IN
     float3  vTangent : TANGENT;
     float2  vTexUV : TEXCOORD0;
 };
-    
+
 struct FXTEX_IN
 {
     float3 vPosition : POSITION;
     float2 vPSize   : PSIZE;
+};
+
+struct FXDECAL_IN
+{
+    float3 vPosition : POSITION;
+    float3 vTexcoord : TEXCOORD0;
 };
 
 struct SKELETAL_IN
@@ -97,6 +103,13 @@ struct VS_OUT_FXTEX
 {
     float4 vPosition : POSITION;    // SV พฦดิ
     float2 vPSize : PSIZE;
+};
+
+struct VS_OUT_FXDECAL
+{
+    float4 vPosition : SV_POSITION;
+    float3 vTexUV : TEXCOORD0;
+    float4 vProjPos : TEXCOORD1;
 };
 
 struct TARGET_IN

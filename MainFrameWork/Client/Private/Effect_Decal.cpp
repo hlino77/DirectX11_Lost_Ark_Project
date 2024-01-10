@@ -10,7 +10,6 @@ CEffect_Decal::CEffect_Decal(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 CEffect_Decal::CEffect_Decal(const CEffect_Decal& rhs)
 	: Super(rhs)
-	, m_protoModel(rhs.m_protoModel)
 {
 }
 
@@ -18,8 +17,6 @@ HRESULT CEffect_Decal::Initialize_Prototype(EFFECTDESC* pDesc)
 {
 	if (FAILED(Super::Initialize_Prototype(pDesc)))
 		return E_FAIL;
-
-	m_protoModel = pDesc->protoModel;
 
 	return S_OK;
 }
@@ -50,12 +47,15 @@ HRESULT CEffect_Decal::Render()
 	if (FAILED(Super::Render()))
 		return E_FAIL;
 
-	_int iMeshCount = m_pModelCom->Get_Meshes().size();
-	for (_int i = 0; i < iMeshCount; ++i)
-	{
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Default")))
-			return E_FAIL;
-	}
+	Matrix matCombinedInv = m_matCombined.Invert();
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformInverse", &matCombinedInv, sizeof(Matrix))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Begin("Default")))
+		return E_FAIL;
+	if (FAILED(m_pBuffer->Render()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -65,13 +65,13 @@ HRESULT CEffect_Decal::Ready_Components()
 	if (FAILED(Super::Ready_Components()))
 		return E_FAIL;
 
-	/* For.Com_Model */
-	/*if (FAILED(Super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Model_") + m_protoModel, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
-		return E_FAIL;*/
+	/* For.Com_Buffer */
+	if (FAILED(Super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"), TEXT("Com_Buffer"), (CComponent**)&m_pBuffer)))
+		return E_FAIL;
 
 	/* For.Com_Shader */
-	/*if (FAILED(Super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectMesh"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;*/
+	if (FAILED(Super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectDecal"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
 
 	return S_OK;
 }
