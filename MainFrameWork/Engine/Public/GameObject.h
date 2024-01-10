@@ -174,6 +174,8 @@ public:
 	void						Set_OriginScale(Vec3 vScale) { m_vOriginScale = vScale; }
 	Vec3						Get_OriginScale() {  return m_vOriginScale; }
 
+	Vec3						Get_EffectPos() { return m_vEffectPos; }
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -183,6 +185,8 @@ protected:
 	
 	virtual HRESULT				Ready_Proto_InstanceBuffer() { return S_OK; }
 	virtual HRESULT				Ready_Instance_For_Render(_uint iSize) { return S_OK; }
+
+	virtual void				Set_EffectPos();
 protected:
 	USE_LOCK
 	CGameInstance*					m_pGameInstance = nullptr;
@@ -262,6 +266,8 @@ protected:
 	// For.Model
 	Vec3	m_vOriginScale;
 
+	// EffectPos
+	Vec3							m_vEffectPos;
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

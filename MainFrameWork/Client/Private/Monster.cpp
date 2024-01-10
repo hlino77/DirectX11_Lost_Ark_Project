@@ -79,18 +79,18 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Tick(_float fTimeDelta)
 {
-
 	if (!m_bDead)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-	Update_StatusEffect(fTimeDelta);
 
 	if (m_IsSetuponCell)
 	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 		m_pRigidBody->Tick(fTimeDelta);
 	}
+
+	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
+	Update_StatusEffect(fTimeDelta);
 }
 
 void CMonster::LateTick(_float fTimeDelta)
@@ -100,17 +100,14 @@ void CMonster::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
-	if (m_IsSetuponCell)
-		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+	Set_EffectPos();
+
 	Set_Colliders(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)
 		return;
 
 	CullingObject();
-
-	Set_Colliders(fTimeDelta);
-
 
 	if (m_bRimLight)
 	{

@@ -224,7 +224,7 @@ void CUI_SpeechBubble::Setting_HostPos()
 {
     if (nullptr != m_pHost)
     {
-        Vec3 vHostPos = m_pHost->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+        Vec3 vHostPos = m_pHost->Get_EffectPos();
 
         vHostPos.y += 1.7f;
 

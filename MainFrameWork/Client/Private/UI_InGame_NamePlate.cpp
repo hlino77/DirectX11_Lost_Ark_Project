@@ -119,7 +119,7 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 {
 	if (nullptr != m_pOwner)
 	{
-		Vec3 vHostPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
 		vHostPos.y += 1.7f;
 

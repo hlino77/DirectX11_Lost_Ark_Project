@@ -202,7 +202,6 @@ protected:
 
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
-
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 

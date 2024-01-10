@@ -81,6 +81,7 @@ void CGameObject::Set_NoneControlState(const wstring& szName)
 
 
 
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg)
 {
 	if (nullptr != Find_Component(pComponentTag))
@@ -127,6 +128,11 @@ HRESULT CGameObject::Compute_CamZ(Vec4 vWorldPos)
 
 	return S_OK;
 
+}
+
+void CGameObject::Set_EffectPos()
+{
+	m_vEffectPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 }
 
 

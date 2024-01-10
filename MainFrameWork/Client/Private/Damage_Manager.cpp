@@ -43,7 +43,7 @@ void CDamage_Manager::Tick(_float fTimedelta)
 	for (auto& Damage : m_DamageFonts)
 	{
 		if (Damage->Is_Active())
-			Damage->Tick(fTimedelta);
+			Damage->LateTick(fTimedelta);
 	}
 }
 

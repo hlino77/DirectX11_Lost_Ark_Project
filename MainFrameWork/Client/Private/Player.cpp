@@ -91,6 +91,7 @@ void CPlayer::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 
 	m_pModelCom->Set_ToRootPos(m_pTransformCom);
+	Set_EffectPos();
 
 	for (auto& pPart : m_Parts)
 	{

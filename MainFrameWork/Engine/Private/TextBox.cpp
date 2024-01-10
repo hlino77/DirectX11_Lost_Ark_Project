@@ -34,17 +34,9 @@ HRESULT CTextBox::Initialize(void* pArg)
 
 	m_vSize = tTextBoxDesc->vSize;
 	m_strObjectTag = tTextBoxDesc->szTextBoxTag;
-	
 
-	D3D11_VIEWPORT		ViewportDesc;
-
-	_uint				iNumViewports = 1;
-	CGameInstance::GetInstance()->JobMutex_Lock();
-	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	CGameInstance::GetInstance()->JobMutex_UnLock();
-
-	m_fWinSizeX = ViewportDesc.Width;
-	m_fWinSizeY = ViewportDesc.Height;
+	m_fWinSizeX = 1600.0f;
+	m_fWinSizeY = 900.0f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_vSize.x, m_vSize.y, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,

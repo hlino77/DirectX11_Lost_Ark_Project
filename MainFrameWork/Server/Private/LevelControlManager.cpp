@@ -177,15 +177,14 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
 	pPlayer->Get_TransformCom()->Set_Scale(vScale);
 
-	vector<CGameObject*> NextLevelPlayers;
 
-	_bool bEnter = false;
-	while (!bEnter)
+	while (true)
 	{
 		if (pPlayer->Is_LevelMove() == false)
-			bEnter = true;
+			break;
 	}
 
+	vector<CGameObject*> NextLevelPlayers = pGameInstance->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
 	for (auto& Player : NextLevelPlayers)
 	{
