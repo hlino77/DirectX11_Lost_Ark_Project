@@ -264,6 +264,10 @@ void CObject_Manager::FinalTick(_float fTimeDelta)
 	for (auto& Object : MoveList)
 	{
 		m_pLayers[Object->Get_CurrLevel()][Object->Get_Layer()]->Add_GameObject(Object);
+	}
+
+	for (auto& Object : MoveList)
+	{
 		Object->Set_LevelMove(false);
 	}
 	MoveList.clear();

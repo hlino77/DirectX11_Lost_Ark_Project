@@ -182,16 +182,8 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 	_bool bEnter = false;
 	while (!bEnter)
 	{
-		vector<CGameObject*> LevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
-
-		for (auto& Player : LevelPlayers)
-		{
-			if (Player == pPlayer)
-			{
-				bEnter = true;
-				NextLevelPlayers = LevelPlayers;
-			}
-		}
+		if (pPlayer->Is_LevelMove() == false)
+			bEnter = true;
 	}
 
 
