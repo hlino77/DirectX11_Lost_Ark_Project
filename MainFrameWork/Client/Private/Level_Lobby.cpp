@@ -72,7 +72,8 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 
 			pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Lobby_NameChanger"));
 			CServerSessionManager::GetInstance()->Set_Class((_uint)m_eSelectClass);
-			CServerSessionManager::GetInstance()->Set_NickName(static_cast<CUI_Lobby_NickNameChange*>(pUI)->Get_NickName())//(L"HellowWorld");
+			wstring strTemp = static_cast<CUI_Lobby_NickNameChange*>(pUI)->Get_NickName();
+			CServerSessionManager::GetInstance()->Set_NickName(static_cast<CUI_Lobby_NickNameChange*>(pUI)->Get_NickName());//(L"HellowWorld");
 
 
 			SetWindowText(g_hWnd, TEXT("서버에 접속중입니다."));

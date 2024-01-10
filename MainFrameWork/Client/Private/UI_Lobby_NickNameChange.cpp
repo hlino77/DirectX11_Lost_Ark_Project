@@ -4,6 +4,7 @@
 #include "UI_Manager.h"
 #include "UI_Lobby_NickName.h"
 #include "TextBox.h"
+#include "Chat_Manager.h"
 
 CUI_Lobby_NickNameChange::CUI_Lobby_NickNameChange(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -186,6 +187,7 @@ void CUI_Lobby_NickNameChange::Update_NickNameFrame()
 			return;
 		m_bOnWnd = true;
 		m_iTextureIndex = 1;
+		CChat_Manager::GetInstance()->Add_InputTextObject(this);
 	}
 	
 	if (!m_bOnWnd)
@@ -197,15 +199,25 @@ void CUI_Lobby_NickNameChange::Update_NickNameChangeWnd()
 	if ((nullptr != m_pNickName)&&(true == m_bOnWnd))
 	{
 		wstring strCurrNickName = static_cast<CUI_Lobby_NickName*>(m_pNickName)->Get_NickName();
-		wstring strNewNickName;
-		m_strNickName = strCurrNickName;
-		CGameInstance::GetInstance()->InputText(strNewNickName);
+		wstring strNewNickName = CChat_Manager::GetInstance()->Get_InputText(this);
+		if(strCurrNickName != strNewNickName)
+			m_strNickName = strNewNickName;
 
 		if (KEY_TAP(KEY::ENTER))
 		{
-			static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName(strNewNickName);
+			static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName(m_strNickName);
 			m_bOnWnd = false;
 			m_iTextureIndex = 0;
+			CChat_Manager::GetInstance()->Delete_InputTextObject(this);
+			m_pInputWnd->Set_Active(false);
+		}
+		else if (KEY_TAP(KEY::ESC))
+		{
+			static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName(strCurrNickName);
+			m_bOnWnd = false;
+			m_iTextureIndex = 0;
+			CChat_Manager::GetInstance()->Delete_InputTextObject(this);
+			m_pInputWnd->Set_Active(false);
 		}
 		//static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName();
 	}
@@ -215,7 +227,6 @@ void CUI_Lobby_NickNameChange::Update_InputString()
 {
 	if (!m_bOnWnd)
 		return;
-
 }
 
 void CUI_Lobby_NickNameChange::Print_NickNameChange()
