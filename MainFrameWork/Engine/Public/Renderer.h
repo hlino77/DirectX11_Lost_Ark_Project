@@ -44,6 +44,7 @@ public:
 	HRESULT Draw_Server();
 
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
+	static void	Set_IBLTexture(_int iIndex) { m_iIBLTextureIndex = iIndex; }
 
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
 private:
@@ -82,7 +83,6 @@ private:
 	HRESULT Render_DebugObject();
 
 private:
-
 	//Debug
 	vector<class CGameObject*> m_DebugRenderObjects;
 	vector<class CGameObject*> m_RenderObjects[RENDER_END];
@@ -133,7 +133,6 @@ private:
 	//Bloom
 	HRESULT	Ready_Bloom();
 	HRESULT Execute_BloomBlur();
-
 
 	//SSAO
 	HRESULT Ready_SSAO();
@@ -187,6 +186,8 @@ private:
 	CTexture*	m_pIrradianceTexture = nullptr;
 	CTexture*	m_pPreFilteredTexture = nullptr;
 	CTexture*	m_pBRDFTexture = nullptr;
+
+	static _uint	m_iIBLTextureIndex;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

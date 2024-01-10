@@ -212,6 +212,7 @@
     <ClInclude Include="..\Public\Controller_WR.h" />
     <ClInclude Include="..\Public\Damage_Manager.h" />
     <ClInclude Include="..\Public\Deco_Npc.h" />
+    <ClInclude Include="..\Public\Effect_Decal.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
     <ClInclude Include="..\Public\Effect_Mesh.h" />
     <ClInclude Include="..\Public\Effect_Particle.h" />
@@ -681,6 +682,7 @@
     <ClCompile Include="..\Private\Controller_WR.cpp" />
     <ClCompile Include="..\Private\Damage_Manager.cpp" />
     <ClCompile Include="..\Private\Deco_Npc.cpp" />
+    <ClCompile Include="..\Private\Effect_Decal.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />
     <ClCompile Include="..\Private\Effect_Mesh.cpp" />
     <ClCompile Include="..\Private\Effect_Particle.cpp" />

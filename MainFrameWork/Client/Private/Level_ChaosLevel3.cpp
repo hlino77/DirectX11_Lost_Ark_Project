@@ -190,6 +190,10 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 98.f));
+
+	CRenderer::Set_IBLTexture(0);
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

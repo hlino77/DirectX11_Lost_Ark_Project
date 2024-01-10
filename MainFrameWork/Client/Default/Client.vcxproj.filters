@@ -3524,6 +3524,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Golem_Charge_Punch.h">
       <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Effect_Decal.h">
+      <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5911,6 +5914,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Golem_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Effect_Decal.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
