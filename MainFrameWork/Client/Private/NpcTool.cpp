@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 #include <filesystem>
+#include "AsFileUtils.h"
 #include "Utils.h"
 #include "AsUtils.h"
 #include "Transform.h"
@@ -15,6 +16,8 @@
 #include "PartObject.h"
 #include "Level_Tool.h"
 #include "NavigationMgr.h"
+#include "Npc.h"
+#include "Npc_Part.h"
 
 namespace fs = std::filesystem;
 
@@ -37,8 +40,12 @@ HRESULT CNpcTool::Initialize(void* pArg)
 	if (nullptr == m_pTransformCom)
 		return E_FAIL;
 
-	m_pTransformPartCom = CLockFree_Transform::Create(m_pDevice, m_pContext);
-	if (nullptr == m_pTransformPartCom)
+	m_pTransformLeftPartCom = CLockFree_Transform::Create(m_pDevice, m_pContext);
+	if (nullptr == m_pTransformLeftPartCom)
+		return E_FAIL;
+
+	m_pTransformRIghtPartCom = CLockFree_Transform::Create(m_pDevice, m_pContext);
+	if (nullptr == m_pTransformRIghtPartCom)
 		return E_FAIL;
 
 	m_NpcCreateDesc.iCurLevel = (_uint)LEVELID::LEVEL_TOOL_NPC;
@@ -53,6 +60,7 @@ HRESULT CNpcTool::Tick(const _float& fTimeDelta)
 {
 	Input();
 	ModelView(fTimeDelta);
+	InfoView(fTimeDelta);
 
 	m_pMannequin->Tick(fTimeDelta);
 
@@ -83,12 +91,12 @@ HRESULT CNpcTool::Ready_Sort_Part()
 		if (remove_pos != std::wstring::npos)
 			strProtoName.erase(remove_pos, strToRemove.length());
 
-		size_t pos = strProtoName.find(L"_");
+		/*size_t pos = strProtoName.find(L"_");
 		while (pos != wstring::npos)
 		{
 			strProtoName.replace(pos, 1, L" ");
 			pos = (pos + 1 < strProtoName.size()) ? strProtoName.find(L"_", pos + 1) : wstring::npos;
-		}
+		}*/
 
 		wstring search_str = L"WP";
 		size_t Wp_pos = strProtoName.find(search_str);
@@ -98,13 +106,6 @@ HRESULT CNpcTool::Ready_Sort_Part()
 
 		search_str = L"Body";
 		size_t Body_pos = strProtoName.find(search_str);
-
-		size_t repos = strProtoName.find(L" ");
-		while (repos != wstring::npos)
-		{
-			strProtoName.replace(repos, 1, L"_");
-			repos = (repos + 1 < strProtoName.size()) ? strProtoName.find(L" ", repos + 1) : wstring::npos;
-		}
 
 		if (Wp_pos != string::npos)
 		{
@@ -126,6 +127,8 @@ HRESULT CNpcTool::Ready_Sort_Part()
 
 void CNpcTool::Input()
 {
+
+
 }
 
 _bool CNpcTool::Get_CellPos(Vec3& vPos)
@@ -156,12 +159,77 @@ _bool CNpcTool::Get_CellPos(Vec3& vPos)
 	return CNavigationMgr::GetInstance()->Picking_Cell(LEVEL_TOOL_NPC, vRayPos, vRayDir, vPos);
 }
 
+HRESULT CNpcTool::InfoView(const _float& fTimeDelta)
+{
+	ImGui::Begin("NPC INFO");
+
+	ImGui::SeparatorText("Modul Npc");
+	Load_Npc();
+	ImGui::SameLine();
+	Delete_Npc();
+
+	Npc_List();
+
+
+	ImGui::End();
+
+	return S_OK;
+}
+
+void CNpcTool::Npc_List()
+{
+	ImGui::SeparatorText("Npc List");
+
+	m_vecNpcs = m_pGameInstance->Find_GameObjects(LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC);
+
+	_int iCurrIndex = m_iCurNpc;
+
+	if (ImGui::BeginListBox("##Npcs", ImVec2(300, 300)))
+	{
+		for (size_t i = 0; i < m_vecNpcs.size(); i++)
+		{
+			if (ImGui::Selectable(CAsUtils::ToString(static_cast<CNpc*>(m_vecNpcs[i])->Get_NpcTag()).c_str(), i == iCurrIndex))
+			{
+				m_iCurNpc = i;
+			}
+		}
+		ImGui::EndListBox();
+	}
+}
+
+void CNpcTool::Load_Npc()
+{
+	if (ImGui::Button("Load Npc"))
+	{
+
+
+
+	}
+}
+
+void CNpcTool::Delete_Npc()
+{
+	if (ImGui::Button("Delete Npc"))
+	{
+		_uint iIndex = 0;
+		for (auto& pDesc : m_vecNpcDesc)
+		{
+			if (pDesc.strNpcTag == static_cast<CNpc*>(m_vecNpcs[m_iCurNpc])->Get_NpcTag())
+			{
+				m_vecNpcDesc.erase(m_vecNpcDesc.begin() + iIndex);
+			}
+			iIndex++;
+		}
+
+		m_pGameInstance->Delete_GameObject(LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC, m_vecNpcs[m_iCurNpc]);
+		m_vecNpcs.erase(m_vecNpcs.begin() + m_iCurNpc);
+	}	
+}
+
 HRESULT CNpcTool::ModelView(const _float& fTimeDelta)
 {
-	ImGui::Begin("Npc");
+	ImGui::Begin("NPC MAKE");
 
-	InfoView();
-	//Categories();
 	Select_Npc(fTimeDelta);
 	Edit_Npc(fTimeDelta);
 
@@ -169,12 +237,12 @@ HRESULT CNpcTool::ModelView(const _float& fTimeDelta)
 	ImGui::SeparatorText("Create And Save");
 	if (ImGui::Button("Create NPC"))
 	{
-
+		Create_Npc(fTimeDelta);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Save NPC"))
 	{
-
+		Save_Npc(fTimeDelta);
 	}
 
 	ImGui::End();
@@ -184,15 +252,19 @@ HRESULT CNpcTool::ModelView(const _float& fTimeDelta)
 
 void CNpcTool::Select_Npc(const _float& fTimeDelta)
 {
-	if (ImGui::CollapsingHeader("Select Npc"))
+	Start_Pos(fTimeDelta);
+	Name(fTimeDelta);
+	Type(fTimeDelta);
+	if (0 == m_iSelectNpType || 1 == m_iSelectNpType)
 	{
-		Start_Pos(fTimeDelta);
-		Name(fTimeDelta);
-		Type(fTimeDelta);
 		Shape(fTimeDelta);
 
-		if(ImGui::Button("Select NPC"))
+		if (ImGui::Button("Select NPC"))
 		{
+			m_NpcCreateDesc.strNpcTag = m_strGroup + TEXT("_") + to_wstring(m_pGameInstance->GenerateUniqueID());
+			string strID = CAsUtils::ToString(m_NpcCreateDesc.strNpcTag);
+			strcat_s(m_szNpcTag, strID.c_str());
+
 			Matrix		PivotMatrix = XMMatrixIdentity();
 			PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
@@ -229,12 +301,8 @@ void CNpcTool::Select_Npc(const _float& fTimeDelta)
 		ImGui::SameLine();
 		if (ImGui::Button("Clear NPC"))
 		{
-			m_vNpcScale = Vec3().Zero;
-			m_vNpcRot = Vec3().Zero;
-			m_vNpcPos = Vec3().Zero;
-
+			Clear_Info();
 			m_pMannequin->Clear_MQ();
-			m_bSelected = false;
 		}
 	}
 }
@@ -262,18 +330,26 @@ void CNpcTool::Start_Pos(const _float& fTimeDelta)
 void CNpcTool::Name(const _float& fTimeDelta)
 {
 	ImGui::SeparatorText("Npc Tag Select");
-	ImGui::SetNextItemWidth(50);
-	ImGui::Text("Npc Tag  :");
+	ImGui::Text("Npc Tag :");
 	ImGui::SameLine();
 	ImGui::InputText("##Tag", m_szNpcTag, MAX_PATH);
 	ImGui::Text("Npc Name :");
 	ImGui::SameLine();
 	ImGui::InputText("##Name", m_szNpcName, MAX_PATH);
 
-	string Nptag = m_szNpcTag;
-	string NpName = m_szNpcName;
-	m_NpcCreateDesc.strNpcTag = CAsUtils::ToWString(Nptag);
-	m_NpcCreateDesc.strNpcName = CAsUtils::ToWString(NpName);
+	_int w_len = MultiByteToWideChar(CP_UTF8, 0, m_szNpcName, -1, nullptr, 0);
+	wchar_t* w_buffer = new wchar_t[w_len];
+
+	if (0 == MultiByteToWideChar(CP_UTF8, 0, m_szNpcName, -1, w_buffer, w_len))
+	{
+		delete[] w_buffer;
+	}
+	else
+	{
+		wstring strNpcName = w_buffer;
+		delete[] w_buffer;
+		m_NpcCreateDesc.strNpcName = strNpcName;
+	}
 }
 
 void CNpcTool::Type(const _float& fTimeDelta)
@@ -311,8 +387,8 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	ImGui::Checkbox("MA04", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::MA04]);
 	ImGui::SameLine();
 	ImGui::Checkbox("MA05", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::MA05]);
+	ImGui::Spacing();
 
-	ImGui::SetNextItemWidth(50);
 	ImGui::Checkbox("FA01", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::FE01]);
 	ImGui::SameLine();
 	ImGui::Checkbox("FA02", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::FE02]);
@@ -322,8 +398,8 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	ImGui::Checkbox("FA04", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::FE04]);
 	ImGui::SameLine();
 	ImGui::Checkbox("FA05", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::FE05]);
+	ImGui::Spacing();
 
-	ImGui::SetNextItemWidth(50);
 	ImGui::Checkbox("Sol", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::SOL]);
 	ImGui::SameLine();
 	ImGui::Checkbox("SP", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::SP]);
@@ -348,6 +424,7 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 		if (false == m_Check_NpcShape[i]) continue;
 
 		m_eNpcShape = (CNpc::NPCSHAPE)i;
+		m_NpcCreateDesc.iNpcShape = (_uint)m_eNpcShape;
 	}
 
 	ImGui::Spacing();
@@ -386,33 +463,43 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	{
 	case Client::CNpc::NPCSHAPE::MA01:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA01_MQ");
+		m_strGroup = TEXT("MA01");
 		break;
 	case Client::CNpc::NPCSHAPE::MA02:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA02_MQ");
+		m_strGroup = TEXT("MA02");
 		break;
 	case Client::CNpc::NPCSHAPE::MA03:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA03_MQ");
+		m_strGroup = TEXT("MA03");
 		break;
 	case Client::CNpc::NPCSHAPE::MA04:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA04_MQ");
+		m_strGroup = TEXT("MA04");
 		break;
 	case Client::CNpc::NPCSHAPE::MA05:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA05_MQ");
+		m_strGroup = TEXT("MA05");
 		break;
 	case Client::CNpc::NPCSHAPE::FE01:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE01_MQ");
+		m_strGroup = TEXT("FE01");
 		break;
 	case Client::CNpc::NPCSHAPE::FE02:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE02_MQ");
+		m_strGroup = TEXT("FE02");
 		break;
 	case Client::CNpc::NPCSHAPE::FE03:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE03_MQ");
+		m_strGroup = TEXT("FE03");
 		break;
 	case Client::CNpc::NPCSHAPE::FE04:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE04_MQ");
+		m_strGroup = TEXT("FE04");
 		break;
 	case Client::CNpc::NPCSHAPE::FE05:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE05_MQ");
+		m_strGroup = TEXT("FE05");
 		break;
 	default:
 		break;
@@ -421,15 +508,19 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	{
 	case 0:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA02_BernSoldier");
+		m_strGroup = TEXT("MASol");
 		break;
 	case 1:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_MA02_BernKnight");
+		m_strGroup = TEXT("MAKn");
 		break;
 	case 2:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE02_BernSoldier");
+		m_strGroup = TEXT("FESol");
 		break;
 	case 3:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_FE02_BernKnight");
+		m_strGroup = TEXT("FEKn");
 		break;
 	default:
 		break;
@@ -438,12 +529,15 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	{
 	case 0:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_SP_Adel");
+		m_strGroup = TEXT("Adel");
 		break;
 	case 1:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_SP_Lineheart");
+		m_strGroup = TEXT("Lineheart");
 		break;
 	case 2:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_SP_Eadalin");
+		m_strGroup = TEXT("Eadalin");
 		break;
 	default:
 		break;
@@ -456,8 +550,8 @@ void CNpcTool::Edit_Npc(const _float& fTimeDelta)
 	{
 		Transform_Matrix(fTimeDelta);
 		Animaition(fTimeDelta);
-		Weapon(fTimeDelta);
 		HeadBody(fTimeDelta);
+		Weapon(fTimeDelta);
 		Move(fTimeDelta);
 		Talk(fTimeDelta);
 	}
@@ -523,14 +617,25 @@ void CNpcTool::Move(const _float& fTimeDelta)
 
 		ImGui::SeparatorText("Npc Transform Edit");
 
-		if (ImGui::Checkbox("Move", &m_NpcCreateDesc.IsMove))
+		if (ImGui::Checkbox("Move", &m_IsMove))
 		{
-			m_pMannequin->Set_Move_State(m_NpcCreateDesc.IsMove);
-
-			if (false == m_NpcCreateDesc.IsMove)
+			if (true == m_IsMove)
 			{
-				m_NpcCreateDesc.vecMovePos.clear();
+				m_pMannequin->Set_Move_State(m_IsMove);
+
+				m_NpcCreateDesc.IsMove = m_IsMove;
+				m_NpcCreateDesc.vecMovePos = m_vecMovePos;
+				
+			}
+			else if (false == m_IsMove)
+			{
+				
+				m_pMannequin->Set_Move_State(m_IsMove);
 				m_pMannequin->Clear_MovePos();
+
+				m_NpcCreateDesc.IsMove = m_IsMove;
+				m_NpcCreateDesc.vecMovePos.clear();
+				m_vecforMoveList.clear();
 			}
 			
 		}
@@ -544,13 +649,39 @@ void CNpcTool::Move(const _float& fTimeDelta)
 		if (ImGui::Button("Push Move Pos"))
 		{
 			m_pMannequin->Push_MovePos(m_vMovePos);
+			m_vecMovePos.push_back(m_vMovePos);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Pop Move Pos"))
 		{
-			m_pMannequin->Pop_MovePos();
+			if (0 != m_vecMovePos.size())
+			{
+				m_pMannequin->Pop_MovePos();
+				m_vecMovePos.pop_back();
+			}
 		}
 		
+		m_vecforMoveList.clear();
+		for (size_t i = 0; i < m_vecMovePos.size(); i++)
+		{
+			string strMovePos = "X: " + to_string(m_vecMovePos[i].x) + " Y: " + to_string(m_vecMovePos[i].y) + " Z: " + to_string(m_vecMovePos[i].z);
+			m_vecforMoveList.push_back(strMovePos);
+		}
+
+		ImGui::SeparatorText("Move List");
+		_int iCurrIndex = m_iCurMove;
+		if (ImGui::BeginListBox("##MovePos", ImVec2(300, 100)))
+		{
+			for (size_t i = 0; i < m_vecMovePos.size(); i++)
+			{
+				if (ImGui::Selectable(m_vecforMoveList[i].c_str(), i == iCurrIndex))
+				{
+					m_iCurMove = i;
+				}
+			}
+			ImGui::EndListBox();
+		}
+
 		ImGui::EndTabItem();
 	}
 	
@@ -591,8 +722,7 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 			_int w_len = MultiByteToWideChar(CP_UTF8, 0, m_szTalk, -1, nullptr, 0);
 			wchar_t* w_buffer = new wchar_t[w_len];
 
-			// 멀티바이트에서 와이드로 변환
-			if (MultiByteToWideChar(CP_UTF8, 0, m_szTalk, -1, w_buffer, w_len) == 0) 
+			if (0 == MultiByteToWideChar(CP_UTF8, 0, m_szTalk, -1, w_buffer, w_len)) 
 			{
 				delete[] w_buffer;
 			}
@@ -606,8 +736,11 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 		ImGui::SameLine();
 		if (ImGui::Button("Pop"))
 		{
-			m_vecTalks.pop_back();
-			m_vecSelectTalk.pop_back();
+			if (0 != m_vecTalks.size())
+			{
+				m_vecTalks.erase(m_vecTalks.begin() + m_iCurTalk);
+				m_vecSelectTalk.erase(m_vecSelectTalk.begin() + m_iCurTalk);
+			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Clear"))
@@ -620,7 +753,7 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 		ImGui::SeparatorText("Talk Scipt");
 		_int iCurrIndex = m_iCurTalk;
 
-		if (ImGui::BeginListBox("##Talk", ImVec2(300, 300)))
+		if (ImGui::BeginListBox("##Talk", ImVec2(300, 200)))
 		{
 			for (size_t i = 0; i < m_vecTalks.size(); i++)
 			{
@@ -699,7 +832,7 @@ void CNpcTool::Animaition(const _float& fTimeDelta)
 
 			_int iCurrIndex = m_iCurrAnimation;
 
-			if (ImGui::BeginListBox("##Animations", ImVec2(300, 300)))
+			if (ImGui::BeginListBox("##Animations", ImVec2(300, 200)))
 			{
 				for (size_t i = 0; i < Animations.size(); i++)
 				{
@@ -722,198 +855,443 @@ void CNpcTool::Weapon(const _float& fTimeDelta)
 {
 	if (ImGui::BeginTabItem("Weapon Part"))
 	{
-
 		ImGui::SeparatorText("LR Type");
 		ImGui::Text("LR Type :");
 		ImGui::SameLine();
 		if (ImGui::RadioButton("Left", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::LEFT));
 		ImGui::SameLine();
 		if (ImGui::RadioButton("Right", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::RIGHT));
-		ImGui::SameLine();
 
-		string StopButtonName;
-		if (m_bSetWpPart)
-			StopButtonName = "Unset";
-		else
-			StopButtonName = "Set";
-
-		if (ImGui::Button(StopButtonName.c_str()))
+		switch (m_iSelectPart)
 		{
-			m_bSetWpPart = !m_bSetWpPart;
+		case (_uint)CNpc::WEAPON_PART::LEFT:
+			LeftWeapon(fTimeDelta);
+			break;
+		case (_uint)CNpc::WEAPON_PART::RIGHT:
+			RightWeapon(fTimeDelta);
+			break;
+		default:
+			break;
 		}
 
-		if (true == m_bSetWpPart)
+		if (TEXT("") == m_NpcCreateDesc.strLeftPart && TEXT("") == m_NpcCreateDesc.strRightPart)
 		{
-			if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::LEFT)
-			{
-				string strWpPart = m_szLeftWpName;
-				wstring strFind = CAsUtils::ToWString(strWpPart);
-
-				if (TEXT("") != strFind)
-				{
-					CComponent* pModel = static_cast<CModel*>(m_mapWp.find(strFind)->second)->Clone(nullptr);
-
-					m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::LEFT, static_cast<CModel*>(pModel), m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT]);
-
-					m_NpcCreateDesc.bUseWeaponPart = true;
-					m_NpcCreateDesc.strLeftPart = strFind;
-					m_NpcCreateDesc.Left_OffsetMatrix = m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT];
-				}
-			}
-			else if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::RIGHT)
-			{
-				string strWpPart = m_szRightWpName;
-				wstring strFind = CAsUtils::ToWString(strWpPart);
-
-				if (TEXT("") != strFind)
-				{
-					CComponent* pModel = static_cast<CModel*>(m_mapWp.find(strFind)->second)->Clone(nullptr);
-
-					m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::RIGHT, static_cast<CModel*>(pModel), m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT]);
-
-					m_NpcCreateDesc.bUseWeaponPart = true;
-					m_NpcCreateDesc.strRightPart = strFind;
-					m_NpcCreateDesc.Right_OffsetMatrix = m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT];
-				}
-			}
-		}
-		if (false == m_bSetWpPart)
-		{
-			if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::LEFT)
-			{
-				m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::LEFT, nullptr, XMMatrixIdentity());
-				m_NpcCreateDesc.strLeftPart = TEXT("");
-				m_NpcCreateDesc.Left_OffsetMatrix = XMMatrixIdentity();
-			}
-			else if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::RIGHT)
-			{
-				m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::RIGHT, nullptr, XMMatrixIdentity());
-				m_NpcCreateDesc.strRightPart = TEXT("");
-				m_NpcCreateDesc.Right_OffsetMatrix = XMMatrixIdentity();
-			}
-
-			if (TEXT("") == m_NpcCreateDesc.strLeftPart && TEXT("") == m_NpcCreateDesc.strRightPart)
-			{
-				m_NpcCreateDesc.bUseWeaponPart = false;
-			}
-		}
-		ImGui::Spacing();
-
-		ImGui::SeparatorText("Wp Part Name");
-		if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::LEFT)
-		{
-			ImGui::InputText("Left", m_szLeftWpName, MAX_PATH);
-		}
-		else if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::RIGHT)
-		{
-			ImGui::InputText("Right", m_szRightWpName, MAX_PATH);
-		}
-
-		ImGui::SeparatorText("Select Wp Part");
-		_int iCurrIndex = m_iCurWpIndex;
-		if (ImGui::BeginListBox("##WpPart", ImVec2(300, 150)))
-		{
-			_int index = 0;
-			for (auto iter = m_mapWp.begin(); iter != m_mapWp.end(); iter++, index++)
-			{
-				if (ImGui::Selectable(CAsUtils::ToString(iter->first).c_str(), index == iCurrIndex))
-				{
-					if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::LEFT)
-					{
-						strcpy_s(m_szLeftWpName, CAsUtils::ToString(iter->first).c_str());
-					}
-					else if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::RIGHT)
-					{
-						strcpy_s(m_szRightWpName, CAsUtils::ToString(iter->first).c_str());
-					}
-
-					m_iCurWpIndex = index;
-				}
-			}
-			ImGui::EndListBox();
-		}
-		
-		string TransformOffsetName;
-		if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::LEFT)
-		{
-			TransformOffsetName = "Left Offset";
-		}
-		else if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::RIGHT)
-		{
-			TransformOffsetName = "Right Offset";
-		}
-		ImGui::SeparatorText(TransformOffsetName.c_str());
-		
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpScaleX", &m_vWpScale.x, 0.01f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpScaleY", &m_vWpScale.y, 0.01f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpScaleZ", &m_vWpScale.z, 0.01f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::Spacing();
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpRotX", &m_vWpRot.x, 0.1f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpRotY", &m_vWpRot.y, 0.1f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpRotZ", &m_vWpRot.z, 0.1f);
-		ImGui::Spacing();
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpPosX", &m_vWpPos.x, 0.01f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpPosY", &m_vWpPos.y, 0.01f);
-		ImGui::SetNextItemWidth(200);
-		ImGui::DragFloat("WpPosZ", &m_vWpPos.z, 0.01f);
-
-		m_pTransformPartCom->Set_WorldMatrix(XMMatrixIdentity());
-		m_pTransformPartCom->Set_Scale(m_vWpScale);
-		m_pTransformPartCom->My_Rotation(m_vWpRot);
-		m_pTransformPartCom->Set_State(CTransform::STATE_POSITION, m_vWpPos);
-
-		if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::LEFT)
-		{
-			m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT] = m_pTransformPartCom->Get_WorldMatrix();
-		}
-		else if (m_iSelectPart == (_uint)CNpc::WEAPON_PART::RIGHT)
-		{
-			m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT] = m_pTransformPartCom->Get_WorldMatrix();
+			m_NpcCreateDesc.bUseWeaponPart = false;
 		}
 
 		ImGui::EndTabItem();
 	}
 }
 
+void CNpcTool::LeftWeapon(const _float& fTimeDelta)
+{
+	ImGui::SeparatorText("Left Part Name");
+	ImGui::InputText("##Left WP", m_szLeftWpName, MAX_PATH);
+	ImGui::SameLine();
+	string StopButtonName;
+	if (m_bSetWpLeftPart)
+		StopButtonName = "Unset";
+	else
+		StopButtonName = "Set";
+
+	if (ImGui::Button(StopButtonName.c_str()))
+	{
+		m_bSetWpLeftPart = !m_bSetWpLeftPart;
+	}
+
+	if (true == m_bSetWpLeftPart)
+	{
+		string strWpPart = m_szLeftWpName;
+		wstring strFind = CAsUtils::ToWString(strWpPart);
+
+		if (TEXT("") != strFind)
+		{
+			CComponent* pModel = static_cast<CModel*>(m_mapWp.find(strFind)->second)->Clone(nullptr);
+
+			m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::LEFT, static_cast<CModel*>(pModel), m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT]);
+
+			m_NpcCreateDesc.bUseWeaponPart = true;
+			m_NpcCreateDesc.strLeftPart = strFind;
+			m_NpcCreateDesc.Left_OffsetMatrix = m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT];
+		}
+	}
+	if (false == m_bSetWpLeftPart)
+	{
+		m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::LEFT, nullptr, XMMatrixIdentity());
+		m_NpcCreateDesc.strLeftPart = TEXT("");
+		m_NpcCreateDesc.Left_OffsetMatrix = XMMatrixIdentity();
+		m_iCurWpLeftIndex = -1;
+	}
+	ImGui::Spacing();
+
+	ImGui::SeparatorText("Select Left Wp Part");
+	_int iCurrIndex = m_iCurWpLeftIndex;
+	if (ImGui::BeginListBox("##LeftPart", ImVec2(300, 150)))
+	{
+		_int index = 0;
+		for (auto iter = m_mapWp.begin(); iter != m_mapWp.end(); iter++, index++)
+		{
+			if (ImGui::Selectable(CAsUtils::ToString(iter->first).c_str(), index == iCurrIndex))
+			{
+				strcpy_s(m_szLeftWpName, CAsUtils::ToString(iter->first).c_str());
+				m_iCurWpLeftIndex = index;
+			}
+		}
+		ImGui::EndListBox();
+	}
+
+	ImGui::SeparatorText("Left Offset");
+
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LScaleX", &m_vWpLeftScale.x, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LScaleY", &m_vWpLeftScale.y, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LScaleZ", &m_vWpLeftScale.z, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::Spacing();
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LRotX", &m_vWpLeftRot.x, 0.1f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LRotY", &m_vWpLeftRot.y, 0.1f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LRotZ", &m_vWpLeftRot.z, 0.1f);
+	ImGui::Spacing();
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LPosX", &m_vWpLeftPos.x, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LPosY", &m_vWpLeftPos.y, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("LPosZ", &m_vWpLeftPos.z, 0.01f);
+
+	m_pTransformLeftPartCom->Set_WorldMatrix(XMMatrixIdentity());
+	m_pTransformLeftPartCom->Set_Scale(m_vWpLeftScale);
+	m_pTransformLeftPartCom->My_Rotation(m_vWpLeftRot);
+	m_pTransformLeftPartCom->Set_State(CTransform::STATE_POSITION, m_vWpLeftPos);
+
+	m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT] = m_pTransformLeftPartCom->Get_WorldMatrix();
+}
+
+void CNpcTool::RightWeapon(const _float& fTimeDelta)
+{
+	ImGui::SeparatorText("Right Part Name");
+	ImGui::InputText("##Right WP", m_szRightWpName, MAX_PATH);
+	ImGui::SameLine();
+	string StopButtonName;
+	if (m_bSetWpRightPart)
+		StopButtonName = "Unset";
+	else
+		StopButtonName = "Set";
+
+	if (ImGui::Button(StopButtonName.c_str()))
+	{
+		m_bSetWpRightPart = !m_bSetWpRightPart;
+	}
+
+	if (true == m_bSetWpRightPart)
+	{
+		string strWpPart = m_szRightWpName;
+		wstring strFind = CAsUtils::ToWString(strWpPart);
+
+		if (TEXT("") != strFind)
+		{
+			CComponent* pModel = static_cast<CModel*>(m_mapWp.find(strFind)->second)->Clone(nullptr);
+
+			m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::RIGHT, static_cast<CModel*>(pModel), m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT]);
+
+			m_NpcCreateDesc.bUseWeaponPart = true;
+			m_NpcCreateDesc.strRightPart = strFind;
+			m_NpcCreateDesc.Right_OffsetMatrix = m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT];
+		}
+	}
+	if (false == m_bSetWpRightPart)
+	{
+		m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::RIGHT, nullptr, XMMatrixIdentity());
+		m_NpcCreateDesc.strRightPart = TEXT("");
+		m_NpcCreateDesc.Right_OffsetMatrix = XMMatrixIdentity();
+		m_iCurWpRightIndex = -1;
+	}
+	ImGui::Spacing();
+
+
+
+	ImGui::SeparatorText("Select Right Wp Part");
+	_int iCurrIndex = m_iCurWpRightIndex;
+	if (ImGui::BeginListBox("##RightPart", ImVec2(300, 150)))
+	{
+		_int index = 0;
+		for (auto iter = m_mapWp.begin(); iter != m_mapWp.end(); iter++, index++)
+		{
+			if (ImGui::Selectable(CAsUtils::ToString(iter->first).c_str(), index == iCurrIndex))
+			{
+				strcpy_s(m_szRightWpName, CAsUtils::ToString(iter->first).c_str());
+				m_iCurWpRightIndex = index;
+			}
+		}
+		ImGui::EndListBox();
+	}
+
+	ImGui::SeparatorText("Right Offset");
+
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RScaleX", &m_vWpRightScale.x, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RScaleY", &m_vWpRightScale.y, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RScaleZ", &m_vWpRightScale.z, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::Spacing();
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RRotX", &m_vWpRightRot.x, 0.1f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RRotY", &m_vWpRightRot.y, 0.1f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RRotZ", &m_vWpRightRot.z, 0.1f);
+	ImGui::Spacing();
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RPosX", &m_vWpRightPos.x, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RPosY", &m_vWpRightPos.y, 0.01f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::DragFloat("RPosZ", &m_vWpRightPos.z, 0.01f);
+
+	m_pTransformRIghtPartCom->Set_WorldMatrix(XMMatrixIdentity());
+	m_pTransformRIghtPartCom->Set_Scale(m_vWpRightScale);
+	m_pTransformRIghtPartCom->My_Rotation(m_vWpRightRot);
+	m_pTransformRIghtPartCom->Set_State(CTransform::STATE_POSITION, m_vWpRightPos);
+
+	m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT] = m_pTransformRIghtPartCom->Get_WorldMatrix();
+}
+
 void CNpcTool::HeadBody(const _float& fTimeDelta)
 {
-	if (ImGui::BeginTabItem("HeadBody Part"))
+	if (CNpc::NPCSHAPE::SOL != m_eNpcShape && CNpc::NPCSHAPE::SP != m_eNpcShape)
 	{
-		ImGui::SeparatorText("Model Part Type");
-		ImGui::Text("Model Type :");
-		ImGui::SameLine();
-		if (ImGui::RadioButton("Left", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::LEFT));
-		ImGui::SameLine();
-		if (ImGui::RadioButton("Right", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::RIGHT));
-		ImGui::SameLine();
+		if (ImGui::BeginTabItem("Model Part"))
+		{
+			ImGui::SeparatorText("Model Part Type");
+			ImGui::Text("Model Type :");
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Head", &m_iSelectModelPart, (_uint)CNpc::PART::FACE));
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Body", &m_iSelectModelPart, (_uint)CNpc::PART::BODY));
 
 
-		ImGui::EndTabItem();
+			switch (m_iSelectModelPart)
+			{
+			case (_uint)CNpc::PART::FACE:
+				Head(fTimeDelta);
+				break;
+			case (_uint)CNpc::PART::BODY:
+				Body(fTimeDelta);
+				break;
+			default:
+				break;
+			}
+
+
+			ImGui::EndTabItem();
+		}
+	}
+}
+
+void CNpcTool::Head(const _float& fTimeDelta)
+{
+	ImGui::SeparatorText("Select Head Part");
+	if (ImGui::Button("Set Head"))
+	{
+		string strhead = m_szHeadPartName;
+		wstring wstrhead = CAsUtils::ToWString(strhead);
+		m_NpcCreateDesc.strNpcHead = wstrhead;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("UnSet Head"))
+	{
+		m_NpcCreateDesc.strNpcHead = TEXT("");
+		ZeroMemory(&m_szHeadPartName, sizeof(MAX_PATH));
+		m_iCurHeadIndex = -1;
+		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::HEAD, nullptr);
+	}
+
+	_int iCurrIndex = m_iCurHeadIndex;
+	if (ImGui::BeginListBox("##HeadPart", ImVec2(300, 150)))
+	{
+		_int index = 0;
+		for (auto iter = m_mapHead.begin(); iter != m_mapHead.end(); iter++, index++)
+		{
+			size_t find_pos = iter->first.find(m_strGroup);
+			if (find_pos == std::wstring::npos) continue;
+
+			if (ImGui::Selectable(CAsUtils::ToString(iter->first).c_str(), index == iCurrIndex))
+			{
+				strcpy_s(m_szHeadPartName, CAsUtils::ToString(iter->first).c_str());
+				m_iCurHeadIndex = index;
+			}
+		}
+		ImGui::EndListBox();
+	}
+
+	string strPart = m_szHeadPartName;
+	wstring strFind = CAsUtils::ToWString(strPart);
+	if (TEXT("") != strFind)
+	{
+		CComponent* pModel = static_cast<CModel*>(m_mapHead.find(strFind)->second)->Clone(nullptr);
+
+		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::HEAD, static_cast<CModel*>(pModel));
+	}
+}
+
+void CNpcTool::Body(const _float& fTimeDelta)
+{
+	ImGui::SeparatorText("Select Body Part");
+	if (ImGui::Button("Set Body"))
+	{
+		string strTemp = m_szBodyPartName;
+		wstring wstrTemp = CAsUtils::ToWString(strTemp);
+		m_NpcCreateDesc.strNpcBody = wstrTemp;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("UnSet Body"))
+	{
+		m_NpcCreateDesc.strNpcBody = TEXT("");
+		ZeroMemory(&m_szBodyPartName, sizeof(MAX_PATH));
+		m_iCurBodyIndex = -1;
+		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::BODY, nullptr);
+	}
+
+	_int iCurrIndex = m_iCurBodyIndex;
+	if (ImGui::BeginListBox("##BodyPart", ImVec2(300, 150)))
+	{
+		_int index = 0;
+		for (auto iter = m_mapBody.begin(); iter != m_mapBody.end(); iter++, index++)
+		{
+			size_t find_pos = iter->first.find(m_strGroup);
+			if (find_pos == std::wstring::npos) continue;
+
+			if (ImGui::Selectable(CAsUtils::ToString(iter->first).c_str(), index == iCurrIndex))
+			{
+				strcpy_s(m_szBodyPartName, CAsUtils::ToString(iter->first).c_str());
+				m_iCurBodyIndex = index;
+			}
+		}
+		ImGui::EndListBox();
+	}
+
+	string strPart = m_szBodyPartName;
+	wstring strFind = CAsUtils::ToWString(strPart);
+	if (TEXT("") != strFind)
+	{
+		CComponent* pModel = static_cast<CModel*>(m_mapBody.find(strFind)->second)->Clone(nullptr);
+
+		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::BODY, static_cast<CModel*>(pModel));
 	}
 }
 
 void CNpcTool::Create_Npc(const _float& fTimeDelta)
 {
+	if ((_uint)CNpc::NPCTYPE::DECO == m_NpcCreateDesc.iNpcType)
+	{
+		m_pMannequin->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
+		m_pMannequin->Get_TransformCom()->Set_Scale(m_vNpcScale);
+		m_pMannequin->Get_TransformCom()->My_Rotation(m_vNpcRot);
+		m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vNpcPos);
+		m_NpcCreateDesc.matStart = m_pMannequin->Get_TransformCom()->Get_WorldMatrix();
 
+		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+			TEXT("Prototype_GameObject_DecoNpc"), &m_NpcCreateDesc);
+
+		m_vecNpcDesc.push_back(m_NpcCreateDesc);
+		Clear_Info();
+		m_pMannequin->Clear_MQ();
+	}
+	else
+	{
+
+	}
 }
 
 void CNpcTool::Save_Npc(const _float& fTimeDelta)
 {
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szGroupName) + "/");
+	wstring strFileTerrain = TEXT("../Bin/Data/Level") + to_wstring((_uint)eLevel + 1) + TEXT("Terrain.dat");
 
+	shared_ptr<CAsFileUtils> SaveTerrain = make_shared<CAsFileUtils>();
+	SaveTerrain->Open(strFileTerrain, FileMode::Write);
+
+	SaveTerrain->Write<_int>(m_iNumVerticesX[m_iCurLevel]);
+	SaveTerrain->Write<_int>(m_iNumVerticesZ[m_iCurLevel]);
+	SaveTerrain->Write<_bool>(m_bIsWireFrame[m_iCurLevel]);
+
+	shared_ptr<CAsFileUtils> SaveObject = make_shared<CAsFileUtils>();
+	SaveObject->Open(strFileObject, FileMode::Write);
+
+	auto listObject = pGameInstance->Get_LayerList(LEVEL_EDIT, LAYER_EDITOBJECT);
+
+	_uint iObjCnt = listObject->size();
+	SaveObject->Write<_uint>(iObjCnt);
+
+	for (auto& iter : *listObject)
+	{
+		_uint iType = _uint(iter->Get_ObjectType());
+
+		wstring wstrTag = iter->Get_ProtoTag();
+		string strTag;
+		strTag.assign(wstrTag.begin(), wstrTag.end());
+
+		_matrix matObject = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")))->Get_WorldMatrix();
+
+		SaveObject->Write<_uint>(iType);
+		SaveObject->Write<string>(strTag);
+		SaveObject->Write<_matrix>(matObject);
+	}
+
+	RELEASE_INSTANCE(CGameInstance);*/
 }
 
-void CNpcTool::InfoView()
+void CNpcTool::Clear_Info()
 {
+	m_bSelected = false;
+	m_iSelectNpType = -1;
+	ZeroMemory(&m_szNpcTag, sizeof(MAX_PATH));
+	ZeroMemory(&m_szNpcName, sizeof(MAX_PATH));
 
+	m_vNpcScale = Vec3().Zero;
+	m_vNpcRot = Vec3().Zero;
+	m_vNpcPos = Vec3().Zero;
+
+	m_iSelectPart = -1;
+	m_vWpRightScale = Vec3(100.f, 100.f, 100.f);
+	m_vWpRightPos = Vec3().Zero;
+	m_vWpRightRot = Vec3().Zero;
+	m_vWpLeftScale = Vec3(100.f, 100.f, 100.f);
+	m_vWpLeftPos = Vec3().Zero;
+	m_vWpLeftRot = Vec3().Zero;
+	m_bSetWpLeftPart = false;
+	m_bSetWpRightPart = false;
+	ZeroMemory(&m_szRightWpName, sizeof(MAX_PATH));
+	ZeroMemory(&m_szLeftWpName, sizeof(MAX_PATH));
+	m_iCurWpLeftIndex = -1;
+	m_iCurWpRightIndex = -1;
+
+	ZeroMemory(&m_szHeadPartName, sizeof(MAX_PATH));
+	m_iCurHeadIndex = -1;
+	ZeroMemory(&m_szBodyPartName, sizeof(MAX_PATH));
+	m_iCurBodyIndex = -1;
+
+	m_iCurrAnimation = 0;
+
+
+	m_IsMove = { false };
+	m_vMovePos = Vec3().Zero;
+	m_vecMovePos.clear();
+
+	IsTalk = false;
+	m_fTalkStartTime = 0.f;
+	m_iCurTalk = -1;
+	ZeroMemory(&m_szTalk, sizeof(MAX_PATH));
+	m_vecTalks.clear();
+	m_vecSelectTalk.clear();
 }
 
 CNpcTool* CNpcTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool_Npc* pLevel_Tool)
@@ -936,5 +1314,6 @@ void CNpcTool::Free()
 
 	Safe_Release(m_pMannequin);
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTransformPartCom);
+	Safe_Release(m_pTransformLeftPartCom);
+	Safe_Release(m_pTransformRIghtPartCom);
 }

@@ -90,7 +90,7 @@ HRESULT CWeapon_MG::Render_ShadowDepth()
 HRESULT CWeapon_MG::Ready_Components()
 {
 	/* For.Com_Transform */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
 		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
 

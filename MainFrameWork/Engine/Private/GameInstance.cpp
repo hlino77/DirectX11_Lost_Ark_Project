@@ -700,6 +700,11 @@ const _bool& CGameInstance::Random_Coin(_float fProbality)
 	return m_pRandomMgr->Random_Coin(fProbality);
 }
 
+int64_t CGameInstance::GenerateUniqueID()
+{
+	return m_pRandomMgr->GenerateUniqueID();
+}
+
 
 void CGameInstance::Release_Engine()
 {

@@ -40,6 +40,8 @@ public:
 	CTransform* Get_TransformCom() { return m_pTransformCom; }
 	CModel*		Get_ModelCom() { return m_pModelCom; }
 
+
+
 public:
 	void			Clear_MQ();
 
@@ -66,6 +68,8 @@ private:
 	HRESULT			Ready_SpeechBuble();
 
 private:
+	virtual void	Set_EffectPos() override;
+
 	void			Move(const _float& fTimeDelta);
 	void			Talk(const _float& fTimeDelta);
 
@@ -97,9 +101,9 @@ private:
 	_bool			  m_IsTalk = { false };
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
 	vector<wstring>	  m_vecTalkScript;
-	_float	m_fTalkStartAcc = { 0.f };
-	_float	m_fTalkTime = { 0.f };
-	_uint	m_iCurrTalk = { 0 };
+	_float			  m_fTalkStartAcc = { 0.f };
+	_float			  m_fTalkTime = { 0.f };
+	_uint			  m_iCurrTalk = { 0 };
 
 public:
 	static CMannequin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

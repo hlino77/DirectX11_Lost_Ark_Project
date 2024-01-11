@@ -78,6 +78,8 @@ void CMannequin::LateTick(_float fTimeDelta)
 	
 	m_PlayAnimation.get();
 
+	Set_EffectPos();
+
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
 	for (size_t i = 0; i < PART_END; i++)
@@ -193,6 +195,12 @@ void CMannequin::Clear_MQ()
 	m_iMoveCnt = 0;
 	m_vecMovePos.clear();
 	m_vStartPos = Vec3();
+
+	m_IsTalk = false;
+	m_vecTalkScript.clear();
+	m_fTalkStartAcc = 0.f;
+	m_fTalkTime = 0.f;
+	m_iCurrTalk = 0.f;
 }
 
 void CMannequin::Set_ModelCom(CModel* pModel)
@@ -271,7 +279,8 @@ void CMannequin::Set_ModelPart(_uint iIndex, CModel* pModel)
 	{
 	case MODELTYPE::HEAD:
 		m_pModelPart[HEAD] = pModel;
-		m_IsHair = m_pModelPart[HEAD]->Is_HairTexture();
+		if(nullptr != m_pModelPart[HEAD])
+			m_IsHair = m_pModelPart[HEAD]->Is_HairTexture();
 		break;
 	case MODELTYPE::BODY:
 		m_pModelPart[BODY] = pModel;
@@ -385,6 +394,18 @@ HRESULT CMannequin::Ready_SpeechBuble()
 	return S_OK;
 }
 
+void CMannequin::Set_EffectPos()
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	matEffect *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
+}
+
 void CMannequin::Move(const _float& fTimeDelta)
 {
 	Vec3 vMove;
@@ -426,7 +447,7 @@ void CMannequin::Talk(const _float& fTimeDelta)
 		if (m_vecTalkScript.size() <= m_iCurrTalk)
 		{
 			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -10.f;
+			m_fTalkStartAcc = -5.f;
 		}
 	}
 

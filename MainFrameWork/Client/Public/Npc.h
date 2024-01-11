@@ -89,6 +89,9 @@ public:
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
+	
+	NPCDESC					Get_NpcDesc() { return m_NpcDesc; }
+
 public:
 	void					Set_State(const wstring& szName);
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false);
@@ -103,7 +106,7 @@ public:
 	void					Body_Collision(CGameObject* pObject);
 
 	const wstring&			Get_NpcName() { return m_NpcDesc.strNpcName; }
-
+	const wstring&			Get_NpcTag() { return m_NpcDesc.strNpcTag; }
 
 	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
 	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
@@ -125,6 +128,7 @@ protected:
 	HRESULT					Ready_SpeechBuble();
 
 	void					CullingObject();
+	virtual void			Set_EffectPos() override;
 
 protected:
 	void					Check_ChangeAnim(const _float& fTimeDelta);
@@ -147,12 +151,14 @@ protected:
 
 	Vec3			m_vStartPos;
 
-	_float			m_fChangeAnimAcc = { 0.f };
+	
 
 	_bool			m_IsReach = { false };
 
 	_float			m_fTalkTimeAcc = { 0.f };
 
+	_float			m_fChangeAnimAcc = { 0.f };
+	_int			m_iCurAnimIndex = { -1 };
 	_int			m_iIdleAnimIndex = { -1 };
 	_int			m_iActAnimIndex = { -1 };
 

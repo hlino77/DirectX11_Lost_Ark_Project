@@ -54,6 +54,8 @@ void CDeco_Npc::LateTick(_float fTimeDelta)
 	Set_Colliders(fTimeDelta);
 
 	__super::LateTick(fTimeDelta);
+
+	Set_EffectPos();
 }
 
 HRESULT CDeco_Npc::Render()
@@ -289,7 +291,7 @@ void CDeco_Npc::Talk(const _float& fTimeDelta)
 		if (m_NpcDesc.vecTalks.size() <= m_iCurrTalk)
 		{
 			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -10.f;
+			m_fTalkStartAcc = -5.f;
 		}
 	}
 }
