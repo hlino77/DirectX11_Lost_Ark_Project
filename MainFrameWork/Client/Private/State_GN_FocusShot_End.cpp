@@ -97,6 +97,23 @@ void CState_GN_FocusShot_End::Tick_State_Control(_float fTimeDelta)
 void CState_GN_FocusShot_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocuseShot_End);
+
+	if (iAnimFrame < m_SkillFrames[m_iSkillCnt])
+	{
+		Update_Effect(fTimeDelta);
+	}
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		Effect_Glow(false);
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
+
 }
 
 void CState_GN_FocusShot_End::Effect_Glow(_bool bOnOff)

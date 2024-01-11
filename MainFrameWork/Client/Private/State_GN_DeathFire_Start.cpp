@@ -106,6 +106,20 @@ void CState_GN_DeathFire_Start::Tick_State_Control(_float fTimeDelta)
 void CState_GN_DeathFire_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Start);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		if (iAnimFrame < 90)
+			Effect_Shot();
+		else
+			Effect_Shot_Right();
+
+		Effect_RandomShot();
+
+		m_iSkillCnt++;
+	}
 }
 
 void CState_GN_DeathFire_Start::Effect_Shot()

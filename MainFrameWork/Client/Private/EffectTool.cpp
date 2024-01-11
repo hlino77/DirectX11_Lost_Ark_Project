@@ -494,6 +494,7 @@ HRESULT CEffectTool::EffectDetail()
 		ImGui::InputFloat("UV_Wave_Speed", (_float*)&m_pCurrentEffect->m_Variables.fUV_WaveSpeed);
 
 	ImGui::Checkbox("IsSequence", &m_pCurrentEffect->m_IsSequence);
+	ImGui::Checkbox("IsLoop", &m_pCurrentEffect->m_IsLoop);
 
 	if (m_pCurrentEffect->m_IsSequence)
 		ImGui::InputFloat("Sequence Term", &m_pCurrentEffect->m_fSequenceTerm);
@@ -908,6 +909,10 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("IsSequence", m_vecEffects[i]->m_IsSequence);
 			node->LinkEndChild(element);
 
+			element = document->NewElement("Is_Loop");
+			element->SetAttribute("IsLoop", m_vecEffects[i]->m_IsLoop);
+			node->LinkEndChild(element);
+
 			element = document->NewElement("Sequence_Term");
 			element->SetAttribute("Sequence_Term", m_vecEffects[i]->m_fSequenceTerm);
 			node->LinkEndChild(element);
@@ -1166,6 +1171,9 @@ HRESULT CEffectTool::Load()
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_IsSequence = element->BoolAttribute("IsSequence");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_IsLoop = element->BoolAttribute("IsLoop");
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_fSequenceTerm = element->FloatAttribute("Sequence_Term");

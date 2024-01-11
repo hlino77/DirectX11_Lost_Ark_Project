@@ -40,10 +40,13 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 {
 	Super::Tick(fTimeDelta);
 
+	if (m_bActive == false)
+		return;
+
 	if (m_fWaitingAcc < m_fWaitingTime)
 		return;
 
-	if (m_IsSequence)
+	if (m_IsSequence && m_bRender)
 	{
 		m_fSequenceTimer += fTimeDelta;
 		while (m_fSequenceTimer >= m_fSequenceTerm)
@@ -56,18 +59,15 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 				m_Variables.vUV_TileIndex.x = 0.0f;
 				++m_Variables.vUV_TileIndex.y;
 				if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
-					m_Variables.vUV_TileIndex.y = 0.0f;
+				{
+					if (m_IsLoop)
+						m_Variables.vUV_TileIndex.y = 0.0f;
+					else
+						m_bRender = false;
+				}
 			}
 		}
 
-	/*	while (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
-		{
-			m_Variables.vUV_TileIndex.x -= m_Variables.vUV_TileCount.x;
-			++m_Variables.vUV_TileIndex.y;
-
-			while (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
-				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
-		}*/
 	}
 }
 

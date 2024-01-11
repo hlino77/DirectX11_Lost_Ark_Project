@@ -37,6 +37,7 @@ public:
 	virtual Vec3 Get_Scale() override;
 
 	virtual void Turn(Vec3 vAxis, _float fTimeDelta) override;
+	virtual void Turn_Axis(Vec3 vAxis, _float fRadian) override;
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) override;
 	virtual void Rotation(Vec3 vAxis, _float fRadian) override;
 

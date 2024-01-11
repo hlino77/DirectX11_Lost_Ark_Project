@@ -71,7 +71,6 @@ HRESULT CUI_Manager::ObjectManager_to_UIManager(LEVELID eLevelIndex)
 
 HRESULT CUI_Manager::Loading_UI(_float fSizeX)
 {
-	WRITE_LOCK
 	CUI* pUI = Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
 	if (nullptr == pUI)
 		return E_FAIL;
@@ -101,7 +100,6 @@ list<class CUI*>* CUI_Manager::Get_UIList(LEVELID eLevelIndex)
 
 vector<CUI*> CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag)
 {
-	WRITE_LOCK
 	CUI* pUI = 	Find_UI(eLevelIndex, UITag);
 	pUI->Get_UIParts();
 
@@ -110,7 +108,6 @@ vector<CUI*> CUI_Manager::Find_UIParts(LEVELID eLevelIndex, const wstring& UITag
 
 CUI* CUI_Manager::Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag)
 {
-	WRITE_LOCK
 	CUI* pUI = Find_UI(eLevelIndex, UITag);
 	if (nullptr == pUI)
 		return nullptr;

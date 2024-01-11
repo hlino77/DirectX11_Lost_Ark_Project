@@ -1108,6 +1108,9 @@
     <Filter Include="02.GameObjects\Boss\Golem\Skill">
       <UniqueIdentifier>{47f10e7a-f1c1-4c8e-add9-cc0cccf4b164}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom">
+      <UniqueIdentifier>{1b2bfce2-e08c-4325-ac16-539cc018a7f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3524,9 +3527,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Golem_Charge_Punch.h">
       <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Effect_Decal.h">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_SpiralChaser.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5914,9 +5920,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Golem_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Effect_Decal.cpp">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_SpiralChaser.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

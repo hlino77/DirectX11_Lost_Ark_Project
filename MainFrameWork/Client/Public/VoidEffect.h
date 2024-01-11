@@ -81,6 +81,7 @@ public:
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
 
 	_bool	m_IsSequence = false;
+	_bool	m_IsLoop = false;
 	_float	m_fSequenceTerm = 0.05f;
 
 	_float	m_fDissolveStart = 1.f;

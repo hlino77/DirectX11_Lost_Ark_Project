@@ -110,7 +110,16 @@ void CState_GN_PerfectShot_Loop::Tick_State_NoneControl(_float fTimeDelta)
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	Update_Effect(fTimeDelta);
+	if (m_pPlayer->Get_ModelCom()->Get_CurrAnim() == m_iPerfectShot_Loop)
+	{
+		if (m_bEffect == false)
+		{
+			Effect_Glow(true);
+			m_bEffect = true;
+		}
+
+		Update_Effect(fTimeDelta);
+	}
 }
 
 

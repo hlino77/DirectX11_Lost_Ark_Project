@@ -160,11 +160,19 @@ void CLockFree_Transform::Turn(Vec3 vAxis, _float fTimeDelta)
 	Set_State(CLockFree_Transform::STATE_LOOK, Vec3(matWorld.m[2]));
 }
 
+void CLockFree_Transform::Turn_Axis(Vec3 vAxis, _float fRadian)
+{
+	Matrix		RotationMatrix = Matrix::CreateFromQuaternion(Quaternion::CreateFromAxisAngle(vAxis, fRadian));
+
+	Vec3 vPos = m_WorldMatrix.Translation();
+
+	m_WorldMatrix *= RotationMatrix;
+	m_WorldMatrix.Translation(vPos);
+}
+
 void CLockFree_Transform::Rotation(Vec3 vAxis, _float fRadian)
 {
-	// Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(60.0f));
-
-	Matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
+	Matrix        RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
 
 	RotationMatrix.CreateFromQuaternion(Quaternion::CreateFromAxisAngle(vAxis, fRadian));
 	Vec3 vScale = Get_Scale();
@@ -177,7 +185,7 @@ void CLockFree_Transform::Rotation(Vec3 vAxis, _float fRadian)
 	vUp.Normalize();
 	vLook.Normalize();
 
-	Set_State(CLockFree_Transform::STATE_RIGHT, vRight  * vScale.x);
+	Set_State(CLockFree_Transform::STATE_RIGHT, vRight * vScale.x);
 	Set_State(CLockFree_Transform::STATE_UP, vUp * vScale.y);
 	Set_State(CLockFree_Transform::STATE_LOOK, vLook * vScale.z);
 }

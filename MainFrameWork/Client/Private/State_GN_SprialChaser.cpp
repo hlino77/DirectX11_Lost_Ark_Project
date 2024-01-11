@@ -5,6 +5,9 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "Effect_Custom_SpiralChaser.h"
+
 
 CState_GN_SprialChaser::CState_GN_SprialChaser(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -22,6 +25,10 @@ HRESULT CState_GN_SprialChaser::Initialize()
 	else
 		m_TickFunc = &CState_GN_SprialChaser::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(8);
+	m_SkillFrames.push_back(-1);
+
+
 	return S_OK;
 }
 
@@ -33,6 +40,8 @@ void CState_GN_SprialChaser::Enter_State()
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_iSkillCnt = 0;
 }
 
 void CState_GN_SprialChaser::Tick_State(_float fTimeDelta)
@@ -48,15 +57,45 @@ void CState_GN_SprialChaser::Exit_State()
 
 void CState_GN_SprialChaser::Tick_State_Control(_float fTimeDelta)
 {
+	/* 총을 던지는 프레임 8 */
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSprialChaser))
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSprialChaser))
 		m_pPlayer->Set_State(TEXT("Idle"));
-
-	/* 총을 던지는 프레임 10 */
 }
 
 void CState_GN_SprialChaser::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_SprialChaser::Effect_Shot()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_2))->Get_Part_WorldMatrix();
+
+	Vec3 vGunPos = matWorld.Translation();
+	Vec3 vTargetPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vTargetPos.y += 0.7f;
+	Vec3 vLook = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+	vLook.Normalize();
+
+	vTargetPos += vLook * 4.0f;
+
+	CEffect_Custom_SpiralChaser::SpiralChaserDesc tDesc;
+	tDesc.vPos = vGunPos;
+	tDesc.vTargetPos = vTargetPos;
+
+	CGameObject* pObject = pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SpiralChaser", &tDesc);
+
+	Safe_Release(pGameInstance);
 }
 
 CState_GN_SprialChaser* CState_GN_SprialChaser::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

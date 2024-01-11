@@ -47,6 +47,7 @@ public:
 	virtual Vec3 Get_Scale() PURE;
 
 	virtual void Turn(Vec3 vAxis, _float fTimeDelta) PURE;
+	virtual void Turn_Axis(Vec3 vAxis, _float fRadian) PURE;
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) PURE;
 	virtual void Rotation(Vec3 vAxis, _float fRadian) PURE;
 

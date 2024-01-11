@@ -138,6 +138,15 @@ void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 void CState_GN_Attack_Hand3::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3);
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		Effect_Shot();
+
+		m_iEffectCnt++;
+	}
 }
 
 void CState_GN_Attack_Hand3::Effect_Shot()

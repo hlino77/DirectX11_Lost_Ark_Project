@@ -25,16 +25,15 @@ HRESULT CState_GN_RapidFire_Start::Initialize()
 		m_TickFunc = &CState_GN_RapidFire_Start::Tick_State_NoneControl;
 
 	m_SkillFrames.push_back(5);
-	m_SkillFrames.push_back(7);
+	m_SkillFrames.push_back(8);
 
-	m_SkillFrames.push_back(9);
-	m_SkillFrames.push_back(11);
+	m_SkillFrames.push_back(10);
 
 	m_SkillFrames.push_back(16);
-	m_SkillFrames.push_back(18);
+	m_SkillFrames.push_back(19);
 
-	m_SkillFrames.push_back(23);
-	m_SkillFrames.push_back(25);
+	m_SkillFrames.push_back(21);
+	//m_SkillFrames.push_back(25);
 
 	m_SkillFrames.push_back(-1);
 
@@ -106,29 +105,40 @@ void CState_GN_RapidFire_Start::Tick_State_Control(_float fTimeDelta)
 void CState_GN_RapidFire_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
 }
 
 void CState_GN_RapidFire_Start::Effect_Shot()
 {
 	{
-		Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix();
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix().Translation();
 
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &matWorld;
-		EFFECT_START(TEXT("DeathFireBullet"), &desc)
-
-			Vec3 vPos = matWorld.Translation();
-
-		Vec3 vOriginLook = matWorld.Backward();
+		Vec3 vOriginLook = vPos - matWorld.Translation();
 		vOriginLook.Normalize();
 
 		Vec3 vOriginUp = matWorld.Up();
 		vOriginUp.Normalize();
 
-		Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+		Vec3 vOriginRight = vOriginUp.Cross(vOriginLook);
 		vOriginRight.Normalize();
 
-		_uint iCount = rand() % 2 + 1;
+		vOriginLook = vOriginRight.Cross(vOriginUp);
+		vOriginLook.Normalize();
+
+		matWorld = Matrix::CreateWorld(vPos, -vOriginLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("DeathFireBullet"), &desc)
+
+			_uint iCount = rand() % 2 + 1;
 		for (_uint i = 0; i < iCount; ++i)
 		{
 			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);
@@ -147,24 +157,28 @@ void CState_GN_RapidFire_Start::Effect_Shot()
 	}
 
 	{
-		Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_2))->Get_Part_WorldMatrix();
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_2))->Get_Part_WorldMatrix().Translation();
 
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &matWorld;
-		EFFECT_START(TEXT("DeathFireBullet"), &desc)
-
-			Vec3 vPos = matWorld.Translation();
-
-		Vec3 vOriginLook = matWorld.Backward();
+		Vec3 vOriginLook = vPos - matWorld.Translation();
 		vOriginLook.Normalize();
 
 		Vec3 vOriginUp = matWorld.Up();
 		vOriginUp.Normalize();
 
-		Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+		Vec3 vOriginRight = vOriginUp.Cross(vOriginLook);
 		vOriginRight.Normalize();
 
-		_uint iCount = rand() % 2 + 1;
+		vOriginLook = vOriginRight.Cross(vOriginUp);
+		vOriginLook.Normalize();
+
+		matWorld = Matrix::CreateWorld(vPos, -vOriginLook, Vec3(0.0f, 1.0f, 0.0f));
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("DeathFireBullet"), &desc)
+
+			_uint iCount = rand() % 2 + 1;
 		for (_uint i = 0; i < iCount; ++i)
 		{
 			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);

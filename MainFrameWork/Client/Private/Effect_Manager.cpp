@@ -218,6 +218,9 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tDesc.IsSequence = element->BoolAttribute("IsSequence");
 
 				element = element->NextSiblingElement();
+				tDesc.IsLoop = element->BoolAttribute("IsLoop");
+
+				element = element->NextSiblingElement();
 				tDesc.fSequenceTerm = element->FloatAttribute("Sequence_Term");
 
 				element = element->NextSiblingElement();

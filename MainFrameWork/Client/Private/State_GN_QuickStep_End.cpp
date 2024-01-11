@@ -109,6 +109,19 @@ void CState_GN_QuickStep_End::Tick_State_Control(_float fTimeDelta)
 void CState_GN_QuickStep_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End);
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		matWorld.Translation(static_cast<CPartObject*>(m_pPlayer->Get_Parts((CPartObject::PARTS)m_EffectFrames[m_iEffectCnt].iWeapon))->Get_Part_WorldMatrix().Translation());
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("QuickStepBullet"), &desc)
+
+			m_iEffectCnt++;
+	}
 }
 
 CState_GN_QuickStep_End* CState_GN_QuickStep_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

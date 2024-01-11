@@ -119,7 +119,7 @@ void CState_GN_FreeShooter::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFreeShoter))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (110 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFreeShoter))
+	if (110 <= iAnimFrame)
 		m_pPlayer->Set_Several_Weapon_RenderState(CPartObject::PARTS::WEAPON_5, false);
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
@@ -145,11 +145,18 @@ void CState_GN_FreeShooter::Tick_State_Control(_float fTimeDelta)
 
 void CState_GN_FreeShooter::Tick_State_NoneControl(_float fTimeDelta)
 {
-	if (110 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFreeShoter))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFreeShoter);
+
+	if (110 <= iAnimFrame)
 		m_pPlayer->Set_Several_Weapon_RenderState(CPartObject::PARTS::WEAPON_5, false);
 
-
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		Effect_Shot();
+		m_iEffectCnt++;
+	}
 }
 
 void CState_GN_FreeShooter::Effect_Shot()

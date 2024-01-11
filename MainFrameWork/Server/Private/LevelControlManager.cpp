@@ -36,7 +36,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		tPlayerPkt.set_iobjectid(pOtherPlayer->Get_ObjectID());
 		tPlayerPkt.set_iclass(pOtherPlayer->Get_Class());
 		tPlayerPkt.set_bcontroll(false);
-		tPlayerPkt.set_strnickname(CAsUtils::ToString(pOtherPlayer->Get_NickName()));
+		tPlayerPkt.set_strnickname(CAsUtils::W2S(pOtherPlayer->Get_NickName()));
 		tPlayerPkt.set_strstate(CAsUtils::ToString(pOtherPlayer->Get_ServerState()));
 		tPlayerPkt.set_ilevel(iLevel);
 		tPlayerPkt.set_iweaponindex(pOtherPlayer->Get_WeaponIndex());
@@ -198,7 +198,7 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 		tPlayerPkt.set_iobjectid(pOtherPlayer->Get_ObjectID());
 		tPlayerPkt.set_iclass(pOtherPlayer->Get_Class());
 		tPlayerPkt.set_bcontroll(false);
-		tPlayerPkt.set_strnickname(CAsUtils::ToString(pOtherPlayer->Get_NickName()));
+		tPlayerPkt.set_strnickname(CAsUtils::W2S(pOtherPlayer->Get_NickName()));
 		tPlayerPkt.set_strstate(CAsUtils::ToString(pOtherPlayer->Get_ServerState()));
 		tPlayerPkt.set_ilevel(iNextLevel);
 		tPlayerPkt.set_iweaponindex(pOtherPlayer->Get_WeaponIndex());
@@ -227,7 +227,7 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 			tPlayerPkt.set_iobjectid(pPlayer->Get_ObjectID());
 			tPlayerPkt.set_iclass(pPlayer->Get_Class());
 			tPlayerPkt.set_bcontroll(true);
-			tPlayerPkt.set_strnickname(CAsUtils::ToString(pPlayer->Get_NickName()));
+			tPlayerPkt.set_strnickname(CAsUtils::W2S(pPlayer->Get_NickName()));
 			tPlayerPkt.set_strstate("Idle");
 			tPlayerPkt.set_ilevel(iNextLevel);
 			tPlayerPkt.set_iweaponindex(pPlayer->Get_WeaponIndex());

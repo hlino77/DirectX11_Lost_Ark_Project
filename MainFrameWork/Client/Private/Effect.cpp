@@ -44,6 +44,7 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_tNoisMaskEmisDslv(rhs.m_tNoisMaskEmisDslv)
 	, m_fWaitingTime(rhs.m_fWaitingTime)
 	, m_fRemainTime(rhs.m_fRemainTime)
+	, m_IsLoop(rhs.m_IsLoop)
 {
 	m_szModelName = rhs.m_szModelName;
 
@@ -88,6 +89,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_vUV_Speed = pDesc->vUV_Speed;
 
 	m_IsSequence = pDesc->IsSequence;
+	m_IsLoop = pDesc->IsLoop;
 	m_fSequenceTerm = pDesc->fSequenceTerm;
 
 	m_Variables.vUV_Offset = pDesc->vUV_Offset;
@@ -305,6 +307,7 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 	m_fSequenceTimer = 0.0f;
 	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
 	m_fTimeAcc = 0.0f;
+	m_bRender = true;
 
 	if (m_fWaitingTime > 0.0f)
 	{

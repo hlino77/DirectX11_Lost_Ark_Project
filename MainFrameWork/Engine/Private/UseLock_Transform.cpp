@@ -169,9 +169,20 @@ void CUseLock_Transform::Turn(Vec3 vAxis, _float fTimeDelta)
 	Set_State(CUseLock_Transform::STATE_LOOK, Vec3(matWorld.m[2]));
 }
 
+void CUseLock_Transform::Turn_Axis(Vec3 vAxis, _float fRadian)
+{
+	Matrix		RotationMatrix = Matrix::CreateFromQuaternion(Quaternion::CreateFromAxisAngle(vAxis, fRadian));
+
+	Vec3 vPos = m_WorldMatrix.Translation();
+
+	WRITE_LOCK
+	m_WorldMatrix *= RotationMatrix;
+	m_WorldMatrix.Translation(vPos);
+}
+
 void CUseLock_Transform::Rotation(Vec3 vAxis, _float fRadian)
 {
-	Matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
+	Matrix        RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
 
 	RotationMatrix.CreateFromQuaternion(Quaternion::CreateFromAxisAngle(vAxis, fRadian));
 	Vec3 vScale = Get_Scale();
@@ -186,7 +197,7 @@ void CUseLock_Transform::Rotation(Vec3 vAxis, _float fRadian)
 
 
 	WRITE_LOCK
-	Set_State(CUseLock_Transform::STATE_RIGHT, vRight  * vScale.x);
+	Set_State(CUseLock_Transform::STATE_RIGHT, vRight * vScale.x);
 	Set_State(CUseLock_Transform::STATE_UP, vUp * vScale.y);
 	Set_State(CUseLock_Transform::STATE_LOOK, vLook * vScale.z);
 }

@@ -76,6 +76,11 @@ void CState_GN_FocusShot_Start::Tick_State_Control(_float fTimeDelta)
 void CState_GN_FocusShot_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocusShot_Start);
+
+	if (iAnimFrame >= 20)
+		Update_Effect(fTimeDelta);
 }
 
 void CState_GN_FocusShot_Start::Effect_Glow(_bool bOnOff)

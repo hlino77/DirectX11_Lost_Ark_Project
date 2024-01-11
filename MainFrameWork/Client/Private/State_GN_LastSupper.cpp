@@ -57,12 +57,10 @@ void CState_GN_LastSupper::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iLastSupper))
 	{
+		Effect_Shot();
+
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
-
-		/*CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &const_cast<Matrix&>(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix());
-		EFFECT_START(TEXT("tempPlane0"), &desc)*/
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iLastSupper))
@@ -83,6 +81,25 @@ void CState_GN_LastSupper::Tick_State_Control(_float fTimeDelta)
 void CState_GN_LastSupper::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_LastSupper::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	Vec3 vLook = matWorld.Backward();
+	vLook.Normalize();
+
+	Vec3 vPos = matWorld.Translation();
+	vPos.y += 0.5f;
+
+	vPos += vLook;
+
+	matWorld.Translation(vPos);
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("LastSupper"), &desc)
 }
 
 CState_GN_LastSupper* CState_GN_LastSupper::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

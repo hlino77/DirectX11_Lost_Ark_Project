@@ -77,11 +77,22 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 		while (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
 		{
-			m_Variables.vUV_TileIndex.x -= m_Variables.vUV_TileCount.x;
-			++m_Variables.vUV_TileIndex.y;
+			m_fSequenceTimer -= m_fSequenceTerm;
+			++m_Variables.vUV_TileIndex.x;
 
-			while (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
-				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
+			if (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+			{
+				m_Variables.vUV_TileIndex.x = 0.0f;
+				++m_Variables.vUV_TileIndex.y;
+				if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
+				{
+					if (m_IsLoop)
+						m_Variables.vUV_TileIndex.y = 0.0f;
+					else
+						m_bRender = false;
+				}
+					
+			}
 		}
 	}
 
@@ -221,6 +232,7 @@ void CVoidEffect::Reset()
 	m_fTimeAcc = 0.0f;
 	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
 	m_fSequenceTimer = 0.0f;
+	m_bRender = true;
 	
 	if (m_fWaitingTime > 0.0f)
 	{

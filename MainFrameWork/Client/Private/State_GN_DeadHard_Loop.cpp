@@ -173,6 +173,7 @@ void CState_GN_DeadHard_Loop::Tick_State_NoneControl(_float fTimeDelta)
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_Loop, 0.1f, 0, 0);
 			m_iDeadHard = m_iDeadHard_Loop;
+			m_iEffectCnt = 0;
 		}
 	}
 	else
@@ -185,26 +186,39 @@ void CState_GN_DeadHard_Loop::Tick_State_NoneControl(_float fTimeDelta)
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_F, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_F;
+			m_iEffectCnt = 0;
 		}
 		else if (m_iDeadHard != m_iDeadHard_R && (80.f < fDegree && 100.f > fDegree))
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_R, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_R;
+			m_iEffectCnt = 0;
 		}
 		else if (m_iDeadHard != m_iDeadHard_L && (-80.f > fDegree && -100.f < fDegree))
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_L, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_L;
+			m_iEffectCnt = 0;
 		}
 		else if (m_iDeadHard != m_iDeadHard_B && (-100.f >= fDegree || 100.f <= fDegree))
 		{
 			m_pPlayer->Reserve_Animation(m_iDeadHard_B, 0.3f, 0, 0);
 			m_iDeadHard = m_iDeadHard_B;
+			m_iEffectCnt = 0;
 		}
 	}
 
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeadHard);
+
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	{
+		Effect_Shot();
+
+		m_iEffectCnt++;
+	}
 }
 
 void CState_GN_DeadHard_Loop::Effect_Shot()

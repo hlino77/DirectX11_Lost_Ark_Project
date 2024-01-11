@@ -14,7 +14,7 @@ private:
 	CUseLock_Transform(const CUseLock_Transform& rhs);
 	virtual ~CUseLock_Transform() = default;
 
-	USE_LOCK
+
 public:
 	virtual Vec3 Get_State(STATE eState) override;
 
@@ -46,6 +46,7 @@ public:
 	virtual Vec3 Get_Scale() override;
 
 	virtual void Turn(Vec3 vAxis, _float fTimeDelta) override;
+	virtual void Turn_Axis(Vec3 vAxis, _float fRadian) override;
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) override;
 
 	virtual void Rotation(Vec3 vAxis, _float fRadian) override;
@@ -72,6 +73,10 @@ public:
 
 	virtual _float	Get_TargetDegree(Vec3 vTarget) override;
 
+
+
+private:
+	USE_LOCK
 public:
 	static CUseLock_Transform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;
