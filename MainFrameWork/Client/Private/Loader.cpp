@@ -161,6 +161,12 @@
 //Effect
 #include "Effect_Custom_SpiralChaser.h"
 
+//NPC
+#include "Deco_Npc.h"
+#include "Function_Npc.h"
+#include "Npc_Part.h"
+
+
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -559,6 +565,15 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 
 	/* For.GameObject */
 	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DecoNpc"),
+		CDeco_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
+		CNpc_Part::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -2177,7 +2192,7 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	/* Npc 마네킹 및 모델 */
-	/*{
+	{
 		wstring strFileName = L"NP_MA02_MQ";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
@@ -2188,14 +2203,84 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 	}
 
 	{
-		wstring strFileName = L"NP_MA02_MQ";
+		wstring strFileName = L"NP_MA03_MQ";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 			return E_FAIL;
-	}*/
+	}
+
+	{
+		wstring strFileName = L"NP_MA02_BernSoldier";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_MA02_BernKnight";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_FE02_BernSoldier";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_FE02_BernKnight";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_SP_Adel";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_SP_Eadalin";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_SP_Lineheart";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
 
 	/* Npc 머리 */
 	{
@@ -2239,7 +2324,7 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			return E_FAIL;
 	}
 
-	/* Npc 파츠 */
+	/* Npc 무기파츠 */
 	{
 		wstring strFileName = L"NP_WP_AdelSword";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";

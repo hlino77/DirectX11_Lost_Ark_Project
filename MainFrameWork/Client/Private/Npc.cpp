@@ -74,12 +74,7 @@ HRESULT CNpc::Initialize(void* pArg)
 		m_NpcDesc.Left_OffsetMatrix = pDesc->Left_OffsetMatrix;
 		m_NpcDesc.strRightPart = pDesc->strRightPart;
 		m_NpcDesc.Right_OffsetMatrix = pDesc->Right_OffsetMatrix;
-	
-
-		m_iLeftBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
-		m_iRightBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
 	}
-
 
 	//
 	m_iLayer = (_uint)LAYER_TYPE::LAYER_NPC;
@@ -101,11 +96,15 @@ HRESULT CNpc::Initialize(void* pArg)
 	if (m_iIdleAnimIndex == -1)
 		return E_FAIL;
 
-	m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strActAnim, 1.0f);
-	if (m_iActAnimIndex == -1)
-		return E_FAIL;
-
+	if (TEXT("") != m_NpcDesc.strActAnim)
+	{
+		m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strActAnim, 1.0f);
+		if (m_iActAnimIndex == -1)
+			return E_FAIL;
+	}
+	
 	m_pModelCom->Set_CurrAnim(m_iIdleAnimIndex);
+	m_iCurAnimIndex = m_iIdleAnimIndex;
 
 	return S_OK;
 }
@@ -120,6 +119,13 @@ void CNpc::Tick(_float fTimeDelta)
 	Check_ChangeAnim(fTimeDelta);
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+
+	for (auto& pPart : m_pWeaponPart)
+	{
+		if (nullptr == pPart) continue;
+
+		pPart->Tick(fTimeDelta);
+	}
 }
 
 void CNpc::LateTick(_float fTimeDelta)
@@ -131,7 +137,7 @@ void CNpc::LateTick(_float fTimeDelta)
 	{
 		if (nullptr == pPart) continue;
 
-		pPart->Tick(fTimeDelta);
+		pPart->LateTick(fTimeDelta);
 	}
 
 	//m_pRigidBody->Tick(fTimeDelta);
@@ -293,10 +299,13 @@ HRESULT CNpc::Ready_Components()
 
 	///* For.Com_Model */
 	wstring strComName = L"Prototype_Component_Model_" + m_NpcDesc.strNpcMq;
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Component(m_iCurrLevel, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	if (NPCTYPE::FUNCTION == (NPCTYPE)m_NpcDesc.iNpcType)
+	m_iLeftBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
+	m_iRightBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+
+	if (NPCTYPE::FUNCTION == (NPCTYPE)m_NpcDesc.iNpcType || (_uint)LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;
@@ -360,6 +369,8 @@ HRESULT CNpc::Ready_Parts()
 		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
 		if (nullptr == pParts)
 			return E_FAIL;
+
+		m_pWeaponPart[(_uint)WEAPON_PART::RIGHT] = static_cast<CPartObject*>(pParts);
 	}
 
 	if (TEXT("") != m_NpcDesc.strLeftPart)
@@ -378,6 +389,8 @@ HRESULT CNpc::Ready_Parts()
 		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
 		if (nullptr == pParts)
 			return E_FAIL;
+
+		m_pWeaponPart[(_uint)WEAPON_PART::LEFT] = static_cast<CPartObject*>(pParts);
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -415,26 +428,40 @@ void CNpc::CullingObject()
 
 }
 
+void CNpc::Set_EffectPos()
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	matEffect *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
+}
+
 void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
 {
 	if (-1 == m_iActAnimIndex)
 		return;
 
-	if (m_pModelCom->Get_CurrAnim() == m_iIdleAnimIndex)
+	if (m_iCurAnimIndex == m_iIdleAnimIndex)
 	{
 		m_fChangeAnimAcc += fTimeDelta;
 
 		if (m_NpcDesc.fChangeAnimTime <= m_fChangeAnimAcc)
 		{
 			Reserve_Animation(m_iActAnimIndex, 0.2f, 0, 0);
+			m_iCurAnimIndex = m_iActAnimIndex;
 		}
 	}
-	else if (m_pModelCom->Get_CurrAnim() == m_iActAnimIndex)
+	else if (m_iCurAnimIndex == m_iActAnimIndex)
 	{
 		if (true == m_pModelCom->Is_AnimationEnd(m_iActAnimIndex))
 		{
 			m_fChangeAnimAcc = 0.f;
 			Reserve_Animation(m_iIdleAnimIndex, 0.2f, 0, 0);
+			m_iCurAnimIndex = m_iIdleAnimIndex;
 		}
 	}
 }

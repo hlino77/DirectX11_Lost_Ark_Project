@@ -14,9 +14,11 @@ class CGameObject;
 END
 
 BEGIN(Client)
+
 class CMannequin;
 class CLevel_Tool_Npc;
 class CNpc;
+class CNpc_Part;
 
 class CNpcTool : public CToolBase
 {
@@ -39,6 +41,13 @@ private:
 	_bool	Get_CellPos(Vec3& vPos);
 
 private:
+	HRESULT	InfoView(const _float& fTimeDelta);
+	/* NPC 가져오기 */
+	void	Npc_List();
+	void	Load_Npc();
+	void	Delete_Npc();
+
+
 	HRESULT ModelView(const _float& fTimeDelta);
 	/* 셀렉트 */
 	void	Select_Npc(const _float& fTimeDelta);
@@ -53,20 +62,26 @@ private:
 	void	Talk(const _float& fTimeDelta);
 	void	Animaition(const _float& fTimeDelta);
 	void	Weapon(const _float& fTimeDelta);
+	void	LeftWeapon(const _float& fTimeDelta);
+	void	RightWeapon(const _float& fTimeDelta);
 	void	HeadBody(const _float& fTimeDelta);
+	void	Head(const _float& fTimeDelta);
+	void	Body(const _float& fTimeDelta);
+
 	/* 생성 및 저장 */
 	void	Create_Npc(const _float& fTimeDelta);
 	void	Save_Npc(const _float& fTimeDelta);
 
+	void	Clear_Info();
 private:
 	HRESULT	Ready_Sort_Part();
-	void	InfoView();
 
 private:
 	CUtils* m_pUtils = nullptr;
 	CMannequin* m_pMannequin = nullptr;
 	CTransform* m_pTransformCom = { nullptr };
-	CTransform* m_pTransformPartCom = { nullptr };
+	CTransform* m_pTransformLeftPartCom = { nullptr };
+	CTransform* m_pTransformRIghtPartCom = { nullptr };
 
 	CGameObject* m_pCurrentPlayer = nullptr;
 	CPartObject* m_pCurrentWeapon = nullptr;
@@ -74,6 +89,12 @@ private:
 private:
 	CNpc::NPCDESC	m_NpcCreateDesc;
 	vector<CNpc::NPCDESC> m_vecNpcDesc;
+
+private:
+	vector<CGameObject*>	m_vecNpcs;
+	_int					m_iCurNpc;
+
+
 
 private: /* 셀럭트 NPC 변수 */
 	Vec3	m_vStartPos;
@@ -83,6 +104,7 @@ private: /* 셀럭트 NPC 변수 */
 	CNpc::NPCSHAPE m_eNpcShape;
 	_char	m_szNpcTag[MAX_PATH];
 	_char	m_szNpcName[MAX_PATH];
+	wstring	m_strGroup;
 
 	_int	m_iSelectSol = -1;
 	_int	m_iSelectSP = -1;
@@ -98,28 +120,42 @@ private: /* NPC 트랜스폼 변수 */
 private: /* NPC 이동 변수*/
 	_bool	m_IsMove = { false };
 	Vec3	m_vMovePos;
+	vector<Vec3> m_vecMovePos;
+	_int	m_iCurMove;
+	vector<string> m_vecforMoveList;
 
 private: /* NPC 파츠 변수 */
 	unordered_map<wstring, CComponent*> m_mapHead;
 	unordered_map<wstring, CComponent*> m_mapBody;
+	_char	m_szHeadPartName[MAX_PATH];
+	_char	m_szBodyPartName[MAX_PATH];
 	_int	m_iCurHeadIndex = { 0 };
 	_int	m_iCurBodyIndex = { 0 };
+	_int	m_iSelectModelPart = { (_uint)CNpc::PART::_END };
+
 
 private: /* NPC 무기파츠 변수*/
 	unordered_map<wstring, CComponent*> m_mapWp;
-	_int	m_iCurWpIndex = { 0 };
+	_int	m_iCurWpLeftIndex = { -1 };
+	_int	m_iCurWpRightIndex = { -1 };
 	_char	m_szLeftWpName[MAX_PATH];
 	_char	m_szRightWpName[MAX_PATH];
 	Matrix	m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::_END];
-	_bool	m_bSetWpPart = { false };
+	_bool	m_bSetWpLeftPart = { false };
+	_bool	m_bSetWpRightPart = { false };
 
 	_int	m_iSelectPart = { (_uint)CNpc::WEAPON_PART::_END };
 	_bool	m_Check_NpcPart[(_uint)CNpc::WEAPON_PART::_END] = { false };
-	_int	m_iWPLastCheck = -1;
+	_int	m_iWPLeftLastCheck = -1;
+	_int	m_iWPRightLastCheck = -1;
 
-	Vec3	m_vWpScale = { 100.f, 100.f, 100.f };
-	Vec3	m_vWpRot;
-	Vec3	m_vWpPos;
+	Vec3	m_vWpLeftScale = { 100.f, 100.f, 100.f };
+	Vec3	m_vWpLeftRot;
+	Vec3	m_vWpLeftPos;
+
+	Vec3	m_vWpRightScale = { 100.f, 100.f, 100.f };
+	Vec3	m_vWpRightRot;
+	Vec3	m_vWpRightPos;
 
 private: /* NPC 애니메이션 변수*/
 	_char	m_szAnimationName[MAX_PATH];

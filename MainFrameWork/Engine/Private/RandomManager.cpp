@@ -44,6 +44,15 @@ const _bool& CRandomManager::Random_Coin(_float fProbality)
 	return m_bRandom_Bool;
 }
 
+long long CRandomManager::GenerateUniqueID()
+{
+	std::mt19937_64 gen(m_Random());
+
+	std::uniform_int_distribution<int64_t> xIDProbality(1LL, LLONG_MAX);
+
+	return xIDProbality(gen);
+}
+
 void CRandomManager::Free()
 {
 	__super::Free();

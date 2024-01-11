@@ -1288,12 +1288,10 @@
       <Filter>01.Levels\98.Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Zombie.h" />
-    <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
     <ClInclude Include="..\Public\UI_ServerLogo.h" />
     <ClInclude Include="..\Public\UI_ServerWnd.h" />
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
-    <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\Monster_Plant.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
     <ClInclude Include="..\Public\UI_LoadingEmptyBar.h" />
@@ -3534,6 +3532,12 @@
     <ClInclude Include="..\Public\Effect_Custom_SpiralChaser.h">
       <Filter>02.GameObjects\Effect\Effect_Custom</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Chat_Manager.h">
+      <Filter>96.Manager\Chat_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>96.Manager\UI_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3705,12 +3709,10 @@
       <Filter>01.Levels\98.Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Zombie.cpp" />
-    <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
     <ClCompile Include="..\Private\UI_ServerLogo.cpp" />
     <ClCompile Include="..\Private\UI_ServerWnd.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2.cpp" />
-    <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\Monster_Plant.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />
     <ClCompile Include="..\Private\UI_LoadingEmptyBar.cpp" />
@@ -5927,6 +5929,12 @@
     <ClCompile Include="..\Private\Effect_Custom_SpiralChaser.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Chat_Manager.cpp">
+      <Filter>96.Manager\Chat_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>96.Manager\UI_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -5949,7 +5957,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
@@ -6019,8 +6026,26 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
@@ -6038,10 +6063,10 @@
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
@@ -6049,24 +6074,9 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_PointToTex_Effect_Instance.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Effect_Instance.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Point_Trail_Instance.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

@@ -24,6 +24,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 private:
+	virtual void	Set_EffectPos() override;
 
 public:
 	static CNpc_Part* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

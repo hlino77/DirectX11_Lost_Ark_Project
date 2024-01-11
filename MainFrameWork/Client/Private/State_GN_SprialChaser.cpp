@@ -25,15 +25,17 @@ HRESULT CState_GN_SprialChaser::Initialize()
 	else
 		m_TickFunc = &CState_GN_SprialChaser::Tick_State_NoneControl;
 
+
 	m_SkillFrames.push_back(8);
 	m_SkillFrames.push_back(-1);
-
 
 	return S_OK;
 }
 
 void CState_GN_SprialChaser::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iSprialChaser, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -42,6 +44,18 @@ void CState_GN_SprialChaser::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_iSkillCnt = 0;
+
+	Vec3 vDir = m_pPlayer->Get_TargetPos() - m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	if (4.f <= vDir.Length())
+	{
+		m_vColliPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		vDir.Normalize();
+		m_vColliPos += vDir * 4.f;
+	}
+	else
+	{
+		m_vColliPos = m_pPlayer->Get_TargetPos();
+	}
 }
 
 void CState_GN_SprialChaser::Tick_State(_float fTimeDelta)
@@ -57,14 +71,15 @@ void CState_GN_SprialChaser::Exit_State()
 
 void CState_GN_SprialChaser::Tick_State_Control(_float fTimeDelta)
 {
-	/* 총을 던지는 프레임 8 */
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSprialChaser))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSprialChaser);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		Effect_Shot();
 
 		m_iSkillCnt++;
+		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey, m_vColliPos);
 	}
-
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSprialChaser))
 		m_pPlayer->Set_State(TEXT("Idle"));

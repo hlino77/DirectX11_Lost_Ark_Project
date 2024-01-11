@@ -32,6 +32,7 @@ private:
 private:
 	//Animation
 	_int m_iSprialChaser = 0;
+	Vec3 m_vColliPos;
 
 public:
 	static CState_GN_SprialChaser* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);

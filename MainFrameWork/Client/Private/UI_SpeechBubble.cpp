@@ -226,14 +226,6 @@ void CUI_SpeechBubble::Setting_HostPos()
     {
         Vec3 vHostPos = m_pHost->Get_EffectPos();
 
-        vHostPos.y += 1.7f;
-
-        Matrix ViewMatrix  = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
-        Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
-
-        vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
-        vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
-
         vHostPos.x *= g_iWinSizeX * 0.5f;
         vHostPos.y *= g_iWinSizeY * 0.5f;
 

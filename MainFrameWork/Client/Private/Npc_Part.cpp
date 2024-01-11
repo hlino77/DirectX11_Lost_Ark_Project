@@ -106,9 +106,14 @@ HRESULT CNpc_Part::Ready_Components()
 
 	///* For.Com_Model */
 	wstring strComName = TEXT("Prototype_Component_Model_") + m_strPartModel;
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
+	if (FAILED(__super::Add_Component(LEVEL_BERN, strComName,
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
-		return E_FAIL;
+	{
+		if (FAILED(__super::Add_Component(LEVEL_TOOL_NPC, strComName,
+			TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+				return E_FAIL;
+	}
+		
 
 
 	m_vOriginScale.x = 100.f;
@@ -128,6 +133,10 @@ HRESULT CNpc_Part::Bind_ShaderResources()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CNpc_Part::Set_EffectPos()
+{
 }
 
 CNpc_Part* CNpc_Part::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

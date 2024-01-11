@@ -168,8 +168,6 @@ HRESULT CPlayer::Render_ShadowDepth()
 	return S_OK;
 }
 
-
-
 HRESULT CPlayer::Render_Debug()
 {
 	for (auto& Colider : m_Coliders)
@@ -183,7 +181,6 @@ HRESULT CPlayer::Render_Debug()
 
 	return S_OK;
 }
-
 
 void CPlayer::Find_NearTarget()
 {
@@ -228,7 +225,6 @@ void CPlayer::Send_NearTarget()
 
 }
 
-
 void CPlayer::Go_Straight(_float fSpeed, _float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
@@ -258,7 +254,6 @@ void CPlayer::Follow_ServerPos(_float fDistance, _float fLerpSpeed)
 		}
 	}
 
-
 	{
 		Vec3 vServerUp(matTargetWorld.m[1]);
 
@@ -271,8 +266,6 @@ void CPlayer::Follow_ServerPos(_float fDistance, _float fLerpSpeed)
 	}
 
 }
-
-
 
 void CPlayer::Set_PlayerUp(_float fTimeDelta)
 {
@@ -701,19 +694,16 @@ void CPlayer::Send_State(const wstring& szName)
 	pkt.set_strstate(CAsUtils::ToString(szName));
 	pkt.set_iweaponindex(m_iWeaponIndex);
 
-
 	auto tPlayer = pkt.mutable_tobject();
 
 	tPlayer->set_ilevel(m_iCurrLevel);
 	tPlayer->set_ilayer((_uint)LAYER_TYPE::LAYER_PLAYER);
 	tPlayer->set_iobjectid(m_iObjectID);
 
-
 	auto vTargetPos = tPlayer->mutable_vtargetpos();
 	vTargetPos->Resize(3, 0.0f);
 	Vec3 vPlayerTargetPos = m_vTargetPos.load();
 	memcpy(vTargetPos->mutable_data(), &vPlayerTargetPos, sizeof(Vec3));
-
 
 	auto matWorld = tPlayer->mutable_matworld();
 	matWorld->Resize(16, 0.0f);
@@ -735,7 +725,6 @@ void CPlayer::Send_State(const wstring& szName)
 		pkt.set_ihitobjectid(m_pHitObject->Get_ObjectID());
 		pkt.set_ihitobjectlayer(m_pHitObject->Get_ObjectLayer());
 	}
-
 
 	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
@@ -767,8 +756,6 @@ void CPlayer::Send_ColliderState(const _uint& iLayer)
 	Vec3 vColliderOffset = pCollider->Get_Offset();
 	memcpy(vOffset->mutable_data(), &vColliderOffset, sizeof(Vec3));
 
-
-
 	if (pCollider->Get_Child())
 	{
 		COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
@@ -799,12 +786,10 @@ void CPlayer::Send_SlowMotion(_bool bSlow)
 {
 	Protocol::S_SLOWMOTION pkt;
 
-
 	pkt.set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
 	pkt.set_ilayer(m_iLayer);
 	pkt.set_iobjectid(m_iObjectID);
 	pkt.set_bslow(bSlow);
-
 
 	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
