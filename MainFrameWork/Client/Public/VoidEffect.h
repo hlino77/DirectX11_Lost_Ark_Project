@@ -151,6 +151,12 @@ private:
 
 	ID3D11ShaderResourceView* m_pRandomTextureSRV = nullptr;
 
+private:
+	PrimitiveBatch<VertexPositionColor>* m_pBatch = nullptr;
+	BasicEffect* m_pEffect = nullptr;
+	ID3D11InputLayout* m_pInputLayout = nullptr;
+	BoundingOrientedBox	m_tBoundingBox;
+
 public:
 	static CVoidEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

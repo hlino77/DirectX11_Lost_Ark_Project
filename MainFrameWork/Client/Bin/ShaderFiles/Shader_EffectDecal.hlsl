@@ -9,13 +9,15 @@ matrix g_ProjMatrixInv;
 
 VS_OUT_FXDECAL VS_MAIN_FXDECAL( /* 정점 */FXDECAL_IN In)
 {
-    VS_OUT_FXTEX Out = (VS_OUT_FXTEX) 0;
+    VS_OUT_FXDECAL Out = (VS_OUT_FXDECAL) 0;
 
-    float4 vRight = WorldMatrix._11_12_13_14;
-    float4 vUp = WorldMatrix._21_22_23_24;
-
-    Out.vPosition = mul(float4(In.vPosition, 1.f), WorldMatrix);
-	Out.vPSize = float2(In.vTexcoord.x * length(vRight), In.vTexcoord.y * length(vUp));
+    matrix matWVP;
+	
+    matWVP = mul(WorldMatrix, ViewProj);
+    Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
+    
+    Out.vTexUV = In.vTexcoord;
+    Out.vProjPos = Out.vPosition;
 
 	return Out;	
 }
@@ -25,77 +27,55 @@ cbuffer TransformInverse
     matrix WorldInv;
 };
 
-PS_OUT_EFFECT PS_MAIN_FXTEX(VS_OUT_FXDECAL In)
+Texture2D g_NormalDepthTarget;
+Texture2D g_NormalTarget;
+Texture2D g_PropertiesTarget;
+
+PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
-    // Decal Box의 x,y 위치를 UV좌표로 변환.
     float2 vTexUV;
     vTexUV.x = In.vProjPos.x / In.vProjPos.w * 0.5f + 0.5f;
     vTexUV.y = In.vProjPos.y / In.vProjPos.w * -0.5f + 0.5f;
+    // Decal Box의 x,y 위치를 UV좌표로 변환.
 	
-	// Decal Box x,y 위치 기준으로 깊이 값을 가져옴.
-    float4 vDepthDesc = g_DepthTarget.Sample(PointSampler, vTexUV);
-    // 캐릭터 픽셀은 생략
-    if (vDepthDesc.z == 1.f)
+    if (0.f != g_PropertiesTarget.Sample(PointSampler, vTexUV).z)
         discard;
     
-    float fViewZ = vDepthDesc.y * 1000.f;
+    float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, vTexUV);
+    float4 vNormal = g_NormalTarget.Sample(PointSampler, vTexUV);
+    
+    //vNormal.xyz = vNormal.xyz * 2.f - 1.f;
+    //if (dot(vNormal.xyz, float3(0.f, 1.f, 0.f)) < 0.86f)
+    //    discard;
+    
+    float fViewZ = vNormalDepth.w * 1200.f;
+	// Decal Box x,y 위치 기준으로 깊이 값을 가져온다.
+    
+    // 캐릭터 픽셀은 생략
+    //if (vNormalDepth.z == 1.f)
+    //    discard;    
 
-    float4 vProjPos = (float4) 0.f;
+    float4 vProjPos = 0.f;
     vProjPos.x = (vTexUV.x * 2.f - 1.f) * fViewZ;
     vProjPos.y = (vTexUV.y * -2.f + 1.f) * fViewZ;
-    vProjPos.z = (vDepthDesc.x) * fViewZ;
+    vProjPos.z = (vNormal.w) * fViewZ;
     vProjPos.w = fViewZ;
 
     float4 vViewPos = mul(vProjPos, g_ProjMatrixInv);
-    float4 vWorldPos = mul(vViewPos, ViewInv);
+    float4 vWorldPos = mul(vViewPos, g_ViewMatrixInv);
     float4 vLocalPos = mul(vWorldPos, WorldInv);
     
+    float3 vObjectAbsPos = abs(vLocalPos.xyz);
+    
+    clip(0.5f - vObjectAbsPos);
     // 중점을 기준으로 0.5 이기때문에, 0.5를 뺀 음수값은 상자 밖이므로 자름.
-    float3 fObjectAbsPos = abs(vLocalPos.xyz);
-    clip(0.5f - fObjectAbsPos);
 
 	// 데칼박스 버퍼가 -0.5 ~0.5 사이므로, 0.5를 더해줘서 UV좌표로 만들어줌.
-    float2 vNewUV = vLocalPos.xz + 0.5f;
-    float4 vDiffuse = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    
-    // 여기부터 내 코드 넣으면 되나...
-    
-    vDiffuse.a -= g_fColor_Alpha;
-    if (vDiffuse.a <= g_fAlpha_Discard ||
-		vDiffuse.r <= g_fBlack_Discard.r && vDiffuse.g <= g_fBlack_Discard.g && vDiffuse.b <= g_fBlack_Discard.b)
-        discard;
-        
-    Out.vColor = float4(0.f, 0.f, 0.f, 0.f);
-    Out.vEmissive = float4(0.f, 0.f, 0.f, 0.f);
-    
-    if (vDiffuse.a >= g_fColor_Add_01_Alpha)
-    {
-        vDiffuse.rgb += g_fColor_Add_01;
-        Out.vEmissive = Caculation_Brightness(vDiffuse);
-    }
-    else
-        vDiffuse.rgb += g_fColor_Add_02;
-    
-    Out.vColor = vDiffuse;
-    
-    
-    /////////////////////////////////////////////////
-    float2 vNewUV = float2(0.f, 0.f);
-    
-    if (!bUV_Wave)
-        vNewUV = (In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
-    else
-    {
-        vNewUV = (In.vTexcoord - 0.5f) * 2.f;
-        float2 vDir = normalize(vNewUV);
-        vNewUV += vDir * vUV_Offset.x;
-        vNewUV.x -= int(vNewUV.x);
-        vNewUV.y -= int(vNewUV.y);
-        vNewUV = vNewUV * 0.5f + 0.5f;
-    }
-       
+    float2 vDecalUV = vLocalPos.xz + 0.5f;
+
+    float2 vNewUV = vDecalUV;
     
     float  fMask = 1.f;
     float3 vEmissive = float3(0.f, 0.f, 0.f);
@@ -105,6 +85,7 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(VS_OUT_FXDECAL In)
         vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
         vNewUV += (vNewUV - 0.5f) * 2.f;
     }
+    
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
         fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
@@ -156,11 +137,11 @@ technique11 DefaultTechnique
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
-        VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
+        VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
         GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTEX();
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL();
         ComputeShader = NULL;
     }
 

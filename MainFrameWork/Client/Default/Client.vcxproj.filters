@@ -5946,9 +5946,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
@@ -6001,9 +5998,6 @@
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
@@ -6061,6 +6055,10 @@
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectDecal.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>

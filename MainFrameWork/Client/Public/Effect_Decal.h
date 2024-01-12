@@ -29,7 +29,6 @@ private:
 	virtual HRESULT Ready_Components() override;
 
 private:
-	wstring		m_protoModel	= TEXT("");
 	CVIBuffer*	m_pBuffer		= nullptr;
 
 public:

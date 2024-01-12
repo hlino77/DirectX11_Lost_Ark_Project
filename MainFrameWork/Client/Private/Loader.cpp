@@ -479,6 +479,13 @@ HRESULT CLoader::Loading_For_Level_Tool()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
+		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
+		return E_FAIL;
+
+	if (FAILED(Load_MapData(LEVEL_TOOL, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
+		return E_FAIL;
+
 	/* For.Model */
 	m_strLoading = TEXT("모델을 로딩 중 입니다.");
 	
@@ -518,6 +525,10 @@ HRESULT CLoader::Loading_For_Level_Tool()
 		CVoidEffect::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
+		CSkyDome::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	m_strLoading = TEXT("로딩 끝.");
@@ -538,9 +549,7 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_TOOL_NPC, L"BernCastle.Navi");
 
 	if (FAILED(Load_MapData(LEVEL_TOOL_NPC, TEXT("../Bin/Resources/MapData/BernCastle.data"))))
-	{
 		return E_FAIL;
-	}
 
 	/* For.Model */
 	m_strLoading = TEXT("모델을 로딩 중 입니다.");
@@ -1792,50 +1801,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
-
-	/* SkyDome */
-	{
-		wstring strFileName = L"SkyDome0";
-		wstring strFilePath = L"../Bin/Resources/SkyDome/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		Matrix matPivot = Matrix::Identity;
-		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-
-		strFileName = L"SkyDome1";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-
-		strFileName = L"SkyDome2";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-		
-		strFileName = L"SkyDome3";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-		
-		strFileName = L"SkyDome4";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-
-		pUIManager->Loading_UI(144.f);
-	}
 
 	/* 플레이어 장비 */
 	{

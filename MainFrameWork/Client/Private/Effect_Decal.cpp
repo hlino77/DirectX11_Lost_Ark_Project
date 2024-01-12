@@ -39,7 +39,14 @@ void CEffect_Decal::Tick(_float fTimeDelta)
 
 void CEffect_Decal::LateTick(_float fTimeDelta)
 {
-	Super::LateTick(fTimeDelta);
+	if (nullptr == m_pRendererCom)
+		return;
+
+	if (m_bRender)
+	{
+		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
+			__debugbreak();
+	}
 }
 
 HRESULT CEffect_Decal::Render()
@@ -50,6 +57,10 @@ HRESULT CEffect_Decal::Render()
 	Matrix matCombinedInv = m_matCombined.Invert();
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformInverse", &matCombinedInv, sizeof(Matrix))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
+		FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Normal"), "g_NormalTarget")))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Begin("Default")))

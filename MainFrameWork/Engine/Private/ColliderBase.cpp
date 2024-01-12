@@ -3,8 +3,7 @@
 #include "GameObject.h"
 #include "PipeLine.h"
 
-
-	atomic<_uint> CCollider::g_iNextID = 0;
+atomic<_uint> CCollider::g_iNextID = 0;
 
 CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ColliderType eColliderType)
 	: Super(pDevice, pContext)

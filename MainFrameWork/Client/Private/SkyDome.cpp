@@ -70,7 +70,7 @@ HRESULT CSkyDome::Ready_Components()
 
 	if (LEVEL_BERN == m_pGameInstance->Get_CurrLevelIndex())
 		m_strObjectTag = TEXT("SkyDome0");
-	else if(LEVEL_CHAOS_1 == m_pGameInstance->Get_CurrLevelIndex())
+	else if(LEVEL_CHAOS_1 == m_pGameInstance->Get_CurrLevelIndex() || LEVEL_TOOL == m_pGameInstance->Get_CurrLevelIndex())
 		m_strObjectTag = TEXT("SkyDome1");
 	else if(LEVEL_CHAOS_2 == m_pGameInstance->Get_CurrLevelIndex())
 		m_strObjectTag = TEXT("SkyDome3");

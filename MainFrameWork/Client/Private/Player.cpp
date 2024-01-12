@@ -93,7 +93,6 @@ void CPlayer::LateTick(_float fTimeDelta)
 	Set_EffectPos();
 	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 	
-
 	for (auto& pPart : m_Parts)
 	{
 		if (nullptr == pPart.second) continue;

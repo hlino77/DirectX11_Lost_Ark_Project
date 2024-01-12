@@ -19,8 +19,7 @@ Texture2D		g_NormalTarget;
 Texture2D		g_DiffuseTarget;
 Texture2D		g_ShadeTarget;
 Texture2D		g_SpecularTarget;
-Texture2D		g_MetallicTarget;
-Texture2D		g_RoughnessTarget;
+Texture2D		g_PropertiesTarget;
 Texture2D		g_EmissiveTarget;
 Texture2D		g_BloomTarget;
 Texture2D		g_NormalDepthTarget;
@@ -307,11 +306,11 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	
     float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
     float3	N = vNormal.xyz * 2.f - 1.f;
-	float4	vMetallic = g_MetallicTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
     
-    float fMetallic = vMetallic.x /* 임시 */ /* * 0.8f*/;
-	float fRimLight = vMetallic.w;
-    float fRoughness = g_RoughnessTarget.Sample(LinearSampler, In.vTexcoord).x;
+    float fMetallic = vProperties.x /* 임시 */ /* * 0.8f*/;
+    float fRoughness = vProperties.y;
+    float fRimLight = vProperties.w;
 	
     float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 	

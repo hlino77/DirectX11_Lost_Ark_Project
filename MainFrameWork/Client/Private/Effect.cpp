@@ -207,7 +207,6 @@ void CEffect::LateTick(_float fTimeDelta)
 		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
 			__debugbreak();
 	}
-	
 }
 
 HRESULT CEffect::Render()

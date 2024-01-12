@@ -141,13 +141,13 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         if (1.f == SpecMaskEmisExtr.y)
         {
             float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
-            Out.vMetallic = vSpecular * vMRMask.r * (1.f - vSpecular.a);
-            Out.vRoughness = vSpecular * vMRMask.g * vSpecular.a;
+            Out.vProperties.x = vSpecular.r * vMRMask.r * (1.f - vSpecular.a);
+            Out.vProperties.y = vSpecular.r * vMRMask.g * vSpecular.a;
         }
         else
         {
-            Out.vMetallic = 1.2f * vSpecular.r;
-            Out.vRoughness = pow(vSpecular.b, 3.f);
+            Out.vProperties.x = 1.2f * vSpecular.r;
+            Out.vProperties.y = pow(vSpecular.b, 3.f);
         }
     }
     
@@ -156,8 +156,9 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
         //Out.vEmissive *= fBloom_Intensity;
     }
-
-    Out.vMetallic.w = g_fRimLight;
+    
+    Out.vProperties.z = MT_DYNAMIC;
+    Out.vProperties.w = g_fRimLight;
 
     return Out;
 }
@@ -187,6 +188,8 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
         return Out;
     } // PBR 적용없이 return
 	
+    Out.vProperties.z = MT_DYNAMIC;
+    
     return Out;
 }
 
@@ -232,6 +235,8 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
     Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
 	
+    Out.vProperties.z = MT_DYNAMIC;
+    
     return Out;
 }
 
@@ -251,6 +256,8 @@ PS_OUT_PHONG PS_DIFFUSE(VS_OUT In)
     if (0.2f >= Out.vDiffuse.a)
         discard;
 
+    Out.vProperties.z = MT_DYNAMIC;
+    
     return Out;
 }
 

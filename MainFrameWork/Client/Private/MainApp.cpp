@@ -207,6 +207,48 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (nullptr == m_pGameInstance)
 		return E_FAIL;
 
+	/* SkyDome */
+	{
+		wstring strFileName = L"SkyDome0";
+		wstring strFilePath = L"../Bin/Resources/SkyDome/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		Matrix matPivot = Matrix::Identity;
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(3.f, 3.f, 3.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome1";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome2";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome3";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome4";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+	}
+
 	/* For.Prototype_Component_Renderer */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), m_pRenderer_Com = CRenderer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

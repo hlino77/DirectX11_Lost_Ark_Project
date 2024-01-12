@@ -75,9 +75,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
-	{
 		return E_FAIL;
-	}
 
 	while (true)
 	{
@@ -192,6 +190,8 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	CGameObject* pSkyDome = pGameInstance->Add_GameObject(LEVEL_CHAOS_1, _uint(eLayerType), TEXT("Prototype_GameObject_SkyDome"));
 	if (nullptr == pSkyDome)
 		return E_FAIL;
+
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.9f, 0.f, 100.2f));
 
 	CRenderer::Set_IBLTexture(3);
 
