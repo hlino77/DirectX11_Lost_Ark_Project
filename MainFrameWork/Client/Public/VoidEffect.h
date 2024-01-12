@@ -119,9 +119,15 @@ public:
 		Vec3	vEmitPosition = Vec3(0.f, 0.f, 0.f);
 		Vec3	vEmitDirection = Vec3(0.f, 0.f, 0.f);
 		_float	fTimeStep = 0.f;
+
+		Vec3	vRandomMul = Vec3(1.f, 1.f, 1.f);
+		_float	fSpreadSpeed = 1.f;
+		_float	fEmitTerm = 0.005f;
+		_float	fParticleLifeTime = 1.f;
+		Vec2	padding;
 	} m_Particle;
 
-	string	m_strParticlePassName = "Smoke";
+	string	m_strPassName = "OneBlend";
 
 	tagVoidEffectDesc m_tVoidEffectDesc;
 

@@ -64,7 +64,7 @@ HRESULT CEffect_Decal::Render()
 		FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Properties"), "g_PropertiesTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin("Default")))
+	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 		return E_FAIL;
 	if (FAILED(m_pBuffer->Render()))
 		return E_FAIL;

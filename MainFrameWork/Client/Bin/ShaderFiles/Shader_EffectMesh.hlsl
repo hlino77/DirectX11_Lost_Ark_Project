@@ -20,7 +20,7 @@ VS_OUT VS_MAIN_FXMESH(STATIC_IN In)
 	return Out;
 }
 
-PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
+PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In, uniform bool bOneBlend)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -30,50 +30,13 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
         vNewUV = (In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
     else
         vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
-
-    float fMask = 1.f;
-    float3 vEmissive = float3(0.f, 0.f, 0.f);    
     
-    if (EPSILON < NoisMaskEmisDslv.x)   // Noise
-    {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
-        vNewUV += (vNewUV - 0.5f) * 2.f;
-    }
-    if (EPSILON < NoisMaskEmisDslv.y)   // Mask
-    {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
-        clip(fMask - 0.01f);
-    }
- 
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
+    float4 vColor = CalculateEffectColor(vNewUV);
     
-    vColor *= fMask;
-
-    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
-        discard;
-
-    vColor += vColor_Offset;
-
-    clip(vColor.a - vColor_Clip.a);
-
-    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
-    {
-        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
-    }
-    if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
-    {
-        float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
-        
-	    //Discard the pixel if the value is below zero
-        clip(fDissolve - fDissolve_Amount);
-	    //Make the pixel emissive if the value is below ~f
-        //if (fDissolve - g_fDissolveAmount < 0.25f)/*0.08f*/
-        //{
-        //    vEmissive = float3(0.3f, 0.3f, 0.3f);
-        //}
-    }
-    
-    Out.vColor = vColor;
+    if (bOneBlend)
+        Out.vOneBlend = vColor;
+    else
+        Out.vAlphaBlend = vColor;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
@@ -85,7 +48,20 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In)
 
 technique11 DefaultTechnique
 {
-    pass Default // 0
+    pass OneBlend // 0
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXMESH();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH(true);
+    }
+
+    pass AlphaBlend // 0
     {
         SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
@@ -95,6 +71,6 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXMESH();
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH(false);
     }
 }

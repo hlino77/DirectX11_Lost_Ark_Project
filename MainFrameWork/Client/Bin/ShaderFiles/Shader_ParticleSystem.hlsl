@@ -29,7 +29,7 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
     if (In[0].iType == PT_EMITTER)
     {
 		// time to emit a new particle?
-        if (In[0].fAge > 0.005f)
+        if (In[0].fAge > fEmitTerm)
         {
             // Spread rain drops out above the camera.
             float3 vRandom = RandUnitVec3(0.0f);
@@ -39,7 +39,7 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
 
             p.vPosition = vEmitPosition;
             //p.vPosition += vRandom;
-            p.vVelocity = vEmitDirection + vRandom;
+            p.vVelocity = (vEmitDirection + (vRandom * vRandomMul)) * fSpreadSpeed;
             p.vSize = In[0].vSize;
             //p.vSize = float2(1.f, 1.f);
             p.fAge = 0.0f;
@@ -56,14 +56,14 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
     else
     {
 		// Specify conditions to keep particle; this may vary from system to system.
-        if (In[0].fAge <= 1.5f)
+        if (In[0].fAge <= fParticleLifeTime)
             OutStream.Append(In[0]);
     }
 }
 
 technique11 StreamOutTech
 {
-    pass Smoke // 0
+    pass Default // 0
     {
 		SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
@@ -181,7 +181,7 @@ void GS_DRAW_SMOKE(point VS_OUT_SMOKE In[1], inout TriangleStream<GS_OUT_SMOKE> 
     }
 }
 
-PS_OUT_EFFECT PS_DRAW_SMOKE(GS_OUT_SMOKE In)
+PS_OUT_EFFECT PS_DRAW_FXPARTICLE(GS_OUT_SMOKE In, uniform bool bOneBlend)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -192,48 +192,16 @@ PS_OUT_EFFECT PS_DRAW_SMOKE(GS_OUT_SMOKE In)
     else
         vNewUV = ((((In.vTexcoord + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
     
-    float fMask = 1.f;
-    float3 vEmissive = float3(0.f, 0.f, 0.f);
-
-    if (EPSILON < NoisMaskEmisDslv.x)   // Noise
-    {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
-        vNewUV += (vNewUV - 0.5f) * 2.f;
-    }
-    if (EPSILON < NoisMaskEmisDslv.y)   // Mask
-    {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
-        clip(fMask - 0.3f);
-    }
-
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
+    float4 vColor = CalculateEffectColor(vNewUV);
     
-    clip(vColor.a - vColor_Clip.a);
-    
-    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
-        discard;
-    
-    vColor *= fMask;
-    
-    if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
-    {
-        float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
-        
-	    //Discard the pixel if the value is below zero
-        clip(fDissolve - g_fDissolveAmount);
-	    //Make the pixel emissive if the value is below ~f
-        //if (fDissolve - g_fDissolveAmount < 0.25f)/*0.08f*/
-        //{
-        //    vEmissive = float3(0.3f, 0.3f, 0.3f);
-        //}
-    }
-    
-    //Out.vColor = vColor * In.vColor;
-    Out.vColor = vColor + vColor_Offset;
+    if (bOneBlend)
+        Out.vOneBlend = vColor;
+    else
+        Out.vAlphaBlend = vColor;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
-        Out.vEmissive = Out.vColor * fIntensity_Bloom;
+        Out.vEmissive = vColor * fIntensity_Bloom;
     }
     
     return Out;
@@ -241,19 +209,31 @@ PS_OUT_EFFECT PS_DRAW_SMOKE(GS_OUT_SMOKE In)
 
 technique11 DrawTech
 {
-    pass Smoke // 0
+    pass OneBlend // 0
     {
-        //SetRasterizerState(RS_Default);
         SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-        //SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
-
+        
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
         GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_DRAW_SMOKE();
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(true);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlend // 1
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
+        GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(false);
         ComputeShader = NULL;
     }
 }
