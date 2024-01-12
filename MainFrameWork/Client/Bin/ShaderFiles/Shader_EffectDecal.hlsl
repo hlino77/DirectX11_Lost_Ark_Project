@@ -16,7 +16,7 @@ VS_OUT_FXDECAL VS_MAIN_FXDECAL( /* Á¤Á¡ */FXDECAL_IN In)
     matWVP = mul(WorldMatrix, ViewProj);
     Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
     
-    Out.vTexUV = In.vTexcoord;
+    Out.vTexcoord = In.vTexcoord;
     Out.vProjPos = Out.vPosition;
 
 	return Out;	

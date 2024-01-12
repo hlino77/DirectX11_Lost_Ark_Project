@@ -36,7 +36,7 @@ struct FXTEX_IN
 struct FXDECAL_IN
 {
     float3 vPosition : POSITION;
-    float3 vTexcoord : TEXCOORD0;
+    float2 vTexcoord : TEXCOORD0;
 };
 
 struct SKELETAL_IN
@@ -108,7 +108,7 @@ struct VS_OUT_FXTEX
 struct VS_OUT_FXDECAL
 {
     float4 vPosition : SV_POSITION;
-    float3 vTexUV : TEXCOORD0;
+    float2 vTexcoord : TEXCOORD0;
     float4 vProjPos : TEXCOORD1;
 };
 
