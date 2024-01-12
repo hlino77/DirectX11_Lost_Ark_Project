@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Start();
+
+private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
 	std::function<void(CState_GN_TargetDown_Start&, _float)> m_TickFunc;
@@ -29,6 +32,8 @@ private:
 private:
 	//Animation
 	_int m_iTargetDown_Start = 0;
+
+	_bool m_bEffect = false;
 
 public:
 	static CState_GN_TargetDown_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);

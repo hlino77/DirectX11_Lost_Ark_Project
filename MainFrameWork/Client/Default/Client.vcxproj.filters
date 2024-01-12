@@ -1120,6 +1120,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Custom\PerpectShotBullet">
       <UniqueIdentifier>{b35f1e49-7123-445f-8d4d-11f9017a940a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\CrossHair">
+      <UniqueIdentifier>{a773b41a-a3e2-4a6c-b5da-f008a6ac5a8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3551,6 +3554,9 @@
     <ClInclude Include="..\Public\Effect_Custom_PerpectShotBullet.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\PerpectShotBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_CrossHair.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\CrossHair</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5951,6 +5957,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_PerpectShotBullet.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\PerpectShotBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_CrossHair.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\CrossHair</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

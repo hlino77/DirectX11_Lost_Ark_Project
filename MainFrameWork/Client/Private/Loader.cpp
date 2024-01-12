@@ -162,6 +162,7 @@
 #include "Effect_Custom_SpiralChaser.h"
 #include "Effect_Custom_Grenade.h"
 #include "Effect_Custom_PerpectShotBullet.h"
+#include "Effect_Custom_CrossHair.h"
 
 //NPC
 #include "Deco_Npc.h"
@@ -825,6 +826,19 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_CrossHair"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Mask/fx_y_gbs_03_r.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_CrossHairOutCircle"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Mask/fx_e_ring_012_cl.png"))))
+		return E_FAIL;
+
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_CrossHairOutCircle"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Mask/fx_d_typical_014.png"))))
+		return E_FAIL;*/
+
 	/* For.Mesh */
 	m_strLoading = TEXT("메시를 로딩 중 입니다.");
 
@@ -980,6 +994,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_PerpectShotBullet"),
 		CEffect_Custom_PerpectShotBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_CrossHair"),
+		CEffect_Custom_CrossHair::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");

@@ -28,6 +28,7 @@ public:
 	virtual void Free() override;
 
 
+
 private:
 	_bool m_bMouse = true;
 };

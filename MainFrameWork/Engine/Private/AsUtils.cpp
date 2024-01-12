@@ -85,3 +85,8 @@ string CAsUtils::W2S(const wstring& szValue)
 
 	return strResult;
 }
+
+_float CAsUtils::Lerpf(_float fStart, _float fEnd, _float fTime)
+{
+	return fStart * (1.0f - fTime) + fEnd * fTime;
+}

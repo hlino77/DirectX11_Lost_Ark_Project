@@ -30,7 +30,8 @@ public:
 
 public:
 	void		Cam_Shake(_float fForce, _float fTime);
-
+	void		ZoomInOut(_float fCameraLength, _float fSpeed) { m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed; }
+	void		DefaultLength(_float fSpeed) { m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed; }
 
 
 protected:
@@ -39,9 +40,12 @@ protected:
 
 	
 private:
-	_bool m_bMouseMove = true;
 	Vec3 m_vOffset;
+
+	_float m_fZoomSpeed = 1.0f;
+	_float m_fDefaultLength;
 	_float m_fCameraLength;
+	_float m_fTargetCameraLength;
 
 	//CamShake
 	_float	m_fShakeTime = 0.0f;

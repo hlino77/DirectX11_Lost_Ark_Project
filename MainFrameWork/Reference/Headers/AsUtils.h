@@ -15,5 +15,7 @@ public:
 
 	static wstring S2W(const string& strValue);
 	static string W2S(const wstring& szValue);
+
+	static _float Lerpf(_float fStart, _float fEnd, _float fTime);
 };
 

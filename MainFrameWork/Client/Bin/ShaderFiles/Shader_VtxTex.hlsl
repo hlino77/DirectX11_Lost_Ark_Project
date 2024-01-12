@@ -181,18 +181,14 @@ PS_OUT PS_MAIN_MASKED(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
-
-	
-	In.vTexUV += g_vMaskUV;
+	Out.vColor = g_Color;
 
 	float4 vMaskColor = g_MaskTexture.Sample(DefaultSampler, In.vTexUV);
 
 	Out.vColor.a *= g_Alpha;
+	Out.vColor.a *= vMaskColor.x;
 
-	Out.vColor.a *= vMaskColor.a;
-
-	if (0.0f >= Out.vColor.a)
+	if (0.01f >= Out.vColor.a)
 		discard;
 
 	return Out;

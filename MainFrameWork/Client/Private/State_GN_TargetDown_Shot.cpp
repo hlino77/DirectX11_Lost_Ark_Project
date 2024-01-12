@@ -5,6 +5,9 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "Camera_Player.h"
+#include "Effect_Custom_CrossHair.h"
 
 CState_GN_TargetDown_Shot::CState_GN_TargetDown_Shot(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -36,6 +39,8 @@ void CState_GN_TargetDown_Shot::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Shot, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
+
+	m_bEffect = false;
 }
 
 void CState_GN_TargetDown_Shot::Tick_State(_float fTimeDelta)
@@ -52,6 +57,7 @@ void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
 	{
 		m_iSkillCnt++;
+		Effect_Shot();
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey, m_pPlayer->Get_TargetPos());
 	}
 
@@ -64,6 +70,19 @@ void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 void CState_GN_TargetDown_Shot::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_TargetDown_Shot::Effect_Shot()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
+
+	pEffect->EffectShot();
+
+	//m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
+	Safe_Release(pGameInstance);
 }
 
 CState_GN_TargetDown_Shot* CState_GN_TargetDown_Shot::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

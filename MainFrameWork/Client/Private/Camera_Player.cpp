@@ -2,6 +2,7 @@
 #include "Camera_Player.h"
 #include "GameInstance.h"
 #include "Player.h"
+#include "AsUtils.h"
 
 CCamera_Player::CCamera_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag)
 	: CCamera(pDevice, pContext, strObjTag)
@@ -38,7 +39,7 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 	
 	m_vOffset = XMVector3TransformNormal(m_vOffset, Matrix::CreateFromAxisAngle(vRight, XMConvertToRadians(50.0f)));
 
-	m_fCameraLength = 7.5f;
+	m_fDefaultLength = m_fTargetCameraLength = m_fCameraLength = 7.5f;
 
 	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
@@ -54,6 +55,17 @@ void CCamera_Player::Tick(_float fTimeDelta)
 	
 	//오프셋을 매번 업데이트 한다
 	// 속도로 회전 
+	
+	if (m_fCameraLength != m_fTargetCameraLength)
+	{
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+
+		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
+		{
+			m_fCameraLength = m_fTargetCameraLength;
+		}
+	}
+
 
 	Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vPos = vPlayerPos + (m_vOffset * m_fCameraLength);

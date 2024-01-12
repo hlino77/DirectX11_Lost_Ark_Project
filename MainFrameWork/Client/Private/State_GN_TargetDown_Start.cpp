@@ -5,6 +5,8 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "Camera_Player.h"
 
 CState_GN_TargetDown_Start::CState_GN_TargetDown_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -33,6 +35,8 @@ void CState_GN_TargetDown_Start::Enter_State()
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::LONG, m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_bEffect = false;
 }
 
 void CState_GN_TargetDown_Start::Tick_State(_float fTimeDelta)
@@ -46,6 +50,12 @@ void CState_GN_TargetDown_Start::Exit_State()
 
 void CState_GN_TargetDown_Start::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_bEffect == false)
+	{
+		Effect_Start();
+		m_bEffect = true;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTargetDown_Start))
 	{
 		Vec3 vClickPos;
@@ -62,6 +72,13 @@ void CState_GN_TargetDown_Start::Tick_State_Control(_float fTimeDelta)
 void CState_GN_TargetDown_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_TargetDown_Start::Effect_Start()
+{
+	m_pPlayer->Get_Camera()->ZoomInOut(12.0f, 3.0f);
+
+	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_CrossHair");
 }
 
 CState_GN_TargetDown_Start* CState_GN_TargetDown_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

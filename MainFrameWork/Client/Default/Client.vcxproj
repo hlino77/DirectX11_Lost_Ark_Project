@@ -212,6 +212,7 @@
     <ClInclude Include="..\Public\Controller_WR.h" />
     <ClInclude Include="..\Public\Damage_Manager.h" />
     <ClInclude Include="..\Public\Deco_Npc.h" />
+    <ClInclude Include="..\Public\Effect_Custom_CrossHair.h" />
     <ClInclude Include="..\Public\Effect_Custom_Grenade.h" />
     <ClInclude Include="..\Public\Effect_Custom_PerpectShotBullet.h" />
     <ClInclude Include="..\Public\Effect_Custom_SpiralChaser.h" />
@@ -685,6 +686,7 @@
     <ClCompile Include="..\Private\Controller_WR.cpp" />
     <ClCompile Include="..\Private\Damage_Manager.cpp" />
     <ClCompile Include="..\Private\Deco_Npc.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_CrossHair.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_Grenade.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_PerpectShotBullet.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_SpiralChaser.cpp" />

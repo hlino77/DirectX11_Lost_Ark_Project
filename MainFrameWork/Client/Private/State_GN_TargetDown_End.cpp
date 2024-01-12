@@ -5,6 +5,10 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "Effect_Custom_CrossHair.h"
+#include "Camera_Player.h"
+
 
 CState_GN_TargetDown_End::CState_GN_TargetDown_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -30,6 +34,8 @@ void CState_GN_TargetDown_End::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iTargetDown_End, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
+
+	m_bEffect = false;
 }
 
 void CState_GN_TargetDown_End::Tick_State(_float fTimeDelta)
@@ -45,6 +51,11 @@ void CState_GN_TargetDown_End::Exit_State()
 
 void CState_GN_TargetDown_End::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_bEffect == false)
+	{
+		Effect_End();
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTargetDown_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
@@ -64,6 +75,21 @@ void CState_GN_TargetDown_End::Tick_State_Control(_float fTimeDelta)
 void CState_GN_TargetDown_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+
+}
+
+void CState_GN_TargetDown_End::Effect_End()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
+	
+	pEffect->EffectEnd();
+
+	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
+	Safe_Release(pGameInstance);
 }
 
 CState_GN_TargetDown_End* CState_GN_TargetDown_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
