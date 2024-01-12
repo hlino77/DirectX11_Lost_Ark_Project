@@ -213,7 +213,7 @@ HRESULT CVoidEffect::Render()
 		_int iMeshCount = m_pModelCom->Get_Meshes().size();
 		for (_int i = 0; i < iMeshCount; ++i)
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Default")))
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, m_strPassName)))
 				return E_FAIL;
 		}
 	}
@@ -221,7 +221,7 @@ HRESULT CVoidEffect::Render()
 	{
 		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->Begin("Default")))
+		if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 			return E_FAIL;
 		if (FAILED(static_cast<CVIBuffer_Point*>(m_pBuffer)->Render()))
 			return E_FAIL;
@@ -234,7 +234,7 @@ HRESULT CVoidEffect::Render()
 			return E_FAIL;
 		if (FAILED(m_pShaderCom->Bind_Texture("g_RandomTexture", m_pRandomTextureSRV)))
 			return E_FAIL;
-		if (FAILED(static_cast<CVIBuffer_Particle*>(m_pBuffer)->Render("Smoke")))
+		if (FAILED(static_cast<CVIBuffer_Particle*>(m_pBuffer)->Render(m_strPassName)))
 			return E_FAIL;
 	}
 	else if (3 == m_iEffectType)
@@ -253,7 +253,7 @@ HRESULT CVoidEffect::Render()
 			FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Properties"), "g_PropertiesTarget")))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin("Default")))
+		if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 			return E_FAIL;
 		if (FAILED(static_cast<CVIBuffer_Cube*>(m_pBuffer)->Render()))
 			return E_FAIL;

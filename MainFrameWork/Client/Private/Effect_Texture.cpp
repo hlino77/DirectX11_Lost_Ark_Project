@@ -83,7 +83,7 @@ HRESULT CEffect_Texture::Render()
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Begin("Default")))
+	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 		return E_FAIL;
 	if (FAILED(m_pBuffer->Render()))
 		return E_FAIL;

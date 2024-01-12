@@ -525,14 +525,22 @@ HRESULT CEffectTool::EffectDetail()
 	if (2 == m_pCurrentEffect->m_iEffectType)
 	{
 		ImGui::InputFloat3("Particle Direction", (_float*)&m_pCurrentEffect->m_Particle.vEmitDirection);
-
-		const _char* hint = "Pass Name";
-		static _char szPassName[128] = "";
-		if (ImGui::Button("Select Pass"))
-			m_pCurrentEffect->m_strParticlePassName = szPassName;
-
-		ImGui::InputTextWithHint("Pass Name", hint, szPassName, IM_ARRAYSIZE(szPassName));
+		Vec3	vRandomMag = Vec3(1.f, 1.f, 1.f);
+		_float	fSpreadSpeed = 1.f;
+		_float	fEmitTerm = 0.005f;
+		_float	fParticleLifeTime = 1.f;
+		ImGui::InputFloat3("Particle RandomMultiplier", (_float*)&m_pCurrentEffect->m_Particle.vRandomMul);
+		ImGui::InputFloat("Particle SpreadSpeed", (_float*)&m_pCurrentEffect->m_Particle.fSpreadSpeed);
+		ImGui::InputFloat("Particle EmittingTerm", (_float*)&m_pCurrentEffect->m_Particle.fEmitTerm);
+		ImGui::InputFloat("Particle LifeTime", (_float*)&m_pCurrentEffect->m_Particle.fParticleLifeTime);
 	}
+
+	const _char* hint = "Pass Name";
+	static _char szPassName[128] = "";
+	if (ImGui::Button("Select Pass"))
+		m_pCurrentEffect->m_strPassName = szPassName;
+
+	ImGui::InputTextWithHint("Pass Name", hint, szPassName, IM_ARRAYSIZE(szPassName));
 
 	ImGui::End();
 
@@ -978,10 +986,28 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("Z", m_vecEffects[i]->m_Particle.vEmitDirection.z);
 			node->LinkEndChild(element);
 			
-			element = document->NewElement("PassName");
-			element->SetText(m_vecEffects[i]->m_strParticlePassName.c_str());
+			element = document->NewElement("RandomMul");
+			element->SetAttribute("X", m_vecEffects[i]->m_Particle.vRandomMul.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_Particle.vRandomMul.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_Particle.vRandomMul.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("EmitTerm");
+			element->SetAttribute("EmitTerm", m_vecEffects[i]->m_Particle.fEmitTerm);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("ParticleLifeTime");
+			element->SetAttribute("ParticleLifeTime", m_vecEffects[i]->m_Particle.fParticleLifeTime);
 			node->LinkEndChild(element);
 		}
+
+		node = document->NewElement("PassName");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("PassName");
+			element->SetText(m_vecEffects[i]->m_strPassName.c_str());
+			node->LinkEndChild(element);
+		}		
 
 		document->SaveFile(m_pUtils->ToString(finalPath).c_str());
 	}
@@ -1223,19 +1249,38 @@ HRESULT CEffectTool::Load()
 
 		node = node->NextSiblingElement();
 		{
+			if (2 == tDesc.iEffectType)
+			{
+				tinyxml2::XMLElement* element = nullptr;
+
+				element = node->FirstChildElement();
+				m_pCurrentEffect->m_Particle.vEmitDirection.x = element->FloatAttribute("X");
+				m_pCurrentEffect->m_Particle.vEmitDirection.y = element->FloatAttribute("Y");
+				m_pCurrentEffect->m_Particle.vEmitDirection.z = element->FloatAttribute("Z");
+
+				element = element->NextSiblingElement();
+				m_pCurrentEffect->m_Particle.vRandomMul.x = element->FloatAttribute("X");
+				m_pCurrentEffect->m_Particle.vRandomMul.y = element->FloatAttribute("Y");
+				m_pCurrentEffect->m_Particle.vRandomMul.z = element->FloatAttribute("Z");
+
+				element = element->NextSiblingElement();
+				m_pCurrentEffect->m_Particle.fEmitTerm = element->FloatAttribute("EmitTerm");
+
+				element = element->NextSiblingElement();
+				m_pCurrentEffect->m_Particle.fParticleLifeTime = element->FloatAttribute("ParticleLifeTime");
+			}
+		}
+
+		node = node->NextSiblingElement();
+		{
 			tinyxml2::XMLElement* element = nullptr;
 
 			element = node->FirstChildElement();
-			m_pCurrentEffect->m_Particle.vEmitDirection.x = element->FloatAttribute("X");
-			m_pCurrentEffect->m_Particle.vEmitDirection.y = element->FloatAttribute("Y");
-			m_pCurrentEffect->m_Particle.vEmitDirection.z = element->FloatAttribute("Z");
-
-			element = element->NextSiblingElement();
 			if (element->GetText())
 			{
-				string strParticlePassName = element->GetText();
-				if (strParticlePassName.length() > 0)
-					m_pCurrentEffect->m_strParticlePassName = strParticlePassName;
+				string strPassName = element->GetText();
+				if (strPassName.length() > 0)
+					m_pCurrentEffect->m_strPassName = strPassName;
 			}
 		}
 

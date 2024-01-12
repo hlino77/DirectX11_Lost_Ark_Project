@@ -45,6 +45,7 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_fWaitingTime(rhs.m_fWaitingTime)
 	, m_fRemainTime(rhs.m_fRemainTime)
 	, m_IsLoop(rhs.m_IsLoop)
+	, m_strPassName(rhs.m_strPassName)
 {
 	m_szModelName = rhs.m_szModelName;
 
@@ -136,6 +137,8 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 		if (nullptr == m_pDissolveTexture) return E_FAIL;
 		m_tNoisMaskEmisDslv.NoisMaskEmisDslv.w = 1.f;
 	}
+
+	m_strPassName = pDesc->strPassName;
 
 	return S_OK;
 }

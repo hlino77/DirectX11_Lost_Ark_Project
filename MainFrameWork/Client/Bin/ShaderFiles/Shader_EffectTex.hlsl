@@ -87,7 +87,7 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 /* 픽셀정보는 정점정보에 기반한다. */
 
 /* 전달받은 픽셀의 정보를 이용하여 픽셀의 최종적인 색을 결정하자. */
-PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
+PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In, uniform bool bOneBlend)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -104,53 +104,17 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
         vNewUV.y -= int(vNewUV.y);
         vNewUV = vNewUV * 0.5f + 0.5f;
     }
-       
     
-    float  fMask = 1.f;
-    float3 vEmissive = float3(0.f, 0.f, 0.f);
-
-    if (EPSILON < NoisMaskEmisDslv.x)   // Noise
-    {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
-        vNewUV += (vNewUV - 0.5f) * 2.f;
-    }
-    if (EPSILON < NoisMaskEmisDslv.y)   // Mask
-    {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
-        clip(fMask - 0.01f);
-    }
-
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
+    float4 vColor = CalculateEffectColor(vNewUV);
     
-    vColor += vColor_Offset;
-
-    vColor *= vColor_Mul * fMask;
-
-    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
-        discard;
-
-    clip(vColor.a - vColor_Clip.a);
-
-	if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
-    {
-        float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
-        
-	    //Discard the pixel if the value is below zero
-        clip(fDissolve - g_fDissolveAmount);
-	    //Make the pixel emissive if the value is below ~f
-        //if (fDissolve - g_fDissolveAmount < 0.25f)/*0.08f*/
-        //{
-        //    vEmissive = float3(0.3f, 0.3f, 0.3f);
-        //}
-    }
-    
-    //if (any(vColor_Offset))
-    
-    Out.vColor = vColor;
+    if (bOneBlend)
+        Out.vOneBlend = vColor;
+    else
+        Out.vAlphaBlend = vColor;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
-        Out.vEmissive = Out.vColor * fIntensity_Bloom;
+        Out.vEmissive = vColor * fIntensity_Bloom;
     }
     
     return Out;
@@ -158,19 +122,33 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In)
 
 technique11 DefaultTechnique
 {
-	pass Default
-	{
+    pass OneBlend
+    {
         SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
-		SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
         VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
         GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
 		HullShader = NULL;
 		DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTEX();
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(true);
         ComputeShader = NULL;
     }
 
+    pass AlphaBlend
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
+        VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
+        GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(false);
+        ComputeShader = NULL;
+    }
 }

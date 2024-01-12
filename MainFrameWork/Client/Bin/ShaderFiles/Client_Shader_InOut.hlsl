@@ -144,8 +144,9 @@ struct PS_OUT_PHONG
 
 struct PS_OUT_EFFECT
 {
-    float4  vColor : SV_TARGET0;
-    float4  vEmissive : SV_TARGET1;
+    float4  vOneBlend : SV_TARGET0;
+    float4  vAlphaBlend : SV_TARGET1;
+    float4  vEmissive : SV_TARGET2;
 };
 
 #endif

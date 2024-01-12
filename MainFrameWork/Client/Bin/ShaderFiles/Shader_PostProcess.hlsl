@@ -4,7 +4,8 @@
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D	g_PrePostProcessTarget;
-Texture2D	g_EffectTarget;
+Texture2D	g_EffectOneBlendTarget;
+Texture2D	g_EffectAlphaBlendTarget;
 Texture2D	g_ShadeTarget;
 Texture2D	g_BloomTarget;
 Texture2D	g_BlurTarget;
@@ -107,14 +108,21 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 	
     vColor += vBloom;
     
-	float4 vEffect = g_EffectTarget.Sample(LinearSampler, In.vTexcoord);
+	float4 vEffectOneBlend = g_EffectOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
+	float4 vEffectAlphaBlend = g_EffectAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
 	
-	if (EPSILON < vEffect.a)
+	if (EPSILON < vEffectOneBlend.a)
 	{
-		vColor = float4(vEffect.rgb * 1.f + vColor.rgb * 1.f, 1.f);
-	}
-		
+        vColor = float4(vEffectOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
+    }
 	
+    if (EPSILON < vEffectAlphaBlend.a)
+    {
+        vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), 1.f);
+    }
+	
+    
+
     return vColor;
 }
 
@@ -150,7 +158,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;

@@ -31,7 +31,7 @@ Texture2D g_NormalDepthTarget;
 Texture2D g_NormalTarget;
 Texture2D g_PropertiesTarget;
 
-PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In)
+PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In, uniform bool bOneBlend)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -74,55 +74,17 @@ PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In)
 
 	// 데칼박스 버퍼가 -0.5 ~0.5 사이므로, 0.5를 더해줘서 UV좌표로 만들어줌.
     float2 vDecalUV = vLocalPos.xz + 0.5f;
-
-    float2 vNewUV = vDecalUV;
     
-    float  fMask = 1.f;
-    float3 vEmissive = float3(0.f, 0.f, 0.f);
-
-    if (EPSILON < NoisMaskEmisDslv.x)   // Noise
-    {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, vNewUV).rg;
-        vNewUV += (vNewUV - 0.5f) * 2.f;
-    }
+    float4 vColor = CalculateEffectColor(vDecalUV);
     
-    if (EPSILON < NoisMaskEmisDslv.y)   // Mask
-    {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
-        clip(fMask - 0.01f);
-    }
-
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
-    
-    vColor += vColor_Offset;
-
-    vColor *= vColor_Mul * fMask;
-
-    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
-        discard;
-
-    clip(vColor.a - vColor_Clip.a);
-
-	if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
-    {
-        float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
-        
-	    //Discard the pixel if the value is below zero
-        clip(fDissolve - g_fDissolveAmount);
-	    //Make the pixel emissive if the value is below ~f
-        //if (fDissolve - g_fDissolveAmount < 0.25f)/*0.08f*/
-        //{
-        //    vEmissive = float3(0.3f, 0.3f, 0.3f);
-        //}
-    }
-    
-    //if (any(vColor_Offset))
-    
-    Out.vColor = vColor;
+    if (bOneBlend)
+        Out.vOneBlend = vColor;
+    else
+        Out.vAlphaBlend = vColor;
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
-        Out.vEmissive = Out.vColor * fIntensity_Bloom;
+        Out.vEmissive = vColor * fIntensity_Bloom;
     }
     
     return Out;
@@ -130,8 +92,23 @@ PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In)
 
 technique11 DefaultTechnique
 {
-	pass Default
-	{
+    pass OneBlend
+    {
+        SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
+        VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
+        GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(true);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlend
+    {
         SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
@@ -141,8 +118,7 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL();
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(false);
         ComputeShader = NULL;
     }
-
 }

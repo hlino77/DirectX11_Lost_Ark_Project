@@ -84,7 +84,12 @@ public:
 		// Particle
 		Vec3	vEmitPosition = Vec3(0.f, 0.f, 0.f);
 		Vec3	vEmitDirection = Vec3(0.f, 0.f, 0.f);
-		string	strParticlePassName = "Smoke";
+		Vec3	vRandomMul = Vec3(1.f, 1.f, 1.f);
+		_float	fSpreadSpeed = 0.f;
+		_float	fEmitTerm = 0.f;
+		_float	fParticleLifeTime = 0.f;
+
+		string	strPassName = "OneBlend";
 
 	}EFFECTDESC;
 
@@ -178,6 +183,7 @@ protected:
 	CTexture* m_pDissolveTexture	= nullptr;
 
 	EffectMaterialFlag m_tNoisMaskEmisDslv;
+	string	m_strPassName = "OneBlend";
 
 protected:
 	virtual HRESULT Ready_Components() override;

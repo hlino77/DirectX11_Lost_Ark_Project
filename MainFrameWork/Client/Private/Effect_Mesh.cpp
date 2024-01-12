@@ -53,7 +53,7 @@ HRESULT CEffect_Mesh::Render()
 	_int iMeshCount = m_pModelCom->Get_Meshes().size();
 	for (_int i = 0; i < iMeshCount; ++i)
 	{
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "Default")))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, m_strPassName)))
 			return E_FAIL;
 	}
 

@@ -135,7 +135,7 @@ HRESULT CVIBuffer_Particle::Render(string strPathName)
 	//
 	m_pContext->SOSetTargets(1, &m_pStreamOutVB, iOffsets);
 
-	if (FAILED(m_pOwner->Get_ShaderCom()->Begin(strPathName, 0)))
+	if (FAILED(m_pOwner->Get_ShaderCom()->Begin(0/*"Default"*/, 0)))
 		return E_FAIL;
 
 	if (m_IsFirstRun)

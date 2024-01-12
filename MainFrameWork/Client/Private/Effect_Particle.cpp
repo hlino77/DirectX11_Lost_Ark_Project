@@ -14,7 +14,6 @@ CEffect_Particle::CEffect_Particle(const CEffect_Particle& rhs)
 	: Super(rhs)
 	, m_Billboard(rhs.m_Billboard)
 	, m_Particle(rhs.m_Particle)
-	, m_strParticlePassName(rhs.m_strParticlePassName)
 {
 }
 
@@ -26,8 +25,10 @@ HRESULT CEffect_Particle::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Billboard.iBillboard = pDesc->iBillboard;
 
 	m_Particle.vEmitDirection = pDesc->vEmitDirection;
-
-	m_strParticlePassName = pDesc->strParticlePassName;
+	m_Particle.vRandomMul = pDesc->vRandomMul;
+	m_Particle.fSpreadSpeed = pDesc->fSpreadSpeed;
+	m_Particle.fEmitTerm = pDesc->fEmitTerm;
+	m_Particle.fParticleLifeTime = pDesc->fParticleLifeTime;
 
 	return S_OK;
 }
@@ -89,7 +90,7 @@ HRESULT CEffect_Particle::Render()
 	if (FAILED(m_pShaderCom->Bind_Texture("g_RandomTexture", m_pRandomTextureSRV)))
 		return E_FAIL;
 
-	if (FAILED(m_pBuffer->Render(m_strParticlePassName)))
+	if (FAILED(m_pBuffer->Render(m_strPassName)))
 		return E_FAIL;
 
 	return S_OK;

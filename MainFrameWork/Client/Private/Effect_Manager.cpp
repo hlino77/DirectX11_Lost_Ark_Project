@@ -256,19 +256,41 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 			node = node->NextSiblingElement();
 			{
+				if (2 == tDesc.iEffectType)
+				{
+					tinyxml2::XMLElement* element = nullptr;
+
+					element = node->FirstChildElement();
+					tDesc.vEmitDirection.x = element->FloatAttribute("X");
+					tDesc.vEmitDirection.y = element->FloatAttribute("Y");
+					tDesc.vEmitDirection.z = element->FloatAttribute("Z");
+
+					element = element->NextSiblingElement();
+					tDesc.vRandomMul.x = element->FloatAttribute("X");
+					tDesc.vRandomMul.x = element->FloatAttribute("X");
+					tDesc.vRandomMul.x = element->FloatAttribute("X");
+
+					element = element->NextSiblingElement();
+					tDesc.vRandomMul.x = element->FloatAttribute("X");
+
+					element = element->NextSiblingElement();
+					tDesc.vRandomMul.x = element->FloatAttribute("X");
+
+					element = element->NextSiblingElement();
+					tDesc.vRandomMul.x = element->FloatAttribute("X");
+				}
+			}
+
+			node = node->NextSiblingElement();
+			{
 				tinyxml2::XMLElement* element = nullptr;
 
 				element = node->FirstChildElement();
-				tDesc.vEmitDirection.x = element->FloatAttribute("X");
-				tDesc.vEmitDirection.y = element->FloatAttribute("Y");
-				tDesc.vEmitDirection.z = element->FloatAttribute("Z");
-
-				element = element->NextSiblingElement();
 				if (element->GetText())
 				{
-					string strParticlePassName = element->GetText();
-					if (strParticlePassName.length() > 0)
-						tDesc.strParticlePassName = strParticlePassName;
+					string strPassName = element->GetText();
+					if (strPassName.length() > 0)
+						tDesc.strPassName = strPassName;
 				}
 			}
 
