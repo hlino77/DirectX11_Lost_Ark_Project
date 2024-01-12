@@ -3,6 +3,8 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
+#include "Player_Controller_GN.h"
+#include "Player_Gunslinger.h"
 
 CEffect_Custom_SpiralChaser::CEffect_Custom_SpiralChaser(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
@@ -39,8 +41,14 @@ HRESULT CEffect_Custom_SpiralChaser::Initialize(void* pArg)
 
 	m_bAttackStart = false;
 
-	m_fLifeTime = 5.0f;
+	m_fLifeTime = 2.0f;
 	m_fTimeAcc = 0.0f;
+
+	if (pDesc->pPlayer)
+	{
+		m_pPlayer = pDesc->pPlayer;
+		m_iSkillKey = pDesc->iSkillKey;
+	}
 
 	return S_OK;
 }
@@ -78,8 +86,13 @@ void CEffect_Custom_SpiralChaser::Tick(_float fTimeDelta)
 		vPos = Vec3::Lerp(vPos, m_vTargetPos, fTimeDelta * 10.0f);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 		_float fLength = (vPos - m_vTargetPos).Length();
-		if (fLength < 0.5f)
+		if (fLength < 0.3f)
+		{
 			m_bAttackStart = true;
+			if(m_pPlayer)
+				m_pPlayer->Get_GN_Controller()->Get_SkillAttackMessage((CPlayer_Controller::SKILL_KEY)m_iSkillKey, m_vTargetPos);
+		}
+			
 	}
 	
 }

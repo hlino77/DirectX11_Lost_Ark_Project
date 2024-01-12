@@ -1436,7 +1436,7 @@ namespace tinyxml2
 			a->SetAttribute(value);
 		}
 		/// Sets the named attribute to value.
-		void f(const char* name, float value) {
+		void SetAttribute(const char* name, float value) {
 			XMLAttribute* a = FindOrCreateAttribute(name);
 			a->SetAttribute(value);
 		}

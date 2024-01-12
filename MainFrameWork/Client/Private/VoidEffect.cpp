@@ -69,13 +69,8 @@ void CVoidEffect::Tick(_float fTimeDelta)
 		m_fSequenceTerm = ::max(0.001f, m_fSequenceTerm);
 
 		m_fSequenceTimer += fTimeDelta;
-		while (m_fSequenceTimer > m_fSequenceTerm + 0.0001f)
-		{
-			m_fSequenceTimer -= m_fSequenceTerm;
-			++m_Variables.vUV_TileIndex.x;
-		}
 
-		while (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+		while (m_fSequenceTimer >= m_fSequenceTerm)
 		{
 			m_fSequenceTimer -= m_fSequenceTerm;
 			++m_Variables.vUV_TileIndex.x;
@@ -87,7 +82,7 @@ void CVoidEffect::Tick(_float fTimeDelta)
 				if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
 				{
 					if (m_IsLoop)
-						m_Variables.vUV_TileIndex.y = 0.0f;
+						m_Variables.vUV_TileIndex.y = 0.0f;	
 					else
 						m_bRender = false;
 				}

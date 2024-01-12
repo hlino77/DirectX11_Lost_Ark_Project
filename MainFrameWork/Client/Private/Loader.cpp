@@ -160,6 +160,8 @@
 
 //Effect
 #include "Effect_Custom_SpiralChaser.h"
+#include "Effect_Custom_Grenade.h"
+#include "Effect_Custom_PerpectShotBullet.h"
 
 //NPC
 #include "Deco_Npc.h"
@@ -961,6 +963,14 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_SpiralChaser"),
 		CEffect_Custom_SpiralChaser::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_Grenade"),
+		CEffect_Custom_Grenade::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_PerpectShotBullet"),
+		CEffect_Custom_PerpectShotBullet::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
@@ -1985,6 +1995,17 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	//Custom Effect
 	{
 		wstring strFileName = L"Effect_Custom_SpiralChaser";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Loading_UI(1000.f);
+	}
+
+	{
+		wstring strFileName = L"Effect_Custom_Grenade";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

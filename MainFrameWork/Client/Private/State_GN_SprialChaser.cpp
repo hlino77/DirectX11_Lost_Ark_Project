@@ -43,14 +43,12 @@ void CState_GN_SprialChaser::Enter_State()
 	m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
-	m_iSkillCnt = 0;
-
 	Vec3 vDir = m_pPlayer->Get_TargetPos() - m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	if (4.f <= vDir.Length())
+	if (5.f <= vDir.Length())
 	{
 		m_vColliPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		vDir.Normalize();
-		m_vColliPos += vDir * 4.f;
+		m_vColliPos += vDir * 5.f;
 	}
 	else
 	{
@@ -78,7 +76,6 @@ void CState_GN_SprialChaser::Tick_State_Control(_float fTimeDelta)
 		Effect_Shot();
 
 		m_iSkillCnt++;
-		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey, m_vColliPos);
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSprialChaser))
@@ -97,16 +94,14 @@ void CState_GN_SprialChaser::Effect_Shot()
 	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_2))->Get_Part_WorldMatrix();
 
 	Vec3 vGunPos = matWorld.Translation();
-	Vec3 vTargetPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vTargetPos = m_vColliPos;
 	vTargetPos.y += 0.7f;
-	Vec3 vLook = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-	vLook.Normalize();
-
-	vTargetPos += vLook * 4.0f;
 
 	CEffect_Custom_SpiralChaser::SpiralChaserDesc tDesc;
 	tDesc.vPos = vGunPos;
 	tDesc.vTargetPos = vTargetPos;
+	tDesc.pPlayer = m_pPlayer;
+	tDesc.iSkillKey = m_eSkillSelectKey;
 
 	CGameObject* pObject = pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SpiralChaser", &tDesc);
 

@@ -7,6 +7,8 @@
 #include "Model.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
+#include "GameInstance.h"
+#include "Effect_Custom_PerpectShotBullet.h"
 
 CState_GN_PerfectShot_End::CState_GN_PerfectShot_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -87,7 +89,6 @@ void CState_GN_PerfectShot_End::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_PerfectShot_End::Effect_Shot()
 {
-	CEffect_Manager::EFFECTPIVOTDESC desc;
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix().Translation();
 
@@ -101,13 +102,20 @@ void CState_GN_PerfectShot_End::Effect_Shot()
 	vOriginRight.Normalize();
 
 	matWorld.Translation(vPos);
+
+
+	CEffect_Custom_PerpectShotBullet::PerpectShotBulletDesc tDesc;
+	tDesc.vPos = vPos;
+	tDesc.vLook = vOriginLook;
+
+	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_PerpectShotBullet", &tDesc);
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
-	EFFECT_START(TEXT("PerpectShotBullet"), &desc)
 	EFFECT_START(TEXT("PerpectShotSmokeRight"), &desc)
 	EFFECT_START(TEXT("PerpectShotSmokeLeft"), &desc)
 	EFFECT_START(TEXT("PerpectShotMuzzleFlash"), &desc)
 	
-
 	for (_uint i = 0; i < 60; ++i)
 	{
 		Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 10) * 0.1f);
