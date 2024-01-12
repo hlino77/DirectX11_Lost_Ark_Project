@@ -43,19 +43,19 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         if (1.f == SpecMaskEmisExtr.y)
         {
             float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
-            Out.vMetallic = vSpecular * vMRMask.r * (1.f - vSpecular.a);
-            Out.vRoughness = vSpecular * vMRMask.g * vSpecular.a;
+            Out.vProperties.r = vSpecular.r * vMRMask.r * (1.f - vSpecular.a);
+            Out.vProperties.g = vSpecular.r * vMRMask.g * vSpecular.a;
         }
         else
         {
-            Out.vMetallic = 1.1f * vSpecular * Out.vDiffuse;
-            Out.vRoughness = 1.f - vSpecular;
+            Out.vProperties.r = 1.1f * vSpecular.r * Out.vDiffuse.r;
+            Out.vProperties.g = 1.f - vSpecular.r;
         }
     }
     else
     {
-        Out.vMetallic = EPSILON;
-        Out.vRoughness = 1.f;
+        Out.vProperties.r = EPSILON;
+        Out.vProperties.g = 1.f;
     }
 
     if (1.f == SpecMaskEmisExtr.z)
@@ -63,12 +63,13 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
     }
 
-    Out.vMetallic.w = g_fRimLight;
+    Out.vProperties.z = MT_STATIC;
+    Out.vProperties.w = g_fRimLight;
 
     return Out;
 }
 
-PS_OUT_PHONG PS_NARUTO(VS_OUT In)
+PS_OUT_PHONG PS_PHONG(VS_OUT In)
 {
     PS_OUT_PHONG Out = (PS_OUT_PHONG)0;
 
@@ -79,6 +80,8 @@ PS_OUT_PHONG PS_NARUTO(VS_OUT In)
     if (0.2f >= Out.vDiffuse.a)
         discard;
 
+    Out.vProperties.z = MT_STATIC;
+    
     return Out;
 }
 
@@ -114,6 +117,6 @@ technique11 DefaultTechnique
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_NARUTO();
+        PixelShader = compile ps_5_0 PS_PHONG();
     }
 }

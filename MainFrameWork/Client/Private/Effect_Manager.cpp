@@ -4,6 +4,7 @@
 #include "Effect_Mesh.h"
 #include "Effect_Texture.h"
 #include "Effect_Particle.h"
+#include "Effect_Decal.h"
 #include <filesystem>
 #include "tinyxml2.h"
 #include "GameInstance.h"
@@ -287,6 +288,11 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 			else if (2 == tDesc.iEffectType)
 			{
 				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Particle::Create(m_pDevice, m_pContext, &tDesc))))
+					return E_FAIL;
+			}
+			else if (3 == tDesc.iEffectType)
+			{
+				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Decal::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
 

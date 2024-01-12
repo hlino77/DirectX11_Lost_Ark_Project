@@ -26,11 +26,17 @@ struct FXMESH_IN
     float3  vTangent : TANGENT;
     float2  vTexUV : TEXCOORD0;
 };
-    
+
 struct FXTEX_IN
 {
     float3 vPosition : POSITION;
     float2 vPSize   : PSIZE;
+};
+
+struct FXDECAL_IN
+{
+    float3 vPosition : POSITION;
+    float2 vTexcoord : TEXCOORD0;
 };
 
 struct SKELETAL_IN
@@ -99,6 +105,13 @@ struct VS_OUT_FXTEX
     float2 vPSize : PSIZE;
 };
 
+struct VS_OUT_FXDECAL
+{
+    float4 vPosition : SV_POSITION;
+    float2 vTexcoord : TEXCOORD0;
+    float4 vProjPos : TEXCOORD1;
+};
+
 struct TARGET_IN
 {
     float3 vPosition : POSITION;
@@ -116,9 +129,8 @@ struct PS_OUT_PBR
     float4  vDiffuse : SV_TARGET0;
     float4  vNormal : SV_TARGET1;
     float4  vNormalV : SV_TARGET2;
-    float4  vMetallic : SV_TARGET3;
-    float4  vRoughness : SV_TARGET4;
-	float4  vEmissive : SV_TARGET5;
+    float4  vProperties : SV_TARGET3;
+	float4  vEmissive : SV_TARGET4;
 };
 	
 struct PS_OUT_PHONG
@@ -126,7 +138,7 @@ struct PS_OUT_PHONG
     float4  vDiffuse : SV_TARGET0;
     float4  vNormal : SV_TARGET1;
     float4  vNormalV : SV_TARGET2;
-	
+    float4  vProperties : SV_TARGET3;
 	//float4 vEmissive : SV_TARGET5;
 };
 

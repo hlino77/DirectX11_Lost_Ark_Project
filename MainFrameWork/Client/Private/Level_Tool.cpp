@@ -5,7 +5,10 @@
 #include "Effect_PcModel.h"
 #include "Camera_Free.h"
 #include "PartObject.h"
-
+#include "QuadTreeMgr.h"
+#include <filesystem>
+#include "AsUtils.h"
+#include "StaticModel.h"
 #include "GameInstance.h"
 
 CLevel_Tool::CLevel_Tool(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -32,6 +35,12 @@ HRESULT CLevel_Tool::Initialize()
 	//ImGui_ImplWin32_Init(g_hWnd);
 	//ImGui_ImplDX11_Init(m_pDevice, m_pContext);
 
+	if (FAILED(Ready_Lights()))
+		return E_FAIL;
+	
+	if (FAILED(Ready_Layer_SkyBox()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_BackGround()))
 		return E_FAIL;
 
@@ -42,6 +51,9 @@ HRESULT CLevel_Tool::Initialize()
 		return E_FAIL;
 	
 	if (FAILED(Ready_Tools()))
+		return E_FAIL;
+
+	if (FAILED(Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -122,6 +134,62 @@ void CLevel_Tool::SetPivotObject(CGameObject* pPartObject)
 	m_pPivotObject = pPartObject;
 }
 
+HRESULT CLevel_Tool::Ready_Layer_SkyBox()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CGameObject* pSkyDome = pGameInstance->Add_GameObject(LEVEL_TOOL, _uint(LAYER_TYPE::LAYER_SKYBOX), TEXT("Prototype_GameObject_SkyDome"));
+	if (nullptr == pSkyDome)
+		return E_FAIL;
+
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
+
+	CRenderer::Set_IBLTexture(3);
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tool::Ready_Lights()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	LIGHTDESC			LightDesc;
+
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
+	LightDesc.vDirection = Vec4(-0.353f, -0.734f, -0.579f, 0.f);
+	LightDesc.vDirection.Normalize();
+	LightDesc.vDiffuse = Vec4(0.3f, 0.3f, 0.3f, 1.f);
+	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
+	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
+
+
+	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos1.dds");
+
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
+		return E_FAIL;
+
+	Vec3 vLook = LightDesc.vDirection;
+	vLook.Normalize();
+	//Vec3 vPos = Vec3(-80.78f, 83.75f, 33.80f);
+	//Matrix matLightView = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	Vec3 vOffset = Vec3(129.90f, 19.58f, 121.53f);
+
+	pGameInstance->Ready_StaticLightMatrix(vOffset, vLook);
+	vOffset = vLook * -30.0f;
+	pGameInstance->Ready_LightMatrix(vOffset, vLook);
+
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 HRESULT CLevel_Tool::Ready_Layer_BackGround()
 {
 	/* 원형객체를 복제하여 사본객체를 생성하고 레이어에 추가한다. */
@@ -170,6 +238,109 @@ HRESULT CLevel_Tool::Ready_Tools()
 	//m_pMediator->SetPrefabsView(m_pPrefabsView);
 
 	m_pEffectModel = CEffect_PcModel::Create(m_pDevice, m_pContext, this);
+	return S_OK;
+}
+
+HRESULT CLevel_Tool::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
+	file->Open(szFullPath, FileMode::Read);
+
+	//Matrix		PivotMatrix = XMMatrixIdentity();
+	//PivotMatrix = XMMatrixRotationX(XMConvertToRadians(90.0f));
+
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/"
+	};
+
+
+	_uint iSize = file->Read<_uint>();
+	bool fileFound = false;
+
+	for (_uint i = 0; i < iSize; ++i)
+	{
+
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
+
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
+		Matrix	matWorld = file->Read<Matrix>();
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
+
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+		Desc.IsMapObject = true;
+		Desc.bInstance = bInstance;
+
+		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+
+		if (nullptr == pObject)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		matWorld._41 -= 117.f;
+		matWorld._42 -= 1.f;
+		matWorld._43 -= 98.f;
+		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
+
+		_uint			QuadTreeSize = {};
+
+		file->Read<_uint>(QuadTreeSize);
+
+		for (size_t i = 0; i < QuadTreeSize; i++)
+		{
+			_uint Index = {};
+			file->Read<_uint>(Index);
+
+			pObject->Add_QuadTreeIndex(Index);
+			CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
+		}
+
+	}
+
+	Safe_Release(pGameInstance);
+
 	return S_OK;
 }
 

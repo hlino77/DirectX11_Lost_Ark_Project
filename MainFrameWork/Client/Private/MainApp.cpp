@@ -20,8 +20,6 @@
 #include "ColliderFrustum.h"
 #include "NavigationMgr.h"
 #include "EventMgr.h"
-#include "VIBuffer_Point.h"
-#include "VIBuffer_Particle.h"
 #include "PhysXMgr.h"
 
 #include "UseLock_Transform.h"
@@ -209,6 +207,48 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (nullptr == m_pGameInstance)
 		return E_FAIL;
 
+	/* SkyDome */
+	{
+		wstring strFileName = L"SkyDome0";
+		wstring strFilePath = L"../Bin/Resources/SkyDome/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		Matrix matPivot = Matrix::Identity;
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(3.f, 3.f, 3.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome1";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome2";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome3";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+
+		strFileName = L"SkyDome4";
+		strComponentName = L"Prototype_Component_Model_" + strFileName;
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+			return E_FAIL;
+	}
+
 	/* For.Prototype_Component_Renderer */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), m_pRenderer_Com = CRenderer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -217,6 +257,11 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	/* For.Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	/* For.Prototype_Component_VIBuffer_Cube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_VIBuffer_Point */
@@ -392,6 +437,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_ParticleSystem"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_ParticleSystem.hlsl"), VTXPARTICLE::Elements, VTXPARTICLE::iNumElements))))
+		return E_FAIL;
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectDecal"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_EffectDecal.hlsl"), VTXCUBETEX::Elements, VTXCUBETEX::iNumElements))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),

@@ -114,6 +114,12 @@ void CEffectTool::InfoView()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Particle", &m_iCurrentEffectType, 2))
 		m_strCurrentCategory = "";
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Decal", &m_iCurrentEffectType, 3))
+		m_strCurrentCategory = "";
+	/*ImGui::SameLine();
+	if (ImGui::RadioButton("Trail", &m_iCurrentEffectType, 4))
+		m_strCurrentCategory = "";*/
 }
 
 void CEffectTool::ShowCurrentMaterials()
@@ -579,6 +585,8 @@ HRESULT CEffectTool::EffectsList()
 				strItem = "Effect_" + to_string(i) + "_T";
 			else if(2 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_P";
+			else if(3 == m_vecEffects[i]->m_iEffectType)
+				strItem = "Effect_" + to_string(i) + "_D";
 
 			if (ImGui::Selectable(strItem.c_str(), isSelected))
 			{
@@ -647,6 +655,9 @@ HRESULT CEffectTool::CreateEffect()
 		//tDesc.protoDiffuseTexture = TEXT("Prototype_Component_Texture_") + fs::path(m_BaseTexture.second.first).stem().generic_wstring();
 	}
 	else if (2 == m_iCurrentEffectType)
+	{
+	}
+	else if (3 == m_iCurrentEffectType)
 	{
 	}
 	else
@@ -734,6 +745,8 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_T" + ".xml";
 		else if (2 == m_vecEffects[i]->m_iEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_P" + ".xml";
+		else if (3 == m_vecEffects[i]->m_iEffectType)
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_D" + ".xml";
 
 		tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
 		document->LinkEndChild(decl);

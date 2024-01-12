@@ -41,8 +41,6 @@ private:
 
 	vector<future<HRESULT>> m_Futures;
 
-
-
 private:
 	HRESULT Loading_For_Level_Logo();
 	HRESULT Loading_For_Level_Tool();

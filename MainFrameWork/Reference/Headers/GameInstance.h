@@ -123,14 +123,15 @@ public:
 	void	Set_Object_NodeIndex(CGameObject* pObject);
 	HRESULT Add_Object(CGameObject* pObject, _uint iIndex);
 
-
+	/* For. TargetManager */
+	HRESULT Bind_SRV(class CShader* pShader, const wstring& strTargetTag, const _char* pConstantName);
 
 	/* For. FontManager */
 public:
-	void			AddFont(const wstring & szTextName, const wstring & szFontPath);
-	void			DrawFont(const wstring & szTextName, const wstring & szString, const Vec2 & vPosition, const Vec4 & vColor, const _float & fRotation, const Vec2 & vOrigin, const Vec2 & vScale);
-	Vec2			MeasureString(const wstring & szTextName, const wstring & szString);
-	void			InputText(wstring& szInputText);
+	void	AddFont(const wstring & szTextName, const wstring & szFontPath);
+	void	DrawFont(const wstring & szTextName, const wstring & szString, const Vec2 & vPosition, const Vec4 & vColor, const _float & fRotation, const Vec2 & vOrigin, const Vec2 & vScale);
+	Vec2	MeasureString(const wstring & szTextName, const wstring & szString);
+	void	InputText(wstring& szInputText);
 
 	/* For. SoundManager */
 
@@ -187,6 +188,7 @@ private:
 	class CPhysXMgr*				m_pPhysXMgr = { nullptr };
 	class CQuadTreeMgr*				m_pQuadTreeMgr = { nullptr };
 	class CSound_Manager*			m_pSoundMgr = { nullptr };
+	class CTarget_Manager*			m_pTargetMgr = { nullptr };
 
 	class CRandomManager*			m_pRandomMgr = { nullptr };
 

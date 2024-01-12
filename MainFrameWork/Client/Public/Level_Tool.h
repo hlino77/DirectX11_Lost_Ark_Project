@@ -33,13 +33,13 @@ public:
 	void			SetPivotObject(CGameObject* pPartObject);
 
 private:
+	HRESULT Ready_Layer_SkyBox();
+	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_BackGround();
-
 	HRESULT Ready_Layer_UI();
-
 	HRESULT	Ready_Camera();
-
 	HRESULT	Ready_Tools();
+	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFullPath);
 
 private:
 	class CEffectTool*		m_pEffectTool = nullptr;

@@ -9,9 +9,11 @@
 #include "BindShaderDesc.h"
 #include "VIBuffer_Point.h"
 #include "VIBuffer_Particle.h"
+#include "VIBuffer_Cube.h"
 #include "BindShaderDesc.h"
 #include "Utils.h"
 #include "Level_Tool.h"
+//#include "DebugDraw.h"
 
 CVoidEffect::CVoidEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext, TEXT("VoidEffect"), -1)
@@ -38,6 +40,31 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
+
+	////////// Decal //////////
+
+	if (3 == m_iEffectType)
+	{
+		/*m_pBatch = new PrimitiveBatch<VertexPositionColor>(m_pContext);
+
+		m_pEffect = new BasicEffect(m_pDevice);
+		m_pEffect->SetVertexColorEnabled(true);
+
+		const void* pShaderByteCodes = nullptr;
+		size_t		iLength = 0;
+		m_pEffect->GetVertexShaderBytecode(&pShaderByteCodes, &iLength);
+
+		if (FAILED(m_pDevice->CreateInputLayout(VertexPositionColor::InputElements, VertexPositionColor::InputElementCount, pShaderByteCodes, iLength, &m_pInputLayout)))
+		{
+			Safe_Delete(m_pBatch);
+			Safe_Delete(m_pEffect);
+			Safe_Release(m_pInputLayout);
+			return E_FAIL;
+		}*/
+		m_vScaling_Start.y = 50.f;
+	}
+
+	////////// Decal //////////
 
     return S_OK;
 }
@@ -210,6 +237,59 @@ HRESULT CVoidEffect::Render()
 		if (FAILED(static_cast<CVIBuffer_Particle*>(m_pBuffer)->Render("Smoke")))
 			return E_FAIL;
 	}
+	else if (3 == m_iEffectType)
+	{
+		Matrix matCombinedInv = matCombined.Invert();
+
+		if (FAILED(m_pShaderCom->Bind_CBuffer("TransformInverse", &matCombinedInv, sizeof(Matrix))))
+			return E_FAIL;
+		
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrixInv", &m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ))) ||
+			FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrixInv", &m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW))))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
+			FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Normal"), "g_NormalTarget")) ||
+			FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Properties"), "g_PropertiesTarget")))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Begin("Default")))
+			return E_FAIL;
+		if (FAILED(static_cast<CVIBuffer_Cube*>(m_pBuffer)->Render()))
+			return E_FAIL;
+
+		////////// Bounding Box //////////
+
+		/*m_pEffect->SetWorld(XMMatrixIdentity());
+
+		m_pEffect->SetView(m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
+		m_pEffect->SetProjection(m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
+
+		m_pEffect->Apply(m_pContext);
+
+		m_pContext->IASetInputLayout(m_pInputLayout);
+
+		m_tBoundingBox.Center = matCombined.Translation();
+
+		Vec3 vRight = matCombined.Right();
+		Vec3 vUp = matCombined.Up();
+		Vec3 vLook = matCombined.Backward();
+
+		m_tBoundingBox.Extents.x = vRight.Length();
+		m_tBoundingBox.Extents.y = vUp.Length();
+		m_tBoundingBox.Extents.z = vLook.Length();
+
+		Quaternion vQuat;
+		matCombined.Decompose(Vec3(), vQuat, Vec3());
+
+		m_tBoundingBox.Orientation = vQuat;
+
+		m_pBatch->Begin();
+
+		DX::Draw(m_pBatch, m_tBoundingBox, Vec4(1.f, 0.f, 1.f, 1.f));
+
+		m_pBatch->End();*/
+	}
 #pragma endregion
 
 	return S_OK;
@@ -234,7 +314,6 @@ void CVoidEffect::Reset()
 		m_bRender = false;
 		m_fWaitingAcc = 0.0f;
 	}
-		
 
 	if (nullptr != m_pEffectTool->GetLevelTool()->GetPivotObject())
 	{
@@ -319,6 +398,16 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		pUtils->CreateRandomTexture1DSRV(m_pDevice, &m_pRandomTextureSRV);
 		RELEASE_INSTANCE(CUtils);
 	}
+	else if(3 == m_iEffectType)
+	{
+		/* For.Com_Buffer */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
+			return E_FAIL;
+
+		/* For.Com_Shader */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectDecal"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+			return E_FAIL;
+	}
 
 	//////////
 
@@ -390,4 +479,11 @@ void CVoidEffect::Free()
 
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
+
+	if (3 == m_iEffectType)
+	{
+		/*Safe_Delete(m_pBatch);
+		Safe_Delete(m_pEffect);
+		Safe_Delete(m_pInputLayout);*/
+	}
 }

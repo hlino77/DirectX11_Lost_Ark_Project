@@ -37,4 +37,7 @@ float4    g_vColor_R;
 float4    g_vColor_G;
 float4    g_vColor_B;
 
+#define MT_DYNAMIC 1
+#define MT_STATIC 0
+
 #endif

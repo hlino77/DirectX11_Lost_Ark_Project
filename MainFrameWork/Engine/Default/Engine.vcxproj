@@ -262,6 +262,7 @@
     <ClInclude Include="..\Public\UseLock_Transform.h" />
     <ClInclude Include="..\Public\Utils.h" />
     <ClInclude Include="..\Public\VIBuffer.h" />
+    <ClInclude Include="..\Public\VIBuffer_Cube.h" />
     <ClInclude Include="..\Public\VIBuffer_Particle.h" />
     <ClInclude Include="..\Public\VIBuffer_Point.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect.h" />
@@ -361,6 +362,7 @@
     <ClCompile Include="..\Private\UseLock_Transform.cpp" />
     <ClCompile Include="..\Private\Utils.cpp" />
     <ClCompile Include="..\Private\VIBuffer.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Particle.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Point.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp" />

@@ -223,6 +223,9 @@
     <Filter Include="01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action">
       <UniqueIdentifier>{a6dddb17-b096-4154-bea3-d5ab408a86e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Cube">
+      <UniqueIdentifier>{00c6a8b6-f7f3-4c80-bd7d-95660c6dd832}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
@@ -599,6 +602,9 @@
     <ClInclude Include="..\Public\ColliderDoughnut.h">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -942,6 +948,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ColliderDoughnut.cpp">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,7 @@
 #include "QuadTreeMgr.h"
 #include "Sound_Manager.h"
 #include "RandomManager.h"
+#include "Target_Manager.h"
 
 
 IMPLEMENT_SINGLETON(CGameInstance)
@@ -37,6 +38,7 @@ CGameInstance::CGameInstance()
 	, m_pQuadTreeMgr(CQuadTreeMgr::GetInstance())
 	, m_pSoundMgr(CSound_Manager::GetInstance())
 	, m_pRandomMgr(CRandomManager::GetInstance())
+	, m_pTargetMgr(CTarget_Manager::GetInstance())
 {
 	Safe_AddRef(m_pObject_Manager);
 	Safe_AddRef(m_pLevel_Manager);
@@ -57,6 +59,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pSoundMgr);
 
 	Safe_AddRef(m_pRandomMgr);
+	Safe_AddRef(m_pTargetMgr);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, _uint iNumLayerType, 
@@ -542,7 +545,10 @@ HRESULT CGameInstance::Add_Object(CGameObject* pObject, _uint iIndex)
 	return m_pQuadTreeMgr->Add_Object(pObject, iIndex);
 }
 
-
+HRESULT CGameInstance::Bind_SRV(CShader* pShader, const wstring& strTargetTag, const _char* pConstantName)
+{
+	return m_pTargetMgr->Bind_SRV(pShader, strTargetTag, pConstantName);
+}
 
 void CGameInstance::AddFont(const wstring& szTextName, const wstring& szFontPath)
 {
@@ -719,6 +725,7 @@ void CGameInstance::Release_Engine()
 	CLight_Manager::GetInstance()->DestroyInstance();
 	CQuadTreeMgr::GetInstance()->DestroyInstance();
 	CRandomManager::GetInstance()->DestroyInstance();
+	CTarget_Manager::GetInstance()->DestroyInstance();
 
 	CKey_Manager::GetInstance()->DestroyInstance();
 	CUtils::GetInstance()->DestroyInstance();
@@ -736,6 +743,7 @@ void CGameInstance::Free()
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pQuadTreeMgr);
 	Safe_Release(m_pRandomMgr);
+	Safe_Release(m_pTargetMgr);
 
 	Safe_Release(m_pKey_Manager);
 	Safe_Release(m_pUtilities);

@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+class CVIBuffer;
+
 END
 
 BEGIN(Client)
@@ -27,7 +29,7 @@ private:
 	virtual HRESULT Ready_Components() override;
 
 private:
-	wstring	m_protoModel = TEXT("");
+	CVIBuffer*	m_pBuffer		= nullptr;
 
 public:
 	static CEffect_Decal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECTDESC* pDesc);

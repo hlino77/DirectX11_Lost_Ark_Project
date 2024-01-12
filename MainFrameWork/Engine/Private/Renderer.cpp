@@ -54,13 +54,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Metalic"),
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Properties"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
+	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Emissive"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
@@ -128,7 +128,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	//
-
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Bright"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -195,10 +194,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Metalic"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Roughness"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Roughness"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
@@ -215,7 +214,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample2"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample2"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample3"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
@@ -226,7 +225,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_4x4"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_24x24"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_144x144"), 3.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 
@@ -240,13 +239,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_NormalDepth"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Metalic"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Properties"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
-		return E_FAIL;
+	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Emissive"))))
 		return E_FAIL;
-
+	
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectAlphaBlend"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectEmissive"))))
@@ -1011,8 +1010,8 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (m_bPBR_Switch)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Metalic"), "g_MetallicTarget")) ||
-			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Properties"), "g_PropertiesTarget"))/* ||
+			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget"))*/)
 			return E_FAIL;
 
 		if (FAILED(m_pMRTShader->Bind_Texture("g_IrradianceTexture", m_pIrradianceTexture->Get_SRV(m_iIBLTextureIndex))) ||
