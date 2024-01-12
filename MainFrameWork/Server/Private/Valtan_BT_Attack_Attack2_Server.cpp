@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "Valtan_BT_Attack_Attack2_Server.h"
-#include "Boss_Server.h"
 #include "Model.h"
 #include "Transform.h"
-#include <Boss_Server.h>
+#include <Boss_Valtan_Server.h>
 
 CValtan_BT_Attack_Attack2_Server::CValtan_BT_Attack_Attack2_Server()
 {
@@ -19,8 +18,8 @@ void CValtan_BT_Attack_Attack2_Server::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
-			m_iGroggy = static_cast<CBoss_Server*>(m_pGameObject)->Get_GroggyGauge();
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iGroggy - 50 > static_cast<CBoss_Server*>(m_pGameObject)->Get_GroggyGauge())
+			static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_GroggyCount(0);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Get_GroggyCount() > 20)
 	{
 		return BT_FAIL;
 	}
@@ -32,7 +31,7 @@ void CValtan_BT_Attack_Attack2_Server::OnEnd()
 	__super::OnEnd();
 	if (m_eReturn == BT_SUCCESS)
 	{
-			static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
+		static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	}
 }

@@ -5,6 +5,8 @@
 #include "ColliderSphere.h"
 #include "Boss_Golem.h"
 #include <ColliderOBB.h>
+#include <Skill.h>
+#include "GameInstance.h"
 CGolem_BT_Attack_Jump::CGolem_BT_Attack_Jump()
 {
 }
@@ -13,52 +15,56 @@ void CGolem_BT_Attack_Jump::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster*>(m_pGameObject)->Set_RootTargetDistance(0.f);
+	m_Shoot = true;
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 {
-	if (!m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->IsActive()  && 36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
+	if ( m_Shoot && 36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
 	{
-		CSphereCollider* pCollider = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1);
-		pCollider->Set_Radius(3.f);
-		pCollider->SetActive(true);
-		pCollider->Set_Offset(Vec3(0.0f, 1.f, 0.f));;
-		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
-		pChildCollider->Set_Scale(Vec3(1.f, 1.f, 2.f));
-		pChildCollider->Set_Offset(Vec3(0.0f, 1.f, 0.f));
-		CSphereCollider* pCollider2 = m_pGameObject->Get_Colider(CBoss_Golem::SKILL2);
-		pCollider2->Set_Radius(3.f);
-		pCollider2->SetActive(true);
-		pCollider2->Set_Offset(Vec3(0.f, 1.f, 0.f));;
-		COBBCollider* pChildCollider2 = dynamic_cast<COBBCollider*>(pCollider2->Get_Child());
-		pChildCollider2->Set_Scale(Vec3(2.f, 1.f, 1.f));
-		pChildCollider2->Set_Offset(Vec3(0.0f, 1.f, 0.f));
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
+
+
+		{
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Golem_Jump", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vLook.Normalize();
+				vPos.y = 0.5f;
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				m_Shoot = false;
+			}
+		}
+		{
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Golem_Jump", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT);
+				vPos += vLook * 0.3f;
+				vLook.Normalize();
+				vPos.y = 0.5f;
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				m_Shoot = false;
+			}
+		}
 	}
 
-	if (36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
-	{
-		Vec3 vScale = dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->Get_Child())->Get_Scale(); 
-		vScale.z += 3.f * fTimeDelta;
-		dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->Get_Child())->Set_Scale(vScale);
-		_float fRadius = m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->Get_Radius();
-		fRadius += 3.f * fTimeDelta;
-		m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->Set_Radius(fRadius);
-		vScale = dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL2)->Get_Child())->Get_Scale();
-		vScale.x += 3.f * fTimeDelta;
-		dynamic_cast<COBBCollider*>(m_pGameObject->Get_Colider(CBoss_Golem::SKILL2)->Get_Child())->Set_Scale(vScale);
-		fRadius = m_pGameObject->Get_Colider(CBoss_Golem::SKILL2)->Get_Radius();
-		fRadius += 3.f * fTimeDelta;
-		m_pGameObject->Get_Colider(CBoss_Golem::SKILL2)->Set_Radius(fRadius);
-	}
-	return BT_RUNNING;
+
+
+	return __super::OnUpdate(fTimeDelta);
 }
 
 void CGolem_BT_Attack_Jump::OnEnd()
 {
 	__super::OnEnd();
-	m_pGameObject->Get_Colider(CBoss_Golem::SKILL1)->SetActive(false);
-	m_pGameObject->Get_Colider(CBoss_Golem::SKILL2)->SetActive(false);
-	dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
 	static_cast<CMonster*>(m_pGameObject)->Set_RootTargetDistance(static_cast<CMonster*>(m_pGameObject)->Get_AttackRange() * 0.7f);
 
 }

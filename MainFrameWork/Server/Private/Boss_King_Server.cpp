@@ -308,6 +308,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSequenceSkill->AddChild(pSkill1))) return E_FAIL;
 	if (FAILED(pSequenceSkill->AddChild(pSkill2))) return E_FAIL;
+	pSequenceSkill->ShuffleChild();
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?

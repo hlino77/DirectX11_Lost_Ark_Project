@@ -1185,7 +1185,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
 		pUIManager->Loading_UI(1200.f);
 	}
@@ -1195,7 +1195,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
 		pUIManager->Loading_UI(1600.f);
 	}

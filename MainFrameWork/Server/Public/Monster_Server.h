@@ -86,6 +86,8 @@ public:
 
 	_bool Is_Close_To_RandomPosition();
 
+	Vec3 Get_NearTarget_Position();
+
 	_bool Is_Close_To_TargetRandomPosition();
 	
 	Vec3 Get_RandomPosition() { return m_vRandomPosition; }

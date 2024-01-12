@@ -70,9 +70,10 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
-	m_iMaxHp = 2999999999;
+	m_iMaxHp = 299999999;
 	m_iHp = m_iMaxHp;
 	m_iMaxGroggyGauge = 25;
+	m_iSkillStack = CGameInstance::GetInstance()->Random_Int(0, m_iMaxSkillStack-1);
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	return S_OK;
 }
@@ -322,7 +323,7 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 	CBT_Action* pPunch = CGolem_BT_Attack_Charge_Punch_Server::Create(&ActionDesc);
 	ActionDesc.vecAnimations.clear();
 	
-	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.strAnimName = TEXT("sk_dash_attack");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -334,7 +335,7 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 	CBT_Composite* pSequenceSkill = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pSequenceSkill->AddChild(pDash))) return E_FAIL;
 	if (FAILED(pSequenceSkill->AddChild(pPunch))) return E_FAIL;
-
+	pSequenceSkill->ShuffleChild();
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Skill = CCommon_BT_IF_Skill_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 	if (FAILED(pIf_Skill->AddChild(pSequenceSkill))) return E_FAIL;
@@ -376,7 +377,7 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack3)))
 		return E_FAIL;
-
+	pSequenceNear->ShuffleChild();
 	CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
 	if (FAILED(pIfAttacked->AddChild(pSequenceNear)))
 		return E_FAIL;

@@ -78,6 +78,7 @@ public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
+	Vec3					Get_NearTarget_Position();
 	_float					Get_Target_Distance();
 	void					LookAt_Target_Direction_Lerp(_float fTimeDelta);
 	void					LookAt_Target_Direction();
@@ -126,7 +127,7 @@ public:
 	void Set_RandomPosition(Vec3 vPos) {m_vTargetPos=  m_vRandomPosition = vPos; }
 
 	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
-
+	Vec3 Get_BonePos(wstring strBoneName);
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() {	return m_bRimLight;	}
@@ -147,6 +148,8 @@ protected:
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
 	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy);
 	void					Send_CollidingInfo(const _uint iColLayer, CCollider* pOther);
+	virtual void			Set_EffectPos()override;
+
 
 
 protected:

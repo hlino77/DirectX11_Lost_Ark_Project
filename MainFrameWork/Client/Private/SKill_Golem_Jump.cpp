@@ -27,22 +27,24 @@ HRESULT CSKill_Golem_Jump::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fMoveSpeed = 7.5f;
-	m_fLastTime = 5.f;
+	m_fLastTime = 2.f;
     return S_OK;
 }
 
 void CSKill_Golem_Jump::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-	m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
-	_float fRadius = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Radius();
-	fRadius += 0.5f * fTimeDelta;
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(fRadius);
+	CSphereCollider* pCollider = m_Coliders[0];
+	_float fRadius = pCollider->Get_Radius();
+	fRadius += 3.f * fTimeDelta;
+	pCollider->Set_Radius(fRadius);
 
-	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Child());
+	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
 	Vec3 vScale = pChildCollider->Get_Scale();
-	vScale.z += 0.4f*fTimeDelta;
-	vScale.y += 1.f * fTimeDelta;
+	vScale.z += 3.f * fTimeDelta;
+	pChildCollider->Set_Scale(vScale);
+
+
 
 	pChildCollider->Set_Scale(Vec3(vScale));
 }
@@ -97,18 +99,21 @@ HRESULT CSKill_Golem_Jump::Ready_Coliders()
 				pCollider->Set_Child(pChildCollider);
 			}
 
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
+			m_Coliders.emplace(0, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(0.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
 
-	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Child());
-	pChildCollider->Set_Scale(Vec3(0.2f, 0.5f, 0.2f));
-	pChildCollider->Set_Offset(Vec3(0.0f, 0.00f, 0.2f));
-	pChildCollider->Set_Orientation(Quaternion::CreateFromAxisAngle(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-5.f)));
-	pChildCollider->SetActive(true);
+	{
+		CSphereCollider* pCollider = m_Coliders[0];
+		pCollider->Set_Radius(1.2f);
+		pCollider->SetActive(true);
+		pCollider->Set_Offset(Vec3(0.0f, 1.f, 0.f));;
+		COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
+		pChildCollider->Set_Scale(Vec3(1.f, 1.f, 0.5f));
+		pChildCollider->Set_Offset(Vec3(0.0f, 1.f, 0.f));
+		pChildCollider->SetActive(true);
+	}
+
 	for (auto& Collider : m_Coliders)
 	{
 		if (Collider.second)
@@ -116,7 +121,7 @@ HRESULT CSKill_Golem_Jump::Ready_Coliders()
 			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
 		}
 	}
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CSKill_Golem_Jump::Ready_Components()

@@ -31,14 +31,6 @@ public:
 		Vec3	vPos;
 	}MODELDESC;
 
-public:
-	enum AttackColliders
-	{
-		SKILL1 = 9,
-		SKILL2,
-		SKILL3,
-		ATTACK_END
-	};
 
 
 protected:

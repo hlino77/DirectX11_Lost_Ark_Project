@@ -23,7 +23,6 @@ CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(const _float& fTimeDelta)
 void CValtan_BT_Phase3::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CBoss*>(m_pGameObject)->Set_RootTargetDistance(999.f);
 }
 
 

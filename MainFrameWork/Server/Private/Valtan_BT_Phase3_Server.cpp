@@ -29,6 +29,10 @@ void CValtan_BT_Phase3_Server::OnEnd()
 	__super::OnEnd();
 
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxSkillStack(2);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyGauge(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyGauge());
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 }

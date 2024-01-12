@@ -66,7 +66,7 @@
 #include "Valtan_BT_Attack_Attack24_Server.h"
 #include "Valtan_BT_IF_Phase2_Server.h"
 #include "Valtan_BT_IF_Phase3_Server.h"
-#include <Valtan_BT_IF_Hp_UnderSpecialSkillRatio.h>
+#include <Valtan_BT_IF_Hp_UnderRatio.h>
 #include <Valtan_BT_IF_Armor_Server.h>
 #include <Valtan_BT_Repeat_Server.h>
 #include <Boss_BT_ArmorBreak_Server.h>
@@ -152,6 +152,49 @@ void CBoss_Valtan_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOth
 {
 }
 
+void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
+{
+	WRITE_LOCK
+		if (!m_bInvincible)
+		{
+			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
+			_uint iGroggyResult = iGroggy;
+			m_iGroggyCount += iGroggyResult;
+			m_iHitCount++;
+			if (m_IsGroggyLock)
+				iGroggyResult = 0;
+				m_iHp -= iDamage_Result;
+			if (!m_IsGroggy && m_iGroggyGauge > 0 )
+				m_iGroggyGauge -= iGroggyResult;
+
+			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
+				m_iArmorDurability -= iDamage;
+			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+			{
+				m_bCounter = true;
+				m_IsHit = true;
+				m_IsCounterSkill = false;
+				m_IsCountered = true;
+			}
+			if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
+			{
+				m_IsHit = true;
+				m_bGrogginess = true;
+				m_IsGroggy = true;
+			}
+
+
+			m_fStatusEffects[iStatusEffect] += fDuration;
+			if (m_iHp < 1.f && m_iPhase != 3)
+				m_iHp = 1;
+
+			if (m_iHp < 1.f)
+				m_IsHit = true;
+
+			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+		}
+}
+
 void CBoss_Valtan_Server::Set_Colliders(_float fTimeDelta)
 {
 	__super::Set_Colliders(fTimeDelta);
@@ -182,7 +225,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.pGameObject = this;
 	ActionDesc.vecAnimations.clear();
 	CBT_Action::ANIMATION_DESC AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("dead_1");
+	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -190,6 +233,20 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fAnimSpeed = 1.15f;
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.IsEndInstant = false;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("dead_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Dead";
 	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
@@ -375,8 +432,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	CBT_Action* pPhase2 = CValtan_BT_Phase2_Server::Create(&ActionDesc);
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio120 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>( pIf_Hp_UnderRatio120 )->Set_Ratio( 120.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio120 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>( pIf_Hp_UnderRatio120 )->Set_Ratio( 120.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio120->AddChild(pPhase2))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -394,8 +451,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceLine16 = CBT_Composite::Create(&CompositeDesc);	
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio16 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio16)->Set_Ratio(16.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio16 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio16)->Set_Ratio(16.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio16->AddChild(pSequenceLine16))) return E_FAIL;
 
 	// Ready all AttackActions
@@ -643,7 +700,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 0.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
@@ -767,7 +824,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 3.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -881,8 +938,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pSequenceAttack17->AddChild(pAttack17_3))) return E_FAIL;
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio54 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio54)->Set_Ratio(54.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio54 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio54)->Set_Ratio(54.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio54->AddChild(pSequenceAttack17))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -921,8 +978,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack18 = CValtan_BT_Attack_Attack18_Server::Create(&ActionDesc);
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio43 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio43)->Set_Ratio(54.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio43 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio43)->Set_Ratio(54.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio43->AddChild(pAttack18))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1034,9 +1091,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack20 = CValtan_BT_Attack_Attack20_Server::Create(&ActionDesc);
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio130 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
+	CBT_Decorator* pIf_Hp_UnderRatio130 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
 	if (FAILED(pIf_Hp_UnderRatio130->AddChild(pAttack20))) return E_FAIL;
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio130)->Set_Ratio(130.f / 160.f);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio130)->Set_Ratio(130.f / 160.f);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
@@ -1102,7 +1159,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 2.f;
+	AnimationDesc.fMaxLoopTime = 3.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1117,8 +1174,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack21";
 	CBT_Action* pAttack21 = CValtan_BT_Attack_Attack21_Server::Create(&ActionDesc);
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio110 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio110)->Set_Ratio(110.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio110 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio110)->Set_Ratio(110.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio110->AddChild(pAttack21))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1214,8 +1271,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack0 = CValtan_BT_Attack_Attack0_Server::Create(&ActionDesc);
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio88 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio88)->Set_Ratio(88.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio88 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio88)->Set_Ratio(88.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio88->AddChild(pAttack0))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1309,8 +1366,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack16";
 	CBT_Action* pAttack16 = CValtan_BT_Attack_Attack16_Server::Create(&ActionDesc);
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio30 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio30)->Set_Ratio(30.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio30 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio30)->Set_Ratio(30.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio30->AddChild(pAttack16))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
@@ -1367,10 +1424,15 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//65번 버러지패턴
 	ActionDesc.strActionName = L"Action_Attack22";
 	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22_Server::Create(&ActionDesc);
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::REPEAT;
+	DecoratorDesc.iRepeatCount = 100;
+	CBT_Decorator* pRepeat_100 = CValtan_BT_Repeat_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pRepeat_100->AddChild(pAttack22))) 
+		return E_FAIL;
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio65 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio65)->Set_Ratio(65.f / 160.f);
-	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pAttack22))) return E_FAIL;
+	CBT_Decorator* pIf_Hp_UnderRatio65 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio65)->Set_Ratio(65.f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pRepeat_100))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_18_01");
@@ -1595,13 +1657,14 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelectorNear = CBT_Composite::Create(&CompositeDesc);
-
+		if (FAILED(pSelectorNear->AddChild(pIf_Hp_UnderRatio130)))
+			return E_FAIL;
+		if (FAILED(pSelectorNear->AddChild(pIf_Hp_UnderRatio120)))
+			return E_FAIL;
 		if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
 			return E_FAIL;
 		if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
 			return E_FAIL;
-		
-
 
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
@@ -1622,8 +1685,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	{
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-		CBT_Decorator* pIf_Hp_UnderRatio88_Skill = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio88_Skill)->Set_Ratio(88.f / 160.f);
+		CBT_Decorator* pIf_Hp_UnderRatio88_Skill = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio88_Skill)->Set_Ratio(88.f / 160.f);
 		if (FAILED(pIf_Hp_UnderRatio88_Skill->AddChild(pAttack19))) return E_FAIL;
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
@@ -1635,10 +1698,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		if (FAILED(pSequenceSkill->AddChild(pAttack5)))
 			return E_FAIL;
 
-		if (FAILED(pSequenceSkill->AddChild(pIf_Hp_UnderRatio88_Skill)))
+		if (FAILED(pSequenceSkill->AddChild(pAttack15)))
 			return E_FAIL;
 
-		if (FAILED(pSequenceSkill->AddChild(pAttack15)))
+		if (FAILED(pSequenceSkill->AddChild(pIf_Hp_UnderRatio88_Skill)))
 			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -1697,7 +1760,20 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);
-
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio110)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio88)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio65)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio54)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio43)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio30)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio16)))
+			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Skill)))
 			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pSelectorNear)))
@@ -1764,16 +1840,16 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-		CBT_Decorator* pIf_Hp_UnderRatio39 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio39)->Set_Ratio(39.f / 160.f);
+		CBT_Decorator* pIf_Hp_UnderRatio39 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio39)->Set_Ratio(39.f / 160.f);
 		if (FAILED(pIf_Hp_UnderRatio39->AddChild(pAttack24))) return E_FAIL;
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-		CBT_Decorator* pIf_Hp_UnderRatio26 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio26)->Set_Ratio(26.f / 160.f);
+		CBT_Decorator* pIf_Hp_UnderRatio26 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio26)->Set_Ratio(26.f / 160.f);
 		if (FAILED(pIf_Hp_UnderRatio26->AddChild(pAttack24))) return E_FAIL;
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-		CBT_Decorator* pIf_Hp_UnderRatio13 = CValtan_BT_IF_Hp_UnderSpecialSkillRatio::Create(&DecoratorDesc);
-		static_cast<CValtan_BT_IF_Hp_UnderSpecialSkillRatio*>(pIf_Hp_UnderRatio13)->Set_Ratio(13.f / 160.f);
+		CBT_Decorator* pIf_Hp_UnderRatio13 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+		static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio13)->Set_Ratio(13.f / 160.f);
 		if (FAILED(pIf_Hp_UnderRatio13->AddChild(pAttack24))) return E_FAIL;
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
@@ -1811,24 +1887,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pRoot->AddChild(pIfHit)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pIfSpawn)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio130)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio120)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio110)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio88)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio65)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio54)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio43)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio30)))
-		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pIf_Hp_UnderRatio16)))
 		return E_FAIL;
 	if (FAILED(pRoot->AddChild(pSelector_Phase)))
 		return E_FAIL;

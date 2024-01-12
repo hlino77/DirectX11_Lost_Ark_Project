@@ -35,7 +35,12 @@ CBT_Node::BT_RETURN CBT_Node::Tick(const _float& fTimeDelta)
 	return m_eReturn;
 }
 
-
+void CBT_Node::ShuffleChild()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::shuffle(m_vecChildren.begin(), m_vecChildren.end(), gen);
+}
 
 HRESULT CBT_Node::AddChild(CBT_Node* pChild)
 {

@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Server.h>
+#include <Boss_Valtan_Server.h>
 
 CValtan_BT_Attack_Attack15_Server::CValtan_BT_Attack_Attack15_Server()
 {
@@ -24,6 +25,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 		return BT_SUCCESS;
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_HitCount(0);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Get_HitCount() > 20)
+	{
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Hit(true);
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Grogginess(true);
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Groggy(true);
+		return BT_FAIL;
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

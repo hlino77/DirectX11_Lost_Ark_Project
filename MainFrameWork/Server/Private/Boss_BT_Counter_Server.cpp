@@ -15,15 +15,17 @@ void CBoss_BT_Counter_Server::OnStart()
 
 CBT_Node::BT_RETURN CBoss_BT_Counter_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_Hp() < 1)
+		return BT_FAIL;
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CBoss_BT_Counter_Server::OnEnd()
 {
 	__super::OnEnd();
-
+	if (m_eReturn == BT_SUCCESS)
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
 }
 

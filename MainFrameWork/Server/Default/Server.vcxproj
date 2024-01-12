@@ -269,6 +269,7 @@
     <ClInclude Include="..\Public\Boss_BT_IF_ArmorBreak_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_IF_Groggy_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack22_Server.h" />
@@ -278,7 +279,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Phase2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Repeat_Server.h" />
-    <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderSpecialSkillRatio.h" />
+    <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderRatio.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_Armor_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_NoArmor_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_Phase2_Server.h" />
@@ -362,7 +363,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack12_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack13_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack14_Server.h" />
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_1_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18_Server.h" />

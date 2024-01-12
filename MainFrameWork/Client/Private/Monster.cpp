@@ -95,13 +95,14 @@ void CMonster::Tick(_float fTimeDelta)
 
 void CMonster::LateTick(_float fTimeDelta)
 {
+
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
+		Set_EffectPos();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 
-	Set_EffectPos();
 
 	Set_Colliders(fTimeDelta);
 
@@ -462,6 +463,13 @@ void CMonster::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
 }
 
+Vec3 CMonster::Get_NearTarget_Position()
+{
+	if (m_pNearTarget == nullptr)
+		return Vec3();
+
+	return m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+}
 
 _float CMonster::Get_Target_Distance()
 {
@@ -529,7 +537,7 @@ void CMonster::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->LookAt_Lerp(vTargetPosition - vCurrentPosition, 5.0f, fTimeDelta);
+	m_pTransformCom->LookAt_Lerp(vTargetPosition - vCurrentPosition, 4.0f, fTimeDelta);
 }
 
 void CMonster::LookAt_Target_Direction()
@@ -909,6 +917,26 @@ void CMonster::Send_CollidingInfo(const _uint iColLayer, CCollider* pOther)
 	};
 	Send_Collision(iDamage, vPos, eEffect, fForce, fStatusDuration,0);
 	Show_Damage(iDamage, IsCritical);
+}
+
+void CMonster::Set_EffectPos()
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	matEffect *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+}
+
+Vec3 CMonster::Get_BonePos(wstring strBoneName)
+{
+	Vec3   vBonePos;
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(strBoneName);
+	if (iBoneIndex == -1)
+		return Vec3();
+	Matrix matCombined = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	matCombined *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&vBonePos, matCombined.m[3], sizeof(Vec3));
+	return vBonePos;
 }
 
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)

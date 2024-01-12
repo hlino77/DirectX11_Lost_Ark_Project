@@ -26,7 +26,7 @@ HRESULT CSKill_Golem_Charge_Punch::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fMoveSpeed = 2.f;
+	m_fMoveSpeed = 3.f;
 	m_fLastTime = 5.f;
     return S_OK;
 }
@@ -35,7 +35,7 @@ void CSKill_Golem_Charge_Punch::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
-
+	m_fMoveSpeed += 2.f*fTimeDelta;
 }
 
 void CSKill_Golem_Charge_Punch::LateTick(_float fTimeDelta)
@@ -77,7 +77,7 @@ HRESULT CSKill_Golem_Charge_Punch::Ready_Coliders()
 		if (pCollider)		
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(0.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
 
