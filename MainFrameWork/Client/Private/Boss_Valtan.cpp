@@ -74,6 +74,10 @@ HRESULT CBoss_Valtan::Initialize_Prototype()
 
 HRESULT CBoss_Valtan::Initialize(void* pArg)
 {
+	m_iMaxGroggyGauge = 500;
+	m_iGroggyGauge = m_iMaxGroggyGauge;
+	m_iMaxHp = 1991561183;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	m_vecAttackRanges.clear();
@@ -83,8 +87,6 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 0.f;
-	m_iMaxHp = 1991561183;
-	m_iHp = m_iMaxHp;
 	m_fNoticeRange = 150.f;
 	m_vSpawnPosition = Vec3(117.f,0.f,100.f);
 	m_iArmor = 2;

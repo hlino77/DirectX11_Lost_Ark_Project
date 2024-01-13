@@ -26,7 +26,7 @@ HRESULT CSKill_Golem_Charge_Punch::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fMoveSpeed = 3.f;
+	m_fMoveSpeed = 3.5f;
 	m_fLastTime = 5.f;
 	m_iAtk = 22;
 	m_fForce = 0.f;

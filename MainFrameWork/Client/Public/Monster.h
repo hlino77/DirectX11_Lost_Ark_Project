@@ -60,7 +60,7 @@ public:
 
 	void	 Update_StatusEffect(_float fTimeDelta);
 
-	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
+	virtual	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
 
 
 	virtual void Set_SlowMotion(_bool bSlow) override;

@@ -72,6 +72,8 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if(m_bRimLight)
+		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << "¹«·ÂÈ­: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl << CAsUtils::ToString(m_strAction) << endl;
 }
 
 void CBoss::LateTick(_float fTimeDelta)
@@ -120,8 +122,10 @@ void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _flo
 {
 	m_iHp -= iDamage;
 	m_iGroggyGauge -= iGroggy;
-
-
+	if (m_iHp < 0)
+		m_iHp = 0;
+	if (m_iGroggyGauge < 0)
+		m_iGroggyGauge = 0;
 
 	Set_RimLight(0.05f);
 }

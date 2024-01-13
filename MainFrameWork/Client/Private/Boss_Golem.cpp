@@ -51,6 +51,8 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 50;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
+	m_iMaxHp = 300000000;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -64,8 +66,6 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"idle_normal_1"));
 	m_pModelCom->Play_Animation(10.0f);
-	m_iMaxHp = 299999999;
-	m_iHp = m_iMaxHp;
 	m_IsSuperArmor =true;
 	m_fRootTargetDistance = 0.5f;
 	m_iBasicAttackStartFrame = 18;
@@ -79,7 +79,7 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 void CBoss_Golem::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);	
-	cout << endl << m_iHp << "	/	" << m_iMaxHp << endl <<  "¹«·ÂÈ­: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl << CAsUtils::ToString(m_strAction) << endl;
+
 }
 
 void CBoss_Golem::LateTick(_float fTimeDelta)

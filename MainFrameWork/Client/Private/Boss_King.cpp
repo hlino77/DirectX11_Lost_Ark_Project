@@ -53,6 +53,8 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 100;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
+	m_iMaxHp = 600000000;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	m_fFontScale = 0.525f;
