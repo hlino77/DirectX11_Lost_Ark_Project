@@ -29,6 +29,18 @@ HRESULT CState_GN_TargetDown_Shot::Initialize()
 
 	m_SkillFrames.push_back(-1);
 
+
+	m_ParticleName.push_back(L"TargetDownParticle1");
+	m_ParticleName.push_back(L"TargetDownParticle2");
+	m_ParticleName.push_back(L"TargetDownParticle3");
+	m_ParticleName.push_back(L"TargetDownParticle4");
+
+	m_ParticleName.push_back(L"FocusShotParticle1");
+	m_ParticleName.push_back(L"FocusShotParticle2");
+	m_ParticleName.push_back(L"FocusShotParticle3");
+	m_ParticleName.push_back(L"FocusShotParticle4");
+	m_ParticleName.push_back(L"FocusShotParticle5");
+
 	return S_OK;
 }
 
@@ -74,15 +86,94 @@ void CState_GN_TargetDown_Shot::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_TargetDown_Shot::Effect_Shot()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix().Translation();
 
-	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
+		Vec3 vOriginLook = matWorld.Backward();
+		vOriginLook.Normalize();
 
-	pEffect->EffectShot();
+		Vec3 vOriginUp = matWorld.Up();
+		vOriginUp.Normalize();
 
-	//m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+		Vec3 vOriginRight = vOriginUp.Cross(matWorld.Backward());
+		vOriginRight.Normalize();
 
-	Safe_Release(pGameInstance);
+		matWorld.Translation(vPos);
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("FocusShotMuzzleFlash1"), &desc);
+
+		for (_uint i = 0; i < 30; ++i)
+		{
+			Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 30) * 0.02f + 0.4f);
+
+			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.2f, 0.2f);
+			_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.2f, 0.2f);
+
+			_uint iParticleNameIndex = rand() % 5 + 4;
+
+			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+			CEffect_Manager::EFFECTPIVOTDESC desc;
+			desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+		}
+	}
+	
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+		CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
+
+		pEffect->EffectShot();
+
+		m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 1.8f, 0.3f, 0.3f);
+
+		Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vPos = m_pPlayer->Get_TargetPos();
+		vPos.y += 0.7f;
+
+		Vec3 vOriginLook = vPos - vPlayerPos;
+		vOriginLook.y = 0.0f;
+		vOriginLook.Normalize();
+
+		vPos -= vOriginLook * 0.5f;
+
+		Vec3 vOriginUp(Vec3(0.0f, 1.0f, 0.0f));
+
+		Vec3 vOriginRight = vOriginUp.Cross(vOriginLook);
+		vOriginRight.Normalize();
+
+		Matrix matWorld = Matrix::CreateWorld(vPos, -vOriginLook, vOriginUp);
+
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matWorld;
+		EFFECT_START(TEXT("TargetDown1"), &desc);
+
+		for (_uint i = 0; i < 60; ++i)
+		{
+			Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 10) * 0.1f);
+
+			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+			_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+
+			_uint iParticleNameIndex = rand() % 4;
+
+			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
+
+			CEffect_Manager::EFFECTPIVOTDESC desc;
+			desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
+		}
+
+		Safe_Release(pGameInstance);
+	}
+
+	
 }
 
 CState_GN_TargetDown_Shot* CState_GN_TargetDown_Shot::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

@@ -267,17 +267,17 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 					element = element->NextSiblingElement();
 					tDesc.vRandomMul.x = element->FloatAttribute("X");
-					tDesc.vRandomMul.x = element->FloatAttribute("X");
-					tDesc.vRandomMul.x = element->FloatAttribute("X");
+					tDesc.vRandomMul.y = element->FloatAttribute("Y");
+					tDesc.vRandomMul.z = element->FloatAttribute("Z");
 
 					element = element->NextSiblingElement();
-					tDesc.vRandomMul.x = element->FloatAttribute("X");
+					tDesc.fSpreadSpeed = element->FloatAttribute("SpreadSpeed");
 
 					element = element->NextSiblingElement();
-					tDesc.vRandomMul.x = element->FloatAttribute("X");
+					tDesc.fEmitTerm = element->FloatAttribute("EmitTerm");
 
 					element = element->NextSiblingElement();
-					tDesc.vRandomMul.x = element->FloatAttribute("X");
+					tDesc.fParticleLifeTime = element->FloatAttribute("ParticleLifeTime");
 				}
 			}
 

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "VIBuffer_Particle.h"
 #include "Utils.h"
+#include "PartObject.h"
 
 CEffect_Particle::CEffect_Particle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
@@ -14,6 +15,8 @@ CEffect_Particle::CEffect_Particle(const CEffect_Particle& rhs)
 	: Super(rhs)
 	, m_Billboard(rhs.m_Billboard)
 	, m_Particle(rhs.m_Particle)
+	, m_fOriginEmitTerm(rhs.m_fOriginEmitTerm)
+	, m_vOriginEmitDir(rhs.m_vOriginEmitDir)
 {
 }
 
@@ -27,8 +30,11 @@ HRESULT CEffect_Particle::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Particle.vEmitDirection = pDesc->vEmitDirection;
 	m_Particle.vRandomMul = pDesc->vRandomMul;
 	m_Particle.fSpreadSpeed = pDesc->fSpreadSpeed;
-	m_Particle.fEmitTerm = pDesc->fEmitTerm;
+	m_fOriginEmitTerm = pDesc->fEmitTerm;
 	m_Particle.fParticleLifeTime = pDesc->fParticleLifeTime;
+	m_Particle.fSequenceTerm = pDesc->fSequenceTerm;
+	m_Particle.iIsLoop = pDesc->IsLoop;
+	m_vOriginEmitDir = m_Particle.vEmitDirection;
 
 	return S_OK;
 }
@@ -48,7 +54,7 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 {
 	Super::Tick(fTimeDelta);
 
-	if (m_IsSequence)
+	/*if (m_IsSequence)
 	{
 		m_fSequenceTimer += fTimeDelta;
 		while (m_fSequenceTimer > m_fSequenceTerm)
@@ -65,7 +71,7 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 			while (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
 				m_Variables.vUV_TileIndex.y -= m_Variables.vUV_TileCount.y;
 		}
-	}
+	}*/
 
 	m_Particle.fGameTime = m_fTimeAcc;
 	m_Particle.fTimeStep = fTimeDelta;
@@ -82,6 +88,12 @@ HRESULT CEffect_Particle::Render()
 		return E_FAIL;
 
 	m_Particle.vEmitPosition = m_matCombined.Translation();
+	m_Particle.vEmitDirection = XMVector3TransformNormal(m_vOriginEmitDir, m_matCombined);
+
+	if (m_fTimeAcc < m_fLifeTime)
+		m_Particle.fEmitTerm = m_fOriginEmitTerm;
+	else
+		m_Particle.fEmitTerm = 99999.f;
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
 		return E_FAIL;
@@ -94,6 +106,46 @@ HRESULT CEffect_Particle::Render()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CEffect_Particle::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
+{
+	if (tEffectDesc.pPivotTransform)
+	{
+		if (tEffectDesc.bParentPivot)
+			m_matPivot = static_cast<CPartObject*>(tEffectDesc.pPivotTransform->Get_GameObject())->Get_PartOwner()->Get_TransformCom()->Get_WorldMatrix();
+		else
+			m_matPivot = static_cast<CPartObject*>(tEffectDesc.pPivotTransform->Get_GameObject())->Get_Part_WorldMatrix();
+	}
+	else
+		m_matPivot = *tEffectDesc.pPivotMatrix;
+
+	Vec3 vRight = m_matPivot.Right();
+	vRight.Normalize();
+	m_matPivot.Right(vRight);
+
+	Vec3 vUp = m_matPivot.Up();
+	vUp.Normalize();
+	m_matPivot.Up(vUp);
+
+	Vec3 vLook = m_matPivot.Backward();
+	vLook.Normalize();
+	m_matPivot.Backward(vLook);
+
+	//Reset
+	m_fSequenceTimer = 0.0f;
+	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
+	m_fTimeAcc = 0.0f;
+	m_bRender = true;
+
+	if (m_fWaitingTime > 0.0f)
+	{
+		m_fWaitingAcc = 0.0f;
+		m_bRender = false;
+	}
+
+	m_Particle.fGameTime = m_fTimeAcc;
+	m_pBuffer->Reset();
 }
 
 HRESULT CEffect_Particle::Ready_Components()

@@ -62,7 +62,7 @@ public:
 		_bool	IsLoop = false;
 		_float	fSequenceTerm = 0.05f;
 		_float	fDissolveStart = 1.f;
-
+			
 		// Variables
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
 		_int	iUV_Wave = false;

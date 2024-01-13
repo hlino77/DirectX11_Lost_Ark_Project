@@ -55,6 +55,9 @@ private:
 	_float m_fShakeAcc = 0.0f;
 	_float m_fShakeTime = 0.0f;
 
+	_float m_fVelShake = 0.0f;
+
+
 	Vec4					m_vColor;
 
 	CrossHairState m_eState;

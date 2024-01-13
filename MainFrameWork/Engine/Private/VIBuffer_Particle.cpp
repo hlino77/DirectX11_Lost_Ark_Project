@@ -171,7 +171,6 @@ HRESULT CVIBuffer_Particle::Render(string strPathName)
 void CVIBuffer_Particle::Reset()
 {
 	m_IsFirstRun = true;
-	//m_fAge = 0.0f;
 }
 
 void CVIBuffer_Particle::SetEyePos(const Vec3& vEyePosW)

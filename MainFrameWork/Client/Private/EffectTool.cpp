@@ -524,14 +524,14 @@ HRESULT CEffectTool::EffectDetail()
 
 	if (2 == m_pCurrentEffect->m_iEffectType)
 	{
-		ImGui::InputFloat3("Particle Direction", (_float*)&m_pCurrentEffect->m_Particle.vEmitDirection);
+		ImGui::InputFloat3("Particle Direction", (_float*)&m_pCurrentEffect->m_vOriginEmitDir);
 		Vec3	vRandomMag = Vec3(1.f, 1.f, 1.f);
 		_float	fSpreadSpeed = 1.f;
 		_float	fEmitTerm = 0.005f;
 		_float	fParticleLifeTime = 1.f;
 		ImGui::InputFloat3("Particle RandomMultiplier", (_float*)&m_pCurrentEffect->m_Particle.vRandomMul);
 		ImGui::InputFloat("Particle SpreadSpeed", (_float*)&m_pCurrentEffect->m_Particle.fSpreadSpeed);
-		ImGui::InputFloat("Particle EmittingTerm", (_float*)&m_pCurrentEffect->m_Particle.fEmitTerm);
+		ImGui::InputFloat("Particle EmittingTerm", (_float*)&m_pCurrentEffect->m_fOriginEmitTerm);
 		ImGui::InputFloat("Particle LifeTime", (_float*)&m_pCurrentEffect->m_Particle.fParticleLifeTime);
 	}
 
@@ -981,9 +981,9 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 		root->LinkEndChild(node);
 		{
 			element = document->NewElement("EmitDirection");
-			element->SetAttribute("X", m_vecEffects[i]->m_Particle.vEmitDirection.x);
-			element->SetAttribute("Y", m_vecEffects[i]->m_Particle.vEmitDirection.y);
-			element->SetAttribute("Z", m_vecEffects[i]->m_Particle.vEmitDirection.z);
+			element->SetAttribute("X", m_vecEffects[i]->m_vOriginEmitDir.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vOriginEmitDir.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vOriginEmitDir.z);
 			node->LinkEndChild(element);
 			
 			element = document->NewElement("RandomMul");
@@ -992,8 +992,12 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("Z", m_vecEffects[i]->m_Particle.vRandomMul.z);
 			node->LinkEndChild(element);
 
+			element = document->NewElement("SpreadSpeed");
+			element->SetAttribute("SpreadSpeed", m_vecEffects[i]->m_Particle.fSpreadSpeed);
+			node->LinkEndChild(element);
+
 			element = document->NewElement("EmitTerm");
-			element->SetAttribute("EmitTerm", m_vecEffects[i]->m_Particle.fEmitTerm);
+			element->SetAttribute("EmitTerm", m_vecEffects[i]->m_fOriginEmitTerm);
 			node->LinkEndChild(element);
 
 			element = document->NewElement("ParticleLifeTime");
@@ -1254,9 +1258,9 @@ HRESULT CEffectTool::Load()
 				tinyxml2::XMLElement* element = nullptr;
 
 				element = node->FirstChildElement();
-				m_pCurrentEffect->m_Particle.vEmitDirection.x = element->FloatAttribute("X");
-				m_pCurrentEffect->m_Particle.vEmitDirection.y = element->FloatAttribute("Y");
-				m_pCurrentEffect->m_Particle.vEmitDirection.z = element->FloatAttribute("Z");
+				m_pCurrentEffect->m_vOriginEmitDir.x = element->FloatAttribute("X");
+				m_pCurrentEffect->m_vOriginEmitDir.y = element->FloatAttribute("Y");
+				m_pCurrentEffect->m_vOriginEmitDir.z = element->FloatAttribute("Z");
 
 				element = element->NextSiblingElement();
 				m_pCurrentEffect->m_Particle.vRandomMul.x = element->FloatAttribute("X");
@@ -1264,7 +1268,10 @@ HRESULT CEffectTool::Load()
 				m_pCurrentEffect->m_Particle.vRandomMul.z = element->FloatAttribute("Z");
 
 				element = element->NextSiblingElement();
-				m_pCurrentEffect->m_Particle.fEmitTerm = element->FloatAttribute("EmitTerm");
+				m_pCurrentEffect->m_Particle.fSpreadSpeed = element->FloatAttribute("SpreadSpeed");
+
+				element = element->NextSiblingElement();
+				m_pCurrentEffect->m_fOriginEmitTerm = element->FloatAttribute("EmitTerm");
 
 				element = element->NextSiblingElement();
 				m_pCurrentEffect->m_Particle.fParticleLifeTime = element->FloatAttribute("ParticleLifeTime");

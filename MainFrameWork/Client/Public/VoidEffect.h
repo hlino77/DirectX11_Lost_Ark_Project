@@ -86,6 +86,9 @@ public:
 
 	_float	m_fDissolveStart = 1.f;
 
+	Vec3	m_vOriginEmitDir = Vec3(0.0f, 0.0f, 0.0f);
+	_float	m_fOriginEmitTerm = 0.005f;
+
 	struct tagFX_Variables
 	{
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
@@ -124,7 +127,8 @@ public:
 		_float	fSpreadSpeed = 1.f;
 		_float	fEmitTerm = 0.005f;
 		_float	fParticleLifeTime = 1.f;
-		Vec2	padding;
+		_float	fSequenceTerm = 0.01f;
+		_uint	iIsLoop = 0;
 	} m_Particle;
 
 	string	m_strPassName = "OneBlend";

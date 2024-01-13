@@ -316,50 +316,7 @@ void CPlayer::Body_Collision(CGameObject* pObject)
 
 void CPlayer::Hit_Attack(CCollider* pCollider)
 {
-	CGameObject* pOwner = pCollider->Get_Owner();
-
-	_uint iObjType = pOwner->Get_ObjectType();
-
-	if (iObjType == OBJ_TYPE::PLAYER)
-		return;
-
-	if (iObjType == OBJ_TYPE::SKILL)
-	{
-		_uint iSkillOwnerType = dynamic_cast<CSkill*>(pOwner)->Get_SkillOwner()->Get_ObjectType();
-		if (iSkillOwnerType == OBJ_TYPE::PLAYER)
-			return;
-	}
-
-	m_iHp -= pCollider->Get_Attack();
-	if (m_iHp < 0)
-		m_iHp = 0;
-
-
-	if (m_iHp == 0)
-		m_iHp = 100;
-
-	Send_Hp();
-
-	_uint iAttackType = pCollider->Get_AttackType();
-
-
-	switch (iAttackType)
-	{
-	case (_uint)COLLIDER_ATTACK::MIDDLE:
-		m_pHitObject = pCollider->Get_Owner();
-		Set_State(L"Hit_Middle");
-		if (iObjType != OBJ_TYPE::SKILL)
-			m_pCamera->Cam_Shake(0.001f, 0.1f);
-		break;
-	case (_uint)COLLIDER_ATTACK::SPINBLOWUP:
-		m_pHitObject = pCollider->Get_Owner();
-		Set_State(L"Hit_SpinBlowUp");
-		if (iObjType != OBJ_TYPE::SKILL)
-			m_pCamera->Cam_Shake(0.002f, 0.15f);
-		break;
-	}
-
-	Set_SlowMotion(pCollider->Get_SlowMotion());
+	
 }
 
 void CPlayer::Set_SlowMotion(_bool bSlow)

@@ -29,10 +29,11 @@ public:
 
 
 public:
-	void		Cam_Shake(_float fForce, _float fTime);
+	void		Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _float fBreak);
 	void		ZoomInOut(_float fCameraLength, _float fSpeed) { m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed; }
 	void		DefaultLength(_float fSpeed) { m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed; }
 
+	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight);
 
 protected:
 	virtual HRESULT Ready_Components() override;
@@ -51,8 +52,11 @@ private:
 	_float	m_fShakeTime = 0.0f;
 	_float	m_fCurrShakeTime = 0.0f;
 	_float	m_fShakeForce = 0.0f;
+	_float	m_fBreak = 0.0f;
 	_bool	m_bShake = false;
-	Vec3	m_vOriginLook;
+
+	Vec2	m_vShakeVelocity;
+	Vec2	m_vShakeOffset;
 
 	class CPlayer* m_pPlayer = nullptr;
 public:

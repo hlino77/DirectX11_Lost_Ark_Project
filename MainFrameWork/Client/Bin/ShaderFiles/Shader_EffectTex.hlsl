@@ -105,7 +105,7 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In, uniform bool bOneBlend)
         vNewUV = vNewUV * 0.5f + 0.5f;
     }
     
-    float4 vColor = CalculateEffectColor(vNewUV);
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord);
     
     if (bOneBlend)
         Out.vOneBlend = vColor;

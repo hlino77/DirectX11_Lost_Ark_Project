@@ -40,7 +40,8 @@ cbuffer FX_Particle
     float fSpreadSpeed = 1.f;
     float fEmitTerm = 0.005f;
     float fParticleLifeTime = 1.f;
-    float2 padding3;
+    float fSequenceTerm = 0.0f;
+    int iIsLoop = 0;
 };
 
 Texture1D g_RandomTexture;
@@ -69,7 +70,7 @@ float3 RandVec3(float fOffset)
     return v;
 }
 
-float4 CalculateEffectColor(in float2 vUV)
+float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV)
 {
     float fMask = 1.f;
     float2 vNewUV = vUV;
@@ -77,8 +78,8 @@ float4 CalculateEffectColor(in float2 vUV)
 
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {
-        vNewUV = g_NoiseTexture.Sample(LinearSampler, vUV).rg;
-        vNewUV += (vNewUV - 0.5f) * 2.f;
+        float2 vNoiseUV = g_NoiseTexture.Sample(LinearSampler, vOriginUV).rg;
+        vNewUV += (vNoiseUV - 0.5f) * 2.f;
     }
     
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask

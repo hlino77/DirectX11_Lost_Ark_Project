@@ -31,15 +31,20 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
 		// time to emit a new particle?
         if (In[0].fAge > fEmitTerm)
         {
+            float3 vRight = normalize(WorldMatrix._11_12_13);
+            float3 vUp = normalize(WorldMatrix._21_22_23);
+            float3 vLook = normalize(WorldMatrix._31_32_33);
             // Spread rain drops out above the camera.
             float3 vRandom = RandUnitVec3(0.0f);
             vRandom *= 0.8f;
             
+            float3 vMul = (vRight * vRandom.x * vRandomMul.x) + (vUp * vRandom.y * vRandomMul.y) + (vLook * vRandom.z * vRandomMul.z);
+
             PARTICLE_IN p;
 
             p.vPosition = vEmitPosition;
             //p.vPosition += vRandom;
-            p.vVelocity = (vEmitDirection + (vRandom * vRandomMul)) * fSpreadSpeed;
+            p.vVelocity = vEmitDirection + vMul * fSpreadSpeed;
             p.vSize = In[0].vSize;
             //p.vSize = float2(1.f, 1.f);
             p.fAge = 0.0f;
@@ -88,7 +93,7 @@ float2 g_QuadTexC[4] =
 	float2(0.0f, 0.0f),
 	float2(1.0f, 0.0f)
 };
-
+    
 // STREAM-OUT TECH
 #define PT_EMITTER 0
 #define PT_PARTICLE 1
@@ -99,6 +104,7 @@ struct VS_OUT_SMOKE
     float2 vSize : SIZE;
     float4 vColor : COLOR;
     uint iType : TYPE;
+    float2 vUVIndex : UVINDEX;
 };
 
 struct GS_OUT_SMOKE
@@ -123,6 +129,28 @@ VS_OUT_SMOKE VS_MAIN_DRAW_SMOKE(PARTICLE_IN In)
     
     Out.vSize = In.vSize * (1.f + t);
     Out.iType = In.iType;
+
+
+    int iUVCountX = int(vUV_TileCount.x);
+    int iUVCountY = int(vUV_TileCount.y);
+    int iUVX = t / fSequenceTerm;
+    int iUVY = iUVX / vUV_TileCount.x;
+    iUVX -= iUVCountX * iUVY;
+    
+    if (iUVY >= vUV_TileCount.y)
+    {
+        if (iIsLoop)
+        {
+            iUVY -= (iUVY / iUVCountY) * iUVCountY;
+        }
+        else
+        {
+            iUVX = iUVCountX - 1;
+            iUVY = iUVCountY - 1;
+        }  
+    }
+
+    Out.vUVIndex = float2(iUVX, iUVY);
 
     return Out;
 }
@@ -169,12 +197,19 @@ void GS_DRAW_SMOKE(point VS_OUT_SMOKE In[1], inout TriangleStream<GS_OUT_SMOKE> 
 		// Transform quad vertices to world space and output
 		// them as a triangle strip.
 		//
+
         GS_OUT_SMOKE Out;
 		[unroll]
         for (int i = 0; i < 4; ++i)
         {
             Out.vPosition = mul(v[i], ViewProj);
             Out.vTexcoord = g_QuadTexC[i];
+
+            if (!bUV_Wave)
+                Out.vTexcoord = (Out.vTexcoord + In[0].vUVIndex) / vUV_TileCount + vUV_Offset;
+            else
+                Out.vTexcoord = ((((Out.vTexcoord + In[0].vUVIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
+
             Out.vColor = In[0].vColor;
             OutStream.Append(Out);
         }
@@ -185,14 +220,9 @@ PS_OUT_EFFECT PS_DRAW_FXPARTICLE(GS_OUT_SMOKE In, uniform bool bOneBlend)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
-    float2 vNewUV = float2(0.f, 0.f);
-    
-    if (!bUV_Wave)
-        vNewUV = (In.vTexcoord + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
-    else
-        vNewUV = ((((In.vTexcoord + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
-    
-    float4 vColor = CalculateEffectColor(vNewUV);
+    float2 vNewUV = In.vTexcoord;
+ 
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord);
     
     if (bOneBlend)
         Out.vOneBlend = vColor;

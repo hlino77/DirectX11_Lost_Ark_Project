@@ -70,8 +70,22 @@ void CCamera_Player::Tick(_float fTimeDelta)
 	Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vPos = vPlayerPos + (m_vOffset * m_fCameraLength);
 	Vec3 vLook = vPlayerPos - vPos;
-
 	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	if (m_bShake)
+	{
+		m_fCurrShakeTime += fTimeDelta;
+		if (m_fCurrShakeTime >= m_fShakeTime)
+		{
+			m_bShake = false;
+		}
+
+		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right());
+		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+	}
+
+
+	
 	m_pTransformCom->Set_WorldMatrix(matWorld);
 
 	
@@ -89,14 +103,38 @@ HRESULT CCamera_Player::Render()
 	return S_OK;
 }
 
-void CCamera_Player::Cam_Shake(_float fForce, _float fTime)
+void CCamera_Player::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _float fBreak)
 {
 	m_bShake = true;
-	
-	m_fShakeForce = fForce;
+
 	m_fShakeTime = fTime;
 	m_fCurrShakeTime = 0.0f;
-	m_vOriginLook = Vec3(0.0f, 0.0f, 0.0f);
+
+	m_fShakeForce = fForce;
+	m_fBreak = fBreak;
+
+	m_vShakeOffset = Vec2();
+	m_vShakeVelocity.x = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+	m_vShakeVelocity.y = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+
+	m_vShakeVelocity.Normalize();
+
+	m_vShakeVelocity *= fFirstShake;
+}
+
+void CCamera_Player::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight)
+{
+	m_vShakeVelocity.x += -m_vShakeOffset.x * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 1.0f);
+	m_vShakeVelocity.y += -m_vShakeOffset.y * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 1.0f);
+
+	//m_vShakeVelocity *= (1.0f - m_fBreak);
+
+	m_vShakeOffset += m_vShakeVelocity;
+
+	m_vShakeOffset *= (1.0f - m_fBreak);
+
+	vLook += m_vShakeOffset.x * vRight;
+	vLook += m_vShakeOffset.y * vUp;
 }
 
 HRESULT CCamera_Player::Ready_Components()

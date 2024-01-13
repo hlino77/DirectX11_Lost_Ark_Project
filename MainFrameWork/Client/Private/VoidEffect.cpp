@@ -13,6 +13,7 @@
 #include "BindShaderDesc.h"
 #include "Utils.h"
 #include "Level_Tool.h"
+#include "VIBuffer_Particle.h"
 //#include "DebugDraw.h"
 
 CVoidEffect::CVoidEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -71,6 +72,9 @@ HRESULT CVoidEffect::Initialize(void* pArg)
 
 void CVoidEffect::Tick(_float fTimeDelta)
 {
+	m_Particle.iIsLoop = m_IsLoop;
+	m_Particle.fSequenceTerm = m_fSequenceTerm;
+
 	m_fLifeTime = ::max(0.001f, m_fLifeTime);
 
 	if (m_fWaitingTime > 0.0f)
@@ -89,7 +93,7 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 	m_fLifeTimeRatio = min(1.0f, m_fTimeAcc / m_fLifeTime);
 
-	if (m_IsSequence)
+	if (m_IsSequence && m_iEffectType != 2)
 	{
 		m_Variables.vUV_TileCount.x = ::max(1.f, m_Variables.vUV_TileCount.x);
 		m_Variables.vUV_TileCount.y = ::max(1.f, m_Variables.vUV_TileCount.y);
@@ -111,7 +115,9 @@ void CVoidEffect::Tick(_float fTimeDelta)
 					if (m_IsLoop)
 						m_Variables.vUV_TileIndex.y = 0.0f;	
 					else
+					{
 						m_bRender = false;
+					}
 				}
 					
 			}
@@ -228,6 +234,15 @@ HRESULT CVoidEffect::Render()
 	}
 	else if (2 == m_iEffectType)
 	{
+		m_Particle.vEmitDirection = XMVector3TransformNormal(m_vOriginEmitDir, matCombined);
+
+		if (m_fTimeAcc >= m_fLifeTime)
+		{
+			m_Particle.fEmitTerm = 99999.f;
+		}
+		else
+			m_Particle.fEmitTerm = m_fOriginEmitTerm;
+
 		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
 			return E_FAIL;
 		if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Particle", &m_Particle, sizeof(tagFX_Particle))))
@@ -344,6 +359,9 @@ void CVoidEffect::Reset()
 	}
 	else
 		m_matPivot = Matrix::Identity;
+
+	if (m_iEffectType == 2)
+		dynamic_cast<CVIBuffer_Particle*>(m_pBuffer)->Reset();
 }
 
 HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)

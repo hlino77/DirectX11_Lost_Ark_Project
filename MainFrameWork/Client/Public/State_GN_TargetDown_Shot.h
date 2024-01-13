@@ -35,6 +35,8 @@ private:
 
 	_bool m_bEffect = false;
 
+
+	vector<wstring> m_ParticleName;
 public:
 	static CState_GN_TargetDown_Shot* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;

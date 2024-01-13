@@ -31,7 +31,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In, uniform bool bOneBlend)
     else
         vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
     
-    float4 vColor = CalculateEffectColor(vNewUV);
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexUV);
     
     if (bOneBlend)
         Out.vOneBlend = vColor;
@@ -40,7 +40,7 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In, uniform bool bOneBlend)
     
     if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
     {
-        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, vNewUV) * fIntensity_Bloom;
+        Out.vEmissive = vColor * fIntensity_Bloom;
     }
 
     return Out;

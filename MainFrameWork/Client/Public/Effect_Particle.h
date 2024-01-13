@@ -25,6 +25,9 @@ public:
 	virtual void	LateTick(_float fTimeDelta)	override;
 	virtual HRESULT Render()					override;
 	
+public:
+	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc);
+
 private:
 	struct tagFX_Billboard
 	{
@@ -43,8 +46,14 @@ private:
 		_float	fSpreadSpeed = 1.f;
 		_float	fEmitTerm = 0.005f;
 		_float	fParticleLifeTime = 1.f;
-		Vec2	padding;
+		_float	fSequenceTerm = 0.01f;
+		_uint	iIsLoop = 0;
 	} m_Particle;
+
+private:
+	_float m_fOriginEmitTerm = 0.001f;
+
+	Vec3	m_vOriginEmitDir = Vec3(0.0f, 0.0f, 0.0f);
 
 private:
 	CVIBuffer_Particle* m_pBuffer = nullptr;
