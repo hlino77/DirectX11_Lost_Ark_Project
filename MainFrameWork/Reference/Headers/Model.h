@@ -90,6 +90,7 @@ public:
 	_int	FindMaterialIndexByName(string strMaterialName);
 	_int	Is_HairTexture();
 
+	_bool	IsReserved() { return m_bReserved; }
 	_bool	IsNext() { return m_bNext; }
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
 public:

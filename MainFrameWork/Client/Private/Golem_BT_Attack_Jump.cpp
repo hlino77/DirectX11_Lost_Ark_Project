@@ -46,12 +46,12 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 			if (pSkill != nullptr)
 			{
 				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT);
-				vPos += vLook * 0.3f;
-				vLook.Normalize();
+				Vec3 vRight = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT);
+				vPos += vRight * 0.3f;
+				vRight.Normalize();
 				vPos.y = 0.5f;
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				pSkill->Get_TransformCom()->LookAt_Dir(vRight);
 				m_Shoot = false;
 			}
 		}

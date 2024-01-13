@@ -2,7 +2,9 @@
 #include "King_BT_Attack_Attack4_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include "Transform.h"
 #include <Boss_Server.h>
+
 CKing_BT_Attack_Attack4_Server::CKing_BT_Attack_Attack4_Server()
 {
 }
@@ -18,6 +20,15 @@ void CKing_BT_Attack_Attack4_Server::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Attack4_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_IsTeleport && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	{
+		Vec3 vTargetPos = static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTarget_Position();
+		Vec3 vDir = static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction();
+		vDir.Normalize();
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vTargetPos - vDir * 0.75f);
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+		m_IsTeleport = false;
+	}
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);

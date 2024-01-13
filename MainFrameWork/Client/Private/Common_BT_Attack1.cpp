@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Common_BT_Attack1.h"
-#include "Monster.h"
 #include "Model.h"
 #include "ColliderSphere.h"
+#include <Boss.h>
 
 CCommon_BT_Attack1::CCommon_BT_Attack1()
 {
@@ -26,9 +26,14 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 	else if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
 	{
 		if (!m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->IsActive() && dynamic_cast<CMonster*>(m_pGameObject)->Get_BasicAttackStartFrame() <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
+		{
+			dynamic_cast<CBoss*>(m_pGameObject)->Set_Atk(dynamic_cast<CBoss*>(m_pGameObject)->Get_BaseAtk());
+			dynamic_cast<CBoss*>(m_pGameObject)->Set_Force(	dynamic_cast<CBoss*>(m_pGameObject)->Get_BaseForce());
 			dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, true);
+		}
 		if (m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->IsActive() && dynamic_cast<CMonster*>(m_pGameObject)->Get_BasicAttackEndFrame() <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 			dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, false);
+
 	}
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);

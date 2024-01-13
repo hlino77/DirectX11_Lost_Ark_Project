@@ -68,9 +68,9 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 	m_IsSuperArmor = true;
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 1.2f;
-	m_iMaxHp = 1999999999;
+	m_iMaxHp = 600000000;
 	m_iHp = m_iMaxHp;
-	m_iMaxGroggyGauge = 50;
+	m_iMaxGroggyGauge = 100;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_fNoticeRange = 50.f;
 	return S_OK;
@@ -337,12 +337,12 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.fAnimSpeed = 1.2f;
 	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.strAnimName = TEXT("att_battle_3_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
@@ -358,13 +358,13 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_4_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
@@ -376,13 +376,13 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
@@ -421,8 +421,7 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
 		return E_FAIL;
-	if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
-		return E_FAIL;
+
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Near = CCommon_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
@@ -438,7 +437,8 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 		return E_FAIL;
 	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
 		return E_FAIL;
-
+	if (FAILED(pSelector_Within_Range->AddChild(pBattleIdle)))
+		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 

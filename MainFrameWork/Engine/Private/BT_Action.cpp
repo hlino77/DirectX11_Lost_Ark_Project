@@ -22,7 +22,7 @@ HRESULT CBT_Action::Initialize(void* pArg)
 		return E_FAIL;
 	for (auto& AnimDesc :  pActionDesc->vecAnimations)
 	{
-		AnimDesc.iAnimIndex = m_pGameObject->Get_ModelCom()->Initailize_FindAnimation(AnimDesc.strAnimName, AnimDesc.fAnimSpeed);
+		AnimDesc.iAnimIndex = m_pGameObject->Get_ModelCom()->Initailize_FindAnimation(AnimDesc.strAnimName,1.f);
 
 		if (AnimDesc.iAnimIndex < 0)
 			return E_FAIL;
@@ -81,6 +81,7 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 
 			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fAnimSpeed);
 		}
 	}
 

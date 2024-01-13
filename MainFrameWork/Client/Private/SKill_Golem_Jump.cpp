@@ -26,6 +26,8 @@ HRESULT CSKill_Golem_Jump::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
+	m_iAtk = 10;
+	m_fForce = 0.f;
 	m_fMoveSpeed = 7.5f;
 	m_fLastTime = 2.f;
     return S_OK;

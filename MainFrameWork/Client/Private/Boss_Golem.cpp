@@ -49,12 +49,14 @@ HRESULT CBoss_Golem::Initialize_Prototype()
 
 HRESULT CBoss_Golem::Initialize(void* pArg)
 {
+	m_iMaxGroggyGauge = 50;
+	m_iGroggyGauge = m_iMaxGroggyGauge;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
 
-
+	m_iBaseAtk = 12;
 
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);

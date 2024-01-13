@@ -51,14 +51,16 @@ HRESULT CBoss_King::Initialize_Prototype()
 
 HRESULT CBoss_King::Initialize(void* pArg)
 {
+	m_iMaxGroggyGauge = 100;
+	m_iGroggyGauge = m_iMaxGroggyGauge;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	
 	m_fFontScale = 0.525f;
 	m_IsSuperArmor = true;
 	m_fMoveSpeed = 2.f;
 	m_vecAttackRanges.clear();
-	m_fAttackRange = 1.5f;
+	m_fAttackRange = 1.f;
+	m_iBaseAtk = 16;
 	m_fRootTargetDistance = 1.2f;
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 50;
@@ -361,7 +363,11 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Charge_Swing";
 	CBT_Action* pSkill1 = CKing_BT_Attack_Charge_Swing::Create(&ActionDesc);
 
@@ -383,6 +389,11 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Erruption";
 	CBT_Action* pSkill2 = CKing_BT_Attack_Erruption::Create(&ActionDesc);
 
@@ -394,6 +405,11 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fAnimSpeed = 1.4f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack1";
 	CBT_Action* pAttack1 = CCommon_BT_Attack1::Create(&ActionDesc);
@@ -409,12 +425,17 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.fAnimSpeed = 1.2f;
 	AnimationDesc.strAnimName = TEXT("att_battle_3_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.strAnimName = TEXT("att_battle_3_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack2";
@@ -430,34 +451,44 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_4_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_4_03");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fAnimSpeed = 1.2f;
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack3";
 	CBT_Action* pAttack3 = CKing_BT_Attack_Attack3::Create(&ActionDesc);
 	ActionDesc.vecAnimations.clear();
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.strAnimName = TEXT("att_battle_8_02");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fAnimSpeed = 1.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fAnimSpeed = 1.2f;
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	ActionDesc.strActionName = L"Action_Attack4";
 	CBT_Action* pAttack4 = CKing_BT_Attack_Attack4::Create(&ActionDesc);
 

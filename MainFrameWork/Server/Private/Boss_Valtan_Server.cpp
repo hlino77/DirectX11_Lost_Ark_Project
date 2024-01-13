@@ -123,6 +123,7 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 void CBoss_Valtan_Server::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	m_fSkillCoolDown = 0.f;
 }
 
 void CBoss_Valtan_Server::LateTick(_float fTimeDelta)
@@ -824,7 +825,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 3.f;
+	AnimationDesc.fMaxLoopTime = 5.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1369,51 +1370,94 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Decorator* pIf_Hp_UnderRatio30 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio30)->Set_Ratio(30.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio30->AddChild(pAttack16))) return E_FAIL;
-
+	//0
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	//1
 	AnimationDesc.strAnimName = TEXT("att_battle_12_02");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	//2
 	AnimationDesc.strAnimName = TEXT("att_battle_12_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	
+	//3
 	AnimationDesc.strAnimName = TEXT("att_battle_13_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	//4
 	AnimationDesc.strAnimName = TEXT("att_battle_13_02-1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	//5
 	AnimationDesc.strAnimName = TEXT("att_battle_13_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.IsEndInstant = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
+	//6
+	AnimationDesc.strAnimName = TEXT("att_battle_13_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//7
 
+	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.IsRootRot = true;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.IsRootRot = false;
+	//8
+	AnimationDesc.strAnimName = TEXT("att_battle_13_01");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//9
+	AnimationDesc.strAnimName = TEXT("att_battle_13_02");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//10
+	AnimationDesc.strAnimName = TEXT("att_battle_13_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.IsEndInstant = true;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
+	//11
 	AnimationDesc.strAnimName = TEXT("att_battle_13_04");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-
+	//12
 	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1424,15 +1468,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//65번 버러지패턴
 	ActionDesc.strActionName = L"Action_Attack22";
 	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22_Server::Create(&ActionDesc);
-	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::REPEAT;
-	DecoratorDesc.iRepeatCount = 100;
-	CBT_Decorator* pRepeat_100 = CValtan_BT_Repeat_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
-	if (FAILED(pRepeat_100->AddChild(pAttack22))) 
-		return E_FAIL;
+
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Hp_UnderRatio65 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
 	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio65)->Set_Ratio(65.f / 160.f);
-	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pRepeat_100))) return E_FAIL;
+	if (FAILED(pIf_Hp_UnderRatio65->AddChild(pAttack22))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_18_01");

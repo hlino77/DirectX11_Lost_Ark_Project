@@ -47,6 +47,8 @@ public:
 	virtual void Set_SlowMotion(_bool bSlow) override;
 	virtual HRESULT Render_ShadowDepth();
 
+	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
+
 public:
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
@@ -89,6 +91,22 @@ public:
 
 	_uint						Get_Phase() { return m_iPhase; }
 	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
+
+
+	_int						Get_GroggyGauge() { return m_iGroggyGauge; }
+	void						Set_GroggyGauge(_int iArmorDurability) { m_iGroggyGauge = iArmorDurability; }
+
+	_int						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
+
+	_float					Get_Force() { return m_fForce; }
+	void					Set_Force(_float fForce) { m_fForce = fForce; }
+
+	_uint					Get_BaseAtk() { return m_iBaseAtk; }
+	void					Set_BaseAtk(_uint iBaseAtk) { m_iBaseAtk = iBaseAtk; }
+
+	_float					Get_BaseForce() { return m_fBaseForce; }
+	void					Set_BaseForce(_float fBaseForce) { m_fBaseForce = fBaseForce; }
+
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -100,13 +118,15 @@ protected:
 	virtual HRESULT			Ready_BehaviourTree();
 
 protected:
+	_uint m_iBaseAtk = 0;
+	_float m_fBaseForce = 0;
 	_bool m_IsCounterSkill = false;
 	Vec3  m_vSpawnPosition = {};
 	_int m_iArmor = 0;
 	_uint m_iPhase = 1;
 	_int m_iGroggyGauge = 0;
 	_uint m_iMaxGroggyGauge = 0;
-
+	_float m_fForce = 0.f;;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

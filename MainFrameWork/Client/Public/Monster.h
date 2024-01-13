@@ -134,6 +134,12 @@ public:
 
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
 	void	Deactivate_AllColliders();
+
+	_uint					Get_Atk() { return m_iAtk; }
+	void					Set_Atk(_uint iAtk) { m_iAtk = iAtk; }
+
+
+
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();
@@ -153,6 +159,7 @@ protected:
 
 
 protected:
+	_uint							m_iAtk = 0;
 	_float							m_fMoveSpeed = 1.f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
@@ -175,6 +182,7 @@ protected:
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
 	_bool							m_IsSetuponCell = true;
+
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;

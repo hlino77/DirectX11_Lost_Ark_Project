@@ -32,7 +32,11 @@ private:
 	_bool IsCounter()
 	{
 		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter())
+		{
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 			return false;
+		}
 		else
 			return true;
 	}

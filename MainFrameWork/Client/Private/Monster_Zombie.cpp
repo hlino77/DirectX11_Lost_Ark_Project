@@ -55,6 +55,8 @@ HRESULT CMonster_Zombie::Initialize_Prototype()
 
 HRESULT CMonster_Zombie::Initialize(void* pArg)
 {
+	m_iMaxHp = 9999999;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -68,7 +70,9 @@ HRESULT CMonster_Zombie::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(1.2f);
 	m_vecAttackRanges.push_back(1.2f);
 	m_fAttackRange = m_vecAttackRanges[0];
-    return S_OK;
+	m_iAtk = 6;   
+
+	return S_OK;
 }
 
 void CMonster_Zombie::Tick(_float fTimeDelta)

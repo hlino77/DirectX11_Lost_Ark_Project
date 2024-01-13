@@ -57,6 +57,8 @@ HRESULT CMonster_Reaper::Initialize_Prototype()
 
 HRESULT CMonster_Reaper::Initialize(void* pArg)
 {
+	m_iMaxHp = (uint64)21999997;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -70,6 +72,7 @@ HRESULT CMonster_Reaper::Initialize(void* pArg)
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 33;
 	m_fRootTargetDistance = 0.5f;
+	m_iAtk = 8;
     return S_OK; 
 }
 

@@ -77,8 +77,12 @@ public:
 
 	void					Set_Die();
 
+	_uint					Get_Atk() { return m_iAtk; }
+	void					Set_Atk(_uint iAtk) { m_iAtk = iAtk; }
 
-	
+	_float					Get_Force() { return m_fForce; }
+	void					Set_Force(_float fForce) { m_fForce = fForce; }
+
 protected:
 	virtual HRESULT			Ready_Components();
 
@@ -90,6 +94,7 @@ protected:
 
 	_float							m_fLastTime = 0.f;
 	_uint							m_iAtk = 0;
+	_float							m_fForce = 0.0f;
 	_float							m_fMoveSpeed = 0.0f;
 
 

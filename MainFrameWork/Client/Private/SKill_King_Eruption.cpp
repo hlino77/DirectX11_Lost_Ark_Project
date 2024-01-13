@@ -28,6 +28,8 @@ HRESULT CSKill_King_Eruption::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fLastTime = 5.f;
+	m_iAtk = 5;
+	m_fForce = 0.f;
     return S_OK;
 }
 

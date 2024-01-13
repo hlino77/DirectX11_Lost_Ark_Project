@@ -70,9 +70,9 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
-	m_iMaxHp = 299999999;
+	m_iMaxHp = 300000000;
 	m_iHp = m_iMaxHp;
-	m_iMaxGroggyGauge = 25;
+	m_iMaxGroggyGauge = 50;
 	m_iSkillStack = CGameInstance::GetInstance()->Random_Int(0, m_iMaxSkillStack-1);
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	return S_OK;
@@ -398,8 +398,7 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 
 	if (FAILED(pSelectorNear->AddChild(pIfAttacked)))
 		return E_FAIL;
-	if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
-		return E_FAIL;
+
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIf_Near = CCommon_BT_IF_Near_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
@@ -415,7 +414,8 @@ HRESULT CBoss_Golem_Server::Ready_BehaviourTree()
 		return E_FAIL;
 	if (FAILED(pSelector_Within_Range->AddChild(pIf_Near)))
 		return E_FAIL;
-
+	if (FAILED(pSelector_Within_Range->AddChild(pBattleIdle)))
+		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	
