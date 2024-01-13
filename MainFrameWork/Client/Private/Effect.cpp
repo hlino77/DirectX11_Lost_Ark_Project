@@ -80,7 +80,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_vColor_End = pDesc->vColor_End;
 	m_bColor_Lerp = pDesc->bColor_Lerp;
 
-
+	m_fDissolveStart = pDesc->fDissolveStart;
 
 	m_fLifeTime = pDesc->fLifeTime;
 	m_fWaitingTime = pDesc->fWaitingTime;
@@ -229,8 +229,6 @@ HRESULT CEffect::Render()
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagFX_Variables))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
-		return E_FAIL;
 
 #pragma region GlobalData
 	m_matCombined = m_matOffset * m_matPivot;
@@ -277,6 +275,9 @@ HRESULT CEffect::Render()
 				return E_FAIL;
 		}
 	}
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
+		return E_FAIL;
 
 	return S_OK;
 }

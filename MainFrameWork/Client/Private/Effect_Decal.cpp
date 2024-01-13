@@ -59,6 +59,10 @@ HRESULT CEffect_Decal::Render()
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformInverse", &matCombinedInv, sizeof(Matrix))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrixInv", &m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ))) ||
+		FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrixInv", &m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
 		FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Normal"), "g_NormalTarget")) ||
 		FAILED(m_pGameInstance->Bind_SRV(m_pShaderCom, TEXT("Target_Properties"), "g_PropertiesTarget")))

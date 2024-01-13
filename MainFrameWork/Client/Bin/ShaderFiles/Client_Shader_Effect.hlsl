@@ -73,7 +73,6 @@ float4 CalculateEffectColor(in float2 vUV)
 {
     float fMask = 1.f;
     float2 vNewUV = vUV;
-    float3 vEmissive = float3(0.f, 0.f, 0.f);
 
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {
@@ -103,12 +102,12 @@ float4 CalculateEffectColor(in float2 vUV)
         float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
         
 	    //Discard the pixel if the value is below zero
-        clip(fDissolve - g_fDissolveAmount);
+        clip(fDissolve - fDissolve_Amount);
 	    //Make the pixel emissive if the value is below ~f
-        //if (fDissolve - g_fDissolveAmount < 0.25f)/*0.08f*/
-        //{
-        //    vEmissive = float3(0.3f, 0.3f, 0.3f);
-        //}
+        if (fDissolve - fDissolve_Amount < 0.25f)/*0.08f*/
+        {
+            vColor.xyz += vColor.xyz * float3(0.3f, 0.3f, 0.3f);
+        }
     }
     
     return vColor;
