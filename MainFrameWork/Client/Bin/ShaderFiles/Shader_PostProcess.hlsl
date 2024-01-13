@@ -4,6 +4,8 @@
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D	g_PrePostProcessTarget;
+Texture2D	g_DecalOneBlendTarget;
+Texture2D	g_DecalAlphaBlendTarget;
 Texture2D	g_EffectOneBlendTarget;
 Texture2D	g_EffectAlphaBlendTarget;
 Texture2D	g_ShadeTarget;
@@ -108,10 +110,23 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 	
     vColor += vBloom;
     
+    float4 vDecalOneBlend = g_DecalOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vDecalAlphaBlend = g_DecalAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
+	
 	float4 vEffectOneBlend = g_EffectOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
 	float4 vEffectAlphaBlend = g_EffectAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
 	
-	if (EPSILON < vEffectOneBlend.a)
+    if (EPSILON < vDecalOneBlend.a)
+	{
+        vColor = float4(vDecalOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
+    }
+	
+    if (EPSILON < vDecalAlphaBlend.a)
+    {
+        vColor = float4(vDecalAlphaBlend.rgb * vDecalAlphaBlend.a + vColor.rgb * (1.f - vDecalAlphaBlend.a), 1.f);
+    }
+        
+    if (EPSILON < vEffectOneBlend.a)
 	{
         vColor = float4(vEffectOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
     }

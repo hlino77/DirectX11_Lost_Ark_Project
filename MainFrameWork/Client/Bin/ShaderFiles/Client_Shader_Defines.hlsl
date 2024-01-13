@@ -75,17 +75,24 @@ DepthStencilState DSS_Default
 	DepthWriteMask = all;
 	DepthFunc = less_equal;
 };
-
+    
 DepthStencilState DSS_Skybox
 {
 	DepthEnable = false;
-	DepthWriteMask = zero;	
+	DepthWriteMask = zero;		
 };
 
 DepthStencilState DSS_None
 {
 	DepthEnable = false;
 	DepthWriteMask = zero;
+};
+
+DepthStencilState DSS_Effect
+{
+    DepthEnable = true;
+    DepthWriteMask = all;
+    DepthFunc = always;
 };
 
 BlendState BS_Default

@@ -55,8 +55,8 @@ private:
 
 	HRESULT Render_StaticShadow();
 	HRESULT Render_NonAlphaBlend();
-	HRESULT Render_Effect();
 	HRESULT Render_Decal();
+	HRESULT Render_Effect();
 	HRESULT	Render_ShadowDepth();
 	HRESULT Render_Lights();
 	HRESULT Render_LightAcc();
