@@ -1178,6 +1178,7 @@ HRESULT CRenderer::Render_Bloom()
 	
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_Emissive"), "g_BloomBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_DecalEmissive"), "g_DecalBloomBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_EffectEmissive"), "g_EffectBloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("DownSample_Bright")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
