@@ -43,7 +43,6 @@ void CSKill_King_Eruption::Tick(_float fTimeDelta)
 		else if (!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
 	}
-
 }
 
 void CSKill_King_Eruption::LateTick(_float fTimeDelta)

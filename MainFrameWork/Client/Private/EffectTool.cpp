@@ -492,6 +492,9 @@ HRESULT CEffectTool::EffectDetail()
 
 	ImGui::InputFloat4("Color Mul", (_float*)&m_pCurrentEffect->m_Variables.vColor_Mul);
 
+	ImGui::InputFloat("Bloom Intensity", &m_pCurrentEffect->m_Intensity.fBloom);
+	ImGui::InputFloat("Radial Intensity", &m_pCurrentEffect->m_Intensity.fRadial);
+
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
 	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);
@@ -1239,7 +1242,11 @@ HRESULT CEffectTool::Load()
 
 			element = node->FirstChildElement();
 			m_pCurrentEffect->m_Intensity.fBloom = element->FloatAttribute("Intensity");
+
+			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fRadial = element->FloatAttribute("Intensity");
+
+			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fDissolveAmount = element->FloatAttribute("Amount");
 		}
 

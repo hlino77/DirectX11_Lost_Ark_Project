@@ -9,6 +9,9 @@ CLight_Manager::CLight_Manager()
 
 const LIGHTDESC * CLight_Manager::Get_LightDesc(_uint iIndex)
 {
+	if (m_Lights.empty())
+		return nullptr;
+
 	auto	iter = m_Lights.begin();
 
 	for (_uint i = 0; i < iIndex; ++i)

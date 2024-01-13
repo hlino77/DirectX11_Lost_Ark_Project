@@ -121,8 +121,6 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
         vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), 1.f);
     }
 	
-    
-
     return vColor;
 }
 

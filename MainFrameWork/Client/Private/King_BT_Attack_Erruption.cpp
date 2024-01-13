@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Skill.h"
 #include "GameInstance.h"
+#include "Effect_Manager.h"
 
 CKing_BT_Attack_Erruption::CKing_BT_Attack_Erruption()
 {
@@ -22,6 +23,22 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) == 50 && m_Shoot)
 	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matPivot = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vOriginalPos = matPivot.Translation();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
+
+		matPivot *=	XMMatrixRotationY(XMConvertToRadians(60.f));
+		matPivot.Translation(vOriginalPos);
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
+
+		matPivot *= XMMatrixRotationY(XMConvertToRadians(120.f));
+		matPivot.Translation(vOriginalPos);
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
+
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
