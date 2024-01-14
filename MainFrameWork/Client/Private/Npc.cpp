@@ -56,6 +56,8 @@ HRESULT CNpc::Initialize(void* pArg)
 		m_NpcDesc.strNpcMq = pDesc->strNpcMq;
 		m_NpcDesc.strNpcHead = pDesc->strNpcHead;
 		m_NpcDesc.strNpcBody = pDesc->strNpcBody;
+		m_NpcDesc.vHairColor1 = pDesc->vHairColor1;
+		m_NpcDesc.vHairColor2 = pDesc->vHairColor2;
 
 		m_NpcDesc.strIdleAnim = pDesc->strIdleAnim;
 		m_NpcDesc.strActAnim = pDesc->strActAnim;
@@ -96,7 +98,7 @@ HRESULT CNpc::Initialize(void* pArg)
 	if (m_iIdleAnimIndex == -1)
 		return E_FAIL;
 
-	if (TEXT("") != m_NpcDesc.strActAnim)
+	if (TEXT("None") != m_NpcDesc.strActAnim)
 	{
 		m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strActAnim, 1.0f);
 		if (m_iActAnimIndex == -1)
@@ -202,6 +204,9 @@ HRESULT CNpc::Render_ShadowDepth()
 
 HRESULT CNpc::Render_Debug()
 {
+	if (false == m_bDebugRender)
+		return S_OK;
+
 	for (auto& Colider : m_Coliders)
 	{
 		if (Colider.second->IsActive())
@@ -270,7 +275,7 @@ HRESULT CNpc::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 3.f;
+	TransformDesc.fSpeedPerSec = 1.5f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"),
@@ -353,7 +358,7 @@ HRESULT CNpc::Ready_Parts()
 
 	CGameObject* pParts = nullptr;
 
-	if (TEXT("") != m_NpcDesc.strRightPart)
+	if (TEXT("None") != m_NpcDesc.strRightPart)
 	{
 		CPartObject::PART_DESC			PartDesc_Weapon;
 		PartDesc_Weapon.pOwner = this;
@@ -373,7 +378,7 @@ HRESULT CNpc::Ready_Parts()
 		m_pWeaponPart[(_uint)WEAPON_PART::RIGHT] = static_cast<CPartObject*>(pParts);
 	}
 
-	if (TEXT("") != m_NpcDesc.strLeftPart)
+	if (TEXT("None") != m_NpcDesc.strLeftPart)
 	{
 		CPartObject::PART_DESC			PartDesc_Weapon;
 		PartDesc_Weapon.pOwner = this;
@@ -469,6 +474,37 @@ void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
 void CNpc::Show_SpeechBuble(const wstring& szChat)
 {
 	m_pSpeechBuble->Active_SpeechBuble(szChat);
+}
+
+_bool CNpc::Intersect_Mouse()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	_float viewX = (+2.0f * pt.x / g_iWinSizeX - 1.0f) / m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ)(0, 0);
+	_float viewY = (-2.0f * pt.y / g_iWinSizeY + 1.0f) / m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ)(1, 1);
+
+	Vec4 vRayOrigin = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	Vec4 vRayDir = Vec4(viewX, viewY, 1.0f, 0.0f);
+
+	Vec3 vWorldRayOrigin = XMVector3TransformCoord(vRayOrigin, m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW));
+	Vec3 vWorldRayDir = XMVector3TransformNormal(vRayDir, m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW));
+	vWorldRayDir.Normalize();
+
+	Ray MouseRay = Ray(vWorldRayOrigin, vWorldRayDir);
+
+	_float fDist;
+	for (auto& Colider : m_Coliders)
+	{
+		if (Colider.second->IsActive())
+		{
+			return Colider.second->Intersects(MouseRay, fDist);
+		}
+
+	}
+
+	return false;
 }
 
 void CNpc::Set_State(const wstring& szName)

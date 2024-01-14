@@ -53,6 +53,8 @@ private:
     CTexture* m_pTextureUp = nullptr;
     CTexture* m_pTextureDown = nullptr;
 
+    _bool     m_IsRender = { true };
+
 public:
     static  CUI_SpeechBubble* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

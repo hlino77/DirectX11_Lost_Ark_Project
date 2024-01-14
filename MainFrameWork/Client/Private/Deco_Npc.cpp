@@ -140,14 +140,20 @@ HRESULT CDeco_Npc::Ready_Parts()
 	{
 		/* 초기 장비 및 얼굴 설정 */
 		wstring strComName = TEXT("Prototype_Component_Model_") + m_NpcDesc.strNpcHead;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pNpcPartCom[(_uint)PART::FACE])))
-			return E_FAIL;
+		if (FAILED(__super::Add_Component(LEVEL_BERN, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pNpcPartCom[(_uint)PART::FACE])))
+		{
+			if (FAILED(__super::Add_Component(LEVEL_TOOL_NPC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pNpcPartCom[(_uint)PART::FACE])))
+				return E_FAIL;
+		}
 
 		m_IsHair = m_pNpcPartCom[(_uint)PART::FACE]->Is_HairTexture();
 
 		strComName = TEXT("Prototype_Component_Model_") + m_NpcDesc.strNpcBody;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pNpcPartCom[(_uint)PART::BODY])))
-			return E_FAIL;
+		if (FAILED(__super::Add_Component(LEVEL_BERN, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pNpcPartCom[(_uint)PART::BODY])))
+		{
+			if (FAILED(__super::Add_Component(LEVEL_TOOL_NPC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pNpcPartCom[(_uint)PART::BODY])))
+				return E_FAIL;
+		}
 	}
 
 	return S_OK;
@@ -196,8 +202,8 @@ HRESULT CDeco_Npc::Render_PartModel()
 		{
 			if (i == (_uint)PART::FACE && j == m_IsHair)
 			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_NpcDesc.vHairColor1, sizeof(Vec4)) ||
+					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_NpcDesc.vHairColor2, sizeof(Vec4)))))
 					return E_FAIL;
 
 				if (FAILED(m_pNpcPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
@@ -280,19 +286,26 @@ void CDeco_Npc::Talk(const _float& fTimeDelta)
 	if (true == m_pSpeechBuble->Is_Active())
 		return;
 
-	m_fTalkStartAcc += fTimeDelta;
-	if (m_NpcDesc.fTalkStartTime <= m_fTalkStartAcc)
+	if (false == m_IsTalkStart)
 	{
-		m_fTalkStartAcc = 0.f;
+		m_fTalkStartAcc += fTimeDelta;
 
-		Show_SpeechBuble(m_NpcDesc.vecTalks[m_iCurrTalk]);
-
-		m_iCurrTalk++;
-		if (m_NpcDesc.vecTalks.size() <= m_iCurrTalk)
+		if (m_NpcDesc.fTalkStartTime <= m_fTalkStartAcc)
 		{
-			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -5.f;
+			m_IsTalkStart = true;
 		}
+
+		return;
+	}
+		
+	Show_SpeechBuble(m_NpcDesc.vecTalks[m_iCurrTalk]);
+
+	m_iCurrTalk++;
+	if (m_NpcDesc.vecTalks.size() <= m_iCurrTalk)
+	{
+		m_iCurrTalk = 0;
+		m_fTalkStartAcc = -5.f;
+		m_IsTalkStart = false;
 	}
 }
 

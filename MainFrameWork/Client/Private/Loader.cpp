@@ -162,10 +162,12 @@
 #include "Effect_Custom_SpiralChaser.h"
 
 //NPC
+#include "tinyxml2.h"
 #include "Deco_Npc.h"
 #include "Function_Npc.h"
 #include "Npc_Part.h"
 
+namespace fs = std::filesystem;
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -539,9 +541,9 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
-		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
-		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
+	CStaticModel::Create(m_pDevice, m_pContext, PROP))))
+	return E_FAIL;
 
 	m_strLoading = TEXT("맵을 로딩 중 입니다.");
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_TOOL_NPC, L"BernCastle.Navi");
@@ -570,10 +572,37 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 		CDeco_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FunctionNpc"),
+		CFunction_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	while (true)
+	{
+		if (m_Futures.empty())
+			break;
+
+		for (auto iter = m_Futures.begin(); iter != m_Futures.end();)
+		{
+			if (iter->valid())
+			{
+				if (iter->wait_for(std::chrono::seconds(1)) == future_status::ready)
+				{
+					if (FAILED(iter->get()))
+						return E_FAIL;
+
+					iter = m_Futures.erase(iter);
+				}
+				else
+					++iter;
+			}
+			else
+				++iter;
+		}
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -821,7 +850,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	m_strLoading = TEXT("셰이더를 로딩 중 입니다.");
 
 	m_strLoading = TEXT("모델을 로딩 중 입니다.");
-
 	Loading_Model_For_Level_Bern();
 
 	m_strLoading = TEXT("객체 원형을 로딩 중 입니다.");
@@ -963,12 +991,44 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CEffect_Custom_SpiralChaser::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
-	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DecoNpc"),
+		CDeco_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
+		CNpc_Part::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if(FAILED(Load_NpcData()))
+		return E_FAIL;
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
+
+	while (true)
+	{
+		if (m_Futures.empty())
+			break;
+
+		for (auto iter = m_Futures.begin(); iter != m_Futures.end();)
+		{
+			if (iter->valid())
+			{
+				if (iter->wait_for(std::chrono::seconds(1)) == future_status::ready)
+				{
+					if (FAILED(iter->get()))
+						return E_FAIL;
+
+					iter = m_Futures.erase(iter);
+				}
+				else
+					++iter;
+			}
+			else
+				++iter;
+		}
+	}
+
 
 	Safe_Release(pGameInstance);
 
@@ -1229,7 +1289,218 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 	return S_OK;
 }
 
+HRESULT CLoader::Load_NpcData()
+{
+	wstring strLoadpath = (L"../Bin/Resources/ObjectData/Npc/");
 
+	for (const auto& entry : fs::directory_iterator(strLoadpath))
+	{
+		if (fs::is_regular_file(entry))
+		{
+			if (L".dat" == entry.path().extension())
+			{
+				if (FAILED(Start_Load_Npc(entry.path())))
+				{
+					return E_FAIL;
+				}
+
+			}
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CNpc::NPCDESC	NpcCreateDesc;
+
+	shared_ptr<CAsFileUtils> LoadObject = make_shared<CAsFileUtils>();
+	LoadObject->Open(strPath, FileMode::Read);
+
+	NpcCreateDesc.iCurLevel = LEVELID::LEVEL_TOOL_NPC;
+
+	string strData;
+	LoadObject->Read<_uint>(NpcCreateDesc.iNpcType);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcTag = CAsUtils::S2W(strData);
+	LoadObject->Read<Matrix>(NpcCreateDesc.matStart);
+
+	LoadObject->Read<_uint>(NpcCreateDesc.iNpcShape);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcMq = CAsUtils::S2W(strData);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcHead = CAsUtils::S2W(strData);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcBody = CAsUtils::S2W(strData);
+
+	_uint	iSize;
+	LoadObject->Read<_bool>(NpcCreateDesc.IsMove);
+	LoadObject->Read<_uint>(iSize);
+	for (size_t i = 0; i < iSize; i++)
+	{
+		Vec3 vPos;
+		LoadObject->Read<Vec3>(vPos);
+		NpcCreateDesc.vecMovePos.push_back(vPos);
+	}
+
+	LoadObject->Read<_bool>(NpcCreateDesc.bUseWeaponPart);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strLeftPart = CAsUtils::S2W(strData);
+	LoadObject->Read<Matrix>(NpcCreateDesc.Left_OffsetMatrix);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strRightPart = CAsUtils::S2W(strData);
+	LoadObject->Read<Matrix>(NpcCreateDesc.Right_OffsetMatrix);
+
+	LoadObject->Read<_bool>(NpcCreateDesc.IsTalk);
+	LoadObject->Read<_float>(NpcCreateDesc.fTalkStartTime);
+
+	{
+		fs::path strPath = fs::path("../Bin/Resources/ObjectData/Npc/" + CAsUtils::ToString(NpcCreateDesc.strNpcTag) + ".xml");
+
+		shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
+		tinyxml2::XMLError error = document->LoadFile(strPath.generic_string().c_str());
+		if (error != tinyxml2::XML_SUCCESS)
+		{
+			return E_FAIL;
+		}
+
+		tinyxml2::XMLElement* root = nullptr;
+		root = document->FirstChildElement();
+		tinyxml2::XMLElement* node = nullptr;
+		node = root->FirstChildElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			if (element->GetText())
+			{
+				wstring strInfo = CAsUtils::S2W(element->GetText());
+				if (strInfo.length() > 0)
+				{
+					NpcCreateDesc.strNpcName = strInfo;
+				}
+			}
+
+			element = element->NextSiblingElement();
+			if (element->GetText())
+			{
+				wstring strInfo = CAsUtils::S2W(element->GetText());
+				if (strInfo.length() > 0)
+				{
+					NpcCreateDesc.strIdleAnim = strInfo;
+				}
+			}
+
+			element = element->NextSiblingElement();
+			if (element->GetText())
+			{
+				wstring strInfo = CAsUtils::S2W(element->GetText());
+				if (strInfo.length() > 0)
+				{
+					NpcCreateDesc.strActAnim = strInfo;
+				}
+			}
+
+			element = element->NextSiblingElement();
+			NpcCreateDesc.fChangeAnimTime = element->FloatAttribute("Time");
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			NpcCreateDesc.fTalkStartTime = element->FloatAttribute("Time");
+
+			_uint iSize;
+			element = element->NextSiblingElement();
+			iSize = element->IntAttribute("Size");
+
+			for (size_t i = 0; i < iSize; i++)
+			{
+				element = element->NextSiblingElement();
+				if (element->GetText())
+				{
+					wstring strTalk = CAsUtils::S2W(element->GetText());
+					if (strTalk.length() > 0)
+					{
+						NpcCreateDesc.vecTalks.push_back(strTalk);
+					}
+				}
+			}
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			_uint iSize;
+			element = node->FirstChildElement();
+			iSize = element->IntAttribute("Size");
+
+			for (size_t i = 0; i < iSize; i++)
+			{
+				element = element->NextSiblingElement();
+				if (element->GetText())
+				{
+					wstring strTalk = CAsUtils::S2W(element->GetText());
+					if (strTalk.length() > 0)
+					{
+						NpcCreateDesc.vecTalkSound.push_back(strTalk);
+					}
+				}
+			}
+		}
+	}
+
+	NpcCreateDesc.iCurLevel = (_uint)LEVELID::LEVEL_BERN;
+
+	if ((_uint)CNpc::NPCTYPE::DECO == NpcCreateDesc.iNpcType)
+	{
+		CGameObject* pInstance = pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_NPC,
+			TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
+		if (nullptr == pInstance)
+			return E_FAIL;
+	}
+	else if ((_uint)CNpc::NPCTYPE::FUNCTION == NpcCreateDesc.iNpcType)
+	{
+
+	}
+
+	
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	for (const auto& entry : fs::directory_iterator(strPath))
+	{
+		if (fs::is_directory(entry))
+		{
+			{
+				wstring strFileName = entry.path().filename();
+				wstring strFilePath = entry.path().parent_path();
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false))))
+					return E_FAIL;
+			}
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 
 HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 {
@@ -1815,6 +2086,269 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
 
+
+	/* Npc 마네킹 및 모델 */
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA02_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA03_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA02_BernSoldier";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA02_BernKnight";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_FE02_BernSoldier";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_FE02_BernKnight";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_SP_Adel";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_SP_Eadalin";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_SP_Lineheart";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}));
+	}
+
+	/* Npc 머리 */
+	{
+		wstring strFileName = L"NP_MA02_Head_LegioMan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_MA03_Head_LegioFriend";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	/* Npc 몸 */
+	{
+		wstring strFileName = L"NP_MA02_Body_LegioMan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_MA03_Body_LegioFriend";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+	}
+
+	/* Npc 무기파츠 */
+	{
+		wstring strFileName = L"NP_WP_AdelSword";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_Beer";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_BernBow";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_BernShield";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_BernSword";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_Gun";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_Shield";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_Spear";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_Sword1";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	{
+		wstring strFileName = L"NP_WP_Sword2";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+			return E_FAIL;
+	}
+
+
 	/* SkyDome */
 	{
 		wstring strFileName = L"SkyDome0";
@@ -2193,136 +2727,215 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 
 	/* Npc 마네킹 및 모델 */
 	{
-		wstring strFileName = L"NP_MA02_MQ";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_FE01_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_MA03_MQ";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_FE02_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_MA02_BernSoldier";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_FE03_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_MA02_BernKnight";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_FE05_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_FE02_BernSoldier";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA01_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_FE02_BernKnight";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA02_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_SP_Adel";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA03_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_SP_Eadalin";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA04_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_SP_Lineheart";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA05_MQ";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	/* Npc 머리 */
-	{
-		wstring strFileName = L"NP_MA02_Head_LegioMan";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_MA03_Head_LegioFriend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA02_BernSoldier";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-	}
-
-	/* Npc 몸 */
-	{
-		wstring strFileName = L"NP_MA02_Body_LegioMan";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
 
 	{
-		wstring strFileName = L"NP_MA03_Body_LegioFriend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_MA02_BernKnight";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
 	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_FE02_BernSoldier";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_FE02_BernKnight";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_SP_Adel";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_SP_Eadalin";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+		{
+			wstring strFileName = L"NP_SP_Lineheart";
+			wstring strFilePath = L"../Bin/Resources/Meshes/";
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}));	
+	}
+
+	wstring strPath = L"../Bin/Resources/Meshes/NpcPart/";
+	AutoLoad(strPath, LEVEL_TOOL_NPC);
 
 	/* Npc 무기파츠 */
 	{

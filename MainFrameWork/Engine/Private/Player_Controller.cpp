@@ -206,24 +206,39 @@ void CPlayer_Controller::Get_RootZeroMessage()
 	m_pOwnerTransform->Set_State(CTransform::STATE_POSITION, m_vPrePos);
 }
 
-void CPlayer_Controller::Get_HitMessage(CGameObject* pHitObject)
+void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce)
 {
-	if (true == m_pOwner->Is_Invincible() || nullptr == pHitObject)
+	m_iDamaged = iDamage;
+
+	if (10.f <= fForce && 20.f > fForce)
 	{
-		m_eHitType = HIT_TYPE::TYPE_END;
-		return;
+		m_eHitType = HIT_TYPE::DMG;
+		m_fForced = fForce - 10.f;
 	}
-
-	//
-	if (1 == pHitObject->Get_ObjectType())
+	else if (20.f <= fForce && 30.f > fForce)
+	{
+		m_eHitType = HIT_TYPE::DOWN;
+		m_fForced = fForce - 20.f;
+	}
+	else if (30.f <= fForce && 40.f > fForce)
+	{
+		m_eHitType = HIT_TYPE::KNOCKDOWN;
+		m_fForced = fForce - 30.f;
+	}
+	else if (40.f <= fForce && 50.f > fForce)
+	{
+		m_eHitType = HIT_TYPE::BOUND;
+		m_fForced = fForce - 40.f;
+	}
+	else if (50.f <= fForce)
+	{
+		m_eHitType = HIT_TYPE::TWIST;
+		m_fForced = fForce - 50.f;
+	}
+	else
+	{
 		m_eHitType = HIT_TYPE::WEAK;
-	else if (2 == pHitObject->Get_ObjectType())
-		m_eHitType = HIT_TYPE::DMG;
-	else if (3 == pHitObject->Get_ObjectType())
-		m_eHitType = HIT_TYPE::DMG;
-
-
-	Hit(pHitObject);
+	}
 }
 
 void CPlayer_Controller::Get_MoveMessage(Vec3 vPos, _float fMoveSpeed)
@@ -423,11 +438,7 @@ void CPlayer_Controller::ChangeStat(SKILL_KEY eKey)
 	m_fChangeStatAcc[eKey] = 0.f;
 }
 
-void CPlayer_Controller::Hit(CGameObject* pHitObject)
-{
-	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
-		return;
-}
+
 
 void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 {

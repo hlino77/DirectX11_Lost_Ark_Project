@@ -104,6 +104,7 @@ private:
 	_float			  m_fTalkStartAcc = { 0.f };
 	_float			  m_fTalkTime = { 0.f };
 	_uint			  m_iCurrTalk = { 0 };
+	_bool			  m_IsTalkStart = { false };
 
 public:
 	static CMannequin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

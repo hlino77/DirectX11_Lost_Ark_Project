@@ -34,6 +34,11 @@
 #include "State_GN_Identity_Back.h"
 #include "State_GN_Run_Identity.h"
 #include "State_GN_Run_Identity_Back.h"
+#include "State_GN_Hit.h"
+#include "State_GN_Hit_Common.h"
+#include "State_GN_HitEnd.h"
+#include "State_GN_Stand.h"
+#include "State_GN_StandDash.h"
 
 /* State_Skill */
 #include "State_GN_FreeShooter.h"
@@ -150,8 +155,30 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 {
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Q))
+	{
+		m_pController->Get_HitMessage(100, 11.f);
+	}
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::W))
+	{
+		m_pController->Get_HitMessage(100, 21.f);
+	}
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::E))
+	{
+		m_pController->Get_HitMessage(100, 31.f);
+	}
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::R))
+	{
+		m_pController->Get_HitMessage(100, 41.f);
+	}
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::T))
+	{
+		m_pController->Get_HitMessage(100, 51.f);
+	}
+
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
+	m_pRigidBody->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 }
@@ -600,6 +627,20 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_GN_DeadHard_End"), CState_GN_DeadHard_End::Create(TEXT("Skill_GN_DeadHard_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Hit"), CState_GN_Hit::Create(TEXT("Hit"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Hit_Common"), CState_GN_Hit_Common::Create(TEXT("Hit_Common"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("HitEnd"), CState_GN_HitEnd::Create(TEXT("HitEnd"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Stand"), CState_GN_Stand::Create(TEXT("Stand"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("StandDash"), CState_GN_StandDash::Create(TEXT("StandDash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
 }

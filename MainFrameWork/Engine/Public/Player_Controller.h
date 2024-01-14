@@ -10,7 +10,7 @@ class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 {
 public:
 	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, Z, _END };
-	enum HIT_TYPE { WEAK, DMG, DOWN, BOUND, TWIST, TYPE_END };
+	enum HIT_TYPE { WEAK, DMG, DOWN, KNOCKDOWN, BOUND, TWIST, TYPE_END };
 
 public:
 	typedef struct tagControllerDesc
@@ -39,13 +39,12 @@ public:
 	_bool		Is_Away(KEY eKey);
 
 public:
-	_bool		Is_Idle();
-	_bool		Is_Run();
-	_bool		Is_Skill();
-	_bool		Is_Interect();
-	_bool		Is_Dash();
-	_bool		Is_Attack();
-	const _uint& Is_Hit() { return (_uint)m_eHitType; }
+	_bool		 Is_Idle();
+	_bool		 Is_Run();
+	_bool		 Is_Skill();
+	_bool		 Is_Interect();
+	_bool		 Is_Dash();
+	_bool		 Is_Attack();
 
 	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f);  
 	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f); 
@@ -61,7 +60,8 @@ public:
 	
 	virtual void		Get_DashMessage(Vec3 vPos);
 	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
-	virtual void		Get_HitMessage(CGameObject* pHitObject);
+	virtual void		Get_HitMessage(_uint iDamage, _float fForce);
+	virtual void		Get_HitEndMessage() { m_eHitType = HIT_TYPE::TYPE_END; }
 
 	virtual void		Get_RootMessage();
 	virtual void		Get_RootZeroMessage();
@@ -74,19 +74,24 @@ public:
 	HRESULT					Set_SkillSuccess(SKILL_KEY eKey, _bool IsSuccess);
 
 public:
-	_bool			Is_SkillSuccess(SKILL_KEY eKey);
+	_bool					Is_SkillSuccess(SKILL_KEY eKey);
 
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
 	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey]; }
 	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
-	_float Get_Skill_CoolDown(SKILL_KEY eKey) {
+
+	_float					Get_Skill_CoolDown(SKILL_KEY eKey) {
 		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return 0.f;
 		else return m_fCoolDownAcc[eKey];
 	}
-	_float Get_Skill_CoolTime(SKILL_KEY eKey) {
+	_float					Get_Skill_CoolTime(SKILL_KEY eKey) {
 		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return -1.f;
 		else return m_fCoolTime[eKey];
 	}
+
+	HIT_TYPE		Get_HitType() { return m_eHitType; }
+	_float			Get_Forced() { return m_fForced; }
+	_uint			Get_Damaged() { return m_iDamaged; }
 
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
@@ -104,7 +109,7 @@ protected:
 	virtual void	Skill(SKILL_KEY eKey);
 	virtual void	ChangeStat(SKILL_KEY eKey);
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);
-	virtual void	Hit(CGameObject* pHitObject);
+
 	virtual void	Skill_CoolTime(const _float& fTimeDelta);
 	virtual void	ChangeStat_CoolTime(const _float& fTimeDelta);
 	virtual void	Skill_Check_Collider();
@@ -129,6 +134,9 @@ protected:
 	_float					m_fMoveSpeed = { 3.f };
 
 	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };
+	_uint					m_iDamaged = { 0 };
+	_float					m_fForced = { 0.f };
+
 
 	/* ½ºÅ³ */
 	unordered_map<wstring, class CPlayer_Skill*> m_Skills;

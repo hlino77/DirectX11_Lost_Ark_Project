@@ -58,6 +58,12 @@ HRESULT CNpcTool::Initialize(void* pArg)
 
 HRESULT CNpcTool::Tick(const _float& fTimeDelta)
 {
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::LBTN))
+	{
+		Pick_Npc();
+	}
+	Set_DebugRender_Npc();
+
 	Input();
 	ModelView(fTimeDelta);
 	InfoView(fTimeDelta);
@@ -159,6 +165,31 @@ _bool CNpcTool::Get_CellPos(Vec3& vPos)
 	return CNavigationMgr::GetInstance()->Picking_Cell(LEVEL_TOOL_NPC, vRayPos, vRayDir, vPos);
 }
 
+void CNpcTool::Set_DebugRender_Npc()
+{
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::D))
+	{
+		m_bDebugRender = !m_bDebugRender;
+	}
+	for (auto& pNpc : m_vecNpcs)
+	{
+		static_cast<CNpc*>(pNpc)->Set_DebugRender_State(m_bDebugRender);
+	}
+}
+
+void CNpcTool::Pick_Npc()
+{
+	_uint iIndex = 0;
+	for (auto& pNpc : m_vecNpcs)
+	{
+		if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse())
+		{
+			m_iCurNpc = iIndex;
+		}
+		iIndex++;
+	}
+}
+
 HRESULT CNpcTool::InfoView(const _float& fTimeDelta)
 {
 	ImGui::Begin("NPC INFO");
@@ -197,14 +228,190 @@ void CNpcTool::Npc_List()
 	}
 }
 
-void CNpcTool::Load_Npc()
+HRESULT CNpcTool::Load_Npc()
 {
 	if (ImGui::Button("Load Npc"))
 	{
+		wstring strLoadpath = (L"../Bin/Resources/ObjectData/Npc/");
 
+		for (const auto& entry : fs::directory_iterator(strLoadpath))
+		{
+			if (fs::is_regular_file(entry))
+			{
+				if (L".dat" == entry.path().extension())
+				{
+					if (FAILED(Start_Load_Npc(entry.path())))
+					{
+						MessageBox(g_hWnd, L"Npc 불러오기 실패", L"확인", MB_OK);
+						return E_FAIL;
+					}
+						
+				}
+			}
+		}
 
+		MessageBox(g_hWnd, L"Npc 불러오기 성공", L"확인", MB_OK);
 
 	}
+
+	return S_OK;
+}
+
+HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CNpc::NPCDESC	NpcCreateDesc;
+
+	shared_ptr<CAsFileUtils> LoadObject = make_shared<CAsFileUtils>();
+	LoadObject->Open(strPath, FileMode::Read);
+
+	NpcCreateDesc.iCurLevel = LEVELID::LEVEL_TOOL_NPC;
+
+	string strData;
+	LoadObject->Read<_uint>(NpcCreateDesc.iNpcType);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcTag = CAsUtils::S2W(strData);
+	LoadObject->Read<Matrix>(NpcCreateDesc.matStart);
+
+	LoadObject->Read<_uint>(NpcCreateDesc.iNpcShape);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcMq = CAsUtils::S2W(strData);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcHead = CAsUtils::S2W(strData);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strNpcBody = CAsUtils::S2W(strData);
+
+	_uint	iSize;
+	LoadObject->Read<_bool>(NpcCreateDesc.IsMove);
+	LoadObject->Read<_uint>(iSize);
+	for (size_t i = 0; i < iSize; i++)
+	{
+		Vec3 vPos;
+		LoadObject->Read<Vec3>(vPos);
+		NpcCreateDesc.vecMovePos.push_back(vPos);
+	}
+
+	LoadObject->Read<_bool>(NpcCreateDesc.bUseWeaponPart);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strLeftPart = CAsUtils::S2W(strData);
+	LoadObject->Read<Matrix>(NpcCreateDesc.Left_OffsetMatrix);
+	LoadObject->Read(strData);
+	NpcCreateDesc.strRightPart = CAsUtils::S2W(strData);
+	LoadObject->Read<Matrix>(NpcCreateDesc.Right_OffsetMatrix);
+
+	LoadObject->Read<_bool>(NpcCreateDesc.IsTalk);
+	LoadObject->Read<_float>(NpcCreateDesc.fTalkStartTime);
+
+	{
+		fs::path strPath = fs::path("../Bin/Resources/ObjectData/Npc/" + CAsUtils::ToString(NpcCreateDesc.strNpcTag) + ".xml");
+
+		shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
+		tinyxml2::XMLError error = document->LoadFile(strPath.generic_string().c_str());
+		if (error != tinyxml2::XML_SUCCESS)
+		{
+			return E_FAIL;
+		}
+
+		tinyxml2::XMLElement* root = nullptr;
+		root = document->FirstChildElement();
+		tinyxml2::XMLElement* node = nullptr;
+		node = root->FirstChildElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			if (element->GetText())
+			{
+				wstring strInfo = CAsUtils::S2W(element->GetText());
+				if (strInfo.length() > 0)
+				{
+					NpcCreateDesc.strNpcName = strInfo;
+				}
+			}
+
+			element = element->NextSiblingElement();
+			if (element->GetText())
+			{
+				wstring strInfo = CAsUtils::S2W(element->GetText());
+				if (strInfo.length() > 0)
+				{
+					NpcCreateDesc.strIdleAnim = strInfo;
+				}
+			}
+
+			element = element->NextSiblingElement();
+			if (element->GetText())
+			{
+				wstring strInfo = CAsUtils::S2W(element->GetText());
+				if (strInfo.length() > 0)
+				{
+					NpcCreateDesc.strActAnim = strInfo;
+				}
+			}
+
+			element = element->NextSiblingElement();
+			NpcCreateDesc.fChangeAnimTime = element->FloatAttribute("Time");
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			element = node->FirstChildElement();
+			NpcCreateDesc.fTalkStartTime = element->FloatAttribute("Time");
+
+			_uint iSize;
+			element = element->NextSiblingElement();
+			iSize = element->IntAttribute("Size");
+
+			for (size_t i = 0; i < iSize; i++)
+			{
+				element = element->NextSiblingElement();
+				if (element->GetText())
+				{
+					wstring strTalk = CAsUtils::S2W(element->GetText());
+					if (strTalk.length() > 0)
+					{
+						NpcCreateDesc.vecTalks.push_back(strTalk);
+					}
+				}
+			}
+		}
+
+		node = node->NextSiblingElement();
+		{
+			tinyxml2::XMLElement* element = nullptr;
+
+			_uint iSize;
+			element = node->FirstChildElement();
+			iSize = element->IntAttribute("Size");
+
+			for (size_t i = 0; i < iSize; i++)
+			{
+				element = element->NextSiblingElement();
+				if (element->GetText())
+				{
+					wstring strTalk = CAsUtils::S2W(element->GetText());
+					if (strTalk.length() > 0)
+					{
+						NpcCreateDesc.vecTalkSound.push_back(strTalk);
+					}
+				}
+			}
+		}
+	}
+
+	CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+		TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
+	if (nullptr == pInstance)
+		return E_FAIL;
+
+	m_vecNpcDesc.push_back(NpcCreateDesc);
+	
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
 }
 
 void CNpcTool::Delete_Npc()
@@ -216,7 +423,27 @@ void CNpcTool::Delete_Npc()
 		{
 			if (pDesc.strNpcTag == static_cast<CNpc*>(m_vecNpcs[m_iCurNpc])->Get_NpcTag())
 			{
+				wstring strLoadpath = (L"../Bin/Resources/ObjectData/Npc/");
+				wstring strCopypath = (L"../Bin/Resources/ObjectData/Npc/BackUp/");
+
+				_uint iFileIndex = 0;
+				for (const auto& entry : fs::directory_iterator(strLoadpath))
+				{
+					if (fs::is_regular_file(entry))
+					{
+						if (pDesc.strNpcTag == entry.path().stem())
+						{
+							fs::path destinationPath = strCopypath / entry.path().filename();
+							fs::copy(entry.path(), destinationPath, fs::copy_options::overwrite_existing);
+							std::remove(entry.path().string().c_str());
+							iFileIndex++;
+						}
+						if (2 == iFileIndex) break;
+					}
+				}
+
 				m_vecNpcDesc.erase(m_vecNpcDesc.begin() + iIndex);
+				break;
 			}
 			iIndex++;
 		}
@@ -265,16 +492,12 @@ void CNpcTool::Select_Npc(const _float& fTimeDelta)
 			string strID = CAsUtils::ToString(m_NpcCreateDesc.strNpcTag);
 			strcat_s(m_szNpcTag, strID.c_str());
 
-			Matrix		PivotMatrix = XMMatrixIdentity();
-			PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
-
 			CModel* pInstance = nullptr;
 
 			wstring strFileName = m_NpcCreateDesc.strNpcMq;
-			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+			pInstance = static_cast<CModel*>(m_pGameInstance->Clone_Component(m_pMannequin, LEVELID::LEVEL_TOOL_NPC, strComponentName));
 			if (nullptr == pInstance)
 			{
 				m_pMannequin->Set_ModelCom(nullptr);
@@ -282,8 +505,6 @@ void CNpcTool::Select_Npc(const _float& fTimeDelta)
 			}
 			else
 			{
-				pInstance->Initialize(nullptr);
-
 				m_pMannequin->Set_ModelCom(pInstance);
 				m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vStartPos);
 				m_pMannequin->Set_StartPos(m_vStartPos);
@@ -291,9 +512,6 @@ void CNpcTool::Select_Npc(const _float& fTimeDelta)
 				m_vNpcScale = m_pMannequin->Get_TransformCom()->Get_Scale();
 				m_vNpcRot = Vec3().Zero;
 				m_vNpcPos = m_vStartPos;
-
-				if (m_pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix)));
 
 				m_bSelected = true;
 			}
@@ -329,8 +547,8 @@ void CNpcTool::Start_Pos(const _float& fTimeDelta)
 
 void CNpcTool::Name(const _float& fTimeDelta)
 {
-	ImGui::SeparatorText("Npc Tag Select");
-	ImGui::Text("Npc Tag :");
+	ImGui::SeparatorText("Npc Tag & Name");
+	ImGui::Text("Npc Tag    :");
 	ImGui::SameLine();
 	ImGui::InputText("##Tag", m_szNpcTag, MAX_PATH);
 	ImGui::Text("Npc Name :");
@@ -772,27 +990,27 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 
 void CNpcTool::Animaition(const _float& fTimeDelta)
 {
-	if (ImGui::BeginTabItem("Save Animation"))
+	if (ImGui::BeginTabItem("Animation"))
 	{
-		ImGui::SeparatorText("Npc Animation");
+		ImGui::SeparatorText("Setting Animation");
 		if(ImGui::Button("Set Idle Anim"))
 		{
 			string strAnimName = m_szAnimationName;
 			m_NpcCreateDesc.strIdleAnim = CAsUtils::ToWString(strAnimName);
+			MessageBox(g_hWnd, L"Idle Anim 지정", L"완료", MB_OK);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Set Act Anim"))
 		{
 			string strAnimName = m_szAnimationName;
 			m_NpcCreateDesc.strActAnim = CAsUtils::ToWString(strAnimName);
+			MessageBox(g_hWnd, L"Act Anim 지정", L"완료", MB_OK);
 		}
 		ImGui::Spacing();
-		if (ImGui::Button("Set Duration"))
+		if (ImGui::DragFloat("ChangeAnimTime", &m_fDuration, 0.1f))
 		{
 			m_NpcCreateDesc.fChangeAnimTime = m_fDuration;
 		}
-		ImGui::SameLine();
-		ImGui::DragFloat("##ChangeAnimDuration", &m_fDuration, 0.1f);
 
 
 		ImGui::Spacing();
@@ -1098,20 +1316,6 @@ void CNpcTool::HeadBody(const _float& fTimeDelta)
 void CNpcTool::Head(const _float& fTimeDelta)
 {
 	ImGui::SeparatorText("Select Head Part");
-	if (ImGui::Button("Set Head"))
-	{
-		string strhead = m_szHeadPartName;
-		wstring wstrhead = CAsUtils::ToWString(strhead);
-		m_NpcCreateDesc.strNpcHead = wstrhead;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("UnSet Head"))
-	{
-		m_NpcCreateDesc.strNpcHead = TEXT("");
-		ZeroMemory(&m_szHeadPartName, sizeof(MAX_PATH));
-		m_iCurHeadIndex = -1;
-		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::HEAD, nullptr);
-	}
 
 	_int iCurrIndex = m_iCurHeadIndex;
 	if (ImGui::BeginListBox("##HeadPart", ImVec2(300, 150)))
@@ -1136,28 +1340,14 @@ void CNpcTool::Head(const _float& fTimeDelta)
 	if (TEXT("") != strFind)
 	{
 		CComponent* pModel = static_cast<CModel*>(m_mapHead.find(strFind)->second)->Clone(nullptr);
-
 		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::HEAD, static_cast<CModel*>(pModel));
+		m_NpcCreateDesc.strNpcHead = strFind;
 	}
 }
 
 void CNpcTool::Body(const _float& fTimeDelta)
 {
 	ImGui::SeparatorText("Select Body Part");
-	if (ImGui::Button("Set Body"))
-	{
-		string strTemp = m_szBodyPartName;
-		wstring wstrTemp = CAsUtils::ToWString(strTemp);
-		m_NpcCreateDesc.strNpcBody = wstrTemp;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("UnSet Body"))
-	{
-		m_NpcCreateDesc.strNpcBody = TEXT("");
-		ZeroMemory(&m_szBodyPartName, sizeof(MAX_PATH));
-		m_iCurBodyIndex = -1;
-		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::BODY, nullptr);
-	}
 
 	_int iCurrIndex = m_iCurBodyIndex;
 	if (ImGui::BeginListBox("##BodyPart", ImVec2(300, 150)))
@@ -1184,11 +1374,25 @@ void CNpcTool::Body(const _float& fTimeDelta)
 		CComponent* pModel = static_cast<CModel*>(m_mapBody.find(strFind)->second)->Clone(nullptr);
 
 		m_pMannequin->Set_ModelPart(CMannequin::MODELTYPE::BODY, static_cast<CModel*>(pModel));
+		m_NpcCreateDesc.strNpcBody = strFind;
 	}
 }
 
 void CNpcTool::Create_Npc(const _float& fTimeDelta)
 {
+	if (TEXT("") == m_NpcCreateDesc.strIdleAnim || (TEXT("None") == m_NpcCreateDesc.strIdleAnim))
+	{
+		MessageBox(g_hWnd, L"IdleAnim 지정필요", L"확인", MB_OK);
+		return;
+	}
+	if ((CNpc::NPCSHAPE::SOL != (CNpc::NPCSHAPE)m_NpcCreateDesc.iNpcShape && CNpc::NPCSHAPE::SP != (CNpc::NPCSHAPE)m_NpcCreateDesc.iNpcShape) &&
+		(TEXT("") == m_NpcCreateDesc.strNpcHead || (TEXT("None") == m_NpcCreateDesc.strNpcHead || 
+		(TEXT("") == m_NpcCreateDesc.strNpcBody) || (TEXT("None") == m_NpcCreateDesc.strNpcBody))))
+	{
+		MessageBox(g_hWnd, L"Part 지정필요", L"확인", MB_OK);
+		return;
+	}
+
 	if ((_uint)CNpc::NPCTYPE::DECO == m_NpcCreateDesc.iNpcType)
 	{
 		m_pMannequin->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
@@ -1196,6 +1400,11 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 		m_pMannequin->Get_TransformCom()->My_Rotation(m_vNpcRot);
 		m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vNpcPos);
 		m_NpcCreateDesc.matStart = m_pMannequin->Get_TransformCom()->Get_WorldMatrix();
+
+		if (TEXT("") == m_NpcCreateDesc.strNpcName)
+		{
+			m_NpcCreateDesc.strNpcName = TEXT("None");
+		}
 
 		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
 			TEXT("Prototype_GameObject_DecoNpc"), &m_NpcCreateDesc);
@@ -1210,43 +1419,127 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Save_Npc(const _float& fTimeDelta)
+HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)
 {
-	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	strPath = fs::path("../Bin/Resources/Effects/EffectData/" + string(szGroupName) + "/");
-	wstring strFileTerrain = TEXT("../Bin/Data/Level") + to_wstring((_uint)eLevel + 1) + TEXT("Terrain.dat");
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	shared_ptr<CAsFileUtils> SaveTerrain = make_shared<CAsFileUtils>();
-	SaveTerrain->Open(strFileTerrain, FileMode::Write);
-
-	SaveTerrain->Write<_int>(m_iNumVerticesX[m_iCurLevel]);
-	SaveTerrain->Write<_int>(m_iNumVerticesZ[m_iCurLevel]);
-	SaveTerrain->Write<_bool>(m_bIsWireFrame[m_iCurLevel]);
-
-	shared_ptr<CAsFileUtils> SaveObject = make_shared<CAsFileUtils>();
-	SaveObject->Open(strFileObject, FileMode::Write);
-
-	auto listObject = pGameInstance->Get_LayerList(LEVEL_EDIT, LAYER_EDITOBJECT);
-
-	_uint iObjCnt = listObject->size();
-	SaveObject->Write<_uint>(iObjCnt);
-
-	for (auto& iter : *listObject)
+	for (auto& pDesc : m_vecNpcDesc)
 	{
-		_uint iType = _uint(iter->Get_ObjectType());
+		wstring strPath = fs::path("../Bin/Resources/ObjectData/Npc/" + CAsUtils::ToString(pDesc.strNpcTag )+ ".dat");
 
-		wstring wstrTag = iter->Get_ProtoTag();
-		string strTag;
-		strTag.assign(wstrTag.begin(), wstrTag.end());
+		shared_ptr<CAsFileUtils> SaveObject = make_shared<CAsFileUtils>();
+		SaveObject->Open(strPath, FileMode::Write);
 
-		_matrix matObject = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")))->Get_WorldMatrix();
+		SaveObject->Write<_uint>(pDesc.iNpcType);
+		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strNpcTag));
+		SaveObject->Write<Matrix>(pDesc.matStart);
 
-		SaveObject->Write<_uint>(iType);
-		SaveObject->Write<string>(strTag);
-		SaveObject->Write<_matrix>(matObject);
+		SaveObject->Write<_uint>(pDesc.iNpcShape);
+		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strNpcMq));
+		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strNpcHead));
+		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strNpcBody));
+
+		SaveObject->Write<_bool>(pDesc.IsMove);
+		SaveObject->Write<_uint>(pDesc.vecMovePos.size());
+		for (size_t i = 0; i < pDesc.vecMovePos.size(); i++)
+		{
+			SaveObject->Write<Vec3>(pDesc.vecMovePos[i]);
+		}
+
+		SaveObject->Write<_bool>(pDesc.bUseWeaponPart);
+		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strLeftPart));
+		SaveObject->Write<Matrix>(pDesc.Left_OffsetMatrix);
+		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strRightPart));
+		SaveObject->Write<Matrix>(pDesc.Right_OffsetMatrix);
+
+		SaveObject->Write<_bool>(pDesc.IsTalk);
+		{
+			shared_ptr<tinyxml2::XMLDocument> document = make_shared<tinyxml2::XMLDocument>();
+
+			fs::path strPath = fs::path("../Bin/Resources/ObjectData/Npc/" + CAsUtils::ToString(pDesc.strNpcTag) + ".xml");
+
+			tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
+			document->LinkEndChild(decl);
+
+			tinyxml2::XMLElement* root = document->NewElement("NPCDESC");
+			document->LinkEndChild(root);
+
+			tinyxml2::XMLElement* node = document->NewElement("Info");
+			tinyxml2::XMLElement* element = nullptr;
+
+			root->LinkEndChild(node);
+			{
+				element = document->NewElement("Name");
+				element->SetText(CAsUtils::W2S(pDesc.strNpcName).c_str());
+				node->LinkEndChild(element);
+
+				element = document->NewElement("IdleAnim");
+				element->SetText(CAsUtils::W2S(pDesc.strIdleAnim).c_str());
+				node->LinkEndChild(element);
+
+				element = document->NewElement("ActAnim");
+				element->SetText(CAsUtils::W2S(pDesc.strActAnim).c_str());
+				node->LinkEndChild(element);
+
+				element = document->NewElement("ChangeAnim");
+				element->SetAttribute("Time", pDesc.fChangeAnimTime);
+				node->LinkEndChild(element);
+			}
+
+			node = document->NewElement("Script");
+			root->LinkEndChild(node);
+			{
+				element = document->NewElement("Script");
+				element->SetAttribute("Time", pDesc.fTalkStartTime);
+				node->LinkEndChild(element);
+
+				element = document->NewElement("Talk");
+				element->SetAttribute("Size", (_uint)pDesc.vecTalks.size());
+				node->LinkEndChild(element);
+
+				_uint iIndex = 1;
+				for (size_t i = 0; i < pDesc.vecTalks.size(); i++)
+				{
+					string elementName = "Talk" + to_string(iIndex);
+					element = document->NewElement(elementName.c_str());
+					element->SetText(CAsUtils::W2S(pDesc.vecTalks[i]).c_str());
+					node->LinkEndChild(element);
+					
+					iIndex++;
+				}
+			}
+
+			node = document->NewElement("Sound");
+			root->LinkEndChild(node);
+			{
+				element = document->NewElement("Sound");
+				element->SetAttribute("Size", (_uint)pDesc.vecTalkSound.size());
+				node->LinkEndChild(element);
+
+				_uint iIndex = 1;
+				for (size_t i = 0; i < pDesc.vecTalkSound.size(); i++)
+				{
+					string elementName = "Sound" + to_string(iIndex);
+					element = document->NewElement(elementName.c_str());
+					element->SetText(CAsUtils::W2S(pDesc.vecTalkSound[i]).c_str());
+					node->LinkEndChild(element);
+
+					iIndex++;
+				}
+			}
+		
+			tinyxml2::XMLError error = document->SaveFile(m_pUtils->ToString(strPath).c_str());
+			if (error != tinyxml2::XML_SUCCESS)
+			{
+				MessageBox(g_hWnd, L"Npc 저장 실패", L"확인", MB_OK);
+				return E_FAIL;
+			}
+		}
 	}
 
-	RELEASE_INSTANCE(CGameInstance);*/
+	MessageBox(g_hWnd, L"Npc 저장 성공", L"확인", MB_OK);
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CNpcTool::Clear_Info()
@@ -1286,12 +1579,37 @@ void CNpcTool::Clear_Info()
 	m_vMovePos = Vec3().Zero;
 	m_vecMovePos.clear();
 
-	IsTalk = false;
+	
+
+	m_IsTalk = false;
 	m_fTalkStartTime = 0.f;
 	m_iCurTalk = -1;
 	ZeroMemory(&m_szTalk, sizeof(MAX_PATH));
 	m_vecTalks.clear();
 	m_vecSelectTalk.clear();
+
+
+	m_NpcCreateDesc.IsTalk = false;
+	m_NpcCreateDesc.vecTalks.clear();
+	m_NpcCreateDesc.vecTalkSound.clear();
+
+	m_NpcCreateDesc.IsMove = false;
+	m_NpcCreateDesc.vecMovePos.clear();
+
+	m_NpcCreateDesc.bUseWeaponPart = false;
+	m_NpcCreateDesc.fChangeAnimTime = 0.f;
+
+	m_NpcCreateDesc.IsMove = false;
+	m_NpcCreateDesc.vecMovePos.clear();
+	m_NpcCreateDesc.strNpcTag = { TEXT("None") };
+	m_NpcCreateDesc.strNpcName = { TEXT("None") };
+	m_NpcCreateDesc.strNpcMq = { TEXT("None") };
+	m_NpcCreateDesc.strNpcHead = { TEXT("None") };
+	m_NpcCreateDesc.strNpcBody = { TEXT("None") };
+	m_NpcCreateDesc.strIdleAnim = { TEXT("None") };
+	m_NpcCreateDesc.strActAnim = { TEXT("None") };
+	m_NpcCreateDesc.strLeftPart = { TEXT("None") };
+	m_NpcCreateDesc.strRightPart = { TEXT("None") };
 }
 
 CNpcTool* CNpcTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool_Npc* pLevel_Tool)

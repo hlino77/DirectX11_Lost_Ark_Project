@@ -113,6 +113,7 @@ void CPlayer_Bard::Tick(_float fTimeDelta)
 {
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
+	m_pRigidBody->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 }

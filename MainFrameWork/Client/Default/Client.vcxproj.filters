@@ -1111,6 +1111,33 @@
     <Filter Include="02.GameObjects\Effect\Effect_Custom">
       <UniqueIdentifier>{1b2bfce2-e08c-4325-ac16-539cc018a7f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Shop_Npc">
+      <UniqueIdentifier>{d55e3faa-69fe-49b8-9529-212710fc0e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Smith_Npc">
+      <UniqueIdentifier>{cbc272bc-4896-4703-8500-dc7c7606c4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Chaos_Npc">
+      <UniqueIdentifier>{da64638a-bac0-4158-b645-212a85a14e68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Hit">
+      <UniqueIdentifier>{900a3c39-7561-4d5f-b0fe-e454e8887fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Hit">
+      <UniqueIdentifier>{46370e4a-3517-42f2-804a-75db0a299e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Hit">
+      <UniqueIdentifier>{0cd1d541-09d6-449f-bd8b-0f1366b56d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Hit">
+      <UniqueIdentifier>{fd164440-f697-4e67-a27a-154a3c2fd656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stand">
+      <UniqueIdentifier>{17f89498-b3ac-4e36-84e5-aa435b57bd5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stand">
+      <UniqueIdentifier>{621fcb28-64ba-4ef5-8c9f-7131e1ad5a11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1314,9 +1341,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Shot.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Server.h">
       <Filter>02.GameObjects\UI\00.Server</Filter>
@@ -3538,6 +3562,43 @@
     <ClInclude Include="..\Public\UI_Manager.h">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\State_GN_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3735,9 +3796,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Shot.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Server.cpp">
       <Filter>02.GameObjects\UI\00.Server</Filter>
@@ -5935,6 +5993,43 @@
     <ClCompile Include="..\Private\UI_Manager.cpp">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\State_GN_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -5961,9 +6056,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
@@ -6077,6 +6169,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

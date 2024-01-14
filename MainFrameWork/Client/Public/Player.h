@@ -157,6 +157,9 @@ public:
 	CParty*					Get_Party() { return m_pParty; }
 	void					Set_Party(CParty* pParty) { m_pParty = pParty; }
 
+	void					Set_HitState(_bool IsHit) { m_IsHitState = IsHit; }
+	_bool					Is_HitState() { return m_IsHitState; }
+
 public:
 	/* 플레이어 상태 세팅 */
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
@@ -228,7 +231,10 @@ protected:
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 
 	_bool	m_IsSuperiorArmor = false;
+	_bool	m_IsHitState = false;
 
+
+	/* UI */
 	CParty* m_pParty = nullptr;
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
 	CUI_InGame_NamePlate* m_pNamePlate = { nullptr };
