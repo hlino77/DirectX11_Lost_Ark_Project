@@ -74,7 +74,7 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize_TextBox()
     m_strText = TEXT("카오스 던전에 입장하시겠습니까?");
     m_strTimeCount = TEXT("10초 남았습니다.");
     Ready_TextBox();
-    Set_Active(true);
+    Set_Active(false);
 
     return S_OK;
 }
@@ -179,7 +179,9 @@ void CUI_NPC_ChaosDungeon_NewWnd::Print_Text()
 
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Active(_bool bActive)
 {
-    m_fCurrTimer = m_fMaxTimer;
+    if(false == bActive)
+        m_fCurrTimer = m_fMaxTimer;
+
     m_bActive = bActive;
     m_pTextBoxWnd->Set_Active(bActive);
     m_pTimeCountWnd->Set_Active(bActive);
