@@ -104,6 +104,9 @@ public:
 	_int						Get_GroggyCount() { return m_iGroggyCount; }
 	void						Set_GroggyCount(_int iGroggyCount) { m_iGroggyCount = iGroggyCount; }
 
+	_int						Get_MaxGroggyCount() { return m_iMaxGroggyCount; }
+	void						Set_MaxGroggyCount(_int iMaxGroggyCount) { m_iMaxGroggyCount = iMaxGroggyCount; }
+
 protected:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
@@ -128,6 +131,8 @@ protected:
 	_bool	m_IsGroggyLock = false;
 	_uint	m_iHitCount = 0;
 	_int	m_iGroggyCount = 0;
+	_uint	m_iMaxGroggyCount = 0;
+
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

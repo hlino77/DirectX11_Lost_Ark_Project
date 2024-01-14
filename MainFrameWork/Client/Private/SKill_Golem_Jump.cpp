@@ -27,7 +27,7 @@ HRESULT CSKill_Golem_Jump::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_iAtk = 10;
-	m_fForce = 0.f;
+	m_fForce = 30.f;
 	m_fMoveSpeed = 7.5f;
 	m_fLastTime = 2.f;
     return S_OK;
@@ -36,7 +36,7 @@ HRESULT CSKill_Golem_Jump::Initialize(void* pArg)
 void CSKill_Golem_Jump::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-	CSphereCollider* pCollider = m_Coliders[0];
+	CSphereCollider* pCollider = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS];
 	_float fRadius = pCollider->Get_Radius();
 	fRadius += 3.f * fTimeDelta;
 	pCollider->Set_Radius(fRadius);
@@ -82,7 +82,7 @@ HRESULT CSKill_Golem_Jump::Ready_Coliders()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkill"), (CComponent**)&pCollider, &tColliderInfo)))
@@ -101,12 +101,12 @@ HRESULT CSKill_Golem_Jump::Ready_Coliders()
 				pCollider->Set_Child(pChildCollider);
 			}
 
-			m_Coliders.emplace(0, pCollider);
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
 
 	{
-		CSphereCollider* pCollider = m_Coliders[0];
+		CSphereCollider* pCollider = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS];
 		pCollider->Set_Radius(1.2f);
 		pCollider->SetActive(true);
 		pCollider->Set_Offset(Vec3(0.0f, 1.f, 0.f));;

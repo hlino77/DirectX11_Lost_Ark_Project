@@ -69,7 +69,6 @@ public:
 
 
 public:
-	void					Find_NearTarget();
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 	void					Set_MoveSpeed(_float fSpeed) { m_fMoveSpeed = fSpeed; }
 	_float					Get_MoveSpeed() { return m_fMoveSpeed; }
@@ -165,7 +164,6 @@ protected:
 	_float							m_fMoveSpeed = 1.f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
-	_float							m_fScanCoolDown = 0.f;
 	vector<_float>					m_vecAttackRanges;
 	_float							m_fAttackRange = 1.f;
 	_float							m_fNoticeRange = 20.f;

@@ -27,9 +27,9 @@ HRESULT CSKill_King_Eruption::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 2.6f;
+	m_fLastTime = 2.51f;
 	m_iAtk = 5;
-	m_fForce = 40.5f;
+	m_fForce = 40.f;
 	m_fBlinkTime = 2.5f;
     return S_OK;
 }
@@ -40,11 +40,8 @@ void CSKill_King_Eruption::Tick(_float fTimeDelta)
 	m_fBlinkTime -= fTimeDelta;
 	if (m_fBlinkTime < 0.f)
 	{
-		m_fBlinkTime = 0.25f;
-		if ( m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive())
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
-		else if (!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive())
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
+		m_fBlinkTime =  5.f;
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	}
 }
 
@@ -100,14 +97,14 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(8.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(7.5f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
 
 	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.02f, 0.f));
-	pChildCollider->Set_Far(8.f);
+	pChildCollider->Set_Far(7.5f);
 	pChildCollider->Set_Near(0.f);
 	pChildCollider->Set_Slopes(Vec4(0.2f, -0.2f, tanf(XMConvertToRadians(30.f)), tanf(XMConvertToRadians(-30.f))));
 	pChildCollider->SetActive(true);

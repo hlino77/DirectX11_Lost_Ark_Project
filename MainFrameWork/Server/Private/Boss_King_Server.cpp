@@ -306,9 +306,11 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
 	AnimationDesc.fMaxLoopTime = 6.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_6_05");
 	AnimationDesc.iStartFrame = 0;

@@ -24,7 +24,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 	{
 		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, true);
 		dynamic_cast<CBoss*>(m_pGameObject)->Set_Atk(14);
-		dynamic_cast<CBoss*>(m_pGameObject)->Set_Force(0.f);
+		dynamic_cast<CBoss*>(m_pGameObject)->Set_Force(10.5f);
 	}
 	if (26 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, false);
@@ -42,7 +42,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
-			vPos += vLook * 1.f;
+			vPos += vLook * 1.25f;
 			vLook = Vec3::TransformNormal(vLook,Matrix::CreateFromAxisAngle(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(-35.f)));
 			vLook.Normalize();
 			vPos.y = 0.5f;
