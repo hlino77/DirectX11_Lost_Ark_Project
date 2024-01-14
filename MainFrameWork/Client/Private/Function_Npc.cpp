@@ -7,6 +7,8 @@
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
 
+#include "Player.h"
+
 CFunction_Npc::CFunction_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CNpc(pDevice, pContext)
 {
@@ -36,6 +38,8 @@ HRESULT CFunction_Npc::Initialize(void* pArg)
 
 void CFunction_Npc::Tick(_float fTimeDelta)
 {
+	Find_Control_Pc();
+
 	__super::Tick(fTimeDelta);
 }
 
@@ -98,12 +102,12 @@ HRESULT CFunction_Npc::Ready_Components()
 	{
 		{
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->SetActive(true);
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Radius(0.7f);
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Radius(0.8f);
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
 
 			COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Get_Child());
-			pChildCollider->Set_Scale(Vec3(0.2f, 0.6f, 0.2f));
+			pChildCollider->Set_Scale(Vec3(0.4f, 0.6f, 0.4f));
 			pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 			pChildCollider->SetActive(true);
 		}
@@ -232,6 +236,25 @@ HRESULT CFunction_Npc::Render_PartModel_Shadow()
 			if (FAILED(m_pNpcPartCom[i]->Render(m_pShaderCom, j, "ShadowPass")))
 				return S_OK;
 		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CFunction_Npc::Find_Control_Pc()
+{
+	if (nullptr != m_pCtrlPlayer)
+		return S_OK;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pCtrlPlayer = static_cast<CPlayer*>(pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	if (nullptr == m_pCtrlPlayer)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return S_OK;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

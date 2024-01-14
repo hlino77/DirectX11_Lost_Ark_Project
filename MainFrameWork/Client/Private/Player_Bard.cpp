@@ -321,6 +321,22 @@ void CPlayer_Bard::Set_Colliders(_float fTimeDelta)
 	}
 }
 
+_bool CPlayer_Bard::Get_CellPickingPos(Vec3& vPickPos)
+{
+	_bool IsPick = __super::Get_CellPickingPos(vPickPos);
+
+	if (true == m_IsClickNpc)
+	{
+		m_pController->Get_MoveToNpcMessage();
+	}
+	else
+	{
+		m_pController->Get_MoveToCellMessage();
+	}
+
+	return IsPick;
+}
+
 HRESULT CPlayer_Bard::Ready_Components()
 {
 	__super::Ready_Components();

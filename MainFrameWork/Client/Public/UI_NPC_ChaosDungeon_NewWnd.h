@@ -26,11 +26,13 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
 
+    void    Set_Active(_bool bActive);
+
 private:
     void    Start_Text();
     void    End_Text();
     void    Print_Text();
-    void    Set_Active(_bool bActive);
+ 
     HRESULT Ready_TextBox();
 
 private:

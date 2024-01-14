@@ -3,6 +3,8 @@
 
 BEGIN(Client)
 
+class CUI_NPC_ChaosDungeon_NewWnd;
+
 class CGuide_Npc final : public CFunction_Npc
 {
 protected:
@@ -16,19 +18,17 @@ public:
 	virtual void			Tick(_float fTimeDelta) override;
 	virtual void			LateTick(_float fTimeDelta) override;
 	virtual HRESULT			Render() override;
-	virtual HRESULT			Render_ShadowDepth() override;
-	virtual HRESULT			Render_Debug() override;
 
 private:
 	virtual HRESULT			Ready_Components() override;
-	virtual HRESULT			Ready_Parts() override;
-
-	virtual HRESULT			Render_Model() override;
-	virtual HRESULT			Render_Model_Shadow() override;
-	virtual HRESULT			Render_PartModel() override;
-	virtual HRESULT			Render_PartModel_Shadow() override;
+	HRESULT					Ready_ChaosEntranceUI();
 
 private:
+	void					Activate_GuideUI();
+
+private:
+	class CUI_NPC_ChaosDungeon_NewWnd* m_pChaosUI = { nullptr };
+
 
 public:
 	static CGuide_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

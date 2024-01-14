@@ -348,6 +348,16 @@ HRESULT CGameInstance::Delete_GameObject(_uint iLevelIndex, const _uint iLayerTy
 	return m_pObject_Manager->Delete_GameObject(iLevelIndex, iLayerType, pGameObject);
 }
 
+CGameObject* CGameInstance::Find_CtrlPlayer(_uint iLevelIndex, const _uint iLayerType)
+{
+	if (0 != m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType).size())
+	{
+		return m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType).front();
+	}
+	else
+		return nullptr;	
+}
+
 
 string CGameInstance::wstring_to_string(const wstring& strW)
 {

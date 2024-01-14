@@ -366,6 +366,22 @@ void CPlayer_Slayer::Set_Colliders(_float fTimeDelta)
 	}
 }
 
+_bool CPlayer_Slayer::Get_CellPickingPos(Vec3& vPickPos)
+{
+	_bool IsPick = __super::Get_CellPickingPos(vPickPos);
+
+	if (true == m_IsClickNpc)
+	{
+		m_pController->Get_MoveToNpcMessage();
+	}
+	else
+	{
+		m_pController->Get_MoveToCellMessage();
+	}
+
+	return IsPick;
+}
+
 HRESULT CPlayer_Slayer::Ready_Components()
 {
 	__super::Ready_Components();

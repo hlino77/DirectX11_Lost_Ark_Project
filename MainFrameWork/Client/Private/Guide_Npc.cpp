@@ -5,6 +5,17 @@
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
+#include "Player.h"
+#include "Player_Gunslinger.h"
+#include "Player_Slayer.h"
+#include "Player_Destroyer.h"
+#include "Player_Bard.h"
+#include "Player_Controller_GN.h"
+#include "Controller_WR.h"
+#include "Controller_WDR.h"
+#include "Controller_MG.h"
+
+#include "UI_NPC_ChaosDungeon_NewWnd.h"
 
 CGuide_Npc::CGuide_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CFunction_Npc(pDevice, pContext)
@@ -30,12 +41,51 @@ HRESULT CGuide_Npc::Initialize(void* pArg)
 
 	__super::Initialize(pArg);
 
+	if (FAILED(Ready_ChaosEntranceUI()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CGuide_Npc::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	if (nullptr != m_pCtrlPlayer)
+	{
+		if (TEXT("Gunslinger") == m_pCtrlPlayer->Get_ObjectTag())
+		{
+			if (true == static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Is_Stop() && true == m_IsClicked)
+			{
+				m_pChaosUI->Set_Active(true);
+				static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Key_Active(false);
+			}
+		}
+		else if (TEXT("WR") == m_pCtrlPlayer->Get_ObjectTag())
+		{
+			if (true == static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Is_Stop() && true == m_IsClicked)
+			{
+				m_pChaosUI->Set_Active(true);
+				static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Key_Active(false);
+			}
+		}
+		else if (TEXT("WDR") == m_pCtrlPlayer->Get_ObjectTag())
+		{
+			if (true == static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Is_Stop() && true == m_IsClicked)
+			{
+				m_pChaosUI->Set_Active(true);
+				static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Key_Active(false);
+			}
+		}
+		else if (TEXT("MG") == m_pCtrlPlayer->Get_ObjectTag())
+		{
+			if (true == static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Is_Stop() && true == m_IsClicked)
+			{
+				m_pChaosUI->Set_Active(true);
+				static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Key_Active(false);
+			}
+		}
+	}
 }
 
 void CGuide_Npc::LateTick(_float fTimeDelta)
@@ -50,20 +100,6 @@ HRESULT CGuide_Npc::Render()
 	return S_OK;
 }
 
-HRESULT CGuide_Npc::Render_ShadowDepth()
-{
-	__super::Render_ShadowDepth();
-
-	return S_OK;
-}
-
-HRESULT CGuide_Npc::Render_Debug()
-{
-	__super::Render_Debug();
-
-	return S_OK;
-}
-
 HRESULT CGuide_Npc::Ready_Components()
 {
 	__super::Ready_Components();
@@ -71,55 +107,23 @@ HRESULT CGuide_Npc::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CGuide_Npc::Ready_Parts()
-{
-	__super::Ready_Parts();
-
-	return S_OK;
-}
-
-HRESULT CGuide_Npc::Render_Model()
-{
-	__super::Render_Model();
-
-	return S_OK;
-}
-
-HRESULT CGuide_Npc::Render_Model_Shadow()
-{
-	__super::Render_Model_Shadow();
-
-	return S_OK;
-}
-
-HRESULT CGuide_Npc::Render_PartModel()
-{
-	__super::Render_PartModel();
-
-	return S_OK;
-}
-
-HRESULT CGuide_Npc::Render_PartModel_Shadow()
+HRESULT CGuide_Npc::Ready_ChaosEntranceUI()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	for (size_t i = 0; i < (_uint)PART::_END; i++)
-	{
-		if (nullptr == m_pNpcPartCom[i]) continue;
+	m_pChaosUI = static_cast<CUI_NPC_ChaosDungeon_NewWnd*>(pGameInstance->Add_GameObject(m_iCurrLevel,
+		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Npc_ChaosDungeonEntrance_NewWnd"), this));
 
-		_uint		iNumMeshes = m_pNpcPartCom[i]->Get_NumMeshes();
-
-		for (_uint j = 0; j < iNumMeshes; ++j)
-		{
-
-			if (FAILED(m_pNpcPartCom[i]->Render(m_pShaderCom, j, "ShadowPass")))
-				return S_OK;
-		}
-	}
+	if (m_pChaosUI == nullptr)
+		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
+}
+
+void CGuide_Npc::Activate_GuideUI()
+{
 }
 
 CGuide_Npc* CGuide_Npc::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -151,4 +155,9 @@ CGameObject* CGuide_Npc::Clone(void* pArg)
 void CGuide_Npc::Free()
 {
 	__super::Free();
+
+	if (nullptr != m_pChaosUI)
+	{
+		m_pChaosUI->Set_Dead(true);
+	}
 }

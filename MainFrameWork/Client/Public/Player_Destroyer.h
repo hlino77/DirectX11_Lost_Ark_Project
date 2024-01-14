@@ -34,6 +34,8 @@ public:
 	void			Send_PlayerInfo();
 	void			Set_Colliders(_float fTimeDelta);
 
+	virtual _bool	Get_CellPickingPos(Vec3& vPickPos);
+
 public:
 	class CController_WDR* Get_WDR_Controller() { return m_pController; }
 

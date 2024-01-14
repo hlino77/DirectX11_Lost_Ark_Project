@@ -91,6 +91,9 @@ _bool CPlayer_Controller_GN::Is_Idle()
 
 _uint CPlayer_Controller_GN::Is_GN_Identity()
 {
+	if (false == m_bKeyActive)
+		return 0;
+
 	if (KEY_TAP(KEY::Z))
 	{
 		return 2;

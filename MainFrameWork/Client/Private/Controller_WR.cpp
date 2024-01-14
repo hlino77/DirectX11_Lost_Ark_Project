@@ -133,6 +133,9 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 
 _bool CController_WR::Is_Identity()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_HOLD(KEY::Z) || KEY_TAP(KEY::Z))
 	{
 		if (true == m_IsIdentity)

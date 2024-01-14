@@ -366,6 +366,22 @@ void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2)
 		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
 }
 
+_bool CPlayer_Gunslinger::Get_CellPickingPos(Vec3& vPickPos)
+{
+	_bool IsPick = __super::Get_CellPickingPos(vPickPos);
+
+	if (true == m_IsClickNpc)
+	{
+		m_pController->Get_MoveToNpcMessage();
+	}
+	else
+	{
+		m_pController->Get_MoveToCellMessage();
+	}
+
+	return IsPick;
+}
+
 HRESULT CPlayer_Gunslinger::Ready_Components()
 {
 	__super::Ready_Components();

@@ -84,26 +84,41 @@ _bool CPlayer_Controller::Is_Idle()
 
 _bool CPlayer_Controller::Is_Tap(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_TAP(eKey);
 }
 
 _bool CPlayer_Controller::Is_Hold(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_HOLD(eKey);
 }
 
 _bool CPlayer_Controller::Is_HoldorTap(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_HOLD(eKey) || KEY_TAP(eKey);
 }
 
 _bool CPlayer_Controller::Is_Away(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_AWAY(eKey) || KEY_NONE(eKey);
 }
 
 _bool CPlayer_Controller::Is_Run()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_HOLD(KEY::RBTN) || KEY_TAP(KEY::RBTN))
 	{
 		return true;
@@ -114,6 +129,9 @@ _bool CPlayer_Controller::Is_Run()
 
 _bool CPlayer_Controller::Is_Skill()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (-1.f == m_fCoolTime[SKILL_KEY::Q] && nullptr != m_pSkills[SKILL_KEY::Q] && (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q)))
 	{
 		m_eSelectedSkill = SKILL_KEY::Q;
@@ -161,6 +179,9 @@ _bool CPlayer_Controller::Is_Skill()
 
 _bool CPlayer_Controller::Is_Interect()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_TAP(KEY::G))
 		return true;
 
@@ -169,6 +190,9 @@ _bool CPlayer_Controller::Is_Interect()
 
 _bool CPlayer_Controller::Is_Dash()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if ( KEY_HOLD(KEY::SPACE) ||KEY_TAP(KEY::SPACE))
 	{
 		if (-1.f == m_fCoolTime[SKILL_KEY::SPACE])
@@ -182,6 +206,9 @@ _bool CPlayer_Controller::Is_Dash()
 
 _bool CPlayer_Controller::Is_Attack()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_HOLD(KEY::LBTN) || KEY_TAP(KEY::LBTN))
 		return true;
 
@@ -354,7 +381,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	Vec3 vCur = m_vPrePos;
 	vNext.y = 0.0f; vCur.y = 0.0f;
 
-	if (Vec3(vNext - vCur).Length() <= 0.06f)
+	if (Vec3(vNext - vCur).Length() <= m_fMoveLength)
 	{
 		m_bMoveStop = true;
 		return;

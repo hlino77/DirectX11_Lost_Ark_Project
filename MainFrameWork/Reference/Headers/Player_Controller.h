@@ -32,6 +32,8 @@ public:
 	virtual void	LateTick(_float fTimeDelta);
 	virtual void	DebugRender();
 
+	virtual void	Set_Key_Active(_bool bActive) { m_bKeyActive = bActive; }
+
 public:
 	_bool		Is_Tap(KEY eKey);
 	_bool		Is_Hold(KEY eKey);
@@ -62,6 +64,9 @@ public:
 	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
 	virtual void		Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos = Vec3());
 	virtual void		Get_HitEndMessage() { m_eHitType = HIT_TYPE::TYPE_END; }
+
+	virtual void		Get_MoveToNpcMessage() { m_fMoveLength = 1.f; }
+	virtual void		Get_MoveToCellMessage() { m_fMoveLength = 0.06f; }
 
 	virtual void		Get_RootMessage();
 	virtual void		Get_RootZeroMessage();
@@ -122,6 +127,8 @@ protected:
 	CTransform*				m_pOwnerTransform = nullptr;
 	CRigidBody*				m_pOwnerRigidBody = nullptr;
 
+	_bool					m_bKeyActive = { true };
+
 	/* 플레이어 Tick 움직임 */
 	_bool					m_bStop = { false };
 
@@ -132,6 +139,8 @@ protected:
 	_bool					m_IsDir = { false };
 	_float					m_fLerpLook_Speed = { 20.f };
 	_float					m_fMoveSpeed = { 3.f };
+
+	_float					m_fMoveLength = 0.06f;
 
 	/* 플레이어 히트 변수*/
 	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };

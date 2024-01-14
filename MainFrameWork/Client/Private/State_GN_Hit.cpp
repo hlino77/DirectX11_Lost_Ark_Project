@@ -43,7 +43,7 @@ void CState_GN_Hit::Enter_State()
 	m_vHitCenter.y = 0.f;
 
 	m_pController->Get_StopMessage();
-	m_pController->Get_LookMessage(m_vHitCenter);
+	m_pController->Get_LerpDirLookMessage(m_vHitCenter);
 
 	m_fHitCheck = m_pPlayer->Get_TargetPos().y;
 	if (10.f > m_fHitCheck)

@@ -146,7 +146,7 @@ public:
 	void					Reset_SlowMotion() { m_iSlowMotionCount = 0; Set_SlowMotion(false); }
 
 
-	_bool					Get_CellPickingPos(Vec3& vPickPos);
+	virtual _bool			Get_CellPickingPos(Vec3& vPickPos);
 
 	CGameObject*			Get_Parts(const CPartObject::PARTS& ePart) { return m_Parts[ePart]; }
 
@@ -157,8 +157,8 @@ public:
 	CParty*					Get_Party() { return m_pParty; }
 	void					Set_Party(CParty* pParty) { m_pParty = pParty; }
 
-	void					Set_HitState(_bool IsHit) { m_IsHitState = IsHit; }
-	_bool					Is_HitState() { return m_IsHitState; }
+	const _bool&			Is_ClickNpc() { return m_IsClickNpc; }
+
 
 public:
 	/* 플레이어 상태 세팅 */
@@ -231,13 +231,16 @@ protected:
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 
 	_bool	m_IsSuperiorArmor = false;
-	_bool	m_IsHitState = false;
 
+	/* NPC 정보 변수 */
+	vector<CGameObject*> m_vecNpcs;
+	_bool				m_IsClickNpc = { false };
 
 	/* UI */
 	CParty* m_pParty = nullptr;
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
 	CUI_InGame_NamePlate* m_pNamePlate = { nullptr };
+
 public:
 	virtual void Free();
 

@@ -335,6 +335,22 @@ void CPlayer_Destroyer::Set_Colliders(_float fTimeDelta)
 	}
 }
 
+_bool CPlayer_Destroyer::Get_CellPickingPos(Vec3& vPickPos)
+{
+	_bool IsPick = __super::Get_CellPickingPos(vPickPos);
+
+	if (true == m_IsClickNpc)
+	{
+		m_pController->Get_MoveToNpcMessage();
+	}
+	else
+	{
+		m_pController->Get_MoveToCellMessage();
+	}
+
+	return IsPick;
+}
+
 HRESULT CPlayer_Destroyer::Ready_Components()
 {
 	__super::Ready_Components();

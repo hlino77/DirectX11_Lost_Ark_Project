@@ -212,6 +212,9 @@ void CController_MG::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 
 _uint CController_MG::Is_MG_Identity()
 {
+	if (false == m_bKeyActive)
+		return 0;
+
 	if (100 > m_iIdentityGage)
 		return 0;
 

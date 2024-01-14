@@ -5,6 +5,7 @@
 #include "TextBox.h"
 #include "ServerSessionManager.h"
 #include "Player.h"
+#include "Npc.h"
 
 CUI_InGame_NamePlate::CUI_InGame_NamePlate(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -48,8 +49,16 @@ HRESULT CUI_InGame_NamePlate::Initialize(void* pArg)
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
-		if (FAILED(Initialize_StageName(dynamic_cast<CPlayer*>(m_pOwner)->Get_NickName())))
-			return E_FAIL;
+		if (OBJ_TYPE::PLAYER == m_pOwner->Get_ObjectType())
+		{
+			if (FAILED(Initialize_StageName(dynamic_cast<CPlayer*>(m_pOwner)->Get_NickName())))
+				return E_FAIL;
+		}
+		else if (OBJ_TYPE::NPC == m_pOwner->Get_ObjectType())
+		{
+			if (FAILED(Initialize_StageName(dynamic_cast<CNpc*>(m_pOwner)->Get_NpcName())))
+				return E_FAIL;
+		}
 	}
 
 	return S_OK;
