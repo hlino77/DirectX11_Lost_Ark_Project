@@ -146,7 +146,9 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	m_pRenderer_Com->Ready_InstanceRender();
-	m_pRenderer_Com->Draw();
+
+	if (FAILED(m_pRenderer_Com->Draw()))
+		return E_FAIL;
 	
 	CChat_Manager::GetInstance()->Render();
 

@@ -29,6 +29,7 @@ HRESULT CUI_Manager::LateTick(_float fTimeDelta)
 
 void CUI_Manager::Clear(LEVELID iLevelIndex)
 {
+	WRITE_LOCK
 	m_pUIList[iLevelIndex].clear();
 }
 

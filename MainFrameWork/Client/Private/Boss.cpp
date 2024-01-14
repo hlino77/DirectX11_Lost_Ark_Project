@@ -351,7 +351,7 @@ HRESULT CBoss::Ready_HpUI()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	m_pHpUI = static_cast<CUI_Boss_Hp*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+	m_pHpUI = static_cast<CUI_Boss_Hp*>(pGameInstance->Add_GameObject(m_iCurrLevel,
 		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_BossHpUI"), this));
 
 	if (nullptr == m_pHpUI)

@@ -2254,9 +2254,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2267,9 +2272,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2280,9 +2290,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2293,9 +2308,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2306,9 +2326,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2319,9 +2344,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2332,9 +2362,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2345,9 +2380,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2358,9 +2398,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+					return S_OK;
+
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
+
+				return S_OK;
 			}));
 	}
 
@@ -2372,9 +2417,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2382,9 +2430,13 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
+		
 	}
 
 	{
@@ -2392,9 +2444,14 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+
+		}
 	}
 
 	{
@@ -2402,9 +2459,13 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2412,9 +2473,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2422,9 +2486,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2432,9 +2499,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2442,9 +2512,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2452,9 +2525,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2462,9 +2538,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 
@@ -2477,37 +2556,53 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		Matrix matPivot = Matrix::Identity;
 		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+				return E_FAIL;
+		}
 
 		strFileName = L"SkyDome1";
 		strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+				return E_FAIL;
+		}
 
 		strFileName = L"SkyDome2";
 		strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+				return E_FAIL;
+		}
 		
 		strFileName = L"SkyDome3";
 		strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+				return E_FAIL;
+		}
 		
 		strFileName = L"SkyDome4";
 		strComponentName = L"Prototype_Component_Model_" + strFileName;
 		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+				return E_FAIL;
+		}
 
 		pUIManager->Loading_UI(144.f);
 	}
@@ -2518,9 +2613,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(231.f);
 	}
 
@@ -2529,9 +2627,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(308.f);
 	}
 
@@ -2540,9 +2641,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(385.f);
 	}
 
@@ -2551,9 +2655,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(462.f);
 	}
 
@@ -2563,9 +2670,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(693.f);
 	}
 
@@ -2574,9 +2684,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(800.f);
 	}
 
@@ -2585,9 +2698,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 
@@ -2596,9 +2712,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 
@@ -2607,9 +2726,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 
@@ -2618,9 +2740,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 
@@ -2629,9 +2754,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 	
@@ -2641,9 +2769,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 
@@ -2652,9 +2783,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 		pUIManager->Loading_UI(1000.f);
 	}
 
@@ -2679,9 +2813,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 
 				return S_OK;
 			}));
@@ -2694,9 +2831,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 
 				return S_OK;
 			}));
@@ -2710,9 +2850,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 
 				return S_OK;
 			}));
@@ -2725,9 +2868,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 
 				return S_OK;
 			}));
@@ -2739,9 +2885,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2749,9 +2898,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2759,9 +2911,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2769,9 +2924,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2779,9 +2937,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2789,9 +2950,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2799,9 +2963,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2809,9 +2976,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2819,9 +2989,13 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
 	}
 
 	{
@@ -2829,9 +3003,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
 	}
 
 	{
@@ -2839,9 +3016,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOBBY, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_LOBBY, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOBBY, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+				return E_FAIL;
+		}
 	}
 
 	Safe_Release(pGameInstance);

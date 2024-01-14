@@ -1389,7 +1389,7 @@ CTexture* CModel::Create_Texture(const wstring& szFullPath)
 	szComName += szFileName;
 
 
-	CComponent* pComponent = pGameInstance->Clone_Component(m_pOwner, pGameInstance->Get_CurrLevelIndex(), szComName);
+	CComponent* pComponent = pGameInstance->Clone_Component(m_pOwner, 0, szComName);
 
 
 	if (pComponent)
@@ -1402,7 +1402,7 @@ CTexture* CModel::Create_Texture(const wstring& szFullPath)
 
 	CTexture* pTexture = CTexture::Create(m_pDevice, m_pContext, szFullPath);
 
-	pGameInstance->Add_Prototype(pGameInstance->Get_CurrLevelIndex(), szComName, pTexture);
+	pGameInstance->Add_Prototype(0, szComName, pTexture);
 
 	Safe_Release(pGameInstance);
 	return pTexture;

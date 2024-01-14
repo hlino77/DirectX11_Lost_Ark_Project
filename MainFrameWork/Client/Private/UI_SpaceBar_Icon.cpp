@@ -61,7 +61,7 @@ HRESULT CUI_SpaceBar_Icon::Initialize(void* pArg)
 
 HRESULT CUI_SpaceBar_Icon::Initialize_Percent()
 {
-    m_szFont = L"≥ÿΩºLv1Bold";
+    m_szFont = L"≥ÿΩºLv1∞ÌµÒBold";
     Ready_TextBox();
 
     Set_Active(false);
