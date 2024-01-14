@@ -60,7 +60,7 @@ public:
 	
 	virtual void		Get_DashMessage(Vec3 vPos);
 	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
-	virtual void		Get_HitMessage(_uint iDamage, _float fForce);
+	virtual void		Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos = Vec3());
 	virtual void		Get_HitEndMessage() { m_eHitType = HIT_TYPE::TYPE_END; }
 
 	virtual void		Get_RootMessage();
@@ -111,7 +111,7 @@ protected:
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);
 
 	virtual void	Skill_CoolTime(const _float& fTimeDelta);
-	virtual void	ChangeStat_CoolTime(const _float& fTimeDelta);
+	virtual void	Skill_ChangeStat_CoolTime(const _float& fTimeDelta);
 	virtual void	Skill_Check_Collider();
 
 protected:
@@ -133,10 +133,11 @@ protected:
 	_float					m_fLerpLook_Speed = { 20.f };
 	_float					m_fMoveSpeed = { 3.f };
 
+	/* 플레이어 히트 변수*/
 	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };
 	_uint					m_iDamaged = { 0 };
 	_float					m_fForced = { 0.f };
-
+	Vec3					m_vHitColiPos;
 
 	/* 스킬 */
 	unordered_map<wstring, class CPlayer_Skill*> m_Skills;

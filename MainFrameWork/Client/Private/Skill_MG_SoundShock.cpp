@@ -41,7 +41,7 @@ HRESULT CSkill_MG_SoundShock::Initialize(void* pArg)
 	Proj_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 	Proj_Desc.IsColliSpawn = true;
 
-	Proj_Desc.iDamage = 50.f;
+	Proj_Desc.iDamage = 50;
 	Proj_Desc.fRepulsion = 0.f;
 	Proj_Desc.bUseProjPos = true;
 

@@ -148,15 +148,20 @@ HRESULT CMannequin::Render()
 			{
 				if (i == m_IsHair)
 				{
-					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-						FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4))))
+						return E_FAIL;
+
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4))))
 						return E_FAIL;
 
 					if (FAILED(m_pModelPart[HEAD]->Render_SingleMesh(m_pShaderCom, i)))
 						return E_FAIL;
 
-					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-						FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+					Vec4 vResetColor;
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+						return E_FAIL;
+
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 						return E_FAIL;
 				}
 				else
@@ -200,7 +205,7 @@ void CMannequin::Clear_MQ()
 	m_vecTalkScript.clear();
 	m_fTalkStartAcc = 0.f;
 	m_fTalkTime = 0.f;
-	m_iCurrTalk = 0.f;
+	m_iCurrTalk = 0;
 }
 
 void CMannequin::Set_ModelCom(CModel* pModel)

@@ -31,7 +31,7 @@ HRESULT CSkill_WR_SpiningSword::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.1f;
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.8f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 10.f;
 	Proj_Desc.bUseFactor = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);

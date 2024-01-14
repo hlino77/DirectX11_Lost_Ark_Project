@@ -59,9 +59,9 @@ void CState_WR_Idle::Exit_State()
 
 void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 {
-	m_fTimeAcc += fTimeDelta;
+	/*m_fTimeAcc += fTimeDelta;
 	if(m_fTimeToNormal <= m_fTimeAcc)
-		m_pPlayer->Set_State(TEXT("Mode_Normal"));
+		m_pPlayer->Set_State(TEXT("Mode_Normal"));*/
 
 
 	if (true == m_pController->Is_Dash())

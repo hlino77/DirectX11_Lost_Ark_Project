@@ -28,6 +28,8 @@ private:
 private:
 	//Animation
 	_int m_iStandDash = 0;
+	_int m_iStandDahs_Normal = 0;
+	_int m_iStandDahs_Identity = 0;
 
 public:
 	static CState_WR_StandDash* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);

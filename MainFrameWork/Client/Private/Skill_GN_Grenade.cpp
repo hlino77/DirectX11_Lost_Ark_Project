@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Skill_GN_Grenade.h"
 #include "Player_Gunslinger.h"
+#include "Projectile.h"
 
 CSkill_GN_Grenade::CSkill_GN_Grenade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_Grenade"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -23,6 +24,17 @@ HRESULT CSkill_GN_Grenade::Initialize(void* pArg)
 	m_eAttackType = SKILL_ATTACKTYPE::NORMAL;;
 	m_eCtrlType = SKILL_CTRLTYPE::TARGET;
 	m_IsSuperArmor = false;
+
+	PROJECTILE_DESC Proj_Desc;
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fRadius = 1.f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.3f, 0.0f);
+	Proj_Desc.iDamage = 120;
+	Proj_Desc.fRepulsion = 0.f;
+	m_SkillProjDesc = Proj_Desc;
 
 	return S_OK;
 }

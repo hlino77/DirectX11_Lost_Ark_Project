@@ -29,7 +29,7 @@ public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	void			Get_GN_IdentityMessage(GN_IDENTITY eIndex) { GN_Identity(eIndex); }
 	virtual void	Get_SkillMessage(GN_IDENTITY eIndex, SKILL_KEY eKey) { Skill(eIndex, eKey); }
-	virtual void	Get_HitMessage(_uint iDamge, _float fForce);
+	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 
 public:
 	GN_IDENTITY		Get_GN_Identity() { return m_eIdentity; }

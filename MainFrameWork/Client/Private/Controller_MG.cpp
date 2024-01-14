@@ -46,13 +46,14 @@ HRESULT CController_MG::Initialize(void* pArg)
 
 	Proj_Base_Desc.fRadius = 0.5f;
 	Proj_Base_Desc.vOffset = Vec3(0.0f, 0.2f, 0.8f);
-	Proj_Base_Desc.iDamage = 50.f;
+	Proj_Base_Desc.iDamage = 50;
 	Proj_Base_Desc.fRepulsion = 0.f;
 	Proj_Base_Desc.bUseProjPos = true;
 	Proj_Base_Desc.IsMove = true;
 	Proj_Base_Desc.fMoveSpeed = 8.f;
 	m_Attack_Desces[0] = Proj_Base_Desc;
 
+	//
 	PROJECTILE_DESC Proj_Desc;
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
@@ -60,33 +61,36 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.1f;
 	Proj_Desc.fRadius = 2.4f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
-	Proj_Desc.iDamage = 150;
+	Proj_Desc.iDamage = 15;
 	Proj_Desc.fRepulsion = 0.f;
 	Proj_Desc.bUseProjPos = true;
 	m_Attack_Desces[1] = Proj_Desc;
 
+	//
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.1f;
 	Proj_Desc.fRadius = 2.4f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
-	Proj_Desc.iDamage = 200;
+	Proj_Desc.iDamage = 20;
 	Proj_Desc.fRepulsion = 0.f;
 	Proj_Desc.bUseProjPos = true;
 	m_Attack_Desces[2] = Proj_Desc;
 
+	//
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.1f;
 	Proj_Desc.fRadius = 2.4f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
-	Proj_Desc.iDamage = 250;
+	Proj_Desc.iDamage = 25;
 	Proj_Desc.fRepulsion = 0.f;
 	Proj_Desc.bUseProjPos = true;
 	m_Attack_Desces[3] = Proj_Desc;
 
+	//
 	PROJECTILE_DESC Proj_Spawn_Desc;
 	Proj_Spawn_Desc.pAttackOwner = m_pOwner;
 	Proj_Spawn_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
@@ -103,11 +107,12 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Spawn_Desc.fSpawnRadius = 2.5f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
-	Proj_Spawn_Desc.iDamage = 0.f;
+	Proj_Spawn_Desc.iDamage = 1;
 	Proj_Spawn_Desc.fRepulsion = 0.f;
 	Proj_Spawn_Desc.bUseProjPos = true;
 	m_Attack_Desces[4] = Proj_Spawn_Desc;
 
+	//
 	Proj_Spawn_Desc.pAttackOwner = m_pOwner;
 	Proj_Spawn_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
@@ -123,11 +128,12 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Spawn_Desc.fSpawnRadius = 2.5f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
-	Proj_Spawn_Desc.iDamage = 0.f;
+	Proj_Spawn_Desc.iDamage = 1;
 	Proj_Spawn_Desc.fRepulsion = 0.f;
 	Proj_Spawn_Desc.bUseProjPos = true;
 	m_Attack_Desces[5] = Proj_Spawn_Desc;
 
+	//
 	Proj_Spawn_Desc.pAttackOwner = m_pOwner;
 	Proj_Spawn_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
@@ -143,7 +149,7 @@ HRESULT CController_MG::Initialize(void* pArg)
 	Proj_Spawn_Desc.fSpawnRadius = 2.5f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
-	Proj_Spawn_Desc.iDamage = 0.f;
+	Proj_Spawn_Desc.iDamage = 1;
 	Proj_Spawn_Desc.fRepulsion = 0.f;
 	Proj_Spawn_Desc.bUseProjPos = true;
 	m_Attack_Desces[6] = Proj_Spawn_Desc;
@@ -167,22 +173,38 @@ void CController_MG::DebugRender()
 {
 }
 
-void CController_MG::Get_HitMessage(_uint iDamge, _float fForce)
+void CController_MG::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
-	__super::Get_HitMessage(iDamge, fForce);
+	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{
-		static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_eHitType, m_fForced, 0.f));
-
 		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
 		{
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, m_fForced, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
 		}
 		else if (HIT_TYPE::DMG != m_eHitType)
 		{
+			_float fCheckHit = 0.0f;
+			switch (m_eHitType)
+			{
+			case Engine::CPlayer_Controller::DOWN:
+				fCheckHit = m_fForced;
+				break;
+			case Engine::CPlayer_Controller::KNOCKDOWN:
+				fCheckHit = 10.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::BOUND:
+				fCheckHit = 20.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::TWIST:
+				fCheckHit = 30.f + m_fForced;
+				break;
+			}
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, fCheckHit, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit"));
 		}
 	}

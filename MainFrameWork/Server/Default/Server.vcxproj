@@ -168,6 +168,7 @@
     <ClCompile Include="..\Private\Common_BT_Stun_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_TwistLand_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Twist_Server.cpp" />
+    <ClCompile Include="..\Private\Guide_Npc_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack3_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack4_Server.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="..\Private\Monster_Plant_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Zombie_Server.cpp" />
+    <ClCompile Include="..\Private\Npc_Server.cpp" />
     <ClCompile Include="..\Private\Party_Server.cpp" />
     <ClCompile Include="..\Private\PartyManager.cpp" />
     <ClCompile Include="..\Private\Pawn_BT_Attack2_Server.cpp" />
@@ -269,6 +271,8 @@
     <ClInclude Include="..\Public\Boss_BT_IF_ArmorBreak_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_IF_Groggy_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
+    <ClInclude Include="..\Public\Guide_Npc_Server.h" />
+    <ClInclude Include="..\Public\Npc_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3_Server.h" />

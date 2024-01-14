@@ -36,6 +36,12 @@
 #include "State_WR_Mode_ToNormal.h"
 #include "State_WR_Run_Normal.h"
 
+#include "State_WR_Hit.h"
+#include "State_WR_Hit_Common.h"
+#include "State_WR_HitEnd.h"
+#include "State_WR_Stand.h"
+#include "State_WR_StandDash.h"
+
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
 #include "State_WR_FuriousClaw_Loop.h"
@@ -72,6 +78,8 @@
 #include "Skill_WR_FlashBlade.h"
 #include "Skill_WR_WildRush.h"
 
+#include "Skill.h"
+#include "Boss.h"
 
 CPlayer_Slayer::CPlayer_Slayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -175,15 +183,20 @@ HRESULT CPlayer_Slayer::Render()
 		{
 			if (i == (_uint)PART::HELMET && j == m_IsHair)
 			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4))))
 					return E_FAIL;
 
 				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
 
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+				Vec4 vResetColor;
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 					return E_FAIL;
 			}
 			else
@@ -225,6 +238,31 @@ HRESULT CPlayer_Slayer::Render_ShadowDepth()
 
 void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+		{
+			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+		{
+			Vec3 vCenter;
+			if (true == static_cast<CBoss*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
+			{
+				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vCenter);
+			}
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		{
+			Vec3 vCenter;
+			if (true == static_cast<CBoss*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
+			{
+				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vCenter);
+			}
+		}
+	}
+
+
 	if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
@@ -232,12 +270,12 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
 				if(-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(1);
+					m_pController->Increase_IdenGage(0.1f);
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
 				if (-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(1);
+					m_pController->Increase_IdenGage(0.1f);
 			}
 		}
 		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
@@ -245,12 +283,12 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
 				if (-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(10);
+					m_pController->Increase_IdenGage(0.8f);
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
 				if (-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(10);
+					m_pController->Increase_IdenGage(0.8f);
 			}
 		}
 	}
@@ -423,7 +461,7 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("WR_Identity_Skill"), CState_WR_Iden_Skill::Create(TEXT("WR_Identity_Skill"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 	
-	m_pStateMachine->Add_State(TEXT("Idle_Normal"), CState_WR_Idle_Normal::Create(TEXT("Idle_Normal"),
+	/*m_pStateMachine->Add_State(TEXT("Idle_Normal"), CState_WR_Idle_Normal::Create(TEXT("Idle_Normal"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Run_Normal"), CState_WR_Run_Normal::Create(TEXT("Run_Normal"),
@@ -433,7 +471,7 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Mode_Normal"), CState_WR_Mode_ToNormal::Create(TEXT("Mode_Normal"),
-		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));*/
 
 
 	/* 스킬 상태 */
@@ -507,6 +545,21 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Stop"), CState_WR_WildRush_Stop::Create(TEXT("Skill_WR_WildRush_Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Hit"), CState_WR_Hit::Create(TEXT("Hit"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("HitEnd"), CState_WR_HitEnd::Create(TEXT("HitEnd"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Hit_Common"), CState_WR_Hit_Common::Create(TEXT("Hit_Common"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Stand"), CState_WR_Stand::Create(TEXT("Stand"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("StandDash"), CState_WR_StandDash::Create(TEXT("StandDash"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

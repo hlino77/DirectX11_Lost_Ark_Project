@@ -59,7 +59,7 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
-	ChangeStat_CoolTime(fTimeDelta);
+	Skill_ChangeStat_CoolTime(fTimeDelta);
 
 	/* Skill Collider */
 	Skill_Check_Collider();
@@ -206,9 +206,11 @@ void CPlayer_Controller::Get_RootZeroMessage()
 	m_pOwnerTransform->Set_State(CTransform::STATE_POSITION, m_vPrePos);
 }
 
-void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce)
+void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 {
 	m_iDamaged = iDamage;
+
+	m_vHitColiPos = vPos;
 
 	if (10.f <= fForce && 20.f > fForce)
 	{
@@ -277,6 +279,8 @@ void CPlayer_Controller::Get_LerpLookMessage(Vec3 vAt, _float fSpeed)
 		return;
 	}
 
+	vAt.y = 0.f;
+
 	m_vNextMove = vAt; 
 	m_fLerpLook_Speed = fSpeed;
 	m_bStop = true; 
@@ -290,6 +294,8 @@ void CPlayer_Controller::Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed)
 		Get_StopMessage();
 		return;
 	}
+
+	vAt.y = 0.f;
 
 	Vec3 vPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = vAt - vPos;
@@ -348,7 +354,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	Vec3 vCur = m_vPrePos;
 	vNext.y = 0.0f; vCur.y = 0.0f;
 
-	if (Vec3(vNext - vCur).Length() <= 0.05f)
+	if (Vec3(vNext - vCur).Length() <= 0.06f)
 	{
 		m_bMoveStop = true;
 		return;
@@ -456,7 +462,7 @@ void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 	}
 }
 
-void CPlayer_Controller::ChangeStat_CoolTime(const _float& fTimeDelta)
+void CPlayer_Controller::Skill_ChangeStat_CoolTime(const _float& fTimeDelta)
 {
 	for (size_t i = 0; i < SKILL_KEY::_END; i++)
 	{

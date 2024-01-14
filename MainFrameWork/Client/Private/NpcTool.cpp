@@ -402,10 +402,20 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 		}
 	}
 
-	CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
-		TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
-	if (nullptr == pInstance)
-		return E_FAIL;
+	if ((_uint)CNpc::NPCTYPE::DECO == NpcCreateDesc.iNpcType)
+	{
+		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+			TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
+		if (nullptr == pInstance)
+			return E_FAIL;
+	}
+	else if ((_uint)CNpc::NPCTYPE::FUNCTION == NpcCreateDesc.iNpcType)
+	{
+
+
+
+	}
+	
 
 	m_vecNpcDesc.push_back(NpcCreateDesc);
 	

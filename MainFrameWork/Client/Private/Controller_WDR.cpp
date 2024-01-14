@@ -38,14 +38,14 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	/* 기본공격 */
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[0] = Proj_Desc;
 
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 10.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[1] = Proj_Desc;
@@ -53,14 +53,14 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	/* 아덴공격 */
 	Proj_Desc.fRadius = 1.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 5.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[2] = Proj_Desc;
 
 	Proj_Desc.fRadius = 1.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 0.f;
 	m_Attack_Desces[3] = Proj_Desc;
 
@@ -68,7 +68,7 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.2f;
 	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 250.f;
+	Proj_Desc.iDamage = 250;
 	Proj_Desc.fRepulsion = -6.f;
 	Proj_Desc.bUseProjPos = true;
 	m_Attack_Desces[4] = Proj_Desc;
@@ -100,15 +100,15 @@ void CController_WDR::Check_Iden_State(_float fTimeDelta)
 		if (1.f <= m_fTimdeAcc)
 		{
 			m_fTimdeAcc = 0.f;
-			m_iIdentityGage--;
+			m_fIdentityGage--;
 		}
 
-		if (0 >= m_iIdentityGage)
+		if (0 >= m_fIdentityGage)
 		{
 			m_fTimdeAcc = 0.f;
 			m_IsIdentity = false;
-			m_iIdentityGage = 0;
-			static_cast<CPlayer_Destroyer*>(m_pOwner)->Set_SuperiorArmorState(false);
+			m_fIdentityGage = 0.f;
+			static_cast<CPlayer_Destroyer*>(m_pOwner)->Set_SuperArmorState(false);
 		}
 	}
 }
@@ -125,7 +125,7 @@ _bool CController_WDR::Is_Identity()
 				return false;
 		}
 
-		if (m_iMaxGage <= m_iIdentityGage)
+		if (m_fMaxGage <= m_fIdentityGage)
 			return true;
 		else
 			return false;
@@ -188,22 +188,38 @@ void CController_WDR::Skill_CoolTime(const _float& fTimeDelta)
 	__super::Skill_CoolTime(fTimeDelta);
 }
 
-void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce)
+void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
-	__super::Get_HitMessage(iDamge, fForce);
+	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{
-		static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_eHitType, m_fForced, 0.f));
-
 		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
 		{
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, m_fForced, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
 		}
 		else if (HIT_TYPE::DMG != m_eHitType)
 		{
+			_float fCheckHit = 0.0f;
+			switch (m_eHitType)
+			{
+			case Engine::CPlayer_Controller::DOWN:
+				fCheckHit = m_fForced;
+				break;
+			case Engine::CPlayer_Controller::KNOCKDOWN:
+				fCheckHit = 10.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::BOUND:
+				fCheckHit = 20.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::TWIST:
+				fCheckHit = 30.f + m_fForced;
+				break;
+			}
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, fCheckHit, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit"));
 		}
 	}
@@ -211,11 +227,11 @@ void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce)
 
 void CController_WDR::Get_WDR_IdentityMessage()
 {
-	if (m_iMaxGage <= m_iIdentityGage)
+	if (m_fMaxGage <= m_fIdentityGage)
 	{
 		m_IsIdentity = true;
-		m_iIdentityGage = m_iMaxGage;
-		static_cast<CPlayer_Destroyer*>(m_pOwner)->Set_SuperiorArmorState(true);
+		m_fIdentityGage = m_fMaxGage;
+		static_cast<CPlayer_Destroyer*>(m_pOwner)->Set_SuperArmorState(true);
 	}
 }
 
@@ -226,17 +242,17 @@ void CController_WDR::Get_UseMarbleMessage()
 
 	if (1 == m_iMarbleCnt)
 	{
-		m_iIdentityGage += 5;
+		m_fIdentityGage += 2.f;
 		m_iMarbleCnt = 0;
 	}
 	else if (2 == m_iMarbleCnt)
 	{
-		m_iIdentityGage += 10;
+		m_fIdentityGage += 4.f;
 		m_iMarbleCnt = 0;
 	}
 	else if (3 == m_iMarbleCnt)
 	{
-		m_iIdentityGage += 15;
+		m_fIdentityGage += 8.f;
 		m_iMarbleCnt = 0;
 	}
 }

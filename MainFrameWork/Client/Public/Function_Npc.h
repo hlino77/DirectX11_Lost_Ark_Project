@@ -3,7 +3,7 @@
 
 BEGIN(Client)
 
-class CFunction_Npc : public CNpc
+class CFunction_Npc abstract : public CNpc
 {
 protected:
 	CFunction_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -19,22 +19,20 @@ public:
 	virtual HRESULT			Render_ShadowDepth();
 	virtual HRESULT			Render_Debug();
 
-private:
-	virtual HRESULT			Ready_Components() override;
+protected:
+	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts();
 
-	HRESULT					Render_Model();
-	HRESULT					Render_Model_Shadow();
-	HRESULT					Render_PartModel();
-	HRESULT					Render_PartModel_Shadow();
+	virtual HRESULT			Render_Model();
+	virtual HRESULT			Render_Model_Shadow();
+	virtual HRESULT			Render_PartModel();
+	virtual HRESULT			Render_PartModel_Shadow();
 
 	void					Set_Colliders(_float fTimeDelta);
 
-private:
+protected:
 
 public:
-	static CFunction_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };
 

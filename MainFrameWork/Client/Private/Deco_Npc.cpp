@@ -202,15 +202,20 @@ HRESULT CDeco_Npc::Render_PartModel()
 		{
 			if (i == (_uint)PART::FACE && j == m_IsHair)
 			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_NpcDesc.vHairColor1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_NpcDesc.vHairColor2, sizeof(Vec4)))))
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_NpcDesc.vHairColor1, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_NpcDesc.vHairColor2, sizeof(Vec4))))
 					return E_FAIL;
 
 				if (FAILED(m_pNpcPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
 
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+				Vec4 vResetColor;
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 					return E_FAIL;
 			}
 			else

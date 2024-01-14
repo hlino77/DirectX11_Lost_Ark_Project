@@ -40,6 +40,7 @@ void CState_WDR_Iden_Attack_4::Enter_State()
 	m_pPlayer->Reserve_Animation(m_Attack_4, 0.1f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	static_cast<CController_WDR*>(m_pController)->Set_Attack_Desc(3);
+
 }
 
 void CState_WDR_Iden_Attack_4::Tick_State(_float fTimeDelta)

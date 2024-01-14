@@ -41,7 +41,7 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
 	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 1.5f;
 	m_HandAttackDesc = Proj_Desc;
 
@@ -49,7 +49,7 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
 	Proj_Desc.vChildScale = Vec3(0.6f, 0.6f, 1.0f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
-	Proj_Desc.iDamage = 150.f;
+	Proj_Desc.iDamage = 150;
 	Proj_Desc.fRepulsion = 2.0f;
 	m_ShotAttackDesc = Proj_Desc;
 
@@ -57,7 +57,7 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.4f);
 	Proj_Desc.vChildScale = Vec3(0.3f, 0.6f, 2.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.4f);
-	Proj_Desc.iDamage = 120.f;
+	Proj_Desc.iDamage = 120;
 	Proj_Desc.fRepulsion = 1.8f;
 	m_LongAttackDesc = Proj_Desc;
 
@@ -103,22 +103,38 @@ _uint CPlayer_Controller_GN::Is_GN_Identity()
 	return 0;
 }
 
-void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce)
+void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
-	__super::Get_HitMessage(iDamge, fForce);
+	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{
-		static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_eHitType, m_fForced, 0.f));
-
 		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
 		{
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, m_fForced, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
 		}
 		else if(HIT_TYPE::DMG != m_eHitType)
 		{
+			_float fCheckHit = 0.0f;
+			switch (m_eHitType)
+			{
+			case Engine::CPlayer_Controller::DOWN:
+				fCheckHit = m_fForced;
+				break;
+			case Engine::CPlayer_Controller::KNOCKDOWN:
+				fCheckHit = 10.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::BOUND:
+				fCheckHit = 20.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::TWIST:
+				fCheckHit = 30.f + m_fForced;
+				break;
+			}
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, fCheckHit, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit"));
 		}
 	}

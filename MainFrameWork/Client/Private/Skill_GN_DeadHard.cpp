@@ -33,7 +33,7 @@ HRESULT CSkill_GN_DeadHard::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
 	Proj_Desc.vChildScale = Vec3(0.35f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
-	Proj_Desc.iDamage = 60.f;
+	Proj_Desc.iDamage = 60;
 	Proj_Desc.fRepulsion = 1.5f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
