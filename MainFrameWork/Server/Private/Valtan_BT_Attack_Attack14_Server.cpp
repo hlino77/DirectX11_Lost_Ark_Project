@@ -24,10 +24,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 		return BT_SUCCESS;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex&& static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==1)
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
+	}
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() == 2)
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss_Server*>(m_pGameObject)->Get_NearTarget_Position());
 	}
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -35,7 +40,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14_Server::OnUpdate(const _float& fT
 void CValtan_BT_Attack_Attack14_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
+	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 

@@ -17,7 +17,7 @@ void CGhoul_BT_Attack_1::OnStart()
 
 CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
 {
-	if (!m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)->IsActive()&& m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
+	if (!m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)->IsActive()&& m_pGameObject->Get_ModelCom()->Get_CurrAnim()==m_vecAnimDesc[0].iAnimIndex&& m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		CSphereCollider* pCollider = m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER);
 		pCollider->Set_Radius(0.65f);
@@ -35,8 +35,7 @@ CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
 		pCollider->Set_Offset(Vec3(0.0f, 0.95f, 0.8f));
 		pCollider->Get_Child()->SetActive(false);
 	}	
-	if (m_pGameObject->Get_ModelCom()->IsNext())
-		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
+
 	return  __super::OnUpdate(fTimeDelta);
 }
 

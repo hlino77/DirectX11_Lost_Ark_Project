@@ -35,6 +35,7 @@ public:
 	virtual void			Reset()								PURE;
 
 	virtual BT_NODETYPE		NodeType() { return m_eNodeType; }
+	void					ShuffleChild();
 	HRESULT					AddChild(CBT_Node* pChild);
 
 	BT_RETURN					Get_Return() { return m_eReturn ; }

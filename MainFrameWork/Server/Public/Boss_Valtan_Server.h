@@ -22,15 +22,19 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+
 public:
 
 	void				Set_Colliders(_float fTimeDelta);
 	HRESULT				Ready_Coliders();
 
 
-protected:
+private:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
+
+private:
+
 
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

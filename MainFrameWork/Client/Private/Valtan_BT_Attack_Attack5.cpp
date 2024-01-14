@@ -25,7 +25,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5::OnUpdate(const _float& fTimeDelta
 		m_iStack++;
 		m_fLoopTime = 0.f;
 		Vec3 vPlayerPosition = static_cast<CMonster*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition + m_vDirection * 2.f);
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition + m_vDirection * 5.f);
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 		m_vDirection = Vec3::TransformNormal(m_vDirection, Matrix::CreateRotationY(XMConvertToRadians(195.f)));
 		m_vDirection.Normalize();

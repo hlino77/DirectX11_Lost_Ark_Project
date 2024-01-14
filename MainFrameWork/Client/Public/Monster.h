@@ -60,7 +60,7 @@ public:
 
 	void	 Update_StatusEffect(_float fTimeDelta);
 
-	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
+	virtual	void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy);
 
 
 	virtual void Set_SlowMotion(_bool bSlow) override;
@@ -78,6 +78,7 @@ public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame);
 	void					Follow_ServerPos(_float fDistance, _float fLerpSpeed);
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
+	Vec3					Get_NearTarget_Position();
 	_float					Get_Target_Distance();
 	void					LookAt_Target_Direction_Lerp(_float fTimeDelta);
 	void					LookAt_Target_Direction();
@@ -115,6 +116,7 @@ public:
 	void					Set_Colliders(_float fTimeDelta);
 	void					Set_Collider_Active(_uint eColliderType,_bool IsActive);
 	void					Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRadius);
+	_bool					Get_Collider_Center(_uint eColliderType, Vec3* pCenter);
 
 	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }
@@ -126,13 +128,19 @@ public:
 	void Set_RandomPosition(Vec3 vPos) {m_vTargetPos=  m_vRandomPosition = vPos; }
 
 	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
-
+	Vec3 Get_BonePos(wstring strBoneName);
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() {	return m_bRimLight;	}
 
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
 	void	Deactivate_AllColliders();
+
+	_uint					Get_Atk() { return m_iAtk; }
+	void					Set_Atk(_uint iAtk) { m_iAtk = iAtk; }
+
+
+
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_BehaviourTree();
@@ -147,9 +155,12 @@ protected:
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
 	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy);
 	void					Send_CollidingInfo(const _uint iColLayer, CCollider* pOther);
+	virtual void			Set_EffectPos()override;
+
 
 
 protected:
+	_uint							m_iAtk = 0;
 	_float							m_fMoveSpeed = 1.f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
@@ -172,6 +183,7 @@ protected:
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
 	_bool							m_IsSetuponCell = true;
+
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;

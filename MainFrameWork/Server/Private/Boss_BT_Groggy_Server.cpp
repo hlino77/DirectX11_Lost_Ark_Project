@@ -15,17 +15,20 @@ void CBoss_BT_Groggy_Server::OnStart()
 
 CBT_Node::BT_RETURN CBoss_BT_Groggy_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_Hp() < 1)
+		return BT_FAIL;
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxArmorDurability() > 0 && static_cast<CBoss_Server*>(m_pGameObject)->Get_ArmorDurability() <= 0)
 		return BT_FAIL;
-	BT_RETURN eReturn = __super::OnUpdate(fTimeDelta);
-	if (eReturn == BT_SUCCESS)
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
-	return eReturn;
+	 
+
+	return __super::OnUpdate(fTimeDelta);
 }
 
 void CBoss_BT_Groggy_Server::OnEnd()
 {
 	__super::OnEnd();	
+	if (m_eReturn == BT_SUCCESS)
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_GroggyGauge() < 1)
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyGauge(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyGauge());
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);

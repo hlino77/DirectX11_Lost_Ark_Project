@@ -19,7 +19,7 @@ void CValtan_BT_Attack_Attack8_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess()&& static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() != 3)
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
@@ -30,8 +30,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8_Server::OnUpdate(const _float& fTi
 
 void CValtan_BT_Attack_Attack8_Server::OnEnd()
 {
-	__super::OnEnd();	
-	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
+	__super::OnEnd();
+	if(static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase()==3)
+		static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
+	else
+		static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 

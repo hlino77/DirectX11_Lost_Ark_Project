@@ -55,10 +55,12 @@ HRESULT CMonster_Pawn::Initialize_Prototype()
 
 HRESULT CMonster_Pawn::Initialize(void* pArg)
 {
+	m_iMaxHp = 14999998;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	
-
+	m_iAtk = 7;
 	m_vecAttackRanges.clear();
 	m_vecAttackRanges.push_back(1.2f);
 	m_vecAttackRanges.push_back(1.2f);

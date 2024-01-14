@@ -3295,9 +3295,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack14.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15.h">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
@@ -3619,6 +3616,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_WR_StandDash.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5732,9 +5732,6 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack14.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15.cpp">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
@@ -6059,6 +6056,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_StandDash.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

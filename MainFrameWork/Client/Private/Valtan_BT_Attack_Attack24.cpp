@@ -11,8 +11,7 @@ CValtan_BT_Attack_Attack24::CValtan_BT_Attack_Attack24()
 void CValtan_BT_Attack_Attack24::OnStart()
 {
 	__super::OnStart(0);
-	m_bTurn = false;
-	m_fRotation = 0.f;
+
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack24::OnUpdate(const _float& fTimeDelta)

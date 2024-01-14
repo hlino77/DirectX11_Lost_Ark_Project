@@ -17,8 +17,7 @@ void CGhoul_BT_Attack_1_Server::OnStart()
 
 CBT_Node::BT_RETURN CGhoul_BT_Attack_1_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->IsNext())
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
+
 	return  __super::OnUpdate(fTimeDelta);
 }
 

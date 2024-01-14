@@ -20,7 +20,7 @@ private:
 
 	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
 	{
-		m_bCondition =true;
+		m_bCondition = IsCounter();
 		return __super::OnUpdate(fTimeDelta);
 	}
 
@@ -29,9 +29,17 @@ private:
 		__super::OnEnd();
 		Reset();
 	}
-
-
-
+	_bool IsCounter()
+	{
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter())
+		{
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+			return false;
+		}
+		else
+			return true;
+	}
 
 public:
 	static	CValtan_BT_Repeat_Server* Create(void* pArg)

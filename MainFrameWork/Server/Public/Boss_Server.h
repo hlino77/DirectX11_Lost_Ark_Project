@@ -95,6 +95,14 @@ public:
 	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
 	void						Move_to_SpawnPosition();
 
+	_bool						Is_GroggyLock() { return m_IsGroggyLock; }
+	void						Set_GroggyLock(_bool IsGroggyLock) { m_IsGroggyLock = IsGroggyLock; }
+
+	_uint						Get_HitCount() { return m_iHitCount; }
+	void						Set_HitCount(_uint iHitCount) { m_iHitCount = iHitCount; }
+
+	_int						Get_GroggyCount() { return m_iGroggyCount; }
+	void						Set_GroggyCount(_int iGroggyCount) { m_iGroggyCount = iGroggyCount; }
 
 protected:
 	virtual HRESULT		Ready_Components();
@@ -117,6 +125,9 @@ protected:
 	_uint m_iPhase = 0;
 	_int m_iArmor = 0;
 	Vec3 m_vSpawnPosition;
+	_bool	m_IsGroggyLock = false;
+	_uint	m_iHitCount = 0;
+	_int	m_iGroggyCount = 0;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

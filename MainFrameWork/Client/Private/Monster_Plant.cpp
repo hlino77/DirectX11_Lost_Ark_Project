@@ -53,6 +53,8 @@ HRESULT CMonster_Plant::Initialize_Prototype()
 
 HRESULT CMonster_Plant::Initialize(void* pArg)
 {
+	m_iMaxHp = 19999998;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -65,7 +67,7 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 35;
-
+	m_iAtk = 10;
     return S_OK;
 }
 

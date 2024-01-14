@@ -5,14 +5,14 @@
 
 BEGIN(Server)
 
-class CValtan_BT_IF_Hp_UnderSpecialSkillRatio :
+class CValtan_BT_IF_Hp_UnderRatio :
     public CBT_Decorator
 {
 
 private:
-	CValtan_BT_IF_Hp_UnderSpecialSkillRatio() = default;
-	CValtan_BT_IF_Hp_UnderSpecialSkillRatio(const CValtan_BT_IF_Hp_UnderSpecialSkillRatio& rhs) = delete;
-	virtual ~CValtan_BT_IF_Hp_UnderSpecialSkillRatio() = default;
+	CValtan_BT_IF_Hp_UnderRatio() = default;
+	CValtan_BT_IF_Hp_UnderRatio(const CValtan_BT_IF_Hp_UnderRatio& rhs) = delete;
+	virtual ~CValtan_BT_IF_Hp_UnderRatio() = default;
 
 
 public:
@@ -41,7 +41,7 @@ private:
 	_bool	Is_UnderCertainHp()
 	{
 		_float dPercent =	_float(m_pGameObject->Get_Hp()) / _float(m_pGameObject->Get_MaxHp());
-		if (dPercent <= m_fSpecialSkillRatio&& !m_bIsPlayed)
+		if (m_eReturn == BT_RUNNING ||dPercent <= m_fSpecialSkillRatio&& !m_bIsPlayed)
 			return true;
 
 		return false;
@@ -53,13 +53,13 @@ private:
 	_bool m_bIsPlayed = false;
 
 public:
-	static	CValtan_BT_IF_Hp_UnderSpecialSkillRatio* Create(void* pArg)
+	static	CValtan_BT_IF_Hp_UnderRatio* Create(void* pArg)
 	{
-		CValtan_BT_IF_Hp_UnderSpecialSkillRatio* pInstance = new CValtan_BT_IF_Hp_UnderSpecialSkillRatio;
+		CValtan_BT_IF_Hp_UnderRatio* pInstance = new CValtan_BT_IF_Hp_UnderRatio;
 
 		if (FAILED(pInstance->Initialize(pArg)))
 		{
-			MSG_BOX("Failed to Created : CValtan_BT_IF_Hp_UnderSpecialSkillRatio");
+			MSG_BOX("Failed to Created : CValtan_BT_IF_Hp_UnderRatio");
 			Safe_Release(pInstance);
 		}
 

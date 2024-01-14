@@ -28,6 +28,8 @@ HRESULT CSKill_King_ChargeSwing::Initialize(void* pArg)
         return E_FAIL;
 	m_fMoveSpeed = 7.5f;
 	m_fLastTime = 5.f;
+	m_iAtk = 30;
+	m_fForce = 0.f;
     return S_OK;
 }
 
@@ -35,11 +37,11 @@ void CSKill_King_ChargeSwing::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
-	_float fRadius = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Radius();
+	_float fRadius = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Radius();
 	fRadius += 0.5f * fTimeDelta;
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(fRadius);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(fRadius);
 
-	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Child());
+	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 	Vec3 vScale = pChildCollider->Get_Scale();
 	vScale.z += 0.4f*fTimeDelta;
 	vScale.y += 1.f * fTimeDelta;
@@ -78,7 +80,7 @@ HRESULT CSKill_King_ChargeSwing::Ready_Coliders()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkill"), (CComponent**)&pCollider, &tColliderInfo)))
@@ -97,14 +99,14 @@ HRESULT CSKill_King_ChargeSwing::Ready_Coliders()
 				pCollider->Set_Child(pChildCollider);
 			}
 
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(0.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(0.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
 
-	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Child());
+	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 	pChildCollider->Set_Scale(Vec3(0.2f, 0.5f, 0.2f));
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.00f, 0.2f));
 	pChildCollider->Set_Orientation(Quaternion::CreateFromAxisAngle(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(-5.f)));

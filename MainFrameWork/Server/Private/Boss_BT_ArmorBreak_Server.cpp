@@ -16,6 +16,8 @@ void CBoss_BT_ArmorBreak_Server::OnStart()
 
 CBT_Node::BT_RETURN CBoss_BT_ArmorBreak_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_Hp() < 1)
+		return BT_FAIL;
 	return __super::OnUpdate(fTimeDelta);
 }
 

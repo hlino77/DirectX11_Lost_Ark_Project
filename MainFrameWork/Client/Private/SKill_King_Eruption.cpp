@@ -27,7 +27,9 @@ HRESULT CSKill_King_Eruption::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 5.f;
+	m_fLastTime = 3.f;
+	m_iAtk = 5;
+	m_fForce = 0.f;
     return S_OK;
 }
 
@@ -38,10 +40,10 @@ void CSKill_King_Eruption::Tick(_float fTimeDelta)
 	if (m_fBlinkTime < 0.f)
 	{
 		m_fBlinkTime = 0.25f;
-		if ( m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(false);
-		else if (!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->IsActive())
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
+		if ( m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive())
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
+		else if (!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive())
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	}
 }
 
@@ -75,7 +77,7 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkill"), (CComponent**)&pCollider, &tColliderInfo)))
@@ -94,19 +96,19 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 				pCollider->Set_Child(pChildCollider);
 			}
 
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
+			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(5.f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(5.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
 
-	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Get_Child());
+	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.2f, 0.f));
 	pChildCollider->Set_Far(5.f);
 	pChildCollider->Set_Near(0.f);
-	pChildCollider->Set_Slopes(Vec4(0.1f, -0.1f, 1.f, -1.f));
+	pChildCollider->Set_Slopes(Vec4(0.1f, -0.1f, 0.75f, -0.75f));
 	pChildCollider->SetActive(true);
 	for (auto& Collider : m_Coliders)
 	{

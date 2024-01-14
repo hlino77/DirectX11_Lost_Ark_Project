@@ -49,12 +49,16 @@ HRESULT CBoss_Golem::Initialize_Prototype()
 
 HRESULT CBoss_Golem::Initialize(void* pArg)
 {
+	m_iMaxGroggyGauge = 50;
+	m_iGroggyGauge = m_iMaxGroggyGauge;
+	m_iMaxHp = 300000000;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 10;
 
+	m_iBaseAtk = 12;
 
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
@@ -62,7 +66,6 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"idle_normal_1"));
 	m_pModelCom->Play_Animation(10.0f);
-
 	m_IsSuperArmor =true;
 	m_fRootTargetDistance = 0.5f;
 	m_iBasicAttackStartFrame = 18;
@@ -76,6 +79,7 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 void CBoss_Golem::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);	
+
 }
 
 void CBoss_Golem::LateTick(_float fTimeDelta)
@@ -181,86 +185,6 @@ HRESULT CBoss_Golem::Ready_Components()
 			return E_FAIL;
 		if (pCollider)
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
-	}
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkill1"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		if (pCollider)
-		{
-			{
-				CCollider::ColliderInfo tChildColliderInfo;
-				tChildColliderInfo.m_bActive = false;
-				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				COBBCollider* pChildCollider = nullptr;
-
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderSkill1Child"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-					return E_FAIL;
-
-				pCollider->Set_Child(pChildCollider);
-			}
-		}
-		if (pCollider)
-			m_Coliders.emplace( SKILL1, pCollider);
-	}
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkill2"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		if (pCollider)
-		{
-			{
-				CCollider::ColliderInfo tChildColliderInfo;
-				tChildColliderInfo.m_bActive = false;
-				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				COBBCollider* pChildCollider = nullptr;
-
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderSkillChild2"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-					return E_FAIL;
-
-				pCollider->Set_Child(pChildCollider);
-			}
-		}
-		if (pCollider)
-			m_Coliders.emplace(SKILL2, pCollider);
-	}
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkill3"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-
-		if (pCollider)
-		{
-			{
-				CCollider::ColliderInfo tChildColliderInfo;
-				tChildColliderInfo.m_bActive = false;
-				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				COBBCollider* pChildCollider = nullptr;
-
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderSkillChild3"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-					return E_FAIL;
-
-				pCollider->Set_Child(pChildCollider);
-			}
-		}
-		if (pCollider)
-			m_Coliders.emplace(SKILL3, pCollider);
 	}
 
 	for (auto& Collider : m_Coliders)
@@ -493,7 +417,7 @@ HRESULT CBoss_Golem::Ready_BehaviourTree()
 	CBT_Action* pSkill = CGolem_BT_Attack_Charge_Punch::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_4_01");
+	AnimationDesc.strAnimName = TEXT("sk_dash_attack");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;

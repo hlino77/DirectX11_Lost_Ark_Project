@@ -72,6 +72,8 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if(m_bRimLight)
+		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << "¹«·ÂÈ­: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl << CAsUtils::ToString(m_strAction) << endl;
 }
 
 void CBoss::LateTick(_float fTimeDelta)
@@ -116,6 +118,21 @@ HRESULT CBoss::Render_ShadowDepth()
 	return __super::Render_ShadowDepth();
 }
 
+void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
+{
+	m_iHp -= iDamage;
+	if (m_iGroggyCount > 0)
+		m_iGroggyCount -= iGroggy;
+	else
+		m_iGroggyGauge -= iGroggy;
+	if (m_iHp < 0)
+		m_iHp = 0;
+
+	if (m_iGroggyGauge < 0)
+		m_iGroggyGauge = 0;
+
+	Set_RimLight(0.05f);
+}
 
 void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
@@ -144,7 +161,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				IsCritical = true;
 				iDamage *= 2;
 			}
-			Send_Collision(iDamage, vPos, (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,1);
+			Send_Collision(iDamage, vPos, STATUSEFFECT::EFFECTEND, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,1);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -178,9 +195,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			STATUSEFFECT eStatusEffect = STATUSEFFECT::EFFECTEND;
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().IsCounter)
 				eStatusEffect = STATUSEFFECT::COUNTER;
-			else
-				eStatusEffect= 	(STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
-			Send_Collision(iDamage, vPos, eStatusEffect,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,3);
+			Send_Collision(iDamage, vPos, eStatusEffect,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,1);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)

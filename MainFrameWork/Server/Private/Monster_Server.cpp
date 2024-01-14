@@ -556,6 +556,13 @@ _bool CMonster_Server::Is_Close_To_RandomPosition()
 		return false;
 }
 
+Vec3 CMonster_Server::Get_NearTarget_Position()
+{
+	if (m_pNearTarget == nullptr)
+		return Vec3();
+
+	return m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+}
 
 void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 {
@@ -565,7 +572,7 @@ void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->LookAt_Lerp(vTargetPosition- vCurrentPosition, 5.0f, fTimeDelta);
+	m_pTransformCom->LookAt_Lerp(vTargetPosition- vCurrentPosition, 4.0f, fTimeDelta);
 }
 
 void CMonster_Server::LookAt_Target_Direction()

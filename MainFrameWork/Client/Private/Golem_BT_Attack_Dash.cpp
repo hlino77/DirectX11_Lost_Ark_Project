@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Golem_BT_Attack_Dash.h"
-#include "Monster.h"
 #include "Model.h"
 #include "Transform.h"
 #include "ColliderSphere.h"
+#include <Boss.h>
+
 CGolem_BT_Attack_Dash::CGolem_BT_Attack_Dash()
 {
 }
@@ -15,6 +16,8 @@ void CGolem_BT_Attack_Dash::OnStart()
 	dynamic_cast<CMonster*>(m_pGameObject)->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 	dynamic_cast<CMonster*>(m_pGameObject)->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.6f);
 	dynamic_cast<CMonster*>(m_pGameObject)->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(-0.f, 1.3f, 0.f));
+	dynamic_cast<CMonster*>(m_pGameObject)->Set_Atk(20);
+	dynamic_cast<CBoss*>(m_pGameObject)->Set_Force(0.f);
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash::OnUpdate(const _float& fTimeDelta)

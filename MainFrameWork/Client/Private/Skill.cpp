@@ -96,6 +96,15 @@ void CSkill::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 	
 }
 
+_bool CSkill::Get_Collider_Center(_uint eColliderType, Vec3* pCenter)
+{
+	auto iter = m_Coliders.find(eColliderType);
+	if (iter == m_Coliders.end())
+		return false;
+
+	*pCenter = iter->second->Get_Center();
+	return true;
+}
 
 HRESULT CSkill::Ready_Components()
 {
@@ -145,8 +154,6 @@ void CSkill::Set_Die()
 {
 	for (auto& Collider : m_Coliders)
 		Collider.second->SetActive(false);
-
-
 
 	m_bDead = true;
 }

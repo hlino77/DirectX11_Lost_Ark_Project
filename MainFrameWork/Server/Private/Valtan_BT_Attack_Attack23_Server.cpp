@@ -25,8 +25,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23_Server::OnUpdate(const _float& fT
 	}
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
-	if (m_iCurrAnimation == m_iMaxAnimation - 1)
-		m_pGameObject->Set_Invincible(true);
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

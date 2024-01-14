@@ -11,6 +11,7 @@ CGolem_BT_Chase_Server::CGolem_BT_Chase_Server()
 void CGolem_BT_Chase_Server::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_RandomPosition(1.5f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
@@ -38,7 +39,10 @@ CBT_Node::BT_RETURN CGolem_BT_Chase_Server::OnUpdate(const _float& fTimeDelta)
 			fSpeed = 1.5f;
 		}
 	}
-	static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Distance() < 2.f)
+		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(), fSpeed, fTimeDelta);
+	else
+		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_RandomDirection(), fSpeed, fTimeDelta);
 	return BT_RUNNING;
 }
 

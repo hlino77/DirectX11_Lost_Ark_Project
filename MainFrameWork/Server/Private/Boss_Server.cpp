@@ -63,6 +63,8 @@ void CBoss_Server::Tick(_float fTimeDelta)
 		_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;
 		system("cls");
 		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << (_int)(dPercent * 160.f) << "	/	" << 160 << endl << "아머: " << m_iArmor << "	/ 갑옷 내구도: " << m_iArmorDurability << endl << "무력화: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl<<CAsUtils::ToString(m_strAction) << endl;
+		if (m_IsCounterSkill)
+			cout << "파래요" << endl;
 	}
 	if (m_pBehaviorTree != nullptr)
 		m_pBehaviorTree->Tick(fTimeDelta);
@@ -147,36 +149,43 @@ void CBoss_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
-		_uint iDamage_Result = (_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f);
-
-	if (!m_bInvincible)
-	{
-		m_iHp -= iDamage_Result;
-		if (!m_IsGroggy && m_iGroggyGauge > 0)
-			m_iGroggyGauge -= iGroggy;
-
-		if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
-			m_iArmorDurability -= iDamage;
-		if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+		if (!m_bInvincible)
 		{
-			m_bCounter = true;
-			m_IsHit = true;
-			m_IsCounterSkill = false;
-			m_IsCountered = true;
-		}
-		if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
-		{
-			m_IsHit = true;
-			m_bGrogginess = true;
-			m_IsGroggy = true;
-		}
-	}
+			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
 
-	m_fStatusEffects[iStatusEffect] += fDuration;
-	if (m_iHp < 1.f)
-		m_IsHit = true;
+			m_iHp -= iDamage_Result;
+			if (m_iGroggyCount > 0)
+				m_iGroggyCount -= iGroggy;
+			else if (!m_IsGroggy && m_iGroggyGauge > 0&&!m_IsGroggyLock)
+				m_iGroggyGauge -= iGroggy;
+			m_iHitCount++;
 
-	Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
+				m_iArmorDurability -= iDamage;
+			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+			{
+				m_bCounter = true;
+				m_IsHit = true;
+				m_IsCounterSkill = false;
+				m_IsCountered = true;
+			}
+			if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
+			{
+				m_IsHit = true;
+				m_bGrogginess = true;
+				m_IsGroggy = true;
+			}
+
+
+			m_fStatusEffects[iStatusEffect] += fDuration;
+			if (m_iHp < 1.f && m_iPhase != 3)
+				m_iHp = 1;
+
+			if (m_iHp < 1.f)
+				m_IsHit = true;
+
+			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+		}
 }
 
 void CBoss_Server::Move_to_SpawnPosition()
