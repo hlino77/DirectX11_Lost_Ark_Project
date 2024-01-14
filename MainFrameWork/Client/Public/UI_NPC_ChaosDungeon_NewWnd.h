@@ -25,14 +25,13 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-
+    const _bool Get_IsClicked() { return m_bClicked_Entrance; }
     void    Set_Active(_bool bActive);
 
 private:
     void    Start_Text();
     void    End_Text();
     void    Print_Text();
- 
     HRESULT Ready_TextBox();
 
 private:
@@ -61,8 +60,8 @@ private:
     CTransform* m_pTransform_RefuseButton = { nullptr };
     CTransform* m_pTransform_Timer = { nullptr };
 
-    _float      m_fMaxTimer = { 10.f };
-    _float      m_fCurrTimer = { 10.f };
+    _float      m_fMaxTimer = { 20.f };
+    _float      m_fCurrTimer = { 20.f };
     _float      m_fTimerRatio = { 0.f };
 
     RECT        m_rcAcceptButton = {};
@@ -80,6 +79,8 @@ private:
     wstring      m_strTimeCount;
     wstring      m_strTag;
     wstring      m_strTag_Timer;
+
+    _bool       m_bClicked_Entrance = { false };
 
 public:
     static  CUI_NPC_ChaosDungeon_NewWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

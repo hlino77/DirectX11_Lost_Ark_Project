@@ -34,8 +34,8 @@ private:
     _float  m_fGaugeAngle = { 0.f };
     _float  m_fGaugeRatio = { 0.f };
 
-    _uint  m_iIdentity_Gauge = { 0 };
-    _uint  m_iIdentity_MaxGauge = { 0 };
+    _float  m_fIdentity_Gauge = { 0.f };
+    _float  m_fIdentity_MaxGauge = { 0.f };
 
 public:
     static  CUI_WRIdentity_Gauge* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

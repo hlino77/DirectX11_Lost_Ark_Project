@@ -37,21 +37,21 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize(void* pArg)
   
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.1f));
 
     m_pTransform_AcceptButton->Set_Scale(Vec3(101.f, 34.f, 1.f));
     m_pTransform_AcceptButton->Set_State(CTransform::STATE_POSITION,
-        Vec3((m_fX - 55.5f) - g_iWinSizeX * 0.5f, -(m_fY + 80.f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3((m_fX - 55.5f) - g_iWinSizeX * 0.5f, -(m_fY + 80.f) + g_iWinSizeY * 0.5f, 0.1f));
     Create_Rect_AcceptButton();
   
     m_pTransform_RefuseButton->Set_Scale(Vec3(101.f, 34.f, 1.f));
     m_pTransform_RefuseButton->Set_State(CTransform::STATE_POSITION,
-        Vec3((m_fX + 55.5f) - g_iWinSizeX * 0.5f, -(m_fY + 80.f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3((m_fX + 55.5f) - g_iWinSizeX * 0.5f, -(m_fY + 80.f) + g_iWinSizeY * 0.5f, 0.1f));
     Create_Rect_RefuseButton();
 
     m_pTransform_Timer->Set_Scale(Vec3(294.f, 12.f, 1.f));
     m_pTransform_Timer->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY + 15.f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY + 15.f) + g_iWinSizeY * 0.5f, 0.1f));
 
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -64,6 +64,8 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize(void* pArg)
     m_pTimeCountWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
         Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY + 15.f) + g_iWinSizeY * 0.5f, 0.f));
 
+    m_bClicked_Entrance = false;
+            
     return S_OK;
 }
 
@@ -72,7 +74,7 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize_TextBox()
     m_strText = TEXT("카오스 던전에 입장하시겠습니까?");
     m_strTimeCount = TEXT("10초 남았습니다.");
     Ready_TextBox();
-    Set_Active(false);
+    Set_Active(true);
 
     return S_OK;
 }
@@ -155,30 +157,29 @@ void CUI_NPC_ChaosDungeon_NewWnd::Print_Text()
 {
     if (nullptr != m_pTextBoxWnd)
     {
-        m_pTextBoxWnd->Set_Active(true);
         m_pTextBoxWnd->Clear_Text();
         m_pTextBoxWnd->Set_Alpha(1.f);
         m_pTextBoxWnd->Get_TransformCom()->Set_Scale(Vec3(487.f, 224.0f, 0.f));
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("넥슨Lv1고딕"), m_strText);
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("넥슨Lv1고딕Bold"), m_strText);
         Vec2 vOrigin = vMeasure * 0.5f;
-        m_pTextBoxWnd->Set_Text(m_strTag, TEXT("넥슨Lv1고딕"), m_strText, Vec2(243.5f, 112.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
+        m_pTextBoxWnd->Set_Text(m_strTag, TEXT("넥슨Lv1고딕Bold"), m_strText, Vec2(243.5f, 72.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
     }
 
     if (nullptr != m_pTimeCountWnd)
     {
-        m_pTimeCountWnd->Set_Active(true);
         m_pTimeCountWnd->Clear_Text();
         m_pTimeCountWnd->Set_Alpha(1.f);
         m_pTimeCountWnd->Get_TransformCom()->Set_Scale(Vec3(487.f, 224.0f, 0.f));
         m_strTimeCount = to_wstring((_uint)m_fCurrTimer) + TEXT("초") + TEXT(" 남았습니다.");
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("넥슨Lv1고딕"), m_strTimeCount);
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("넥슨Lv1고딕Bold"), m_strTimeCount);
         Vec2 vOrigin = vMeasure * 0.5f;
-        m_pTimeCountWnd->Set_Text(m_strTag_Timer, TEXT("넥슨Lv1고딕"), m_strTimeCount, Vec2(243.5f, 137.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
+        m_pTimeCountWnd->Set_Text(m_strTag_Timer, TEXT("넥슨Lv1고딕Bold"), m_strTimeCount, Vec2(243.5f, 140.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
     }
 }
 
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Active(_bool bActive)
 {
+    m_fCurrTimer = m_fMaxTimer;
     m_bActive = bActive;
     m_pTextBoxWnd->Set_Active(bActive);
     m_pTimeCountWnd->Set_Active(bActive);
@@ -245,7 +246,14 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_Button()
 void CUI_NPC_ChaosDungeon_NewWnd::Update_AcceptButton(POINT pt)
 {
     if (true == Is_Picking_AcceptButton(pt))
+    {
+        if (KEY_TAP(KEY::LBTN))
+        {
+            m_bClicked_Entrance = true;
+            Set_Active(false);
+        }
         m_iTextureIndex_AcceptButton = 1;
+    }
     else
         m_iTextureIndex_AcceptButton = 0;
 }
@@ -253,7 +261,14 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_AcceptButton(POINT pt)
 void CUI_NPC_ChaosDungeon_NewWnd::Update_RefuseButton(POINT pt)
 {
     if (true == Is_Picking_RefuseButton(pt))
+    {
+        if (KEY_TAP(KEY::LBTN))
+        {
+            m_bClicked_Entrance = false;
+            Set_Active(false);
+        }
         m_iTextureIndex_RefuseButton = 1;
+    }
     else
         m_iTextureIndex_RefuseButton = 0;
 }
@@ -277,7 +292,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Create_Rect_RefuseButton()
 
 _bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_AcceptButton(POINT pt)
 {
-    if (PtInRect(&m_rcAcceptButton, pt))   //  PtInRect(네모주소, 마우스 포인트) 이 함수가 개꿀 함수입니다 그냥 네모 구역에 마우스 있는지 바로 인식해줌
+    if (PtInRect(&m_rcAcceptButton, pt))
         return true;//m_bPicking_AcceptButton = true;
     else
         return false;//m_bPicking_AcceptButton = false;
@@ -285,7 +300,7 @@ _bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_AcceptButton(POINT pt)
 
 _bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_RefuseButton(POINT pt)
 {
-    if (PtInRect(&m_rcRefuseButton, pt))   //  PtInRect(네모주소, 마우스 포인트) 이 함수가 개꿀 함수입니다 그냥 네모 구역에 마우스 있는지 바로 인식해줌
+    if (PtInRect(&m_rcRefuseButton, pt))
         return true;//m_bPicking_RefuseButton = true;
     else
         return false;//m_bPicking_RefuseButton = false;

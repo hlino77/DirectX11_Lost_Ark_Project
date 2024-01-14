@@ -40,13 +40,13 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.3f));
 
 	_float fSizeX = 80.f;
 	_float fSizeY = 7.0f;
 	m_pTransform_Hp->Set_Scale(Vec3(fSizeX, fSizeY, 1.f));
 	m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.3f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -69,7 +69,10 @@ void CUI_Monster_Hp::Tick(_float fTimeDelta)
 
 void CUI_Monster_Hp::LateTick(_float fTimeDelta)
 {
-	__super::LateTick(fTimeDelta);
+	if(0.f< m_fHpRatio)
+		__super::LateTick(fTimeDelta);
+	m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
+	m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
 	Update_Postion();
 }
 
@@ -148,10 +151,10 @@ void CUI_Monster_Hp::Update_Postion()
 		Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.0f));
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
 
 		m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.0f));
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
 
 	}
 }

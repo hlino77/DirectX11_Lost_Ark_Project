@@ -25,6 +25,9 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    _float  Get_MaxGauge() { return m_fMaxGauge; }
+    _float  Get_CurrGauge() { return m_fCurrGauge; }
+    _float  Get_GaugeRatio() { return m_fRatio; }
 
 private:
     virtual HRESULT Ready_Components();
@@ -41,6 +44,10 @@ public:
     void    Set_Percent(const _uint& iGague);
 
 private:
+    _float  m_fMaxGauge = { 100.f };
+    _float  m_fCurrGauge = { 0.f };
+    _float  m_fRatio = { 0.f };
+
     wstring m_szFont;
     wstring m_strPercent = TEXT("0%");
     CTextBox* m_pPercentWnd = nullptr;
