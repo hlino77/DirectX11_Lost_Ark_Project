@@ -68,6 +68,7 @@ PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In, uniform bool bOneBlend)
     float4 vLocalPos = mul(vWorldPos, WorldInv);
     
     float3 vObjectAbsPos = abs(vLocalPos.xyz);
+    vObjectAbsPos.y = 0.f;
     
     clip(0.5f - vObjectAbsPos);
     // 중점을 기준으로 0.5 이기때문에, 0.5를 뺀 음수값은 상자 밖이므로 자름.
