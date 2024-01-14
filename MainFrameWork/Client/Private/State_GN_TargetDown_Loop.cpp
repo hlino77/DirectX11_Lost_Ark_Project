@@ -5,6 +5,10 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Custom_CrossHair.h"
+#include "GameInstance.h"
+#include "Camera_Player.h"
+
 
 CState_GN_TargetDown_Loop::CState_GN_TargetDown_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -89,6 +93,7 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
+		Effect_End();
 	}
 }
 
@@ -96,6 +101,24 @@ void CState_GN_TargetDown_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_GN_TargetDown_Loop::Effect_End()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
+
+	pEffect->EffectEnd();
+
+	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
+
+	CEffect* pDecal = dynamic_cast<CEffect*>(pGameInstance->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, L"Effect_TargetDownDecal"));
+	pDecal->Set_ObjectTag(L"Effect_TargetDownDecalReady");
+	pDecal->EffectEnd();
+
+	Safe_Release(pGameInstance);
 }
 
 CState_GN_TargetDown_Loop* CState_GN_TargetDown_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

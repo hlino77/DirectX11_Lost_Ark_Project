@@ -33,7 +33,7 @@ public:
 	void		ZoomInOut(_float fCameraLength, _float fSpeed) { m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed; }
 	void		DefaultLength(_float fSpeed) { m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed; }
 
-	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight);
+	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta);
 
 protected:
 	virtual HRESULT Ready_Components() override;

@@ -21,6 +21,8 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+
+	void	Effect_End();
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 

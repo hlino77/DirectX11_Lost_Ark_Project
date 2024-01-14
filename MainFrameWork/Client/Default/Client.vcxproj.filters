@@ -2766,9 +2766,6 @@
     <ClInclude Include="..\Public\UI_Mouse_Cursor.h">
       <Filter>02.GameObjects\UI\09.Mouse\00.MouseCursor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_HoldingFill.h">
-      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_HoldingFrame.h">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
     </ClInclude>
@@ -3557,6 +3554,20 @@
     <ClInclude Include="..\Public\Effect_Custom_CrossHair.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\CrossHair</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Hit.h" />
+    <ClInclude Include="..\Public\State_GN_HitEnd.h" />
+    <ClInclude Include="..\Public\State_GN_Hit_Common.h" />
+    <ClInclude Include="..\Public\State_GN_Stand.h" />
+    <ClInclude Include="..\Public\State_GN_StandDash.h" />
+    <ClInclude Include="..\Public\State_MG_Hit.h" />
+    <ClInclude Include="..\Public\State_WDR_Hit.h" />
+    <ClInclude Include="..\Public\State_WR_Hit.h" />
+    <ClInclude Include="..\Public\State_WR_HitEnd.h" />
+    <ClInclude Include="..\Public\State_WR_Hit_Common.h" />
+    <ClInclude Include="..\Public\State_WR_Stand.h" />
+    <ClInclude Include="..\Public\State_WR_StandDash.h" />
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5173,9 +5184,6 @@
     <ClCompile Include="..\Private\UI_HoldingFrame.cpp">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_HoldingFill.cpp">
-      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_WR_Identity.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity</Filter>
     </ClCompile>
@@ -5927,9 +5935,6 @@
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp">
       <Filter>02.GameObjects\UI\14.Monster_Hp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_BossHp.cpp">
-      <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\SKill_Golem_Swipe.cpp">
       <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
     </ClCompile>
@@ -5961,6 +5966,21 @@
     <ClCompile Include="..\Private\Effect_Custom_CrossHair.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\CrossHair</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Hit.cpp" />
+    <ClCompile Include="..\Private\State_GN_HitEnd.cpp" />
+    <ClCompile Include="..\Private\State_GN_Hit_Common.cpp" />
+    <ClCompile Include="..\Private\State_GN_Stand.cpp" />
+    <ClCompile Include="..\Private\State_GN_StandDash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Hit.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Hit.cpp" />
+    <ClCompile Include="..\Private\State_WR_Hit.cpp" />
+    <ClCompile Include="..\Private\State_WR_HitEnd.cpp" />
+    <ClCompile Include="..\Private\State_WR_Hit_Common.cpp" />
+    <ClCompile Include="..\Private\State_WR_Stand.cpp" />
+    <ClCompile Include="..\Private\State_WR_StandDash.cpp" />
+    <ClCompile Include="..\Private\UI_Boss_Hp.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
