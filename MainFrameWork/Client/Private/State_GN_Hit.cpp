@@ -42,6 +42,7 @@ void CState_GN_Hit::Enter_State()
 	m_vHitCenter = m_pPlayer->Get_TargetPos();
 	m_vHitCenter.y = 0.f;
 
+	m_pController->Get_StopMessage();
 	m_pController->Get_LookMessage(m_vHitCenter);
 
 	m_fHitCheck = m_pPlayer->Get_TargetPos().y;
@@ -89,7 +90,7 @@ void CState_GN_Hit::Enter_State()
 		break;
 	}
 
-	m_pController->Get_StopMessage();
+
 	m_pController->Get_SkillEndMessage();
 }
 

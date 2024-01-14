@@ -246,18 +246,15 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		}
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
 		{
-			Vec3 vCenter;
-			if (true == static_cast<CBoss*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
-			{
-				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vCenter);
-			}
+			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
 		}
 		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
 		{
 			Vec3 vCenter;
 			if (true == static_cast<CBoss*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
 			{
-				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vCenter);
+				m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
 			}
 		}
 	}
