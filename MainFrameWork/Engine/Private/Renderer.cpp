@@ -77,6 +77,19 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_EffectEmissive"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DecalOneBlend"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DecalAlphaBlend"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DecalEmissive"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
@@ -218,6 +231,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalOneBlend"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), 5.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample2"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample3"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
@@ -255,6 +275,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectAlphaBlend"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectEmissive"))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Decals"), TEXT("Target_DecalOneBlend"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Decals"), TEXT("Target_DecalAlphaBlend"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Decals"), TEXT("Target_DecalEmissive"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO"), TEXT("Target_SSAO"))))
@@ -470,6 +497,8 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
 	if (FAILED(Render_NonAlphaBlend()))
+		return E_FAIL;
+	if (FAILED(Render_Decal()))
 		return E_FAIL;
 	if (FAILED(Render_Effect()))
 		return E_FAIL;
@@ -754,6 +783,25 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 			ObjectList.second.clear();
 		}
 	}
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Decal()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Decals"))))
+		return E_FAIL;
+
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_DECAL])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_DECAL].clear();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1139,6 +1187,7 @@ HRESULT CRenderer::Render_Bloom()
 	
 	m_pContext->RSSetViewports(iNumViewports, &ViewportDesc);
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_Emissive"), "g_BloomBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_DecalEmissive"), "g_DecalBloomBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_EffectEmissive"), "g_EffectBloomBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("DownSample_Bright")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -1285,6 +1334,10 @@ HRESULT CRenderer::Render_PostProcess()
 
 	if (FAILED(m_pPostProccessor->Begin("BlendEffect")))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalOneBlend"), "g_DecalOneBlendTarget")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalAlphaBlend"), "g_DecalAlphaBlendTarget")))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_EffectOneBlend"), "g_EffectOneBlendTarget")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_EffectAlphaBlend"), "g_EffectAlphaBlendTarget")))
@@ -1403,6 +1456,8 @@ HRESULT CRenderer::Render_Debug()
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Decals"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))

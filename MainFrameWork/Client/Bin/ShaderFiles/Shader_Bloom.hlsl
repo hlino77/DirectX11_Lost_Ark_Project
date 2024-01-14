@@ -6,6 +6,7 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D		g_BrightTarget;
 Texture2D		g_BloomBlurTarget;
+Texture2D       g_DecalBloomBlurTarget;
 Texture2D		g_EffectBloomBlurTarget;
 Texture2D		g_DownSampledTarget;
 
@@ -82,6 +83,7 @@ float4 PS_DOWNSAMPLE_BRIGHT(VS_OUT_TARGET In) : SV_TARGET
         {
             // Compute the sum of color values
             outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
+            outColor += g_DecalBloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
             outColor += g_EffectBloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y)).rgb;
         }
     }
