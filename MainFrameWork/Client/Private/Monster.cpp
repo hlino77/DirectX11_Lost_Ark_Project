@@ -74,8 +74,8 @@ HRESULT CMonster::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
-	//if (FAILED(Ready_HpUI()))
-		//return E_FAIL;
+	if (FAILED(Ready_HpUI()))
+		return E_FAIL;
 
     return S_OK;
 }
@@ -158,7 +158,7 @@ HRESULT CMonster::Render_ShadowDepth()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-
+		
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
@@ -561,7 +561,7 @@ void CMonster::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
-	//m_pHpUI->Set_Dead(true);
+	m_pHpUI->Set_Dead(true);
 }
 
 void CMonster::Set_Action(wstring strAction)
@@ -939,6 +939,10 @@ void CMonster::Set_EffectPos()
 	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();
 	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
 }
 
 Vec3 CMonster::Get_BonePos(wstring strBoneName)
@@ -963,7 +967,7 @@ HRESULT CMonster::Ready_HpUI()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	m_pHpUI = static_cast<CUI_Monster_Hp*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+	m_pHpUI = static_cast<CUI_Monster_Hp*>(pGameInstance->Add_GameObject(m_iCurrLevel,
 		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MonsterHpUI"), this));
 
 	if (nullptr == m_pHpUI)

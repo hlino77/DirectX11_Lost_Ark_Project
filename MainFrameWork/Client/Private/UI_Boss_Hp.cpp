@@ -420,10 +420,10 @@ void CUI_Boss_Hp::Print_BossHp()
 		m_pInGameNameWnd->Set_Active(true);
 		m_pInGameNameWnd->Clear_Text();
 		m_pInGameNameWnd->Set_Alpha(1.f);
-		m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(450.f, 20.0f, 0.f));
+		m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
 		Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("³Ø½¼Lv1°íµñ"), m_strOutputName);
 		Vec2 vOrigin = vMeasure * 0.5f;
-		m_pInGameNameWnd->Set_Text(m_strTag + TEXT("Rank"), TEXT("³Ø½¼Lv1°íµñ"), m_strMonsterRank, Vec2(50.f, 10.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 0.0f, 0.0f, 1.f));
+		m_pInGameNameWnd->Set_Text(m_strTag + TEXT("Rank"), TEXT("³Ø½¼Lv1°íµñ"), m_strMonsterRank, Vec2(60.f, 10.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 0.0f, 0.0f, 1.f));
 		m_pInGameNameWnd->Set_Text(m_strTag, TEXT("³Ø½¼Lv1°íµñ"), m_strOutputName, Vec2(225.f, 10.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 0.0f, 0.0f, 1.f));
 	}
 
@@ -432,7 +432,7 @@ void CUI_Boss_Hp::Print_BossHp()
 		m_pInGameHpWnd->Set_Active(true);
 		m_pInGameHpWnd->Clear_Text();
 		m_pInGameHpWnd->Set_Alpha(1.f);
-		m_pInGameHpWnd->Get_TransformCom()->Set_Scale(Vec3(450.f, 20.0f, 0.f));
+		m_pInGameHpWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
 		if (0 >= m_iCurrHp)
 			m_iCurrHp = 0;
 		wstring strHPInfo = to_wstring(m_iCurrHp) + TEXT("/") + to_wstring(m_iMaxHp);
@@ -470,7 +470,7 @@ HRESULT CUI_Boss_Hp::Ready_TextBox(const wstring& strName)
 		CTextBox::TEXTBOXDESC tTextDesc;
 		tTextDesc.szTextBoxTag = strName + TEXT("_NameTag");
 		m_strTag = tTextDesc.szTextBoxTag;
-		tTextDesc.vSize = Vec2(450.f, 20.0f);
+		tTextDesc.vSize = Vec2(480.0f, 20.0f);
 		m_pInGameNameWnd = static_cast<CTextBox*>(pGameInstance->
 			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
 
@@ -489,7 +489,7 @@ HRESULT CUI_Boss_Hp::Ready_TextBox(const wstring& strName)
 		CTextBox::TEXTBOXDESC tTextDesc;
 		tTextDesc.szTextBoxTag = strName + TEXT("_HPUI");
 		m_strTagHP = tTextDesc.szTextBoxTag;
-		tTextDesc.vSize = Vec2(450.f, 20.0f);
+		tTextDesc.vSize = Vec2(480.0f, 20.0f);
 		m_pInGameHpWnd = static_cast<CTextBox*>(pGameInstance->
 			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
 

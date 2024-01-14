@@ -437,6 +437,7 @@
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Boss_Hp.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon.h" />
+    <ClInclude Include="..\Public\UI_ChaosDungeon_Clear.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeFrame.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeShine.h" />
@@ -569,6 +570,7 @@
     <ClInclude Include="..\Public\UI_Mouse_ToolTip_Icon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
+    <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h" />
     <ClInclude Include="..\Public\UI_Player_HPFill.h" />
@@ -919,6 +921,7 @@
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Boss_Hp.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon.cpp" />
+    <ClCompile Include="..\Private\UI_ChaosDungeon_Clear.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeShine.cpp" />
@@ -1053,6 +1056,7 @@
     <ClCompile Include="..\Private\UI_Mouse_ToolTip_Icon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp" />

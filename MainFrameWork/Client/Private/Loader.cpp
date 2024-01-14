@@ -123,6 +123,7 @@
 #include "UI_ChaosDungeon_NameFrame.h"
 #include "UI_ChaosDungeon_TimerFrame.h"
 #include "UI_ChaosDungeon.h"
+#include "UI_ChaosDungeon_Clear.h"
 #include "UI_InGame_NamePlate.h"
 #include "UI_Boss_Hp.h"
 #include "UI_Monster_Hp.h"
@@ -2102,6 +2103,42 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_Hp"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Monster_Hp.png"))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Circle"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Circle/Clear_Circle%d.png",23))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Line"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Line.png"))))
+			return E_FAIL;
+		
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Line_L"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Line_L.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Line_R"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Line_R.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Shine"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Shine.png"))))
+			return E_FAIL;
+		
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Announce"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Announce.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ClearFont"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/ClearFont.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BackGroundWnd"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/BackGroundWnd.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_CheckButton"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_CheckButton%d.png",3))))
+			return E_FAIL;
 	}
 
 	//Class
@@ -2144,6 +2181,10 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonsterHpUI"),
 			CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_Clear"),
+			CUI_ChaosDungeon_Clear::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	
 	}
@@ -2245,6 +2286,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
+	pUIManager->Set_MaxFiles(100);
 
 	/* Npc 마네킹 및 모델 */
 	{
@@ -2519,7 +2561,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				return E_FAIL;
 		}
 	}
-
+	
 	{
 		wstring strFileName = L"NP_WP_Sword1";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";

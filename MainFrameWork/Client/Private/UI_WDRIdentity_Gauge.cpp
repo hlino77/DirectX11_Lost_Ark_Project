@@ -48,7 +48,7 @@ HRESULT CUI_WDRIdentity_Gauge::Initialize(void* pArg)
 
 	m_pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 	if (nullptr != m_pPlayer)
-		m_iIdentity_MaxGauge = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
+		m_fIdentity_MaxGauge = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
 		Get_WDR_Controller()->Get_MaxGage();
 
 	return S_OK;
@@ -116,10 +116,10 @@ void CUI_WDRIdentity_Gauge::Update_Identity_Gauge()
 	{
 		m_bIdentityOn = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
 			Get_WDR_Controller()->Is_In_Identity();
-		m_iIdentity_CurrGauge = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
+		m_fIdentity_CurrGauge = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
 			Get_WDR_Controller()->Get_IdenGage();
 
-		m_fIdentity_Ratio = (_float)m_iIdentity_CurrGauge / (_float)m_iIdentity_MaxGauge;
+		m_fIdentity_Ratio = (_float)m_fIdentity_CurrGauge / (_float)m_fIdentity_MaxGauge;
 
 	}
 }

@@ -75,10 +75,38 @@ HRESULT CUI_Manager::Loading_UI(_float fSizeX)
 	CUI* pUI = Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
 	if (nullptr == pUI)
 		return E_FAIL;
-
 	static_cast<CUI_Loading*>(pUI)->Change_LoadingPer(fSizeX);
 
-	
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Set_MaxFiles(_uint iFilesNum)
+{
+	CUI* pUI = Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	static_cast<CUI_Loading*>(pUI)->Set_MaxFiles(iFilesNum);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_CurrFile()
+{
+	CUI* pUI = Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	static_cast<CUI_Loading*>(pUI)->Add_CurrFile();
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_CurrFiles(_uint iFilesNum)
+{
+	CUI* pUI = Find_UI(LEVEL_LOADING, TEXT("UI_Loading"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	static_cast<CUI_Loading*>(pUI)->Add_CurrFiles(iFilesNum);
+
 	return S_OK;
 }
 

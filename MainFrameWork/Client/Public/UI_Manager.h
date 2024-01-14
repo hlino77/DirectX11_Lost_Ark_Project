@@ -26,6 +26,9 @@ public:
     HRESULT Add_UI(LEVELID eLevelIndex, class CUI* pUI);
     HRESULT ObjectManager_to_UIManager(LEVELID eLevelIndex);
     HRESULT Loading_UI(_float fSizeX);
+    HRESULT Set_MaxFiles(_uint iFilesNum);
+    HRESULT    Add_CurrFile();
+    HRESULT    Add_CurrFiles(_uint iFilesNum);
     list<class CUI*>* Get_UIList(LEVELID eLevelIndex);
     class CUI* Find_UI(LEVELID eLevelIndex, const wstring& UITag);
     vector<CUI*> Find_UIParts(LEVELID eLevelIndex, const wstring& UITag);

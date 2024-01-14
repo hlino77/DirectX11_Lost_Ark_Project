@@ -67,6 +67,33 @@ void CUI_Loading::Change_LoadingPer(_float fSizeX)
     }
 }
 
+void CUI_Loading::Set_MaxFiles(_uint iFilesNum)
+{
+    for (auto& iter : m_vecUIParts)
+    {
+        if (TEXT("Loading_Fill") == iter->Get_UITag())
+            static_cast<CUI_LoadingFill*>(iter)->Set_MaxFiles(iFilesNum);
+    }
+}
+
+void CUI_Loading::Add_CurrFile()
+{
+    for (auto& iter : m_vecUIParts)
+    {
+        if (TEXT("Loading_Fill") == iter->Get_UITag())
+            static_cast<CUI_LoadingFill*>(iter)->Add_CurrFile();
+    }
+}
+
+void CUI_Loading::Add_CurrFiles(_uint iFilesNum)
+{
+    for (auto& iter : m_vecUIParts)
+    {
+        if (TEXT("Loading_Fill") == iter->Get_UITag())
+            static_cast<CUI_LoadingFill*>(iter)->Add_CurrFiles(iFilesNum);
+    }
+}
+
 HRESULT CUI_Loading::UI_Set()
 {
     CGameInstance* pGameInstance = CGameInstance::GetInstance();
