@@ -2244,47 +2244,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			}));
 	}
 
-	/* Npc 赣府 */
-	{
-		wstring strFileName = L"NP_MA02_Head_LegioMan";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_MA03_Head_LegioFriend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-	}
-
-	/* Npc 个 */
-	{
-		wstring strFileName = L"NP_MA02_Body_LegioMan";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_MA03_Body_LegioFriend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-	}
 
 	/* Npc 公扁颇明 */
 	{
