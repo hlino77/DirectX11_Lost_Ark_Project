@@ -1123,6 +1123,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Custom\CrossHair">
       <UniqueIdentifier>{a773b41a-a3e2-4a6c-b5da-f008a6ac5a8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\DeathFireBomb">
+      <UniqueIdentifier>{c043dc7a-10ec-43ca-a95c-860b24b713d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3568,6 +3571,9 @@
     <ClInclude Include="..\Public\State_WR_StandDash.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
+    <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5981,6 +5987,9 @@
     <ClCompile Include="..\Private\UI_Boss_Hp.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

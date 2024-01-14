@@ -273,7 +273,7 @@ HRESULT CEffect::Render()
 
 			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
 				return E_FAIL;
-		}
+		}	
 		else
 			m_Intensity.fDissolveAmount = 0.f;
 	}

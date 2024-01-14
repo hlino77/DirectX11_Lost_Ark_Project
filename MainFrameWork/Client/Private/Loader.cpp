@@ -167,6 +167,7 @@
 #include "Effect_Custom_Grenade.h"
 #include "Effect_Custom_PerpectShotBullet.h"
 #include "Effect_Custom_CrossHair.h"
+#include "Effect_Custom_DeathFireBomb.h"
 
 //NPC
 #include "tinyxml2.h"
@@ -1031,6 +1032,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_CrossHair"),
 		CEffect_Custom_CrossHair::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_DeathFireBomb"),
+		CEffect_Custom_DeathFireBomb::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
@@ -2791,7 +2796,20 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 		}
 		pUIManager->Loading_UI(1000.f);
 	}
+	
+	{
+		wstring strFileName = L"Effect_Custom_GN_Bomb";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+		pUIManager->Loading_UI(1000.f);
+	}
 
 	Safe_Release(pGameInstance);
 	return S_OK;

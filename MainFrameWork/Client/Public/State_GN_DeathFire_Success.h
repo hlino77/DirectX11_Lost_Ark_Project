@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Bomb();
+
+private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
 	std::function<void(CState_GN_DeathFire_Success&, _float)> m_TickFunc;
@@ -29,6 +32,9 @@ private:
 private:
 	//Animation
 	_int m_iDeathFire_Success = 0;
+
+	Vec3 m_vEffectPos;
+	_bool m_bEffect = false;
 
 public:
 	static CState_GN_DeathFire_Success* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);

@@ -31,7 +31,7 @@ HRESULT CMannequin::Initialize_Prototype()
 
 	m_pModelCom = nullptr;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -1.f, 0.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 
 
 

@@ -46,6 +46,35 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In, uniform bool bOneBlend)
     return Out;
 }
 
+PS_OUT_EFFECT PS_MAIN_FXMESH_CLAMP(VS_OUT In, uniform bool bOneBlend)
+{
+    PS_OUT_EFFECT Out = (PS_OUT_EFFECT)0;
+
+    float2 vNewUV = float2(0.f, 0.f);
+
+    if (!bUV_Wave)
+    {
+        In.vTexUV.y += 1.0f;
+        vNewUV = (In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
+    }
+    else
+        vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
+
+    float4 vColor = CalculateEffectColorClamp(vNewUV, In.vTexUV);
+
+    if (bOneBlend)
+        Out.vOneBlend = vColor;
+    else
+        Out.vAlphaBlend = vColor;
+
+    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
+    {
+        Out.vEmissive = vColor * fIntensity_Bloom;
+    }
+
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass OneBlend // 0
@@ -61,7 +90,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_FXMESH(true);
     }
 
-    pass AlphaBlend // 0
+    pass AlphaBlend // 1
     {
         SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
@@ -72,5 +101,31 @@ technique11 DefaultTechnique
         HullShader = NULL;
         DomainShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_FXMESH(false);
+    }
+
+    pass OneBlendClamp // 2
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXMESH();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH_CLAMP(true);
+    }
+
+    pass AlphaBlendClamp // 3
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXMESH();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH_CLAMP(false);
     }
 }

@@ -5,6 +5,7 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
 
 CState_GN_Gunkata_2::CState_GN_Gunkata_2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -60,6 +61,8 @@ void CState_GN_Gunkata_2::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
 	{
+		Effect_Shot();
+
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
@@ -89,6 +92,23 @@ void CState_GN_Gunkata_2::Tick_State_Control(_float fTimeDelta)
 void CState_GN_Gunkata_2::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
+}
+
+void CState_GN_Gunkata_2::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	matWorld.Translation(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix().Translation());
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("GunkataBullet"), &desc)
 }
 
 CState_GN_Gunkata_2* CState_GN_Gunkata_2::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

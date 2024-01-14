@@ -5,6 +5,9 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+
+
 
 CState_GN_Gunkata_1::CState_GN_Gunkata_1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -61,6 +64,8 @@ void CState_GN_Gunkata_1::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_1))
 	{
+		Effect_Trail();
+
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
@@ -89,6 +94,21 @@ void CState_GN_Gunkata_1::Tick_State_Control(_float fTimeDelta)
 void CState_GN_Gunkata_1::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_1))
+	{
+		Effect_Trail();
+
+		m_iSkillCnt++;
+	}
+}
+
+void CState_GN_Gunkata_1::Effect_Trail()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(TEXT("GunkataTrail0"), &desc)
 }
 
 CState_GN_Gunkata_1* CState_GN_Gunkata_1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
