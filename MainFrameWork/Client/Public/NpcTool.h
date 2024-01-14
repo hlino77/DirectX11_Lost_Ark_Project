@@ -39,14 +39,16 @@ public:
 private:
 	void	Input();
 	_bool	Get_CellPos(Vec3& vPos);
+	void	Pick_Npc();
+	void	Set_DebugRender_Npc();
 
 private:
 	HRESULT	InfoView(const _float& fTimeDelta);
 	/* NPC 가져오기 */
 	void	Npc_List();
-	void	Load_Npc();
+	HRESULT	Load_Npc();
+	HRESULT	Start_Load_Npc(const wstring& strPath);
 	void	Delete_Npc();
-
 
 	HRESULT ModelView(const _float& fTimeDelta);
 	/* 셀렉트 */
@@ -70,7 +72,7 @@ private:
 
 	/* 생성 및 저장 */
 	void	Create_Npc(const _float& fTimeDelta);
-	void	Save_Npc(const _float& fTimeDelta);
+	HRESULT	Save_Npc(const _float& fTimeDelta);
 
 	void	Clear_Info();
 private:
@@ -93,7 +95,7 @@ private:
 private:
 	vector<CGameObject*>	m_vecNpcs;
 	_int					m_iCurNpc;
-
+	_bool					m_bDebugRender = { false };
 
 
 private: /* 셀럭트 NPC 변수 */
@@ -165,7 +167,7 @@ private: /* NPC 애니메이션 변수*/
 	_float	m_fDuration = { 0.f };
 
 private: /* Npc 토크버블 변수 */
-	_bool			IsTalk = { false };
+	_bool			m_IsTalk = { false };
 	_float			m_fTalkStartTime = { 0.f };
 	vector<wstring> m_vecTalks;
 	vector<string>	m_vecSelectTalk;

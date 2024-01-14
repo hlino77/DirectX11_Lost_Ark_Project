@@ -2,7 +2,9 @@
 
 #include "Client_Defines.h"
 #include "Base.h"
+#include <filesystem>
 
+namespace fs = std::filesystem;
 /* 1. 다음레벨ㄹ에 대한 로딩 작업을 술앨ㅇㅎ나다. */
 
 BEGIN(Client)
@@ -52,6 +54,9 @@ private:
 	HRESULT Loading_For_Level_Chaos2();
 	HRESULT Loading_For_Level_Chaos3();
 
+	HRESULT	Load_NpcData();
+	HRESULT Start_Load_Npc(const wstring& strPath);
+	HRESULT	AutoLoad(const fs::path& strPath, LEVELID eLevel);
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);

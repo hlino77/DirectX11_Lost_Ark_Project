@@ -206,15 +206,30 @@ void CController_WR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
 }
 
-void CController_WR::Hit(CGameObject* pHitObject)
-{
-	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
-		return;
-}
-
 void CController_WR::Skill_CoolTime(const _float& fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
+}
+
+void CController_WR::Get_HitMessage(_uint iDamge, _float fForce)
+{
+	__super::Get_HitMessage(iDamge, fForce);
+
+	// 데미지하락 및 밉라이트?
+
+	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
+	{
+		static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_eHitType, m_fForced, 0.f));
+
+		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
+		{
+			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
+		}
+		else if (HIT_TYPE::DMG != m_eHitType)
+		{
+			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit"));
+		}
+	}
 }
 
 void CController_WR::Get_WR_IdentityMessage()

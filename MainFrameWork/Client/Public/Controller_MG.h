@@ -21,6 +21,8 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	virtual void	Get_HitMessage(_uint iDamge, _float fForce);
+
 	/* 아덴 관련 함수 */
 	_uint			Is_MG_Identity();
 	const _int&		Get_IdenGage() { return m_iIdentityGage; }
@@ -43,7 +45,6 @@ private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 private:

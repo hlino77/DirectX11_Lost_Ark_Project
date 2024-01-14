@@ -55,8 +55,6 @@ HRESULT CUI_SpeechBubble::Initialize(void* pArg)
     m_pTransformDown->Set_State(CTransform::STATE_POSITION,
         Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 
-
-
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
@@ -92,7 +90,8 @@ void CUI_SpeechBubble::Tick(_float fTimeDelta)
 
 void CUI_SpeechBubble::LateTick(_float fTimeDelta)
 {
-    __super::LateTick(fTimeDelta);
+    if(true == m_IsRender)
+        __super::LateTick(fTimeDelta);
 
     Setting_HostPos();
 }
@@ -126,14 +125,13 @@ HRESULT CUI_SpeechBubble::Render()
 
     m_pVIBufferCom->Render();
 
-
     return S_OK;
 }
 
 HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
 {
     Set_Active(true);
-    m_fDuration = 3.0f;
+    m_fDuration = 5.5f;
     m_fAlpha = 0.4f;
 
     wstring szText;
@@ -162,7 +160,15 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
 
     m_pTextBox->Clear_Text();
     m_pTextBox->Set_Text(L"ChatWindow", m_szFont, szText, Vec2(0.0f, m_fSizeY * 3.f * 0.5f), m_vTextScale, Vec2(0.0f, vMeasure.y * 0.5f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    m_pTextBox->Set_Active(true);
+    if (TEXT("None") != szText)
+    {
+        m_IsRender = true;
+        m_pTextBox->Set_Active(true);
+    }
+    else
+    {
+        m_IsRender = false;
+    }
 
     return S_OK;
 }

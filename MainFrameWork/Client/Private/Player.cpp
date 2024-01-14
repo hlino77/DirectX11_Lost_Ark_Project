@@ -72,6 +72,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_NamePlate()))
 		return E_FAIL;
 
+	m_pRigidBody->Set_Gravity(false);
+
 	return S_OK;
 }
 
@@ -92,15 +94,13 @@ void CPlayer::LateTick(_float fTimeDelta)
 
 	Set_EffectPos();
 	m_pModelCom->Set_ToRootPos(m_pTransformCom);
-	
+
 	for (auto& pPart : m_Parts)
 	{
 		if (nullptr == pPart.second) continue;
 
 		pPart.second->Tick(fTimeDelta);
 	}
-
-	//m_pRigidBody->Tick(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)
 		return;

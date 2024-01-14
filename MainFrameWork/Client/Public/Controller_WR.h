@@ -28,7 +28,7 @@ public:
 	const _int&		Get_IdenGage() { return m_iIdentityGage; }
 	const _int&		Get_IdenMaxGauge() { return m_iMaxGage; }
 	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
-	const _float Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
+	const _float	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -37,16 +37,17 @@ public:
 
 public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
+	virtual void	Get_HitMessage(_uint iDamge, _float fForce);
 	void			Get_WR_IdentityMessage();
 	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_iIdentityGage -= 10; }
 
 	void			Increase_IdenGage(_uint iGage);
 	
+
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 private:

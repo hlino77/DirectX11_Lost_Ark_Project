@@ -29,6 +29,7 @@ public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	void			Get_GN_IdentityMessage(GN_IDENTITY eIndex) { GN_Identity(eIndex); }
 	virtual void	Get_SkillMessage(GN_IDENTITY eIndex, SKILL_KEY eKey) { Skill(eIndex, eKey); }
+	virtual void	Get_HitMessage(_uint iDamge, _float fForce);
 
 public:
 	GN_IDENTITY		Get_GN_Identity() { return m_eIdentity; }
@@ -46,7 +47,6 @@ private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Hit(CGameObject* pHitObject) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 private:

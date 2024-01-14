@@ -7,6 +7,7 @@
 #include "ColliderOBB.h"
 #include "Projectile.h"
 #include "Pool.h"
+#include "Player.h"
 
 CPlayer_Controller_GN::CPlayer_Controller_GN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
@@ -100,6 +101,27 @@ _uint CPlayer_Controller_GN::Is_GN_Identity()
 	}
 
 	return 0;
+}
+
+void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce)
+{
+	__super::Get_HitMessage(iDamge, fForce);
+
+	// 데미지하락 및 밉라이트?
+
+	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
+	{
+		static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_eHitType, m_fForced, 0.f));
+
+		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
+		{
+			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
+		}
+		else if(HIT_TYPE::DMG != m_eHitType)
+		{
+			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit"));
+		}
+	}
 }
 
 void CPlayer_Controller_GN::Skill(GN_IDENTITY eIndex, SKILL_KEY eKey)
@@ -209,12 +231,6 @@ void CPlayer_Controller_GN::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 		m_pSkills[eKey]->Set_SkillProjMat(m_pOwner->Get_TransformCom()->Get_WorldMatrix());
 	}
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
-}
-
-void CPlayer_Controller_GN::Hit(CGameObject* pHitObject)
-{
-	if (HIT_TYPE::TYPE_END == m_eHitType || nullptr == pHitObject)
-		return;
 }
 
 void CPlayer_Controller_GN::Skill_CoolTime(const _float& fTimeDelta)

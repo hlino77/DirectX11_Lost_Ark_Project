@@ -328,7 +328,7 @@ HRESULT CMannequin::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 3.f;
+	TransformDesc.fSpeedPerSec = 1.5f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -436,19 +436,26 @@ void CMannequin::Talk(const _float& fTimeDelta)
 	if (true == m_pSpeechBuble->Is_Active())
 		return;
 
-	m_fTalkStartAcc += fTimeDelta;
-	if (m_fTalkTime <= m_fTalkStartAcc)
+	if (false == m_IsTalkStart)
 	{
-		m_fTalkStartAcc = 0.f;
+		m_fTalkStartAcc += fTimeDelta;
 
-		m_pSpeechBuble->Active_SpeechBuble(m_vecTalkScript[m_iCurrTalk]);
-
-		m_iCurrTalk++;
-		if (m_vecTalkScript.size() <= m_iCurrTalk)
+		if (m_fTalkTime <= m_fTalkStartAcc)
 		{
-			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -5.f;
+			m_IsTalkStart = true;
 		}
+
+		return;
+	}
+
+	m_pSpeechBuble->Active_SpeechBuble(m_vecTalkScript[m_iCurrTalk]);
+
+	m_iCurrTalk++;
+	if (m_vecTalkScript.size() <= m_iCurrTalk)
+	{
+		m_iCurrTalk = 0;
+		m_fTalkStartAcc = -5.f;
+		m_IsTalkStart = false;
 	}
 
 }

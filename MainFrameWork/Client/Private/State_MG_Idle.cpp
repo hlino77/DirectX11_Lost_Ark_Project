@@ -63,10 +63,6 @@ void CState_MG_Idle::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
-	else if (true == m_pController->Is_Hit())
-	{
-		m_pPlayer->Set_State(TEXT("Hit"));
-	}
 	else if (0 != iIdentity)
 	{
 		Vec3 vClickPos;

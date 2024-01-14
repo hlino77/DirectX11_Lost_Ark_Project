@@ -35,18 +35,20 @@ public:
 		_uint			iCurLevel;
 
 		_uint			iNpcType;
-		wstring			strNpcTag = { TEXT("") };
-		wstring			strNpcName = { TEXT("") };
+		wstring			strNpcTag = { TEXT("None") };
+		wstring			strNpcName = { TEXT("None") };
 		Matrix			matStart;
 
 		_uint			iNpcShape;
 
-		wstring			strNpcMq;
-		wstring			strNpcHead;
-		wstring			strNpcBody;
+		wstring			strNpcMq = { TEXT("None") };
+		wstring			strNpcHead = { TEXT("None") };
+		wstring			strNpcBody = { TEXT("None") };
+		Vec3			vHairColor1;
+		Vec3			vHairColor2;
 
-		wstring			strIdleAnim = { TEXT("") };
-		wstring			strActAnim = { TEXT("") };
+		wstring			strIdleAnim = { TEXT("None") };
+		wstring			strActAnim = { TEXT("None") };
 		_float			fChangeAnimTime = { 0.f };
 
 		_bool			IsMove = { false };
@@ -58,9 +60,9 @@ public:
 		vector<wstring> vecTalkSound;
 
 		_bool			bUseWeaponPart = { false };
-		wstring			strLeftPart = { TEXT("") };
+		wstring			strLeftPart = { TEXT("None") };
 		Matrix			Left_OffsetMatrix;
-		wstring			strRightPart = { TEXT("") };
+		wstring			strRightPart = { TEXT("None") };
 		Matrix			Right_OffsetMatrix;
 
 	}NPCDESC;
@@ -80,6 +82,8 @@ public:
 	virtual HRESULT			Render_Debug();
 
 public:
+	virtual _bool			Intersect_Mouse();
+
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
 	void					Set_MoveSpeed(_float fSpeed) { m_fMoveSpeed = fSpeed; }
@@ -92,7 +96,11 @@ public:
 	
 	NPCDESC					Get_NpcDesc() { return m_NpcDesc; }
 
+
+
 public:
+	void					Set_DebugRender_State(_bool bRender) { m_bDebugRender = bRender; }
+
 	void					Set_State(const wstring& szName);
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false);
 	const	wstring&		Get_State() { return m_pStateMachine->Get_CurState(); }
@@ -135,6 +143,8 @@ protected:
 
 
 protected:
+	_bool							m_bDebugRender = { false };
+
 	_float							m_fMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;
 
@@ -154,6 +164,7 @@ protected:
 	
 
 	_bool			m_IsReach = { false };
+	_bool			m_IsTalkStart = { false };
 
 	_float			m_fTalkTimeAcc = { 0.f };
 
