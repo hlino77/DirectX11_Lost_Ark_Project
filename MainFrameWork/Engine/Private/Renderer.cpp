@@ -34,6 +34,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fShadowTargetSizeRatio = 5.12f;
 	m_fStaticShadowTargetSizeRatio = 5.12f;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Priority"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
+		return E_FAIL;
+	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Diffuse"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
@@ -257,6 +261,9 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	/* 이 렌더타겟들은 그려지는 객체로부터 값을 저장받는다. */
 	/* For.MRT_GameObjects */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Priority"), TEXT("Target_Priority"))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Normal"))))
@@ -644,6 +651,9 @@ HRESULT CRenderer::Render_MakeSRV()
 
 HRESULT CRenderer::Render_Priority()
 {
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Priority"), m_pShadowDSV)))
+		return E_FAIL;
+
 	for (auto& iter : m_RenderObjects[RENDER_PRIORITY])
 	{
 		if (FAILED(iter->Render()))
@@ -651,6 +661,9 @@ HRESULT CRenderer::Render_Priority()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_PRIORITY].clear();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -1054,7 +1067,8 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Priority"), "g_PriorityTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
 		return E_FAIL;
