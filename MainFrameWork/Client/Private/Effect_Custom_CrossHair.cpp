@@ -52,7 +52,7 @@ HRESULT CEffect_Custom_CrossHair::Initialize(void* pArg)
 	m_eState = CrossHairState::START;
 
 	m_fShakeAcc = 0.0f;
-	m_fShakeTime = 0.4f;
+	m_fShakeTime = 0.3f;
 
 	return S_OK;
 }
@@ -151,7 +151,7 @@ void CEffect_Custom_CrossHair::EffectShot()
 	m_fShakeAcc = 0.0f;
 	m_eState = CrossHairState::SHAKE;
 
-	m_fVelShake = 4000.0f;
+	m_fVelShake = 90.0f;
 }
 
 void CEffect_Custom_CrossHair::Tick_Start(_float fTimeDelta)
@@ -181,11 +181,11 @@ void CEffect_Custom_CrossHair::Tick_Shake(_float fTimeDelta)
 
 	_float fOffset = m_pTransformCom->Get_Scale().x - m_fDefaultSize;
 
-	m_fVelShake += -fOffset * 90.f;
+	m_fVelShake += -fOffset * 60.f * fTimeDelta;
 
 	//m_fVelShake *= 1.0f - (0.4f * fTimeDelta);
 
-	fOffset += m_fVelShake * fTimeDelta;
+	fOffset += m_fVelShake;
 	fOffset *= 1.0f - (14.0f * fTimeDelta);
 	fOffset += m_fDefaultSize;
 

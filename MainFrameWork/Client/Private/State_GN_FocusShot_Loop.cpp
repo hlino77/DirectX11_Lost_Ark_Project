@@ -131,7 +131,8 @@ void CState_GN_FocusShot_Loop::Effect_Shot()
 		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+		Matrix matEffectWorld = Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+		desc.pPivotMatrix = &matEffectWorld;
 
 		EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 	}

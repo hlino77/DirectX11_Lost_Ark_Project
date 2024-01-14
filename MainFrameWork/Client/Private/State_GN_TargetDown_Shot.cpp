@@ -82,6 +82,12 @@ void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 void CState_GN_TargetDown_Shot::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
+	{
+		m_iSkillCnt++;
+		Effect_Shot();
+	}
 }
 
 void CState_GN_TargetDown_Shot::Effect_Shot()
@@ -116,7 +122,8 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 			CEffect_Manager::EFFECTPIVOTDESC desc;
-			desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			Matrix matEffectWorld = Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			desc.pPivotMatrix = &matWorld;
 
 			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 		}
@@ -129,7 +136,7 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 
 		pEffect->EffectShot();
 
-		m_pPlayer->Get_Camera()->Cam_Shake(42.0f, 108.f, 0.3f, 18.0f);
+		m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 108.f, 0.3f, 18.0f);
 
 		Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vPos = m_pPlayer->Get_TargetPos();
@@ -165,7 +172,8 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 			CEffect_Manager::EFFECTPIVOTDESC desc;
-			desc.pPivotMatrix = &Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			Matrix matEffectWorld = Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			desc.pPivotMatrix = &matEffectWorld;
 
 			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 		}

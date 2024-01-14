@@ -209,6 +209,7 @@ HRESULT CDeco_Npc::Render_PartModel()
 				if (FAILED(m_pNpcPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
 
+
 				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
 					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
 					return E_FAIL;

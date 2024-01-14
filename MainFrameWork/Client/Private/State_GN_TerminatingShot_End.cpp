@@ -134,7 +134,8 @@ void CState_GN_TerminatingShot_End::Effect_Shot()
 		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+		Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+		desc.pPivotMatrix = &matWorld;
 
 		EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 	}

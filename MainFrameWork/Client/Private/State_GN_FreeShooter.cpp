@@ -190,7 +190,8 @@ void CState_GN_FreeShooter::Effect_Shot()
 		Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+		Matrix matEffectWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+		desc.pPivotMatrix = &matEffectWorld;
 
 		EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 	}
@@ -228,7 +229,8 @@ void CState_GN_FreeShooter::Effect_LastShot()
 			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 			CEffect_Manager::EFFECTPIVOTDESC desc;
-			desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			Matrix matEffectWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			desc.pPivotMatrix = &matEffectWorld;
 
 			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 		}
@@ -255,7 +257,7 @@ void CState_GN_FreeShooter::Effect_LastShot()
 
 		for (_uint i = 0; i < 20; ++i)
 		{
-			//Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 50) * 0.02f);
+			Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 50) * 0.02f);
 
 			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
 			_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-0.7f, 0.7f);
@@ -265,7 +267,8 @@ void CState_GN_FreeShooter::Effect_LastShot()
 			Vec3 vLook = vOriginLook + vOriginUp * fRandomY + vOriginRight * fRandomX;
 
 			CEffect_Manager::EFFECTPIVOTDESC desc;
-			desc.pPivotMatrix = &Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			Matrix matEffectWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+			desc.pPivotMatrix = &matEffectWorld;
 
 			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 		}

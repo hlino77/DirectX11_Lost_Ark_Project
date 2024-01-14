@@ -124,12 +124,12 @@ void CCamera_Player::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, 
 
 void CCamera_Player::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta)
 {
-	m_vShakeVelocity.x += -m_vShakeOffset.x * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 1.0f);
-	m_vShakeVelocity.y += -m_vShakeOffset.y * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 1.0f);
+	m_vShakeVelocity.x += -m_vShakeOffset.x * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 0.5f) * fTimeDelta;
+	m_vShakeVelocity.y += -m_vShakeOffset.y * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 0.5f) * fTimeDelta;
 
 	//m_vShakeVelocity *= (1.0f - m_fBreak);
 
-	m_vShakeOffset += m_vShakeVelocity * fTimeDelta;
+	m_vShakeOffset += m_vShakeVelocity;
 
 	m_vShakeOffset *= (1.0f - m_fBreak * fTimeDelta);
 
