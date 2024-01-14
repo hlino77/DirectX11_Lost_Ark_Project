@@ -160,6 +160,7 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
 
     m_pTextBox->Clear_Text();
     m_pTextBox->Set_Text(L"ChatWindow", m_szFont, szText, Vec2(0.0f, m_fSizeY * 3.f * 0.5f), m_vTextScale, Vec2(0.0f, vMeasure.y * 0.5f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
     if (TEXT("None") != szText)
     {
         m_IsRender = true;

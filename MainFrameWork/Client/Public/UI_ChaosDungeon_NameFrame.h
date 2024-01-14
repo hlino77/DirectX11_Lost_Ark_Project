@@ -43,6 +43,7 @@ public:
 private:
     wstring m_szFont;
     wstring m_strStageName = TEXT("타락 2단계");
+    wstring m_strWndTag;
     CTextBox* m_pStageNameWnd = nullptr;
     _bool   m_bTextOn = false;
 

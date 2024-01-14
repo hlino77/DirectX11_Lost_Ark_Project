@@ -447,7 +447,6 @@
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
     <ClInclude Include="..\Public\UI_ETCIcon_Frame.h" />
-    <ClInclude Include="..\Public\UI_HoldingFill.h" />
     <ClInclude Include="..\Public\UI_HoldingFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
@@ -568,6 +567,8 @@
     <ClInclude Include="..\Public\UI_Mouse_ToolTip.h" />
     <ClInclude Include="..\Public\UI_Mouse_ToolTip_Frame.h" />
     <ClInclude Include="..\Public\UI_Mouse_ToolTip_Icon.h" />
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h" />
     <ClInclude Include="..\Public\UI_Player_HPFill.h" />
@@ -916,7 +917,7 @@
     <ClCompile Include="..\Private\State_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\Tea.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
-    <ClCompile Include="..\Private\UI_BossHp.cpp" />
+    <ClCompile Include="..\Private\UI_Boss_Hp.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp" />
@@ -929,7 +930,6 @@
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />
     <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_HoldingFrame.cpp" />
-    <ClCompile Include="..\Private\UI_HoldingFill.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
@@ -1051,6 +1051,8 @@
     <ClCompile Include="..\Private\UI_Mouse_ToolTip.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_ToolTip_Frame.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_ToolTip_Icon.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp" />

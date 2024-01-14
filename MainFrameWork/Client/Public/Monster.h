@@ -20,6 +20,7 @@ END
 
 
 BEGIN(Client)
+class CUI_Monster_Hp;
 class CMonster : public CGameObject
 {
 public:
@@ -196,6 +197,11 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	BoundingSphere m_tCullingSphere;
 
 	atomic<_int>					m_iSlowMotionCount = 0;
+
+protected:
+	HRESULT	Ready_HpUI();
+	CUI_Monster_Hp* m_pHpUI = { nullptr };
+
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

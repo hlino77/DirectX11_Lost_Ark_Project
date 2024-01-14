@@ -43,15 +43,15 @@ HRESULT CUI_ChaosDungeon_NameFrame::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	//if (FAILED(Initialize_StageName()))
-		//return E_FAIL;
+	if (FAILED(Initialize_StageName()))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CUI_ChaosDungeon_NameFrame::Initialize_StageName()
 {
-	m_szFont = L"∫˚¿«∞ËΩ¬¿⁄";
+	m_szFont = L"¥¯∆ƒø¨∏∂µ»ƒÆ≥Ø";
 	Ready_TextBox();
 
 	Set_Active(true);
@@ -62,11 +62,6 @@ HRESULT CUI_ChaosDungeon_NameFrame::Initialize_StageName()
 void CUI_ChaosDungeon_NameFrame::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if (!m_bTextOn)
-	{
-		m_bTextOn = true;
-		Print_Stage_Name();
-	}
 }
 
 void CUI_ChaosDungeon_NameFrame::LateTick(_float fTimeDelta)
@@ -82,6 +77,8 @@ HRESULT CUI_ChaosDungeon_NameFrame::Render()
 	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
+
+	Print_Stage_Name();
 
 	return S_OK;
 }
@@ -140,12 +137,13 @@ void CUI_ChaosDungeon_NameFrame::Print_Stage_Name()
 	m_pStageNameWnd->Set_Alpha(1.f);
 
 	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);//Vec3(116.f - g_iWinSizeX * 0.5f, -78.f + g_iWinSizeY * 0.5f, 0.f);//Vec3(m_fX- g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
-	m_pStageNameWnd->Get_TransformCom()->Set_Scale(Vec3(110.f, 40.f, 0.f));
+	m_pStageNameWnd->Get_TransformCom()->Set_Scale(Vec3(220.f, 80.f, 0.f));
 	m_pStageNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"∫˚¿«∞ËΩ¬¿⁄", m_strStageName);
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"¥¯∆ƒø¨∏∂µ»ƒÆ≥Ø", m_strStageName);
 	Vec2 vOrigin = vMeasure * 0.5f;
-	m_pStageNameWnd->Set_Text(L"ChaosStageWnd", m_szFont, m_strStageName, Vec2(110.f, 40.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColor);
+	m_pStageNameWnd->Set_Text(m_strWndTag, m_szFont, m_strStageName, Vec2(110.f, 40.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, m_vColor);
+	m_pStageNameWnd->Set_Text(m_strWndTag + TEXT("-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), TEXT("∫£∏• ∫œ∫Œ"), Vec2(110.f, 20.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.51f, 0.52f, 0.52f, 1.f));
 }
 
 void CUI_ChaosDungeon_NameFrame::Set_Active(_bool bActive)
@@ -163,6 +161,7 @@ HRESULT CUI_ChaosDungeon_NameFrame::Ready_TextBox()
 	{
 		CTextBox::TEXTBOXDESC tTextDesc;
 		tTextDesc.szTextBoxTag = TEXT("ChaosStageWnd");
+		m_strWndTag = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(220.f, 80.0f);
 		m_pStageNameWnd = static_cast<CTextBox*>(pGameInstance->
 			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
@@ -214,6 +213,7 @@ void CUI_ChaosDungeon_NameFrame::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	
+	m_pStageNameWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

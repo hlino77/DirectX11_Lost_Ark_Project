@@ -10,18 +10,6 @@
     <Filter Include="00.MainApp">
       <UniqueIdentifier>{016817f4-efd3-4ed6-ba0e-c59d21242465}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels">
-      <UniqueIdentifier>{9927bfef-90a5-4e11-8212-cacd67d008c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\00.Logo">
-      <UniqueIdentifier>{f7bf0f5d-9c1a-409d-ba96-8f25a183dad7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\99.Loading">
-      <UniqueIdentifier>{d3df9124-96f6-4c1d-a02e-1d2d51e29c9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\99.Loading\Loader">
-      <UniqueIdentifier>{04c05968-cb34-4cec-89e2-639b898c25fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects">
       <UniqueIdentifier>{d435cd37-10c5-4f6c-a2f1-ee72504bbb59}</UniqueIdentifier>
     </Filter>
@@ -49,9 +37,6 @@
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\ServerSelect">
-      <UniqueIdentifier>{44dfca2f-bdb9-49ba-b981-3cfca469ecb6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{448c794f-4c90-4cfd-b61e-d8bd1efc4207}</UniqueIdentifier>
     </Filter>
@@ -60,21 +45,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger">
       <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\02.Bern">
-      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool">
-      <UniqueIdentifier>{4e23252b-8f1e-4aa3-a035-332256279a07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools">
-      <UniqueIdentifier>{1a6bc08e-4010-41df-8466-0d0852b69d5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\00.BaseClass">
-      <UniqueIdentifier>{0fcdcb14-2b5d-4419-91c9-f8788c09538e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\01.EffectTool">
-      <UniqueIdentifier>{5e4218f1-35f7-4f4b-a472-57b919a72e66}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{50d83e71-1df7-44a6-8f18-38b2106e8b6b}</UniqueIdentifier>
@@ -178,9 +148,6 @@
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool">
-      <UniqueIdentifier>{45015364-1b26-40b4-b875-e68d85c67f94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Plant">
       <UniqueIdentifier>{1f94ef61-4420-4e3c-86ef-db9f4d9f088c}</UniqueIdentifier>
     </Filter>
@@ -277,21 +244,6 @@
     <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
       <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui">
-      <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\ImGuiNode">
-      <UniqueIdentifier>{4cfeeb9c-a410-4729-9a90-d18e82726442}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\Include">
-      <UniqueIdentifier>{d8799a1a-61a4-4be2-bdda-2f67ce023693}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\node_examples">
-      <UniqueIdentifier>{c1d21703-2c0a-476f-a251-6001c56f3ca4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\02.VoidObject">
-      <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Projectile">
       <UniqueIdentifier>{0e0d7d86-e55a-4b62-b8a0-64de959ce98c}</UniqueIdentifier>
     </Filter>
@@ -336,12 +288,6 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame">
       <UniqueIdentifier>{929904d3-9701-42e6-bc1f-adeda177ed1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill">
-      <UniqueIdentifier>{2b28739c-335a-4a91-89b2-ddbf40ddeb67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\02.Shine">
-      <UniqueIdentifier>{3e3c1bba-2833-4657-812a-defb34f94a6d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Boss\Golem">
       <UniqueIdentifier>{136add4c-d43e-4b1f-9377-99dc0bcc6818}</UniqueIdentifier>
@@ -772,18 +718,6 @@
     <Filter Include="02.GameObjects\Boss\Valtan">
       <UniqueIdentifier>{a2450736-a999-44ae-b816-ad09c1e28a92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean">
-      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel1">
-      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel2">
-      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel3">
-      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\04.HP/MP">
       <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
     </Filter>
@@ -874,14 +808,8 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Behavior">
       <UniqueIdentifier>{6d1e938d-b4a9-482a-b8cb-caaa2981fa98}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
-      <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Camera\00.Lobby">
       <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\01.Lobby">
-      <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Boss\Valtan\Parts">
       <UniqueIdentifier>{be8098da-7f2b-4a0f-97c3-697f5ad0a24a}</UniqueIdentifier>
@@ -1060,12 +988,6 @@
     <Filter Include="02.GameObjects\Npc\Npc_Part">
       <UniqueIdentifier>{da97641d-adb7-4e67-a047-72a78f3ed6d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\98.Tool\For_Npc">
-      <UniqueIdentifier>{1caa94d9-469c-4016-abe2-45d8eb992adf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\For_Npc\NpcTool">
-      <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\SkyDome">
       <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
     </Filter>
@@ -1150,6 +1072,88 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stand">
       <UniqueIdentifier>{621fcb28-64ba-4ef5-8c9f-7131e1ad5a11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Levels">
+      <UniqueIdentifier>{9927bfef-90a5-4e11-8212-cacd67d008c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\00.Logo">
+      <UniqueIdentifier>{f7bf0f5d-9c1a-409d-ba96-8f25a183dad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\99.Loading">
+      <UniqueIdentifier>{d3df9124-96f6-4c1d-a02e-1d2d51e29c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\99.Loading\Loader">
+      <UniqueIdentifier>{04c05968-cb34-4cec-89e2-639b898c25fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\ServerSelect">
+      <UniqueIdentifier>{44dfca2f-bdb9-49ba-b981-3cfca469ecb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\02.Bern">
+      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool">
+      <UniqueIdentifier>{4e23252b-8f1e-4aa3-a035-332256279a07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\00.Tools">
+      <UniqueIdentifier>{1a6bc08e-4010-41df-8466-0d0852b69d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\00.Tools\00.BaseClass">
+      <UniqueIdentifier>{0fcdcb14-2b5d-4419-91c9-f8788c09538e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\00.Tools\01.EffectTool">
+      <UniqueIdentifier>{5e4218f1-35f7-4f4b-a472-57b919a72e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\00.Tools\02.VoidObject">
+      <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin">
+      <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\ImGui">
+      <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\ImGui\ImGuiNode">
+      <UniqueIdentifier>{4cfeeb9c-a410-4729-9a90-d18e82726442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\ImGui\Include">
+      <UniqueIdentifier>{d8799a1a-61a4-4be2-bdda-2f67ce023693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\ImGui\node_examples">
+      <UniqueIdentifier>{c1d21703-2c0a-476f-a251-6001c56f3ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\For_Npc">
+      <UniqueIdentifier>{1caa94d9-469c-4016-abe2-45d8eb992adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\98.Tool\For_Npc\NpcTool">
+      <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\03.ChaosDungean">
+      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel1">
+      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel2">
+      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel3">
+      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Levels\01.Lobby">
+      <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc">
+      <UniqueIdentifier>{6a2d88aa-242f-4965-9d68-7ed4fa4a0aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance">
+      <UniqueIdentifier>{29b9147f-2811-44fb-af5c-28c37cec1dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance\00.Wnd">
+      <UniqueIdentifier>{058978f8-3d55-4da2-a488-ba36288a9763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance\01.NewWnd">
+      <UniqueIdentifier>{fda0ed26-ef0b-429a-8aa0-f4cf14087aba}</UniqueIdentifier>
+>>>>>>> origin/feature/Seokhyeon
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1171,16 +1175,16 @@
       <Filter>99.Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Logo.h">
-      <Filter>01.Levels\00.Logo</Filter>
+      <Filter>02.GameObjects\01.Levels\00.Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Bern.h">
-      <Filter>01.Levels\02.Bern</Filter>
+      <Filter>02.GameObjects\01.Levels\02.Bern</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
-      <Filter>01.Levels\99.Loading</Filter>
+      <Filter>02.GameObjects\01.Levels\99.Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
-      <Filter>01.Levels\99.Loading\Loader</Filter>
+      <Filter>02.GameObjects\01.Levels\99.Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObjects\Player</Filter>
@@ -1279,7 +1283,7 @@
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Tool.h">
-      <Filter>01.Levels\98.Tool</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_Attack1.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -1321,7 +1325,6 @@
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Identity\Run_Identity</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_Server.h" />
-    <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
     <ClInclude Include="..\Public\Level_Tool.h">
       <Filter>01.Levels\98.Tool</Filter>
@@ -1410,7 +1413,6 @@
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
-    <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\Player_Controller_GN.h" />
@@ -1483,25 +1485,25 @@
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imgui.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imgui_impl_dx11.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imgui_impl_win32.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imgui_internal.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imstb_rectpack.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imstb_textedit.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_MainLogo.h">
       <Filter>02.GameObjects\BackGround\00.MainLogo</Filter>
@@ -1514,9 +1516,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Manager.h">
       <Filter>96. Manager\UI_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_Lobby.h">
-      <Filter>01.Levels\Lobby</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ServerSelect.h">
       <Filter>01.Levels\ServerSelect</Filter>
@@ -2641,13 +2640,13 @@
     <ClInclude Include="..\Public\ImGUI\imstb_textedit.h" />
     <ClInclude Include="..\Public\ImGUI\imstb_truetype.h" />
     <ClInclude Include="..\Public\ImGUI\imnodes.h">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui\ImGuiNode</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imnodes_internal.h">
-      <Filter>01.Levels\98.Tool\ImGui\ImGuiNode</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui\ImGuiNode</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VoidEffect.h">
-      <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Projectile.h">
       <Filter>02.GameObjects\Projectile</Filter>
@@ -2792,9 +2791,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Mouse_Cursor.h">
       <Filter>02.GameObjects\UI\09.Mouse\00.MouseCursor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_HoldingFill.h">
-      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HoldingFrame.h">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
@@ -2957,13 +2953,13 @@
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel1.h">
-      <Filter>01.Levels\03.ChaosDungean\ChaosLevel1</Filter>
+      <Filter>02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel1</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel2.h">
-      <Filter>01.Levels\03.ChaosDungean\ChaosLevel2</Filter>
+      <Filter>02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel3.h">
-      <Filter>01.Levels\03.ChaosDungean\ChaosLevel3</Filter>
+      <Filter>02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel3</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
@@ -3323,13 +3319,13 @@
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_PcModel.h">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Mannequin.h">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MannequinPart.h">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Lobby.h">
       <Filter>02.GameObjects\Camera\00.Lobby</Filter>
@@ -3533,10 +3529,10 @@
       <Filter>02.GameObjects\Npc\Npc_Part</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Tool_Npc.h">
-      <Filter>01.Levels\98.Tool\For_Npc</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\For_Npc</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\NpcTool.h">
-      <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\For_Npc\NpcTool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SkyDome.h">
       <Filter>02.GameObjects\SkyDome</Filter>
@@ -3568,7 +3564,6 @@
     <ClInclude Include="..\Public\UI_Manager.h">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\Effect_Custom_SpiralChaser.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SpiralChaser</Filter>
     </ClInclude>
@@ -3620,6 +3615,19 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Lobby.h">
+      <Filter>02.GameObjects\01.Levels\01.Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_ServerSelect.h">
+      <Filter>02.GameObjects\01.Levels\ServerSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Lobby.h" />
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h">
+      <Filter>02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
+      <Filter>02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance\01.NewWnd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3632,16 +3640,16 @@
       <Filter>00.MainApp</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Logo.cpp">
-      <Filter>01.Levels\00.Logo</Filter>
+      <Filter>02.GameObjects\01.Levels\00.Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Bern.cpp">
-      <Filter>01.Levels\02.Bern</Filter>
+      <Filter>02.GameObjects\01.Levels\02.Bern</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
-      <Filter>01.Levels\99.Loading</Filter>
+      <Filter>02.GameObjects\01.Levels\99.Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01.Levels\99.Loading\Loader</Filter>
+      <Filter>02.GameObjects\01.Levels\99.Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObjects\Player</Filter>
@@ -3740,7 +3748,7 @@
       <Filter>02.GameObjects\Monster\Zombie\Behavior\Attack2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Tool.cpp">
-      <Filter>01.Levels\98.Tool</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Attack1.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -3786,7 +3794,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
-    <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp">
       <Filter>01.Levels\98.Tool</Filter>
     </ClCompile>
@@ -3879,7 +3886,6 @@
     <ClCompile Include="..\Private\BackGround_Server.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
-    <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
@@ -3951,28 +3957,28 @@
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_draw.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_impl_dx11.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_impl_win32.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp">
-      <Filter>01.Levels\98.Tool\imgui</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp">
       <Filter>02.GameObjects\BackGround\00.MainLogo</Filter>
@@ -3985,9 +3991,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Manager.cpp">
       <Filter>96. Manager\UI_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_Lobby.cpp">
-      <Filter>01.Levels\Lobby</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ServerSelect.cpp">
       <Filter>01.Levels\ServerSelect</Filter>
@@ -5096,7 +5099,7 @@
     <ClCompile Include="..\Public\ImGUI\imgui_tables.cpp" />
     <ClCompile Include="..\Public\ImGUI\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\02.VoidObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Projectile.cpp">
       <Filter>02.GameObjects\Projectile</Filter>
@@ -5235,9 +5238,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_HoldingFrame.cpp">
       <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\00.Frame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_HoldingFill.cpp">
-      <Filter>02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\01.Fill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Identity.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Identity</Filter>
@@ -5397,16 +5397,16 @@
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel1.cpp">
-      <Filter>01.Levels\03.ChaosDungean\ChaosLevel1</Filter>
+      <Filter>02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel1</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Slayer.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel2.cpp">
-      <Filter>01.Levels\03.ChaosDungean\ChaosLevel2</Filter>
+      <Filter>02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel3.cpp">
-      <Filter>01.Levels\03.ChaosDungean\ChaosLevel3</Filter>
+      <Filter>02.GameObjects\01.Levels\03.ChaosDungean\ChaosLevel3</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon</Filter>
@@ -5760,13 +5760,13 @@
       <Filter>02.GameObjects\Boss\Behavior\Action</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_PcModel.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Mannequin.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MannequinPart.cpp">
-      <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Lobby.cpp">
       <Filter>02.GameObjects\Camera\00.Lobby</Filter>
@@ -5970,10 +5970,10 @@
       <Filter>02.GameObjects\Npc\Npc_Part</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Tool_Npc.cpp">
-      <Filter>01.Levels\98.Tool\For_Npc</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\For_Npc</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\NpcTool.cpp">
-      <Filter>01.Levels\98.Tool\For_Npc\NpcTool</Filter>
+      <Filter>02.GameObjects\01.Levels\98.Tool\For_Npc\NpcTool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SkyDome.cpp">
       <Filter>02.GameObjects\SkyDome</Filter>
@@ -5987,7 +5987,7 @@
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp">
       <Filter>02.GameObjects\UI\14.Monster_Hp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_BossHp.cpp">
+    <ClCompile Include="..\Private\UI_Boss_Hp.cpp">
       <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Golem_Swipe.cpp">
@@ -6008,7 +6008,6 @@
     <ClCompile Include="..\Private\UI_Manager.cpp">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_SpiralChaser.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SpiralChaser</Filter>
     </ClCompile>
@@ -6059,6 +6058,19 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lobby.cpp">
+      <Filter>02.GameObjects\01.Levels\01.Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_ServerSelect.cpp">
+      <Filter>02.GameObjects\01.Levels\ServerSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lobby.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\00.Chaos_Dungeon_Entrance\01.NewWnd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

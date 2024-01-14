@@ -19,6 +19,8 @@ END
 
 
 BEGIN(Client)
+class CUI_Boss_Hp;
+
 class CBoss : public CMonster
 {
 public:
@@ -96,8 +98,6 @@ public:
 	_int						Get_GroggyGauge() { return m_iGroggyGauge; }
 	void						Set_GroggyGauge(_int iArmorDurability) { m_iGroggyGauge = iArmorDurability; }
 
-	_int						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
-
 	_float					Get_Force() { return m_fForce; }
 	void					Set_Force(_float fForce) { m_fForce = fForce; }
 
@@ -115,6 +115,10 @@ public:
 
 	_uint						Get_GroggyCount() { return m_iGroggyCount; }
 	void						Set_GroggyCount(_uint iGroggyCount) { m_iGroggyCount = iGroggyCount; }
+
+	_uint						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
+	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
+
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -128,16 +132,25 @@ protected:
 protected:
 	_uint m_iBaseAtk = 0;
 	_float m_fBaseForce = 0;
+	//HPUI
+	virtual HRESULT	Ready_HpUI();
+
+protected:
 	_bool m_IsCounterSkill = false;
 	Vec3  m_vSpawnPosition = {};
 	_int m_iArmor = 0;
 	_uint m_iPhase = 1;
 	_int m_iGroggyGauge = 0;
 	_uint m_iMaxGroggyGauge = 0;
+
 	_float m_fForce = 0.f;;
 	_bool	m_IsGroggyLock = false;
 	_uint	m_iHitCount = 0;
 	_uint	m_iGroggyCount = 0;
+
+	//HPUI
+	CUI_Boss_Hp*	m_pHpUI = { nullptr };
+
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

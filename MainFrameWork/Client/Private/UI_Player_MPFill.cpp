@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "UI_Player_MPFill.h"
 #include "GameInstance.h"
+#include "Player.h"
+#include "TextBox.h"
 
 CUI_Player_MPFill::CUI_Player_MPFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -27,12 +29,16 @@ HRESULT CUI_Player_MPFill::Initialize(void* pArg)
     if (nullptr != pArg)
     {
         m_pPlayer = static_cast<CGameObject*>(pArg);
+        m_iMaxMp = m_pPlayer->Get_MaxMp();
+        m_iPlayerMp = m_pPlayer->Get_Mp();
+        m_fCurrentRatio = m_iPlayerMp / m_iMaxHp;
+        m_fPreRatio = m_fCurrentRatio;
     }
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_strUITag = TEXT("Player_HPFrame");
+    m_strUITag = TEXT("Player_MPFill");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = g_iWinSizeY * 0.5f;
@@ -46,23 +52,38 @@ HRESULT CUI_Player_MPFill::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+    if (FAILED(Initialize_TextBox()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_Player_MPFill::Initialize_TextBox()
+{
+    Ready_TextBox();
+    Set_Active(true);
+
     return S_OK;
 }
 
 void CUI_Player_MPFill::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-    if (nullptr != m_pPlayer)
-    {
-        _float fMaxHp = m_pPlayer->Get_MaxHp();
-        _float fCurrHp = m_pPlayer->Get_Hp();
-        m_fCurrentRatio = fCurrHp / fMaxHp * 100.f;
-    }
 }
 
 void CUI_Player_MPFill::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
+    if (nullptr != m_pPlayer)
+    {
+        m_iPlayerMp = m_pPlayer->Get_Mp();
+        m_fCurrentRatio = m_iPlayerMp / m_iMaxMp;
+
+        if (m_fCurrentRatio != m_fPreRatio)
+        {
+            m_fPreRatio = m_fCurrentRatio;
+        }
+    }
 }
 
 HRESULT CUI_Player_MPFill::Render()
@@ -73,6 +94,8 @@ HRESULT CUI_Player_MPFill::Render()
     m_pShaderCom->Begin(7);
 
     m_pVIBufferCom->Render();
+
+    Print_Mp();
 
     return S_OK;
 }
@@ -108,7 +131,58 @@ HRESULT CUI_Player_MPFill::Bind_ShaderResources()
         return E_FAIL;
 
     m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    return S_OK;
+}
 
+void CUI_Player_MPFill::Print_Mp()
+{
+    if (nullptr != m_pPlayerMpWnd)
+    {
+        m_pPlayerMpWnd->Set_Active(true);
+        m_pPlayerMpWnd->Clear_Text();
+        m_pPlayerMpWnd->Set_Alpha(1.f);
+        m_pPlayerMpWnd->Get_TransformCom()->Set_Scale(Vec3(240.f, 16.0f, 0.f));
+        m_pPlayerMpWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+            Vec3(1010.f - g_iWinSizeX * 0.5f, -790.f + g_iWinSizeY * 0.5f, 0.f));
+        if (0 >= m_iPlayerMp)
+            m_iPlayerMp = 0;
+        wstring strPlayerMp = to_wstring(m_iPlayerMp) + TEXT("/") + to_wstring(m_iMaxMp);
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("³Ø½¼Lv1°íµñBold"), strPlayerMp);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        m_pPlayerMpWnd->Set_Text(m_strWndTag, TEXT("³Ø½¼Lv1°íµñBold"), strPlayerMp, Vec2(120.f, 8.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
+    }
+}
+
+void CUI_Player_MPFill::Set_Active(_bool bActive)
+{
+    m_pPlayerMpWnd->Set_Active(bActive);
+}
+
+HRESULT CUI_Player_MPFill::Ready_TextBox()
+{
+    CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+    Safe_AddRef(pGameInstance);
+
+    if (nullptr == m_pPlayerMpWnd)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = TEXT("Clinet_Player_MpUI");
+        m_strWndTag = tTextDesc.szTextBoxTag;
+        tTextDesc.vSize = Vec2(240.f, 16.0f);
+        m_pPlayerMpWnd = static_cast<CTextBox*>(pGameInstance->
+            Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+        if (nullptr == m_pPlayerMpWnd)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+
+        m_pPlayerMpWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pPlayerMpWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+    }
+
+    Safe_Release(pGameInstance);
     return S_OK;
 }
 
@@ -145,6 +219,7 @@ void CUI_Player_MPFill::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
+    m_pPlayerMpWnd->Set_Dead(true);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pShaderCom);

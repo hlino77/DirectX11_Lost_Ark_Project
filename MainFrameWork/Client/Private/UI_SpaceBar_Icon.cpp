@@ -61,7 +61,7 @@ HRESULT CUI_SpaceBar_Icon::Initialize(void* pArg)
 
 HRESULT CUI_SpaceBar_Icon::Initialize_Percent()
 {
-    m_szFont = L"ºûÀÇ°è½ÂÀÚ";
+    m_szFont = L"³Ø½¼Lv1Bold";
     Ready_TextBox();
 
     Set_Active(false);
@@ -218,7 +218,7 @@ void CUI_SpaceBar_Icon::Print_CoolTime()
     Set_StringCoolTime();
     Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strCoolTime);
     Vec2 vOrigin = vMeasure * 0.5f;
-    m_pCoolTimetWnd->Set_Text(m_strWndName, m_szFont, m_strCoolTime, Vec2(22.f, 22.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
+    m_pCoolTimetWnd->Set_Text(m_strWndName, m_szFont, m_strCoolTime, Vec2(22.f, 22.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
 }
 
 void CUI_SpaceBar_Icon::Set_Active(_bool bActive)
