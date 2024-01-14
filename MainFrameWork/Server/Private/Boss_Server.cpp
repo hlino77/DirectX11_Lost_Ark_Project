@@ -178,7 +178,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 
 
 			m_fStatusEffects[iStatusEffect] += fDuration;
-			if (m_iHp < 1.f && m_iPhase != 3)
+			if (m_iHp < 1.f && m_iPhase == 2)
 				m_iHp = 1;
 
 			if (m_iHp < 1.f)

@@ -90,6 +90,8 @@
 #include "Skill_GN_TerminatingShot.h"
 
 #include "Effect_Manager.h"
+#include <Boss.h>
+#include <Skill.h>
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -266,7 +268,21 @@ HRESULT CPlayer_Gunslinger::Render_ShadowDepth()
 
 void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+		{
+			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+		{
+			m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force());
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		{
+			m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force());
+		}
+	}
 }
 
 void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
