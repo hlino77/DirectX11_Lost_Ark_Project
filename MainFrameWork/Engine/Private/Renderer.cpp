@@ -774,11 +774,20 @@ HRESULT CRenderer::Render_Effect()
 	}
 	m_RenderObjects[RENDER_EFFECT].clear();
 
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_EFFECTPARTICLE])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_EFFECTPARTICLE].clear();
+
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
 	return S_OK;
 }
+
 
 HRESULT CRenderer::Render_Lights()
 {

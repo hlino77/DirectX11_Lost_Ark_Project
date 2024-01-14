@@ -86,6 +86,7 @@ DepthStencilState DSS_None
 {
 	DepthEnable = false;
 	DepthWriteMask = zero;
+	DepthFunc = always;
 };
 
 BlendState BS_Default

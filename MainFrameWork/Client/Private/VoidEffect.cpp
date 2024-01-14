@@ -143,8 +143,17 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 	if (m_bRender)
 	{
-		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
-			__debugbreak();
+		if (m_iEffectType == 2)
+		{
+			if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECTPARTICLE, this)))
+				__debugbreak();
+		}
+		else
+		{
+			if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
+				__debugbreak();
+		}
+		
 	}
 }
 

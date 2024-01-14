@@ -112,9 +112,8 @@ void CState_GN_PerfectShot_End::Effect_Shot()
 
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
-	EFFECT_START(TEXT("PerpectShotSmokeRight"), &desc)
-	EFFECT_START(TEXT("PerpectShotSmokeLeft"), &desc)
-	EFFECT_START(TEXT("PerpectShotMuzzleFlash"), &desc)
+	EFFECT_START(TEXT("PerpectShotSmoke"), &desc)
+	EFFECT_START(TEXT("PerpectShotMuzzleFlash"), &desc) 
 	
 	for (_uint i = 0; i < 60; ++i)
 	{

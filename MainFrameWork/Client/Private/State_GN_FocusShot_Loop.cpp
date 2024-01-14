@@ -117,6 +117,7 @@ void CState_GN_FocusShot_Loop::Effect_Shot()
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("FocusShotBullet1"), &desc)
 	EFFECT_START(TEXT("FocusShotMuzzleFlash1"), &desc);
+	EFFECT_START(TEXT("FocusShotSmoke1"), &desc);
 
 	for (_uint i = 0; i < 30; ++i)
 	{

@@ -7,6 +7,8 @@
 #include "Model.h"
 #include "GameInstance.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CState_GN_TargetDown_Start::CState_GN_TargetDown_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -79,6 +81,14 @@ void CState_GN_TargetDown_Start::Effect_Start()
 	m_pPlayer->Get_Camera()->ZoomInOut(12.0f, 3.0f);
 
 	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_CrossHair");
+
+	vector<CEffect*> EffectList;
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START_OUTLIST(TEXT("TargetDownDecal"), &desc, EffectList);
+
+	EffectList.front()->Set_ObjectTag(L"Effect_TargetDownDecal");
 }
 
 CState_GN_TargetDown_Start* CState_GN_TargetDown_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

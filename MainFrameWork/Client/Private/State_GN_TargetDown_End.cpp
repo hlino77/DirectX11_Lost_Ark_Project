@@ -54,6 +54,7 @@ void CState_GN_TargetDown_End::Tick_State_Control(_float fTimeDelta)
 	if (m_bEffect == false)
 	{
 		Effect_End();
+		m_bEffect = true;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTargetDown_End))
@@ -88,6 +89,11 @@ void CState_GN_TargetDown_End::Effect_End()
 	pEffect->EffectEnd();
 
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
+
+	CEffect* pDecal = dynamic_cast<CEffect*>(pGameInstance->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, L"Effect_TargetDownDecal"));
+	pDecal->Set_ObjectTag(L"Effect_TargetDownDecalReady");
+	pDecal->EffectEnd();
 
 	Safe_Release(pGameInstance);
 }

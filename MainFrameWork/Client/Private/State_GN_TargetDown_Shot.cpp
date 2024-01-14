@@ -151,11 +151,11 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = &matWorld;
-		EFFECT_START(TEXT("TargetDown1"), &desc);
+		EFFECT_START(TEXT("TargetDown"), &desc);
 
 		for (_uint i = 0; i < 60; ++i)
 		{
-			Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 10) * 0.1f);
+			Vec3 vRandomPos = vPos + vOriginLook * ((rand() % 10) * 0.1f - 0.5f);
 
 			_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
 			_float fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);

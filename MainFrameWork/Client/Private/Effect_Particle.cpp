@@ -79,7 +79,14 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 
 void CEffect_Particle::LateTick(_float fTimeDelta)
 {
-	Super::LateTick(fTimeDelta);
+	if (nullptr == m_pRendererCom)
+		return;
+
+	if (m_bRender)
+	{
+		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECTPARTICLE, this)))
+			__debugbreak();
+	}
 }
 
 HRESULT CEffect_Particle::Render()
