@@ -3,7 +3,7 @@
 #include <random>
 
 BEGIN(Engine)
-
+class CVIBuffer_Rect;
 END
 
 BEGIN(Client)
