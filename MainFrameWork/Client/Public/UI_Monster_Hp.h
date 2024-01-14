@@ -18,7 +18,6 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
-    virtual HRESULT Initialize_StageName(const wstring& strName);
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -30,25 +29,19 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
-
-private:
-    void	Start_InGame_Name();
-    void	End_InGame_Name();
-    void    Update_NamePlatePos();
-
-public:
-    void    Print_InGame_Name();
-    void	Set_Active(_bool bActive);
-    HRESULT Ready_TextBox(const wstring& strName);
+    virtual HRESULT Bind_ShaderResources_Hp();
+    void    Update_Postion();
 
 private:
     CGameObject* m_pOwner = { nullptr };
+    CTexture* m_pTextureCom_Hp = { nullptr };
+    CTransform* m_pTransform_Hp = { nullptr };
 
+    _uint   m_iMaxHp = { 0 };
+    _int    m_iCurrHp = { 0 };
+    _float  m_fHpRatio = { 0.f };
     wstring m_szFont;
     wstring m_strName = TEXT("");
-    wstring m_strTag;
-    CTextBox* m_pInGameNameWnd = nullptr;
-    _bool   m_bTextOn = false;
 
 public:
     static  CUI_Monster_Hp* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

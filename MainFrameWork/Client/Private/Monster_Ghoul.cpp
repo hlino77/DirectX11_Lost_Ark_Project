@@ -59,10 +59,11 @@ HRESULT CMonster_Ghoul::Initialize_Prototype()
 
 HRESULT CMonster_Ghoul::Initialize(void* pArg)
 {
+	m_iMaxHp = 9999999;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_iHp = 10;
 	m_fFontScale = 0.45f;
 	m_vecAttackRanges.push_back(1.5f);
 	m_vecAttackRanges.push_back(1.5f);

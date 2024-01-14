@@ -125,7 +125,7 @@ PS_OUT PS_TEXTBOX(PS_IN In)
 
 	Out.vColor.a *= g_Alpha;
 
-	if (0.0f >= Out.vColor.a)
+	if (0.3f >= Out.vColor.a)
 		discard;
 
 	return Out;
@@ -252,6 +252,20 @@ PS_OUT PS_MAIN_TEXTURE_CUTX(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_TEXTURE_CUTX_NOGAMMA(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor.a *= g_Alpha;
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	if (g_fRatio <= In.vTexUV.x)
+		discard;
+
+	return Out;
+}
 PS_OUT PS_MAIN_TEXTURE_CUTY(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -604,4 +618,16 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_DISCARDBLACK();
 	}
+
+	pass PixTexturePassX_NoGamma
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUTX_NOGAMMA();
+	}
+	
 }

@@ -47,6 +47,8 @@ private:
     CTextBox* m_pStageNameWnd = nullptr;
     _bool   m_bTextOn = false;
 
+    CTextBox* m_pStageTimerWnd = { nullptr }; 
+
 public:
     static  CUI_ChaosDungeon_TimerFrame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

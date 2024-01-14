@@ -4,6 +4,7 @@
 #include "PipeLine.h"
 #include "TextBox.h"
 #include "ServerSessionManager.h"
+#include "Monster.h"
 
 CUI_Monster_Hp::CUI_Monster_Hp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -32,13 +33,19 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 
 	m_strUITag = TEXT("NamePlate");
 
-	m_fSizeX = 504;
-	m_fSizeY = 335;
+	m_fSizeX = 87.f;
+	m_fSizeY = 12.f;
 	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = (g_iWinSizeY * 0.5f) + 100.f;
+	m_fY = g_iWinSizeY * 0.5f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+	_float fSizeX = 80.f;
+	_float fSizeY = 7.0f;
+	m_pTransform_Hp->Set_Scale(Vec3(fSizeX, fSizeY, 1.f));
+	m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
@@ -47,19 +54,10 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
-		if (FAILED(Initialize_StageName(CServerSessionManager::GetInstance()->Get_NickName())))
-			return E_FAIL;
+		m_iMaxHp = dynamic_cast<CMonster*>(m_pOwner)->Get_MaxHp();
+		m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
+		m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
 	}
-
-	return S_OK;
-}
-
-HRESULT CUI_Monster_Hp::Initialize_StageName(const wstring& strName)
-{
-	m_szFont = L"³Ø½¼Lv1°íµñ";
-	m_strName = strName;
-	Ready_TextBox(m_strName);
-	Set_Active(true);
 
 	return S_OK;
 }
@@ -67,130 +65,95 @@ HRESULT CUI_Monster_Hp::Initialize_StageName(const wstring& strName)
 void CUI_Monster_Hp::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	Update_NamePlatePos();
 }
 
 void CUI_Monster_Hp::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	Update_Postion();
 }
 
 HRESULT CUI_Monster_Hp::Render()
 {
-	//if (FAILED(Bind_ShaderResources()))
-	//	return E_FAIL;
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
 
-	//m_pShaderCom->Begin(0);
-
-	//m_pVIBufferCom->Render();
-	Print_InGame_Name();
-
+	if (FAILED(Bind_ShaderResources_Hp()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom_Hp->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+		return E_FAIL;
+	m_pShaderCom->Begin(16);
+	m_pVIBufferCom->Render();
+	
 	return S_OK;
 }
 
 HRESULT CUI_Monster_Hp::Ready_Components()
 {
-	__super::Ready_Components();
+	if (FAILED(__super::Ready_Components()))
+		return E_FAIL;
+	/* Com_Texture*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_HpFrame"),
+		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_Hp"),
+		TEXT("Com_TextureHp"), (CComponent**)&m_pTextureCom_Hp)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_TransformHp"), (CComponent**)&m_pTransform_Hp)))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CUI_Monster_Hp::Bind_ShaderResources()
 {
+	if (FAILED(__super::Bind_ShaderResources()))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
-
-void CUI_Monster_Hp::Start_InGame_Name()
+HRESULT CUI_Monster_Hp::Bind_ShaderResources_Hp()
 {
-	m_strName.clear();
-	m_pInGameNameWnd->Set_Active(true);
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_Hp->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fHpRatio, sizeof(_float))))
+		return E_FAIL;
+
+	return S_OK;
 }
 
-void CUI_Monster_Hp::End_InGame_Name()
-{
-	m_strName.clear();
-	m_pInGameNameWnd->Set_Active(false);
-}
-
-void CUI_Monster_Hp::Update_NamePlatePos()
+void CUI_Monster_Hp::Update_Postion()
 {
 	if (nullptr != m_pOwner)
 	{
-		Vec3 vHostPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
-		vHostPos.y += 1.7f;
-
-		Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
-		Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
-
-		vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
-		vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
-
-		//vHostPos.x *= g_iWinSizeX * 0.5f;
-		//vHostPos.y *= g_iWinSizeY * 0.5f;
-
-		Vec3 vScale = m_pTransformCom->Get_Scale();
+		Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x, vHostPos.y + (vScale.y * 0.35f), 0.1f));
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.0f));
 
-		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.0f));
 
-		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(vPos.x, vPos.y, 0.0f));
 	}
-}
-
-void CUI_Monster_Hp::Print_InGame_Name()
-{
-	if (nullptr == m_pInGameNameWnd)
-		return;
-
-	m_pInGameNameWnd->Set_Active(true);
-	m_pInGameNameWnd->Clear_Text();
-	m_pInGameNameWnd->Set_Alpha(1.f);
-
-	m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(300.f, 40.f, 0.f));
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, m_strName);
-	Vec2 vOrigin = vMeasure * 0.5f;
-	m_pInGameNameWnd->Set_Text(m_strTag + TEXT("-1"), m_szFont, m_strName, Vec2(150.f - 1.f , 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	m_pInGameNameWnd->Set_Text(m_strTag + TEXT("-2"), m_szFont, m_strName, Vec2(150.f + 1.f, 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	m_pInGameNameWnd->Set_Text(m_strTag , m_szFont, m_strName, Vec2(150.f, 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(1.0f, 0.98f, 0.54f, 1.f));
-	
-}
-
-void CUI_Monster_Hp::Set_Active(_bool bActive)
-{
-	//m_bActive = bActive;
-	m_pInGameNameWnd->Set_Active(bActive);
-}
-
-HRESULT CUI_Monster_Hp::Ready_TextBox(const wstring& strName)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	Safe_AddRef(pGameInstance);
-
-	if (nullptr == m_pInGameNameWnd)
-	{
-		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = TEXT("NamePlate") + strName;
-		m_strTag = tTextDesc.szTextBoxTag;
-		tTextDesc.vSize = Vec2(300.f, 40.0f);
-		m_pInGameNameWnd = static_cast<CTextBox*>(pGameInstance->
-			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
-
-		if (nullptr == m_pInGameNameWnd)
-		{
-			Safe_Release(pGameInstance);
-			return E_FAIL;
-		}
-
-		m_pInGameNameWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
-		m_pInGameNameWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
-	}
-
-	Safe_Release(pGameInstance);
-	return S_OK;
 }
 
 CUI_Monster_Hp* CUI_Monster_Hp::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -225,9 +188,10 @@ void CUI_Monster_Hp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	
-	m_pInGameNameWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTextureCom_Hp);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTransform_Hp);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);

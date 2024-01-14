@@ -49,7 +49,7 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Initialize(void* pArg)
 
 HRESULT CUILobby_Entrance_to_ServrerButton::Initialize_TextBox()
 {
-	m_strFont = L"ÇÑÄÄ°íµñ";
+	m_strFont = L"³Ø½¼Lv1°íµñBold";
 	Ready_TextBox();
 	m_pTextWnd->Set_Active(false);
 	return S_OK;
@@ -159,7 +159,7 @@ void CUILobby_Entrance_to_ServrerButton::Print_TextBox()
 	m_pTextWnd->Get_TransformCom()->Set_Scale(Vec3(200.f, 60.f, 0.f));
 	m_pTextWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strText);
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strText);
 	Vec2 vOrigin = vMeasure * 0.5f;
 
 	m_pTextWnd->Set_Text(TEXT("EntranceWnd"), m_strFont, m_strText, Vec2(100.0f, 30.0f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));

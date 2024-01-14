@@ -21,6 +21,7 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "Projectile.h"
+#include "UI_Boss_Hp.h"
 
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -65,6 +66,8 @@ HRESULT CBoss::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
+	if (FAILED(Ready_HpUI()))
+		return E_FAIL;
 
     return S_OK;
 }
@@ -231,6 +234,7 @@ void CBoss::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
+	m_pHpUI->Set_Dead(true);
 }
 
 void CBoss::Move_to_SpawnPosition()
@@ -327,6 +331,21 @@ HRESULT CBoss::Ready_BehaviourTree()
 	return S_OK;
 }
 
+HRESULT CBoss::Ready_HpUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	m_pHpUI = static_cast<CUI_Boss_Hp*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_BossHpUI"), this));
+
+	if (nullptr == m_pHpUI)
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 void CBoss::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
 {
 	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
@@ -348,7 +367,7 @@ CGameObject* CBoss::Clone(void* pArg)
 void CBoss::Free()
 {
 	__super::Free();
-
+	//Safe_Release(m_pHpUI);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);

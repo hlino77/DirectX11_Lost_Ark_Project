@@ -49,20 +49,20 @@ HRESULT CBoss_Golem::Initialize_Prototype()
 
 HRESULT CBoss_Golem::Initialize(void* pArg)
 {
+	m_iMaxHp = 299999999;//2999999999;
+	m_iHp = m_iMaxHp;
+	m_iMaxGroggyGauge = 25;
+	m_iGroggyGauge = m_iMaxGroggyGauge;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
-	m_iHp = 10;
-
-
 	m_vecAttackRanges.push_back(2.5f);
 	m_vecAttackRanges.push_back(2.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
 	m_pModelCom->Set_CurrAnim(m_pModelCom->Find_AnimIndex(L"idle_normal_1"));
 	m_pModelCom->Play_Animation(10.0f);
-
 	m_IsSuperArmor =true;
 	m_fRootTargetDistance = 0.5f;
 	m_iBasicAttackStartFrame = 18;

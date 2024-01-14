@@ -19,7 +19,7 @@
 #include "Projectile.h"
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
-
+#include "UI_Monster_Hp.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Monster", OBJ_TYPE::MONSTER)
@@ -73,6 +73,9 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_fMoveSpeed = 1.5f;
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
+
+	//if (FAILED(Ready_HpUI()))
+		//return E_FAIL;
 
     return S_OK;
 }
@@ -550,6 +553,7 @@ void CMonster::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
+	//m_pHpUI->Set_Dead(true);
 }
 
 void CMonster::Set_Action(wstring strAction)
@@ -914,6 +918,21 @@ void CMonster::Send_CollidingInfo(const _uint iColLayer, CCollider* pOther)
 void CMonster::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _uint iStartFrame, _uint iChangeFrame)
 {
 	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame);
+}
+
+HRESULT CMonster::Ready_HpUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	m_pHpUI = static_cast<CUI_Monster_Hp*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MonsterHpUI"), this));
+
+	if (nullptr == m_pHpUI)
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
 }
 
 CGameObject* CMonster::Clone(void* pArg)

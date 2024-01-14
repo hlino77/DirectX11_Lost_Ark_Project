@@ -57,6 +57,8 @@ HRESULT CMonster_Reaper::Initialize_Prototype()
 
 HRESULT CMonster_Reaper::Initialize(void* pArg)
 {
+	m_iMaxHp = 9999999;
+	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 

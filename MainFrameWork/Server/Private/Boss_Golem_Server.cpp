@@ -70,7 +70,7 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
-	m_iMaxHp = 2999999999;
+	m_iMaxHp = 299999999;//2999999999;
 	m_iHp = m_iMaxHp;
 	m_iMaxGroggyGauge = 25;
 	m_iGroggyGauge = m_iMaxGroggyGauge;

@@ -147,7 +147,9 @@ public:
 	int64						Get_Hp() { return m_iHp; }
 	uint64						Get_MaxHp() { return m_iMaxHp; }
 	void						Set_Hp(_int iHp) { m_iHp = iHp; }
-
+	int64						Get_Mp() { return m_iMp; }
+	uint64						Get_MaxMp() { return m_iMaxMp; }
+	void						Set_Mp(_int iMp) { m_iMp = iMp; }
 
 	void						Set_ServerState(const wstring& szState) { m_szState = szState; }
 	const wstring&				Get_ServerState() { return m_szState; }
@@ -246,6 +248,8 @@ protected:
 
 	int64							m_iHp;
 	uint64							m_iMaxHp;
+	int64							m_iMp;
+	uint64							m_iMaxMp;
 
 	_int						m_iWeaponIndex = -1;
 

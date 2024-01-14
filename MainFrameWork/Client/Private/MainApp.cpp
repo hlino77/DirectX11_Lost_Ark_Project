@@ -462,7 +462,8 @@ HRESULT CMainApp::Ready_Prototype_Font()
 	pGameInstance->AddFont(L"¥¯∆ƒø¨∏∂µ»ƒÆ≥Ø", L"../Bin/Resources/Fonts/¥¯∆ƒø¨∏∂µ»ƒÆ≥Ø.spritefont");
 	pGameInstance->AddFont(L"≥ÿΩºLv1∞ÌµÒ", L"../Bin/Resources/Fonts/≥ÿΩºLv1∞ÌµÒ.spritefont");
 	pGameInstance->AddFont(L"∫˚¿«∞ËΩ¬¿⁄", L"../Bin/Resources/Fonts/∫˚¿«∞ËΩ¬¿⁄.spritefont");
-	
+	pGameInstance->AddFont(L"≥ÿΩºLv1∞ÌµÒBold", L"../Bin/Resources/Fonts/≥ÿΩºLv1∞ÌµÒBold.spritefont");
+
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

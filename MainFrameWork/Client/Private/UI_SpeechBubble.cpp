@@ -133,7 +133,7 @@ HRESULT CUI_SpeechBubble::Render()
 HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
 {
     Set_Active(true);
-    m_fDuration = 3.0f;
+    m_fDuration = 5.5f;
     m_fAlpha = 0.4f;
 
     wstring szText;
@@ -163,7 +163,7 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
     m_pTextBox->Clear_Text();
     m_pTextBox->Set_Text(L"ChatWindow", m_szFont, szText, Vec2(0.0f, m_fSizeY * 3.f * 0.5f), m_vTextScale, Vec2(0.0f, vMeasure.y * 0.5f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
     m_pTextBox->Set_Active(true);
-
+  
     return S_OK;
 }
 

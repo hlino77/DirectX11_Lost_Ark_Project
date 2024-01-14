@@ -19,6 +19,8 @@ END
 
 
 BEGIN(Client)
+class CUI_Boss_Hp;
+
 class CBoss : public CMonster
 {
 public:
@@ -97,6 +99,9 @@ public:
 
 	_uint						Get_Phase() { return m_iPhase; }
 	void						Set_Phase(_uint iPhase) { m_iPhase = iPhase; }
+
+	_uint						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
+	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -108,12 +113,20 @@ protected:
 	virtual HRESULT			Ready_BehaviourTree();
 
 protected:
+	//HPUI
+	virtual HRESULT	Ready_HpUI();
+
+
+protected:
 	_bool m_IsCounterSkill = false;
 	Vec3  m_vSpawnPosition = {};
 	_int m_iArmor = 0;
 	_uint m_iPhase = 1;
 	_int m_iGroggyGauge = 0;
 	_uint m_iMaxGroggyGauge = 0;
+
+	//HPUI
+	CUI_Boss_Hp*	m_pHpUI = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg);

@@ -28,8 +28,8 @@ HRESULT CBackGround_Lobby::Initialize(void* pArg)
 
 	m_fSizeX = g_iWinSizeX;
 	m_fSizeY = g_iWinSizeY;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = g_iWinSizeY * 0.5f + (m_fSizeY * 0.25f);
+	m_fX = 780.f;
+	m_fY = 408.f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -44,9 +44,6 @@ HRESULT CBackGround_Lobby::Initialize(void* pArg)
 void CBackGround_Lobby::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 1.0f));
 }
 
 void CBackGround_Lobby::LateTick(_float fTimeDelta)

@@ -2,6 +2,7 @@
 #include "UI_Player_HPFill.h"
 #include "GameInstance.h"
 #include "Player.h"
+#include "TextBox.h"
 
 CUI_Player_HPFill::CUI_Player_HPFill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -28,6 +29,10 @@ HRESULT CUI_Player_HPFill::Initialize(void* pArg)
     if (nullptr != pArg)
     {
         m_pPlayer = static_cast<CGameObject*>(pArg);
+        m_iMaxHp = m_pPlayer->Get_MaxHp();
+        m_iPlayerHp = m_pPlayer->Get_Hp();
+        m_fCurrentRatio = m_iPlayerHp / m_iMaxHp;
+        m_fPreRatio = m_fCurrentRatio;
     }
 
     if (FAILED(Ready_Components()))
@@ -47,28 +52,40 @@ HRESULT CUI_Player_HPFill::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+    if (FAILED(Initialize_TextBox()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_Player_HPFill::Initialize_TextBox()
+{
+    Ready_TextBox();
+    Set_Active(true);
+
     return S_OK;
 }
 
 void CUI_Player_HPFill::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-
-    if (nullptr != m_pPlayer)
-    {
-        _float fMaxHp = m_pPlayer->Get_MaxHp();
-        _float fCurrHp = m_pPlayer->Get_Hp();
-       m_fCurrentRatio = fCurrHp / fMaxHp * 100.f;
-    }
 }
 
 void CUI_Player_HPFill::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
-    if (m_fCurrentRatio != m_fPreRatio)
+
+    if (nullptr != m_pPlayer)
     {
-        m_fPreRatio = m_fCurrentRatio;
+        m_iPlayerHp = m_pPlayer->Get_Hp();
+        m_fCurrentRatio = m_iPlayerHp / m_iMaxHp;
+
+        if (m_fCurrentRatio != m_fPreRatio)
+        {
+            m_fPreRatio = m_fCurrentRatio;
+        }
     }
+  
 }
 
 HRESULT CUI_Player_HPFill::Render()
@@ -80,6 +97,7 @@ HRESULT CUI_Player_HPFill::Render()
 
     m_pVIBufferCom->Render();
 
+    Print_Hp();
 
     return S_OK;
 }
@@ -119,6 +137,58 @@ HRESULT CUI_Player_HPFill::Bind_ShaderResources()
     return S_OK;
 }
 
+void CUI_Player_HPFill::Print_Hp()
+{
+    if (nullptr != m_pPlayerHpWnd)
+    {
+        m_pPlayerHpWnd->Set_Active(true);
+        m_pPlayerHpWnd->Clear_Text();
+        m_pPlayerHpWnd->Set_Alpha(1.f);
+        m_pPlayerHpWnd->Get_TransformCom()->Set_Scale(Vec3(240.f, 16.0f, 0.f));
+        m_pPlayerHpWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+            Vec3(590.f - g_iWinSizeX * 0.5f, -790.f + g_iWinSizeY * 0.5f, 0.f));
+        if (0 >= m_iPlayerHp)
+            m_iPlayerHp = 0;
+        wstring strPlayerHp = to_wstring(m_iPlayerHp) + TEXT("/") + to_wstring(m_iMaxHp);
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("³Ø½¼Lv1°íµñBold"), strPlayerHp);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        m_pPlayerHpWnd->Set_Text(m_strWndTag, TEXT("³Ø½¼Lv1°íµñBold"), strPlayerHp, Vec2(120.f, 8.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
+    }
+}
+
+void CUI_Player_HPFill::Set_Active(_bool bActive)
+{
+    m_pPlayerHpWnd->Set_Active(bActive);
+}
+
+HRESULT CUI_Player_HPFill::Ready_TextBox()
+{
+    CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+    Safe_AddRef(pGameInstance);
+
+    if (nullptr == m_pPlayerHpWnd)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = TEXT("Clinet_Player_HpUI");
+        m_strWndTag = tTextDesc.szTextBoxTag;
+        tTextDesc.vSize = Vec2(240.f, 16.0f);
+        m_pPlayerHpWnd = static_cast<CTextBox*>(pGameInstance->
+            Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+        if (nullptr == m_pPlayerHpWnd)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+
+        m_pPlayerHpWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pPlayerHpWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+    }
+
+    Safe_Release(pGameInstance);
+    return S_OK;
+}
+
 CUI_Player_HPFill* CUI_Player_HPFill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CUI_Player_HPFill* pInstance = new CUI_Player_HPFill(pDevice, pContext);
@@ -152,6 +222,7 @@ void CUI_Player_HPFill::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
+    m_pPlayerHpWnd->Set_Dead(true);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pShaderCom);

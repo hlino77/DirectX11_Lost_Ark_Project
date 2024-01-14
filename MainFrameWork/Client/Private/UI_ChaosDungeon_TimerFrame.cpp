@@ -43,15 +43,15 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	//if (FAILED(Initialize_StageName()))
-		//return E_FAIL;
+	if (FAILED(Initialize_StageName()))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CUI_ChaosDungeon_TimerFrame::Initialize_StageName()
 {
-	m_szFont = L"ºûÀÇ°è½ÂÀÚ";
+	m_szFont = L"´øÆÄ¿¬¸¶µÈÄ®³¯";
 	Ready_TextBox();
 
 	Set_Active(true);
@@ -62,11 +62,7 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Initialize_StageName()
 void CUI_ChaosDungeon_TimerFrame::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	/*if (!m_bTextOn)
-	{
-		m_bTextOn = true;
-		Print_Stage_Timer();
-	}*/
+
 }
 
 void CUI_ChaosDungeon_TimerFrame::LateTick(_float fTimeDelta)
@@ -82,7 +78,7 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Render()
 	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
-
+	Print_Stage_Timer();
 	return S_OK;
 }
 
@@ -139,14 +135,13 @@ void CUI_ChaosDungeon_TimerFrame::Print_Stage_Timer()
 	m_pStageNameWnd->Clear_Text();
 	m_pStageNameWnd->Set_Alpha(1.f);
 
-	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);//Vec3(116.f - g_iWinSizeX * 0.5f, -78.f + g_iWinSizeY * 0.5f, 0.f);//Vec3(m_fX- g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
-	m_pStageNameWnd->Get_TransformCom()->Set_Scale(Vec3(110.f, 40.f, 0.f));
+	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY - 25.f) + g_iWinSizeY * 0.5f, 0.f);//Vec3(m_fX- g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+	m_pStageNameWnd->Get_TransformCom()->Set_Scale(Vec3(240.f, 80.0f, 0.f));
 	m_pStageNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strTimerAnnounce);
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"´øÆÄ¿¬¸¶µÈÄ®³¯", m_strTimerAnnounce);
 	Vec2 vOrigin = vMeasure * 0.5f;
-	m_pStageNameWnd->Set_Text(L"ChaosAnnounceWnd", m_szFont, m_strTimerAnnounce, Vec2(110.f, 40.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColor);
-	
+	m_pStageNameWnd->Set_Text(L"ChaosAnnounceWnd", m_szFont, m_strTimerAnnounce, Vec2(120.f, 40.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	//m_pStageNameWnd->Set_Text(L"ChaosTimerWnd", m_szFont, m_strStageTimer, Vec2(110.f, 40.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColor);
 }
 
@@ -165,7 +160,7 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Ready_TextBox()
 	{
 		CTextBox::TEXTBOXDESC tTextDesc;
 		tTextDesc.szTextBoxTag = TEXT("ChaosAnnounceWnd");
-		tTextDesc.vSize = Vec2(220.f, 80.0f);
+		tTextDesc.vSize = Vec2(240.f, 80.0f);
 		m_pStageNameWnd = static_cast<CTextBox*>(pGameInstance->
 			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
 
@@ -215,6 +210,7 @@ void CUI_ChaosDungeon_TimerFrame::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	
+	m_pStageNameWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

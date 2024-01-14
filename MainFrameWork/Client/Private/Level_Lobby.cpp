@@ -109,13 +109,13 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 
 HRESULT CLevel_Lobby::LateTick(const _float& fTimeDelta)
 {
-	CUI_Tool::GetInstance()->LateTick();
+	//CUI_Tool::GetInstance()->LateTick();
 	return S_OK;
 }
 
 HRESULT CLevel_Lobby::Render_Debug()
 {
-	CUI_Tool::GetInstance()->Tick();
+	//CUI_Tool::GetInstance()->Tick();
 
 	return S_OK;
 }
@@ -129,7 +129,7 @@ HRESULT CLevel_Lobby::Exit()
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, m_pCamera);
 
-	CUI_Tool::GetInstance()->Set_ToolMode(false);
+	//CUI_Tool::GetInstance()->Set_ToolMode(false);
 
 
 	return S_OK;

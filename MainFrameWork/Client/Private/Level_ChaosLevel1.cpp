@@ -51,7 +51,6 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 		return E_FAIL;
 
 	//m_pImGuiManager = CUI_Tool::GetInstance();
-	//Safe_AddRef(m_pImGuiManager);
 
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;

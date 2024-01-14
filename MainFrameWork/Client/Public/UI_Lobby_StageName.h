@@ -24,6 +24,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    HRESULT Initialize_TextBox();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -40,8 +41,18 @@ private:
     void    Update_NickNameFrame();
 
 private:
+    void    Print_TextBox();
+    HRESULT Ready_TextBox();
+    void	Start_TextBox();
+    void	End_TextBox();
+
+private:
     _uint   m_iCharacterIndex = { 0 };
+    _bool   m_bTextOn = { false };
     CUI*     m_pNickName = { nullptr };
+    CTextBox* m_pTextWnd = { nullptr };
+    wstring m_strFont;
+    wstring m_strText = TEXT("º£¸¥ ¼º");
 
 public:
     static  CUI_Lobby_StageName* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

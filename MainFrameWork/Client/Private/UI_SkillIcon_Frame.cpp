@@ -69,7 +69,7 @@ HRESULT CUI_SkillIcon_Frame::Initialize(void* pArg)
 
 HRESULT CUI_SkillIcon_Frame::Initialize_Percent()
 {
-    m_szFont = L"ºûÀÇ°è½ÂÀÚ";
+    m_szFont = L"³Ø½¼Lv1°íµñBold";
     Ready_TextBox();
 
     Set_Active(false);
@@ -114,7 +114,8 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
     {
         m_fCoolRatio = 1.0f - (m_fResultCool / m_fCoolMaxTime);
         m_fCoolAngle = -XM_PI + (2 * XM_PI * m_fCoolRatio);
-        Print_CoolTime();
+        if((1 != m_iTextureIndex))
+            Print_CoolTime();
     }
 }
 
@@ -188,17 +189,23 @@ void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
         switch (eIDentity)
         {
         case CPlayer_Controller_GN::GN_IDENTITY::HAND:
-            m_iTextureIndex = 0;
+            m_iTextureIndex = 0; 
             break;
         case CPlayer_Controller_GN::GN_IDENTITY::SHOT:
             if (5 <= m_eSkillKey)
+            {
                 m_iTextureIndex = 1;
+                m_pCoolTimetWnd->Set_Active(false);
+            }
             else
                 m_iTextureIndex = 0;
             break;
         case CPlayer_Controller_GN::GN_IDENTITY::LONG:
             if (4 >= m_eSkillKey)
+            {
                 m_iTextureIndex = 1;
+                m_pCoolTimetWnd->Set_Active(false);
+            }
             else
                 m_iTextureIndex = 0;
             break;
@@ -426,7 +433,7 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_ChangeFrame()
 
 void CUI_SkillIcon_Frame::Print_CoolTime()
 {
-    if (nullptr == m_pCoolTimetWnd)
+    if ((nullptr == m_pCoolTimetWnd))
         return;
 
     m_pCoolTimetWnd->Set_Active(true);
@@ -440,7 +447,7 @@ void CUI_SkillIcon_Frame::Print_CoolTime()
     Set_StringCoolTime();
     Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strCoolTime);
     Vec2 vOrigin = vMeasure * 0.5f;
-    m_pCoolTimetWnd->Set_Text(m_strWndName, m_szFont, m_strCoolTime, Vec2(22.f, 22.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
+    m_pCoolTimetWnd->Set_Text(m_strWndName, m_szFont, m_strCoolTime, Vec2(22.f, 22.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
 }
 
 void CUI_SkillIcon_Frame::Set_Active(_bool bActive)

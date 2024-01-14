@@ -124,6 +124,10 @@
 #include "UI_ChaosDungeon_TimerFrame.h"
 #include "UI_ChaosDungeon.h"
 #include "UI_InGame_NamePlate.h"
+#include "UI_Boss_Hp.h"
+#include "UI_Monster_Hp.h"
+#include "UI_NPC_ChaosDungeon.h"
+#include "UI_NPC_ChaosDungeon_NewWnd.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -787,6 +791,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_QuickSlot()))
 		return E_FAIL;
 
+	if (FAILED(Loading_Npc_UI()))
+		return E_FAIL;
+
 	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 
@@ -795,7 +802,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
-
+	if (FAILED(Loading_ChaosDungeon_UI()))
+		return E_FAIL;
 	/* For.Mesh */
 	m_strLoading = TEXT("메시를 로딩 중 입니다.");
 
@@ -1056,8 +1064,6 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 			return E_FAIL;
 		pUIManager->Loading_UI(1600.f);
 	}
-
-	Loading_ChaosDungeon_UI();
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
@@ -1738,6 +1744,34 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Dungeon_TimerFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Timer.png"))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Emblem"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_Emblem%d.png",3))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Hp"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_Hp%d.png",8))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_HpFrame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_HpFrame%d.png", 3))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Groggy_GaugeFrame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Groggy_GaugeFrame.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Groggy_Gauge"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Groggy_Gauge.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_HpFrame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Monster_HpFrame.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_Hp"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Monster_Hp.png"))))
+			return E_FAIL;
 	}
 
 	//Class
@@ -1773,8 +1807,97 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeonUI"),
 			CUI_ChaosDungeon::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-		
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BossHpUI"),
+			CUI_Boss_Hp::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonsterHpUI"),
+			CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	
 	}
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Npc_UI()
+{
+	if (FAILED(Loading_Npc_UI_Texture()))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ChaosDungeonEntrance"),
+		CUI_NPC_ChaosDungeon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ChaosDungeonEntrance_NewWnd"),
+		CUI_NPC_ChaosDungeon_NewWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Npc_UI_Texture()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_ChaosDungeon_Wnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/ChaosDungeon_Wnd.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Entrance_Button%d.png",2))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Anounce"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Anounce.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Stage_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Stage_Button.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Seleceted_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Seleceted_Effect.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_DropItem_Frame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/DropItem_Frame.png"))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Stage_Screen"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/reverseruin_30000_bern.png"))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Stage_Screen"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/reverseruin_30000_bern.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_NewWnd_Text"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/NewWnd_Text.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Accept_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Accept_Button%d.png",3))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Refuse_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Refuse_Button%d.png", 3))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Timer_Empty"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Timer_Empty.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Timer"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Timer.png"))))
+		return E_FAIL;
+	
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

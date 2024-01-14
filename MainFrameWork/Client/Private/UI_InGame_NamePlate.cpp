@@ -57,7 +57,7 @@ HRESULT CUI_InGame_NamePlate::Initialize(void* pArg)
 
 HRESULT CUI_InGame_NamePlate::Initialize_StageName(const wstring& strName)
 {
-	m_szFont = L"³Ø½¼Lv1°íµñ";
+	m_szFont = L"³Ø½¼Lv1°íµñBold";
 	m_strName = strName;
 	Ready_TextBox(m_strName);
 	Set_Active(true);
@@ -143,7 +143,7 @@ void CUI_InGame_NamePlate::Print_InGame_Name()
 	Vec2 vOrigin = vMeasure * 0.5f;
 	m_pInGameNameWnd->Set_Text(m_strTag + TEXT("-1"), m_szFont, m_strName, Vec2(150.f - 1.f , 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	m_pInGameNameWnd->Set_Text(m_strTag + TEXT("-2"), m_szFont, m_strName, Vec2(150.f + 1.f, 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	m_pInGameNameWnd->Set_Text(m_strTag , m_szFont, m_strName, Vec2(150.f, 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(1.0f, 0.98f, 0.54f, 1.f));
+	m_pInGameNameWnd->Set_Text(m_strTag , m_szFont, m_strName, Vec2(150.f, 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(0.98f, 0.98f, 0.76f, 1.f));
 	
 }
 

@@ -62,6 +62,9 @@ private:
     CTextBox* m_pNickNameWnd = { nullptr };
     wstring m_strNickName = TEXT("MoCoCo");
     wstring m_strFont;
+    CTextBox* m_pClassNameWnd = { nullptr };
+    wstring m_strClassName;
+    wstring m_strClassFont;
 
     CGameObject* m_pLobbyCharacter = { nullptr };
 
