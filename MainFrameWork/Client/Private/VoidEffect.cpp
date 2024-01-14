@@ -119,7 +119,6 @@ void CVoidEffect::Tick(_float fTimeDelta)
 						m_bRender = false;
 					}
 				}
-					
 			}
 		}
 	}

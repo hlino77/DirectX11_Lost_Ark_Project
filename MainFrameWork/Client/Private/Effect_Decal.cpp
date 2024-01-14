@@ -44,7 +44,7 @@ void CEffect_Decal::LateTick(_float fTimeDelta)
 
 	if (m_bRender)
 	{
-		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
+		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_DECAL, this)))
 			__debugbreak();
 	}
 }

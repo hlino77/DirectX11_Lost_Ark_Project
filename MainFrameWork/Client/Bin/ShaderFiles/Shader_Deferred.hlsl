@@ -15,6 +15,7 @@ vector			g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
+Texture2D		g_PriorityTarget;
 Texture2D		g_NormalTarget;
 Texture2D		g_DiffuseTarget;
 Texture2D		g_ShadeTarget;
@@ -281,9 +282,12 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONALSHADOW(VS_OUT_TARGET In)
 
 float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-	vector		vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
-	if (vDiffuse.a == 0.f)
-		discard;
+    vector vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
+    if (vDiffuse.a == 0.f)
+    {
+        float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
+        return vPriority;
+    }
     float4	vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
     float4	vSpecular = g_SpecularTarget.Sample(LinearSampler, In.vTexcoord);
     float4	vEmissive =	g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
@@ -298,10 +302,12 @@ float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 
 float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-	float4		vAlbedo = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vAlbedo = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
     if (vAlbedo.a == 0.f)
-		discard;
-	
+    {
+        float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
+        return vPriority;
+    }
     vAlbedo = pow(vAlbedo, 2.2f);
 	
     float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
