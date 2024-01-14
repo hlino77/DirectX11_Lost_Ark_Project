@@ -63,6 +63,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 	m_vecAttackRanges.clear();
 	m_fAttackRange = 1.f;
 	m_iBaseAtk = 16;
+	m_fBaseForce = 10.f;
 	m_fRootTargetDistance = 1.2f;
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 50;
@@ -74,10 +75,8 @@ void CBoss_King::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 
-
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
-
 }
 
 void CBoss_King::LateTick(_float fTimeDelta)

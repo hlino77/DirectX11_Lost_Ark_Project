@@ -124,6 +124,8 @@ HRESULT CBoss::Render_ShadowDepth()
 void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	m_iHp -= iDamage;
+	if (m_iHp < 1.f && m_iPhase == 2)
+		m_iHp = 1;
 	if (m_iGroggyCount > 0)
 		m_iGroggyCount -= iGroggy;
 	else
@@ -242,6 +244,13 @@ void CBoss::Add_Colider(_int iColIndex , CSphereCollider* pCollider)
 	m_Coliders.emplace(iColIndex, pCollider);
 }
 
+void CBoss::Set_EffectPos()
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectworldzero"));
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	matEffect *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+}
 
 void CBoss::Set_Die()
 {

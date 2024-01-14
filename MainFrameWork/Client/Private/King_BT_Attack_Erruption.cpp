@@ -42,7 +42,6 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-		//ModelDesc.strFileName
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		
 			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_King_Eruption", &ModelDesc);
@@ -50,26 +49,25 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 			vLook.Normalize();
 			if (pSkill != nullptr)
 			{
-				Vec3 vLeftFront = Vec3::TransformNormal(vLook, Matrix::CreateFromAxisAngle(Vec3(0.f, 1.f, 0.f), -22.5f));
-				vLeftFront.Normalize();
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-				pSkill->Get_TransformCom()->LookAt_Dir(vLeftFront);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			}
 			pSkill = nullptr;
 			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_King_Eruption", &ModelDesc);
 			if (pSkill != nullptr)
 			{
-				Vec3 vRightFront = Vec3::TransformNormal(vLook, Matrix::CreateFromAxisAngle(Vec3(0.f, 1.f, 0.f), 22.5f));
-				vRightFront.Normalize();
+				Vec3 vSkillLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(210.f)));
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-				pSkill->Get_TransformCom()->LookAt_Dir(vRightFront);
+				pSkill->Get_TransformCom()->LookAt_Dir(vSkillLook);
+
 			}
 			pSkill = nullptr;
 			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_King_Eruption", &ModelDesc);
 			if (pSkill != nullptr)
 			{
+				Vec3 vSkillLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(150.f)));
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-				pSkill->Get_TransformCom()->LookAt_Dir(-vLook);
+				pSkill->Get_TransformCom()->LookAt_Dir(vSkillLook);
 			}
 		
 		m_Shoot[0] = false;
@@ -88,27 +86,26 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 		vRight.Normalize();
 		if (pSkill != nullptr)
 		{
-			Vec3 vLeftFront = Vec3::TransformNormal(vRight, Matrix::CreateFromAxisAngle(Vec3(0.f, 1.f, 0.f), -22.5f));
-			vLeftFront.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(vLeftFront);
+			pSkill->Get_TransformCom()->LookAt_Dir(vRight);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_King_Eruption", &ModelDesc);
 		if (pSkill != nullptr)
 		{
-			Vec3 vRightFront = Vec3::TransformNormal(vRight, Matrix::CreateFromAxisAngle(Vec3(0.f, 1.f, 0.f), 22.5f));
-			vRightFront.Normalize();
+			Vec3 vSkillLook = Vec3::TransformNormal(vRight, XMMatrixRotationY(XMConvertToRadians(150.f)));
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(vRightFront);
+			pSkill->Get_TransformCom()->LookAt_Dir(vSkillLook);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_King_Eruption", &ModelDesc);
 		if (pSkill != nullptr)
 		{
+			Vec3 vSkillLook = Vec3::TransformNormal(vRight, XMMatrixRotationY(XMConvertToRadians(210.f)));
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(-vRight);
+			pSkill->Get_TransformCom()->LookAt_Dir(vSkillLook);
 		}
+
 
 		m_Shoot[1] = false;
 	}

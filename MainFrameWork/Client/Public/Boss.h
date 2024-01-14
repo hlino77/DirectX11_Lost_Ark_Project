@@ -79,6 +79,8 @@ public:
 
 	void Add_Colider(_int iColIndex, CSphereCollider* pCollider);
 
+	virtual void Set_EffectPos();
+
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
 	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
 
