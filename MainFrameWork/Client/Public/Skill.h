@@ -45,6 +45,8 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+	_bool Get_Collider_Center(_uint eColliderType, Vec3* pCenter);
+
 	virtual void	Explosion() PURE;
 
 

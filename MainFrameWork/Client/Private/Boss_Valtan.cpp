@@ -130,7 +130,7 @@ HRESULT CBoss_Valtan::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	if (m_iArmor > 1)
+	if (m_iArmor > 1&&m_iPhase != 3)
 	{
 		_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART1]->Get_NumMeshes();
 
@@ -140,7 +140,7 @@ HRESULT CBoss_Valtan::Render()
 				return E_FAIL;
 		}
 	}
-	if (m_iArmor > 0)
+	if (m_iArmor > 0 && m_iPhase != 3)
 	{
 		_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART2]->Get_NumMeshes();
 

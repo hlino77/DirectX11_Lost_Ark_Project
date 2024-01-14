@@ -16,6 +16,7 @@ void CValtan_BT_Phase3_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(3);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Hp(529402339);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Armor(4);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase3_Server::OnUpdate(const _float& fTimeDelta)

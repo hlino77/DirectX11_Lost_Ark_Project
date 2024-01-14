@@ -12,6 +12,7 @@ void CValtan_BT_Phase3::OnStart()
 	__super::OnStart(0);
 	static_cast<CBoss*>(m_pGameObject)->Set_Phase(3);
 	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
+	static_cast<CBoss*>(m_pGameObject)->Set_Armor(4);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(const _float& fTimeDelta)

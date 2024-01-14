@@ -399,9 +399,6 @@
     <ClCompile Include="..\Private\Party_Server.cpp">
       <Filter>97. Manager\02. PartyManager\Party</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Boss_Server.cpp">
-      <Filter>02. GameObject\04. Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Boss_Valtan_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan</Filter>
     </ClCompile>
@@ -500,6 +497,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Server.cpp">
+      <Filter>02. GameObject\04. Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

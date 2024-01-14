@@ -24,7 +24,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2_1_Server::OnUpdate(const _float& f
 void CValtan_BT_Attack_Attack2_1_Server::OnEnd()
 {
 	__super::OnEnd();
-
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

@@ -116,6 +116,7 @@ public:
 	void					Set_Colliders(_float fTimeDelta);
 	void					Set_Collider_Active(_uint eColliderType,_bool IsActive);
 	void					Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRadius);
+	_bool					Get_Collider_Center(_uint eColliderType, Vec3* pCenter);
 
 	_uint					Get_BasicAttackStartFrame() { return m_iBasicAttackStartFrame; }
 	_uint					Get_BasicAttackEndFrame() { return m_iBasicAttackEndFrame; }

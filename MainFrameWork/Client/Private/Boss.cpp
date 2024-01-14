@@ -121,9 +121,13 @@ HRESULT CBoss::Render_ShadowDepth()
 void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	m_iHp -= iDamage;
-	m_iGroggyGauge -= iGroggy;
+	if (m_iGroggyCount > 0)
+		m_iGroggyCount -= iGroggy;
+	else
+		m_iGroggyGauge -= iGroggy;
 	if (m_iHp < 0)
 		m_iHp = 0;
+
 	if (m_iGroggyGauge < 0)
 		m_iGroggyGauge = 0;
 

@@ -18,8 +18,10 @@ void CValtan_BT_Attack_Attack2_Server::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
-			static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_GroggyCount(0);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Get_GroggyCount() > 20)
+	{
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_GroggyCount(20);
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Get_GroggyCount() < 1)
 	{
 		return BT_FAIL;
 	}
@@ -31,6 +33,7 @@ void CValtan_BT_Attack_Attack2_Server::OnEnd()
 	__super::OnEnd();
 	if (m_eReturn == BT_SUCCESS)
 	{
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_GroggyLock(false);
 		static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	}

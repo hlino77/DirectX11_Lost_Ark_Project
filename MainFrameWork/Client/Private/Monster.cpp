@@ -599,6 +599,16 @@ void CMonster::Set_Collider_Info(_uint eColliderType, Vec3 _vCenter, _float fRad
 	}
 }
 
+_bool CMonster::Get_Collider_Center(_uint eColliderType, Vec3* pCenter)
+{
+	auto iter = m_Coliders.find(eColliderType);
+	if (iter == m_Coliders.end())
+		return false;
+
+	*pCenter = iter->second->Get_Center();
+	return true;
+}
+
 void CMonster::Show_Damage(_uint iDamage, _bool IsCritical)
 {
 	CDamage_Manager::GetInstance()->Print_DamageFont(this , m_fFontScale, 1.2f, 2.0f, IsCritical, iDamage);

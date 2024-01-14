@@ -107,6 +107,14 @@ public:
 	_float					Get_BaseForce() { return m_fBaseForce; }
 	void					Set_BaseForce(_float fBaseForce) { m_fBaseForce = fBaseForce; }
 
+	_bool						Is_GroggyLock() { return m_IsGroggyLock; }
+	void						Set_GroggyLock(_bool IsGroggyLock) { m_IsGroggyLock = IsGroggyLock; }
+
+	_uint						Get_HitCount() { return m_iHitCount; }
+	void						Set_HitCount(_uint iHitCount) { m_iHitCount = iHitCount; }
+
+	_uint						Get_GroggyCount() { return m_iGroggyCount; }
+	void						Set_GroggyCount(_uint iGroggyCount) { m_iGroggyCount = iGroggyCount; }
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -127,6 +135,9 @@ protected:
 	_int m_iGroggyGauge = 0;
 	_uint m_iMaxGroggyGauge = 0;
 	_float m_fForce = 0.f;;
+	_bool	m_IsGroggyLock = false;
+	_uint	m_iHitCount = 0;
+	_uint	m_iGroggyCount = 0;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
