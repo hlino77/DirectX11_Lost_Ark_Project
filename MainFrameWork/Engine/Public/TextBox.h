@@ -45,7 +45,7 @@ public:
     void    Set_Pos(_float fX, _float fY);
     void    Set_Text(const wstring& szTextTag, const wstring& szFont, const wstring& szText, Vec2 vTextPos, Vec2 vScale, Vec2 vOrigin, _float fRotation, Vec4 vColor);
     void    Set_ScaleUV(Vec2 vUV) { m_vUV = vUV; }
-    void    Clear_Text() { m_TextList.clear(); }
+    void    Clear_Text();
     void    Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
     void    Decrease_Alpha(_float fAlpha) { m_fAlpha -= fAlpha; }
 

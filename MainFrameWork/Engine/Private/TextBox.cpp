@@ -152,6 +152,12 @@ void CTextBox::Set_Text(const wstring& szTextTag, const wstring& szFont, const w
 	m_bUpdate = true;
 }
 
+void CTextBox::Clear_Text()
+{
+	WRITE_LOCK
+	m_TextList.clear();
+}
+
 
 HRESULT CTextBox::Ready_Components()
 {
