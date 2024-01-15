@@ -326,19 +326,19 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			Send_CollidingInfo(iColLayer, pOther);
 
-			CEffect_Manager::EFFECTPIVOTDESC_LATE desc;
+			/*CEffect_Manager::EFFECTPIVOTDESC_LATE desc;
 			desc.matPivot = m_pTransformCom->Get_WorldMatrix();
 
-			EFFECT_LATE_START(TEXT("HitEffects_LOS"), &desc);
+			EFFECT_LATE_START(TEXT("HitEffects_LOS"), &desc);*/
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
 			Send_CollidingInfo(iColLayer, pOther);
 
-			CEffect_Manager::EFFECTPIVOTDESC_LATE desc;
-			desc.matPivot = m_pTransformCom->Get_WorldMatrix();
+			//CEffect_Manager::EFFECTPIVOTDESC_LATE desc;
+			//desc.matPivot = m_pTransformCom->Get_WorldMatrix();
 
-			EFFECT_LATE_START(TEXT("HitEffects_LOS"), &desc);
+			//EFFECT_LATE_START(TEXT("HitEffects_LOS"), &desc);
 		}
 	}
 }
