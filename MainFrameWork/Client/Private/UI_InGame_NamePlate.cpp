@@ -70,7 +70,7 @@ HRESULT CUI_InGame_NamePlate::Initialize_StageName(const wstring& strName)
 	m_strName = strName;
 	Ready_TextBox(m_strName);
 	Set_Active(true);
-
+	Print_InGame_Name();
 	return S_OK;
 }
 
@@ -94,7 +94,7 @@ HRESULT CUI_InGame_NamePlate::Render()
 	//m_pShaderCom->Begin(0);
 
 	//m_pVIBufferCom->Render();
-	Print_InGame_Name();
+	//Print_InGame_Name();
 
 	return S_OK;
 }
@@ -143,7 +143,7 @@ void CUI_InGame_NamePlate::Print_InGame_Name()
 	if (nullptr == m_pInGameNameWnd)
 		return;
 
-	m_pInGameNameWnd->Set_Active(true);
+	//m_pInGameNameWnd->Set_Active(true);
 	m_pInGameNameWnd->Clear_Text();
 	m_pInGameNameWnd->Set_Alpha(1.f);
 
