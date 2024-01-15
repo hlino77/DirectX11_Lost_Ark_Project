@@ -92,8 +92,8 @@ HRESULT CNpc::Initialize(void* pArg)
 	if (FAILED(Ready_SpeechBuble()))
 		return E_FAIL;
 
-	if (FAILED(Ready_NamePlate()))
-		return E_FAIL;
+	//if (FAILED(Ready_NamePlate()))
+	//	return E_FAIL;
 
 	m_pRigidBody->SetMass(2.0f);
 	m_pTransformCom->Set_WorldMatrix(m_NpcDesc.matStart);
