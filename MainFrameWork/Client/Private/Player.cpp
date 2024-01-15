@@ -70,7 +70,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	if (FAILED(Ready_SpeechBuble()))
 		return E_FAIL;
-
+	
 	if (FAILED(Ready_NamePlate()))
 		return E_FAIL;
 
@@ -81,6 +81,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
+	if (KEY_TAP(KEY::H))
+		m_pCamera->Cam_Shake(0.2f, 80.f, 0.1f, 0.1f);
+
 	if (m_bNavi)
 	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);

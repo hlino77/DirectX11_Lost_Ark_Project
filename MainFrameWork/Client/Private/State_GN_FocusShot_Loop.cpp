@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "GameInstance.h"
+#include "Camera_Player.h"
 
 
 CState_GN_FocusShot_Loop::CState_GN_FocusShot_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
@@ -100,6 +101,10 @@ void CState_GN_FocusShot_Loop::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_FocusShot_Loop::Effect_Shot()
 {
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 500.f, 0.1f, 12.f);
+
+
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix().Translation();

@@ -54,6 +54,7 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	void	Broadcast_Boss(Vec3 vPos, wstring ModelName);
 
 	void	Send_OpenLevel();
+	void	Enter_NextDungean();
 	void	Exit_Dungean();
 	HRESULT	Broadcast_PlayerInfo();
 private:
@@ -71,6 +72,10 @@ private:
 	_uint m_iMonsterMaxSpawnCount = 0;
 	_uint m_iMonsterCount = 0;
 	_uint m_iBossCount = 0;
+	
+	_bool m_bEnd = false;
+	_float m_fEndDelay = 0.0f;
+
 
 	vector<CMonster_Server*> m_Monsters;
 	vector<CBoss_Server*> m_Bosses;

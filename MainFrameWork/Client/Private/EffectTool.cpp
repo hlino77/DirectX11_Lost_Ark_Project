@@ -31,6 +31,8 @@ HRESULT CEffectTool::Initialize(void* pArg)
 	if (FAILED(Reset()))
 		return E_FAIL;
 
+	Ready_Camera();
+
 	return S_OK;
 }
 
@@ -51,6 +53,9 @@ HRESULT CEffectTool::Tick(const _float& fTimeDelta)
 		return E_FAIL;
 
 	if (FAILED(DataFiles()))
+		return E_FAIL;
+
+	if (FAILED(CameraTool()))
 		return E_FAIL;
 
 	return S_OK;
@@ -616,6 +621,25 @@ HRESULT CEffectTool::EffectsList()
 
 	ImGui::End();
 
+	return S_OK;
+}
+
+HRESULT CEffectTool::CameraTool()
+{
+	ImGui::Begin("CameraTool");
+
+	ImGui::InputFloat("First Shake", &m_fFirstShake);
+	ImGui::InputFloat("Shake Time", &m_fShakeTime);
+	ImGui::InputFloat("Shake Force", &m_fShakeForce);
+	ImGui::InputFloat("Shake Break", &m_fShakeBreak);
+
+	if (ImGui::Button("Shake"))
+	{
+		m_pCamera->Cam_Shake(m_fFirstShake, m_fShakeForce, m_fShakeTime, m_fShakeBreak);
+	}
+
+
+	ImGui::End();
 	return S_OK;
 }
 
@@ -1391,7 +1415,7 @@ HRESULT CEffectTool::LoadTextures()
 
 HRESULT CEffectTool::Ready_Camera()
 {
-	CCamera::CAMERADESC tCameraDesc;
+	/*CCamera::CAMERADESC tCameraDesc;
 
 	tCameraDesc.iLayer = (_uint)LAYER_TYPE::LAYER_CAMERA;
 	tCameraDesc.vEye = Vec4(0.f, 10.f, -10.f, 1.f);
@@ -1403,9 +1427,10 @@ HRESULT CEffectTool::Ready_Camera()
 	tCameraDesc.TransformDesc.fRotationPerSec = 10.0f;
 	tCameraDesc.TransformDesc.fSpeedPerSec = 10.0f;
 
-	CGameObject* pCamera = CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free", &tCameraDesc);
+	CGameObject* pCamera = CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free", &tCameraDesc);*/
 
-	m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
+	m_pCamera = dynamic_cast<CCamera_Free*>(CGameInstance::GetInstance()->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free"));
+
 
 	return S_OK;
 }

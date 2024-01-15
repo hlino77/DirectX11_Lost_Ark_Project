@@ -5,6 +5,7 @@
 #include "Effect_Manager.h"
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
+#include "Camera_Player.h"
 
 CEffect_Custom_DeathFireBomb::CEffect_Custom_DeathFireBomb(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
@@ -32,6 +33,7 @@ HRESULT CEffect_Custom_DeathFireBomb::Initialize(void* pArg)
 	m_pTransformCom->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pDesc->vPos);
 	m_vStartPos = pDesc->vPos;
 	m_vTargetPos = pDesc->vTargetPos;
+	m_bFirst = pDesc->bFirst;
 
 	m_bAttackStart = false;
 
@@ -175,6 +177,9 @@ void CEffect_Custom_DeathFireBomb::Effect_Explosion()
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("DeathFireLast"), &desc)
+
+	if(m_bFirst && m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 700.f, 0.1f, 10.f);
 }
 
 CEffect_Custom_DeathFireBomb* CEffect_Custom_DeathFireBomb::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

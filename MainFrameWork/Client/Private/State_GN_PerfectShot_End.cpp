@@ -9,6 +9,7 @@
 #include "Effect_Manager.h"
 #include "GameInstance.h"
 #include "Effect_Custom_PerpectShotBullet.h"
+#include "Camera_Player.h"
 
 CState_GN_PerfectShot_End::CState_GN_PerfectShot_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -89,6 +90,9 @@ void CState_GN_PerfectShot_End::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_PerfectShot_End::Effect_Shot()
 {
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 500.f, 0.2f, 12.f);
+
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_3))->Get_Part_WorldMatrix().Translation();
 

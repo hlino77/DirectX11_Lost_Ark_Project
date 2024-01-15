@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "Effect_Manager.h"
 #include "GameInstance.h"
+#include "Camera_Player.h"
 
 CState_GN_Attack_Hand1::CState_GN_Attack_Hand1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -170,6 +171,7 @@ void CState_GN_Attack_Hand1::Attack_Hand(_float fAttackTime)
 
 void CState_GN_Attack_Hand1::Effect_Shot()
 {
+
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts((CPartObject::PARTS)m_EffectFrames[m_iEffectCnt].iWeapon))->Get_Part_WorldMatrix().Translation();

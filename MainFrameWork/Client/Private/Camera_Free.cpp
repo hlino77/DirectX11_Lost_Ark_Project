@@ -28,6 +28,7 @@ HRESULT CCamera_Free::Initialize(void * pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_strObjectTag = L"Prototype_GameObject_Camera_Free";
 	
 	m_bActive = false;
 
@@ -39,7 +40,7 @@ void CCamera_Free::Tick(_float fTimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	__super::Tick(fTimeDelta);
+	
 
 	if (KEY_TAP(KEY::TAB))
 	{
@@ -79,7 +80,7 @@ void CCamera_Free::Tick(_float fTimeDelta)
 		{
 			m_pTransformCom->Go_Down(fTimeDelta * 5.f);
 		}
-
+		
 		if (KEY_TAP(KEY::F2))
 		{
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMLoadFloat4(&m_CameraDesc.vEye));
@@ -116,6 +117,30 @@ void CCamera_Free::Tick(_float fTimeDelta)
 		}
 	}
 
+
+	if (m_bShake)
+	{
+		
+
+		m_fCurrShakeTime += fTimeDelta;
+		if (m_fCurrShakeTime >= m_fShakeTime)
+		{
+			m_bShake = false;
+			m_pTransformCom->Set_WorldMatrix(m_matOrigin);
+		}
+		else
+		{
+			Vec3 vLook = m_matOrigin.Backward();
+			Vec3 vPos = m_matOrigin.Translation();
+
+			Update_ShakeLook(vPos, m_matOrigin.Up(), m_matOrigin.Right(), fTimeDelta);
+			Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			m_pTransformCom->Set_WorldMatrix(matWorld);
+		}
+	}
+
+	__super::Tick(fTimeDelta);
 	Safe_Release(pGameInstance);
 }
 
@@ -126,6 +151,42 @@ void CCamera_Free::LateTick(_float fTimeDelta)
 HRESULT CCamera_Free::Render()
 {
 	return S_OK;
+}
+
+void CCamera_Free::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _float fBreak)
+{
+	m_bShake = true;
+
+	m_fShakeTime = fTime;
+	m_fCurrShakeTime = 0.0f;
+
+	m_fShakeForce = fForce;
+	m_fBreak = fBreak;
+
+	m_vShakeOffset = Vec2();
+	m_vShakeVelocity.x = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+	m_vShakeVelocity.y = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+
+	m_vShakeVelocity.Normalize();
+
+	m_vShakeVelocity *= fFirstShake;
+
+	m_matOrigin = m_pTransformCom->Get_WorldMatrix();
+}
+
+void CCamera_Free::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta)
+{
+	m_vShakeVelocity.x += -m_vShakeOffset.x * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 0.5f) * fTimeDelta;
+	m_vShakeVelocity.y += -m_vShakeOffset.y * m_fShakeForce * CGameInstance::GetInstance()->Random_Float(0.1f, 0.5f) * fTimeDelta;
+
+	//m_vShakeVelocity *= (1.0f - m_fBreak);
+
+	m_vShakeOffset += m_vShakeVelocity;
+
+	m_vShakeOffset *= (1.0f - m_fBreak * fTimeDelta);
+
+	vLook += m_vShakeOffset.x * vRight;
+	vLook += m_vShakeOffset.y * vUp;
 }
 
 HRESULT CCamera_Free::Ready_Components()

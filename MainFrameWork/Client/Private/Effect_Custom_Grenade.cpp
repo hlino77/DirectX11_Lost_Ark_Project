@@ -5,6 +5,7 @@
 #include "Effect_Manager.h"
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
+#include "Camera_Player.h"
 
 CEffect_Custom_Grenade::CEffect_Custom_Grenade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
@@ -175,6 +176,9 @@ void CEffect_Custom_Grenade::Effect_Explosion()
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("LastSupper"), &desc)
+
+	if(m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 700.f, 0.1f, 10.f);
 }
 
 CEffect_Custom_Grenade* CEffect_Custom_Grenade::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

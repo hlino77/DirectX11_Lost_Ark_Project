@@ -47,6 +47,7 @@ private:
 	HRESULT EffectTool();
 	HRESULT EffectDetail();
 	HRESULT EffectsList();
+	HRESULT CameraTool();
 
 	HRESULT	DataFiles();
 
@@ -89,6 +90,15 @@ private:
 
 	CUtils*					m_pUtils = nullptr;
 	class CCamera_Free*		m_pCamera = nullptr;
+
+
+	//Camera
+	_float m_fFirstShake = 0.0f;
+	_float m_fShakeForce = 0.0f;
+	_float m_fShakeTime = 0.0f;
+	_float m_fShakeBreak = 0.0f;
+	
+
 
 	_bool		m_IsResetReserved = false;
 

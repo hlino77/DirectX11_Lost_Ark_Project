@@ -38,6 +38,8 @@ HRESULT CChaosDungean_Server::Initialize(void* pArg)
 	
 	Send_OpenLevel();
 
+	m_bEnd = false;
+	m_fEndDelay = 5.0f;
 
 
     return S_OK;
@@ -62,9 +64,24 @@ void CChaosDungean_Server::Tick(_float fTimeDelta)
 		m_fCurrSpawn = 0.0f;
 	}
 
-	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('4') & 0x8000)
+	if (m_iMonsterCount == 0 && m_iBossCount == 0 && m_Monsters.size() == 0 && m_Bosses.size() == 0)
 	{
-		Exit_Dungean();
+		m_bEnd = true;
+
+		if (m_bEnd)
+		{
+			m_fEndDelay -= fTimeDelta;
+			if (m_fEndDelay <= 0.0f)
+			{
+				if (m_eDungeanLevel == CHAOSDUNGEANLEVEL::LEVEL3)
+					Exit_Dungean();
+				else
+					Enter_NextDungean();
+
+				Set_Active(false);
+				Set_Dead(true);
+			}
+		}
 	}
 }
 
@@ -108,28 +125,28 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	{
 	case CHAOSDUNGEANLEVEL::LEVEL1:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
-		m_fStartDelay = 10.0f;
-		m_iMonsterCount = 0;
+		m_fStartDelay = 5.0f;
+		m_iMonsterCount = 60;
 		m_iMonsterMaxSpawnCount = 30;
-		//m_iBossCount = 0;
+		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Ghoul");
 		m_MonsterSpawnList.push_back(L"Reaper");
-		m_iBossCount = 1;
-		m_BossSpawnList.push_back(L"Valtan");
+		/*m_iBossCount = 1;
+		m_BossSpawnList.push_back(L"Valtan");*/
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
-		m_fStartDelay = 10.0f;
-		m_iMonsterCount = 1;
-		m_iMonsterMaxSpawnCount = 1;
-		m_iBossCount = 1;
+		m_fStartDelay = 5.0f;
+		m_iMonsterCount = 50;
+		m_iMonsterMaxSpawnCount = 30;
+		m_iBossCount = 9;
 		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Plant");	
 		m_BossSpawnList.push_back(L"Golem");
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_3;
-		m_fStartDelay = 10.0f;
+		m_fStartDelay = 5.0f;
 		m_iMonsterCount = 50;
 		m_iMonsterMaxSpawnCount = 10;
 		m_iBossCount = 1;
@@ -316,6 +333,21 @@ void CChaosDungean_Server::Send_OpenLevel()
 		Player->Get_GameSession()->Send(pSendBuffer);
 }
 
+void CChaosDungean_Server::Enter_NextDungean()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+
+	CChaosDungean_Server::DUNGEANDESC tDesc;
+	tDesc.eLevel = CHAOSDUNGEANLEVEL((_uint)m_eDungeanLevel + 1);
+	tDesc.Players = m_Players;
+
+	pGameInstance->Add_GameObject(m_iCurrLevel + 1, (_uint)LAYER_TYPE::LAYER_BACKGROUND, L"Prototype_GameObject_ChaosDungean", &tDesc);
+
+
+	Safe_Release(pGameInstance);
+}
+
 void CChaosDungean_Server::Exit_Dungean()
 {
 	Protocol::S_OPEN_LEVEL pkt;
@@ -325,8 +357,6 @@ void CChaosDungean_Server::Exit_Dungean()
 
 	for (auto& Player : m_Players)
 		Player->Get_GameSession()->Send(pSendBuffer);
-
-	Set_Dead(true);
 }
 
 HRESULT CChaosDungean_Server::Broadcast_PlayerInfo()

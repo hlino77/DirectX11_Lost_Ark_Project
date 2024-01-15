@@ -91,6 +91,11 @@ void CState_GN_DeathFire_Success::Effect_Bomb()
 		tDesc.pPlayer = m_pPlayer;
 		tDesc.iSkillKey = m_eSkillSelectKey;
 
+		if (i == 0)
+			tDesc.bFirst = true;
+		else
+			tDesc.bFirst = false;
+
 		CGameObject* pObject = pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_DeathFireBomb", &tDesc);
 
 		vLook = XMVector3Rotate(vLook, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(45.0f)));

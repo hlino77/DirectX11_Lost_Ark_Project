@@ -136,7 +136,8 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 
 		pEffect->EffectShot();
 
-		m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 108.f, 0.3f, 18.0f);
+		if (m_pPlayer->Is_Control())
+			m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 108.f, 0.3f, 18.0f);
 
 		Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vPos = m_pPlayer->Get_TargetPos();

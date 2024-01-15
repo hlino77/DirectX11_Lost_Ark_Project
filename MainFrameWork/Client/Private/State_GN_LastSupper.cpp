@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect_Manager.h"
+#include "Camera_Player.h"
 
 CState_GN_LastSupper::CState_GN_LastSupper(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -85,6 +86,9 @@ void CState_GN_LastSupper::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_LastSupper::Effect_Shot()
 {
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 500.f, 0.1f, 12.f);
+
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 	Vec3 vLook = matWorld.Backward();

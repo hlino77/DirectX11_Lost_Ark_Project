@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect_Manager.h"
+#include "Camera_Player.h"
 
 CState_GN_Gunkata_2::CState_GN_Gunkata_2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -103,6 +104,9 @@ void CState_GN_Gunkata_2::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_Gunkata_2::Effect_Shot()
 {
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 500.f, 0.1f, 14.f);
+
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	matWorld.Translation(static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix().Translation());
 

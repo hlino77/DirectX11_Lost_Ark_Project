@@ -7,6 +7,7 @@
 #include "ColliderSphere.h"
 #include "Effect_Manager.h"
 #include "GameInstance.h"
+#include "Camera_Player.h"
 
 CState_GN_Attack_Hand3::CState_GN_Attack_Hand3(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -151,6 +152,9 @@ void CState_GN_Attack_Hand3::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_Attack_Hand3::Effect_Shot()
 {
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 500.f, 0.1f, 18.f);
+
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts((CPartObject::PARTS)m_EffectFrames[m_iEffectCnt].iWeapon))->Get_Part_WorldMatrix().Translation();

@@ -18,6 +18,7 @@ public:
 		Vec3 vTargetPos;
 		class CPlayer_Gunslinger* pPlayer;
 		_uint iSkillKey;
+		_bool bFirst = false;
 	};
 
 private:
@@ -54,6 +55,7 @@ private:
 	_float m_fGravity;
 	_float m_fEndTime;
 
+	_bool m_bFirst = false;
 public:
 	static CEffect_Custom_DeathFireBomb* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

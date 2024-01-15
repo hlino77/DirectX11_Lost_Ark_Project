@@ -6,7 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect_Manager.h"
-
+#include "Camera_Player.h"
 
 
 CState_GN_Gunkata_1::CState_GN_Gunkata_1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
@@ -109,6 +109,9 @@ void CState_GN_Gunkata_1::Effect_Trail()
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("GunkataTrail0"), &desc)
+
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 80.f, 0.1f, 0.1f);
 }
 
 CState_GN_Gunkata_1* CState_GN_Gunkata_1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
