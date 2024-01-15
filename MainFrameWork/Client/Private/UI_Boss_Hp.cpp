@@ -164,8 +164,8 @@ HRESULT CUI_Boss_Hp::Render()
 	m_pShaderCom->Begin(16);
 	m_pVIBufferCom->Render();
 
-	if(m_bRender)
-		Print_BossHp();
+	//if(m_bRender)
+		//Print_BossHp();
 
 	return S_OK;
 }
@@ -419,7 +419,7 @@ void CUI_Boss_Hp::Update_PreHp()
 
 void CUI_Boss_Hp::Start_BossHp()
 {
-	m_strBossName.clear();
+	//m_strBossName.clear();
 	m_pInGameNameWnd->Set_Active(true);
 	m_pInGameHpWnd->Set_Active(true);
 	m_pInGameHpCountWnd->Set_Active(true);

@@ -55,13 +55,19 @@ HRESULT CUI_ChaosDungeon_NameFrame::Initialize_StageName()
 	Ready_TextBox();
 
 	Set_Active(true);
-
+	
 	return S_OK;
 }
 
 void CUI_ChaosDungeon_NameFrame::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	if (!m_bSpawnFont)
+	{
+		Print_Stage_Name();
+		m_bSpawnFont = true;
+	}
 }
 
 void CUI_ChaosDungeon_NameFrame::LateTick(_float fTimeDelta)
@@ -78,7 +84,7 @@ HRESULT CUI_ChaosDungeon_NameFrame::Render()
 
 	m_pVIBufferCom->Render();
 
-	Print_Stage_Name();
+	//Print_Stage_Name();
 
 	return S_OK;
 }
@@ -132,7 +138,7 @@ void CUI_ChaosDungeon_NameFrame::Print_Stage_Name()
 	if (nullptr == m_pStageNameWnd)
 		return;
 
-	m_pStageNameWnd->Set_Active(true);
+	//m_pStageNameWnd->Set_Active(true);
 	m_pStageNameWnd->Clear_Text();
 	m_pStageNameWnd->Set_Alpha(1.f);
 

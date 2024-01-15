@@ -95,7 +95,7 @@ HRESULT CUI_Player_MPFill::Render()
 
     m_pVIBufferCom->Render();
 
-    Print_Mp();
+    //Print_Mp();
 
     return S_OK;
 }

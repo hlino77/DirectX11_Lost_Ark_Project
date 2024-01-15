@@ -97,7 +97,7 @@ HRESULT CUI_Player_HPFill::Render()
 
     m_pVIBufferCom->Render();
 
-    Print_Hp();
+    //Print_Hp();
 
     return S_OK;
 }
