@@ -33,6 +33,8 @@ private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
+    void Update_Gauge();
+
 private:
     void	Start_Stage_Name();
     void	End_Stage_Name();

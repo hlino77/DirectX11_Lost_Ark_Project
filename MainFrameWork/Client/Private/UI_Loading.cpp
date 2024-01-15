@@ -123,11 +123,11 @@ HRESULT CUI_Loading::UI_Set()
     else
         m_vecUIParts.push_back(pFill);
 
-    CUI_LoadingArrow* pArrow = static_cast<CUI_LoadingArrow*>(pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_BackGround_Loading_Arrow")));
+  /*  CUI_LoadingArrow* pArrow = static_cast<CUI_LoadingArrow*>(pGameInstance->Add_GameObject(LEVEL_LOADING, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_BackGround_Loading_Arrow")));
     if (nullptr == pArrow)
         return E_FAIL;
     else
-        m_vecUIParts.push_back(pArrow);
+        m_vecUIParts.push_back(pArrow);*/
 
     Safe_Release(pGameInstance);
 

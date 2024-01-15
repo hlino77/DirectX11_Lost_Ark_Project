@@ -67,13 +67,13 @@ HRESULT CUI_LoadingFill::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
-    m_pShaderCom->Begin(0);//0
+    m_pShaderCom->Begin(16);//0
     m_pVIBufferCom->Render();            
 
-    /*if (FAILED(Bind_ShaderResources_Arrow()))
+    if (FAILED(Bind_ShaderResources_Arrow()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
-    m_pVIBufferCom->Render();*/
+    m_pVIBufferCom->Render();
 
     return S_OK;
 }
@@ -86,6 +86,17 @@ void CUI_LoadingFill::Change_SizeX(_float fSizeX)
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
         Vec3(m_fX - (g_iWinSizeX * 0.5f) + (m_fSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
 
+}
+
+void CUI_LoadingFill::Add_CurrFile()
+{
+    m_iCurrFiles++; 
+
+    m_fFilesRatio = (_float)m_iCurrFiles / (_float)m_iMaxFiles;
+
+    _float fArrow_X = g_iWinSizeX * m_fFilesRatio - 50.f;
+    m_pTransform_Arrow->Set_State(CTransform::STATE_POSITION,
+    Vec3(fArrow_X - g_iWinSizeX * 0.5f, -m_fY_Arrow + g_iWinSizeY * 0.5f, 0.f));
 }
 
 HRESULT CUI_LoadingFill::Ready_Components()
@@ -118,8 +129,8 @@ HRESULT CUI_LoadingFill::Bind_ShaderResources()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
         return E_FAIL;
-    //if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fFilesRatio, sizeof(_float))))
-        //return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fFilesRatio, sizeof(_float))))
+        return E_FAIL;
 
     m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 
@@ -129,7 +140,7 @@ HRESULT CUI_LoadingFill::Bind_ShaderResources()
 HRESULT CUI_LoadingFill::Bind_ShaderResources_Arrow()
 {
 
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_Arrow->Get_WorldMatrix())))
         return S_OK;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
@@ -145,10 +156,10 @@ HRESULT CUI_LoadingFill::Bind_ShaderResources_Arrow()
 }
 
 void CUI_LoadingFill::Update_Loading()
-{
+{ 
     m_fFilesRatio = (_float)m_iCurrFiles / (_float)m_iMaxFiles;
 
-    _float fArrow_X = (_float)g_iWinSizeX - (g_iWinSizeX * m_fFilesRatio);
+    _float fArrow_X = g_iWinSizeX * m_fFilesRatio - 50.f;
     m_pTransform_Arrow->Set_State(CTransform::STATE_POSITION,
         Vec3(fArrow_X - g_iWinSizeX * 0.5f, -m_fY_Arrow + g_iWinSizeY * 0.5f, 0.f));
 }

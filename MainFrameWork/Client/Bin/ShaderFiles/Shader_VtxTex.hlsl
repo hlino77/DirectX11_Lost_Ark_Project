@@ -278,6 +278,21 @@ PS_OUT PS_MAIN_TEXTURE_CUTY(PS_IN In)
 
 	return Out;
 }
+PS_OUT PS_MAIN_TEXTURE_CUTY_NOGAMMA(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor.a *= g_Alpha;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	if ((1.f - g_fRatio) >= In.vTexUV.y)
+		discard;
+
+	return Out;
+}
 
 PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 {
@@ -626,4 +641,14 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUTX_NOGAMMA();
 	}
 	
+	pass PixTexturePassY_NoGamma
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUTY_NOGAMMA();
+	}
 }

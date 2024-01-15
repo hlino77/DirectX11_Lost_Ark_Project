@@ -30,10 +30,10 @@ HRESULT CUI_ChaosDungeon_Gauge::Initialize(void* pArg)
 
 	m_strUITag = TEXT("ChaosDungeon_Gauge");
 
-	m_fSizeX = 504;
-	m_fSizeY = 335;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = (g_iWinSizeY * 0.5f) + 100.f;
+	m_fSizeX = 78.f;
+	m_fSizeY = 78.f;
+	m_fX = 112.f;
+	m_fY = 164.f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -42,8 +42,8 @@ HRESULT CUI_ChaosDungeon_Gauge::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	//if (FAILED(Initialize_Percent()))
-		//return E_FAIL;
+	if (FAILED(Initialize_Percent()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -61,26 +61,24 @@ HRESULT CUI_ChaosDungeon_Gauge::Initialize_Percent()
 void CUI_ChaosDungeon_Gauge::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if (!m_bTextOn)
-	{
-		m_bTextOn = true;
-		Print_Stage_Percent();
-	}
+	
 }
 
 void CUI_ChaosDungeon_Gauge::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+
+	Update_Gauge();
 }
 
 HRESULT CUI_ChaosDungeon_Gauge::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
-	m_pShaderCom->Begin(0);
-
+	m_pShaderCom->Begin(17);
 	m_pVIBufferCom->Render();
+
+	Print_Stage_Percent();
 
 	return S_OK;
 }
@@ -112,9 +110,25 @@ HRESULT CUI_ChaosDungeon_Gauge::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fRatio, sizeof(_float))))
+		return E_FAIL;
+
 	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 
 	return S_OK;
+}
+
+void CUI_ChaosDungeon_Gauge::Update_Gauge()
+{
+	//¿©±â¼­ ¹º°¡ ¼­¹ö¿¡¼­ ¹Þ¾Æ¿È
+
+	//TEST
+	/*if (KEY_TAP(KEY::V))
+	{
+		m_fCurrGauge += 10.f;
+	}*/
+
+	m_fRatio = m_fCurrGauge / m_fMaxGauge;
 }
 
 void CUI_ChaosDungeon_Gauge::Start_Stage_Name()
@@ -142,6 +156,7 @@ void CUI_ChaosDungeon_Gauge::Print_Stage_Percent()
 	m_pPercentWnd->Get_TransformCom()->Set_Scale(Vec3(100.f, 40.f, 0.f));
 	m_pPercentWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
+	m_strPercent = to_wstring((_uint)m_fCurrGauge) + TEXT("%");
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strPercent);
 	Vec2 vOrigin = vMeasure * 0.5f;
 	m_pPercentWnd->Set_Text(L"ChaosPercentWnd", m_szFont, m_strPercent, Vec2(100.f, 40.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColor);
@@ -216,6 +231,7 @@ void CUI_ChaosDungeon_Gauge::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
+	m_pPercentWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

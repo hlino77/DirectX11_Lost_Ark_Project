@@ -22,8 +22,8 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Change_SizeX(_float fSizeX);
     _float    Get_SizeX() { return m_fSizeX; }
-    void    Set_MaxFiles(_uint iFilesNum) { m_iMaxFiles = iFilesNum; }
-    void    Add_CurrFile() { m_iCurrFiles++; }
+    void    Set_MaxFiles(_uint iFilesNum) { m_iMaxFiles = iFilesNum; m_iCurrFiles = 0; }
+    void    Add_CurrFile();
     void    Add_CurrFiles(_uint iFilesNum) { m_iCurrFiles += iFilesNum; }
 
 private:

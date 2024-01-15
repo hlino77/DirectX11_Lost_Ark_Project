@@ -851,6 +851,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+	pUIManager->Set_MaxFiles(423);
+
 	if (FAILED(Loading_QuickSlot()))
 		return E_FAIL;
 
@@ -859,9 +863,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
+	pUIManager->Add_CurrFile();
 
 	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
 	//CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Chaos_Navi"), L"Chaos1.Navi");
+	pUIManager->Add_CurrFile();
 
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
@@ -869,10 +875,12 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_CrossHair"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Mask/fx_y_gbs_03_r.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_CrossHairOutCircle"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Mask/fx_e_ring_012_cl.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
@@ -891,155 +899,197 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Player"),
 		CCamera_Player::Create(m_pDevice, m_pContext, L"Player_Camera"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Gunslinger"),
 		CPlayer_Gunslinger::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_WR"),
 		CPlayer_Slayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_WDR"),
 		CPlayer_Destroyer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_MG"),
 		CPlayer_Bard::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WP_WR_Base"),
 		CWeapon_WR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WDR_WP_Base"),
 		CWeapon_WDR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MG_WP_Base"),
 		CWeapon_MG::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Zombie"),
 		CMonster_Zombie::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Plant"),
 		CMonster_Plant::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Hand"),
 		CWeapon_Hand::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Hand_2"),
 		CWeapon_Hand_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Long"),
 		CWeapon_Long::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot"),
 		CWeapon_Shot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GN_WP_Shot_2"),
 		CWeapon_Shot_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
 		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Golem"),
 		CBoss_Golem::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Charge_Punch"),
 		CSKill_Golem_Charge_Punch::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Jump"),
 		CSKill_Golem_Jump::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Swipe"),
 		CSKill_Golem_Swipe::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Ghoul"),
 		CMonster_Ghoul::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Reaper"),
 		CMonster_Reaper::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_Reaper"),
 		CWeapon_Mn_Reaper::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_King"),
 		CBoss_King::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_ChargeSwing"),
 		CSKill_King_ChargeSwing::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_Eruption"),
 		CSKill_King_Eruption::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_King"),
 		CWeapon_Boss_King::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Pawn"),
 		CMonster_Pawn::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnShield"),
 		CWeapon_Mn_PawnShield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnSword"),
 		CWeapon_Mn_PawnSword::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan"),
 		CBoss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
 		CSkyDome::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NamePlate"),
 		CUI_InGame_NamePlate::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_SpiralChaser"),
 		CEffect_Custom_SpiralChaser::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_Grenade"),
 		CEffect_Custom_Grenade::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_PerpectShotBullet"),
 		CEffect_Custom_PerpectShotBullet::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_CrossHair"),
 		CEffect_Custom_CrossHair::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_DeathFireBomb"),
 		CEffect_Custom_DeathFireBomb::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -1047,14 +1097,17 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DecoNpc"),
 		CDeco_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GuideNpc_SP_L"),
 		CGuide_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if(FAILED(Load_NpcData()))
 		return E_FAIL;
@@ -1077,6 +1130,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 						return E_FAIL;
 
 					iter = m_Futures.erase(iter);
+					pUIManager->Add_CurrFile();
+
 				}
 				else
 					++iter;
@@ -1086,7 +1141,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		}
 	}
 
-
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -1098,13 +1153,14 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 	Safe_AddRef(pGameInstance);
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
-	pUIManager->Loading_UI(0.1f);
+	Safe_AddRef(pUIManager);
+	pUIManager->Set_MaxFiles(10);
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_1, L"Chaos1.Navi");
-
+	pUIManager->Add_CurrFile();
+	
 	Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"));
-
+	pUIManager->Add_CurrFile();
 
 	{
 		wstring strFileName = L"Monster_Ghoul";
@@ -1114,7 +1170,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1200.f);
+		pUIManager->Add_CurrFile();
 	}
 
 
@@ -1127,7 +1183,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1200.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1138,7 +1194,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1600.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1149,7 +1205,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1300.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1160,7 +1216,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1400.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1171,7 +1227,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1500.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1182,7 +1238,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1550.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1193,12 +1249,13 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1600.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
 
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -1209,15 +1266,16 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 	Safe_AddRef(pGameInstance);
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
-	pUIManager->Loading_UI(0.1f);
+	Safe_AddRef(pUIManager);
+	pUIManager->Set_MaxFiles(5);
 
 	//CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Arena.Navi");
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Chaos2.Navi");
+	pUIManager->Add_CurrFile();
 
 	Load_MapData(LEVEL_CHAOS_2, TEXT("../Bin/Resources/MapData/Chaos2.data"));
-
+	pUIManager->Add_CurrFile();
 
 
 	{
@@ -1228,7 +1286,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(300.f);
+		pUIManager->Add_CurrFile();
 	}
 
 
@@ -1240,7 +1298,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(800.f);
+		pUIManager->Add_CurrFile();
 	}
 
 
@@ -1252,7 +1310,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(600.f);
+		pUIManager->Add_CurrFile();
 	}
 
 
@@ -1260,7 +1318,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
 
-	
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -1271,17 +1329,18 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 	Safe_AddRef(pGameInstance);
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
-	pUIManager->Loading_UI(0.1f);
+	Safe_AddRef(pUIManager);
 
-
+	pUIManager->Set_MaxFiles(7);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Chaos3.Navi");
+	pUIManager->Add_CurrFile();
 
 	Load_MapData(LEVEL_CHAOS_3, TEXT("../Bin/Resources/MapData/Chaos3.data"));
+	pUIManager->Add_CurrFile();
 
 	{
 		wstring strFileName = L"Boss_King";
@@ -1291,7 +1350,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(100.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1302,7 +1361,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(180.0f))* XMMatrixRotationX(XMConvertToRadians(80.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(300.f);
+		pUIManager->Add_CurrFile();
 	}
 	{
 
@@ -1313,7 +1372,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(900.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	{
@@ -1324,7 +1383,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1200.f);
+		pUIManager->Add_CurrFile();
 	}
 	{
 		wstring strFileName = L"Weapon_Mn_PawnSword";
@@ -1334,18 +1393,22 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
 			return E_FAIL;
-		pUIManager->Loading_UI(1600.f);
+		pUIManager->Add_CurrFile();
 	}
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
 
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
 HRESULT CLoader::Load_NpcData()
 {
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
 	wstring strLoadpath = (L"../Bin/Resources/ObjectData/Npc/");
 
 	for (const auto& entry : fs::directory_iterator(strLoadpath))
@@ -1358,11 +1421,12 @@ HRESULT CLoader::Load_NpcData()
 				{
 					return E_FAIL;
 				}
+				pUIManager->Add_CurrFile();
 
 			}
 		}
 	}
-
+	Safe_Release(pUIManager);
 	return S_OK;
 }
 
@@ -1548,6 +1612,8 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 			iFolderCnt++;
 		}
 	}*/
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
 
 	for (const auto& entry : fs::directory_iterator(strPath))
 	{
@@ -1563,11 +1629,14 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 					if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false, Pivot))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
+
 				}
 			}
 		}
 	}
 
+	Safe_Release(pUIManager);
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -1810,256 +1879,322 @@ HRESULT CLoader::Loading_QuickSlot()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
 	//SkillFrame
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Empty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Empty%d.png", 2))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Shine"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Shine.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Frame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Skill_Frame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	//ItemFrame
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Empty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/Item_Empty.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_SlotFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/Item_SlotFrame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_SlotFrame_Shine"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/Item_SlotFrame_Shine.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	//ETC
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ETC_Empty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/ETC_Empty.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ETC_SlotFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Slot/ETC_SlotFrame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	//Identity
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_BackGround"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_BackGround.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_BackGround_Wing"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_BackGroundWing.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_BackGround_Shine"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_BackGround_Shine.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_MainFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WF_MainFrame%d.png",3))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_ShineEffect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame_ShineEffect%d.png",3))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponFrame_Front"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponFrame_Front.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_Arrow"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_Arrow.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_ETC"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_ETC.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_SkillCoolTimer"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_SkillCoolTimer%d.png",4))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_IdentityGN_WeaponChange_Spark"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Gunslinger/IdentityGN_WeaponChange_Spark.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hp_Empty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Hp_Empty.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hp_Fill"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Hp_Fill.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hp_Frame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Hp_Frame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Mp_Empty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Mp_Empty.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Mp_Fill"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Mp_Fill.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Mp_Frame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Mp_Frame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Shield_Fill"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/PlayerHUD/Shield_Fill.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/WRIdentity/Identity_Body%d.png",44))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Gauge"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_Gauge.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_GaugeFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_GaugeFrame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_GaugeShine"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_GaugeShine.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Identity_Spark"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Spark/Identity_Spark%d.png",45))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Identity_Eye"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_Eye.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Identity_Eye"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_Eye.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Identity_Identity_SkillFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_SkillFrame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Spark_Effect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/Identity_Spark_Effect.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WR_Identity_Identity_BindingKey"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Slayer/BindingKey.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	//Destroyer
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_MainFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_MainFrame%d.png",2))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_GaugeFrame_LR"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_GaugeFrame_LR.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_Gauge_LR"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_Gauge_LR.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_Hammer"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_Hammer%d.png",2))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_Bubbles_Frame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_Bubbles_Frame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_Bubble"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_Bubble.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_On_BlueEffect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_On_BlueEffect.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_WhiteEffect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_WhiteEffect.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Vortex_Gravity"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Vortex_Gravity.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Chain"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Chain/Chain%d.png",15))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Chain_Cut"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Chain_Cut/Chain_Cut%d.png", 50))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	//Bard
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Background_Shadow"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Background_Shadow.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Background"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Background.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Harp_Roap"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Harp_Roap.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Harp_Roapknot"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Harp_Roapknot.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Harp"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Harp.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_HarpHolder"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_HarpHolder.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_SkillIconHolder"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_SkillIconHolder.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Serenade_of_Courage"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Serenade_of_Courage.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Serenade_of_Salvation"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Serenade_of_Salvation.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_SkillFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_SkillFrame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_SkillICap"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_SkillICap.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_GaugeEmpty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_GaugeEmpty.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_Gauge"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_Gauge%d.png",2))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_GaugeFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_GaugeFrame.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Bard_Identity_GaugeCut"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Bard/Bard_Identity_GaugeCut%d.png",2))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 
 	if (FAILED(Loading_SkillIcon()))
@@ -2072,100 +2207,127 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
 
 	//Texture
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gauge_Frame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Gauge_Frame.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gague_BackGround_Shine"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gague_BackGround_Shine/Gague_BackGround_Shine%d.png", 50))))
 			return E_FAIL; 
-		
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gague_BackGround_SpinShine"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Circle/Gauge_Circle%d.png", 78))))
 			return E_FAIL;
-	
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gauge"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Gauge.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Gauge_Cut"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Gauge_Cut.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Dungeon_NameFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Gauge_Frame/Dungeon_NameFrame.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_Dungeon_TimerFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Timer.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Emblem"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_Emblem%d.png",3))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Hp"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_Hp%d.png",8))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_HpFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_HpFrame%d.png", 3))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Groggy_GaugeFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Groggy_GaugeFrame.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Groggy_Gauge"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Groggy_Gauge.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_HpFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Monster_HpFrame.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_Hp"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Monster_Hp.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Circle"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Circle/Clear_Circle%d.png",23))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Line"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Line.png"))))
 			return E_FAIL;
-		
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Line_L"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Line_L.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Line_R"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Line_R.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Shine"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Shine.png"))))
 			return E_FAIL;
-		
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Announce"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Announce.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ClearFont"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/ClearFont.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BackGroundWnd"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/BackGroundWnd.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_CheckButton"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_CheckButton%d.png",3))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
 	}
 
 	//Class
@@ -2173,48 +2335,61 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeFrame"),
 			CUI_ChaosDungeon_GaugeFrame::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeShine"),
 			CUI_ChaosDungeon_GaugeShine::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeSpinShine"),
 			CUI_ChaosDungeon_GaugeSpinShine::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_Gauge"),
 			CUI_ChaosDungeon_Gauge::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_GaugeCut"),
 			CUI_ChaosDungeon_GaugeCut::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_NameFrame"),
 			CUI_ChaosDungeon_NameFrame::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_TimerFrame"),
 			CUI_ChaosDungeon_TimerFrame::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeonUI"),
 			CUI_ChaosDungeon::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BossHpUI"),
 			CUI_Boss_Hp::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonsterHpUI"),
 			CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_Clear"),
 			CUI_ChaosDungeon_Clear::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-	
+		pUIManager->Add_CurrFile();
+
 	}
+
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -2226,15 +2401,22 @@ HRESULT CLoader::Loading_Npc_UI()
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-	
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ChaosDungeonEntrance"),
 		CUI_NPC_ChaosDungeon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ChaosDungeonEntrance_NewWnd"),
 		CUI_NPC_ChaosDungeon_NewWnd::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -2243,59 +2425,76 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_ChaosDungeon_Wnd"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/ChaosDungeon_Wnd.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Button"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Entrance_Button%d.png",2))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Anounce"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Anounce.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Stage_Button"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Stage_Button.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Seleceted_Effect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/Seleceted_Effect.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_DropItem_Frame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/DropItem_Frame.png"))))
 		return E_FAIL;
-	
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Stage_Screen"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/reverseruin_30000_bern.png"))))
 		return E_FAIL;
-	
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Stage_Screen"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/reverseruin_30000_bern.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_NewWnd_Text"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/NewWnd_Text.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Accept_Button"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Accept_Button%d.png",3))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Refuse_Button"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Refuse_Button%d.png", 3))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Timer_Empty"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Timer_Empty.png"))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_ChaosDungeon_Entrance_Timer"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Timer.png"))))
 		return E_FAIL;
-	
+	pUIManager->Add_CurrFile();
+
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -2306,14 +2505,11 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
-
-	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
-	pUIManager->Loading_UI(0.1f);
-	pUIManager->Set_MaxFiles(100);
 
 	/* Npc 마네킹 및 모델 */
 	{
@@ -2329,7 +2525,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
-
+				pUIManager->Add_CurrFile();
 			}));
 	}
 
@@ -2345,6 +2541,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2361,6 +2558,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2377,6 +2575,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2393,6 +2592,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2409,6 +2609,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2425,6 +2626,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2441,6 +2643,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2457,6 +2660,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2473,6 +2677,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2489,6 +2694,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2505,6 +2711,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2521,6 +2728,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2537,6 +2745,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2553,6 +2762,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2569,6 +2779,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+					pUIManager->Add_CurrFile();
 				}
 			}));
 	}
@@ -2595,6 +2806,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
 
 		strFileName = L"SkyDome1";
@@ -2605,6 +2817,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
 
 		strFileName = L"SkyDome2";
@@ -2615,6 +2828,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
 		
 		strFileName = L"SkyDome3";
@@ -2625,6 +2839,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
 		
 		strFileName = L"SkyDome4";
@@ -2636,9 +2851,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
 
-		pUIManager->Loading_UI(144.f);
 	}
 
 	/* 플레이어 장비 */
@@ -2652,8 +2867,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(231.f);
+
 	}
 
 	{
@@ -2666,8 +2882,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(308.f);
+
 	}
 
 	{
@@ -2680,8 +2897,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(385.f);
+
 	}
 
 	{
@@ -2694,8 +2912,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(462.f);
+
 	}
 
 	/* 플레이어 무기 */
@@ -2709,8 +2928,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(693.f);
+
 	}
 
 	{
@@ -2723,8 +2943,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(800.f);
+
 	}
 
 	{
@@ -2737,8 +2958,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 
 	{
@@ -2751,8 +2973,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 
 	{
@@ -2765,8 +2988,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 
 	{
@@ -2779,8 +3003,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 
 	{
@@ -2793,8 +3018,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 	
 	//Custom Effect
@@ -2808,8 +3034,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 
 	{
@@ -2822,8 +3049,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 	
 	{
@@ -2836,10 +3064,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 		}
-		pUIManager->Loading_UI(1000.f);
+
 	}
 
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -3357,6 +3587,9 @@ HRESULT CLoader::Loading_SkillIcon()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);	
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
 	//GN_SKILL
 	{
 		//HG SKILL
@@ -3364,46 +3597,59 @@ HRESULT CLoader::Loading_SkillIcon()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_AT02_Grenade"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/AT02_Grenade.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bullet_Rain"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Bullet_Rain.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Death_Fire"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Death_Fire.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Dexterous_Shot"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Dexterous_Shot.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Equilibrium"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Equilibrium.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Meteor_Stream"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Equilibrium.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Peacekeeper"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Peacekeeper.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Plasma_Bullet"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Plasma_Bullet.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Quick_Step"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Quick_Step.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Somersault_Shot"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Somersault_Shot.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Spiral_Tracker"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/HG/Spiral_Tracker.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 		}
 
 		//SG SKILL
@@ -3411,22 +3657,28 @@ HRESULT CLoader::Loading_SkillIcon()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Dual_Buckshot"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/SG/Dual_Buckshot.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Hour_of_Judgment"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/SG/Hour_of_Judgment.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Last_Request"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/SG/Last_Request.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Sharpshooter"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/SG/Sharpshooter.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Shotgun_Rapid_Fire"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/SG/Shotgun_Rapid_Fire.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 		}
 
 		//RF SKILL
@@ -3434,22 +3686,29 @@ HRESULT CLoader::Loading_SkillIcon()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Catastrophe"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/RF/Catastrophe.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Focused_Shot"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/RF/Focused_Shot.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Perfect_Shot"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/RF/Perfect_Shot.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Spiral_Flame"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/RF/Spiral_Flame.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Target_Down"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/RF/Target_Down.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 		}
 	}
 
@@ -3459,74 +3718,93 @@ HRESULT CLoader::Loading_SkillIcon()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Brutal_Impact"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Brutal_Impact.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Cross_Blade"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Cross_Blade.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Cruel_Pierce"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Cruel_Pierce.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Fatal_Sword"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Fatal_Sword.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Final_Blow"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Final_Blow.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Flash_Blade"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Flash_Blade.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Flying_Strike"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Flying_Strike.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Furious_Claw"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Furious_Claw.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Fury_Blade"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Fury_Blade.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Ground_Smash"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Ground_Smash.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Guillotine"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Guillotine.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Hurricane_Sword"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Hurricane_Sword.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Mountain_Cleave"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Mountain_Cleave.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Punishing_Draw"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Punishing_Draw.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Spinning_Sword"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Spinning_Sword.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Volcanic_Eruption"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Volcanic_Eruption.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Wild_Rush"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Wild_Rush.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
 
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_Wild_Stomp"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Normal/Slayer_Wild_Stomp.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 		}
 
 		//BERSERKR_MODE
@@ -3534,6 +3812,8 @@ HRESULT CLoader::Loading_SkillIcon()
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Slayer_IdentitySkill"),
 				CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/IdentitySkill.png"))))
 				return E_FAIL;
+			pUIManager->Add_CurrFile();
+
 		}
 	}
 
@@ -3542,74 +3822,92 @@ HRESULT CLoader::Loading_SkillIcon()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Dreadnaught"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Dreadnaught.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_dt_skill_1"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/dt_skill_1.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Earth_Eater"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Earth_Eater.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Earth_Smasher"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Earth_Smasher.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Earth_Wave"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Earth_Wave.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Endure_Pain"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Endure_Pain.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Full_Swing"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Full_Swing.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Gravitational_Energy"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Gravitational_Energy.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Gravity_Compression"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Gravity_Compression.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Gravity_Impact"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Gravity_Impact.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Heavy_Crush"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Heavy_Crush.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Jumping_Smash"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Jumping_Smash.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Neutralizer"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Neutralizer.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Perfect_Swing"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Perfect_Swing.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Power_Shoulder"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Power_Shoulder.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Power_Strike"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Power_Strike.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Running_Crash"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Running_Crash.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Destroyer_Seismic_Hammer"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Normal/Seismic_Hammer.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 	}
 
@@ -3618,34 +3916,43 @@ HRESULT CLoader::Loading_SkillIcon()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sonatina"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Sonatina.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sound_Shock"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Sound_Shock.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Prelude_of_Storm"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Prelude_of_Storm.png"))))
 			return E_FAIL;
-		
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Rhapsody_of_Light"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Rhapsody_of_Light.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Wind_of_Music"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Wind_of_Music.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sonic_Vibration"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Sonic_Vibration.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Heavenly_Tune"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Heavenly_Tune.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Guardian_Tune"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Normal/Guardian_Tune.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
 	}
 
 	//Space
@@ -3653,18 +3960,23 @@ HRESULT CLoader::Loading_SkillIcon()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"),//GN
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/Space%d.png",2))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WRSpace"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WR_SkillIcon/Space%d.png", 2))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_WDRSpace"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/WDR_SkillIcon/Space%d.png", 2))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_MGSpace"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Space%d.png", 2))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
 	}
 
 	//Holding_Gauge
@@ -3672,44 +3984,56 @@ HRESULT CLoader::Loading_SkillIcon()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_Frame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_Frame.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_Empty"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_Empty.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_Fill"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_Fill.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_Shine"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_Shine.png"))))
 			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
 	}
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillFrame"),
 		CUI_SkillIcon_Frame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ItemFrame"),
 		CUI_ItemIcon_Frame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ETCFrame"),
 		CUI_ETCIcon_Frame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuickSkillUI"),
 		CUI_QuickSkill::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MoveFrame"),
 		CUI_SkillI_MoveFrame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SpaceBarIcon"),
 		CUI_SpaceBar_Icon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
+	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	
 	return S_OK;

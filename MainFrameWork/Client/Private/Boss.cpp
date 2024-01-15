@@ -22,6 +22,7 @@
 #include "BehaviorTree.h"
 #include "Projectile.h"
 #include "UI_Boss_Hp.h"
+#include "UI_Manager.h"
 
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -365,6 +366,8 @@ HRESULT CBoss::Ready_HpUI()
 
 	if (nullptr == m_pHpUI)
 		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Set_CurrHPUI(m_pHpUI);
 
 	Safe_Release(pGameInstance);
 	return S_OK;

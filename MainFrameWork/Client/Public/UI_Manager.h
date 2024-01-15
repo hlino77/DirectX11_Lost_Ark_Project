@@ -35,11 +35,13 @@ public:
     class CUI* Find_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag);
     HRESULT Delete_UI(LEVELID eLevelIndex, const wstring& UITag);
     HRESULT Delete_UIPart(LEVELID eLevelIndex, const wstring& UITag, const wstring& PartTag);
+
 public:
     void    Sorting_UI();
     void    Set_UIState(LEVELID iLevelIndex, CUI::UISTATE eState);
     void    Set_UIState(LEVELID iLevelIndex, const wstring& strUITag, CUI::UISTATE eState);
 
+    void    Set_CurrHPUI(CUI* pUI);
 
 private:
     list<class CUI*>*    m_pUIList;
@@ -47,6 +49,7 @@ private:
     _uint   m_iNextLevel = { 0 };
     POINT   m_pt = {};
 
+    CUI* m_pCurrentBossHpUI = { nullptr };
 
     USE_LOCK
 public:

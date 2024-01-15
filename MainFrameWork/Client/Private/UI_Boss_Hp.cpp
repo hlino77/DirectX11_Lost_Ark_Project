@@ -5,6 +5,7 @@
 #include "TextBox.h"
 #include "ServerSessionManager.h"
 #include "Boss.h"
+#include "UI_Manager.h"
 
 CUI_Boss_Hp::CUI_Boss_Hp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -77,8 +78,10 @@ HRESULT CUI_Boss_Hp::Initialize(void* pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
 		m_strBossName = dynamic_cast<CBoss*>(m_pOwner)->Get_ObjectTag();
+		m_iTargetName = dynamic_cast<CBoss*>(m_pOwner)->Get_ObjectID();
 		m_iMaxHp = dynamic_cast<CBoss*>(m_pOwner)->Get_MaxHp();
 		m_iCurrHp = dynamic_cast<CBoss*>(m_pOwner)->Get_Hp();
+		m_iPreHp = m_iCurrHp;
 		m_fHpRatio = (_float)m_iCurrHp /(_float)m_iMaxHp;
 		m_iMaxGroggyGauge = dynamic_cast<CBoss*>(m_pOwner)->Get_MaxGroggyGauge();
 		m_iGroggyGauge = dynamic_cast<CBoss*>(m_pOwner)->Get_CurrGroggyGauge();
@@ -92,9 +95,10 @@ HRESULT CUI_Boss_Hp::Initialize(void* pArg)
 
 HRESULT CUI_Boss_Hp::Initialize_BossHP()
 {
+	
 	m_szFont = L"³Ø½¼Lv1°íµñBold";
 	Ready_TextBox(m_strBossName);
-	Set_Active(true);
+	Set_Active(false );
 
 	return S_OK;
 }
@@ -102,13 +106,15 @@ HRESULT CUI_Boss_Hp::Initialize_BossHP()
 void CUI_Boss_Hp::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if(!m_bDead)
+		Update_PreHp();
 }
 
 void CUI_Boss_Hp::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
-	if(!m_bDead)
+	if (!m_bDead)
 		Update_Hp(fTimeDelta);
 }
 
@@ -158,7 +164,8 @@ HRESULT CUI_Boss_Hp::Render()
 	m_pShaderCom->Begin(16);
 	m_pVIBufferCom->Render();
 
-	Print_BossHp();
+	if(m_bRender)
+		Print_BossHp();
 
 	return S_OK;
 }
@@ -401,23 +408,36 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 	}
 }
 
+void CUI_Boss_Hp::Update_PreHp()
+{
+	if (m_iPreHp != m_iCurrHp)
+	{
+		CUI_Manager::GetInstance()->Set_CurrHPUI(this);
+		m_iPreHp = m_iCurrHp;
+	}
+}
+
 void CUI_Boss_Hp::Start_BossHp()
 {
 	m_strBossName.clear();
 	m_pInGameNameWnd->Set_Active(true);
+	m_pInGameHpWnd->Set_Active(true);
+	m_pInGameHpCountWnd->Set_Active(true);
 }
 
 void CUI_Boss_Hp::End_BossHp()
 {
 	m_strBossName.clear();
 	m_pInGameNameWnd->Set_Active(false);
+	m_pInGameHpWnd->Set_Active(false);
+	m_pInGameHpCountWnd->Set_Active(false);
 }
 
 void CUI_Boss_Hp::Print_BossHp()
 {
 	if (nullptr != m_pInGameNameWnd)
 	{
-		m_pInGameNameWnd->Set_Active(true);
+		//m_pInGameNameWnd->Set_Active(true);
 		m_pInGameNameWnd->Clear_Text();
 		m_pInGameNameWnd->Set_Alpha(1.f);
 		m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
@@ -429,7 +449,7 @@ void CUI_Boss_Hp::Print_BossHp()
 
 	if (nullptr != m_pInGameHpWnd)
 	{
-		m_pInGameHpWnd->Set_Active(true);
+		//m_pInGameHpWnd->Set_Active(true);
 		m_pInGameHpWnd->Clear_Text();
 		m_pInGameHpWnd->Set_Alpha(1.f);
 		m_pInGameHpWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
@@ -443,7 +463,7 @@ void CUI_Boss_Hp::Print_BossHp()
 
 	if (nullptr != m_pInGameHpCountWnd)
 	{
-		m_pInGameHpCountWnd->Set_Active(true);
+		//m_pInGameHpCountWnd->Set_Active(true);
 		m_pInGameHpCountWnd->Clear_Text();
 		m_pInGameHpCountWnd->Set_Alpha(1.f);
 		m_pInGameHpCountWnd->Get_TransformCom()->Set_Scale(Vec3(50.f, 20.0f, 0.f));
@@ -457,7 +477,10 @@ void CUI_Boss_Hp::Print_BossHp()
 void CUI_Boss_Hp::Set_Active(_bool bActive)
 {
 	//m_bActive = bActive;
+	m_bRender = bActive;
 	m_pInGameNameWnd->Set_Active(bActive);
+	m_pInGameHpWnd->Set_Active(bActive);
+	m_pInGameHpCountWnd->Set_Active(bActive);
 }
 
 HRESULT CUI_Boss_Hp::Ready_TextBox(const wstring& strName)
@@ -468,7 +491,7 @@ HRESULT CUI_Boss_Hp::Ready_TextBox(const wstring& strName)
 	if (nullptr == m_pInGameNameWnd)
 	{
 		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = strName + TEXT("_NameTag");
+		tTextDesc.szTextBoxTag = strName + TEXT("_NameTag") + to_wstring(m_iTargetName);
 		m_strTag = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(480.0f, 20.0f);
 		m_pInGameNameWnd = static_cast<CTextBox*>(pGameInstance->
@@ -487,7 +510,7 @@ HRESULT CUI_Boss_Hp::Ready_TextBox(const wstring& strName)
 	if (nullptr == m_pInGameHpWnd)
 	{
 		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = strName + TEXT("_HPUI");
+		tTextDesc.szTextBoxTag = strName + TEXT("_HPUI") + to_wstring(m_iTargetName);
 		m_strTagHP = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(480.0f, 20.0f);
 		m_pInGameHpWnd = static_cast<CTextBox*>(pGameInstance->
@@ -506,7 +529,7 @@ HRESULT CUI_Boss_Hp::Ready_TextBox(const wstring& strName)
 	if (nullptr == m_pInGameHpCountWnd)
 	{
 		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = strName + TEXT("_HPCountUI");
+		tTextDesc.szTextBoxTag = strName + TEXT("_HPCountUI") + to_wstring(m_iTargetName);
 		m_strTagHpCount = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(50.f, 20.0f);
 		m_pInGameHpCountWnd = static_cast<CTextBox*>(pGameInstance->

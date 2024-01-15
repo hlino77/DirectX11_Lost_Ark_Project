@@ -37,6 +37,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
+    void	Set_Active(_bool bActive);
 
 private:
     virtual HRESULT Ready_Components();
@@ -50,12 +51,12 @@ private:
 private:
     void    Initialize_Position();
     void    Update_Hp(_float fTimeDelta);
+    void    Update_PreHp();
 
 private:
     void	Start_BossHp();
     void	End_BossHp();
     void    Print_BossHp();
-    void	Set_Active(_bool bActive);
     HRESULT Ready_TextBox(const wstring& strName);
 
 private:
@@ -72,6 +73,7 @@ private:
 
     uint64      m_iMaxHp = { 0 };
     int64       m_iCurrHp = { 0 };
+    int64       m_iPreHp = { 0 };
     _int        m_iHpCount = { 0 };
     _uint       m_iNextHpColor = { 0 };
     _uint       m_iCurrHpColor = { 0 };
@@ -90,6 +92,7 @@ private:
 
     //TextBox
     wstring m_strBossName;
+    _uint m_iTargetName;
     wstring m_strOutputName;
     wstring m_strMonsterRank;
     wstring m_szFont;

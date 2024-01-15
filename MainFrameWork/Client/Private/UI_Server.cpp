@@ -59,11 +59,11 @@ HRESULT CUI_Server::UI_Set()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CUI_ServerLogo* pServerLogo = static_cast<CUI_ServerLogo*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerWnd")));
+	/*CUI_ServerLogo* pServerLogo = static_cast<CUI_ServerLogo*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerWnd")));
 	if (nullptr == pServerLogo)
 		return E_FAIL;
 	else
-		m_vecUIParts.push_back(pServerLogo);
+		m_vecUIParts.push_back(pServerLogo);*/
 
 	CUI_ServerWnd* pServerWnd = static_cast<CUI_ServerWnd*>(pGameInstance->Add_GameObject(LEVEL_SERVERSELECT, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_ServerLogo")));
 	if (nullptr == pServerWnd)
