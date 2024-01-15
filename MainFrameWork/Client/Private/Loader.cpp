@@ -2537,12 +2537,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 
 				
 				}
-<<<<<<< HEAD
 
-				return S_OK;
-=======
 				pUIManager->Add_CurrFile();
->>>>>>> origin/feature/Seokhyeon
+				return S_OK;
 			}));
 	}
 

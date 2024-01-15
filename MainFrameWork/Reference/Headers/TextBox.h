@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Lock.h"
 
 BEGIN(Engine)
 
@@ -75,6 +76,8 @@ private:
 
 
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+
+    USE_LOCK
 public:
     static  CTextBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

@@ -112,6 +112,8 @@ HRESULT CTextBox::Render_MakeSRV()
 	if (m_TextList.empty())
 		return S_OK;
 
+	WRITE_LOCK
+
 	CTarget_Manager::GetInstance()->Begin_MRT(m_pContext, m_szMRTTag);
 
 	for (auto& Text : m_TextList)
@@ -136,6 +138,7 @@ void CTextBox::Set_Pos(_float fX, _float fY)
 
 void CTextBox::Set_Text(const wstring& szTextTag, const wstring& szFont, const wstring& szText, Vec2 vTextPos, Vec2 vScale, Vec2 vOrigin, _float fRotation, Vec4 vColor)
 {
+	WRITE_LOCK
 	TEXTDESC& tText = m_TextList[szTextTag];
 
 	tText.szFont = szFont;

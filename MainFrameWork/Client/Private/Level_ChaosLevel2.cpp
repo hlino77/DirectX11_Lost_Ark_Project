@@ -445,6 +445,7 @@ HRESULT CLevel_ChaosLevel2::Send_UserInfo()
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();
+		CNavigationMgr::GetInstance()->Find_FirstCell(LEVEL_CHAOS_2, pPlayer);
 	}
 
 	return S_OK;
