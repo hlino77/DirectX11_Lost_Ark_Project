@@ -49,7 +49,6 @@ HRESULT CBoss_Golem::Initialize_Prototype()
 
 HRESULT CBoss_Golem::Initialize(void* pArg)
 {
-
 	m_iMaxGroggyGauge = 50;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 300000000;
@@ -90,6 +89,10 @@ void CBoss_Golem::LateTick(_float fTimeDelta)
 
 HRESULT CBoss_Golem::Render()
 {
+	Color vRookBloom = Color(1.15f, 1.15f, 1.15f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vRookBloom, sizeof(Color))))
+		return E_FAIL;
+
 	return 	__super::Render();
 }
 

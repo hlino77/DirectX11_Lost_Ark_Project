@@ -125,7 +125,7 @@ technique11 DefaultTechnique
     pass OneBlend
     {
         SetRasterizerState(RS_Effect);
-		SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_Effect, 0);
         SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
@@ -140,7 +140,7 @@ technique11 DefaultTechnique
     pass AlphaBlend
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_Effect, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */

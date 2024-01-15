@@ -154,7 +154,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     if (1.f == SpecMaskEmisExtr.z)
     {
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
-        //Out.vEmissive *= fBloom_Intensity;
+        Out.vEmissive *= g_vBloomColor;
     }
     
     Out.vProperties.z = MT_DYNAMIC;

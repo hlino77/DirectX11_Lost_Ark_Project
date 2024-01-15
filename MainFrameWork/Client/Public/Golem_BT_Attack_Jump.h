@@ -17,7 +17,7 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 private:
-    _bool 	m_Shoot = true;
+    _bool 	m_Shoot[2] = {true, true};
 
 public:
     static	CGolem_BT_Attack_Jump* Create(void* pArg);

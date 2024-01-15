@@ -107,8 +107,6 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 	
     float fBrightness = dot(vBloom.rgb, float3(0.2126f, 0.7152f, 0.0722f));
     vBloom *= Tonemap_ACES(fBrightness);
-	
-    vColor += vBloom;
     
     float4 vDecalOneBlend = g_DecalOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
     float4 vDecalAlphaBlend = g_DecalAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
@@ -135,6 +133,8 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     {
         vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), 1.f);
     }
+	
+    vColor += vBloom;
 	
     return vColor;
 }
