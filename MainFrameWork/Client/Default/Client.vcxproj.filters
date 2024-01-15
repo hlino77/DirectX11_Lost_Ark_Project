@@ -3737,6 +3737,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_Doughnut_Test.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>96.Manager\UI_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6281,6 +6284,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_Doughnut_Test.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>96.Manager\UI_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

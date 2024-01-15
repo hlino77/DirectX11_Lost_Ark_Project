@@ -52,6 +52,7 @@ void CUI_ChaosDungeon_GaugeShine::Tick(_float fTimeDelta)
 		m_fFrame = 0.f;
 
 	m_fFrame += 30.f * fTimeDelta;
+	m_bRender = false;
 }
 
 void CUI_ChaosDungeon_GaugeShine::LateTick(_float fTimeDelta)

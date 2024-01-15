@@ -71,13 +71,13 @@ HRESULT CUI_ChaosDungeon::UI_Set()
 	else
 		return E_FAIL;
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_Gauge")));
-	if (nullptr != pUI)
-		m_vecUIParts.push_back(pUI);
+	CUI* pUIGauge = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_Gauge")));
+	if (nullptr != pUIGauge)
+		m_vecUIParts.push_back(pUIGauge);
 	else
 		return E_FAIL;
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_GaugeCut")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_GaugeCut"), pUIGauge));
 	if (nullptr != pUI)
 		m_vecUIParts.push_back(pUI);
 	else

@@ -50,7 +50,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
-	//m_pImGuiManager = CUI_Tool::GetInstance();
+	m_pImGuiManager = CUI_Tool::GetInstance();
 
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
@@ -116,13 +116,13 @@ HRESULT CLevel_ChaosLevel1::Tick(const _float& fTimeDelta)
 
 HRESULT CLevel_ChaosLevel1::LateTick(const _float& fTimeDelta)
 {
-	//CUI_Tool::GetInstance()->LateTick();
+	CUI_Tool::GetInstance()->LateTick();
 	return S_OK;
 }
 
 HRESULT CLevel_ChaosLevel1::Render_Debug()
 {
-	//m_pImGuiManager->Tick();
+	m_pImGuiManager->Tick();
 	return S_OK;
 }
 
@@ -137,7 +137,7 @@ HRESULT CLevel_ChaosLevel1::Exit()
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
-	//CUI_Tool::GetInstance()->Set_ToolMode(false);
+	CUI_Tool::GetInstance()->Set_ToolMode(false);
 	return S_OK;
 }
 

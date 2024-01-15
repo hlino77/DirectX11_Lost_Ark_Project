@@ -35,25 +35,25 @@ HRESULT CUI_ChaosDungeon_GaugeCut::Initialize(void* pArg)
 	m_fX = g_iWinSizeX * 0.5f;
 	m_fY = (g_iWinSizeY * 0.5f) + 100.f;
 
+	if (nullptr != pArg)
+	{
+		m_pGaugeUI = static_cast<CUI*>(pArg);
+		m_fGaugeSizeY = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_UIDesc().fSizeY;
+		m_fGaugeY = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_UIDesc().fY;
+		m_fGaugeY += (m_fGaugeSizeY * 0.5f);
+		m_fMaxGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_MaxGauge();
+		m_fCurrGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_CurrGauge();
+		m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
+
+		m_fY = m_fGaugeY;
+	}
+
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
-	if (nullptr != pArg)
-	{
-		m_pGaugeUI = static_cast<CUI*>(pArg);
-		m_fGaugeSizeY = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_UIDesc().fSizeY;
-		m_fGaugeY = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_UIDesc().fY;
-		m_fGaugeY -= (m_fGaugeSizeY * 0.5f);
-		m_fMaxGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_MaxGauge();
-		m_fCurrGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_CurrGauge();
-		m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
-
-		m_fY = m_fGaugeY + (m_fGaugeSizeY * m_fGaugeRatio);
-	}
 
 	return S_OK;
 }
@@ -66,6 +66,7 @@ void CUI_ChaosDungeon_GaugeCut::Tick(_float fTimeDelta)
 void CUI_ChaosDungeon_GaugeCut::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	Update_GaugeCut();
 }
 
 HRESULT CUI_ChaosDungeon_GaugeCut::Render()
@@ -82,7 +83,16 @@ HRESULT CUI_ChaosDungeon_GaugeCut::Render()
 
 void CUI_ChaosDungeon_GaugeCut::Update_GaugeCut()
 {
+	if (nullptr != m_pGaugeUI)
+	{
+		m_fCurrGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_CurrGauge();
+		m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
 
+		m_fY = m_fGaugeY - ((m_fGaugeSizeY * m_fGaugeRatio));
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+	}
 
 }
 
