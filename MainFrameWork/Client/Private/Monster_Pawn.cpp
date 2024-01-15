@@ -55,7 +55,7 @@ HRESULT CMonster_Pawn::Initialize_Prototype()
 
 HRESULT CMonster_Pawn::Initialize(void* pArg)
 {
-	m_iMaxHp = 14999998;
+	m_iMaxHp = 60000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;

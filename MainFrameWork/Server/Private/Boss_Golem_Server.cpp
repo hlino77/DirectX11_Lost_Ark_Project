@@ -70,7 +70,7 @@ HRESULT CBoss_Golem_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_IsSuperArmor = true;
 	m_fRootTargetDistance = 0.5f;
-	m_iMaxHp = 300000000;
+	m_iMaxHp = 1200000000;
 	m_iHp = m_iMaxHp;
 	m_iMaxGroggyGauge = 50;
 	m_iSkillStack = CGameInstance::GetInstance()->Random_Int(0, m_iMaxSkillStack-1);

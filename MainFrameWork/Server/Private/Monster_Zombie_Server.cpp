@@ -82,7 +82,7 @@ HRESULT CMonster_Zombie_Server::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(1.f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
-	m_iMaxHp = 9999999;
+	m_iMaxHp = 40000000;
 	m_iHp = m_iMaxHp;
 
 	return S_OK;

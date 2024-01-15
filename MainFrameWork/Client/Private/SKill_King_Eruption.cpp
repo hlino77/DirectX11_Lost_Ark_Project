@@ -99,11 +99,11 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 	}
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(7.5f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.0f, 0.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.1f, 0.0f));
 
 	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 
-	pChildCollider->Set_Offset(Vec3(0.0f, 0.01f, 0.f));
+	pChildCollider->Set_Offset(Vec3(0.0f, 0.1f, 0.f));
 	pChildCollider->Set_Far(7.5f);
 	pChildCollider->Set_Near(0.f);
 	pChildCollider->Set_Slopes(Vec4(0.05f, -0.05f, tanf(XMConvertToRadians(30.f)), tanf(XMConvertToRadians(-30.f))));
