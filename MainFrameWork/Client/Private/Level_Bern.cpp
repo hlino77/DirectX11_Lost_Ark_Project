@@ -483,6 +483,7 @@ HRESULT CLevel_Bern::Send_UserInfo()
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();
+		pPlayer->Reset_Level();
 	}
 
 	return S_OK;

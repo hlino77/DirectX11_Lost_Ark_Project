@@ -411,6 +411,7 @@ HRESULT CLevel_ChaosLevel1::Send_UserInfo()
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();
 		CNavigationMgr::GetInstance()->Find_FirstCell(LEVEL_CHAOS_1, pPlayer);
+		pPlayer->Reset_Level();
 	}
 
 	return S_OK;

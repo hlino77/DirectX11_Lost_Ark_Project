@@ -174,6 +174,8 @@ public:
 	virtual HRESULT			Ready_Coliders() { return S_OK; }
 
 	void					Show_SpeechBuble(const wstring& szChat);
+
+	void					Reset_Level();
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }

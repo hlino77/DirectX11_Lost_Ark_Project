@@ -600,6 +600,11 @@ void CPlayer::Show_SpeechBuble(const wstring& szChat)
 	m_pSpeechBuble->Active_SpeechBuble(szChat);
 }
 
+void CPlayer::Reset_Level()
+{
+	m_pNamePlate->Print_InGame_Name();
+}
+
 
 void CPlayer::Store_Part()
 {
