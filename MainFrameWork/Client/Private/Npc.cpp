@@ -469,9 +469,6 @@ void CNpc::CullingObject()
 
 void CNpc::Set_EffectPos()
 {
-	if (TEXT("None") == m_NpcDesc.strNpcName || TEXT("") == m_NpcDesc.strNpcName)
-		return;
-
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
 	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();

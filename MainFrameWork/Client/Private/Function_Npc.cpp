@@ -47,9 +47,10 @@ void CFunction_Npc::LateTick(_float fTimeDelta)
 {
 	Set_Colliders(fTimeDelta);
 
+	Set_EffectPos();
+
 	__super::LateTick(fTimeDelta);
 
-	Set_EffectPos();
 }
 
 HRESULT CFunction_Npc::Render()
@@ -245,7 +246,7 @@ HRESULT CFunction_Npc::Render_PartModel_Shadow()
 
 HRESULT CFunction_Npc::Find_Control_Pc()
 {
-	if (nullptr != m_pCtrlPlayer)
+	if (nullptr != m_pCtrlPlayer || LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
 		return S_OK;
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);

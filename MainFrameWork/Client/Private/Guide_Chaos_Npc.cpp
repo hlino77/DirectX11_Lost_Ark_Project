@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameInstance.h"
-#include "Guide_Npc.h"
+#include "Guide_Chaos_Npc.h"
 #include "UI_SpeechBubble.h"
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
@@ -14,27 +14,29 @@
 #include "Controller_WR.h"
 #include "Controller_WDR.h"
 #include "Controller_MG.h"
+#include "AsUtils.h"
 
+#include "ServerSessionManager.h"
 #include "UI_NPC_ChaosDungeon_NewWnd.h"
 
-CGuide_Npc::CGuide_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CGuide_Chaos_Npc::CGuide_Chaos_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CFunction_Npc(pDevice, pContext)
 {
 }
 
-CGuide_Npc::CGuide_Npc(const CGuide_Npc& rhs)
+CGuide_Chaos_Npc::CGuide_Chaos_Npc(const CGuide_Chaos_Npc& rhs)
 	: CFunction_Npc(rhs)
 {
 }
 
-HRESULT CGuide_Npc::Initialize_Prototype()
+HRESULT CGuide_Chaos_Npc::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
 
 	return S_OK;
 }
 
-HRESULT CGuide_Npc::Initialize(void* pArg)
+HRESULT CGuide_Chaos_Npc::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -45,13 +47,19 @@ HRESULT CGuide_Npc::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	m_strObjectTag = TEXT("Guide_Chaos_Npc");
 
 	return S_OK;
 }
 
-void CGuide_Npc::Tick(_float fTimeDelta)
+void CGuide_Chaos_Npc::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	if (LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
+		return;
+
+	Activate_GuideUI();
 
 	if (nullptr != m_pCtrlPlayer)
 	{
@@ -98,10 +106,12 @@ void CGuide_Npc::Tick(_float fTimeDelta)
 	}
 }
 
-void CGuide_Npc::LateTick(_float fTimeDelta)
+void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
+	if (LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
+		return;
 
 	if (nullptr != m_pCtrlPlayer)
 	{
@@ -144,22 +154,25 @@ void CGuide_Npc::LateTick(_float fTimeDelta)
 	}
 }
 
-HRESULT CGuide_Npc::Render()
+HRESULT CGuide_Chaos_Npc::Render()
 {
 	__super::Render();
 
 	return S_OK;
 }
 
-HRESULT CGuide_Npc::Ready_Components()
+HRESULT CGuide_Chaos_Npc::Ready_Components()
 {
 	__super::Ready_Components();
 
 	return S_OK;
 }
 
-HRESULT CGuide_Npc::Ready_ChaosEntranceUI()
+HRESULT CGuide_Chaos_Npc::Ready_ChaosEntranceUI()
 {
+	if (LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
+		return S_OK;
+
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	m_pChaosUI = static_cast<CUI_NPC_ChaosDungeon_NewWnd*>(pGameInstance->Add_GameObject(m_iCurrLevel,
@@ -173,37 +186,54 @@ HRESULT CGuide_Npc::Ready_ChaosEntranceUI()
 	return S_OK;
 }
 
-void CGuide_Npc::Activate_GuideUI()
+void CGuide_Chaos_Npc::Activate_GuideUI()
 {
+	if (true == m_pChaosUI->Get_IsClicked())
+	{
+		Send_UI_State();
+		m_pChaosUI->Set_Active(false);
+	}
 }
 
-CGuide_Npc* CGuide_Npc::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+void CGuide_Chaos_Npc::Send_UI_State()
 {
-	CGuide_Npc* pInstance = new CGuide_Npc(pDevice, pContext);
+	Protocol::S_NPC tDesc;
+
+	tDesc.set_ilevel(m_iCurrLevel);
+	tDesc.set_iplayerid(m_pCtrlPlayer->Get_ObjectID());
+	tDesc.set_strnpcname(CAsUtils::W2S(m_strObjectTag));
+
+	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(tDesc);
+	CServerSessionManager::GetInstance()->Send(pSendBuffer);
+}
+
+CGuide_Chaos_Npc* CGuide_Chaos_Npc::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+	CGuide_Chaos_Npc* pInstance = new CGuide_Chaos_Npc(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CGuide_Npc");
+		MSG_BOX("Failed To Created : CGuide_Chaos_Npc");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CGuide_Npc::Clone(void* pArg)
+CGameObject* CGuide_Chaos_Npc::Clone(void* pArg)
 {
-	CGuide_Npc* pInstance = new CGuide_Npc(*this);
+	CGuide_Chaos_Npc* pInstance = new CGuide_Chaos_Npc(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CGuide_Npc");
+		MSG_BOX("Failed To Cloned : CGuide_Chaos_Npc");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CGuide_Npc::Free()
+void CGuide_Chaos_Npc::Free()
 {
 	__super::Free();
 

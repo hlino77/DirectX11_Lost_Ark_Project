@@ -5,12 +5,12 @@ BEGIN(Client)
 
 class CUI_NPC_ChaosDungeon_NewWnd;
 
-class CGuide_Npc final : public CFunction_Npc
+class CGuide_Chaos_Npc final : public CFunction_Npc
 {
 protected:
-	CGuide_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CGuide_Npc(const CGuide_Npc& rhs);
-	virtual ~CGuide_Npc() = default;
+	CGuide_Chaos_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CGuide_Chaos_Npc(const CGuide_Chaos_Npc& rhs);
+	virtual ~CGuide_Chaos_Npc() = default;
 
 public:
 	virtual HRESULT			Initialize_Prototype() override;
@@ -25,13 +25,14 @@ private:
 
 private:
 	void					Activate_GuideUI();
+	void					Send_UI_State();
 
 private:
 	class CUI_NPC_ChaosDungeon_NewWnd* m_pChaosUI = { nullptr };
 
 
 public:
-	static CGuide_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CGuide_Chaos_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

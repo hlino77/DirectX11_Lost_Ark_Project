@@ -510,7 +510,7 @@
     <ClCompile Include="..\Private\Npc_Server.cpp">
       <Filter>02. GameObject\07. Npc</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Guide_Npc_Server.cpp">
+    <ClCompile Include="..\Private\Guide_Chaos_Npc_Server.cpp">
       <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
     </ClCompile>
   </ItemGroup>
@@ -911,7 +911,7 @@
     <ClInclude Include="..\Public\Npc_Server.h">
       <Filter>02. GameObject\07. Npc</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Guide_Npc_Server.h">
+    <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h">
       <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
     </ClInclude>
   </ItemGroup>

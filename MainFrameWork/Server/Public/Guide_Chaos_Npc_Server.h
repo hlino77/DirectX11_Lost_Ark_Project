@@ -3,12 +3,12 @@
 
 BEGIN(Server)
 
-class CGuide_Npc_Server final : public CNpc_Server
+class CGuide_Chaos_Npc_Server final : public CNpc_Server
 {
 private:
-	CGuide_Npc_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CGuide_Npc_Server(const CGuide_Npc_Server& rhs);
-	virtual ~CGuide_Npc_Server() = default;
+	CGuide_Chaos_Npc_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CGuide_Chaos_Npc_Server(const CGuide_Chaos_Npc_Server& rhs);
+	virtual ~CGuide_Chaos_Npc_Server() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -23,10 +23,11 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+public:
+	virtual HRESULT	Actice_Npc_Function(int32 iLevel, int32 iPlayerID) override;
+
 private:
 	virtual HRESULT		Ready_Components();
-	void				Set_Colliders(_float fTimeDelta);
-	HRESULT				Ready_Coliders();
 
 private:
 	_uint				m_iGuide_Level = { 0 };
@@ -34,7 +35,7 @@ private:
 
 
 public:
-	static CGuide_Npc_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CGuide_Chaos_Npc_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

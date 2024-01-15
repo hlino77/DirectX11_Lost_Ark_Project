@@ -1122,7 +1122,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\DeathFireBomb">
       <UniqueIdentifier>{c043dc7a-10ec-43ca-a95c-860b24b713d6}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\16.Npc">
       <UniqueIdentifier>{85b1ea75-ce81-4b57-9835-6a4ba455d357}</UniqueIdentifier>
     </Filter>
@@ -1722,9 +1722,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chat_Manager.h">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\Lobby</Filter>
@@ -3604,7 +3601,7 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_Manager.h">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClInclude>
@@ -3684,7 +3681,7 @@
     <ClInclude Include="..\Public\State_GN_StandDash.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Guide_Npc.h">
+    <ClInclude Include="..\Public\Guide_Chaos_Npc.h">
       <Filter>02.GameObjects\Npc\Function_Npc\Guide_Npc</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_GN_Hit.h">
@@ -4287,9 +4284,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chat_Manager.cpp">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\Lobby</Filter>
@@ -6142,7 +6136,7 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_Manager.cpp">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClCompile>
@@ -6225,7 +6219,7 @@
     <ClCompile Include="..\Private\State_GN_StandDash.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Guide_Npc.cpp">
+    <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp">
       <Filter>02.GameObjects\Npc\Function_Npc\Guide_Npc</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Hit.cpp">

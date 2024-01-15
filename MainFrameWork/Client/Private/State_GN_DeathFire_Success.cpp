@@ -24,11 +24,16 @@ HRESULT CState_GN_DeathFire_Success::Initialize()
 	else
 		m_TickFunc = &CState_GN_DeathFire_Success::Tick_State_NoneControl;
 
+	m_SkillFrames.push_back(12);
+	m_SkillFrames.push_back(-1);
+
 	return S_OK;
 }
 
 void CState_GN_DeathFire_Success::Enter_State()
 {
+	m_iSkillCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iDeathFire_Success, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -50,10 +55,13 @@ void CState_GN_DeathFire_Success::Exit_State()
 
 void CState_GN_DeathFire_Success::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_bEffect == false && m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Success) > 12)
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Success);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		Effect_Bomb();
-		m_bEffect = true;
+
+		m_iSkillCnt++;
 	}
 
 
@@ -65,12 +73,14 @@ void CState_GN_DeathFire_Success::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_bEffect == false && m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Success) > 12)
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Success);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		Effect_Bomb();
-		m_bEffect = true;
-	}
 
+		m_iSkillCnt++;
+	}
 }
 
 void CState_GN_DeathFire_Success::Effect_Bomb()
