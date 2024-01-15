@@ -51,6 +51,7 @@
 #include <Valtan_BT_Attack_Attack17_2.h>
 #include <Valtan_BT_Attack_Attack17_3.h>
 #include <Valtan_BT_Attack_Attack2_1.h>
+#include <Skill.h>
 
 
 
@@ -99,7 +100,26 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 void CBoss_Valtan::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (m_fTimeCount > 11.f)
+	{
+		m_fTimeCount = 0.f;
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = this;
 
+
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_Doughnut_Test", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pTransformCom ->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook =m_pTransformCom ->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			vPos += vLook * 0.1f;
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+		}
+	}
 	
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
@@ -261,6 +281,11 @@ HRESULT CBoss_Valtan::Ready_Components()
 	if (nullptr == m_pWeapon)
 		return E_FAIL;
 
+	m_vOriginScale.x = 0.012f;
+	m_vOriginScale.y = 0.012f;
+	m_vOriginScale.z = 0.012f;
+
+	m_pTransformCom->Set_Scale(m_vOriginScale);
 	return S_OK;
 }
 

@@ -599,11 +599,11 @@
     <ClInclude Include="..\Public\BT_Action.h">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ColliderDoughnut.h">
-      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColliderDoughnut.h">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -946,11 +946,11 @@
     <ClCompile Include="..\Private\BT_Action.cpp">
       <Filter>01.Utiltiy\04.Component\10. BehaviorTree\BT_Node\Action</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ColliderDoughnut.cpp">
-      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColliderDoughnut.cpp">
+      <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

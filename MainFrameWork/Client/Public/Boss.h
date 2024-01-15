@@ -124,6 +124,8 @@ public:
 	_uint						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
 	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
 
+
+
 protected:
 	virtual HRESULT Ready_Components();
 	HRESULT Ready_HP_UI(_uint iTextureIndex);
@@ -153,6 +155,8 @@ protected:
 	_uint	m_iHitCount = 0;
 	_uint	m_iGroggyCount = 0;
 	_uint	m_iMaxGroggyCount = 0;
+	_bool							m_bDbgCout = false;
+	_float							m_fTimeCount = 0.f;
 	//HPUI
 	CUI_Boss_Hp*	m_pHpUI = { nullptr };
 

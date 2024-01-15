@@ -114,25 +114,26 @@ protected:
 	HRESULT Ready_Coliders();
 
 protected:
-	_bool m_IsCounterSkill = false;
-	_bool m_IsCountered = false;
-	_bool m_IsGroggy = false;
+	_bool							m_IsCounterSkill = false;
+	_bool							m_IsCountered = false;
+	_bool							m_IsGroggy = false;
 
-	_bool m_bCounter = false;
-	_bool m_bGrogginess = false;
+	_bool							m_bCounter = false;
+	_bool							m_bGrogginess = false;
 
-	_int m_iGroggyGauge = 0;
-	_uint m_iMaxGroggyGauge = 0;
-	_int m_iArmorDurability = 0;
-	_uint m_iMaxArmorDurability = 0;
-	_uint m_iPhase = 0;
-	_int m_iArmor = 0;
-	Vec3 m_vSpawnPosition;
-	_bool	m_IsGroggyLock = false;
-	_uint	m_iHitCount = 0;
-	_int	m_iGroggyCount = 0;
-	_uint	m_iMaxGroggyCount = 0;
-
+	_int							m_iGroggyGauge = 0;
+	_uint							m_iMaxGroggyGauge = 0;
+	_int							m_iArmorDurability = 0;
+	_uint							m_iMaxArmorDurability = 0;
+	_uint							m_iPhase = 0;
+	_int							m_iArmor = 0;
+	Vec3							m_vSpawnPosition;
+	_bool							m_IsGroggyLock = false;
+	_uint							m_iHitCount = 0;
+	_int							m_iGroggyCount = 0;
+	_uint							m_iMaxGroggyCount = 0;
+	_float							m_fTimeCount = 0.f;
+	_bool							m_bDbgCout = false;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

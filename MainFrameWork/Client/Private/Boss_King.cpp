@@ -63,7 +63,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 	m_vecAttackRanges.clear();
 	m_fAttackRange = 1.f;
 	m_iBaseAtk = 16;
-	m_fBaseForce = 10.f;
+	m_fBaseForce = 12.f;
 	m_fRootTargetDistance = 1.2f;
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 50;

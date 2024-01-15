@@ -48,8 +48,6 @@ void CDoughnutCollider::Update_Collider()
 {
 	Set_Center();
 
-	if (m_pChild)
-		m_pChild->Update_Collider();
 }
 
 
@@ -65,20 +63,12 @@ void CDoughnutCollider::DebugRender()
 	m_pBatch->End();
 
 
-	if (m_pChild)
-		m_pChild->DebugRender();
 #endif // DEBUG
 }
 _bool CDoughnutCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 {
 	if (m_tBoundingSphere.Intersects(ray.position, ray.direction, OUT distance) == false)
 		return false;
-
-	if (m_pChild)
-	{
-		if (m_pChild->Intersects(ray, distance) == true)
-			return false;
-	}
 
 	return true;
 }
@@ -91,12 +81,6 @@ _bool CDoughnutCollider::Intersects(Super* other)
 	if (other->Get_Child())
 	{
 		if (Intersects_Bounding(other->Get_Child()) == false)
-			return false;
-	}
-
-	if (m_pChild)
-	{
-		if (m_pChild->Intersects(other) == true)
 			return false;
 	}
 
@@ -116,7 +100,7 @@ _bool CDoughnutCollider::Intersects_Bounding(Super* other)
 		bCollision = m_tBoundingSphere.Intersects(static_cast<COBBCollider*>(other)->GetBoundingBox());
 		break;
 	case ColliderType::AABB:
-		bCollision = false;
+		bCollision = true;
 		break;
 	case ColliderType::Frustum:
 		bCollision = m_tBoundingSphere.Intersects(static_cast<CFrustumCollider*>(other)->GetBoundingFrustum());
@@ -129,21 +113,13 @@ _bool CDoughnutCollider::Intersects_Bounding(Super* other)
 		break;
 	}
 
-	return bCollision;
+	return !bCollision;
 }
 
 _bool CDoughnutCollider::Intersects_Box(const BoundingBox& Collider)
 {
 	if (m_tBoundingSphere.Intersects(Collider))
-	{
-		if (m_pChild)
-		{
-			return !m_pChild->Intersects_Box(Collider);
-		}
-		else
-			return true;
-	}
-
+			return false;
 	return true;
 }
 

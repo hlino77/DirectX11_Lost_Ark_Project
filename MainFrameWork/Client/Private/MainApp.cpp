@@ -15,6 +15,7 @@
 #include "MainLogo.h"
 #include "BackGround_Loading.h"
 #include "ColliderOBB.h"
+#include "ColliderDoughnut.h"
 #include "ColliderSphereGroup.h"
 #include "CollisionManager.h"
 #include "ColliderFrustum.h"
@@ -322,8 +323,12 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		COBBCollider::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FrustumColider"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FrustumCollider"),
 		CFrustumCollider::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_DoughnutCollider"),
+		CDoughnutCollider::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LostArk_MainLogo"),

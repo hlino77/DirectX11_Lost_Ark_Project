@@ -149,7 +149,10 @@
 //BossSkills
 #include "SKill_King_ChargeSwing.h"
 #include "SKill_King_Eruption.h"
-
+#include <SKill_Golem_Charge_Punch.h>
+#include <SKill_Golem_Jump.h>
+#include <SKill_Golem_Swipe.h>
+#include "SKill_Valtan_Doughnut_Test.h"
 #include "VoidEffect.h"
 
 //Lobby MQ
@@ -158,9 +161,7 @@
 #include "Player_Select_WDR.h"
 #include "Player_Select_WR.h"
 #include "Tea.h"
-#include <SKill_Golem_Charge_Punch.h>
-#include <SKill_Golem_Jump.h>
-#include <SKill_Golem_Swipe.h>
+
 
 //Effect
 #include "Effect_Custom_SpiralChaser.h"
@@ -987,7 +988,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_Eruption"),
 		CSKill_King_Eruption::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_King"),
 		CWeapon_Boss_King::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1008,7 +1008,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Doughnut_Test"),
+		CSKill_Valtan_Doughnut_Test::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
 		CSkyDome::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

@@ -167,7 +167,6 @@ protected:
 	vector<_float>					m_vecAttackRanges;
 	_float							m_fAttackRange = 1.f;
 	_float							m_fNoticeRange = 20.f;
-	_float							m_fTimeCount = 0.f;
 	_uint							m_iBasicAttackStartFrame = 0;
 	_uint							m_iBasicAttackEndFrame = 0;
 	_bool							m_IsHit = false;

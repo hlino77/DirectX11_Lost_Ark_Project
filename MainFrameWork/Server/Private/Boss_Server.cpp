@@ -59,7 +59,8 @@ void CBoss_Server::Tick(_float fTimeDelta)
 	m_fSkillCoolDown += fTimeDelta;
 	Find_NearTarget(fTimeDelta);
 	m_fTimeCount += fTimeDelta;
-	if (m_fTimeCount > 0.5f)
+
+	if (m_fTimeCount > 0.5f && m_bDbgCout)
 	{
 		m_fTimeCount = 0.f;
 		_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;

@@ -75,8 +75,10 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (KEY_TAP(KEY::B))
+		m_bDbgCout = !m_bDbgCout;
 	m_fTimeCount += fTimeDelta;
-	if (m_fTimeCount > 0.5f)
+	if (m_fTimeCount > 0.5f&&m_bDbgCout)
 	{
 		m_fTimeCount = 0.f;
 		_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;

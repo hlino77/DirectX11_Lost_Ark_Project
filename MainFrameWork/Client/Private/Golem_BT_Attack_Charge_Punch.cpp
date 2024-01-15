@@ -15,6 +15,7 @@ CGolem_BT_Attack_Charge_Punch::CGolem_BT_Attack_Charge_Punch()
 void CGolem_BT_Attack_Charge_Punch::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(true);
 	m_Shoot = true;
 }
 
@@ -55,7 +56,7 @@ void CGolem_BT_Attack_Charge_Punch::OnEnd()
 {
 	dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
 	__super::OnEnd();
-
+	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(false);
 }
 
 
