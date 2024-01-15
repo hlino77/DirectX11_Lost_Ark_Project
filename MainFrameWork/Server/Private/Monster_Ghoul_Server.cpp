@@ -83,7 +83,7 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	m_fNoticeRange = 20.f;
 	m_pRigidBody->SetMass(2.0f);
 	m_fRootTargetDistance = 0.9f;
-	m_iMaxHp = 9999999;
+	m_iMaxHp = 40000000;
 	m_iHp = m_iMaxHp;
 
 	return S_OK;

@@ -118,8 +118,13 @@ public:
 	_uint						Get_GroggyCount() { return m_iGroggyCount; }
 	void						Set_GroggyCount(_uint iGroggyCount) { m_iGroggyCount = iGroggyCount; }
 
+	_int						Get_MaxGroggyCount() { return m_iMaxGroggyCount; }
+	void						Set_MaxGroggyCount(_int iMaxGroggyCount) { m_iMaxGroggyCount = iMaxGroggyCount; }
+
 	_uint						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
 	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
+
+
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -149,7 +154,9 @@ protected:
 	_bool	m_IsGroggyLock = false;
 	_uint	m_iHitCount = 0;
 	_uint	m_iGroggyCount = 0;
-
+	_uint	m_iMaxGroggyCount = 0;
+	_bool							m_bDbgCout = false;
+	_float							m_fTimeCount = 0.f;
 	//HPUI
 	CUI_Boss_Hp*	m_pHpUI = { nullptr };
 

@@ -18,8 +18,8 @@ private:
     virtual void		OnEnd()								override;
 
 private:
-    _bool m_Shoot[2] = {};
-    _bool m_bLookatRight;
+    _bool m_Shoot[3] = {};
+
 public:
     static	CKing_BT_Attack_Erruption* Create(void* pArg);
     virtual void Free() override;

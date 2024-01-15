@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "King_BT_Attack_Erruption.h"
-#include "Monster.h"
+#include "Boss.h"
 #include "Transform.h"
 #include "Model.h"
 #include "Skill.h"
@@ -14,26 +14,42 @@ CKing_BT_Attack_Erruption::CKing_BT_Attack_Erruption()
 void CKing_BT_Attack_Erruption::OnStart()
 {
 	__super::OnStart(0);
+	static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(20);
+	static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
 	m_Shoot[0] = true;
 	m_Shoot[1] = true;
+	m_Shoot[2] = true;
 }
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_Shoot[2] && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+	{
+		m_Shoot[2] = false;
+		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(20);
+		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+	}
+	if (m_fLoopTime > m_vecAnimDesc[3].fMaxLoopTime)
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(0);
+		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_Shoot[0])
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix matPivot = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
-		Vec3 vOriginalPos = matPivot.Translation();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
-
-		matPivot *=	XMMatrixRotationY(XMConvertToRadians(60.f));
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vOriginalPos = matWorld.Translation();
+		Matrix matPivot = matWorld * XMMatrixRotationY(XMConvertToRadians(-30.f));
 		matPivot.Translation(vOriginalPos);
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
 
-		matPivot *= XMMatrixRotationY(XMConvertToRadians(120.f));
+		matPivot = matWorld * XMMatrixRotationY(XMConvertToRadians(30.f));
+		matPivot.Translation(vOriginalPos);
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
+
+		matPivot = matWorld * XMMatrixRotationY(XMConvertToRadians(180.f));
 		matPivot.Translation(vOriginalPos);
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
@@ -74,11 +90,28 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_fLoopTime>3.f && m_Shoot[1])
 	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vOriginalPos = matWorld.Translation();
+		Matrix matPivot = matWorld * XMMatrixRotationY(XMConvertToRadians(60.f));
+		matPivot.Translation(vOriginalPos);
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
+
+		matPivot = matWorld * XMMatrixRotationY(XMConvertToRadians(120.f));
+		matPivot.Translation(vOriginalPos);
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
+
+		matPivot = matWorld * XMMatrixRotationY(XMConvertToRadians(270.f));
+		matPivot.Translation(vOriginalPos);
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Chaos_King_Pizza"), &desc)
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-		//ModelDesc.strFileName
+
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_King_Eruption", &ModelDesc);
@@ -112,9 +145,11 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 	return __super::OnUpdate(fTimeDelta);
 }
 
-void CKing_BT_Attack_Erruption::OnEnd()
+void CKing_BT_Attack_Erruption::OnEnd()	
 {
 	__super::OnEnd();
+	static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(0);
+	static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
 }
 
 

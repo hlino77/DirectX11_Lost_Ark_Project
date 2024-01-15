@@ -61,7 +61,6 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pRigidBody->SetMass(2.0f);
 	m_pRigidBody->Set_Gravity(false);
 
-	Find_NearTarget();
 
 	if (m_bInstance)
 	{
@@ -83,6 +82,7 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Tick(_float fTimeDelta)
 {
+	Set_EffectPos();
 	if (!m_bDead)
 		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 
@@ -103,7 +103,6 @@ void CMonster::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
-		Set_EffectPos();
 		Set_to_RootPosition(fTimeDelta, m_fRootTargetDistance);
 	}
 
@@ -449,11 +448,6 @@ void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect,
 	Safe_Release(pGameInstance);
 }
 
-void CMonster::Find_NearTarget()
-{
-	m_pNearTarget = nullptr;
-	m_pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
-}
 
 
 
@@ -959,12 +953,15 @@ void CMonster::Set_EffectPos()
 Vec3 CMonster::Get_BonePos(wstring strBoneName)
 {
 	Vec3   vBonePos;
+	Matrix matOwnerWolrd = m_pTransformCom->Get_WorldMatrix();
+
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(strBoneName);
 	if (iBoneIndex == -1)
 		return Vec3();
-	Matrix matCombined = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
-	matCombined *= m_pTransformCom->Get_WorldMatrix();
-	memcpy(&vBonePos, matCombined.m[3], sizeof(Vec3));
+	Matrix matBone = m_pModelCom->Get_CurrBoneMatrix(iBoneIndex);
+
+	Matrix matResult = matBone * matOwnerWolrd;
+	vBonePos = Vec3(matResult.m[3]);
 	return vBonePos;
 }
 

@@ -75,8 +75,18 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if(m_bRimLight)
-		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << "무력화: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl << CAsUtils::ToString(m_strAction) << endl;
+	if (KEY_TAP(KEY::B))
+		m_bDbgCout = !m_bDbgCout;
+	m_fTimeCount += fTimeDelta;
+	if (m_fTimeCount > 0.5f&&m_bDbgCout)
+	{
+		m_fTimeCount = 0.f;
+		_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;
+		system("cls");
+		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << (_int)(dPercent * 160.f) << "	/	" << 160 << endl << "무력화: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl << CAsUtils::ToString(m_strAction) << endl << "특수무력화: " << m_iGroggyCount << "	/ " << m_iMaxGroggyCount << endl;
+		if (m_IsCounterSkill)
+			cout << "파래요" << endl;
+	}
 }
 
 void CBoss::LateTick(_float fTimeDelta)
@@ -126,16 +136,20 @@ void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _flo
 	m_iHp -= iDamage;
 	if (m_iHp < 1.f && m_iPhase == 2)
 		m_iHp = 1;
-	if (m_iGroggyCount > 0)
+	if (fDuration==1.f)
 		m_iGroggyCount -= iGroggy;
 	else
 		m_iGroggyGauge -= iGroggy;
-	if (m_iHp < 0)
+	if (m_iHp < 1)
 		m_iHp = 0;
 
-	if (m_iGroggyGauge < 0)
+	if (m_iGroggyGauge < 1)
 		m_iGroggyGauge = 0;
-
+	if (m_iGroggyCount < 1)
+	{
+		m_iGroggyCount = 0;
+		m_iMaxGroggyCount = 0;
+	}
 	Set_RimLight(0.05f);
 }
 

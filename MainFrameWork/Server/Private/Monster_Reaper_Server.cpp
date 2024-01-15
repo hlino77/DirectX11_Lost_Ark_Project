@@ -86,7 +86,7 @@ HRESULT CMonster_Reaper_Server::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(2.2f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 20.f;
-	m_iMaxHp = (uint64)21999997;
+	m_iMaxHp = (uint64)88000000;
 	m_iHp = m_iMaxHp;
 	return S_OK;
 }

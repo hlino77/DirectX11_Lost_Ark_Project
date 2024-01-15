@@ -53,7 +53,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 100;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 600000000;
+	m_iMaxHp = 2400000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -63,7 +63,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 	m_vecAttackRanges.clear();
 	m_fAttackRange = 1.f;
 	m_iBaseAtk = 16;
-	m_fBaseForce = 10.f;
+	m_fBaseForce = 12.f;
 	m_fRootTargetDistance = 1.2f;
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 50;
@@ -82,9 +82,6 @@ void CBoss_King::Tick(_float fTimeDelta)
 void CBoss_King::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
-
-
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
 }
@@ -230,9 +227,9 @@ HRESULT CBoss_King::Ready_Coliders()
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Radius(0.9f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Offset(Vec3(0.0f, 0.9f, 0.0f));
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(0.9f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.75f,-0.09f , -0.9f));
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("b_wp_1")));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.0f,1.2f, 0.5f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(false);
 
 	return S_OK;
 }
@@ -397,9 +394,11 @@ HRESULT CBoss_King::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
 	AnimationDesc.fMaxLoopTime = 6.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_6_05");
 	AnimationDesc.iStartFrame = 0;

@@ -55,7 +55,7 @@ HRESULT CMonster_Zombie::Initialize_Prototype()
 
 HRESULT CMonster_Zombie::Initialize(void* pArg)
 {
-	m_iMaxHp = 9999999;
+	m_iMaxHp = 40000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;

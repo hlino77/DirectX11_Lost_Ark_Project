@@ -26,10 +26,10 @@ HRESULT CSKill_Golem_Swipe::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fMoveSpeed = 1.5f;
+	m_fMoveSpeed = 0.7f;
 	m_fLastTime = 1.f;
 	m_iAtk = 15;
-	m_fForce = 0.f;
+	m_fForce = 11.f;
     return S_OK;
 }
 
@@ -39,12 +39,12 @@ void CSKill_Golem_Swipe::Tick(_float fTimeDelta)
 	m_pTransformCom->Go_Left(m_fMoveSpeed,fTimeDelta);
 	CSphereCollider* pCollider = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS];
 	_float fRadius = pCollider->Get_Radius();
-	fRadius += 1.5f * fTimeDelta;
+	fRadius += 0.7f * fTimeDelta;
 	pCollider->Set_Radius(fRadius);
 
 	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
 	Vec3 vScale = pChildCollider->Get_Scale();
-	vScale.x += 1.5f * fTimeDelta;
+	vScale.x += 0.7f * fTimeDelta;
 	pChildCollider->Set_Scale(vScale);
 }
 
@@ -104,10 +104,12 @@ HRESULT CSKill_Golem_Swipe::Ready_Coliders()
 
 	CSphereCollider* pCollider = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS];
 	pCollider->Set_Radius(1.f);
+	pCollider->Set_Offset(Vec3(0.f, 0.f, 0.25f));
 	pCollider->SetActive(true);
 
 	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
-	pChildCollider->Set_Scale(Vec3(0.5f, 1.f, 1.f));
+	pChildCollider->Set_Scale(Vec3(0.9f, 1.f, 1.f));
+	pChildCollider->Set_Offset(Vec3(0.f, 0.f, 0.25f));
 
 	for (auto& Collider : m_Coliders)
 	{

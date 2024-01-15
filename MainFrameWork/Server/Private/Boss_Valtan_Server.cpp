@@ -171,7 +171,12 @@ HRESULT CBoss_Valtan_Server::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
+	Vec3 vScale;
+	vScale.x = 0.012f;
+	vScale.y = 0.012f;
+	vScale.z = 0.012f;
 
+	m_pTransformCom->Set_Scale(vScale);
 	return S_OK;
 }
 

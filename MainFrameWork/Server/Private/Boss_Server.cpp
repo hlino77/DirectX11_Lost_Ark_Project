@@ -58,11 +58,14 @@ void CBoss_Server::Tick(_float fTimeDelta)
 
 	m_fSkillCoolDown += fTimeDelta;
 	Find_NearTarget(fTimeDelta);
-	if (m_fScanCoolDown == 0.f)
+	m_fTimeCount += fTimeDelta;
+
+	if (m_fTimeCount > 0.5f && m_bDbgCout)
 	{
+		m_fTimeCount = 0.f;
 		_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;
 		system("cls");
-		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << (_int)(dPercent * 160.f) << "	/	" << 160 << endl << "아머: " << m_iArmor << "	/ 갑옷 내구도: " << m_iArmorDurability << endl << "무력화: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl<<CAsUtils::ToString(m_strAction) << endl;
+		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << (_int)(dPercent * 160.f) << "	/	" << 160 << endl << "아머: " << m_iArmor << "	/ 갑옷 내구도: " << m_iArmorDurability << endl << "무력화: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl<<CAsUtils::ToString(m_strAction) << endl << "특수무력화: " << m_iGroggyCount << "	/ " << m_iMaxGroggyCount << endl;
 		if (m_IsCounterSkill)
 			cout << "파래요" << endl;
 	}
@@ -152,12 +155,26 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 		if (!m_bInvincible)
 		{
 			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
-
+			_uint iGroggy_Result = iGroggy;
+			_bool	m_bGroggyObsorb = false;
 			m_iHp -= iDamage_Result;
-			if (m_iGroggyCount > 0)
-				m_iGroggyCount -= iGroggy;
+			if (m_iGroggyCount > 0&& m_iMaxGroggyCount > 0)
+			{
+				m_iGroggyCount -= iGroggy_Result;
+				m_bGroggyObsorb = true;
+				if (m_iGroggyCount < 1)
+				{
+					m_IsHit = true;
+					m_bGrogginess = true;
+					m_IsGroggy = true;
+					m_iGroggyCount = 0;
+					m_iMaxGroggyCount = 0;
+				}
+			}
 			else if (!m_IsGroggy && m_iGroggyGauge > 0&&!m_IsGroggyLock)
-				m_iGroggyGauge -= iGroggy;
+				m_iGroggyGauge -= iGroggy_Result;
+			if (m_IsGroggyLock)
+				iGroggy_Result = 0;
 			m_iHitCount++;
 
 			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
@@ -184,7 +201,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 			if (m_iHp < 1.f)
 				m_IsHit = true;
 
-			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, m_bGroggyObsorb, iGroggy_Result);
 		}
 }
 

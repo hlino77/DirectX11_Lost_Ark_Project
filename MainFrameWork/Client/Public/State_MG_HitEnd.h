@@ -1,7 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "State.h"
-#include "Player_Controller_GN.h"
+#include "Controller_MG.h"
 
 BEGIN(Client)
 
