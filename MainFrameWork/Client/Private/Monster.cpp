@@ -20,6 +20,7 @@
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
 #include "UI_Monster_Hp.h"
+#include <Effect_Manager.h>
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Monster", OBJ_TYPE::MONSTER)
@@ -325,10 +326,20 @@ void CMonster::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{
 			Send_CollidingInfo(iColLayer, pOther);
+
+			CEffect_Manager::EFFECTPIVOTDESC_LATE desc;
+			desc.matPivot = m_pTransformCom->Get_WorldMatrix();
+
+			EFFECT_LATE_START(TEXT("HitEffects_LOS"), &desc);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
 			Send_CollidingInfo(iColLayer, pOther);
+
+			CEffect_Manager::EFFECTPIVOTDESC_LATE desc;
+			desc.matPivot = m_pTransformCom->Get_WorldMatrix();
+
+			EFFECT_LATE_START(TEXT("HitEffects_LOS"), &desc);
 		}
 	}
 }

@@ -401,6 +401,16 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 	return S_OK;
 }
 
+HRESULT CEffect_Manager::Effect_LateStart(wstring strEffectBundle, EFFECTPIVOTDESC_LATE* pDesc)
+{
+	if (0 == m_hashEffectBundles.count(strEffectBundle))
+		return E_FAIL;
+	else
+		m_vecEffectResereved.push_back(make_pair(strEffectBundle, EFFECTPIVOTDESC_LATE(*pDesc)));
+
+	return S_OK;
+}
+
 HRESULT CEffect_Manager::Return_Effect(CEffect* pEffect)
 {
 	m_hashEffectPools[pEffect->Get_ModelName()].push(pEffect);
@@ -433,7 +443,42 @@ HRESULT CEffect_Manager::Ready_EffectPool(_uint iDefaultSize)
 
 void CEffect_Manager::Tick(_float fTimedelta)
 {
-	
+	for (_int i = 0; i < m_vecEffectResereved.size(); ++i)
+	{
+		m_hashEffectBundles.find(m_vecEffectResereved[i].first);
+
+		for (auto& EffectTag : m_hashEffectBundles[m_vecEffectResereved[i].first])
+		{
+			CEffect* pEffect = nullptr;
+
+			EFFECTPIVOTDESC pDesc =
+			{
+				m_vecEffectResereved[i].second.pPivotTransform,
+				&m_vecEffectResereved[i].second.matPivot,
+				m_vecEffectResereved[i].second.bParentPivot
+			};
+
+			if (m_hashEffectPools[EffectTag].empty())
+			{
+				wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + EffectTag;
+
+				pEffect = static_cast<CEffect*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag, &pDesc));
+				if (nullptr == pEffect)
+					return __debugbreak();
+			}
+			else
+			{
+				pEffect = m_hashEffectPools[EffectTag].front();
+				m_hashEffectPools[EffectTag].pop();
+			}
+
+			pEffect->Reset(pDesc);
+			pEffect->Tick(0.0f);
+			pEffect->Set_Active(true);
+		}
+	}
+
+	m_vecEffectResereved.clear();
 }
 
 void CEffect_Manager::Free()

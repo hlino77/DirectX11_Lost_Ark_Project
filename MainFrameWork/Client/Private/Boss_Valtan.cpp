@@ -128,6 +128,10 @@ HRESULT CBoss_Valtan::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
+	Color vValtanBloom = Color(0.15f, 1.5f, 1.3f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
+		return E_FAIL;
+
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 	if (m_iArmor > 1&&m_iPhase != 3)

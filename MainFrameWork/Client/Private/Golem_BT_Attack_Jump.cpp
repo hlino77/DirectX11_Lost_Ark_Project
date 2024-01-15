@@ -7,6 +7,7 @@
 #include <ColliderOBB.h>
 #include <Skill.h>
 #include "GameInstance.h"
+#include <Effect_Manager.h>
 CGolem_BT_Attack_Jump::CGolem_BT_Attack_Jump()
 {
 }
@@ -15,18 +16,36 @@ void CGolem_BT_Attack_Jump::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster*>(m_pGameObject)->Set_RootTargetDistance(0.f);
-	m_Shoot = true;
-}
+
+	m_Shoot[0] = true;
+	m_Shoot[1] = true;
+};
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 {
-	if ( m_Shoot && 36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
+	if (m_Shoot[0] && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
+	{ 
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matWorld;
+
+		EFFECT_START(TEXT("Chaos_Rook_Cross_Warnning"), &desc)
+
+		m_Shoot[0] = false;
+	}
+
+	if ( m_Shoot[1] && 36 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex))
 	{
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matWorld;
+
+		EFFECT_START(TEXT("Chaos_Rook_Cross_Effects"), &desc)
 
 		{
 			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Golem_Jump", &ModelDesc);
@@ -38,7 +57,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 				vPos.y = 0.5f;
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-				m_Shoot = false;
+				m_Shoot[1] = false;
 			}
 		}
 		{
@@ -52,12 +71,10 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 				vPos.y = 0.5f;
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vRight);
-				m_Shoot = false;
+				m_Shoot[1] = false;
 			}
 		}
 	}
-
-
 
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -68,8 +85,6 @@ void CGolem_BT_Attack_Jump::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_RootTargetDistance(static_cast<CMonster*>(m_pGameObject)->Get_AttackRange() * 0.7f);
 
 }
-
-
 
 CGolem_BT_Attack_Jump* CGolem_BT_Attack_Jump::Create(void* pArg)
 {

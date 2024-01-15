@@ -827,6 +827,14 @@ HRESULT CRenderer::Render_Effect()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Effects"))))
 		return E_FAIL;
 
+	/*for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_DECAL])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_DECAL].clear();*/
+
 	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_EFFECT])
 	{
 		if (FAILED(iter->Render()))

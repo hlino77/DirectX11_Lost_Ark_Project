@@ -130,6 +130,7 @@ void CMainApp::Tick(_float fTimeDelta)
 
 	m_pGameInstance->FinalTick(fTimeDelta);
 
+	CEffect_Manager::GetInstance()->Tick(fTimeDelta);
 	CServerSessionManager::GetInstance()->Tick(fTimeDelta);
 
 	/* 게임내에 존재하는 여러 객체들의 갱신. */

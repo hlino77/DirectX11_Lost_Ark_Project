@@ -92,8 +92,7 @@ DepthStencilState DSS_None
 DepthStencilState DSS_Effect
 {
     DepthEnable = true;
-    DepthWriteMask = all;
-    DepthFunc = always;
+    DepthWriteMask = zero;
 };
 
 BlendState BS_Default

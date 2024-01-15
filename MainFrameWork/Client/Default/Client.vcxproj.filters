@@ -2846,7 +2846,6 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
@@ -3687,6 +3686,54 @@
     </ClInclude>
     <ClInclude Include="..\Public\Guide_Npc.h">
       <Filter>02.GameObjects\Npc\Function_Npc\Guide_Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5339,7 +5386,6 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\Boss_Golem.cpp">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClCompile>
@@ -6181,6 +6227,57 @@
     </ClCompile>
     <ClCompile Include="..\Private\Guide_Npc.cpp">
       <Filter>02.GameObjects\Npc\Function_Npc\Guide_Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Boss_Hp.cpp">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
