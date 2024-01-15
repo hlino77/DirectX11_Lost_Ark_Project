@@ -33,7 +33,7 @@ HRESULT CSkill_MG_Sonatine::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.0f);
 	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 1.9f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.0f);
-	Proj_Desc.iDamage = 150.f;
+	Proj_Desc.iDamage = 150;
 	Proj_Desc.fRepulsion = 12.f;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);

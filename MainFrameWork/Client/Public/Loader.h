@@ -56,7 +56,7 @@ private:
 
 	HRESULT	Load_NpcData();
 	HRESULT Start_Load_Npc(const wstring& strPath);
-	HRESULT	AutoLoad(const fs::path& strPath, LEVELID eLevel);
+	HRESULT	AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot = XMMatrixIdentity());
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);

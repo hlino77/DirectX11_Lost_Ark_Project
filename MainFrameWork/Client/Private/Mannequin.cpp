@@ -49,9 +49,6 @@ void CMannequin::Tick(_float fTimeDelta)
 	if (nullptr == m_pModelCom)
 		return;
 
-	if((_uint)LEVEL_TOOL_NPC == m_iCurrLevel)
-		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
-
 	if (true == m_IsMove)
 	{
 		Move(fTimeDelta);
@@ -60,6 +57,9 @@ void CMannequin::Tick(_float fTimeDelta)
 	{
 		Talk(fTimeDelta);
 	}
+
+	if ((_uint)LEVEL_TOOL_NPC == m_iCurrLevel)
+		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 
@@ -148,15 +148,20 @@ HRESULT CMannequin::Render()
 			{
 				if (i == m_IsHair)
 				{
-					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-						FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4))))
+						return E_FAIL;
+
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4))))
 						return E_FAIL;
 
 					if (FAILED(m_pModelPart[HEAD]->Render_SingleMesh(m_pShaderCom, i)))
 						return E_FAIL;
 
-					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-						FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+					Vec4 vResetColor;
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+						return E_FAIL;
+
+					if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 						return E_FAIL;
 				}
 				else
@@ -200,7 +205,7 @@ void CMannequin::Clear_MQ()
 	m_vecTalkScript.clear();
 	m_fTalkStartAcc = 0.f;
 	m_fTalkTime = 0.f;
-	m_iCurrTalk = 0.f;
+	m_iCurrTalk = 0;
 }
 
 void CMannequin::Set_ModelCom(CModel* pModel)
@@ -418,10 +423,12 @@ void CMannequin::Move(const _float& fTimeDelta)
 		vMove = m_vecMovePos[m_iMoveCnt];
 	}
 
-	Vec3 vDir = vMove - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 0; vMove.y = 0;
+	Vec3 vDir = vMove - vPos;
 	m_pTransformCom->Move_ToPos(vDir, 10.f, 1.f, fTimeDelta);
 
-	if (Vec3(m_pTransformCom->Get_State(CTransform::STATE_POSITION) - vMove).Length() <= 0.05f)
+	if (vDir.Length() <= 0.06f)
 	{
 		m_iMoveCnt++;
 		if (m_vecMovePos.size() < m_iMoveCnt)

@@ -196,6 +196,12 @@
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_Phase3">
       <UniqueIdentifier>{d84e16c2-1d4b-4a94-8d0d-11886edf7eec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. Npc">
+      <UniqueIdentifier>{69220833-87a5-48c1-be2c-d6720af7e298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Npc\Guide_Npc">
+      <UniqueIdentifier>{d8ea5fef-7d83-4ff6-8002-101d647ceb72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -500,6 +506,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Server.cpp">
       <Filter>02. GameObject\04. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Npc_Server.cpp">
+      <Filter>02. GameObject\07. Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Guide_Npc_Server.cpp">
+      <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -895,6 +907,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Npc_Server.h">
+      <Filter>02. GameObject\07. Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Guide_Npc_Server.h">
+      <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

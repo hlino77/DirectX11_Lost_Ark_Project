@@ -39,6 +39,7 @@ private:
 
 	CPlayer_Controller::HIT_TYPE m_eHitType;
 	_float m_fForceDist;
+	_float m_fHitCheck;
 
 	_bool	m_IsAnimEnd = { false };
 

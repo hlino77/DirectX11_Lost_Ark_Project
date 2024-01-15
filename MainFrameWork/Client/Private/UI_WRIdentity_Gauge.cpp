@@ -48,7 +48,7 @@ HRESULT CUI_WRIdentity_Gauge::Initialize(void* pArg)
 
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     if(nullptr != pPlayer)
-    m_iIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->
+    m_fIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->
         Get_WR_Controller()->Get_IdenMaxGauge();
 
     return S_OK;
@@ -119,17 +119,17 @@ void CUI_WRIdentity_Gauge::Identity_Gauge()
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     if (nullptr != pPlayer)
     {
-        m_iIdentity_Gauge = static_cast<CPlayer_Slayer*>(pPlayer)->
+        m_fIdentity_Gauge = static_cast<CPlayer_Slayer*>(pPlayer)->
             Get_WR_Controller()->Get_IdenGage();
 
-        if (m_iIdentity_MaxGauge == (_uint)m_iIdentity_Gauge)
+        if (m_fIdentity_MaxGauge == m_fIdentity_Gauge)
         {
             m_fGaugeAngle = -(XM_PI);
         }
         else
         {
             //ÇöÅ½¶§ m_iIdentity_Gauge ¾²·¹±â°ªµé¾î¿È
-            m_fGaugeRatio = (_float)m_iIdentity_Gauge / (_float)m_iIdentity_MaxGauge;
+            m_fGaugeRatio = (_float)m_fIdentity_Gauge / (_float)m_fIdentity_MaxGauge;
             m_fGaugeAngle = XM_PI - (2.f * XM_PI * m_fGaugeRatio);
             if (1.f < m_fGaugeRatio)
                 m_fGaugeAngle = XM_PI;

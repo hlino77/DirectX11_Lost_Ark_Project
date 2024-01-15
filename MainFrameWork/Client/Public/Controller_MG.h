@@ -21,7 +21,7 @@ public:
 	virtual void	DebugRender() override;
 
 public:
-	virtual void	Get_HitMessage(_uint iDamge, _float fForce);
+	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 
 	/* 아덴 관련 함수 */
 	_uint			Is_MG_Identity();

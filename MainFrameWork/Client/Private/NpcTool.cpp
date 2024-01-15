@@ -180,9 +180,10 @@ void CNpcTool::Set_DebugRender_Npc()
 void CNpcTool::Pick_Npc()
 {
 	_uint iIndex = 0;
+	Vec3 vPickPos;
 	for (auto& pNpc : m_vecNpcs)
 	{
-		if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse())
+		if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos))
 		{
 			m_iCurNpc = iIndex;
 		}
@@ -402,10 +403,24 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 		}
 	}
 
-	CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
-		TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
-	if (nullptr == pInstance)
-		return E_FAIL;
+	if ((_uint)CNpc::NPCTYPE::DECO == NpcCreateDesc.iNpcType)
+	{
+		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+			TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
+		if (nullptr == pInstance)
+			return E_FAIL;
+	}
+	else if ((_uint)CNpc::NPCTYPE::FUNCTION == NpcCreateDesc.iNpcType)
+	{
+		if (TEXT("GuideNpc_SP_L") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_GuideNpc_SP_L"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
+	}
+	
 
 	m_vecNpcDesc.push_back(NpcCreateDesc);
 	
@@ -508,6 +523,7 @@ void CNpcTool::Select_Npc(const _float& fTimeDelta)
 				m_pMannequin->Set_ModelCom(pInstance);
 				m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vStartPos);
 				m_pMannequin->Set_StartPos(m_vStartPos);
+				CNavigationMgr::GetInstance()->Find_FirstCell(LEVEL_TOOL_NPC, m_pMannequin);
 
 				m_vNpcScale = m_pMannequin->Get_TransformCom()->Get_Scale();
 				m_vNpcRot = Vec3().Zero;
@@ -554,6 +570,20 @@ void CNpcTool::Name(const _float& fTimeDelta)
 	ImGui::Text("Npc Name :");
 	ImGui::SameLine();
 	ImGui::InputText("##Name", m_szNpcName, MAX_PATH);
+
+	_int w_lenTag = MultiByteToWideChar(CP_UTF8, 0, m_szNpcTag, -1, nullptr, 0);
+	wchar_t* w_bufferTag = new wchar_t[w_lenTag];
+
+	if (0 == MultiByteToWideChar(CP_UTF8, 0, m_szNpcTag, -1, w_bufferTag, w_lenTag))
+	{
+		delete[] w_bufferTag;
+	}
+	else
+	{
+		wstring strNpcTag = w_bufferTag;
+		delete[] w_bufferTag;
+		m_NpcCreateDesc.strNpcTag = strNpcTag;
+	}
 
 	_int w_len = MultiByteToWideChar(CP_UTF8, 0, m_szNpcName, -1, nullptr, 0);
 	wchar_t* w_buffer = new wchar_t[w_len];
@@ -839,7 +869,7 @@ void CNpcTool::Move(const _float& fTimeDelta)
 		{
 			if (true == m_IsMove)
 			{
-				m_pMannequin->Set_Move_State(m_IsMove);
+				m_pMannequin->Set_Move_State(true);
 
 				m_NpcCreateDesc.IsMove = m_IsMove;
 				m_NpcCreateDesc.vecMovePos = m_vecMovePos;
@@ -848,12 +878,13 @@ void CNpcTool::Move(const _float& fTimeDelta)
 			else if (false == m_IsMove)
 			{
 				
-				m_pMannequin->Set_Move_State(m_IsMove);
+				m_pMannequin->Set_Move_State(false);
 				m_pMannequin->Clear_MovePos();
 
 				m_NpcCreateDesc.IsMove = m_IsMove;
 				m_NpcCreateDesc.vecMovePos.clear();
 				m_vecforMoveList.clear();
+				m_vecMovePos.clear();
 			}
 			
 		}
@@ -1408,15 +1439,34 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 
 		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
 			TEXT("Prototype_GameObject_DecoNpc"), &m_NpcCreateDesc);
-
-		m_vecNpcDesc.push_back(m_NpcCreateDesc);
-		Clear_Info();
-		m_pMannequin->Clear_MQ();
+		if (nullptr == pInstance)
+			return;
 	}
-	else
+	else if ((_uint)CNpc::NPCTYPE::FUNCTION == m_NpcCreateDesc.iNpcType)
 	{
+		if (TEXT("GuideNpc_SP_L") == m_NpcCreateDesc.strNpcTag)
+		{
+			m_pMannequin->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
+			m_pMannequin->Get_TransformCom()->Set_Scale(m_vNpcScale);
+			m_pMannequin->Get_TransformCom()->My_Rotation(m_vNpcRot);
+			m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vNpcPos);
+			m_NpcCreateDesc.matStart = m_pMannequin->Get_TransformCom()->Get_WorldMatrix();
 
+			if (TEXT("") == m_NpcCreateDesc.strNpcName)
+			{
+				m_NpcCreateDesc.strNpcName = TEXT("None");
+			}
+
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_GuideNpc_SP_L"), &m_NpcCreateDesc);
+			if (nullptr == pInstance)
+				return;
+		}
 	}
+
+	m_vecNpcDesc.push_back(m_NpcCreateDesc);
+	Clear_Info();
+	m_pMannequin->Clear_MQ();
 }
 
 HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)

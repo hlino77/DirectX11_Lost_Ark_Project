@@ -7,6 +7,8 @@
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
 
+#include "Player.h"
+
 CFunction_Npc::CFunction_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CNpc(pDevice, pContext)
 {
@@ -36,6 +38,8 @@ HRESULT CFunction_Npc::Initialize(void* pArg)
 
 void CFunction_Npc::Tick(_float fTimeDelta)
 {
+	Find_Control_Pc();
+
 	__super::Tick(fTimeDelta);
 }
 
@@ -98,12 +102,12 @@ HRESULT CFunction_Npc::Ready_Components()
 	{
 		{
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->SetActive(true);
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Radius(0.7f);
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Radius(0.8f);
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
 
 			COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Get_Child());
-			pChildCollider->Set_Scale(Vec3(0.2f, 0.6f, 0.2f));
+			pChildCollider->Set_Scale(Vec3(0.4f, 0.6f, 0.4f));
 			pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 			pChildCollider->SetActive(true);
 		}
@@ -191,15 +195,18 @@ HRESULT CFunction_Npc::Render_PartModel()
 		{
 			if (i == (_uint)PART::FACE && j == m_IsHair)
 			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_NpcDesc.vHairColor1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_NpcDesc.vHairColor2, sizeof(Vec4)))))
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_NpcDesc.vHairColor1, sizeof(Vec4))))
+					return E_FAIL;
+				if(FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_NpcDesc.vHairColor2, sizeof(Vec4))))
 					return E_FAIL;
 
 				if (FAILED(m_pNpcPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
 
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+				Vec4 vResetColor;
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+					return E_FAIL;
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 					return E_FAIL;
 			}
 			else
@@ -236,6 +243,25 @@ HRESULT CFunction_Npc::Render_PartModel_Shadow()
 	return S_OK;
 }
 
+HRESULT CFunction_Npc::Find_Control_Pc()
+{
+	if (nullptr != m_pCtrlPlayer)
+		return S_OK;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pCtrlPlayer = static_cast<CPlayer*>(pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	if (nullptr == m_pCtrlPlayer)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return S_OK;
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
 void CFunction_Npc::Set_Colliders(_float fTimeDelta)
 {
 	for (auto& Collider : m_Coliders)
@@ -243,32 +269,6 @@ void CFunction_Npc::Set_Colliders(_float fTimeDelta)
 		if (Collider.second->IsActive())
 			Collider.second->Update_Collider();
 	}
-}
-
-CFunction_Npc* CFunction_Npc::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-	CFunction_Npc* pInstance = new CFunction_Npc(pDevice, pContext);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX("Failed To Created : CFunction_Npc");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-CGameObject* CFunction_Npc::Clone(void* pArg)
-{
-	CFunction_Npc* pInstance = new CFunction_Npc(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX("Failed To Cloned : CFunction_Npc");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
 }
 
 void CFunction_Npc::Free()

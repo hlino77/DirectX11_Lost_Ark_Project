@@ -35,8 +35,22 @@ HRESULT CState_GN_HitEnd::Initialize()
 
 void CState_GN_HitEnd::Enter_State()
 {
-	m_eHitType = (CPlayer_Controller::HIT_TYPE)m_pPlayer->Get_TargetPos().x;
-	m_fForceDist = m_pPlayer->Get_TargetPos().y;
+	m_fHitCheck = m_pPlayer->Get_TargetPos().y;
+	if (10.f <= m_fHitCheck && 20.f > m_fHitCheck)
+	{
+		m_eHitType = CPlayer_Controller::HIT_TYPE::KNOCKDOWN;
+		m_fForceDist = m_fHitCheck - 10.f;
+	}
+	else if (20.f <= m_fHitCheck && 30.f > m_fHitCheck)
+	{
+		m_eHitType = CPlayer_Controller::HIT_TYPE::BOUND;
+		m_fForceDist = m_fHitCheck - 20.f;
+	}
+	else if (30.f <= m_fHitCheck && 40.f > m_fHitCheck)
+	{
+		m_eHitType = CPlayer_Controller::HIT_TYPE::TWIST;
+		m_fForceDist = m_fHitCheck - 30.f;
+	}
 
 	switch (m_eHitType)
 	{

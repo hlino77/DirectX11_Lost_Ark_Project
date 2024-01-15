@@ -235,6 +235,7 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\Guide_Npc.h" />
     <ClInclude Include="..\Public\ImGUI\imnodes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -325,6 +326,8 @@
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
     <ClInclude Include="..\Public\State_MG_Dash.h" />
     <ClInclude Include="..\Public\State_MG_Hit.h" />
+    <ClInclude Include="..\Public\State_MG_HitEnd.h" />
+    <ClInclude Include="..\Public\State_MG_Hit_Common.h" />
     <ClInclude Include="..\Public\State_MG_Identity.h" />
     <ClInclude Include="..\Public\State_MG_Identity_Back.h" />
     <ClInclude Include="..\Public\State_MG_Idle.h" />
@@ -339,6 +342,8 @@
     <ClInclude Include="..\Public\State_MG_SonicVibe_End.h" />
     <ClInclude Include="..\Public\State_MG_SonicVibe_Start.h" />
     <ClInclude Include="..\Public\State_MG_SoundShock.h" />
+    <ClInclude Include="..\Public\State_MG_Stand.h" />
+    <ClInclude Include="..\Public\State_MG_StandDash.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_1.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_2.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_3.h" />
@@ -351,6 +356,8 @@
     <ClInclude Include="..\Public\State_WDR_FullSwing_Success.h" />
     <ClInclude Include="..\Public\State_WDR_HeavyCrush.h" />
     <ClInclude Include="..\Public\State_WDR_Hit.h" />
+    <ClInclude Include="..\Public\State_WDR_HitEnd.h" />
+    <ClInclude Include="..\Public\State_WDR_Hit_Common.h" />
     <ClInclude Include="..\Public\State_WDR_Identity.h" />
     <ClInclude Include="..\Public\State_WDR_Iden_Attack_1.h" />
     <ClInclude Include="..\Public\State_WDR_Iden_Attack_2.h" />
@@ -371,6 +378,8 @@
     <ClInclude Include="..\Public\State_WDR_PowerStrike_Start.h" />
     <ClInclude Include="..\Public\State_WDR_Run.h" />
     <ClInclude Include="..\Public\State_WDR_SizemicHammer.h" />
+    <ClInclude Include="..\Public\State_WDR_Stand.h" />
+    <ClInclude Include="..\Public\State_WDR_StandDash.h" />
     <ClInclude Include="..\Public\State_WR_BrutalImpact_End.h" />
     <ClInclude Include="..\Public\SKill_King_ChargeSwing.h" />
     <ClInclude Include="..\Public\SKill_King_Eruption.h" />
@@ -439,6 +448,7 @@
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Boss_Hp.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon.h" />
+    <ClInclude Include="..\Public\UI_ChaosDungeon_Clear.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeFrame.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_GaugeShine.h" />
@@ -571,6 +581,7 @@
     <ClInclude Include="..\Public\UI_Mouse_ToolTip_Icon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
+    <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h" />
     <ClInclude Include="..\Public\UI_Player_HPFill.h" />
@@ -723,6 +734,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
+    <ClCompile Include="..\Private\Guide_Npc.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack2.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack3.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp" />
@@ -808,6 +820,8 @@
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit.cpp" />
+    <ClCompile Include="..\Private\State_MG_HitEnd.cpp" />
+    <ClCompile Include="..\Private\State_MG_Hit_Common.cpp" />
     <ClCompile Include="..\Private\State_MG_Identity.cpp" />
     <ClCompile Include="..\Private\State_MG_Identity_Back.cpp" />
     <ClCompile Include="..\Private\State_MG_Idle.cpp" />
@@ -822,6 +836,8 @@
     <ClCompile Include="..\Private\State_MG_SonicVibe_End.cpp" />
     <ClCompile Include="..\Private\State_MG_SonicVibe_Start.cpp" />
     <ClCompile Include="..\Private\State_MG_SoundShock.cpp" />
+    <ClCompile Include="..\Private\State_MG_Stand.cpp" />
+    <ClCompile Include="..\Private\State_MG_StandDash.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_3.cpp" />
@@ -834,6 +850,8 @@
     <ClCompile Include="..\Private\State_WDR_FullSwing_Success.cpp" />
     <ClCompile Include="..\Private\State_WDR_HeavyCrush.cpp" />
     <ClCompile Include="..\Private\State_WDR_Hit.cpp" />
+    <ClCompile Include="..\Private\State_WDR_HitEnd.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Hit_Common.cpp" />
     <ClCompile Include="..\Private\State_WDR_Identity.cpp" />
     <ClCompile Include="..\Private\State_WDR_Iden_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_WDR_Iden_Attack_2.cpp" />
@@ -854,6 +872,8 @@
     <ClCompile Include="..\Private\State_WDR_PowerStrike_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_Run.cpp" />
     <ClCompile Include="..\Private\State_WDR_SizemicHammer.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Stand.cpp" />
+    <ClCompile Include="..\Private\State_WDR_StandDash.cpp" />
     <ClCompile Include="..\Private\State_WR_BrutalImpact_End.cpp" />
     <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp" />
     <ClCompile Include="..\Private\SKill_King_Eruption.cpp" />
@@ -922,6 +942,7 @@
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Boss_Hp.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon.cpp" />
+    <ClCompile Include="..\Private\UI_ChaosDungeon_Clear.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeFrame.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_GaugeShine.cpp" />
@@ -1059,6 +1080,7 @@
     <ClCompile Include="..\Private\UI_Mouse_ToolTip_Icon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp" />

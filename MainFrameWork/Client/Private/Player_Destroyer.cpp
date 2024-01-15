@@ -30,6 +30,11 @@
 #include "State_WDR_Iden_Attack_3.h"
 #include "State_WDR_Iden_Attack_4.h"
 #include "State_WDR_Iden_Skill.h"
+#include "State_WDR_Hit.h"
+#include "State_WDR_HitEnd.h"
+#include "State_WDR_Hit_Common.h"
+#include "State_WDR_Stand.h"
+#include "State_WDR_StandDash.h"
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
@@ -60,6 +65,9 @@
 #include "Skill_WDR_PowerShoulder.h"
 #include "Skill_WDR_PowerStrike.h"
 #include "Skill_WDR_SizemicHammer.h"
+
+#include "Skill.h"
+#include "Boss.h"
 
 CPlayer_Destroyer::CPlayer_Destroyer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -163,15 +171,20 @@ HRESULT CPlayer_Destroyer::Render()
 		{
 			if (i == (_uint)PART::HELMET && j == m_IsHair)
 			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4))))
 					return E_FAIL;
 
 				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
 
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+				Vec4 vResetColor;
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 					return E_FAIL;
 			}
 			else
@@ -213,6 +226,27 @@ HRESULT CPlayer_Destroyer::Render_ShadowDepth()
 
 void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+		{
+			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+		{
+			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		{
+			Vec3 vCenter;
+			if (true == static_cast<CBoss*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
+			{
+				m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+			}
+		}
+	}
+
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
@@ -299,6 +333,22 @@ void CPlayer_Destroyer::Set_Colliders(_float fTimeDelta)
 		if (Collider.second->IsActive())
 			Collider.second->Update_Collider();
 	}
+}
+
+_bool CPlayer_Destroyer::Get_CellPickingPos(Vec3& vPickPos)
+{
+	_bool IsPick = __super::Get_CellPickingPos(vPickPos);
+
+	if (true == m_IsClickNpc)
+	{
+		m_pController->Get_MoveToNpcMessage();
+	}
+	else
+	{
+		m_pController->Get_MoveToCellMessage();
+	}
+
+	return IsPick;
 }
 
 HRESULT CPlayer_Destroyer::Ready_Components()
@@ -446,6 +496,20 @@ HRESULT CPlayer_Destroyer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_WDR_SizemicHammer"), CState_WDR_SizemicHammer::Create(TEXT("Skill_WDR_SizemicHammer"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Hit"), CState_WDR_Hit::Create(TEXT("Hit"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("HitEnd"), CState_WDR_HitEnd::Create(TEXT("HitEnd"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Hit_Common"), CState_WDR_Hit_Common::Create(TEXT("Hit_Common"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Stand"), CState_WDR_Stand::Create(TEXT("Stand"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("StandDash"), CState_WDR_StandDash::Create(TEXT("StandDash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
 }

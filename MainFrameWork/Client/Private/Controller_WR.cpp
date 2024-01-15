@@ -33,14 +33,14 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER;
-	Proj_Desc.fAttackTime = 0.1;
+	Proj_Desc.fAttackTime = 0.1f;
 
 	/* 기본공격 */
 	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 1.f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 5.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[0] = Proj_Desc;
@@ -49,7 +49,7 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
 	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 1.f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 5.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[1] = Proj_Desc;
@@ -59,7 +59,7 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 6.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[2] = Proj_Desc;
@@ -68,7 +68,7 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[3] = Proj_Desc;
@@ -78,7 +78,7 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = true;
 	m_Attack_Desces[4] = Proj_Desc;
@@ -110,29 +110,32 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 		if (1.f <= m_fTimdeAcc)
 		{
 			m_fTimdeAcc = 0.f;
-			m_iIdentityGage--;
+			m_fIdentityGage--;
 		}
 
-		if (0 >= m_iIdentityGage)
+		if (0.f >= m_fIdentityGage)
 		{
 			m_fTimdeAcc = 0.f;
 			m_IsIdentity = false;
-			m_iIdentityGage = -1;
+			m_fIdentityGage = -1.f;
 		}
 	}
-	else if (false == m_IsIdentity && -1 == m_iIdentityGage)
+	else if (false == m_IsIdentity && -1.f == m_fIdentityGage)
 	{
 		m_fIdenTimeAcc += fTimeDelta;
 		if (m_fIdenCoolTime <= m_fIdenTimeAcc)
 		{
 			m_fIdenTimeAcc = 0.f;
-			m_iIdentityGage = 0;
+			m_fIdentityGage = 0.f;
 		}
 	}
 }
 
 _bool CController_WR::Is_Identity()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_HOLD(KEY::Z) || KEY_TAP(KEY::Z))
 	{
 		if (true == m_IsIdentity)
@@ -143,7 +146,7 @@ _bool CController_WR::Is_Identity()
 				return false;
 		}
 
-		if (m_iMaxGage <= m_iIdentityGage)
+		if (m_fMaxGage <= m_fIdentityGage)
 			return true;
 		else
 			return false;
@@ -211,22 +214,38 @@ void CController_WR::Skill_CoolTime(const _float& fTimeDelta)
 	__super::Skill_CoolTime(fTimeDelta);
 }
 
-void CController_WR::Get_HitMessage(_uint iDamge, _float fForce)
+void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
-	__super::Get_HitMessage(iDamge, fForce);
+	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{
-		static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_eHitType, m_fForced, 0.f));
-
 		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
 		{
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, m_fForced, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
 		}
 		else if (HIT_TYPE::DMG != m_eHitType)
 		{
+			_float fCheckHit = 0.0f;
+			switch (m_eHitType)
+			{
+			case Engine::CPlayer_Controller::DOWN:
+				fCheckHit = m_fForced;
+				break;
+			case Engine::CPlayer_Controller::KNOCKDOWN:
+				fCheckHit = 10.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::BOUND:
+				fCheckHit = 20.f + m_fForced;
+				break;
+			case Engine::CPlayer_Controller::TWIST:
+				fCheckHit = 30.f + m_fForced;
+				break;
+			}
+			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, fCheckHit, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit"));
 		}
 	}
@@ -234,23 +253,23 @@ void CController_WR::Get_HitMessage(_uint iDamge, _float fForce)
 
 void CController_WR::Get_WR_IdentityMessage()
 {
-	if (m_iMaxGage <= m_iIdentityGage)
+	if (m_fMaxGage <= m_fIdentityGage)
 	{
 		m_IsIdentity = true;
-		m_iIdentityGage = m_iMaxGage;
+		m_fIdentityGage = m_fMaxGage;
 	}
 }
 
-void CController_WR::Increase_IdenGage(_uint iGage)
+void CController_WR::Increase_IdenGage(_float iGage)
 {
 	if (true == m_IsIdentity)
 		return;
 
-	m_iIdentityGage += iGage;
+	m_fIdentityGage += iGage;
 
-	if (m_iMaxGage <= m_iIdentityGage)
+	if (m_fMaxGage <= m_fIdentityGage)
 	{
-		m_iIdentityGage = m_iMaxGage;
+		m_fIdentityGage = m_fMaxGage;
 	}
 }
 

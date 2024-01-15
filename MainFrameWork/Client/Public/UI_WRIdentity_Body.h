@@ -47,8 +47,8 @@ private:
 
     _uint   m_iIdentity_CurrState = { 0 };
 
-    _int  m_iIdentity_Gauge = { 0 };
-    _int  m_iIdentity_MaxGauge = { 0 };
+    _float  m_fIdentity_Gauge = { 0.f };
+    _float  m_fIdentity_MaxGauge = { 0.f };
 
     _float  m_fIdentity_CurrCool = {0.f};
     _float  m_fIdentity_MaxCool = { 0.f };

@@ -55,9 +55,6 @@
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{448c794f-4c90-4cfd-b61e-d8bd1efc4207}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Plant">
-      <UniqueIdentifier>{4adcb49e-454e-4757-b167-9f53c1438c07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger">
       <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
     </Filter>
@@ -1125,6 +1122,48 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\DeathFireBomb">
       <UniqueIdentifier>{c043dc7a-10ec-43ca-a95c-860b24b713d6}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc">
+      <UniqueIdentifier>{85b1ea75-ce81-4b57-9835-6a4ba455d357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.ChaosDungeon">
+      <UniqueIdentifier>{0ae1f8be-9901-46aa-bae0-9b6f073b5202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd">
+      <UniqueIdentifier>{061aa157-a7f6-45fa-90ca-e4cb369f88d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\01.Item_Upgrade">
+      <UniqueIdentifier>{f906d942-fbe1-4f7d-9b5b-f7d68a9873e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Reaper\Plant">
+      <UniqueIdentifier>{4adcb49e-454e-4757-b167-9f53c1438c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Hit">
+      <UniqueIdentifier>{cdcd89c2-ee98-4c70-a4ca-2d48aeaf6dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Stand">
+      <UniqueIdentifier>{efd57426-8592-4fec-830f-8032a6760e28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Hit">
+      <UniqueIdentifier>{b15e7100-f39d-4f40-b4c6-407e15222f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stand">
+      <UniqueIdentifier>{9b2801a0-ec57-48b8-bf2d-745690263283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Hit">
+      <UniqueIdentifier>{bed6d4e8-39df-4b6f-8e25-75cd0a8ba31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stand">
+      <UniqueIdentifier>{8aedbe45-acd0-4df8-8bf9-684cf2b070d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stand">
+      <UniqueIdentifier>{31e77531-feec-43cb-9d33-3ab6332400e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Hit">
+      <UniqueIdentifier>{398d0dfb-086d-425f-96d0-5adbde3b3d33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Guide_Npc">
+      <UniqueIdentifier>{1eec1b39-c15a-49b0-9006-fcb46b51be6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1420,7 +1459,6 @@
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
     <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_LoadingShine.h" />
-    <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_Server.h" />
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
     <ClInclude Include="..\Public\UI_ServerGrid.h" />
@@ -1487,9 +1525,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chat_Manager.h">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\Lobby</Filter>
@@ -3412,9 +3447,6 @@
     <ClInclude Include="..\Public\Player_Select_WDR.h">
       <Filter>02.GameObjects\Player\Player_Select\Select_Destroyer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_Gunslinger.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\State_GN_Idle_Normal.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
     </ClInclude>
@@ -3573,6 +3605,88 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>96.Manager\UI_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Gunslinger.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
+      <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChaosDungeon_Clear.h">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\99.Clear</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\State_MG_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Guide_Npc.h">
+      <Filter>02.GameObjects\Npc\Function_Npc\Guide_Npc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3868,7 +3982,6 @@
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
     <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_LoadingShine.cpp" />
-    <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\UI_Server.cpp" />
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
     <ClCompile Include="..\Private\UI_ServerGrid.cpp" />
@@ -3936,9 +4049,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chat_Manager.cpp">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\Lobby</Filter>
@@ -5827,9 +5937,6 @@
     <ClCompile Include="..\Private\Player_Select_WDR.cpp">
       <Filter>02.GameObjects\Player\Player_Select\Select_Destroyer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_GN_Idle_Normal.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Idle</Filter>
     </ClCompile>
@@ -5989,6 +6096,91 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>96.Manager\UI_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Boss_Hp.cpp">
+      <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChaosDungeon_Clear.cpp">
+      <Filter>02.GameObjects\UI\11.Chaos_Dungeon\99.Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\State_MG_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Guide_Npc.cpp">
+      <Filter>02.GameObjects\Npc\Function_Npc\Guide_Npc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

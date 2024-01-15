@@ -49,9 +49,10 @@ void CSkill::Tick(_float fTimeDelta)
 {
 	m_fLastTime -= fTimeDelta;
 	if (m_fLastTime < 0.f)
+		for (auto& Collider : m_Coliders)
+			Collider.second->SetActive(false);
+	if (m_fLastTime < -0.5f)
 		Set_Die();
-
-
 }
 
 void CSkill::LateTick(_float fTimeDelta)

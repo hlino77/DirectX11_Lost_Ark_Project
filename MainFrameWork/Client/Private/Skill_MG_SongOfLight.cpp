@@ -29,7 +29,7 @@ HRESULT CSkill_MG_SongOfLight::Initialize(void* pArg)
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.1f;
-	Proj_Desc.fRadius = 1.8;
+	Proj_Desc.fRadius = 1.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 	Proj_Desc.iDamage = 120;
 	Proj_Desc.fRepulsion = 0.f;

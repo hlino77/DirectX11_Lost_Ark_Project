@@ -12,7 +12,7 @@ CState_GN_StandDash::CState_GN_StandDash(const wstring& strStateName, CStateMach
 
 HRESULT CState_GN_StandDash::Initialize()
 {
-	m_iStandDash = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_standup_normal_1", 1.f);
+	m_iStandDash = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_standup_1", 1.f);
 	if (m_iStandDash == -1)
 		return E_FAIL;
 

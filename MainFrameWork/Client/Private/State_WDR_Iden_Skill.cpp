@@ -41,6 +41,7 @@ void CState_WDR_Iden_Skill::Enter_State()
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	static_cast<CController_WDR*>(m_pController)->Get_WDR_IdenSkillMessage(5.f);
 	static_cast<CController_WDR*>(m_pController)->Set_Attack_Desc(4);
+
 }
 
 void CState_WDR_Iden_Skill::Tick_State(_float fTimeDelta)

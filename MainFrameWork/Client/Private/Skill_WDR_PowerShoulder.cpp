@@ -34,7 +34,7 @@ HRESULT CSkill_WDR_PowerShoulder::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.6f);
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 0.6f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.6f);
-	Proj_Desc.iDamage = 100.f;
+	Proj_Desc.iDamage = 100;
 	Proj_Desc.fRepulsion = 5.f;
 	Proj_Desc.bUseFactor = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);

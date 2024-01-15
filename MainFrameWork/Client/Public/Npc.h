@@ -19,6 +19,7 @@ END
 BEGIN(Client)
 
 class CUI_SpeechBubble;
+class CUI_InGame_NamePlate;
 
 class CNpc : public CGameObject
 {
@@ -82,7 +83,7 @@ public:
 	virtual HRESULT			Render_Debug();
 
 public:
-	virtual _bool			Intersect_Mouse();
+	virtual _bool			Intersect_Mouse(Vec3& vPickPos);
 
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
@@ -115,6 +116,7 @@ public:
 
 	const wstring&			Get_NpcName() { return m_NpcDesc.strNpcName; }
 	const wstring&			Get_NpcTag() { return m_NpcDesc.strNpcTag; }
+	const _uint&			Get_NpcType() { return m_NpcDesc.iNpcType; }
 
 	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
 	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
@@ -134,6 +136,7 @@ protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts();
 	HRESULT					Ready_SpeechBuble();
+	HRESULT					Ready_NamePlate();
 
 	void					CullingObject();
 	virtual void			Set_EffectPos() override;
@@ -154,6 +157,8 @@ protected:
 
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
+
+	_bool							m_IsClicked = { false };
 
 protected:
 	/* NPC Á¤º¸ */
@@ -192,8 +197,8 @@ protected:
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 	_int	m_IsHair = { -1 };
 
-	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
-
+	CUI_SpeechBubble*		m_pSpeechBuble = nullptr;
+	CUI_InGame_NamePlate*	m_pNamePlate = { nullptr };
 public:
 	virtual void Free();
 

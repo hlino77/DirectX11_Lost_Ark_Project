@@ -31,14 +31,18 @@ HRESULT CState_GN_Hit_Common::Initialize()
 
 void CState_GN_Hit_Common::Enter_State()
 {
-	m_eHitType = (CPlayer_Controller::HIT_TYPE)m_pPlayer->Get_TargetPos().x;
 	m_fForceDist = m_pPlayer->Get_TargetPos().y;
+	Vec3 vHitCenter = m_pPlayer->Get_TargetPos();
+	vHitCenter.y = 0.0f;
+	
+	Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vPlayerPos.y = 0.0f;
+	Vec3 vDir = vPlayerPos - vHitCenter;
+	vDir.Normalize();
 
-	Vec3 vBack = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK) * -1.f;
-	vBack.Normalize();
 	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::FORCE);
 	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::VELOCITY_CHANGE);
-	m_pPlayer->Get_RigidBody()->AddForce(vBack * m_fForceDist, ForceMode::FORCE);
+	m_pPlayer->Get_RigidBody()->AddForce(vDir * m_fForceDist, ForceMode::FORCE);
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if (true == pGameInstance->Random_Coin(0.5f))

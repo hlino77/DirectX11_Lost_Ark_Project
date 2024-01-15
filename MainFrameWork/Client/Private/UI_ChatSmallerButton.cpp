@@ -56,8 +56,7 @@ void CUI_ChatSmallerButton::LateTick(_float fTimeDelta)
 	__super::LateTick(fTimeDelta);
 	if ((m_bPick)                                                                                                                                                       )
 	{
-		if (BUTTON_NORMAL == m_iButtonState)
-			;
+		if (BUTTON_NORMAL == m_iButtonState);
 	}
 }
 

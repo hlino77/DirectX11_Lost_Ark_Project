@@ -12,7 +12,7 @@ CState_GN_Stand::CState_GN_Stand(const wstring& strStateName, CStateMachine* pMa
 
 HRESULT CState_GN_Stand::Initialize()
 {
-	m_iStand = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"standup_normal_1", 1.2f);
+	m_iStand = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"standup_1", 1.2f);
 	if (m_iStand == -1)
 		return E_FAIL;
 

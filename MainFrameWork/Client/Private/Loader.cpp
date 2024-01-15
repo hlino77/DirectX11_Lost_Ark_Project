@@ -123,6 +123,7 @@
 #include "UI_ChaosDungeon_NameFrame.h"
 #include "UI_ChaosDungeon_TimerFrame.h"
 #include "UI_ChaosDungeon.h"
+#include "UI_ChaosDungeon_Clear.h"
 #include "UI_InGame_NamePlate.h"
 #include "UI_Boss_Hp.h"
 #include "UI_Monster_Hp.h"
@@ -172,8 +173,10 @@
 //NPC
 #include "tinyxml2.h"
 #include "Deco_Npc.h"
-#include "Function_Npc.h"
+#include "Guide_Npc.h"
 #include "Npc_Part.h"
+
+#include "Guide_Npc.h"
 
 namespace fs = std::filesystem;
 
@@ -589,8 +592,8 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 		CDeco_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FunctionNpc"),
-		CFunction_Npc::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GuideNpc_SP_L"),
+		CGuide_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
@@ -1045,6 +1048,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CDeco_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GuideNpc_SP_L"),
+		CGuide_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1368,8 +1375,6 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 	shared_ptr<CAsFileUtils> LoadObject = make_shared<CAsFileUtils>();
 	LoadObject->Open(strPath, FileMode::Read);
 
-	NpcCreateDesc.iCurLevel = LEVELID::LEVEL_TOOL_NPC;
-
 	string strData;
 	LoadObject->Read<_uint>(NpcCreateDesc.iNpcType);
 	LoadObject->Read(strData);
@@ -1508,14 +1513,20 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 
 	if ((_uint)CNpc::NPCTYPE::DECO == NpcCreateDesc.iNpcType)
 	{
-		CGameObject* pInstance = pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_NPC,
+		CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
 			TEXT("Prototype_GameObject_DecoNpc"), &NpcCreateDesc);
 		if (nullptr == pInstance)
 			return E_FAIL;
 	}
 	else if ((_uint)CNpc::NPCTYPE::FUNCTION == NpcCreateDesc.iNpcType)
 	{
-
+		if (TEXT("GuideNpc_SP_L") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_GuideNpc_SP_L"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
 	}
 
 	
@@ -1525,9 +1536,18 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 	return S_OK;
 }
 
-HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel)
+HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	/*_uint iFolderCnt = 0;
+	for (const auto& entry : fs::directory_iterator(strPath))
+	{
+		if (fs::is_directory(entry))
+		{
+			iFolderCnt++;
+		}
+	}*/
 
 	for (const auto& entry : fs::directory_iterator(strPath))
 	{
@@ -1538,9 +1558,12 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel)
 				wstring strFilePath = entry.path().parent_path();
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false))))
-					return E_FAIL;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(eLevel, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false, Pivot))))
+						return E_FAIL;
+				}
 			}
 		}
 	}
@@ -2107,6 +2130,42 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_Hp"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Monster_Hp.png"))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Circle"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Circle/Clear_Circle%d.png",23))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Line"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Line.png"))))
+			return E_FAIL;
+		
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Line_L"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Line_L.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Line_R"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Line_R.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Shine"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Shine.png"))))
+			return E_FAIL;
+		
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_Announce"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_Announce.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ClearFont"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/ClearFont.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BackGroundWnd"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/BackGroundWnd.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Clear_CheckButton"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/Clear_CheckButton%d.png",3))))
+			return E_FAIL;
 	}
 
 	//Class
@@ -2149,6 +2208,10 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonsterHpUI"),
 			CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_Clear"),
+			CUI_ChaosDungeon_Clear::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	
 	}
@@ -2250,8 +2313,90 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	//pUIManager->ObjectManager_to_UIManager(LEVEL_LOADING);
 	pUIManager->Loading_UI(0.1f);
+	pUIManager->Set_MaxFiles(100);
 
 	/* Npc ¸¶³×Å· ¹× ¸ðµ¨ */
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_FE01_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_FE02_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_FE03_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_FE05_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA01_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+			}));
+	}
+
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
 			{
@@ -2259,14 +2404,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2277,14 +2420,44 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+			}));
+	}
 
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA04_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_MA05_MQ";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2295,14 +2468,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2313,14 +2484,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2331,14 +2500,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2349,14 +2516,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2367,14 +2532,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2385,14 +2548,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
@@ -2403,154 +2564,22 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-				if (FAILED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-					return S_OK;
-
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-					return E_FAIL;
-
-				return S_OK;
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
 			}));
 	}
 
-
+	/* Npc ¸ðµ¨ÆÄÃ÷ */
+	wstring strPath = L"../Bin/Resources/Meshes/NpcPart/";
+	AutoLoad(strPath, LEVEL_BERN);
 
 	/* Npc ¹«±âÆÄÃ÷ */
-	{
-		wstring strFileName = L"NP_WP_AdelSword";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Beer";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-		
-	}
-
-	{
-		wstring strFileName = L"NP_WP_BernBow";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_BernShield";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_BernSword";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Gun";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Shield";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Spear";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Sword1";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Sword2";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
-		}
-	}
-
+	strPath = L"../Bin/Resources/Meshes/NpcWeapon/";
+	AutoLoad(strPath, LEVEL_BERN, PivotMatrix);
 
 	/* SkyDome */
 	{
@@ -3061,9 +3090,13 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
+
 		}));
 	}
 
@@ -3074,9 +3107,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3087,9 +3123,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3100,9 +3139,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3113,9 +3155,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3126,9 +3171,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3139,9 +3187,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3152,9 +3203,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3165,9 +3219,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3178,9 +3235,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3191,9 +3251,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3204,9 +3267,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3217,9 +3283,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3230,9 +3299,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3243,9 +3315,12 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));
 	}
 
@@ -3256,115 +3331,22 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 			wstring strFilePath = L"../Bin/Resources/Meshes/";
 			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-				return E_FAIL;
+			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+			{
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+					return E_FAIL;
+			}
 		}));	
 	}
 
+	/* Npc ¸ðµ¨ÆÄÃ÷ */
 	wstring strPath = L"../Bin/Resources/Meshes/NpcPart/";
 	AutoLoad(strPath, LEVEL_TOOL_NPC);
 
 	/* Npc ¹«±âÆÄÃ÷ */
-	{
-		wstring strFileName = L"NP_WP_AdelSword";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Beer";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_BernBow";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_BernShield";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_BernSword";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Gun";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Shield";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Spear";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Sword1";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	{
-		wstring strFileName = L"NP_WP_Sword2";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
-			return E_FAIL;
-	}
+	strPath = L"../Bin/Resources/Meshes/NpcWeapon/";
+	AutoLoad(strPath, LEVEL_TOOL_NPC, PivotMatrix);
 
 
 	RELEASE_INSTANCE(CGameInstance);

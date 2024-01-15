@@ -20,6 +20,10 @@ public:
 
 	virtual void UI_Tick(_float fTimeDelta) override;
 	void	Change_LoadingPer(_float fSizeX);
+	void    Set_MaxFiles(_uint iFilesNum);
+	void    Add_CurrFile();
+	void    Add_CurrFiles(_uint iFilesNum);
+
 private:
 	HRESULT	UI_Set();
 

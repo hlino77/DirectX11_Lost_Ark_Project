@@ -18,6 +18,7 @@
 #include "BindShaderDesc.h"
 #include "UI_Manager.h"
 #include "UI_SpeechBubble.h"
+#include "UI_InGame_NamePlate.h""
 
 CNpc::CNpc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Npc", OBJ_TYPE::NPC)
@@ -45,6 +46,7 @@ HRESULT CNpc::Initialize(void* pArg)
 		NPCDESC* pDesc = static_cast<NPCDESC*>(pArg);
 
 		m_iCurrLevel = pDesc->iCurLevel;
+		m_NpcDesc.iCurLevel = pDesc->iCurLevel;
 
 		m_NpcDesc.iNpcType = pDesc->iNpcType;
 		m_NpcDesc.strNpcTag = pDesc->strNpcTag;
@@ -90,6 +92,9 @@ HRESULT CNpc::Initialize(void* pArg)
 	if (FAILED(Ready_SpeechBuble()))
 		return E_FAIL;
 
+	if (FAILED(Ready_NamePlate()))
+		return E_FAIL;
+
 	m_pRigidBody->SetMass(2.0f);
 	m_pTransformCom->Set_WorldMatrix(m_NpcDesc.matStart);
 	m_tCullingSphere.Radius = 2.0f;
@@ -107,6 +112,13 @@ HRESULT CNpc::Initialize(void* pArg)
 	
 	m_pModelCom->Set_CurrAnim(m_iIdleAnimIndex);
 	m_iCurAnimIndex = m_iIdleAnimIndex;
+
+	if ((_uint)LEVELID::LEVEL_BERN == m_NpcDesc.iCurLevel)
+	{
+		m_bDebugRender = true;
+	}
+
+	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
 	return S_OK;
 }
@@ -404,12 +416,34 @@ HRESULT CNpc::Ready_Parts()
 
 HRESULT CNpc::Ready_SpeechBuble()
 {
+	if (0 == m_NpcDesc.vecTalks.size())
+		return S_OK;
+
 	m_pSpeechBuble = CPool<CUI_SpeechBubble>::Get_Obj();
 
 	if (m_pSpeechBuble == nullptr)
 		return E_FAIL;
 
 	m_pSpeechBuble->Set_Host(this);
+
+	return S_OK;
+}
+
+HRESULT CNpc::Ready_NamePlate()
+{
+	if (TEXT("None") == m_NpcDesc.strNpcName || TEXT("") == m_NpcDesc.strNpcName)
+		return S_OK;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(m_iCurrLevel,
+		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
+
+	if (m_pNamePlate == nullptr)
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }
@@ -435,6 +469,9 @@ void CNpc::CullingObject()
 
 void CNpc::Set_EffectPos()
 {
+	if (TEXT("None") == m_NpcDesc.strNpcName || TEXT("") == m_NpcDesc.strNpcName)
+		return;
+
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
 	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();
@@ -476,7 +513,7 @@ void CNpc::Show_SpeechBuble(const wstring& szChat)
 	m_pSpeechBuble->Active_SpeechBuble(szChat);
 }
 
-_bool CNpc::Intersect_Mouse()
+_bool CNpc::Intersect_Mouse(Vec3& vPickPos)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -499,11 +536,22 @@ _bool CNpc::Intersect_Mouse()
 	{
 		if (Colider.second->IsActive())
 		{
-			return Colider.second->Intersects(MouseRay, fDist);
+			if (true == Colider.second->Intersects(MouseRay, fDist))
+			{
+				vPickPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				m_IsClicked = true;
+				return true;
+			}
+			else
+			{
+				m_IsClicked = false;
+				return false;
+			}
 		}
 
 	}
 
+	m_IsClicked = false;
 	return false;
 }
 
@@ -539,6 +587,13 @@ void CNpc::Free()
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
 
-	CPool<CUI_SpeechBubble>::Return_Obj(m_pSpeechBuble);
-	m_pSpeechBuble = nullptr;
+	if (nullptr != m_pSpeechBuble)
+	{
+		CPool<CUI_SpeechBubble>::Return_Obj(m_pSpeechBuble);
+		m_pSpeechBuble = nullptr;
+	}
+	if (nullptr != m_pNamePlate)
+	{
+		m_pNamePlate->Set_Dead(true);
+	}
 }

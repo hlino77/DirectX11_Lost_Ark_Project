@@ -12,8 +12,12 @@ CState_WR_StandDash::CState_WR_StandDash(const wstring& strStateName, CStateMach
 
 HRESULT CState_WR_StandDash::Initialize()
 {
-	m_iStandDash = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_standup_normal_1", 1.f);
-	if (m_iStandDash == -1)
+	m_iStandDahs_Normal = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_standup_1", 1.f);
+	if (m_iStandDahs_Normal == -1)
+		return E_FAIL;
+
+	m_iStandDahs_Identity = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_standup_identity1", 1.f);
+	if (m_iStandDahs_Identity == -1)
 		return E_FAIL;
 
 	if (m_pPlayer->Is_Control())
@@ -26,11 +30,23 @@ HRESULT CState_WR_StandDash::Initialize()
 
 void CState_WR_StandDash::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iStandDash, 0.1f, 0, 0);
-
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
+
+
+	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_iStandDahs_Identity, 0.2f, 0, 0);
+		m_iStandDash = m_iStandDahs_Identity;
+	}
+	else if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+	{
+		m_pPlayer->Reserve_Animation(m_iStandDahs_Normal, 0.2f, 0, 0);
+		m_iStandDash = m_iStandDahs_Normal;
+	}
+
+
 }
 
 void CState_WR_StandDash::Tick_State(_float fTimeDelta)

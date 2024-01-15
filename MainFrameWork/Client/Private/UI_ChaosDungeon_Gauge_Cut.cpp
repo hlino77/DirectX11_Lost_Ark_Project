@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_ChaosDungeon_Gauge_Cut.h"
 #include "GameInstance.h"
+#include "UI_ChaosDungeon_Gauge.h"
 
 CUI_ChaosDungeon_GaugeCut::CUI_ChaosDungeon_GaugeCut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -41,6 +42,19 @@ HRESULT CUI_ChaosDungeon_GaugeCut::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	if (nullptr != pArg)
+	{
+		m_pGaugeUI = static_cast<CUI*>(pArg);
+		m_fGaugeSizeY = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_UIDesc().fSizeY;
+		m_fGaugeY = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_UIDesc().fY;
+		m_fGaugeY -= (m_fGaugeSizeY * 0.5f);
+		m_fMaxGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_MaxGauge();
+		m_fCurrGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_CurrGauge();
+		m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
+
+		m_fY = m_fGaugeY + (m_fGaugeSizeY * m_fGaugeRatio);
+	}
+
 	return S_OK;
 }
 
@@ -64,6 +78,12 @@ HRESULT CUI_ChaosDungeon_GaugeCut::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CUI_ChaosDungeon_GaugeCut::Update_GaugeCut()
+{
+
+
 }
 
 HRESULT CUI_ChaosDungeon_GaugeCut::Ready_Components()

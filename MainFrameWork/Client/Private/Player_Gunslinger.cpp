@@ -91,6 +91,9 @@
 
 #include "Effect_Manager.h"
 
+#include "Skill.h"
+#include "Boss.h"
+
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -155,27 +158,6 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 {
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Q))
-	{
-		m_pController->Get_HitMessage(100, 11.f);
-	}
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::W))
-	{
-		m_pController->Get_HitMessage(100, 21.f);
-	}
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::E))
-	{
-		m_pController->Get_HitMessage(100, 31.f);
-	}
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::R))
-	{
-		m_pController->Get_HitMessage(100, 41.f);
-	}
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::T))
-	{
-		m_pController->Get_HitMessage(100, 51.f);
-	}
-
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
@@ -216,15 +198,20 @@ HRESULT CPlayer_Gunslinger::Render()
 		{
 			if (i == (_uint)PART::HELMET && j == m_IsHair)
 			{
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4)))))
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &m_vHairColor_2, sizeof(Vec4))))
 					return E_FAIL;
 
 				if (FAILED(m_pModelPartCom[i]->Render_SingleMesh(m_pShaderCom, j)))
 					return E_FAIL;
 
-				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &Vec4(), sizeof(Vec4)) ||
-					FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &Vec4(), sizeof(Vec4)))))
+				Vec4 vResetColor;
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &vResetColor, sizeof(Vec4))))
+					return E_FAIL;
+
+				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_2", &vResetColor, sizeof(Vec4))))
 					return E_FAIL;
 			}
 			else
@@ -266,7 +253,26 @@ HRESULT CPlayer_Gunslinger::Render_ShadowDepth()
 
 void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+		{
+			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+		{
+			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		{
+			Vec3 vCenter;
+			if (true == static_cast<CBoss*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
+			{
+				m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+			}
+		}
+	}
 }
 
 void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
@@ -358,6 +364,22 @@ void CPlayer_Gunslinger::Set_Weapon_RenderState(_uint iIndex, _bool Is_Shot2)
 
 	if (true == Is_Shot2)
 		m_Parts[CPartObject::PARTS::WEAPON_5]->Set_Render(true);
+}
+
+_bool CPlayer_Gunslinger::Get_CellPickingPos(Vec3& vPickPos)
+{
+	_bool IsPick = __super::Get_CellPickingPos(vPickPos);
+
+	if (true == m_IsClickNpc)
+	{
+		m_pController->Get_MoveToNpcMessage();
+	}
+	else
+	{
+		m_pController->Get_MoveToCellMessage();
+	}
+
+	return IsPick;
 }
 
 HRESULT CPlayer_Gunslinger::Ready_Components()

@@ -57,12 +57,11 @@ void CUI_DamageFont::LateTick(_float fTimeDelta)
         m_fDuration += fTimeDelta;
 
         Vec3 vHostPos = m_pOwner->Get_EffectPos();
-        Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
-        Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
-
-        vHostPos.y += m_fOffSetY;
-        vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
-        vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
+        //Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+        //Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+        //vHostPos.y += m_fOffSetY;
+        //vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
+        //vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
 
         m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
         m_vHostPos += m_vOffset;

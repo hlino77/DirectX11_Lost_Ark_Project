@@ -16,6 +16,8 @@
 #include "Pool.h"
 #include "Player_Controller.h"
 
+#include "Npc.h"
+
 #include "Chat_Manager.h"
 #include "BindShaderDesc.h"
 #include "UI_Manager.h"
@@ -367,6 +369,23 @@ _bool CPlayer::Stop_VoiceSound()
 
 _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 {
+	m_vecNpcs = m_pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_NPC);
+	for (auto& pNpc : m_vecNpcs)
+	{
+		if ((_uint)CNpc::NPCTYPE::FUNCTION == static_cast<CNpc*>(pNpc)->Get_NpcType())
+		{
+			if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos))
+			{
+				m_IsClickNpc = true;
+				return true;
+			}
+			else
+			{
+				m_IsClickNpc = false;
+			}
+		}
+	}
+
 	POINT pt;
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);

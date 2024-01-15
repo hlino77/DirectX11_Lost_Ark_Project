@@ -47,7 +47,7 @@ HRESULT CUI_WRIdentity_Body::Initialize(void* pArg)
 
 
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
-    m_iIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenMaxGauge();
+    m_fIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenMaxGauge();
     m_fIdentity_MaxCool = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenCoolTime();
 
     m_iIdentity_CurrState = (_uint)WRIDENTITY_NORMAL;
@@ -123,7 +123,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(class CPlayer* pPlayer)
 {
     if (nullptr != pPlayer)
     {
-        m_iIdentity_Gauge = static_cast<CPlayer_Slayer*>(pPlayer)->
+        m_fIdentity_Gauge = static_cast<CPlayer_Slayer*>(pPlayer)->
             Get_WR_Controller()->Get_IdenGage();
 
         m_bIdentity = static_cast<CPlayer_Slayer*>(pPlayer)->
@@ -132,7 +132,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(class CPlayer* pPlayer)
         m_fIdentity_CurrCool = static_cast<CPlayer_Slayer*>(pPlayer)->
             Get_WR_Controller()->Get_IdenCoolAcc();
 
-        if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_NORMAL) && (m_iIdentity_Gauge == m_iIdentity_MaxGauge))
+        if ((!m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_NORMAL) && (m_fIdentity_Gauge == m_fIdentity_MaxGauge))
             m_iIdentity_CurrState = (_uint)WRIDENTITY_MAX;
 
         else if ((m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_MAX))

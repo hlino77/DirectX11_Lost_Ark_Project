@@ -25,8 +25,8 @@ public:
 	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
-	const _int&		Get_IdenGage() { return m_iIdentityGage; }
-	const _int&		Get_MaxGage() { return m_iMaxGage; }
+	const _float&	Get_IdenGage() { return m_fIdentityGage; }
+	const _float&	Get_MaxGage() { return m_fMaxGage; }
 	const _uint&	Get_MarbleCnt() { return m_iMarbleCnt; }
 
 public:
@@ -35,10 +35,10 @@ public:
 
 public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
-	virtual void	Get_HitMessage(_uint iDamge, _float fForce);
+	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 
 	void			Get_WDR_IdentityMessage();
-	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_iIdentityGage -= 10; }
+	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_fIdentityGage -= 5.f; }
 	void			Get_AddMarbleMessage(_uint iMarbleCnt) { m_IsAddMarble = true;  m_iReserveMarbleCnt = iMarbleCnt; }
 	void			Get_ResetMarbleMessage() { m_IsAddMarble = false;  m_iReserveMarbleCnt = 0; };
 	void			Get_UseMarbleMessage();
@@ -56,8 +56,8 @@ private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
-	_int	m_iIdentityGage = { 0 };
-	_int	m_iMaxGage = { 50 };
+	_float	m_fIdentityGage = { 0.f };
+	_float	m_fMaxGage = { 30.f };
 	_float  m_fTimdeAcc = { 0.f };
 
 	_uint	m_iMarbleCnt = { 0 };

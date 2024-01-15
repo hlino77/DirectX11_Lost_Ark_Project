@@ -59,7 +59,7 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
-	ChangeStat_CoolTime(fTimeDelta);
+	Skill_ChangeStat_CoolTime(fTimeDelta);
 
 	/* Skill Collider */
 	Skill_Check_Collider();
@@ -84,26 +84,41 @@ _bool CPlayer_Controller::Is_Idle()
 
 _bool CPlayer_Controller::Is_Tap(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_TAP(eKey);
 }
 
 _bool CPlayer_Controller::Is_Hold(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_HOLD(eKey);
 }
 
 _bool CPlayer_Controller::Is_HoldorTap(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_HOLD(eKey) || KEY_TAP(eKey);
 }
 
 _bool CPlayer_Controller::Is_Away(KEY eKey)
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	return KEY_AWAY(eKey) || KEY_NONE(eKey);
 }
 
 _bool CPlayer_Controller::Is_Run()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_HOLD(KEY::RBTN) || KEY_TAP(KEY::RBTN))
 	{
 		return true;
@@ -114,6 +129,9 @@ _bool CPlayer_Controller::Is_Run()
 
 _bool CPlayer_Controller::Is_Skill()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (-1.f == m_fCoolTime[SKILL_KEY::Q] && nullptr != m_pSkills[SKILL_KEY::Q] && (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q)))
 	{
 		m_eSelectedSkill = SKILL_KEY::Q;
@@ -161,6 +179,9 @@ _bool CPlayer_Controller::Is_Skill()
 
 _bool CPlayer_Controller::Is_Interect()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_TAP(KEY::G))
 		return true;
 
@@ -169,6 +190,9 @@ _bool CPlayer_Controller::Is_Interect()
 
 _bool CPlayer_Controller::Is_Dash()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if ( KEY_HOLD(KEY::SPACE) ||KEY_TAP(KEY::SPACE))
 	{
 		if (-1.f == m_fCoolTime[SKILL_KEY::SPACE])
@@ -182,6 +206,9 @@ _bool CPlayer_Controller::Is_Dash()
 
 _bool CPlayer_Controller::Is_Attack()
 {
+	if (false == m_bKeyActive)
+		return false;
+
 	if (KEY_HOLD(KEY::LBTN) || KEY_TAP(KEY::LBTN))
 		return true;
 
@@ -206,9 +233,11 @@ void CPlayer_Controller::Get_RootZeroMessage()
 	m_pOwnerTransform->Set_State(CTransform::STATE_POSITION, m_vPrePos);
 }
 
-void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce)
+void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 {
 	m_iDamaged = iDamage;
+
+	m_vHitColiPos = vPos;
 
 	if (10.f <= fForce && 20.f > fForce)
 	{
@@ -277,6 +306,8 @@ void CPlayer_Controller::Get_LerpLookMessage(Vec3 vAt, _float fSpeed)
 		return;
 	}
 
+	vAt.y = 0.f;
+
 	m_vNextMove = vAt; 
 	m_fLerpLook_Speed = fSpeed;
 	m_bStop = true; 
@@ -290,6 +321,8 @@ void CPlayer_Controller::Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed)
 		Get_StopMessage();
 		return;
 	}
+
+	vAt.y = 0.f;
 
 	Vec3 vPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDir = vAt - vPos;
@@ -348,7 +381,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	Vec3 vCur = m_vPrePos;
 	vNext.y = 0.0f; vCur.y = 0.0f;
 
-	if (Vec3(vNext - vCur).Length() <= 0.05f)
+	if (Vec3(vNext - vCur).Length() <= m_fMoveLength)
 	{
 		m_bMoveStop = true;
 		return;
@@ -456,7 +489,7 @@ void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 	}
 }
 
-void CPlayer_Controller::ChangeStat_CoolTime(const _float& fTimeDelta)
+void CPlayer_Controller::Skill_ChangeStat_CoolTime(const _float& fTimeDelta)
 {
 	for (size_t i = 0; i < SKILL_KEY::_END; i++)
 	{
