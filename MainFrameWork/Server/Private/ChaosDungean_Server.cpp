@@ -199,6 +199,7 @@ void CChaosDungean_Server::Spawn_Monster()
 				{
 					Broadcast_Boss(vPos, m_BossSpawnList[0]);
 					vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
+					m_iBossCount--;
 				}
 					
 			}

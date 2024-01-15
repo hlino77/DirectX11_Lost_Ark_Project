@@ -76,12 +76,6 @@ void CState_GN_TargetDown_End::Tick_State_Control(_float fTimeDelta)
 void CState_GN_TargetDown_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
-
-	if (m_bEffect == false)
-	{
-		Effect_End();
-		m_bEffect = true;
-	}
 }
 
 void CState_GN_TargetDown_End::Effect_End()

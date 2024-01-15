@@ -51,7 +51,7 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 50;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 1200000000;
+	m_iMaxHp = 12000000;
 	m_iHp = m_iMaxHp;
 
 	if (FAILED(__super::Initialize(pArg)))
