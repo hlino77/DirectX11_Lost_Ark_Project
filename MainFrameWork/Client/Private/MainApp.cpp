@@ -154,7 +154,7 @@ HRESULT CMainApp::Render()
 	
 	CChat_Manager::GetInstance()->Render();
 
-	CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
+	//CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
 
 	m_pGameInstance->Render_Debug();
 	/* 초기화한 장면에 객체들을 그린다. */

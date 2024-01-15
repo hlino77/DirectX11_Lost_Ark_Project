@@ -553,16 +553,16 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 
 
-	if (FAILED(Render_DebugObject()))
-		return E_FAIL;
+	/*if (FAILED(Render_DebugObject()))
+		return E_FAIL;*/
 
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::T))
 		m_bTargetOnOff = !m_bTargetOnOff;
 
-	if (m_bTargetOnOff)
+	/*if (m_bTargetOnOff)
 		if (FAILED(Render_Debug()))
-			return E_FAIL;
+			return E_FAIL;*/
 
 	return S_OK;
 }
