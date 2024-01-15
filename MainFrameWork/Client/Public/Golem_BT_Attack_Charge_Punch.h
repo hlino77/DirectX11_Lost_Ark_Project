@@ -18,7 +18,6 @@ private:
     virtual void		OnEnd()								override;
 
 public:
-    _float m_fLoopTime =0.f;
     _bool 	m_Shoot = true;
 public:
     static	CGolem_BT_Attack_Charge_Punch* Create(void* pArg);

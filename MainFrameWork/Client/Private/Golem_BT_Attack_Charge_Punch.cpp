@@ -15,7 +15,6 @@ CGolem_BT_Attack_Charge_Punch::CGolem_BT_Attack_Charge_Punch()
 void CGolem_BT_Attack_Charge_Punch::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(true);
 	m_Shoot = true;
 }
 
@@ -44,12 +43,19 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeD
 			m_Shoot = false;
 		}
 	}
-	
+	if (!static_cast<CBoss*>(m_pGameObject)->Is_GroggyLock() && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(true);
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(false);
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
-	return __super::OnUpdate(fTimeDelta);
+	}
+	return  __super::OnUpdate(fTimeDelta);
+
 }
 
 void CGolem_BT_Attack_Charge_Punch::OnEnd()
