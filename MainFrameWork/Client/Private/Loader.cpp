@@ -1058,8 +1058,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	
-
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;
 
@@ -2331,8 +2329,11 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
+
+				
 				}
 
+				return S_OK;
 			}));
 	}
 
@@ -2349,6 +2350,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2365,6 +2368,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2381,6 +2386,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2397,6 +2404,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2413,6 +2422,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2429,6 +2440,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2445,6 +2458,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2461,6 +2476,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2477,6 +2494,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2493,6 +2512,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2509,6 +2530,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2525,6 +2548,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2541,6 +2566,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2557,6 +2584,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -2573,6 +2602,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 						return E_FAIL;
 				}
+
+				return S_OK;
 			}));
 	}
 
@@ -3100,6 +3131,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					return E_FAIL;
 			}
 
+			return S_OK;
+
 		}));
 	}
 
@@ -3116,6 +3149,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3132,6 +3167,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3148,6 +3185,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3164,6 +3203,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3180,6 +3221,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3196,6 +3239,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3212,6 +3257,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3228,6 +3275,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3244,6 +3293,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3260,6 +3311,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3276,6 +3329,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3292,6 +3347,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3308,6 +3365,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3324,6 +3383,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));
 	}
 
@@ -3340,6 +3401,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 					return E_FAIL;
 			}
+
+			return S_OK;
 		}));	
 	}
 
