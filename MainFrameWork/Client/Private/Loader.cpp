@@ -173,10 +173,8 @@
 //NPC
 #include "tinyxml2.h"
 #include "Deco_Npc.h"
-#include "Guide_Npc.h"
+#include "Guide_Chaos_Npc.h"
 #include "Npc_Part.h"
-
-#include "Guide_Npc.h"
 
 namespace fs = std::filesystem;
 
@@ -588,12 +586,16 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 	/* For.GameObject */
 	m_strLoading = TEXT("객체원형을 로딩 중 입니다.");
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NamePlate"),
+		CUI_InGame_NamePlate::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DecoNpc"),
 		CDeco_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GuideNpc_SP_L"),
-		CGuide_Npc::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
+		CGuide_Chaos_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
@@ -1048,16 +1050,15 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CDeco_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GuideNpc_SP_L"),
-		CGuide_Npc::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
+		CGuide_Chaos_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if(FAILED(Load_NpcData()))
-		return E_FAIL;
+	
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
@@ -1086,6 +1087,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		}
 	}
 
+	if (FAILED(Load_NpcData()))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -1520,10 +1523,10 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 	}
 	else if ((_uint)CNpc::NPCTYPE::FUNCTION == NpcCreateDesc.iNpcType)
 	{
-		if (TEXT("GuideNpc_SP_L") == NpcCreateDesc.strNpcTag)
+		if (TEXT("Guide_Chaos_Npc") == NpcCreateDesc.strNpcTag)
 		{
 			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
-				TEXT("Prototype_GameObject_GuideNpc_SP_L"), &NpcCreateDesc);
+				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &NpcCreateDesc);
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}

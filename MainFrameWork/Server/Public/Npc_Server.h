@@ -26,6 +26,9 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+public:
+	virtual HRESULT	Actice_Npc_Function(int32 iLevel, int32 iPlayerID) PURE;
+
 protected:
 	virtual HRESULT		Ready_Components();
 	void				Set_Colliders(_float fTimeDelta);

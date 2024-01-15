@@ -36,6 +36,17 @@ HRESULT CSkill_GN_DeathFire::Initialize(void* pArg)
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
+	Proj_Desc.pAttackOwner = m_pOwner;
+	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Desc.fAttackTime = 0.05f;
+	Proj_Desc.fRadius = 2.3f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
+	Proj_Desc.iDamage = 200;
+	Proj_Desc.fRepulsion = 20.f;
+	Proj_Desc.bUseProjPos = true;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
+
 	return S_OK;
 }
 
@@ -53,7 +64,14 @@ HRESULT CSkill_GN_DeathFire::Ready_Components()
 
 void CSkill_GN_DeathFire::Check_ColliderState()
 {
-
+	if (TEXT("Skill_GN_DeathFire_Success") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[1];
+	}
+	else
+	{
+		m_SkillProjDesc = m_vecSkillProjDesces[0];
+	}
 }
 
 CSkill_GN_DeathFire* CSkill_GN_DeathFire::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer, void* pArg)

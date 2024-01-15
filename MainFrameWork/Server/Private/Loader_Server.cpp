@@ -13,6 +13,7 @@
 #include "Boss_Valtan_Server.h"
 #include "ChaosDungean_Server.h"
 #include "NavigationMgr.h"
+#include "Guide_Chaos_Npc_Server.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -115,6 +116,11 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungean"),
 		CChaosDungean_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+	/* ±â´É NPC */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
+		CGuide_Chaos_Npc_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 	Loading_Model_For_Level_Bern();

@@ -412,10 +412,10 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 	}
 	else if ((_uint)CNpc::NPCTYPE::FUNCTION == NpcCreateDesc.iNpcType)
 	{
-		if (TEXT("GuideNpc_SP_L") == NpcCreateDesc.strNpcTag)
+		if (TEXT("Guide_Chaos_Npc") == NpcCreateDesc.strNpcTag)
 		{
 			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
-				TEXT("Prototype_GameObject_GuideNpc_SP_L"), &NpcCreateDesc);
+				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &NpcCreateDesc);
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}
@@ -1090,6 +1090,7 @@ void CNpcTool::Animaition(const _float& fTimeDelta)
 						strcpy_s(m_szAnimationName, CAsUtils::ToString(Animations[i]->Get_Name()).c_str());
 						m_iCurrAnimation = i;
 						m_pMannequin->Get_ModelCom()->Set_CurrAnim(i);
+						m_pMannequin->Get_ModelCom()->Set_CurrAnimFrame(0);
 					}
 				}
 				ImGui::EndListBox();
@@ -1444,7 +1445,7 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 	}
 	else if ((_uint)CNpc::NPCTYPE::FUNCTION == m_NpcCreateDesc.iNpcType)
 	{
-		if (TEXT("GuideNpc_SP_L") == m_NpcCreateDesc.strNpcTag)
+		if (TEXT("Guide_Chaos_Npc") == m_NpcCreateDesc.strNpcTag)
 		{
 			m_pMannequin->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 			m_pMannequin->Get_TransformCom()->Set_Scale(m_vNpcScale);
@@ -1458,7 +1459,7 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 			}
 
 			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
-				TEXT("Prototype_GameObject_GuideNpc_SP_L"), &m_NpcCreateDesc);
+				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &m_NpcCreateDesc);
 			if (nullptr == pInstance)
 				return;
 		}

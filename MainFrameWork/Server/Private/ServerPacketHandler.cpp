@@ -16,6 +16,7 @@
 #include "Monster_Server.h"
 #include "LevelControlManager.h"
 #include "PartyManager.h"
+#include "Npc_Server.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -418,7 +419,19 @@ bool Handel_S_PARTY_Server(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 
 bool Handel_S_NPC_Server(PacketSessionRef& session, Protocol::S_NPC& pkt)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
+	vector<CGameObject*> vecNpcs = pGameInstance->Find_GameObjects(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_NPC);
+
+	for (auto& pNpc : vecNpcs)
+	{
+		if (pkt.strnpcname() == CAsUtils::W2S(pNpc->Get_ObjectTag()))
+		{
+			static_cast<CNpc_Server*>(pNpc)->Actice_Npc_Function(pkt.ilevel(), pkt.iplayerid());
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return true;
 }

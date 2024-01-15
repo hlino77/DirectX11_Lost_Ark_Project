@@ -235,7 +235,7 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
-    <ClInclude Include="..\Public\Guide_Npc.h" />
+    <ClInclude Include="..\Public\Guide_Chaos_Npc.h" />
     <ClInclude Include="..\Public\ImGUI\imnodes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -734,7 +734,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
-    <ClCompile Include="..\Private\Guide_Npc.cpp" />
+    <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack2.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack3.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp" />

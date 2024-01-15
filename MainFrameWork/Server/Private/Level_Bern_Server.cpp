@@ -15,6 +15,7 @@
 #include "Monster_Server.h"
 #include "Monster_Zombie_Server.h"
 #include "ChaosDungean_Server.h"
+#include "Guide_Chaos_Npc_Server.h"
 
 
 CLevel_Bern_Server::CLevel_Bern_Server()
@@ -51,6 +52,9 @@ HRESULT CLevel_Bern_Server::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI(LAYER_TYPE::LAYER_UI)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Npc(LAYER_TYPE::LAYER_NPC)))
 		return E_FAIL;
 
 
@@ -208,6 +212,17 @@ HRESULT CLevel_Bern_Server::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 
 HRESULT CLevel_Bern_Server::Ready_Layer_Effect(const LAYER_TYPE eLayerType)
 {
+	return S_OK;
+}
+
+HRESULT CLevel_Bern_Server::Ready_Layer_Npc(const LAYER_TYPE eLayerType)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	pGameInstance->Add_GameObject(LEVEL_BERN, (_uint)eLayerType, TEXT("Prototype_GameObject_Guide_Chaos_Npc"));
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 
@@ -416,8 +431,6 @@ void CLevel_Bern_Server::Enter_ChaosDungean(CHAOSDUNGEANLEVEL eLEVEL)
 		if (pPlayer)
 			Players.push_back(pPlayer);
 	}
-
-
 
 	CChaosDungean_Server::DUNGEANDESC tDesc;
 	tDesc.eLevel = eLEVEL;
