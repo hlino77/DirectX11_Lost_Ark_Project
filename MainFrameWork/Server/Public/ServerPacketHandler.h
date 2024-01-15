@@ -29,8 +29,9 @@ enum : uint16
 	PKT_S_MONSTERSTATE = 18,
 	PKT_S_PLAYERLEVELMOVE = 19,
 	PKT_S_DELETEGAMEOBJECT = 20,
-	PKT_S_IDENTITY = 20,
-	PKT_S_PARTY = 21
+	PKT_S_IDENTITY = 21,
+	PKT_S_PARTY = 22,
+	PKT_S_NPC = 23
 };
 
 //TODO
@@ -57,6 +58,7 @@ bool Handel_S_PLAYERLEVELMOVE_Server(PacketSessionRef& session, Protocol::S_PLAY
 bool Handel_S_DELETEGAMEOBJECT_Server(PacketSessionRef& session, Protocol::S_DELETEGAMEOBJECT& pkt);
 bool Handel_S_IDENTITY_Server(PacketSessionRef& session, Protocol::S_IDENTITY& pkt);
 bool Handel_S_PARTY_Server(PacketSessionRef& session, Protocol::S_PARTY& pkt);
+bool Handel_S_NPC_Server(PacketSessionRef& session, Protocol::S_NPC& pkt);
 
 
 class CServerPacketHandler
@@ -90,6 +92,7 @@ public:
 		GPacketHandler[PKT_S_DELETEGAMEOBJECT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_DELETEGAMEOBJECT>(Handel_S_DELETEGAMEOBJECT_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_IDENTITY] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_IDENTITY>(Handel_S_IDENTITY_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_PARTY] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PARTY>(Handel_S_PARTY_Server, session, buffer, len); };
+		GPacketHandler[PKT_S_NPC] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_NPC>(Handel_S_NPC_Server, session, buffer, len); };
 
 	}
 
@@ -122,7 +125,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_DELETEGAMEOBJECT& pkt) { return MakeSendBuffer(pkt, PKT_S_DELETEGAMEOBJECT); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_IDENTITY& pkt) { return MakeSendBuffer(pkt, PKT_S_IDENTITY); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_PARTY& pkt) { return MakeSendBuffer(pkt, PKT_S_PARTY); }
-
+	static SendBufferRef MakeSendBuffer(Protocol::S_NPC& pkt) { return MakeSendBuffer(pkt, PKT_S_NPC); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

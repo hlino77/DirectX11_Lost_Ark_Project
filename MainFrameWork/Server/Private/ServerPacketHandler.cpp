@@ -415,3 +415,10 @@ bool Handel_S_PARTY_Server(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 	Safe_Release(pGameInstance);
 	return true;
 }
+
+bool Handel_S_NPC_Server(PacketSessionRef& session, Protocol::S_NPC& pkt)
+{
+
+
+	return true;
+}
