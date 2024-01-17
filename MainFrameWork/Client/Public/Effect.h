@@ -77,6 +77,7 @@ public:
 		_float	fBloom = 0.f;
 		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
+		_int	iDistortionOnBaseMaterial = 0;
 		
 		// Billboard
 		_int	iBillboard = true;
@@ -157,7 +158,7 @@ protected:
 		_float	fBloom = 0.f;
 		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
-		_float	padding;
+		_int	iDistortionOnBaseMaterial = 0;
 	} m_Intensity;
 
 	tagEffectDesc m_tVoidEffectDesc;
