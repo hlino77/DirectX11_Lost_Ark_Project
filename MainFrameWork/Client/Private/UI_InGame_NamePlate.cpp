@@ -29,35 +29,25 @@ HRESULT CUI_InGame_NamePlate::Initialize_Prototype()
 
 HRESULT CUI_InGame_NamePlate::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	m_strUITag = TEXT("NamePlate");
-
-	m_fSizeX = 504;
-	m_fSizeY = 335;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = (g_iWinSizeY * 0.5f) + 100.f;
-
-	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
-	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
-		if (OBJ_TYPE::PLAYER ==  m_pOwner->Get_ObjectType())
+		if (nullptr != m_pOwner)
 		{
-			if (FAILED(Initialize_StageName(dynamic_cast<CPlayer*>(m_pOwner)->Get_NickName())))
-				return E_FAIL;
-		}
-		else if (OBJ_TYPE::NPC == m_pOwner->Get_ObjectType())
-		{
-			if (FAILED(Initialize_StageName(dynamic_cast<CNpc*>(m_pOwner)->Get_NpcName())))
-				return E_FAIL;
+			if (OBJ_TYPE::PLAYER == m_pOwner->Get_ObjectType())
+			{
+				if (FAILED(Initialize_StageName(dynamic_cast<CPlayer*>(m_pOwner)->Get_NickName())))
+					return E_FAIL;
+			}
+			else if (OBJ_TYPE::NPC == m_pOwner->Get_ObjectType())
+			{
+				if (FAILED(Initialize_StageName(dynamic_cast<CNpc*>(m_pOwner)->Get_NpcName())))
+					return E_FAIL;
+			}
 		}
 	}
 
@@ -82,27 +72,16 @@ void CUI_InGame_NamePlate::Tick(_float fTimeDelta)
 
 void CUI_InGame_NamePlate::LateTick(_float fTimeDelta)
 {
-	__super::LateTick(fTimeDelta);
 	Update_NamePlatePos();
 }
 
 HRESULT CUI_InGame_NamePlate::Render()
 {
-	//if (FAILED(Bind_ShaderResources()))
-	//	return E_FAIL;
-
-	//m_pShaderCom->Begin(0);
-
-	//m_pVIBufferCom->Render();
-	//Print_InGame_Name();
-
 	return S_OK;
 }
 
 HRESULT CUI_InGame_NamePlate::Ready_Components()
 {
-	__super::Ready_Components();
-
 	return S_OK;
 }
 
@@ -130,22 +109,18 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 	{
 		Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.0f));
-
 		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION
-			, Vec3(m_pTransformCom->Get_State(CTransform::STATE_POSITION).x, m_pTransformCom->Get_State(CTransform::STATE_POSITION).y, 0.1f));
+			, Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.1f));
 	}
 }
 
 void CUI_InGame_NamePlate::Print_InGame_Name()
 {
-	if (nullptr == m_pInGameNameWnd)
+	if ((nullptr == m_pInGameNameWnd)||(nullptr == m_pOwner))
 		return;
 
-	//m_pInGameNameWnd->Set_Active(true);
 	m_pInGameNameWnd->Clear_Text();
-	m_pInGameNameWnd->Set_Alpha(1.f);
+	m_pInGameNameWnd->Set_Alpha(1.f);                                                                    
 
 	m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(300.f, 40.f, 0.f));
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, m_strName);

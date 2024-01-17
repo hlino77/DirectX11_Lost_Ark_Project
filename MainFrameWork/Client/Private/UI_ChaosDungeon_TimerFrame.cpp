@@ -31,10 +31,10 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Initialize(void* pArg)
 
 	m_strUITag = TEXT("ChaosDungeon_TimerFrame");
 
-	m_fSizeX = 504;
-	m_fSizeY = 335;
-	m_fX = g_iWinSizeX * 0.5f;
-	m_fY = (g_iWinSizeY * 0.5f) + 100.f;
+	m_fSizeX = 240.f;
+	m_fSizeY = 80.f;
+	m_fX = 354.f;
+	m_fY = 66.f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -53,16 +53,14 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Initialize_StageName()
 {
 	m_szFont = L"던파연마된칼날";
 	Ready_TextBox();
-
 	Set_Active(true);
-
+	Print_Stage_Timer();
 	return S_OK;
 }
 
 void CUI_ChaosDungeon_TimerFrame::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
 }
 
 void CUI_ChaosDungeon_TimerFrame::LateTick(_float fTimeDelta)
@@ -78,7 +76,7 @@ HRESULT CUI_ChaosDungeon_TimerFrame::Render()
 	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
-	Print_Stage_Timer();
+	
 	return S_OK;
 }
 
@@ -131,7 +129,6 @@ void CUI_ChaosDungeon_TimerFrame::Print_Stage_Timer()
 	if (nullptr == m_pStageNameWnd)
 		return;
 
-	m_pStageNameWnd->Set_Active(true);
 	m_pStageNameWnd->Clear_Text();
 	m_pStageNameWnd->Set_Alpha(1.f);
 

@@ -31,7 +31,7 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strUITag = TEXT("NamePlate");
+	m_strUITag = TEXT("Monster_HpUI");
 
 	m_fSizeX = 87.f;
 	m_fSizeY = 12.f;

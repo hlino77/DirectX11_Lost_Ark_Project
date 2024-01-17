@@ -211,6 +211,7 @@ void CUI_Manager::Set_CurrHPUI(CUI* pUI)
 			if(nullptr != m_pCurrentBossHpUI)
 				static_cast<CUI_Boss_Hp*>(m_pCurrentBossHpUI)->Set_Active(false);//m_pCurrentBossHpUI->Set_Render(false);
 			static_cast<CUI_Boss_Hp*>(pUI)->Set_Active(true);
+			static_cast<CUI_Boss_Hp*>(pUI)->Print_BossHp();
 			m_pCurrentBossHpUI = pUI;
 		}
 }
