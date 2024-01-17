@@ -2110,9 +2110,6 @@
     <ClInclude Include="..\Public\Chat_Manager.h">
       <Filter>96. Manager\Chat_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>96. Manager\UI_Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\Lobby</Filter>
     </ClInclude>
@@ -3732,12 +3729,13 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_Doughnut_Test.h">
+    <ClInclude Include="..\Public\SKill_Valtan_Doughnut.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Manager.h">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -4672,9 +4670,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chat_Manager.cpp">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\Lobby</Filter>
@@ -6276,7 +6271,7 @@
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_Doughnut_Test.cpp">
+    <ClCompile Include="..\Private\SKill_Valtan_Doughnut.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Manager.cpp">
@@ -6286,6 +6281,7 @@
     <ClCompile Include="..\Private\UI_Boss_Hp.cpp">
       <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
