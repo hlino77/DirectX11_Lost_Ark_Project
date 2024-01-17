@@ -315,6 +315,7 @@
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
     <ClInclude Include="..\Public\SkyDome.h" />
+    <ClInclude Include="..\Public\State_GN_Grabbed.h" />
     <ClInclude Include="..\Public\State_GN_Hit.h" />
     <ClInclude Include="..\Public\State_GN_HitEnd.h" />
     <ClInclude Include="..\Public\State_GN_Hit_Common.h" />
@@ -810,6 +811,7 @@
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\SkyDome.cpp" />
+    <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit.cpp" />
     <ClCompile Include="..\Private\State_GN_HitEnd.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit_Common.cpp" />

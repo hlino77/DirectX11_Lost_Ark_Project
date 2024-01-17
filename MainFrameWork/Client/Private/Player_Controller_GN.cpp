@@ -143,6 +143,18 @@ void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPo
 	}
 }
 
+void CPlayer_Controller_GN::Get_GrabMessage(CGameObject* pGrabber)
+{
+	__super::Get_GrabMessage(pGrabber);
+
+	static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Grabbed"));
+}
+
+void CPlayer_Controller_GN::Get_GrabEndMessage()
+{
+	__super::Get_GrabEndMessage();
+}
+
 void CPlayer_Controller_GN::Skill(GN_IDENTITY eIndex, SKILL_KEY eKey)
 {
 	__super::Skill(eKey);

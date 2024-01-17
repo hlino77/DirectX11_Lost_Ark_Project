@@ -36,6 +36,8 @@ public:
 public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
+	virtual void	Get_GrabMessage(CGameObject* pGrabber);
+	virtual void	Get_GrabEndMessage();
 
 	void			Get_WDR_IdentityMessage();
 	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_fIdentityGage -= 5.f; }

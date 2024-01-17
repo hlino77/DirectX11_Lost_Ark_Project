@@ -233,6 +233,16 @@ void CPlayer_Controller::Get_RootZeroMessage()
 	m_pOwnerTransform->Set_State(CTransform::STATE_POSITION, m_vPrePos);
 }
 
+void CPlayer_Controller::Get_GrabMessage(CGameObject* pGrab)
+{
+	m_pGrabber = pGrab;
+}
+
+void CPlayer_Controller::Get_GrabEndMessage()
+{
+	m_pGrabber = nullptr;
+}
+
 void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 {
 	m_iDamaged = iDamage;
@@ -393,7 +403,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	Vec3 vCur = m_vPrePos;
 	vNext.y = 0.0f; vCur.y = 0.0f;
 
-	if (Vec3(vNext - vCur).Length() <= m_fMoveLength)
+	if (Vec3(vNext - vCur).Length() <= 0.05f)
 	{
 		m_bMoveStop = true;
 		return;

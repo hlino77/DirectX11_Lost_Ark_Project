@@ -1174,6 +1174,9 @@
     <Filter Include="01.Levels\04. ValtanEnterance">
       <UniqueIdentifier>{bb587fae-f286-4d49-b053-6f495306f69b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Grab">
+      <UniqueIdentifier>{55a32f88-7551-49d5-ac58-f3e8cc1833cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3767,6 +3770,9 @@
     <ClInclude Include="..\Public\Level_ValtanMain.h">
       <Filter>01.Levels\05. ValtanMain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Grabbed.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Grab</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6335,6 +6341,9 @@
     <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\Level_ValtanMain.cpp">
       <Filter>01.Levels\05. ValtanMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Grabbed.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Grab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

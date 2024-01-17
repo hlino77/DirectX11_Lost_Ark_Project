@@ -251,6 +251,16 @@ void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 	}
 }
 
+void CController_WR::Get_GrabMessage(CGameObject* pGrabber)
+{
+	__super::Get_GrabMessage(pGrabber);
+}
+
+void CController_WR::Get_GrabEndMessage()
+{
+	__super::Get_GrabEndMessage();
+}
+
 void CController_WR::Get_WR_IdentityMessage()
 {
 	if (m_fMaxGage <= m_fIdentityGage)
