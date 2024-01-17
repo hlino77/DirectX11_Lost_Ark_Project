@@ -141,6 +141,71 @@ HRESULT CBoss_Valtan_Server::Render()
 }
 
 
+void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
+{
+	WRITE_LOCK
+		if (iDamage == -1)
+		{
+			for (auto iter : m_vecGrabbedPlayerIDs)
+			{
+				if ((_int)fForce == iter)
+					return;
+			}
+			m_vecGrabbedPlayerIDs.push_back((_int)fForce);
+		}
+		if (!m_bInvincible)
+		{
+			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
+			_uint iGroggy_Result = iGroggy;
+			_bool	m_bGroggyObsorb = false;
+			m_iHp -= iDamage_Result;
+			if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
+			{
+				m_iGroggyCount -= iGroggy_Result;
+				m_bGroggyObsorb = true;
+				if (m_iGroggyCount < 1)
+				{
+					m_IsHit = true;
+					m_bGrogginess = true;
+					m_IsGroggy = true;
+					m_iGroggyCount = 0;
+					m_iMaxGroggyCount = 0;
+				}
+			}
+			else if (!m_IsGroggy && m_iGroggyGauge > 0 && !m_IsGroggyLock)
+				m_iGroggyGauge -= iGroggy_Result;
+			if (m_IsGroggyLock)
+				iGroggy_Result = 0;
+			m_iHitCount++;
+
+			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
+				m_iArmorDurability -= iDamage;
+			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+			{
+				m_bCounter = true;
+				m_IsHit = true;
+				m_IsCounterSkill = false;
+				m_IsCountered = true;
+			}
+			if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
+			{
+				m_IsHit = true;
+				m_bGrogginess = true;
+				m_IsGroggy = true;
+			}
+
+
+			m_fStatusEffects[iStatusEffect] += fDuration;
+			if (m_iHp < 1.f && m_iPhase == 2)
+				m_iHp = 1;
+
+			if (m_iHp < 1.f)
+				m_IsHit = true;
+
+			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, m_bGroggyObsorb, iGroggy_Result);
+		}
+}
+
 void CBoss_Valtan_Server::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
@@ -1898,6 +1963,44 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	m_pBehaviorTree->SetRoot(pRoot);
 
 	return S_OK;
+}
+
+void CBoss_Valtan_Server::Find_NearTarget(_float fTimeDelta)
+{
+	m_fScanCoolDown += fTimeDelta;
+	if (m_fScanCoolDown > 1.f)
+	{
+		m_fScanCoolDown = 0.f;
+		_float fDistance = 99999.f;
+		CGameObject* pNearTarget = nullptr;
+
+		vector<CGameObject*> pTargets = CGameInstance::GetInstance()->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+		if (pTargets.empty())
+			m_pNearTarget = nullptr;
+		else
+		{
+			for (auto pGameObjects : pTargets)
+			{
+				_int iObjectID = pGameObjects->Get_ObjectID();
+				for (auto iID : m_vecGrabbedPlayerIDs)
+					if (iID == iObjectID)
+						continue;
+				if (pNearTarget != nullptr)
+				{
+					Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+					Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+					fDistance = (vTargetPos - vPos).Length();
+				}
+			}
+		}
+		if (pNearTarget != m_pNearTarget)
+		{
+			m_pNearTarget = pNearTarget;
+			Send_NearTarget();
+		}
+	}
+
 }
 
 CBoss_Server* CBoss_Valtan_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

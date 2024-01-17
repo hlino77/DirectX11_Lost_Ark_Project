@@ -39,6 +39,10 @@ public:
 
 	virtual CBT_Node::BT_RETURN OnUpdate(const _float& fTimeDelta);
 
+	virtual void On_FirstAnimStart();
+
+	virtual void On_LastAnimEnd();
+
 	virtual    void		OnEnd();
 
 
@@ -53,6 +57,8 @@ protected:
 	wstring						m_strActionName;
 	_float						m_fLoopTime = 0.f;
 	_uint						m_iMaxAnimation = 0;
+	_bool						m_bStart = false;
+	_bool						m_bEnd = false;
 public:
 	virtual void Free() override;
 };

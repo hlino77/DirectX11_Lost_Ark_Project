@@ -15,8 +15,9 @@ private:
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
-    virtual void		OnEnd()								override;
-
+    virtual void		OnEnd()	override;
+    virtual void On_FirstAnimStart()override;
+    virtual void On_LastAnimEnd()  override;
 
 public:
     static	CValtan_BT_Attack_Attack22_Server* Create(void* pArg);

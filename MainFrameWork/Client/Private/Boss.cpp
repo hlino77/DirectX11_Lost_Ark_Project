@@ -223,13 +223,11 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 		}
 	}
-	else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
-		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
+			Send_Collision(-1, Vec3(), STATUSEFFECT::EFFECTEND , (_int)pOther->Get_Owner()->Get_ObjectID(), 0, 0);
 		}
 	}
 }
