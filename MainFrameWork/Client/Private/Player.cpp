@@ -23,6 +23,7 @@
 #include "UI_Manager.h"
 #include "UI_SpeechBubble.h"
 #include "UI_InGame_NamePlate.h"
+#include "Effect.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
@@ -411,6 +412,30 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 	vRayDir = XMVector3TransformNormal(vRayDir, matViewInv);
 
 	return CNavigationMgr::GetInstance()->Picking_Cell(m_iCurrLevel, vRayPos, vRayDir, vPickPos);
+}
+
+void CPlayer::Add_Effect(const wstring& szEffectName, CEffect* pEffect)
+{
+	m_Effects.emplace(szEffectName, pEffect);
+}
+
+void CPlayer::Delete_Effect(const wstring& szEffectName)
+{
+	auto iter = m_Effects.find(szEffectName);
+	if (iter == m_Effects.end())
+		return;
+
+	(*iter).second->EffectEnd();
+	m_Effects.erase(iter);
+}
+
+CEffect* CPlayer::Get_Effect(const wstring& szEffectName)
+{
+	auto iter = m_Effects.find(szEffectName);
+	if (iter == m_Effects.end())
+		return nullptr;
+
+	return (*iter).second;
 }
 
 void CPlayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_Render)

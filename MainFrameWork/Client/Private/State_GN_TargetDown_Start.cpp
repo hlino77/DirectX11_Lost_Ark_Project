@@ -85,7 +85,8 @@ void CState_GN_TargetDown_Start::Effect_Start()
 {
 	m_pPlayer->Get_Camera()->ZoomInOut(12.0f, 3.0f);
 
-	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_CrossHair");
+	
+	CEffect* pCrossHair = dynamic_cast<CEffect*>(CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_CrossHair"));
 
 	vector<CEffect*> EffectList;
 
@@ -94,7 +95,10 @@ void CState_GN_TargetDown_Start::Effect_Start()
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START_OUTLIST(TEXT("TargetDownDecal"), &desc, EffectList);
 
-	EffectList.front()->Set_ObjectTag(L"Effect_TargetDownDecal");
+	CEffect* pDecal = EffectList.front();
+
+	m_pPlayer->Add_Effect(L"TargetDownCrossHair", pCrossHair);
+	m_pPlayer->Add_Effect(L"TargetDownDecal", pDecal);
 }
 
 void CState_GN_TargetDown_Start::Effect_End()

@@ -85,19 +85,10 @@ void CState_GN_TargetDown_End::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_TargetDown_End::Effect_End()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
-	
-	pEffect->EffectEnd();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 
-
-	CEffect* pDecal = dynamic_cast<CEffect*>(pGameInstance->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, L"Effect_TargetDownDecal"));
-	pDecal->Set_ObjectTag(L"Effect_TargetDownDecalReady");
-	pDecal->EffectEnd();
-
-	Safe_Release(pGameInstance);
+	m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
+	m_pPlayer->Delete_Effect(L"TargetDownDecal");
 }
 
 CState_GN_TargetDown_End* CState_GN_TargetDown_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

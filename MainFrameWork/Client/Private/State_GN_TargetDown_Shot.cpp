@@ -64,7 +64,7 @@ void CState_GN_TargetDown_Shot::Exit_State()
 {
 	if (true == m_pController->Is_HitState())
 	{
-		//Effect_End();
+		Effect_End();
 	}
 }
 
@@ -136,7 +136,7 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 		{
 			m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 108.f, 0.3f, 18.0f);
 
-			CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
+			CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(m_pPlayer->Get_Effect(L"TargetDownCrossHair"));
 
 			pEffect->EffectShot();
 		}
@@ -189,20 +189,10 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 
 void CState_GN_TargetDown_Shot::Effect_End()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
-
-	pEffect->EffectEnd();
-
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 
-
-	CEffect* pDecal = dynamic_cast<CEffect*>(pGameInstance->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, L"Effect_TargetDownDecal"));
-	pDecal->Set_ObjectTag(L"Effect_TargetDownDecalReady");
-	pDecal->EffectEnd();
-
-	Safe_Release(pGameInstance);
+	m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
+	m_pPlayer->Delete_Effect(L"TargetDownDecal");
 }
 
 CState_GN_TargetDown_Shot* CState_GN_TargetDown_Shot::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

@@ -1168,6 +1168,9 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Skill">
       <UniqueIdentifier>{92545b1e-cf03-4e1d-9d88-887eb4ad7790}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\04. Valtan">
+      <UniqueIdentifier>{535409de-b4c2-4da9-be5e-de471e3115d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2352,9 +2355,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chat_Manager.h">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\Lobby</Filter>
@@ -3760,6 +3760,7 @@
     <ClInclude Include="..\Public\State_MG_Hit.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4930,9 +4931,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chat_Manager.cpp">
       <Filter>96. Manager\Chat_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>96. Manager\UI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\Lobby</Filter>
@@ -6328,6 +6326,7 @@
     <ClCompile Include="..\Private\State_MG_Hit.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

@@ -22,6 +22,7 @@ BEGIN(Client)
 class CParty;
 class CUI_SpeechBubble;
 class CUI_InGame_NamePlate;
+class CEffect;
 
 class CPlayer : public CGameObject
 {
@@ -160,6 +161,9 @@ public:
 	const _bool&			Is_ClickNpc() { return m_IsClickNpc; }
 
 
+	void					Add_Effect(const wstring& szEffectName, CEffect* pEffect);
+	void					Delete_Effect(const wstring& szEffectName);
+	CEffect*				Get_Effect(const wstring& szEffectName);
 public:
 	/* 플레이어 상태 세팅 */
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
@@ -243,6 +247,7 @@ protected:
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
 	CUI_InGame_NamePlate* m_pNamePlate = { nullptr };
 
+	unordered_map<wstring, CEffect*> m_Effects;
 public:
 	virtual void Free();
 

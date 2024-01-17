@@ -108,7 +108,6 @@ public:
 	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc);
 	virtual void EffectEnd();
 	virtual void Update_Pivot(Matrix& matPivot);
-	virtual void Set_Dead(_bool bDead) { EffectEnd(); }
 protected:
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
