@@ -190,6 +190,11 @@ private:
 
 	static _uint	m_iIBLTextureIndex;
 
+	// MotionBlur
+	Matrix	m_matPreCamView = Matrix::Identity;
+
+	// RadialBlur
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

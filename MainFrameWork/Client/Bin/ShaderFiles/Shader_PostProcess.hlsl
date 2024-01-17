@@ -5,18 +5,23 @@ matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 matrix      g_PreCamViewMatrix, g_CamProjMatrix, g_CamViewMatrix;
 matrix      g_ViewMatrixInv, g_ProjMatrixInv;
+matrix      g_ProjViewMatrixInv;
 
 Texture2D	g_PrePostProcessTarget;
 Texture2D	g_DecalOneBlendTarget;
 Texture2D	g_DecalAlphaBlendTarget;
 Texture2D	g_EffectOneBlendTarget;
 Texture2D	g_EffectAlphaBlendTarget;
+Texture2D   g_NormalTarget;
 Texture2D   g_NormalDepthTarget;
 Texture2D	g_ShadeTarget;
 Texture2D	g_BloomTarget;
 Texture2D	g_BlurTarget;
 Texture2D	g_DistortionTarget;
 Texture2D	g_BlendedTarget;
+Texture2D   g_MotionBlurTarget;
+Texture2D   g_RadialBlurTarget;
+Texture2D   g_BlendEffectTarget;
 
 Texture2D   g_Texture;
 
@@ -26,11 +31,11 @@ float       g_CenterWeight;
 float	    g_WeightAtt;
 
 //Motion Blur
-float       g_fMotionBlurStrength = 0.f;
+float       g_fMotionBlurIntensity = 0.f;
 
 //Radial Blur
 float3      g_vBlurWorldPosition;
-float       g_fRadialBlurStrength;
+float       g_fRadialBlurIntensity;
 
 struct VS_IN
 {
@@ -67,10 +72,8 @@ struct PS_IN
 };
 
 float4 PS_MAIN_POSTPROCESS(PS_IN In) : SV_TARGET0
-{
-    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
-
-    return vColor;
+{    // 일단 그대로 리턴
+    return g_MotionBlurTarget.Sample(LinearSampler, In.vTexcoord);
 }
 
 cbuffer ScreenTone
@@ -82,12 +85,12 @@ cbuffer ScreenTone
 
 float4 PS_MAIN_SCREENTONE(PS_IN In) : SV_TARGET0
 {
-    vector vColor = g_BlendedTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vColor = g_BlendedTarget.Sample(LinearSampler, In.vTexcoord);
 	
     vColor *= g_fSaturation;
 	
     float avg = (vColor.r + vColor.g + vColor.b) / 3.0;
-    vector vNewColor;
+    float4 vNewColor;
     vNewColor.a = 1.0f;
     vNewColor.rgb = avg * (1.0 - g_fGrayScale) + vColor.rgb * g_fGrayScale;
 
@@ -153,6 +156,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
 {
     float4 vNormalDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
 		   
     float fViewZ = vNormalDepth.w * 1200.f;
 		    
@@ -160,17 +164,16 @@ float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
 
     vPixelWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
     vPixelWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
-    vPixelWorldPos.z = vNormalDepth.x;
+    vPixelWorldPos.z = vNormal.w;
     vPixelWorldPos.w = 1.0f;
 
     vPixelPos = vPixelWorldPos;
-	    
     vPixelWorldPos *= fViewZ;
 
-    vPixelWorldPos = mul(vPixelWorldPos, g_ProjMatrixInv);
-
-    vPixelWorldPos = mul(vPixelWorldPos, g_ViewMatrixInv);
-	
+    //vPixelWorldPos = mul(vPixelWorldPos, g_ProjMatrixInv);
+    //vPixelWorldPos = mul(vPixelWorldPos, g_ViewMatrixInv);
+    vPixelWorldPos = mul(vPixelWorldPos, g_ProjViewMatrixInv);
+    
     matrix matVP = mul(g_PreCamViewMatrix, g_CamProjMatrix);
 
     float4 vPrePixelPos = mul(vPixelWorldPos, matVP);
@@ -183,8 +186,8 @@ float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
 
     for (int i = -10; i < 10; ++i)
     {
-        texCoord += vPixelVelocity * (0.005f + g_fMotionBlurStrength) * i;
-        float4 currentColor = g_PrePostProcessTarget.Sample(LinearClampSampler, texCoord);
+        texCoord += vPixelVelocity * (0.005f + g_fMotionBlurIntensity) * i;
+        float4 currentColor = g_BlendEffectTarget.Sample(LinearClampSampler, texCoord);
         vColor += currentColor;
     }
 
@@ -210,7 +213,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
     
     In.vTexcoord.xy -= center;
 
-    float fPrecompute = g_fRadialBlurStrength * (1.0f / 19.f);
+    float fPrecompute = g_fRadialBlurIntensity * (1.0f / 19.f);
     int iDivision = 0;
 	
     for (uint i = 0; i < 20; ++i)
@@ -246,14 +249,14 @@ technique11 DefaultTechnique
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);
-		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_POSTPROCESS();
-	}
+        PixelShader = compile ps_5_0 PS_MAIN_POSTPROCESS();
+    }
 
 	pass ScreenTone // 2
 	{
