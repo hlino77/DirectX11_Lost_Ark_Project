@@ -435,7 +435,7 @@ void CMonster_Server::Find_NearTarget(_float fTimeDelta)
 		if (fDistance > 50.f)
 			pNearTarget = nullptr;
 
-		if (pNearTarget != m_pNearTarget && pNearTarget != nullptr)
+		if (pNearTarget != m_pNearTarget)
 		{
 			m_pNearTarget = pNearTarget;
 			Send_NearTarget();

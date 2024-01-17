@@ -18,6 +18,8 @@ public:
 	virtual HRESULT Render();
 
 
+	virtual void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy) override;
+
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
@@ -32,9 +34,9 @@ public:
 private:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
-
+	virtual void Find_NearTarget(_float fTimeDelta);
 private:
-
+	vector<_int> m_vecGrabbedPlayerIDs;
 
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

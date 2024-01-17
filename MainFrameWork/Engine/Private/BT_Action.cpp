@@ -49,10 +49,22 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_fLoopTime = 0;
 	m_iCurrAnimation = 0;
 	m_bSoundOn = false;
+	m_bStart = true;
+	m_bEnd = true;
 }
 
 CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim()&& m_bStart)
+	{
+		On_FirstAnimStart();
+		m_bStart = false;
+	}
+	if (m_iCurrAnimation == m_iMaxAnimation - 1&&m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iMaxAnimation - 1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iMaxAnimation - 1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iMaxAnimation - 1].iAnimIndex) - 3&& m_bEnd)
+	{
+		On_LastAnimEnd();
+		m_bEnd = false;
+	}
 	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop&& m_vecAnimDesc[m_iCurrAnimation].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
 		if (m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime&& m_vecAnimDesc[m_iCurrAnimation].IsEndInstant)
@@ -86,6 +98,16 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 	}
 
 	return BT_RUNNING;
+}
+
+void CBT_Action::On_FirstAnimStart()
+{
+
+}
+
+void CBT_Action::On_LastAnimEnd()
+{
+
 }
 
 void CBT_Action::OnEnd()

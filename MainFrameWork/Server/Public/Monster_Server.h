@@ -66,7 +66,7 @@ public:
 
 public:
 
-	void Find_NearTarget(_float fTimeDelta);
+	virtual void Find_NearTarget(_float fTimeDelta);
 
 	void					Send_NearTarget();
 

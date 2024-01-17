@@ -32,6 +32,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22_Server::OnUpdate(const _float& fT
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex)
 	{
+		m_pGameObject->Set_Invincible(false);
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime > 0.75f && !static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
@@ -55,6 +56,17 @@ void CValtan_BT_Attack_Attack22_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
+}
+
+void CValtan_BT_Attack_Attack22_Server::On_FirstAnimStart()
+{
+	m_pGameObject->Set_Invincible(true);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
+}
+
+void CValtan_BT_Attack_Attack22_Server::On_LastAnimEnd()
+{
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(false);
 }
 
 

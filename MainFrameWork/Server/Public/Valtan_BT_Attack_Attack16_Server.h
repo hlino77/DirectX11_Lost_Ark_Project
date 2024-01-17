@@ -16,6 +16,8 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
+    virtual void On_FirstAnimStart()override;
+    virtual void On_LastAnimEnd()override;
 private:
 
     Vec3                m_vLandPosition = {};
