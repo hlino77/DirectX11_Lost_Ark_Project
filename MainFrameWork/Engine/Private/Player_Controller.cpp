@@ -243,26 +243,36 @@ void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 	{
 		m_eHitType = HIT_TYPE::DMG;
 		m_fForced = fForce - 10.f;
+
+		m_IsHitState = true;
 	}
 	else if (20.f <= fForce && 30.f > fForce)
 	{
 		m_eHitType = HIT_TYPE::DOWN;
 		m_fForced = fForce - 20.f;
+
+		m_IsHitState = true;
 	}
 	else if (30.f <= fForce && 40.f > fForce)
 	{
 		m_eHitType = HIT_TYPE::KNOCKDOWN;
 		m_fForced = fForce - 30.f;
+
+		m_IsHitState = true;
 	}
 	else if (40.f <= fForce && 50.f > fForce)
 	{
 		m_eHitType = HIT_TYPE::BOUND;
 		m_fForced = fForce - 40.f;
+
+		m_IsHitState = true;
 	}
 	else if (50.f <= fForce)
 	{
 		m_eHitType = HIT_TYPE::TWIST;
 		m_fForced = fForce - 50.f;
+
+		m_IsHitState = true;
 	}
 	else
 	{
@@ -374,6 +384,8 @@ _bool CPlayer_Controller::Pick(_uint screenX, _uint screenY, Vec3& pickPos, _flo
 void CPlayer_Controller::Input(const _float& fTimeDelta)
 {
 }
+
+
 
 void CPlayer_Controller::Move(const _float& fTimeDelta)
 {

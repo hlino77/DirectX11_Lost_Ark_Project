@@ -81,6 +81,7 @@ void CState_GN_HitEnd::Exit_State()
 	m_fTimeAcc = 0.f;
 	m_pPlayer->Set_AnimationSpeed(1.f);
 	m_IsAnimEnd = false;
+
 	m_pController->Get_HitEndMessage();
 }
 

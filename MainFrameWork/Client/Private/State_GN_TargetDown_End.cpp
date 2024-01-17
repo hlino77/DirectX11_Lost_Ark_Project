@@ -47,6 +47,11 @@ void CState_GN_TargetDown_End::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (m_bEffect == false)
+	{
+		Effect_End();
+	}
 }
 
 void CState_GN_TargetDown_End::Tick_State_Control(_float fTimeDelta)
@@ -85,7 +90,6 @@ void CState_GN_TargetDown_End::Effect_End()
 	CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(pGameInstance->Find_GameObejct(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"GN_CrossHair"));
 	
 	pEffect->EffectEnd();
-
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 
 
