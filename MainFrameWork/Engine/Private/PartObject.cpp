@@ -67,6 +67,8 @@ HRESULT CPartObject::Render_ShadowDepth()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
 	}
+
+	return S_OK;
 }
 
 void CPartObject::Store_Socket()

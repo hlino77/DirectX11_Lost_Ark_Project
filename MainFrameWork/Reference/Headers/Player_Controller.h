@@ -87,7 +87,10 @@ public:
 	_bool					Is_SkillSuccess(SKILL_KEY eKey);
 
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
-	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey]; }
+	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { 
+		if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey];
+		else return nullptr;
+	}
 	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
 
 	_float					Get_Skill_CoolDown(SKILL_KEY eKey) {
