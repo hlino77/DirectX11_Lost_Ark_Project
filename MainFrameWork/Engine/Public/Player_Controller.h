@@ -104,6 +104,7 @@ public:
 	_uint					Get_Damaged() { return m_iDamaged; }
 
 	CGameObject*			Get_Grabber() { return m_pGrabber; }
+	_bool					Is_GrabState() { return m_IsGrabState; }
 
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
@@ -158,6 +159,7 @@ protected:
 
 	/* 플레이어 그랩 변수 */
 	CGameObject*			m_pGrabber = { nullptr };
+	_bool					m_IsGrabState = { false };
 
 	/* 스킬 */
 	unordered_map<wstring, class CPlayer_Skill*> m_Skills;

@@ -82,8 +82,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-
-	if (m_bNavi)
+	if (true == m_bNavi)
 	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	}

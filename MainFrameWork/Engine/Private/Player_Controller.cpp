@@ -236,11 +236,13 @@ void CPlayer_Controller::Get_RootZeroMessage()
 void CPlayer_Controller::Get_GrabMessage(CGameObject* pGrab)
 {
 	m_pGrabber = pGrab;
+	m_IsGrabState = true;
 }
 
 void CPlayer_Controller::Get_GrabEndMessage()
 {
 	m_pGrabber = nullptr;
+	m_IsGrabState = false;
 }
 
 void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
