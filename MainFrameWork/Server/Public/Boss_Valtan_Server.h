@@ -29,7 +29,8 @@ public:
 
 	void				Set_Colliders(_float fTimeDelta);
 	HRESULT				Ready_Coliders();
-
+	_int						Get_GroggyObsrob() { return m_iGroggyObsrob; }
+	void						Set_GroggyObsrob(_int iGroggyCount) { m_iGroggyObsrob = iGroggyCount; }
 
 private:
 	virtual HRESULT		Ready_Components();
@@ -37,7 +38,7 @@ private:
 	virtual void Find_NearTarget(_float fTimeDelta);
 private:
 	vector<_int> m_vecGrabbedPlayerIDs;
-
+	_int		m_iGroggyObsrob = 0;
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

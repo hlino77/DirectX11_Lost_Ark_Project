@@ -227,7 +227,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
-			Send_Collision(-1, Vec3(), STATUSEFFECT::EFFECTEND , (_int)pOther->Get_Owner()->Get_ObjectID(), 0, 0);
+			Send_Collision(0, Vec3(), STATUSEFFECT::EFFECTEND , (_int)pOther->Get_Owner()->Get_ObjectID(), -1.f, 0);
 		}
 	}
 }

@@ -144,7 +144,7 @@ HRESULT CBoss_Valtan_Server::Render()
 void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
-		if (iDamage == -1)
+		if (fDuration == -1.f)
 		{
 			for (auto iter : m_vecGrabbedPlayerIDs)
 			{
@@ -153,16 +153,21 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			}
 			m_vecGrabbedPlayerIDs.push_back((_int)fForce);
 		}
-		if (!m_bInvincible)
+		else if (!m_bInvincible)
 		{
 			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
 			_uint iGroggy_Result = iGroggy;
-			_bool	m_bGroggyObsorb = false;
+			_bool	bGroggyObsorb = false;
 			m_iHp -= iDamage_Result;
-			if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
+			if (m_iGroggyObsrob > 0)
+			{
+				m_iGroggyObsrob -= iGroggy_Result;
+				iGroggy_Result = 0;
+			}
+			else if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
 			{
 				m_iGroggyCount -= iGroggy_Result;
-				m_bGroggyObsorb = true;
+				bGroggyObsorb = true;
 				if (m_iGroggyCount < 1)
 				{
 					m_IsHit = true;
@@ -202,7 +207,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			if (m_iHp < 1.f)
 				m_IsHit = true;
 
-			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, m_bGroggyObsorb, iGroggy_Result);
+			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, bGroggyObsorb, iGroggy_Result);
 		}
 }
 
@@ -1967,10 +1972,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 void CBoss_Valtan_Server::Find_NearTarget(_float fTimeDelta)
 {
-	m_fScanCoolDown += fTimeDelta;
-	if (m_fScanCoolDown > 1.f)
+	m_fScantime += fTimeDelta;
+	if (m_fScantime > 1.f)
 	{
-		m_fScanCoolDown = 0.f;
+		m_fScantime = 0.f;
 		_float fDistance = 99999.f;
 		CGameObject* pNearTarget = nullptr;
 
@@ -1979,20 +1984,40 @@ void CBoss_Valtan_Server::Find_NearTarget(_float fTimeDelta)
 			m_pNearTarget = nullptr;
 		else
 		{
-			for (auto pGameObjects : pTargets)
+			for (auto& Object : pTargets)
 			{
-				_int iObjectID = pGameObjects->Get_ObjectID();
+				_bool	Is_Grabbed = false;
+				_int iObjectID = Object->Get_ObjectID();
 				for (auto iID : m_vecGrabbedPlayerIDs)
 					if (iID == iObjectID)
-						continue;
-				if (pNearTarget != nullptr)
-				{
-					Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-					Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+					{
+						Is_Grabbed = true;
+						break;
+					}
+				if (Object->Is_Dead() || Object->Is_Active() == false|| Is_Grabbed==true)
+					continue;
 
-					fDistance = (vTargetPos - vPos).Length();
+				if (pNearTarget == nullptr)
+				{
+					pNearTarget = Object;
+					Vec3 vCallObjectPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+					Vec3 vObjectPos = Object->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
+					fDistance = (vCallObjectPos - vObjectPos).Length();
+					continue;
+				}
+
+				Vec3 vCallObjectPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+				Vec3 vObjectPos = Object->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
+
+				_float fNewDistance = (vObjectPos - vCallObjectPos).Length();
+
+				if (fNewDistance < fDistance)
+				{
+					pNearTarget = Object;
+					fDistance = fNewDistance;
 				}
 			}
+
 		}
 		if (pNearTarget != m_pNearTarget)
 		{
