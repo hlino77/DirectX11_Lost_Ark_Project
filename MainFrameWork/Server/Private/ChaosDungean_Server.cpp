@@ -126,7 +126,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL1:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 60;
+		m_iMonsterCount = 270;
 		m_iMonsterMaxSpawnCount = 30;
 		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Ghoul");
@@ -137,8 +137,8 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 1;
-		m_iMonsterMaxSpawnCount = 1;
+		m_iMonsterCount = 120;
+		m_iMonsterMaxSpawnCount = 30;
 		m_iBossCount = 9;
 		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Plant");	
