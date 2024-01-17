@@ -107,7 +107,7 @@ public:
 		_float	fBloom = 0.f;
 		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
-		_float	padding;
+		_int	iDistortionOnBaseMaterial = 0;
 	} m_Intensity;
 	
 	struct tagFX_Billboard
