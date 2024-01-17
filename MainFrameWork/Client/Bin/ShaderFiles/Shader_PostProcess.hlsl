@@ -3,29 +3,33 @@
 
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
+matrix      g_PreCamViewMatrix, g_CamProjMatrix, g_CamViewMatrix;
+matrix      g_ViewMatrixInv, g_ProjMatrixInv;
+
 Texture2D	g_PrePostProcessTarget;
 Texture2D	g_DecalOneBlendTarget;
 Texture2D	g_DecalAlphaBlendTarget;
 Texture2D	g_EffectOneBlendTarget;
 Texture2D	g_EffectAlphaBlendTarget;
+Texture2D   g_NormalDepthTarget;
 Texture2D	g_ShadeTarget;
 Texture2D	g_BloomTarget;
 Texture2D	g_BlurTarget;
 Texture2D	g_BlendedTarget;
 
-Texture2D g_Texture;
+Texture2D   g_Texture;
 
-float2  g_PixelSize;
-int     g_KernelSize; //커널은 이미지 처리에서 필터 또는 윈도우라고도 불리는 작은 행렬 또는 마스크
-float   g_CenterWeight;
-float	g_WeightAtt;
+float2      g_PixelSize;
+int         g_KernelSize; //커널은 이미지 처리에서 필터 또는 윈도우라고도 불리는 작은 행렬 또는 마스크
+float       g_CenterWeight;
+float	    g_WeightAtt;
 
-sampler DefaultSampler = sampler_state {
-	filter = min_mag_mip_linear;
-	/*minfilter = linear;
-	magfilter = linear;
-	mipfilter = linear;*/
-};
+//Motion Blur
+float       g_fMotionBlurStrength = 0.f;
+
+//Radial Blur
+float3      g_vBlurWorldPosition;
+float       g_fRadialBlurStrength;
 
 struct VS_IN
 {
@@ -140,6 +144,94 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     return vColor;
 }
 
+float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
+{
+    float4 vNormalDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord);
+		   
+    float fViewZ = vNormalDepth.w * 1200.f;
+		    
+    float4 vPixelWorldPos, vPixelPos;
+
+    vPixelWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vPixelWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    vPixelWorldPos.z = vNormalDepth.x;
+    vPixelWorldPos.w = 1.0f;
+
+    vPixelPos = vPixelWorldPos;
+	    
+    vPixelWorldPos *= fViewZ;
+
+    vPixelWorldPos = mul(vPixelWorldPos, g_ProjMatrixInv);
+
+    vPixelWorldPos = mul(vPixelWorldPos, g_ViewMatrixInv);
+	
+    matrix matVP = mul(g_PreCamViewMatrix, g_CamProjMatrix);
+
+    float4 vPrePixelPos = mul(vPixelWorldPos, matVP);
+    vPrePixelPos /= vPrePixelPos.w;
+
+    float2 vPixelVelocity = ((vPixelPos - vPrePixelPos) * 0.5f).xy;
+    float2 texCoord = In.vTexcoord;
+
+    float4 vColor = vector(0.f, 0.f, 0.f, 0.f);
+
+    for (int i = -10; i < 10; ++i)
+    {
+        texCoord += vPixelVelocity * (0.005f + g_fMotionBlurStrength) * i;
+        float4 currentColor = g_PrePostProcessTarget.Sample(LinearClampSampler, texCoord);
+        vColor += currentColor;
+    }
+
+    return vColor * 0.05f/*/ 20.f*/;
+}
+
+float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+
+    float fBlurStart = 1.f;
+	
+    matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
+    vector vBlurCenter = mul(vector(g_vBlurWorldPosition, 1.f), matVP);
+    vBlurCenter /= vBlurCenter.w;
+
+    vBlurCenter.x = vBlurCenter.x * 0.5f + 0.5f;
+    vBlurCenter.y = vBlurCenter.y * -0.5f + 0.5f;
+	
+    float2 center = float2(vBlurCenter.x, vBlurCenter.y); //중심점<-마우스의 위치를 받아오면 마우스를 중심으로 블러됨
+	
+    In.vTexcoord.xy -= center;
+
+    float fPrecompute = g_fRadialBlurStrength * (1.0f / 19.f);
+    int iDivision = 0;
+	
+    for (uint i = 0; i < 20; ++i)
+    {
+        float scale = fBlurStart + (float(i) * fPrecompute);
+        float2 uv = In.vTexcoord.xy * scale + center;
+		
+        if (0.f > uv.x || 1.f < uv.x)
+            continue;
+		
+        if (0.f > uv.y || 1.f < uv.y)
+            continue;
+        vColor += g_PrePostProcessTarget.Sample(LinearClampSampler, uv);
+        ++iDivision;
+    }
+
+    vColor /= (float) iDivision;
+	
+    //float2 vBlurDir = In.vTexUV.xy - center;
+	
+    //for (int i = 0; i < 10; ++i)
+    //{
+    //    float4 currentColor = g_OriginalRenderTexture.Sample(ClampSampler, In.vTexUV + vBlurDir * g_fRadialBlurStrength*0.05f * i);
+    //    vColor += currentColor;
+    //}
+
+    return vColor;
+}
+
 technique11 DefaultTechnique
 {
 	pass PostProcess // 0
@@ -179,6 +271,34 @@ technique11 DefaultTechnique
         HullShader = NULL;
         DomainShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_BLENDEFFECT();
+    }
+
+    pass MotionBlur //5
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        HullShader = NULL;
+        DomainShader = NULL;
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_MOTIONBLUR();
+    }
+
+    pass RadialBlur //6
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+      //SetDepthStencilState(DSS_None_ZTestWrite_True_StencilTest, 1);
+      //SetDepthStencilState(DSS_None_ZTest_And_Write, 0);    
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        HullShader = NULL;
+        DomainShader = NULL;
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_RADIALBLUR();
     }
 }
 
