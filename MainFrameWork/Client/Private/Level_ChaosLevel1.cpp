@@ -122,7 +122,7 @@ HRESULT CLevel_ChaosLevel1::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_ChaosLevel1::Render_Debug()
 {
-	m_pImGuiManager->Tick();
+	//m_pImGuiManager->Tick();
 	return S_OK;
 }
 

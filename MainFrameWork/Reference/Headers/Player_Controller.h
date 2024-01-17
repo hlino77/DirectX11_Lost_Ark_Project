@@ -70,6 +70,7 @@ public:
 
 	virtual void		Get_RootMessage();
 	virtual void		Get_RootZeroMessage();
+
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
 	_bool				Is_HitState() { return m_IsHitState; }
@@ -101,9 +102,6 @@ public:
 
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
-
-	void					Set_EffecttoCtrl(wstring strSkillName, class CEffect* pSkill) { m_Effects.emplace(strSkillName, pSkill); }
-	class CEffect*			Find_Effect(wstring strSkillName) { return m_Effects.find(strSkillName)->second; }
 
 public:
 	/* 언젠가는 쓰겠지 */
@@ -160,10 +158,6 @@ protected:
 	SKILL_KEY				m_eSelectedSkill = { SKILL_KEY::_END };
 
 	PROJECTILE_DESC			m_AttackDesc;
-
-	/* 이펙트 */
-	unordered_map<wstring, class CEffect*> m_Effects;
-
 
 	/* 쿨 타임 */
 	_float					m_fCoolDownAcc[SKILL_KEY::_END];

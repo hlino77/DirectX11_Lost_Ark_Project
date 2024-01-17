@@ -127,12 +127,12 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
 		m_fStartDelay = 5.0f;
 		m_iMonsterCount = 60;
-		m_iMonsterMaxSpawnCount = 0;
+		m_iMonsterMaxSpawnCount = 30;
 		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Ghoul");
 		m_MonsterSpawnList.push_back(L"Reaper");
-		m_iBossCount = 1;
-		m_BossSpawnList.push_back(L"Valtan");
+		/*m_iBossCount = 1;
+		m_BossSpawnList.push_back(L"Valtan");*/
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;

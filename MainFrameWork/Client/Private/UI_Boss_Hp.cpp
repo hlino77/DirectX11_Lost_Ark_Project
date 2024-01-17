@@ -413,8 +413,8 @@ void CUI_Boss_Hp::Update_PreHp()
 	if (m_iPreHp != m_iCurrHp)
 	{
 		CUI_Manager::GetInstance()->Set_CurrHPUI(this);
-		Print_BossHp();
 		m_iPreHp = m_iCurrHp;
+		Update_BossHp();
 	}
 }
 
