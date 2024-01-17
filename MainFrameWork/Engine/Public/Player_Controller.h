@@ -142,7 +142,7 @@ protected:
 	_float					m_fLerpLook_Speed = { 20.f };
 	_float					m_fMoveSpeed = { 3.f };
 
-	_float					m_fMoveLength = 0.06f;
+	_float					m_fMoveLength = { 0.05f };
 
 	/* 플레이어 히트 변수*/
 	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };

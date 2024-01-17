@@ -255,6 +255,10 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 	{
+		if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
+		{
+			int a = 0;
+		}
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 		{
 			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
@@ -810,7 +814,6 @@ HRESULT CPlayer_Gunslinger::Ready_Coliders()
 {
 	if (false == m_bControl)
 		return S_OK;
-
 
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->SetActive(true);

@@ -406,13 +406,19 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	if (false == m_IsDir)
 	{
 		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
-		Vec3 vDir = m_vNextMove - vPos;
+		Vec3 vNextPos = m_vNextMove;
+
+		vPos.y = 0.f, vNextPos.y = 0.f;
+		Vec3 vDir = vNextPos - vPos;
 		m_pOwnerTransform->Move_ToPos(vDir, 12.f, m_fMoveSpeed, fTimeDelta);
 	}
 	else if (true == m_IsDir)
 	{
 		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
-		Vec3 vDir = m_vNextMove - vPos;
+		Vec3 vNextPos = m_vNextMove;
+
+		vPos.y = 0.f, vNextPos.y = 0.f;
+		Vec3 vDir = vNextPos - vPos;
 		m_pOwnerTransform->Move_Dir(vDir, fTimeDelta, m_fMoveSpeed);
 	}
 }
