@@ -76,7 +76,9 @@ PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In, uniform bool bOneBlend)
 	// 데칼박스 버퍼가 -0.5 ~0.5 사이므로, 0.5를 더해줘서 UV좌표로 만들어줌.
     float2 vDecalUV = vLocalPos.xz + 0.5f;
     
-    float4 vColor = CalculateEffectColor(vDecalUV, vDecalUV);
+    float fDistortion = 0.f;
+    float4 vColor = CalculateEffectColor(vDecalUV, In.vTexcoord, fDistortion);
+    Out.vDistortion = fDistortion;
     
     if (bOneBlend)
         Out.vOneBlend = vColor;

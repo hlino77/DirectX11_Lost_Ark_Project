@@ -31,7 +31,9 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In, uniform bool bOneBlend)
     else
         vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
     
-    float4 vColor = CalculateEffectColor(vNewUV, In.vTexUV);
+    float fDistortion = 0.f;
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexUV, fDistortion);
+    Out.vDistortion = fDistortion;
     
     if (bOneBlend)
         Out.vOneBlend = vColor;
@@ -60,8 +62,10 @@ PS_OUT_EFFECT PS_MAIN_FXMESH_CLAMP(VS_OUT In, uniform bool bOneBlend)
     else
         vNewUV = ((((In.vTexUV + vUV_TileIndex) / vUV_TileCount - 0.5f) * 2.f * (1.f + vUV_Offset)) * 0.5f + 0.5f) * fUV_WaveSpeed;
 
-    float4 vColor = CalculateEffectColorClamp(vNewUV, In.vTexUV);
-
+    float fDistortion = 0.f;
+    float4 vColor = CalculateEffectColorClamp(vNewUV, In.vTexUV, fDistortion);
+    Out.vDistortion = fDistortion;
+    
     if (bOneBlend)
         Out.vOneBlend = vColor;
     else

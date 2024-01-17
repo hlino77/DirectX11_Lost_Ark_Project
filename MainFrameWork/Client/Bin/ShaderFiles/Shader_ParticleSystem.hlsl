@@ -222,7 +222,9 @@ PS_OUT_EFFECT PS_DRAW_FXPARTICLE(GS_OUT_SMOKE In, uniform bool bOneBlend)
     
     float2 vNewUV = In.vTexcoord;
  
-    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord);
+    float fDistortion = 0.f;
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion);
+    Out.vDistortion = fDistortion;
     
     if (bOneBlend)
         Out.vOneBlend = vColor;

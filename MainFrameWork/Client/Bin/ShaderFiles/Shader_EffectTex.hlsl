@@ -104,8 +104,10 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In, uniform bool bOneBlend)
         vNewUV.y -= int(vNewUV.y);
         vNewUV = vNewUV * 0.5f + 0.5f;
     }
-    
-    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord);
+
+    float fDistortion = 0.f;
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion);
+    Out.vDistortion = fDistortion;
     
     if (bOneBlend)
         Out.vOneBlend = vColor;

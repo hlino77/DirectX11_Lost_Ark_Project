@@ -102,7 +102,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Variables.vColor_Mul = pDesc->vColor_Mul;
 
 	m_Intensity.fBloom = pDesc->fBloom;
-	m_Intensity.fRadial = pDesc->fRadial;
+	m_Intensity.fDistortion = pDesc->fDistortion;
 	m_Intensity.fDissolveAmount = pDesc->fDissolveAmount;
 
 	// DiffuseTexture

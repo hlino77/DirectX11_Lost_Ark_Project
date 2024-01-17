@@ -75,7 +75,7 @@ public:
 
 		// Intensity
 		_float	fBloom = 0.f;
-		_float	fRadial = 0.f;
+		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
 		
 		// Billboard
@@ -155,7 +155,7 @@ protected:
 	struct tagFX_Intensity
 	{
 		_float	fBloom = 0.f;
-		_float	fRadial = 0.f;
+		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
 		_float	padding;
 	} m_Intensity;
