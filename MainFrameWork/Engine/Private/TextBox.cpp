@@ -65,8 +65,6 @@ void CTextBox::Tick(_float fTimeDelta)
 
 void CTextBox::LateTick(_float fTimeDelta)
 {
-	WRITE_LOCK
-
 	if (m_bUpdate)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::UPDATE_TEXTBOX, this);
@@ -79,8 +77,6 @@ void CTextBox::LateTick(_float fTimeDelta)
 
 HRESULT CTextBox::Render()
 {
-	WRITE_LOCK
-
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return S_OK;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -134,7 +130,6 @@ HRESULT CTextBox::Render_MakeSRV()
 
 void CTextBox::Set_Pos(_float fX, _float fY)
 {
-	WRITE_LOCK
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(fX - m_fWinSizeX * 0.5f, -fY + m_fWinSizeY * 0.5f, 0.f));
 }

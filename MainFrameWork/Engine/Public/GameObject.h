@@ -89,7 +89,7 @@ public:
 	void						Set_Active(_bool bActive) { m_bActive = bActive; }
 
 	_bool						Is_Dead() { return m_bDead; }
-	void						Set_Dead(_bool bDead) { m_bDead = bDead; }
+	virtual void				Set_Dead(_bool bDead) { m_bDead = bDead; }
 
 	void						Set_Instance(_bool bInstace) { m_bInstance = bInstace; }
 

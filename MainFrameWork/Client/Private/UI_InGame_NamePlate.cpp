@@ -69,8 +69,8 @@ HRESULT CUI_InGame_NamePlate::Initialize_StageName(const wstring& strName)
 	m_szFont = L"³Ø½¼Lv1°íµñBold";
 	m_strName = strName;
 	Ready_TextBox(m_strName);
-	Set_Active(true);
 	Print_InGame_Name();
+	Set_Active(true);
 	return S_OK;
 }
 
@@ -158,7 +158,7 @@ void CUI_InGame_NamePlate::Print_InGame_Name()
 
 void CUI_InGame_NamePlate::Set_Active(_bool bActive)
 {
-	//m_bActive = bActive;
+	m_bActive = bActive;
 	m_pInGameNameWnd->Set_Active(bActive);
 }
 

@@ -203,16 +203,14 @@ void CUI_Manager::Set_CurrHPUI(CUI* pUI)
 {
 	if (pUI == m_pCurrentBossHpUI)
 		return;
-	
-	WRITE_LOCK
 
-		if (pUI != m_pCurrentBossHpUI)
-		{
-			if(nullptr != m_pCurrentBossHpUI)
-				static_cast<CUI_Boss_Hp*>(m_pCurrentBossHpUI)->Set_Active(false);//m_pCurrentBossHpUI->Set_Render(false);
-			static_cast<CUI_Boss_Hp*>(pUI)->Set_Active(true);
-			m_pCurrentBossHpUI = pUI;
-		}
+	if (pUI != m_pCurrentBossHpUI)
+	{
+		if (nullptr != m_pCurrentBossHpUI)
+			static_cast<CUI_Boss_Hp*>(m_pCurrentBossHpUI)->Set_Active(false);//m_pCurrentBossHpUI->Set_Render(false);
+		static_cast<CUI_Boss_Hp*>(pUI)->Set_Active(true);
+		m_pCurrentBossHpUI = pUI;
+	}
 }
 
 void CUI_Manager::Free()

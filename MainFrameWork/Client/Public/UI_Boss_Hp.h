@@ -54,9 +54,7 @@ private:
     void    Update_PreHp();
 
 private:
-    void	Start_BossHp();
-    void	End_BossHp();
-    void    Print_BossHp();
+    void    Update_BossHp();
     HRESULT Ready_TextBox(const wstring& strName);
 
 private:

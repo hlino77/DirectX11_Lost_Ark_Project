@@ -98,7 +98,7 @@ HRESULT CUI_Boss_Hp::Initialize_BossHP()
 	
 	m_szFont = L"³Ø½¼Lv1°íµñBold";
 	Ready_TextBox(m_strBossName);
-	Set_Active(false );
+	Set_Active(false);
 
 	return S_OK;
 }
@@ -417,39 +417,12 @@ void CUI_Boss_Hp::Update_PreHp()
 	}
 }
 
-void CUI_Boss_Hp::Start_BossHp()
-{
-	//m_strBossName.clear();
-	m_pInGameNameWnd->Set_Active(true);
-	m_pInGameHpWnd->Set_Active(true);
-	m_pInGameHpCountWnd->Set_Active(true);
-}
 
-void CUI_Boss_Hp::End_BossHp()
-{
-	m_strBossName.clear();
-	m_pInGameNameWnd->Set_Active(false);
-	m_pInGameHpWnd->Set_Active(false);
-	m_pInGameHpCountWnd->Set_Active(false);
-}
 
-void CUI_Boss_Hp::Print_BossHp()
+void CUI_Boss_Hp::Update_BossHp()
 {
-	if (nullptr != m_pInGameNameWnd)
-	{
-		//m_pInGameNameWnd->Set_Active(true);
-		m_pInGameNameWnd->Clear_Text();
-		m_pInGameNameWnd->Set_Alpha(1.f);
-		m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
-		Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("³Ø½¼Lv1°íµñ"), m_strOutputName);
-		Vec2 vOrigin = vMeasure * 0.5f;
-		m_pInGameNameWnd->Set_Text(m_strTag + TEXT("Rank"), TEXT("³Ø½¼Lv1°íµñ"), m_strMonsterRank, Vec2(60.f, 10.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 0.0f, 0.0f, 1.f));
-		m_pInGameNameWnd->Set_Text(m_strTag, TEXT("³Ø½¼Lv1°íµñ"), m_strOutputName, Vec2(225.f, 10.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 0.0f, 0.0f, 1.f));
-	}
-
 	if (nullptr != m_pInGameHpWnd)
 	{
-		//m_pInGameHpWnd->Set_Active(true);
 		m_pInGameHpWnd->Clear_Text();
 		m_pInGameHpWnd->Set_Alpha(1.f);
 		m_pInGameHpWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
@@ -463,7 +436,6 @@ void CUI_Boss_Hp::Print_BossHp()
 
 	if (nullptr != m_pInGameHpCountWnd)
 	{
-		//m_pInGameHpCountWnd->Set_Active(true);
 		m_pInGameHpCountWnd->Clear_Text();
 		m_pInGameHpCountWnd->Set_Alpha(1.f);
 		m_pInGameHpCountWnd->Get_TransformCom()->Set_Scale(Vec3(50.f, 20.0f, 0.f));
@@ -476,7 +448,9 @@ void CUI_Boss_Hp::Print_BossHp()
 
 void CUI_Boss_Hp::Set_Active(_bool bActive)
 {
-	//m_bActive = bActive;
+	if(bActive == true)
+		Update_BossHp();
+	m_bActive = bActive;
 	m_bRender = bActive;
 	m_pInGameNameWnd->Set_Active(bActive);
 	m_pInGameHpWnd->Set_Active(bActive);
