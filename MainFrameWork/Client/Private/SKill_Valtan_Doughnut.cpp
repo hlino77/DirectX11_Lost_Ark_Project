@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "SKill_Valtan_Doughnut_Test.h"
+#include "SKill_Valtan_Doughnut.h"
 #include "GameInstance.h"
 #include <ColliderFrustum.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderDoughnut.h>
 
-CSKill_Valtan_Doughnut_Test::CSKill_Valtan_Doughnut_Test(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+cSKill_Valtan_Doughnut::cSKill_Valtan_Doughnut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Valtan_Doughnut_Test::CSKill_Valtan_Doughnut_Test(const CSKill_Valtan_Doughnut_Test& rhs)
+cSKill_Valtan_Doughnut::cSKill_Valtan_Doughnut(const cSKill_Valtan_Doughnut& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Valtan_Doughnut_Test::Initialize_Prototype()
+HRESULT cSKill_Valtan_Doughnut::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -24,7 +24,7 @@ HRESULT CSKill_Valtan_Doughnut_Test::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Valtan_Doughnut_Test::Initialize(void* pArg)
+HRESULT cSKill_Valtan_Doughnut::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -34,7 +34,7 @@ HRESULT CSKill_Valtan_Doughnut_Test::Initialize(void* pArg)
     return S_OK;
 }
 
-void CSKill_Valtan_Doughnut_Test::Tick(_float fTimeDelta)
+void cSKill_Valtan_Doughnut::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fBlinkTime -= fTimeDelta;
@@ -45,32 +45,32 @@ void CSKill_Valtan_Doughnut_Test::Tick(_float fTimeDelta)
 	}
 }
 
-void CSKill_Valtan_Doughnut_Test::LateTick(_float fTimeDelta)
+void cSKill_Valtan_Doughnut::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Valtan_Doughnut_Test::Render()
+HRESULT cSKill_Valtan_Doughnut::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
     return S_OK;
 }
 
-void CSKill_Valtan_Doughnut_Test::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void cSKill_Valtan_Doughnut::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_Doughnut_Test::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void cSKill_Valtan_Doughnut::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_Doughnut_Test::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void cSKill_Valtan_Doughnut::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Valtan_Doughnut_Test::Ready_Coliders()
+HRESULT cSKill_Valtan_Doughnut::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -116,7 +116,7 @@ HRESULT CSKill_Valtan_Doughnut_Test::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CSKill_Valtan_Doughnut_Test::Ready_Components()
+HRESULT cSKill_Valtan_Doughnut::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -124,33 +124,33 @@ HRESULT CSKill_Valtan_Doughnut_Test::Ready_Components()
     return S_OK;
 }
 
-CSKill_Valtan_Doughnut_Test* CSKill_Valtan_Doughnut_Test::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+cSKill_Valtan_Doughnut* cSKill_Valtan_Doughnut::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Valtan_Doughnut_Test* pInstance = new CSKill_Valtan_Doughnut_Test(pDevice, pContext);
+    cSKill_Valtan_Doughnut* pInstance = new cSKill_Valtan_Doughnut(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Valtan_Doughnut_Test");
+		MSG_BOX("Failed To Created : cSKill_Valtan_Doughnut");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Valtan_Doughnut_Test::Clone(void* pArg)
+CGameObject* cSKill_Valtan_Doughnut::Clone(void* pArg)
 {
-    CSKill_Valtan_Doughnut_Test* pInstance = new CSKill_Valtan_Doughnut_Test(*this);
+    cSKill_Valtan_Doughnut* pInstance = new cSKill_Valtan_Doughnut(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Valtan_Doughnut_Test");
+		MSG_BOX("Failed To Cloned : cSKill_Valtan_Doughnut");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Valtan_Doughnut_Test::Free()
+void cSKill_Valtan_Doughnut::Free()
 {
 	__super::Free();
 }

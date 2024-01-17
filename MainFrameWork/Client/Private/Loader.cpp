@@ -153,7 +153,7 @@
 #include <SKill_Golem_Charge_Punch.h>
 #include <SKill_Golem_Jump.h>
 #include <SKill_Golem_Swipe.h>
-#include "SKill_Valtan_Doughnut_Test.h"
+#include "SKill_Valtan_Doughnut.h"
 #include "VoidEffect.h"
 
 //Lobby MQ
@@ -1059,8 +1059,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Doughnut_Test"),
-		CSKill_Valtan_Doughnut_Test::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Doughnut"),
+		cSKill_Valtan_Doughnut::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

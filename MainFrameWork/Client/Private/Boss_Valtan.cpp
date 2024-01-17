@@ -52,7 +52,7 @@
 #include <Valtan_BT_Attack_Attack17_3.h>
 #include <Valtan_BT_Attack_Attack2_1.h>
 #include <Skill.h>
-
+#include "ColliderOBB.h"
 
 
 CBoss_Valtan::CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -100,27 +100,44 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 void CBoss_Valtan::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if (m_fTimeCount > 11.f)
+	//if (m_fTimeCount > 11.f)
+	//{
+	//	m_fTimeCount = 0.f;
+	//	CSkill::ModelDesc ModelDesc = {};
+	//	ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+	//	ModelDesc.iObjectID = -1;
+	//	ModelDesc.pOwner = this;
+
+
+	//	CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_Doughnut", &ModelDesc);
+	//	if (pSkill != nullptr)
+	//	{
+	//		Vec3 vPos = m_pTransformCom ->Get_State(CTransform::STATE_POSITION);
+	//		Vec3 vLook =m_pTransformCom ->Get_State(CTransform::STATE_LOOK);
+	//		vLook.Normalize();
+	//		vPos += vLook * 0.1f;
+	//		pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+	//		pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+	//	}
+	//}
+	Vec3 vOffset = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Get_Offset();
+	if (KEY_HOLD(KEY::UP_ARROW) || KEY_HOLD(KEY::DOWN_ARROW))
 	{
-		m_fTimeCount = 0.f;
-		CSkill::ModelDesc ModelDesc = {};
-		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
-		ModelDesc.iObjectID = -1;
-		ModelDesc.pOwner = this;
-
-
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_Doughnut_Test", &ModelDesc);
-		if (pSkill != nullptr)
-		{
-			Vec3 vPos = m_pTransformCom ->Get_State(CTransform::STATE_POSITION);
-			Vec3 vLook =m_pTransformCom ->Get_State(CTransform::STATE_LOOK);
-			vLook.Normalize();
-			vPos += vLook * 0.1f;
-			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-		}
+		if (KEY_HOLD(KEY::UP_ARROW) && KEY_HOLD(KEY::X))
+			vOffset.x += fTimeDelta;
+		if (KEY_HOLD(KEY::DOWN_ARROW) && KEY_HOLD(KEY::X))
+			vOffset.x -= fTimeDelta;
+		if (KEY_HOLD(KEY::UP_ARROW) && KEY_HOLD(KEY::Y))
+			vOffset.y += fTimeDelta;
+		if (KEY_HOLD(KEY::DOWN_ARROW) && KEY_HOLD(KEY::Y))
+			vOffset.y -= fTimeDelta;
+		if (KEY_HOLD(KEY::UP_ARROW) && KEY_HOLD(KEY::Z))
+			vOffset.z += fTimeDelta;
+		if (KEY_HOLD(KEY::DOWN_ARROW) && KEY_HOLD(KEY::Z))
+			vOffset.z -= fTimeDelta;
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(vOffset);
+		cout << vOffset.x << "	,	" << vOffset.y << "	,	" << vOffset.z << endl << endl;
 	}
-	
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
 }
@@ -132,6 +149,7 @@ void CBoss_Valtan::LateTick(_float fTimeDelta)
 		Move_to_SpawnPosition();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Center_ToBone();
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Center_ToBone();
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
 }
@@ -223,9 +241,17 @@ HRESULT CBoss_Valtan::Ready_Coliders()
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
-
 	}
+	{
+		CCollider::ColliderInfo tColliderInfo;
+		tColliderInfo.m_bActive = false;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS;
+		CSphereCollider* pCollider = nullptr;
 
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderGrab"), (CComponent**)&pCollider, &tColliderInfo)))
+			return E_FAIL;
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS, pCollider);
+	}
 	for (auto& Collider : m_Coliders)
 	{
 		if (Collider.second)
@@ -244,7 +270,12 @@ HRESULT CBoss_Valtan::Ready_Coliders()
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("b_wp_r_01")));
 
-	return S_OK;
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Radius(1.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(Vec3(-0.f, 1.3f, -1.9f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-l-hand")));
+
+return S_OK;
 }
 
 

@@ -3717,13 +3717,12 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_Doughnut_Test.h">
+    <ClInclude Include="..\Public\SKill_Valtan_Doughnut.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Manager.h">
       <Filter>96.Manager\UI_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\UI_Manager.h" />
     <ClInclude Include="..\Public\State_WR_Hit.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
@@ -6283,7 +6282,7 @@
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_Doughnut_Test.cpp">
+    <ClCompile Include="..\Private\SKill_Valtan_Doughnut.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Manager.cpp">
@@ -6293,7 +6292,6 @@
     <ClCompile Include="..\Private\UI_Boss_Hp.cpp">
       <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp" />
     <ClCompile Include="..\Private\State_WR_Hit.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Hit</Filter>
     </ClCompile>
