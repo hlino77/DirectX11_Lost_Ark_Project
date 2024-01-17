@@ -22,6 +22,14 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2_Server::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
 	}
+	if (!static_cast<CBoss_Server*>(m_pGameObject)->Is_GroggyLock() && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[4].iAnimIndex) - 3)
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(false);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
