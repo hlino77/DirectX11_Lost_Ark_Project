@@ -272,7 +272,7 @@ HRESULT CBoss_Valtan::Ready_Coliders()
 
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Radius(1.f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(Vec3(-0.f, 1.3f, -1.9f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(Vec3(-0.f, 1.3f, -1.1f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-l-hand")));
 
 return S_OK;
