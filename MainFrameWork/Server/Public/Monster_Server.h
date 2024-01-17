@@ -189,7 +189,7 @@ protected:
 	wstring							m_strAction = L"";
 	CRenderer*						m_pRendererCom = nullptr;
 	CBehaviorTree*					m_pBehaviorTree = nullptr;
-	_float							m_fScanCoolDown = 0.f;
+	_float							m_fScantime = 0.f;
 	std::future<HRESULT>			m_PlayAnimation;
 	_float							m_fMoveSpeed = 1.5f;
 	_float							m_fAttackMoveSpeed = 0.0f;

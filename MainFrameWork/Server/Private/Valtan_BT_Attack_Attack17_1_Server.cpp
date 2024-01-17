@@ -38,6 +38,11 @@ void CValtan_BT_Attack_Attack17_1_Server::OnEnd()
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 
+void CValtan_BT_Attack_Attack17_1_Server::On_FirstAnimStart()
+{
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
+}
+
 
 
 CValtan_BT_Attack_Attack17_1_Server* CValtan_BT_Attack_Attack17_1_Server::Create(void* pArg)

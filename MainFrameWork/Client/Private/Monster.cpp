@@ -492,7 +492,8 @@ _float CMonster::Get_Target_Distance()
 
 Vec3 CMonster::Get_Target_Direction()
 {
-
+	if (m_pNearTarget == nullptr)
+		return  m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDirection = vTargetPosition - vCurrentPosition;
@@ -503,7 +504,8 @@ Vec3 CMonster::Get_Target_Direction()
 
 Vec3 CMonster::Get_Target_RandomDirection()
 {
-
+	if (m_pNearTarget == nullptr)
+		return  m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + m_vRandomPosition;
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	Vec3 vDirection = vTargetPosition - vCurrentPosition;
@@ -514,6 +516,8 @@ Vec3 CMonster::Get_Target_RandomDirection()
 
 _bool CMonster::Is_Close_To_TargetRandomPosition()
 {
+	if (m_pNearTarget == nullptr)
+		return true;
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + m_vRandomPosition;
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	if ((vTargetPosition - vCurrentPosition).Length() < 0.2f)
