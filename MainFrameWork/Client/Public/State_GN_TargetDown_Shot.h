@@ -23,6 +23,7 @@ public:
 
 private:
 	void	Effect_Shot();
+	void	Effect_End();
 
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;

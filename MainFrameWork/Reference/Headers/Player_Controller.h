@@ -35,18 +35,18 @@ public:
 	virtual void	Set_Key_Active(_bool bActive) { m_bKeyActive = bActive; }
 
 public:
-	_bool		Is_Tap(KEY eKey);
-	_bool		Is_Hold(KEY eKey);
-	_bool		Is_HoldorTap(KEY eKey);
-	_bool		Is_Away(KEY eKey);
+	_bool				Is_Tap(KEY eKey);
+	_bool				Is_Hold(KEY eKey);
+	_bool				Is_HoldorTap(KEY eKey);
+	_bool				Is_Away(KEY eKey);
 
 public:
-	_bool		 Is_Idle();
-	_bool		 Is_Run();
-	_bool		 Is_Skill();
-	_bool		 Is_Interect();
-	_bool		 Is_Dash();
-	_bool		 Is_Attack();
+	_bool				Is_Idle();
+	_bool				Is_Run();
+	_bool				Is_Skill();
+	_bool				Is_Interect();
+	_bool				Is_Dash();
+	_bool				Is_Attack();
 
 	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f);  
 	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f); 
@@ -63,7 +63,7 @@ public:
 	virtual void		Get_DashMessage(Vec3 vPos);
 	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
 	virtual void		Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos = Vec3());
-	virtual void		Get_HitEndMessage() { m_eHitType = HIT_TYPE::TYPE_END; }
+	virtual void		Get_HitEndMessage() { m_eHitType = HIT_TYPE::TYPE_END; m_IsHitState = false;}
 
 	virtual void		Get_MoveToNpcMessage() { m_fMoveLength = 1.f; }
 	virtual void		Get_MoveToCellMessage() { m_fMoveLength = 0.06f; }
@@ -72,6 +72,7 @@ public:
 	virtual void		Get_RootZeroMessage();
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
+	_bool				Is_HitState() { return m_IsHitState; }
 
 	/* 스킬 함수 */
 public:
@@ -94,30 +95,33 @@ public:
 		else return m_fCoolTime[eKey];
 	}
 
-	HIT_TYPE		Get_HitType() { return m_eHitType; }
-	_float			Get_Forced() { return m_fForced; }
-	_uint			Get_Damaged() { return m_iDamaged; }
+	HIT_TYPE				Get_HitType() { return m_eHitType; }
+	_float					Get_Forced() { return m_fForced; }
+	_uint					Get_Damaged() { return m_iDamaged; }
 
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
 
+	void					Set_EffecttoCtrl(wstring strSkillName, class CEffect* pSkill) { m_Effects.emplace(strSkillName, pSkill); }
+	class CEffect*			Find_Effect(wstring strSkillName) { return m_Effects.find(strSkillName)->second; }
+
 public:
 	/* 언젠가는 쓰겠지 */
-	_bool			Pick(_uint screenX, _uint screenY, Vec3 & pickPos, _float & distance);
+	_bool					Pick(_uint screenX, _uint screenY, Vec3 & pickPos, _float & distance);
 
 protected:
-	virtual void	Move(const _float& fTimeDelta);
-	virtual void	Look_Lerp(const _float& fTimeDelta);
-	virtual void	Look(Vec3 vAt);
-	virtual void	Input(const _float & fTimeDelta);
-	virtual void	Attack(Vec3 vPos);
-	virtual void	Skill(SKILL_KEY eKey);
-	virtual void	ChangeStat(SKILL_KEY eKey);
-	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos);
+	virtual void			Move(const _float& fTimeDelta);
+	virtual void			Look_Lerp(const _float& fTimeDelta);
+	virtual void			Look(Vec3 vAt);
+	virtual void			Input(const _float & fTimeDelta);
+	virtual void			Attack(Vec3 vPos);
+	virtual void			Skill(SKILL_KEY eKey);
+	virtual void			ChangeStat(SKILL_KEY eKey);
+	virtual void			SkillAttack(SKILL_KEY eKey, Vec3 vPos);
 
-	virtual void	Skill_CoolTime(const _float& fTimeDelta);
-	virtual void	Skill_ChangeStat_CoolTime(const _float& fTimeDelta);
-	virtual void	Skill_Check_Collider();
+	virtual void			Skill_CoolTime(const _float& fTimeDelta);
+	virtual void			Skill_ChangeStat_CoolTime(const _float& fTimeDelta);
+	virtual void			Skill_Check_Collider();
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -147,6 +151,7 @@ protected:
 	_uint					m_iDamaged = { 0 };
 	_float					m_fForced = { 0.f };
 	Vec3					m_vHitColiPos;
+	_bool					m_IsHitState = { false };
 
 	/* 스킬 */
 	unordered_map<wstring, class CPlayer_Skill*> m_Skills;
@@ -155,6 +160,10 @@ protected:
 	SKILL_KEY				m_eSelectedSkill = { SKILL_KEY::_END };
 
 	PROJECTILE_DESC			m_AttackDesc;
+
+	/* 이펙트 */
+	unordered_map<wstring, class CEffect*> m_Effects;
+
 
 	/* 쿨 타임 */
 	_float					m_fCoolDownAcc[SKILL_KEY::_END];

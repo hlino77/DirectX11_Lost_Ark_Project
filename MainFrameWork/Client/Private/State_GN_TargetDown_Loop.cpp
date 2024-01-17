@@ -49,6 +49,11 @@ void CState_GN_TargetDown_Loop::Exit_State()
 
 	if (3 < m_iShotCount)
 		m_iShotCount = 0;
+
+	if (true == m_pController->Is_HitState())
+	{
+		//Effect_End();
+	}
 }
 
 void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
