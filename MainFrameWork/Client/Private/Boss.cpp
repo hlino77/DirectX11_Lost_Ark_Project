@@ -273,7 +273,8 @@ void CBoss::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
-	m_pHpUI->Set_Dead(true);
+	//m_pHpUI->Set_Dead(true);
+	m_pHpUI->Set_Dead_BossHpUI();
 }
 
 void CBoss::Move_to_SpawnPosition()

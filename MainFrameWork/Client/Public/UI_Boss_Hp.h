@@ -38,6 +38,7 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
     void	Set_Active(_bool bActive);
+    void    Set_Dead_BossHpUI();
 
 private:
     virtual HRESULT Ready_Components();
