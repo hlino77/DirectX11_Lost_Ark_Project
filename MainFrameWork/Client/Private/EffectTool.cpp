@@ -498,7 +498,7 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::InputFloat4("Color Mul", (_float*)&m_pCurrentEffect->m_Variables.vColor_Mul);
 
 	ImGui::InputFloat("Bloom Intensity", &m_pCurrentEffect->m_Intensity.fBloom);
-	ImGui::InputFloat("Radial Intensity", &m_pCurrentEffect->m_Intensity.fRadial);
+	ImGui::InputFloat("Distortion Intensity", &m_pCurrentEffect->m_Intensity.fDistortion);
 
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
@@ -987,8 +987,8 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fBloom);
 			node->LinkEndChild(element);
 
-			element = document->NewElement("Radial");
-			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fRadial);
+			element = document->NewElement("Distortion");
+			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fDistortion);
 			node->LinkEndChild(element);
 			
 			element = document->NewElement("Dissolve");
@@ -1268,7 +1268,7 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_Intensity.fBloom = element->FloatAttribute("Intensity");
 
 			element = element->NextSiblingElement();
-			m_pCurrentEffect->m_Intensity.fRadial = element->FloatAttribute("Intensity");
+			m_pCurrentEffect->m_Intensity.fDistortion = element->FloatAttribute("Intensity");
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fDissolveAmount = element->FloatAttribute("Amount");

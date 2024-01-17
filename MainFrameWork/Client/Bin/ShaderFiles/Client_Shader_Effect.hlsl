@@ -18,9 +18,9 @@ cbuffer FX_Variables
 cbuffer FX_Intensity
 {
     float fIntensity_Bloom = 1.f;
-    float fIntensity_Radial = 0.f;
+    float fIntensity_Distortion = 0.f;
     float fDissolve_Amount = 0.f;
-    float padding;
+    float fPadding = 0.f;
 };
 
 cbuffer FX_Billboard
@@ -70,7 +70,7 @@ float3 RandVec3(float fOffset)
     return v;
 }
 
-float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV)
+float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, out float fDistortion)
 {
     float fMask = 1.f;
     float2 vNewUV = vUV;
@@ -85,6 +85,9 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV)
     {
         fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
         clip(fMask - 0.01f);
+        
+        if (EPSILON < fIntensity_Distortion)
+            fDistortion = fMask * fIntensity_Distortion;
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
@@ -115,7 +118,7 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV)
 }
 
 
-float4 CalculateEffectColorClamp(in float2 vUV, in float2 vOriginUV)
+float4 CalculateEffectColorClamp(in float2 vUV, in float2 vOriginUV, out float fDistortion)
 {
     float fMask = 1.f;
     float2 vNewUV = vUV;
@@ -130,6 +133,9 @@ float4 CalculateEffectColorClamp(in float2 vUV, in float2 vOriginUV)
     {
         fMask = g_MaskTexture.Sample(LinearClampSampler, vNewUV).r;
         clip(fMask - 0.01f);
+        
+        if (EPSILON < fIntensity_Distortion)
+            fDistortion = fMask;
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearClampSampler, vNewUV);

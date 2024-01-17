@@ -15,7 +15,7 @@ Texture2D   g_NormalDepthTarget;
 Texture2D	g_ShadeTarget;
 Texture2D	g_BloomTarget;
 Texture2D	g_BlurTarget;
-Texture2D	g_RadialBlurTarget;
+Texture2D	g_DistortionTarget;
 Texture2D	g_BlendedTarget;
 
 Texture2D   g_Texture;
@@ -107,7 +107,12 @@ float Tonemap_ACES(float x)
 
 float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 {
-    float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+    float fDistortion = g_DistortionTarget.Sample(LinearSampler, In.vTexcoord).x;
+
+    if (fDistortion > EPSILON)
+        fDistortion = 2.f * fDistortion - 1.f;
+
+    float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
     
     float4 vDecalOneBlend = g_DecalOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
     float4 vDecalAlphaBlend = g_DecalAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
@@ -124,7 +129,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     {
         vColor = float4(vDecalAlphaBlend.rgb * vDecalAlphaBlend.a + vColor.rgb * (1.f - vDecalAlphaBlend.a), 1.f);
     }
-        
+
     if (EPSILON < vEffectOneBlend.a)
 	{
         vColor = float4(vEffectOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
@@ -141,7 +146,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     vBloom *= Tonemap_ACES(fBrightness);
 
     vColor += vBloom;
-
+    
     return vColor;
 }
 
@@ -276,7 +281,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_BLENDEFFECT();
     }
 
-    pass MotionBlur //5
+    pass MotionBlur // 5
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
@@ -289,7 +294,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_MOTIONBLUR();
     }
 
-    pass RadialBlur //6
+    pass RadialBlur // 6
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
