@@ -42,6 +42,7 @@ public:
     void    Set_UIState(LEVELID iLevelIndex, const wstring& strUITag, CUI::UISTATE eState);
 
     void    Set_CurrHPUI(CUI* pUI);
+    void    SetDead_CurrHPUI(CUI* pUI);
 
 private:
     list<class CUI*>*    m_pUIList;

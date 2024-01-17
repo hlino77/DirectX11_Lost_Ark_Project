@@ -106,16 +106,17 @@ HRESULT CUI_Boss_Hp::Initialize_BossHP()
 void CUI_Boss_Hp::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if(!m_bDead)
-		Update_PreHp();
+
+	if (!m_bDead)
+		Update_Hp(fTimeDelta);
 }
 
 void CUI_Boss_Hp::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
-	if (!m_bDead)
-		Update_Hp(fTimeDelta);
+	if(!m_bDead)
+		Update_PreHp();
 }
 
 HRESULT CUI_Boss_Hp::Render()
@@ -418,6 +419,11 @@ void CUI_Boss_Hp::Update_PreHp()
 	}
 }
 
+void CUI_Boss_Hp::Set_Dead_BossHpUI()
+{
+	CUI_Manager::GetInstance()->SetDead_CurrHPUI(this);
+}
+
 
 
 void CUI_Boss_Hp::Update_BossHp()
@@ -451,7 +457,7 @@ void CUI_Boss_Hp::Set_Active(_bool bActive)
 {
 	if(bActive == true)
 		Update_BossHp();
-	m_bActive = bActive;
+	//m_bActive = bActive;
 	m_bRender = bActive;
 	m_pInGameNameWnd->Set_Active(bActive);
 	m_pInGameHpWnd->Set_Active(bActive);

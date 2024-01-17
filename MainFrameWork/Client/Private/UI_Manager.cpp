@@ -213,6 +213,19 @@ void CUI_Manager::Set_CurrHPUI(CUI* pUI)
 	}
 }
 
+void CUI_Manager::SetDead_CurrHPUI(CUI* pUI)
+{
+	if (pUI == m_pCurrentBossHpUI)
+	{
+		m_pCurrentBossHpUI->Set_Dead(true);
+		m_pCurrentBossHpUI = nullptr;
+	}
+	else
+	{
+		pUI->Set_Dead(true);
+	}
+}
+
 void CUI_Manager::Free()
 {
 	__super::Free();
