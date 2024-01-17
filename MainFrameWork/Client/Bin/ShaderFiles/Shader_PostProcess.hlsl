@@ -15,6 +15,7 @@ Texture2D   g_NormalDepthTarget;
 Texture2D	g_ShadeTarget;
 Texture2D	g_BloomTarget;
 Texture2D	g_BlurTarget;
+Texture2D	g_RadialBlurTarget;
 Texture2D	g_BlendedTarget;
 
 Texture2D   g_Texture;
@@ -192,7 +193,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
     float fBlurStart = 1.f;
 	
     matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
-    vector vBlurCenter = mul(vector(g_vBlurWorldPosition, 1.f), matVP);
+    float4 vBlurCenter = mul(float4(g_vBlurWorldPosition, 1.f), matVP);
     vBlurCenter /= vBlurCenter.w;
 
     vBlurCenter.x = vBlurCenter.x * 0.5f + 0.5f;
@@ -200,6 +201,8 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
 	
     float2 center = float2(vBlurCenter.x, vBlurCenter.y); //중심점<-마우스의 위치를 받아오면 마우스를 중심으로 블러됨
 	
+    //mg_RadialBlurTarget.Sample(LinearClampSampler, In.vTexcoord);
+    
     In.vTexcoord.xy -= center;
 
     float fPrecompute = g_fRadialBlurStrength * (1.0f / 19.f);
