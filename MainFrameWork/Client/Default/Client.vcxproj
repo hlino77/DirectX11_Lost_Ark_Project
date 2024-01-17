@@ -329,6 +329,7 @@
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
     <ClInclude Include="..\Public\State_MG_Dash.h" />
+    <ClInclude Include="..\Public\State_MG_Grabbed.h" />
     <ClInclude Include="..\Public\State_MG_Hit.h" />
     <ClInclude Include="..\Public\State_MG_HitEnd.h" />
     <ClInclude Include="..\Public\State_MG_Hit_Common.h" />
@@ -358,6 +359,7 @@
     <ClInclude Include="..\Public\State_WDR_FullSwing_Loop.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Start.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Success.h" />
+    <ClInclude Include="..\Public\State_WDR_Grabbed.h" />
     <ClInclude Include="..\Public\State_WDR_HeavyCrush.h" />
     <ClInclude Include="..\Public\State_WDR_Hit.h" />
     <ClInclude Include="..\Public\State_WDR_HitEnd.h" />
@@ -415,6 +417,7 @@
     <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_Loop.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_Start.h" />
+    <ClInclude Include="..\Public\State_WR_Grabbed.h" />
     <ClInclude Include="..\Public\State_WR_Guillotine_End.h" />
     <ClInclude Include="..\Public\State_WR_Guillotine_Loop.h" />
     <ClInclude Include="..\Public\State_WR_Guillotine_Start.h" />
@@ -827,6 +830,7 @@
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit.cpp" />
     <ClCompile Include="..\Private\State_MG_HitEnd.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit_Common.cpp" />
@@ -856,6 +860,7 @@
     <ClCompile Include="..\Private\State_WDR_FullSwing_Loop.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Success.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_WDR_HeavyCrush.cpp" />
     <ClCompile Include="..\Private\State_WDR_Hit.cpp" />
     <ClCompile Include="..\Private\State_WDR_HitEnd.cpp" />
@@ -913,6 +918,7 @@
     <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_WR_Guillotine_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Guillotine_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_Guillotine_Start.cpp" />

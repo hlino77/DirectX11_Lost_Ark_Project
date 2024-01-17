@@ -1,31 +1,31 @@
 #include "stdafx.h"
-#include "..\Public\State_GN_Grabbed.h"
+#include "..\Public\State_WDR_Grabbed.h"
 #include "GameInstance.h"
 #include "StateMachine.h"
-#include "Player_Gunslinger.h"
-#include "Player_Controller_GN.h"
+#include "Player_Destroyer.h"
+#include "Controller_WDR.h"
 #include "Model.h"
 
-CState_GN_Grabbed::CState_GN_Grabbed(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
+CState_WDR_Grabbed::CState_WDR_Grabbed(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
 {
 }
 
-HRESULT CState_GN_Grabbed::Initialize()
+HRESULT CState_WDR_Grabbed::Initialize()
 {
 	m_iGrabbed = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"ride_bubble_run_normal_1", 1.0f);
 	if (m_iGrabbed == -1)
 		return E_FAIL;
 
 	if (m_pPlayer->Is_Control())
-		m_TickFunc = &CState_GN_Grabbed::Tick_State_Control;
+		m_TickFunc = &CState_WDR_Grabbed::Tick_State_Control;
 	else
-		m_TickFunc = &CState_GN_Grabbed::Tick_State_NoneControl;
+		m_TickFunc = &CState_WDR_Grabbed::Tick_State_NoneControl;
 
 	return S_OK;
 }
 
-void CState_GN_Grabbed::Enter_State()
+void CState_WDR_Grabbed::Enter_State()
 {
 	m_pController->Get_StopMessage();
 	m_pController->Get_SkillEndMessage();
@@ -40,12 +40,12 @@ void CState_GN_Grabbed::Enter_State()
 	m_pPlayer->Set_Navi(false);
 }
 
-void CState_GN_Grabbed::Tick_State(_float fTimeDelta)
+void CState_WDR_Grabbed::Tick_State(_float fTimeDelta)
 {
 	m_TickFunc(*this, fTimeDelta);
 }
 
-void CState_GN_Grabbed::Exit_State()
+void CState_WDR_Grabbed::Exit_State()
 {
 	m_pController->Get_GrabEndMessage();
 
@@ -53,19 +53,19 @@ void CState_GN_Grabbed::Exit_State()
 	m_pPlayer->Set_Navi(true);
 }
 
-void CState_GN_Grabbed::Tick_State_Control(_float fTimeDelta)
+void CState_WDR_Grabbed::Tick_State_Control(_float fTimeDelta)
 {
 	To_GrabPos(fTimeDelta);
 }
 
-void CState_GN_Grabbed::Tick_State_NoneControl(_float fTimeDelta)
+void CState_WDR_Grabbed::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(m_pPlayer->Get_TargetMatrix());
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
-void CState_GN_Grabbed::To_GrabPos(_float fTimeDelta)
+void CState_WDR_Grabbed::To_GrabPos(_float fTimeDelta)
 {
 	Matrix Pivot = m_pController->Get_Grabber()->Get_ModelCom()->Get_PivotMatrix();
 	XMMATRIX GrabMatrix = m_pController->Get_Grabber()->Get_ModelCom()->Get_CombinedMatrix(m_pController->Get_Grabber()->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand"))) * Pivot;
@@ -83,20 +83,20 @@ void CState_GN_Grabbed::To_GrabPos(_float fTimeDelta)
 	m_pPlayer->Set_TargetMatrix(m_pPlayer->Get_TransformCom()->Get_WorldMatrix());
 }
 
-CState_GN_Grabbed* CState_GN_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
+CState_WDR_Grabbed* CState_WDR_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 {
-	CState_GN_Grabbed* pInstance = new CState_GN_Grabbed(strStateName, pMachine, pController, pOwner);
+	CState_WDR_Grabbed* pInstance = new CState_WDR_Grabbed(strStateName, pMachine, pController, pOwner);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed To Cloned : CState_GN_Grabbed");
+		MSG_BOX("Failed To Cloned : CState_WDR_Grabbed");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CState_GN_Grabbed::Free()
+void CState_WDR_Grabbed::Free()
 {
 	__super::Free();
 }

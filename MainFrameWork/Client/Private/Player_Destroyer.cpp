@@ -228,6 +228,13 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 	{
+		if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == m_pController->Is_GrabState())
+			{
+				m_pController->Get_GrabMessage(pOther->Get_Owner());
+			}
+		}
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 		{
 			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
