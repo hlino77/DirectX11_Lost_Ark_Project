@@ -49,7 +49,7 @@ void CValtanMain_Server::Tick(_float fTimeDelta)
 		if (m_fStartDelay < 0.0f)
 		{
 			m_fStartDelay = 0.0f;
-			Broadcast_Boss(Vec3(0.0f, 0.0f, 0.0f), L"Valtan");
+			Broadcast_Boss(Vec3(117.93f, 0.19f, 100.2f), L"Valtan");
 		}
 			
 		return;
@@ -107,7 +107,6 @@ HRESULT CValtanMain_Server::Ready_Dungean()
 {
 	m_iCurrLevel = LEVELID::LEVEL_VALTANMAIN;
 	m_fStartDelay = 5.0f;
-	m_iBossCount = 0;
 	m_iBossCount = 1;
 	return S_OK;
 }
@@ -133,6 +132,7 @@ void CValtanMain_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 			return;
 
 		pBoss->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vPos);
+		pBoss->Set_SpawnPosition(vPos);
 		CNavigationMgr::GetInstance()->Find_FirstCell(pBoss->Get_CurrLevel(), pBoss);
 		m_Bosses.push_back(pBoss);
 		--m_iBossCount;

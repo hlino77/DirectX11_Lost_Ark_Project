@@ -113,7 +113,6 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_iMaxArmorDurability = (_uint)((_float)m_iMaxHp / 160.f * 3.f);
 	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
-	m_vSpawnPosition = Vec3(117.f, 0.f, 100.f);
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	m_iMaxGroggyGauge = 500;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
@@ -1675,7 +1674,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+	/*	if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
@@ -1696,8 +1695,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
+			return E_FAIL;*/
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
 			return E_FAIL;
-
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 		if (FAILED(pIf_Armor->AddChild(pSequenceNormalAttack))) return E_FAIL;
