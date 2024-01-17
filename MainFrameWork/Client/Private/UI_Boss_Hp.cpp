@@ -32,7 +32,7 @@ HRESULT CUI_Boss_Hp::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_strUITag = TEXT("Boss_Hp");
+	m_strUITag = TEXT("Boss_HpUI");
 
 	m_fSizeX = 100;
 	m_fSizeY = 80;
@@ -413,6 +413,7 @@ void CUI_Boss_Hp::Update_PreHp()
 	if (m_iPreHp != m_iCurrHp)
 	{
 		CUI_Manager::GetInstance()->Set_CurrHPUI(this);
+		Print_BossHp();
 		m_iPreHp = m_iCurrHp;
 	}
 }

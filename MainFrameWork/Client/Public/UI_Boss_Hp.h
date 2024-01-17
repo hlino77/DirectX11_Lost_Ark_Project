@@ -48,6 +48,9 @@ private:
     virtual HRESULT Bind_ShaderResources_GroggyFrame();
     virtual HRESULT Bind_ShaderResources_GroggyGauge();
 
+public:
+    void    Print_BossHp();
+
 private:
     void    Initialize_Position();
     void    Update_Hp(_float fTimeDelta);

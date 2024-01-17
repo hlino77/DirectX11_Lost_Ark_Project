@@ -83,6 +83,7 @@ void CUI_Player_HPFill::LateTick(_float fTimeDelta)
         if (m_fCurrentRatio != m_fPreRatio)
         {
             m_fPreRatio = m_fCurrentRatio;
+            Print_Hp();
         }
     }
   
@@ -96,8 +97,6 @@ HRESULT CUI_Player_HPFill::Render()
     m_pShaderCom->Begin(7);
 
     m_pVIBufferCom->Render();
-
-    //Print_Hp();
 
     return S_OK;
 }

@@ -41,8 +41,6 @@ public:
     void    Set_Stage_Name(const wstring& strStageName) { m_strStageName.clear(); m_strStageName = strStageName; }
 
 private:
-    _bool   m_bSpawnFont = { false };
-
     wstring m_szFont;
     wstring m_strStageName = TEXT("타락 1단계");
     wstring m_strWndTag;

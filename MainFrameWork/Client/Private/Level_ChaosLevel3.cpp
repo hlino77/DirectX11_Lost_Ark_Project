@@ -119,7 +119,7 @@ HRESULT CLevel_ChaosLevel3::Tick(const _float& fTimeDelta)
 
 HRESULT CLevel_ChaosLevel3::LateTick(const _float& fTimeDelta)
 {
-	CUI_Tool::GetInstance()->LateTick();
+	//CUI_Tool::GetInstance()->LateTick();
 	return S_OK;
 }
 
@@ -139,7 +139,7 @@ HRESULT CLevel_ChaosLevel3::Exit()
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
-	CUI_Tool::GetInstance()->Set_ToolMode(false);
+	//CUI_Tool::GetInstance()->Set_ToolMode(false);
 	return S_OK;
 }
 

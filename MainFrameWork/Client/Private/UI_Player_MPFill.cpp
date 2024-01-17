@@ -82,6 +82,7 @@ void CUI_Player_MPFill::LateTick(_float fTimeDelta)
         if (m_fCurrentRatio != m_fPreRatio)
         {
             m_fPreRatio = m_fCurrentRatio;
+            Print_Mp();
         }
     }
 }
