@@ -1,5 +1,7 @@
 #pragma once
 #include "Skill.h"
+#include "Client_Defines.h"
+#include <atomic>
 
 BEGIN(Engine)
 class CTransform;
@@ -12,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class cSKill_Valtan_Doughnut : public CSkill
+class CSKill_Valtan_Breath :	public CSkill
 {
 private:
-	cSKill_Valtan_Doughnut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	cSKill_Valtan_Doughnut(const cSKill_Valtan_Doughnut& rhs);
-	virtual ~cSKill_Valtan_Doughnut() = default;
+	CSKill_Valtan_Breath(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSKill_Valtan_Breath(const CSKill_Valtan_Breath& rhs);
+	virtual ~CSKill_Valtan_Breath() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -36,18 +38,15 @@ public:
 
 	virtual HRESULT					Ready_Coliders()override;
 
-	void	Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius);
 
 
 private:
 	virtual HRESULT			Ready_Components();
 
 
-private:
-	_float m_fBlinkTime = 0.f;
 
 public:
-	static	cSKill_Valtan_Doughnut* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSKill_Valtan_Breath* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

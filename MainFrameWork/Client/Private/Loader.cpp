@@ -154,7 +154,8 @@
 #include <SKill_Golem_Jump.h>
 #include <SKill_Golem_Swipe.h>
 #include "SKill_Valtan_Doughnut.h"
-#include "VoidEffect.h"
+#include "SKill_Valtan_Breath.h"
+
 
 //Lobby MQ
 #include "Player_Select_GN.h"
@@ -165,6 +166,7 @@
 
 
 //Effect
+#include "VoidEffect.h"
 #include "Effect_Custom_SpiralChaser.h"
 #include "Effect_Custom_Grenade.h"
 #include "Effect_Custom_PerpectShotBullet.h"
@@ -1067,6 +1069,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Breath"),
+		CSKill_Valtan_Breath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
 		CSkyDome::Create(m_pDevice, m_pContext))))

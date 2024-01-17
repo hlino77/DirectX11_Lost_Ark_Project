@@ -297,6 +297,7 @@
     <ClInclude Include="..\Public\Skill_MG_SongOfWind.h" />
     <ClInclude Include="..\Public\Skill_MG_SonicVibe.h" />
     <ClInclude Include="..\Public\Skill_MG_SoundShock.h" />
+    <ClInclude Include="..\Public\SKill_Valtan_Breath.h" />
     <ClInclude Include="..\Public\SKill_Valtan_Doughnut.h" />
     <ClInclude Include="..\Public\Skill_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\Skill_WDR_EndurePain.h" />
@@ -793,6 +794,7 @@
     <ClCompile Include="..\Private\Skill_MG_SongOfWind.cpp" />
     <ClCompile Include="..\Private\Skill_MG_SonicVibe.cpp" />
     <ClCompile Include="..\Private\Skill_MG_SoundShock.cpp" />
+    <ClCompile Include="..\Private\SKill_Valtan_Breath.cpp" />
     <ClCompile Include="..\Private\SKill_Valtan_Doughnut.cpp" />
     <ClCompile Include="..\Private\Skill_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\Skill_WDR_EndurePain.cpp" />
