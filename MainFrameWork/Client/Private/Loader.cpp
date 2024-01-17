@@ -253,6 +253,9 @@ _int CLoader::Loading()
 	case LEVEL_TOOL_NPC:
 		hr = Loading_For_Level_Tool_Npc();
 		break;
+	case LEVEL_VALTANMAIN:
+		hr = Loading_For_Level_ValtanMain();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -1207,60 +1210,6 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		pUIManager->Add_CurrFile();
 	}
 
-	{
-		wstring strFileName = L"Boss_Valtan";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
-	{
-		wstring strFileName = L"Boss_Valtan_Parts1";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
-	{
-		wstring strFileName = L"Boss_Valtan_Parts2";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
-	{
-		wstring strFileName = L"Boss_Valtan_Ghost";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
-	{
-		wstring strFileName = L"Wp_Boss_Valtan";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
@@ -1411,6 +1360,85 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Level_ValtanMain()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+	pUIManager->Set_MaxFiles(10);
+
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Chaos1.Navi");
+	pUIManager->Add_CurrFile();
+
+	Load_MapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Chaos1.data"));
+	pUIManager->Add_CurrFile();
+
+	{
+		wstring strFileName = L"Boss_Valtan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Boss_Valtan_Parts1";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Boss_Valtan_Parts2";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Boss_Valtan_Ghost";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Wp_Boss_Valtan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	Safe_Release(pUIManager);
+	Safe_Release(pGameInstance);
+
 	return S_OK;
 }
 
@@ -3658,6 +3686,7 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
+
 
 HRESULT CLoader::Loading_SkillIcon()
 {

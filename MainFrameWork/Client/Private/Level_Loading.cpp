@@ -13,6 +13,7 @@
 #include "Level_ChaosLevel2.h"
 #include "Level_ChaosLevel3.h"
 #include "Level_Tool_Npc.h"
+#include "Level_ValtanMain.h"
 
 #include "UI_Loading.h"
 #include "UI_Manager.h"
@@ -123,6 +124,9 @@ HRESULT CLevel_Loading::LateTick(const _float& fTimeDelta)
 			break;
 		case LEVEL_TOOL_NPC:
 			pNewLevel = CLevel_Tool_Npc::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_VALTANMAIN:
+			pNewLevel = CLevel_ValtanMain::Create(m_pDevice, m_pContext);
 			break;
 		}
 

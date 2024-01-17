@@ -14,6 +14,7 @@
 #include "ChaosDungean_Server.h"
 #include "NavigationMgr.h"
 #include "Guide_Chaos_Npc_Server.h"
+#include "ValtanMain_Server.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -75,6 +76,7 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_1, L"Chaos1.Navi");
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Chaos2.Navi");
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Chaos3.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Chaos1.Navi");
 
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
@@ -116,6 +118,10 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungean"),
 		CChaosDungean_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ValtanMain"),
+		CValtanMain_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 	/* ±â´É NPC */

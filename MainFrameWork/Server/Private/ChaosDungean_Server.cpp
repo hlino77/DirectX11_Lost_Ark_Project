@@ -95,6 +95,14 @@ void CChaosDungean_Server::LateTick(_float fTimeDelta)
 			++iterMonster;
 	}
 
+	for (auto iterBoss = m_Bosses.begin(); iterBoss != m_Bosses.end();)
+	{
+		if ((*iterBoss)->Is_Dead())
+			iterBoss = m_Bosses.erase(iterBoss);
+		else
+			++iterBoss;
+	}
+
 	m_fBroadcastTime += fTimeDelta;
 	if (m_fBroadcastTime >= 0.05f)
 	{

@@ -45,6 +45,7 @@ private:
 
 	//Test
 	void			Enter_ChaosDungean(CHAOSDUNGEANLEVEL eLEVEL);
+	void			Enter_ValtanMain();
 
 public:
 	static class CLevel_Bern_Server* Create();

@@ -1168,8 +1168,11 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Skill">
       <UniqueIdentifier>{92545b1e-cf03-4e1d-9d88-887eb4ad7790}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\04. Valtan">
+    <Filter Include="01.Levels\05. ValtanMain">
       <UniqueIdentifier>{535409de-b4c2-4da9-be5e-de471e3115d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04. ValtanEnterance">
+      <UniqueIdentifier>{bb587fae-f286-4d49-b053-6f495306f69b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3761,6 +3764,9 @@
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\Level_ValtanMain.h">
+      <Filter>01.Levels\05. ValtanMain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6327,6 +6333,9 @@
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\Level_ValtanMain.cpp">
+      <Filter>01.Levels\05. ValtanMain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

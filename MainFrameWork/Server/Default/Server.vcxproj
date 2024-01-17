@@ -224,6 +224,7 @@
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IncludeInUnityFile>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Attack1_Server.cpp" />
+    <ClCompile Include="..\Private\ValtanMain_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack0_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack10_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack11_Server.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h" />
     <ClInclude Include="..\Public\Npc_Server.h" />
+    <ClInclude Include="..\Public\ValtanMain_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3_Server.h" />

@@ -53,6 +53,7 @@ private:
 	HRESULT Loading_For_Level_Chaos1();
 	HRESULT Loading_For_Level_Chaos2();
 	HRESULT Loading_For_Level_Chaos3();
+	HRESULT Loading_For_Level_ValtanMain();
 
 	HRESULT	Load_NpcData();
 	HRESULT Start_Load_Npc(const wstring& strPath);

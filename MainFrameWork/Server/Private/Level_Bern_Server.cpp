@@ -16,7 +16,7 @@
 #include "Monster_Zombie_Server.h"
 #include "ChaosDungean_Server.h"
 #include "Guide_Chaos_Npc_Server.h"
-
+#include "ValtanMain_Server.h"
 
 CLevel_Bern_Server::CLevel_Bern_Server()
 	: CLevel(nullptr, nullptr)
@@ -65,29 +65,13 @@ HRESULT CLevel_Bern_Server::Initialize()
 
 HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 {
-	if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('1') & 0x8000)
+	if (GetAsyncKeyState('V') & 0x8000 && GetAsyncKeyState('1') & 0x8000)
 	{
 		if (m_bKey_Lock)
 			return S_OK;
 		m_bKey_Lock = true;
 
-		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL1);
-	}
-	else if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('2') & 0x8000)
-	{
-		if (m_bKey_Lock)
-			return S_OK;
-		m_bKey_Lock = true;
-
-		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL2);
-	}
-	else if (GetAsyncKeyState('C') & 0x8000 && GetAsyncKeyState('3') & 0x8000)
-	{
-		if (m_bKey_Lock)
-			return S_OK;
-		m_bKey_Lock = true;
-
-		Enter_ChaosDungean(CHAOSDUNGEANLEVEL::LEVEL3);
+		Enter_ValtanMain();
 	}
 	else
 		m_bKey_Lock = false;
@@ -438,6 +422,31 @@ void CLevel_Bern_Server::Enter_ChaosDungean(CHAOSDUNGEANLEVEL eLEVEL)
 
 	pGameInstance->Add_GameObject(LEVEL_CHAOS_1, (_uint)LAYER_TYPE::LAYER_BACKGROUND, L"Prototype_GameObject_ChaosDungean", &tDesc);
 
+
+	Safe_Release(pGameInstance);
+}
+
+void CLevel_Bern_Server::Enter_ValtanMain()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	vector<CGameObject*> LevelObjects = pGameInstance->Find_GameObjects(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER);
+
+	if (LevelObjects.empty())
+		return;
+
+	vector<CPlayer_Server*> Players;
+
+	for (auto& Object : LevelObjects)
+	{
+		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(Object);
+		if (pPlayer)
+			Players.push_back(pPlayer);
+	}
+
+	CValtanMain_Server::DUNGEANDESC tDesc;
+	tDesc.Players = Players;
+	pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BACKGROUND, L"Prototype_GameObject_ValtanMain", &tDesc);
 
 	Safe_Release(pGameInstance);
 }

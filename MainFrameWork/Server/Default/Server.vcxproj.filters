@@ -202,6 +202,15 @@
     <Filter Include="02. GameObject\07. Npc\Guide_Npc">
       <UniqueIdentifier>{d8ea5fef-7d83-4ff6-8002-101d647ceb72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\08. ValtanRaid">
+      <UniqueIdentifier>{be8348ef-d807-4d4c-b283-ef3d268830a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\08. ValtanRaid\ValtanEnterance">
+      <UniqueIdentifier>{00a426ce-13a8-43b7-9449-33eb9d2f5029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\08. ValtanRaid\ValtanMain">
+      <UniqueIdentifier>{94106135-9c75-412b-93d5-4d5266d0d8d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -512,6 +521,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Guide_Chaos_Npc_Server.cpp">
       <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ValtanMain_Server.cpp">
+      <Filter>02. GameObject\08. ValtanRaid\ValtanMain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -913,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h">
       <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ValtanMain_Server.h">
+      <Filter>02. GameObject\08. ValtanRaid\ValtanMain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
