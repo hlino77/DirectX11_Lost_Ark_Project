@@ -60,6 +60,7 @@ private:
 	HRESULT	AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot = XMMatrixIdentity());
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFilePath);
+	HRESULT Load_BossMapData(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Load_ColMesh(LEVELID eLevel, const wstring& szFilePath);
 	HRESULT Loading_LobbyUI();
 	HRESULT	Loading_QuickSlot();

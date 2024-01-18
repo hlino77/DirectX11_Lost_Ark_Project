@@ -113,7 +113,7 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_iMaxArmorDurability = (_uint)((_float)m_iMaxHp / 160.f * 3.f);
 	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
-	m_vSpawnPosition = Vec3(117.f, 0.f, 100.f);
+	m_vSpawnPosition = Vec3(100.f, 0.f, 100.f);
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	m_iMaxGroggyGauge = 500;
 	m_iGroggyGauge = m_iMaxGroggyGauge;

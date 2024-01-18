@@ -499,6 +499,7 @@ HRESULT CEffectTool::EffectDetail()
 
 	ImGui::InputFloat("Bloom Intensity", &m_pCurrentEffect->m_Intensity.fBloom);
 	ImGui::InputFloat("Distortion Intensity", &m_pCurrentEffect->m_Intensity.fDistortion);
+
 	ImGui::Checkbox("Distortion On Base Material", (_bool*)&m_pCurrentEffect->m_Intensity.iDistortionOnBaseMaterial);
 
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
@@ -990,7 +991,9 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 
 			element = document->NewElement("Distortion");
 			element->SetAttribute("Intensity", m_vecEffects[i]->m_Intensity.fDistortion);
+
 			element->SetAttribute("OnBaseMaterial", m_vecEffects[i]->m_Intensity.iDistortionOnBaseMaterial);
+
 			node->LinkEndChild(element);
 			
 			element = document->NewElement("Dissolve");
@@ -1271,7 +1274,9 @@ HRESULT CEffectTool::Load()
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fDistortion = element->FloatAttribute("Intensity");
+
 			m_pCurrentEffect->m_Intensity.iDistortionOnBaseMaterial = element->IntAttribute("OnBaseMaterial");
+
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fDissolveAmount = element->FloatAttribute("Amount");

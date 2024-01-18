@@ -4,7 +4,10 @@
 #include "Camera.h"
 #include "Player.h"
 #include "AsUtils.h"
+
 #include "StaticModel.h"
+#include "AnimModel.h"
+
 #include "ServerSessionManager.h"
 #include "ServerSession.h"
 #include "Camera_Player.h"
@@ -73,8 +76,16 @@ HRESULT CLevel_ValtanMain::Initialize()
 	if (FAILED(Ready_Layer_Effect(LAYER_TYPE::LAYER_EFFECT)))
 		return E_FAIL;
 
-	if (FAILED(Load_MapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
+	/*if (FAILED(Load_MapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
+		return E_FAIL;*/
+
+	if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_Valtan.data"))))
+	{
 		return E_FAIL;
+	}
+		
+
+
 
 	while (true)
 	{
@@ -407,7 +418,7 @@ HRESULT CLevel_ValtanMain::Send_UserInfo()
 		Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 		pPlayer->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
-		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.93f, 0.19f, 100.2f));
+		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.19f, 100.f));
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();
@@ -517,6 +528,183 @@ HRESULT CLevel_ValtanMain::Load_MapData(LEVELID eLevel, const wstring& szFullPat
 		}
 
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
+
+		_uint			QuadTreeSize = {};
+
+		file->Read<_uint>(QuadTreeSize);
+
+		for (size_t i = 0; i < QuadTreeSize; i++)
+		{
+			_uint Index = {};
+			file->Read<_uint>(Index);
+
+			pObject->Add_QuadTreeIndex(Index);
+			CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
+		}
+
+	}
+
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFullPath)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
+	file->Open(szFullPath, FileMode::Read);
+
+	//Matrix		PivotMatrix = XMMatrixIdentity();
+	//PivotMatrix = XMMatrixRotationX(XMConvertToRadians(90.0f));
+
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/",
+	L"../Bin/Resources/Export/Lobby/"
+	};
+
+
+	_uint iSize = file->Read<_uint>(); // Object List Size 
+
+
+	bool fileFound = false;
+
+	for (_uint i = 0; i < iSize; ++i)
+	{
+		string strFileName = file->Read<string>(); // Object Model FileName
+		wstring selectedPath = {};
+
+		// Path Find
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+		// Not Found
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
+		// Object World Matrix
+		Matrix	matWorld = file->Read<Matrix>();
+
+		// Object ModelType
+		_uint ModelType = file->Read<_uint>();
+
+		// Instancing Check 
+		_bool bInstance = file->Read<_bool>();
+
+
+		// Clone GameObject
+		CGameObject* pObject = nullptr;
+
+		if (0 == ModelType) // NonAnim
+		{
+			CStaticModel::MODELDESC Desc;
+			Desc.strFileName = CAsUtils::ToWString(strFileName);
+			Desc.strFilePath = selectedPath;
+			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+			Desc.IsMapObject = true;
+			Desc.bInstance = bInstance;
+
+			pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
+
+			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+
+			_uint iColliderCount = file->Read<_uint>();
+
+			for (_uint i = 0; i < iColliderCount; ++i)
+			{
+
+				dynamic_cast<CStaticModel*>(pObject)->Add_Collider();
+
+				CSphereCollider* pCollider = dynamic_cast<CStaticModel*>(pObject)->Get_StaticCollider(i);
+
+				{
+					Vec3 vOffset = file->Read<Vec3>();
+					pCollider->Set_Offset(vOffset);
+
+
+					_float fRadius = file->Read<_float>();
+					pCollider->Set_Radius(fRadius);
+
+
+					pCollider->Set_Center();
+				}
+
+				_bool bChild = file->Read<_bool>();
+
+				if (bChild)
+				{
+					dynamic_cast<CStaticModel*>(pObject)->Add_ChildCollider(i);
+
+					COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
+
+
+					Vec3 vOffset = file->Read<Vec3>();
+					pChild->Set_Offset(vOffset);
+
+					Vec3 vScale = file->Read<Vec3>();
+					pChild->Set_Scale(vScale);
+
+					Quaternion vQuat = file->Read<Quaternion>();
+					pChild->Set_Orientation(vQuat);
+
+					pChild->Set_StaticBoundingBox();
+				}
+			}
+
+
+		}
+		else if (1 == ModelType) // Anim
+		{
+			CAnimModel::MODELDESC Desc;
+			Desc.strFileName = CAsUtils::ToWString(strFileName);
+			Desc.strFilePath = selectedPath;
+			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+			Desc.IsMapObject = true;
+			Desc.bInstance = bInstance;
+
+		    pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_AnimModel"), &Desc);
+		
+			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+		}
+
+		if (nullptr == pObject)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+
+		
+
 		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);
 
 		_uint			QuadTreeSize = {};

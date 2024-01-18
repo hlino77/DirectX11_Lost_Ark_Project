@@ -59,28 +59,29 @@ HRESULT CMesh::LoadData_FromMeshFile(CModel::TYPE eModelType, CAsFileUtils* pFil
 
 		if (bIsMapObject)
 		{
-			VTXANIMMODEL* pVertices = new VTXANIMMODEL[iVTXCount];
-			ZeroMemory(pVertices, sizeof(VTXANIMMODEL) * iVTXCount);
+			m_pVertices = new VTXANIMMODEL[iVTXCount];
+			ZeroMemory(m_pVertices, sizeof(VTXANIMMODEL) * iVTXCount);
 
 
-			void* pData = pVertices;
+			void* pData = m_pVertices;
 			pFileUtils->Read(&pData, sizeof(VTXANIMMODEL) * iVTXCount);
 
 
 			if (eModelType == CModel::TYPE::TYPE_NONANIM)
 			{
 				//Ready_Vertices(pVertices, PivotMatrix);
-				Ready_Vertilces_MapObject(pVertices, PivotMatrix);
+				Ready_Vertilces_MapObject(m_pVertices, PivotMatrix);
 			}
+	
 
 
 			ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
-			m_SubResourceData.pSysMem = pVertices;
+			m_SubResourceData.pSysMem = m_pVertices;
 
 			if (FAILED(__super::Create_VertexBuffer()))
 				return E_FAIL;
 
-			Safe_Delete_Array(pVertices);
+			//Safe_Delete_Array(pVertices);
 		}
 		else
 		{
@@ -185,8 +186,7 @@ HRESULT CMesh::LoadData_FromConverter(CModel::TYPE eModelType, shared_ptr<asMesh
 			//Ready_Vertices(pVertices, PivotMatrix);
 			Ready_Vertilces_MapObject(pVertices, PivotMatrix);
 		}
-	
-
+		
 		ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 		m_SubResourceData.pSysMem = pVertices;
 

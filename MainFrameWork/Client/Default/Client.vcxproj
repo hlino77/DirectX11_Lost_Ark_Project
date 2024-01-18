@@ -184,6 +184,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
     </FxCompile>
+    <ClInclude Include="..\Public\AnimModel.h" />
     <ClInclude Include="..\Public\BackGround_Loading.h" />
     <ClInclude Include="..\Public\BackGround_Lobby.h" />
     <ClInclude Include="..\Public\BackGround_MainLogo.h" />
@@ -685,6 +686,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\AnimModel.cpp" />
     <ClCompile Include="..\Private\BackGround_Loading.cpp" />
     <ClCompile Include="..\Private\BackGround_Lobby.cpp" />
     <ClCompile Include="..\Private\BackGround_MainLogo.cpp" />

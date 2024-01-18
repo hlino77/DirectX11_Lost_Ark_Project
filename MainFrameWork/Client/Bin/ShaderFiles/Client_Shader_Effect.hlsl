@@ -20,7 +20,11 @@ cbuffer FX_Intensity
     float fIntensity_Bloom = 1.f;
     float fIntensity_Distortion = 0.f;
     float fDissolve_Amount = 0.f;
+
     bool  bDistortionOnBaseMaterial = false;
+
+    float fPadding = 0.f;
+
 };
 
 cbuffer FX_Billboard
@@ -85,6 +89,9 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, out float fDisto
     {
         fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
         clip(fMask - 0.01f);
+        
+        if (EPSILON < fIntensity_Distortion)
+            fDistortion = fMask * fIntensity_Distortion;
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
@@ -140,6 +147,9 @@ float4 CalculateEffectColorClamp(in float2 vUV, in float2 vOriginUV, out float f
     {
         fMask = g_MaskTexture.Sample(LinearClampSampler, vNewUV).r;
         clip(fMask - 0.01f);
+        
+        if (EPSILON < fIntensity_Distortion)
+            fDistortion = fMask;
     }
 
     float4 vColor = g_DiffuseTexture.Sample(LinearClampSampler, vNewUV);

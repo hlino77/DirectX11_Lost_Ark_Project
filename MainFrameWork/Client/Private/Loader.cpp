@@ -33,6 +33,7 @@
 /* 유틸*/
 #include "Camera_Free.h"
 #include "StaticModel.h"
+#include "AnimModel.h"
 #include "ServerSession.h"
 #include "Service.h"
 #include "ThreadManager.h"
@@ -902,6 +903,18 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	m_strLoading = TEXT("객체 원형을 로딩 중 입니다.");
 
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
+		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AnimModel"),
+		CAnimModel::Create(m_pDevice, m_pContext, PROP))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Player"),
 		CCamera_Player::Create(m_pDevice, m_pContext, L"Player_Camera"))))
 		return E_FAIL;
@@ -977,10 +990,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StaticModel"),
-		CStaticModel::Create(m_pDevice, m_pContext, PROP))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Golem"),
 		CBoss_Golem::Create(m_pDevice, m_pContext))))
@@ -1372,11 +1381,12 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	Safe_AddRef(pUIManager);
 	pUIManager->Set_MaxFiles(10);
 
-	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Chaos1.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss3.Navi");
 	pUIManager->Add_CurrFile();
 
-	Load_MapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Chaos1.data"));
+	Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_Valtan.data"));
 	pUIManager->Add_CurrFile();
+
 
 	{
 		wstring strFileName = L"Boss_Valtan";
@@ -1680,6 +1690,7 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 	return S_OK;
 }
 
+
 HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 {
 	// file Open
@@ -1708,6 +1719,111 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+
+	vector<wstring> paths =
+	{
+	L"../Bin/Resources/Export/Bern/",
+	L"../Bin/Resources/Export/Chaos1/",
+	L"../Bin/Resources/Export/Chaos2/",
+	L"../Bin/Resources/Export/Chaos3/",
+	L"../Bin/Resources/Export/Boss/",
+	L"../Bin/Resources/Export/Lobby/"
+	};
+
+
+	_uint iSize = file->Read<_uint>();
+	bool fileFound = false;
+
+	for (_uint i = 0; i < iSize; ++i)
+	{
+
+		string strFileName = file->Read<string>();
+		wstring selectedPath = {};
+
+		for (const auto& path : paths)
+		{
+			wstring fullPath = path + CAsUtils::ToWString(strFileName);
+
+			if (std::filesystem::exists(fullPath))
+			{
+				selectedPath = path;
+			}
+		}
+
+		if (selectedPath.empty())
+		{
+			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			return E_FAIL;
+		}
+
+		Matrix	matWorld = file->Read<Matrix>();
+		_bool bInstance = false;
+		file->Read<_bool>(bInstance);
+
+		vector<_uint>	QuadTreeIndex;
+		_uint			QuadTreeSize = {};
+		file->Read<_uint>(QuadTreeSize);
+
+
+		for (size_t i = 0; i < QuadTreeSize; i++)
+		{
+			_uint Index = {};
+			file->Read<_uint>(Index);
+		}
+
+
+
+		CStaticModel::MODELDESC Desc;
+		Desc.strFileName = CAsUtils::ToWString(strFileName);
+		Desc.strFilePath = selectedPath;
+
+
+		wstring strComponentName = L"Prototype_Component_Model_" + Desc.strFileName;
+
+		if (FAILED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+
+		}
+		else
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
+				return E_FAIL;
+		}
+
+	}
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+
+}
+
+
+HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
+{
+	// file Open
+	// Read Data File
+	// Create Prototype Object
+	// Create Prototype Model
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
+	file->Open(szFilePath, FileMode::Read);
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+	//CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
+
 
 	
 	vector<wstring> paths =
@@ -1747,11 +1863,48 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		}
 
 		Matrix	matWorld = file->Read<Matrix>();
+
+		// Collider Info 
+		_uint ModelType = {};
+		file->Read<_uint>(ModelType);
+
+		// Instancing Check
 		_bool bInstance = false;
 		file->Read<_bool>(bInstance);
 
-		vector<_uint>	QuadTreeIndex;
-		_uint			QuadTreeSize = {};
+
+		if (0 == ModelType) // NonAnim
+		{
+			_uint ColliderListSize = {};
+			file->Read<_uint>(ColliderListSize); // ColliderList Size 
+
+			if (ColliderListSize != 0)
+			{
+				for (size_t i = 0; i < ColliderListSize; i++)
+				{
+					file->Read<Vec3>();
+					file->Read<_float>();
+
+					_bool HasChildCollider = {};
+					file->Read<_bool>(HasChildCollider);
+
+
+					if (true == HasChildCollider)
+					{
+						file->Read<Vec3>();
+						file->Read<Vec3>();
+						file->Read<Quaternion>();
+					}
+				}
+			}
+		}
+		else if (1 == ModelType) // Anim
+		{
+
+		}
+
+
+		_uint	QuadTreeSize = {};
 		file->Read<_uint>(QuadTreeSize);
 	
 
@@ -1760,8 +1913,6 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 			_uint Index = {};
 			file->Read<_uint>(Index);
 		}
-
-
 
 		CStaticModel::MODELDESC Desc;
 		Desc.strFileName = CAsUtils::ToWString(strFileName);
@@ -1772,19 +1923,43 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 
 		if (FAILED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 		{
-
+			// Prototype Exist -> Don't Action 
 		}
 		else
 		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
-				return E_FAIL;
+
+			if (0 == ModelType) // NonAnim
+			{
+				Matrix		PivotMatrix = XMMatrixIdentity();
+				PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
+					return E_FAIL;
+			}
+			else if (1 == ModelType)
+			{		
+				Matrix		PivotMatrix = XMMatrixIdentity();
+				PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+				//PivotMatrix = XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+				//PivotMatrix = XMMatrixScaling(100.f, 100.f, 100.f);
+
+				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
+					return E_FAIL;
+			}
+		
 		}
+
+		int a = 1;
 
 	}
 	Safe_Release(pGameInstance);
 	return S_OK;
+
 }
+
 
 HRESULT CLoader::Load_ColMesh(LEVELID eLevel, const wstring& szFilePath)
 {
