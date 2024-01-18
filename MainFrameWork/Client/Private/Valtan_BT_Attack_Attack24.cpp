@@ -6,6 +6,7 @@
 #include "ColliderSphere.h"
 #include <Skill.h>
 #include "GameInstance.h"
+#include <Boss_Valtan.h>
 
 CValtan_BT_Attack_Attack24::CValtan_BT_Attack_Attack24()
 {
@@ -13,7 +14,7 @@ CValtan_BT_Attack_Attack24::CValtan_BT_Attack_Attack24()
 
 void CValtan_BT_Attack_Attack24::OnStart()
 {
-	__super::OnStart(0);
+	__super::OnStart();
 	m_bShoot = true;
 }
 
@@ -26,7 +27,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack24::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_Offset(Vec3(0.f, 1.3f, -1.1f));
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand")));
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 20&& m_bShoot)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 20&& m_bShoot)
 	{
 		m_bShoot = false;
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
@@ -53,6 +54,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack24::OnUpdate(const _float& fTimeDelt
 void CValtan_BT_Attack_Attack24::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
 

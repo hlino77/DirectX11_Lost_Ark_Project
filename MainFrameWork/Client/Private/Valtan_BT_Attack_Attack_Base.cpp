@@ -1,34 +1,30 @@
 #include "stdafx.h"
-#include "Valtan_BT_Attack_Attack2.h"
+#include "Valtan_BT_Attack_Attack_Base.h"
+#include <Boss_Valtan.h>
 #include "Model.h"
 #include "Transform.h"
-#include <Boss_Valtan.h>
-#include "ColliderSphere.h"
+#include "GameInstance.h"
 
-CValtan_BT_Attack_Attack2::CValtan_BT_Attack_Attack2()
+CValtan_BT_Attack_Attack_Base::CValtan_BT_Attack_Attack_Base()
 {
 }
 
-void CValtan_BT_Attack_Attack2::OnStart()
+void CValtan_BT_Attack_Attack_Base::OnStart()
 {
-	__super::OnStart();
-	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
+	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_Attack_Base::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex )
+	if (m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim() && m_bStart)
 	{
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> SetActive(true);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_Radius(2.5f);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
-		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
-		static_cast<CBoss*>(m_pGameObject)->Set_Force(45.f);
+		On_FirstAnimStart();
+		m_bStart = false;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 10 )
+	if (m_iCurrAnimation == m_iMaxAnimation - 1 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[m_iMaxAnimation - 1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iMaxAnimation - 1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iMaxAnimation - 1].iAnimIndex) - 3 && m_bEnd)
 	{
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+		On_LastAnimEnd();
+		m_bEnd = false;
 	}
 	if (m_vecAnimDesc[m_iCurrAnimation].bIsLoop && m_vecAnimDesc[m_iCurrAnimation].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
@@ -48,7 +44,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2::OnUpdate(const _float& fTimeDelta
 		}
 		m_fLoopTime += fTimeDelta;
 	}
-	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 3&& !m_pGameObject->Get_ModelCom()->IsNext())
+	else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		if (m_iCurrAnimation == m_iMaxAnimation - 1)
 			return BT_SUCCESS;
@@ -65,7 +61,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2::OnUpdate(const _float& fTimeDelta
 	return BT_RUNNING;
 }
 
-void CValtan_BT_Attack_Attack2::OnEnd()
+void CValtan_BT_Attack_Attack_Base::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
@@ -73,9 +69,9 @@ void CValtan_BT_Attack_Attack2::OnEnd()
 
 
 
-CValtan_BT_Attack_Attack2* CValtan_BT_Attack_Attack2::Create(void* pArg)
+CValtan_BT_Attack_Attack_Base* CValtan_BT_Attack_Attack_Base::Create(void* pArg)
 {
-	CValtan_BT_Attack_Attack2* pInstance = new CValtan_BT_Attack_Attack2;
+	CValtan_BT_Attack_Attack_Base* pInstance = new CValtan_BT_Attack_Attack_Base;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
 		MSG_BOX("Failed to Created : CValtan_BT_Attack_Attack0");
@@ -85,7 +81,7 @@ CValtan_BT_Attack_Attack2* CValtan_BT_Attack_Attack2::Create(void* pArg)
 	return pInstance;
 }
 
-void CValtan_BT_Attack_Attack2::Free()
+void CValtan_BT_Attack_Attack_Base::Free()
 {
 	__super::Free();
 }

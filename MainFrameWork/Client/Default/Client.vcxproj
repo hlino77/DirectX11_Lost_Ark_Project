@@ -176,6 +176,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="..\..\포스계수.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -655,6 +656,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack7.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
@@ -1158,6 +1160,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack7.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />

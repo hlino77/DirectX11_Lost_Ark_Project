@@ -215,7 +215,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			STATUSEFFECT eStatusEffect = STATUSEFFECT::EFFECTEND;
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().IsCounter)
 				eStatusEffect = STATUSEFFECT::COUNTER;
-			Send_Collision(iDamage, vPos, eStatusEffect,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,1);
+			Send_Collision(iDamage, vPos, eStatusEffect,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,3);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
