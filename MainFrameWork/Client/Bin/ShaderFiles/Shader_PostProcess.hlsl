@@ -23,6 +23,8 @@ Texture2D   g_MotionBlurTarget;
 Texture2D   g_RadialBlurTarget;
 Texture2D   g_BlendEffectTarget;
 
+Texture2D   g_PostProcessedTarget;
+
 Texture2D   g_Texture;
 
 float2      g_PixelSize;
@@ -34,8 +36,11 @@ float	    g_WeightAtt;
 float       g_fMotionBlurIntensity = 0.f;
 
 //Radial Blur
-float3      g_vBlurWorldPosition;
-float       g_fRadialBlurIntensity;
+cbuffer RadialBlur
+{
+    float3 vBlurWorldPosition;
+    float fRadialBlurIntensity;
+}
 
 struct VS_IN
 {
@@ -73,7 +78,7 @@ struct PS_IN
 
 float4 PS_MAIN_POSTPROCESS(PS_IN In) : SV_TARGET0
 {    // 일단 그대로 리턴
-    return g_MotionBlurTarget.Sample(LinearSampler, In.vTexcoord);
+    return g_PostProcessedTarget.Sample(LinearSampler, In.vTexcoord);
 }
 
 cbuffer ScreenTone
@@ -201,7 +206,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
     float fBlurStart = 1.f;
 	
     matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
-    float4 vBlurCenter = mul(float4(g_vBlurWorldPosition, 1.f), matVP);
+    float4 vBlurCenter = mul(float4(vBlurWorldPosition, 1.f), matVP);
     vBlurCenter /= vBlurCenter.w;
 
     vBlurCenter.x = vBlurCenter.x * 0.5f + 0.5f;
@@ -209,11 +214,11 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
 	
     float2 center = float2(vBlurCenter.x, vBlurCenter.y); //중심점<-마우스의 위치를 받아오면 마우스를 중심으로 블러됨
 	
-    //mg_RadialBlurTarget.Sample(LinearClampSampler, In.vTexcoord);
+    // g_RadialBlurTarget.Sample(LinearClampSampler, In.vTexcoord);
     
     In.vTexcoord.xy -= center;
 
-    float fPrecompute = g_fRadialBlurIntensity * (1.0f / 19.f);
+    float fPrecompute = fRadialBlurIntensity * (1.0f / 19.f);
     int iDivision = 0;
 	
     for (uint i = 0; i < 20; ++i)
@@ -226,7 +231,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
 		
         if (0.f > uv.y || 1.f < uv.y)
             continue;
-        vColor += g_PrePostProcessTarget.Sample(LinearClampSampler, uv);
+        vColor += g_MotionBlurTarget.Sample(LinearClampSampler, uv);
         ++iDivision;
     }
 

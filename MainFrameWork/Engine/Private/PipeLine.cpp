@@ -9,6 +9,14 @@ CPipeLine::CPipeLine()
 
 void CPipeLine::Set_Transform(TRANSFORMSTATE eTransformState, Matrix TransformMatrix)
 {
+	if (eTransformState == D3DTS_VIEW)
+	{
+		if (TransformMatrix != m_TransformMatrix[eTransformState])
+			m_IsCameraMoved = true;
+		else
+			m_IsCameraMoved = false;
+	}
+
 	m_TransformMatrix[eTransformState] = TransformMatrix;
 }
 

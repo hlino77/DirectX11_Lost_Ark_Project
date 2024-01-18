@@ -501,6 +501,9 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::InputFloat("Distortion Intensity", &m_pCurrentEffect->m_Intensity.fDistortion);
 	ImGui::Checkbox("Distortion On Base Material", (_bool*)&m_pCurrentEffect->m_Intensity.iDistortionOnBaseMaterial);
 
+	ImGui::InputFloat("Radial Time", &m_pCurrentEffect->m_fRadialTime);
+	ImGui::InputFloat("Radial Intensity", &m_pCurrentEffect->m_fRadialIntensity);
+
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
 	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);
@@ -996,6 +999,11 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			element = document->NewElement("Dissolve");
 			element->SetAttribute("Amount", m_vecEffects[i]->m_Intensity.fDissolveAmount);
 			node->LinkEndChild(element);
+
+			element = document->NewElement("Radial");
+			element->SetAttribute("Time", m_vecEffects[i]->m_fRadialTime);
+			element->SetAttribute("Intensity", m_vecEffects[i]->m_fRadialIntensity);
+			node->LinkEndChild(element);
 		}
 
 		node = document->NewElement("Billboard");
@@ -1275,6 +1283,10 @@ HRESULT CEffectTool::Load()
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fDissolveAmount = element->FloatAttribute("Amount");
+			
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_fRadialTime = element->FloatAttribute("Time");
+			m_pCurrentEffect->m_fRadialIntensity = element->FloatAttribute("Intensity");
 		}
 
 		node = node->NextSiblingElement();

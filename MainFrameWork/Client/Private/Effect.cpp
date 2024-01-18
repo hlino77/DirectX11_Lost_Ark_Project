@@ -46,6 +46,8 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_fRemainTime(rhs.m_fRemainTime)
 	, m_IsLoop(rhs.m_IsLoop)
 	, m_strPassName(rhs.m_strPassName)
+	, m_fRadialTime(rhs.m_fRadialTime)
+	, m_fRadialIntensity(rhs.m_fRadialIntensity)
 {
 	m_szModelName = rhs.m_szModelName;
 
@@ -280,6 +282,11 @@ HRESULT CEffect::Render()
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
 		return E_FAIL;
+
+	if (m_fTimeAcc < m_fRadialTime)
+		m_pRendererCom->Set_RadialBlurData(m_matCombined.Translation(), m_fRadialIntensity);
+	else
+		m_pRendererCom->Set_RadialBlurData(Vec3(0.f, 0.f, 0.f), 0.f);
 
 	return S_OK;
 }

@@ -7,6 +7,7 @@
 #include "Light_Manager.h"
 #include "PipeLine.h"
 #include "Texture.h"
+#include "Input_Device.h"
 #include "Utils.h"
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
@@ -563,6 +564,12 @@ HRESULT CRenderer::Bind_TextBoxSRV(CShader* pShader)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CRenderer::Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity)
+{
+	m_tRadialBlurData.vRadialBlurWorldPos = vWorldPos;
+	m_tRadialBlurData.fRadialBlurIntensity = fIntensity;
 }
 
 HRESULT CRenderer::Update_TextBox()
@@ -1335,62 +1342,91 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_PostProcessedTarget")))
+		return E_FAIL;
+
 	// Motion Blur
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_MotionBlur"))))
-		return E_FAIL;
+	if (pPipeLine->Is_CamMoved())
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_MotionBlur"))))
+			return E_FAIL;
 
-	if (FAILED(m_pPostProccessor->Begin("MotionBlur")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_BlendEffectTarget")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Normal"), "g_NormalTarget")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
-		return E_FAIL;
+		if (FAILED(m_pPostProccessor->Begin("MotionBlur")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_BlendEffectTarget")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Normal"), "g_NormalTarget")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
+			return E_FAIL;
 
-	Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
-	Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
-	Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;
+		Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
+		Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
+		Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;
 
-	if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))
-		return E_FAIL;
-	/*if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjMatrixInv", &matCamProjInv)))
-		return E_FAIL;
-	if (FAILED(m_pPostProccessor->Bind_Matrix("g_ViewMatrixInv", &matCamViewInv)))
-		return E_FAIL;*/
-	if (FAILED(m_pPostProccessor->Bind_Matrix("g_PreCamViewMatrix", &m_matPreCamView)))
-		return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))
+			return E_FAIL;
+		/*if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjMatrixInv", &matCamProjInv)))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ViewMatrixInv", &matCamViewInv)))
+			return E_FAIL;*/
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_PreCamViewMatrix", &m_matPreCamView)))
+			return E_FAIL;
 
-	Matrix matCamProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
-	if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamProjMatrix", &matCamProj)))
-		return E_FAIL;
+		Matrix matCamProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamProjMatrix", &matCamProj)))
+			return E_FAIL;
 
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_PostProcessedTarget")))
+			return E_FAIL;
+	}
 
 	m_matPreCamView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
 
 	// Radial Blur
-	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_RadialBlur"))))
-		return E_FAIL;
+	/*RadialBlur_Data tRadialBlur;
+	if (CInput_Device::GetInstance()->Get_DIMKeyState(DIMK::DIMK_RBUTTON))
+	{
+		tRadialBlur.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
+		tRadialBlur.fRadialBlurIntensity = 0.2f;
+	}
+	else
+	{
+		tRadialBlur.fRadialBlurIntensity = 0.f;
+	}*/
 
-	if (FAILED(m_pPostProccessor->Begin("RadialBlur")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_MotionBlurTarget")))
-		return E_FAIL;
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
+	if (FLT_EPSILON < m_tRadialBlurData.fRadialBlurIntensity)
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_RadialBlur"))))
+			return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;*/
+		if (FAILED(m_pPostProccessor->Begin("RadialBlur")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_MotionBlurTarget")))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_CBuffer("RadialBlur", &m_tRadialBlurData, sizeof(RadialBlur_Data))))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamViewMatrix", &m_matPreCamView)))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_PostProcessedTarget")))
+			return E_FAIL;
+	}
 
 	// 최종 화면
 	if (FAILED(m_pPostProccessor->Begin("PostProcess")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_MotionBlurTarget")))
 		return E_FAIL;
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
@@ -1404,17 +1440,6 @@ HRESULT CRenderer::Render_PostProcess()
 
 	RELEASE_INSTANCE(CPipeLine);
 
-	return S_OK;
-}
-
-
-HRESULT CRenderer::Render_EffectBlur()
-{
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_EffectAcc()
-{
 	return S_OK;
 }
 
