@@ -46,7 +46,10 @@ public:
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
 	static void	Set_IBLTexture(_int iIndex) { m_iIBLTextureIndex = iIndex; }
 
+	void	Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity);
+
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
+
 private:
 	HRESULT Update_TextBox();
 	HRESULT	Render_MakeSRV();
@@ -71,13 +74,8 @@ private:
 	HRESULT Render_Bloom();
 	HRESULT Render_PostProcess();
 
-
-	HRESULT Render_EffectBlur();
-	HRESULT Render_EffectAcc();
-
 	HRESULT	Render_WorldUI();
 	HRESULT Render_UI();
-	HRESULT	Render_TextBox();
 	HRESULT	Render_Mouse();
 
 	HRESULT Render_Debug();
@@ -189,6 +187,16 @@ private:
 	CTexture*	m_pBRDFTexture = nullptr;
 
 	static _uint	m_iIBLTextureIndex;
+
+	// MotionBlur
+	Matrix	m_matPreCamView = Matrix::Identity;
+
+	// RadialBlur
+	struct RadialBlur_Data
+	{
+		Vec3	vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
+		_float	fRadialBlurIntensity = 0.f;
+	} m_tRadialBlurData;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

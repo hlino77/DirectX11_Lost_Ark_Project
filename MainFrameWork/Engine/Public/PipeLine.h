@@ -24,6 +24,8 @@ public:
 	Matrix	Get_TransformFloat4x4_TP(TRANSFORMSTATE eTransformState) const		{ return Get_TransformMatrix(eTransformState).Transpose(); }
 	Matrix	Get_TransformMatrixInverse(TRANSFORMSTATE eTransformState) const	{ return m_TransformInverseMatrix[eTransformState]; }
 	Vec4	Get_CamPosition() const												{ return m_vCamPosition; }
+	
+	_bool	Is_CamMoved()														{ return m_IsCameraMoved; }
 
 	const BoundingFrustum& Get_CamFrustum()										{ return m_tCamFrustum; }
 	void Set_Frustum(const BoundingFrustum& tBoundingFrustum)					{ m_tCamFrustum = tBoundingFrustum; }
@@ -39,6 +41,8 @@ private:
 	Vec4				m_vCamPosition;
 
 	BoundingFrustum		m_tCamFrustum;
+
+	_bool				m_IsCameraMoved = false;
 
 public:
 	virtual void Free() override;

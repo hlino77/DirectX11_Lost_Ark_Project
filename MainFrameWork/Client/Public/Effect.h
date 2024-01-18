@@ -161,6 +161,9 @@ protected:
 		_int	iDistortionOnBaseMaterial = 0;
 	} m_Intensity;
 
+	_float	m_fRadialIntensity = 0.f;
+	_float	m_fRadialTime = 0.f;
+
 	tagEffectDesc m_tVoidEffectDesc;
 
 protected:

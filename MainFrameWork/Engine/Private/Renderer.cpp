@@ -5,7 +5,9 @@
 #include "NavigationMgr.h"
 #include "Target_Manager.h"
 #include "Light_Manager.h"
+#include "PipeLine.h"
 #include "Texture.h"
+#include "Input_Device.h"
 #include "Utils.h"
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
@@ -61,10 +63,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Properties"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
-	
-	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Roughness"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;*/
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Emissive"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
@@ -94,7 +92,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -118,10 +115,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_ShadowDepth"),
 		ViewportDesc.Width * m_fShadowTargetSizeRatio, ViewportDesc.Height * m_fShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
 		return E_FAIL;
-
-	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_StaticShadowDepth"),
-	//	ViewportDesc.Width * m_fStaticShadowTargetSizeRatio, ViewportDesc.Height * m_fStaticShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
-	//	return E_FAIL;
 
 	// Bloom
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomDownSample1"),
@@ -148,7 +141,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample3"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
-	//
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Bright"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -177,7 +170,15 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width / m_fSampleRatio125x125, ViewportDesc.Height / m_fSampleRatio125x125, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlendBloom"),
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlendEffect"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_MotionBlur"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_RadialBlur"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
@@ -291,8 +292,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_V"), TEXT("Target_SSAO_Blur_HV"))))
 		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bright"), TEXT("Target_Bright"))))
-	//	return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomDownSample1"), TEXT("Target_BloomDownSample1"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomDownSample2"), TEXT("Target_BloomDownSample2"))))
@@ -320,7 +319,11 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_PrePostProcessScene"), TEXT("Target_PrePostProcess"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlendBloom"), TEXT("Target_BlendBloom"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlendEffect"), TEXT("Target_BlendEffect"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_MotionBlur"), TEXT("Target_MotionBlur"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_RadialBlur"), TEXT("Target_RadialBlur"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
@@ -332,7 +335,6 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_TextBox"), TEXT("Target_TextBox"))))
 		return E_FAIL;
-
 
 	/* 이 렌더타겟들은 게임내에 존재하는 빛으로부터 연산한 결과를 저장받는다. */
 	/* For.MRT_ */
@@ -350,20 +352,25 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_pMRTShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pMRTShader)
 		return E_FAIL;
-	m_pMRTShader->Initialize();
+	if (FAILED(m_pMRTShader->Initialize()))
+		return E_FAIL;
 	
 	m_pBloomShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Bloom.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pBloomShader)
 		return E_FAIL;
-	m_pBloomShader->Initialize();
+	if (FAILED(m_pBloomShader->Initialize()))
+		return E_FAIL;
 
 	m_pPostProccessor = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_PostProcess.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pPostProccessor)
 		return E_FAIL;
-	m_pPostProccessor->Initialize();
+	if (FAILED(m_pPostProccessor->Initialize()))
+		return E_FAIL;
 
-	Ready_MakeSRV_DSV();
-	Ready_ShadowDSV();
+	if (FAILED(Ready_MakeSRV_DSV()))
+		return E_FAIL;
+	if (FAILED(Ready_ShadowDSV()))
+		return E_FAIL;
 
 	m_WorldMatrix = XMMatrixIdentity();
 	m_WorldMatrix._11 = ViewportDesc.Width;
@@ -515,22 +522,12 @@ HRESULT CRenderer::Draw()
 	// 툴 때문에 임시로 여기에...
 	if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;
-	//
-
-	/*if (FAILED(Render_ModelEffectInstance()))
-		return E_FAIL;
-	if (FAILED(Render_EffectInstance()))
-		return E_FAIL;*/
-	//if (FAILED(Render_EffectBlur()))
-	//	return E_FAIL;
-	//if (FAILED(Render_EffectAcc()))
-	//	return E_FAIL;
 
 	if (FAILED(Render_WorldUI()))
 		return E_FAIL;
 	if (FAILED(Render_UI()))
 		return E_FAIL;
-	if(FAILED(Render_Mouse()))
+	if (FAILED(Render_Mouse()))
 		return E_FAIL;
 
 
@@ -567,6 +564,12 @@ HRESULT CRenderer::Bind_TextBoxSRV(CShader* pShader)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CRenderer::Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity)
+{
+	m_tRadialBlurData.vRadialBlurWorldPos = vWorldPos;
+	m_tRadialBlurData.fRadialBlurIntensity = fIntensity;
 }
 
 HRESULT CRenderer::Update_TextBox()
@@ -1149,25 +1152,6 @@ HRESULT CRenderer::Render_AlphaBlend()
 
 HRESULT CRenderer::Render_Bloom()
 {
-	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Bright"))))
-		return E_FAIL;
-
-	if (FAILED(m_pBloomShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)) ||
-		FAILED(m_pBloomShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)) ||
-		FAILED(m_pBloomShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_Emissive"), "g_BrightTarget")))
-		return E_FAIL;
-
-	if (FAILED(m_pBloomShader->Begin("Bright")))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BloomDownSample1"), m_pDownSample5x5_DSV)))
 		return E_FAIL;
 
@@ -1324,9 +1308,10 @@ HRESULT CRenderer::Render_Bloom()
 
 HRESULT CRenderer::Render_PostProcess()
 {
-	/* 디퓨즈 타겟과 셰이드 타겟을 서로 곱하여 백버퍼에 최종적으로 찍어낸다. */
-	//if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendBloom"), m_pDownSample5x5_DSV)))
-	//	return E_FAIL;
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendEffect"))))
+		return E_FAIL;
 	
 	if (FAILED(m_pPostProccessor->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
@@ -1354,8 +1339,97 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_PostProcessedTarget")))
+		return E_FAIL;
+
+	// Motion Blur
+	if (pPipeLine->Is_CamMoved())
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_MotionBlur"))))
+			return E_FAIL;
+
+		if (FAILED(m_pPostProccessor->Begin("MotionBlur")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_BlendEffectTarget")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Normal"), "g_NormalTarget")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
+			return E_FAIL;
+
+		Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
+		Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
+		Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;
+
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))
+			return E_FAIL;
+		/*if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjMatrixInv", &matCamProjInv)))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ViewMatrixInv", &matCamViewInv)))
+			return E_FAIL;*/
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_PreCamViewMatrix", &m_matPreCamView)))
+			return E_FAIL;
+
+		Matrix matCamProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamProjMatrix", &matCamProj)))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_PostProcessedTarget")))
+			return E_FAIL;
+	}
+
+	m_matPreCamView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+
+	// Radial Blur
+	/*RadialBlur_Data tRadialBlur;
+	if (CInput_Device::GetInstance()->Get_DIMKeyState(DIMK::DIMK_RBUTTON))
+	{
+		tRadialBlur.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
+		tRadialBlur.fRadialBlurIntensity = 0.2f;
+	}
+	else
+	{
+		tRadialBlur.fRadialBlurIntensity = 0.f;
+	}*/
+
+	if (FLT_EPSILON < m_tRadialBlurData.fRadialBlurIntensity)
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_RadialBlur"))))
+			return E_FAIL;
+
+		if (FAILED(m_pPostProccessor->Begin("RadialBlur")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_MotionBlurTarget")))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_CBuffer("RadialBlur", &m_tRadialBlurData, sizeof(RadialBlur_Data))))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamViewMatrix", &m_matPreCamView)))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_PostProcessedTarget")))
+			return E_FAIL;
+	}
+
+	// 최종 화면
+	if (FAILED(m_pPostProccessor->Begin("PostProcess")))
+		return E_FAIL;
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
 
 	/*if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
 		return E_FAIL;
@@ -1364,18 +1438,8 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;*/
 
+	RELEASE_INSTANCE(CPipeLine);
 
-	return S_OK;
-}
-
-
-HRESULT CRenderer::Render_EffectBlur()
-{
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_EffectAcc()
-{
 	return S_OK;
 }
 
@@ -1401,32 +1465,6 @@ HRESULT CRenderer::Render_UI()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_UI].clear();
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_TextBox()
-{
-	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_TEXTBOX])
-	{
-		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_TextBox"))))
-			return E_FAIL;
-
-
-		if (FAILED(iter->Render_MakeSRV()))
-			return E_FAIL;
-
-
-		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-			return E_FAIL;
-
-
-		if (FAILED(iter->Render()))
-			return E_FAIL;
-		
-		Safe_Release(iter);
-	}
-	m_RenderObjects[RENDER_TEXTBOX].clear();
 
 	return S_OK;
 }

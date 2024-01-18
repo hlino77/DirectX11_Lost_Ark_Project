@@ -90,7 +90,6 @@ void CVoidEffect::Tick(_float fTimeDelta)
 	if (m_fTimeAcc >= m_fLifeTime + m_fRemainTime)
 		Reset();
 	
-
 	m_fLifeTimeRatio = min(1.0f, m_fTimeAcc / m_fLifeTime);
 
 	if (m_IsSequence && m_iEffectType != 2)
@@ -228,6 +227,15 @@ HRESULT CVoidEffect::Render()
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
 		return E_FAIL;
+
+	if (m_fTimeAcc < m_fRadialTime)
+	{
+		m_pRendererCom->Set_RadialBlurData(matCombined.Translation(), m_fRadialIntensity);
+	}
+	else
+	{
+		m_pRendererCom->Set_RadialBlurData(Vec3(0.f, 0.f, 0.f), 0.f);
+	}
 
 	if (0 == m_iEffectType)
 	{

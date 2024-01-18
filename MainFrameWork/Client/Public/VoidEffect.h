@@ -110,6 +110,9 @@ public:
 		_int	iDistortionOnBaseMaterial = 0;
 	} m_Intensity;
 	
+	_float		m_fRadialIntensity = 0.f;
+	_float		m_fRadialTime = 0.f;
+
 	struct tagFX_Billboard
 	{
 		_int	iBillboard = true;
