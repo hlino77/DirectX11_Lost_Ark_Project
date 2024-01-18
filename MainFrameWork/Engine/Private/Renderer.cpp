@@ -1423,6 +1423,9 @@ HRESULT CRenderer::Render_PostProcess()
 
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_PostProcessedTarget")))
 			return E_FAIL;
+
+		m_tRadialBlurData.fRadialBlurIntensity = 0.f;
+		m_tRadialBlurData.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
 	}
 
 	// 최종 화면
