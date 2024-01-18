@@ -1346,8 +1346,10 @@ HRESULT CRenderer::Render_PostProcess()
 		return E_FAIL;
 
 	// Motion Blur
-	if (pPipeLine->Is_CamMoved())
+	if (pPipeLine->Is_CamMoved() || false == m_bMotionBlurInitialized)
 	{
+		if (false == m_bMotionBlurInitialized) m_bMotionBlurInitialized = true;
+
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_MotionBlur"))))
 			return E_FAIL;
 

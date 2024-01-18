@@ -190,6 +190,7 @@ private:
 
 	// MotionBlur
 	Matrix	m_matPreCamView = Matrix::Identity;
+	_bool	m_bMotionBlurInitialized = false;
 
 	// RadialBlur
 	struct RadialBlur_Data
