@@ -3785,6 +3785,7 @@
     <ClInclude Include="..\Public\SKill_Valtan_Breath.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
+
     <ClInclude Include="..\Public\State_WR_Grabbed.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Grab</Filter>
     </ClInclude>
@@ -3793,6 +3794,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_MG_Grabbed.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Grab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6378,6 +6382,9 @@
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Grab</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -6585,6 +6592,9 @@
   <ItemGroup>
     <Text Include="ReadMe.txt">
       <Filter>95.Network\Protocol</Filter>
+    </Text>
+    <Text Include="..\..\포스계수.txt">
+      <Filter>02.GameObjects\Boss</Filter>
     </Text>
   </ItemGroup>
 </Project>

@@ -5,14 +5,15 @@
 #include "Transform.h"
 #include "NavigationMgr.h"
 #include "ColliderSphere.h"
-#include <Boss.h>
+#include <Boss_Valtan.h>
+
 CValtan_BT_Attack_Attack1::CValtan_BT_Attack_Attack1()
 {
 }
 
 void CValtan_BT_Attack_Attack1::OnStart()
 {
-	__super::OnStart(0);
+	__super::OnStart();
 	m_iLoop = 0;
 }
 
@@ -65,6 +66,7 @@ void CValtan_BT_Attack_Attack1::OnEnd()
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
 	m_eReturn = RETURN_END;
 	m_iLoop = 0;
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
 

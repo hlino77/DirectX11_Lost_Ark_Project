@@ -3,7 +3,8 @@
 #include "Monster.h"
 #include "Model.h"
 #include "Transform.h"
-#include <Boss.h>
+#include <Boss_Valtan.h>
+
 
 CValtan_BT_Attack_Attack16::CValtan_BT_Attack_Attack16()
 {
@@ -11,7 +12,7 @@ CValtan_BT_Attack_Attack16::CValtan_BT_Attack_Attack16()
 
 void CValtan_BT_Attack_Attack16::OnStart()
 {
-	__super::OnStart(0);
+	__super::OnStart();
 	Vec3 vDirection = Vec3(2.f, 0.f, 1.f);
 	vDirection.Normalize();
 	m_vLandPosition = static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition() + vDirection * 5.f;
@@ -34,6 +35,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack16::OnUpdate(const _float& fTimeDelt
 void CValtan_BT_Attack_Attack16::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
 

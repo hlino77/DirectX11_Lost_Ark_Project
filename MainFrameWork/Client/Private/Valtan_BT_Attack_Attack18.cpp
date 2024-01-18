@@ -3,7 +3,7 @@
 #include "Monster.h"
 #include "Model.h"
 #include "Transform.h"
-#include <Boss.h>
+#include <Boss_Valtan.h>
 #include "NavigationMgr.h"
 
 CValtan_BT_Attack_Attack18::CValtan_BT_Attack_Attack18()
@@ -12,7 +12,7 @@ CValtan_BT_Attack_Attack18::CValtan_BT_Attack_Attack18()
 
 void CValtan_BT_Attack_Attack18::OnStart()
 {
-	__super::OnStart(0);
+	__super::OnStart();
 	 m_iLoop = 0;
 }
 
@@ -53,6 +53,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack18::OnUpdate(const _float& fTimeDelt
 void CValtan_BT_Attack_Attack18::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
 

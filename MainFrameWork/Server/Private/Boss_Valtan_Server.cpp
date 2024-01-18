@@ -114,7 +114,7 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
-	m_iMaxGroggyGauge = 500;
+	m_iMaxGroggyGauge = 1000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	return S_OK;
 }
@@ -1674,27 +1674,29 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+		//	return E_FAIL;
+		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
+		//	return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
 			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
