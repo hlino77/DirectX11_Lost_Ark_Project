@@ -53,7 +53,7 @@ HRESULT CLevel_Tool::Initialize()
 	if (FAILED(Ready_Tools()))
 		return E_FAIL;
 
-	if (FAILED(Load_MapData(LEVEL_CHAOS_1, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
+	if (FAILED(Load_MapData(LEVEL_TOOL, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -318,7 +318,7 @@ HRESULT CLevel_Tool::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 		matWorld._41 -= 117.f;
-		matWorld._42 -= 1.f;
+		matWorld._42 -= 0.2f;
 		matWorld._43 -= 98.f;
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
 		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATICSHADOW, pObject);

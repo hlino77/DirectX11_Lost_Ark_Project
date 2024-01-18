@@ -42,7 +42,7 @@ void CCamera_Free::Tick(_float fTimeDelta)
 
 	
 
-	if (KEY_TAP(KEY::TAB))
+	if (KEY_HOLD(KEY::TAB) && KEY_TAP(KEY::Q))
 	{
 		m_bMouse = !m_bMouse;
 		ShowCursor(m_bMouse);

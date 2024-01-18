@@ -5,6 +5,8 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CState_WDR_PowerShoulder_Start::CState_WDR_PowerShoulder_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -13,7 +15,7 @@ CState_WDR_PowerShoulder_Start::CState_WDR_PowerShoulder_Start(const wstring& st
 
 HRESULT CState_WDR_PowerShoulder_Start::Initialize()
 {
-	m_iPowerShoulder_Start = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_powershoulder_01", 1.f);
+	m_iPowerShoulder_Start = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_powershoulder_01", 1.f);	
 	if (m_iPowerShoulder_Start == -1)
 		return E_FAIL;
 
@@ -42,6 +44,10 @@ void CState_WDR_PowerShoulder_Start::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_pPlayer->Get_WDR_Controller()->Get_AddMarbleMessage(2);
+
+	m_bEffect = false;
+	m_bEffectEnd = false;
+	m_Effects.clear();
 }
 
 void CState_WDR_PowerShoulder_Start::Tick_State(_float fTimeDelta)
@@ -63,11 +69,22 @@ void CState_WDR_PowerShoulder_Start::Exit_State()
 
 void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
+
+	if (m_bEffect == false && iAnimFrame >= 14)
+	{
+		m_bEffect = true;
+		Effect_Start();
+	}
+
+	if(m_bEffectEnd == false)
+		Update_Effect();
 
 	if (-1.f == m_pPlayer->Get_TargetPos().y)
 	{
@@ -82,17 +99,28 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerShoulder_Start))
+	{
 		m_pPlayer->Set_State(TEXT("Idle"));
+	}
 
-	if (29 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start))
+	if (29 == iAnimFrame)
 	{
 		if (true == m_bComboContinue)
 		{
 			m_pPlayer->Set_State(TEXT("Skill_WDR_PowerShoulder_End"));
+			Effect_End();
+			m_bEffectEnd = true;
 		}
+	
 	}
-	else if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start))
+	else if (29 < iAnimFrame)
 	{
+		if (m_bEffectEnd == false)
+		{
+			Effect_End();
+			m_bEffectEnd = true;
+		}
+
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
 		{
@@ -139,6 +167,34 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_PowerShoulder_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WDR_PowerShoulder_Start::Effect_Start()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START_OUTLIST(L"WDPowerShoulder", &desc, m_Effects);
+
+	m_pPlayer->Add_Effect(L"WDPowerShoulder1", m_Effects[0]);
+	m_pPlayer->Add_Effect(L"WDPowerShoulder2", m_Effects[1]);
+}
+
+void CState_WDR_PowerShoulder_Start::Effect_End()
+{
+	m_pPlayer->Delete_Effect(L"WDPowerShoulder1");
+	m_pPlayer->Delete_Effect(L"WDPowerShoulder2");
+}
+
+void CState_WDR_PowerShoulder_Start::Update_Effect()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	for (auto& Effect : m_Effects)
+	{
+		Effect->Update_Pivot(matWorld);
+	}
 }
 
 CState_WDR_PowerShoulder_Start* CState_WDR_PowerShoulder_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

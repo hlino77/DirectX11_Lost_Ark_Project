@@ -8,6 +8,7 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
 
 CState_WDR_Iden_Attack_3::CState_WDR_Iden_Attack_3(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -60,6 +61,8 @@ void CState_WDR_Iden_Attack_3::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();
+
+		Effect_Shot();
 	}
 
 
@@ -157,6 +160,15 @@ void CState_WDR_Iden_Attack_3::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_Iden_Attack_3::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WDR_Iden_Attack_3::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	desc.pPivotMatrix = &matWorld;
+	EFFECT_START(L"AttGravity3", &desc);
 }
 
 CState_WDR_Iden_Attack_3* CState_WDR_Iden_Attack_3::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

@@ -25,6 +25,7 @@ private:
 
 	std::function<void(CState_WDR_Iden_Attack_1&, _float)> m_TickFunc;
 
+	void	Effect_Shot();
 private:
 	//Animation
 	_int m_Attack_1 = 0;

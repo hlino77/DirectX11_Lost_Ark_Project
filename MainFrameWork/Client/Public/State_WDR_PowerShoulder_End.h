@@ -22,6 +22,11 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_End();
+
+	void	Update_Effect_Circle(_float fTimeDelta);
+
+private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_PowerShoulder_End&, _float)> m_TickFunc;
@@ -29,6 +34,12 @@ private:
 private:
 	//Animation
 	_int m_iPowerShoulder_End = 0;
+
+	_float m_fCircle1TimeAcc = 0.0f;
+	_float m_fCircle2TimeAcc = 0.0f;
+
+	_float m_fCircle1Time = 0.0f;
+	_float m_fCircle2Time = 0.0f;
 
 public:
 	static CState_WDR_PowerShoulder_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);

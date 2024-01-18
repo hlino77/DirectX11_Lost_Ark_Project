@@ -5,6 +5,7 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect.h"
 
 CState_WDR_PowerShoulder_Loop::CState_WDR_PowerShoulder_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -38,6 +39,8 @@ void CState_WDR_PowerShoulder_Loop::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPowerShoulder_Loop, 0.05f, iPreFrame, 0, 0.1f);
+
+	m_bEffectEnd = false;
 }
 
 void CState_WDR_PowerShoulder_Loop::Tick_State(_float fTimeDelta)
@@ -47,13 +50,13 @@ void CState_WDR_PowerShoulder_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WDR_PowerShoulder_Loop::Exit_State()
 {
-	if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+	if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop) || true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerShoulder_Loop))
 	{
 		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 
 		if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 			m_pPlayer->Set_SuperArmorState(false);
-
+		
 	}
 	m_bComboContinue = false;
 }
@@ -81,10 +84,18 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 		if (true == m_bComboContinue)
 		{
 			m_pPlayer->Set_State(TEXT("Skill_WDR_PowerShoulder_End"));
+			Effect_End();
+			m_bEffectEnd = true;
 		}
 	}
 	else if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
 	{
+		if (m_bEffectEnd == false)
+		{
+			Effect_End();
+			m_bEffectEnd = true;
+		}
+
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
 		{
@@ -126,11 +137,28 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 			}
 		}
 	}
+
+	if(m_bEffectEnd == false)
+		Update_Effect();
 }
 
 void CState_WDR_PowerShoulder_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WDR_PowerShoulder_Loop::Update_Effect()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	m_pPlayer->Get_Effect(L"WDPowerShoulder1")->Update_Pivot(matWorld);
+	m_pPlayer->Get_Effect(L"WDPowerShoulder2")->Update_Pivot(matWorld);
+}
+
+void CState_WDR_PowerShoulder_Loop::Effect_End()
+{
+	m_pPlayer->Delete_Effect(L"WDPowerShoulder1");
+	m_pPlayer->Delete_Effect(L"WDPowerShoulder2");
 }
 
 CState_WDR_PowerShoulder_Loop* CState_WDR_PowerShoulder_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

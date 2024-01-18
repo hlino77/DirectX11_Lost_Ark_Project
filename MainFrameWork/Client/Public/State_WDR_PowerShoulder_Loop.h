@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Update_Effect();
+	void	Effect_End();
+private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_PowerShoulder_Loop&, _float)> m_TickFunc;
@@ -32,6 +35,7 @@ private:
 
 	_bool	m_bComboContinue = false;
 
+	_bool	m_bEffectEnd = false;
 public:
 	static CState_WDR_PowerShoulder_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;
