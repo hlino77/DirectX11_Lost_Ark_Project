@@ -56,6 +56,7 @@ HRESULT CBoss::Initialize(void* pArg)
 	m_pRigidBody->Set_Gravity(false);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
+	m_vSpawnPosition = Desc->vPos;
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
 

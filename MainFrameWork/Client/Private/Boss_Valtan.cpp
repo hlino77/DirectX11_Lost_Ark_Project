@@ -89,7 +89,6 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 0.f;
 	m_fNoticeRange = 150.f;
-	m_vSpawnPosition = Vec3(100.f,0.f,100.f);
 	m_iArmor = 2;
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;

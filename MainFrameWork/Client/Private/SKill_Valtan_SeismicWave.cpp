@@ -28,7 +28,7 @@ HRESULT CSKill_Valtan_SeismicWave::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 2.f;
+	m_fLastTime = 1.5f;
 	m_iAtk = 20;
 	m_fForce = 42.f;
 
@@ -46,16 +46,16 @@ void CSKill_Valtan_SeismicWave::Tick(_float fTimeDelta)
 		switch (i)
 		{
 		case 0:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, 5.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, 8.f) * fTimeDelta);
 			break;
 		case 1:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, -5.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, -8.f) * fTimeDelta);
 			break;
 		case 2:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(5.f, 0.f, 0.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(8.f, 0.f, 0.f) * fTimeDelta);
 			break;
 		case 3:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(-5.f, 0.f, 0.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(-8.f, 0.f, 0.f) * fTimeDelta);
 			break;
 		default:
 			break;
@@ -119,7 +119,7 @@ HRESULT CSKill_Valtan_SeismicWave::Ready_Coliders()
 					if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkillChild_0"), (CComponent**)&pChildSphereCollider, &tChildSphereColliderInfo)))
 						return E_FAIL;
 					pChildCollider->Add_Collider(pChildSphereCollider);
-					pChildSphereCollider->Set_Radius(2.f);
+					pChildSphereCollider->Set_Radius(1.5f);
 					pChildSphereCollider->SetActive(true);
 					pChildSphereCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
@@ -132,7 +132,7 @@ HRESULT CSKill_Valtan_SeismicWave::Ready_Coliders()
 					if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkillChild_1"), (CComponent**)&pChildSphereCollider, &tChildSphereColliderInfo)))
 						return E_FAIL;
 					pChildCollider->Add_Collider(pChildSphereCollider);
-					pChildSphereCollider->Set_Radius(2.f);
+					pChildSphereCollider->Set_Radius(1.5f);
 					pChildSphereCollider->SetActive(true);
 					pChildSphereCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 				}
@@ -144,7 +144,7 @@ HRESULT CSKill_Valtan_SeismicWave::Ready_Coliders()
 					if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkillChild_2"), (CComponent**)&pChildSphereCollider, &tChildSphereColliderInfo)))
 						return E_FAIL;
 					pChildCollider->Add_Collider(pChildSphereCollider);
-					pChildSphereCollider->Set_Radius(2.f);
+					pChildSphereCollider->Set_Radius(1.5f);
 					pChildSphereCollider->SetActive(true);
 					pChildSphereCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 				}
@@ -156,7 +156,7 @@ HRESULT CSKill_Valtan_SeismicWave::Ready_Coliders()
 					if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderSkillChild_3"), (CComponent**)&pChildSphereCollider, &tChildSphereColliderInfo)))
 						return E_FAIL;
 					pChildCollider->Add_Collider(pChildSphereCollider);
-					pChildSphereCollider->Set_Radius(2.f);
+					pChildSphereCollider->Set_Radius(1.5f);
 					pChildSphereCollider->SetActive(true);
 					pChildSphereCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 				}
@@ -166,7 +166,7 @@ HRESULT CSKill_Valtan_SeismicWave::Ready_Coliders()
 		}
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(2.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(1.5f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 

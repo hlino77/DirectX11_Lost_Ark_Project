@@ -102,7 +102,7 @@ HRESULT CSKill_Valtan_4_2::Ready_Coliders()
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
 	CDoughnutCollider* pChildCollider = dynamic_cast<CDoughnutCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
-	pChildCollider->Set_Radius(6.5f);
+	pChildCollider->Set_Radius(5.3f);
 	pChildCollider->SetActive(false);
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
