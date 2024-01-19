@@ -117,9 +117,6 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 {
     float fDistortion = g_DistortionTarget.Sample(LinearSampler, In.vTexcoord).x;
 
-    if (fDistortion > EPSILON)
-        fDistortion = 2.f * fDistortion - 1.f;
-
     float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
     
     float4 vDecalOneBlend = g_DecalOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
