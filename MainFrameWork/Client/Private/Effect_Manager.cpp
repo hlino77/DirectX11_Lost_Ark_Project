@@ -242,9 +242,13 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = node->FirstChildElement();
 				tDesc.fBloom = element->FloatAttribute("Intensity");
+
+				element = element->NextSiblingElement();
 				tDesc.fDistortion = element->FloatAttribute("Intensity");
-				tDesc.fDissolveAmount = element->FloatAttribute("Amount");
 				tDesc.iDistortionOnBaseMaterial = element->IntAttribute("OnBaseMaterial");
+
+				element = element->NextSiblingElement();
+				tDesc.fDissolveAmount = element->FloatAttribute("Amount");
 			}
 
 			node = node->NextSiblingElement();

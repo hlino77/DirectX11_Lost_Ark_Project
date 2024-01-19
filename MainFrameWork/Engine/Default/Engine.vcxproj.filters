@@ -226,6 +226,9 @@
     <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Cube">
       <UniqueIdentifier>{00c6a8b6-f7f3-4c80-bd7d-95660c6dd832}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Trail">
+      <UniqueIdentifier>{30c7064b-c870-4c07-8250-3223064d14bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h">
