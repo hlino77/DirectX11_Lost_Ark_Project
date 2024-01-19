@@ -170,6 +170,7 @@
 #include "Effect_Custom_PerpectShotBullet.h"
 #include "Effect_Custom_CrossHair.h"
 #include "Effect_Custom_DeathFireBomb.h"
+#include "Effect_Custom_SeismicHammer.h"
 
 //NPC
 #include "tinyxml2.h"
@@ -1100,6 +1101,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_DeathFireBomb"),
 		CEffect_Custom_DeathFireBomb::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_SeismicHammer"),
+		CEffect_Custom_SeismicHammer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3128,6 +3134,21 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	
 	{
 		wstring strFileName = L"Effect_Custom_GN_Bomb";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+
+	}
+
+	{
+		wstring strFileName = L"SeismicHammer";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

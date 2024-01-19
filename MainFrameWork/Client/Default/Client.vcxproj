@@ -217,6 +217,7 @@
     <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h" />
     <ClInclude Include="..\Public\Effect_Custom_Grenade.h" />
     <ClInclude Include="..\Public\Effect_Custom_PerpectShotBullet.h" />
+    <ClInclude Include="..\Public\Effect_Custom_SeismicHammer.h" />
     <ClInclude Include="..\Public\Effect_Custom_SpiralChaser.h" />
     <ClInclude Include="..\Public\Effect_Decal.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
@@ -718,6 +719,7 @@
     <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_Grenade.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_PerpectShotBullet.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_SeismicHammer.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_SpiralChaser.cpp" />
     <ClCompile Include="..\Private\Effect_Decal.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />

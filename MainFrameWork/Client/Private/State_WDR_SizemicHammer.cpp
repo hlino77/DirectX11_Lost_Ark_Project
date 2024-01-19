@@ -5,6 +5,9 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "Effect_Custom_SeismicHammer.h"
+
 
 CState_WDR_SizemicHammer::CState_WDR_SizemicHammer(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -55,10 +58,17 @@ void CState_WDR_SizemicHammer::Exit_State()
 
 void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+
+		if (iAnimFrame == 41)
+		{
+			Effect_Skill();
+		}
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSizemicHammer))
@@ -112,6 +122,14 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WDR_SizemicHammer::Effect_Skill()
+{
+	CEffect_Custom_SeismicHammer::EffectDesc tDesc;
+	tDesc.vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
+	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammer", &tDesc);
 }
 
 CState_WDR_SizemicHammer* CState_WDR_SizemicHammer::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
