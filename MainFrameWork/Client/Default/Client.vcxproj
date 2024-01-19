@@ -1225,6 +1225,7 @@
     <ResourceCompile Include="Client.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Bin\Resources\Textures\UI\Character_Select\Game_Button0.png" />
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
   </ItemGroup>

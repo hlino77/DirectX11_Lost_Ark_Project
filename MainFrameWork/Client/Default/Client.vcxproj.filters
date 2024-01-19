@@ -3582,8 +3582,6 @@
     <ClInclude Include="..\Public\Effect_Custom_CrossHair.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\CrossHair</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
-    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
     </ClInclude>
@@ -3761,6 +3759,12 @@
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6139,8 +6143,6 @@
     <ClCompile Include="..\Private\Effect_Custom_CrossHair.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\CrossHair</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
-    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\DeathFireBomb</Filter>
     </ClCompile>
@@ -6327,6 +6329,12 @@
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -6334,6 +6342,9 @@
     </Image>
     <Image Include="small.ico">
       <Filter>98.Default</Filter>
+    </Image>
+    <Image Include="..\Bin\Resources\Textures\UI\Character_Select\Game_Button0.png">
+      <Filter>02.GameObjects</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
