@@ -19,7 +19,14 @@ void CValtan_BT_Attack_Attack13::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack13::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_bOutSide)
+	{
 
+	}
+	else
+	{
+
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

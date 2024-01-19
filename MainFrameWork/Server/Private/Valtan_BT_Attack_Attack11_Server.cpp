@@ -25,6 +25,13 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 		return BT_SUCCESS;
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 55 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		m_iCurrAnimation++;
+		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex,
+			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
+			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

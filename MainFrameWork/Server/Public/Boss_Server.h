@@ -18,22 +18,6 @@ END
 BEGIN(Server)
 class CBoss_Server : public CMonster_Server
 {
-public:
-	typedef struct ModelDesc
-	{
-		wstring strFileName;
-		_int	iObjectID;
-		_uint	iLayer;
-		_uint	iLevel;
-	}MODELDESC;
-
-
-	typedef struct SkillInfoTag
-	{
-		_float m_fCoolTime;
-		_float m_fCurrCoolTime;
-		_bool m_bReady;
-	}SKILLINFO;
 
 
 

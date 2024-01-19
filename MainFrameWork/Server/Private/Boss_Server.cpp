@@ -47,7 +47,8 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
-
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
+	m_vSpawnPosition = Desc->vPosition;
 	m_fNoticeRange = 20.f;
 
 	return S_OK;
