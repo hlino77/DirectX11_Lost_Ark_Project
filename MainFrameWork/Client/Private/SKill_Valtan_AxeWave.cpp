@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "SKill_King_Eruption.h"
+#include "SKill_Valtan_AxeWave.h"
 #include "GameInstance.h"
-#include <ColliderFrustum.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
+#include <ColliderFrustum.h>
 
-CSKill_King_Eruption::CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSKill_Valtan_AxeWave::CSKill_Valtan_AxeWave(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_King_Eruption::CSKill_King_Eruption(const CSKill_King_Eruption& rhs)
+CSKill_Valtan_AxeWave::CSKill_Valtan_AxeWave(const CSKill_Valtan_AxeWave& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_King_Eruption::Initialize_Prototype()
+HRESULT CSKill_Valtan_AxeWave::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -23,54 +23,52 @@ HRESULT CSKill_King_Eruption::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_King_Eruption::Initialize(void* pArg)
+HRESULT CSKill_Valtan_AxeWave::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 2.55f;
-	m_iAtk = 5;
-	m_fForce = 40.f;
-	m_fBlinkTime = 2.5f;
+	m_fLastTime = 2.f;
+	m_iAtk = 30;
+	m_fForce = 42.f;
     return S_OK;
 }
 
-void CSKill_King_Eruption::Tick(_float fTimeDelta)
+void CSKill_Valtan_AxeWave::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
-	m_fBlinkTime -= fTimeDelta;
-	if (m_fBlinkTime < 0.f&&m_fLastTime < 0.f)
-	{
-		m_fBlinkTime =  5.f;
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
-	}
+    __super::Tick(fTimeDelta);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Radius()+fTimeDelta*10.f);
+	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
+	pChildCollider->Set_Far(pChildCollider->Get_Far() + fTimeDelta * 10.f);
+	pChildCollider->Set_Near(pChildCollider->Get_Near() + fTimeDelta * 10.f);
 }
 
-void CSKill_King_Eruption::LateTick(_float fTimeDelta)
+void CSKill_Valtan_AxeWave::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_King_Eruption::Render()
+HRESULT CSKill_Valtan_AxeWave::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
     return S_OK;
 }
 
-void CSKill_King_Eruption::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+
+void CSKill_Valtan_AxeWave::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_Eruption::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSKill_Valtan_AxeWave::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_Eruption::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSKill_Valtan_AxeWave::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_King_Eruption::Ready_Coliders()
+HRESULT CSKill_Valtan_AxeWave::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -97,16 +95,16 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(7.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(2.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.1f, 0.0f));
 
 	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.1f, 0.f));
-	pChildCollider->Set_Far(7.5f);
-	pChildCollider->Set_Near(0.f);
-	pChildCollider->Set_Slopes(Vec4(0.05f, -0.05f, tanf(XMConvertToRadians(30.f)), tanf(XMConvertToRadians(-30.f))));
+	pChildCollider->Set_Far(2.5f);
+	pChildCollider->Set_Near(0.5f);
+	pChildCollider->Set_Slopes(Vec4(1.f, -0.05f, tanf(XMConvertToRadians(30.f)), tanf(XMConvertToRadians(-30.f))));
 	pChildCollider->SetActive(true);
 	for (auto& Collider : m_Coliders)
 	{
@@ -118,7 +116,7 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CSKill_King_Eruption::Ready_Components()
+HRESULT CSKill_Valtan_AxeWave::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -126,33 +124,33 @@ HRESULT CSKill_King_Eruption::Ready_Components()
     return S_OK;
 }
 
-CSKill_King_Eruption* CSKill_King_Eruption::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSKill_Valtan_AxeWave* CSKill_Valtan_AxeWave::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_King_Eruption* pInstance = new CSKill_King_Eruption(pDevice, pContext);
+    CSKill_Valtan_AxeWave* pInstance = new CSKill_Valtan_AxeWave(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_King_Eruption");
+		MSG_BOX("Failed To Created : CSKill_Valtan_AxeWave");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_King_Eruption::Clone(void* pArg)
+CGameObject* CSKill_Valtan_AxeWave::Clone(void* pArg)
 {
-    CSKill_King_Eruption* pInstance = new CSKill_King_Eruption(*this);
+    CSKill_Valtan_AxeWave* pInstance = new CSKill_Valtan_AxeWave(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_King_Eruption");
+		MSG_BOX("Failed To Cloned : CSKill_Valtan_AxeWave");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_King_Eruption::Free()
+void CSKill_Valtan_AxeWave::Free()
 {
 	__super::Free();
 }

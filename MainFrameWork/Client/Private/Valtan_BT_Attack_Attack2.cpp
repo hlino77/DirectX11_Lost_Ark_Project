@@ -24,7 +24,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2::OnUpdate(const _float& fTimeDelta
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
 		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
-		static_cast<CBoss*>(m_pGameObject)->Set_Force(45.f);
+		static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 10 )
 	{

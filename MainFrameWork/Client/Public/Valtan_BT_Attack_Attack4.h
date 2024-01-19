@@ -16,7 +16,8 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
-
+private:
+    _bool   m_bShoot = {};
 
 public:
     static	CValtan_BT_Attack_Attack4* Create(void* pArg);
