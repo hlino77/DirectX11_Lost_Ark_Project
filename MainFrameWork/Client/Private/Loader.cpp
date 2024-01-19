@@ -897,6 +897,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Dissolve1"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_b_noise_001.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
 

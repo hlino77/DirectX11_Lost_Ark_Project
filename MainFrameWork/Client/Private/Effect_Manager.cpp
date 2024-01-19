@@ -249,6 +249,10 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = element->NextSiblingElement();
 				tDesc.fDissolveAmount = element->FloatAttribute("Amount");
+
+				element = element->NextSiblingElement();
+				tDesc.fRadialTime = element->FloatAttribute("Time");
+				tDesc.fRadialIntensity = element->FloatAttribute("Intensity");
 			}
 
 			node = node->NextSiblingElement();

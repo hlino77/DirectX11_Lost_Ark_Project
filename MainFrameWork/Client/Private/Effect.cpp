@@ -106,6 +106,9 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Intensity.fBloom = pDesc->fBloom;
 	m_Intensity.fDistortion = pDesc->fDistortion;
 	m_Intensity.fDissolveAmount = pDesc->fDissolveAmount;
+	
+	m_fRadialIntensity = pDesc->fRadialIntensity;
+	m_fRadialTime = pDesc->fRadialTime;
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);

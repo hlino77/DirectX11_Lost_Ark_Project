@@ -128,6 +128,7 @@ void CState_WDR_SizemicHammer::Effect_Skill()
 {
 	CEffect_Custom_SeismicHammer::EffectDesc tDesc;
 	tDesc.vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	tDesc.vLook = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 
 	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammer", &tDesc);
 }

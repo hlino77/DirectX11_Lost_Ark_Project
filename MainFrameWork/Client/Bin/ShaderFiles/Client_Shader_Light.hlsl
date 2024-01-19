@@ -93,7 +93,6 @@ void ComputeNormalMapping(inout float4 normal, float3 tangent, float2 texcoord)
     normal = float4(worldNormal, 0.f);
 };
 
-float g_fDissolveAmount;
 
 void ComputeDissolveColor(inout float4 color, float2 texcoord)
 {
