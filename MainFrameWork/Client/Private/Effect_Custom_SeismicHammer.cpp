@@ -62,8 +62,23 @@ HRESULT CEffect_Custom_SeismicHammer::Render()
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
 
-	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
-		return E_FAIL;
+	for (_uint i = 0; i < m_pModelCom->Get_NumMeshes(); ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+			return E_FAIL;
+
+		MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+		if (FAILED(m_pShaderCom->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "PBR")))
+			return E_FAIL;
+	}
+
 
 	return S_OK;
 }

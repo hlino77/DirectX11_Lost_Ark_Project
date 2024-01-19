@@ -1283,9 +1283,6 @@ HRESULT CEffectTool::Load()
 			m_pCurrentEffect->m_Intensity.fDistortion = element->FloatAttribute("Intensity");
 			m_pCurrentEffect->m_Intensity.iDistortionOnBaseMaterial = element->IntAttribute("OnBaseMaterial");
 
-			m_pCurrentEffect->m_Intensity.iDistortionOnBaseMaterial = element->IntAttribute("OnBaseMaterial");
-
-
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_Intensity.fDissolveAmount = element->FloatAttribute("Amount");
 			

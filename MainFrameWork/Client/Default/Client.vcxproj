@@ -1280,7 +1280,6 @@
     <ResourceCompile Include="Client.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Bin\Resources\Textures\UI\Character_Select\Game_Button0.png" />
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
@@ -1315,6 +1314,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl" />
