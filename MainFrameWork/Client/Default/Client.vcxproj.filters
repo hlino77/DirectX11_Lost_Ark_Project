@@ -3663,9 +3663,6 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_Gunslinger.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClInclude>
@@ -3916,6 +3913,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_SeismicWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Gunslinger.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6307,9 +6307,6 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClCompile>
@@ -6566,6 +6563,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_SeismicWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

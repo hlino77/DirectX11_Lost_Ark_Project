@@ -1695,14 +1695,6 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	/*_uint iFolderCnt = 0;
-	for (const auto& entry : fs::directory_iterator(strPath))
-	{
-		if (fs::is_directory(entry))
-		{
-			iFolderCnt++;
-		}
-	}*/
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
 
@@ -3243,6 +3235,9 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	/* Npc ¹«±âÆÄÃ÷ */
 	strPath = L"../Bin/Resources/Meshes/NpcWeapon/";
 	AutoLoad(strPath, LEVEL_BERN, PivotMatrix);
+
+	strPath = L"../Bin/Resources/Meshes/PC_Default/";
+	AutoLoad(strPath, LEVEL_STATIC);
 
 	/* SkyDome */
 	{
