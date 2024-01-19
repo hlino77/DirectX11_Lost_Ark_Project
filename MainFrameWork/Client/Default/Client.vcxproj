@@ -246,8 +246,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\Item.h" />
+    <ClInclude Include="..\Public\IT_GN_Body_Legend.h" />
     <ClInclude Include="..\Public\IT_GN_Body_Mococo.h" />
+    <ClInclude Include="..\Public\IT_GN_Helmet_Legend.h" />
     <ClInclude Include="..\Public\IT_GN_Helmet_Mococo.h" />
+    <ClInclude Include="..\Public\IT_GN_Leg_Legend.h" />
+    <ClInclude Include="..\Public\IT_GN_WP_Legend.h" />
     <ClInclude Include="..\Public\IT_GN_WP_Mococo.h" />
     <ClInclude Include="..\Public\IT_MG_Body_Mococo.h" />
     <ClInclude Include="..\Public\IT_MG_Helmet_Mococo.h" />
@@ -767,8 +771,12 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp" />
     <ClCompile Include="..\Private\Item.cpp" />
+    <ClCompile Include="..\Private\IT_GN_Body_Legend.cpp" />
     <ClCompile Include="..\Private\IT_GN_Body_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_GN_Helmet_Legend.cpp" />
     <ClCompile Include="..\Private\IT_GN_Helmet_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_GN_Leg_Legend.cpp" />
+    <ClCompile Include="..\Private\IT_GN_WP_Legend.cpp" />
     <ClCompile Include="..\Private\IT_GN_WP_Mococo.cpp" />
     <ClCompile Include="..\Private\IT_MG_Body_Mococo.cpp" />
     <ClCompile Include="..\Private\IT_MG_Helmet_Mococo.cpp" />

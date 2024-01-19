@@ -36,6 +36,7 @@ namespace Server
 		LAYER_BOSS,
 		LAYER_NPC,
 		LAYER_SKILL,
+		LAYER_ITEM,
 		LAYER_EFFECT,
 		LAYER_UI,
 		LAYER_END

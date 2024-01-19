@@ -1,56 +1,58 @@
 #include "stdafx.h"
-#include "..\Public\IT_GN_Helmet_Mococo.h"
+#include "..\Public\IT_GN_Body_Legend.h"
 #include "Player.h"
 
-CIT_GN_Helmet_Mococo::CIT_GN_Helmet_Mococo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CIT_GN_Body_Legend::CIT_GN_Body_Legend(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CItem(pDevice, pContext)
 {
 }
 
-CIT_GN_Helmet_Mococo::CIT_GN_Helmet_Mococo(const CIT_GN_Helmet_Mococo& rhs)
+CIT_GN_Body_Legend::CIT_GN_Body_Legend(const CIT_GN_Body_Legend& rhs)
 	: CItem(rhs)
 {
 }
 
-HRESULT CIT_GN_Helmet_Mococo::Initialize_Prototype()
+HRESULT CIT_GN_Body_Legend::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CIT_GN_Helmet_Mococo::Initialize(void* pArg)
+HRESULT CIT_GN_Body_Legend::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	m_iItemGrade = (_uint)GRADE::PURPLE;
+	m_iItemGrade = (_uint)GRADE::RED;
 	m_iItemType = (_uint)TYPE::EQUIP;
 
-	m_strObjectTag = TEXT("IT_GN_Helmet_Mococo");
-	m_strItemName = TEXT("모코코 머리");
+	m_strObjectTag = TEXT("IT_GN_Body_Legend");
+	m_strItemName = TEXT("전설의 상의");
 	m_strItemDescript = TEXT("");
 
-	m_iEquipType = (_uint)PART::HELMET;
+	m_iEquipType = (_uint)PART::BODY;
 
-	m_vecUseEquipSlot.push_back((_uint)PART::HELMET);
+	m_vecUseEquipSlot.push_back((_uint)PART::BODY);
+	m_vecUseEquipSlot.push_back((_uint)PART::SHOULDER);
+	m_vecUseEquipSlot.push_back((_uint)PART::ARM);
 
 	m_tStatChangeDesc.iHp = 100;
 
 	return S_OK;
 }
 
-void CIT_GN_Helmet_Mococo::Tick(_float fTimeDelta)
+void CIT_GN_Body_Legend::Tick(_float fTimeDelta)
 {
 }
 
-void CIT_GN_Helmet_Mococo::LateTick(_float fTimeDelta)
+void CIT_GN_Body_Legend::LateTick(_float fTimeDelta)
 {
 }
 
-HRESULT CIT_GN_Helmet_Mococo::Render()
+HRESULT CIT_GN_Body_Legend::Render()
 {
 	return S_OK;
 }
 
-HRESULT CIT_GN_Helmet_Mococo::Use_Item(CPlayer* pOwner)
+HRESULT CIT_GN_Body_Legend::Use_Item(CPlayer* pOwner)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
@@ -82,7 +84,7 @@ HRESULT CIT_GN_Helmet_Mococo::Use_Item(CPlayer* pOwner)
 	return S_OK;
 }
 
-HRESULT CIT_GN_Helmet_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
+HRESULT CIT_GN_Body_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
@@ -103,17 +105,12 @@ HRESULT CIT_GN_Helmet_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	return S_OK;
 }
 
-HRESULT CIT_GN_Helmet_Mococo::Ready_Components()
+HRESULT CIT_GN_Body_Legend::Ready_Components()
 {
 	__super::Ready_Components();
 
-	CModel::CHANGECOLOR pChangeColor;
-	pChangeColor.vColor_R = Vec4(1.f, 1.f, 1.f, 1.f);
-	pChangeColor.vColor_G = Vec4(1.f, 0.01f, 0.f, 0.692807f);
-	pChangeColor.vColor_B = Vec4(0.01f, 1.f, 0.24f, 0.587838f);
-
-	wstring strComName = L"Prototype_Component_Model_GN_Head_Mococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom, &pChangeColor)))
+	wstring strComName = L"Prototype_Component_Model_GN_Body_Legend";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_GN_Body_Mococo"),
@@ -123,33 +120,33 @@ HRESULT CIT_GN_Helmet_Mococo::Ready_Components()
 	return S_OK;
 }
 
-CIT_GN_Helmet_Mococo* CIT_GN_Helmet_Mococo::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CIT_GN_Body_Legend* CIT_GN_Body_Legend::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CIT_GN_Helmet_Mococo* pInstance = new CIT_GN_Helmet_Mococo(pDevice, pContext);
+	CIT_GN_Body_Legend* pInstance = new CIT_GN_Body_Legend(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CIT_GN_Helmet_Mococo");
+		MSG_BOX("Failed To Created : CIT_GN_Body_Legend");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CIT_GN_Helmet_Mococo::Clone(void* pArg)
+CGameObject* CIT_GN_Body_Legend::Clone(void* pArg)
 {
-	CIT_GN_Helmet_Mococo* pInstance = new CIT_GN_Helmet_Mococo(*this);
+	CIT_GN_Body_Legend* pInstance = new CIT_GN_Body_Legend(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CIT_GN_Helmet_Mococo");
+		MSG_BOX("Failed To Cloned : CIT_GN_Body_Legend");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CIT_GN_Helmet_Mococo::Free()
+void CIT_GN_Body_Legend::Free()
 {
 	__super::Free();
 

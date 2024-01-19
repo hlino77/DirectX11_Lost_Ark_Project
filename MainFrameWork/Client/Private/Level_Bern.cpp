@@ -42,21 +42,19 @@ CLevel_Bern::CLevel_Bern(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 
 HRESULT CLevel_Bern::Initialize()
 {
+	if (FAILED(__super::Initialize()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Item(LAYER_TYPE::LAYER_ITEM)))
+		return E_FAIL;
+
 	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState(LEVELSTATE::INITREADY);
 
 	Send_UserInfo();
 
-
-	//CQuadTreeMgr::GetInstance()->Make_QaudTree(Vec3{ 140.f, 0.f, 115.f }, Vec3{ 75.f, 30.f, 55.f }, 3);
-
-	//CNavigationMgr::GetInstance()->Set_CurrNavigation(TEXT("Level_Chaos_Navi"));
-
 	Ready_Renderer();
 
 	Ready_Events();
-
-	if (FAILED(__super::Initialize()))
-		return E_FAIL;
 
 	m_pImGuiManager = CUI_Tool::GetInstance();
 	Safe_AddRef(m_pImGuiManager);
@@ -447,6 +445,77 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CGameObject* pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_Body_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_Helmet_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_WP_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_WP_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_Body_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_Helmet_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_Leg_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_Body_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_Helmet_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_WP_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_Body_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_Helmet_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_WP_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_Body_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_Helmet_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_WP_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 

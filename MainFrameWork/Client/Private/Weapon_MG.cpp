@@ -61,11 +61,7 @@ void CWeapon_MG::Tick(_float fTimeDelta)
 
 void CWeapon_MG::LateTick(_float fTimeDelta)
 {
-	if (true == Is_Render() && true == m_pOwner->Is_Render())
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
-	}
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CWeapon_MG::Render()
@@ -104,13 +100,6 @@ HRESULT CWeapon_MG::Ready_Components()
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_MG_WP_Mococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
-		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
-		return E_FAIL;
-
-	
 	m_vOriginScale.x = 100.f;
 	m_vOriginScale.y = 100.f;
 	m_vOriginScale.z = 100.f;

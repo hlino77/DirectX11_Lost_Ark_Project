@@ -69,6 +69,7 @@
 
 #include "Skill.h"
 #include "Boss.h"
+#include "Item.h"
 
 CPlayer_Destroyer::CPlayer_Destroyer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -88,6 +89,9 @@ HRESULT CPlayer_Destroyer::Initialize_Prototype()
 HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
+
+	if (FAILED(Ready_Item()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -375,20 +379,9 @@ HRESULT CPlayer_Destroyer::Ready_Components()
 		TEXT("Com_Controller"), (CComponent**)&m_pController, &Control_Desc)))
 		return E_FAIL;
 
-	/* 초기 장비 및 얼굴 설정 */
-	wstring strComName = L"Prototype_Component_Model_WDR_Head_BaseMococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
-		return E_FAIL;
-
-	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
-
-	strComName = L"Prototype_Component_Model_WDR_Body_BaseMococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
-		return E_FAIL;
-
 
 	/* 디폴트 장비 설정 */
-	strComName = L"Prototype_Component_Model_WDR_Body_Default";
+	wstring strComName = L"Prototype_Component_Model_WDR_Body_Default";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::BODY])))
 		return E_FAIL;
 
@@ -731,6 +724,37 @@ HRESULT CPlayer_Destroyer::Ready_PhysxBoneBranch()
 
 		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
 	}*/
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Destroyer::Ready_Item()
+{
+	CItem* pItem = nullptr;
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
 
 	return S_OK;
 }

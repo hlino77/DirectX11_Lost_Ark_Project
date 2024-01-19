@@ -31,6 +31,8 @@ void CState_WDR_Iden_Idle::Enter_State()
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_SkillEndMessage();
+
+	m_pPlayer->Set_SuperArmorState(true);
 }
 
 void CState_WDR_Iden_Idle::Tick_State(_float fTimeDelta)

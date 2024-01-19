@@ -183,11 +183,15 @@ void CController_MG::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 	{
 		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
 		{
+			m_IsHitState = true;
+
 			static_cast<CPlayer*>(m_pOwner)->Set_TargetPos(Vec3(m_vHitColiPos.x, m_fForced, m_vHitColiPos.z));
 			static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Hit_Common"));
 		}
 		else if (HIT_TYPE::DMG != m_eHitType)
 		{
+			m_IsHitState = true;
+
 			_float fCheckHit = 0.0f;
 			switch (m_eHitType)
 			{
@@ -215,6 +219,9 @@ void CController_MG::Get_GrabMessage(CGameObject* pGrabber)
 	__super::Get_GrabMessage(pGrabber);
 
 	static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Grabbed"));
+
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CController_MG::Get_GrabEndMessage()

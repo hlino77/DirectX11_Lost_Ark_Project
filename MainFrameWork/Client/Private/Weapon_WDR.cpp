@@ -62,11 +62,7 @@ void CWeapon_WDR::Tick(_float fTimeDelta)
 
 void CWeapon_WDR::LateTick(_float fTimeDelta)
 {
-	if (true == Is_Render() && true == m_pOwner->Is_Render())
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
-	}
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CWeapon_WDR::Render()
@@ -103,17 +99,6 @@ HRESULT CWeapon_WDR::Ready_Components()
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	/* For.Com_Model */
-	CModel::CHANGECOLOR pColor;
-	pColor.vColor_R = Vec4(1.97778f, 0.99757f, 0.127675f, 0.724719f);
-	pColor.vColor_G = Vec4(0.423077f, 1.36923f, 1.24686f, 0.825843f);
-	pColor.vColor_B = Vec4();
-
-	wstring strComName = L"Prototype_Component_Model_WDR_WP_Base";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
-		TEXT("Com_Model"), (CComponent**)&m_pModelCom, &pColor)))
 		return E_FAIL;
 
 	Vec3 vScale;

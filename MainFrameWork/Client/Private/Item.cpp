@@ -21,7 +21,8 @@ HRESULT CItem::Initialize_Prototype()
 
 HRESULT CItem::Initialize(void* pArg)
 {
-
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -38,6 +39,10 @@ void CItem::LateTick(_float fTimeDelta)
 HRESULT CItem::Render()
 {
 	return S_OK;
+}
+
+void CItem::Upgrade_Item()
+{
 }
 
 HRESULT CItem::Ready_Components()
@@ -59,5 +64,4 @@ void CItem::Free()
 	__super::Free();
 
 	Safe_Release(m_pRendererCom);
-	Safe_Release(m_pItemTextureCom);
 }

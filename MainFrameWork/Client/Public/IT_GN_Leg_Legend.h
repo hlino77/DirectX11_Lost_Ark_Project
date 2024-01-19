@@ -5,12 +5,12 @@
 
 BEGIN(Client)
 
-class CIT_GN_WP_Mococo final : public CItem
+class CIT_GN_Leg_Legend final : public CItem
 {
 private:
-	CIT_GN_WP_Mococo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CIT_GN_WP_Mococo(const CIT_GN_WP_Mococo& rhs);
-	virtual ~CIT_GN_WP_Mococo() = default;
+	CIT_GN_Leg_Legend(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CIT_GN_Leg_Legend(const CIT_GN_Leg_Legend& rhs);
+	virtual ~CIT_GN_Leg_Legend() = default;
 
 public:
 	virtual HRESULT				Initialize_Prototype();
@@ -26,13 +26,8 @@ public:
 private:
 	virtual HRESULT				Ready_Components();
 
-private:
-	class CModel*				m_pModel_H = { nullptr };
-	class CModel*				m_pModel_L = { nullptr };
-	class CModel*				m_pModel_S = { nullptr };
-
 public:
-	static CIT_GN_WP_Mococo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CIT_GN_Leg_Legend* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

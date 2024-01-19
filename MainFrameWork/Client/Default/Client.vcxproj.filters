@@ -1201,47 +1201,89 @@
     <Filter Include="02.GameObjects\Item\Equip">
       <UniqueIdentifier>{3af5e5a8-a895-41f2-881d-d3a3987d1afe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear">
-      <UniqueIdentifier>{af6b3d53-d531-476f-8394-24240c32a8fc}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Item\Equip\GN">
+      <UniqueIdentifier>{334ef45a-50ce-4a49-bfbb-6a0b746d0e5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\GN_Helmet_Mococo">
-      <UniqueIdentifier>{a27ef66c-1f43-4e90-a943-f370b2cc2142}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Item\Equip\WDR">
+      <UniqueIdentifier>{a5f0eef2-24f2-4e5a-b8e0-bc4062a393c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\GN_Body_Mococo">
+    <Filter Include="02.GameObjects\Item\Equip\WR">
+      <UniqueIdentifier>{ea1f2198-831a-4f72-b8fc-af5ed4e3f1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG">
+      <UniqueIdentifier>{3be75d0a-bcda-445e-90d3-2fd1665df9ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear">
+      <UniqueIdentifier>{a9b27471-2e91-45e9-8acf-52b975aa0a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon">
+      <UniqueIdentifier>{b582a00c-903a-4fc2-a7de-9d02e3b5a4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear">
+      <UniqueIdentifier>{0d38a128-52d1-46b7-9d71-0c010ef50d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon">
+      <UniqueIdentifier>{74690754-429a-41dd-8710-0a19e8620f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear">
+      <UniqueIdentifier>{d6b6fb9d-29d2-4c4d-9c8d-a4150569b75d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon">
+      <UniqueIdentifier>{34e26d76-f86d-4988-9ca2-12a285802eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear">
+      <UniqueIdentifier>{1be6c7e0-2767-43ea-830f-854bce58d8c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon">
+      <UniqueIdentifier>{351f8000-06a2-4398-b662-0065f2bc855e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Body_Mococo">
       <UniqueIdentifier>{a754160a-0e71-4d1d-bc3f-46f04f664814}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\WDR_Body_Mococo">
-      <UniqueIdentifier>{ad8c724d-cdb0-49a8-8211-625d04649d7e}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Mococo">
+      <UniqueIdentifier>{a27ef66c-1f43-4e90-a943-f370b2cc2142}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo">
-      <UniqueIdentifier>{6766d5d1-210c-4e5b-a67c-f104036c8891}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Weapon">
-      <UniqueIdentifier>{d53e150d-ff71-4804-b872-7ad44348af5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\MG_Body_Mococo">
-      <UniqueIdentifier>{a4911090-94de-43ee-9b63-d4a5521da709}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\MG_Helmet_Mococo">
-      <UniqueIdentifier>{e384136e-8b0a-451b-9f2f-1b7108c41755}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\WR_Body_Mococo">
-      <UniqueIdentifier>{4e1a177b-4f8b-459c-bda0-6ace683a7984}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Gear\WR_Helmet_Mococo">
-      <UniqueIdentifier>{fe8db36b-6f41-4ff7-a4ec-d628860e79e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Weapon\GN_WP_Mococo">
+    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Mococo">
       <UniqueIdentifier>{fa77ec56-a350-41fa-9c5f-11ab2ce69a7f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Weapon\WDR_WP_Mococo">
-      <UniqueIdentifier>{d434522d-efe9-4e4b-8c93-d0471d6ab828}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Weapon\MG_WP_Mococo">
+    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Mococo">
       <UniqueIdentifier>{d65fe386-71e0-4d3e-8efd-012ee631dfe4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\Weapon\WR_WP_Mococo">
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Mococo">
+      <UniqueIdentifier>{d434522d-efe9-4e4b-8c93-d0471d6ab828}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Mococo">
       <UniqueIdentifier>{bbdeff4a-eaaa-413e-ae27-157494966ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Body_Mococo">
+      <UniqueIdentifier>{a4911090-94de-43ee-9b63-d4a5521da709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Mococo">
+      <UniqueIdentifier>{e384136e-8b0a-451b-9f2f-1b7108c41755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Mococo">
+      <UniqueIdentifier>{ad8c724d-cdb0-49a8-8211-625d04649d7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo">
+      <UniqueIdentifier>{6766d5d1-210c-4e5b-a67c-f104036c8891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Body_Mococo">
+      <UniqueIdentifier>{4e1a177b-4f8b-459c-bda0-6ace683a7984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Mococo">
+      <UniqueIdentifier>{fe8db36b-6f41-4ff7-a4ec-d628860e79e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend">
+      <UniqueIdentifier>{949c3916-f2d3-425f-a210-6af8b118fd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend">
+      <UniqueIdentifier>{1f40f748-0958-4904-b05c-92004bf27607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Legend">
+      <UniqueIdentifier>{a9c109a1-d9e7-4da3-85af-a7ad0a30deeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Leg_Legend">
+      <UniqueIdentifier>{c6dbfff5-a850-4b18-ad18-358fb3882280}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3861,40 +3903,40 @@
       <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_GN_Body_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\GN_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_GN_Helmet_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\GN_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_MG_Body_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\MG_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Body_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_MG_Helmet_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\MG_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_WR_Helmet_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\WR_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_WR_Body_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\WR_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Body_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_WDR_Body_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\WDR_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_GN_WP_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Weapon\GN_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_MG_WP_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Weapon\MG_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_WR_WP_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Weapon\WR_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_WDR_WP_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Weapon\WDR_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IT_WDR_Helmet_Mococo.h">
-      <Filter>02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_4_1.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
@@ -3916,6 +3958,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Gunslinger.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_GN_Body_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_GN_Helmet_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_GN_Leg_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Leg_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_GN_WP_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6511,40 +6565,40 @@
       <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_GN_Body_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\GN_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_GN_Helmet_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\GN_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_MG_Body_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\MG_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Body_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_MG_Helmet_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\MG_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_WR_Helmet_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\WR_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_WR_Body_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\WR_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Body_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_WDR_Body_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\WDR_Body_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_GN_WP_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Weapon\GN_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_MG_WP_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Weapon\MG_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_WR_WP_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Weapon\WR_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_WDR_WP_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Weapon\WDR_WP_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IT_WDR_Helmet_Mococo.cpp">
-      <Filter>02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo</Filter>
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_4_1.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
@@ -6566,6 +6620,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Gunslinger.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_GN_Body_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_GN_Helmet_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_GN_Leg_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Leg_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_GN_WP_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

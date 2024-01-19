@@ -184,7 +184,7 @@ public:
 	CModel*							 Get_ModelPart(_uint iPartIndex) { return m_pModelPartCom[iPartIndex]; }
 	void							 Set_ModelPart(_uint iPartIndex, CModel* pModel) {
 		m_pModelPartCom[iPartIndex] = pModel;
-		if ((_uint)PART::HELMET == iPartIndex)
+		if ((_uint)PART::HELMET == iPartIndex && nullptr != m_pModelPartCom[iPartIndex])
 			m_IsHair = m_pModelPartCom[iPartIndex]->Is_HairTexture();
 	}
 
@@ -192,9 +192,11 @@ public:
 	void							Set_PlayerStat_Desc(STATDESC tStatDesc) { m_tPCStatDesc = tStatDesc; }
 
 	CModel*							Get_DefaultPart(_uint iPartIndex) { return m_pDefaultModel[iPartIndex]; }
+	
 	//
-
-	unordered_map<CItem*, _uint>	Get_Items() { return m_mapItems; }
+	unordered_map<wstring, vector<class CItem*>>	Get_Items() { return m_mapItems; }
+	HRESULT							Add_Item(wstring strItemTag, class CItem* pItem);
+	HRESULT							Use_Item(wstring strItemTag);
 	CItem*							Get_EquipItem(_uint iPartIndex) { return m_pEqupis[iPartIndex]; }
 	void							Set_EquipItem(_uint iPartIndex, CItem* pEquipItem) { m_pEqupis[iPartIndex] = pEquipItem; }
 
@@ -279,7 +281,7 @@ protected:
 
 
 	/* 플레이어 아이템 변수 */
-	unordered_map<CItem*, _uint> m_mapItems;
+	unordered_map<wstring, vector<class CItem*>> m_mapItems;
 	CItem* m_pEqupis[(_uint)PART::_END] = { nullptr };
 
 	CModel* m_pDefaultModel[(_uint)PART::_END] = { nullptr };

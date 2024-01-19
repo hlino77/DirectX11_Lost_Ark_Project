@@ -35,7 +35,7 @@ private:
 	_int m_iHitEnd_Twist = 0;
 
 	_float m_fTimeAcc = 0.f;
-	_float m_fDownTime = 3.f;
+	_float m_fDownTime = 2.f;
 
 	CPlayer_Controller::HIT_TYPE m_eHitType;
 	_float m_fForceDist;

@@ -1,31 +1,31 @@
 #include "stdafx.h"
-#include "..\Public\IT_GN_WP_Mococo.h"
+#include "..\Public\IT_GN_WP_Legend.h"
 #include "Player.h"
 
-CIT_GN_WP_Mococo::CIT_GN_WP_Mococo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CIT_GN_WP_Legend::CIT_GN_WP_Legend(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CItem(pDevice, pContext)
 {
 }
 
-CIT_GN_WP_Mococo::CIT_GN_WP_Mococo(const CIT_GN_WP_Mococo& rhs)
+CIT_GN_WP_Legend::CIT_GN_WP_Legend(const CIT_GN_WP_Legend& rhs)
 	: CItem(rhs)
 {
 }
 
-HRESULT CIT_GN_WP_Mococo::Initialize_Prototype()
+HRESULT CIT_GN_WP_Legend::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CIT_GN_WP_Mococo::Initialize(void* pArg)
+HRESULT CIT_GN_WP_Legend::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	m_iItemGrade = (_uint)GRADE::PURPLE;
+	m_iItemGrade = (_uint)GRADE::RED;
 	m_iItemType = (_uint)TYPE::EQUIP;
 
-	m_strObjectTag = TEXT("IT_GN_WP_Mococo");
-	m_strItemName = TEXT("¸ðÄÚÄÚ ÃÑ");
+	m_strObjectTag = TEXT("IT_GN_WP_Legend");
+	m_strItemName = TEXT("Àü¼³ÀÇ ÃÑ");
 	m_strItemDescript = TEXT("");
 
 	m_tStatChangeDesc.iAtkPower = 100;
@@ -33,20 +33,20 @@ HRESULT CIT_GN_WP_Mococo::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CIT_GN_WP_Mococo::Tick(_float fTimeDelta)
+void CIT_GN_WP_Legend::Tick(_float fTimeDelta)
 {
 }
 
-void CIT_GN_WP_Mococo::LateTick(_float fTimeDelta)
+void CIT_GN_WP_Legend::LateTick(_float fTimeDelta)
 {
 }
 
-HRESULT CIT_GN_WP_Mococo::Render()
+HRESULT CIT_GN_WP_Legend::Render()
 {
 	return S_OK;
 }
 
-HRESULT CIT_GN_WP_Mococo::Use_Item(CPlayer* pOwner)
+HRESULT CIT_GN_WP_Legend::Use_Item(CPlayer* pOwner)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
@@ -67,7 +67,7 @@ HRESULT CIT_GN_WP_Mococo::Use_Item(CPlayer* pOwner)
 	return S_OK;
 }
 
-HRESULT CIT_GN_WP_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
+HRESULT CIT_GN_WP_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
@@ -87,19 +87,19 @@ HRESULT CIT_GN_WP_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	return S_OK;
 }
 
-HRESULT CIT_GN_WP_Mococo::Ready_Components()
+HRESULT CIT_GN_WP_Legend::Ready_Components()
 {
 	__super::Ready_Components();
 
-	wstring strComName = L"Prototype_Component_Model_GN_WP_Hand_Mococo";
+	wstring strComName = L"Prototype_Component_Model_GN_WP_Hand_Legend";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Hand"), (CComponent**)&m_pModel_H)))
 		return E_FAIL;
 
-	strComName = L"Prototype_Component_Model_GN_WP_Long_Mococo";
+	strComName = L"Prototype_Component_Model_GN_WP_Long_Legend";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Long"), (CComponent**)&m_pModel_L)))
 		return E_FAIL;
 
-	strComName = L"Prototype_Component_Model_GN_WP_Shot_Mococo";
+	strComName = L"Prototype_Component_Model_GN_WP_Shot_Legend";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Shot"), (CComponent**)&m_pModel_S)))
 		return E_FAIL;
 
@@ -110,33 +110,33 @@ HRESULT CIT_GN_WP_Mococo::Ready_Components()
 	return S_OK;
 }
 
-CIT_GN_WP_Mococo* CIT_GN_WP_Mococo::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CIT_GN_WP_Legend* CIT_GN_WP_Legend::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CIT_GN_WP_Mococo* pInstance = new CIT_GN_WP_Mococo(pDevice, pContext);
+	CIT_GN_WP_Legend* pInstance = new CIT_GN_WP_Legend(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CIT_GN_WP_Mococo");
+		MSG_BOX("Failed To Created : CIT_GN_WP_Legend");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CIT_GN_WP_Mococo::Clone(void* pArg)
+CGameObject* CIT_GN_WP_Legend::Clone(void* pArg)
 {
-	CIT_GN_WP_Mococo* pInstance = new CIT_GN_WP_Mococo(*this);
+	CIT_GN_WP_Legend* pInstance = new CIT_GN_WP_Legend(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CIT_GN_WP_Mococo");
+		MSG_BOX("Failed To Cloned : CIT_GN_WP_Legend");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CIT_GN_WP_Mococo::Free()
+void CIT_GN_WP_Legend::Free()
 {
 	__super::Free();
 

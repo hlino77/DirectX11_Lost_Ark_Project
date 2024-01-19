@@ -48,6 +48,7 @@ private:
 	virtual HRESULT Ready_Coliders() override;
 	HRESULT			Ready_State();
 	HRESULT			Ready_Skill();
+	HRESULT			Ready_Item();
 	
 
 private:
