@@ -1174,9 +1174,12 @@
     <Filter Include="01.Levels\04. ValtanEnterance">
       <UniqueIdentifier>{bb587fae-f286-4d49-b053-6f495306f69b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
-      <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
-    </Filter>
+	<Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
+	  <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
+	</Filter>
+	<Filter Include="02.GameObjects\AnimModel">
+	  <UniqueIdentifier>{ebd3eadb-62fe-47c9-99c0-b63ae46a5b9b}</UniqueIdentifier>
+	</Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3772,6 +3775,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_SeismicHammer.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\AnimModel.h">
+      <Filter>02.GameObjects\AnimModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6344,6 +6350,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_SeismicHammer.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\AnimModel.cpp">
+      <Filter>02.GameObjects\AnimModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
