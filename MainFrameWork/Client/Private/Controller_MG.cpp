@@ -213,6 +213,8 @@ void CController_MG::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 void CController_MG::Get_GrabMessage(CGameObject* pGrabber)
 {
 	__super::Get_GrabMessage(pGrabber);
+
+	static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Grabbed"));
 }
 
 void CController_MG::Get_GrabEndMessage()

@@ -35,6 +35,7 @@
 #include "State_WDR_Hit_Common.h"
 #include "State_WDR_Stand.h"
 #include "State_WDR_StandDash.h"
+#include "State_WDR_Grabbed.h"
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
@@ -519,6 +520,9 @@ HRESULT CPlayer_Destroyer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("StandDash"), CState_WDR_StandDash::Create(TEXT("StandDash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_WDR_Grabbed::Create(TEXT("Grabbed"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

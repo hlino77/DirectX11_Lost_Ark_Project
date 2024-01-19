@@ -27,12 +27,15 @@ private:
 	std::function<void(CState_GN_Grabbed&, _float)> m_TickFunc;
 
 	void	To_GrabPos(_float fTimeDelta);
+	void	ToNone_GrabPos(_float fTimeDelta);
 
 private:
 	//Animation
 	_int m_iGrabbed = 0;
 
 	Matrix m_SaveMatrix;
+
+	CGameObject* m_pValtan = { nullptr };
 
 public:
 	static CState_GN_Grabbed* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);

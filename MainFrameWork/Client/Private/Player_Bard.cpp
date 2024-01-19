@@ -31,6 +31,7 @@
 #include "State_MG_Hit_Common.h"
 #include "State_MG_Stand.h"
 #include "State_MG_StandDash.h"
+#include "State_MG_Grabbed.h"
 
 /* State_Skill */
 #include "State_MG_SoundShock.h"
@@ -469,6 +470,9 @@ HRESULT CPlayer_Bard::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("StandDash"), CState_MG_StandDash::Create(TEXT("StandDash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_MG_Grabbed::Create(TEXT("Grabbed"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

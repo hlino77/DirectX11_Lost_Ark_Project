@@ -41,6 +41,7 @@
 #include "State_WR_HitEnd.h"
 #include "State_WR_Stand.h"
 #include "State_WR_StandDash.h"
+#include "State_WR_Grabbed.h"
 
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
@@ -583,6 +584,9 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("StandDash"), CState_WR_StandDash::Create(TEXT("StandDash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_WR_Grabbed::Create(TEXT("Grabbed"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "StateMachine.h"
 #include "PartObject.h"
+#include "Model.h"
 
 BEGIN(Engine)
 class CModel;
@@ -23,6 +24,7 @@ class CParty;
 class CUI_SpeechBubble;
 class CUI_InGame_NamePlate;
 class CEffect;
+class CItem;
 
 class CPlayer : public CGameObject
 {
@@ -45,7 +47,26 @@ public:
 	}MODELDESC;
 
 public:
+	typedef struct tagStatDesc
+	{
+		uint64	iMaxHp;
+		uint64	iCurHp;
 
+		uint64	iMaxMp;
+		uint64	iCurMp;
+
+		_uint	iAtkPower;
+
+		_uint	iCrit;
+		_uint	iSpecialization;
+		_uint	iDomination;
+		_uint	iSwiftness;
+		_uint	iEndurance;
+		_uint	iExpertise;
+
+	}STATDESC;
+
+public:
 	typedef struct SkillInfoTag
 	{
 		_float m_fCoolTime;
@@ -147,23 +168,39 @@ public:
 	void					Reset_SlowMotion() { m_iSlowMotionCount = 0; Set_SlowMotion(false); }
 
 
-	virtual _bool			Get_CellPickingPos(Vec3& vPickPos);
+	virtual _bool					Get_CellPickingPos(Vec3& vPickPos);
 
-	CGameObject*			Get_Parts(const CPartObject::PARTS& ePart) { return m_Parts[ePart]; }
+	CGameObject*					Get_Parts(const CPartObject::PARTS& ePart) { return m_Parts[ePart]; }
+	void							Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
 
-	void					Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
+	void							Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
-	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+	CParty*							Get_Party() { return m_pParty; }
+	void							Set_Party(CParty* pParty) { m_pParty = pParty; }
 
-	CParty*					Get_Party() { return m_pParty; }
-	void					Set_Party(CParty* pParty) { m_pParty = pParty; }
+	const _bool&					Is_ClickNpc() { return m_IsClickNpc; }
 
-	const _bool&			Is_ClickNpc() { return m_IsClickNpc; }
+	/* 아이템관련 함수들 */
+	CModel*							 Get_ModelPart(_uint iPartIndex) { return m_pModelPartCom[iPartIndex]; }
+	void							 Set_ModelPart(_uint iPartIndex, CModel* pModel) {
+		m_pModelPartCom[iPartIndex] = pModel;
+		if ((_uint)PART::HELMET == iPartIndex)
+			m_IsHair = m_pModelPartCom[iPartIndex]->Is_HairTexture();
+	}
 
+	STATDESC						Get_PlayerStat_Desc() { return m_tPCStatDesc; }
+	void							Set_PlayerStat_Desc(STATDESC tStatDesc) { m_tPCStatDesc = tStatDesc; }
 
-	void					Add_Effect(const wstring& szEffectName, CEffect* pEffect);
-	void					Delete_Effect(const wstring& szEffectName);
-	CEffect*				Get_Effect(const wstring& szEffectName);
+	CModel*							Get_DefaultPart(_uint iPartIndex) { return m_pDefaultModel[iPartIndex]; }
+	//
+
+	unordered_map<CItem*, _uint>	Get_Items() { return m_mapItems; }
+	CItem*							Get_EquipItem(_uint iPartIndex) { return m_pEqupis[iPartIndex]; }
+	void							Set_EquipItem(_uint iPartIndex, CItem* pEquipItem) { m_pEqupis[iPartIndex] = pEquipItem; }
+
+	void							Add_Effect(const wstring& szEffectName, CEffect* pEffect);
+	void							Delete_Effect(const wstring& szEffectName);
+	CEffect*						Get_Effect(const wstring& szEffectName);
 public:
 	/* 플레이어 상태 세팅 */
 	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
@@ -233,14 +270,23 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
 protected:
 	/* 플레이어 변수 설정 */
+	STATDESC	m_tPCStatDesc;
+
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 
 	_bool	m_IsSuperiorArmor = false;
 
+
+	/* 플레이어 아이템 변수 */
+	unordered_map<CItem*, _uint> m_mapItems;
+	CItem* m_pEqupis[(_uint)PART::_END] = { nullptr };
+
+	CModel* m_pDefaultModel[(_uint)PART::_END] = { nullptr };
+
 	/* NPC 정보 변수 */
 	vector<CGameObject*> m_vecNpcs;
-	_bool				m_IsClickNpc = { false };
+	_bool				 m_IsClickNpc = { false };
 
 	/* UI */
 	CParty* m_pParty = nullptr;

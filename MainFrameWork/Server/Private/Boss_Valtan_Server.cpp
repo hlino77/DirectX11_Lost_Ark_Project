@@ -1696,7 +1696,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		//	return E_FAIL;
 		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 		//	return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
 			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;

@@ -38,6 +38,7 @@ void CState_WR_Grabbed::Enter_State()
 	m_SaveMatrix = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Set_Navi(false);
+
 }
 
 void CState_WR_Grabbed::Tick_State(_float fTimeDelta)
@@ -52,6 +53,8 @@ void CState_WR_Grabbed::Exit_State()
 
 	m_pPlayer->Get_TransformCom()->Set_Up(Vec3(0.f, 1.f, 0.f));
 	m_pPlayer->Set_Navi(true);
+
+	m_pValtan = nullptr;
 }
 
 void CState_WR_Grabbed::Tick_State_Control(_float fTimeDelta)
@@ -61,7 +64,7 @@ void CState_WR_Grabbed::Tick_State_Control(_float fTimeDelta)
 
 void CState_WR_Grabbed::Tick_State_NoneControl(_float fTimeDelta)
 {
-	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(m_pPlayer->Get_TargetMatrix());
+	ToNone_GrabPos(fTimeDelta);
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
@@ -80,8 +83,30 @@ void CState_WR_Grabbed::To_GrabPos(_float fTimeDelta)
 
 	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
 	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(0.01f, 0.01f, 0.01f));
+}
 
-	m_pPlayer->Set_TargetMatrix(m_pPlayer->Get_TransformCom()->Get_WorldMatrix());
+void CState_WR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (nullptr == m_pValtan)
+		m_pValtan = pGameInstance->Find_GameObejct(LEVELID::LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BOSS, TEXT("Boss_Valtan"));
+
+
+	Matrix Pivot = m_pValtan->Get_ModelCom()->Get_PivotMatrix();
+	XMMATRIX GrabMatrix = m_pValtan->Get_ModelCom()->Get_CombinedMatrix(m_pValtan->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand"))) * Pivot;
+
+	GrabMatrix.r[0] = XMVector3Normalize(GrabMatrix.r[0]);
+	GrabMatrix.r[1] = XMVector3Normalize(GrabMatrix.r[1]);
+	GrabMatrix.r[2] = XMVector3Normalize(GrabMatrix.r[2]);
+
+	Matrix WorldMatrix = m_SaveMatrix * GrabMatrix;
+	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_ModelCom()->Get_TransformCom()->Get_WorldMatrix();
+
+	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(0.01f, 0.01f, 0.01f));
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CState_WR_Grabbed* CState_WR_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
