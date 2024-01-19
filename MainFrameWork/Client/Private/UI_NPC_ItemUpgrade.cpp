@@ -40,67 +40,67 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
     //m_pTransform_HammerCap
     m_pTransform_HammerCap->Set_Scale(Vec3(423.f * 0.8f, 207.f * 0.8f, 1.f));
     m_pTransform_HammerCap->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 37.f) * 1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 40.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_HammerEffect
     m_pTransform_HammerEffect->Set_Scale(Vec3(556.f * 0.8f, 374.f * 0.8f, 1.f));
     m_pTransform_HammerEffect->Set_State(CTransform::STATE_POSITION,
-        Vec3((m_fX - 10.f) - g_iWinSizeX * 0.5f, -((m_fY - 108.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3((m_fX - 10.f) - g_iWinSizeX * 0.5f, -((m_fY - 108.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_HammerAura
     m_pTransform_HammerAura->Set_Scale(Vec3(669.f * 0.8f, 417.f * 0.8f, 1.f));
     m_pTransform_HammerAura->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 88.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 88.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_Gauge
     m_pTransform_Gauge->Set_Scale(Vec3(110.f * 0.8f, 110.f * 0.8f, 1.f));
     m_pTransform_Gauge->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 65.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 65.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_GaugeEffect
     m_pTransform_GaugeEffect->Set_Scale(Vec3(200.f * 0.8f, 200.f * 0.8f, 1.f));
     m_pTransform_GaugeEffect->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 65.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 65.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_GaugeSmoke
     m_pTransform_GaugeSmoke->Set_Scale(Vec3(152.f * 0.8f, 152.f * 0.8f, 1.f));
     m_pTransform_GaugeSmoke->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 65.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 65.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_GrowthButton
     m_pTransform_GrowthButton->Set_Scale(Vec3(108.f * 0.8f, 44.f * 0.8f, 1.f));
     m_pTransform_GrowthButton->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 36.f) * 1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 36.f)* 0.9f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_ItemName
     m_pTransform_ItemName->Set_Scale(Vec3(566.f * 0.8f, 98.f * 0.8f, 1.f));
     m_pTransform_ItemName->Set_State(CTransform::STATE_POSITION,
-        Vec3((m_fX - 4.f) - g_iWinSizeX * 0.5f, -((m_fY - 170.f) * 1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3((m_fX - 4.f) - g_iWinSizeX * 0.5f, -((m_fY - 170.f)) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_Ingredients
     m_pTransform_Ingredients->Set_Scale(Vec3(478.f * 0.8f, 189.f * 0.8f, 1.f));
     m_pTransform_Ingredients->Set_State(CTransform::STATE_POSITION,
-        Vec3((m_fX + 4.f) - g_iWinSizeX * 0.5f, -((m_fY + 212.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3((m_fX + 4.f) - g_iWinSizeX * 0.5f, -((m_fY + 212.f) * 0.9f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_UpgradeButton
     m_pTransform_UpgradeButton->Set_Scale(Vec3(221.f * 0.8f, 42.f * 0.8f, 1.f));
     m_pTransform_UpgradeButton->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 328.f)*1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 328.f) * 0.9f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_ItemSlot
     m_pTransform_ItemSlot->Set_Scale(Vec3(64.f * 0.8f, 64.f * 0.8f, 1.f));
     m_pTransform_ItemSlot->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 266.f) * 1.1f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 266.f) * 1.15f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_IngredientSlotL
     m_pTransform_IngredientSlotL->Set_Scale(Vec3(93.f * 0.8f, 104.f * 0.8f, 1.f));
     m_pTransform_IngredientSlotL->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX - 100.f)*1.1f) - g_iWinSizeX * 0.5f, -((m_fY + 190.f) * 0.8f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(((m_fX - 100.f)) - g_iWinSizeX * 0.5f, -((m_fY + 190.f) * 0.9f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_IngredientSlot
     m_pTransform_IngredientSlot->Set_Scale(Vec3(93.f * 0.8f, 104.f * 0.8f, 1.f));
     m_pTransform_IngredientSlot->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 190.f) * 0.8f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 190.f) * 0.9f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_IngredientSlotR
     m_pTransform_IngredientSlotR->Set_Scale(Vec3(93.f * 0.8f, 104.f * 0.8f, 1.f));
     m_pTransform_IngredientSlotR->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX + 100.f)*0.8f) - g_iWinSizeX * 0.5f, -((m_fY + 190.f) * 0.8f) + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(((m_fX + 100.f)) - g_iWinSizeX * 0.5f, -((m_fY + 190.f) * 0.9f) + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_SidePannel
     m_pTransform_SidePannel->Set_Scale(Vec3(450.f * 0.8f, 728.f * 0.8f, 1.f));
     m_pTransform_SidePannel->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX - 466.f) * 1.1f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(((m_fX - 466.f) * 1.25f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_SideWnd
     m_pTransform_SideWnd->Set_Scale(Vec3(450.f * 0.8f, 728.f * 0.8f, 1.f));
     m_pTransform_SideWnd->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX + 466.f) * 0.8f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(((m_fX + 466.f) * 0.85f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
     //m_pTransform_NpcSpeech_BackGround
     m_pTransform_NpcSpeech_BackGround->Set_Scale(Vec3(1700.f, 100.f*0.8f, 1.f));
     m_pTransform_NpcSpeech_BackGround->Set_State(CTransform::STATE_POSITION,
@@ -174,7 +174,7 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
-    if (FAILED(Bind_ShaderResources_HammerAura()))
+  /*  if (FAILED(Bind_ShaderResources_HammerAura()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
@@ -193,7 +193,7 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
         return E_FAIL;
    
     m_pShaderCom->Begin(3);
-    m_pVIBufferCom->Render();
+    m_pVIBufferCom->Render();*/
 
     if (FAILED(Bind_ShaderResources_GrowthButton()))
         return E_FAIL;
@@ -242,7 +242,7 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
 
     if (FAILED(Bind_ShaderResources_NpcSpeech_Wnd()))
         return E_FAIL;
-    m_pShaderCom->Begin(2);
+    m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
     if (FAILED(Bind_ShaderResources_QuitButton()))
