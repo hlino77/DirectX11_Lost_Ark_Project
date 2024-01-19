@@ -51,7 +51,7 @@ void CSkill::Tick(_float fTimeDelta)
 	if (m_fLastTime < 0.f)
 		for (auto& Collider : m_Coliders)
 			Collider.second->SetActive(false);
-	if (m_fLastTime < -0.5f)
+	if (m_fLastTime < -5.f)
 		Set_Die();
 }
 

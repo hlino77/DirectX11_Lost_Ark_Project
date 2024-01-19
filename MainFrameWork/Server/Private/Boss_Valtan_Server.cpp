@@ -618,7 +618,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 0.8f;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -723,25 +723,19 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	CBT_Action* pAttack10 = CValtan_BT_Attack_Attack10_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_5_02_start");
+	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_5_02_loop");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 0.f;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.bIsLoop = false;
-	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
+	AnimationDesc.strAnimName = TEXT("att_battle_1_02");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+
 	//십자 찍기
 	ActionDesc.strActionName = L"Action_Attack11";
 	CBT_Action* pAttack11 = CValtan_BT_Attack_Attack11_Server::Create(&ActionDesc);
@@ -1674,30 +1668,30 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
-		//	return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
+			return E_FAIL;
+		/*if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
+			return E_FAIL;*/
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 		if (FAILED(pIf_Armor->AddChild(pSequenceNormalAttack))) return E_FAIL;

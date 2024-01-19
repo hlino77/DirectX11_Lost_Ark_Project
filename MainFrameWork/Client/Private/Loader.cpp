@@ -153,9 +153,13 @@
 #include <SKill_Golem_Charge_Punch.h>
 #include <SKill_Golem_Jump.h>
 #include <SKill_Golem_Swipe.h>
-#include "SKill_Valtan_Doughnut.h"
+#include "SKill_Valtan_4_1.h"
+#include "SKill_Valtan_4_2.h"
+#include "SKill_Valtan_8_1.h"
+#include "SKill_Valtan_8_2.h"
+#include "SKill_Valtan_AxeWave.h"
 #include "SKill_Valtan_Breath.h"
-
+#include "SKill_Valtan_SeismicWave.h"
 
 //Lobby MQ
 #include "Player_Select_GN.h"
@@ -1062,10 +1066,36 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_AxeWave"),
+		CSKill_Valtan_AxeWave::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Doughnut"),
-		cSKill_Valtan_Doughnut::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_SeismicWave"),
+		CSKill_Valtan_SeismicWave::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_4_1"),
+		CSKill_Valtan_4_1::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_4_2"),
+		CSKill_Valtan_4_2::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_8_1"),
+		CSKill_Valtan_8_1::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_8_2"),
+		CSKill_Valtan_8_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
