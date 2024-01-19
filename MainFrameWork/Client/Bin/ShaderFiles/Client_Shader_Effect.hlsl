@@ -98,15 +98,10 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, out float fDisto
 
     clip(vColor.a - vColor_Clip.a);
 
-    if (EPSILON < fIntensity_Distortion)
-    {
-        if (bDistortionOnBaseMaterial)
-            fDistortion = fMask * fIntensity_Distortion;
-        else
-            fDistortion = vColor.r * fIntensity_Distortion;
-    }
+    if (bDistortionOnBaseMaterial)
+        fDistortion = fMask * fIntensity_Distortion;
     else
-        fDistortion = 0.f;
+        fDistortion = vColor.r * fIntensity_Distortion;
     
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
@@ -153,15 +148,10 @@ float4 CalculateEffectColorClamp(in float2 vUV, in float2 vOriginUV, out float f
 
     clip(vColor.a - vColor_Clip.a);
 
-    if (EPSILON < fIntensity_Distortion)
-    {
-        if (bDistortionOnBaseMaterial)
-            fDistortion = fMask * fIntensity_Distortion;
-        else
-            fDistortion = vColor.r * fIntensity_Distortion;
-    }
+    if (bDistortionOnBaseMaterial)
+        fDistortion = fMask * fIntensity_Distortion;
     else
-        fDistortion = 0.f;
+        fDistortion = vColor.r * fIntensity_Distortion;
     
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
