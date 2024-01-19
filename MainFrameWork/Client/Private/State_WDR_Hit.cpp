@@ -102,11 +102,6 @@ void CState_WDR_Hit::Exit_State()
 	m_fTimeAcc = 0.f;
 	m_pPlayer->Set_AnimationSpeed(1.f);
 	m_IsAnimEnd = false;
-
-	if (m_iHit == m_iHit_Down)
-	{
-		m_pController->Get_HitEndMessage();
-	}
 }
 
 void CState_WDR_Hit::Tick_State_Control(_float fTimeDelta)
@@ -141,6 +136,7 @@ void CState_WDR_Hit::Hit_Down(_float fTimeDelta)
 {
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHit))
 	{
+		m_pController->Get_HitEndMessage();
 		m_pPlayer->Set_AnimationSpeed(0.f);
 		m_IsAnimEnd = true;
 	}

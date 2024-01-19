@@ -31,6 +31,7 @@
 #include "State_MG_Hit_Common.h"
 #include "State_MG_Stand.h"
 #include "State_MG_StandDash.h"
+#include "State_MG_Grabbed.h"
 
 /* State_Skill */
 #include "State_MG_SoundShock.h"
@@ -216,6 +217,13 @@ void CPlayer_Bard::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 	{
+		if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == m_pController->Is_GrabState())
+			{
+				m_pController->Get_GrabMessage(pOther->Get_Owner());
+			}
+		}
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 		{
 			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
@@ -223,14 +231,17 @@ void CPlayer_Bard::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
 		{
 			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+
+			if (false == m_pController->Is_HitState())
+				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
 		}
 		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
 		{
 			Vec3 vCenter;
 			if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
 			{
-				m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+				if (false == m_pController->Is_HitState())
+					m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
 			}
 		}
 	}
@@ -459,6 +470,9 @@ HRESULT CPlayer_Bard::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("StandDash"), CState_MG_StandDash::Create(TEXT("StandDash"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_MG_Grabbed::Create(TEXT("Grabbed"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

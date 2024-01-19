@@ -71,6 +71,9 @@ public:
 	virtual void		Get_RootMessage();
 	virtual void		Get_RootZeroMessage();
 
+	virtual void		Get_GrabMessage(CGameObject* pGrabber);
+	virtual void		Get_GrabEndMessage();
+
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
 	_bool				Is_HitState() { return m_IsHitState; }
@@ -84,7 +87,10 @@ public:
 	_bool					Is_SkillSuccess(SKILL_KEY eKey);
 
 	SKILL_KEY				Get_Selected_Skill() { return m_eSelectedSkill; }
-	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey]; }
+	class CPlayer_Skill*	Get_PlayerSkill(SKILL_KEY eKey) { 
+		if (nullptr != m_pSkills[eKey]) return m_pSkills[eKey];
+		else return nullptr;
+	}
 	const wstring&		    Get_SkillStartName(SKILL_KEY eKey);
 
 	_float					Get_Skill_CoolDown(SKILL_KEY eKey) {
@@ -99,6 +105,9 @@ public:
 	HIT_TYPE				Get_HitType() { return m_eHitType; }
 	_float					Get_Forced() { return m_fForced; }
 	_uint					Get_Damaged() { return m_iDamaged; }
+
+	CGameObject*			Get_Grabber() { return m_pGrabber; }
+	_bool					Is_GrabState() { return m_IsGrabState; }
 
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
@@ -142,7 +151,7 @@ protected:
 	_float					m_fLerpLook_Speed = { 20.f };
 	_float					m_fMoveSpeed = { 3.f };
 
-	_float					m_fMoveLength = { 0.05f };
+	_float					m_fMoveLength = { 0.01f };
 
 	/* 플레이어 히트 변수*/
 	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };
@@ -150,6 +159,10 @@ protected:
 	_float					m_fForced = { 0.f };
 	Vec3					m_vHitColiPos;
 	_bool					m_IsHitState = { false };
+
+	/* 플레이어 그랩 변수 */
+	CGameObject*			m_pGrabber = { nullptr };
+	_bool					m_IsGrabState = { false };
 
 	/* 스킬 */
 	unordered_map<wstring, class CPlayer_Skill*> m_Skills;

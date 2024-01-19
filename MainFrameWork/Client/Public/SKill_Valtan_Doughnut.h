@@ -36,6 +36,7 @@ public:
 
 	virtual HRESULT					Ready_Coliders()override;
 
+	void	Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius);
 
 
 private:

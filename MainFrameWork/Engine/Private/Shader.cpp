@@ -142,6 +142,8 @@ HRESULT CShader::Push_GlobalVP()
 
 	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CShader::Push_ShadowWVP()
@@ -157,6 +159,8 @@ HRESULT CShader::Push_ShadowWVP()
 
 	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return S_OK;
+
+	return S_OK;
 }
 
 HRESULT CShader::Push_StaticShadowWVP()
@@ -186,6 +190,8 @@ HRESULT CShader::Push_ShadowVP()
 
 	if (FAILED(Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
 		return S_OK;
+
+	return S_OK;
 }
 
 HRESULT CShader::Bind_CBuffer(const string& strCBufferName, const void* pData, _uint iLength)

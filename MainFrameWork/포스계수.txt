@@ -1,0 +1,3 @@
+포스계수
+0	 		|10		|20		|30			|40		|50
+None		|DMG	|Down	|KnockDown	|bound	|Twist

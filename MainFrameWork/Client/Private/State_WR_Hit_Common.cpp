@@ -59,6 +59,9 @@ void CState_WR_Hit_Common::Enter_State()
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_SkillEndMessage();
+
+	/* 히트엔드*/
+	m_pController->Get_HitEndMessage();
 }
 
 void CState_WR_Hit_Common::Tick_State(_float fTimeDelta)
@@ -69,7 +72,6 @@ void CState_WR_Hit_Common::Tick_State(_float fTimeDelta)
 void CState_WR_Hit_Common::Exit_State()
 {
 	m_fTimeAcc = 0.f;
-	m_pController->Get_HitEndMessage();
 }
 
 void CState_WR_Hit_Common::Tick_State_Control(_float fTimeDelta)

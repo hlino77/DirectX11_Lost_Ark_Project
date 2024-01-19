@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "BT_Action.h"
+#include "Valtan_BT_Attack_Attack_Base.h"
 
 BEGIN(Client)
 
 class CValtan_BT_Attack_Attack1 :
-    public CBT_Action
+    public CValtan_BT_Attack_Attack_Base
 {
 private:
     CValtan_BT_Attack_Attack1();

@@ -176,6 +176,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="..\..\포스계수.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +245,19 @@
     <ClInclude Include="..\Public\ImGUI\imnodes_internal.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Public\Item.h" />
+    <ClInclude Include="..\Public\IT_GN_Body_Mococo.h" />
+    <ClInclude Include="..\Public\IT_GN_Helmet_Mococo.h" />
+    <ClInclude Include="..\Public\IT_GN_WP_Mococo.h" />
+    <ClInclude Include="..\Public\IT_MG_Body_Mococo.h" />
+    <ClInclude Include="..\Public\IT_MG_Helmet_Mococo.h" />
+    <ClInclude Include="..\Public\IT_MG_WP_Mococo.h" />
+    <ClInclude Include="..\Public\IT_WDR_Body_Mococo.h" />
+    <ClInclude Include="..\Public\IT_WDR_Helmet_Mococo.h" />
+    <ClInclude Include="..\Public\IT_WDR_WP_Mococo.h" />
+    <ClInclude Include="..\Public\IT_WR_Body_Mococo.h" />
+    <ClInclude Include="..\Public\IT_WR_Helmet_Mococo.h" />
+    <ClInclude Include="..\Public\IT_WR_WP_Mococo.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack2.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack3.h" />
     <ClInclude Include="..\Public\King_BT_Attack_Attack4.h" />
@@ -299,6 +313,7 @@
     <ClInclude Include="..\Public\Skill_MG_SongOfWind.h" />
     <ClInclude Include="..\Public\Skill_MG_SonicVibe.h" />
     <ClInclude Include="..\Public\Skill_MG_SoundShock.h" />
+    <ClInclude Include="..\Public\SKill_Valtan_Breath.h" />
     <ClInclude Include="..\Public\SKill_Valtan_Doughnut.h" />
     <ClInclude Include="..\Public\Skill_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\Skill_WDR_EndurePain.h" />
@@ -317,6 +332,7 @@
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
     <ClInclude Include="..\Public\SkyDome.h" />
+    <ClInclude Include="..\Public\State_GN_Grabbed.h" />
     <ClInclude Include="..\Public\State_GN_Hit.h" />
     <ClInclude Include="..\Public\State_GN_HitEnd.h" />
     <ClInclude Include="..\Public\State_GN_Hit_Common.h" />
@@ -329,6 +345,7 @@
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
     <ClInclude Include="..\Public\State_MG_Dash.h" />
+    <ClInclude Include="..\Public\State_MG_Grabbed.h" />
     <ClInclude Include="..\Public\State_MG_Hit.h" />
     <ClInclude Include="..\Public\State_MG_HitEnd.h" />
     <ClInclude Include="..\Public\State_MG_Hit_Common.h" />
@@ -358,6 +375,7 @@
     <ClInclude Include="..\Public\State_WDR_FullSwing_Loop.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Start.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Success.h" />
+    <ClInclude Include="..\Public\State_WDR_Grabbed.h" />
     <ClInclude Include="..\Public\State_WDR_HeavyCrush.h" />
     <ClInclude Include="..\Public\State_WDR_Hit.h" />
     <ClInclude Include="..\Public\State_WDR_HitEnd.h" />
@@ -415,6 +433,7 @@
     <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_Loop.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_Start.h" />
+    <ClInclude Include="..\Public\State_WR_Grabbed.h" />
     <ClInclude Include="..\Public\State_WR_Guillotine_End.h" />
     <ClInclude Include="..\Public\State_WR_Guillotine_Loop.h" />
     <ClInclude Include="..\Public\State_WR_Guillotine_Start.h" />
@@ -655,6 +674,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack7.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
@@ -741,6 +761,19 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp" />
+    <ClCompile Include="..\Private\Item.cpp" />
+    <ClCompile Include="..\Private\IT_GN_Body_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_GN_Helmet_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_GN_WP_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_MG_Body_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_MG_Helmet_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_MG_WP_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_WDR_Body_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_WDR_Helmet_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_WDR_WP_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_WR_Body_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_WR_Helmet_Mococo.cpp" />
+    <ClCompile Include="..\Private\IT_WR_WP_Mococo.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack2.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack3.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack4.cpp" />
@@ -796,6 +829,7 @@
     <ClCompile Include="..\Private\Skill_MG_SongOfWind.cpp" />
     <ClCompile Include="..\Private\Skill_MG_SonicVibe.cpp" />
     <ClCompile Include="..\Private\Skill_MG_SoundShock.cpp" />
+    <ClCompile Include="..\Private\SKill_Valtan_Breath.cpp" />
     <ClCompile Include="..\Private\SKill_Valtan_Doughnut.cpp" />
     <ClCompile Include="..\Private\Skill_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\Skill_WDR_EndurePain.cpp" />
@@ -814,6 +848,7 @@
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\SkyDome.cpp" />
+    <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit.cpp" />
     <ClCompile Include="..\Private\State_GN_HitEnd.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit_Common.cpp" />
@@ -827,6 +862,7 @@
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit.cpp" />
     <ClCompile Include="..\Private\State_MG_HitEnd.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit_Common.cpp" />
@@ -856,6 +892,7 @@
     <ClCompile Include="..\Private\State_WDR_FullSwing_Loop.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Success.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_WDR_HeavyCrush.cpp" />
     <ClCompile Include="..\Private\State_WDR_Hit.cpp" />
     <ClCompile Include="..\Private\State_WDR_HitEnd.cpp" />
@@ -913,6 +950,7 @@
     <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_WR_Guillotine_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Guillotine_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_Guillotine_Start.cpp" />
@@ -1158,6 +1196,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack7.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />

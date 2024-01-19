@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "BT_Action.h"
+#include "Valtan_BT_Attack_Attack_Base.h"
 
 BEGIN(Client)
 
 class CValtan_BT_Attack_Attack24 :
-    public CBT_Action
+    public CValtan_BT_Attack_Attack_Base
 {
 private:
     CValtan_BT_Attack_Attack24();
@@ -17,7 +17,8 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 private:
-    _bool        m_bTurn = false;
+    _bool        m_bShoot = false;
+
 public:
     static	CValtan_BT_Attack_Attack24* Create(void* pArg);
     virtual void Free() override;

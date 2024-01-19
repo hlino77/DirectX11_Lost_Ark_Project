@@ -33,7 +33,6 @@ HRESULT CEventMgr::Render()
 {
 	if (m_pCurrEvent)
 		return m_pCurrEvent->Render();
-		
 }
 
 HRESULT CEventMgr::Add_Event(CEvent* pEvent)

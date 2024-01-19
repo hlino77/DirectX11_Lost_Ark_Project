@@ -75,7 +75,7 @@ HRESULT CBoss_Valtan::Initialize_Prototype()
 
 HRESULT CBoss_Valtan::Initialize(void* pArg)
 {
-	m_iMaxGroggyGauge = 500;
+	m_iMaxGroggyGauge = 1000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 1991561183;
 	m_iHp = m_iMaxHp;
@@ -94,50 +94,14 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+	Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 	return S_OK;
 }
 
 void CBoss_Valtan::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//if (m_fTimeCount > 11.f)
-	//{
-	//	m_fTimeCount = 0.f;
-	//	CSkill::ModelDesc ModelDesc = {};
-	//	ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
-	//	ModelDesc.iObjectID = -1;
-	//	ModelDesc.pOwner = this;
 
-
-	//	CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_Doughnut", &ModelDesc);
-	//	if (pSkill != nullptr)
-	//	{
-	//		Vec3 vPos = m_pTransformCom ->Get_State(CTransform::STATE_POSITION);
-	//		Vec3 vLook =m_pTransformCom ->Get_State(CTransform::STATE_LOOK);
-	//		vLook.Normalize();
-	//		vPos += vLook * 0.1f;
-	//		pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-	//		pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-	//	}
-	//}
-	Vec3 vOffset = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Get_Offset();
-	if (KEY_HOLD(KEY::UP_ARROW) || KEY_HOLD(KEY::DOWN_ARROW))
-	{
-		if (KEY_HOLD(KEY::UP_ARROW) && KEY_HOLD(KEY::X))
-			vOffset.x += fTimeDelta;
-		if (KEY_HOLD(KEY::DOWN_ARROW) && KEY_HOLD(KEY::X))
-			vOffset.x -= fTimeDelta;
-		if (KEY_HOLD(KEY::UP_ARROW) && KEY_HOLD(KEY::Y))
-			vOffset.y += fTimeDelta;
-		if (KEY_HOLD(KEY::DOWN_ARROW) && KEY_HOLD(KEY::Y))
-			vOffset.y -= fTimeDelta;
-		if (KEY_HOLD(KEY::UP_ARROW) && KEY_HOLD(KEY::Z))
-			vOffset.z += fTimeDelta;
-		if (KEY_HOLD(KEY::DOWN_ARROW) && KEY_HOLD(KEY::Z))
-			vOffset.z -= fTimeDelta;
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(vOffset);
-		cout << vOffset.x << "	,	" << vOffset.y << "	,	" << vOffset.z << endl << endl;
-	}
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
 }
@@ -265,14 +229,13 @@ HRESULT CBoss_Valtan::Ready_Coliders()
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-spine")));
 
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(false);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.5f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("b_wp_r_01")));
 
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->SetActive(true);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->SetActive(false);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Radius(1.f);
-
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(Vec3(0.f, 1.3f, -1.1f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-l-hand")));
 
@@ -280,10 +243,13 @@ return S_OK;
 }
 
 
-void CBoss_Valtan::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame)
+void CBoss_Valtan::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed)
 {
+	if (m_pWeapon->Get_ModelCom()->Initailize_FindAnimation(strAnimName, fAnimspeed) > m_pWeapon->Get_ModelCom()->Get_MaxAnimIndex())
+		strAnimName = L"att_battle_8_01_loop";
 	m_pWeapon->Get_ModelCom()->Reserve_NextAnimation(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fChangeTime,
 		iStartFrame, iChangeFrame);
+	m_pWeapon->Get_ModelCom()->Set_Anim_Speed(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName) ,fAnimspeed);
 }
 
 HRESULT CBoss_Valtan::Ready_Components()

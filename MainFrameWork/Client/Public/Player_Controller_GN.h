@@ -31,6 +31,9 @@ public:
 	virtual void	Get_SkillMessage(GN_IDENTITY eIndex, SKILL_KEY eKey) { Skill(eIndex, eKey); }
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 
+	virtual void	Get_GrabMessage(CGameObject* pGrabber);
+	virtual void	Get_GrabEndMessage();
+
 public:
 	GN_IDENTITY		Get_GN_Identity() { return m_eIdentity; }
 	GN_IDENTITY		Get_GN_PreIdentity() { return m_ePreIdentity; }

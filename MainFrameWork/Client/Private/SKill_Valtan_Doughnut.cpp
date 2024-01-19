@@ -116,6 +116,15 @@ HRESULT cSKill_Valtan_Doughnut::Ready_Coliders()
 	return S_OK;
 }
 
+void cSKill_Valtan_Doughnut::Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius)
+{
+	if (OutsideRadius <= InsideRadius)
+		return;
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(OutsideRadius);
+
+	dynamic_cast<CDoughnutCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child())->Set_Radius(InsideRadius);
+}
+
 HRESULT cSKill_Valtan_Doughnut::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))

@@ -929,6 +929,9 @@
     <ClInclude Include="..\Public\ValtanMain_Server.h">
       <Filter>02. GameObject\08. ValtanRaid\ValtanMain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderRatioMultiple.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

@@ -39,6 +39,7 @@
 #include "State_GN_HitEnd.h"
 #include "State_GN_Stand.h"
 #include "State_GN_StandDash.h"
+#include "State_GN_Grabbed.h"
 
 /* State_Skill */
 #include "State_GN_FreeShooter.h"
@@ -257,7 +258,10 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
 		{
-			int a = 0;
+			if (false == m_pController->Is_GrabState())
+			{
+				m_pController->Get_GrabMessage(pOther->Get_Owner());
+			}
 		}
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 		{
@@ -266,14 +270,17 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
 		{
 			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+
+			if (false == m_pController->Is_HitState())
+				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
 		}
 		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
 		{
 			Vec3 vCenter;
 			if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
 			{
-				m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+				if (false == m_pController->Is_HitState())
+					m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
 			}
 		}
 	}
@@ -668,6 +675,9 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("StandDash"), CState_GN_StandDash::Create(TEXT("StandDash"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_GN_Grabbed::Create(TEXT("Grabbed"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -786,7 +796,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
-	SkillDesc.pOwner = this;
+	/*SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_Apocalypse_Start");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_Apocalypse_Loop")));
@@ -794,7 +804,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	pSkill = CSkill_GN_Apocalypse::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
-	SkillDesc.State_Skills.clear();
+	SkillDesc.State_Skills.clear();*/
 
 	SkillDesc.pOwner = this;
 	SkillDesc.strSkill_StartName = TEXT("Skill_GN_TargetDown_Start");
@@ -804,7 +814,7 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_GN_TargetDown_End")));
 	pSkill = CSkill_GN_TargetDown::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
-	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
 
 	return S_OK;
