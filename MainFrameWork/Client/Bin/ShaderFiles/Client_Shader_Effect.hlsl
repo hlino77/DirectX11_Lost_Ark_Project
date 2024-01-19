@@ -101,9 +101,9 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, out float fDisto
     if (EPSILON < fIntensity_Distortion)
     {
         if (bDistortionOnBaseMaterial)
-            fDistortion = (fMask * 2.0f - 1.0f) * fIntensity_Distortion;
+            fDistortion = fMask * fIntensity_Distortion;
         else
-            fDistortion = (vColor.r * 2.0f - 1.0f) * fIntensity_Distortion;
+            fDistortion = vColor.r * fIntensity_Distortion;
     }
     else
         fDistortion = 0.f;
