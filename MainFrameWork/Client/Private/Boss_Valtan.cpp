@@ -852,20 +852,28 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	CBT_Action* pAttack12_1 = CValtan_BT_Attack_Attack12::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
-	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
+	AnimationDesc.strAnimName = TEXT("evt1_att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_14_02");
+	AnimationDesc.strAnimName = TEXT("att_battle_5_02_start");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_14_03");
+	AnimationDesc.strAnimName = TEXT("att_battle_5_02_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 1.f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_5_02_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
