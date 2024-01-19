@@ -228,13 +228,10 @@ HRESULT CVoidEffect::Render()
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
 		return E_FAIL;
 
-	if (m_fTimeAcc < m_fRadialTime)
+	if (FLT_EPSILON < m_fRadialTime)
 	{
-		m_pRendererCom->Set_RadialBlurData(matCombined.Translation(), m_fRadialIntensity);
-	}
-	else
-	{
-		m_pRendererCom->Set_RadialBlurData(Vec3(0.f, 0.f, 0.f), 0.f);
+		if (m_fTimeAcc < m_fRadialTime)
+			m_pRendererCom->Set_RadialBlurData(matCombined.Translation(), m_fRadialIntensity);
 	}
 
 	if (0 == m_iEffectType)

@@ -1346,8 +1346,10 @@ HRESULT CRenderer::Render_PostProcess()
 		return E_FAIL;
 
 	// Motion Blur
-	if (pPipeLine->Is_CamMoved())
+	if (pPipeLine->Is_CamMoved() || false == m_bMotionBlurInitialized)
 	{
+		if (false == m_bMotionBlurInitialized) m_bMotionBlurInitialized = true;
+
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_MotionBlur"))))
 			return E_FAIL;
 
@@ -1423,6 +1425,9 @@ HRESULT CRenderer::Render_PostProcess()
 
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_PostProcessedTarget")))
 			return E_FAIL;
+
+		m_tRadialBlurData.fRadialBlurIntensity = 0.f;
+		m_tRadialBlurData.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
 	}
 
 	// 최종 화면

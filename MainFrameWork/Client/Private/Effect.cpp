@@ -283,10 +283,11 @@ HRESULT CEffect::Render()
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
 		return E_FAIL;
 
-	if (m_fTimeAcc < m_fRadialTime)
-		m_pRendererCom->Set_RadialBlurData(m_matCombined.Translation(), m_fRadialIntensity);
-	else
-		m_pRendererCom->Set_RadialBlurData(Vec3(0.f, 0.f, 0.f), 0.f);
+	if (FLT_EPSILON < m_fRadialTime)
+	{
+		if (m_fTimeAcc < m_fRadialTime)
+			m_pRendererCom->Set_RadialBlurData(m_matCombined.Translation(), m_fRadialIntensity);
+	}
 
 	return S_OK;
 }
