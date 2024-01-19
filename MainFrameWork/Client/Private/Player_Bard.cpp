@@ -372,6 +372,25 @@ HRESULT CPlayer_Bard::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
 		return E_FAIL;
 
+
+	/* 디폴트 장비 설정 */
+	strComName = L"Prototype_Component_Model_MG_Body_Default";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::BODY])))
+		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_MG_Shoulder_Default";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Shoulder_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::SHOULDER])))
+		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_MG_Arm_Default";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Arm_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::ARM])))
+		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_MG_Leg_Default";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Leg_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::LEG])))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 

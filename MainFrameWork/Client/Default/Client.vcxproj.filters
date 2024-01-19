@@ -1174,12 +1174,12 @@
     <Filter Include="01.Levels\04. ValtanEnterance">
       <UniqueIdentifier>{bb587fae-f286-4d49-b053-6f495306f69b}</UniqueIdentifier>
     </Filter>
-	<Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
-	  <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
-	</Filter>
-	<Filter Include="02.GameObjects\AnimModel">
-	  <UniqueIdentifier>{ebd3eadb-62fe-47c9-99c0-b63ae46a5b9b}</UniqueIdentifier>
-	</Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
+      <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\AnimModel">
+      <UniqueIdentifier>{ebd3eadb-62fe-47c9-99c0-b63ae46a5b9b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Grab">
       <UniqueIdentifier>{55a32f88-7551-49d5-ac58-f3e8cc1833cf}</UniqueIdentifier>
     </Filter>
@@ -3663,9 +3663,6 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_Gunslinger.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClInclude>
@@ -3829,10 +3826,10 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_SeismicHammer.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\AnimModel.h">
       <Filter>02.GameObjects\AnimModel</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
     </ClInclude>
@@ -3898,7 +3895,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\IT_WDR_Helmet_Mococo.h">
       <Filter>02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_4_1.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
@@ -3916,6 +3913,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_SeismicWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Gunslinger.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6307,9 +6307,6 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClCompile>
@@ -6479,10 +6476,10 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_SeismicHammer.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\AnimModel.cpp">
       <Filter>02.GameObjects\AnimModel</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
     </ClCompile>
@@ -6548,7 +6545,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\IT_WDR_Helmet_Mococo.cpp">
       <Filter>02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_4_1.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
@@ -6567,6 +6564,9 @@
     <ClCompile Include="..\Private\SKill_Valtan_SeismicWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Player_Gunslinger.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -6574,9 +6574,6 @@
     </Image>
     <Image Include="small.ico">
       <Filter>98.Default</Filter>
-    </Image>
-    <Image Include="..\Bin\Resources\Textures\UI\Character_Select\Game_Button0.png">
-      <Filter>02.GameObjects</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
