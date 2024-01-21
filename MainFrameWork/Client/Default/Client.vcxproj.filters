@@ -1285,6 +1285,51 @@
     <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Leg_Legend">
       <UniqueIdentifier>{c6dbfff5-a850-4b18-ad18-358fb3882280}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Legend">
+      <UniqueIdentifier>{46fa5bf2-94c3-4cda-825f-b5feaa20046a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Legend">
+      <UniqueIdentifier>{51a1d0d7-4ad1-49fd-ac74-0cc50e0cc78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Legend">
+      <UniqueIdentifier>{e7781af6-76c6-461f-a47b-e0607fc43b9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Legend">
+      <UniqueIdentifier>{77077713-91b4-49e5-96e5-d85fb0424f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Body_Legend">
+      <UniqueIdentifier>{4235de12-37e2-4e77-a730-87770cca7ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Legend">
+      <UniqueIdentifier>{f847c93e-e6b9-4ab8-b75f-d7bba3ca0bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Leg_Legend">
+      <UniqueIdentifier>{e3bfbcd2-73e1-4513-99f6-6bfda71029ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Stop">
+      <UniqueIdentifier>{509a66dc-2e7c-4187-9e9a-5215e419725b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stop">
+      <UniqueIdentifier>{faaa8751-57b7-49a2-acb8-42b463c46267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
+      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stop">
+      <UniqueIdentifier>{a4a466ce-67ee-46d1-9950-11cce2825be5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Legend">
+      <UniqueIdentifier>{15867e89-e8e0-4433-a3e6-6e2206284092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Body_Legend">
+      <UniqueIdentifier>{bff42251-a28a-494b-b5f6-30c5eed6c910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend">
+      <UniqueIdentifier>{94b1b026-fe1d-4e17-bbc7-2b8e51dc0150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Leg_Legend">
+      <UniqueIdentifier>{dfce9891-b186-4d90-82ff-0be2cb37fc4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3971,6 +4016,51 @@
     <ClInclude Include="..\Public\IT_GN_WP_Legend.h">
       <Filter>02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\IT_WDR_Body_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_WDR_Helmet_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_WDR_WP_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_WR_Leg_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Leg_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_WR_WP_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_WR_Helmet_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_WR_Body_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Body_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Stop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Stop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_MG_Helmet_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_MG_Body_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Body_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_MG_Leg_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Leg_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_MG_WP_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6632,6 +6722,51 @@
     </ClCompile>
     <ClCompile Include="..\Private\IT_GN_WP_Legend.cpp">
       <Filter>02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WDR_Body_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WDR_Helmet_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WDR_WP_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WR_Leg_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Leg_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WR_WP_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WR_Helmet_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_WR_Body_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\WR\Gear\WR_Body_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Stop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Stop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Stop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Stop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_MG_Helmet_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_MG_Body_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Body_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_MG_Leg_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\MG\Gear\MG_Leg_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_MG_WP_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

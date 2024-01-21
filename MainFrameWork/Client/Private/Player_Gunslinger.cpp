@@ -40,6 +40,7 @@
 #include "State_GN_Stand.h"
 #include "State_GN_StandDash.h"
 #include "State_GN_Grabbed.h"
+#include "State_GN_Stop.h"
 
 /* State_Skill */
 #include "State_GN_FreeShooter.h"
@@ -326,6 +327,16 @@ void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOthe
 
 void CPlayer_Gunslinger::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Stop") == Get_State())
+			{
+				Set_State(TEXT("Idle"));
+			}
+		}
+	}
 }
 
 void CPlayer_Gunslinger::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)
@@ -440,20 +451,6 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 		return E_FAIL;
 
 	/* 초기 장비 및 얼굴 설정 */
-	//wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
-	//	return E_FAIL;
-
-	//m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
-
-	//strComName = L"Prototype_Component_Model_GN_Legend_Body";
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
-	//	return E_FAIL;
-
-	//strComName = L"Prototype_Component_Model_GN_Legend_Leg";
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Leg"), (CComponent**)&m_pModelPartCom[(_uint)PART::LEG])))
-	//	return E_FAIL;
-
 	wstring strComName = L"Prototype_Component_Model_GN_Face";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
@@ -711,6 +708,9 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_GN_Grabbed::Create(TEXT("Grabbed"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Stop"), CState_GN_Stop::Create(TEXT("Stop"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

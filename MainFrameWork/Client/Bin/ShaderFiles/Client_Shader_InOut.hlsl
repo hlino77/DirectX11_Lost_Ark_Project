@@ -139,7 +139,7 @@ struct PS_OUT_PHONG
     float4  vNormal : SV_TARGET1;
     float4  vNormalV : SV_TARGET2;
     float4  vProperties : SV_TARGET3;
-	//float4 vEmissive : SV_TARGET5;
+	float4  vEmissive : SV_TARGET4;
 };
 
 struct PS_OUT_EFFECT

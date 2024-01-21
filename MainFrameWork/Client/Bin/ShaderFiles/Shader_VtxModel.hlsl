@@ -98,24 +98,80 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     if (0.2f >= Out.vDiffuse.a)
         discard;
 
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+	
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
+    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
+    
     float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
     float4 vGiven;
     
     float maxColor = max(max(vMRMask.r, vMRMask.g), vMRMask.b);
-        
-    if (0 != maxColor)
+    float maxR = g_vColor_R.r + g_vColor_R.g + g_vColor_R.b;
+    float maxG = g_vColor_G.r + g_vColor_G.g + g_vColor_G.b;
+    float maxB = g_vColor_B.r + g_vColor_B.g + g_vColor_B.b;
+    
+    if (0.3f <= maxColor)
     {
-        if (vMRMask.r == maxColor)
-            vGiven = g_vColor_R;
+        if (0 != vMRMask.r && vMRMask.r == vMRMask.g && vMRMask.g == vMRMask.b)
+        {
+            if (maxR > maxG)
+            {
+                vGiven = g_vColor_R;
+            }
+            else if (maxR > maxB)
+            {
+                vGiven = g_vColor_R;
+            }
+            else if (maxG > maxB)
+            {
+                vGiven = g_vColor_G;
+            }
+            else
+            {
+                vGiven = g_vColor_B;
+            }
+        }
         else if (0 != vMRMask.r && vMRMask.r == vMRMask.g)
-            vGiven = g_vColor_G;
+        {
+            if (maxR > maxG)
+            {
+                vGiven = g_vColor_R;
+            }
+            else
+            {
+                vGiven = g_vColor_G;
+            }
+        }
         else if (0 != vMRMask.r && vMRMask.r == vMRMask.b)
+        {
+            if (maxR > maxB)
+            {
+                vGiven = g_vColor_R;
+            }
+            else
+            {
+                vGiven = g_vColor_B;
+            }
+        }
+        else if (vMRMask.r == maxColor)
+        {
             vGiven = g_vColor_R;
+        }
         else if (0 != vMRMask.g && vMRMask.g == vMRMask.b)
-            vGiven = g_vColor_B;
+        {
+            if (maxG > maxB)
+            {
+                vGiven = g_vColor_G;
+            }
+            else
+            {
+                vGiven = g_vColor_B;
+            }
+        }
         else if (vMRMask.g == maxColor)
             vGiven = g_vColor_G;
-        else
+        else if (vMRMask.b == maxColor)
             vGiven = g_vColor_B;
         
         if (0 != vGiven.a)
@@ -125,12 +181,9 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
             Out.vDiffuse.a = 1.f;
         }
     }
-        
-    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
-    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
-    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
-	
+    Out.vProperties.z = MT_DYNAMIC;
+    
     return Out;
 }
 

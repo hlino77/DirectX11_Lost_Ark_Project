@@ -32,6 +32,7 @@
 #include "State_MG_Stand.h"
 #include "State_MG_StandDash.h"
 #include "State_MG_Grabbed.h"
+#include "State_MG_Stop.h"
 
 /* State_Skill */
 #include "State_MG_SoundShock.h"
@@ -102,8 +103,8 @@ HRESULT CPlayer_Bard::Initialize(void* pArg)
 
 	m_fAttackMoveSpeed = 8.0f;
 
-	m_vHairColor_1 = { 0.78f, 0.78f, 0.78f, 1.f };
-	m_vHairColor_2 = { 0.82f, 0.82f, 0.82f, 1.f };
+	m_vHairColor_1 = { 0.82f, 0.78f, 0.65f, 1.f };
+	m_vHairColor_2 = { 0.82f, 0.78f, 0.65f, 1.f };
 
 	/* 플레이어 공통 요소 */
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
@@ -124,6 +125,35 @@ HRESULT CPlayer_Bard::Initialize(void* pArg)
 
 void CPlayer_Bard::Tick(_float fTimeDelta)
 {
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::O))
+	{
+		Use_Item(TEXT("IT_MG_WP_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::P))
+	{
+		Use_Item(TEXT("IT_MG_WP_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::J))
+	{
+		Use_Item(TEXT("IT_MG_Helmet_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::K))
+	{
+		Use_Item(TEXT("IT_MG_Body_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::L))
+	{
+		Use_Item(TEXT("IT_MG_Leg_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::N))
+	{
+		Use_Item(TEXT("IT_MG_Helmet_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
+	{
+		Use_Item(TEXT("IT_MG_Body_Mococo"));
+	}
+
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
@@ -283,6 +313,16 @@ void CPlayer_Bard::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 
 void CPlayer_Bard::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Stop") == Get_State())
+			{
+				Set_State(TEXT("Idle"));
+			}
+		}
+	}
 }
 
 void CPlayer_Bard::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)
@@ -365,8 +405,13 @@ HRESULT CPlayer_Bard::Ready_Components()
 		TEXT("Com_Controller"), (CComponent**)&m_pController, &Control_Desc)))
 		return E_FAIL;
 
+	/* 초기 장비 및 얼굴 설정 */
+	wstring strComName = L"Prototype_Component_Model_MG_Face";
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
+		return E_FAIL;
+
 	/* 디폴트 장비 설정 */
-	wstring strComName = L"Prototype_Component_Model_MG_Body_Default";
+	strComName = L"Prototype_Component_Model_MG_Body_Default";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::BODY])))
 		return E_FAIL;
 
@@ -484,6 +529,9 @@ HRESULT CPlayer_Bard::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_MG_Grabbed::Create(TEXT("Grabbed"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Stop"), CState_MG_Stop::Create(TEXT("Stop"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
@@ -627,6 +675,34 @@ HRESULT CPlayer_Bard::Ready_Item()
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_WP_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_Helmet_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_Body_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_Leg_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	return S_OK;
 }

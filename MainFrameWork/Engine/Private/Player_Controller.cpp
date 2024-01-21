@@ -251,30 +251,52 @@ void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 
 	m_vHitColiPos = vPos;
 
-	if (10.f <= fForce && 20.f > fForce)
+	_float fCheckType = fabs(fForce);
+
+	if (10.f <= fCheckType && 20.f > fCheckType)
 	{
 		m_eHitType = HIT_TYPE::DMG;
-		m_fForced = fForce - 10.f;
+
+		if(fForce < 0)
+			m_fForced = fForce + 10.f;
+		else
+			m_fForced = fForce - 10.f;
 	}
-	else if (20.f <= fForce && 30.f > fForce)
+	else if (20.f <= fCheckType && 30.f > fCheckType)
 	{
 		m_eHitType = HIT_TYPE::DOWN;
-		m_fForced = fForce - 20.f;
+		
+		if (fForce < 0)
+			m_fForced = fForce + 20.f;
+		else
+			m_fForced = fForce - 20.f;
 	}
-	else if (30.f <= fForce && 40.f > fForce)
+	else if (30.f <= fCheckType && 40.f > fCheckType)
 	{
 		m_eHitType = HIT_TYPE::KNOCKDOWN;
-		m_fForced = fForce - 30.f;
+		
+		if (fForce < 0)
+			m_fForced = fForce + 30.f;
+		else
+			m_fForced = fForce - 30.f;
 	}
-	else if (40.f <= fForce && 50.f > fForce)
+	else if (40.f <= fCheckType && 50.f > fCheckType)
 	{
 		m_eHitType = HIT_TYPE::BOUND;
-		m_fForced = fForce - 40.f;
+	
+		if (fForce < 0)
+			m_fForced = fForce + 40.f;
+		else
+			m_fForced = fForce - 40.f;
 	}
-	else if (50.f <= fForce)
+	else if (50.f <= fCheckType)
 	{
 		m_eHitType = HIT_TYPE::TWIST;
-		m_fForced = fForce - 50.f;
+
+		if (fForce < 0)
+			m_fForced = fForce + 50.f;
+		else
+			m_fForced = fForce - 50.f;
 	}
 	else
 	{

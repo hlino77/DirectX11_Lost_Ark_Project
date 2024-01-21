@@ -198,12 +198,25 @@
 #include "IT_MG_Body_Mococo.h"
 #include "IT_MG_Helmet_Mococo.h"
 #include "IT_MG_WP_Mococo.h"
+#include "IT_MG_WP_Legend.h"
+#include "IT_MG_Body_Legend.h"
+#include "IT_MG_Leg_Legend.h"
+#include "IT_MG_Helmet_Legend.h"
+
 #include "IT_WR_Body_Mococo.h"
 #include "IT_WR_Helmet_Mococo.h"
 #include "IT_WR_WP_Mococo.h"
+#include "IT_WR_Body_Legend.h"
+#include "IT_WR_Helmet_Legend.h"
+#include "IT_WR_Leg_Legend.h"
+#include "IT_WR_WP_Legend.h"
+
 #include "IT_WDR_Body_Mococo.h"
 #include "IT_WDR_Helmet_Mococo.h"
 #include "IT_WDR_WP_Mococo.h"
+#include "IT_WDR_Body_Legend.h"
+#include "IT_WDR_Helmet_Legend.h"
+#include "IT_WDR_WP_Legend.h"
 
 namespace fs = std::filesystem;
 
@@ -1256,6 +1269,26 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Body_Legend"),
+		CIT_WR_Body_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Helmet_Legend"),
+		CIT_WR_Helmet_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Leg_Legend"),
+		CIT_WR_Leg_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_WP_Legend"),
+		CIT_WR_WP_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Body_Mococo"),
 		CIT_WDR_Body_Mococo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1271,6 +1304,40 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_WP_Legend"),
+		CIT_WDR_WP_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Body_Legend"),
+		CIT_WDR_Body_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Helmet_Legend"),
+		CIT_WDR_Helmet_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Helmet_Legend"),
+		CIT_MG_Helmet_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Body_Legend"),
+		CIT_MG_Body_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Leg_Legend"),
+		CIT_MG_Leg_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_WP_Legend"),
+		CIT_MG_WP_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	while (true)
 	{

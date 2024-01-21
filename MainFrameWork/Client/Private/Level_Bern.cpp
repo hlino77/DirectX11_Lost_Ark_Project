@@ -451,6 +451,7 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
+	/* GN */
 	CGameObject* pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_GN_Body_Mococo"));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -479,6 +480,7 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 	if (nullptr == pItem)
 		return E_FAIL;
 
+	/* MG */
 	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_Body_Mococo"));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -491,6 +493,7 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 	if (nullptr == pItem)
 		return E_FAIL;
 
+	/* WR */
 	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_Body_Mococo"));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -503,6 +506,23 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 	if (nullptr == pItem)
 		return E_FAIL;
 
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_WP_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_Body_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_Leg_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WR_Helmet_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	/* WDR */
 	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_Body_Mococo"));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -512,6 +532,34 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 
 	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_WP_Mococo"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_WP_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_Body_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_WDR_Helmet_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_Helmet_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_Body_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_Leg_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_MG_WP_Legend"));
 	if (nullptr == pItem)
 		return E_FAIL;
 

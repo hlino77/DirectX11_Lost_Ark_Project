@@ -131,6 +131,8 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
     Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
 	
+    Out.vProperties.z = MT_DYNAMIC;
+    
     return Out;
 }
 
