@@ -8,7 +8,10 @@
 #include "AsUtils.h"
 #include "NavigationMgr.h"
 #include "GameSession.h"
-
+#include <filesystem>
+#include "BreakAbleObject_Server.h"
+#include "ColliderSphere.h"
+#include "ColliderOBB.h"
 
 CValtanMain_Server::CValtanMain_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"VALTANMAIN", OBJ_TYPE::DUNGEAN)
@@ -33,6 +36,14 @@ HRESULT CValtanMain_Server::Initialize(void* pArg)
 
 	
 	Send_OpenLevel();
+
+
+	//if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Test0121.data"))))
+	//{
+	//	return E_FAIL;
+	//}
+
+
 
 	m_bEnd = false;
 	m_fEndDelay = 5.0f;
@@ -206,6 +217,177 @@ HRESULT CValtanMain_Server::Broadcast_PlayerInfo()
 		dynamic_cast<CPlayer_Server*>(Player)->Get_GameSession()->Send(pSendBuffer);
 
 	return S_OK;
+}
+
+HRESULT	CValtanMain_Server::Load_BossMapData(LEVELID eLevel, const wstring& szFullPath)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	shared_ptr<CAsFileUtils> file = make_shared<CAsFileUtils>();
+	file->Open(szFullPath, FileMode::Read);
+
+	Vec3	QuadTreePosition = {};
+	Vec3	QuadTreeScale = {};
+	_uint	QuadTreeMaxDepth = {};
+
+	file->Read<Vec3>(QuadTreePosition);
+	file->Read<Vec3>(QuadTreeScale);
+	file->Read<_uint>(QuadTreeMaxDepth);
+
+
+	_uint iSize = file->Read<_uint>(); // Object List Size 
+
+
+	bool fileFound = false;
+
+	for (_uint i = 0; i < iSize; ++i)
+	{
+		string strFileName = file->Read<string>(); // Object Model FileName
+		wstring selectedPath = {};
+
+		// Object World Matrix
+		Matrix	matWorld = file->Read<Matrix>();
+
+		// Object ModelType
+		_uint ModelType = file->Read<_uint>();
+
+		// Instancing Check 
+		_bool bInstance = file->Read<_bool>();
+
+
+		// Clone GameObject
+		CGameObject* pObject = nullptr;
+
+		if (0 == ModelType) // NonAnim
+		{
+			CBreakAbleObject_Server::MODELDESC Desc;
+			Desc.strFileName = CAsUtils::ToWString(strFileName);
+			Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BACKGROUND;
+			
+
+
+			// Under Navi Cell Info
+			_uint vecNavicellsize = file->Read<_uint>(); // Read Vector Size
+
+
+			// Not Creat
+			if (vecNavicellsize <= 0)
+			{
+				for (size_t i = 0; i < vecNavicellsize; i++)
+				{
+					_uint CellIndex = file->Read<_uint>();
+
+
+				}
+				_uint iColliderCount = file->Read<_uint>();
+
+				for (_uint i = 0; i < iColliderCount; ++i)
+				{
+
+					Vec3 vOffset = file->Read<Vec3>();
+					_float fRadius = file->Read<_float>();
+
+					_bool bChild = file->Read<_bool>();
+
+					if (bChild)
+					{
+
+						Vec3 vOffset = file->Read<Vec3>();
+						Vec3 vScale = file->Read<Vec3>();
+
+						Quaternion vQuat = file->Read<Quaternion>();
+					}
+				}
+			}
+			else // Creat BreakAbleObjcet
+			{
+				Desc.iObjectID = g_iObjectID++;
+
+				pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_BreakAbleObject"), &Desc);
+				pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+
+				for (size_t i = 0; i < vecNavicellsize; i++)
+				{
+					_uint CellIndex = file->Read<_uint>();
+
+					dynamic_cast<CBreakAbleObject_Server*>(pObject)->Add_NaviCellIndex(CellIndex);
+					CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
+				}
+
+				_uint iColliderCount = file->Read<_uint>();
+
+				for (_uint i = 0; i < iColliderCount; ++i)
+				{
+
+					dynamic_cast<CBreakAbleObject_Server*>(pObject)->Add_Collider();
+
+					CSphereCollider* pCollider = dynamic_cast<CBreakAbleObject_Server*>(pObject)->Get_StaticCollider(i);
+
+					{
+						Vec3 vOffset = file->Read<Vec3>();
+						pCollider->Set_Offset(vOffset);
+
+
+						_float fRadius = file->Read<_float>();
+						pCollider->Set_Radius(fRadius);
+
+
+						pCollider->Set_Center();
+					}
+
+					_bool bChild = file->Read<_bool>();
+
+					if (bChild)
+					{
+						dynamic_cast<CBreakAbleObject_Server*>(pObject)->Add_ChildCollider(i);
+
+						COBBCollider* pChild = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
+
+
+						Vec3 vOffset = file->Read<Vec3>();
+						pChild->Set_Offset(vOffset);
+
+						Vec3 vScale = file->Read<Vec3>();
+						pChild->Set_Scale(vScale);
+
+						Quaternion vQuat = file->Read<Quaternion>();
+						pChild->Set_Orientation(vQuat);
+
+						pChild->Set_StaticBoundingBox();
+					}
+				}
+				dynamic_cast<CBreakAbleObject_Server*>(pObject)->Add_CollidersToManager();
+
+
+			}
+
+		}
+		else if (1 == ModelType) // Anim
+		{
+		  // Not Create
+
+		}
+
+		_uint			QuadTreeSize = {};
+
+
+		file->Read<_uint>(QuadTreeSize);
+
+		for (size_t i = 0; i < QuadTreeSize; i++)
+		{
+			_uint Index = {};
+			file->Read<_uint>(Index);
+
+			//pObject->Add_QuadTreeIndex(Index);
+			//CQuadTreeMgr::GetInstance()->Add_Object(pObject, Index);
+		}
+
+	}
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+
 }
 
 CValtanMain_Server* CValtanMain_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

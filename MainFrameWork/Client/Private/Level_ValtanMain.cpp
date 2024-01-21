@@ -79,7 +79,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 	/*if (FAILED(Load_MapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
 		return E_FAIL;*/
 
-	if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_Valtan.data"))))
+	if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Test0121.data"))))
 	{
 		return E_FAIL;
 	}
@@ -636,6 +636,23 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 			pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
 
 			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
+
+
+			// Under Navi Cell Info
+
+		    _uint vecNavicellsize = file->Read<_uint>(); // Read Vector Size
+
+			for (size_t i = 0; i < vecNavicellsize; i++)
+			{
+				_uint CellIndex = file->Read<_uint>();
+
+				dynamic_cast<CStaticModel*>(pObject)->Add_NaviCellIndex(CellIndex);
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
+
+
+			}
+			
+
 
 			_uint iColliderCount = file->Read<_uint>();
 

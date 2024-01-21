@@ -214,6 +214,9 @@
     <Filter Include="02. GameObject\03. Monster\Prison">
       <UniqueIdentifier>{41e7177c-cf76-4bf2-b555-f3ac69cc0b0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. BreakAbleObject">
+      <UniqueIdentifier>{384a9bf4-5580-468d-a10f-fd4579d6d5ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -530,6 +533,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Prison_Server.cpp">
       <Filter>02. GameObject\03. Monster\Prison</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BreakAbleObject_Server.cpp">
+      <Filter>02. GameObject\09. BreakAbleObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -940,6 +946,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Prison_Server.h">
       <Filter>02. GameObject\03. Monster\Prison</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BreakAbleObject_Server.h">
+      <Filter>02. GameObject\09. BreakAbleObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

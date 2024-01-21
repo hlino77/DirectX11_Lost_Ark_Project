@@ -84,7 +84,17 @@ HRESULT CNavigation::Render()
 			RenderPoints[2].y += 0.01f;
 
 			// 조정된 포인트로 렌더링
-			DX::DrawTriangle(m_pBatch, RenderPoints[0], RenderPoints[1], RenderPoints[2], Colors::Green);
+
+			if (true == Cell->Get_Active())
+			{
+				DX::DrawTriangle(m_pBatch, RenderPoints[0], RenderPoints[1], RenderPoints[2], Colors::Green);
+			}
+			else
+			{
+				DX::DrawTriangle(m_pBatch, RenderPoints[0], RenderPoints[1], RenderPoints[2], Colors::Red);
+
+			}
+		
 		}
 	}
 
@@ -103,6 +113,7 @@ void CNavigation::SetUp_OnCell(CGameObject* pObject)
 
 	if (iCurrCell < 0 || iCurrCell >= m_vecCells.size())
 		return;
+
 
 	m_vecCells[pObject->Get_CurrCell()]->SetUp_OnCell(pObject, 0);
 
@@ -132,7 +143,6 @@ _bool CNavigation::Is_Outside(CGameObject* pObject, _float fOffset)
 		}
 		else
 			return true;
-
 	}
 	else
 		return false;

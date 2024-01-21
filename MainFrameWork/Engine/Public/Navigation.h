@@ -56,6 +56,9 @@ public:  // Get Set
 
 	void Reset_CellPoint();
 
+	void Set_Active_Specific_Cell(_uint Index, _bool Active) { m_vecCells[Index]->Set_Active(Active); }
+
+
 
 private:
 

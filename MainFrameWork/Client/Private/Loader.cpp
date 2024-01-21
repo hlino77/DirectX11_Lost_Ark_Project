@@ -1453,10 +1453,10 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	Safe_AddRef(pUIManager);
 	pUIManager->Set_MaxFiles(10);
 
-	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss3.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss_End.Navi");
 	pUIManager->Add_CurrFile();
 
-	Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_Valtan.data"));
+	Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Test0121.data"));
 	pUIManager->Add_CurrFile();
 
 
@@ -1939,6 +1939,15 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 
 		if (0 == ModelType) // NonAnim
 		{
+
+
+			_uint vecNavicellsize = file->Read<_uint>(); // Read Vector Size
+
+			for (size_t i = 0; i < vecNavicellsize; i++)
+			{
+				_uint CellIndex = file->Read<_uint>();
+			}
+
 			_uint ColliderListSize = {};
 			file->Read<_uint>(ColliderListSize); // ColliderList Size 
 

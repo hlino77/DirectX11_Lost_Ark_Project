@@ -28,6 +28,8 @@ public:
 
 	_int*				Get_Neighbor() { return m_iNeighbor; }
 
+	void				Set_Active(_bool Active) { m_bActive = Active; }
+	_bool				Get_Active() { return m_bActive; }
 
 
 public:// Hwang's
@@ -70,6 +72,8 @@ private:
 
 	CNavigation*			m_pNavigation = nullptr;
 
+
+	_bool					m_bActive = true;
 
 private:
 	ID3D11Device*			m_pDevice = { nullptr };

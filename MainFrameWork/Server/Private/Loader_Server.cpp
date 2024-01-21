@@ -16,6 +16,7 @@
 #include "NavigationMgr.h"
 #include "Guide_Chaos_Npc_Server.h"
 #include "ValtanMain_Server.h"
+#include "BreakAbleObject_Server.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -77,7 +78,7 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_1, L"Chaos1.Navi");
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_2, L"Chaos2.Navi");
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_CHAOS_3, L"Chaos3.Navi");
-	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss3.Navi");
+	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss_End.Navi");
 
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
@@ -134,6 +135,13 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 		CGuide_Chaos_Npc_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
+
+	// Map Object -> BreakAbleObject
+	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BreakAbleObject"),
+	//	CBreakAbleObject_Server::Create(nullptr, nullptr))))
+	//	return E_FAIL;
+
+
 	Loading_Model_For_Level_Bern();
 
 	Safe_Release(pGameInstance);
@@ -150,8 +158,6 @@ HRESULT CLoader_Server::Loading_Model_For_Level_Bern()
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	
 
 	{
 		wstring strFileName = L"Gunslinger";
