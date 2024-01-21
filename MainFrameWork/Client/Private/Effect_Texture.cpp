@@ -46,6 +46,33 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 	if (m_fWaitingAcc < m_fWaitingTime)
 		return;
 
+	Run_Sequence(fTimeDelta);
+}
+
+void CEffect_Texture::LateTick(_float fTimeDelta)
+{
+	Super::LateTick(fTimeDelta);
+}
+
+HRESULT CEffect_Texture::Render()
+{
+	if (FAILED(Super::Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
+		return E_FAIL;
+	if (FAILED(m_pBuffer->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CEffect_Texture::Run_Sequence(const _float& fTimeDelta)
+{
 	if (m_IsSequence && m_bRender)
 	{
 		m_fSequenceTimer += fTimeDelta;
@@ -67,28 +94,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 				}
 			}
 		}
-
 	}
-}
-
-void CEffect_Texture::LateTick(_float fTimeDelta)
-{
-	Super::LateTick(fTimeDelta);
-}
-
-HRESULT CEffect_Texture::Render()
-{
-	if (FAILED(Super::Render()))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
-		return E_FAIL;
-	if (FAILED(m_pBuffer->Render()))
-		return E_FAIL;
-
-	return S_OK;
 }
 
 HRESULT CEffect_Texture::Ready_Components()

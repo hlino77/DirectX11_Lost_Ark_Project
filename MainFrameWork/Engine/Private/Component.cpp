@@ -39,7 +39,6 @@ CTransform* CComponent::Get_TransformCom() const
 	return m_pOwner->Get_TransformCom();
 }
 
-
 void CComponent::Free()
 {
 	Safe_Release(m_pDevice);

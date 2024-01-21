@@ -88,7 +88,7 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
 
 technique11 DefaultTechnique
 {
-    pass PBRInstance // 0
+    pass PBRInstance
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -99,18 +99,18 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_PBR();
     }
 
-    pass PBRInstance_Alpha // 0
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+    //pass PBRInstance_Alpha
+    //{
+    //    SetRasterizerState(RS_Default);
+    //    SetDepthStencilState(DSS_Default, 0);
+    //    SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-        VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_PBR();
-    }
+    //    VertexShader = compile vs_5_0 VS_MAIN();
+    //    GeometryShader = NULL;
+    //    PixelShader = compile ps_5_0 PS_PBR();
+    //}
 
-    pass Diffuse // 1 임시
+    pass Diffuse // 임시
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);

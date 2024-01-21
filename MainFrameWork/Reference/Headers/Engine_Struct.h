@@ -86,6 +86,16 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
 	}VTXTEX;
 
+	typedef struct ENGINE_DLL tagVertexTrail
+	{
+		SimpleMath::Vector3		vPosition;
+		SimpleMath::Vector2		vTexture;
+		_float					fAlpha;
+
+		static const unsigned int iNumElements = 3;
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
+	}VTXTRAIL;
+
 	typedef struct ENGINE_DLL tagVertexNormalTexture
 	{
 		SimpleMath::Vector3		vPosition;

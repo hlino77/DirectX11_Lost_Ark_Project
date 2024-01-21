@@ -1,22 +1,21 @@
 #pragma once
 #include "Effect.h"
-#include <random>
 
 BEGIN(Engine)
 
-class CVIBuffer_Point;
+class CVIBuffer_Trail;
 
 END
 
 BEGIN(Client)
 
-class CEffect_Texture : public CEffect
+class CEffect_Trail : public CEffect
 {
 	using Super = CEffect;
 private:
-	CEffect_Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect_Texture(const CEffect_Texture& rhs);
-	virtual ~CEffect_Texture() = default;
+	CEffect_Trail(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CEffect_Trail(const CEffect_Trail& rhs);
+	virtual ~CEffect_Trail() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype(EFFECTDESC* desc)	override;
@@ -24,24 +23,24 @@ public:
 	virtual void	Tick(_float fTimeDelta)		override;
 	virtual void	LateTick(_float fTimeDelta)	override;
 	virtual HRESULT Render()					override;
-	
+
+public:
+	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc) override;
+
 private:
 	void Run_Sequence(const _float& fTimeDelta);
 
-	struct tagFX_Billboard
-	{
-		_int	iBillboard = true;
-		Vec3	vPadding;
-	} m_Billboard;
-
 private:
-	CVIBuffer_Point* m_pBuffer = nullptr;
+	CVIBuffer_Trail* m_pBuffer = nullptr;
+
+	// Trail
+	_int	m_iTrailVtxCount = 4;
 
 private:
 	virtual HRESULT Ready_Components() override;
 
 public:
-	static CEffect_Texture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECTDESC* pDesc);
+	static CEffect_Trail* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECTDESC* pDesc);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

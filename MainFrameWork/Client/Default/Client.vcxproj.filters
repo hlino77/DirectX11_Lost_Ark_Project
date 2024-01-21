@@ -3917,6 +3917,9 @@
     <ClInclude Include="..\Public\Player_Gunslinger.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Trail.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6567,6 +6570,9 @@
     <ClCompile Include="..\Private\Player_Gunslinger.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_Trail.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -6760,6 +6766,9 @@
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>

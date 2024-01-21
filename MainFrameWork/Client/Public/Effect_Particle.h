@@ -26,7 +26,7 @@ public:
 	virtual HRESULT Render()					override;
 	
 public:
-	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc);
+	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc) override;
 
 private:
 	struct tagFX_Billboard

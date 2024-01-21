@@ -37,6 +37,10 @@ public:
 		Vec3	vRotation_Start = Vec3(0.f, 0.f, 0.f);
 		Vec3	vRotation_End = Vec3(0.f, 0.f, 0.f);
 		_bool	bRotation_Lerp = true;
+		
+		Vec3	vRevolution_Start = Vec3(0.f, 0.f, 0.f);
+		Vec3	vRevolution_End = Vec3(0.f, 0.f, 0.f);
+		_bool	bRevolution_Lerp = true;
 
 		Vec3	vScaling_Start = Vec3(1.f, 1.f, 1.f);
 		Vec3	vScaling_End = Vec3(1.f, 1.f, 1.f);
@@ -78,6 +82,8 @@ public:
 		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
 		_int	iDistortionOnBaseMaterial = 0;
+		_int	fRadialTime = 0;
+		_float	fRadialIntensity = 0;
 		
 		// Billboard
 		_int	iBillboard = true;
@@ -90,6 +96,10 @@ public:
 		_float	fEmitTerm = 0.f;
 		_float	fParticleLifeTime = 0.f;
 
+		// Trail
+		_int	iTrailVtxCount = 4;
+
+		// PassName
 		string	strPassName = "OneBlend";
 
 	}EFFECTDESC;
@@ -109,22 +119,32 @@ public:
 	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc);
 	virtual void EffectEnd();
 	virtual void Update_Pivot(Matrix& matPivot);
+
 protected:
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bPosition_Lerp = true;
+	_bool	m_bPosition_Pass = false;
 
 	Vec3	m_vRotation_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vRotation_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bRotation_Lerp = true;
+	_bool	m_bRotation_Pass = false;
+
+	Vec3	m_vRevolution_Start = Vec3(0.f, 0.f, 0.f);
+	Vec3	m_vRevolution_End = Vec3(0.f, 0.f, 0.f);
+	_bool	m_bRevolution_Lerp = true;
+	_bool	m_bRevolution_Pass = false;
 
 	Vec3	m_vScaling_Start = Vec3(1.f, 1.f, 1.f);
 	Vec3	m_vScaling_End = Vec3(1.f, 1.f, 1.f);
 	_bool	m_bScaling_Lerp = true;
+	_bool	m_bScaling_Pass = false;
 
 	Vec3	m_vVelocity_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vVelocity_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bVelocity_Lerp = true;
+	_bool	m_bVelocity_Pass = false;
 
 	Color	m_vColor_Start = Color(0.f, 0.f, 0.f, 0.f);
 	Color	m_vColor_End = Color(0.f, 0.f, 0.f, 0.f);
@@ -167,17 +187,23 @@ protected:
 	tagEffectDesc m_tVoidEffectDesc;
 
 protected:
-	Matrix	m_matPivot = Matrix::Identity;
-	Matrix	m_matOffset = Matrix::Identity;
-	Matrix	m_matCombined = Matrix::Identity;
+	Vec3	m_vOffsetScaling		= Vec3::Zero;
+	Vec3	m_vOffsetRotation		= Vec3::Zero;
+	Vec3	m_vOffsetPosition		= Vec3::Zero;
+	Vec3	m_vVelocity				= Vec3::Zero;
+	Vec3	m_vOffsetRevolution		= Vec3::Zero;
 
-	_float	m_fTimeAcc = 0.f;
-	_float	m_fWaitingAcc = 0.0f;
-	_float	m_fLifeTimeRatio = 0.f;
+	Matrix	m_matPivot				= Matrix::Identity;
+	Matrix	m_matOffset				= Matrix::Identity;
+	Matrix	m_matCombined			= Matrix::Identity;
 
-	_float	m_fSequenceTimer = 0.0f;
-	_float	m_fDissolveStart = 1.f;
-	//random_device*		m_RandomDevice = nullptr;
+	_float	m_fTimeAcc				= 0.f;
+	_float	m_fWaitingAcc			= 0.0f;
+	_float	m_fLifeTimeRatio		= 0.f;
+
+	_float	m_fSequenceTimer		= 0.0f;
+	_float	m_fDissolveStart		= 1.f;
+	//random_device*	m_RandomDevice = nullptr;
 
 	CTexture* m_pDiffuseTexture		= nullptr;
 	CTexture* m_pNoiseTexture		= nullptr;

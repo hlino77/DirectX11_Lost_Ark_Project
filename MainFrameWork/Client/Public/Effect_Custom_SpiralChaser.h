@@ -12,7 +12,7 @@ class CEffect_Custom_SpiralChaser : public CEffect
 {
 	using Super = CEffect;
 public:
-	typedef struct SpiralChaserDesc
+	struct SpiralChaserDesc
 	{
 		Vec3 vPos;
 		Vec3 vTargetPos;

@@ -608,6 +608,9 @@
     <ClInclude Include="..\Public\ColliderDoughnut.h">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Trail.h">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Trail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -954,6 +957,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ColliderDoughnut.cpp">
       <Filter>01.Utiltiy\04.Component\08. Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Trail.cpp">
+      <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Trail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

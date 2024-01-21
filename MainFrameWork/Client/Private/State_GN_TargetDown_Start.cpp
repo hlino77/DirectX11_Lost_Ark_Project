@@ -93,7 +93,7 @@ void CState_GN_TargetDown_Start::Effect_Start()
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	Matrix& matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	desc.pPivotMatrix = &matWorld;
-	EFFECT_START_OUTLIST(TEXT("TargetDownDecal"), &desc, EffectList);
+	EFFECT_START_OUTLIST(TEXT("TargetDownDecal"), &desc, EffectList)
 
 	CEffect* pDecal = EffectList.front();
 

@@ -104,7 +104,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_HAS_STD_BYTE=0;_CLIENT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions);_HAS_STD_BYTE=0;_CLIENT</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../Reference/Headers/;../Public/;../../ThirdParty/;../../Reference/Include/;../Default/;../../Reference/Headers/PhysX/;../../Reference/Headers/fmod/;../../Reference/Headers/DirectXTK/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -227,6 +227,7 @@
     <ClInclude Include="..\Public\Effect_Particle.h" />
     <ClInclude Include="..\Public\Effect_PcModel.h" />
     <ClInclude Include="..\Public\Effect_Texture.h" />
+    <ClInclude Include="..\Public\Effect_Trail.h" />
     <ClInclude Include="..\Public\Function_Npc.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
@@ -754,6 +755,7 @@
     <ClCompile Include="..\Private\Effect_Particle.cpp" />
     <ClCompile Include="..\Private\Effect_PcModel.cpp" />
     <ClCompile Include="..\Private\Effect_Texture.cpp" />
+    <ClCompile Include="..\Private\Effect_Trail.cpp" />
     <ClCompile Include="..\Private\Function_Npc.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
@@ -1306,6 +1308,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectDecal.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_IBL.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl" />

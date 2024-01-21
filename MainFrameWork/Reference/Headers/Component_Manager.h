@@ -1,5 +1,4 @@
 #pragma once
-
 #include "PipeLine.h"
 #include "Renderer.h"
 #include "Transform.h"
@@ -11,6 +10,7 @@
 #include "VIBuffer_Cube.h"
 #include "VIBuffer_Particle.h"
 #include "VIBuffer_RectSSAO.h"
+#include "VIBuffer_Trail.h"
 #include "Hasher.h"
 #include "Lock.h"
 

@@ -19,6 +19,9 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_vRotation_Start(rhs.m_vRotation_Start)
 	, m_vRotation_End(rhs.m_vRotation_End)
 	, m_bRotation_Lerp(rhs.m_bRotation_Lerp)
+	, m_vRevolution_Start(rhs.m_vRevolution_Start)
+	, m_vRevolution_End(rhs.m_vRevolution_End)
+	, m_bRevolution_Lerp(rhs.m_bRevolution_Lerp)
 	, m_vScaling_Start(rhs.m_vScaling_Start)
 	, m_vScaling_End(rhs.m_vScaling_End)
 	, m_bScaling_Lerp(rhs.m_bScaling_Lerp)
@@ -48,6 +51,11 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_strPassName(rhs.m_strPassName)
 	, m_fRadialTime(rhs.m_fRadialTime)
 	, m_fRadialIntensity(rhs.m_fRadialIntensity)
+	, m_bPosition_Pass(rhs.m_bPosition_Pass)
+	, m_bRotation_Pass(rhs.m_bRotation_Pass)
+	, m_bRevolution_Pass(rhs.m_bRevolution_Pass)
+	, m_bScaling_Pass(rhs.m_bScaling_Pass)
+	, m_bVelocity_Pass(rhs.m_bVelocity_Pass)
 {
 	m_szModelName = rhs.m_szModelName;
 
@@ -65,18 +73,47 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_vPosition_Start = pDesc->vPosition_Start;
 	m_vPosition_End = pDesc->vPosition_End;
 	m_bPosition_Lerp = pDesc->bPosition_Lerp;
+	if (!m_bPosition_Lerp)
+	{
+		if (XMVector3Equal(m_vPosition_Start, Vec3::Zero))
+			m_bPosition_Pass = true;
+	}
 
 	m_vRotation_Start = pDesc->vRotation_Start;
 	m_vRotation_End = pDesc->vRotation_End;
 	m_bRotation_Lerp = pDesc->bRotation_Lerp;
+	if (!m_bRotation_Lerp)
+	{
+		if (XMVector3Equal(m_vRotation_Start, Vec3::Zero))
+			m_bRotation_Pass = true;
+	}
+
+	m_vRevolution_Start = pDesc->vRevolution_Start;
+	m_vRevolution_End = pDesc->vRevolution_End;
+	m_bRevolution_Lerp = pDesc->bRevolution_Lerp;
+	if (!m_bRevolution_Lerp)
+	{
+		if (XMVector3Equal(m_vRevolution_Start, Vec3::Zero))
+			m_bRevolution_Pass = true;
+	}
 
 	m_vScaling_Start = pDesc->vScaling_Start;
 	m_vScaling_End = pDesc->vScaling_End;
 	m_bScaling_Lerp = pDesc->bScaling_Lerp;
+	if (!m_bScaling_Lerp)
+	{
+		if (XMVector3Equal(m_vScaling_Start, Vec3::Zero))
+			m_bScaling_Pass = true;
+	}
 
 	m_vVelocity_Start = pDesc->vVelocity_Start;
 	m_vVelocity_End = pDesc->vVelocity_End;
 	m_bVelocity_Lerp = pDesc->bVelocity_Lerp;
+	if (!m_bVelocity_Lerp)
+	{
+		if (XMVector3Equal(m_vVelocity_Start, Vec3::Zero))
+			m_bVelocity_Pass = true;
+	}
 
 	m_vColor_Start = pDesc->vColor_Start;
 	m_vColor_End = pDesc->vColor_End;
@@ -106,6 +143,9 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_Intensity.fBloom = pDesc->fBloom;
 	m_Intensity.fDistortion = pDesc->fDistortion;
 	m_Intensity.fDissolveAmount = pDesc->fDissolveAmount;
+
+	m_fRadialTime = pDesc->fRadialTime;
+	m_fRadialIntensity = pDesc->fRadialIntensity;
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);
@@ -171,37 +211,81 @@ void CEffect::Tick(_float fTimeDelta)
 
 	m_fTimeAcc += fTimeDelta;
 	m_fLifeTimeRatio = min(1.0f, m_fTimeAcc / m_fLifeTime);
-	
-	Vec3 vOffsetScaling;
-	Vec3 vOffsetRotation;
-	Vec3 vOffsetPosition;
-	Vec3 vVelocity;
 
-	if (m_bScaling_Lerp)
-		vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
+	Matrix matOffset(Matrix::Identity);
+
+	if (!m_bScaling_Pass)
+	{
+		if (m_bScaling_Lerp)
+			m_vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetScaling = m_vScaling_Start;
+
+		m_matOffset = XMMatrixScaling(m_vOffsetScaling.x, m_vOffsetScaling.y, m_vOffsetScaling.z);
+	}
 	else
-		vOffsetScaling = m_vScaling_Start;
+	{
+		m_matOffset = Matrix::Identity;		
+	}
 
-	if (m_bRotation_Lerp)
-		vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+	if (!m_bRotation_Pass)
+	{
+		if (m_bRotation_Lerp)
+			m_vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetRotation = m_vRotation_Start;
+
+		Quaternion qRotation;
+		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRotation.x), XMConvertToRadians(m_vOffsetRotation.y), XMConvertToRadians(m_vOffsetRotation.z)));
+		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
+	}
+
+	if (!m_bPosition_Pass)
+	{
+		if (m_bPosition_Lerp)
+			m_vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetPosition = m_vPosition_Start;
+	}
+
+	if (!m_bVelocity_Pass)
+	{
+		if (m_bVelocity_Lerp)
+			m_vVelocity = 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+		else
+			m_vVelocity = 0.5f * m_fLifeTimeRatio * m_vVelocity_Start;
+	}
+
+	if (!m_bPosition_Pass)
+	{
+		if (!m_bVelocity_Pass)
+			m_vOffsetPosition += m_vVelocity;
+
+		m_matOffset._41 += m_vOffsetPosition.x;
+		m_matOffset._42 += m_vOffsetPosition.y;
+		m_matOffset._43 += m_vOffsetPosition.z;
+	}
 	else
-		vOffsetRotation = m_vRotation_Start;
+	{
+		if (!m_bVelocity_Pass)
+			m_vOffsetPosition = m_vVelocity;
 
-	if (m_bPosition_Lerp)
-		vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
-	else
-		vOffsetPosition = m_vPosition_Start;
+		m_matOffset._41 += m_vOffsetPosition.x;
+		m_matOffset._42 += m_vOffsetPosition.y;
+		m_matOffset._43 += m_vOffsetPosition.z;
+	}
 
-	if (m_bVelocity_Lerp)
-		vVelocity = 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
-	else
-		vVelocity = 0.5f * m_fLifeTimeRatio * m_vVelocity_Start;
+	if (!m_bRevolution_Pass)
+	{
+		if (m_bRevolution_Lerp)
+			m_vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetRevolution = m_vRevolution_Start;
 
-	vOffsetPosition += vVelocity;
-
-	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
-		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))
-		* XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+		Quaternion qRotation;
+		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRevolution.x), XMConvertToRadians(m_vOffsetRevolution.y), XMConvertToRadians(m_vOffsetRevolution.z)));
+		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
+	}
 }
 
 void CEffect::LateTick(_float fTimeDelta)
@@ -214,6 +298,8 @@ void CEffect::LateTick(_float fTimeDelta)
 		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
 			__debugbreak();
 	}
+
+	m_matCombined = m_matOffset * m_matPivot;
 }
 
 HRESULT CEffect::Render()
@@ -233,10 +319,6 @@ HRESULT CEffect::Render()
 		return E_FAIL;
 
 #pragma region GlobalData
-	m_matCombined = m_matOffset * m_matPivot;
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
-		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
@@ -327,7 +409,6 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 		m_fWaitingAcc = 0.0f;
 		m_bRender = false;
 	}
-	
 }
 
 void CEffect::EffectEnd()

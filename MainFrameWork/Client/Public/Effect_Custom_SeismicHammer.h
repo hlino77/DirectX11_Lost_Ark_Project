@@ -12,7 +12,7 @@ class CEffect_Custom_SeismicHammer : public CEffect
 {
 	using Super = CEffect;
 public:
-	typedef struct EffectDesc
+	struct EffectDesc
 	{
 		Vec3 vPos;
 		Vec3 vLook;

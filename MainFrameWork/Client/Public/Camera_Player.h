@@ -8,7 +8,7 @@ BEGIN(Client)
 class CCamera_Player final : public CCamera
 {
 public:
-	typedef struct PlayerCameraDesc
+	struct PlayerCameraDesc
 	{
 		class CPlayer* pPlayer = nullptr;
 		CCamera::CAMERADESC tCameraDesc;
