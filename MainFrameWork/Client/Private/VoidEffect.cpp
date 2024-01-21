@@ -188,7 +188,37 @@ HRESULT CVoidEffect::Render()
 	Matrix matCombined = m_matOffset * m_matPivot;
 
 	if (4 == m_iEffectType)
+	{
+		if (nullptr != m_pEffectTool->GetLevelTool()->GetPivotObject())
+		{
+			const _char* szTypeID = typeid(*m_pEffectTool->GetLevelTool()->GetPivotObject()).name();
+
+			if (!strcmp(szTypeID, "class Client::CMannequin"))
+			{
+				m_matPivot = m_pEffectTool->GetLevelTool()->GetPivotObject()->Get_TransformCom()->Get_WorldMatrix();
+				m_bParentPivot = true;
+			}
+			else
+			{
+				m_matPivot = static_cast<CPartObject*>(m_pEffectTool->GetLevelTool()->GetPivotObject())->Get_Part_WorldMatrix();
+				m_bParentPivot = false;
+			}
+
+			Vec3 vRight = m_matPivot.Right();
+			vRight.Normalize();
+			m_matPivot.Right(vRight);
+
+			Vec3 vUp = m_matPivot.Up();
+			vUp.Normalize();
+			m_matPivot.Up(vUp);
+
+			Vec3 vLook = m_matPivot.Backward();
+			vLook.Normalize();
+			m_matPivot.Backward(vLook);
+		}
+
 		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Update_TrailBuffer(matCombined);
+	}
 
 	m_Particle.vEmitPosition = matCombined.Translation();
 

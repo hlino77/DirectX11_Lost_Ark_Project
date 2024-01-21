@@ -1243,6 +1243,9 @@
     <Filter Include="02.GameObjects\Item\Equip\Weapon\WR_WP_Mococo">
       <UniqueIdentifier>{bbdeff4a-eaaa-413e-ae27-157494966ab7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
+      <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3920,6 +3923,9 @@
     <ClInclude Include="..\Public\Effect_Trail.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_SwordTrail.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6572,6 +6578,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Trail.cpp">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_SwordTrail.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

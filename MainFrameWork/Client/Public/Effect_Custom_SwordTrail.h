@@ -1,5 +1,6 @@
 #pragma once
 #include "Effect.h"
+#include <random>
 
 BEGIN(Engine)
 
@@ -9,16 +10,16 @@ END
 
 BEGIN(Client)
 
-class CEffect_Trail : public CEffect
+class CEffect_Custom_SwordTrail : public CEffect
 {
 	using Super = CEffect;
 private:
-	CEffect_Trail(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect_Trail(const CEffect_Trail& rhs);
-	virtual ~CEffect_Trail() = default;
+	CEffect_Custom_SwordTrail(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CEffect_Custom_SwordTrail(const CEffect_Custom_SwordTrail& rhs);
+	virtual ~CEffect_Custom_SwordTrail() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype(EFFECTDESC* desc)	override;
+	virtual HRESULT Initialize_Prototype(EFFECTDESC* pDesc)	override;
 	virtual HRESULT Initialize(void* pArg)		override;
 	virtual void	Tick(_float fTimeDelta)		override;
 	virtual void	LateTick(_float fTimeDelta)	override;
@@ -39,7 +40,7 @@ private:
 	virtual HRESULT Ready_Components() override;
 
 public:
-	static CEffect_Trail* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECTDESC* pDesc);
+	static CEffect_Custom_SwordTrail* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };
