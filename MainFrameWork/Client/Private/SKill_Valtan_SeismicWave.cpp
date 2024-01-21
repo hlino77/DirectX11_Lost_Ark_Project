@@ -29,8 +29,8 @@ HRESULT CSKill_Valtan_SeismicWave::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fLastTime = 1.5f;
-	m_iAtk = 20;
-	m_fForce = 42.f;
+	m_SkillDesc.iAtk = 20;
+	m_SkillDesc.fForce = 42.f;
 
     return S_OK;
 }
@@ -161,8 +161,6 @@ HRESULT CSKill_Valtan_SeismicWave::Ready_Coliders()
 					pChildSphereCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 				}
 			}
-
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 	}

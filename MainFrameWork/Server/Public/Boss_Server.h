@@ -82,8 +82,7 @@ public:
 	_bool						Is_GroggyLock() { return m_IsGroggyLock; }
 	void						Set_GroggyLock(_bool IsGroggyLock) { m_IsGroggyLock = IsGroggyLock; }
 
-	_uint						Get_HitCount() { return m_iHitCount; }
-	void						Set_HitCount(_uint iHitCount) { m_iHitCount = iHitCount; }
+
 
 	_int						Get_GroggyCount() { return m_iGroggyCount; }
 	void						Set_GroggyCount(_int iGroggyCount) { m_iGroggyCount = iGroggyCount; }
@@ -113,7 +112,7 @@ protected:
 	_int							m_iArmor = 0;
 	Vec3							m_vSpawnPosition;
 	_bool							m_IsGroggyLock = false;
-	_uint							m_iHitCount = 0;
+
 	_int							m_iGroggyCount = 0;
 	_uint							m_iMaxGroggyCount = 0;
 	_float							m_fTimeCount = 0.f;

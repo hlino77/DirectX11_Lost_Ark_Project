@@ -4,8 +4,8 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Valtan.h>
-#include <SKill_Valtan_8_1.h>
-#include <SKill_Valtan_8_2.h>
+#include <SKill_Valtan_DoughnutFirstHit.h>
+#include <SKill_Valtan_DoughnutSecondHit.h>
 #include "ColliderSphere.h"
 #include "GameInstance.h"
 
@@ -50,7 +50,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_8_1", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_DoughnutFirstHit", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -59,7 +59,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			vPos += vLook * 2.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSKill_Valtan_8_1*>(pSkill)->Set_DoughnutRadii(7.5f,2.3f);
+			static_cast<CSKill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(7.5f,2.3f);
 		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 68 && m_bShoot[1])
@@ -70,7 +70,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_8_1", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_DoughnutFirstHit", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -78,10 +78,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSKill_Valtan_8_1*>(pSkill)->Set_DoughnutRadii(6.f, 2.3f);
+			static_cast<CSKill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(6.f, 2.3f);
 		}
 		pSkill == nullptr;
-		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_8_2", &ModelDesc);
+		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_DoughnutSecondHit", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -89,7 +89,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSKill_Valtan_8_2*>(pSkill)->Set_DoughnutRadii(9.f, 5.3f);
+			static_cast<CSKill_Valtan_DoughnutSecondHit*>(pSkill)->Set_DoughnutRadii(9.f, 5.3f);
 		}
 	}
 

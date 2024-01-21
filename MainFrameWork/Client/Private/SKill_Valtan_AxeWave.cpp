@@ -28,8 +28,8 @@ HRESULT CSKill_Valtan_AxeWave::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fLastTime = 2.f;
-	m_iAtk = 30;
-	m_fForce = 42.f;
+	m_SkillDesc.iAtk = 30;
+	m_SkillDesc.fForce = 42.f;
     return S_OK;
 }
 

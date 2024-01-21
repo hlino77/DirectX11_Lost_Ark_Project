@@ -141,6 +141,7 @@
 #include "Boss_King.h"
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
+#include "Monster_Prison.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -155,13 +156,16 @@
 #include <SKill_Golem_Charge_Punch.h>
 #include <SKill_Golem_Jump.h>
 #include <SKill_Golem_Swipe.h>
-#include "SKill_Valtan_4_1.h"
-#include "SKill_Valtan_4_2.h"
-#include "SKill_Valtan_8_1.h"
-#include "SKill_Valtan_8_2.h"
+#include "SKill_Valtan_SphereInstant.h"
+#include "SKill_Valtan_DoughnutTerm2sec.h"
+#include "SKill_Valtan_DoughnutFirstHit.h"
+#include "SKill_Valtan_DoughnutSecondHit.h"
 #include "SKill_Valtan_AxeWave.h"
 #include "SKill_Valtan_Breath.h"
 #include "SKill_Valtan_SeismicWave.h"
+#include "SKill_Valtan_SilenceSphere.h"
+#include "SKill_Valtan_DoughnutInstant.h"
+#include "SKill_Valtan_SphereTerm.h"
 
 //Lobby MQ
 #include "Player_Select_GN.h"
@@ -1064,6 +1068,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Prison"),
+		CMonster_Prison::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnShield"),
 		CWeapon_Mn_PawnShield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1095,28 +1104,43 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_4_1"),
-		CSKill_Valtan_4_1::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_SphereInstant"),
+		CSKill_Valtan_SphereInstant::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_4_2"),
-		CSKill_Valtan_4_2::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_DoughnutTerm2sec"),
+		CSKill_Valtan_DoughnutTerm2sec::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_8_1"),
-		CSKill_Valtan_8_1::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_DoughnutFirstHit"),
+		CSKill_Valtan_DoughnutFirstHit::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_8_2"),
-		CSKill_Valtan_8_2::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_DoughnutSecondHit"),
+		CSKill_Valtan_DoughnutSecondHit::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Breath"),
 		CSKill_Valtan_Breath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_SilenceSphere"),
+		CSKill_Valtan_SilenceSphere::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_DoughnutInstant"),
+		CSKill_Valtan_DoughnutInstant::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_SphereTerm"),
+		CSKill_Valtan_SphereTerm::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

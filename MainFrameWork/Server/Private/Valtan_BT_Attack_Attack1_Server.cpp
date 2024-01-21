@@ -4,7 +4,8 @@
 #include "Model.h"
 #include "Transform.h"
 #include "NavigationMgr.h"
-#include <Boss_Golem_Server.h>
+#include <Boss_Valtan_Server.h>
+
 CValtan_BT_Attack_Attack1_Server::CValtan_BT_Attack_Attack1_Server()
 {
 }
@@ -33,6 +34,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1_Server::OnUpdate(const _float& fTi
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 3)
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Rush(true);
 		m_iLoop++;
 		m_iCurrAnimation = 1;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[1].iAnimIndex, m_vecAnimDesc[1].fChangeTime,	m_vecAnimDesc[1].iStartFrame, m_vecAnimDesc[1].iChangeFrame);
@@ -42,16 +44,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1_Server::OnUpdate(const _float& fTi
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
 		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 1.f))
 		{
+			static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Rush(false);
 			m_iCurrAnimation=2;
 			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[2].iAnimIndex, m_vecAnimDesc[2].fChangeTime,
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[2].iChangeFrame);
-			//벽박이 테스트용
-			if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() > 0)
-			{
-				static_cast<CBoss_Server*>(m_pGameObject)->Set_Hit(true);
-				static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(true);
-				static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(true);
-			}
 		}
 	}
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())

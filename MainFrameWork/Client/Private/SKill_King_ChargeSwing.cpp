@@ -28,8 +28,8 @@ HRESULT CSKill_King_ChargeSwing::Initialize(void* pArg)
         return E_FAIL;
 	m_fMoveSpeed = 6.f;
 	m_fLastTime = 5.f;
-	m_iAtk = 30;
-	m_fForce = 30.5f;
+	m_SkillDesc.iAtk = 30;
+	m_SkillDesc.fForce = 30.5f;
     return S_OK;
 }
 

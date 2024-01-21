@@ -28,8 +28,8 @@ HRESULT CSKill_Golem_Charge_Punch::Initialize(void* pArg)
         return E_FAIL;
 	m_fMoveSpeed = 3.5f;
 	m_fLastTime = 5.f;
-	m_iAtk = 22;
-	m_fForce = 30.5f;
+	m_SkillDesc.iAtk = 22;
+	m_SkillDesc.fForce = 30.5f;
     return S_OK;
 }
 

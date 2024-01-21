@@ -42,8 +42,6 @@ private:
 	virtual HRESULT			Ready_Components();
 
 
-private:
-	_float m_fBlinkTime = 0.f;
 
 public:
 	static	CSKill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

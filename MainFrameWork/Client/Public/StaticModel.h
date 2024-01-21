@@ -57,9 +57,13 @@ public:
 
 	HRESULT Add_ModelComponent(const wstring& strComName);
 
+	virtual	void OnCollisionEnter(const _uint iColLayer, CCollider* pOther);
+
 
 	void	Add_Collider();
 	void	Add_ChildCollider(_uint iIndex);
+
+	void Add_CollidersToManager();
 
 	vector<CSphereCollider*>& Get_StaticColliders() { return m_StaticColliders; }
 

@@ -679,7 +679,7 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 					pChild->Set_StaticBoundingBox();
 				}
 			}
-
+			dynamic_cast<CStaticModel*>(pObject)->Add_CollidersToManager();
 
 		}
 		else if (1 == ModelType) // Anim
@@ -752,6 +752,7 @@ HRESULT CLevel_ValtanMain::Ready_Renderer()
 
 void CLevel_ValtanMain::Set_CheckGruop()
 {
+	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL, (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER);

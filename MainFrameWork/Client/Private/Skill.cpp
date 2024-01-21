@@ -242,7 +242,8 @@ void CSkill::Free()
 {
 	__super::Free();
 
-
+	for (auto& Collider : m_Coliders)
+		CCollisionManager::GetInstance()->Out_Colider(Collider.second);
 
 	Safe_Release(m_pModelCom);
 

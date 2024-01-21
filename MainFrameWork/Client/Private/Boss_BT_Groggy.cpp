@@ -2,6 +2,8 @@
 #include "Boss_BT_Groggy.h"
 #include "Boss.h"
 #include "Model.h"
+#include "ColliderSphere.h"
+
 CBoss_BT_Groggy::CBoss_BT_Groggy()
 {
 }
@@ -9,6 +11,7 @@ CBoss_BT_Groggy::CBoss_BT_Groggy()
 void CBoss_BT_Groggy::OnStart()
 {
 	__super::OnStart(0);
+	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 }
 
 CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(const _float& fTimeDelta)
@@ -19,6 +22,8 @@ CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(const _float& fTimeDelta)
 void CBoss_BT_Groggy::OnEnd()
 {
 	__super::OnEnd();
+	if (static_cast<CBoss*>(m_pGameObject)->Get_GroggyGauge() > 1)
+
 	if (static_cast<CBoss*>(m_pGameObject)->Get_GroggyGauge() < 1)
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyGauge(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyGauge());
 }

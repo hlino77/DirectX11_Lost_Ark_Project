@@ -211,6 +211,9 @@
     <Filter Include="02. GameObject\08. ValtanRaid\ValtanMain">
       <UniqueIdentifier>{94106135-9c75-412b-93d5-4d5266d0d8d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Monster\Prison">
+      <UniqueIdentifier>{41e7177c-cf76-4bf2-b555-f3ac69cc0b0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -524,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Valtan_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Prison_Server.cpp">
+      <Filter>02. GameObject\03. Monster\Prison</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -931,6 +937,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderRatioMultiple.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Prison_Server.h">
+      <Filter>02. GameObject\03. Monster\Prison</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

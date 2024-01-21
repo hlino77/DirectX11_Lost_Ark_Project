@@ -180,7 +180,6 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				m_iGroggyGauge -= iGroggy_Result;
 			if (m_IsGroggyLock)
 				iGroggy_Result = 0;
-			m_iHitCount++;
 
 			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
 				m_iArmorDurability -= iDamage;
@@ -191,11 +190,12 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				m_IsCounterSkill = false;
 				m_IsCountered = true;
 			}
-			if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
+			if ( m_iGroggyGauge < 1|| (_uint)STATUSEFFECT::GROGGY == iStatusEffect &&m_IsRush)
 			{
 				m_IsHit = true;
 				m_bGrogginess = true;
 				m_IsGroggy = true;
+				m_IsRush = false;
 			}
 
 
@@ -835,7 +835,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 4.5f;
+	AnimationDesc.fMaxLoopTime = 10.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.bIsLoop = false;
@@ -1700,33 +1700,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		//	return E_FAIL;
 		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pSelectorAttack2)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack5)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack12_1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
-		//	return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
 			return E_FAIL; 
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -2057,6 +2031,11 @@ void CBoss_Valtan_Server::Find_NearTarget(_float fTimeDelta)
 		}
 	}
 
+}
+
+void CBoss_Valtan_Server::Clear_GrabbedPlayerIDs()
+{
+	m_vecGrabbedPlayerIDs.clear();
 }
 
 CBoss_Server* CBoss_Valtan_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

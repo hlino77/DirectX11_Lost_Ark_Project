@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Valtan_SeismicWave : public CSkill
+class CSKill_Valtan_DoughnutSecondHit : public CSkill
 {
 private:
-	CSKill_Valtan_SeismicWave(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Valtan_SeismicWave(const CSKill_Valtan_SeismicWave& rhs);
-	virtual ~CSKill_Valtan_SeismicWave() = default;
+	CSKill_Valtan_DoughnutSecondHit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSKill_Valtan_DoughnutSecondHit(const CSKill_Valtan_DoughnutSecondHit& rhs);
+	virtual ~CSKill_Valtan_DoughnutSecondHit() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -36,6 +36,9 @@ public:
 
 	virtual HRESULT					Ready_Coliders()override;
 
+	void	Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius);
+
+
 private:
 	virtual HRESULT			Ready_Components();
 
@@ -43,7 +46,7 @@ private:
 
 
 public:
-	static	CSKill_Valtan_SeismicWave* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSKill_Valtan_DoughnutSecondHit* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

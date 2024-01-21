@@ -31,14 +31,18 @@ public:
 	HRESULT				Ready_Coliders();
 	_int						Get_GroggyObsrob() { return m_iGroggyObsrob; }
 	void						Set_GroggyObsrob(_int iGroggyCount) { m_iGroggyObsrob = iGroggyCount; }
-
+	void	Clear_GrabbedPlayerIDs();
+	_bool						Is_Rush() { return m_IsRush; }
+	void						Set_Rush(_bool IsRush) { m_IsRush = IsRush; }
 private:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
 	virtual void Find_NearTarget(_float fTimeDelta);
+
 private:
 	vector<_int> m_vecGrabbedPlayerIDs;
 	_int		m_iGroggyObsrob = 0;
+	_bool		m_IsRush;
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

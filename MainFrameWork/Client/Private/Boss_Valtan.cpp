@@ -901,7 +901,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 4.5f;
+	AnimationDesc.fMaxLoopTime = 10.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	AnimationDesc.bIsLoop = false;

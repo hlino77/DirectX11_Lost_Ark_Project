@@ -18,7 +18,7 @@ private:
     virtual void		OnEnd()								override;
 
 private:
-
+    _bool   m_bShoot[2] = {};
     _bool   m_bOutSide;
 public:
     static	CValtan_BT_Attack_Attack13* Create(void* pArg);

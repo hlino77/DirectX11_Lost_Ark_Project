@@ -28,8 +28,8 @@ HRESULT CSKill_Golem_Swipe::Initialize(void* pArg)
         return E_FAIL;
 	m_fMoveSpeed = 0.7f;
 	m_fLastTime = 1.f;
-	m_iAtk = 15;
-	m_fForce = 11.f;
+	m_SkillDesc.iAtk = 15;
+	m_SkillDesc.fForce = 11.f;
     return S_OK;
 }
 

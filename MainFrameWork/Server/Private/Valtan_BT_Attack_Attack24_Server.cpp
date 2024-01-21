@@ -3,7 +3,7 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
-#include <Boss_Server.h>
+#include <Boss_Valtan_Server.h>
 
 CValtan_BT_Attack_Attack24_Server::CValtan_BT_Attack_Attack24_Server()
 {
@@ -27,6 +27,7 @@ void CValtan_BT_Attack_Attack24_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
+	static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Clear_GrabbedPlayerIDs();
 }
 
 

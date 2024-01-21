@@ -176,7 +176,6 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 				m_iGroggyGauge -= iGroggy_Result;
 			if (m_IsGroggyLock)
 				iGroggy_Result = 0;
-			m_iHitCount++;
 
 			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
 				m_iArmorDurability -= iDamage;
@@ -228,10 +227,6 @@ HRESULT CBoss_Server::Ready_Components()
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
-		return E_FAIL;
-
-	///* For.Com_State */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StateMachine"), TEXT("Com_StateMachine"), (CComponent**)&m_pStateMachine)))
 		return E_FAIL;
 
 	///* For.Com_RigidBody */

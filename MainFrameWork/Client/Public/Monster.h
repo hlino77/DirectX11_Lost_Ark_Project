@@ -136,8 +136,11 @@ public:
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
 	void	Deactivate_AllColliders();
 
-	_uint					Get_Atk() { return m_iAtk; }
-	void					Set_Atk(_uint iAtk) { m_iAtk = iAtk; }
+	_int					Get_Atk() { return m_iAtk; }
+	void					Set_Atk(_int iAtk) { m_iAtk = iAtk; }
+
+	STATUSEFFECT			Get_StatusEffect() { return m_eStatusEffect; }
+	void					Set_StatusEffect(STATUSEFFECT eStatusEffect) { m_eStatusEffect = eStatusEffect; }
 
 
 
@@ -160,7 +163,8 @@ protected:
 
 
 protected:
-	_uint							m_iAtk = 0;
+	_int							m_iAtk = 0;
+	STATUSEFFECT					m_eStatusEffect =	STATUSEFFECT::EFFECTEND;
 	_float							m_fMoveSpeed = 1.f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;

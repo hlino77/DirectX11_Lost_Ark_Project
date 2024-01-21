@@ -1243,6 +1243,9 @@
     <Filter Include="02.GameObjects\Item\Equip\Weapon\WR_WP_Mococo">
       <UniqueIdentifier>{bbdeff4a-eaaa-413e-ae27-157494966ab7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Prison">
+      <UniqueIdentifier>{14a88773-3947-4a39-961a-84c6ab882d0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3896,19 +3899,19 @@
     <ClInclude Include="..\Public\IT_WDR_Helmet_Mococo.h">
       <Filter>02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_4_1.h">
+    <ClInclude Include="..\Public\SKill_Valtan_SphereInstant.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_4_2.h">
+    <ClInclude Include="..\Public\SKill_Valtan_DoughnutTerm2sec.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_AxeWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_8_1.h">
+    <ClInclude Include="..\Public\SKill_Valtan_DoughnutFirstHit.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_8_2.h">
+    <ClInclude Include="..\Public\SKill_Valtan_DoughnutSecondHit.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_SeismicWave.h">
@@ -3916,6 +3919,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Gunslinger.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_Valtan_SilenceSphere.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_Valtan_DoughnutInstant.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SKill_Valtan_SphereTerm.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Prison.h">
+      <Filter>02.GameObjects\Monster\Prison</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6546,19 +6561,19 @@
     <ClCompile Include="..\Private\IT_WDR_Helmet_Mococo.cpp">
       <Filter>02.GameObjects\Item\Equip\Gear\WDR_Helmet_Mococo</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_4_1.cpp">
+    <ClCompile Include="..\Private\SKill_Valtan_SphereInstant.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_4_2.cpp">
+    <ClCompile Include="..\Private\SKill_Valtan_DoughnutTerm2sec.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_AxeWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_8_1.cpp">
+    <ClCompile Include="..\Private\SKill_Valtan_DoughnutFirstHit.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_8_2.cpp">
+    <ClCompile Include="..\Private\SKill_Valtan_DoughnutSecondHit.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_SeismicWave.cpp">
@@ -6566,6 +6581,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Gunslinger.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Valtan_SilenceSphere.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Valtan_DoughnutInstant.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Valtan_SphereTerm.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Prison.cpp">
+      <Filter>02.GameObjects\Monster\Prison</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

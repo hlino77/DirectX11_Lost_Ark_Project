@@ -42,7 +42,7 @@ HRESULT CMonster_Server::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
-
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_pRigidBody->SetMass(2.0f);
 	m_pRigidBody->Set_Gravity(false);
 
@@ -156,10 +156,6 @@ HRESULT CMonster_Server::Ready_Components()
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
-		return E_FAIL;
-
-	///* For.Com_State */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StateMachine"), TEXT("Com_StateMachine"), (CComponent**)&m_pStateMachine)))
 		return E_FAIL;
 
 	///* For.Com_RigidBody */
@@ -377,7 +373,7 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		}
 	}
 
-	if (iStatusEffect != (_int)STATUSEFFECT::COUNTER && fStatusDuration !=0&&iStatusEffect < (_int)STATUSEFFECT::EFFECTEND)
+	if (iStatusEffect > (_int)STATUSEFFECT::GROGGY && fStatusDuration !=0&&iStatusEffect < (_int)STATUSEFFECT::SILENCE)
 	{
 		for (size_t i = 0; i < (_uint)STATUSEFFECT::EFFECTEND; i++)
 		{
