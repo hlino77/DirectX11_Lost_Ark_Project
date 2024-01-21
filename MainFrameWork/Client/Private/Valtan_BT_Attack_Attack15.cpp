@@ -14,16 +14,37 @@ CValtan_BT_Attack_Attack15::CValtan_BT_Attack_Attack15()
 void CValtan_BT_Attack_Attack15::OnStart()
 {
 	__super::OnStart();
-
+	m_bShoot = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 4 && m_bShoot)
+	{
+		m_bShoot = false;
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
+
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_SphereInstant", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(7.5f);
+			static_cast<CSkill*>(pSkill)->Set_Force(-13.f);
+		}
+
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > 27)
 	{
 		for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
 		{
-			if (pGameObject->Get_ObjectTag() == L"Monster_Prison")
+			if (pGameObject->Get_ObjectTag() == L"Monster_Prison"&& !pGameObject->Is_Dead())
 			{
 				CSkill::ModelDesc ModelDesc = {};
 				ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;

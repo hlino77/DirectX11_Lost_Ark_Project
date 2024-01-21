@@ -60,7 +60,6 @@ HRESULT CMonster_Prison::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(0.f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 0.f;
-	m_eStatusEffect = STATUSEFFECT::IMPRISONMENT;
 
 	return S_OK;
 }
@@ -90,10 +89,6 @@ void CMonster_Prison::Set_SlowMotion(_bool bSlow)
 
 void CMonster_Prison::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER&& pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-	{
-		Send_Collision(0, Vec3(), STATUSEFFECT::EFFECTEND, -1.f, 0.f, 0);
-	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
@@ -121,8 +116,6 @@ void CMonster_Prison::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 	m_iHp -= iDamage;
 	if (m_iHp < 1)
 		Set_Die();
-	if (fForce == -1.f)
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
 }
 
 HRESULT CMonster_Prison::Ready_Components()
@@ -143,20 +136,6 @@ HRESULT CMonster_Prison::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
-
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
-	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(0.2f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
 
 	{
 		CCollider::ColliderInfo tColliderInfo;
