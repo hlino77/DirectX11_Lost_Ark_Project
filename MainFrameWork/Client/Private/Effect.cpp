@@ -277,6 +277,9 @@ void CEffect::Tick(_float fTimeDelta)
 
 	if (!m_bRevolution_Pass)
 	{
+		if (m_fTimeAcc >= m_fLifeTime && m_fTimeAcc <= m_fLifeTime + m_fRemainTime)
+			m_fLifeTimeRatio = (fmodf(m_fTimeAcc, m_fLifeTime) / m_fLifeTime);
+
 		if (m_bRevolution_Lerp)
 			m_vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, m_fLifeTimeRatio);
 		else
