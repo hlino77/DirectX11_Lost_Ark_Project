@@ -5,6 +5,8 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect.h"
+
 
 CState_WDR_PerfectSwing_Fail::CState_WDR_PerfectSwing_Fail(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -33,6 +35,8 @@ void CState_WDR_PerfectSwing_Fail::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPerfectSwing_Fail, 0.1f, 0, 0, 1.f);
+
+	m_bEffectEnd = false;
 }
 
 void CState_WDR_PerfectSwing_Fail::Tick_State(_float fTimeDelta)
@@ -48,7 +52,9 @@ void CState_WDR_PerfectSwing_Fail::Exit_State()
 
 void CState_WDR_PerfectSwing_Fail::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPerfectSwing_Fail))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPerfectSwing_Fail);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -57,8 +63,21 @@ void CState_WDR_PerfectSwing_Fail::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPerfectSwing_Fail))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
+	if (m_bEffectEnd == false)
+	{
+		if (iAnimFrame >= 29)
+		{
+			Effect_End();
+			m_bEffectEnd = true;
+		}
+		else
+		{
+			Update_Effect();
+		}
 
-	if (55 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPerfectSwing_Fail))
+	}
+
+	if (55 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
@@ -100,6 +119,18 @@ void CState_WDR_PerfectSwing_Fail::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_PerfectSwing_Fail::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WDR_PerfectSwing_Fail::Update_Effect()
+{
+	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix();
+
+	m_pPlayer->Get_Effect(L"PerfectCircle")->Update_Pivot(matWorld);
+}
+
+void CState_WDR_PerfectSwing_Fail::Effect_End()
+{
+	m_pPlayer->Delete_Effect(L"PerfectCircle");
 }
 
 CState_WDR_PerfectSwing_Fail* CState_WDR_PerfectSwing_Fail::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

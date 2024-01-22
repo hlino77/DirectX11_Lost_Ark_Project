@@ -21,6 +21,9 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+	void	Effect_Start();
+	void	Update_Effect(_float fTimeDelta);
+	
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
@@ -33,8 +36,12 @@ private:
 	_int m_iPerfectSwing_Loop_1 = 0;
 	_int m_iPerfectSwing_Loop_2 = 0;
 
+	_bool m_bEffect = false;
 
+	vector<CEffect*> m_Effects;
 
+	_float m_fEffectAcc = 0.0f;
+	_float m_fEffectDelay = 0.0f;
 public:
 	static CState_WDR_PerfectSwing_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

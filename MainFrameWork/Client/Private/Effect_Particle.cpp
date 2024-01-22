@@ -127,6 +127,11 @@ void CEffect_Particle::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 	m_pBuffer->Reset();
 }
 
+void CEffect_Particle::EffectEnd()
+{
+	m_fTimeAcc = m_fLifeTime;
+}
+
 HRESULT CEffect_Particle::Ready_Components()
 {
 	if (FAILED(Super::Ready_Components()))

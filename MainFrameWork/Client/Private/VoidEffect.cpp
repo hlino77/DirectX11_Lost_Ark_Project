@@ -297,6 +297,8 @@ HRESULT CVoidEffect::Render()
 	}
 	else if (2 == m_iEffectType)
 	{
+		m_fOriginEmitTerm = max(m_fOriginEmitTerm, 0.0001f);
+
 		m_Particle.vEmitDirection = XMVector3TransformNormal(m_vOriginEmitDir, matCombined);
 
 		if (m_fTimeAcc >= m_fLifeTime)

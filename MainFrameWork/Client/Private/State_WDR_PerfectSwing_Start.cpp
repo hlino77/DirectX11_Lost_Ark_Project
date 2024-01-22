@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 
+
 CState_WDR_PerfectSwing_Start::CState_WDR_PerfectSwing_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
 {

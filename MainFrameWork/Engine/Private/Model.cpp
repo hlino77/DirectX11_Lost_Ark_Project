@@ -847,7 +847,7 @@ HRESULT CModel::Load_ModelData_FromFile(Matrix PivotMatrix, _bool bClient, _bool
 	}
 
 	return S_OK;
-}
+} 
 
 HRESULT CModel::Load_MaterialData_FromFile()
 {

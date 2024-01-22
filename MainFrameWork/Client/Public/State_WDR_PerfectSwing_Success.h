@@ -21,6 +21,9 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+	void	Update_Effect();
+	void	Effect_End();
+
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
@@ -29,6 +32,8 @@ private:
 private:
 	//Animation
 	_int m_iPerfect_Success = 0;
+
+	_bool m_bEffectEnd = false;
 
 public:
 	static CState_WDR_PerfectSwing_Success* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
