@@ -501,7 +501,7 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CUI_SpeechBubble::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	for (_uint i = 0; i < 10; ++i)
+	for (_uint i = 0; i < 30; ++i)
 	{
 		_uint iIndex = i;
 		CUI_SpeechBubble* pUI = dynamic_cast<CUI_SpeechBubble*>(m_pGameInstance->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SpeechBubble"), &iIndex));

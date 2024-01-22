@@ -62,11 +62,7 @@ void CWeapon_Long::Tick(_float fTimeDelta)
 
 void CWeapon_Long::LateTick(_float fTimeDelta)
 {
-	if (true == Is_Render() && true == m_pOwner->Is_Render())
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
-	}
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CWeapon_Long::Render()
@@ -103,12 +99,6 @@ HRESULT CWeapon_Long::Ready_Components()
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_GN_WP_Long_Legend";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
-		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);

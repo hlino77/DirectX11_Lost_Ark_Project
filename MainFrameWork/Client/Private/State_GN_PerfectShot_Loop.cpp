@@ -81,16 +81,19 @@ void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
 	{
-		m_pPlayer->Set_TargetPos(vClickPos);
 		m_pPlayer->Set_State(TEXT("Skill_GN_PerfectShot_End"));
 	}
 	else if (true == m_pController->Is_Away(m_eSkillBindKey))
 	{
-		m_pPlayer->Set_TargetPos(vClickPos);
 		m_pPlayer->Set_State(TEXT("Skill_GN_PerfectShot_End"));
 
 		if (m_fSkillSuccessTime_Min <= m_fSkillTimeAcc && m_fSkillSuccessTime_Max >= m_fSkillTimeAcc)
 			m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Set_SkillSuccess(true);
+	}
+
+	if (true == m_pController->Is_Dash())
+	{
+		m_pPlayer->Set_State(TEXT("Dash"));
 	}
 
 	if (m_pPlayer->Get_ModelCom()->Get_CurrAnim() == m_iPerfectShot_Loop)

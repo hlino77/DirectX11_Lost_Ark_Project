@@ -26,6 +26,11 @@ public:
 private:
 	virtual HRESULT				Ready_Components();
 
+private:
+	class CModel*				m_pModel_H = { nullptr };
+	class CModel*				m_pModel_L = { nullptr };
+	class CModel*				m_pModel_S = { nullptr };
+
 public:
 	static CIT_GN_WP_Mococo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "Model.h"
 #include "Shader.h"
+#include "Renderer.h"
 
 CPartObject::CPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjectTag, _int iObjType)
 	: CGameObject(pDevice, pContext, strObjectTag, iObjType)
@@ -50,6 +51,11 @@ void CPartObject::Tick(_float fTimeDelta)
 
 void CPartObject::LateTick(_float fTimeDelta)
 {
+	if (true == Is_Render() && true == m_pOwner->Is_Render() && nullptr != m_pModelCom)
+	{
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
+	}
 }
 
 HRESULT CPartObject::Render_ShadowDepth()

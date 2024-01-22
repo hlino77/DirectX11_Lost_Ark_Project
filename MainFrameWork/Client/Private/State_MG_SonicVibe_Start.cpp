@@ -48,45 +48,42 @@ void CState_MG_SonicVibe_Start::Exit_State()
 void CState_MG_SonicVibe_Start::Tick_State_Control(_float fTimeDelta)
 {
 	Vec3 vClickPos;
-	if (m_pPlayer->Get_CellPickingPos(vClickPos))
+	if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 	{
 		m_pPlayer->Set_TargetPos(vClickPos);
-		if (true == m_pController->Is_Tap(KEY::LBTN))
+	}
+	else
+	{
+		m_pPlayer->Set_TargetPos(Vec3());
+	}
+		
+
+	if (true == m_pController->Is_Tap(KEY::LBTN))
+	{
+		Vec3 vDir = m_pPlayer->Get_TargetPos() - m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
+		if (4.f <= vDir.Length())
 		{
-			Vec3 vDir = m_pPlayer->Get_TargetPos() - m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
-			if (4.f <= vDir.Length())
-			{
-				m_vColliPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-				vDir.Normalize();
-				m_vColliPos += vDir * 4.f;
-			}
-			else
-			{
-				m_vColliPos = m_pPlayer->Get_TargetPos();
-			}
-
-			m_pPlayer->Set_TargetPos(m_vColliPos);
-			m_pPlayer->Set_State(TEXT("Skill_MG_SonicVibe_End"));
+			m_vColliPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			vDir.Normalize();
+			m_vColliPos += vDir * 4.f;
 		}
+		else
+		{
+			m_vColliPos = m_pPlayer->Get_TargetPos();
+		}
+
+		m_pPlayer->Set_TargetPos(m_vColliPos);
+		m_pPlayer->Set_State(TEXT("Skill_MG_SonicVibe_End"));
 	}
 	
 	if (true == m_pController->Is_Dash())
 	{
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			m_pPlayer->Set_TargetPos(vClickPos);
-		else
-			m_pPlayer->Set_TargetPos(Vec3());
-
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
 	else if (true == m_pController->Is_Run())
 	{
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-		{
-			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pPlayer->Set_State(TEXT("Run"));
-		}
+		m_pPlayer->Set_State(TEXT("Run"));
 	}
 }
 

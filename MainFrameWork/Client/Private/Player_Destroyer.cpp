@@ -36,6 +36,7 @@
 #include "State_WDR_Stand.h"
 #include "State_WDR_StandDash.h"
 #include "State_WDR_Grabbed.h"
+#include "State_WDR_Stop.h"
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
@@ -69,6 +70,7 @@
 
 #include "Skill.h"
 #include "Boss.h"
+#include "Item.h"
 
 CPlayer_Destroyer::CPlayer_Destroyer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -88,6 +90,9 @@ HRESULT CPlayer_Destroyer::Initialize_Prototype()
 HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
+
+	if (FAILED(Ready_Item()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -132,6 +137,31 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 void CPlayer_Destroyer::Tick(_float fTimeDelta)
 {
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::O))
+	{
+		Use_Item(TEXT("IT_WDR_WP_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::P))
+	{
+		Use_Item(TEXT("IT_WDR_WP_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::K))
+	{
+		Use_Item(TEXT("IT_WDR_Helmet_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::L))
+	{
+		Use_Item(TEXT("IT_WDR_Body_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::N))
+	{
+		Use_Item(TEXT("IT_WDR_Helmet_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
+	{
+		Use_Item(TEXT("IT_WDR_Body_Mococo"));
+	}
+
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
@@ -293,6 +323,23 @@ void CPlayer_Destroyer::OnCollisionStay(const _uint iColLayer, CCollider* pOther
 
 void CPlayer_Destroyer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Stop") == Get_State())
+			{
+				if (true == m_pController->Is_In_Identity())
+				{
+					Set_State(TEXT("Iden_Idle"));
+				}
+				else
+				{
+					Set_State(TEXT("Idle"));
+				}
+			}
+		}
+	}
 }
 
 void CPlayer_Destroyer::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)
@@ -375,20 +422,9 @@ HRESULT CPlayer_Destroyer::Ready_Components()
 		TEXT("Com_Controller"), (CComponent**)&m_pController, &Control_Desc)))
 		return E_FAIL;
 
-	/* 초기 장비 및 얼굴 설정 */
-	wstring strComName = L"Prototype_Component_Model_WDR_Head_BaseMococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
-		return E_FAIL;
-
-	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
-
-	strComName = L"Prototype_Component_Model_WDR_Body_BaseMococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
-		return E_FAIL;
-
 
 	/* 디폴트 장비 설정 */
-	strComName = L"Prototype_Component_Model_WDR_Body_Default";
+	wstring strComName = L"Prototype_Component_Model_WDR_Body_Default";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::BODY])))
 		return E_FAIL;
 
@@ -541,6 +577,9 @@ HRESULT CPlayer_Destroyer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_WDR_Grabbed::Create(TEXT("Grabbed"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Stop"), CState_WDR_Stop::Create(TEXT("Stop"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
@@ -731,6 +770,58 @@ HRESULT CPlayer_Destroyer::Ready_PhysxBoneBranch()
 
 		CPhysXMgr::GetInstance()->Add_BoneBranch(this, Bones);
 	}*/
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Destroyer::Ready_Item()
+{
+	CItem* pItem = nullptr;
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	return S_OK;
 }

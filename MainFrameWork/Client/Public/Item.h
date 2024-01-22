@@ -58,6 +58,19 @@ public:
 	virtual HRESULT				Use_Item(CPlayer* pOwner) PURE;
 	virtual HRESULT				Disuse_Item(CPlayer* pOwner, _bool bUseDefault) PURE;
 
+	virtual void				Upgrade_Item();
+
+public:
+	CHANGESTATDESC				Get_StatChangeDesc() { return m_tStatChangeDesc; }
+
+	wstring						Get_ItemName() { return m_strItemName; }
+	wstring						Get_ItemDescript() { return m_strItemDescript; }
+
+	_uint						Get_ItemGrade() { return m_iItemGrade; }
+	_uint						Get_ItemType() { return m_iItemType; }
+
+	_uint						Get_EquipType() { return m_iEquipType; }
+
 protected:
 	virtual HRESULT				Ready_Components();
 
@@ -72,6 +85,9 @@ protected:
 
 	_uint						m_iItemGrade = { (_uint)GRADE::_END };
 	_uint						m_iItemType = { (_uint)TYPE::_END };
+
+	_uint						m_iEquipType = { (_uint)PART::_END };
+	vector<_uint>				m_vecUseEquipSlot;
 
 public:
 	virtual void Free();

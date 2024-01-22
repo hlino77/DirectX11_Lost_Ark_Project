@@ -32,7 +32,7 @@ HRESULT CWeapon_WR::Initialize(void* pArg)
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
 	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
-	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 90.f));
+	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, -90.f));
 
 	return S_OK;
 }
@@ -62,11 +62,7 @@ void CWeapon_WR::Tick(_float fTimeDelta)
 
 void CWeapon_WR::LateTick(_float fTimeDelta)
 {
-	if (true == Is_Render() && true == m_pOwner->Is_Render())
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
-	}
+	__super::LateTick(fTimeDelta);
 }
 
 HRESULT CWeapon_WR::Render()
@@ -122,12 +118,6 @@ HRESULT CWeapon_WR::Ready_Components()
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_WP_WR_Base";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName,
-		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	return S_OK;

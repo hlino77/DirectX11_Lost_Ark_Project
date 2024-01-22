@@ -69,6 +69,8 @@ void CState_WDR_HitEnd::Enter_State()
 	default:
 		break;
 	}
+
+	m_pController->Get_HitEndMessage();
 }
 
 void CState_WDR_HitEnd::Tick_State(_float fTimeDelta)
@@ -87,24 +89,24 @@ void CState_WDR_HitEnd::Tick_State_Control(_float fTimeDelta)
 {
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHitEnd))
 	{
-		m_pController->Get_HitEndMessage();
 		m_pPlayer->Set_AnimationSpeed(0.f);
 		m_IsAnimEnd = true;
 	}
 
+	if (true == m_pController->Is_Dash())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
+		m_pPlayer->Set_State(TEXT("StandDash"));
+	}
+
+
 	if (true == m_IsAnimEnd)
 	{
-		if (true == m_pController->Is_Dash())
-		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
-
-			m_pPlayer->Set_State(TEXT("StandDash"));
-		}
-
 		m_fTimeAcc += fTimeDelta;
 		if (m_fDownTime <= m_fTimeAcc)
 		{

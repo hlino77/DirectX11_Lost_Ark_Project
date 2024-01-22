@@ -25,6 +25,8 @@
 #include "UI_InGame_NamePlate.h"
 #include "Effect.h"
 
+#include "Item.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
 {
@@ -411,6 +413,54 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 	vRayDir = XMVector3TransformNormal(vRayDir, matViewInv);
 
 	return CNavigationMgr::GetInstance()->Picking_Cell(m_iCurrLevel, vRayPos, vRayDir, vPickPos);
+}
+
+HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
+{
+	auto& iter = m_mapItems.find(strItemTag);
+	if (iter == m_mapItems.end())
+	{
+		vector<CItem*> vecItem;
+		vecItem.push_back(pItem);
+		m_mapItems.emplace(strItemTag, vecItem);
+	}
+	else
+	{
+		if ((_uint)CItem::TYPE::EQUIP == pItem->Get_ItemType())
+			return E_FAIL;
+
+		iter->second.push_back(pItem);
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Use_Item(wstring strItemTag)
+{
+	auto& iter = m_mapItems.find(strItemTag);
+	if (iter == m_mapItems.end())
+	{
+		return E_FAIL;
+	}
+	else
+	{
+		iter->second.front()->Use_Item(this);
+
+		if ((_uint)CItem::TYPE::CONSUM == iter->second.front()->Get_ItemType())
+		{
+			if (1 == iter->second.size())
+			{
+				iter->second.clear();
+				m_mapItems.erase(iter);
+			}
+			else
+			{
+				iter->second.pop_back();
+			}
+		}
+	}
+
+	return S_OK;
 }
 
 void CPlayer::Add_Effect(const wstring& szEffectName, CEffect* pEffect)

@@ -40,6 +40,7 @@
 #include "State_GN_Stand.h"
 #include "State_GN_StandDash.h"
 #include "State_GN_Grabbed.h"
+#include "State_GN_Stop.h"
 
 /* State_Skill */
 #include "State_GN_FreeShooter.h"
@@ -95,6 +96,7 @@
 
 #include "Skill.h"
 #include "Boss.h"
+#include "Item.h"
 
 CPlayer_Gunslinger::CPlayer_Gunslinger(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -114,6 +116,9 @@ HRESULT CPlayer_Gunslinger::Initialize_Prototype()
 HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
+
+	if (FAILED(Ready_Item()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -160,6 +165,35 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 {
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::O))
+	{
+		Use_Item(TEXT("IT_GN_WP_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::P))
+	{
+		Use_Item(TEXT("IT_GN_WP_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::J))
+	{
+		Use_Item(TEXT("IT_GN_Helmet_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::K))
+	{
+		Use_Item(TEXT("IT_GN_Body_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::L))
+	{
+		Use_Item(TEXT("IT_GN_Leg_Legend"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::N))
+	{
+		Use_Item(TEXT("IT_GN_Helmet_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
+	{
+		Use_Item(TEXT("IT_GN_Body_Mococo"));
+	}
+
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
 	m_pRigidBody->Tick(fTimeDelta);
@@ -294,6 +328,16 @@ void CPlayer_Gunslinger::OnCollisionStay(const _uint iColLayer, CCollider* pOthe
 
 void CPlayer_Gunslinger::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Stop") == Get_State())
+			{
+				Set_State(TEXT("Idle"));
+			}
+		}
+	}
 }
 
 void CPlayer_Gunslinger::OnCollisionEnter_NoneControl(const _uint iColLayer, CCollider* pOther)
@@ -408,40 +452,10 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 		return E_FAIL;
 
 	/* 초기 장비 및 얼굴 설정 */
-	wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
-		return E_FAIL;
-
-	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
-
-	strComName = L"Prototype_Component_Model_GN_Legend_Body";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY])))
-		return E_FAIL;
-
-	strComName = L"Prototype_Component_Model_GN_Legend_Leg";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Leg"), (CComponent**)&m_pModelPartCom[(_uint)PART::LEG])))
-		return E_FAIL;
-
-	strComName = L"Prototype_Component_Model_GN_Face";
+	wstring strComName = L"Prototype_Component_Model_GN_Face";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
 		return E_FAIL;
-
-	/*CModel::CHANGECOLOR pChangeColor;
-	pChangeColor.vColor_R = Vec4(1.f, 1.f, 1.f, 1.f);
-	pChangeColor.vColor_G = Vec4(1.f, 0.01f, 0.f, 0.692807f);
-	pChangeColor.vColor_B = Vec4(0.01f, 1.f, 0.24f, 0.587838f);
-
-	wstring strComName = L"Prototype_Component_Model_GN_Head_Mococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET], &pChangeColor)))
-		return E_FAIL;
-
-	m_IsHair = m_pModelPartCom[(_uint)PART::HELMET]->Is_HairTexture();
-
-	strComName = L"Prototype_Component_Model_GN_Body_Mococo";
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY], &pChangeColor)))
-		return E_FAIL;*/
-
-
+	
 	/* 디폴트 장비 설정 */
 	strComName = L"Prototype_Component_Model_GN_Body_Default";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body_Default"), (CComponent**)&m_pDefaultModel[(_uint)PART::BODY])))
@@ -700,6 +714,9 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Grabbed"), CState_GN_Grabbed::Create(TEXT("Grabbed"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Stop"), CState_GN_Stop::Create(TEXT("Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -838,6 +855,65 @@ HRESULT CPlayer_Gunslinger::Ready_Skill()
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_LongSkill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
 	SkillDesc.State_Skills.clear();
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Gunslinger::Ready_Item()
+{
+	CItem* pItem = nullptr;
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC, 
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_Helmet_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_Body_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_WP_Mococo")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+	pItem->Use_Item(this);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_WP_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_Body_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_Helmet_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_Leg_Legend")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	return S_OK;
 }
