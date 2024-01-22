@@ -26,7 +26,7 @@ HRESULT CCamera_Player::Initialize_Prototype()
 HRESULT CCamera_Player::Initialize(void* pArg)
 {
 	PlayerCameraDesc* pDesc = static_cast<PlayerCameraDesc*>(pArg);
-	m_pPlayer = pDesc->pPlayer;
+	m_pTarget = pDesc->pPlayer;
 
 
 	if (FAILED(__super::Initialize(&pDesc->tCameraDesc)))
@@ -37,59 +37,29 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 
 	Vec3 vRight = m_vOffset.Cross(Vec3(0.0f, 1.0f, 0.0f));
 	
-	m_vOffset = XMVector3TransformNormal(m_vOffset, Matrix::CreateFromAxisAngle(vRight, XMConvertToRadians(50.0f)));
+	m_vDefaultOffset = m_vOffset = XMVector3TransformNormal(m_vOffset, Matrix::CreateFromAxisAngle(vRight, XMConvertToRadians(50.0f)));
 
 	m_fDefaultLength = m_fTargetCameraLength = m_fCameraLength = 7.5f;
 
-	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);
+	Vec3 vPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	
+	m_eState = CameraState::DEFAULT;
 
 	return S_OK;
 }
 
 void CCamera_Player::Tick(_float fTimeDelta)
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-	
-	//오프셋을 매번 업데이트 한다
-	// 속도로 회전 
-	
-	if (m_fCameraLength != m_fTargetCameraLength)
+	switch (m_eState)
 	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
-		{
-			m_fCameraLength = m_fTargetCameraLength;
-		}
+	case CameraState::FREE:
+		Tick_FreeCamera(fTimeDelta);
+		break;
+	case CameraState::DEFAULT:
+		Tick_DefaultCamera(fTimeDelta);
+		break;
 	}
-
-
-	Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	Vec3 vPos = vPlayerPos + (m_vOffset * m_fCameraLength);
-	Vec3 vLook = vPlayerPos - vPos;
-	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-
-	if (m_bShake)
-	{
-		m_fCurrShakeTime += fTimeDelta;
-		if (m_fCurrShakeTime >= m_fShakeTime)
-		{
-			m_bShake = false;
-		}
-
-		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
-		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-	}
-
-
-	
-	m_pTransformCom->Set_WorldMatrix(matWorld);
-
-	
-	Safe_Release(pGameInstance);
 
 	__super::Tick(fTimeDelta);
 }
@@ -120,6 +90,72 @@ void CCamera_Player::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, 
 	m_vShakeVelocity.Normalize();
 
 	m_vShakeVelocity *= fFirstShake;
+}
+
+void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
+{
+	if (m_fCameraLength != m_fTargetCameraLength)
+	{
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+
+		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
+		{
+			m_fCameraLength = m_fTargetCameraLength;
+		}
+	}
+
+
+	Vec3 vTargetPos = m_vTargetPos;
+	Vec3 vPos = vTargetPos + (m_vOffset * m_fCameraLength);
+	Vec3 vLook = vTargetPos - vPos;
+	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	if (m_bShake)
+	{
+		m_fCurrShakeTime += fTimeDelta;
+		if (m_fCurrShakeTime >= m_fShakeTime)
+		{
+			m_bShake = false;
+		}
+
+		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
+		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	m_pTransformCom->Set_WorldMatrix(matWorld);
+}
+
+void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
+{
+	if (m_fCameraLength != m_fTargetCameraLength)
+	{
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+
+		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
+		{
+			m_fCameraLength = m_fTargetCameraLength;
+		}
+	}
+
+
+	Vec3 vPlayerPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vPos = vPlayerPos + (m_vDefaultOffset * m_fCameraLength);
+	Vec3 vLook = vPlayerPos - vPos;
+	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	if (m_bShake)
+	{
+		m_fCurrShakeTime += fTimeDelta;
+		if (m_fCurrShakeTime >= m_fShakeTime)
+		{
+			m_bShake = false;
+		}
+
+		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
+		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	m_pTransformCom->Set_WorldMatrix(matWorld);
 }
 
 void CCamera_Player::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta)

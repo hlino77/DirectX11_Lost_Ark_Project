@@ -1243,6 +1243,12 @@
     <Filter Include="02.GameObjects\Item\Equip\Weapon\WR_WP_Mococo">
       <UniqueIdentifier>{bbdeff4a-eaaa-413e-ae27-157494966ab7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\EarthEaterParticle">
+      <UniqueIdentifier>{f9902078-6d24-4ee2-b229-c0918a76c5a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\EarthEaterDecal">
+      <UniqueIdentifier>{df0f2f17-9024-4334-adfc-16e40fe8c5f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -3824,7 +3830,7 @@
     <ClInclude Include="..\Public\Level_ValtanMain.h">
       <Filter>01.Levels\05. ValtanMain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effect_Custom_SeismicHammer.h">
+    <ClInclude Include="..\Public\Effect_Custom_SeismicHammerRock.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AnimModel.h">
@@ -3916,6 +3922,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Gunslinger.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_TargetDown_Ready.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_EarthEaterParticle.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_EarthEaterSmallParticle.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_EarthEaterDecal.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterDecal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6474,7 +6492,7 @@
     <ClCompile Include="..\Private\Level_ValtanMain.cpp">
       <Filter>01.Levels\05. ValtanMain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Effect_Custom_SeismicHammer.cpp">
+    <ClCompile Include="..\Private\Effect_Custom_SeismicHammerRock.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AnimModel.cpp">
@@ -6566,6 +6584,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Gunslinger.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_TargetDown_Ready.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Long\TargetDown</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_EarthEaterParticle.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_EarthEaterSmallParticle.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_EarthEaterDecal.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterDecal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

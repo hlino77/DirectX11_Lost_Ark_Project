@@ -78,7 +78,7 @@ public:
 		_float	fDistortion = 0.f;
 		_float	fDissolveAmount = 0.f;
 		_int	iDistortionOnBaseMaterial = 0;
-		_int    fRadialTime = 0;
+		_float  fRadialTime = 0;
 		_float  fRadialIntensity = 0;
 		
 		// Billboard

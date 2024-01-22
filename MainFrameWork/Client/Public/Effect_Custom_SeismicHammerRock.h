@@ -8,23 +8,24 @@ END
 
 BEGIN(Client)
 
-class CEffect_Custom_SeismicHammer : public CEffect
+class CEffect_Custom_SeismicHammerRock : public CEffect
 {
 	using Super = CEffect;
 public:
 	typedef struct EffectDesc
 	{
+		Vec3 vScale;
 		Vec3 vPos;
 		Vec3 vLook;
 	};
 
 private:
-	enum class SeismicHammerState { START, IDLE, DISAPPEAR, STATEEND };
+	enum class SeismicHammerState { READY, START, IDLE, DISAPPEAR, STATEEND };
 
 private:
-	CEffect_Custom_SeismicHammer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect_Custom_SeismicHammer(const CEffect_Custom_SeismicHammer& rhs);
-	virtual ~CEffect_Custom_SeismicHammer() = default;
+	CEffect_Custom_SeismicHammerRock(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CEffect_Custom_SeismicHammerRock(const CEffect_Custom_SeismicHammerRock& rhs);
+	virtual ~CEffect_Custom_SeismicHammerRock() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype(EFFECTDESC* pDesc)	override;
@@ -38,7 +39,6 @@ public:
 	void	Tick_Idle(_float fTimeDelta);
 	void	Tick_Disappear(_float fTimeDelta);
 
-
 private:
 	virtual HRESULT Ready_Components() override;
 
@@ -47,7 +47,7 @@ private:
 
 	SeismicHammerState m_eState;
 public:
-	static CEffect_Custom_SeismicHammer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CEffect_Custom_SeismicHammerRock* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

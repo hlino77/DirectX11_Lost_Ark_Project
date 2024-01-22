@@ -121,7 +121,7 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 
 			CEffect_Manager::EFFECTPIVOTDESC desc;
 			Matrix matEffectWorld = Matrix::CreateWorld(vRandomPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-			desc.pPivotMatrix = &matWorld;
+			desc.pPivotMatrix = &matEffectWorld;
 
 			EFFECT_START(m_ParticleName[iParticleNameIndex], &desc)
 		}

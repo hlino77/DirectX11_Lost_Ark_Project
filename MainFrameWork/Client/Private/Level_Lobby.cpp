@@ -21,6 +21,9 @@
 #include "UI_Lobby.h"
 #include "UI_Lobby_EntranceServer_Button.h"
 #include "UI_Lobby_NickNameChange.h"
+#include "Pool.h"
+#include "Effect_Custom_EarthEaterParticle.h"
+#include "Effect_Custom_EarthEaterSmallParticle.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -45,6 +48,9 @@ HRESULT CLevel_Lobby::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI()))
+		return E_FAIL;
+
+	if (FAILED(Ready_EffectPool()))
 		return E_FAIL;
 
 	Start_QuadTree();
@@ -165,6 +171,29 @@ HRESULT CLevel_Lobby::Ready_Lights()
 
 	Safe_Release(pGameInstance);
 
+	return S_OK;
+}
+
+HRESULT CLevel_Lobby::Ready_EffectPool()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+	
+
+	for (_uint i = 0; i < 10; ++i)
+	{
+		CEffect_Custom_EarthEaterParticle* pEffect = dynamic_cast<CEffect_Custom_EarthEaterParticle*>(pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_EarthEaterParticle"));
+		CPool<CEffect_Custom_EarthEaterParticle>::Return_Obj(pEffect);
+	}
+
+	for (_uint i = 0; i < 30; ++i)
+	{
+		CEffect_Custom_EarthEaterSmallParticle* pEffect = dynamic_cast<CEffect_Custom_EarthEaterSmallParticle*>(pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_EarthEaterSmallParticle"));
+		CPool<CEffect_Custom_EarthEaterSmallParticle>::Return_Obj(pEffect);
+	}
+
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

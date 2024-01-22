@@ -435,3 +435,10 @@ bool Handel_S_NPC_Server(PacketSessionRef& session, Protocol::S_NPC& pkt)
 
 	return true;
 }
+
+bool Handel_S_NAVIGATION_Server(PacketSessionRef& session, Protocol::S_NAVIGATION& pkt)
+{
+
+
+	return true;
+}

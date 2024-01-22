@@ -21,7 +21,7 @@ PARTICLE_IN VS_MAIN_STREAM_SMOKE(PARTICLE_IN In)
     return In;
 }
 
-[maxvertexcount(6)]
+[maxvertexcount(100)]
 void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> OutStream)
 {
     In[0].fAge += fTimeStep;
@@ -29,15 +29,18 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
     if (In[0].iType == PT_EMITTER)
     {
 		// time to emit a new particle?
-        if (In[0].fAge > fEmitTerm)
+        float fOffset = 0.003f;
+        while (In[0].fAge >= fEmitTerm)
         {
             float3 vRight = normalize(WorldMatrix._11_12_13);
             float3 vUp = normalize(WorldMatrix._21_22_23);
             float3 vLook = normalize(WorldMatrix._31_32_33);
             // Spread rain drops out above the camera.
-            float3 vRandom = RandUnitVec3(0.0f);
+            float3 vRandom = RandUnitVec3(fOffset);
+            fOffset += 0.003f;
+            fOffset *= vRandom.x;
             vRandom *= 0.8f;
-            
+
             float3 vMul = (vRight * vRandom.x * vRandomMul.x) + (vUp * vRandom.y * vRandomMul.y) + (vLook * vRandom.z * vRandomMul.z);
 
             PARTICLE_IN p;
@@ -51,8 +54,8 @@ void GS_STREAM_SMOKE(point PARTICLE_IN In[1], inout PointStream<PARTICLE_IN> Out
             p.iType = PT_PARTICLE;
 
             OutStream.Append(p);
-			// reset the time to emit
-            In[0].fAge = 0.0f;
+            // reset the time to emit
+            In[0].fAge -= fEmitTerm;
         }
 
 		// always keep emitters
@@ -259,7 +262,7 @@ technique11 DrawTech
     {
         SetRasterizerState(RS_Effect);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
         GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();

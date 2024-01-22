@@ -10,13 +10,21 @@ END
 
 BEGIN(Client)
 
-class CEffect_Decal : public CEffect
+class CEffect_Custom_EarthEaterDecal : public CEffect
 {
 	using Super = CEffect;
+
+public:
+	struct CustomEffectDesc
+	{
+		Vec3 vPos;
+		Vec3 vLook;
+	};
+
 private:
-	CEffect_Decal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);	
-	CEffect_Decal(const CEffect_Decal& rhs);
-	virtual ~CEffect_Decal() = default;
+	CEffect_Custom_EarthEaterDecal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CEffect_Custom_EarthEaterDecal(const CEffect_Custom_EarthEaterDecal& rhs);
+	virtual ~CEffect_Custom_EarthEaterDecal() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype(EFFECTDESC* pDesc)	override;
@@ -31,8 +39,14 @@ private:
 private:
 	CVIBuffer*	m_pBuffer		= nullptr;
 
+private:
+	CTexture* m_pDecalTexture1 = nullptr;
+	CTexture* m_pDecalTexture2 = nullptr;
+
+	vector<Matrix> m_matSubDecal;
+
 public:
-	static CEffect_Decal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECTDESC* pDesc);
+	static CEffect_Custom_EarthEaterDecal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

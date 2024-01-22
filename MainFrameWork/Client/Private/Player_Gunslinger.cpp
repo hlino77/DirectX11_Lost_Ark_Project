@@ -61,6 +61,7 @@
 #include "State_GN_TargetDown_Loop.h"
 #include "State_GN_TargetDown_Shot.h"
 #include "State_GN_TargetDown_End.h"
+#include "State_GN_TargetDown_Ready.h"
 #include "State_GN_DeathFire_Start.h"
 #include "State_GN_DeathFire_Success.h"
 #include "State_GN_RapidFire_Start.h"
@@ -407,7 +408,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 		return E_FAIL;
 
 	/* 초기 장비 및 얼굴 설정 */
-	/*wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
+	wstring strComName = L"Prototype_Component_Model_GN_Legend_Helmet";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Helmet"), (CComponent**)&m_pModelPartCom[(_uint)PART::HELMET])))
 		return E_FAIL;
 
@@ -423,9 +424,9 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 
 	strComName = L"Prototype_Component_Model_GN_Face";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Face"), (CComponent**)&m_pModelPartCom[(_uint)PART::FACE])))
-		return E_FAIL;*/
+		return E_FAIL;
 
-	CModel::CHANGECOLOR pChangeColor;
+	/*CModel::CHANGECOLOR pChangeColor;
 	pChangeColor.vColor_R = Vec4(1.f, 1.f, 1.f, 1.f);
 	pChangeColor.vColor_G = Vec4(1.f, 0.01f, 0.f, 0.692807f);
 	pChangeColor.vColor_B = Vec4(0.01f, 1.f, 0.24f, 0.587838f);
@@ -438,7 +439,7 @@ HRESULT CPlayer_Gunslinger::Ready_Components()
 
 	strComName = L"Prototype_Component_Model_GN_Body_Mococo";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PART::BODY], &pChangeColor)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 
 	/* 디폴트 장비 설정 */
@@ -640,6 +641,9 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_End"), CState_GN_TargetDown_End::Create(TEXT("Skill_GN_TargetDown_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_GN_TargetDown_Ready"), CState_GN_TargetDown_Ready::Create(TEXT("Skill_GN_TargetDown_Ready"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Skill_GN_DeathFire_Start"), CState_GN_DeathFire_Start::Create(TEXT("Skill_GN_DeathFire_Start"),

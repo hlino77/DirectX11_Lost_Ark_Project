@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[29]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[30]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -104,6 +104,9 @@ extern S_MATRIXDefaultTypeInternal _S_MATRIX_default_instance_;
 class S_MONSTERSTATE;
 struct S_MONSTERSTATEDefaultTypeInternal;
 extern S_MONSTERSTATEDefaultTypeInternal _S_MONSTERSTATE_default_instance_;
+class S_NAVIGATION;
+struct S_NAVIGATIONDefaultTypeInternal;
+extern S_NAVIGATIONDefaultTypeInternal _S_NAVIGATION_default_instance_;
 class S_NEARTARGET;
 struct S_NEARTARGETDefaultTypeInternal;
 extern S_NEARTARGETDefaultTypeInternal _S_NEARTARGET_default_instance_;
@@ -161,6 +164,7 @@ template<> ::Protocol::S_LEVEL_STATE* Arena::CreateMaybeMessage<::Protocol::S_LE
 template<> ::Protocol::S_LOGIN* Arena::CreateMaybeMessage<::Protocol::S_LOGIN>(Arena*);
 template<> ::Protocol::S_MATRIX* Arena::CreateMaybeMessage<::Protocol::S_MATRIX>(Arena*);
 template<> ::Protocol::S_MONSTERSTATE* Arena::CreateMaybeMessage<::Protocol::S_MONSTERSTATE>(Arena*);
+template<> ::Protocol::S_NAVIGATION* Arena::CreateMaybeMessage<::Protocol::S_NAVIGATION>(Arena*);
 template<> ::Protocol::S_NEARTARGET* Arena::CreateMaybeMessage<::Protocol::S_NEARTARGET>(Arena*);
 template<> ::Protocol::S_NICKNAME* Arena::CreateMaybeMessage<::Protocol::S_NICKNAME>(Arena*);
 template<> ::Protocol::S_NPC* Arena::CreateMaybeMessage<::Protocol::S_NPC>(Arena*);
@@ -5167,6 +5171,174 @@ class S_NPC final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S_NAVIGATION final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_NAVIGATION) */ {
+ public:
+  inline S_NAVIGATION() : S_NAVIGATION(nullptr) {}
+  ~S_NAVIGATION() override;
+  explicit constexpr S_NAVIGATION(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_NAVIGATION(const S_NAVIGATION& from);
+  S_NAVIGATION(S_NAVIGATION&& from) noexcept
+    : S_NAVIGATION() {
+    *this = ::std::move(from);
+  }
+
+  inline S_NAVIGATION& operator=(const S_NAVIGATION& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_NAVIGATION& operator=(S_NAVIGATION&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_NAVIGATION& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_NAVIGATION* internal_default_instance() {
+    return reinterpret_cast<const S_NAVIGATION*>(
+               &_S_NAVIGATION_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    29;
+
+  friend void swap(S_NAVIGATION& a, S_NAVIGATION& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_NAVIGATION* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_NAVIGATION* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_NAVIGATION* New() const final {
+    return new S_NAVIGATION();
+  }
+
+  S_NAVIGATION* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_NAVIGATION>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_NAVIGATION& from);
+  void MergeFrom(const S_NAVIGATION& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_NAVIGATION* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_NAVIGATION";
+  }
+  protected:
+  explicit S_NAVIGATION(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIIndexFieldNumber = 3,
+    kILevelFieldNumber = 1,
+    kBActiveFieldNumber = 2,
+  };
+  // repeated int32 iIndex = 3 [packed = true];
+  int iindex_size() const;
+  private:
+  int _internal_iindex_size() const;
+  public:
+  void clear_iindex();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iindex(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      _internal_iindex() const;
+  void _internal_add_iindex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      _internal_mutable_iindex();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::int32 iindex(int index) const;
+  void set_iindex(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
+  void add_iindex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      iindex() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      mutable_iindex();
+
+  // int32 iLevel = 1;
+  void clear_ilevel();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel() const;
+  void set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilevel() const;
+  void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // bool bActive = 2;
+  void clear_bactive();
+  bool bactive() const;
+  void set_bactive(bool value);
+  private:
+  bool _internal_bactive() const;
+  void _internal_set_bactive(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_NAVIGATION)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > iindex_;
+  mutable std::atomic<int> _iindex_cached_byte_size_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  bool bactive_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -8264,9 +8436,102 @@ inline void S_NPC::set_allocated_strnpcname(std::string* strnpcname) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S_NPC.strNPCName)
 }
 
+// -------------------------------------------------------------------
+
+// S_NAVIGATION
+
+// int32 iLevel = 1;
+inline void S_NAVIGATION::clear_ilevel() {
+  ilevel_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_NAVIGATION::_internal_ilevel() const {
+  return ilevel_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_NAVIGATION::ilevel() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_NAVIGATION.iLevel)
+  return _internal_ilevel();
+}
+inline void S_NAVIGATION::_internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilevel_ = value;
+}
+inline void S_NAVIGATION::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilevel(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_NAVIGATION.iLevel)
+}
+
+// bool bActive = 2;
+inline void S_NAVIGATION::clear_bactive() {
+  bactive_ = false;
+}
+inline bool S_NAVIGATION::_internal_bactive() const {
+  return bactive_;
+}
+inline bool S_NAVIGATION::bactive() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_NAVIGATION.bActive)
+  return _internal_bactive();
+}
+inline void S_NAVIGATION::_internal_set_bactive(bool value) {
+  
+  bactive_ = value;
+}
+inline void S_NAVIGATION::set_bactive(bool value) {
+  _internal_set_bactive(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_NAVIGATION.bActive)
+}
+
+// repeated int32 iIndex = 3 [packed = true];
+inline int S_NAVIGATION::_internal_iindex_size() const {
+  return iindex_.size();
+}
+inline int S_NAVIGATION::iindex_size() const {
+  return _internal_iindex_size();
+}
+inline void S_NAVIGATION::clear_iindex() {
+  iindex_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_NAVIGATION::_internal_iindex(int index) const {
+  return iindex_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_NAVIGATION::iindex(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_NAVIGATION.iIndex)
+  return _internal_iindex(index);
+}
+inline void S_NAVIGATION::set_iindex(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
+  iindex_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_NAVIGATION.iIndex)
+}
+inline void S_NAVIGATION::_internal_add_iindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  iindex_.Add(value);
+}
+inline void S_NAVIGATION::add_iindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_add_iindex(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_NAVIGATION.iIndex)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+S_NAVIGATION::_internal_iindex() const {
+  return iindex_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+S_NAVIGATION::iindex() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_NAVIGATION.iIndex)
+  return _internal_iindex();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+S_NAVIGATION::_internal_mutable_iindex() {
+  return &iindex_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+S_NAVIGATION::mutable_iindex() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_NAVIGATION.iIndex)
+  return _internal_mutable_iindex();
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

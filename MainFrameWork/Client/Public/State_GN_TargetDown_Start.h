@@ -22,9 +22,10 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
-	void	Effect_Start();
-	void	Effect_End();
+	void	Reset_Camera();
+	void	Update_Camera(_float fTimeDelta);
 
+	void	Init_CameraOffset();
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 
@@ -34,7 +35,10 @@ private:
 	//Animation
 	_int m_iTargetDown_Start = 0;
 
-	_bool m_bEffect = false;
+	Vec3 m_vCameraOffset;
+	Vec3 m_vTargetOffset;
+
+
 
 public:
 	static CState_GN_TargetDown_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);

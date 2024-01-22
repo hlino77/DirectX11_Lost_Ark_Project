@@ -6,8 +6,8 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "GameInstance.h"
-#include "Effect_Custom_SeismicHammer.h"
-
+#include "Effect_Custom_SeismicHammerRock.h"
+#include "Effect_Manager.h"
 
 CState_WDR_SizemicHammer::CState_WDR_SizemicHammer(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -126,11 +126,116 @@ void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_WDR_SizemicHammer::Effect_Skill()
 {
-	CEffect_Custom_SeismicHammer::EffectDesc tDesc;
-	tDesc.vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	tDesc.vLook = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Vec3 vPos = matWorld.Translation();
+	Vec3 vLook = matWorld.Backward();
+	vLook.Normalize();
+	Vec3 vRight = matWorld.Right();
+	vRight.Normalize();
 
-	CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammer", &tDesc);
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 4.2f;
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vLook;
+		tDesc.vScale = Vec3(1.0f, 2.0f, 1.0f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 2.5f;
+		vEffectPos.y += 0.3f;
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vLook;
+		tDesc.vScale = Vec3(0.7f, 1.0f, 0.5f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 3.8f + vRight * 0.5f;
+		Vec3 vEffectLook = XMVector3Rotate(vLook, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(35.0f)));
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vEffectLook;
+		tDesc.vScale = Vec3(0.7f, 2.0f, 1.0f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+	
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 3.3f + vRight * 0.8f;
+		Vec3 vEffectLook = XMVector3Rotate(vLook, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(45.0f)));
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vEffectLook;
+		tDesc.vScale = Vec3(0.7f, 1.5f, 0.8f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 2.5f + vRight * 1.7f;
+		Vec3 vEffectLook = XMVector3Rotate(vLook, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(65.0f)));
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vEffectLook;
+		tDesc.vScale = Vec3(1.0f, 1.0f, 1.0f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 3.5f + vRight * -1.2f;
+		Vec3 vEffectLook = XMVector3Rotate(vLook, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(-45.0f)));
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vEffectLook;
+		tDesc.vScale = Vec3(1.0f, 1.0f, 1.0f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+
+	{
+		Vec3 vEffectPos = vPos;
+		vEffectPos = vPos + vLook * 2.5f + vRight * -1.7f;
+		Vec3 vEffectLook = XMVector3Rotate(vLook, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(-65.0f)));
+
+		CEffect_Custom_SeismicHammerRock::EffectDesc tDesc;
+		tDesc.vPos = vEffectPos;
+		tDesc.vLook = vEffectLook;
+		tDesc.vScale = Vec3(1.0f, 1.5f, 0.8f);
+
+		CGameObject* pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_SeismicHammerRock", &tDesc);
+
+	}
+
+
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+	EFFECT_START(L"Seismic1", &tDesc);
+	EFFECT_START(L"Seismic2", &tDesc);
+	EFFECT_START(L"Seismic3", &tDesc);
 }
 
 CState_WDR_SizemicHammer* CState_WDR_SizemicHammer::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

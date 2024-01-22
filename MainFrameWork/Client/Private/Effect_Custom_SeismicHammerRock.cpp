@@ -1,27 +1,27 @@
 #include "stdafx.h"
-#include "Effect_Custom_SeismicHammer.h"
+#include "Effect_Custom_SeismicHammerRock.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
 
-CEffect_Custom_SeismicHammer::CEffect_Custom_SeismicHammer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CEffect_Custom_SeismicHammerRock::CEffect_Custom_SeismicHammerRock(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
 {
 }
 
-CEffect_Custom_SeismicHammer::CEffect_Custom_SeismicHammer(const CEffect_Custom_SeismicHammer& rhs)
+CEffect_Custom_SeismicHammerRock::CEffect_Custom_SeismicHammerRock(const CEffect_Custom_SeismicHammerRock& rhs)
 	: Super(rhs)
 {
 }
 
-HRESULT CEffect_Custom_SeismicHammer::Initialize_Prototype(EFFECTDESC* pDesc)
+HRESULT CEffect_Custom_SeismicHammerRock::Initialize_Prototype(EFFECTDESC* pDesc)
 {
 	return S_OK;
 }
 
-HRESULT CEffect_Custom_SeismicHammer::Initialize(void* pArg)
+HRESULT CEffect_Custom_SeismicHammerRock::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -29,14 +29,15 @@ HRESULT CEffect_Custom_SeismicHammer::Initialize(void* pArg)
 	EffectDesc* pDesc = static_cast<EffectDesc*>(pArg);
 	pDesc->vLook.Normalize();
 
-	pDesc->vPos.y -= 0.2f;
+	pDesc->vPos.y -= 0.3f;
 	m_vTargetPos = pDesc->vPos;
 	Vec3 vPos = m_vTargetPos;
 	vPos.y -= 3.0f;
 	vPos += -pDesc->vLook * 1.0f;
+	
+	m_pTransformCom->Set_Scale(pDesc->vScale);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-
-
+	
 	m_pTransformCom->LookAt(vPos + pDesc->vLook);
 	m_pTransformCom->Turn_Axis(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XM_PI * 0.5f);
 	m_pTransformCom->Turn_Axis(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XM_PI * 0.5f);
@@ -44,14 +45,19 @@ HRESULT CEffect_Custom_SeismicHammer::Initialize(void* pArg)
 	m_fLifeTime = 1.3f;
 	m_fTimeAcc = 0.0f;
 
+	m_fWaitingAcc = 0.0f;
+	m_fWaitingTime = 0.6f;
+
 	m_Intensity.fDissolveAmount = 0.0f;
 	
 	m_eState = SeismicHammerState::START;
 
+	m_bRender = false;
+
 	return S_OK;
 }
 
-void CEffect_Custom_SeismicHammer::Tick(_float fTimeDelta)
+void CEffect_Custom_SeismicHammerRock::Tick(_float fTimeDelta)
 {
 	switch (m_eState)
 	{
@@ -68,7 +74,7 @@ void CEffect_Custom_SeismicHammer::Tick(_float fTimeDelta)
 	
 }
 
-void CEffect_Custom_SeismicHammer::LateTick(_float fTimeDelta)
+void CEffect_Custom_SeismicHammerRock::LateTick(_float fTimeDelta)
 {
 	if (m_bRender)
 	{
@@ -76,7 +82,7 @@ void CEffect_Custom_SeismicHammer::LateTick(_float fTimeDelta)
 	}
 }
 
-HRESULT CEffect_Custom_SeismicHammer::Render()
+HRESULT CEffect_Custom_SeismicHammerRock::Render()
 {
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
@@ -108,24 +114,37 @@ HRESULT CEffect_Custom_SeismicHammer::Render()
 	return S_OK;
 }
 
-void CEffect_Custom_SeismicHammer::Tick_Start(_float fTimeDelta)
+
+
+void CEffect_Custom_SeismicHammerRock::Tick_Start(_float fTimeDelta)
 {
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	
-	_float fDistance = (m_vTargetPos - vPos).Length();
-	
-	if (fDistance < 0.1f)
+	if (m_fWaitingAcc >= m_fWaitingTime)
 	{
-		m_eState = SeismicHammerState::IDLE;
+		m_bRender = true;
+		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float fDistance = (m_vTargetPos - vPos).Length();
+
+		if (fDistance < 0.1f)
+		{
+			m_eState = SeismicHammerState::IDLE;
+
+		}
+		else
+		{
+			vPos = Vec3::Lerp(vPos, m_vTargetPos, fTimeDelta * 20.0f);
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		}
 	}
 	else
 	{
-		vPos = Vec3::Lerp(vPos, m_vTargetPos, fTimeDelta * 20.0f);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		m_bRender = false;
+		m_fWaitingAcc += fTimeDelta;
 	}
 }
+		
 
-void CEffect_Custom_SeismicHammer::Tick_Idle(_float fTimeDelta)
+void CEffect_Custom_SeismicHammerRock::Tick_Idle(_float fTimeDelta)
 {
 	m_fTimeAcc += fTimeDelta;
 	if (m_fTimeAcc >= m_fLifeTime)
@@ -135,20 +154,20 @@ void CEffect_Custom_SeismicHammer::Tick_Idle(_float fTimeDelta)
 
 }
 
-void CEffect_Custom_SeismicHammer::Tick_Disappear(_float fTimeDelta)
+void CEffect_Custom_SeismicHammerRock::Tick_Disappear(_float fTimeDelta)
 {
 	m_Intensity.fDissolveAmount += fTimeDelta;
 
 	if (m_Intensity.fDissolveAmount > 1.1f)
 	{
-		Set_Active(true);
+		Set_Active(false);
 		Set_Dead(true);
 	}
 
 	m_pTransformCom->Turn_Axis(m_pTransformCom->Get_State(CTransform::STATE_UP), -0.5f * fTimeDelta);
 }
 
-HRESULT CEffect_Custom_SeismicHammer::Ready_Components()
+HRESULT CEffect_Custom_SeismicHammerRock::Ready_Components()
 {
 	if (FAILED(Super::Ready_Components()))
 		return E_FAIL;
@@ -179,9 +198,9 @@ HRESULT CEffect_Custom_SeismicHammer::Ready_Components()
 	return S_OK;
 }
 
-CEffect_Custom_SeismicHammer* CEffect_Custom_SeismicHammer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CEffect_Custom_SeismicHammerRock* CEffect_Custom_SeismicHammerRock::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CEffect_Custom_SeismicHammer* pInstance = new CEffect_Custom_SeismicHammer(pDevice, pContext);
+	CEffect_Custom_SeismicHammerRock* pInstance = new CEffect_Custom_SeismicHammerRock(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype(nullptr)))
 	{
@@ -192,9 +211,9 @@ CEffect_Custom_SeismicHammer* CEffect_Custom_SeismicHammer::Create(ID3D11Device*
 	return pInstance;
 }
 
-CGameObject* CEffect_Custom_SeismicHammer::Clone(void* pArg)
+CGameObject* CEffect_Custom_SeismicHammerRock::Clone(void* pArg)
 {
-	CEffect_Custom_SeismicHammer* pInstance = new CEffect_Custom_SeismicHammer(*this);
+	CEffect_Custom_SeismicHammerRock* pInstance = new CEffect_Custom_SeismicHammerRock(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -205,7 +224,7 @@ CGameObject* CEffect_Custom_SeismicHammer::Clone(void* pArg)
 	return pInstance;
 }
 
-void CEffect_Custom_SeismicHammer::Free()
+void CEffect_Custom_SeismicHammerRock::Free()
 {
 	Super::Free();
 }

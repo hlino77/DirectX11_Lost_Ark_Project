@@ -33,7 +33,7 @@ float       g_CenterWeight;
 float	    g_WeightAtt;
 
 //Motion Blur
-float       g_fMotionBlurIntensity = 0.f;
+float       g_fMotionBlurIntensity = 0.0f;
 
 //Radial Blur
 cbuffer RadialBlur

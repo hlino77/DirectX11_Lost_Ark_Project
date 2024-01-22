@@ -20,6 +20,7 @@ public:
 	
 private:
 	HRESULT Ready_Lights();
+	HRESULT Ready_EffectPool();
 	HRESULT Ready_Layer_BackGround(const LAYER_TYPE eLayerType);
 	HRESULT Ready_CameraFree(const LAYER_TYPE eLayerType);
 	HRESULT Ready_Layer_Player(const LAYER_TYPE eLayerType);

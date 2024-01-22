@@ -214,9 +214,10 @@ HRESULT CVoidEffect::Render()
 	}
 	if (m_pDissolveTexture)
 	{
-		if (m_fLifeTimeRatio >= m_fDissolveStart)
+		_float fRatio = m_fTimeAcc / (m_fLifeTime + m_fRemainTime);
+		if (fRatio >= m_fDissolveStart)
 		{
-			m_Intensity.fDissolveAmount = (m_fLifeTimeRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
+			m_Intensity.fDissolveAmount = (fRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
 
 			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
 				return E_FAIL;

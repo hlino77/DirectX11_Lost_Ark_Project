@@ -109,18 +109,18 @@ BlendState BS_AlphaBlend
 	BlendOp = Add;
 };
 
-BlendState BS_AlphaBlendEx
+BlendState BS_AlphaBlendEffect
 {
 	BlendEnable[0] = true;
     BlendEnable[1] = true;
 
-    SrcBlend = Src_Alpha;
-    DestBlend = Inv_Src_Alpha;
+	SrcBlend = Src_Alpha;
+	DestBlend = Inv_Src_Alpha;
 	BlendOp = Add;
 
-    SrcBlendAlpha = Src_Alpha;
-    DestBlendAlpha = Inv_Src_Alpha;
-    BlendOpAlpha = MIN;
+	SrcBlendAlpha = Src_Alpha;
+	DestBlendAlpha = Dest_Alpha;
+	BlendOpAlpha = MAX;
 };
 
 BlendState BS_AlphaBlendDest
@@ -163,7 +163,7 @@ BlendState BS_BlendDestAlpha
 	BlendOp = Add;
 	SrcBlendAlpha = Src_Alpha;
 	DestBlendAlpha = Dest_Alpha;
-	BlendOpAlpha = Add;
+	BlendOpAlpha = MAX;
 };
 
 BlendState BS_BlendDefault

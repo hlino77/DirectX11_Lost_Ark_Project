@@ -504,8 +504,6 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::InputFloat("Radial Time", &m_pCurrentEffect->m_fRadialTime);
 	ImGui::InputFloat("Radial Intensity", &m_pCurrentEffect->m_fRadialIntensity);
 
-	ImGui::Checkbox("Distortion On Base Material", (_bool*)&m_pCurrentEffect->m_Intensity.iDistortionOnBaseMaterial);
-
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
 	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);

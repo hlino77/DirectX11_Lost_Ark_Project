@@ -217,9 +217,12 @@
     <ClInclude Include="..\Public\Deco_Npc.h" />
     <ClInclude Include="..\Public\Effect_Custom_CrossHair.h" />
     <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h" />
+    <ClInclude Include="..\Public\Effect_Custom_EarthEaterDecal.h" />
+    <ClInclude Include="..\Public\Effect_Custom_EarthEaterParticle.h" />
+    <ClInclude Include="..\Public\Effect_Custom_EarthEaterSmallParticle.h" />
     <ClInclude Include="..\Public\Effect_Custom_Grenade.h" />
     <ClInclude Include="..\Public\Effect_Custom_PerpectShotBullet.h" />
-    <ClInclude Include="..\Public\Effect_Custom_SeismicHammer.h" />
+    <ClInclude Include="..\Public\Effect_Custom_SeismicHammerRock.h" />
     <ClInclude Include="..\Public\Effect_Custom_SpiralChaser.h" />
     <ClInclude Include="..\Public\Effect_Decal.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
@@ -346,6 +349,7 @@
     <ClInclude Include="..\Public\State_GN_Mode_ToNormal.h" />
     <ClInclude Include="..\Public\State_GN_Stand.h" />
     <ClInclude Include="..\Public\State_GN_StandDash.h" />
+    <ClInclude Include="..\Public\State_GN_TargetDown_Ready.h" />
     <ClInclude Include="..\Public\State_MG_Attack_1.h" />
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
@@ -744,9 +748,12 @@
     <ClCompile Include="..\Private\Deco_Npc.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_CrossHair.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_EarthEaterDecal.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_EarthEaterParticle.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_EarthEaterSmallParticle.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_Grenade.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_PerpectShotBullet.cpp" />
-    <ClCompile Include="..\Private\Effect_Custom_SeismicHammer.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_SeismicHammerRock.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_SpiralChaser.cpp" />
     <ClCompile Include="..\Private\Effect_Decal.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />
@@ -868,6 +875,7 @@
     <ClCompile Include="..\Private\State_GN_PerfectShot_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Stand.cpp" />
     <ClCompile Include="..\Private\State_GN_StandDash.cpp" />
+    <ClCompile Include="..\Private\State_GN_TargetDown_Ready.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_1.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />

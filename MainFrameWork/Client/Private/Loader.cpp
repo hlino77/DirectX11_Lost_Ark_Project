@@ -178,7 +178,10 @@
 #include "Effect_Custom_PerpectShotBullet.h"
 #include "Effect_Custom_CrossHair.h"
 #include "Effect_Custom_DeathFireBomb.h"
-#include "Effect_Custom_SeismicHammer.h"
+#include "Effect_Custom_SeismicHammerRock.h"
+#include "Effect_Custom_EarthEaterParticle.h"
+#include "Effect_Custom_EarthEaterSmallParticle.h"
+#include "Effect_Custom_EarthEaterDecal.h"
 
 //NPC
 #include "tinyxml2.h"
@@ -811,6 +814,40 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		}
 	}
 
+	//EffectTexture		
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Dissolve1"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_b_noise_001.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Decal1"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Decal/fx_d_decal_016.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Decal2"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Decal/fx_b_decal_001.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Decal3"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Decal/fx_d_decal_019.png"))))
+		return E_FAIL;
+
+
+	//Effect
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_EarthEaterParticle"),
+		CEffect_Custom_EarthEaterParticle::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_EarthEaterSmallParticle"),
+		CEffect_Custom_EarthEaterSmallParticle::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_EarthEaterDecal"),
+		CEffect_Custom_EarthEaterDecal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
 
 	Safe_Release(pGameInstance);
 
@@ -897,10 +934,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Dissolve1"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_b_noise_001.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
+
 
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
@@ -1155,10 +1189,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_SeismicHammer"),
-		CEffect_Custom_SeismicHammer::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_SeismicHammerRock"),
+		CEffect_Custom_SeismicHammerRock::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
+
 
 	//Load_MapData(LEVEL_ARENA, L"../Bin/Resources/MapData/Arena.data");
 	//Load_ColMesh(LEVEL_ARENA, L"../Bin/Resources/ColMeshData/Arena.data");
@@ -3536,6 +3571,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 
 	}
 
+	
+
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -3766,6 +3803,92 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
 				return E_FAIL;
 		}
+	}
+
+	//Effect
+
+	{
+		wstring strFileName = L"RockParticle0";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
+	}
+
+	{
+		wstring strFileName = L"RockParticle1";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
+	}
+
+	{
+		wstring strFileName = L"RockParticle2";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
+	}
+
+	{
+		wstring strFileName = L"RockParticle3";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
+	}
+
+	{
+		wstring strFileName = L"RockParticle4";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
+	}
+
+	{
+		wstring strFileName = L"RockParticle5";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
 	}
 
 	Safe_Release(pGameInstance);

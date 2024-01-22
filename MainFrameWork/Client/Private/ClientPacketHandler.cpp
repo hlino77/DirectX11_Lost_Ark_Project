@@ -657,3 +657,10 @@ bool Handel_S_NPC_Client(PacketSessionRef& session, Protocol::S_NPC& pkt)
 	return true;
 }
 
+bool Handel_S_NAVIGATION_Client(PacketSessionRef& session, Protocol::S_NAVIGATION& pkt)
+{
+
+
+	return true;
+}
+

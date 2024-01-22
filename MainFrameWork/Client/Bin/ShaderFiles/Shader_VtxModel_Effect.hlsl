@@ -114,7 +114,7 @@ PS_OUT_PBR PS_PBR_EFFECT(VS_OUT In)
         Out.vEmissive *= g_vBloomColor;
     }
 
-    Out.vProperties.z = MT_STATIC;
+    Out.vProperties.z = MT_DYNAMIC;
     Out.vProperties.w = g_fRimLight;
 
     return Out;
@@ -174,7 +174,7 @@ PS_OUT_PBR PS_PBR_DISSOLVE(VS_OUT In)
         Out.vEmissive *= g_vBloomColor;
     }
 
-    Out.vProperties.z = MT_STATIC;
+    Out.vProperties.z = MT_DYNAMIC;
     Out.vProperties.w = g_fRimLight;
 
     return Out;

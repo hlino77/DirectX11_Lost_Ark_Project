@@ -15,6 +15,8 @@ public:
 		Vec3 vOffset = Vec3(-1.0f, 0.0f, -1.0f);
 	};
 
+	enum class CameraState { FREE, DEFAULT, STATEEND };
+
 private:
 	CCamera_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
 	CCamera_Player(const CCamera_Player& rhs, CTransform::TRANSFORMDESC* pArg);
@@ -32,16 +34,25 @@ public:
 	void		Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _float fBreak);
 	void		ZoomInOut(_float fCameraLength, _float fSpeed) { m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed; }
 	void		DefaultLength(_float fSpeed) { m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed; }
+	void		Set_CameraLength(_float fCameraLength) { m_fCameraLength = m_fTargetCameraLength = fCameraLength; }
 
-	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta);
+	void		Set_Offset(Vec3 vOffset) { m_vOffset = vOffset; m_vOffset.Normalize(); }
+	void		Set_DefaultOffset() { m_vOffset = m_vDefaultOffset; }
+	void		Set_Mode(CameraState eMode) { m_eState = eMode; }
+
+
+	_float		Get_CameraLength() { return m_fCameraLength; }
 
 protected:
 	virtual HRESULT Ready_Components() override;
 
-
-	
+private:
+	void		Tick_FreeCamera(_float fTimeDelta);
+	void		Tick_DefaultCamera(_float fTimeDelta);
+	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta);
 private:
 	Vec3 m_vOffset;
+	Vec3 m_vDefaultOffset;
 
 	_float m_fZoomSpeed = 1.0f;
 	_float m_fDefaultLength;
@@ -58,7 +69,9 @@ private:
 	Vec2	m_vShakeVelocity;
 	Vec2	m_vShakeOffset;
 
-	class CPlayer* m_pPlayer = nullptr;
+	CGameObject* m_pTarget = nullptr;
+
+	CameraState m_eState;
 public:
 	static CCamera_Player* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
 	virtual CGameObject* Clone(void* pArg);

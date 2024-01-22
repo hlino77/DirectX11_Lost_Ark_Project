@@ -26,7 +26,7 @@ HRESULT CState_GN_TargetDown_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_TargetDown_Loop::Tick_State_NoneControl;
 
-	m_fSkillEndTime = 2.5f;
+	m_fSkillEndTime = 4.5f;
 
 	return S_OK;
 }
@@ -59,7 +59,8 @@ void CState_GN_TargetDown_Loop::Exit_State()
 void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	Vec3 vClickPos;
-	if (m_pPlayer->Get_CellPickingPos(vClickPos))
+	_bool bPick = m_pPlayer->Get_CellPickingPos(vClickPos);
+	if (bPick)
 	{
 		m_pPlayer->Set_TargetPos(vClickPos);
 		m_pController->Get_LerpDirLookMessage(vClickPos, 10.f);
@@ -80,8 +81,7 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iShotCount++;
 
-		Vec3 vClickPos;
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+		if (bPick)
 			m_pPlayer->Set_TargetPos(vClickPos);
 		else
 			m_pPlayer->Set_TargetPos(Vec3());
@@ -91,8 +91,7 @@ void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pController->Is_Dash())
 	{
-		Vec3 vClickPos;
-		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+		if (bPick)
 			m_pPlayer->Set_TargetPos(vClickPos);
 		else
 			m_pPlayer->Set_TargetPos(Vec3());
@@ -110,6 +109,8 @@ void CState_GN_TargetDown_Loop::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_TargetDown_Loop::Effect_End()
 {
+	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
+	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 
 	m_pPlayer->Delete_Effect(L"TargetDownCrossHair");

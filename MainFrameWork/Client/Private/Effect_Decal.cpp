@@ -17,7 +17,7 @@ HRESULT CEffect_Decal::Initialize_Prototype(EFFECTDESC* pDesc)
 {
 	if (FAILED(Super::Initialize_Prototype(pDesc)))
 		return E_FAIL;
-
+		
 	return S_OK;
 }
 

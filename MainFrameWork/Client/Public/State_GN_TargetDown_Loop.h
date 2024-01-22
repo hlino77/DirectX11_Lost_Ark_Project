@@ -33,7 +33,6 @@ private:
 	_int m_iTargetDown_Loop = 0;
 
 	_uint m_iShotCount = { 0 };
-
 public:
 	static CState_GN_TargetDown_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;
