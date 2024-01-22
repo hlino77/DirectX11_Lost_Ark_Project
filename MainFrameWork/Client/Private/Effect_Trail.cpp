@@ -49,6 +49,8 @@ void CEffect_Trail::Tick(_float fTimeDelta)
 	if (m_fWaitingAcc < m_fWaitingTime)
 		return;
 
+	CB_UpdatePivot(m_matPivot);
+
 	Run_Sequence(fTimeDelta);
 }
 
@@ -81,9 +83,18 @@ HRESULT CEffect_Trail::Render()
 	return S_OK;
 }
 
-void CEffect_Trail::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
+void CEffect_Trail::Reset()
 {
-	Super::Reset(tEffectDesc);
+	m_fSequenceTimer = 0.0f;
+	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
+	m_fTimeAcc = 0.0f;
+	m_bRender = true;
+
+	if (m_fWaitingTime > 0.0f)
+	{
+		m_fWaitingAcc = 0.0f;
+		m_bRender = false;
+	}
 
 	m_pBuffer->Stop_Trail();
 }

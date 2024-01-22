@@ -42,6 +42,7 @@ public:
 
 	HRESULT Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc);
 	HRESULT Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* pDesc, vector<CEffect*>& EffectList);
+	HRESULT Trail_Start(wstring strTrailBundle, std::function<void(Matrix&)> const& PivotGetter);
 	HRESULT Effect_LateStart(wstring strEffectBundle, EFFECTPIVOTDESC_LATE* pDesc);
 	HRESULT Return_Effect(CEffect* pEffect);
 	HRESULT Ready_EffectPool(_uint iDefaultSize);

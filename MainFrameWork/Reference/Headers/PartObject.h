@@ -41,6 +41,7 @@ public:
 	CGameObject*			Get_PartOwner()				 { return m_pOwner; }
 	PARTS					Get_Part_Index()       const { return m_ePart; }
 	const Matrix&			Get_Part_WorldMatrix() const { return m_WorldMatrix; }
+	void					Load_Part_WorldMatrix(Matrix& matWorld) { matWorld = m_WorldMatrix; }
 
 public:
 	virtual void			Store_Socket();

@@ -185,7 +185,7 @@ HRESULT CVoidEffect::Render()
 	//////////////////////////////
 
 #pragma region GlobalData
-	Matrix matCombined = m_matOffset * m_matPivot;
+	Matrix matCombined;
 
 	if (4 == m_iEffectType)
 	{
@@ -217,7 +217,13 @@ HRESULT CVoidEffect::Render()
 			m_matPivot.Backward(vLook);
 		}
 
+		matCombined = m_matOffset * m_matPivot;
+
 		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Update_TrailBuffer(matCombined);
+	}
+	else
+	{
+		matCombined = m_matOffset * m_matPivot;
 	}
 
 	m_Particle.vEmitPosition = matCombined.Translation();
