@@ -329,7 +329,14 @@ void CPlayer_Destroyer::OnCollisionExit(const _uint iColLayer, CCollider* pOther
 		{
 			if (TEXT("Stop") == Get_State())
 			{
-				Set_State(TEXT("Idle"));
+				if (true == m_pController->Is_In_Identity())
+				{
+					Set_State(TEXT("Iden_Idle"));
+				}
+				else
+				{
+					Set_State(TEXT("Idle"));
+				}
 			}
 		}
 	}

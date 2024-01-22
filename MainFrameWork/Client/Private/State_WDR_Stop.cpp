@@ -23,6 +23,7 @@ HRESULT CState_WDR_Stop::Initialize()
 void CState_WDR_Stop::Enter_State()
 {
 	m_pPlayer->Set_AnimationSpeed(0.f);
+	m_pPlayer->Set_SuperiorArmorState(true);
 }
 
 void CState_WDR_Stop::Tick_State(_float fTimeDelta)
@@ -33,6 +34,7 @@ void CState_WDR_Stop::Tick_State(_float fTimeDelta)
 void CState_WDR_Stop::Exit_State()
 {
 	m_pPlayer->Set_AnimationSpeed(1.f);
+	m_pPlayer->Set_SuperiorArmorState(false);
 }
 
 void CState_WDR_Stop::Tick_State_Control(_float fTimeDelta)

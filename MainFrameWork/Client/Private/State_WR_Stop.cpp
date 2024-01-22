@@ -12,7 +12,6 @@ CState_WR_Stop::CState_WR_Stop(const wstring& strStateName, CStateMachine* pMach
 
 HRESULT CState_WR_Stop::Initialize()
 {
-
 	if (m_pPlayer->Is_Control())
 		m_TickFunc = &CState_WR_Stop::Tick_State_Control;
 	else
@@ -24,6 +23,7 @@ HRESULT CState_WR_Stop::Initialize()
 void CState_WR_Stop::Enter_State()
 {
 	m_pPlayer->Set_AnimationSpeed(0.f);
+	m_pPlayer->Set_SuperiorArmorState(true);
 }
 
 void CState_WR_Stop::Tick_State(_float fTimeDelta)
@@ -34,6 +34,7 @@ void CState_WR_Stop::Tick_State(_float fTimeDelta)
 void CState_WR_Stop::Exit_State()
 {
 	m_pPlayer->Set_AnimationSpeed(1.f);
+	m_pPlayer->Set_SuperiorArmorState(false);
 }
 
 void CState_WR_Stop::Tick_State_Control(_float fTimeDelta)

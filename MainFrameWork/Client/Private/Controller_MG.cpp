@@ -160,8 +160,6 @@ HRESULT CController_MG::Initialize(void* pArg)
 void CController_MG::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-	
 }
 
 void CController_MG::LateTick(_float fTimeDelta)

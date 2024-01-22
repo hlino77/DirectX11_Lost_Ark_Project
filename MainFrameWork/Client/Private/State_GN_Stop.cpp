@@ -23,6 +23,7 @@ HRESULT CState_GN_Stop::Initialize()
 void CState_GN_Stop::Enter_State()
 {
 	m_pPlayer->Set_AnimationSpeed(0.f);
+	m_pPlayer->Set_SuperiorArmorState(true);
 }
 
 void CState_GN_Stop::Tick_State(_float fTimeDelta)
@@ -33,6 +34,7 @@ void CState_GN_Stop::Tick_State(_float fTimeDelta)
 void CState_GN_Stop::Exit_State()
 {
 	m_pPlayer->Set_AnimationSpeed(1.f);
+	m_pPlayer->Set_SuperiorArmorState(false);
 }
 
 void CState_GN_Stop::Tick_State_Control(_float fTimeDelta)
