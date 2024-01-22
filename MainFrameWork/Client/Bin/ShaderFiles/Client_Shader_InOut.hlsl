@@ -39,6 +39,13 @@ struct FXDECAL_IN
     float2 vTexcoord : TEXCOORD0;
 };
 
+struct FXTRAIL_IN
+{
+    float3 vPosition : POSITION;
+    float2 vTexcoord : TEXCOORD0;
+    float fAlpha : ALPHA;
+};
+
 struct SKELETAL_IN
 {
     float3  vPosition : POSITION;
@@ -110,6 +117,13 @@ struct VS_OUT_FXDECAL
     float4 vPosition : SV_POSITION;
     float2 vTexcoord : TEXCOORD0;
     float4 vProjPos : TEXCOORD1;
+};
+
+struct VS_OUT_FXTRAIL
+{
+    float4 vPosition : SV_POSITION;
+    float2 vTexcoord : TEXCOORD0;
+    float  fAlpha    : ALPHA;
 };
 
 struct TARGET_IN

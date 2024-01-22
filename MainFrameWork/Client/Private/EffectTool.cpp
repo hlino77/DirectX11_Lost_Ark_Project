@@ -122,9 +122,9 @@ void CEffectTool::InfoView()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Decal", &m_iCurrentEffectType, 3))
 		m_strCurrentCategory = "";
-	/*ImGui::SameLine();
+	ImGui::SameLine();
 	if (ImGui::RadioButton("Trail", &m_iCurrentEffectType, 4))
-		m_strCurrentCategory = "";*/
+		m_strCurrentCategory = "";
 }
 
 void CEffectTool::ShowCurrentMaterials()
@@ -472,6 +472,13 @@ HRESULT CEffectTool::EffectDetail()
 	else
 		m_pCurrentEffect->m_vRotation_End = m_pCurrentEffect->m_vRotation_Start;
 
+	ImGui::Checkbox("Lerp Revolution", &m_pCurrentEffect->m_bRevolution_Lerp);
+	ImGui::InputFloat3("Revolution_Start", (_float*)&m_pCurrentEffect->m_vRevolution_Start);
+	if (m_pCurrentEffect->m_bRevolution_Lerp)
+		ImGui::InputFloat3("Revolution_End", (_float*)&m_pCurrentEffect->m_vRevolution_End);
+	else
+		m_pCurrentEffect->m_vRevolution_End = m_pCurrentEffect->m_vRevolution_Start;
+
 	ImGui::Checkbox("Lerp Scaling", &m_pCurrentEffect->m_bScaling_Lerp);
 	ImGui::InputFloat3("Scaling_Start", (_float*)&m_pCurrentEffect->m_vScaling_Start);
 	if (m_pCurrentEffect->m_bScaling_Lerp)
@@ -547,6 +554,11 @@ HRESULT CEffectTool::EffectDetail()
 		ImGui::InputFloat("Particle LifeTime", (_float*)&m_pCurrentEffect->m_Particle.fParticleLifeTime);
 	}
 
+	if (4 == m_pCurrentEffect->m_iEffectType)
+	{
+		ImGui::InputInt("Trail Vertex Count", &m_pCurrentEffect->m_iTrailVtxCount, 2);
+	}
+
 	const _char* hint = "Pass Name";
 	static _char szPassName[128] = "";
 	if (ImGui::Button("Select Pass"))
@@ -607,6 +619,8 @@ HRESULT CEffectTool::EffectsList()
 				strItem = "Effect_" + to_string(i) + "_P";
 			else if(3 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_D";
+			else if(4 == m_vecEffects[i]->m_iEffectType)
+				strItem = "Effect_" + to_string(i) + "_TR";
 
 			if (ImGui::Selectable(strItem.c_str(), isSelected))
 			{
@@ -689,15 +703,9 @@ HRESULT CEffectTool::CreateEffect()
 	{
 		tDesc.protoModel = m_pUtils->ToWString(m_BaseMesh.second);
 	}
-	else if (1 == m_iCurrentEffectType)
+	else if (1 <= m_iCurrentEffectType && 4 >= m_iCurrentEffectType)
 	{
 		//tDesc.protoDiffuseTexture = TEXT("Prototype_Component_Texture_") + fs::path(m_BaseTexture.second.first).stem().generic_wstring();
-	}
-	else if (2 == m_iCurrentEffectType)
-	{
-	}
-	else if (3 == m_iCurrentEffectType)
-	{
 	}
 	else
 	{
@@ -786,6 +794,8 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_P" + ".xml";
 		else if (3 == m_vecEffects[i]->m_iEffectType)
 			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_D" + ".xml";
+		else if (4 == m_vecEffects[i]->m_iEffectType)
+			finalPath = strPath.generic_string() + "Effect_" + to_string(i) + "_TR" + ".xml";
 
 		tinyxml2::XMLDeclaration* decl = document->NewDeclaration();
 		document->LinkEndChild(decl);
@@ -863,6 +873,22 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 
 			element = document->NewElement("Rotation_Lerp");
 			element->SetAttribute("Lerp", m_vecEffects[i]->m_bRotation_Lerp);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Revolution_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vRevolution_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vRevolution_Start.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vRevolution_Start.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Revolution_End");
+			element->SetAttribute("X", m_vecEffects[i]->m_vRevolution_End.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vRevolution_End.y);
+			element->SetAttribute("Z", m_vecEffects[i]->m_vRevolution_End.z);
+			node->LinkEndChild(element);
+
+			element = document->NewElement("Revolution_Lerp");
+			element->SetAttribute("Lerp", m_vecEffects[i]->m_bRevolution_Lerp);
 			node->LinkEndChild(element);
 
 			element = document->NewElement("Scaling_Start");
@@ -1050,6 +1076,14 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 			node->LinkEndChild(element);
 		}		
 
+		node = document->NewElement("Trail");
+		root->LinkEndChild(node);
+		{
+			element = document->NewElement("Vertex");
+			element->SetAttribute("Count", m_vecEffects[i]->m_iTrailVtxCount);
+			node->LinkEndChild(element);
+		}
+
 		document->SaveFile(m_pUtils->ToString(finalPath).c_str());
 	}
 
@@ -1172,6 +1206,19 @@ HRESULT CEffectTool::Load()
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_bRotation_Lerp = element->BoolAttribute("Lerp");
+			
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vRevolution_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vRevolution_Start.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vRevolution_Start.z = element->FloatAttribute("Z");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_vRevolution_End.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vRevolution_End.y = element->FloatAttribute("Y");
+			m_pCurrentEffect->m_vRevolution_End.z = element->FloatAttribute("Z");
+
+			element = element->NextSiblingElement();
+			m_pCurrentEffect->m_bRevolution_Lerp = element->BoolAttribute("Lerp");
 
 			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_vScaling_Start.x = element->FloatAttribute("X");
@@ -1334,6 +1381,17 @@ HRESULT CEffectTool::Load()
 				string strPassName = element->GetText();
 				if (strPassName.length() > 0)
 					m_pCurrentEffect->m_strPassName = strPassName;
+			}
+		}
+
+		if (4 == tDesc.iEffectType)
+		{
+			node = node->NextSiblingElement();
+			{
+				tinyxml2::XMLElement* element = nullptr;
+
+				element = node->FirstChildElement();
+				m_pCurrentEffect->m_iTrailVtxCount = element->IntAttribute("Count");
 			}
 		}
 

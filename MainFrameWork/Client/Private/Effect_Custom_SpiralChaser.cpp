@@ -68,7 +68,6 @@ void CEffect_Custom_SpiralChaser::Tick(_float fTimeDelta)
 			return;
 		}
 
-
 		m_fBulletAcc += fTimeDelta;
 		if (m_fBulletAcc >= m_fBulletTime)
 		{
@@ -92,7 +91,6 @@ void CEffect_Custom_SpiralChaser::Tick(_float fTimeDelta)
 			if(m_pPlayer && m_pPlayer->Is_Control())
 				m_pPlayer->Get_GN_Controller()->Get_SkillAttackMessage((CPlayer_Controller::SKILL_KEY)m_iSkillKey, m_vTargetPos);
 		}
-			
 	}
 	
 }

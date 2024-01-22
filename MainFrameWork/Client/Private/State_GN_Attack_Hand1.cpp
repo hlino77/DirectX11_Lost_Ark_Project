@@ -189,7 +189,6 @@ void CState_GN_Attack_Hand1::Effect_Shot()
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("HandBullet"), &desc)
 
-
 	_uint iCount = rand() % 2 + 1;
 	for(_uint i = 0; i < iCount; ++i)
 	{

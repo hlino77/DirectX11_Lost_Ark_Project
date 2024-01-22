@@ -1339,6 +1339,9 @@
     <Filter Include="02.GameObjects\Monster\Prison">
       <UniqueIdentifier>{14a88773-3947-4a39-961a-84c6ab882d0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
+      <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4097,6 +4100,12 @@
     <ClInclude Include="..\Public\Skill_Valtan_PizzaInstant.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Trail.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_SwordTrail.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6831,6 +6840,12 @@
     <ClCompile Include="..\Private\Skill_Valtan_PizzaInstant.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_Trail.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_SwordTrail.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -7024,6 +7039,9 @@
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
   </ItemGroup>

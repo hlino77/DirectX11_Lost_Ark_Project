@@ -12,7 +12,7 @@ class CEffect_Custom_DeathFireBomb : public CEffect
 {
 	using Super = CEffect;
 public:
-	typedef struct DeathFireBombDesc
+	struct DeathFireBombDesc
 	{
 		Vec3 vPos;
 		Vec3 vTargetPos;

@@ -50,6 +50,9 @@ HRESULT CEffect_Mesh::Render()
 	if (FAILED(Super::Render()))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
+		return E_FAIL;
+
 	_int iMeshCount = m_pModelCom->Get_Meshes().size();
 	for (_int i = 0; i < iMeshCount; ++i)
 	{

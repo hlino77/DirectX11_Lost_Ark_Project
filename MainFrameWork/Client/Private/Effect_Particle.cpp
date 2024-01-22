@@ -84,9 +84,11 @@ void CEffect_Particle::LateTick(_float fTimeDelta)
 
 	if (m_bRender)
 	{
-		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECTPARTICLE, this)))
+		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
 			__debugbreak();
 	}
+
+	m_matCombined = m_matOffset * m_matPivot;
 }
 
 HRESULT CEffect_Particle::Render()
@@ -102,6 +104,8 @@ HRESULT CEffect_Particle::Render()
 	else
 		m_Particle.fEmitTerm = 99999.f;
 
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Billboard", &m_Billboard, sizeof(tagFX_Billboard))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Particle", &m_Particle, sizeof(tagFX_Particle))))
@@ -117,39 +121,7 @@ HRESULT CEffect_Particle::Render()
 
 void CEffect_Particle::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 {
-	if (tEffectDesc.pPivotTransform)
-	{
-		if (tEffectDesc.bParentPivot)
-			m_matPivot = static_cast<CPartObject*>(tEffectDesc.pPivotTransform->Get_GameObject())->Get_PartOwner()->Get_TransformCom()->Get_WorldMatrix();
-		else
-			m_matPivot = static_cast<CPartObject*>(tEffectDesc.pPivotTransform->Get_GameObject())->Get_Part_WorldMatrix();
-	}
-	else
-		m_matPivot = *tEffectDesc.pPivotMatrix;
-
-	Vec3 vRight = m_matPivot.Right();
-	vRight.Normalize();
-	m_matPivot.Right(vRight);
-
-	Vec3 vUp = m_matPivot.Up();
-	vUp.Normalize();
-	m_matPivot.Up(vUp);
-
-	Vec3 vLook = m_matPivot.Backward();
-	vLook.Normalize();
-	m_matPivot.Backward(vLook);
-
-	//Reset
-	m_fSequenceTimer = 0.0f;
-	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
-	m_fTimeAcc = 0.0f;
-	m_bRender = true;
-
-	if (m_fWaitingTime > 0.0f)
-	{
-		m_fWaitingAcc = 0.0f;
-		m_bRender = false;
-	}
+	Super::Reset(tEffectDesc);
 
 	m_Particle.fGameTime = m_fTimeAcc;
 	m_pBuffer->Reset();

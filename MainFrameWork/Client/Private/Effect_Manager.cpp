@@ -5,6 +5,7 @@
 #include "Effect_Texture.h"
 #include "Effect_Particle.h"
 #include "Effect_Decal.h"
+#include "Effect_Trail.h"
 #include <filesystem>
 #include "tinyxml2.h"
 #include "GameInstance.h"
@@ -138,6 +139,19 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 
 				element = element->NextSiblingElement();
 				tDesc.bRotation_Lerp = element->BoolAttribute("Lerp");
+				
+				element = element->NextSiblingElement();
+				tDesc.vRevolution_Start.x = element->FloatAttribute("X");
+				tDesc.vRevolution_Start.y = element->FloatAttribute("Y");
+				tDesc.vRevolution_Start.z = element->FloatAttribute("Z");
+
+				element = element->NextSiblingElement();
+				tDesc.vRevolution_End.x = element->FloatAttribute("X");
+				tDesc.vRevolution_End.y = element->FloatAttribute("Y");
+				tDesc.vRevolution_End.z = element->FloatAttribute("Z");
+
+				element = element->NextSiblingElement();
+				tDesc.bRevolution_Lerp = element->BoolAttribute("Lerp");
 
 				element = element->NextSiblingElement();
 				tDesc.vScaling_Start.x = element->FloatAttribute("X");
@@ -303,6 +317,17 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				}
 			}
 
+			if (4 == tDesc.iEffectType)
+			{
+				node = node->NextSiblingElement();
+				{
+					tinyxml2::XMLElement* element = nullptr;
+
+					element = node->FirstChildElement();
+					tDesc.iTrailVtxCount = element->IntAttribute("Count");
+				}
+			}
+
 			wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + strBundleTag + TEXT("_") + entry.path().stem().generic_wstring();
 			wstring strEffectTag = strBundleTag + TEXT("_") + entry.path().stem().generic_wstring();
 			tDesc.EffectTag = strEffectTag;
@@ -324,6 +349,11 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 			else if (3 == tDesc.iEffectType)
 			{
 				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Decal::Create(m_pDevice, m_pContext, &tDesc))))
+					return E_FAIL;
+			}
+			else if (4 == tDesc.iEffectType)
+			{
+				if (FAILED(m_pGameInstance->Add_Prototype(strProtoTag, CEffect_Trail::Create(m_pDevice, m_pContext, &tDesc))))
 					return E_FAIL;
 			}
 

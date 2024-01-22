@@ -47,6 +47,8 @@ void CEffect_Decal::LateTick(_float fTimeDelta)
 		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_DECAL, this)))
 			__debugbreak();
 	}
+
+	m_matCombined = m_matOffset * m_matPivot;
 }
 
 HRESULT CEffect_Decal::Render()
@@ -55,6 +57,9 @@ HRESULT CEffect_Decal::Render()
 		return E_FAIL;
 
 	Matrix matCombinedInv = m_matCombined.Invert();
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_matCombined, sizeof(Matrix))))
+		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformInverse", &matCombinedInv, sizeof(Matrix))))
 		return E_FAIL;

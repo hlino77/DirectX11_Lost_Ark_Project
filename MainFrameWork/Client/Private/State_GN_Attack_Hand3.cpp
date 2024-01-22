@@ -172,8 +172,7 @@ void CState_GN_Attack_Hand3::Effect_Shot()
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(TEXT("HandBullet"), &desc)
 
-
-		_uint iCount = rand() % 2 + 1;
+	_uint iCount = rand() % 2 + 1;
 	for (_uint i = 0; i < iCount; ++i)
 	{
 		_float fRandomY = CGameInstance::GetInstance()->Get_RandomFloat(-0.1f, 0.1f);

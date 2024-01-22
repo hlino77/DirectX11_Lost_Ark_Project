@@ -5,6 +5,7 @@
 
 BEGIN(Client)
 
+class CEffect;
 class CState_WDR_PowerShoulder_Start final : public CState_Skill
 {
 public:
@@ -39,6 +40,7 @@ private:
 	_bool	m_bEffectEnd = false;
 
 	vector<CEffect*> m_Effects;
+
 public:
 	static CState_WDR_PowerShoulder_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

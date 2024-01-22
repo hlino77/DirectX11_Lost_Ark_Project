@@ -59,6 +59,10 @@ public:
 	Vec3	m_vRotation_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vRotation_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bRotation_Lerp = false;
+	
+	Vec3	m_vRevolution_Start = Vec3(0.f, 0.f, 0.f);
+	Vec3	m_vRevolution_End = Vec3(0.f, 0.f, 0.f);
+	_bool	m_bRevolution_Lerp = false;
 
 	Vec3	m_vScaling_Start = Vec3(1.f, 1.f, 1.f);
 	Vec3	m_vScaling_End = Vec3(1.f, 1.f, 1.f);
@@ -75,7 +79,6 @@ public:
 	_float	m_fLifeTime = FLT_MAX;
 	_float	m_fRemainTime = 0.0f;
 	_float	m_fWaitingTime = 0.0f;
-
 
 	Vec2	m_vUV_Start = Vec2(0.f, 0.f);
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
@@ -133,6 +136,9 @@ public:
 		_float	fSequenceTerm = 0.01f;
 		_uint	iIsLoop = 0;
 	} m_Particle;
+
+	// Trail
+	_int	m_iTrailVtxCount = 4;
 
 	string	m_strPassName = "OneBlend";
 

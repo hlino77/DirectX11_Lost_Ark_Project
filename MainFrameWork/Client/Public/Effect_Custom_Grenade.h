@@ -12,7 +12,7 @@ class CEffect_Custom_Grenade : public CEffect
 {
 	using Super = CEffect;
 public:
-	typedef struct GrenadeDesc
+	struct GrenadeDesc
 	{
 		Vec3 vPos;
 		Vec3 vTargetPos;

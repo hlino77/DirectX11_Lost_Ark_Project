@@ -127,11 +127,21 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+	Vec4 vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, m_fLifeTimeRatio);
 	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
 
 	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))
-		* XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z));
+		* XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, vOffsetPosition.z)
+		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRevolution.x), XMConvertToRadians(vOffsetRevolution.y), XMConvertToRadians(vOffsetRevolution.z)));
+
+	if (4 == m_iEffectType)
+	{
+		if (m_iTrailVtxCount % 2)
+			++m_iTrailVtxCount;
+
+		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Set_VtxCount(::max(4, m_iTrailVtxCount));
+	}
 }
 
 void CVoidEffect::LateTick(_float fTimeDelta)
@@ -141,7 +151,6 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 	if (m_bRender)
 	{
-
 		if (m_iEffectType == 2)
 		{
 			if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECTPARTICLE, this)))
@@ -177,6 +186,39 @@ HRESULT CVoidEffect::Render()
 
 #pragma region GlobalData
 	Matrix matCombined = m_matOffset * m_matPivot;
+
+	if (4 == m_iEffectType)
+	{
+		if (nullptr != m_pEffectTool->GetLevelTool()->GetPivotObject())
+		{
+			const _char* szTypeID = typeid(*m_pEffectTool->GetLevelTool()->GetPivotObject()).name();
+
+			if (!strcmp(szTypeID, "class Client::CMannequin"))
+			{
+				m_matPivot = m_pEffectTool->GetLevelTool()->GetPivotObject()->Get_TransformCom()->Get_WorldMatrix();
+				m_bParentPivot = true;
+			}
+			else
+			{
+				m_matPivot = static_cast<CPartObject*>(m_pEffectTool->GetLevelTool()->GetPivotObject())->Get_Part_WorldMatrix();
+				m_bParentPivot = false;
+			}
+
+			Vec3 vRight = m_matPivot.Right();
+			vRight.Normalize();
+			m_matPivot.Right(vRight);
+
+			Vec3 vUp = m_matPivot.Up();
+			vUp.Normalize();
+			m_matPivot.Up(vUp);
+
+			Vec3 vLook = m_matPivot.Backward();
+			vLook.Normalize();
+			m_matPivot.Backward(vLook);
+		}
+
+		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Update_TrailBuffer(matCombined);
+	}
 
 	m_Particle.vEmitPosition = matCombined.Translation();
 
@@ -326,6 +368,13 @@ HRESULT CVoidEffect::Render()
 
 		m_pBatch->End();*/
 	}
+	else if (4 == m_iEffectType)
+	{
+		if (FAILED(m_pShaderCom->Begin(m_strPassName)))
+			return E_FAIL;
+		if (FAILED(static_cast<CVIBuffer_Trail*>(m_pBuffer)->Render()))
+			return E_FAIL;
+	}
 #pragma endregion
 
 	return S_OK;
@@ -383,6 +432,9 @@ void CVoidEffect::Reset()
 
 	if (m_iEffectType == 2)
 		dynamic_cast<CVIBuffer_Particle*>(m_pBuffer)->Reset();
+
+	if (m_iEffectType == 4)
+		dynamic_cast<CVIBuffer_Trail*>(m_pBuffer)->Stop_Trail();
 }
 
 HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
@@ -413,7 +465,7 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectMesh"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 			return E_FAIL;
 	}
-	else if(1 == m_iEffectType)
+	else if (1 == m_iEffectType)
 	{
 		/* For.Com_Buffer */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
@@ -423,7 +475,7 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectTex"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 			return E_FAIL;
 	}
-	else if(2 == m_iEffectType)
+	else if (2 == m_iEffectType)
 	{
 		/* For.Com_Buffer */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Particle"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
@@ -437,7 +489,7 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		pUtils->CreateRandomTexture1DSRV(m_pDevice, &m_pRandomTextureSRV);
 		RELEASE_INSTANCE(CUtils);
 	}
-	else if(3 == m_iEffectType)
+	else if (3 == m_iEffectType)
 	{
 		/* For.Com_Buffer */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
@@ -447,7 +499,16 @@ HRESULT CVoidEffect::Ready_Components(tagVoidEffectDesc* pDesc)
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectDecal"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 			return E_FAIL;
 	}
+	else if (4 == m_iEffectType)
+	{
+		/* For.Com_Buffer */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Trail"), TEXT("Com_VIBuffer"), (CComponent**)&m_pBuffer)))
+			return E_FAIL;
 
+		/* For.Com_Shader */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_EffectTrail"), TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+			return E_FAIL;
+	}
 	//////////
 
 	// BaseTexture
