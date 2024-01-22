@@ -76,10 +76,9 @@ HRESULT CLevel_ValtanMain::Initialize()
 	if (FAILED(Ready_Layer_Effect(LAYER_TYPE::LAYER_EFFECT)))
 		return E_FAIL;
 
-	/*if (FAILED(Load_MapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Chaos1.data"))))
-		return E_FAIL;*/
 
-	if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Test0121.data"))))
+
+	if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_End.data"))))
 	{
 		return E_FAIL;
 	}

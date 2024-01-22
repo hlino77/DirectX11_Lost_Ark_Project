@@ -64,7 +64,18 @@ void CStaticModel::Tick(_float fTimeDelta)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1 * fTimeDelta);
 	}
-	
+
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::H))
+	{
+		if (m_StaticColliders.size() != 0)
+		{
+			Set_Dead(true);
+		}
+
+	}
+
+
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
@@ -167,7 +178,6 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		
 		for (auto& CellIndex : m_NaviCellIndex)
 		{
-
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
 

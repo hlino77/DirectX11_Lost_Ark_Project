@@ -1456,7 +1456,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss_End.Navi");
 	pUIManager->Add_CurrFile();
 
-	Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Test0121.data"));
+	Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_End.data"));
 	pUIManager->Add_CurrFile();
 
 
