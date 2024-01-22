@@ -1,5 +1,6 @@
 #pragma once
 #include "Effect.h"
+#include "Delegate.h"
 
 BEGIN(Engine)
 
@@ -25,7 +26,10 @@ public:
 	virtual HRESULT Render()					override;
 
 public:
-	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc) override;
+	void Reset();
+
+public:
+	FDelegate<Matrix&>         CB_UpdatePivot;
 
 private:
 	CVIBuffer_Trail* m_pBuffer = nullptr;

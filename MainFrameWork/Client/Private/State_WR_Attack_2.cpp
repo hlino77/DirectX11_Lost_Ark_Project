@@ -8,6 +8,7 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
 
 CState_WR_Attack_2::CState_WR_Attack_2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)

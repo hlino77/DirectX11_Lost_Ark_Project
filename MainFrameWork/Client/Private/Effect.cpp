@@ -102,7 +102,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_bScaling_Lerp = pDesc->bScaling_Lerp;
 	if (!m_bScaling_Lerp)
 	{
-		if (XMVector3Equal(m_vScaling_Start, Vec3::Zero))
+		if (XMVector3Equal(m_vScaling_Start, Vec3::One))
 			m_bScaling_Pass = true;
 	}
 

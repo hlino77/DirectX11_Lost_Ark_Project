@@ -8,6 +8,7 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
 
 CState_WR_Attack_1::CState_WR_Attack_1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -58,6 +59,9 @@ void CState_WR_Attack_1::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
+
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("4temp"), func)
 	}
 
 	if (true == m_pController->Is_Attack() &&

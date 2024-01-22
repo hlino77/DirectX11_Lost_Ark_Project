@@ -99,14 +99,14 @@ void CVIBuffer_Trail::Update_TrailBuffer(Matrix& TransformMatrix)
 	vector<VTXTRAIL> Vertices;
 	Vertices.reserve(m_iNumVertices);
 
-	TransformMatrix.Right(XMVector4Normalize(TransformMatrix.Right()));
+	/*TransformMatrix.Right(XMVector4Normalize(TransformMatrix.Right()));
 	TransformMatrix.Up(XMVector4Normalize(TransformMatrix.Up()));
-	TransformMatrix.Backward(XMVector4Normalize(TransformMatrix.Backward()));
+	TransformMatrix.Backward(XMVector4Normalize(TransformMatrix.Backward()));*/
 
 	Vec4 vWorldHigh = XMVector3TransformCoord(XMLoadFloat4(&m_vHighPosition), TransformMatrix);
 	Vec4 vWorldLow = XMVector3TransformCoord(XMLoadFloat4(&m_vLowPosition), TransformMatrix);
 
-	if (m_TrailVertices.size() < m_iVtxCount - 2)
+	while (m_TrailVertices.size() < m_iVtxCount - 2)
 	{
 		VTXTRAIL Vertex = {};
 		XMStoreFloat3(&Vertex.vPosition, vWorldHigh);
