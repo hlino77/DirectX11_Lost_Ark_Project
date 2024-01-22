@@ -67,6 +67,11 @@ HRESULT CAnimModel::Initialize(void* pArg)
 void CAnimModel::Tick(_float fTimeDelta)
 {
 
+	if (m_szModelName == TEXT("Chain"))
+	{
+		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	}
+
 	//// All Object Animation Play
 	if (KEY_HOLD(KEY::CTRL) &&  KEY_AWAY(KEY::J))
 	{
