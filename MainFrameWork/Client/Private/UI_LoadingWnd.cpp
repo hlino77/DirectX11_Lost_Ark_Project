@@ -81,10 +81,11 @@ void CUI_LoadingWnd::Set_TextureIndex(_uint iLevelIndex)
 {
 	if ((_uint)LEVEL_BERN == iLevelIndex)
 		m_iTextureIndex = 0;
-	else if (((_uint)LEVEL_CHAOS_1 == iLevelIndex)||((_uint)LEVEL_CHAOS_2 == iLevelIndex) ||
+	else if (((_uint)LEVEL_CHAOS_1 == iLevelIndex) || ((_uint)LEVEL_CHAOS_2 == iLevelIndex) ||
 		((_uint)LEVEL_CHAOS_3 == iLevelIndex))
 		m_iTextureIndex = 0;
-
+	else if (((_uint)LEVEL_VALTANENTERANCE == iLevelIndex) || (_uint)LEVEL_VALTANMAIN == iLevelIndex)
+		m_iTextureIndex = 1;
 }
 
 HRESULT CUI_LoadingWnd::Ready_Components()

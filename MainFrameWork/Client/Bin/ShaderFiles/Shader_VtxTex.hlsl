@@ -194,6 +194,22 @@ PS_OUT PS_MAIN_MASKED(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_MASKED_TEXCOLOR(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_MaskTexture.Sample(DefaultSampler, In.vTexUV) * g_Color;
+
+	float4 vMaskColor = g_MaskTexture.Sample(DefaultSampler, In.vTexUV);
+
+	Out.vColor.a *= g_Alpha;
+	Out.vColor.a *= vMaskColor.x;
+
+	if (0.01f >= Out.vColor.a)
+		discard;
+
+	return Out;
+}
 
 PS_OUT PS_SKILL(PS_IN In)
 {
@@ -650,5 +666,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_TEXTURE_CUTY_NOGAMMA();
+	}
+
+	pass Masked_TextureColor//No.18
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_MASKED_TEXCOLOR();
 	}
 }

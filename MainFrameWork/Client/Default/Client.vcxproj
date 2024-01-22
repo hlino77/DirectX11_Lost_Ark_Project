@@ -614,6 +614,7 @@
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_WF_Front.h" />
     <ClInclude Include="..\Public\UI_InGame_NamePlate.h" />
+    <ClInclude Include="..\Public\UI_Inventory.h" />
     <ClInclude Include="..\Public\UI_ItemIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
@@ -1171,6 +1172,7 @@
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_WF_Front.cpp" />
     <ClCompile Include="..\Private\UI_InGame_NamePlate.cpp" />
+    <ClCompile Include="..\Private\UI_Inventory.cpp" />
     <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />

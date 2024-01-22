@@ -976,9 +976,6 @@
     <Filter Include="02.GameObjects\UI\12.Inventory">
       <UniqueIdentifier>{f1688ecf-426b-4cbb-a680-eada5ceb4dac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\12.Inventory\00.Wnd">
-      <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\02.ETCSlot">
       <UniqueIdentifier>{7bf0f105-e25d-4849-96e5-0d0c3085df11}</UniqueIdentifier>
     </Filter>
@@ -1341,6 +1338,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
       <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\01.Equipment">
+      <UniqueIdentifier>{52789099-83e7-4264-9898-cfb381af383f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory">
+      <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3750,9 +3753,6 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
-      <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_ChaosDungeon_Clear.h">
       <Filter>02.GameObjects\UI\11.Chaos_Dungeon\99.Clear</Filter>
     </ClInclude>
@@ -4105,6 +4105,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_SwordTrail.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
+      <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory.h">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6484,9 +6490,6 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
-      <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_ChaosDungeon_Clear.cpp">
       <Filter>02.GameObjects\UI\11.Chaos_Dungeon\99.Clear</Filter>
     </ClCompile>
@@ -6845,6 +6848,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_SwordTrail.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory.cpp">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

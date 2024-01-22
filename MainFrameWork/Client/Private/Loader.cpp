@@ -3060,18 +3060,18 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Result_Waiting"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Result_Waiting/%d.png", 78))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Mask_Effect0"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Mask_Effect0/%d.png", 23))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Mask_Effect1_d"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Mask_Effect1/d/%d.png", 32))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Mask_Effect1_m"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Mask_Effect1/m/%d.png", 32))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Mask_Effect1"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Mask_Effect1/%d.png", 23))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3080,21 +3080,6 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Waiting_Failed"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Waiting_Failed/%d.jpg", 72))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Waiting_Success"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Waiting_Success/%d.jpg", 117))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Result_waitiing"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Result_waitiing/%d.jpg", 117))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-	
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Item_NameFrame"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Item_NameFrame.png"))))
 		return E_FAIL;
@@ -3105,8 +3090,8 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Success_Effect"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Success_Effect.png"))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Max_GaugeEffect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Max_GaugeEffect/Max_GaugeEffect%d.png", 25))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3150,7 +3135,35 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	//Side_Pannel
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_None"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/None.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_ResultCheck_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/ResultCheck_Button%d.png",3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Rank"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Rank/Rank%d.png", 4))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Equipment_Icon"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Equipment_Icon.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Icon"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Upgrade_Icon.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Selected_Item"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Selected_Item.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);

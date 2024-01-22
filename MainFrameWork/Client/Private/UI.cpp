@@ -213,6 +213,13 @@ void CUI::Load_UIData(const wstring& _FilePath)
 	}
 }
 
+void CUI::Set_UIParts_Render(_bool bRender)
+{
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Render(bRender);
+	}
+}
 
 void CUI::Change_SizeX(_float MMX)
 {
