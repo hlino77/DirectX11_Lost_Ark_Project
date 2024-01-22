@@ -343,7 +343,7 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 	{
 	case Client::CEffect_PcModel::SWORD:
 		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
-		m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 90.f));
+		m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, -90.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SWORD], m_pTransformCom->Get_WorldMatrix());
 		break;
@@ -457,7 +457,7 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 
 	{
 		wstring strFileName = L"GN_WP_Hand_Legend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
@@ -470,7 +470,7 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 
 	{
 		wstring strFileName = L"GN_WP_Long_Legend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
@@ -483,7 +483,7 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 
 	{
 		wstring strFileName = L"GN_WP_Shot_Legend";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
@@ -495,8 +495,8 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 	}
 
 	{
-		wstring strFileName = L"WP_WR_Base";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strFileName = L"WR_WP_Mococo";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
@@ -509,7 +509,7 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 
 	{
 		wstring strFileName = L"WDR_WP_Mococo";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
@@ -522,7 +522,7 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 
 	{
 		wstring strFileName = L"MG_WP_Mococo";
-		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
