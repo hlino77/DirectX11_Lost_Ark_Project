@@ -1,7 +1,5 @@
 #pragma once
 #include "Skill.h"
-#include "Client_Defines.h"
-#include <atomic>
 
 BEGIN(Engine)
 class CTransform;
@@ -14,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSkill_Golem_Charge_Punch :	public CSkill
+class CSkill_Valtan_PizzaTerm : public CSkill
 {
 private:
-	CSkill_Golem_Charge_Punch(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkill_Golem_Charge_Punch(const CSkill_Golem_Charge_Punch& rhs);
-	virtual ~CSkill_Golem_Charge_Punch() = default;
+	CSkill_Valtan_PizzaTerm(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_PizzaTerm(const CSkill_Valtan_PizzaTerm& rhs);
+	virtual ~CSkill_Valtan_PizzaTerm() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -39,14 +37,13 @@ public:
 	virtual HRESULT					Ready_Coliders()override;
 
 
-
 private:
 	virtual HRESULT			Ready_Components();
 
 
 
 public:
-	static	CSkill_Golem_Charge_Punch* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_PizzaTerm* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

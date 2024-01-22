@@ -262,7 +262,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
 		{
 			Vec3 vCenter;
-			if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center((_uint)pOther->Get_ColLayer(), &vCenter))
+			if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
 			{
 				if (false == m_pController->Is_HitState())
 					m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);

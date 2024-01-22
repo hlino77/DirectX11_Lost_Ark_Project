@@ -6,6 +6,8 @@
 #include "CollisionManager.h"
 #include "RigidBody.h"
 #include "ServerSessionManager.h"
+#include <ColliderDoughnut.h>
+#include <ColliderFrustum.h>
 
 
 CSkill::CSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -97,14 +99,54 @@ void CSkill::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 	
 }
 
-_bool CSkill::Get_Collider_Center(_uint eColliderType, Vec3* pCenter)
+void CSkill::Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius)
 {
-	auto iter = m_Coliders.find(eColliderType);
-	if (iter == m_Coliders.end())
-		return false;
+	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child()->GetColliderType() != ColliderType::Doughnut)
+		return;
+	if (OutsideRadius <= InsideRadius)
+		return;
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(OutsideRadius);
 
-	*pCenter = iter->second->Get_Center();
-	return true;
+	dynamic_cast<CDoughnutCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child())->Set_Radius(InsideRadius);
+}
+
+void CSkill::Set_PizzaRadii(_float OutsideRadius, _float InsideRadius)
+{
+	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child()->GetColliderType() != ColliderType::Frustum)
+		return;
+	if (OutsideRadius <= InsideRadius)
+		return;
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(OutsideRadius);
+
+	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
+
+	pChildCollider->Set_Far(OutsideRadius);
+	pChildCollider->Set_Near(InsideRadius);
+}
+
+void CSkill::Set_PizzaSlope(_float fLeftSlope, _float fRightSlope)
+{
+	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child()->GetColliderType() != ColliderType::Frustum)
+		return;
+	if (fLeftSlope <= fRightSlope)
+		return;
+
+	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
+
+	pChildCollider->Set_Slopes(Vec4(1.f, -0.05f, tanf(XMConvertToRadians(fLeftSlope)), tanf(XMConvertToRadians(fRightSlope))));
+}
+
+_bool CSkill::Get_Collider_Center(_uint iID, Vec3* pCenter)
+{
+	for (auto pCollider : m_Coliders)
+	{
+		if (pCollider.second->GetID() == iID)
+		{
+			*pCenter = pCollider.second->Get_Center();
+			return true;
+		}
+	}
+	return false;
 }
 
 HRESULT CSkill::Ready_Components()

@@ -5,7 +5,7 @@
 #include <Boss_Valtan.h>
 #include "GameInstance.h"
 #include "ColliderSphere.h"
-#include <SKill_Valtan_DoughnutTerm2sec.h>
+#include <Skill_Valtan_DoughnutTerm2sec.h>
 
 CValtan_BT_Attack_Attack14::CValtan_BT_Attack_Attack14()
 {
@@ -65,7 +65,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 					ModelDesc.pOwner = m_pGameObject;
 
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_SphereTerm", &ModelDesc);
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -85,7 +85,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 					ModelDesc.pOwner = m_pGameObject;
 
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_SphereTerm", &ModelDesc);
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -107,7 +107,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 
 		if (static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 1)
 		{
-			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_SphereInstant", &ModelDesc);
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
 			if (pSkill != nullptr)
 			{
 				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -120,7 +120,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 		}
 		else
 		{
-			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_SphereInstant", &ModelDesc);
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
 			if (pSkill != nullptr)
 			{
 				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -131,7 +131,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
 			}
 			pSkill = nullptr;
-			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_DoughnutTerm2sec", &ModelDesc);
+			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutTerm2sec", &ModelDesc);
 			if (pSkill != nullptr)
 			{
 				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -139,7 +139,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 				vLook.Normalize();
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-				static_cast<CSKill_Valtan_DoughnutTerm2sec*>(pSkill)->Set_DoughnutRadii(12.f,4.3f);
+				static_cast<CSkill_Valtan_DoughnutTerm2sec*>(pSkill)->Set_DoughnutRadii(12.f,4.3f);
 			}
 		}
 	}

@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSkill_Golem_Charge_Punch :	public CSkill
+class CSkill_Valtan_PizzaInstant :	public CSkill
 {
 private:
-	CSkill_Golem_Charge_Punch(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkill_Golem_Charge_Punch(const CSkill_Golem_Charge_Punch& rhs);
-	virtual ~CSkill_Golem_Charge_Punch() = default;
+	CSkill_Valtan_PizzaInstant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_PizzaInstant(const CSkill_Valtan_PizzaInstant& rhs);
+	virtual ~CSkill_Valtan_PizzaInstant() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static	CSkill_Golem_Charge_Punch* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_PizzaInstant* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

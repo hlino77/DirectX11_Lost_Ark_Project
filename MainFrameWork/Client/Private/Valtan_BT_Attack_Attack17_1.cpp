@@ -4,6 +4,9 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Valtan.h>
+#include "GameInstance.h"
+#include <Skill.h>
+#include "ColliderSphere.h"
 
 
 CValtan_BT_Attack_Attack17_1::CValtan_BT_Attack_Attack17_1()
@@ -13,7 +16,7 @@ CValtan_BT_Attack_Attack17_1::CValtan_BT_Attack_Attack17_1()
 void CValtan_BT_Attack_Attack17_1::OnStart()
 {
 	__super::OnStart();
-
+	m_bShoot = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_1::OnUpdate(const _float& fTimeDelta)
@@ -22,7 +25,29 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_1::OnUpdate(const _float& fTimeDe
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && m_bShoot)
+	{
+		m_bShoot = false;
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
 
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			vPos += vLook * 3.f;
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(20.f);
+			static_cast<CSkill*>(pSkill)->Set_Atk(50.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(0.f);
+		}
+
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

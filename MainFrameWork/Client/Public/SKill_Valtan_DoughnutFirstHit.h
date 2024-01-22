@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Valtan_DoughnutFirstHit : public CSkill
+class CSkill_Valtan_DoughnutFirstHit : public CSkill
 {
 private:
-	CSKill_Valtan_DoughnutFirstHit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Valtan_DoughnutFirstHit(const CSKill_Valtan_DoughnutFirstHit& rhs);
-	virtual ~CSKill_Valtan_DoughnutFirstHit() = default;
+	CSkill_Valtan_DoughnutFirstHit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_DoughnutFirstHit(const CSkill_Valtan_DoughnutFirstHit& rhs);
+	virtual ~CSkill_Valtan_DoughnutFirstHit() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -44,7 +44,7 @@ private:
 
 
 public:
-	static	CSKill_Valtan_DoughnutFirstHit* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_DoughnutFirstHit* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

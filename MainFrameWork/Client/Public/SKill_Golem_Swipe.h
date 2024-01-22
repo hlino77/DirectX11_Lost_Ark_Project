@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Golem_Swipe :	public CSkill
+class CSkill_Golem_Swipe :	public CSkill
 {
 private:
-	CSKill_Golem_Swipe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Golem_Swipe(const CSKill_Golem_Swipe& rhs);
-	virtual ~CSKill_Golem_Swipe() = default;
+	CSkill_Golem_Swipe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Golem_Swipe(const CSkill_Golem_Swipe& rhs);
+	virtual ~CSkill_Golem_Swipe() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static	CSKill_Golem_Swipe* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Golem_Swipe* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

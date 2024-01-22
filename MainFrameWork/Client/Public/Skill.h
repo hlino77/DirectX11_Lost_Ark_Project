@@ -52,7 +52,13 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
-	_bool Get_Collider_Center(_uint eColliderType, Vec3* pCenter);
+	void Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius);
+
+	void Set_PizzaRadii(_float OutsideRadius, _float InsideRadius);
+
+	void Set_PizzaSlope(_float OutsideRadius, _float InsideRadius);
+
+	_bool Get_Collider_Center(_uint iID, Vec3* pCenter);
 
 	virtual void	Explosion() PURE;
 

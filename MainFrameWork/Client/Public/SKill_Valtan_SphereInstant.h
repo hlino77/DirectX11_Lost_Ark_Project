@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Valtan_SphereInstant : public CSkill
+class CSkill_Valtan_SphereInstant : public CSkill
 {
 private:
-	CSKill_Valtan_SphereInstant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Valtan_SphereInstant(const CSKill_Valtan_SphereInstant& rhs);
-	virtual ~CSKill_Valtan_SphereInstant() = default;
+	CSkill_Valtan_SphereInstant(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_SphereInstant(const CSkill_Valtan_SphereInstant& rhs);
+	virtual ~CSkill_Valtan_SphereInstant() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -43,7 +43,7 @@ private:
 
 
 public:
-	static	CSKill_Valtan_SphereInstant* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_SphereInstant* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

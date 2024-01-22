@@ -471,9 +471,6 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_1_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack19_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClCompile>
@@ -855,9 +852,6 @@
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_1_Server.h">
-      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack19_Server.h">

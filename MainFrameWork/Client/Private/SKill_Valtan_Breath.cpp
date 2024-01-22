@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "SKill_Valtan_Breath.h"
+#include "Skill_Valtan_Breath.h"
 #include "GameInstance.h"
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderFrustum.h>
 
-CSKill_Valtan_Breath::CSKill_Valtan_Breath(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Valtan_Breath::CSkill_Valtan_Breath(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Valtan_Breath::CSKill_Valtan_Breath(const CSKill_Valtan_Breath& rhs)
+CSkill_Valtan_Breath::CSkill_Valtan_Breath(const CSkill_Valtan_Breath& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Valtan_Breath::Initialize_Prototype()
+HRESULT CSkill_Valtan_Breath::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -23,7 +23,7 @@ HRESULT CSKill_Valtan_Breath::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Valtan_Breath::Initialize(void* pArg)
+HRESULT CSkill_Valtan_Breath::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -33,18 +33,18 @@ HRESULT CSKill_Valtan_Breath::Initialize(void* pArg)
     return S_OK;
 }
 
-void CSKill_Valtan_Breath::Tick(_float fTimeDelta)
+void CSkill_Valtan_Breath::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
 }
 
-void CSKill_Valtan_Breath::LateTick(_float fTimeDelta)
+void CSkill_Valtan_Breath::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Valtan_Breath::Render()
+HRESULT CSkill_Valtan_Breath::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
@@ -52,20 +52,20 @@ HRESULT CSKill_Valtan_Breath::Render()
 }
 
 
-void CSKill_Valtan_Breath::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_Breath::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_Breath::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_Breath::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_Breath::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_Breath::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Valtan_Breath::Ready_Coliders()
+HRESULT CSkill_Valtan_Breath::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -113,7 +113,7 @@ HRESULT CSKill_Valtan_Breath::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CSKill_Valtan_Breath::Ready_Components()
+HRESULT CSkill_Valtan_Breath::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -121,33 +121,33 @@ HRESULT CSKill_Valtan_Breath::Ready_Components()
     return S_OK;
 }
 
-CSKill_Valtan_Breath* CSKill_Valtan_Breath::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Valtan_Breath* CSkill_Valtan_Breath::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Valtan_Breath* pInstance = new CSKill_Valtan_Breath(pDevice, pContext);
+    CSkill_Valtan_Breath* pInstance = new CSkill_Valtan_Breath(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Valtan_Breath");
+		MSG_BOX("Failed To Created : CSkill_Valtan_Breath");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Valtan_Breath::Clone(void* pArg)
+CGameObject* CSkill_Valtan_Breath::Clone(void* pArg)
 {
-    CSKill_Valtan_Breath* pInstance = new CSKill_Valtan_Breath(*this);
+    CSkill_Valtan_Breath* pInstance = new CSkill_Valtan_Breath(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Valtan_Breath");
+		MSG_BOX("Failed To Cloned : CSkill_Valtan_Breath");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Valtan_Breath::Free()
+void CSkill_Valtan_Breath::Free()
 {
 	__super::Free();
 }

@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "SKill_Golem_Swipe.h"
+#include "Skill_Golem_Swipe.h"
 #include "GameInstance.h"
 #include <ColliderOBB.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
-CSKill_Golem_Swipe::CSKill_Golem_Swipe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Golem_Swipe::CSkill_Golem_Swipe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Golem_Swipe::CSKill_Golem_Swipe(const CSKill_Golem_Swipe& rhs)
+CSkill_Golem_Swipe::CSkill_Golem_Swipe(const CSkill_Golem_Swipe& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Golem_Swipe::Initialize_Prototype()
+HRESULT CSkill_Golem_Swipe::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -22,7 +22,7 @@ HRESULT CSKill_Golem_Swipe::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Golem_Swipe::Initialize(void* pArg)
+HRESULT CSkill_Golem_Swipe::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -33,7 +33,7 @@ HRESULT CSKill_Golem_Swipe::Initialize(void* pArg)
     return S_OK;
 }
 
-void CSKill_Golem_Swipe::Tick(_float fTimeDelta)
+void CSkill_Golem_Swipe::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	m_pTransformCom->Go_Left(m_fMoveSpeed,fTimeDelta);
@@ -48,12 +48,12 @@ void CSKill_Golem_Swipe::Tick(_float fTimeDelta)
 	pChildCollider->Set_Scale(vScale);
 }
 
-void CSKill_Golem_Swipe::LateTick(_float fTimeDelta)
+void CSkill_Golem_Swipe::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Golem_Swipe::Render()
+HRESULT CSkill_Golem_Swipe::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
@@ -61,20 +61,20 @@ HRESULT CSKill_Golem_Swipe::Render()
 }
 
 
-void CSKill_Golem_Swipe::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Swipe::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Golem_Swipe::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Swipe::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Golem_Swipe::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Swipe::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Golem_Swipe::Ready_Coliders()
+HRESULT CSkill_Golem_Swipe::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -121,7 +121,7 @@ HRESULT CSKill_Golem_Swipe::Ready_Coliders()
     return S_OK;
 }
 
-HRESULT CSKill_Golem_Swipe::Ready_Components()
+HRESULT CSkill_Golem_Swipe::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -129,33 +129,33 @@ HRESULT CSKill_Golem_Swipe::Ready_Components()
     return S_OK;
 }
 
-CSKill_Golem_Swipe* CSKill_Golem_Swipe::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Golem_Swipe* CSkill_Golem_Swipe::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Golem_Swipe* pInstance = new CSKill_Golem_Swipe(pDevice, pContext);
+    CSkill_Golem_Swipe* pInstance = new CSkill_Golem_Swipe(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Golem_Swipe");
+		MSG_BOX("Failed To Created : CSkill_Golem_Swipe");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Golem_Swipe::Clone(void* pArg)
+CGameObject* CSkill_Golem_Swipe::Clone(void* pArg)
 {
-    CSKill_Golem_Swipe* pInstance = new CSKill_Golem_Swipe(*this);
+    CSkill_Golem_Swipe* pInstance = new CSkill_Golem_Swipe(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Golem_Swipe");
+		MSG_BOX("Failed To Cloned : CSkill_Golem_Swipe");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Golem_Swipe::Free()
+void CSkill_Golem_Swipe::Free()
 {
 	__super::Free();
 }

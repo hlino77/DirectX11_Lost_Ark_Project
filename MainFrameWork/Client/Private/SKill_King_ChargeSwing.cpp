@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "SKill_King_ChargeSwing.h"
+#include "Skill_King_ChargeSwing.h"
 #include "GameInstance.h"
 #include <ColliderOBB.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
-CSKill_King_ChargeSwing::CSKill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_King_ChargeSwing::CSkill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_King_ChargeSwing::CSKill_King_ChargeSwing(const CSKill_King_ChargeSwing& rhs)
+CSkill_King_ChargeSwing::CSkill_King_ChargeSwing(const CSkill_King_ChargeSwing& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_King_ChargeSwing::Initialize_Prototype()
+HRESULT CSkill_King_ChargeSwing::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -22,7 +22,7 @@ HRESULT CSKill_King_ChargeSwing::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_King_ChargeSwing::Initialize(void* pArg)
+HRESULT CSkill_King_ChargeSwing::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -33,18 +33,18 @@ HRESULT CSKill_King_ChargeSwing::Initialize(void* pArg)
     return S_OK;
 }
 
-void CSKill_King_ChargeSwing::Tick(_float fTimeDelta)
+void CSkill_King_ChargeSwing::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
 }
 
-void CSKill_King_ChargeSwing::LateTick(_float fTimeDelta)
+void CSkill_King_ChargeSwing::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_King_ChargeSwing::Render()
+HRESULT CSkill_King_ChargeSwing::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
@@ -52,20 +52,20 @@ HRESULT CSKill_King_ChargeSwing::Render()
 }
 
 
-void CSKill_King_ChargeSwing::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_King_ChargeSwing::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_ChargeSwing::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_King_ChargeSwing::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_ChargeSwing::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_King_ChargeSwing::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_King_ChargeSwing::Ready_Coliders()
+HRESULT CSkill_King_ChargeSwing::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -110,7 +110,7 @@ HRESULT CSKill_King_ChargeSwing::Ready_Coliders()
     return S_OK;
 }
 
-HRESULT CSKill_King_ChargeSwing::Ready_Components()
+HRESULT CSkill_King_ChargeSwing::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -118,33 +118,33 @@ HRESULT CSKill_King_ChargeSwing::Ready_Components()
     return S_OK;
 }
 
-CSKill_King_ChargeSwing* CSKill_King_ChargeSwing::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_King_ChargeSwing* CSkill_King_ChargeSwing::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_King_ChargeSwing* pInstance = new CSKill_King_ChargeSwing(pDevice, pContext);
+    CSkill_King_ChargeSwing* pInstance = new CSkill_King_ChargeSwing(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_King_ChargeSwing");
+		MSG_BOX("Failed To Created : CSkill_King_ChargeSwing");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_King_ChargeSwing::Clone(void* pArg)
+CGameObject* CSkill_King_ChargeSwing::Clone(void* pArg)
 {
-    CSKill_King_ChargeSwing* pInstance = new CSKill_King_ChargeSwing(*this);
+    CSkill_King_ChargeSwing* pInstance = new CSkill_King_ChargeSwing(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_King_ChargeSwing");
+		MSG_BOX("Failed To Cloned : CSkill_King_ChargeSwing");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_King_ChargeSwing::Free()
+void CSkill_King_ChargeSwing::Free()
 {
 	__super::Free();
 }

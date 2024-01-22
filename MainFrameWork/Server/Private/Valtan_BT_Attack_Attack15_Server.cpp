@@ -58,7 +58,8 @@ void CValtan_BT_Attack_Attack15_Server::Add_Prison()
 	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
 	Desc.iLevel = m_pGameObject->Get_CurrLevel();
 	vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER);
-	Desc.vPosition = vecTargets[CGameInstance::GetInstance()->Random_Int(0, vecTargets.size() - 1)]->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	CGameObject* pRandomTarget = vecTargets[CGameInstance::GetInstance()->Random_Int(0, vecTargets.size() - 1)];
+	Desc.vPosition = pRandomTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
 	CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(CGameInstance::GetInstance()->Add_GameObject(m_pGameObject->Get_CurrLevel(), Desc.iLayer, szMonsterName, &Desc));
 	if (pMonster == nullptr)

@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Valtan_DoughnutTerm2sec : public CSkill
+class CSkill_Valtan_DoughnutTerm2sec : public CSkill
 {
 private:
-	CSKill_Valtan_DoughnutTerm2sec(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Valtan_DoughnutTerm2sec(const CSKill_Valtan_DoughnutTerm2sec& rhs);
-	virtual ~CSKill_Valtan_DoughnutTerm2sec() = default;
+	CSkill_Valtan_DoughnutTerm2sec(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_DoughnutTerm2sec(const CSkill_Valtan_DoughnutTerm2sec& rhs);
+	virtual ~CSkill_Valtan_DoughnutTerm2sec() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -45,7 +45,7 @@ private:
 
 
 public:
-	static	CSKill_Valtan_DoughnutTerm2sec* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_DoughnutTerm2sec* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

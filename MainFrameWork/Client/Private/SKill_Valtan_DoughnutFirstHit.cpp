@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "SKill_Valtan_DoughnutFirstHit.h"
+#include "Skill_Valtan_DoughnutFirstHit.h"
 #include "GameInstance.h"
 #include <ColliderFrustum.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderDoughnut.h>
 
-CSKill_Valtan_DoughnutFirstHit::CSKill_Valtan_DoughnutFirstHit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Valtan_DoughnutFirstHit::CSkill_Valtan_DoughnutFirstHit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Valtan_DoughnutFirstHit::CSKill_Valtan_DoughnutFirstHit(const CSKill_Valtan_DoughnutFirstHit& rhs)
+CSkill_Valtan_DoughnutFirstHit::CSkill_Valtan_DoughnutFirstHit(const CSkill_Valtan_DoughnutFirstHit& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Valtan_DoughnutFirstHit::Initialize_Prototype()
+HRESULT CSkill_Valtan_DoughnutFirstHit::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -24,7 +24,7 @@ HRESULT CSKill_Valtan_DoughnutFirstHit::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Valtan_DoughnutFirstHit::Initialize(void* pArg)
+HRESULT CSkill_Valtan_DoughnutFirstHit::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -35,7 +35,7 @@ HRESULT CSKill_Valtan_DoughnutFirstHit::Initialize(void* pArg)
     return S_OK;
 }
 
-void CSKill_Valtan_DoughnutFirstHit::Tick(_float fTimeDelta)
+void CSkill_Valtan_DoughnutFirstHit::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fBlinkTime -= fTimeDelta;
@@ -45,32 +45,32 @@ void CSKill_Valtan_DoughnutFirstHit::Tick(_float fTimeDelta)
 	}
 }
 
-void CSKill_Valtan_DoughnutFirstHit::LateTick(_float fTimeDelta)
+void CSkill_Valtan_DoughnutFirstHit::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Valtan_DoughnutFirstHit::Render()
+HRESULT CSkill_Valtan_DoughnutFirstHit::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
     return S_OK;
 }
 
-void CSKill_Valtan_DoughnutFirstHit::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_DoughnutFirstHit::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_DoughnutFirstHit::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_DoughnutFirstHit::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_DoughnutFirstHit::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_DoughnutFirstHit::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Valtan_DoughnutFirstHit::Ready_Coliders()
+HRESULT CSkill_Valtan_DoughnutFirstHit::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -116,7 +116,7 @@ HRESULT CSKill_Valtan_DoughnutFirstHit::Ready_Coliders()
 	return S_OK;
 }
 
-void CSKill_Valtan_DoughnutFirstHit::Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius)
+void CSkill_Valtan_DoughnutFirstHit::Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius)
 {
 	if (OutsideRadius <= InsideRadius)
 		return;
@@ -125,7 +125,7 @@ void CSKill_Valtan_DoughnutFirstHit::Set_DoughnutRadii(_float OutsideRadius, _fl
 	dynamic_cast<CDoughnutCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child())->Set_Radius(InsideRadius);
 }
 
-HRESULT CSKill_Valtan_DoughnutFirstHit::Ready_Components()
+HRESULT CSkill_Valtan_DoughnutFirstHit::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -133,33 +133,33 @@ HRESULT CSKill_Valtan_DoughnutFirstHit::Ready_Components()
     return S_OK;
 }
 
-CSKill_Valtan_DoughnutFirstHit* CSKill_Valtan_DoughnutFirstHit::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Valtan_DoughnutFirstHit* CSkill_Valtan_DoughnutFirstHit::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Valtan_DoughnutFirstHit* pInstance = new CSKill_Valtan_DoughnutFirstHit(pDevice, pContext);
+    CSkill_Valtan_DoughnutFirstHit* pInstance = new CSkill_Valtan_DoughnutFirstHit(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Valtan_DoughnutFirstHit");
+		MSG_BOX("Failed To Created : CSkill_Valtan_DoughnutFirstHit");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Valtan_DoughnutFirstHit::Clone(void* pArg)
+CGameObject* CSkill_Valtan_DoughnutFirstHit::Clone(void* pArg)
 {
-    CSKill_Valtan_DoughnutFirstHit* pInstance = new CSKill_Valtan_DoughnutFirstHit(*this);
+    CSkill_Valtan_DoughnutFirstHit* pInstance = new CSkill_Valtan_DoughnutFirstHit(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Valtan_DoughnutFirstHit");
+		MSG_BOX("Failed To Cloned : CSkill_Valtan_DoughnutFirstHit");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Valtan_DoughnutFirstHit::Free()
+void CSkill_Valtan_DoughnutFirstHit::Free()
 {
 	__super::Free();
 }

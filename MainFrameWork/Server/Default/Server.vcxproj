@@ -237,7 +237,6 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_3_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_2_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_1_Server.cpp" />
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack19_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack1_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack20_Server.cpp" />
@@ -378,7 +377,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack14_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_1_Server.h" />
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack19_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack1_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack20_Server.h" />
