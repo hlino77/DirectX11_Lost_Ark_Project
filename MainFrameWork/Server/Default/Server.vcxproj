@@ -157,6 +157,7 @@
     <ClCompile Include="..\Private\Boss_King_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_Server.cpp" />
+    <ClCompile Include="..\Private\BreakAbleObject_Server.cpp" />
     <ClCompile Include="..\Private\Camera_Free_Server.cpp" />
     <ClCompile Include="..\Private\ChaosDungean_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_BoundLand_Server.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="..\Public\Boss_BT_Groggy_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_IF_ArmorBreak_Server.h" />
     <ClInclude Include="..\Public\Boss_BT_IF_Groggy_Server.h" />
+    <ClInclude Include="..\Public\BreakAbleObject_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h" />
     <ClInclude Include="..\Public\Monster_Prison_Server.h" />

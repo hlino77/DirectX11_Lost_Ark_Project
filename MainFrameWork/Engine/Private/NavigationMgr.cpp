@@ -93,8 +93,10 @@ _bool CNavigationMgr::Picking_Cell(_uint iLevel, Vec3 vRayPos, Vec3 vRayDir, Vec
 	return bPick;
 }
 
-
-
+void CNavigationMgr::Set_NaviCell_Active(_uint LevelIndex, _uint CellIndex, _bool Active)
+{
+	m_Navigations[LevelIndex]->Set_Active_Specific_Cell(CellIndex, Active);
+}
 
 
 void CNavigationMgr::Free()

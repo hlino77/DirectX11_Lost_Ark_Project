@@ -4,6 +4,7 @@
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
+#include "NavigationMgr.h"
 
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
@@ -63,7 +64,18 @@ void CStaticModel::Tick(_float fTimeDelta)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1 * fTimeDelta);
 	}
-	
+
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::H))
+	{
+		if (m_StaticColliders.size() != 0)
+		{
+			Set_Dead(true);
+		}
+
+	}
+
+
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
@@ -163,6 +175,13 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL&& pOther->Get_ColLayer()== (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
 	{
 		Set_Dead(true);
+		
+		for (auto& CellIndex : m_NaviCellIndex)
+		{
+			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+		}
+
+	
 	}
 }
 

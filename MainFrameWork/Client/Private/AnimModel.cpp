@@ -4,6 +4,8 @@
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
 
+#include "NavigationMgr.h"
+
 
 CAnimModel::CAnimModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"AnimModel", eObjType)
@@ -65,8 +67,13 @@ HRESULT CAnimModel::Initialize(void* pArg)
 void CAnimModel::Tick(_float fTimeDelta)
 {
 
+	if (m_szModelName == TEXT("Chain"))
+	{
+		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	}
+
 	//// All Object Animation Play
-	if (KEY_HOLD(KEY::A) &&  KEY_AWAY(KEY::J))
+	if (KEY_HOLD(KEY::CTRL) &&  KEY_AWAY(KEY::J))
 	{
 		bPlayAnim = !bPlayAnim;
 	}
@@ -78,7 +85,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	}
 
 	// All Object Animation First Frame
-	if (KEY_HOLD(KEY::A) && KEY_AWAY(KEY::K))
+	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::K))
 	{
 		m_pModelCom->Set_CurrAnimFrame(0);
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed); 
@@ -87,7 +94,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	}
 
 	// Wall Object Animation Play
-	if (KEY_HOLD(KEY::A) && KEY_AWAY(KEY::L))
+	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::L))
 	{
 		if (m_szModelName == TEXT("Wall01") ||
 			m_szModelName == TEXT("Wall02") ||
@@ -97,18 +104,47 @@ void CAnimModel::Tick(_float fTimeDelta)
 			bPlayAnim = !bPlayAnim;
 		}
 	}
-	if (KEY_HOLD(KEY::A) && KEY_AWAY(KEY::M))
+
+	// Left Ground Break
+	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::M))
 	{
 		if (m_szModelName == TEXT("Floor_All_R01"))
 		{
 			bPlayAnim = !bPlayAnim;
+
+			_uint MinCellIndex = 362;
+			_uint MaxCellIndex = 614;
+
+			for (size_t i = MinCellIndex; i <= MaxCellIndex; i++)
+			{
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, i, false);
+
+			}
+
+			// Except 
+			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 926, false);
+
 		}
 	}
-	if (KEY_HOLD(KEY::A) && KEY_AWAY(KEY::N))
+
+
+	// Right Ground Break
+	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::N))
 	{
 		if (m_szModelName == TEXT("Floor_All_L01"))
 		{
 			bPlayAnim = !bPlayAnim;
+
+
+			_uint MinCellIndex = 615;
+			_uint MaxCellIndex = 925;
+
+			for (size_t i = MinCellIndex; i <= MaxCellIndex; i++)
+			{
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, i, false);
+
+			}
+
 		}
 	}
 	
@@ -127,6 +163,11 @@ void CAnimModel::LateTick(_float fTimeDelta)
 	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
 
+
+	if (m_pModelCom->Get_Animations()[0]->Is_End() == true)
+	{
+		Set_Dead(true);
+	}
 
 
 	if (m_bRender)

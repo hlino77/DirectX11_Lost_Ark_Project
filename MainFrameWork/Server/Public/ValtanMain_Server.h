@@ -53,6 +53,10 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	void	Send_OpenLevel();
 	void	Exit_Dungean();
 	HRESULT	Broadcast_PlayerInfo();
+
+	HRESULT	Load_BossMapData(LEVELID eLevel ,const wstring& szFullPath);
+
+
 private:
 	_float m_fStartDelay = 0.0f;
 

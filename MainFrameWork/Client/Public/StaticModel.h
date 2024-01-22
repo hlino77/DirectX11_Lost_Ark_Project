@@ -69,6 +69,9 @@ public:
 
 	CSphereCollider* Get_StaticCollider(_uint iIndex) { return m_StaticColliders[iIndex]; }
 
+	void Add_NaviCellIndex(_uint CellIndex) { m_NaviCellIndex.push_back(CellIndex); }
+
+
 protected:
 	virtual HRESULT Ready_Components() override;
 
@@ -76,13 +79,17 @@ protected:
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
 	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
-private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
+
+
 
 private:
-	CRenderer::RENDERGROUP m_eRenderGroup;
-	vector<CSphereCollider*> m_StaticColliders;
 
-private:
+	CRenderer::RENDERGROUP			m_eRenderGroup;
+
+	vector<CSphereCollider*>		m_StaticColliders;
+	vector<_uint>					m_NaviCellIndex;
+
+
 
 public:
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);
