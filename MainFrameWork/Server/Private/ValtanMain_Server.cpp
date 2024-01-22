@@ -103,7 +103,7 @@ HRESULT CValtanMain_Server::Ready_Components()
 HRESULT CValtanMain_Server::Ready_Dungean()
 {
 	m_iCurrLevel = LEVELID::LEVEL_VALTANMAIN;
-	m_fStartDelay = 10.0f;
+	m_fStartDelay = 15.0f;
 	m_iBossCount = 1;
 	return S_OK;
 }

@@ -25,6 +25,13 @@ public:
 		CGameObject* pOwner;
 	}MODELDESC;
 
+	typedef struct SkillDesc
+	{
+		_uint				iAtk = 0;
+		_float				fForce = 0.0f;
+		STATUSEFFECT		eStatusEffect = STATUSEFFECT::EFFECTEND;
+		_float				fStatusEffectDuration = 0.0f;
+	}SKILLDESC;
 
 protected:
 	CSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -45,7 +52,13 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
-	_bool Get_Collider_Center(_uint eColliderType, Vec3* pCenter);
+	void Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius);
+
+	void Set_PizzaRadii(_float OutsideRadius, _float InsideRadius);
+
+	void Set_PizzaSlope(_float OutsideRadius, _float InsideRadius);
+
+	_bool Get_Collider_Center(_uint iID, Vec3* pCenter);
 
 	virtual void	Explosion() PURE;
 
@@ -74,17 +87,30 @@ public:
 	void					Set_Colliders(_float fTimeDelta);
 
 
-
 	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
 	void					Set_Die();
 
-	_uint					Get_Atk() { return m_iAtk; }
-	void					Set_Atk(_uint iAtk) { m_iAtk = iAtk; }
+	_uint					Get_Atk() { return m_SkillDesc.iAtk; }
+	void					Set_Atk(_uint iAtk) { m_SkillDesc.iAtk = iAtk; }
 
-	_float					Get_Force() { return m_fForce; }
-	void					Set_Force(_float fForce) { m_fForce = fForce; }
+	_float					Get_Force() { return m_SkillDesc.fForce; }
+	void					Set_Force(_float fForce) { m_SkillDesc.fForce = fForce; }
 
+	STATUSEFFECT			Get_StatusEffect() { return m_SkillDesc.eStatusEffect; }
+	void					Set_StatusEffect(STATUSEFFECT eStatusEffect) { m_SkillDesc.eStatusEffect = eStatusEffect; }
+
+	_float					Get_StatusEffectDuration() { return m_SkillDesc.fStatusEffectDuration; }
+	void					Set_StatusEffectDuration(_float fStatusEffectDuration) { m_SkillDesc.fStatusEffectDuration = fStatusEffectDuration; }
+
+	SKILLDESC					Get_SkillDesc() { return m_SkillDesc; }
+	void					Set_SkillDesc(SKILLDESC SkillDesc) { m_SkillDesc = SkillDesc; }
+
+	_float					Get_LastTime() { return m_fLastTime; }
+	void					Set_LastTime(_float fLastTime) { m_fLastTime = fLastTime; }
+
+	_float					Get_BlinkTime() { return m_fBlinkTime; }
+	void					Set_BlinkTime(_float fBlinkTime) { m_fBlinkTime = fBlinkTime; }
 protected:
 	virtual HRESULT			Ready_Components();
 
@@ -94,13 +120,11 @@ protected:
 	CRenderer*						m_pRendererCom = nullptr;
 	
 
+	_float							m_fBlinkTime = 0.f;
 	_float							m_fLastTime = 0.f;
-	_uint							m_iAtk = 0;
-	_float							m_fForce = 0.0f;
 	_float							m_fMoveSpeed = 0.0f;
 
-
-
+	SKILLDESC						m_SkillDesc;
 	_float							m_fFollowDistance = 0.0f;
 
 

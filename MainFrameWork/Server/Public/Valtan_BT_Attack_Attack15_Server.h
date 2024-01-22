@@ -16,6 +16,7 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
+    void Add_Prison();
 
 
 public:

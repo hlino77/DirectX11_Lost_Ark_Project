@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "SKill_Golem_Jump.h"
+#include "Skill_Golem_Jump.h"
 #include "GameInstance.h"
 #include <ColliderOBB.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
-CSKill_Golem_Jump::CSKill_Golem_Jump(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Golem_Jump::CSkill_Golem_Jump(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Golem_Jump::CSKill_Golem_Jump(const CSKill_Golem_Jump& rhs)
+CSkill_Golem_Jump::CSkill_Golem_Jump(const CSkill_Golem_Jump& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Golem_Jump::Initialize_Prototype()
+HRESULT CSkill_Golem_Jump::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -22,18 +22,18 @@ HRESULT CSKill_Golem_Jump::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Golem_Jump::Initialize(void* pArg)
+HRESULT CSkill_Golem_Jump::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_iAtk = 10;
-	m_fForce = 30.f;
+	m_SkillDesc.iAtk = 10;
+	m_SkillDesc.fForce = 30.f;
 	m_fMoveSpeed = 7.5f;
 	m_fLastTime = 2.f;
     return S_OK;
 }
 
-void CSKill_Golem_Jump::Tick(_float fTimeDelta)
+void CSkill_Golem_Jump::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	CSphereCollider* pCollider = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS];
@@ -51,12 +51,12 @@ void CSKill_Golem_Jump::Tick(_float fTimeDelta)
 	pChildCollider->Set_Scale(Vec3(vScale));
 }
 
-void CSKill_Golem_Jump::LateTick(_float fTimeDelta)
+void CSkill_Golem_Jump::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Golem_Jump::Render()
+HRESULT CSkill_Golem_Jump::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
@@ -64,20 +64,20 @@ HRESULT CSKill_Golem_Jump::Render()
 }
 
 
-void CSKill_Golem_Jump::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Jump::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Golem_Jump::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Jump::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Golem_Jump::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Jump::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Golem_Jump::Ready_Coliders()
+HRESULT CSkill_Golem_Jump::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -126,7 +126,7 @@ HRESULT CSKill_Golem_Jump::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CSKill_Golem_Jump::Ready_Components()
+HRESULT CSkill_Golem_Jump::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -134,33 +134,33 @@ HRESULT CSKill_Golem_Jump::Ready_Components()
     return S_OK;
 }
 
-CSKill_Golem_Jump* CSKill_Golem_Jump::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Golem_Jump* CSkill_Golem_Jump::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Golem_Jump* pInstance = new CSKill_Golem_Jump(pDevice, pContext);
+    CSkill_Golem_Jump* pInstance = new CSkill_Golem_Jump(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Golem_Jump");
+		MSG_BOX("Failed To Created : CSkill_Golem_Jump");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Golem_Jump::Clone(void* pArg)
+CGameObject* CSkill_Golem_Jump::Clone(void* pArg)
 {
-    CSKill_Golem_Jump* pInstance = new CSKill_Golem_Jump(*this);
+    CSkill_Golem_Jump* pInstance = new CSkill_Golem_Jump(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Golem_Jump");
+		MSG_BOX("Failed To Cloned : CSkill_Golem_Jump");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Golem_Jump::Free()
+void CSkill_Golem_Jump::Free()
 {
 	__super::Free();
 }

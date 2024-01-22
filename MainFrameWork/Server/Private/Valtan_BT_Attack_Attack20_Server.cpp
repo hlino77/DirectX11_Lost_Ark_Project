@@ -14,6 +14,7 @@ void CValtan_BT_Attack_Attack20_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Invincible(true);
 
 }
 
@@ -27,6 +28,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack20_Server::OnUpdate(const _float& fT
 void CValtan_BT_Attack_Attack20_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Invincible(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 

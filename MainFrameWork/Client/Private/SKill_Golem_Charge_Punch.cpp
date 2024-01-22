@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "SKill_Golem_Charge_Punch.h"
+#include "Skill_Golem_Charge_Punch.h"
 #include "GameInstance.h"
 #include <ColliderOBB.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
-CSKill_Golem_Charge_Punch::CSKill_Golem_Charge_Punch(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Golem_Charge_Punch::CSkill_Golem_Charge_Punch(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Golem_Charge_Punch::CSKill_Golem_Charge_Punch(const CSKill_Golem_Charge_Punch& rhs)
+CSkill_Golem_Charge_Punch::CSkill_Golem_Charge_Punch(const CSkill_Golem_Charge_Punch& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Golem_Charge_Punch::Initialize_Prototype()
+HRESULT CSkill_Golem_Charge_Punch::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -22,30 +22,30 @@ HRESULT CSKill_Golem_Charge_Punch::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Golem_Charge_Punch::Initialize(void* pArg)
+HRESULT CSkill_Golem_Charge_Punch::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fMoveSpeed = 3.5f;
 	m_fLastTime = 5.f;
-	m_iAtk = 22;
-	m_fForce = 30.5f;
+	m_SkillDesc.iAtk = 22;
+	m_SkillDesc.fForce = 30.5f;
     return S_OK;
 }
 
-void CSKill_Golem_Charge_Punch::Tick(_float fTimeDelta)
+void CSkill_Golem_Charge_Punch::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	m_pTransformCom->Go_Straight(m_fMoveSpeed, fTimeDelta);
 	m_fMoveSpeed += 2.f*fTimeDelta;
 }
 
-void CSKill_Golem_Charge_Punch::LateTick(_float fTimeDelta)
+void CSkill_Golem_Charge_Punch::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Golem_Charge_Punch::Render()
+HRESULT CSkill_Golem_Charge_Punch::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
@@ -53,20 +53,20 @@ HRESULT CSKill_Golem_Charge_Punch::Render()
 }
 
 
-void CSKill_Golem_Charge_Punch::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Charge_Punch::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Golem_Charge_Punch::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Charge_Punch::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Golem_Charge_Punch::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Golem_Charge_Punch::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Golem_Charge_Punch::Ready_Coliders()
+HRESULT CSkill_Golem_Charge_Punch::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -93,7 +93,7 @@ HRESULT CSKill_Golem_Charge_Punch::Ready_Coliders()
     return S_OK;
 }
 
-HRESULT CSKill_Golem_Charge_Punch::Ready_Components()
+HRESULT CSkill_Golem_Charge_Punch::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -101,33 +101,33 @@ HRESULT CSKill_Golem_Charge_Punch::Ready_Components()
     return S_OK;
 }
 
-CSKill_Golem_Charge_Punch* CSKill_Golem_Charge_Punch::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Golem_Charge_Punch* CSkill_Golem_Charge_Punch::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Golem_Charge_Punch* pInstance = new CSKill_Golem_Charge_Punch(pDevice, pContext);
+    CSkill_Golem_Charge_Punch* pInstance = new CSkill_Golem_Charge_Punch(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Golem_Charge_Punch");
+		MSG_BOX("Failed To Created : CSkill_Golem_Charge_Punch");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Golem_Charge_Punch::Clone(void* pArg)
+CGameObject* CSkill_Golem_Charge_Punch::Clone(void* pArg)
 {
-    CSKill_Golem_Charge_Punch* pInstance = new CSKill_Golem_Charge_Punch(*this);
+    CSkill_Golem_Charge_Punch* pInstance = new CSkill_Golem_Charge_Punch(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Golem_Charge_Punch");
+		MSG_BOX("Failed To Cloned : CSkill_Golem_Charge_Punch");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Golem_Charge_Punch::Free()
+void CSkill_Golem_Charge_Punch::Free()
 {
 	__super::Free();
 }

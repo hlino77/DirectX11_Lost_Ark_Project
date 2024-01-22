@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Server.h>
+#include <Boss_Valtan_Server.h>
 
 CValtan_BT_Attack_Attack19_Server::CValtan_BT_Attack_Attack19_Server()
 {
@@ -25,7 +26,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack19_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 		return BT_SUCCESS;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex&& m_fLoopTime < m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime - 0.5f)
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[3].iAnimIndex&& m_pGameObject->Get_ModelCom()->IsNext())
 		m_pGameObject->Get_TransformCom()->Turn_Speed(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_UP),XMConvertToRadians(280.f) ,fTimeDelta);
@@ -35,6 +36,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack19_Server::OnUpdate(const _float& fT
 void CValtan_BT_Attack_Attack19_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Clear_GrabbedPlayerIDs();
 	static_cast<CMonster_Server*>(m_pGameObject)->Reset_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

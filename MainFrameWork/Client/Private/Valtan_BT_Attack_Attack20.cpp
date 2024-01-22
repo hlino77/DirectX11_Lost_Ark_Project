@@ -4,6 +4,9 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Valtan.h>
+#include "GameInstance.h"
+#include <Skill.h>
+#include "ColliderSphere.h"
 
 CValtan_BT_Attack_Attack20::CValtan_BT_Attack_Attack20()
 {
@@ -12,13 +15,64 @@ CValtan_BT_Attack_Attack20::CValtan_BT_Attack_Attack20()
 void CValtan_BT_Attack_Attack20::OnStart()
 {
 	__super::OnStart();
-
+	m_bShoot = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack20::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 7 && m_bShoot)
+	{
+		m_bShoot = false;
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
+		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+		vPos += vLook * 3.f;
+
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(4.f);
+			static_cast<CSkill*>(pSkill)->Set_Atk(99999.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(0.f);
+		}
+
+		for (size_t i = 0; i < 3; i++)
+		{
+
+			vLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(60.f * (_float)i)));
+			vLook.Normalize();
+			pSkill = nullptr;
+			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+
+				static_cast<CSkill*>(pSkill)->Set_Atk(99999.f);
+				static_cast<CSkill*>(pSkill)->Set_Force(0.f);
+
+			}
+
+			pSkill = nullptr;
+			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(-vLook);
+				static_cast<CSkill*>(pSkill)->Set_Atk(99999.f);
+				static_cast<CSkill*>(pSkill)->Set_Force(0.f);
+			}
+		}
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

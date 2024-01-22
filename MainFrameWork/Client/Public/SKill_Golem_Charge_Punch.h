@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Golem_Charge_Punch :	public CSkill
+class CSkill_Golem_Charge_Punch :	public CSkill
 {
 private:
-	CSKill_Golem_Charge_Punch(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Golem_Charge_Punch(const CSKill_Golem_Charge_Punch& rhs);
-	virtual ~CSKill_Golem_Charge_Punch() = default;
+	CSkill_Golem_Charge_Punch(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Golem_Charge_Punch(const CSkill_Golem_Charge_Punch& rhs);
+	virtual ~CSkill_Golem_Charge_Punch() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static	CSKill_Golem_Charge_Punch* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Golem_Charge_Punch* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_King_ChargeSwing :	public CSkill
+class CSkill_King_ChargeSwing :	public CSkill
 {
 private:
-	CSKill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_King_ChargeSwing(const CSKill_King_ChargeSwing& rhs);
-	virtual ~CSKill_King_ChargeSwing() = default;
+	CSkill_King_ChargeSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_King_ChargeSwing(const CSkill_King_ChargeSwing& rhs);
+	virtual ~CSkill_King_ChargeSwing() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static	CSKill_King_ChargeSwing* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_King_ChargeSwing* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

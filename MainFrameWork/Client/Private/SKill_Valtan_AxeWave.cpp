@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "SKill_Valtan_AxeWave.h"
+#include "Skill_Valtan_AxeWave.h"
 #include "GameInstance.h"
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderFrustum.h>
 
-CSKill_Valtan_AxeWave::CSKill_Valtan_AxeWave(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Valtan_AxeWave::CSkill_Valtan_AxeWave(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_Valtan_AxeWave::CSKill_Valtan_AxeWave(const CSKill_Valtan_AxeWave& rhs)
+CSkill_Valtan_AxeWave::CSkill_Valtan_AxeWave(const CSkill_Valtan_AxeWave& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_Valtan_AxeWave::Initialize_Prototype()
+HRESULT CSkill_Valtan_AxeWave::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -23,17 +23,17 @@ HRESULT CSKill_Valtan_AxeWave::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_Valtan_AxeWave::Initialize(void* pArg)
+HRESULT CSkill_Valtan_AxeWave::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fLastTime = 2.f;
-	m_iAtk = 30;
-	m_fForce = 42.f;
+	m_SkillDesc.iAtk = 30;
+	m_SkillDesc.fForce = 42.f;
     return S_OK;
 }
 
-void CSKill_Valtan_AxeWave::Tick(_float fTimeDelta)
+void CSkill_Valtan_AxeWave::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Radius()+fTimeDelta*10.f);
@@ -42,12 +42,12 @@ void CSKill_Valtan_AxeWave::Tick(_float fTimeDelta)
 	pChildCollider->Set_Near(pChildCollider->Get_Near() + fTimeDelta * 10.f);
 }
 
-void CSKill_Valtan_AxeWave::LateTick(_float fTimeDelta)
+void CSkill_Valtan_AxeWave::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_Valtan_AxeWave::Render()
+HRESULT CSkill_Valtan_AxeWave::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
@@ -55,20 +55,20 @@ HRESULT CSKill_Valtan_AxeWave::Render()
 }
 
 
-void CSKill_Valtan_AxeWave::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_AxeWave::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_AxeWave::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_AxeWave::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_Valtan_AxeWave::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Valtan_AxeWave::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_Valtan_AxeWave::Ready_Coliders()
+HRESULT CSkill_Valtan_AxeWave::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -116,7 +116,7 @@ HRESULT CSKill_Valtan_AxeWave::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CSKill_Valtan_AxeWave::Ready_Components()
+HRESULT CSkill_Valtan_AxeWave::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -124,33 +124,33 @@ HRESULT CSKill_Valtan_AxeWave::Ready_Components()
     return S_OK;
 }
 
-CSKill_Valtan_AxeWave* CSKill_Valtan_AxeWave::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Valtan_AxeWave* CSkill_Valtan_AxeWave::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_Valtan_AxeWave* pInstance = new CSKill_Valtan_AxeWave(pDevice, pContext);
+    CSkill_Valtan_AxeWave* pInstance = new CSkill_Valtan_AxeWave(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_Valtan_AxeWave");
+		MSG_BOX("Failed To Created : CSkill_Valtan_AxeWave");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_Valtan_AxeWave::Clone(void* pArg)
+CGameObject* CSkill_Valtan_AxeWave::Clone(void* pArg)
 {
-    CSKill_Valtan_AxeWave* pInstance = new CSKill_Valtan_AxeWave(*this);
+    CSkill_Valtan_AxeWave* pInstance = new CSkill_Valtan_AxeWave(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_Valtan_AxeWave");
+		MSG_BOX("Failed To Cloned : CSkill_Valtan_AxeWave");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_Valtan_AxeWave::Free()
+void CSkill_Valtan_AxeWave::Free()
 {
 	__super::Free();
 }

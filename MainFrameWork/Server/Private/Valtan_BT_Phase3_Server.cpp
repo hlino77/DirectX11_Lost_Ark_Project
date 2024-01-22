@@ -14,7 +14,6 @@ void CValtan_BT_Phase3_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(3);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
 }
 
@@ -27,7 +26,6 @@ CBT_Node::BT_RETURN CValtan_BT_Phase3_Server::OnUpdate(const _float& fTimeDelta)
 void CValtan_BT_Phase3_Server::OnEnd()
 {
 	__super::OnEnd();
-
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxSkillStack(2);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyGauge(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyGauge());
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
@@ -35,6 +33,7 @@ void CValtan_BT_Phase3_Server::OnEnd()
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(3);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Hp(529402339);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Armor(4);
 }

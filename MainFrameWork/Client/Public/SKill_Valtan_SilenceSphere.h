@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Valtan_4_2 : public CSkill
+class CSkill_Valtan_SilenceSphere : public CSkill
 {
 private:
-	CSKill_Valtan_4_2(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Valtan_4_2(const CSKill_Valtan_4_2& rhs);
-	virtual ~CSKill_Valtan_4_2() = default;
+	CSkill_Valtan_SilenceSphere(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_SilenceSphere(const CSkill_Valtan_SilenceSphere& rhs);
+	virtual ~CSkill_Valtan_SilenceSphere() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -43,11 +43,9 @@ private:
 	virtual HRESULT			Ready_Components();
 
 
-private:
-	_float m_fBlinkTime = 0.f;
 
 public:
-	static	CSKill_Valtan_4_2* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_SilenceSphere* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Golem_Jump :	public CSkill
+class CSkill_Golem_Jump :	public CSkill
 {
 private:
-	CSKill_Golem_Jump(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Golem_Jump(const CSKill_Golem_Jump& rhs);
-	virtual ~CSKill_Golem_Jump() = default;
+	CSkill_Golem_Jump(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Golem_Jump(const CSkill_Golem_Jump& rhs);
+	virtual ~CSkill_Golem_Jump() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static	CSKill_Golem_Jump* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Golem_Jump* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

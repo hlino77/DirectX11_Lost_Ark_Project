@@ -14,12 +14,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_Valtan_Breath :	public CSkill
+class CSkill_Valtan_Breath :	public CSkill
 {
 private:
-	CSKill_Valtan_Breath(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_Valtan_Breath(const CSKill_Valtan_Breath& rhs);
-	virtual ~CSKill_Valtan_Breath() = default;
+	CSkill_Valtan_Breath(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Valtan_Breath(const CSkill_Valtan_Breath& rhs);
+	virtual ~CSkill_Valtan_Breath() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static	CSKill_Valtan_Breath* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_Valtan_Breath* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 

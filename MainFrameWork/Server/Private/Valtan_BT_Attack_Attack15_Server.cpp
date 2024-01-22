@@ -5,7 +5,10 @@
 #include "Transform.h"
 #include <Boss_Server.h>
 #include <Boss_Valtan_Server.h>
-
+#include "GameInstance.h"
+#include <AsUtils.h>
+#include "GameSessionManager.h"
+#include <Monster_Prison_Server.h>
 CValtan_BT_Attack_Attack15_Server::CValtan_BT_Attack_Attack15_Server()
 {
 }
@@ -26,14 +29,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
 		return BT_SUCCESS;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
-		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_HitCount(0);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Get_HitCount() > 20)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
+		Add_Prison();
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > 27)
 	{
-		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Hit(true);
-		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Grogginess(true);
-		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Groggy(true);
-		return BT_FAIL;
+		for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
+		{
+			if (pGameObject->Get_ObjectTag() == L"Monster_Prison")
+				static_cast<CMonster_Server*>(pGameObject)->Set_Die();	
+		}
 	}
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -45,7 +49,39 @@ void CValtan_BT_Attack_Attack15_Server::OnEnd()
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 
+void CValtan_BT_Attack_Attack15_Server::Add_Prison()
+{
+	wstring szComponentName = L"Monster_Prison";
+	CMonster_Server::MODELDESC Desc;
+	Desc.strFileName = L"Prison";
+	Desc.iObjectID = g_iObjectID++;
+	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+	Desc.iLevel = m_pGameObject->Get_CurrLevel();
+	vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER);
+	CGameObject* pRandomTarget = vecTargets[CGameInstance::GetInstance()->Random_Int(0, vecTargets.size() - 1)];
+	Desc.vPosition = pRandomTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
+	CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(CGameInstance::GetInstance()->Add_GameObject(m_pGameObject->Get_CurrLevel(), Desc.iLayer, szMonsterName, &Desc));
+	if (pMonster == nullptr)
+		return;
+	Protocol::S_CREATE_OBJCECT tMonsterPkt;
 
+	tMonsterPkt.set_iobjectid(pMonster->Get_ObjectID());
+	tMonsterPkt.set_iobjecttype(pMonster->Get_ObjectType());
+	tMonsterPkt.set_strname(CAsUtils::ToString(pMonster->Get_ModelName()));
+	tMonsterPkt.set_ilayer(pMonster->Get_ObjectLayer());
+	tMonsterPkt.set_ilevel(m_pGameObject->Get_CurrLevel());
+
+	tMonsterPkt.set_bcontroll(true);
+
+	auto vPos = tMonsterPkt.mutable_vpos();
+	vPos->Resize(3, 0.0f);
+	Vec3 vPosition = pMonster->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	memcpy(vPos->mutable_data(), &vPosition, sizeof(Vec3));
+
+	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
+	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+}
 
 CValtan_BT_Attack_Attack15_Server* CValtan_BT_Attack_Attack15_Server::Create(void* pArg)
 {

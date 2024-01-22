@@ -1335,7 +1335,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Leg_Legend">
       <UniqueIdentifier>{dfce9891-b186-4d90-82ff-0be2cb37fc4b}</UniqueIdentifier>
->>>>>>> origin/feature/HeeJun
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Prison">
+      <UniqueIdentifier>{14a88773-3947-4a39-961a-84c6ab882d0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3114,13 +3116,13 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_King_Eruption.h">
+    <ClInclude Include="..\Public\Skill_King_Eruption.h">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h">
       <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_King_ChargeSwing.h">
+    <ClInclude Include="..\Public\Skill_King_ChargeSwing.h">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_ChaosLevel1.h">
@@ -3468,9 +3470,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack18.h">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack19.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
@@ -3717,15 +3716,6 @@
     <ClInclude Include="..\Public\UI_Boss_Hp.h">
       <Filter>02.GameObjects\UI\15.Boss_Hp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Golem_Swipe.h">
-      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\SKill_Golem_Jump.h">
-      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\SKill_Golem_Charge_Punch.h">
-      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Effect_Decal.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
@@ -3933,7 +3923,7 @@
     <ClInclude Include="..\Public\State_GN_Grabbed.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Grab</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_Breath.h">
+    <ClInclude Include="..\Public\Skill_Valtan_Breath.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\State_WR_Grabbed.h">
@@ -3990,22 +3980,22 @@
     <ClInclude Include="..\Public\IT_WDR_Helmet_Mococo.h">
       <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_4_1.h">
+    <ClInclude Include="..\Public\Skill_Valtan_SphereInstant.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_4_2.h">
+    <ClInclude Include="..\Public\Skill_Valtan_DoughnutTerm2sec.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_AxeWave.h">
+    <ClInclude Include="..\Public\Skill_Valtan_AxeWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_8_1.h">
+    <ClInclude Include="..\Public\Skill_Valtan_DoughnutFirstHit.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_8_2.h">
+    <ClInclude Include="..\Public\Skill_Valtan_DoughnutSecondHit.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SKill_Valtan_SeismicWave.h">
+    <ClInclude Include="..\Public\Skill_Valtan_SeismicWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Gunslinger.h">
@@ -4079,6 +4069,33 @@
     </ClInclude>
     <ClInclude Include="..\Public\IT_MG_WP_Legend.h">
       <Filter>02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Valtan_SilenceSphere.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Valtan_DoughnutInstant.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Valtan_SphereTerm.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Prison.h">
+      <Filter>02.GameObjects\Monster\Prison</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Valtan_PizzaTerm.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Golem_Charge_Punch.h">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Golem_Jump.h">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Golem_Swipe.h">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Valtan_PizzaInstant.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5827,13 +5844,13 @@
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI\99.Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_King_Eruption.cpp">
+    <ClCompile Include="..\Private\Skill_King_Eruption.cpp">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_King_ChargeSwing.cpp">
+    <ClCompile Include="..\Private\Skill_King_ChargeSwing.cpp">
       <Filter>02.GameObjects\Boss\King\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_ChaosLevel1.cpp">
@@ -6178,9 +6195,6 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack18.cpp">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack19.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
@@ -6427,15 +6441,6 @@
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp">
       <Filter>02.GameObjects\UI\14.Monster_Hp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Golem_Swipe.cpp">
-      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\SKill_Golem_Charge_Punch.cpp">
-      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\SKill_Golem_Jump.cpp">
-      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Effect_Decal.cpp">
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
@@ -6652,7 +6657,7 @@
     <ClCompile Include="..\Private\State_GN_Grabbed.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Grab</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_Breath.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_Breath.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Grabbed.cpp">
@@ -6709,22 +6714,22 @@
     <ClCompile Include="..\Private\IT_WDR_Helmet_Mococo.cpp">
       <Filter>02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_4_1.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_SphereInstant.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_4_2.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_DoughnutTerm2sec.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_AxeWave.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_AxeWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_8_1.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_DoughnutFirstHit.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_8_2.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_DoughnutSecondHit.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SKill_Valtan_SeismicWave.cpp">
+    <ClCompile Include="..\Private\Skill_Valtan_SeismicWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Gunslinger.cpp">
@@ -6798,6 +6803,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\IT_MG_WP_Legend.cpp">
       <Filter>02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Valtan_SilenceSphere.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Valtan_DoughnutInstant.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Valtan_SphereTerm.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Prison.cpp">
+      <Filter>02.GameObjects\Monster\Prison</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Valtan_PizzaTerm.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Golem_Swipe.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Golem_Charge_Punch.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Golem_Jump.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Valtan_PizzaInstant.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

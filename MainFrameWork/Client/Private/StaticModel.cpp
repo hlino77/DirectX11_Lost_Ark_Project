@@ -3,7 +3,7 @@
 #include "StaticModel.h"
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
-
+#include "CollisionManager.h"
 
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
@@ -70,8 +70,6 @@ void CStaticModel::LateTick(_float fTimeDelta)
 {
 	if (nullptr == m_pRendererCom)	
 		return;
-
-
 
 	if (m_bRender)
 	{
@@ -160,6 +158,15 @@ HRESULT CStaticModel::Add_ModelComponent(const wstring& strComName)
 	return S_OK;
 }
 
+void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+{
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL&& pOther->Get_ColLayer()== (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
+	{
+		Set_Dead(true);
+	}
+}
+
+
 void CStaticModel::Add_Collider()
 {
 	CSphereCollider* pCollider = nullptr;
@@ -212,7 +219,16 @@ void CStaticModel::Add_ChildCollider(_uint iIndex)
 
 	Safe_Release(pGameInstance);
 }
-
+void CStaticModel::Add_CollidersToManager()
+{
+	for (auto& Collider : m_StaticColliders)
+	{
+		if (Collider)
+		{
+			CCollisionManager::GetInstance()->Add_Colider(Collider);
+		}
+	}
+}
 HRESULT CStaticModel::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -379,7 +395,8 @@ CGameObject* CStaticModel::Clone(void* pArg)
 void CStaticModel::Free()
 {
 	__super::Free();
-
+	for (auto& Collider : m_StaticColliders)
+		CCollisionManager::GetInstance()->Out_Colider(Collider);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);

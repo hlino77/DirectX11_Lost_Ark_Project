@@ -4,6 +4,9 @@
 #include "Model.h"
 #include "Transform.h"
 #include "GameInstance.h"
+#include <Skill.h>
+#include "ColliderSphere.h"
+
 
 CValtan_BT_Attack_Attack13::CValtan_BT_Attack_Attack13()
 {
@@ -13,22 +16,70 @@ void CValtan_BT_Attack_Attack13::OnStart()
 {
 	__super::OnStart();
 	m_bOutSide = m_pGameObject->Get_TargetPos().x;
-
-
+	m_bShoot[0] = true;
+	m_bShoot[1] = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack13::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_bOutSide)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 23 && m_bShoot[0])
 	{
+		m_bShoot[0] = false;
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
 
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SilenceSphere", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+		}
 	}
-	else
-	{
 
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 7 && m_bShoot[1])
+	{
+		m_bShoot[1] = false;
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
+
+		if (m_bOutSide)
+		{
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutInstant", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vLook.Normalize();
+				vPos += vLook * 3.f;
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			}
+		}
+		else
+		{
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vLook.Normalize();
+				vPos += vLook * 3.f;
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
+			}
+		}
 	}
 	return __super::OnUpdate(fTimeDelta);
 }
+
 
 void CValtan_BT_Attack_Attack13::OnEnd()
 {

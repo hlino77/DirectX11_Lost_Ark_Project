@@ -156,9 +156,6 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 		pSpawner->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, Vec3(pkt.vpos().data()));
 		break;
 	}
-
-
-		
 	}
 
 	Safe_Release(pGameInstance);

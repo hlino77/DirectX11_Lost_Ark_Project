@@ -136,8 +136,8 @@ public:
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
 	void	Deactivate_AllColliders();
 
-	_uint					Get_Atk() { return m_iAtk; }
-	void					Set_Atk(_uint iAtk) { m_iAtk = iAtk; }
+	_int					Get_Atk() { return m_iAtk; }
+	void					Set_Atk(_int iAtk) { m_iAtk = iAtk; }
 
 
 
@@ -160,7 +160,7 @@ protected:
 
 
 protected:
-	_uint							m_iAtk = 0;
+	_int							m_iAtk = 0;
 	_float							m_fMoveSpeed = 1.f;
 	_float							m_fAttackMoveSpeed = 0.0f;
 	_float							m_fAnimationSpeed = 1.0f;

@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "SKill_King_Eruption.h"
+#include "Skill_King_Eruption.h"
 #include "GameInstance.h"
 #include <ColliderFrustum.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 
-CSKill_King_Eruption::CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_King_Eruption::CSkill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
 {
 }
 
-CSKill_King_Eruption::CSKill_King_Eruption(const CSKill_King_Eruption& rhs)
+CSkill_King_Eruption::CSkill_King_Eruption(const CSkill_King_Eruption& rhs)
           : CSkill(rhs)
 {
 }
 
-HRESULT CSKill_King_Eruption::Initialize_Prototype()
+HRESULT CSkill_King_Eruption::Initialize_Prototype()
 {
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -23,18 +23,18 @@ HRESULT CSKill_King_Eruption::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CSKill_King_Eruption::Initialize(void* pArg)
+HRESULT CSkill_King_Eruption::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fLastTime = 2.55f;
-	m_iAtk = 5;
-	m_fForce = 40.f;
+	m_SkillDesc.iAtk = 5;
+	m_SkillDesc.fForce = 40.f;
 	m_fBlinkTime = 2.5f;
     return S_OK;
 }
 
-void CSKill_King_Eruption::Tick(_float fTimeDelta)
+void CSkill_King_Eruption::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fBlinkTime -= fTimeDelta;
@@ -45,32 +45,32 @@ void CSKill_King_Eruption::Tick(_float fTimeDelta)
 	}
 }
 
-void CSKill_King_Eruption::LateTick(_float fTimeDelta)
+void CSkill_King_Eruption::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 }
 
-HRESULT CSKill_King_Eruption::Render()
+HRESULT CSkill_King_Eruption::Render()
 {
     if (FAILED(__super::Render()))
         return E_FAIL;
     return S_OK;
 }
 
-void CSKill_King_Eruption::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_King_Eruption::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_Eruption::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_King_Eruption::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CSKill_King_Eruption::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_King_Eruption::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
 
-HRESULT CSKill_King_Eruption::Ready_Coliders()
+HRESULT CSkill_King_Eruption::Ready_Coliders()
 {
 	{
 		CCollider::ColliderInfo tColliderInfo;
@@ -118,7 +118,7 @@ HRESULT CSKill_King_Eruption::Ready_Coliders()
 	return S_OK;
 }
 
-HRESULT CSKill_King_Eruption::Ready_Components()
+HRESULT CSkill_King_Eruption::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
          return E_FAIL;
@@ -126,33 +126,33 @@ HRESULT CSKill_King_Eruption::Ready_Components()
     return S_OK;
 }
 
-CSKill_King_Eruption* CSKill_King_Eruption::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_King_Eruption* CSkill_King_Eruption::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CSKill_King_Eruption* pInstance = new CSKill_King_Eruption(pDevice, pContext);
+    CSkill_King_Eruption* pInstance = new CSkill_King_Eruption(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CSKill_King_Eruption");
+		MSG_BOX("Failed To Created : CSkill_King_Eruption");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CSKill_King_Eruption::Clone(void* pArg)
+CGameObject* CSkill_King_Eruption::Clone(void* pArg)
 {
-    CSKill_King_Eruption* pInstance = new CSKill_King_Eruption(*this);
+    CSkill_King_Eruption* pInstance = new CSkill_King_Eruption(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Cloned : CSKill_King_Eruption");
+		MSG_BOX("Failed To Cloned : CSkill_King_Eruption");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSKill_King_Eruption::Free()
+void CSkill_King_Eruption::Free()
 {
 	__super::Free();
 }

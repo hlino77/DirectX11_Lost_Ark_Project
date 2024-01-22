@@ -141,6 +141,7 @@
 #include "Boss_King.h"
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
+#include "Monster_Prison.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -150,19 +151,23 @@
 #include "Weapon_Boss_Valtan.h"
 
 //BossSkills
-#include "SKill_King_ChargeSwing.h"
-#include "SKill_King_Eruption.h"
-#include <SKill_Golem_Charge_Punch.h>
-#include <SKill_Golem_Jump.h>
-#include <SKill_Golem_Swipe.h>
-#include "SKill_Valtan_4_1.h"
-#include "SKill_Valtan_4_2.h"
-#include "SKill_Valtan_8_1.h"
-#include "SKill_Valtan_8_2.h"
-#include "SKill_Valtan_AxeWave.h"
-#include "SKill_Valtan_Breath.h"
-#include "SKill_Valtan_SeismicWave.h"
-
+#include "Skill_King_ChargeSwing.h"
+#include "Skill_King_Eruption.h"
+#include <Skill_Golem_Charge_Punch.h>
+#include <Skill_Golem_Jump.h>
+#include <Skill_Golem_Swipe.h>
+#include "Skill_Valtan_SphereInstant.h"
+#include "Skill_Valtan_DoughnutTerm2sec.h"
+#include "Skill_Valtan_DoughnutFirstHit.h"
+#include "Skill_Valtan_DoughnutSecondHit.h"
+#include "Skill_Valtan_AxeWave.h"
+#include "Skill_Valtan_Breath.h"
+#include "Skill_Valtan_SeismicWave.h"
+#include "Skill_Valtan_SilenceSphere.h"
+#include "Skill_Valtan_DoughnutInstant.h"
+#include "Skill_Valtan_SphereTerm.h"
+#include "Skill_Valtan_PizzaTerm.h"
+#include "Skill_Valtan_PizzaInstant.h"
 //Lobby MQ
 #include "Player_Select_GN.h"
 #include "Player_Select_MG.h"
@@ -1075,18 +1080,18 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Charge_Punch"),
-		CSKill_Golem_Charge_Punch::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Golem_Charge_Punch"),
+		CSkill_Golem_Charge_Punch::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Jump"),
-		CSKill_Golem_Jump::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Golem_Jump"),
+		CSkill_Golem_Jump::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Golem_Swipe"),
-		CSKill_Golem_Swipe::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Golem_Swipe"),
+		CSkill_Golem_Swipe::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1110,13 +1115,13 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_ChargeSwing"),
-		CSKill_King_ChargeSwing::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_King_ChargeSwing"),
+		CSkill_King_ChargeSwing::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_King_Eruption"),
-		CSKill_King_Eruption::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_King_Eruption"),
+		CSkill_King_Eruption::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1127,6 +1132,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Pawn"),
 		CMonster_Pawn::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Prison"),
+		CMonster_Prison::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1151,38 +1161,63 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	pUIManager->Add_CurrFile();
 
 	
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_AxeWave"),
-		CSKill_Valtan_AxeWave::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_AxeWave"),
+		CSkill_Valtan_AxeWave::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_SeismicWave"),
-		CSKill_Valtan_SeismicWave::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_SeismicWave"),
+		CSkill_Valtan_SeismicWave::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_4_1"),
-		CSKill_Valtan_4_1::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_SphereInstant"),
+		CSkill_Valtan_SphereInstant::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_4_2"),
-		CSKill_Valtan_4_2::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_DoughnutTerm2sec"),
+		CSkill_Valtan_DoughnutTerm2sec::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_8_1"),
-		CSKill_Valtan_8_1::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_DoughnutFirstHit"),
+		CSkill_Valtan_DoughnutFirstHit::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_8_2"),
-		CSKill_Valtan_8_2::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_DoughnutSecondHit"),
+		CSkill_Valtan_DoughnutSecondHit::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_Breath"),
-		CSKill_Valtan_Breath::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_Breath"),
+		CSkill_Valtan_Breath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_SilenceSphere"),
+		CSkill_Valtan_SilenceSphere::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_DoughnutInstant"),
+		CSkill_Valtan_DoughnutInstant::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_SphereTerm"),
+		CSkill_Valtan_SphereTerm::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_PizzaTerm"),
+		CSkill_Valtan_PizzaTerm::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_PizzaInstant"),
+		CSkill_Valtan_PizzaInstant::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

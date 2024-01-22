@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CSKill_King_Eruption : public CSkill
+class CSkill_King_Eruption : public CSkill
 {
 private:
-	CSKill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSKill_King_Eruption(const CSKill_King_Eruption& rhs);
-	virtual ~CSKill_King_Eruption() = default;
+	CSkill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_King_Eruption(const CSkill_King_Eruption& rhs);
+	virtual ~CSkill_King_Eruption() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -42,11 +42,9 @@ private:
 	virtual HRESULT			Ready_Components();
 
 
-private:
-	_float m_fBlinkTime = 0.f;
 
 public:
-	static	CSKill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CSkill_King_Eruption* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);
 	virtual void Free();
 
