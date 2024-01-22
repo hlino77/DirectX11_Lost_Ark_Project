@@ -113,6 +113,7 @@ public:
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const _uint iPassIndex = 0);
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const string& strPassName);
 	HRESULT Render(class CShader*& pShader);
+
 	HRESULT Render_SingleMesh(class CShader*& pShader, const _int& iMeshIndex);
 
 	//Instancing

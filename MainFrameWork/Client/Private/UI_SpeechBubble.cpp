@@ -176,8 +176,8 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
 
 HRESULT CUI_SpeechBubble::Ready_Components()
 {
-    __super::Ready_Components();
-
+    if (FAILED(__super::Ready_Components()))
+        return E_FAIL;
     /* Com_Texture*/
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chat_Bubble_Middle"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
@@ -209,7 +209,7 @@ HRESULT CUI_SpeechBubble::Ready_Components()
 HRESULT CUI_SpeechBubble::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-        return S_OK;
+        return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
@@ -229,7 +229,7 @@ HRESULT CUI_SpeechBubble::Bind_ShaderResources()
 
 void CUI_SpeechBubble::Setting_HostPos()
 {
-    if (nullptr != m_pHost)
+    if ((nullptr != m_pHost)&&(nullptr != m_pTransformCom))
     {
         Vec3 vHostPos = m_pHost->Get_EffectPos();
 

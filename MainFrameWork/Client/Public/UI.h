@@ -76,6 +76,7 @@ public:
 	_uint			Get_ButtonState() { return m_iButtonState; }
 	_uint			Set_ButtonState(_uint iButtonState) { m_iButtonState = (BUTTON_STATE)iButtonState; }
 	void			Load_UIData(const wstring& _FilePath);
+	void			Set_UIParts_Render(_bool bRender);
 
 public://IMGUI
 	void	Change_SizeX(_float MMX);

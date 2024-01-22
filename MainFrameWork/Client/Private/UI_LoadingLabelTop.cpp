@@ -82,6 +82,9 @@ void CUI_LoadingLabelTop::Set_StageName(const _uint iNextLevel)
     case  LEVELID::LEVEL_CHAOS_3:
         m_strStage = TEXT("카오스 던전");
         break;
+    case  LEVELID::LEVEL_VALTANMAIN:
+        m_strStage = TEXT("부활한 마수의 심장");
+        break;
     }
 
 }
