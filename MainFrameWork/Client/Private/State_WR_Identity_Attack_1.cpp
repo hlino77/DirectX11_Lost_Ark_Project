@@ -26,7 +26,6 @@ HRESULT CState_WR_Identity_Attack_1::Initialize()
 	else
 		m_TickFunc = &CState_WR_Identity_Attack_1::Tick_State_NoneControl;
 
-
 	/* 일반공격 프레임 */
 	m_AttackFrames.push_back(9);
 	m_AttackFrames.push_back(21);
@@ -37,7 +36,6 @@ HRESULT CState_WR_Identity_Attack_1::Initialize()
 
 void CState_WR_Identity_Attack_1::Enter_State()
 {
-	m_bEffect = false;
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0, 1.f);
@@ -58,10 +56,8 @@ void CState_WR_Identity_Attack_1::Exit_State()
 
 void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
-	if (!m_bEffect)
+	if (4 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
-		m_bEffect = true;
-
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
 	}

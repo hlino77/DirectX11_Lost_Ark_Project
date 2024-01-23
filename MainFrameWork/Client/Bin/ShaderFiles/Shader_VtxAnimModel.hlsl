@@ -211,6 +211,25 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
     Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
     
+    if (1.f == SpecMaskEmisExtr.x)
+    {
+        float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
+
+        Out.vProperties.r = 1.1f * vSpecular.r * Out.vDiffuse.r;
+        Out.vProperties.g = 1.f - vSpecular.r;
+    }
+    else
+    {
+        Out.vProperties.r = EPSILON;
+        Out.vProperties.g = 1.f;
+    }
+    
+    if (1.f == SpecMaskEmisExtr.z)
+    {
+        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+        Out.vEmissive *= g_vBloomColor;
+    }
+    
     if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
     {
         float4 haircolor_1 = g_vHairColor_1 * Out.vDiffuse.g;
