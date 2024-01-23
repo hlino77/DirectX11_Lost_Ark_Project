@@ -4148,6 +4148,12 @@
     <ClInclude Include="..\Public\State_MG_Fall.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Fall</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6902,6 +6908,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_Fall.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

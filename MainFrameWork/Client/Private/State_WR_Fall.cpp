@@ -55,7 +55,7 @@ void CState_WR_Fall::Tick_State_Control(_float fTimeDelta)
 	m_fTimeAcc += fTimeDelta;
 	if (m_fFallTime < m_fTimeAcc)
 	{
-		m_pPlayer->Set_State(TEXT("Dead"));
+		m_pPlayer->Set_State(TEXT("Dead_End"));
 	}
 }
 
