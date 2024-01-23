@@ -246,7 +246,7 @@ HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	//pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 50.f, 50.f));
 	
 	// IBL
-	CRenderer::Set_IBLTexture(0);
+	CRenderer::Set_IBLTexture(3);
 
 	Safe_Release(pGameInstance);
 
