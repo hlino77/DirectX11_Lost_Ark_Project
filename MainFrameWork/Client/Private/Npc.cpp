@@ -72,6 +72,7 @@ HRESULT CNpc::Initialize(void* pArg)
 
 		m_NpcDesc.IsTalk = pDesc->IsTalk;
 		m_NpcDesc.fTalkStartTime = pDesc->fTalkStartTime;
+		m_NpcDesc.iTalkSequence = pDesc->iTalkSequence;
 		m_NpcDesc.vecTalks = pDesc->vecTalks;
 		m_NpcDesc.vecTalkSound = pDesc->vecTalkSound;
 
@@ -538,7 +539,30 @@ HRESULT CNpc::Find_Control_Pc()
 
 HRESULT CNpc::Find_SameSequence_Npc()
 {
-	return E_NOTIMPL;
+	if (true == m_bFindNpcs)
+		return S_OK;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	vector<CGameObject*> vecNpcs = pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_NPC);
+
+	m_vecSameSequenceNpc.push_back(this);
+
+	for (auto& pNpc : vecNpcs)
+	{
+		if (false == static_cast<CNpc*>(pNpc)->Get_NpcDesc().IsTalk) continue;
+
+		if (m_NpcDesc.iTalkSequence == static_cast<CNpc*>(pNpc)->Get_NpcDesc().iTalkSequence)
+		{
+			m_vecSameSequenceNpc.push_back(static_cast<CNpc*>(pNpc));
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	m_bFindNpcs = true;
+
+	return S_OK;
 }
 
 void CNpc::Show_SpeechBuble(const wstring& szChat)

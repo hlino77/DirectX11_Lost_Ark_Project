@@ -36,6 +36,8 @@ HRESULT CDeco_Npc::Initialize(void* pArg)
 
 void CDeco_Npc::Tick(_float fTimeDelta)
 {
+	Find_SameSequence_Npc();
+
 	__super::Tick(fTimeDelta);
 
 	if (true == m_NpcDesc.IsMove)
@@ -45,14 +47,23 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 
 	if (true == m_NpcDesc.IsTalk)
 	{
-		if (m_fTalkDist > m_fPlayerDist)
+		if (m_fTalkDist >= m_fPlayerDist)
 		{
-			Talk(fTimeDelta);
+			m_bTalkReady = true;
 		}
 		else
 		{
+			m_bTalkReady = false;
+		}
+
+		if (true == Check_True_All_Sequence_Npc())
+		{
+			Talk(fTimeDelta);
+		}
+		else if(false == Check_False_All_Sequence_Npc())
+		{
 			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -3.f;
+			m_fTalkStartAcc = -2.5f;
 			m_IsTalkStart = false;
 		}
 	}
@@ -268,6 +279,28 @@ void CDeco_Npc::Set_Colliders(_float fTimeDelta)
 		if (Collider.second->IsActive())
 			Collider.second->Update_Collider();
 	}
+}
+
+_bool CDeco_Npc::Check_True_All_Sequence_Npc()
+{
+	for (auto& pNpc : m_vecSameSequenceNpc)
+	{
+		if (false == pNpc->Is_TalkReady())
+			return false;
+	}
+
+	return true;
+}
+
+_bool CDeco_Npc::Check_False_All_Sequence_Npc()
+{
+	for (auto& pNpc : m_vecSameSequenceNpc)
+	{
+		if (true == pNpc->Is_TalkReady())
+			return true;
+	}
+
+	return false;
 }
 
 void CDeco_Npc::Move(const _float& fTimeDelta)

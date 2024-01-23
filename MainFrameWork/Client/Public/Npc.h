@@ -60,7 +60,7 @@ public:
 		_float			fTalkStartTime = { 0.f };
 		vector<wstring> vecTalks;
 		vector<wstring> vecTalkSound;
-		_uint			iTalkSequence;
+		_int			iTalkSequence = { -1 };
 
 		_bool			bUseWeaponPart = { false };
 		wstring			strLeftPart = { TEXT("None") };
@@ -136,6 +136,8 @@ public:
 
 	void					Show_SpeechBuble(const wstring& szChat);
 
+	_bool					Is_TalkReady() { return m_bTalkReady; }
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts();
@@ -152,7 +154,9 @@ protected:
 	virtual HRESULT			Find_SameSequence_Npc();
 
 protected:
-	vector<CNpc*>			m_vecSameSequence;
+	vector<CNpc*>					m_vecSameSequenceNpc;
+	_bool							m_bFindNpcs = { false };
+	_bool							m_bTalkReady = { false };
 
 	_bool							m_bDebugRender = { false };
 
@@ -172,14 +176,12 @@ protected:
 	/* 플레이어 정보*/
 	CPlayer* m_pCtrlPlayer = { nullptr };
 	_float	 m_fPlayerDist = { 0.0f };
-	_float	 m_fTalkDist = { 5.0f };
+	_float	 m_fTalkDist = { 8.0f };
 
 	/* NPC 정보 */
 	Npc_Desc		m_NpcDesc;
 
 	Vec3			m_vStartPos;
-
-	
 
 	_bool			m_IsReach = { false };
 	_bool			m_IsTalkStart = { false };

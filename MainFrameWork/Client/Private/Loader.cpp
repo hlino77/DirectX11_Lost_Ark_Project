@@ -1866,6 +1866,9 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 			element = node->FirstChildElement();
 			NpcCreateDesc.fTalkStartTime = element->FloatAttribute("Time");
 
+			element = element->NextSiblingElement();
+			NpcCreateDesc.iTalkSequence = element->IntAttribute("Sequence");
+
 			_uint iSize;
 			element = element->NextSiblingElement();
 			iSize = element->IntAttribute("Size");
