@@ -91,9 +91,9 @@ HRESULT CIT_WR_WP_Mococo::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_GN_Body_Mococo"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Mococo_Weapon"),
 		TEXT("Com_Texture"), (CComponent**)&m_pItemTextureCom)))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	return S_OK;
 }

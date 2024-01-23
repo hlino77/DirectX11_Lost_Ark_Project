@@ -1357,6 +1357,9 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Fall">
       <UniqueIdentifier>{d12cb219-03f4-4ff4-ae7c-2567404d8180}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\17.GroggyGauge">
+      <UniqueIdentifier>{25644510-e1fa-49e7-bd61-e48bb3168e8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

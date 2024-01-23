@@ -98,9 +98,9 @@ HRESULT CIT_WDR_WP_Mococo::Ready_Components()
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom, &pColor)))
 		return E_FAIL;
 
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_GN_Body_Mococo"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Mococo_Weaopn"),
 		TEXT("Com_Texture"), (CComponent**)&m_pItemTextureCom)))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	return S_OK;
 }

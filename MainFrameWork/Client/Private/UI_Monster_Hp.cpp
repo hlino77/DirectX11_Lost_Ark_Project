@@ -80,15 +80,29 @@ HRESULT CUI_Monster_Hp::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-		return E_FAIL;
+	if (TEXT("Monster_Prison") != m_pOwner->Get_ObjectTag())
+	{
+		if (FAILED(m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom_PrisonWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+			return E_FAIL;
+	}
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
-	if (FAILED(Bind_ShaderResources_Hp()))
-		return E_FAIL;
-	if (FAILED(m_pTextureCom_Hp->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-		return E_FAIL;
+	if (TEXT("Monster_Prison") != m_pOwner->Get_ObjectTag())
+	{
+		if (FAILED(Bind_ShaderResources_Hp()))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom_PrisonGauge->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+			return E_FAIL;
+	}
 	m_pShaderCom->Begin(16);
 	m_pVIBufferCom->Render();
 	
@@ -106,6 +120,14 @@ HRESULT CUI_Monster_Hp::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_Hp"),
 		TEXT("Com_TextureHp"), (CComponent**)&m_pTextureCom_Hp)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_GroggyWnd"),
+		TEXT("Com_TexturePrisonWnd"), (CComponent**)&m_pTextureCom_PrisonWnd)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_GroggyFill"),
+		TEXT("Com_PrisonGauge"), (CComponent**)&m_pTextureCom_PrisonGauge)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
@@ -193,6 +215,8 @@ void CUI_Monster_Hp::Free()
 	
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTextureCom_Hp);
+	Safe_Release(m_pTextureCom_PrisonWnd);
+	Safe_Release(m_pTextureCom_PrisonGauge);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransform_Hp);
 	Safe_Release(m_pShaderCom);

@@ -68,6 +68,7 @@ private:
 	HRESULT Loading_ChaosDungeon_UI();
 	HRESULT	Loading_Npc_UI();
 	HRESULT	Loading_Npc_UI_Texture();
+	HRESULT	Loading_Inventory_UI();
 
 	HRESULT Loading_Model_For_Level_Bern();
 	HRESULT Loading_Model_For_Level_Lobby();

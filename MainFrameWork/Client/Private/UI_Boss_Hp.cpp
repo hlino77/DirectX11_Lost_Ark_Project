@@ -95,7 +95,6 @@ HRESULT CUI_Boss_Hp::Initialize(void* pArg)
 
 HRESULT CUI_Boss_Hp::Initialize_BossHP()
 {
-	
 	m_szFont = L"≥ÿΩºLv1∞ÌµÒBold";
 	Ready_TextBox(m_strBossName);
 	Set_Active(false);

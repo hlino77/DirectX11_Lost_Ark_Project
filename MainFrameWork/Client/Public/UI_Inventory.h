@@ -2,6 +2,8 @@
 #include "UI.h"
 
 BEGIN(Client)
+class CItem;
+class CPlayer;
 
 class CUI_Inventory :
     public CUI
@@ -20,13 +22,17 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    void    Set_InventoryOwner(CPlayer* pPlayer) { if(pPlayer != nullptr)m_pOwner = pPlayer; }
+    void    Set_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems);
+    void    Update_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems);
 
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
 private:
-    vector<CGameObject*>    m_vecUserItems;
+    CPlayer* m_pOwner = { nullptr };
+    unordered_map<wstring, vector<class CItem*>>    m_mapPlayerItems;
 
 public:
     static  CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
