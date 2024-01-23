@@ -62,6 +62,12 @@ void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
 	}
 
+	if (17 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+	}
+
 	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		m_iAttackCnt++;
