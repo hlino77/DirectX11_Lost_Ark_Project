@@ -5,6 +5,7 @@
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
 #include "NavigationMgr.h"
+#include "ServerSessionManager.h"
 
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
@@ -71,11 +72,15 @@ void CStaticModel::Tick(_float fTimeDelta)
 		if (m_StaticColliders.size() != 0)
 		{
 			Set_Dead(true);
+			
+			Send_Collision(LEVEL_VALTANMAIN, true); // NaviCell Info Send to Server
+
+			for (auto& CellIndex : m_NaviCellIndex)
+			{
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+			}
 		}
-
 	}
-
-
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
@@ -175,13 +180,14 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL&& pOther->Get_ColLayer()== (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
 	{
 		Set_Dead(true);
-		
+
+		Send_Collision(LEVEL_VALTANMAIN, true);
+
 		for (auto& CellIndex : m_NaviCellIndex)
 		{
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
 
-	
 	}
 }
 
@@ -382,6 +388,22 @@ HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
 	(*m_pInstaceData)[m_szModelName].pInstanceContext->Unmap((*m_pInstaceData)[m_szModelName].pInstanceBuffer, 0);
 
 	return S_OK;
+}
+
+void CStaticModel::Send_Collision(_uint iLevel, _bool bActive)
+{
+	Protocol::S_NAVIGATION pkt;
+
+	pkt.set_ilevel(iLevel);
+	pkt.set_bactive(bActive);
+
+	auto Indices = pkt.mutable_iindex();
+	Indices->Resize(m_NaviCellIndex.size(), -1);
+	memcpy(Indices->mutable_data(), m_NaviCellIndex.data(), sizeof(_uint) * m_NaviCellIndex.size());
+
+	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
+	CServerSessionManager::GetInstance()->Send(pSendBuffer);
+
 }
 
 

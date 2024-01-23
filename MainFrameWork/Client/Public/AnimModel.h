@@ -70,7 +70,9 @@ protected:
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
 	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
-
+private:
+	void	Creat_NaviCellIndex(_uint MinIndex, _uint MaxIndex);
+	void    Send_Collision(_uint iLevel, _bool bActive);
 
 private:
 	CRenderer::RENDERGROUP m_eRenderGroup;
@@ -82,6 +84,8 @@ private:
 	std::future<HRESULT>			m_PlayAnimation;
 	_float							m_fAnimationSpeed = 1.0f;
 	_float							m_fRootTargetDistance = 0.f;
+
+	vector<_uint>					m_NaviCellIndex;
 
 public:
 	static CAnimModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);
