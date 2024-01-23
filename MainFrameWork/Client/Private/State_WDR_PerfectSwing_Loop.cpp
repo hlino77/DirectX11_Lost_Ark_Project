@@ -45,6 +45,7 @@ void CState_WDR_PerfectSwing_Loop::Enter_State()
 
 	m_iPerfectSwing_Loop = m_iPerfectSwing_Loop_1;
 	m_pPlayer->Reserve_Animation(m_iPerfectSwing_Loop, 0.1f, 0, 0);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_bEffect = false;
 
@@ -61,6 +62,9 @@ void CState_WDR_PerfectSwing_Loop::Tick_State(_float fTimeDelta)
 void CState_WDR_PerfectSwing_Loop::Exit_State()
 {
 	m_pPlayer->Delete_Effect(L"PerfectParticle");
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)

@@ -47,6 +47,8 @@ void CState_WR_Guillotine_Start::Tick_State(_float fTimeDelta)
 
 void CState_WR_Guillotine_Start::Exit_State()
 {
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WR_Guillotine_Start::Tick_State_Control(_float fTimeDelta)

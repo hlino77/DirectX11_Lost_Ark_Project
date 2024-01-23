@@ -48,6 +48,7 @@ void CState_GN_RapidFire_End::Enter_State()
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_RapidFire_End::Tick_State(_float fTimeDelta)

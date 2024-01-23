@@ -45,7 +45,16 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 
 	if (true == m_NpcDesc.IsTalk)
 	{
-		Talk(fTimeDelta);
+		if (m_fTalkDist > m_fPlayerDist)
+		{
+			Talk(fTimeDelta);
+		}
+		else
+		{
+			m_iCurrTalk = 0;
+			m_fTalkStartAcc = -3.f;
+			m_IsTalkStart = false;
+		}
 	}
 }
 

@@ -1360,6 +1360,15 @@
     <Filter Include="02.GameObjects\UI\17.GroggyGauge">
       <UniqueIdentifier>{25644510-e1fa-49e7-bd61-e48bb3168e8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead">
+      <UniqueIdentifier>{36f97be6-4fde-406a-88a3-f6380ffbd785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start">
+      <UniqueIdentifier>{54af9d97-fc9e-49c2-8d03-8ab7174890f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
+      <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

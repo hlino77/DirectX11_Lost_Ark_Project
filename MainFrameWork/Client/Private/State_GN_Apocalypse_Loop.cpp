@@ -30,6 +30,7 @@ HRESULT CState_GN_Apocalypse_Loop::Initialize()
 void CState_GN_Apocalypse_Loop::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iApocalypse_Loop, 0.1f, 0, 0);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_Apocalypse_Loop::Tick_State(_float fTimeDelta)
@@ -40,6 +41,9 @@ void CState_GN_Apocalypse_Loop::Tick_State(_float fTimeDelta)
 void CState_GN_Apocalypse_Loop::Exit_State()
 {
 	m_fSkillTimeAcc = 0.f;
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_Apocalypse_Loop::Tick_State_Control(_float fTimeDelta)

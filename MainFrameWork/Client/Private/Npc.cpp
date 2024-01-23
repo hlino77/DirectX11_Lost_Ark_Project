@@ -18,7 +18,9 @@
 #include "BindShaderDesc.h"
 #include "UI_Manager.h"
 #include "UI_SpeechBubble.h"
-#include "UI_InGame_NamePlate.h""
+#include "UI_InGame_NamePlate.h"
+
+#include "Player.h"
 
 CNpc::CNpc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Npc", OBJ_TYPE::NPC)
@@ -125,6 +127,8 @@ HRESULT CNpc::Initialize(void* pArg)
 
 void CNpc::Tick(_float fTimeDelta)
 {
+	Find_Control_Pc();
+
 	if (m_bNavi)
 	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
@@ -503,6 +507,38 @@ void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
 			m_iCurAnimIndex = m_iIdleAnimIndex;
 		}
 	}
+}
+
+HRESULT CNpc::Find_Control_Pc()
+{
+	if (nullptr != m_pCtrlPlayer)
+	{
+		if (LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
+			return S_OK;
+
+		m_fPlayerDist = Vec3(m_pCtrlPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length();
+
+		return S_OK;
+	}
+		
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pCtrlPlayer = static_cast<CPlayer*>(pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	if (nullptr == m_pCtrlPlayer)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return S_OK;
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CNpc::Find_SameSequence_Npc()
+{
+	return E_NOTIMPL;
 }
 
 void CNpc::Show_SpeechBuble(const wstring& szChat)

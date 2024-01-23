@@ -533,7 +533,7 @@ void CUseLock_Transform::Set_Up(Vec3 vNormal)
 void CUseLock_Transform::Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta)
 {
 	LookAt_Lerp_ForLand(vTargetPos, fRotSpeed, fTimeDelta);
-	Go_Straight(fSpeed, fTimeDelta);
+	Move_Dir(vTargetPos, fTimeDelta, fSpeed);
 }
 
 void CUseLock_Transform::My_Rotation(Vec3 vEulers)

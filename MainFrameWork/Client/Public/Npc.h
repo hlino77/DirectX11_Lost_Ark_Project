@@ -18,6 +18,7 @@ END
 
 BEGIN(Client)
 
+class CPlayer;
 class CUI_SpeechBubble;
 class CUI_InGame_NamePlate;
 
@@ -59,6 +60,7 @@ public:
 		_float			fTalkStartTime = { 0.f };
 		vector<wstring> vecTalks;
 		vector<wstring> vecTalkSound;
+		_uint			iTalkSequence;
 
 		_bool			bUseWeaponPart = { false };
 		wstring			strLeftPart = { TEXT("None") };
@@ -85,7 +87,7 @@ public:
 public:
 	virtual _bool			Intersect_Mouse(Vec3& vPickPos);
 
-	CShader*				Get_ShaderCom() { return m_pShaderCom; }
+	CShader* Get_ShaderCom() { return m_pShaderCom; }
 
 	void					Set_MoveSpeed(_float fSpeed) { m_fMoveSpeed = fSpeed; }
 	_float					Get_MoveSpeed() { return m_fMoveSpeed; }
@@ -94,7 +96,7 @@ public:
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
-	
+
 	NPCDESC					Get_NpcDesc() { return m_NpcDesc; }
 
 
@@ -125,6 +127,8 @@ public:
 
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 
+	const _uint&			Get_TalkSequence() { return m_NpcDesc.iTalkSequence; }
+
 public:
 	void					Set_Several_Weapon_RenderState(WEAPON_PART ePart, _bool Is_Render);
 
@@ -144,8 +148,12 @@ protected:
 protected:
 	void					Check_ChangeAnim(const _float& fTimeDelta);
 
+	virtual HRESULT			Find_Control_Pc();
+	virtual HRESULT			Find_SameSequence_Npc();
 
 protected:
+	vector<CNpc*>			m_vecSameSequence;
+
 	_bool							m_bDebugRender = { false };
 
 	_float							m_fMoveSpeed = 0.0f;
@@ -161,6 +169,11 @@ protected:
 	_bool							m_IsClicked = { false };
 
 protected:
+	/* 플레이어 정보*/
+	CPlayer* m_pCtrlPlayer = { nullptr };
+	_float	 m_fPlayerDist = { 0.0f };
+	_float	 m_fTalkDist = { 5.0f };
+
 	/* NPC 정보 */
 	Npc_Desc		m_NpcDesc;
 

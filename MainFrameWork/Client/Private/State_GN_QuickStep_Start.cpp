@@ -44,11 +44,11 @@ void CState_GN_QuickStep_Start::Exit_State()
 	if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start))
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
-
-		if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
-			m_pPlayer->Set_SuperArmorState(false);
 	}
 	m_bComboContinue = false;
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_QuickStep_Start::Tick_State_Control(_float fTimeDelta)

@@ -58,6 +58,9 @@ void CState_GN_TargetDown_Start::Exit_State()
 	{
 		Reset_Camera();
 	}
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_TargetDown_Start::Tick_State_Control(_float fTimeDelta)

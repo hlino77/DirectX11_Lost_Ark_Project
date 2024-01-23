@@ -580,7 +580,7 @@ void CLockFree_Transform::Set_Up(Vec3 vNormal)
 void CLockFree_Transform::Move_ToPos(Vec3 vTargetPos, _float fRotSpeed, _float fSpeed, _float fTimeDelta)
 {
 	LookAt_Lerp_ForLand(vTargetPos, fRotSpeed, fTimeDelta);
-	Go_Straight(fSpeed, fTimeDelta);
+	Move_Dir(vTargetPos, fTimeDelta, fSpeed);
 }
 
 void CLockFree_Transform::Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta)
