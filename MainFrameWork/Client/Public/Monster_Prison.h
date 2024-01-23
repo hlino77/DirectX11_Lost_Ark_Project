@@ -18,7 +18,7 @@ class CMonster_Prison :
 	public CMonster
 {
 
-protected:
+private:
 	CMonster_Prison(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CMonster_Prison(const CMonster& rhs);
 	virtual ~CMonster_Prison() = default;
@@ -35,10 +35,11 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 	virtual void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)override;
-protected:
+private:
 	virtual HRESULT		Ready_Components();
 
 	virtual HRESULT Ready_BehaviourTree() override;
+
 public:
 	static CMonster_Prison* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

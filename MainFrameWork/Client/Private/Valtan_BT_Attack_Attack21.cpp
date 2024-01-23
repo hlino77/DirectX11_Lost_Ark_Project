@@ -63,7 +63,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 		for (size_t i = 0; i < 6; i++)
 		{
 
-			vLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(60.f * (_float)i)));
+			vLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(60.f) * (_float)i));
 			vLook.Normalize();
 			pSkill = nullptr;
 			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
@@ -71,9 +71,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			{
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				static_cast<CSkill*>(pSkill)->Set_LastTime(99.f);
 				static_cast<CSkill*>(pSkill)->Set_Atk(20);
 				static_cast<CSkill*>(pSkill)->Set_Force(10.f);
 				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(15.f,-15.f);
+				cout << i<< "	" << 60.f * (_float)i << endl;
 			}
 		}
 	}

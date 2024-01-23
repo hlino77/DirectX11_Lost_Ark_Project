@@ -129,7 +129,7 @@ _bool CNavigation::Is_Outside(CGameObject* pObject, _float fOffset)
 		{
 			while (true)
 			{
-				if (-1 == iNeighborIndex && m_vecCells[iNeighborIndex]->Is_Active())
+				if (-1 == iNeighborIndex || !m_vecCells[iNeighborIndex]->Is_Active())
 					return true;
 
 				if (false == m_vecCells[iNeighborIndex]->isOut(vPosition + vLook * fOffset, &iNeighborIndex))

@@ -6,7 +6,7 @@
 #include "Transform.h"
 #include <AnimModel.h>
 #include "GameInstance.h"
-
+#include "Player.h"
 CValtan_BT_Phase2::CValtan_BT_Phase2()
 {
 }
@@ -54,6 +54,7 @@ void CValtan_BT_Phase2::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_Phase(2);
+	static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER))->Set_CurValtanPhase(2);
 }
 
 
