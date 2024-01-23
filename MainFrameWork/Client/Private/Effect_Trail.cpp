@@ -73,10 +73,10 @@ void CEffect_Trail::LateTick(_float fTimeDelta)
 
 HRESULT CEffect_Trail::Render()
 {
+	m_pBuffer->Update_TrailBuffer();
+
 	if (FAILED(Super::Render()))
 		return E_FAIL;
-
-	m_pBuffer->Update_TrailBuffer();
 
 	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 		return E_FAIL;
@@ -101,6 +101,7 @@ void CEffect_Trail::Reset()
 
 	m_pBuffer->Stop_Trail();
 	m_bTrailEnd = false;
+	CB_UpdatePivot(m_matPivot);
 }
 
 void CEffect_Trail::TrailEnd(_float fRemainTime)
