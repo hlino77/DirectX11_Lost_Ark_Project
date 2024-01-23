@@ -71,6 +71,8 @@ public:
 
 	void Add_NaviCellIndex(_uint CellIndex) { m_NaviCellIndex.push_back(CellIndex); }
 
+	void Send_Collision(_uint iLevel, _bool bActive);
+
 
 protected:
 	virtual HRESULT Ready_Components() override;

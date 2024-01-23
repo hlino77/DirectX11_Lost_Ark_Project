@@ -17,6 +17,7 @@
 #include "LevelControlManager.h"
 #include "PartyManager.h"
 #include "Npc_Server.h"
+#include "NavigationMgr.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -438,7 +439,14 @@ bool Handel_S_NPC_Server(PacketSessionRef& session, Protocol::S_NPC& pkt)
 
 bool Handel_S_NAVIGATION_Server(PacketSessionRef& session, Protocol::S_NAVIGATION& pkt)
 {
+	_uint iLevel = pkt.ilevel();
+	_bool bActive = pkt.bactive();
 
-
+	for (auto& CellIndex : pkt.iindex())
+	{
+		CNavigationMgr::GetInstance()->Set_NaviCell_Active(iLevel, CellIndex, bActive);
+	}
+	
 	return true;
+
 }

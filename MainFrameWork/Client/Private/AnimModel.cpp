@@ -5,6 +5,7 @@
 #include "ColliderOBB.h"
 
 #include "NavigationMgr.h"
+#include "ServerSessionManager.h"
 
 
 CAnimModel::CAnimModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
@@ -20,6 +21,7 @@ CAnimModel::CAnimModel(const CAnimModel& rhs)
 HRESULT CAnimModel::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
+
 
     return S_OK;
 }
@@ -60,6 +62,27 @@ HRESULT CAnimModel::Initialize(void* pArg)
 	m_pModelCom->Set_CurrAnim(0);
 
 	m_pModelCom->Play_Animation(0.0f);
+
+
+	if (m_szModelName == TEXT("Floor_All_R01"))
+	{
+		_uint MinCellIndex = 362;
+		_uint MaxCellIndex = 614;
+
+		Creat_NaviCellIndex(MinCellIndex, MaxCellIndex);
+		m_NaviCellIndex.push_back(926); // Except
+	}
+
+	if (m_szModelName == TEXT("Floor_All_L01"))
+	{
+		_uint MinCellIndex = 615;
+		_uint MaxCellIndex = 925;
+
+		Creat_NaviCellIndex(MinCellIndex, MaxCellIndex);
+		
+	}
+
+
 
     return S_OK;
 }
@@ -112,21 +135,15 @@ void CAnimModel::Tick(_float fTimeDelta)
 		{
 			bPlayAnim = !bPlayAnim;
 
-			_uint MinCellIndex = 362;
-			_uint MaxCellIndex = 614;
+			Send_Collision(LEVEL_VALTANMAIN, false);
 
-			for (size_t i = MinCellIndex; i <= MaxCellIndex; i++)
+			for (auto& CellIndex : m_NaviCellIndex)
 			{
-				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, i, false);
-
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
 			}
-
-			// Except 
-			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 926, false);
 
 		}
 	}
-
 
 	// Right Ground Break
 	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::N))
@@ -135,16 +152,12 @@ void CAnimModel::Tick(_float fTimeDelta)
 		{
 			bPlayAnim = !bPlayAnim;
 
+			Send_Collision(LEVEL_VALTANMAIN, false);
 
-			_uint MinCellIndex = 615;
-			_uint MaxCellIndex = 925;
-
-			for (size_t i = MinCellIndex; i <= MaxCellIndex; i++)
+			for (auto& CellIndex : m_NaviCellIndex)
 			{
-				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, i, false);
-
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
 			}
-
 		}
 	}
 	
@@ -152,6 +165,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 
 void CAnimModel::LateTick(_float fTimeDelta)
 {
+
 	if (nullptr == m_pRendererCom)	
 		return;
 
@@ -164,9 +178,12 @@ void CAnimModel::LateTick(_float fTimeDelta)
 
 
 
-	if (m_pModelCom->Get_Animations()[0]->Is_End() == true)
+	if (m_szModelName != TEXT("Chain"))
 	{
-		Set_Dead(true);
+		if (m_pModelCom->Get_Animations()[0]->Is_End() == true)
+		{
+			Set_Dead(true);
+		}
 	}
 
 
@@ -249,8 +266,6 @@ HRESULT CAnimModel::Render_Instance(_uint iSize)
 	if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
 		return E_FAIL;
 
-
-	//Safe_Release(pGameInstance);
 
 	return S_OK;
 }
@@ -440,6 +455,38 @@ HRESULT CAnimModel::Ready_Instance_For_Render(_uint iSize)
 
 	return S_OK;
 }
+
+void CAnimModel::Creat_NaviCellIndex(_uint MinIndex, _uint MaxIndex)
+{
+	_uint MinCellIndex = MinIndex;
+	_uint MaxCellIndex = MaxIndex;
+
+	_uint CellIndexSize = MaxCellIndex - MinCellIndex;
+
+
+	for (size_t i = MinCellIndex; i <= MaxCellIndex; i++)
+	{
+		m_NaviCellIndex.push_back(i);
+	}
+
+}
+
+void CAnimModel::Send_Collision(_uint iLevel, _bool bActive)
+{
+	Protocol::S_NAVIGATION pkt;
+
+	pkt.set_ilevel(iLevel);
+	pkt.set_bactive(bActive);
+
+	auto Indices = pkt.mutable_iindex();
+	Indices->Resize(m_NaviCellIndex.size(), -1);
+	memcpy(Indices->mutable_data(), m_NaviCellIndex.data(), sizeof(_uint) * m_NaviCellIndex.size());
+
+	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
+	CServerSessionManager::GetInstance()->Send(pSendBuffer);
+
+}
+
 
 
 CAnimModel* CAnimModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
