@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_Inventory.h"
 #include "GameInstance.h"
+#include "Player.h"
 
 CUI_Inventory::CUI_Inventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -32,12 +33,18 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	if (nullptr != pArg)
+	{
+		m_pOwner = static_cast<CPlayer*>(pArg);
+	}
+
 	return S_OK;
 }
 
 void CUI_Inventory::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
 }
 
 void CUI_Inventory::LateTick(_float fTimeDelta)
@@ -54,13 +61,36 @@ HRESULT CUI_Inventory::Render()
 	return S_OK;
 }
 
+void CUI_Inventory::Set_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems)
+{
+	m_mapPlayerItems = mapPlayerItems;
+
+
+}
+
+void CUI_Inventory::Update_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems)
+{
+	for (auto& Pair : mapPlayerItems)
+	{
+		Pair.first;
+		for (auto& iter : Pair.second)
+		{
+
+		}
+	}
+
+
+}
+
 HRESULT CUI_Inventory::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Rank"),
-		TEXT("Com_Texturem"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;*/
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_InventoryWnd"),
+		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

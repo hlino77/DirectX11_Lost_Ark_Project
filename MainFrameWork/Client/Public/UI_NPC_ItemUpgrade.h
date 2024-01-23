@@ -7,13 +7,16 @@ END
 
 
 BEGIN(Client)
+class CItem;
+class CPlayer;
 
 class CUI_NPC_ItemUpgrade :
     public CUI
 {
 public:
     enum CURR_SELECTED_ITEM {
-        SELECTED_HEAD, SELECTED_BODY, SELECTED_LEG, SELECTED_WEAPON, SELECTED_END
+        SELECTED_FACE, SELECTED_HELMET, SELECTED_SHOULDER, SELECTED_BODY, SELECTED_ARM, SELECTED_LEG, 
+        SELECTED_WEAPON, SELECTED_END
     };
 
 private:
@@ -27,6 +30,7 @@ public:
     HRESULT Initialize_Transform_BaseWnd();
     HRESULT Initialize_Transform_SidePannel_L();
     HRESULT Initialize_Transform_SidePannel_R();
+    HRESULT  Initialize_TextBox();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -34,8 +38,10 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Get_PlayerInformation();
+    void    Set_Active_UpGrade(_bool IsUpgrade, CPlayer* pPlayer = nullptr);
 
 private:
+    void    Update_Items();
     void    Update_Button(_float fTimeDelta);
     void    Upadate_GrowthButton(POINT pt);
     void    Update_UpgradeButton(POINT pt, _float fTimeDelta);
@@ -50,14 +56,18 @@ private:
 
 private:
     void    Update_Items(POINT pt);
-    void    Create_Rect_HeadItem();
-    void   Is_Picking_HeadItem(POINT pt);
+    void    Create_Rect_FaceItem();
+    void   Is_Picking_FaceItem(POINT pt);
+    void    Create_Rect_HelemtItem();
+    void   Is_Picking_HelemtItem(POINT pt);
+    void    Create_Rect_ShoulderItem();
+    void   Is_Picking_ShoulderItem(POINT pt);
     void    Create_Rect_BodyItem();
     void   Is_Picking_BodyItem(POINT pt);
+    void    Create_Rect_ArmItem();
+    void   Is_Picking_ArmItem(POINT pt);
     void    Create_Rect_LegItem();
     void   Is_Picking_LegItem(POINT pt);
-    void    Create_Rect_WeaponItem();
-    void   Is_Picking_WeaponItem(POINT pt);
 
 private:
     void    Update_GrowthGauge(_float fTimeDelta);
@@ -69,10 +79,14 @@ private:
     void    Update_Gauge_Effect(_float fTimeDelta);
     void    Update_Gauge_Spin(_float fTimeDelta);
     void    Update_Max_Gauge_Effect(_float fTimeDelta);
-    void    Update_ItemIcon();//수정해야함
+    void    Update_ItemIcon();
 
     void    Update_ResultWaiting(_float fTimeDelta);
     void    Update_ResultEffect(_float fTimeDelta);
+
+private:
+    HRESULT Ready_TextBox();
+    void    Print_CurrItemNameWnd();    
 
 private:
     virtual HRESULT Ready_Components();
@@ -92,6 +106,8 @@ private:
     HRESULT Bind_ShaderResources_UpgradeButton();
     HRESULT Bind_ShaderResources_UpgradeButtonEffect();
     HRESULT Bind_ShaderResources_ItemFrame();
+    HRESULT Bind_ShaderResources_CurrUpgradeItem_Grade();
+    HRESULT Bind_ShaderResources_CurrUpgradeItemIcon();
     HRESULT Bind_ShaderResources_MaxGaugeEffect();
     HRESULT Bind_ShaderResources_IngredientSlotL();
     HRESULT Bind_ShaderResources_IngredientSlot();
@@ -106,27 +122,37 @@ private:
     HRESULT Bind_ShaderResources_ResultWnd();
     HRESULT Bind_ShaderResources_ResultItemEffect();
     HRESULT Bind_ShaderResources_ResultItemSlot();
+    HRESULT Bind_ShaderResources_ResultItemGrade();
+    HRESULT Bind_ShaderResources_ResultItemIcon();
     HRESULT Bind_ShaderResources_ResultCheckButton();
 
 private:
     HRESULT Bind_ShaderResources_SidePannel_L();
     HRESULT Bind_ShaderResources_CurrItem();
-    HRESULT Bind_ShaderResources_EquipItemWnd_Head();
-    HRESULT Bind_ShaderResources_ItemIcon_Head();
-    HRESULT Bind_ShaderResources_UpgradeIcon_Head();
-    HRESULT Bind_ShaderResources_EquipIcon_Head();
+    HRESULT Bind_ShaderResources_EquipItemWnd_Face();
+    HRESULT Bind_ShaderResources_ItemIcon_Face();
+    HRESULT Bind_ShaderResources_UpgradeIcon_Face();
+    HRESULT Bind_ShaderResources_EquipIcon_Face();
+    HRESULT Bind_ShaderResources_EquipItemWnd_Helemt();
+    HRESULT Bind_ShaderResources_ItemIcon_Helemt();
+    HRESULT Bind_ShaderResources_UpgradeIcon_Helemt();
+    HRESULT Bind_ShaderResources_EquipIcon_Helemt();
+    HRESULT Bind_ShaderResources_EquipItemWnd_Shoulder();
+    HRESULT Bind_ShaderResources_ItemIcon_Shoulder();
+    HRESULT Bind_ShaderResources_UpgradeIcon_Shoulder();
+    HRESULT Bind_ShaderResources_EquipIcon_Shoulder();
     HRESULT Bind_ShaderResources_EquipItemWnd_Body();
     HRESULT Bind_ShaderResources_ItemIcon_Body();
     HRESULT Bind_ShaderResources_UpgradeIcon_Body();
     HRESULT Bind_ShaderResources_EquipIcon_Body();
+    HRESULT Bind_ShaderResources_EquipItemWnd_Arm();
+    HRESULT Bind_ShaderResources_ItemIcon_Arm();
+    HRESULT Bind_ShaderResources_UpgradeIcon_Arm();
+    HRESULT Bind_ShaderResources_EquipIcon_Arm();
     HRESULT Bind_ShaderResources_EquipItemWnd_Leg();
     HRESULT Bind_ShaderResources_ItemIcon_Leg();
     HRESULT Bind_ShaderResources_UpgradeIcon_Leg();
     HRESULT Bind_ShaderResources_EquipIcon_Leg();
-    HRESULT Bind_ShaderResources_EquipItemWnd_Weapon();
-    HRESULT Bind_ShaderResources_ItemIcon_Weapon();
-    HRESULT Bind_ShaderResources_UpgradeIcon_Weapon();
-    HRESULT Bind_ShaderResources_EquipIcon_Weapon();
 
 private:
     HRESULT Bind_ShaderResources_SidePannel_R();
@@ -153,6 +179,7 @@ private:
     CTexture* m_pTexture_UpgradeButton = { nullptr };
     CTexture* m_pTexture_UpgradeButton_Effect = { nullptr };
     CTexture* m_pTexture_ItemSlot = { nullptr };
+    CTexture* m_pTexture_ItemGrade = { nullptr };
     CTexture* m_pTexture_Item = { nullptr };//클론해서 받아옴
     CTexture* m_pTexture_IngredientSlot = { nullptr };
     CTexture* m_pTexture_NpcSpeech_BackGround = { nullptr };
@@ -167,10 +194,7 @@ private:
     //Side_L_Texture
     CTexture* m_pTexture_SidePannel = { nullptr };//Wnd
     CTexture* m_pTexture_EquipItemWnd = { nullptr };
-    CTexture* m_pTexture_ItemIcon_Head = { nullptr };
-    CTexture* m_pTexture_ItemIcon_Body = { nullptr };
-    CTexture* m_pTexture_ItemIcon_Leg = { nullptr };
-    CTexture* m_pTexture_ItemIcon_Weapon = { nullptr };
+    CTexture* m_pTexture_ItemIcon[6] = { nullptr };
     CTexture* m_pTexture_UpgradeIcon = { nullptr };
     CTexture* m_pTexture_EquipIcon = { nullptr };
     CTexture* m_pTexture_CurrItemSlot = { nullptr };
@@ -216,22 +240,30 @@ private:
 
     //Side_L_Pannel
     CTransform* m_pTransform_SidePannel = { nullptr };
-    CTransform* m_pTransform_EquipItemWnd_Head = { nullptr };
-    CTransform* m_pTransform_ItemIcon_Head = { nullptr };
-    CTransform* m_pTransform_UpgradeIcon_Head = { nullptr };
-    CTransform* m_pTransform_EquipIcon_Head = { nullptr };
+    CTransform* m_pTransform_EquipItemWnd_Face = { nullptr };
+    CTransform* m_pTransform_ItemIcon_Face = { nullptr };
+    CTransform* m_pTransform_UpgradeIcon_Face = { nullptr };
+    CTransform* m_pTransform_EquipIcon_Face = { nullptr };
+    CTransform* m_pTransform_EquipItemWnd_Helemt = { nullptr };
+    CTransform* m_pTransform_ItemIcon_Helemt = { nullptr };
+    CTransform* m_pTransform_UpgradeIcon_Helemt = { nullptr };
+    CTransform* m_pTransform_EquipIcon_Helemt = { nullptr };
+    CTransform* m_pTransform_EquipItemWnd_Shoulder = { nullptr };
+    CTransform* m_pTransform_ItemIcon_Shoulder = { nullptr };
+    CTransform* m_pTransform_UpgradeIcon_Shoulder = { nullptr };
+    CTransform* m_pTransform_EquipIcon_Shoulder = { nullptr };
     CTransform* m_pTransform_EquipItemWnd_Body = { nullptr };
     CTransform* m_pTransform_ItemIcon_Body = { nullptr };
     CTransform* m_pTransform_UpgradeIcon_Body = { nullptr };
     CTransform* m_pTransform_EquipIcon_Body = { nullptr };
+    CTransform* m_pTransform_EquipItemWnd_Arm = { nullptr };
+    CTransform* m_pTransform_UpgradeIcon_Arm = { nullptr };
+    CTransform* m_pTransform_EquipIcon_Arm = { nullptr };
+    CTransform* m_pTransform_ItemIcon_Arm = { nullptr };
     CTransform* m_pTransform_EquipItemWnd_Leg = { nullptr };
+    CTransform* m_pTransform_EquipIcon_Leg = { nullptr };
     CTransform* m_pTransform_ItemIcon_Leg = { nullptr };
     CTransform* m_pTransform_UpgradeIcon_Leg = { nullptr };
-    CTransform* m_pTransform_EquipIcon_Leg = { nullptr };
-    CTransform* m_pTransform_EquipItemWnd_Weapon = { nullptr };
-    CTransform* m_pTransform_ItemIcon_Weapon = { nullptr };
-    CTransform* m_pTransform_UpgradeIcon_Weapon = { nullptr };
-    CTransform* m_pTransform_EquipIcon_Weapon = { nullptr };
 
     //Side_R_Pannel
     CTransform* m_pTransform_SideWnd = { nullptr };
@@ -245,6 +277,8 @@ private:
     CTransform* m_pTransform_ResultWnd = { nullptr };
     CTransform* m_pTransform_ResultItemEffect = { nullptr };
     CTransform* m_pTransform_ResultItemSlot = { nullptr };
+    CTransform* m_pTransform_ResultItem = { nullptr };
+    CTransform* m_pTransform_ResultCheckButton = { nullptr };
 
     //CTransform* m_pTransform_ = { nullptr };
 
@@ -259,16 +293,19 @@ private:
     RECT    m_rcGrowthButton = {};
     RECT    m_rcUpgradeButton = {};
     RECT    m_rcQuitButton = {};
-    RECT    m_rcHeadItem = {};
+    RECT    m_rcFaceItem = {};
+    RECT    m_rcHelemtItem = {};
+    RECT    m_rcShoulderItem = {};
     RECT    m_rcBodyItem = {};
+    RECT    m_rcArmItem = {};
     RECT    m_rcLegItem = {};
-    RECT    m_rcWeaponItem = {};
 
     _uint   m_iGrowthButton_TextureIndex = { 0 };
     _uint   m_iUpgradeButton_TextureIndex = { 0 };
     _uint   m_iQuitButton_TextureIndex = { 0 };
     _uint   m_iResultButton_TextureIndex = { 0 };
-    _uint   m_iSidePannel_L_Wnd_TextureIndex = { 0 };
+    _uint   m_iSidePannel_L_Wnd_TextureIndex[6] = { 0 };
+    _uint   m_iCurrItemGrade = { 0 };
 
     _uint   m_iCurrItem = { SELECTED_END };
 
@@ -291,21 +328,29 @@ private:
     _bool   m_bResultWaiting = { false };
     _bool   m_bResult = { false };
     _bool   m_bResultWnd = { false };
+    _bool   m_bResultSuccess = {false};
 
     _bool   m_bTestGaugeOn = { false };//Test
     _bool   m_bMaxGaugeEffect = { false };
 
-    Vec4    m_vColorHeadItem = Vec4(1.f, 1.f, 1.f, 1.f);
+    Vec4    m_vColorFaceItem = Vec4(1.f, 1.f, 1.f, 1.f);
+    Vec4    m_vColorHelemtItem = Vec4(1.f, 1.f, 1.f, 1.f);
+    Vec4    m_vColorShoulderItem = Vec4(1.f, 1.f, 1.f, 1.f);
     Vec4    m_vColorBodyItem = Vec4(1.f, 1.f, 1.f, 1.f);
+    Vec4    m_vColorArmItem = Vec4(1.f, 1.f, 1.f, 1.f);
     Vec4    m_vColorLegItem = Vec4(1.f, 1.f, 1.f, 1.f);
-    Vec4    m_vColorWeaponItem = Vec4(1.f, 1.f, 1.f, 1.f);
 
     CTextBox* m_pItemNameWnd = { nullptr };
-    CTextBox* m_pCurrGradeWnd = { nullptr };
+    CTextBox* m_pCurrItemNameWnd = { nullptr };
     CTextBox* m_pNextGradeWnd = { nullptr };
+    wstring     m_strTagNameWnd;
+    wstring     m_strFont;
+    wstring     m_strItemsName[SELECTED_END];
+    wstring   m_strCurrItemName = TEXT("환상의 모코코 헤드");
 
     CGameObject* m_pUsingPlayer = { nullptr };
-    CGameObject* m_pCurrEquipItem = { nullptr };
+    CItem* m_pEquips[6];
+    CItem* m_pCurrUpgradeItem = { nullptr };
 
 public:
     static  CUI_NPC_ItemUpgrade* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

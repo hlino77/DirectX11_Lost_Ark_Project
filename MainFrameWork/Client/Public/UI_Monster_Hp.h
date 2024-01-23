@@ -37,6 +37,9 @@ private:
     CTexture* m_pTextureCom_Hp = { nullptr };
     CTransform* m_pTransform_Hp = { nullptr };
 
+    CTexture* m_pTextureCom_PrisonWnd= { nullptr };
+    CTexture* m_pTextureCom_PrisonGauge = { nullptr };
+
     _uint   m_iMaxHp = { 0 };
     _int    m_iCurrHp = { 0 };
     _float  m_fHpRatio = { 0.f };

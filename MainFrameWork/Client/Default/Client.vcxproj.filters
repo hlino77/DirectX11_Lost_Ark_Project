@@ -1338,12 +1338,15 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
       <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\12.Inventory\01.Equipment">
       <UniqueIdentifier>{52789099-83e7-4264-9898-cfb381af383f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory">
       <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\17.GroggyGauge">
+      <UniqueIdentifier>{25644510-e1fa-49e7-bd61-e48bb3168e8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4015,7 +4018,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_EarthEaterDecal.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterDecal</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\IT_GN_Body_Legend.h">
       <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend</Filter>
     </ClInclude>
@@ -4105,7 +4108,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_SwordTrail.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClInclude>
@@ -6758,7 +6761,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_EarthEaterDecal.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterDecal</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\IT_GN_Body_Legend.cpp">
       <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend</Filter>
     </ClCompile>
@@ -6848,7 +6851,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_SwordTrail.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClCompile>

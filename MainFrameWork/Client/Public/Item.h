@@ -71,6 +71,9 @@ public:
 
 	_uint						Get_EquipType() { return m_iEquipType; }
 
+	_float						Get_UpgradeGauge() { return m_fUpgaradeGauge; }
+	void						Set_UpgradeGauge(_float fGauge) { m_fUpgaradeGauge = fGauge; }
+	CTexture*					Get_ItemTexture() { if(nullptr != m_pItemTextureCom)return m_pItemTextureCom; }
 protected:
 	virtual HRESULT				Ready_Components();
 
@@ -88,6 +91,8 @@ protected:
 
 	_uint						m_iEquipType = { (_uint)PART::_END };
 	vector<_uint>				m_vecUseEquipSlot;
+
+	_float						m_fUpgaradeGauge = { 0.f };
 
 public:
 	virtual void Free();
