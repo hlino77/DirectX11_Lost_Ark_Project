@@ -4,6 +4,7 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CState_WDR_PerfectSwing_Success final : public CState_Skill
 {
@@ -21,6 +22,7 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+	void	Effect_Trail();
 	void	Update_Effect();
 	void	Effect_End();
 
@@ -34,7 +36,9 @@ private:
 	_int m_iPerfect_Success = 0;
 
 	_bool m_bEffectEnd = false;
+	_bool m_bEffectTrail = false;
 
+	vector<CEffect*> m_Trails;
 public:
 	static CState_WDR_PerfectSwing_Success* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

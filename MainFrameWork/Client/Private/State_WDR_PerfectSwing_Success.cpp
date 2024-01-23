@@ -5,7 +5,7 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
-#include "Effect.h"
+#include "Effect_Trail.h"	
 
 CState_WDR_PerfectSwing_Success::CState_WDR_PerfectSwing_Success(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -36,6 +36,7 @@ void CState_WDR_PerfectSwing_Success::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iPerfect_Success, 0.1f, 0, 0, 1.f);
 
 	m_bEffectEnd = false;
+	m_bEffectTrail = false;
 }
 
 void CState_WDR_PerfectSwing_Success::Tick_State(_float fTimeDelta)
@@ -61,6 +62,12 @@ void CState_WDR_PerfectSwing_Success::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPerfect_Success))
 		m_pPlayer->Set_State(TEXT("Idle"));
+
+	if (m_bEffectTrail == false && iAnimFrame >= 25)
+	{
+		Effect_Trail();
+		m_bEffectTrail = true;
+	}
 
 	if (m_bEffectEnd == false)
 	{
@@ -121,6 +128,13 @@ void CState_WDR_PerfectSwing_Success::Tick_State_NoneControl(_float fTimeDelta)
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
+void CState_WDR_PerfectSwing_Success::Effect_Trail()
+{
+	vector<CEffect*> Effects;
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("PerfectSwingTrail"), func, m_Trails);
+}
+
 void CState_WDR_PerfectSwing_Success::Update_Effect()
 {
 	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix();
@@ -131,6 +145,12 @@ void CState_WDR_PerfectSwing_Success::Update_Effect()
 void CState_WDR_PerfectSwing_Success::Effect_End()
 {
 	m_pPlayer->Delete_Effect(L"PerfectCircle");
+	
+	for (auto& Trail : m_Trails)
+	{
+		dynamic_cast<CEffect_Trail*>(Trail)->TrailEnd(1.0f);
+	}
+	m_Trails.clear();
 }
 
 CState_WDR_PerfectSwing_Success* CState_WDR_PerfectSwing_Success::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

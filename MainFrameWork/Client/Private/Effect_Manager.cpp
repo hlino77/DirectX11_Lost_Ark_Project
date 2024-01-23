@@ -442,11 +442,6 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 
 HRESULT CEffect_Manager::Trail_Start(wstring strTrailBundle, std::function<void(Matrix&)> const& PivotGetter)
 {
-#ifdef _DEBUG
-	const type_info& info = PivotGetter.target_type();
-	const _char* szName = info.name();
-#endif
-
 	auto& Effects = m_hashEffectBundles.find(strTrailBundle);
 
 	if (Effects == m_hashEffectBundles.end())
@@ -475,6 +470,42 @@ HRESULT CEffect_Manager::Trail_Start(wstring strTrailBundle, std::function<void(
 			pTrail->Reset();
 			pTrail->Tick(0.0f);
 			pTrail->Set_Active(true);
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CEffect_Manager::Trail_Start(wstring strTrailBundle, std::function<void(Matrix&)> const& PivotGetter, vector<CEffect*>& EffectList)
+{
+	auto& Effects = m_hashEffectBundles.find(strTrailBundle);
+
+	if (Effects == m_hashEffectBundles.end())
+		return E_FAIL;
+	else
+	{
+		for (auto& EffectTag : Effects->second)
+		{
+			CEffect_Trail* pTrail = nullptr;
+
+			if (m_hashEffectPools[EffectTag].empty())
+			{
+				wstring strProtoTag = TEXT("Prototype_GameObject_Effect_") + EffectTag;
+
+				pTrail = static_cast<CEffect_Trail*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_EFFECT, strProtoTag));
+				if (nullptr == pTrail)
+					return E_FAIL;
+			}
+			else
+			{
+				pTrail = static_cast<CEffect_Trail*>(m_hashEffectPools[EffectTag].front());
+				m_hashEffectPools[EffectTag].pop();
+			}
+
+			pTrail->CB_UpdatePivot += PivotGetter;
+			pTrail->Reset();
+			pTrail->Tick(0.0f);
+			pTrail->Set_Active(true);
+			EffectList.push_back(pTrail);
 		}
 	}
 	return S_OK;
