@@ -6,6 +6,7 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "ColliderSphere.h"
+#include <Player.h>
 
 CValtan_BT_Attack_Attack15::CValtan_BT_Attack_Attack15()
 {
@@ -19,7 +20,13 @@ void CValtan_BT_Attack_Attack15::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 4 && m_bShoot)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		CPlayer* pTarget = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, (_int)m_pGameObject->Get_TargetPos().x));
+		if(pTarget != nullptr)
+			pTarget->Set_State(L"Stop");
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 34 && m_bShoot)
 	{
 		m_bShoot = false;
 		CSkill::ModelDesc ModelDesc = {};
@@ -36,7 +43,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(7.5f);
-			static_cast<CSkill*>(pSkill)->Set_Force(-13.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(-16.f);
 		}
 
 	}

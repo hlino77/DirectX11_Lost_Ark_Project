@@ -24,6 +24,8 @@ void CState_GN_Stop::Enter_State()
 {
 	m_pPlayer->Set_AnimationSpeed(0.f);
 	m_pPlayer->Set_SuperiorArmorState(true);
+	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::FORCE);
+	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::VELOCITY_CHANGE);
 }
 
 void CState_GN_Stop::Tick_State(_float fTimeDelta)

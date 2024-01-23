@@ -92,16 +92,16 @@ HRESULT CSkill_Valtan_PizzaInstant::Ready_Coliders()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(20.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(30.f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.1f, 0.0f));
 
 	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.1f, 0.f));
-	pChildCollider->Set_Far(20.f);
-	pChildCollider->Set_Near(1.5f);
-	pChildCollider->Set_Slopes(Vec4(1.f, -0.05f, tanf(XMConvertToRadians(45.f)), tanf(XMConvertToRadians(-45.f))));
+	pChildCollider->Set_Far(30.f);
+	pChildCollider->Set_Near(0.f);
+	pChildCollider->Set_Slopes(Vec4(1.f, -0.05f, tanf(XMConvertToRadians(20.f)), tanf(XMConvertToRadians(-20.f))));
 	pChildCollider->SetActive(true);
 	for (auto& Collider : m_Coliders)
 	{

@@ -4,6 +4,8 @@
 #include "Model.h"
 #include <Boss.h>
 #include "Transform.h"
+#include <AnimModel.h>
+#include "GameInstance.h"
 
 CValtan_BT_Phase2::CValtan_BT_Phase2()
 {
@@ -21,6 +23,29 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) > 41 && m_iCurrAnimation == 3)
+		for (auto iter : CGameInstance::GetInstance()->GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_BACKGROUND))
+		{
+			if (iter->Get_ModelCom()->Get_ModelType() == CModel::TYPE::TYPE_ANIM &&
+				iter->Get_ModelName() == TEXT("Wall01") ||
+				iter->Get_ModelName() == TEXT("Wall02") ||
+				iter->Get_ModelName() == TEXT("Wall03") ||
+				iter->Get_ModelName() == TEXT("Wall04"))
+				static_cast<CAnimModel*>(iter)->Set_PlayAnim(true);
+
+		}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) > 77 && m_iCurrAnimation == 3)
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_Invincible(false);
+
+		m_iCurrAnimation++;
+
+		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
+		m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fAnimSpeed);
+
+	}
+
 
 	return __super::OnUpdate(fTimeDelta);
 }

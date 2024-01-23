@@ -450,21 +450,23 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-
-	AnimationDesc.strAnimName = TEXT("att_battle_5_01_start");
+	AnimationDesc.strAnimName = TEXT("att_battle_12_05");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-
-	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
+	AnimationDesc.fMaxLoopTime = 0.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
 
-	//65번 2페 시작 모션
 	ActionDesc.strActionName = L"Action_Phase2";
 	CBT_Action* pPhase2 = CValtan_BT_Phase2::Create(&ActionDesc);
 	

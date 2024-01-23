@@ -13,6 +13,7 @@ void CValtan_BT_Phase2_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_Invincible(true);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase2_Server::OnUpdate(const _float& fTimeDelta)
@@ -22,13 +23,17 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2_Server::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
 	}
-	if (!static_cast<CBoss_Server*>(m_pGameObject)->Is_GroggyLock() && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) > 77&& m_iCurrAnimation ==3)
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
-	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[4].iAnimIndex) - 3)
-	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Invincible(false);
+
+		m_iCurrAnimation++;
+
+		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
+		m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fAnimSpeed);
+
 	}
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -37,8 +42,8 @@ void CValtan_BT_Phase2_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss_Server*>(m_pGameObject)->Reset_SkillStack();
-	static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-	static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+	
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(2);
 }
 

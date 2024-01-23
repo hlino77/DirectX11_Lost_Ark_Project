@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "GameInstance.h"
 #include <Skill_Valtan_PizzaTerm.h>
+#include "ColliderSphere.h"
 
 CValtan_BT_Attack_Attack6::CValtan_BT_Attack_Attack6()
 {
@@ -18,6 +19,18 @@ void CValtan_BT_Attack_Attack6::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 10)
+	{
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
+		static_cast<CBoss*>(m_pGameObject)->Set_Atk(20);
+		static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 28)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[2].iAnimIndex) - 3 && m_bShoot)
 	{
 		m_bShoot = false;

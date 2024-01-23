@@ -29,10 +29,10 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Attack4_Server::OnUpdate(const _float& fTime
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 		m_IsTeleport = false;
 	}
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+		
 		return BT_SUCCESS;
 	}
 	if (m_pGameObject->Get_ModelCom()->IsNext())

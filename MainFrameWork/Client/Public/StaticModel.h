@@ -59,6 +59,8 @@ public:
 
 	virtual	void OnCollisionEnter(const _uint iColLayer, CCollider* pOther);
 
+	void Disable_NaviCells();
+
 
 	void	Add_Collider();
 	void	Add_ChildCollider(_uint iIndex);

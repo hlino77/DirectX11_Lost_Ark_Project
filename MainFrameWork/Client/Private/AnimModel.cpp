@@ -75,10 +75,10 @@ void CAnimModel::Tick(_float fTimeDelta)
 	//// All Object Animation Play
 	if (KEY_HOLD(KEY::CTRL) &&  KEY_AWAY(KEY::J))
 	{
-		bPlayAnim = !bPlayAnim;
+		m_bPlayAnim = !m_bPlayAnim;
 	}
 
-	if (true == bPlayAnim)
+	if (true == m_bPlayAnim)
 	{
 		//m_pModelCom->Play_Animation(fTimeDelta);
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
@@ -89,7 +89,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		m_pModelCom->Set_CurrAnimFrame(0);
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed); 
-		bPlayAnim = false;
+		m_bPlayAnim = false;
 		
 	}
 
@@ -101,7 +101,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 			m_szModelName == TEXT("Wall03") ||
 			m_szModelName == TEXT("Wall04"))
 		{
-			bPlayAnim = !bPlayAnim;
+			m_bPlayAnim = !m_bPlayAnim;
 		}
 	}
 
@@ -110,7 +110,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		if (m_szModelName == TEXT("Floor_All_R01"))
 		{
-			bPlayAnim = !bPlayAnim;
+			m_bPlayAnim = !m_bPlayAnim;
 
 			_uint MinCellIndex = 362;
 			_uint MaxCellIndex = 614;
@@ -133,7 +133,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		if (m_szModelName == TEXT("Floor_All_L01"))
 		{
-			bPlayAnim = !bPlayAnim;
+			m_bPlayAnim = !m_bPlayAnim;
 
 
 			_uint MinCellIndex = 615;

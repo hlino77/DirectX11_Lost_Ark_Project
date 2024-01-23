@@ -166,7 +166,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 				if (m_iGroggyCount < 1)
 				{
 					m_IsHit = true;
-					m_bGrogginess = true;
+					m_bSkipAction = true;
 					m_IsGroggy = true;
 					m_iGroggyCount = 0;
 					m_iMaxGroggyCount = 0;
@@ -181,7 +181,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 				m_iArmorDurability -= iDamage;
 			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
 			{
-				m_bCounter = true;
+				m_bSkipAction = true;
 				m_IsHit = true;
 				m_IsCounterSkill = false;
 				m_IsCountered = true;
@@ -189,7 +189,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 			if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
 			{
 				m_IsHit = true;
-				m_bGrogginess = true;
+				m_bSkipAction = true;
 				m_IsGroggy = true;
 			}
 

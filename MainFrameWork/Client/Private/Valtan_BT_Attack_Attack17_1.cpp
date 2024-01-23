@@ -43,7 +43,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_1::OnUpdate(const _float& fTimeDe
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(20.f);
-			static_cast<CSkill*>(pSkill)->Set_Atk(50.f);
+			static_cast<CSkill*>(pSkill)->Set_Atk(50);
 			static_cast<CSkill*>(pSkill)->Set_Force(0.f);
 		}
 

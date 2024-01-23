@@ -29,9 +29,9 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption_Server::OnUpdate(const _float& fTi
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxGroggyCount(0);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyCount());
 	}
-	if ( static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	if ( static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
 		return BT_SUCCESS;
 	}
 

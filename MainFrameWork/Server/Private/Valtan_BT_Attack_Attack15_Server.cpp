@@ -8,6 +8,7 @@
 #include "GameInstance.h"
 #include <AsUtils.h>
 #include "GameSessionManager.h"
+#include "Player_Server.h"
 #include <Monster_Prison_Server.h>
 CValtan_BT_Attack_Attack15_Server::CValtan_BT_Attack_Attack15_Server()
 {
@@ -16,17 +17,20 @@ CValtan_BT_Attack_Attack15_Server::CValtan_BT_Attack_Attack15_Server()
 void CValtan_BT_Attack_Attack15_Server::OnStart()
 {
 	__super::OnStart(0);
+	vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER);
+	CGameObject* pRandomTarget = vecTargets[CGameInstance::GetInstance()->Random_Int(0, _int(vecTargets.size() - 1))];
+	m_iTargetID = pRandomTarget->Get_ObjectID();
+	m_pGameObject->Set_TargetPos(Vec3(_float(m_iTargetID), _float(m_iTargetID), _float(m_iTargetID)));
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+		
 		return BT_SUCCESS;
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
@@ -57,9 +61,8 @@ void CValtan_BT_Attack_Attack15_Server::Add_Prison()
 	Desc.iObjectID = g_iObjectID++;
 	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
 	Desc.iLevel = m_pGameObject->Get_CurrLevel();
-	vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER);
-	CGameObject* pRandomTarget = vecTargets[CGameInstance::GetInstance()->Random_Int(0, vecTargets.size() - 1)];
-	Desc.vPosition = pRandomTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
+	Desc.vPosition = CGameInstance::GetInstance()->Find_GameObejct(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER,m_iTargetID)->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
 	CMonster_Server* pMonster = dynamic_cast<CMonster_Server*>(CGameInstance::GetInstance()->Add_GameObject(m_pGameObject->Get_CurrLevel(), Desc.iLayer, szMonsterName, &Desc));
 	if (pMonster == nullptr)

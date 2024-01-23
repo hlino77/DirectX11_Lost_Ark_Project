@@ -19,10 +19,10 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1_Server::OnUpdate(const _float& fTimeDelta
 {
 
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
-		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 		{
-			static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-			static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+			
 			return BT_SUCCESS;
 		}
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())

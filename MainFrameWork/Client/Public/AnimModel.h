@@ -63,6 +63,7 @@ public:
 
 	CSphereCollider* Get_StaticCollider(_uint iIndex) { return m_StaticColliders[iIndex]; }
 
+	void						Set_PlayAnim(_bool bPlayAnim) { m_bPlayAnim = bPlayAnim; }
 protected:
 	virtual HRESULT Ready_Components() override;
 
@@ -77,7 +78,7 @@ private:
 	vector<CSphereCollider*> m_StaticColliders;
 
 private:
-	_bool bPlayAnim = false;
+	_bool m_bPlayAnim = false;
 
 	std::future<HRESULT>			m_PlayAnimation;
 	_float							m_fAnimationSpeed = 1.0f;

@@ -17,7 +17,8 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
     void Add_Prison();
-
+private:
+    _int  m_iTargetID = {};
 
 public:
     static	CValtan_BT_Attack_Attack15_Server* Create(void* pArg);

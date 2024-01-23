@@ -37,7 +37,6 @@ HRESULT CSkill::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -128,7 +127,7 @@ void CSkill::Set_PizzaSlope(_float fLeftSlope, _float fRightSlope)
 {
 	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child()->GetColliderType() != ColliderType::Frustum)
 		return;
-	if (fLeftSlope <= fRightSlope)
+	if (fLeftSlope == fRightSlope)
 		return;
 
 	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());

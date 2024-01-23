@@ -85,7 +85,7 @@ HRESULT CNavigation::Render()
 
 			// 조정된 포인트로 렌더링
 
-			if (true == Cell->Get_Active())
+			if (true == Cell->Is_Active())
 			{
 				DX::DrawTriangle(m_pBatch, RenderPoints[0], RenderPoints[1], RenderPoints[2], Colors::Green);
 			}
@@ -127,11 +127,11 @@ _bool CNavigation::Is_Outside(CGameObject* pObject, _float fOffset)
 	vLook.Normalize();
 	if (true == m_vecCells[pObject->Get_CurrCell()]->isOut(vPosition + vLook * fOffset, &iNeighborIndex))
 	{
-		if (-1 != iNeighborIndex)
+		if (-1 != iNeighborIndex && m_vecCells[iNeighborIndex]->Is_Active())
 		{
 			while (true)
 			{
-				if (-1 == iNeighborIndex)
+				if (-1 == iNeighborIndex && m_vecCells[iNeighborIndex]->Is_Active())
 					return true;
 
 				if (false == m_vecCells[iNeighborIndex]->isOut(vPosition + vLook * fOffset, &iNeighborIndex))
