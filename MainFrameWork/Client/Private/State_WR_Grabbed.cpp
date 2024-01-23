@@ -38,7 +38,6 @@ void CState_WR_Grabbed::Enter_State()
 	m_SaveMatrix = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Set_Navi(false);
-
 }
 
 void CState_WR_Grabbed::Tick_State(_float fTimeDelta)

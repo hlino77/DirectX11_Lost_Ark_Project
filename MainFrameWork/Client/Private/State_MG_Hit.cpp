@@ -5,6 +5,8 @@
 #include "Player_Bard.h"
 #include "Controller_MG.h"
 #include "Model.h"
+#include "NavigationMgr.h"
+#include "Cell.h"
 
 CState_MG_Hit::CState_MG_Hit(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Bard* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -107,6 +109,12 @@ void CState_MG_Hit::Exit_State()
 
 void CState_MG_Hit::Tick_State_Control(_float fTimeDelta)
 {
+	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
+		2 == m_pPlayer->Get_ValtanPhase())
+	{
+		m_pPlayer->Set_State(TEXT("Fall"));
+	}
+
 	if (m_iHit == m_iHit_Down)
 	{
 		Hit_Down(fTimeDelta);

@@ -108,9 +108,9 @@ HRESULT CIT_WR_Helmet_Legend::Ready_Components()
 	__super::Ready_Components();
 
 	CModel::CHANGECOLOR pColor;
-	pColor.vColor_R = Vec4(0.62f, 0.77f, 0.99f, 1.0f);
+	pColor.vColor_R = Vec4(0.9f, 0.9f, 0.9f, 1.0f);
 	pColor.vColor_G = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	pColor.vColor_B = Vec4(0.62f, 0.77f, 0.99f, 1.0f);
+	pColor.vColor_B = Vec4(0.9f, 0.9f, 0.9f, 1.0f);
 
 	wstring strComName = L"Prototype_Component_Model_WR_Helmet_Legend";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom, &pColor)))

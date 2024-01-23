@@ -25,7 +25,7 @@ public:
 public: // Hwang's Founction
 
 	void	SetUp_OnCell(CGameObject* pObject);
-	_bool Is_Outside(CGameObject* pObject, _float fOffset);
+	_bool	Is_Outside(CGameObject* pObject, _float fOffset);
 	void	Find_FirstCell(CGameObject* pObject);
 	_bool	Picking_Cell(Vec3 vRayPos, Vec3 vRayDir, _float& fDist);
 	_int	Check_Pos_InCell(Vec3 vPos);
@@ -58,7 +58,9 @@ public:  // Get Set
 
 	void Set_Active_Specific_Cell(_uint Index, _bool Active) { m_vecCells[Index]->Set_Active(Active); }
 
+	_bool Is_NeighborActive(CGameObject* pObject);
 
+	Vec3 Find_CloseCell_Middle(CGameObject* pObject);
 
 private:
 
@@ -71,7 +73,6 @@ private:
 
 	CCell*				   m_pCurrnetCell = nullptr;
 	CCell*				   m_pSelectCell = nullptr;
-
 
 private: // For Render
 	ID3D11Device*							 m_pDevice = { nullptr };

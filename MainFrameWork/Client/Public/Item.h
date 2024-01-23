@@ -21,7 +21,7 @@ class CItem abstract : public CGameObject
 {
 public:
 	enum class GRADE { WHITE, GREEN, BLUE, PURPLE, ORANGE, RED, IVORY, _END };
-	enum class PART { FACE, HELMET, SHOULDER, BODY, ARM, LEG, _END };
+	enum class PART { FACE, HELMET, SHOULDER, BODY, ARM, LEG, WEAPON, _END };
 	enum class TYPE { EQUIP, CONSUM, _END};
 
 public:

@@ -29,7 +29,7 @@ class CItem;
 class CPlayer : public CGameObject
 {
 public:
-	enum class PART { FACE, HELMET, SHOULDER, BODY, ARM, LEG, _END };
+	enum class PART { FACE, HELMET, SHOULDER, BODY, ARM, LEG, WEAPON, _END };
 
 public:
 	typedef struct ModelDesc
@@ -205,8 +205,8 @@ public:
 	CEffect*						Get_Effect(const wstring& szEffectName);
 public:
 	/* 플레이어 상태 세팅 */
-	const _bool&			Is_SuperArmor() { return  m_bInvincible; }
-	void					Set_SuperArmorState(_bool IsSuperArmor) { m_bInvincible = IsSuperArmor; }
+	const _bool&			Is_SuperArmor() { return  m_IsSuperArmor; }
+	void					Set_SuperArmorState(_bool IsSuperArmor) { m_IsSuperArmor = IsSuperArmor; }
 
 	const _bool&			Is_SuperiorArmor() { return  m_IsSuperiorArmor; }
 	void					Set_SuperiorArmorState(_bool IsSuperiorArmor) { m_IsSuperiorArmor = IsSuperiorArmor; }
@@ -219,6 +219,10 @@ public:
 	void					Show_SpeechBuble(const wstring& szChat);
 
 	void					Reset_Level();
+
+	void					Set_CurValtanPhase(_uint iPhase) { m_iValtanPhase = iPhase; }
+	_uint					Get_ValtanPhase() { return m_iValtanPhase; }
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
@@ -277,8 +281,11 @@ protected:
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };
 
-	_bool	m_IsSuperiorArmor = false;
+	_bool	m_IsSuperiorArmor = { false };
+	_bool	m_IsSuperArmor = { false };
 
+	/* 페이즈 변수 */
+	_uint	m_iValtanPhase = { 0 };
 
 	/* 플레이어 아이템 변수 */
 	unordered_map<wstring, vector<class CItem*>> m_mapItems;

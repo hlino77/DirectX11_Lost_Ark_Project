@@ -71,9 +71,14 @@ void CStaticModel::Tick(_float fTimeDelta)
 		if (m_StaticColliders.size() != 0)
 		{
 			Set_Dead(true);
-		}
 
+			for (auto& CellIndex : m_NaviCellIndex)
+			{
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+			}
+		}
 	}
+
 
 
 }
@@ -180,8 +185,6 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
-
-	
 	}
 }
 

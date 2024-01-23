@@ -1338,12 +1338,24 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
       <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\12.Inventory\01.Equipment">
       <UniqueIdentifier>{52789099-83e7-4264-9898-cfb381af383f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory">
       <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Fall">
+      <UniqueIdentifier>{391c6184-bad8-4b87-8059-c8122950573b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Fall">
+      <UniqueIdentifier>{03722572-1d72-4bc5-a4c2-b7f797741c56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Fall">
+      <UniqueIdentifier>{41ccd759-1604-4728-98e7-7b214262e88a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Fall">
+      <UniqueIdentifier>{d12cb219-03f4-4ff4-ae7c-2567404d8180}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4015,7 +4027,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_EarthEaterDecal.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterDecal</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\IT_GN_Body_Legend.h">
       <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend</Filter>
     </ClInclude>
@@ -4105,12 +4117,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_SwordTrail.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Inventory.h">
       <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Fall.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Fall.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Fall.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Fall.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Fall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6758,7 +6782,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_EarthEaterDecal.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\EarthEaterDecal</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\IT_GN_Body_Legend.cpp">
       <Filter>02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend</Filter>
     </ClCompile>
@@ -6848,12 +6872,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_SwordTrail.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\SwordTrail</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Inventory.cpp">
       <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Fall.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Fall.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Fall.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Fall.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Fall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

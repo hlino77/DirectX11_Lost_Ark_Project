@@ -5,6 +5,8 @@
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
 #include "Model.h"
+#include "NavigationMgr.h"
+#include "Cell.h"
 
 CState_GN_HitEnd::CState_GN_HitEnd(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -87,6 +89,12 @@ void CState_GN_HitEnd::Exit_State()
 
 void CState_GN_HitEnd::Tick_State_Control(_float fTimeDelta)
 {
+	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
+		2 == m_pPlayer->Get_ValtanPhase())
+	{
+		m_pPlayer->Set_State(TEXT("Fall"));
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHitEnd))
 	{
 		m_pPlayer->Set_AnimationSpeed(0.f);

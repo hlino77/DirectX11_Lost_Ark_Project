@@ -152,7 +152,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			}
 			m_vecGrabbedPlayerIDs.push_back((_int)fForce);
 		}
-		else if (!m_bInvincible)
+		else if (!m_IsInvincible)
 		{
 			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
 			_uint iGroggy_Result = iGroggy;
@@ -1701,10 +1701,44 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 		//	return E_FAIL;
 
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack19)))
+		/*if (FAILED(pSequenceNormalAttack->AddChild(pAttack19)))
 			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack20)))
-			return E_FAIL; 
+			return E_FAIL; */
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+
 
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;

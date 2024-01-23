@@ -11,6 +11,7 @@ class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 public:
 	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, Z, _END };
 	enum HIT_TYPE { WEAK, DMG, DOWN, KNOCKDOWN, BOUND, TWIST, TYPE_END };
+	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, SILENCE, _END };
 
 public:
 	typedef struct tagControllerDesc
@@ -74,6 +75,8 @@ public:
 	virtual void		Get_GrabMessage(CGameObject* pGrabber);
 	virtual void		Get_GrabEndMessage();
 
+	virtual void		Get_StatusEffectMessage(_uint iStatus, _float fDurtaion);
+
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
 	_bool				Is_HitState() { return m_IsHitState; }
@@ -109,6 +112,8 @@ public:
 	CGameObject*			Get_Grabber() { return m_pGrabber; }
 	_bool					Is_GrabState() { return m_IsGrabState; }
 
+	_uint					Get_CurStatus() { return m_iStatusEffect; }
+
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
 
@@ -130,6 +135,14 @@ protected:
 	virtual void			Skill_ChangeStat_CoolTime(const _float& fTimeDelta);
 	virtual void			Skill_Check_Collider();
 
+	virtual void			StatusEffect_Duration(const _float& fTimeDelta);
+	virtual void			Bug();
+	virtual void			Fear();
+	virtual void			EarthQuake();
+	virtual void			Shock();
+	virtual void			Stun();
+	virtual void			Silence();
+
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
@@ -139,6 +152,11 @@ protected:
 	CRigidBody*				m_pOwnerRigidBody = nullptr;
 
 	_bool					m_bKeyActive = { true };
+	_bool					m_bSkillKeyActive = { true };
+
+	_int					m_iStatusEffect = { -1 };
+	_bool					m_bStatusEffect[(_uint)STATUSEFFECT::_END];
+	_float					m_fStatusDuration[(_uint)STATUSEFFECT::_END];
 
 	/* 플레이어 Tick 움직임 */
 	_bool					m_bStop = { false };

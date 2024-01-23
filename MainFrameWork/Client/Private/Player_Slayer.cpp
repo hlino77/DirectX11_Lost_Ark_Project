@@ -43,6 +43,7 @@
 #include "State_WR_StandDash.h"
 #include "State_WR_Grabbed.h"
 #include "State_WR_Stop.h"
+#include "State_WR_Fall.h"
 
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
@@ -178,9 +179,9 @@ void CPlayer_Slayer::Tick(_float fTimeDelta)
 		Use_Item(TEXT("IT_WR_Body_Mococo"));
 	}
 
+	m_pRigidBody->Tick(fTimeDelta);
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
-	m_pRigidBody->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 }
@@ -282,24 +283,30 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				m_pController->Get_GrabMessage(pOther->Get_Owner());
 			}
 		}
-		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
-		{
-			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
-		}
-		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
-		{
-			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 
-			if (false == m_pController->Is_HitState())
-				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
-		}
-		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		if (false == Is_Invincible())
 		{
-			Vec3 vCenter;
-			if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
+			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 			{
+				m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+			{
+				Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
 				if (false == m_pController->Is_HitState())
-					m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+					m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+			{
+				Vec3 vCenter;
+				if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
+				{
+					if (false == m_pController->Is_HitState())
+						m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+				}
+
+				m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
 			}
 		}
 	}
@@ -366,7 +373,7 @@ void CPlayer_Slayer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 			{
 				Set_State(TEXT("Idle"));
 			}
-		}
+		} 
 	}
 }
 
@@ -645,6 +652,9 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Stop"), CState_WR_Stop::Create(TEXT("Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Fall"), CState_WR_Fall::Create(TEXT("Fall"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
