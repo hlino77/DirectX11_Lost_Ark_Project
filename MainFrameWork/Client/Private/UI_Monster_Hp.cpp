@@ -93,9 +93,11 @@ HRESULT CUI_Monster_Hp::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
+	if (FAILED(Bind_ShaderResources_Hp()))
+		return E_FAIL;
 	if (TEXT("Monster_Prison") != m_pOwner->Get_ObjectTag())
 	{
-		if (FAILED(Bind_ShaderResources_Hp()))
+		if (FAILED(m_pTextureCom_Hp->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
 			return E_FAIL;
 	}
 	else

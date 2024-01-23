@@ -53,7 +53,8 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
         m_pEquips[i] = { nullptr };
     }
     Set_Active_UpGrade(true);
-    Initialize_TextBox();
+    if(FAILED(Initialize_TextBox()))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -71,7 +72,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_BaseWnd()
     //m_pTransform_HammerCap
     m_pTransform_HammerCap->Set_Scale(Vec3(423.f * 0.8f, 207.f * 0.8f, 1.f));
     m_pTransform_HammerCap->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 30.f)) + g_iWinSizeY * 0.5f, 0.1f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 30.f)) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_HammerEffect
     m_pTransform_HammerEffect->Set_Scale(Vec3(556.f * 0.8f, 374.f * 0.8f, 1.f));
     m_pTransform_HammerEffect->Set_State(CTransform::STATE_POSITION,
@@ -309,7 +310,8 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_R()
 HRESULT CUI_NPC_ItemUpgrade::Initialize_TextBox()
 {
     m_strFont = TEXT("던파연마된칼날");
-    Ready_TextBox();
+    if (FAILED(Ready_TextBox()))
+        return E_FAIL;
     m_pCurrItemNameWnd->Set_Active(false);
     return S_OK;
 }
@@ -318,15 +320,8 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-    if (KEY_TAP(KEY::M))
+    if (KEY_TAP(KEY::M))//Test
         Update_Items();
-
-      if (KEY_TAP(KEY::B))//Test
-    {
-          m_bTestGaugeOn = !m_bTestGaugeOn;
-          m_bMaxGaugeEffect = true;
-          m_bDecreaseEffect = true;
-    }
 
     if (m_bTestGaugeOn)
     {
@@ -438,6 +433,8 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
+    if (FAILED(m_pCurrItemNameWnd->Render()))
+        return E_FAIL;
     if (FAILED(Bind_ShaderResources_Ingredients()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -553,6 +550,7 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
     else
         m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+
     return S_OK;
 }
 
@@ -566,12 +564,16 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
     if ((true == IsUpgrade)&&(nullptr != pPlayer))
     {
         m_pUsingPlayer = static_cast<CPlayer*>(pPlayer);
+        if (nullptr == m_pUsingPlayer)
+            return;
         Update_Items();
 
     }
     else if ((true == IsUpgrade)&&(nullptr == pPlayer))
     {
         m_pUsingPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+        if (nullptr == m_pUsingPlayer)
+            return;
         Update_Items();
     }
 
@@ -966,18 +968,19 @@ void CUI_NPC_ItemUpgrade::Update_Hammer_Aura(_float fTimeDelta)
     if (!m_bMaxGauge)
         return;
 
-    if (34.f < m_fFrame)
+    if (33.f < m_fFrame)
         m_fFrame = 0.f;
-    else if (34.f >= m_fFrame)
-        m_fFrame += 34.f * fTimeDelta;
+    else if (33.f >= m_fFrame)
+        m_fFrame += 33.f * fTimeDelta;
 }
 
 void CUI_NPC_ItemUpgrade::Update_Gague_Smoke(_float fTimeDelta)
 {
+
     if (43.f < m_fFrame_Smoke)
         m_fFrame_Smoke = 0.f;
     else  if (43.f >= m_fFrame_Smoke)
-        m_fFrame_Smoke += 20.f * fTimeDelta;
+        m_fFrame_Smoke += min(1.0f, 20.f * fTimeDelta);
 }
 
 void CUI_NPC_ItemUpgrade::Update_Gauge_Effect(_float fTimeDelta)
@@ -1081,8 +1084,6 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_LEG];
         //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_LEG];
         break;
-    default:
-        break;
     }
     m_pCurrItemNameWnd->Set_Active(true);
     Print_CurrItemNameWnd();
@@ -1146,6 +1147,7 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_TextBox()
         tTextDesc.vSize = Vec2(566.f * 0.8f, 98.f * 0.8f);
         m_pCurrItemNameWnd = static_cast<CTextBox*>(pGameInstance->
             Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+        m_pCurrItemNameWnd->Set_Render(false);
         if (nullptr == m_pCurrItemNameWnd)
         {
             Safe_Release(pGameInstance);
@@ -1200,7 +1202,8 @@ void CUI_NPC_ItemUpgrade::Print_CurrItemNameWnd()
 
 HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
 {
-    __super::Ready_Components();
+    if (FAILED(__super::Ready_Components()))
+        return E_FAIL;
 
     /* Com_Texture*/
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Hammer"),
@@ -1270,7 +1273,7 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
         TEXT("Com_Texturem_GaugeSpin"), (CComponent**)&m_pTexture_GaugeSpin)))
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Result_Waiting"),
-    TEXT("Com_Texturem_ResultWaiting"), (CComponent**)&m_pTexture_ResultWaiting)))
+        TEXT("Com_Texturem_ResultWaiting"), (CComponent**)&m_pTexture_ResultWaiting)))
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Mask_Effect0"),
         TEXT("Com_Texturem_ResultEffect_Success"), (CComponent**)&m_pTexture_ResultEffect_Success)))
@@ -1514,7 +1517,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
-    m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -1532,7 +1536,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_HammerCap()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
-    m_pTexture_HammerCap->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_HammerCap->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -1549,10 +1554,14 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_HammerAura()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if(!m_bDecreaseEffect)
-        m_pTexture_HammerAura->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame);
-    else 
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (!m_bDecreaseEffect)
+    {
+        if (FAILED(m_pTexture_HammerAura->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame)))
+            return E_FAIL;
+    }
+    else
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
 
     return S_OK;
 }
@@ -1569,7 +1578,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_HammerEffect()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_HammerEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+
+    if (FAILED(m_pTexture_HammerEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1587,7 +1598,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_Gauge()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fItemGrowthRatio, sizeof(_float))))
         return E_FAIL;
-    m_pTexture_Gauge->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_Gauge->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1603,10 +1615,14 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GaugeEffect()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if(m_bMaxGauge)
-        m_pTexture_GaugeEffect->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_GaugeEffect);
+    if (m_bMaxGauge)
+    {
+        if (FAILED(m_pTexture_GaugeEffect->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_GaugeEffect)))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
 
     return S_OK;
 }
@@ -1623,7 +1639,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GaugeSmoke()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_GaugeSmoke->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_Smoke);
+    if(FAILED(m_pTexture_GaugeSmoke->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_Smoke)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1642,10 +1659,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GaugeSpin()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &fColor, sizeof(Vec4))))
         return E_FAIL;
     if (!m_bDecreaseEffect)
-        m_pTexture_GaugeSpin->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_GaugeSpin);
+    {
+        if (FAILED(m_pTexture_GaugeSpin->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_GaugeSpin)))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
-
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -1661,7 +1683,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GrowthButton()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_GrowthButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iGrowthButton_TextureIndex);
+
+    if(FAILED(m_pTexture_GrowthButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iGrowthButton_TextureIndex)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1677,7 +1701,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemName()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_ItemName->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+
+    if(FAILED(m_pTexture_ItemName->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1693,7 +1719,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_Ingredients()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_Item_Ingredients->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTexture_Item_Ingredients->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1709,7 +1736,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeButton()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_UpgradeButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iUpgradeButton_TextureIndex);
+
+    if (FAILED(m_pTexture_UpgradeButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iUpgradeButton_TextureIndex)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1725,7 +1754,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeButtonEffect()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_UpgradeButton_Effect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTexture_UpgradeButton_Effect->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1741,7 +1771,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemFrame()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_ItemSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTexture_ItemSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1759,10 +1790,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_CurrUpgradeItem_Grade()
         return E_FAIL;
     if (nullptr != m_pTexture_Item)
     {
-        m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iCurrItemGrade);
+        if(FAILED(m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iCurrItemGrade)))
+            return E_FAIL;
     }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if(FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+
     return S_OK;
 }
 
@@ -1780,10 +1816,14 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_CurrUpgradeItemIcon()
         return E_FAIL;
     if (nullptr != m_pTexture_Item)
     {
-        m_pTexture_Item->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+        if(FAILED(m_pTexture_Item->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
     }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -1800,10 +1840,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_MaxGaugeEffect()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (m_bMaxGaugeEffect)
-        m_pTexture_MaxGaugeEffect->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_MaxGaugeEffect);
+    {
+        if(FAILED(m_pTexture_MaxGaugeEffect->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_MaxGaugeEffect)))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
-
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -1819,7 +1864,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_IngredientSlotL()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_IngredientSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTexture_IngredientSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1835,7 +1881,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_IngredientSlot()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_IngredientSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTexture_IngredientSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1851,7 +1898,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_IngredientSlotR()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_IngredientSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_IngredientSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1867,7 +1915,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_SidePannel->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_SidePannel->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -1883,7 +1933,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SideWnd()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_SideWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_SideWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1899,7 +1950,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_NpcSpeech_BackGround()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_NpcSpeech_BackGround->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_NpcSpeech_BackGround->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1915,7 +1967,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_NpcSpeech_Wnd()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_NpcSpeech_Wnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+
+    if (FAILED(m_pTexture_NpcSpeech_Wnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1931,7 +1985,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_QuitButton()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_QuitButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iQuitButton_TextureIndex);
+    if (FAILED(m_pTexture_QuitButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iQuitButton_TextureIndex)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -1947,10 +2002,16 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultWaiting()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if(m_bResultWaiting)
-        m_pTexture_ResultWaiting->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fFrame_ResultWaiting);
+    if (m_bResultWaiting)
+    {
+        if (FAILED(m_pTexture_ResultWaiting->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fFrame_ResultWaiting)))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -1967,12 +2028,21 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultEffect()
     Vec4 vColor = Vec4(2.f, 2.f, 2.f, 1.f);
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &vColor, sizeof(Vec4))))
         return E_FAIL;
-    if ((m_bResult)&&(m_bResultSuccess))
-        m_pTexture_ResultEffect_Success->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_ResultEffect);
-    else if ((m_bResult)&&(!m_bResultSuccess))
-        m_pTexture_ResultEffect_Failed->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_ResultEffect);
+    if ((m_bResult) && (m_bResultSuccess))
+    {
+        if (FAILED(m_pTexture_ResultEffect_Success->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_ResultEffect)))
+            return E_FAIL;
+    }
+    else if ((m_bResult) && (!m_bResultSuccess))
+    {
+        if (FAILED(m_pTexture_ResultEffect_Failed->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_ResultEffect)))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -1990,9 +2060,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultWnd()
         return E_FAIL;
 
     if (m_bResultWnd)
-        m_pTexture_ResultWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ResultWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2009,9 +2085,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultItemEffect()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (m_bResultWnd)
-        m_pTexture_ResultItemEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture",(_uint)m_bResultSuccess);
+    {
+        if (FAILED(m_pTexture_ResultItemEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_bResultSuccess)))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2028,9 +2110,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultItemSlot()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (m_bResultWnd)
-        m_pTexture_ResultItemSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ResultItemSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2048,10 +2136,14 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultItemGrade()
         return E_FAIL;
     if ((m_bResultWnd)&&(nullptr != m_pTexture_Item))
     {
-        m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iCurrItemGrade);
+        if (FAILED(m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iCurrItemGrade)))
+        return E_FAIL;
     }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2069,10 +2161,14 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultItemIcon()
         return E_FAIL;
     if ((m_bResultWnd) && (nullptr != m_pTexture_Item))
     {
-        m_pTexture_Item->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+        if (FAILED(m_pTexture_Item->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
     }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2089,9 +2185,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultCheckButton()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (m_bResultWnd)
-        m_pTexture_ResultCheckButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iUpgradeButton_TextureIndex);
+    {
+        if (FAILED(m_pTexture_ResultCheckButton->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iUpgradeButton_TextureIndex)))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2107,10 +2209,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Face()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColorFaceItem, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])
-        m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[0]);
+    
+    if (nullptr != m_pTexture_ItemIcon[(_uint)CItem::PART::FACE])
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", 0)))///m_iSidePannel_L_Wnd_TextureIndex[0])))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+    if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2127,9 +2236,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Face()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])
-        m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[0])))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2146,9 +2261,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Face()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])
-        m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2165,9 +2286,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Face()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])
-        m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2184,9 +2311,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Helemt()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColorHelemtItem, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])
-        m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[1]);
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[1])))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2203,9 +2336,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Helemt()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])
-        m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2222,9 +2361,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Helemt()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])
-        m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2241,9 +2386,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Helemt()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])
-        m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2260,9 +2411,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Shoulder()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColorShoulderItem, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
-        m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[2]);
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[2])))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2279,9 +2436,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Shoulder()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
-        m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2298,9 +2461,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Shoulder()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
-    m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2317,9 +2486,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Shoulder()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
-        m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2336,9 +2511,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Body()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColorBodyItem, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
-        m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[3]);
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[3])))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2355,9 +2536,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Body()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
-        m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2374,9 +2561,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Body()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
-    m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2393,9 +2586,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Body()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
-        m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2412,9 +2611,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Arm()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])
-        m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[4]);
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[4])))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2431,9 +2636,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Arm()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])
-        m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2450,9 +2661,16 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Arm()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])
-        m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Arm()
@@ -2468,9 +2686,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Arm()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])
-        m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2487,9 +2711,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Leg()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
-        m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2506,9 +2736,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Leg()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
-        m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[5]);
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[5])))
+        return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2525,9 +2761,16 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Leg()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
-        m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+        {
+            if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+                return E_FAIL;
+        }
+    return S_OK;
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Leg()
@@ -2543,9 +2786,32 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Leg()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
-        m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if(FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if(FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_NoneImg()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -2557,10 +2823,11 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
     m_pVIBufferCom->Render();
 
     //Face
-    if (FAILED(Bind_ShaderResources_EquipItemWnd_Face()))
-        return E_FAIL;
-    m_pShaderCom->Begin(0);
-    m_pVIBufferCom->Render();
+     if (FAILED(Bind_ShaderResources_EquipItemWnd_Face()))
+       return E_FAIL;
+     m_pShaderCom->Begin(0);
+     m_pVIBufferCom->Render();
+
     if (FAILED(Bind_ShaderResources_ItemIcon_Face()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -2708,7 +2975,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_First()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if(FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -2725,7 +2993,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Second()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -2742,7 +3011,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Third()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    if (FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -2759,10 +3029,9 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Fourth()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    //if (m_bResultWnd)
-    m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
-    //else
-        //m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    
+    if (FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+    return E_FAIL;
 
     return S_OK;
 }
@@ -2809,9 +3078,15 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_CurrItem()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
     if (SELECTED_END != m_iCurrItem)
-        m_pTexture_CurrItemSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_CurrItemSlot->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     else
-        m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2888,6 +3163,7 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTransform_HammerCap);
     Safe_Release(m_pTransform_HammerEffect);
     Safe_Release(m_pTransform_HammerAura);
+    Safe_Release(m_pTransform_Gauge);
     Safe_Release(m_pTransform_GaugeSmoke);
     Safe_Release(m_pTransform_GaugeEffect);
     Safe_Release(m_pTransform_GrowthButton);
