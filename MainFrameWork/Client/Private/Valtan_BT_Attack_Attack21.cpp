@@ -56,14 +56,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
-			static_cast<CSkill*>(pSkill)->Set_Atk(20);
-			static_cast<CSkill*>(pSkill)->Set_Force(10.f);
+			static_cast<CSkill*>(pSkill)->Set_Atk(40);
+			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 		}
 
 		for (size_t i = 0; i < 6; i++)
 		{
-
-			vLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(60.f) * (_float)i));
 			vLook.Normalize();
 			pSkill = nullptr;
 			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
@@ -71,9 +69,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			{
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-				static_cast<CSkill*>(pSkill)->Set_LastTime(99.f);
-				static_cast<CSkill*>(pSkill)->Set_Atk(20);
-				static_cast<CSkill*>(pSkill)->Set_Force(10.f);
+				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
+				static_cast<CSkill*>(pSkill)->Set_Atk(40);
+				static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(15.f,-15.f);
 				cout << i<< "	" << 60.f * (_float)i << endl;
 			}
@@ -125,7 +123,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			static_cast<CSkill*>(pSkill)->Set_Atk(50);
-			static_cast<CSkill*>(pSkill)->Set_Force(50.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(51.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(20.f, -20.f);
 		}
 	}

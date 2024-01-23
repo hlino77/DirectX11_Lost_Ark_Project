@@ -66,7 +66,6 @@ HRESULT CMonster_Prison::Initialize(void* pArg)
 
 void CMonster_Prison::Tick(_float fTimeDelta)
 {
-		
 }
 
 void CMonster_Prison::LateTick(_float fTimeDelta)

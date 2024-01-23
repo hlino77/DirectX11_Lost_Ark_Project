@@ -48,14 +48,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack20::OnUpdate(const _float& fTimeDelt
 
 		for (size_t i = 0; i < 6; i++)
 		{
-
-			vLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(60.f * (_float)i)));
-			vLook.Normalize();
 			pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 			if (pSkill != nullptr)
 			{
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
 				static_cast<CSkill*>(pSkill)->Set_Atk(99999);
 				static_cast<CSkill*>(pSkill)->Set_Force(0.f);
 				static_cast<CSkill*>(pSkill)->Set_Destructive(true);

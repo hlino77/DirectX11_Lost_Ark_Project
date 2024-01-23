@@ -44,14 +44,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
 			vPos += vLook * 3.f;
-			vLook = Vec3::TransformNormal(vLook, XMMatrixRotationY(XMConvertToRadians(60.f* (_float)i)));
-			vLook.Normalize();
 			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaTerm", &ModelDesc);
 			if (pSkill != nullptr)
 			{
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-
+				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
 				static_cast<CSkill*>(pSkill)->Set_Atk(20.f);
 				static_cast<CSkill*>(pSkill)->Set_Force(40.f);
 				static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f+ (_float)i);
