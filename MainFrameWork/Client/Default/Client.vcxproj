@@ -363,6 +363,8 @@
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
     <ClInclude Include="..\Public\SkyDome.h" />
+    <ClInclude Include="..\Public\State_GN_Dead_End.h" />
+    <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
     <ClInclude Include="..\Public\State_GN_Fall.h" />
     <ClInclude Include="..\Public\State_GN_Grabbed.h" />
     <ClInclude Include="..\Public\State_GN_Hit.h" />
@@ -379,6 +381,8 @@
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
     <ClInclude Include="..\Public\State_MG_Dash.h" />
+    <ClInclude Include="..\Public\State_MG_Dead_End.h" />
+    <ClInclude Include="..\Public\State_MG_Dead_Start.h" />
     <ClInclude Include="..\Public\State_MG_Fall.h" />
     <ClInclude Include="..\Public\State_MG_Grabbed.h" />
     <ClInclude Include="..\Public\State_MG_Hit.h" />
@@ -405,6 +409,8 @@
     <ClInclude Include="..\Public\State_WDR_Attack_2.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_3.h" />
     <ClInclude Include="..\Public\State_WDR_Dash.h" />
+    <ClInclude Include="..\Public\State_WDR_Dead_End.h" />
+    <ClInclude Include="..\Public\State_WDR_Dead_Start.h" />
     <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
     <ClInclude Include="..\Public\State_WDR_Fall.h" />
@@ -921,6 +927,8 @@
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\SkyDome.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_Fall.cpp" />
     <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit.cpp" />
@@ -938,6 +946,8 @@
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_MG_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_MG_Fall.cpp" />
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit.cpp" />
@@ -964,6 +974,8 @@
     <ClCompile Include="..\Private\State_WDR_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_WDR_Dash.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
     <ClCompile Include="..\Private\State_WDR_Fall.cpp" />

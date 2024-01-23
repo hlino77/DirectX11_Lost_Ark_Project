@@ -435,7 +435,7 @@ HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 	return S_OK;
 }
 
-HRESULT CPlayer::Use_Item(wstring strItemTag)
+HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
 {
 	auto& iter = m_mapItems.find(strItemTag);
 	if (iter == m_mapItems.end())

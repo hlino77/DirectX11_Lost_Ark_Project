@@ -45,6 +45,9 @@
 #include "State_WR_Stop.h"
 #include "State_WR_Fall.h"
 
+#include "State_WR_Dead_Start.h"
+#include "State_WR_Dead_End.h"
+
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
 #include "State_WR_FuriousClaw_Loop.h"
@@ -655,6 +658,12 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Fall"), CState_WR_Fall::Create(TEXT("Fall"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_Start"), CState_WR_Dead_Start::Create(TEXT("Dead_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_End"), CState_WR_Dead_End::Create(TEXT("Dead_End"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

@@ -1369,6 +1369,33 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
       <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead">
+      <UniqueIdentifier>{71340d8b-4ca7-4708-a22d-e9511e44e015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start">
+      <UniqueIdentifier>{93733278-e8c8-4cf8-b472-e08b049b7c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End">
+      <UniqueIdentifier>{51622df5-3430-462c-a0cd-b4c62f4c1cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead">
+      <UniqueIdentifier>{477e9f13-6a41-4d76-8f2f-4f2e1a5717ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start">
+      <UniqueIdentifier>{e5be5178-2b60-47de-8337-1d404a72d4b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End">
+      <UniqueIdentifier>{43ade263-450e-4087-864a-d1474bd83df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead">
+      <UniqueIdentifier>{a53c1685-0427-4c0b-b40f-6b6f221743f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_Start">
+      <UniqueIdentifier>{c46d7458-a438-4332-adc0-a48a075edcd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End">
+      <UniqueIdentifier>{166e5202-24f4-4e72-8981-5d6e1845dc13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4154,6 +4181,24 @@
     <ClInclude Include="..\Public\State_WR_Dead_Start.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6914,6 +6959,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

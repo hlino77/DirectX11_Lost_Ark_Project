@@ -32,6 +32,13 @@ void CState_WR_Dead_End::Enter_State()
 	m_pController->Get_HitEndMessage();
 
 	m_pPlayer->Set_Invincible(true);
+
+	if (TEXT("Fall") == m_pPlayer->Get_PreState())
+	{
+		m_pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_pPlayer->Get_TargetPos());
+	}
+
+	m_pPlayer->Reserve_Animation(m_iDead_End, 0.1f, 0, 0);
 }
 
 void CState_WR_Dead_End::Tick_State(_float fTimeDelta)

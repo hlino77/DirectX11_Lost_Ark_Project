@@ -196,7 +196,7 @@ public:
 	//
 	unordered_map<wstring, vector<class CItem*>>	Get_Items() { return m_mapItems; }
 	HRESULT							Add_Item(wstring strItemTag, class CItem* pItem);
-	HRESULT							Use_Item(wstring strItemTag);
+	HRESULT							Use_Item(wstring strItemTag, _uint iSize = 1);
 	CItem*							Get_EquipItem(_uint iPartIndex) { return m_pEqupis[iPartIndex]; }
 	void							Set_EquipItem(_uint iPartIndex, CItem* pEquipItem) { m_pEqupis[iPartIndex] = pEquipItem; }
 
