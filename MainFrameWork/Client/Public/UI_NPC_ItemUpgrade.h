@@ -153,6 +153,7 @@ private:
     HRESULT Bind_ShaderResources_ItemIcon_Leg();
     HRESULT Bind_ShaderResources_UpgradeIcon_Leg();
     HRESULT Bind_ShaderResources_EquipIcon_Leg();
+    HRESULT Bind_ShaderResources_NoneImg();
 
 private:
     HRESULT Bind_ShaderResources_SidePannel_R();
@@ -163,8 +164,6 @@ private:
 
 private:
     //BaseWnd_Texture
-    CTexture* m_pTexture_SideL = { nullptr };
-    CTexture* m_pTexture_SideR = { nullptr };
     CTexture* m_pTexture_HammerAura = { nullptr };
     CTexture* m_pTexture_HammerCap = { nullptr };
     CTexture* m_pTexture_HammerEffect = { nullptr };
@@ -214,13 +213,10 @@ private:
     //CTexture* m_pTexture_ = { nullptr };
 
     //BaseWnd_Transform
-    CTransform* m_pTransform_SideL = { nullptr };
-    CTransform* m_pTransform_SideR = { nullptr };
     CTransform* m_pTransform_HammerAura = { nullptr };
     CTransform* m_pTransform_HammerCap = { nullptr };
     CTransform* m_pTransform_HammerEffect = { nullptr };
     CTransform* m_pTransform_Gauge = { nullptr };
-    CTransform* m_pTransform_GaugeAura = { nullptr };
     CTransform* m_pTransform_GaugeSmoke = { nullptr };
     CTransform* m_pTransform_GaugeEffect = { nullptr };
     CTransform* m_pTransform_GrowthButton = { nullptr };
