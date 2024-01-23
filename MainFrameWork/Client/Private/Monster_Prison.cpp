@@ -66,6 +66,7 @@ HRESULT CMonster_Prison::Initialize(void* pArg)
 
 void CMonster_Prison::Tick(_float fTimeDelta)
 {
+		
 }
 
 void CMonster_Prison::LateTick(_float fTimeDelta)
@@ -108,14 +109,19 @@ void CMonster_Prison::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 
 void CMonster_Prison::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER&& !m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->IsActive())
+	{	
+		Set_Die();
+	}
 }
 
 void CMonster_Prison::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
+
 	if (m_iHp < 1)
-		Set_Die();
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(false);
 }
 
 HRESULT CMonster_Prison::Ready_Components()
