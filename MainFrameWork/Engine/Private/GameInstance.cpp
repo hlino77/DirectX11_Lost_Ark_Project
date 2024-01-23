@@ -462,7 +462,7 @@ void CGameInstance::Set_Transform(CPipeLine::TRANSFORMSTATE eTransformState, Mat
 	m_pPipeLine->Set_Transform(eTransformState, TransformMatrix);
 }
 
-Matrix CGameInstance::Get_TransformMatrix(CPipeLine::TRANSFORMSTATE eTransformState) const
+const Matrix& CGameInstance::Get_TransformMatrix(const CPipeLine::TRANSFORMSTATE& eTransformState) const
 {
 	if (nullptr == m_pPipeLine)
 		return XMMatrixIdentity();
@@ -470,7 +470,7 @@ Matrix CGameInstance::Get_TransformMatrix(CPipeLine::TRANSFORMSTATE eTransformSt
 	return m_pPipeLine->Get_TransformMatrix(eTransformState);
 }
 
-Matrix CGameInstance::Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE eTransformState) const
+const Matrix& CGameInstance::Get_TransformMatrixInverse(const CPipeLine::TRANSFORMSTATE& eTransformState) const
 {
 	if (nullptr == m_pPipeLine)
 		return XMMatrixIdentity();
@@ -478,7 +478,7 @@ Matrix CGameInstance::Get_TransformMatrixInverse(CPipeLine::TRANSFORMSTATE eTran
 	return m_pPipeLine->Get_TransformMatrixInverse(eTransformState);
 }
 
-Matrix CGameInstance::Get_ViewProjMatrix() const
+const Matrix& CGameInstance::Get_ViewProjMatrix() const
 {
 	if (nullptr == m_pPipeLine)
 		return XMMatrixIdentity();
@@ -486,7 +486,7 @@ Matrix CGameInstance::Get_ViewProjMatrix() const
 	return m_pPipeLine->Get_ViewProjMatrix();
 }
 
-Matrix CGameInstance::Get_LightViewProjMatrix() const
+const Matrix& CGameInstance::Get_LightViewProjMatrix() const
 {
 	if (nullptr == m_pPipeLine)
 		return XMMatrixIdentity();

@@ -15,7 +15,7 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 {
 #pragma region VERTEXBUFFER
 	m_iNumVertexBuffers = 1;
-	m_iNumVertices = 100000;
+	m_iNumVertices = 10000;
 	m_iStride = sizeof(VTXTRAIL);
 
 	ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -28,7 +28,7 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 
 	VTXTRAIL* pVertices = new VTXTRAIL[m_iNumVertices];
 
-	for (_uint i = 0; i < 100000; i += 2)
+	for (_uint i = 0; i < 10000; i += 2)
 	{
 		pVertices[i].vPosition = Vec3(0.f, 0.f, 0.f);
 		pVertices[i].vTexture = Vec2(0.f, 0.f);
@@ -186,19 +186,8 @@ void CVIBuffer_Trail::Update_TrailBuffer(Matrix& TransformMatrix)
 				, XMLoadFloat3(&vHigh3.vPosition)
 				, j * fInvCount));
 
-			XMStoreFloat2(&VertexHigh.vTexture, XMVectorCatmullRom(
-				XMLoadFloat2(&vHigh0.vTexture)
-				, XMLoadFloat2(&vHigh1.vTexture)
-				, XMLoadFloat2(&vHigh2.vTexture)
-				, XMLoadFloat2(&vHigh3.vTexture)
-				, j * fInvCount));
-
-			XMStoreFloat(&VertexHigh.fAlpha, XMVectorCatmullRom(
-				XMLoadFloat(&vHigh0.fAlpha)
-				, XMLoadFloat(&vHigh1.fAlpha)
-				, XMLoadFloat(&vHigh2.fAlpha)
-				, XMLoadFloat(&vHigh3.fAlpha)
-				, j * fInvCount));
+			VertexHigh.vTexture = XMVectorLerp(vHigh1.vTexture, vHigh2.vTexture, j * fInvCount);
+			VertexHigh.fAlpha = vHigh1.fAlpha + j * fInvCount * (vHigh2.fAlpha - vHigh1.fAlpha);
 
 			CatmallomVertices.push_back(VertexHigh);
 
@@ -210,32 +199,19 @@ void CVIBuffer_Trail::Update_TrailBuffer(Matrix& TransformMatrix)
 				, XMLoadFloat3(&vLow3.vPosition)
 				, j * fInvCount));
 
-			XMStoreFloat2(&VertexLow.vTexture, XMVectorCatmullRom(
-				XMLoadFloat2(&vLow0.vTexture)
-				, XMLoadFloat2(&vLow1.vTexture)
-				, XMLoadFloat2(&vLow2.vTexture)
-				, XMLoadFloat2(&vLow3.vTexture)
-				, j * fInvCount));
-
-			XMStoreFloat(&VertexHigh.fAlpha, XMVectorCatmullRom(
-				XMLoadFloat(&vHigh0.fAlpha)
-				, XMLoadFloat(&vHigh1.fAlpha)
-				, XMLoadFloat(&vHigh2.fAlpha)
-				, XMLoadFloat(&vHigh3.fAlpha)
-				, j * fInvCount));
+			VertexLow.vTexture = XMVectorLerp(vLow1.vTexture, vLow2.vTexture, j * fInvCount);
+			VertexLow.fAlpha = vLow1.fAlpha + j * fInvCount * (vLow2.fAlpha - vLow1.fAlpha);
 
 			CatmallomVertices.push_back(VertexLow);
 		}
 	}
 
 	m_iNumPrimitives = CatmallomVertices.size() - 2;
-	//m_iNumPrimitives = Vertices.size() - 2;
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	m_pContext->Map(m_pVB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	memcpy(mappedResource.pData, CatmallomVertices.data(), sizeof(VTXTRAIL) * CatmallomVertices.size());
-	//memcpy(mappedResource.pData, Vertices.data(), sizeof(VTXTRAIL) * Vertices.size());
 	m_pContext->Unmap(m_pVB, 0);
 }
 

@@ -1362,8 +1362,8 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
 			return E_FAIL;
 
-		Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
-		Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
+		const Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
+		const Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
 		Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;
 
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))

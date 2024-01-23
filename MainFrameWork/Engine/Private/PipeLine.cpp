@@ -7,7 +7,7 @@ CPipeLine::CPipeLine()
 {
 }
 
-void CPipeLine::Set_Transform(TRANSFORMSTATE eTransformState, Matrix TransformMatrix)
+void CPipeLine::Set_Transform(TRANSFORMSTATE eTransformState, Matrix& TransformMatrix)
 {
 	if (eTransformState == D3DTS_VIEW)
 	{

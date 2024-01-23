@@ -16,16 +16,16 @@ private:
 
 
 public:
-	virtual Vec3 Get_State(STATE eState) override;
+	virtual Vec3 Get_State(const STATE& eState) override;
 
-	virtual Matrix Get_WorldMatrix() override;
+	virtual Matrix& Get_WorldMatrix() override;
 
 	virtual Matrix Get_WorldMatrix_TP() override;
 
 	virtual Matrix Get_WorldMatrixInverse() override;
 
-	virtual void Set_State(STATE eState, Vec3 vState) override;
-	virtual void Set_WorldMatrix(Matrix matWorld) override;
+	virtual void Set_State(const STATE& eState, const Vec3& vState) override;
+	virtual void Set_WorldMatrix(const Matrix& matWorld) override;
 
 
 

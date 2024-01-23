@@ -8,6 +8,7 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
 
 CState_WR_Identity_Attack_1::CState_WR_Identity_Attack_1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -36,6 +37,7 @@ HRESULT CState_WR_Identity_Attack_1::Initialize()
 
 void CState_WR_Identity_Attack_1::Enter_State()
 {
+	m_bEffect = false;
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0, 1.f);
@@ -56,6 +58,14 @@ void CState_WR_Identity_Attack_1::Exit_State()
 
 void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
+	if (!m_bEffect)
+	{
+		m_bEffect = true;
+
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+	}
+
 	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		m_iAttackCnt++;

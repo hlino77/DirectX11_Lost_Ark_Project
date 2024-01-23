@@ -40,6 +40,8 @@ private:
 	/* 원형객체들을 레벨별로 보관할까?! */
 	map<const wstring, class CGameObject*>				m_Prototypes;
 
+	_bool m_k = 0;
+
 private:
 	/* 사본객체들을 레벨별로 그룹(CLayer)지어서 보관한다. */
 	_uint								m_iNumLevels = { 0 };

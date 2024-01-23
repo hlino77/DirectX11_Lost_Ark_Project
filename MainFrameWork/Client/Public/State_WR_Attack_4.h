@@ -27,6 +27,8 @@ private:
 
 private:
 	//Animation
+	_bool m_bEffect = false;
+
 	_int m_Attack_4 = 0;
 	_int m_IdentityAttack_4 = 0;
 

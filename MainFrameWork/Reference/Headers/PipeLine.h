@@ -16,14 +16,14 @@ private:
 	virtual ~CPipeLine() = default;
 
 public:
-	void	Set_Transform(TRANSFORMSTATE eTransformState, Matrix TransformMatrix);
+	void	Set_Transform(TRANSFORMSTATE eTransformState, Matrix& TransformMatrix);
 
-	Matrix	Get_TransformMatrix(TRANSFORMSTATE eTransformState) const			{ return m_TransformMatrix[eTransformState]; }
-	Matrix	Get_ViewProjMatrix() const											{ return m_ViewProjMatrix; }
-	Matrix	Get_LightViewProjMatrix() const										{ return m_LightViewProjMatrix; }
-	Matrix	Get_TransformFloat4x4_TP(TRANSFORMSTATE eTransformState) const		{ return Get_TransformMatrix(eTransformState).Transpose(); }
-	Matrix	Get_TransformMatrixInverse(TRANSFORMSTATE eTransformState) const	{ return m_TransformInverseMatrix[eTransformState]; }
-	Vec4	Get_CamPosition() const												{ return m_vCamPosition; }
+	const Matrix&	Get_TransformMatrix(TRANSFORMSTATE eTransformState) const			{ return m_TransformMatrix[eTransformState]; }
+	const Matrix&	Get_ViewProjMatrix() const											{ return m_ViewProjMatrix; }
+	const Matrix&	Get_LightViewProjMatrix() const										{ return m_LightViewProjMatrix; }
+	Matrix	Get_TransformFloat4x4_TP(TRANSFORMSTATE eTransformState) const				{ return Get_TransformMatrix(eTransformState).Transpose(); }
+	const Matrix&	Get_TransformMatrixInverse(TRANSFORMSTATE eTransformState) const	{ return m_TransformInverseMatrix[eTransformState]; }
+	const Vec4&	Get_CamPosition() const													{ return m_vCamPosition; }
 	
 	_bool	Is_CamMoved()														{ return m_IsCameraMoved; }
 
