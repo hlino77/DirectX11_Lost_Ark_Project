@@ -99,7 +99,7 @@ void CStaticModel::LateTick(_float fTimeDelta)
 			m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
 		  
 		// Draw Collider
-		m_pRendererCom->Add_DebugObject(this);
+		//m_pRendererCom->Add_DebugObject(this);
 	}
 
 }

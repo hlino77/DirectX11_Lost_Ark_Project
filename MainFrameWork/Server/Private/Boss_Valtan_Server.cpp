@@ -1705,9 +1705,13 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		}
 		// 테스트용
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
-			return E_FAIL;
 
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack20)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack21)))
+			return E_FAIL;
 
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
@@ -1819,7 +1823,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
 			return E_FAIL;
-
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
 			return E_FAIL;
 
@@ -1828,6 +1835,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
 			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack6)))
+			return E_FAIL;
+
+		pSequenceNormalAttack->ShuffleChild();
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIfAttacked = CCommon_BT_IF_Attacked_Server::Create(&DecoratorDesc);//공격을 했는가?
