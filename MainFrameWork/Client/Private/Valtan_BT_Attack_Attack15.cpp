@@ -51,7 +51,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 	{
 		for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
 		{
-			if (pGameObject->Get_ObjectTag() == L"Monster_Prison"&& !pGameObject->Is_Dead())
+			if (pGameObject->Get_ObjectTag() == L"Monster_Prison"&& pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)->IsActive())
 			{
 				CSkill::ModelDesc ModelDesc = {};
 				ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -72,7 +72,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f);
 					static_cast<CSkill*>(pSkill)->Set_Force(10.f);
 				}
-				static_cast<CMonster*>(pGameObject)->Set_Die();
+				pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)->SetActive(false);
 
 			}
 		}

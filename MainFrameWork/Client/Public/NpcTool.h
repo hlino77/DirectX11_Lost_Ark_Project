@@ -169,6 +169,7 @@ private: /* NPC 애니메이션 변수*/
 private: /* Npc 토크버블 변수 */
 	_bool			m_IsTalk = { false };
 	_float			m_fTalkStartTime = { 0.f };
+	_int			m_iTalkSequence = { -1 };
 	vector<wstring> m_vecTalks;
 	vector<string>	m_vecSelectTalk;
 

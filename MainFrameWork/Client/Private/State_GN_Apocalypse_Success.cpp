@@ -28,6 +28,7 @@ HRESULT CState_GN_Apocalypse_Success::Initialize()
 void CState_GN_Apocalypse_Success::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iApocalypse_Success, 0.1f, 0, 0);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_Apocalypse_Success::Tick_State(_float fTimeDelta)

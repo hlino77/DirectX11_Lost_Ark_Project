@@ -38,8 +38,6 @@ HRESULT CFunction_Npc::Initialize(void* pArg)
 
 void CFunction_Npc::Tick(_float fTimeDelta)
 {
-	Find_Control_Pc();
-
 	__super::Tick(fTimeDelta);
 }
 
@@ -237,25 +235,6 @@ HRESULT CFunction_Npc::Render_PartModel_Shadow()
 			if (FAILED(m_pNpcPartCom[i]->Render(m_pShaderCom, j, "ShadowPass")))
 				return S_OK;
 		}
-	}
-
-	RELEASE_INSTANCE(CGameInstance);
-
-	return S_OK;
-}
-
-HRESULT CFunction_Npc::Find_Control_Pc()
-{
-	if (nullptr != m_pCtrlPlayer || LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
-		return S_OK;
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	m_pCtrlPlayer = static_cast<CPlayer*>(pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
-	if (nullptr == m_pCtrlPlayer)
-	{
-		RELEASE_INSTANCE(CGameInstance);
-		return S_OK;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

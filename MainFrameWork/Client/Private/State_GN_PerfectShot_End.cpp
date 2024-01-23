@@ -47,6 +47,7 @@ void CState_GN_PerfectShot_End::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iPerfectShot_End, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_PerfectShot_End::Tick_State(_float fTimeDelta)

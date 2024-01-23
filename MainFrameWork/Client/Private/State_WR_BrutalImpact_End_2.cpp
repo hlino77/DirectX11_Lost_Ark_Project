@@ -32,6 +32,8 @@ void CState_WR_BrutalImpact_End_2::Enter_State()
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_End_2, 1.2f);
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_End_2, 1.f);
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_WR_BrutalImpact_End_2::Tick_State(_float fTimeDelta)

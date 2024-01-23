@@ -1705,46 +1705,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		}
 		// 테스트용
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack21)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack15)))
 			return E_FAIL;
 
-		/*if (FAILED(pSequenceNormalAttack->AddChild(pAttack19)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack20)))
-			return E_FAIL; */
 
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack4)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack7)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack13)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-			return E_FAIL;
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?

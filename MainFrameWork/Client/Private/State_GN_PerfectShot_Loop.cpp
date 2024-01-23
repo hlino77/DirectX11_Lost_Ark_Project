@@ -42,6 +42,7 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iPerfectShot_Loop, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_bEffect = false;
 
@@ -60,12 +61,14 @@ void CState_GN_PerfectShot_Loop::Exit_State()
 
 	Effect_Glow(false);
 
-
 	for (auto& Effect : m_ChargeEffects)
 	{
 		Effect->EffectEnd();
 	}
 	m_ChargeEffects.clear();
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)

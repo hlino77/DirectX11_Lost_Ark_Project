@@ -32,6 +32,8 @@ void CState_WR_VolcanoEruption_Fail::Enter_State()
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Fail, 1.4f);
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Fail, 1.2f);
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_WR_VolcanoEruption_Fail::Tick_State(_float fTimeDelta)

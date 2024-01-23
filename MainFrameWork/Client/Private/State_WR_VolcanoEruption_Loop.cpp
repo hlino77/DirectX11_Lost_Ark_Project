@@ -53,6 +53,8 @@ void CState_WR_VolcanoEruption_Loop::Enter_State()
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Loop, 1.f);
 
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
 	m_fSkillTimeAcc = 0.f;
 }
 
@@ -63,6 +65,8 @@ void CState_WR_VolcanoEruption_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WR_VolcanoEruption_Loop::Exit_State()
 {
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)

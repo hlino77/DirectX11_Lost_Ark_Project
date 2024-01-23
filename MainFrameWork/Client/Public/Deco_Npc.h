@@ -30,6 +30,9 @@ private:
 
 	void					Set_Colliders(_float fTimeDelta);
 
+	_bool					Check_True_All_Sequence_Npc();
+	_bool					Check_False_All_Sequence_Npc();
+
 private:
 	void	Move(const _float& fTimeDelta);
 	void	Talk(const _float& fTimeDelta);

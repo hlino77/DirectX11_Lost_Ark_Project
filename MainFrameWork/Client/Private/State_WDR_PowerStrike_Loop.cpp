@@ -33,6 +33,7 @@ void CState_WDR_PowerStrike_Loop::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPowerStrike_Loop, 0.1f, 0, 0, 1.f);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_WDR_PowerStrike_Loop::Tick_State(_float fTimeDelta)
@@ -42,6 +43,8 @@ void CState_WDR_PowerStrike_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WDR_PowerStrike_Loop::Exit_State()
 {
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WDR_PowerStrike_Loop::Tick_State_Control(_float fTimeDelta)

@@ -32,6 +32,8 @@ void CState_WR_Guillotine_End::Enter_State()
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_End, 1.2f);
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_End, 1.f);
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_WR_Guillotine_End::Tick_State(_float fTimeDelta)

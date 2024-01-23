@@ -34,6 +34,7 @@ void CState_WDR_PerfectSwing_Success::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPerfect_Success, 0.1f, 0, 0, 1.f);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_bEffectEnd = false;
 	m_bEffectTrail = false;

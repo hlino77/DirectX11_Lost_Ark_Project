@@ -467,6 +467,8 @@
     <ClInclude Include="..\Public\State_WR_BrutalImpact_Loop.h" />
     <ClInclude Include="..\Public\State_WR_BrutalImpact_Start.h" />
     <ClInclude Include="..\Public\State_WR_Dash.h" />
+    <ClInclude Include="..\Public\State_WR_Dead_End.h" />
+    <ClInclude Include="..\Public\State_WR_Dead_Start.h" />
     <ClInclude Include="..\Public\State_WR_Fall.h" />
     <ClInclude Include="..\Public\State_WR_FlashBalde.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h" />
@@ -1024,6 +1026,8 @@
     <ClCompile Include="..\Private\State_WR_BrutalImpact_Loop.cpp" />
     <ClCompile Include="..\Private\State_WR_BrutalImpact_Start.cpp" />
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
+    <ClCompile Include="..\Private\State_WR_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_WR_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_WR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WR_FlashBalde.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp" />

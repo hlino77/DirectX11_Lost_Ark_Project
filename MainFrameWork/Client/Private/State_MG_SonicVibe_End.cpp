@@ -36,6 +36,7 @@ void CState_MG_SonicVibe_End::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iSonicVibe, 0.1f, 0, 0);
 	m_pPlayer->Get_MG_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_MG_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 }
 

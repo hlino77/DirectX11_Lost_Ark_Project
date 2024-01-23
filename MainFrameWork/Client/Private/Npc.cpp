@@ -18,7 +18,9 @@
 #include "BindShaderDesc.h"
 #include "UI_Manager.h"
 #include "UI_SpeechBubble.h"
-#include "UI_InGame_NamePlate.h""
+#include "UI_InGame_NamePlate.h"
+
+#include "Player.h"
 
 CNpc::CNpc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Npc", OBJ_TYPE::NPC)
@@ -70,6 +72,7 @@ HRESULT CNpc::Initialize(void* pArg)
 
 		m_NpcDesc.IsTalk = pDesc->IsTalk;
 		m_NpcDesc.fTalkStartTime = pDesc->fTalkStartTime;
+		m_NpcDesc.iTalkSequence = pDesc->iTalkSequence;
 		m_NpcDesc.vecTalks = pDesc->vecTalks;
 		m_NpcDesc.vecTalkSound = pDesc->vecTalkSound;
 
@@ -125,6 +128,8 @@ HRESULT CNpc::Initialize(void* pArg)
 
 void CNpc::Tick(_float fTimeDelta)
 {
+	Find_Control_Pc();
+
 	if (m_bNavi)
 	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
@@ -503,6 +508,61 @@ void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
 			m_iCurAnimIndex = m_iIdleAnimIndex;
 		}
 	}
+}
+
+HRESULT CNpc::Find_Control_Pc()
+{
+	if (nullptr != m_pCtrlPlayer)
+	{
+		if (LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
+			return S_OK;
+
+		m_fPlayerDist = Vec3(m_pCtrlPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length();
+
+		return S_OK;
+	}
+		
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pCtrlPlayer = static_cast<CPlayer*>(pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	if (nullptr == m_pCtrlPlayer)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return S_OK;
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CNpc::Find_SameSequence_Npc()
+{
+	if (true == m_bFindNpcs)
+		return S_OK;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	vector<CGameObject*> vecNpcs = pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_NPC);
+
+	m_vecSameSequenceNpc.push_back(this);
+
+	for (auto& pNpc : vecNpcs)
+	{
+		if (false == static_cast<CNpc*>(pNpc)->Get_NpcDesc().IsTalk) continue;
+
+		if (m_NpcDesc.iTalkSequence == static_cast<CNpc*>(pNpc)->Get_NpcDesc().iTalkSequence)
+		{
+			m_vecSameSequenceNpc.push_back(static_cast<CNpc*>(pNpc));
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	m_bFindNpcs = true;
+
+	return S_OK;
 }
 
 void CNpc::Show_SpeechBuble(const wstring& szChat)

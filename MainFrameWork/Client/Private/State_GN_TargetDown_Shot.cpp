@@ -49,6 +49,7 @@ void CState_GN_TargetDown_Shot::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Shot, 0.1f, 0, 0);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
 
@@ -66,6 +67,9 @@ void CState_GN_TargetDown_Shot::Exit_State()
 	{
 		Effect_End();
 	}
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)

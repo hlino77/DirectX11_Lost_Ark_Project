@@ -77,9 +77,13 @@ public:
 
 	virtual void		Get_StatusEffectMessage(_uint iStatus, _float fDurtaion);
 
+	virtual void		Get_DeadMessage() { m_IsDead = true; }
+	virtual void		Get_DeadEndMessage() { m_IsDead = false; }
+
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
 	_bool				Is_HitState() { return m_IsHitState; }
+	_bool				Is_Dead() { return m_IsDead; }
 
 	/* 스킬 함수 */
 public:
@@ -177,6 +181,8 @@ protected:
 	_float					m_fForced = { 0.f };
 	Vec3					m_vHitColiPos;
 	_bool					m_IsHitState = { false };
+
+	_bool					m_IsDead = { false };
 
 	/* 플레이어 그랩 변수 */
 	CGameObject*			m_pGrabber = { nullptr };

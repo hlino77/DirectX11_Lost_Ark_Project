@@ -38,6 +38,8 @@ void CState_WR_SpiningSword_Loop::Enter_State()
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iSpiningSword_Loop, 1.3f);
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iSpiningSword_Loop, 1.1f);
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_WR_SpiningSword_Loop::Tick_State(_float fTimeDelta)
@@ -47,6 +49,8 @@ void CState_WR_SpiningSword_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WR_SpiningSword_Loop::Exit_State()
 {
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WR_SpiningSword_Loop::Tick_State_Control(_float fTimeDelta)

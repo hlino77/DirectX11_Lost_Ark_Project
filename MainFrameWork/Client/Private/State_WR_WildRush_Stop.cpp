@@ -47,6 +47,8 @@ void CState_WR_WildRush_Stop::Enter_State()
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildRush, 1.2f);
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildRush, 1.f);
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_WR_WildRush_Stop::Tick_State(_float fTimeDelta)

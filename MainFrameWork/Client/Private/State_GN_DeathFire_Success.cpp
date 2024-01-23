@@ -40,6 +40,8 @@ void CState_GN_DeathFire_Success::Enter_State()
 
 	m_vEffectPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	m_bEffect = false;
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_DeathFire_Success::Tick_State(_float fTimeDelta)

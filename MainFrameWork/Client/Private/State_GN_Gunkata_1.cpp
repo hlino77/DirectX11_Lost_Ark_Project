@@ -53,11 +53,11 @@ void CState_GN_Gunkata_1::Exit_State()
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGunkata_1))
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
-
-		if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
-			m_pPlayer->Set_SuperArmorState(false);
 	}
 	m_bComboContinue = false;
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_Gunkata_1::Tick_State_Control(_float fTimeDelta)

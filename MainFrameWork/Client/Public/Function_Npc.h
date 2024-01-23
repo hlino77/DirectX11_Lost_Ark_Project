@@ -31,12 +31,10 @@ protected:
 	virtual HRESULT			Render_PartModel();
 	virtual HRESULT			Render_PartModel_Shadow();
 
-	virtual HRESULT			Find_Control_Pc();
-
 	void					Set_Colliders(_float fTimeDelta);
 
 protected:
-	CPlayer*				m_pCtrlPlayer = { nullptr };
+	
 
 
 public:

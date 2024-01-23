@@ -30,6 +30,7 @@ void CState_MG_SongOfLight_End::Enter_State()
 {
 
 	m_pPlayer->Reserve_Animation(m_iSongOfLight, 0.1f, 0, 0);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 }
 

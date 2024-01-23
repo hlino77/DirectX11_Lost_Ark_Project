@@ -53,6 +53,7 @@ void CState_GN_Gunkata_3::Enter_State()
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_Gunkata_3::Tick_State(_float fTimeDelta)

@@ -46,6 +46,7 @@ void CState_GN_FocusShot_Loop::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iFocusShot_Loop, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_FocusShot_Loop::Tick_State(_float fTimeDelta)
@@ -56,6 +57,9 @@ void CState_GN_FocusShot_Loop::Tick_State(_float fTimeDelta)
 void CState_GN_FocusShot_Loop::Exit_State()
 {
 	m_iShotCount = 0;
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_FocusShot_Loop::Tick_State_Control(_float fTimeDelta)

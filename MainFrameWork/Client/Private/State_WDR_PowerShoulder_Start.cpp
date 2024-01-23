@@ -60,11 +60,11 @@ void CState_WDR_PowerShoulder_Start::Exit_State()
 	if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start))
 	{
 		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
-
-		if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
-			m_pPlayer->Set_SuperArmorState(false);
 	}
 	m_bComboContinue = false;
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)

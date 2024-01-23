@@ -35,6 +35,8 @@ void CState_GN_TargetDown_End::Enter_State()
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
 
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
 	m_bEffect = false;
 }
 
@@ -52,6 +54,7 @@ void CState_GN_TargetDown_End::Exit_State()
 	{
 		Effect_End();
 	}
+
 }
 
 void CState_GN_TargetDown_End::Tick_State_Control(_float fTimeDelta)

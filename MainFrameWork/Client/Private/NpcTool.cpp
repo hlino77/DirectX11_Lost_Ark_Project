@@ -362,6 +362,9 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 			element = node->FirstChildElement();
 			NpcCreateDesc.fTalkStartTime = element->FloatAttribute("Time");
 
+			element = element->NextSiblingElement();
+			NpcCreateDesc.iTalkSequence = element->IntAttribute("Sequence");
+
 			_uint iSize;
 			element = element->NextSiblingElement();
 			iSize = element->IntAttribute("Size");
@@ -947,6 +950,7 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 			m_NpcCreateDesc.IsTalk = true;
 			m_NpcCreateDesc.vecTalks = m_vecTalks;
 			m_NpcCreateDesc.fTalkStartTime = m_fTalkStartTime;
+			m_NpcCreateDesc.iTalkSequence = m_iTalkSequence;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("UnSet TalkBubble"))
@@ -956,9 +960,13 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 			m_NpcCreateDesc.vecTalks.clear();
 			m_NpcCreateDesc.fTalkStartTime = 0.f;
 		}
-		ImGui::SameLine();
+		
 		ImGui::SetNextItemWidth(50);
 		ImGui::DragFloat("StartTime", &m_fTalkStartTime, 0.01f);
+		ImGui::Spacing();
+
+		ImGui::SetNextItemWidth(50);
+		ImGui::DragInt("TalkSequence", &m_iTalkSequence, 1);
 		ImGui::Spacing();
 
 		ImGui::SeparatorText("Talk Setting");
@@ -1544,6 +1552,10 @@ HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)
 				element->SetAttribute("Time", pDesc.fTalkStartTime);
 				node->LinkEndChild(element);
 
+				element = document->NewElement("Script");
+				element->SetAttribute("Sequence", pDesc.iTalkSequence);
+				node->LinkEndChild(element);
+
 				element = document->NewElement("Talk");
 				element->SetAttribute("Size", (_uint)pDesc.vecTalks.size());
 				node->LinkEndChild(element);
@@ -1625,6 +1637,7 @@ void CNpcTool::Clear_Info()
 
 	m_iCurrAnimation = 0;
 
+	
 
 	m_IsMove = { false };
 	m_vMovePos = Vec3().Zero;
@@ -1634,6 +1647,7 @@ void CNpcTool::Clear_Info()
 
 	m_IsTalk = false;
 	m_fTalkStartTime = 0.f;
+	m_iTalkSequence = -1;
 	m_iCurTalk = -1;
 	ZeroMemory(&m_szTalk, sizeof(MAX_PATH));
 	m_vecTalks.clear();
@@ -1643,6 +1657,7 @@ void CNpcTool::Clear_Info()
 	m_NpcCreateDesc.IsTalk = false;
 	m_NpcCreateDesc.vecTalks.clear();
 	m_NpcCreateDesc.vecTalkSound.clear();
+	m_NpcCreateDesc.iTalkSequence = -1;
 
 	m_NpcCreateDesc.IsMove = false;
 	m_NpcCreateDesc.vecMovePos.clear();

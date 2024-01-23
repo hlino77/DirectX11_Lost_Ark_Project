@@ -36,6 +36,8 @@ void CState_GN_TargetDown_Loop::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Loop, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
+
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
 void CState_GN_TargetDown_Loop::Tick_State(_float fTimeDelta)
@@ -54,6 +56,9 @@ void CState_GN_TargetDown_Loop::Exit_State()
 	{
 		Effect_End();
 	}
+
+	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
+		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_GN_TargetDown_Loop::Tick_State_Control(_float fTimeDelta)

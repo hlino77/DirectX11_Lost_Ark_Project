@@ -37,6 +37,7 @@ void CState_WDR_PowerShoulder_End::Enter_State()
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPowerShoulder_End, 0.2f, 0, 0, 1.f);
+	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_fCircle1TimeAcc = m_fCircle1Time;
 	m_fCircle2TimeAcc = m_fCircle2Time;
