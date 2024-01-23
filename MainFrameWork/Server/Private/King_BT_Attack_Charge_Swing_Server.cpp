@@ -17,10 +17,10 @@ void CKing_BT_Attack_Charge_Swing_Server::OnStart()
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing_Server::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+		
 		return BT_SUCCESS;
 	}
 	if (!static_cast<CBoss_Server*>(m_pGameObject)->Is_GroggyLock() && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())

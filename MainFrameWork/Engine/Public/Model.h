@@ -132,6 +132,7 @@ public: /* ;hj가 추가한 함수 */
 
 	HRESULT Bind_ChangeColor(class CShader* pShader, _uint iMeshIndex);
 
+	TYPE  Get_ModelType() { return m_eModelType; }
 private:
 	HRESULT Play_Proceed_Animation(_float fTimeDelta);
 	HRESULT Play_Reverse_Animation(_float fTimeDelta);

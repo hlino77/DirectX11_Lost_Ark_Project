@@ -31,8 +31,8 @@ void CValtan_BT_Phase3_Server::OnEnd()
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
-	static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-	static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+	
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(3);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Hp(529402339);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Armor(4);

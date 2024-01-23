@@ -51,12 +51,10 @@ public:
 	_bool						Is_Groggy() { return m_IsGroggy; }
 	void						Set_Groggy(_bool IsGroggy) { m_IsGroggy = IsGroggy; }
 
-	_bool						Get_Counter() { return m_bCounter; }
-	void						Set_Counter(_bool bCounter) { m_bCounter = bCounter; }
-	
-		
-	_bool						Get_Grogginess() { return m_bGrogginess; }
-	void						Set_Grogginess(_bool bGrogginess) { m_bGrogginess = bGrogginess; }
+	_bool						Get_SkipAction() { return m_bSkipAction; }
+	void						Set_SkipAction(_bool bCounter) { m_bSkipAction = bCounter; }
+
+
 
 	
 	_int						Get_Armor() { return m_iArmor; }
@@ -101,8 +99,7 @@ protected:
 	_bool							m_IsCountered = false;
 	_bool							m_IsGroggy = false;
 
-	_bool							m_bCounter = false;
-	_bool							m_bGrogginess = false;
+	_bool							m_bSkipAction = false;
 
 	_int							m_iGroggyGauge = 0;
 	_uint							m_iMaxGroggyGauge = 0;

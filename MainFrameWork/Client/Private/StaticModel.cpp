@@ -6,6 +6,7 @@
 #include "CollisionManager.h"
 #include "NavigationMgr.h"
 #include "ServerSessionManager.h"
+#include "Skill.h"
 
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
@@ -97,7 +98,7 @@ void CStaticModel::LateTick(_float fTimeDelta)
 			m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
 		  
 		// Draw Collider
-		//m_pRendererCom->Add_DebugObject(this);
+		m_pRendererCom->Add_DebugObject(this);
 	}
 
 }
@@ -187,10 +188,31 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
+	}
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
+	{
+		if (static_cast<CSkill*> (pOther->Get_Owner())->Is_Destructive())
+		{
+			Set_Dead(true);
+
+			Send_Collision(LEVEL_VALTANMAIN, true);
+
+			for (auto& CellIndex : m_NaviCellIndex)
+			{
+				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+			}
+		}
 
 	}
 }
 
+void CStaticModel::Disable_NaviCells()
+{
+	for (auto& CellIndex : m_NaviCellIndex)
+	{
+		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+	}
+}
 
 void CStaticModel::Add_Collider()
 {

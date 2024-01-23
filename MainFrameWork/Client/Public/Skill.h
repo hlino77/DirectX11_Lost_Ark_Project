@@ -56,7 +56,7 @@ public:
 
 	void Set_PizzaRadii(_float OutsideRadius, _float InsideRadius);
 
-	void Set_PizzaSlope(_float OutsideRadius, _float InsideRadius);
+	void Set_PizzaSlope(_float fLeftSlope, _float fRightSlope);
 
 	_bool Get_Collider_Center(_uint iID, Vec3* pCenter);
 
@@ -111,6 +111,9 @@ public:
 
 	_float					Get_BlinkTime() { return m_fBlinkTime; }
 	void					Set_BlinkTime(_float fBlinkTime) { m_fBlinkTime = fBlinkTime; }
+
+	_bool					Is_Destructive() { return m_bDestructive; }
+	void					Set_Destructive(_bool bDestructive) { m_bDestructive = bDestructive; }
 protected:
 	virtual HRESULT			Ready_Components();
 
@@ -126,7 +129,7 @@ protected:
 
 	SKILLDESC						m_SkillDesc;
 	_float							m_fFollowDistance = 0.0f;
-
+	_bool							m_bDestructive = false;
 
 	CGameObject*					m_pSkillOwner = nullptr;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */

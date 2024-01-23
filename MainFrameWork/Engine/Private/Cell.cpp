@@ -64,7 +64,7 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 	// Checking for Neighbor        이웃이 있는지 없는지 검사 -> 잇으면 이웃으로 나의 셀 정보를 넘긴다 Current Cell 을 이웃 셀로 바꾸는 작업
 	for (_int i = 0; i < CELLLINE::LINE_END; ++i)
 	{
-		if (m_iNeighbor[i] != -1 && m_pNavigation->Get_Cell(m_iNeighbor[i])->Get_Active() == true)
+		if (m_iNeighbor[i] != -1 && m_pNavigation->Get_Cell(m_iNeighbor[i])->Is_Active() == true)
 		{
 			Vec3 vDir = vPos - m_vPoints[i];
 			vDir.Normalize();
@@ -91,7 +91,7 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 		_float fDot = vDir.Dot(m_vNormals[i]);
 		if (fDot > 0.001f)
 		{
-			if (m_iNeighbor[i] == -1 || m_pNavigation->Get_Cell(m_iNeighbor[i])->Get_Active() == false)
+			if (m_iNeighbor[i] == -1 || m_pNavigation->Get_Cell(m_iNeighbor[i])->Is_Active() == false)
 			{
 				Vec3 vDir = vPos - m_vPoints[i];
 				_float fLength = vDir.Dot(m_vLine[i]);

@@ -26,10 +26,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack7_Server::OnUpdate(const _float& fTi
 			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
 			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 	}
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter() || static_cast<CBoss_Server*>(m_pGameObject)->Get_Grogginess())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_Grogginess(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+		
 		return BT_SUCCESS;
 	}
 	return __super::OnUpdate(fTimeDelta);

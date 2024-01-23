@@ -170,7 +170,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				if (m_iGroggyCount < 1)
 				{
 					m_IsHit = true;
-					m_bGrogginess = true;
+					m_bSkipAction = true;
 					m_IsGroggy = true;
 					m_iGroggyCount = 0;
 					m_iMaxGroggyCount = 0;
@@ -185,7 +185,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				m_iArmorDurability -= iDamage;
 			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
 			{
-				m_bCounter = true;
+				m_bSkipAction = true;
 				m_IsHit = true;
 				m_IsCounterSkill = false;
 				m_IsCountered = true;
@@ -193,7 +193,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			if ( m_iGroggyGauge < 1|| (_uint)STATUSEFFECT::GROGGY == iStatusEffect &&m_IsRush)
 			{
 				m_IsHit = true;
-				m_bGrogginess = true;
+				m_bSkipAction = true;
 				m_IsGroggy = true;
 				m_IsRush = false;
 			}
@@ -446,20 +446,22 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 
-	AnimationDesc.strAnimName = TEXT("att_battle_5_01_start");
+	AnimationDesc.strAnimName = TEXT("att_battle_12_05");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-
-	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
+	AnimationDesc.fMaxLoopTime = 0.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
 
 	//65번 2페 시작 모션
 	ActionDesc.strActionName = L"Action_Phase2";
@@ -1216,7 +1218,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pIf_Hp_UnderRatio110->AddChild(pAttack21))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1677,7 +1678,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
-
+		{
+		// 원래 기본 패턴
 		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 		//	return E_FAIL;
 		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
@@ -1700,11 +1702,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		//	return E_FAIL;
 		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 		//	return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack19)))
+		}
+		// 테스트용
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack21)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack20)))
-			return E_FAIL; 
+
 
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
