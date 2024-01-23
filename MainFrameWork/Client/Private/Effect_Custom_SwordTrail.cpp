@@ -67,7 +67,7 @@ HRESULT CEffect_Custom_SwordTrail::Render()
 	if (FAILED(Super::Render()))
 		return E_FAIL;
 
-	m_pBuffer->Update_TrailBuffer(m_matCombined);
+	//m_pBuffer->Update_TrailBuffer();
 
 	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 		return E_FAIL;

@@ -27,6 +27,7 @@ public:
 
 public:
 	void Reset();
+	void	TrailEnd(_float fRemainTime);
 
 public:
 	FDelegate<Matrix&>         CB_UpdatePivot;
@@ -35,6 +36,8 @@ private:
 	CVIBuffer_Trail* m_pBuffer = nullptr;
 
 	_int	m_iTrailVtxCount = 4;
+
+	_bool m_bTrailEnd = false;
 
 private:
 	void Run_Sequence(const _float& fTimeDelta);

@@ -16,22 +16,24 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 
-	void Update_TrailBuffer(Matrix& TransformMatrix);
+	void Update_TrailVertices(Matrix & TransformMatrix);
+	void Update_TrailBuffer();
 	virtual HRESULT Render() override;
 
 public:
-	void SetUp_Position(Vec4 vHighPosition, Vec4 vLowPosition);
+	void SetUp_Position(Vec3 vHighPosition, Vec3 vLowPosition);
 	void Start_Trail(Matrix TransformMatrix);
 	void Stop_Trail();
 
 public:
-	void Set_VtxCount(_uint iCount) { m_iVtxCount = iCount; }
+	void Set_VtxCount(_uint iCount) { m_iVtxCount = iCount; m_BufferData.resize(m_iVtxCount); }
 
 private:
-	Vec4 m_vHighPosition = { 0.f, 0.5f, 0.f, 1.f };
-	Vec4 m_vLowPosition= { 0.f, -0.5f, 0.f, 1.f };
+	Vec3 m_vHighPosition = { 0.f, 0.5f, 0.f};
+	Vec3 m_vLowPosition= { 0.f, -0.5f, 0.f};
 
 	std::deque<VTXTRAIL> m_TrailVertices;
+	std::vector<VTXTRAIL> m_BufferData;
 
 	_uint m_iVtxCount = 4;
 	_uint m_iCatmullRomCount = 10;

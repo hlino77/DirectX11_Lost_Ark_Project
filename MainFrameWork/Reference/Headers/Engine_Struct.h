@@ -88,9 +88,9 @@ namespace Engine
 
 	typedef struct ENGINE_DLL tagVertexTrail
 	{
-		SimpleMath::Vector3		vPosition;
-		SimpleMath::Vector2		vTexture;
-		_float					fAlpha;
+		SimpleMath::Vector3		vPosition = SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
+		SimpleMath::Vector2		vTexture = SimpleMath::Vector2(0.0f, 0.0f);
+		_float					fAlpha = 0.0f;
 
 		static const unsigned int iNumElements = 3;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];

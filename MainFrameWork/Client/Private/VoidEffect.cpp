@@ -149,6 +149,7 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 
+
 	if (m_bRender)
 	{
 		if (m_iEffectType == 2)
@@ -219,7 +220,16 @@ HRESULT CVoidEffect::Render()
 
 		matCombined = m_matOffset * m_matPivot;
 
-		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Update_TrailBuffer(matCombined);
+		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Update_TrailVertices(matCombined);
+
+		if (m_bRender == false)
+		{
+			m_bRender = true;
+			return S_OK;
+		}
+			
+
+		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Update_TrailBuffer();
 	}
 	else
 	{

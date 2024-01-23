@@ -59,13 +59,15 @@ void CEffect_Trail::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 
+	m_matCombined = m_matOffset * m_matPivot;
+
+	m_pBuffer->Update_TrailVertices(m_matCombined);
+
 	if (m_bRender)
 	{
 		if (FAILED(m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this)))
 			__debugbreak();
 	}
-
-	m_matCombined = m_matOffset * m_matPivot;
 }
 
 HRESULT CEffect_Trail::Render()
@@ -73,7 +75,7 @@ HRESULT CEffect_Trail::Render()
 	if (FAILED(Super::Render()))
 		return E_FAIL;
 
-	m_pBuffer->Update_TrailBuffer(m_matCombined);
+	m_pBuffer->Update_TrailBuffer();
 
 	if (FAILED(m_pShaderCom->Begin(m_strPassName)))
 		return E_FAIL;
@@ -97,6 +99,12 @@ void CEffect_Trail::Reset()
 	}
 
 	m_pBuffer->Stop_Trail();
+	m_bTrailEnd = false;
+}
+
+void CEffect_Trail::TrailEnd(_float fRemainTime)
+{
+
 }
 
 HRESULT CEffect_Trail::Ready_Components()

@@ -1,4 +1,6 @@
 #include "..\Public\VIBuffer_Trail.h"
+#include "AsUtils.h"
+
 
 CVIBuffer_Trail::CVIBuffer_Trail(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CVIBuffer(pDevice, pContext)
@@ -15,7 +17,7 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 {
 #pragma region VERTEXBUFFER
 	m_iNumVertexBuffers = 1;
-	m_iNumVertices = 100000;
+	m_iNumVertices = 10000;
 	m_iStride = sizeof(VTXTRAIL);
 
 	ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -28,7 +30,7 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 
 	VTXTRAIL* pVertices = new VTXTRAIL[m_iNumVertices];
 
-	for (_uint i = 0; i < 100000; i += 2)
+	for (_uint i = 0; i < m_iNumVertices; i += 2)
 	{
 		pVertices[i].vPosition = Vec3(0.f, 0.f, 0.f);
 		pVertices[i].vTexture = Vec2(0.f, 0.f);
@@ -91,180 +93,167 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 
 HRESULT CVIBuffer_Trail::Initialize(void * pArg)
 {
+
 	return S_OK;
 }
 
-void CVIBuffer_Trail::Update_TrailBuffer(Matrix& TransformMatrix)
+void CVIBuffer_Trail::Update_TrailVertices(Matrix& TransformMatrix)
 {
-	vector<VTXTRAIL> Vertices;
-	Vertices.reserve(m_iNumVertices);
+	Vec3 vWorldHigh = XMVector3TransformCoord(m_vHighPosition, TransformMatrix);
 
-	/*TransformMatrix.Right(XMVector4Normalize(TransformMatrix.Right()));
-	TransformMatrix.Up(XMVector4Normalize(TransformMatrix.Up()));
-	TransformMatrix.Backward(XMVector4Normalize(TransformMatrix.Backward()));*/
 
-	Vec4 vWorldHigh = XMVector3TransformCoord(XMLoadFloat4(&m_vHighPosition), TransformMatrix);
-	Vec4 vWorldLow = XMVector3TransformCoord(XMLoadFloat4(&m_vLowPosition), TransformMatrix);
+	Vec3 vWorldLow = XMVector3TransformCoord(m_vLowPosition, TransformMatrix);
 
-	while (m_TrailVertices.size() < m_iVtxCount - 2)
+
+	if (m_TrailVertices.size() < 4)
 	{
-		VTXTRAIL Vertex = {};
-		XMStoreFloat3(&Vertex.vPosition, vWorldHigh);
-		m_TrailVertices.push_back(Vertex);
+		VTXTRAIL tVertexHigh;
+		tVertexHigh.vPosition = vWorldHigh;
 
-		XMStoreFloat3(&Vertex.vPosition, vWorldLow);
-		m_TrailVertices.push_back(Vertex);
+		VTXTRAIL tVertexLow;
+		tVertexLow.vPosition = vWorldLow;
+
+		m_TrailVertices.push_front(tVertexLow);
+		m_TrailVertices.push_front(tVertexHigh);
+		
+		m_pOwner->Set_Render(false);
 	}
+	else
+	{
+		_uint iMaxIndex = m_TrailVertices.size() - 1;
 
-	while (m_iVtxCount - 2 < m_TrailVertices.size())
+		Vec3 vHigh0 = vWorldHigh;
+		Vec3 vHigh1 = m_TrailVertices[0].vPosition;
+		Vec3 vHigh2 = m_TrailVertices[2].vPosition;
+
+		_uint iHighIndex = 2 + m_iCatmullRomCount;
+		if (iMaxIndex - 1 < 2 + m_iCatmullRomCount)
+		{
+			iHighIndex = iMaxIndex - 1;
+		}
+		Vec3 vHigh3 = m_TrailVertices[iHighIndex].vPosition;
+
+
+		Vec3 vLow0 = vWorldLow;
+		Vec3 vLow1 = m_TrailVertices[1].vPosition;
+		Vec3 vLow2 = m_TrailVertices[3].vPosition;
+
+		_uint iLowIndex = 3 + m_iCatmullRomCount;
+		if (iMaxIndex < 2 + m_iCatmullRomCount)
+		{
+			iLowIndex = iMaxIndex;
+		}
+		Vec3 vLow3 = m_TrailVertices[iLowIndex].vPosition;
+
+		m_TrailVertices.pop_front();
 		m_TrailVertices.pop_front();
 
-	VTXTRAIL Vertex = {};
-	XMStoreFloat3(&Vertex.vPosition, vWorldHigh);
-	m_TrailVertices.push_back(Vertex);
+		_float fRatio = 1.0f / m_iCatmullRomCount;
+		for (_uint i = 1; i <= m_iCatmullRomCount; ++i)
+		{
+			VTXTRAIL tVertexHigh;
+			tVertexHigh.vPosition = XMVectorCatmullRom(vHigh3, vHigh2, vHigh1, vHigh0, fRatio * i);
 
-	XMStoreFloat3(&Vertex.vPosition, vWorldLow);
-	m_TrailVertices.push_back(Vertex);
+			VTXTRAIL tVertexLow;
+			tVertexLow.vPosition = XMVectorCatmullRom(vLow3, vLow2, vLow1, vLow0, fRatio * i);
 
-	for (_uint i = 0; i < m_TrailVertices.size(); i++)
-	{
-		_float _fVtxCount = _float(m_TrailVertices.size());
+			m_TrailVertices.push_front(tVertexLow);
+			m_TrailVertices.push_front(tVertexHigh);
+		}
 
-		_float fUV = ((_float)i) / (_fVtxCount);
+		{
+			VTXTRAIL tVertexHigh;
+			tVertexHigh.vPosition = vWorldHigh;
 
-		if (i % 2 == 0)
-			m_TrailVertices[i].vTexture = { fUV, 0.f };
-		else
-			m_TrailVertices[i].vTexture = { fUV, 1.f };
+			VTXTRAIL tVertexLow;
+			tVertexLow.vPosition = vWorldLow;
 
-		m_TrailVertices[i].fAlpha = fUV;
+			m_TrailVertices.push_front(tVertexLow);
+			m_TrailVertices.push_front(tVertexHigh);
+		}
 
-		Vertices.push_back(m_TrailVertices[i]);
+
+		_int iPopSize = m_TrailVertices.size() - m_iVtxCount;
+		if (iPopSize > 0)
+		{
+			for (_uint i = 0; i < iPopSize; ++i)
+			{
+				m_TrailVertices.pop_back();
+			}
+		}
+
+		m_pOwner->Set_Render(true);
 	}
+}
 
-	vector<VTXTRAIL> CatmallomVertices;
-	CatmallomVertices.reserve((m_iVtxCount - 2) * 5);
-	for (_uint i = 0; i < Vertices.size(); i += 2)
+void CVIBuffer_Trail::Update_TrailBuffer()
+{
+	_uint iSize = m_TrailVertices.size();
+	_float fRatio = 1.0f / (iSize - 1);
+	for (_uint i = 0; i < iSize; ++i)
 	{
-		if (i >= Vertices.size() - 4)
-		{
-			CatmallomVertices.push_back(Vertices[i]);
-			CatmallomVertices.push_back(Vertices[i + 1]);
-			continue;
-		}
+		_float fTexY = i % 2;
 
-		VTXTRAIL vHigh0, vHigh1, vHigh2, vHigh3;
-		VTXTRAIL vLow0, vLow1, vLow2, vLow3;
+		m_TrailVertices[i].vTexture = XMVectorLerp(Vec2(1.0f, fTexY), Vec2(0.0f, fTexY), i * fRatio);
+		m_TrailVertices[i].fAlpha = CAsUtils::Lerpf(1.0f, 0.0f, i * fRatio);
 
-		if (i == 0)
-		{
-			vHigh0 = Vertices[i];
-			vLow0 = Vertices[i + 1];
-		}
-		else
-		{
-			vHigh0 = Vertices[i - 2];
-			vLow0 = Vertices[i - 1];
-		}
-
-		vHigh1 = Vertices[i];
-		vHigh2 = Vertices[i + 2];
-		vHigh3 = Vertices[i + 4];
-
-		vLow1 = Vertices[i + 1];
-		vLow2 = Vertices[i + 3];
-		vLow3 = Vertices[i + 5];
-
-		_float fInvCount = 1.f / m_iCatmullRomCount;
-		for (_uint j = 0; j < m_iCatmullRomCount; ++j)
-		{
-			VTXTRAIL VertexHigh = {};
-			XMStoreFloat3(&VertexHigh.vPosition, XMVectorCatmullRom(
-				XMLoadFloat3(&vHigh0.vPosition)
-				, XMLoadFloat3(&vHigh1.vPosition)
-				, XMLoadFloat3(&vHigh2.vPosition)
-				, XMLoadFloat3(&vHigh3.vPosition)
-				, j * fInvCount));
-
-			XMStoreFloat2(&VertexHigh.vTexture, XMVectorCatmullRom(
-				XMLoadFloat2(&vHigh0.vTexture)
-				, XMLoadFloat2(&vHigh1.vTexture)
-				, XMLoadFloat2(&vHigh2.vTexture)
-				, XMLoadFloat2(&vHigh3.vTexture)
-				, j * fInvCount));
-
-			XMStoreFloat(&VertexHigh.fAlpha, XMVectorCatmullRom(
-				XMLoadFloat(&vHigh0.fAlpha)
-				, XMLoadFloat(&vHigh1.fAlpha)
-				, XMLoadFloat(&vHigh2.fAlpha)
-				, XMLoadFloat(&vHigh3.fAlpha)
-				, j * fInvCount));
-
-			CatmallomVertices.push_back(VertexHigh);
-
-			VTXTRAIL VertexLow = {};
-			XMStoreFloat3(&VertexLow.vPosition, XMVectorCatmullRom(
-				XMLoadFloat3(&vLow0.vPosition)
-				, XMLoadFloat3(&vLow1.vPosition)
-				, XMLoadFloat3(&vLow2.vPosition)
-				, XMLoadFloat3(&vLow3.vPosition)
-				, j * fInvCount));
-
-			XMStoreFloat2(&VertexLow.vTexture, XMVectorCatmullRom(
-				XMLoadFloat2(&vLow0.vTexture)
-				, XMLoadFloat2(&vLow1.vTexture)
-				, XMLoadFloat2(&vLow2.vTexture)
-				, XMLoadFloat2(&vLow3.vTexture)
-				, j * fInvCount));
-
-			XMStoreFloat(&VertexHigh.fAlpha, XMVectorCatmullRom(
-				XMLoadFloat(&vHigh0.fAlpha)
-				, XMLoadFloat(&vHigh1.fAlpha)
-				, XMLoadFloat(&vHigh2.fAlpha)
-				, XMLoadFloat(&vHigh3.fAlpha)
-				, j * fInvCount));
-
-			CatmallomVertices.push_back(VertexLow);
-		}
+		m_BufferData[i] = m_TrailVertices[i];
 	}
-
-	m_iNumPrimitives = CatmallomVertices.size() - 2;
-	//m_iNumPrimitives = Vertices.size() - 2;
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	m_pContext->Map(m_pVB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy(mappedResource.pData, CatmallomVertices.data(), sizeof(VTXTRAIL) * CatmallomVertices.size());
-	//memcpy(mappedResource.pData, Vertices.data(), sizeof(VTXTRAIL) * Vertices.size());
+	memcpy(mappedResource.pData, m_BufferData.data(), sizeof(VTXTRAIL) * m_TrailVertices.size());
 	m_pContext->Unmap(m_pVB, 0);
+
 }
 
 HRESULT CVIBuffer_Trail::Render()
 {
-	if (FAILED(Super::Render()))
+	if (nullptr == m_pContext)
 		return E_FAIL;
+
+	ID3D11Buffer* pVertexBuffers[] = {
+		m_pVB,
+	};
+
+	_uint			iStrides[] = {
+		m_iStride
+	};
+
+	_uint			iOffsets[] = {
+		0,
+	};
+
+	m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, pVertexBuffers, iStrides, iOffsets);
+
+	m_pContext->IASetIndexBuffer(m_pIB, m_eIndexFormat, 0);
+
+	m_pContext->IASetPrimitiveTopology(m_eTopology);
+
+	m_pContext->DrawIndexed((m_TrailVertices.size() - 2) * m_iNumIndicesofPrimitive, 0, 0);
 
 	return S_OK;
 }
 
-void CVIBuffer_Trail::SetUp_Position(Vec4 vHighPosition, Vec4 vLowPosition)
+void CVIBuffer_Trail::SetUp_Position(Vec3 vHighPosition, Vec3 vLowPosition)
 {
-	XMStoreFloat4(&m_vHighPosition, vHighPosition);
-	XMStoreFloat4(&m_vLowPosition, vLowPosition);
+	m_vHighPosition = vHighPosition;
+	m_vLowPosition = vLowPosition;
 }
 
 void CVIBuffer_Trail::Start_Trail(Matrix TransformMatrix)
 {
 	m_TrailVertices.clear();
-	for (_uint i = 0; i < m_iNumVertices; i += 2)
 	{
-		VTXTRAIL High = {};
-		XMStoreFloat3(&High.vPosition, XMVector3TransformCoord(XMLoadFloat4(&m_vHighPosition), TransformMatrix));
-		VTXTRAIL Low = {};
-		XMStoreFloat3(&Low.vPosition, XMVector3TransformCoord(XMLoadFloat4(&m_vLowPosition), TransformMatrix));
+		VTXTRAIL tVertexHigh;
+		tVertexHigh.vPosition = XMVector3TransformCoord(m_vHighPosition, TransformMatrix);;
 
-		m_TrailVertices.push_back(High);
-		m_TrailVertices.push_back(Low);
+		VTXTRAIL tVertexLow;
+		tVertexLow.vPosition = XMVector3TransformCoord(m_vLowPosition, TransformMatrix);;
+
+		m_TrailVertices.push_front(tVertexLow);
+		m_TrailVertices.push_front(tVertexHigh);
 	}
 }
 
@@ -295,6 +284,8 @@ CComponent * CVIBuffer_Trail::Clone(CGameObject* pObject, void * pArg)
 		MSG_BOX("Failed To Cloned : CVIBuffer_Trail");
 		Safe_Release(pInstance);
 	}
+
+	pInstance->m_pOwner = pObject;
 
 	return pInstance;
 }
