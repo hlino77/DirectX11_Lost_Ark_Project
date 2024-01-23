@@ -26,7 +26,6 @@ HRESULT CState_WR_Attack_1::Initialize()
 	else
 		m_TickFunc = &CState_WR_Attack_1::Tick_State_NoneControl;
 
-
 	/* 일반공격 프레임 */
 	m_AttackFrames.push_back(15);
 	m_AttackFrames.push_back(-1);
@@ -36,6 +35,7 @@ HRESULT CState_WR_Attack_1::Initialize()
 
 void CState_WR_Attack_1::Enter_State()
 {
+	m_bEffect = false;
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0, 1.f);
@@ -55,13 +55,18 @@ void CState_WR_Attack_1::Exit_State()
 
 void CState_WR_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
+	if (!m_bEffect)
+	{
+		m_bEffect = true;
+
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Attack_1"), func)
+	}
+
 	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
-
-		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-		TRAIL_START(TEXT("4temp"), func)
 	}
 
 	if (true == m_pController->Is_Attack() &&

@@ -13,12 +13,12 @@ CLockFree_Transform::CLockFree_Transform(const CLockFree_Transform & rhs)
 
 }
 
-Vec3 CLockFree_Transform::Get_State(STATE eState)
+Vec3 CLockFree_Transform::Get_State(const STATE& eState)
 {
 	return Vec3(m_WorldMatrix.m[eState][0], m_WorldMatrix.m[eState][1], m_WorldMatrix.m[eState][2]);
 }
 
-Matrix CLockFree_Transform::Get_WorldMatrix()
+Matrix& CLockFree_Transform::Get_WorldMatrix()
 {
 	return m_WorldMatrix;
 }
@@ -33,14 +33,14 @@ Matrix CLockFree_Transform::Get_WorldMatrixInverse()
 	return m_WorldMatrix.Invert();
 }
 
-void CLockFree_Transform::Set_State(STATE eState, Vec3 vState)
+void CLockFree_Transform::Set_State(const STATE& eState, const Vec3& vState)
 {
 	m_WorldMatrix.m[eState][0] = vState.x;
 	m_WorldMatrix.m[eState][1] = vState.y;
 	m_WorldMatrix.m[eState][2] = vState.z;
 }
 
-void CLockFree_Transform::Set_WorldMatrix(Matrix matWorld)
+void CLockFree_Transform::Set_WorldMatrix(const Matrix& matWorld)
 {
 	m_WorldMatrix = matWorld;
 }

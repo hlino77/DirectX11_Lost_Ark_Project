@@ -22,14 +22,14 @@ protected:
 	virtual ~CTransform() = default;
 
 public:
-	virtual Vec3 Get_State(STATE eState) PURE;
+	virtual Vec3 Get_State(const STATE& eState) PURE;
 
-	virtual Matrix Get_WorldMatrix() PURE;
+	virtual Matrix& Get_WorldMatrix() PURE;
 	virtual Matrix Get_WorldMatrix_TP() PURE;
 	virtual Matrix Get_WorldMatrixInverse() PURE;
 
-	virtual void Set_State(STATE eState, Vec3 vState) PURE;
-	virtual void Set_WorldMatrix(Matrix matWorld) PURE;
+	virtual void Set_State(const STATE& eState, const Vec3& vState) PURE;
+	virtual void Set_WorldMatrix(const Matrix& matWorld) PURE;
 
 public:
 	virtual HRESULT Initialize_Prototype();

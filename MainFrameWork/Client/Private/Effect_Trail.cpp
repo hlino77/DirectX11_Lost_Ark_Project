@@ -49,7 +49,8 @@ void CEffect_Trail::Tick(_float fTimeDelta)
 	if (m_fWaitingAcc < m_fWaitingTime)
 		return;
 
-	CB_UpdatePivot(m_matPivot);
+	if (m_fTimeAcc <= m_fLifeTime)
+		CB_UpdatePivot(m_matPivot);
 
 	Run_Sequence(fTimeDelta);
 }

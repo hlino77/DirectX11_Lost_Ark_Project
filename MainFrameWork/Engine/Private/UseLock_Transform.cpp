@@ -13,13 +13,13 @@ CUseLock_Transform::CUseLock_Transform(const CUseLock_Transform & rhs)
 
 }
 
-Vec3 CUseLock_Transform::Get_State(STATE eState)
+Vec3 CUseLock_Transform::Get_State(const STATE& eState)
 {
 	READ_LOCK
 	return Vec3(m_WorldMatrix.m[eState][0], m_WorldMatrix.m[eState][1], m_WorldMatrix.m[eState][2]);
 }
 
-Matrix CUseLock_Transform::Get_WorldMatrix()
+Matrix& CUseLock_Transform::Get_WorldMatrix()
 {
 	READ_LOCK
 	return m_WorldMatrix;
@@ -37,7 +37,7 @@ Matrix CUseLock_Transform::Get_WorldMatrixInverse()
 	return m_WorldMatrix.Invert();
 }
 
-void CUseLock_Transform::Set_State(STATE eState, Vec3 vState)
+void CUseLock_Transform::Set_State(const STATE& eState, const Vec3& vState)
 {
 	WRITE_LOCK
 	m_WorldMatrix.m[eState][0] = vState.x;
@@ -45,7 +45,7 @@ void CUseLock_Transform::Set_State(STATE eState, Vec3 vState)
 	m_WorldMatrix.m[eState][2] = vState.z;
 }
 
-void CUseLock_Transform::Set_WorldMatrix(Matrix matWorld)
+void CUseLock_Transform::Set_WorldMatrix(const Matrix& matWorld)
 {
 	WRITE_LOCK
 	m_WorldMatrix = matWorld;

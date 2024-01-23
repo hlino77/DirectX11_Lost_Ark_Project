@@ -38,9 +38,6 @@ HRESULT CObject_Manager::Add_Prototype(const wstring & strPrototypeTag, CGameObj
 	return S_OK;
 }
 
-
-
-
 CGameObject* CObject_Manager::Add_GameObject(_uint iLevelIndex, const _uint iLayerType, const wstring & strPrototypeTag, void * pArg)
 {
 	/* 복제할 사본을 차즌ㄷ나. */

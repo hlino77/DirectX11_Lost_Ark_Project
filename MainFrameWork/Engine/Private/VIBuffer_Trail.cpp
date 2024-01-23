@@ -196,7 +196,6 @@ void CVIBuffer_Trail::Update_TrailBuffer()
 
 		m_TrailVertices[i].vTexture = XMVectorLerp(Vec2(1.0f, fTexY), Vec2(0.0f, fTexY), i * fRatio);
 		m_TrailVertices[i].fAlpha = CAsUtils::Lerpf(1.0f, 0.0f, i * fRatio);
-
 		m_BufferData[i] = m_TrailVertices[i];
 	}
 
