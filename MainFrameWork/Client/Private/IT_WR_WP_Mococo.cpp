@@ -51,6 +51,9 @@ HRESULT CIT_WR_WP_Mococo::Use_Item(CPlayer* pOwner)
 	if (nullptr == pOwner)
 		return E_FAIL;
 
+	if (nullptr != pOwner->Get_EquipItem((_uint)PART::WEAPON))
+		pOwner->Get_EquipItem((_uint)PART::WEAPON)->Disuse_Item(pOwner, false);
+
 	CPlayer::STATDESC tPcStat = pOwner->Get_PlayerStat_Desc();
 
 	tPcStat.iAtkPower += m_tStatChangeDesc.iAtkPower;
@@ -58,6 +61,7 @@ HRESULT CIT_WR_WP_Mococo::Use_Item(CPlayer* pOwner)
 	pOwner->Set_PlayerStat_Desc(tPcStat);
 
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(m_pModelCom);
+	pOwner->Set_EquipItem((_uint)PART::WEAPON, this);
 
 	return S_OK;
 }
@@ -74,6 +78,7 @@ HRESULT CIT_WR_WP_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	pOwner->Set_PlayerStat_Desc(tPcStat);
 
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(nullptr);
+	pOwner->Set_EquipItem((_uint)PART::WEAPON, nullptr);
 
 	return S_OK;
 }

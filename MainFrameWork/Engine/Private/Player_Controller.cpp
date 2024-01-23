@@ -19,6 +19,12 @@ CPlayer_Controller::CPlayer_Controller(const CPlayer_Controller& rhs)
 		m_fChangeStatAcc[i] = rhs.m_fChangeStatAcc[i];
 		m_fChangeStatTime[i] = rhs.m_fChangeStatTime[i];
 	}
+
+	for (size_t i = 0; i < (_uint)STATUSEFFECT::_END; i++)
+	{
+		m_bStatusEffect[i] = rhs.m_bStatusEffect[i];
+		m_fStatusDuration[i] = rhs.m_fStatusDuration[i];
+	}
 }
 
 HRESULT CPlayer_Controller::Initialize_Prototype()
@@ -30,6 +36,12 @@ HRESULT CPlayer_Controller::Initialize_Prototype()
 
 		m_fChangeStatAcc[i] = 0.f;
 		m_fChangeStatTime[i] = -1.f;
+	}
+
+	for (size_t i = 0; i < (_uint)STATUSEFFECT::_END; i++)
+	{
+		m_bStatusEffect[i] = false;
+		m_fStatusDuration[i] = -1.f;
 	}
 
 	return S_OK;
@@ -60,6 +72,7 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
 	Skill_ChangeStat_CoolTime(fTimeDelta);
+	StatusEffect_Duration(fTimeDelta);
 
 	/* Skill Collider */
 	Skill_Check_Collider();
@@ -129,7 +142,7 @@ _bool CPlayer_Controller::Is_Run()
 
 _bool CPlayer_Controller::Is_Skill()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bSkillKeyActive || false == m_bKeyActive)
 		return false;
 
 	if (-1.f == m_fCoolTime[SKILL_KEY::Q] && nullptr != m_pSkills[SKILL_KEY::Q] && (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q)))
@@ -390,6 +403,87 @@ void CPlayer_Controller::Get_DashMessage(Vec3 vPos)
 	Look(vPos);
 }
 
+void CPlayer_Controller::Get_StatusEffectMessage(_uint iStatus, _float fDurtaion)
+{
+	if (iStatus == (_uint)STATUSEFFECT::_END)
+		return;
+
+	/* 시작시 이미 이펙트상태면 초기화 */
+	for (size_t i = 0; i < (_uint)STATUSEFFECT::_END; i++)
+	{
+		if (true == m_bStatusEffect[i])
+		{
+			m_bStatusEffect[i] = false;
+			m_fStatusDuration[i] = -1.f;
+			switch (i)
+			{
+			case (_uint)STATUSEFFECT::BUG:
+				Bug();
+				break;
+			case (_uint)STATUSEFFECT::FEAR:
+				Fear();
+				break;
+			case (_uint)STATUSEFFECT::EARTHQUAKE:
+				EarthQuake();
+				break;
+			case (_uint)STATUSEFFECT::SHOCK:
+				Shock();
+				break;
+			case (_uint)STATUSEFFECT::STUN:
+				Stun();
+				break;
+			case (_uint)STATUSEFFECT::SILENCE:
+				Silence();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	switch (iStatus)
+	{
+	case (_uint)STATUSEFFECT::BUG:
+		m_iStatusEffect = iStatus;
+		m_bStatusEffect[iStatus] = true;
+		m_fStatusDuration[iStatus] = fDurtaion;
+		Bug();
+		break;
+	case (_uint)STATUSEFFECT::FEAR:
+		m_iStatusEffect = iStatus;
+		m_bStatusEffect[iStatus] = true;
+		m_fStatusDuration[iStatus] = fDurtaion;
+		Fear();
+		break;
+	case (_uint)STATUSEFFECT::EARTHQUAKE:
+		m_iStatusEffect = iStatus;
+		m_bStatusEffect[iStatus] = true;
+		m_fStatusDuration[iStatus] = fDurtaion;
+		EarthQuake();
+		break;
+	case (_uint)STATUSEFFECT::SHOCK:
+		m_iStatusEffect = iStatus;
+		m_bStatusEffect[iStatus] = true;
+		m_fStatusDuration[iStatus] = fDurtaion;
+		Shock();
+		break;
+	case (_uint)STATUSEFFECT::STUN:
+		m_iStatusEffect = iStatus;
+		m_bStatusEffect[iStatus] = true;
+		m_fStatusDuration[iStatus] = fDurtaion;
+		Stun();
+		break;
+	case (_uint)STATUSEFFECT::SILENCE:
+		m_iStatusEffect = iStatus;
+		m_bStatusEffect[iStatus] = true;
+		m_fStatusDuration[iStatus] = fDurtaion;
+		Silence();
+		break;
+	default:
+		break;
+	}
+}
+
 HRESULT CPlayer_Controller::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
 	if (nullptr == pSkill)
@@ -408,8 +502,6 @@ _bool CPlayer_Controller::Pick(_uint screenX, _uint screenY, Vec3& pickPos, _flo
 void CPlayer_Controller::Input(const _float& fTimeDelta)
 {
 }
-
-
 
 void CPlayer_Controller::Move(const _float& fTimeDelta)
 {
@@ -553,6 +645,116 @@ void CPlayer_Controller::Skill_Check_Collider()
 		return;
 
 	m_pSkills[m_eSelectedSkill]->Check_ColliderState();
+}
+
+void CPlayer_Controller::StatusEffect_Duration(const _float& fTimeDelta)
+{
+	for (size_t i = 0; i < (_uint)STATUSEFFECT::_END; i++)
+	{
+		if (false == m_bStatusEffect[i]) continue;
+
+		m_fStatusDuration[i] -= fTimeDelta;
+
+		if (0.0f >= m_fStatusDuration[i])
+		{
+			m_bStatusEffect[i] = false;
+			m_fStatusDuration[i] = -1.f;
+
+			switch (i)
+			{
+			case (_uint)STATUSEFFECT::BUG:
+				Bug();
+				break;
+			case (_uint)STATUSEFFECT::FEAR:
+				Fear();
+				break;
+			case (_uint)STATUSEFFECT::EARTHQUAKE:
+				EarthQuake();
+				break;
+			case (_uint)STATUSEFFECT::SHOCK:
+				Shock();
+				break;
+			case (_uint)STATUSEFFECT::STUN:
+				Stun();
+				break;
+			case (_uint)STATUSEFFECT::SILENCE:
+				Silence();
+				break;
+			}
+		}
+	}
+}
+
+void CPlayer_Controller::Bug()
+{
+	if (-1.f == m_fStatusDuration[(_uint)STATUSEFFECT::BUG])
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void CPlayer_Controller::Fear()
+{
+	if (-1.f == m_fStatusDuration[(_uint)STATUSEFFECT::FEAR])
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void CPlayer_Controller::EarthQuake()
+{
+	if (-1.f == m_fStatusDuration[(_uint)STATUSEFFECT::EARTHQUAKE])
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void CPlayer_Controller::Shock()
+{
+	if (-1.f == m_fStatusDuration[(_uint)STATUSEFFECT::SHOCK])
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void CPlayer_Controller::Stun()
+{
+	if (-1.f == m_fStatusDuration[(_uint)STATUSEFFECT::STUN])
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void CPlayer_Controller::Silence()
+{
+	if (-1.f == m_fStatusDuration[(_uint)STATUSEFFECT::SILENCE])
+	{
+		m_bSkillKeyActive = true;
+	}
+	else
+	{
+		m_bSkillKeyActive = false;
+	}
 }
 
 void CPlayer_Controller::Free()

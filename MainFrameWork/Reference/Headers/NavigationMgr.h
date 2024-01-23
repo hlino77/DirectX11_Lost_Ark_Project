@@ -7,6 +7,7 @@ BEGIN(Engine)
 
 class CNavigation;
 class CGameObject;
+class CCell;
 
 class ENGINE_DLL CNavigationMgr final : public CBase
 {
@@ -28,6 +29,12 @@ public:
 	_bool	Picking_Cell(_uint iLevel, Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos);
 	 
 	void   Set_NaviCell_Active(_uint NaviIndex, _uint CellIndex, _bool Active);
+
+	CCell* Get_CurCell(_uint iLevel, CGameObject * pObject);
+
+	_bool  Is_NeighborActive(_uint iLevel, CGameObject * pObject);
+
+	Vec3   Find_CloseCell_Middle(_uint iLevel, CGameObject * pObject);
 
 	void	OnOff_Render() { m_bRender = !m_bRender; }
 private:

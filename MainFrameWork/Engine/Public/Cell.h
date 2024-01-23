@@ -31,7 +31,6 @@ public:
 	void				Set_Active(_bool Active) { m_bActive = Active; }
 	_bool				Is_Active() { return m_bActive; }
 
-
 public:// Hwang's
 	_bool					Intersects(Vec3 vOrigin, Vec3 vDir, _float& fDist);
 	void					SetUp_OnCell(CGameObject* pObject, _uint iCount);
@@ -46,6 +45,7 @@ public:
 
 	void					SetUp_Neighbor(CELLLINE eLine, CCell* pCell) { m_iNeighbor[eLine] = pCell->m_iCellIndex; }
 
+	Vec3					Get_Cell_MiddlePos();
 
 private:
 

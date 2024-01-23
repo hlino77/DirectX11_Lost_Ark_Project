@@ -141,8 +141,8 @@ public:
 	void						Set_Navi(_bool bNavi) { m_bNavi = bNavi; }
 	_bool						Is_Navi() { return m_bNavi; }
 
-	void						Set_Invincible(_bool bInvincible) { m_bInvincible = bInvincible; }
-	_bool						Is_Invincible() { return m_bInvincible; }
+	void						Set_Invincible(_bool bInvincible) { m_IsInvincible = bInvincible; }
+	_bool						Is_Invincible() { return m_IsInvincible; }
 
 	int64						Get_Hp() { return m_iHp; }
 	uint64						Get_MaxHp() { return m_iMaxHp; }
@@ -224,7 +224,7 @@ protected:
 	_bool				m_bActive = true;
 	_bool				m_bDead = false;
 	_bool				m_bNavi = true;
-	_bool				m_bInvincible = false;
+	_bool				m_IsInvincible = false;
 	atomic<Vec3>		m_vTargetPos;
 	atomic<Matrix>		m_matTargetWorld;
 

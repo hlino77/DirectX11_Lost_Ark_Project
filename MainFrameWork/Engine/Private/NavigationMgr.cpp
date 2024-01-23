@@ -98,6 +98,21 @@ void CNavigationMgr::Set_NaviCell_Active(_uint LevelIndex, _uint CellIndex, _boo
 	m_Navigations[LevelIndex]->Set_Active_Specific_Cell(CellIndex, Active);
 }
 
+CCell* CNavigationMgr::Get_CurCell(_uint iLevel, CGameObject* pObject)
+{
+	return m_Navigations[iLevel]->Find_Cell(pObject->Get_CurrCell());
+}
+
+_bool CNavigationMgr::Is_NeighborActive(_uint iLevel, CGameObject* pObject)
+{
+	return m_Navigations[iLevel]->Is_NeighborActive(pObject);
+}
+
+Vec3 CNavigationMgr::Find_CloseCell_Middle(_uint iLevel, CGameObject* pObject)
+{
+	return m_Navigations[iLevel]->Find_CloseCell_Middle(pObject);
+}
+
 
 void CNavigationMgr::Free()
 {

@@ -52,7 +52,19 @@ HRESULT CCell::Render()
 
 _bool CCell::Intersects(Vec3 vOrigin, Vec3 vDir, _float& fDist)
 {
-    return TriangleTests::Intersects(vOrigin, vDir, m_vPoints_Original[0], m_vPoints_Original[1], m_vPoints_Original[2], fDist);
+	if (true == TriangleTests::Intersects(vOrigin, vDir, m_vPoints_Original[0], m_vPoints_Original[1], m_vPoints_Original[2], fDist))
+	{
+		if (true == m_bActive)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+		return false;
 }
 
 void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
@@ -93,6 +105,7 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 		{
 			if (m_iNeighbor[i] == -1 || m_pNavigation->Get_Cell(m_iNeighbor[i])->Is_Active() == false)
 			{
+				
 				Vec3 vDir = vPos - m_vPoints[i];
 				_float fLength = vDir.Dot(m_vLine[i]);
 
@@ -266,11 +279,15 @@ _bool CCell::Compare_Points(const Vec3* pSourPoint, const Vec3* pDestPoint)
     return false;
 }
 
+Vec3 CCell::Get_Cell_MiddlePos()
+{
+	Vec3 midPoint;
+	midPoint.x = (m_vPoints[POINT_A].x + m_vPoints[POINT_B].x + m_vPoints[POINT_C].x) / 3.f;
+	midPoint.y = (m_vPoints[POINT_A].y + m_vPoints[POINT_B].y + m_vPoints[POINT_C].y) / 3.f;
+	midPoint.z = (m_vPoints[POINT_A].z + m_vPoints[POINT_B].z + m_vPoints[POINT_C].z) / 3.f;
 
-
-
-
-	
+	return midPoint;
+}
 
 CCell* CCell::Create(class CNavigation* pNavigation, const Vec3* pPoints, _uint iIndex)
 {

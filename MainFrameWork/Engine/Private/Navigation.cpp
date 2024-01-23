@@ -98,8 +98,6 @@ HRESULT CNavigation::Render()
 		}
 	}
 
-
-
 	m_pBatch->End();
 
 
@@ -146,6 +144,64 @@ _bool CNavigation::Is_Outside(CGameObject* pObject, _float fOffset)
 	}
 	else
 		return false;
+}
+
+_bool CNavigation::Is_NeighborActive(CGameObject* pObject)
+{
+	_int		iNeighborIndex = 0;
+	Vec3 vPosition = pObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vPosition.y = 0.f;
+
+	if (true == m_vecCells[pObject->Get_CurrCell()]->isOut(vPosition, &iNeighborIndex))
+	{
+		if (-1 != iNeighborIndex)
+		{
+			if (true == m_vecCells[iNeighborIndex]->Is_Active())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
+	{
+		return true;
+	}
+}
+
+Vec3 CNavigation::Find_CloseCell_Middle(CGameObject* pObject)
+{
+	Vec3   vCloseCellPos;
+
+	_float fCloseDist = 100.f;
+
+	Vec3 vPosition = pObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vPosition.y = 0.0f;
+
+	for (auto& pCell : m_vecCells)
+	{
+		if (false == pCell->Is_Active()) continue;
+
+		Vec3 vCellPos = pCell->Get_Cell_MiddlePos();
+		vCellPos.y = 0.0f;
+
+		_float fCmpDist = Vec3(vCellPos - vPosition).Length();
+
+		if (fCmpDist < fCloseDist)
+		{
+			fCloseDist = fCmpDist;
+			vCloseCellPos = pCell->Get_Cell_MiddlePos();
+		}
+	}
+
+	return vCloseCellPos;
 }
 
 void CNavigation::Find_FirstCell(CGameObject* pObject)
@@ -397,10 +453,6 @@ void CNavigation::Reset_CellPoint()
 	}
 
 }
-
-
-
-
 
 CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

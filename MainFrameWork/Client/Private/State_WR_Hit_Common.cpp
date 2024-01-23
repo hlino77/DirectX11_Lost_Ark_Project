@@ -5,6 +5,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Model.h"
+#include "NavigationMgr.h"
+#include "Cell.h"
 
 CState_WR_Hit_Common::CState_WR_Hit_Common(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -31,7 +33,7 @@ HRESULT CState_WR_Hit_Common::Initialize()
 
 void CState_WR_Hit_Common::Enter_State()
 {
-	m_fForceDist = m_pPlayer->Get_TargetPos().y;
+	m_fForceDist = m_pPlayer->Get_TargetPos().y * 1.5f;
 	Vec3 vHitCenter = m_pPlayer->Get_TargetPos();
 	vHitCenter.y = 0.0f;
 
@@ -76,6 +78,12 @@ void CState_WR_Hit_Common::Exit_State()
 
 void CState_WR_Hit_Common::Tick_State_Control(_float fTimeDelta)
 {
+	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
+		2 == m_pPlayer->Get_ValtanPhase())
+	{
+		m_pPlayer->Set_State(TEXT("Fall"));
+	}
+
 	Hit_Dmg(fTimeDelta);
 }
 

@@ -194,9 +194,9 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 		Use_Item(TEXT("IT_GN_Body_Mococo"));
 	}
 
+	m_pRigidBody->Tick(fTimeDelta);
 	m_pStateMachine->Tick_State(fTimeDelta);
 	m_pController->Tick(fTimeDelta);
-	m_pRigidBody->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 }
@@ -298,24 +298,29 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 				m_pController->Get_GrabMessage(pOther->Get_Owner());
 			}
 		}
-		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+		if (false == Is_Invincible())
 		{
-			m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
-		}
-		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
-		{
-			Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
-			if (false == m_pController->Is_HitState())
-				m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
-		}
-		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
-		{
-			Vec3 vCenter;
-			if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
+			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 			{
+				m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+			{
+				Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
 				if (false == m_pController->Is_HitState())
-					m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+					m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+			{
+				Vec3 vCenter;
+				if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
+				{
+					if (false == m_pController->Is_HitState())
+						m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+				}
+
+				m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
 			}
 		}
 	}

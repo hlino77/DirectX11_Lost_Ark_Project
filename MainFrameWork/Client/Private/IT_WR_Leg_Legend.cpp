@@ -108,7 +108,7 @@ HRESULT CIT_WR_Leg_Legend::Ready_Components()
 	__super::Ready_Components();
 
 	CModel::CHANGECOLOR pColor;
-	pColor.vColor_R = Vec4(0.62f, 0.77f, 0.99f, 1.0f);
+	pColor.vColor_R = Vec4(0.1f, 0.1f, 0.1f, 1.0f);
 	pColor.vColor_G = Vec4(1.0f, 0.924373f, 0.883982f, 1.0f);
 	pColor.vColor_B = Vec4(0.795551f, 0.721929f, 0.681277f, 1.0f);
 

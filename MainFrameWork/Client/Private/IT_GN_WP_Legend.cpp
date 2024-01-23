@@ -51,18 +51,22 @@ HRESULT CIT_GN_WP_Legend::Use_Item(CPlayer* pOwner)
 	if (nullptr == pOwner)
 		return E_FAIL;
 
+	if (nullptr != pOwner->Get_EquipItem((_uint)PART::WEAPON))
+		pOwner->Get_EquipItem((_uint)PART::WEAPON)->Disuse_Item(pOwner, false);
+
 	CPlayer::STATDESC tPcStat = pOwner->Get_PlayerStat_Desc();
 
 	tPcStat.iAtkPower += m_tStatChangeDesc.iAtkPower;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
 
-
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(m_pModel_H);
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_2))->Change_ModelCom(m_pModel_H);
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_3))->Change_ModelCom(m_pModel_L);
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_4))->Change_ModelCom(m_pModel_S);
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_5))->Change_ModelCom(m_pModel_S);
+
+	pOwner->Set_EquipItem((_uint)PART::WEAPON, this);
 
 	return S_OK;
 }
@@ -83,6 +87,8 @@ HRESULT CIT_GN_WP_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_3))->Change_ModelCom(nullptr);
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_4))->Change_ModelCom(nullptr);
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_5))->Change_ModelCom(nullptr);
+
+	pOwner->Set_EquipItem((_uint)PART::WEAPON, nullptr);
 
 	return S_OK;
 }
