@@ -38,7 +38,6 @@ private:
 	_int	m_iTrailVtxCount = 4;
 
 	_bool m_bTrailEnd = false;
-
 private:
 	void Run_Sequence(const _float& fTimeDelta);
 

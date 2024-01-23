@@ -49,7 +49,7 @@ void CEffect_Trail::Tick(_float fTimeDelta)
 	if (m_fWaitingAcc < m_fWaitingTime)
 		return;
 
-	if (m_fTimeAcc <= m_fLifeTime)
+	if (m_bTrailEnd == false)
 		CB_UpdatePivot(m_matPivot);
 
 	Run_Sequence(fTimeDelta);
@@ -105,7 +105,8 @@ void CEffect_Trail::Reset()
 
 void CEffect_Trail::TrailEnd(_float fRemainTime)
 {
-
+	m_bTrailEnd = true;
+	m_fRemainTime = fRemainTime;
 }
 
 HRESULT CEffect_Trail::Ready_Components()
