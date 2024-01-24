@@ -108,6 +108,7 @@ void CEffect_Trail::TrailEnd(_float fRemainTime)
 {
 	m_bTrailEnd = true;
 	m_fRemainTime = fRemainTime;
+	m_fTimeAcc = m_fLifeTime;
 }
 
 HRESULT CEffect_Trail::Ready_Components()

@@ -5,6 +5,8 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CState_WDR_HeavyCrush::CState_WDR_HeavyCrush(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -25,6 +27,8 @@ HRESULT CState_WDR_HeavyCrush::Initialize()
 	m_SkillFrames.push_back(40);
 	m_SkillFrames.push_back(-1);
 
+	m_fChageEffectDelay = 0.1f;
+
 	return S_OK;
 }
 
@@ -40,6 +44,8 @@ void CState_WDR_HeavyCrush::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_pPlayer->Get_WDR_Controller()->Get_AddMarbleMessage(1);
+
+	m_fChageEffectAcc = m_fChageEffectDelay;
 }
 
 void CState_WDR_HeavyCrush::Tick_State(_float fTimeDelta)
@@ -56,17 +62,26 @@ void CState_WDR_HeavyCrush::Exit_State()
 
 void CState_WDR_HeavyCrush::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHeavyCrush))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHeavyCrush);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+
+		Effect_Shot();
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHeavyCrush))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
+	if (iAnimFrame < 40)
+	{
+		Effect_Charge(fTimeDelta);
+	}
+
 	
-	if (55 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHeavyCrush))
+	if (55 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
@@ -110,6 +125,44 @@ void CState_WDR_HeavyCrush::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_HeavyCrush::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+
+void CState_WDR_HeavyCrush::Effect_Charge(_float fTimeDelta)
+{
+	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix();
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHeavyCrush);
+
+	m_fChageEffectAcc += fTimeDelta;
+	if (m_fChageEffectAcc >= m_fChageEffectDelay)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		EFFECT_START_OUTLIST(L"PerfectSwingCharge", &tDesc, m_Effects);
+		m_fChageEffectAcc = 0.0f;
+	}
+
+	for (auto& Effectiter = m_Effects.begin(); Effectiter != m_Effects.end();)
+	{
+		if ((*Effectiter)->Is_Active())
+		{
+			(*Effectiter)->Update_Pivot(matWorld);
+			++Effectiter;
+		}
+		else
+		{
+			Effectiter = m_Effects.erase(Effectiter);
+		}
+	}
+}
+
+void CState_WDR_HeavyCrush::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+	EFFECT_START_OUTLIST(L"HeavyCrush", &tDesc, m_Effects);
 }
 
 CState_WDR_HeavyCrush* CState_WDR_HeavyCrush::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
