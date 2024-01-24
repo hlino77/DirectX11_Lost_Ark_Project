@@ -78,7 +78,7 @@ struct PS_IN
 
 float4 PS_MAIN_POSTPROCESS(PS_IN In) : SV_TARGET0
 {    // 일단 그대로 리턴
-    return g_PostProcessedTarget.Sample(LinearSampler, In.vTexcoord);
+    return g_BlendEffectTarget.Sample(LinearSampler, In.vTexcoord);
 }
 
 cbuffer ScreenTone
@@ -115,7 +115,7 @@ float Tonemap_ACES(float x)
 
 float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 {
-    float fDistortion = g_DistortionTarget.Sample(LinearSampler, In.vTexcoord).x;
+    float fDistortion = g_DistortionTarget.Sample(LinearClampSampler, In.vTexcoord).x;
 
     float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
     
@@ -228,7 +228,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
 		
         if (0.f > uv.y || 1.f < uv.y)
             continue;
-        vColor += g_MotionBlurTarget.Sample(LinearClampSampler, uv);
+        vColor += g_BlendEffectTarget.Sample(LinearClampSampler, uv);
         ++iDivision;
     }
 

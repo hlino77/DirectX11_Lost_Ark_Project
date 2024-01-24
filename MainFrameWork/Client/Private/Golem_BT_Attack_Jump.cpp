@@ -26,8 +26,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 	if (m_Shoot[0] && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
 	{ 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matWorld;
+		desc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 
 		EFFECT_START(TEXT("Chaos_Rook_Cross_Warnning"), &desc)
 
@@ -42,8 +41,7 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 		ModelDesc.pOwner = m_pGameObject;
 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matWorld;
+		desc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 
 		EFFECT_START(TEXT("Chaos_Rook_Cross_Effects"), &desc)
 
