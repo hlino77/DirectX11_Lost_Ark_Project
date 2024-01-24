@@ -219,14 +219,14 @@ void GS_DRAW_SMOKE(point VS_OUT_SMOKE In[1], inout TriangleStream<GS_OUT_SMOKE> 
     }
 }
 
-PS_OUT_EFFECT PS_DRAW_FXPARTICLE(GS_OUT_SMOKE In, uniform bool bOneBlend)
+PS_OUT_EFFECT PS_DRAW_FXPARTICLE(GS_OUT_SMOKE In, uniform bool bOneBlend, uniform int iSamplerState)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
-    
+
     float2 vNewUV = In.vTexcoord;
- 
+
     float fDistortion = 0.f;
-    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion);
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion, iSamplerState);
     Out.vDistortion = fDistortion;
     
     if (bOneBlend)
@@ -254,7 +254,7 @@ technique11 DrawTech
         GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(true);
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(true, 0);
         ComputeShader = NULL;
     }
 
@@ -268,7 +268,63 @@ technique11 DrawTech
         GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(false);
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(false, 0);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendClamp // 0
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
+        GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(true, 1);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendClamp // 1
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
+        GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(false, 1);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendBorder // 0
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
+        GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(true, 1);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendBorder // 1
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
+        GeometryShader = compile gs_5_0 GS_DRAW_SMOKE();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_DRAW_FXPARTICLE(false, 1);
         ComputeShader = NULL;
     }
 }

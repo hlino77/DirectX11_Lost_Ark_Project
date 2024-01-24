@@ -18,7 +18,7 @@ VS_OUT_FXTRAIL VS_MAIN_FXTRAIL( /* Á¤Á¡ */FXTRAIL_IN In)
 	return Out;
 }
 
-PS_OUT_EFFECT PS_MAIN_FXTRAIL(VS_OUT_FXTRAIL In, uniform bool bOneBlend, uniform bool bClamp)
+PS_OUT_EFFECT PS_MAIN_FXTRAIL(VS_OUT_FXTRAIL In, uniform bool bOneBlend, uniform int iSamplerState)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -40,10 +40,7 @@ PS_OUT_EFFECT PS_MAIN_FXTRAIL(VS_OUT_FXTRAIL In, uniform bool bOneBlend, uniform
 
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
-    if (bClamp)
-        vColor = CalculateEffectColorClamp(vNewUV, In.vTexcoord, fDistortion);
-    else
-        vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion);
+    vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion, iSamplerState);
     
     vColor.a *= In.fAlpha;
     Out.vDistortion = fDistortion;
@@ -73,7 +70,7 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(true, false);
+        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(true, 0);
         ComputeShader = NULL;
     }
 
@@ -87,7 +84,7 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(false, false);
+        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(false, 0);
         ComputeShader = NULL;
     }
 
@@ -101,7 +98,7 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(true, true);
+        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(true, 1);
         ComputeShader = NULL;
     }
 
@@ -115,7 +112,35 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(false, true);
+        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(false, 1);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendBorder
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXTRAIL();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(true, 2);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendBorder
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXTRAIL();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTRAIL(false, 2);
         ComputeShader = NULL;
     }
 }

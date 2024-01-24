@@ -81,13 +81,7 @@ void GS_MAIN_FXTEX(point VS_OUT_FXTEX In[1], inout TriangleStream<GS_OUT> OutStr
 	OutStream.RestartStrip();
 }
 
-/* w나누기 연산. 진정한 투영변환. */
-/* 뷰포트스페이스(윈도우좌표)로 위치를 변환한다. */
-/* 래스터라이즈 : 정점에 둘러쌓인 픽셀의 정보를 생성한다. */
-/* 픽셀정보는 정점정보에 기반한다. */
-
-/* 전달받은 픽셀의 정보를 이용하여 픽셀의 최종적인 색을 결정하자. */
-PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In, uniform bool bOneBlend)
+PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In, uniform bool bOneBlend, uniform int iSamplerState)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -106,7 +100,7 @@ PS_OUT_EFFECT PS_MAIN_FXTEX(GS_OUT In, uniform bool bOneBlend)
     }
 
     float fDistortion = 0.f;
-    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion);
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexcoord, fDistortion, iSamplerState);
     Out.vDistortion = fDistortion;
     
     if (bOneBlend)
@@ -134,7 +128,7 @@ technique11 DefaultTechnique
         GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
 		HullShader = NULL;
 		DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(true);
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(true, 0);
         ComputeShader = NULL;
     }
 
@@ -148,7 +142,63 @@ technique11 DefaultTechnique
         GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
         HullShader = NULL;
         DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(false);
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(false, 0);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendClamp
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
+        GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
+		HullShader = NULL;
+		DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(true, 1);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendClamp
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
+        GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(false, 1);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendBorder
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
+        GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
+		HullShader = NULL;
+		DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(true, 2);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendBorder
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXTEX();
+        GeometryShader = compile gs_5_0 GS_MAIN_FXTEX();
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXTEX(false, 2);
         ComputeShader = NULL;
     }
 }

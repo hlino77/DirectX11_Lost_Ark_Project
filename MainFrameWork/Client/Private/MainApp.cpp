@@ -147,21 +147,24 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_BackBuffer_View(Vec4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
-	m_pRenderer_Com->Ready_InstanceRender();
+	if (FAILED(m_pRenderer_Com->Ready_InstanceRender()))
+		return E_FAIL;
 
 	if (FAILED(m_pRenderer_Com->Draw()))
 		return E_FAIL;
 	
-	CChat_Manager::GetInstance()->Render();
+	if (FAILED(CChat_Manager::GetInstance()->Render()))
+		return E_FAIL;
 
 	CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
 
-	m_pGameInstance->Render_Debug();
+	if (FAILED(m_pGameInstance->Render_Debug()))
+		return E_FAIL;
+
 	/* 초기화한 장면에 객체들을 그린다. */
-	m_pGameInstance->Present();
-
+	if (FAILED(m_pGameInstance->Present()))
+		return E_FAIL;
 	
-
 	return S_OK;
 }
 
@@ -180,21 +183,22 @@ HRESULT CMainApp::Open_Level(LEVELID eLevelID)
 
 HRESULT CMainApp::Initialize_Client()
 {
-	CCollisionManager::GetInstance()->Reserve_Manager((_uint)LAYER_COLLIDER::LAYER_END);
-
-	CNavigationMgr::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
-
-	CEventMgr::GetInstance()->Reserve_EventMgr(m_pDevice, m_pContext);
-	
-	CPhysXMgr::GetInstance()->ReserveManager();
-
-	CGameInstance::GetInstance()->Initialize_LoopChannel(CHANNELID::CHANNEL_LOOPSTART, CHANNEL_END);
-
-	CChat_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
-
-	CUI_Manager::GetInstance()->Reserve_Manager();
-
-	CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext);
+	if (FAILED(CCollisionManager::GetInstance()->Reserve_Manager((_uint)LAYER_COLLIDER::LAYER_END)))
+		return E_FAIL;
+	if (FAILED(CNavigationMgr::GetInstance()->Reserve_Manager(m_pDevice, m_pContext)))
+		return E_FAIL;
+	if (FAILED(CEventMgr::GetInstance()->Reserve_EventMgr(m_pDevice, m_pContext)))
+		return E_FAIL;
+	if (FAILED(CPhysXMgr::GetInstance()->ReserveManager()))
+		return E_FAIL;
+	if (FAILED(CGameInstance::GetInstance()->Initialize_LoopChannel(CHANNELID::CHANNEL_LOOPSTART, CHANNEL_END)))
+		return E_FAIL;
+	if (FAILED(CChat_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext)))
+		return E_FAIL;
+	if (FAILED(CUI_Manager::GetInstance()->Reserve_Manager()))
+		return E_FAIL;
+	if (FAILED(CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext)))
+		return E_FAIL;
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
 
 	ThreadManager::GetInstance()->ReserveManager(0);
