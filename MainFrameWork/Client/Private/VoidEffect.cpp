@@ -142,6 +142,9 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 		static_cast<CVIBuffer_Trail*>(m_pBuffer)->Set_VtxCount(::max(4, m_iTrailVtxCount));
 	}
+
+	m_Variables.vUV_Offset.x += m_vUV_Speed.x * fTimeDelta;
+	m_Variables.vUV_Offset.y += m_vUV_Speed.y * fTimeDelta;
 }
 
 void CVoidEffect::LateTick(_float fTimeDelta)
@@ -172,11 +175,7 @@ void CVoidEffect::LateTick(_float fTimeDelta)
 
 HRESULT CVoidEffect::Render()
 {
-	m_Variables.vUV_Offset.x = m_vUV_Speed.x * m_fTimeAcc;
-	m_Variables.vUV_Offset.y = m_vUV_Speed.y * m_fTimeAcc;
 
-	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
-	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;
 
 	m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
 
@@ -411,7 +410,8 @@ void CVoidEffect::Reset()
 	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
 	m_fSequenceTimer = 0.0f;
 	m_bRender = true;
-	
+	m_Variables.vUV_Offset = m_vUV_Start;
+
 	if (m_fWaitingTime > 0.0f)
 	{
 		m_bRender = false;

@@ -511,6 +511,7 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::InputFloat("Radial Time", &m_pCurrentEffect->m_fRadialTime);
 	ImGui::InputFloat("Radial Intensity", &m_pCurrentEffect->m_fRadialIntensity);
 
+	ImGui::InputFloat2("UV Start", (_float*)&m_pCurrentEffect->m_vUV_Start, "%.4f");
 	ImGui::InputFloat2("UV Speed", (_float*)&m_pCurrentEffect->m_vUV_Speed, "%.7f");
 
 	ImGui::Checkbox("UV_Wave", (_bool*)&m_pCurrentEffect->m_Variables.iUV_Wave);
@@ -973,6 +974,11 @@ HRESULT CEffectTool::Save(_char* szGroupName)
 		node = document->NewElement("UV_Variables");
 		root->LinkEndChild(node);
 		{
+			element = document->NewElement("UV_Start");
+			element->SetAttribute("X", m_vecEffects[i]->m_vUV_Start.x);
+			element->SetAttribute("Y", m_vecEffects[i]->m_vUV_Start.y);
+			node->LinkEndChild(element);
+
 			element = document->NewElement("UV_Speed");
 			element->SetAttribute("X", m_vecEffects[i]->m_vUV_Speed.x);
 			element->SetAttribute("Y", m_vecEffects[i]->m_vUV_Speed.y);
@@ -1289,6 +1295,10 @@ HRESULT CEffectTool::Load()
 			tinyxml2::XMLElement* element = nullptr;
 
 			element = node->FirstChildElement();
+			m_pCurrentEffect->m_vUV_Start.x = element->FloatAttribute("X");
+			m_pCurrentEffect->m_vUV_Start.y = element->FloatAttribute("Y");
+
+			element = element->NextSiblingElement();
 			m_pCurrentEffect->m_vUV_Speed.x = element->FloatAttribute("X");
 			m_pCurrentEffect->m_vUV_Speed.y = element->FloatAttribute("Y");
 

@@ -92,6 +92,7 @@ void CEffect_Trail::Reset()
 	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
 	m_fTimeAcc = 0.0f;
 	m_bRender = true;
+	m_Variables.vUV_Offset = m_vUV_Start;
 
 	if (m_fWaitingTime > 0.0f)
 	{

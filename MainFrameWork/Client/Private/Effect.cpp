@@ -292,6 +292,9 @@ void CEffect::Tick(_float fTimeDelta)
 		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRevolution.x), XMConvertToRadians(m_vOffsetRevolution.y), XMConvertToRadians(m_vOffsetRevolution.z)));
 		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
 	}
+
+	m_Variables.vUV_Offset.x += m_vUV_Speed.x * fTimeDelta;
+	m_Variables.vUV_Offset.y += m_vUV_Speed.y * fTimeDelta;
 }
 
 void CEffect::LateTick(_float fTimeDelta)
@@ -310,12 +313,6 @@ void CEffect::LateTick(_float fTimeDelta)
 
 HRESULT CEffect::Render()
 {
-	m_Variables.vUV_Offset.x = m_vUV_Speed.x * m_fTimeAcc;
-	m_Variables.vUV_Offset.y = m_vUV_Speed.y * m_fTimeAcc;
-
-	if (m_Variables.vUV_Offset.x > 1.f) m_Variables.vUV_Offset.x -= 1.f;
-	if (m_Variables.vUV_Offset.y > 1.f) m_Variables.vUV_Offset.y -= 1.f;
-
 	if(m_bColor_Lerp)
 		m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
 	else
@@ -410,6 +407,7 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 	m_Variables.vUV_TileIndex = Vec2(0.0f, 0.0f);
 	m_fTimeAcc = 0.0f;
 	m_bRender = true;
+	m_Variables.vUV_Offset = m_vUV_Start;
 
 	if (m_fWaitingTime > 0.0f)
 	{

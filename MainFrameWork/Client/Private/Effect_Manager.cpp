@@ -222,6 +222,10 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				tinyxml2::XMLElement* element = nullptr;
 
 				element = node->FirstChildElement();
+				tDesc.vUV_Start.x = element->FloatAttribute("X");
+				tDesc.vUV_Start.y = element->FloatAttribute("Y");
+
+				element = element->NextSiblingElement();
 				tDesc.vUV_Speed.x = element->FloatAttribute("X");
 				tDesc.vUV_Speed.y = element->FloatAttribute("Y");
 
