@@ -1342,7 +1342,7 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_PostProcessedTarget")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_BlendEffectTarget")))
 		return E_FAIL;
 
 	// Motion Blur
@@ -1385,7 +1385,7 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_PostProcessedTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_BlendEffectTarget")))
 			return E_FAIL;
 	}
 
@@ -1410,8 +1410,6 @@ HRESULT CRenderer::Render_PostProcess()
 
 		if (FAILED(m_pPostProccessor->Begin("RadialBlur")))
 			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_MotionBlurTarget")))
-			return E_FAIL;
 		if (FAILED(m_pPostProccessor->Bind_CBuffer("RadialBlur", &m_tRadialBlurData, sizeof(RadialBlur_Data))))
 			return E_FAIL;
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamViewMatrix", &m_matPreCamView)))
@@ -1423,7 +1421,7 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_PostProcessedTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_BlendEffectTarget")))
 			return E_FAIL;
 
 		m_tRadialBlurData.fRadialBlurIntensity = 0.f;

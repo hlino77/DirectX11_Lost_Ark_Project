@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Model.h"
+#include "Camera_Player.h"
+#include "Effect_Manager.h"
 
 CState_WR_Identity::CState_WR_Identity(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -26,6 +28,8 @@ HRESULT CState_WR_Identity::Initialize()
 
 void CState_WR_Identity::Enter_State()
 {
+	m_bEffect = false;
+
 	m_pPlayer->Reserve_Animation(m_iIdentity, 0.2f, 0, 0);
 
 	m_pController->Get_StopMessage();
@@ -44,6 +48,17 @@ void CState_WR_Identity::Exit_State()
 
 void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 {
+	if (!m_bEffect && 9 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity))
+	{
+		m_bEffect = true;
+
+		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 100.f, 0.2f, 10.0f);
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		EFFECT_START(TEXT("Slayer_Rage"), &desc)
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity))
 		m_pPlayer->Set_State(TEXT("Idle"));
 }
