@@ -24,6 +24,7 @@ public:
 
 	void	Add_Navigation(_uint iLevel, const wstring& szFileName);
 	void	SetUp_OnCell(_uint iLevel, CGameObject * pObject);
+	_float Get_Height_OnCell(_uint iLevel, CGameObject * pObject);
 	_bool   Is_Outside(_uint iLevel, CGameObject * pObject, _float fOffset=0.f);
 	void	Find_FirstCell(_uint iLevel, CGameObject * pObject);
 	_bool	Picking_Cell(_uint iLevel, Vec3 vRayPos, Vec3 vRayDir, Vec3& vResultPos);

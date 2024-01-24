@@ -570,7 +570,8 @@ void CMonster::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
-	m_pHpUI->Set_Dead(true);
+	if(m_pHpUI != nullptr)
+		m_pHpUI->Set_Dead(true);
 }
 
 void CMonster::Set_Action(wstring strAction)
@@ -872,8 +873,10 @@ void CMonster::CullingObject()
 	const BoundingFrustum& tCamFrustum = CGameInstance::GetInstance()->Get_CamFrustum();
 
 	if (tCamFrustum.Intersects(m_tCullingSphere) == false)
-		return;
-		
+		m_bRender = false;
+	else
+		m_bRender = true;
+	
 	if (m_bRender)
 	{
 		if (m_bInstance)

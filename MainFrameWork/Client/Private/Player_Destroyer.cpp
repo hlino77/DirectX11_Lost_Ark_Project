@@ -784,7 +784,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 {
 	CItem* pItem = nullptr;
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Mococo")));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -792,7 +792,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Mococo")));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -800,7 +800,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Mococo")));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -808,21 +808,21 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;

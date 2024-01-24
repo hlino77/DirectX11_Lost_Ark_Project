@@ -2,7 +2,7 @@
 #include "Valtan_BT_Phase2.h"
 #include "Monster.h"
 #include "Model.h"
-#include <Boss.h>
+#include <Boss_Valtan.h>
 #include "Transform.h"
 #include <AnimModel.h>
 #include "GameInstance.h"
@@ -45,6 +45,10 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fAnimSpeed);
 
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_iCurrAnimation == 3)
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(false);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_iCurrAnimation == 4)
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(true);
 
 
 	return __super::OnUpdate(fTimeDelta);

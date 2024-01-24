@@ -142,6 +142,52 @@ void CCell::SetUp_OnCell(CGameObject* pObject, _uint iCount)
 	pObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPos);
 }
 
+_float CCell::Get_Height_OnCell(CGameObject* pObject)
+{
+	Vec3 vPlayerPos = pObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vPos = vPlayerPos;
+	vPos.y = 0.0f;
+
+	for (_int i = 0; i < CELLLINE::LINE_END; ++i)
+	{
+		Vec3 vDir = vPos - m_vPoints[i];
+		vDir.Normalize();
+
+		_float fDot = vDir.Dot(m_vNormals[i]);
+		if (fDot > 0.001f)
+		{
+			if (m_iNeighbor[i] == -1 || m_pNavigation->Get_Cell(m_iNeighbor[i])->Is_Active() == false)
+			{
+
+				Vec3 vDir = vPos - m_vPoints[i];
+				_float fLength = vDir.Dot(m_vLine[i]);
+
+				/*	if (fLength < 0.0f)
+						fLength = 0.0f;*/
+
+				Vec3 vLinePos = m_vPoints[i] + m_vLine[i] * fLength;
+
+				vPos = vLinePos;
+				vPos.y = vPlayerPos.y;
+
+				vPlayerPos = vPos;
+				vPos.y = 0.0f;
+			}
+		}
+	}
+	Vec3 vDir = vPlayerPos - m_vPoints_Original[0];
+
+	_float fDistance = vDir.Dot(m_vOriginNormal);
+
+	Vec3 vDirPlane = -m_vOriginNormal * fDistance;
+	Vec3 vPlanePos = vPlayerPos + vDirPlane;
+
+	vPlayerPos.y = vPlanePos.y;
+
+	return	vPlayerPos.y;
+}
+
+
 _bool CCell::isOut(Vec3 vPoint, _int* pNeighborIndex)
 {
 	for (size_t i = 0; i < LINE_END; i++)

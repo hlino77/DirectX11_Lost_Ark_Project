@@ -1132,9 +1132,6 @@
     <Filter Include="02.GameObjects\UI\16.Npc\01.Item_Upgrade">
       <UniqueIdentifier>{f906d942-fbe1-4f7d-9b5b-f7d68a9873e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Reaper\Plant">
-      <UniqueIdentifier>{4adcb49e-454e-4757-b167-9f53c1438c07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Hit">
       <UniqueIdentifier>{cdcd89c2-ee98-4c70-a4ca-2d48aeaf6dd4}</UniqueIdentifier>
     </Filter>
@@ -1368,6 +1365,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
       <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Crystal">
+      <UniqueIdentifier>{240a5f00-8518-430c-80a4-8e530e61d863}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4154,6 +4154,9 @@
     <ClInclude Include="..\Public\State_WR_Dead_Start.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Monster_Crystal.h">
+      <Filter>02.GameObjects\Monster\Crystal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6914,6 +6917,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Crystal.cpp">
+      <Filter>02.GameObjects\Monster\Crystal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -225,7 +225,7 @@ HRESULT CLevel_Tool::Ready_Camera()
 
 	//m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
 
-	m_pCamera = dynamic_cast<CCamera_Free*>(CGameInstance::GetInstance()->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free"));
+	m_pCamera = dynamic_cast<CCamera_Free*>(CGameInstance::GetInstance()->Find_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free"));
 	m_pCamera->Set_Active(true);
 
 	return S_OK;

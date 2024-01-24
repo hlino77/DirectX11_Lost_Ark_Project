@@ -98,7 +98,7 @@ bool Handel_S_ANIMATION_Server(PacketSessionRef& session, Protocol::S_ANIMATION&
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -125,7 +125,7 @@ bool Handel_S_OBJECTINFO_Server(PacketSessionRef& session, Protocol::S_OBJECTINF
 	auto tObject = pkt.mutable_tobject(0);
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(tObject->ilevel(), tObject->ilayer(), tObject->iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(tObject->ilevel(), tObject->ilayer(), tObject->iobjectid());
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance);
@@ -153,7 +153,7 @@ bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt)
 	
 	
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(tObject.ilevel(), tObject.ilayer(), tObject.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(tObject.ilevel(), tObject.ilayer(), tObject.iobjectid());
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance);
@@ -174,7 +174,7 @@ bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt)
 		pObject->Reset_NearTarget();
 	else
 	{
-		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(tObject.ilevel(), pkt.itargetobjectlayer(), pkt.itargetobjectid());
+		CGameObject* pNearTarget = pGameInstance->Find_GameObject(tObject.ilevel(), pkt.itargetobjectlayer(), pkt.itargetobjectid());
 		if (pNearTarget == nullptr)
 		{
 			Safe_Release(pGameInstance);
@@ -188,7 +188,7 @@ bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt)
 		pObject->Reset_HitObject();
 	else
 	{
-		CGameObject* pHitObject = pGameInstance->Find_GameObejct(tObject.ilevel(), pkt.ihitobjectlayer(), pkt.ihitobjectid());
+		CGameObject* pHitObject = pGameInstance->Find_GameObject(tObject.ilevel(), pkt.ihitobjectlayer(), pkt.ihitobjectid());
 		if (pHitObject == nullptr)
 		{
 			Safe_Release(pGameInstance);
@@ -212,7 +212,7 @@ bool Handel_S_COLLIDERSTATE_Server(PacketSessionRef& session, Protocol::S_COLLID
 	Safe_AddRef(pGameInstance);
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance);
@@ -247,7 +247,7 @@ bool Handel_S_COLLISION_Server(PacketSessionRef& session, Protocol::S_COLLISION&
 	Safe_AddRef(pGameInstance);
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance); 
@@ -311,7 +311,7 @@ bool Handel_S_HP_Server(PacketSessionRef& session, Protocol::S_HP& pkt)
 
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -372,7 +372,7 @@ bool Handel_S_IDENTITY_Server(PacketSessionRef& session, Protocol::S_IDENTITY& p
 
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -393,7 +393,7 @@ bool Handel_S_PARTY_Server(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 	if (pkt.tcreateparty().empty() == false)
 	{
 		auto& tCreateParty = pkt.tcreateparty(0);
-		CGameObject* pObject = pGameInstance->Find_GameObejct(tCreateParty.tplayers(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tCreateParty.tplayers(0).iid());
+		CGameObject* pObject = pGameInstance->Find_GameObject(tCreateParty.tplayers(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tCreateParty.tplayers(0).iid());
 		if (pObject == nullptr)
 		{
 			Safe_Release(pGameInstance);

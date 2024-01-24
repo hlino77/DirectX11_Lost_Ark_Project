@@ -70,7 +70,7 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 	m_fRootTargetDistance = 1.2f;
 	m_iMaxHp = 2400000000;
 	m_iHp = m_iMaxHp;
-	m_iMaxGroggyGauge = 100;
+	m_iMaxGroggyGauge = 400;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_fNoticeRange = 50.f;
 	return S_OK;

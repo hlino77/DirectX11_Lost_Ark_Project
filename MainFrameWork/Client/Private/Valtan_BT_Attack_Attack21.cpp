@@ -8,6 +8,7 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "ColliderSphere.h"
+#include <Monster_Crystal.h>
 
 CValtan_BT_Attack_Attack21::CValtan_BT_Attack_Attack21()
 {
@@ -29,12 +30,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	}
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
+	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 2.f)
+	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
 	{
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
@@ -73,7 +74,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 				static_cast<CSkill*>(pSkill)->Set_Atk(40);
 				static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(15.f,-15.f);
-				cout << i<< "	" << 60.f * (_float)i << endl;
 			}
 		}
 	}
@@ -104,6 +104,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			static_cast<CSkill*>(pSkill)->Set_Atk(9999);
 			static_cast<CSkill*>(pSkill)->Set_Force(30.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
+			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
+			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
+			static_cast<CSkill*>(pSkill)->Set_InstantDestruction(true);
 		}
 	}
 	
@@ -125,6 +128,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			static_cast<CSkill*>(pSkill)->Set_Atk(50);
 			static_cast<CSkill*>(pSkill)->Set_Force(51.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(20.f, -20.f);
+			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
+			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
 		}
 	}
 	return __super::OnUpdate(fTimeDelta);
@@ -134,6 +139,13 @@ void CValtan_BT_Attack_Attack21::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+	for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
+	{
+		if (pGameObject->Get_ObjectTag() == L"Monster_Crystal")
+		{
+			dynamic_cast<CMonster_Crystal*>(pGameObject)->Set_Explosion(true);
+		}
+	}
 }
 
 

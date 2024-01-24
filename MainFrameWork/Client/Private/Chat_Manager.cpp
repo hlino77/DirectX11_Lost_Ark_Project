@@ -324,7 +324,7 @@ void CChat_Manager::Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat)
         CServerSessionManager::GetInstance()->Get_Player()->Show_SpeechBuble(szChat);
     else
     {
-        CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObejct(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
+        CPlayer* pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObject(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
         if (pPlayer == nullptr)
         {
             Safe_Release(pGameInstance);

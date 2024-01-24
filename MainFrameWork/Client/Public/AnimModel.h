@@ -64,6 +64,7 @@ public:
 	CSphereCollider* Get_StaticCollider(_uint iIndex) { return m_StaticColliders[iIndex]; }
 
 	void						Set_PlayAnim(_bool bPlayAnim) { m_bPlayAnim = bPlayAnim; }
+	void Break_Floor();
 protected:
 	virtual HRESULT Ready_Components() override;
 

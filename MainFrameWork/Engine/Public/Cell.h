@@ -35,6 +35,9 @@ public:// Hwang's
 	_bool					Intersects(Vec3 vOrigin, Vec3 vDir, _float& fDist);
 	void					SetUp_OnCell(CGameObject* pObject, _uint iCount);
 
+	_float Get_Height_OnCell(CGameObject* pObject);
+
+
 	_bool isOut(Vec3 vPoint, _int* pNeighborIndex);
 
 	void					Set_Normal();
