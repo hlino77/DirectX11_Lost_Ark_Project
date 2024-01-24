@@ -33,6 +33,7 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.2f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, -1.5f);
 	Proj_Desc.iDamage = 100;
+	Proj_Desc.iStagger = 20;
 	Proj_Desc.fRepulsion = 8.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
@@ -44,6 +45,7 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.4f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 	Proj_Desc.iDamage = 50;
+	Proj_Desc.iStagger = 15;
 	Proj_Desc.fRepulsion = 2.f;
 	Proj_Desc.bUseProjPos = true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
@@ -55,6 +57,7 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
 	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 50;
 	Proj_Desc.fRepulsion = 10.f;
 	Proj_Desc.bUseProjPos = false;
 	Proj_Desc.bUseFactor = false;

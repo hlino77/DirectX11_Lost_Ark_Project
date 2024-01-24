@@ -167,6 +167,7 @@ void CProjectile::InitAsAttack(PROJECTILE_DESC* pDesc)
 	}
 
 	m_ProjInfoDesc.iDamage = pDesc->iDamage;
+	m_ProjInfoDesc.iStagger = pDesc->iStagger;
 	m_ProjInfoDesc.iStatusEffect = pDesc->iStatusEffect;
 	m_ProjInfoDesc.fStatusDuration = pDesc->fStatusDuration;
 	m_ProjInfoDesc.fRepulsion = pDesc->fRepulsion;
@@ -225,6 +226,7 @@ void CProjectile::InitAsSpawner(PROJECTILE_DESC* pDesc)
 	m_vSpawnChildOffset = pDesc->vChildOffset;
 
 	m_SpawnProjDesc.iDamage = pDesc->iDamage;
+	m_SpawnProjDesc.iStagger = pDesc->iStagger;
 	m_SpawnProjDesc.iStatusEffect = pDesc->iStatusEffect;
 	m_SpawnProjDesc.fStatusDuration = pDesc->fStatusDuration;
 	m_SpawnProjDesc.fRepulsion = pDesc->fRepulsion;

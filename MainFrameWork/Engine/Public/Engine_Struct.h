@@ -368,6 +368,7 @@ namespace Engine
 
 		/* 투사체 정보 */
 		_uint	iDamage = { 0 };
+		_uint	iStagger = { 0 };
 		_uint	iStatusEffect = { 0 };
 		_float	fStatusDuration = { 0.f };
 		_float	fRepulsion = { 0.f };

@@ -41,6 +41,7 @@ HRESULT CSkill_GN_SpiralChaser::Initialize(void* pArg)
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
 	Proj_Spawn_Desc.iDamage = 50;
+	Proj_Spawn_Desc.iStagger = 0;
 	Proj_Spawn_Desc.fRepulsion = 0.f;
 	Proj_Spawn_Desc.bUseProjPos = true;
 	m_SkillProjDesc = Proj_Spawn_Desc;

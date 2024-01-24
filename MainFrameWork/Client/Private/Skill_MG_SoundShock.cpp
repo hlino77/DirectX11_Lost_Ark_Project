@@ -42,6 +42,7 @@ HRESULT CSkill_MG_SoundShock::Initialize(void* pArg)
 	Proj_Desc.IsColliSpawn = true;
 
 	Proj_Desc.iDamage = 50;
+	Proj_Desc.iStagger = 0;
 	Proj_Desc.fRepulsion = 0.f;
 	Proj_Desc.bUseProjPos = true;
 

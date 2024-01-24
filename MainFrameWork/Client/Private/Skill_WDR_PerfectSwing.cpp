@@ -33,6 +33,7 @@ HRESULT CSkill_WDR_PerfectSwing::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
 	Proj_Desc.iDamage = 200;
+	Proj_Desc.iStagger = 100;
 	Proj_Desc.fRepulsion = 10.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;

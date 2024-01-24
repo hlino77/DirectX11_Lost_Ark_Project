@@ -35,6 +35,7 @@ HRESULT CSkill_GN_Gunkata::Initialize(void* pArg)
 	Proj_Desc.vChildScale = Vec3(0.6f, 0.6f, 0.6f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.8f);
 	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 0;
 	Proj_Desc.fRepulsion = 1.2f;
 	Proj_Desc.IsCounter = true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);

@@ -32,6 +32,7 @@ HRESULT CSkill_MG_SongOfStome::Initialize(void* pArg)
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 0;
 	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::STUN;
 	Proj_Desc.fStatusDuration = 3.f;
 	Proj_Desc.fRepulsion = 0.f;

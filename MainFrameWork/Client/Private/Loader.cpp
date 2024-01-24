@@ -1971,6 +1971,45 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 	return S_OK;
 }
 
+HRESULT CLoader::AutoAnimLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	for (const auto& entry : fs::directory_iterator(strPath))
+	{
+		if (fs::is_directory(entry))
+		{
+			{
+				m_Futures.push_back(std::async([=]()->HRESULT
+				{
+					wstring strFileName = entry.path().filename();
+					wstring strFilePath = entry.path().parent_path();
+					wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+					if (SUCCEEDED(pGameInstance->Check_Prototype(eLevel, strComponentName)))
+					{
+						if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
+							CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false, Pivot))))
+							return E_FAIL;
+
+						pUIManager->Add_CurrFile();
+
+					}
+
+					return S_OK;
+				}));
+			}
+		}
+	}
+
+	Safe_Release(pUIManager);
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 
 HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 {
@@ -3694,6 +3733,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	AutoLoad(strPath, LEVEL_STATIC);
 
 	strPath = L"../Bin/Resources/Meshes/PC_Weapon/";
+	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
+	AutoAnimLoad(strPath, LEVEL_STATIC, PivotMatrix);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Static/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
 	/* SkyDome */
