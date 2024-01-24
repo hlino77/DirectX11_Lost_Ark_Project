@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Player_Controller.h"
+#include "Delegate.h"
 
 BEGIN(Client)
 
@@ -33,7 +34,7 @@ public:
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 	void			Set_Attack_Desc(_uint iIndex) { m_AttackDesc = m_Attack_Desces[iIndex]; }
-	CPlayer_Skill* Get_PlayerSkill_WR(SKILL_KEY eKey);
+	CPlayer_Skill*  Get_PlayerSkill_WR(SKILL_KEY eKey);
 
 public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
@@ -45,7 +46,9 @@ public:
 	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_fIdentityGage -= 5.f; }
 
 	void			Increase_IdenGage(_float iGage);
-	
+
+public:
+	FDelegate<Matrix&>	CB_UpdateIdentityAuraPivot;
 
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
@@ -53,16 +56,19 @@ private:
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
+	void			UpdateIdentityAuraPivot();
+
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
 	_float	m_fIdentityGage = { 30.f };
 	_float	m_fMaxGage = { 30.f };
-	_float  m_fTimdeAcc = { 0.f };
+	_float  m_fTimeAcc = { 0.f };
 
 	_float	m_fIdenTimeAcc = { 0.f };
 	_float	m_fIdenCoolTime = { 30.f };
+
 
 
 public:

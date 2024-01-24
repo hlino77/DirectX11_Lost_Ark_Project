@@ -7,6 +7,8 @@
 #include "ColliderOBB.h"
 #include "Projectile.h"
 #include "Pool.h"
+#include "Player_Slayer.h"
+#include "Effect.h"
 
 CController_WR::CController_WR(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
@@ -106,18 +108,28 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 {
 	if (true == m_IsIdentity)
 	{
-		m_fTimdeAcc += fTimeDelta;
-		if (1.f <= m_fTimdeAcc)
+		m_fTimeAcc += fTimeDelta;
+		if (1.f <= m_fTimeAcc)
 		{
-			m_fTimdeAcc = 0.f;
+			m_fTimeAcc = 0.f;
 			m_fIdentityGage--;
 		}
 
 		if (0.f >= m_fIdentityGage)
 		{
-			m_fTimdeAcc = 0.f;
+			m_fTimeAcc = 0.f;
 			m_IsIdentity = false;
 			m_fIdentityGage = 30.f;
+
+			static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura")->EffectEnd();
+		}
+		else
+		{
+			Matrix matPivot;
+			CB_UpdateIdentityAuraPivot(matPivot);
+			CEffect* pAuraEffect = static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura");
+			if (pAuraEffect)
+				pAuraEffect->Update_Pivot(matPivot);
 		}
 	}
 	else if (false == m_IsIdentity && -1.f == m_fIdentityGage)
@@ -212,6 +224,25 @@ void CController_WR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 void CController_WR::Skill_CoolTime(const _float& fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
+}
+
+void CController_WR::UpdateIdentityAuraPivot()
+{
+	if (0.f >= m_fIdentityGage)
+	{
+		m_fTimeAcc = 0.f;
+		m_IsIdentity = false;
+		m_fIdentityGage = 30.f;
+
+		static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura")->EffectEnd();
+		// ¿©±â¼­ End_Effect();
+	}
+	else
+	{
+		Matrix matPivot;
+		CB_UpdateIdentityAuraPivot(matPivot);
+		static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura")->Update_Pivot(matPivot);
+	}
 }
 
 void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
