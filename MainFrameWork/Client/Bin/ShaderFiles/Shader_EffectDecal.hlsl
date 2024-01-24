@@ -31,7 +31,7 @@ Texture2D g_NormalDepthTarget;
 Texture2D g_NormalTarget;
 Texture2D g_PropertiesTarget;
 
-PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In, uniform bool bOneBlend)
+PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In, uniform bool bOneBlend, uniform int iSamplerState)
 {
     PS_OUT_EFFECT Out = (PS_OUT_EFFECT) 0;
     
@@ -77,7 +77,7 @@ PS_OUT_EFFECT PS_MAIN_FXDECAL(VS_OUT_FXDECAL In, uniform bool bOneBlend)
     float2 vDecalUV = vLocalPos.xz + 0.5f;
     
     float fDistortion = 0.f;
-    float4 vColor = CalculateEffectColor(vDecalUV, In.vTexcoord, fDistortion);
+    float4 vColor = CalculateEffectColor(vDecalUV, In.vTexcoord, fDistortion, iSamplerState);
     Out.vDistortion = fDistortion;
     
     if (bOneBlend)
@@ -101,12 +101,11 @@ technique11 DefaultTechnique
 		SetDepthStencilState(DSS_None, 0);
 		SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
         VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
         GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(true);
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(true, 0);
         ComputeShader = NULL;
     }
 
@@ -116,12 +115,67 @@ technique11 DefaultTechnique
         SetDepthStencilState(DSS_None, 0);
 		SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-		/* 여러 셰이더에 대해서 각각 어떤 버젼으로 빌드하고 어떤 함수를 호출하여 해당 셰이더가 구동되는지를 설정한다. */
         VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
         GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(false);
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(false, 0);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendClamp
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(true, 1);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendClamp
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(false, 1);
+        ComputeShader = NULL;
+    }
+
+    pass OneBlendBorder
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(true, 2);
+        ComputeShader = NULL;
+    }
+
+    pass AlphaBlendBorder
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXDECAL();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXDECAL(false, 2);
         ComputeShader = NULL;
     }
 }

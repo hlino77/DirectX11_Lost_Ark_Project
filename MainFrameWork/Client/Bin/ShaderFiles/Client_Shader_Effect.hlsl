@@ -70,24 +70,32 @@ float3 RandVec3(float fOffset)
     return v;
 }
 
-float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, inout float fDistortion)
+float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, inout float fDistortion, in int iSamplerState)
 {
     float fMask = 1.f;
     float2 vNewUV = vUV;
 
+    sampler Sampler;
+    if (0 == iSamplerState)
+        Sampler = LinearSampler;
+    else if (1 == iSamplerState)
+        Sampler = LinearClampSampler;
+    else if (2 == iSamplerState)
+        Sampler = LinearBorderSampler;
+    
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {
-        float2 vNoiseUV = g_NoiseTexture.Sample(LinearSampler, vOriginUV).rg;
+        float2 vNoiseUV = g_NoiseTexture.Sample(Sampler, vOriginUV).rg;
         vNewUV += (vNoiseUV - 0.5f) * 2.f;
     }
     
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask
     {
-        fMask = g_MaskTexture.Sample(LinearSampler, vNewUV).r;
+        fMask = g_MaskTexture.Sample(Sampler, vNewUV).r;
         clip(fMask - 0.01f);
     }
 
-    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
+    float4 vColor = g_DiffuseTexture.Sample(Sampler, vNewUV);
     
     vColor += vColor_Offset;
 
@@ -108,7 +116,7 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, inout float fDis
     
     if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
     {
-        float fDissolve = g_DissolveTexture.Sample(LinearSampler, vNewUV).x;
+        float fDissolve = g_DissolveTexture.Sample(Sampler, vNewUV).x;
         
 	    //Discard the pixel if the value is below zero
         clip(fDissolve - fDissolve_Amount);
@@ -119,59 +127,6 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, inout float fDis
         }
     }
     
-    return vColor;
-}
-
-
-float4 CalculateEffectColorClamp(in float2 vUV, in float2 vOriginUV, inout float fDistortion)
-{
-    float fMask = 1.f;
-    float2 vNewUV = vUV;
-
-    if (EPSILON < NoisMaskEmisDslv.x)   // Noise
-    {
-        float2 vNoiseUV = g_NoiseTexture.Sample(LinearClampSampler, vOriginUV).rg;
-        vNewUV += (vNoiseUV - 0.5f) * 2.f;
-    }
-
-    if (EPSILON < NoisMaskEmisDslv.y)   // Mask
-    {
-        fMask = g_MaskTexture.Sample(LinearClampSampler, vNewUV).r;
-        clip(fMask - 0.01f);
-    }
-
-    float4 vColor = g_DiffuseTexture.Sample(LinearClampSampler, vNewUV);
-
-    vColor += vColor_Offset;
-
-    vColor *= vColor_Mul * fMask;
-
-    if (vColor.r + 0.01f < vColor_Clip.r && vColor.g + 0.01f < vColor_Clip.g && vColor.b + 0.01f < vColor_Clip.b)
-        discard;
-
-    clip(vColor.a - vColor_Clip.a);
-
-    if (EPSILON < fIntensity_Distortion)
-    {
-        if (bDistortionOnBaseMaterial)
-            fDistortion = vColor.r * fIntensity_Distortion;
-        else
-            fDistortion = fMask * fIntensity_Distortion;
-    }
-    
-    if (EPSILON < NoisMaskEmisDslv.w)	// Dissolve
-    {
-        float fDissolve = g_DissolveTexture.Sample(LinearClampSampler, vNewUV).x;
-
-        //Discard the pixel if the value is below zero
-        clip(fDissolve - fDissolve_Amount);
-        //Make the pixel emissive if the value is below ~f
-        if (fDissolve - fDissolve_Amount < 0.25f)/*0.08f*/
-        {
-            vColor.xyz += vColor.xyz * float3(0.3f, 0.3f, 0.3f);
-        }
-    }
-
     return vColor;
 }
 
