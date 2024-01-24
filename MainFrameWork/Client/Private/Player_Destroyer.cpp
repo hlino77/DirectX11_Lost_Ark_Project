@@ -37,6 +37,9 @@
 #include "State_WDR_StandDash.h"
 #include "State_WDR_Grabbed.h"
 #include "State_WDR_Stop.h"
+#include "State_WDR_Resurrect.h"
+#include "State_WDR_Dead_Start.h"
+#include "State_WDR_Dead_End.h"
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
@@ -160,6 +163,11 @@ void CPlayer_Destroyer::Tick(_float fTimeDelta)
 	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
 	{
 		Use_Item(TEXT("IT_WDR_Body_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::X) &&
+		TEXT("Dead_End") == Get_State())
+	{
+		Set_State(TEXT("Resurrect"));
 	}
 
 	m_pRigidBody->Tick(fTimeDelta);
@@ -586,6 +594,15 @@ HRESULT CPlayer_Destroyer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Stop"), CState_WDR_Stop::Create(TEXT("Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_Start"), CState_WDR_Dead_Start::Create(TEXT("Dead_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_End"), CState_WDR_Dead_End::Create(TEXT("Dead_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_WDR_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

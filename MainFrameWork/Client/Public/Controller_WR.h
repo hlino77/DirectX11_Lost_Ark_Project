@@ -40,6 +40,7 @@ public:
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();
+	virtual void	Get_DeadMessage();
 
 	void			Get_WR_IdentityMessage();
 	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_fIdentityGage -= 5.f; }

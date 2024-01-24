@@ -373,6 +373,7 @@
     <ClInclude Include="..\Public\State_GN_Idle_Normal.h" />
     <ClInclude Include="..\Public\State_GN_Mode_ToBattle.h" />
     <ClInclude Include="..\Public\State_GN_Mode_ToNormal.h" />
+    <ClInclude Include="..\Public\State_GN_Resurrect.h" />
     <ClInclude Include="..\Public\State_GN_Stand.h" />
     <ClInclude Include="..\Public\State_GN_StandDash.h" />
     <ClInclude Include="..\Public\State_GN_TargetDown_Ready.h" />
@@ -391,6 +392,7 @@
     <ClInclude Include="..\Public\State_MG_Identity.h" />
     <ClInclude Include="..\Public\State_MG_Identity_Back.h" />
     <ClInclude Include="..\Public\State_MG_Idle.h" />
+    <ClInclude Include="..\Public\State_MG_Resurrect.h" />
     <ClInclude Include="..\Public\State_MG_Run.h" />
     <ClInclude Include="..\Public\State_MG_Sonatine.h" />
     <ClInclude Include="..\Public\State_MG_SongOfGuard.h" />
@@ -441,6 +443,7 @@
     <ClInclude Include="..\Public\State_WDR_PowerStrike_End.h" />
     <ClInclude Include="..\Public\State_WDR_PowerStrike_Loop.h" />
     <ClInclude Include="..\Public\State_WDR_PowerStrike_Start.h" />
+    <ClInclude Include="..\Public\State_WDR_Resurrect.h" />
     <ClInclude Include="..\Public\State_WDR_Run.h" />
     <ClInclude Include="..\Public\State_WDR_SizemicHammer.h" />
     <ClInclude Include="..\Public\State_WDR_Stand.h" />
@@ -497,6 +500,7 @@
     <ClInclude Include="..\Public\State_WR_Idle_Normal.h" />
     <ClInclude Include="..\Public\State_WR_Mode_ToBattle.h" />
     <ClInclude Include="..\Public\State_WR_Mode_ToNormal.h" />
+    <ClInclude Include="..\Public\State_WR_Resurrect.h" />
     <ClInclude Include="..\Public\State_WR_Run.h" />
     <ClInclude Include="..\Public\State_WR_Run_Normal.h" />
     <ClInclude Include="..\Public\State_WR_SpiningSword_End.h" />
@@ -938,6 +942,7 @@
     <ClCompile Include="..\Private\State_GN_Mode_ToBattle.cpp" />
     <ClCompile Include="..\Private\State_GN_Mode_ToNormal.cpp" />
     <ClCompile Include="..\Private\State_GN_PerfectShot_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_GN_Stand.cpp" />
     <ClCompile Include="..\Private\State_GN_StandDash.cpp" />
     <ClCompile Include="..\Private\State_GN_TargetDown_Ready.cpp" />
@@ -956,6 +961,7 @@
     <ClCompile Include="..\Private\State_MG_Identity.cpp" />
     <ClCompile Include="..\Private\State_MG_Identity_Back.cpp" />
     <ClCompile Include="..\Private\State_MG_Idle.cpp" />
+    <ClCompile Include="..\Private\State_MG_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_MG_Run.cpp" />
     <ClCompile Include="..\Private\State_MG_Sonatine.cpp" />
     <ClCompile Include="..\Private\State_MG_SongOfGuard.cpp" />
@@ -1006,6 +1012,7 @@
     <ClCompile Include="..\Private\State_WDR_PowerStrike_End.cpp" />
     <ClCompile Include="..\Private\State_WDR_PowerStrike_Loop.cpp" />
     <ClCompile Include="..\Private\State_WDR_PowerStrike_Start.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_WDR_Run.cpp" />
     <ClCompile Include="..\Private\State_WDR_SizemicHammer.cpp" />
     <ClCompile Include="..\Private\State_WDR_Stand.cpp" />
@@ -1062,6 +1069,7 @@
     <ClCompile Include="..\Private\State_WR_Idle_Normal.cpp" />
     <ClCompile Include="..\Private\State_WR_Mode_ToBattle.cpp" />
     <ClCompile Include="..\Private\State_WR_Mode_ToNormal.cpp" />
+    <ClCompile Include="..\Private\State_WR_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_WR_Run.cpp" />
     <ClCompile Include="..\Private\State_WR_Run_Normal.cpp" />
     <ClCompile Include="..\Private\State_WR_SpiningSword_End.cpp" />

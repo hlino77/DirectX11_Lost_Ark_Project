@@ -43,6 +43,7 @@
 #include "State_GN_Stop.h"
 #include "State_GN_Dead_Start.h"
 #include "State_GN_Dead_End.h"
+#include "State_GN_Resurrect.h"
 
 /* State_Skill */
 #include "State_GN_FreeShooter.h"
@@ -194,6 +195,11 @@ void CPlayer_Gunslinger::Tick(_float fTimeDelta)
 	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
 	{
 		Use_Item(TEXT("IT_GN_Body_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::X) &&
+		TEXT("Dead_End") == Get_State())
+	{
+		Set_State(TEXT("Resurrect"));
 	}
 
 	m_pRigidBody->Tick(fTimeDelta);
@@ -728,6 +734,9 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Dead_End"), CState_GN_Dead_End::Create(TEXT("Dead_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_GN_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

@@ -47,6 +47,7 @@
 
 #include "State_WR_Dead_Start.h"
 #include "State_WR_Dead_End.h"
+#include "State_WR_Resurrect.h"
 
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
@@ -180,6 +181,11 @@ void CPlayer_Slayer::Tick(_float fTimeDelta)
 	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
 	{
 		Use_Item(TEXT("IT_WR_Body_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::X) &&
+		TEXT("Dead_End") == Get_State())
+	{
+		Set_State(TEXT("Resurrect"));
 	}
 
 	m_pRigidBody->Tick(fTimeDelta);
@@ -636,6 +642,7 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Stop"), CState_WR_WildRush_Stop::Create(TEXT("Skill_WR_WildRush_Stop"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	//
 	m_pStateMachine->Add_State(TEXT("Hit"), CState_WR_Hit::Create(TEXT("Hit"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
@@ -664,6 +671,9 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Dead_End"), CState_WR_Dead_End::Create(TEXT("Dead_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_WR_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

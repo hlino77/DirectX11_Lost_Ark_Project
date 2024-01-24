@@ -92,6 +92,9 @@ void CState_WDR_Hit::Enter_State()
 	}
 
 	m_pController->Get_SkillEndMessage();
+
+	m_IsFall = false;
+	m_iFallFrame = 0;
 }
 
 void CState_WDR_Hit::Tick_State(_float fTimeDelta)
@@ -108,10 +111,30 @@ void CState_WDR_Hit::Exit_State()
 
 void CState_WDR_Hit::Tick_State_Control(_float fTimeDelta)
 {
-	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
-		2 == m_pPlayer->Get_ValtanPhase())
+	if (true == m_IsFall && m_iFallFrame == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHit))
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
+	}
+	if (false == m_IsFall && false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer)
+		&& 2 == m_pPlayer->Get_ValtanPhase())
+	{
+		m_pPlayer->Set_Invincible(true);
+		m_pPlayer->Set_Navi(false);
+		m_IsFall = true;
+
+		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHit))
+		{
+			m_pPlayer->Set_State(TEXT("Fall"));
+		}
+		else
+		{
+			m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHit) + 4;
+
+			if (m_iFallFrame >= m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHit))
+			{
+				m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHit);
+			}
+		}
 	}
 
 	if (m_iHit == m_iHit_Down)

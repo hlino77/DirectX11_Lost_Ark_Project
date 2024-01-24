@@ -24,6 +24,7 @@ public:
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();
+	virtual void	Get_DeadMessage();
 
 	/* 아덴 관련 함수 */
 	_uint			Is_MG_Identity();

@@ -1396,6 +1396,18 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End">
       <UniqueIdentifier>{166e5202-24f4-4e72-8981-5d6e1845dc13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Resurrect">
+      <UniqueIdentifier>{0a3f237a-80d9-4901-9ea0-39532d41f0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect">
+      <UniqueIdentifier>{fc63f46c-e5fd-4835-a976-cafcc4a2e188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect">
+      <UniqueIdentifier>{4fff3bd5-bf1f-46f5-ade9-4b26270c36a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Resurrect">
+      <UniqueIdentifier>{869ceaa7-dc79-4c25-a8d5-4045ed19ce72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4199,6 +4211,18 @@
     <ClInclude Include="..\Public\State_MG_Dead_End.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Resurrect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6977,6 +7001,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_Dead_End.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Resurrect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

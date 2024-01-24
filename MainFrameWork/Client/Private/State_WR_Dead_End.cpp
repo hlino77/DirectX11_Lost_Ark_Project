@@ -36,6 +36,7 @@ void CState_WR_Dead_End::Enter_State()
 	if (TEXT("Fall") == m_pPlayer->Get_PreState())
 	{
 		m_pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_pPlayer->Get_TargetPos());
+		m_pController->Get_DeadMessage();
 	}
 
 	m_pPlayer->Reserve_Animation(m_iDead_End, 0.1f, 0, 0);
@@ -49,6 +50,7 @@ void CState_WR_Dead_End::Tick_State(_float fTimeDelta)
 void CState_WR_Dead_End::Exit_State()
 {
 	m_pPlayer->Set_Invincible(false);
+	m_pController->Get_DeadEndMessage();
 }
 
 void CState_WR_Dead_End::Tick_State_Control(_float fTimeDelta)

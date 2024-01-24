@@ -270,6 +270,13 @@ void CController_WR::Get_GrabEndMessage()
 	__super::Get_GrabEndMessage();
 }
 
+void CController_WR::Get_DeadMessage()
+{
+	__super::Get_DeadMessage();
+
+	m_fIdentityGage = -1.0f;
+}
+
 void CController_WR::Get_WR_IdentityMessage()
 {
 	if (m_fMaxGage <= m_fIdentityGage)

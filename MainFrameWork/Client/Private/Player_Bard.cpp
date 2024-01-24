@@ -34,6 +34,10 @@
 #include "State_MG_Grabbed.h"
 #include "State_MG_Stop.h"
 
+#include "State_MG_Dead_Start.h"
+#include "State_MG_Dead_End.h"
+#include "State_MG_Resurrect.h"
+
 /* State_Skill */
 #include "State_MG_SoundShock.h"
 #include "State_MG_Sonatine.h"
@@ -152,6 +156,11 @@ void CPlayer_Bard::Tick(_float fTimeDelta)
 	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
 	{
 		Use_Item(TEXT("IT_MG_Body_Mococo"));
+	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::X) &&
+		TEXT("Dead_End") == Get_State())
+	{
+		Set_State(TEXT("Resurrect"));
 	}
 
 	m_pRigidBody->Tick(fTimeDelta);
@@ -537,6 +546,15 @@ HRESULT CPlayer_Bard::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Stop"), CState_MG_Stop::Create(TEXT("Stop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_Start"), CState_MG_Dead_Start::Create(TEXT("Dead_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_End"), CState_MG_Dead_End::Create(TEXT("Dead_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_MG_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

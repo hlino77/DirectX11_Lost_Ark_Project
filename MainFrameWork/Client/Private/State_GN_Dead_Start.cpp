@@ -30,6 +30,7 @@ HRESULT CState_GN_Dead_Start::Initialize()
 void CState_GN_Dead_Start::Enter_State()
 {
 	m_pController->Get_HitEndMessage();
+	m_pController->Get_DeadMessage();
 
 	m_pPlayer->Set_Invincible(true);
 

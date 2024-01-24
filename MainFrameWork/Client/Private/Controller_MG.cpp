@@ -227,6 +227,13 @@ void CController_MG::Get_GrabEndMessage()
 	__super::Get_GrabEndMessage();
 }
 
+void CController_MG::Get_DeadMessage()
+{
+	__super::Get_DeadMessage();
+
+	m_iIdentityGage = 0;
+}
+
 _uint CController_MG::Is_MG_Identity()
 {
 	if (false == m_bKeyActive)

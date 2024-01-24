@@ -41,6 +41,8 @@ private:
 	CPlayer_Controller::HIT_TYPE m_eHitType;
 	_float m_fForceDist;
 
+
+
 public:
 	static CState_GN_Hit_Common* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);
 	virtual void Free() override;
