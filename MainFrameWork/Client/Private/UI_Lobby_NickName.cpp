@@ -221,7 +221,7 @@ void CUI_Lobby_NickName::Initialize_Index(_uint iIndex)
 	switch (iIndex)
 	{
 	case 0:
-		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObejct((_uint)LEVELID::LEVEL_LOBBY,
+		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObject((_uint)LEVELID::LEVEL_LOBBY,
 			(_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Gunslinger"));
 		m_iClassIndex = (_uint)CHR_CLASS::GUNSLINGER;
 		m_fX = 330.f;
@@ -230,7 +230,7 @@ void CUI_Lobby_NickName::Initialize_Index(_uint iIndex)
 		break;
 
 	case 1:
-		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObejct((_uint)LEVELID::LEVEL_LOBBY,
+		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObject((_uint)LEVELID::LEVEL_LOBBY,
 			(_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("WDR"));
 		m_iClassIndex = (_uint)CHR_CLASS::DESTROYER;
 		m_fX = 630.f;
@@ -239,7 +239,7 @@ void CUI_Lobby_NickName::Initialize_Index(_uint iIndex)
 		break;
 
 	case 2:
-		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObejct((_uint)LEVELID::LEVEL_LOBBY,
+		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObject((_uint)LEVELID::LEVEL_LOBBY,
 			(_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("MG"));
 		m_iClassIndex = (_uint)CHR_CLASS::BARD;
 		m_fX = 930.f;
@@ -248,7 +248,7 @@ void CUI_Lobby_NickName::Initialize_Index(_uint iIndex)
 		break;
 
 	case 3:
-		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObejct((_uint)LEVELID::LEVEL_LOBBY,
+		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObject((_uint)LEVELID::LEVEL_LOBBY,
 			(_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("WR"));
 		m_iClassIndex = (_uint)CHR_CLASS::SLAYER;
 		m_fX = 1230.f;

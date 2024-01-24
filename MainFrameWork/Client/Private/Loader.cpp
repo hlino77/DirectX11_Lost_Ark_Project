@@ -143,6 +143,7 @@
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
 #include "Monster_Prison.h"
+#include "Monster_Crystal.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -1144,6 +1145,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Crystal"),
+		CMonster_Crystal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnShield"),
 		CWeapon_Mn_PawnShield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1729,6 +1735,16 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		pUIManager->Add_CurrFile();
 	}
 
+	{
+		wstring strFileName = L"Monster_Crystal";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationX(XMConvertToRadians(90.0f))))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;
 

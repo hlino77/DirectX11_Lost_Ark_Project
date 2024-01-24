@@ -111,7 +111,7 @@ CGameObject* CObject_Manager::Clone_GameObject(const wstring& strPrototypeTag, v
 	return pGameObject;
 }
 
-CGameObject* CObject_Manager::Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag)
+CGameObject* CObject_Manager::Find_GameObject(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag)
 {
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
@@ -125,7 +125,7 @@ CGameObject* CObject_Manager::Find_GameObejct(_uint iLevelIndex, const _uint iLa
 	return pObj;
 }
 
-CGameObject* CObject_Manager::Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, _int iObjectID)
+CGameObject* CObject_Manager::Find_GameObject(_uint iLevelIndex, const _uint iLayerType, _int iObjectID)
 {
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
@@ -144,7 +144,7 @@ vector<CGameObject*>& CObject_Manager::Find_GameObjects(_uint iLevelIndex, const
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
 	{
-		MSG_BOX("Find_GameObejcts Failed.");
+		MSG_BOX("Find_GameObjects Failed.");
 		
 		(nullptr);
 	}

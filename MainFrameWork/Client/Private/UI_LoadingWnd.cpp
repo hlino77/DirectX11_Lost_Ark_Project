@@ -114,6 +114,7 @@ HRESULT CUI_LoadingWnd::Bind_ShaderResources()
 		return E_FAIL;
 
 	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	return S_OK;
 }
 
 HRESULT CUI_LoadingWnd::Bind_ShaderResourcesImg()
@@ -122,6 +123,7 @@ HRESULT CUI_LoadingWnd::Bind_ShaderResourcesImg()
 		return E_FAIL;
 
 	m_pTextureComImg->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
+	return S_OK;
 }
 
 HRESULT CUI_LoadingWnd::Bind_ShaderResourcesFrame()
@@ -130,6 +132,7 @@ HRESULT CUI_LoadingWnd::Bind_ShaderResourcesFrame()
 		return E_FAIL;
 
 	m_pTextureCom_Frame->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	return S_OK;
 }
 
 CUI_LoadingWnd* CUI_LoadingWnd::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

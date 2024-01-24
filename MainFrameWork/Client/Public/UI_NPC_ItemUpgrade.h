@@ -68,7 +68,8 @@ private:
     void   Is_Picking_ArmItem(POINT pt);
     void    Create_Rect_LegItem();
     void   Is_Picking_LegItem(POINT pt);
-
+    void    Create_Rect_WeaponItem();
+    void   Is_Picking_WeaponItem(POINT pt);
 private:
     void    Update_GrowthGauge(_float fTimeDelta);
     void    Update_Hammer_Effects(_float fTimeDelta);
@@ -153,6 +154,10 @@ private:
     HRESULT Bind_ShaderResources_ItemIcon_Leg();
     HRESULT Bind_ShaderResources_UpgradeIcon_Leg();
     HRESULT Bind_ShaderResources_EquipIcon_Leg();
+    HRESULT Bind_ShaderResources_EquipItemWnd_Weapon();
+    HRESULT Bind_ShaderResources_ItemIcon_Weapon();
+    HRESULT Bind_ShaderResources_UpgradeIcon_Weapon();
+    HRESULT Bind_ShaderResources_EquipIcon_Weapon();
     HRESULT Bind_ShaderResources_NoneImg();
 
 private:
@@ -193,7 +198,7 @@ private:
     //Side_L_Texture
     CTexture* m_pTexture_SidePannel = { nullptr };//Wnd
     CTexture* m_pTexture_EquipItemWnd = { nullptr };
-    CTexture* m_pTexture_ItemIcon[6] = { nullptr };
+    CTexture* m_pTexture_ItemIcon[SELECTED_END] = { nullptr };
     CTexture* m_pTexture_UpgradeIcon = { nullptr };
     CTexture* m_pTexture_EquipIcon = { nullptr };
     CTexture* m_pTexture_CurrItemSlot = { nullptr };
@@ -260,6 +265,10 @@ private:
     CTransform* m_pTransform_EquipIcon_Leg = { nullptr };
     CTransform* m_pTransform_ItemIcon_Leg = { nullptr };
     CTransform* m_pTransform_UpgradeIcon_Leg = { nullptr };
+    CTransform* m_pTransform_EquipItemWnd_Weapon = { nullptr };
+    CTransform* m_pTransform_EquipIcon_Weapon = { nullptr };
+    CTransform* m_pTransform_ItemIcon_Weapon = { nullptr };
+    CTransform* m_pTransform_UpgradeIcon_Weapon = { nullptr };
 
     //Side_R_Pannel
     CTransform* m_pTransform_SideWnd = { nullptr };
@@ -295,12 +304,13 @@ private:
     RECT    m_rcBodyItem = {};
     RECT    m_rcArmItem = {};
     RECT    m_rcLegItem = {};
+    RECT    m_rcWeaponItem = {};
 
     _uint   m_iGrowthButton_TextureIndex = { 0 };
     _uint   m_iUpgradeButton_TextureIndex = { 0 };
     _uint   m_iQuitButton_TextureIndex = { 0 };
     _uint   m_iResultButton_TextureIndex = { 0 };
-    _uint   m_iSidePannel_L_Wnd_TextureIndex[6] = { 0 };
+    _uint   m_iSidePannel_L_Wnd_TextureIndex[SELECTED_END] = { 0 };
     _uint   m_iCurrItemGrade = { 0 };
 
     _uint   m_iCurrItem = { SELECTED_END };
@@ -335,6 +345,7 @@ private:
     Vec4    m_vColorBodyItem = Vec4(1.f, 1.f, 1.f, 1.f);
     Vec4    m_vColorArmItem = Vec4(1.f, 1.f, 1.f, 1.f);
     Vec4    m_vColorLegItem = Vec4(1.f, 1.f, 1.f, 1.f);
+    Vec4    m_vColorWeaponItem = Vec4(1.f, 1.f, 1.f, 1.f);
 
     CTextBox* m_pItemNameWnd = { nullptr };
     CTextBox* m_pCurrItemNameWnd = { nullptr };
@@ -345,7 +356,7 @@ private:
     wstring   m_strCurrItemName = TEXT("환상의 모코코 헤드");
 
     CGameObject* m_pUsingPlayer = { nullptr };
-    CItem* m_pEquips[6];
+    CItem* m_pEquips[SELECTED_END];
     CItem* m_pCurrUpgradeItem = { nullptr };
 
 public:

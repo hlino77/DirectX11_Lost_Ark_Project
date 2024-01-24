@@ -15,10 +15,13 @@ private:
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
+    void Add_Stone(Vec3 vPosition);
    virtual void On_FirstAnimStart()override;
    virtual void On_LastAnimEnd()  override;
     virtual void		OnEnd()								override;
 
+private:
+    _bool   m_bShoot = true;
 
 public:
     static	CValtan_BT_Attack_Attack21_Server* Create(void* pArg);

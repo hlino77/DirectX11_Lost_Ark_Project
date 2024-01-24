@@ -323,14 +323,14 @@ CGameObject* CGameInstance::Clone_GameObject(const wstring& strPrototypeTag, voi
 	return m_pObject_Manager->Clone_GameObject(strPrototypeTag, pArg);
 }
 
-CGameObject* CGameInstance::Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag)
+CGameObject* CGameInstance::Find_GameObject(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag)
 {
-	return m_pObject_Manager->Find_GameObejct(iLevelIndex, iLayerType, strObjectTag);
+	return m_pObject_Manager->Find_GameObject(iLevelIndex, iLayerType, strObjectTag);
 }
 
-CGameObject* CGameInstance::Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, _int iObjectID)
+CGameObject* CGameInstance::Find_GameObject(_uint iLevelIndex, const _uint iLayerType, _int iObjectID)
 {
-	return m_pObject_Manager->Find_GameObejct(iLevelIndex, iLayerType, iObjectID);
+	return m_pObject_Manager->Find_GameObject(iLevelIndex, iLayerType, iObjectID);
 }
 
 CGameObject* CGameInstance::Find_NearGameObject(_uint iLevelIndex, const _uint iLayerType, CGameObject* pObject)

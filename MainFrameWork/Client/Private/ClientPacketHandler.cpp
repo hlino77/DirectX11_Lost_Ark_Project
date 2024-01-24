@@ -167,7 +167,7 @@ bool Handel_S_ANIMATION_Client(PacketSessionRef& session, Protocol::S_ANIMATION&
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -204,7 +204,7 @@ bool Handel_S_OBJECTINFO_Client(PacketSessionRef& session, Protocol::S_OBJECTINF
 		if (iObjectID == iUserPlayerID)
 			continue;
 
-		CGameObject* pObject = pGameInstance->Find_GameObejct(tObject->ilevel(), tObject->ilayer(), iObjectID);
+		CGameObject* pObject = pGameInstance->Find_GameObject(tObject->ilevel(), tObject->ilayer(), iObjectID);
 		if (pObject == nullptr)
 			continue;
 
@@ -225,7 +225,7 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 
 	auto tObject = pkt.tobject();
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(tObject.ilevel(), tObject.ilayer(), tObject.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(tObject.ilevel(), tObject.ilayer(), tObject.iobjectid());
 	if (pObject == nullptr || pObject->Is_Control() == true)
 	{
 		Safe_Release(pGameInstance);
@@ -249,7 +249,7 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 		pObject->Set_NearTarget(CServerSessionManager::GetInstance()->Get_Player());
 	else
 	{
-		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(tObject.ilevel(), pkt.itargetobjectlayer(), iTargetID);
+		CGameObject* pNearTarget = pGameInstance->Find_GameObject(tObject.ilevel(), pkt.itargetobjectlayer(), iTargetID);
 		if (pNearTarget == nullptr)
 		{
 			Safe_Release(pGameInstance);
@@ -263,7 +263,7 @@ bool Handel_S_STATE_Client(PacketSessionRef& session, Protocol::S_STATE& pkt)
 		pObject->Reset_HitObject();
 	else
 	{
-		CGameObject* pHitObject = pGameInstance->Find_GameObejct(tObject.ilevel(), pkt.ihitobjectlayer(), pkt.ihitobjectid());
+		CGameObject* pHitObject = pGameInstance->Find_GameObject(tObject.ilevel(), pkt.ihitobjectlayer(), pkt.ihitobjectid());
 		if (pHitObject == nullptr)
 		{
 			Safe_Release(pGameInstance);
@@ -286,7 +286,7 @@ bool Handel_S_COLLIDERSTATE_Client(PacketSessionRef& session, Protocol::S_COLLID
 	Safe_AddRef(pGameInstance);
 	
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance);
@@ -312,7 +312,7 @@ bool Handel_S_COLLISION_Client(PacketSessionRef& session, Protocol::S_COLLISION&
 	Safe_AddRef(pGameInstance);
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 	if (pObject == nullptr)
 	{
 		Safe_Release(pGameInstance);
@@ -344,7 +344,7 @@ bool Handel_S_NEARTARGET_Client(PacketSessionRef& session, Protocol::S_NEARTARGE
 	Safe_AddRef(pGameInstance);
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -360,7 +360,7 @@ bool Handel_S_NEARTARGET_Client(PacketSessionRef& session, Protocol::S_NEARTARGE
 		pObject->Set_NearTarget(CServerSessionManager::GetInstance()->Get_Player());
 	else
 	{
-		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.itargetobjectlayer(), iTargetID);
+		CGameObject* pNearTarget = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.itargetobjectlayer(), iTargetID);
 		if (pNearTarget == nullptr)
 		{
 			Safe_Release(pGameInstance);
@@ -381,7 +381,7 @@ bool Handel_S_SLOWMOTION_Client(PacketSessionRef& session, Protocol::S_SLOWMOTIO
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -420,7 +420,7 @@ bool Handel_S_HP_Client(PacketSessionRef& session, Protocol::S_HP& pkt)
 	Safe_AddRef(pGameInstance);
 
 
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -509,7 +509,7 @@ bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer() , pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer() , pkt.iobjectid());
 
 
 	if (pObject == nullptr)
@@ -528,7 +528,7 @@ bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTER
 		pObject->Set_NearTarget(CServerSessionManager::GetInstance()->Get_Player());
 	else
 	{
-		CGameObject* pNearTarget = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.itargetobjectlayer(), iTargetID);
+		CGameObject* pNearTarget = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.itargetobjectlayer(), iTargetID);
 		pObject->Set_NearTarget(pNearTarget);
 	}
 
@@ -548,7 +548,7 @@ bool Handel_S_PLAYERLEVELMOVE_Client(PacketSessionRef& session, Protocol::S_PLAY
 bool Handel_S_DELETEGAMEOBJECT_Client(PacketSessionRef& session, Protocol::S_DELETEGAMEOBJECT& pkt)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -565,7 +565,7 @@ bool Handel_S_DELETEGAMEOBJECT_Client(PacketSessionRef& session, Protocol::S_DEL
 bool Handel_S_IDENTITY_Client(PacketSessionRef& session, Protocol::S_IDENTITY& pkt)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
+	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
 
 	if (pObject == nullptr)
 	{
@@ -608,7 +608,7 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 				continue;
 			}
 
-			CGameObject* pObject = pGameInstance->Find_GameObejct(tCreateParty.tplayers(i).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iObjectID);
+			CGameObject* pObject = pGameInstance->Find_GameObject(tCreateParty.tplayers(i).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iObjectID);
 
 			if (pObject == nullptr)
 			{
@@ -626,7 +626,7 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 	{
 		auto& tJoinParty = pkt.tjoinparty(0);
 
-		CGameObject* pObject = pGameInstance->Find_GameObejct(tJoinParty.tplayer().ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer().iid());
+		CGameObject* pObject = pGameInstance->Find_GameObject(tJoinParty.tplayer().ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer().iid());
 		if (pObject == nullptr)
 		{
 			Safe_Release(pGameInstance);

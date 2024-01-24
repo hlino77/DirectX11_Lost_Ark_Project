@@ -89,7 +89,7 @@ void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (nullptr == m_pValtan)
-		m_pValtan = pGameInstance->Find_GameObejct(LEVELID::LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BOSS, TEXT("Boss_Valtan"));
+		m_pValtan = pGameInstance->Find_GameObject(LEVELID::LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BOSS, TEXT("Boss_Valtan"));
 
 
 	Matrix Pivot = m_pValtan->Get_ModelCom()->Get_PivotMatrix();

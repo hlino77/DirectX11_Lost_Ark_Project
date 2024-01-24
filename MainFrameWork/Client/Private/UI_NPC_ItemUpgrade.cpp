@@ -282,6 +282,22 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_EquipIcon_Leg->Set_Scale(Vec3(24.f, 24.f, 1.f));
     m_pTransform_EquipIcon_Leg->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 105.f) + g_iWinSizeY * 0.5f, 0.03f));
+    //m_pTransform_EquipItemWnd_Weapon
+    m_pTransform_EquipItemWnd_Weapon->Set_Scale(Vec3(323.f * 0.9f, 60.f, 1.f));
+    m_pTransform_EquipItemWnd_Weapon->Set_State(CTransform::STATE_POSITION,
+        Vec3((m_fX - 380.f) - g_iWinSizeX * 0.5f, -(m_fY + 185.f) + g_iWinSizeY * 0.5f, 0.03f));
+    //m_pTransform_ItemIcon_Weapon
+    m_pTransform_ItemIcon_Weapon->Set_Scale(Vec3(64.f * 0.9f, 64.f * 0.9f, 1.f));
+    m_pTransform_ItemIcon_Weapon->Set_State(CTransform::STATE_POSITION,
+        Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY + 185.f) + g_iWinSizeY * 0.5f, 0.03f));
+    //m_pTransform_UpgradeIcon_Weapon
+    m_pTransform_UpgradeIcon_Weapon->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Weapon->Set_State(CTransform::STATE_POSITION,
+        Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 200.f) + g_iWinSizeY * 0.5f, 0.03f));
+    //m_pTransform_EquipIcon_Weapon
+    m_pTransform_EquipIcon_Weapon->Set_Scale(Vec3(24.f, 24.f, 1.f));
+    m_pTransform_EquipIcon_Weapon->Set_State(CTransform::STATE_POSITION,
+        Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 170.f) + g_iWinSizeY * 0.5f, 0.03f));
     return S_OK;
 }
 
@@ -583,16 +599,18 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
 void CUI_NPC_ItemUpgrade::Update_Items()
 {
     _uint iIndex = 0;
+    CItem* pEquips[SELECTED_END];
     for (size_t i = 0; i < (_uint)(CItem::PART::_END); i++)
     {
-        m_pEquips[i] = static_cast<CPlayer*>(m_pUsingPlayer)->Get_EquipItem(i);
-        if (nullptr != m_pEquips[i])
+        pEquips[i] = static_cast<CPlayer*>(m_pUsingPlayer)->Get_EquipItem(i);
+        if (nullptr != pEquips[i])
         {
-            if (i == m_pEquips[i]->Get_EquipType())
+            if (i == pEquips[i]->Get_EquipType())
             {
-                m_pTexture_ItemIcon[iIndex] = static_cast<CTexture*>(m_pEquips[i]->Get_ItemTexture());
-                m_iSidePannel_L_Wnd_TextureIndex[iIndex] = m_pEquips[i]->Get_ItemGrade();
-                m_strItemsName[iIndex] = m_pEquips[i]->Get_ItemName();
+                m_pTexture_ItemIcon[iIndex] = static_cast<CTexture*>(pEquips[i]->Get_ItemTexture());
+                m_iSidePannel_L_Wnd_TextureIndex[iIndex] = pEquips[i]->Get_ItemGrade();
+                m_strItemsName[iIndex] = pEquips[i]->Get_ItemName();
+                m_pEquips[iIndex] = pEquips[i];
                 iIndex++;
             }
         }
@@ -928,6 +946,31 @@ void CUI_NPC_ItemUpgrade::Is_Picking_LegItem(POINT pt)
   
 }
 
+void CUI_NPC_ItemUpgrade::Create_Rect_WeaponItem()
+{
+    m_rcLegItem.left = LONG((m_fX - 380.f) - ((323.f * 0.9f) / 2));
+    m_rcLegItem.top = LONG((m_fY + 185.f) - (60.f / 2));
+    m_rcLegItem.right = LONG((m_fX - 380.f) + ((323.f * 0.9f) / 2));
+    m_rcLegItem.bottom = LONG((m_fY + 185.f) + (60.f / 2));
+}
+
+void CUI_NPC_ItemUpgrade::Is_Picking_WeaponItem(POINT pt)
+{
+    if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_WEAPON])
+        return;
+    if (PtInRect(&m_rcWeaponItem, pt))
+    {
+        m_vColorWeaponItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (KEY_TAP(KEY::LBTN))
+        {
+            m_iCurrItem = SELECTED_WEAPON;
+            Update_ItemIcon();
+        }
+    }
+    else
+        m_vColorWeaponItem = Vec4(1.f, 1.f, 1.f, 1.f);
+}
+
 void CUI_NPC_ItemUpgrade::Update_GrowthGauge(_float fTimeDelta)
 {
 
@@ -1036,8 +1079,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_FACE];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_FACE];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_FACE];
-        //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_FACE];
-        //m_fItemGrowthCurrGauge = m_pCurrUpgradeItem->Get_UpgradeGauge();
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_FACE]->Get_UpgradeGauge();
         break;
     case SELECTED_HELMET:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_HELMET])
@@ -1046,7 +1088,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_HELMET];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_HELMET];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_HELMET];
-        //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_HELMET];
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_HELMET]->Get_UpgradeGauge();
         break;
     case SELECTED_SHOULDER:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_SHOULDER])
@@ -1055,7 +1097,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_SHOULDER];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_SHOULDER];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_SHOULDER];
-        //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_SHOULDER];
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_SHOULDER]->Get_UpgradeGauge();
         break;
     case SELECTED_BODY:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_BODY])
@@ -1064,7 +1106,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_BODY];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_BODY];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_BODY];
-        //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_BODY];
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_BODY]->Get_UpgradeGauge();
         break;
     case SELECTED_ARM:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_ARM])
@@ -1073,7 +1115,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_ARM];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_ARM];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_ARM];
-        //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_ARM];
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_BODY]->Get_UpgradeGauge();
         break;
     case SELECTED_LEG:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_LEG])
@@ -1082,7 +1124,17 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_LEG];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_LEG];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_LEG];
-        //m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_LEG];
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_LEG]->Get_UpgradeGauge();
+        break;
+
+    case SELECTED_WEAPON:
+        if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_WEAPON])
+            return;
+        m_pTexture_Item = m_pTexture_ItemIcon[(_uint)SELECTED_WEAPON];
+        m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_WEAPON];
+        m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_WEAPON];
+        m_strCurrItemName = m_strItemsName[(_uint)SELECTED_WEAPON];
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_WEAPON]->Get_UpgradeGauge();
         break;
     }
     m_pCurrItemNameWnd->Set_Active(true);
@@ -1477,6 +1529,18 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components_SidePannel_L()
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
         TEXT("Com_Transform_EquipIcon_Leg"), (CComponent**)&m_pTransform_EquipIcon_Leg)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+        TEXT("Com_Transform_EquipItemWnd_Weapon"), (CComponent**)&m_pTransform_EquipItemWnd_Weapon)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+        TEXT("Com_Transform_ItemIcon_Weapon"), (CComponent**)&m_pTransform_ItemIcon_Weapon)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+        TEXT("Com_Transform_UpgradeIcon_Weapon"), (CComponent**)&m_pTransform_UpgradeIcon_Weapon)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+        TEXT("Com_Transform_EquipIcon_Weapon"), (CComponent**)&m_pTransform_EquipIcon_Weapon)))
         return E_FAIL;
 
     return S_OK;
@@ -2212,7 +2276,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Face()
     
     if (nullptr != m_pTexture_ItemIcon[(_uint)CItem::PART::FACE])
     {
-        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", 0)))///m_iSidePannel_L_Wnd_TextureIndex[0])))
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)CItem::PART::FACE])))
             return E_FAIL;
     }
     else
@@ -2237,7 +2301,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Face()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])
     {
-        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[0])))
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
     }
     else
@@ -2312,7 +2376,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Helemt()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])
     {
-        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[1])))
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)(CItem::PART::HELMET)])))
         return E_FAIL;
     }
     else
@@ -2412,7 +2476,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Shoulder()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
     {
-        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[2])))
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)(CItem::PART::SHOULDER)])))
         return E_FAIL;
     }
     else
@@ -2512,7 +2576,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Body()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
     {
-        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[3])))
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)(CItem::PART::BODY)])))
             return E_FAIL;
     }
     else
@@ -2612,7 +2676,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Arm()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])
     {
-        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[4])))
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)(CItem::PART::ARM)])))
             return E_FAIL;
     }
     else
@@ -2712,7 +2776,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Leg()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
     {
-        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)(CItem::PART::LEG)])))
             return E_FAIL;
     }
     else
@@ -2737,7 +2801,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Leg()
         return E_FAIL;
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
     {
-        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[5])))
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
     }
     else
@@ -2793,6 +2857,106 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Leg()
     else
     {
         if(FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Weapon()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_EquipItemWnd_Weapon->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)])
+    {
+        if (FAILED(m_pTexture_EquipItemWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iSidePannel_L_Wnd_TextureIndex[(_uint)(CItem::PART::WEAPON)])))
+            return E_FAIL;
+    }
+    else
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Weapon()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_ItemIcon_Weapon->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)])
+    {
+        if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    else
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Weapon()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_UpgradeIcon_Weapon->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)])
+    {
+        if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    else
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipIcon_Weapon()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_EquipIcon_Weapon->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)])
+    {
+        if (FAILED(m_pTexture_EquipIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    else
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
             return E_FAIL;
     }
     return S_OK;
@@ -3232,7 +3396,10 @@ void CUI_NPC_ItemUpgrade::Free_Side_Pannel_L()
     Safe_Release(m_pTransform_EquipIcon_Leg);
     Safe_Release(m_pTransform_ItemIcon_Leg);
     Safe_Release(m_pTransform_UpgradeIcon_Leg);
-
+    Safe_Release(m_pTransform_EquipItemWnd_Weapon);
+    Safe_Release(m_pTransform_EquipIcon_Weapon);
+    Safe_Release(m_pTransform_ItemIcon_Weapon);
+    Safe_Release(m_pTransform_UpgradeIcon_Weapon);
 }
 
 void CUI_NPC_ItemUpgrade::Free_Side_Pannel_R()

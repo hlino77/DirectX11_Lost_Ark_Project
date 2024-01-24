@@ -133,15 +133,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		if (m_szModelName == TEXT("Floor_All_R01"))
 		{
-			m_bPlayAnim = !m_bPlayAnim;
-
-			Send_Collision(LEVEL_VALTANMAIN, false);
-
-			for (auto& CellIndex : m_NaviCellIndex)
-			{
-				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
-			}
-
+			Break_Floor();
 		}
 	}
 
@@ -150,14 +142,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		if (m_szModelName == TEXT("Floor_All_L01"))
 		{
-			m_bPlayAnim = !m_bPlayAnim;
-
-			Send_Collision(LEVEL_VALTANMAIN, false);
-
-			for (auto& CellIndex : m_NaviCellIndex)
-			{
-				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
-			}
+			Break_Floor();
 		}
 	}
 	
@@ -329,6 +314,18 @@ void CAnimModel::Add_ChildCollider(_uint iIndex)
 	m_StaticColliders[iIndex]->Set_Child(pCollider);
 
 	Safe_Release(pGameInstance);
+}
+
+void CAnimModel::Break_Floor()
+{
+	m_bPlayAnim = !m_bPlayAnim;
+
+	Send_Collision(LEVEL_VALTANMAIN, false);
+
+	for (auto& CellIndex : m_NaviCellIndex)
+	{
+		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
+	}
 }
 
 HRESULT CAnimModel::Ready_Components()

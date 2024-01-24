@@ -100,6 +100,7 @@ const wstring CUI_Lobby_NickNameChange::Get_NickName()
 {
 	if (nullptr != m_pNickName)
 		return static_cast<CUI_Lobby_NickName*>(m_pNickName)->Get_NickName();
+	return TEXT("");
 }
 
 HRESULT CUI_Lobby_NickNameChange::Ready_Components()

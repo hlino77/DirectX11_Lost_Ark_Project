@@ -22,7 +22,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
-		CPlayer* pTarget = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObejct(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, (_int)m_pGameObject->Get_TargetPos().x));
+		CPlayer* pTarget = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, (_int)m_pGameObject->Get_TargetPos().x));
 		if(pTarget != nullptr)
 			pTarget->Set_State(L"Stop");
 	}

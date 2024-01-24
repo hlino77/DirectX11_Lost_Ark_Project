@@ -117,6 +117,16 @@ void CNavigation::SetUp_OnCell(CGameObject* pObject)
 
 }
 
+_float CNavigation::Get_Height_OnCell(CGameObject* pObject)
+{
+	_int iCurrCell = pObject->Get_CurrCell();
+
+	if (iCurrCell < 0 || iCurrCell >= m_vecCells.size())
+		return 0.f;
+
+	 return m_vecCells[pObject->Get_CurrCell()]->Get_Height_OnCell(pObject);
+}
+
 _bool CNavigation::Is_Outside(CGameObject* pObject, _float fOffset)
 {
 	_int		iNeighborIndex = 0;
