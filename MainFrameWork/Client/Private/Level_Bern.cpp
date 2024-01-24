@@ -81,7 +81,7 @@ HRESULT CLevel_Bern::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"))))
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Bern_1Test.data"))))
 	{
 		return E_FAIL;
 	}
@@ -656,7 +656,8 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	L"../Bin/Resources/Export/Chaos1/",
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
-	L"../Bin/Resources/Export/Boss/"
+	L"../Bin/Resources/Export/Boss/",
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 

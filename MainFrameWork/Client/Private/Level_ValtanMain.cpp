@@ -579,7 +579,8 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
 	L"../Bin/Resources/Export/Boss/",
-	L"../Bin/Resources/Export/Lobby/"
+	L"../Bin/Resources/Export/Lobby/",
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 

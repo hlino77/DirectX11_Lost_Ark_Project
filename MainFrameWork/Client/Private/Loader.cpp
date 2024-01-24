@@ -954,12 +954,14 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_Inventory_UI()))
 		return E_FAIL;
 
-	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
+	
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 	pUIManager->Add_CurrFile();
+	
+	//Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
+	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Bern_1Test.data"));
 
-	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
-	//CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Chaos_Navi"), L"Chaos1.Navi");
+
 	pUIManager->Add_CurrFile();
 
 	/* For.Texture */
@@ -2009,7 +2011,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
 	L"../Bin/Resources/Export/Boss/",
-	L"../Bin/Resources/Export/Lobby/"
+	L"../Bin/Resources/Export/Lobby/",
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 
@@ -2022,6 +2025,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		string strFileName = file->Read<string>();
 		wstring selectedPath = {};
 
+
+
 		for (const auto& path : paths)
 		{
 			wstring fullPath = path + CAsUtils::ToWString(strFileName);
@@ -2031,6 +2036,15 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 				selectedPath = path;
 			}
 		}
+
+
+
+		if (selectedPath == L"../Bin/Resources/Export/Nature/")
+		{
+			int a = 1;
+		}
+
+
 
 		if (selectedPath.empty())
 		{
@@ -2115,6 +2129,7 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 	L"../Bin/Resources/Export/Chaos3/",
 	L"../Bin/Resources/Export/Boss/",
 	L"../Bin/Resources/Export/Lobby/"
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 
