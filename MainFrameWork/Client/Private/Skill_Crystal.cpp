@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Monster_Crystal.h"
+#include "Skill_Crystal.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
 #include "ColliderSphere.h"
@@ -10,17 +10,17 @@
 #include "Skill.h"
 
 
-CMonster_Crystal::CMonster_Crystal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	:CMonster(pDevice, pContext)
+CSkill_Crystal::CSkill_Crystal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CSkill(pDevice, pContext)
 {
 }
 
-CMonster_Crystal::CMonster_Crystal(const CMonster& rhs)
-	: CMonster(rhs)
+CSkill_Crystal::CSkill_Crystal(const CSkill& rhs)
+	: CSkill(rhs)
 {
 }
 
-HRESULT CMonster_Crystal::Initialize_Prototype()
+HRESULT CSkill_Crystal::Initialize_Prototype()
 {
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
@@ -28,7 +28,7 @@ HRESULT CMonster_Crystal::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CMonster_Crystal::Initialize(void* pArg)
+HRESULT CSkill_Crystal::Initialize(void* pArg)
 {
 	m_iMaxHp = 1;
 	m_iHp = m_iMaxHp;
@@ -37,43 +37,21 @@ HRESULT CMonster_Crystal::Initialize(void* pArg)
 	m_szModelName = Desc->strFileName;
 	m_iObjectID = Desc->iObjectID;
 	m_iLayer = Desc->iLayer;
-	m_bInstance = Desc->bInstance;
-	m_iCurrLevel = Desc->iLevel;
-
-
+	m_pSkillOwner = Desc->pOwner;
+	m_iCurrLevel = m_pSkillOwner->Get_CurrLevel();
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
-	if (FAILED(Ready_BehaviourTree()))
-		return E_FAIL;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 	m_fCellHeight = CNavigationMgr::GetInstance()->Get_Height_OnCell(m_iCurrLevel, this);
-	m_pTransformCom->LookAt_ForLandObject(Vec3(100.0f, 0.19f, 100.0f));
 	m_fMoveSpeed = 1.5f;
-	m_bInstance = false;
-	if (m_bInstance)
-	{
-		if (m_pInstaceData->find(m_szModelName) == m_pInstaceData->end())
-		{
-			if (FAILED(Ready_Proto_InstanceBuffer()))
-				return E_FAIL;
-		}
-	}
-	m_iAtk = 20;	
-	m_vecAttackRanges.clear();
-	m_vecAttackRanges.push_back(0.f);
-	m_vecAttackRanges.push_back(0.f);
-	m_fAttackRange = m_vecAttackRanges[0];
-	m_fNoticeRange = 0.f;
 	m_IsSetuponCell = false;
 	m_bExplosion = false;
 	m_fExplosionDelay = 1.5f;
+	m_bRender = false;
 	return S_OK;
 }
 
-void CMonster_Crystal::Tick(_float fTimeDelta)
+void CSkill_Crystal::Tick(_float fTimeDelta)
 {
 	if (m_IsSetuponCell)
 	{
@@ -82,6 +60,8 @@ void CMonster_Crystal::Tick(_float fTimeDelta)
 	else
 	{
 		m_pTransformCom->Go_Up(fTimeDelta);
+		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).y >= m_fCellHeight-1.f)
+			m_bRender = true;
 		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).y >= m_fCellHeight)
 			m_IsSetuponCell = true;
 	}
@@ -91,18 +71,18 @@ void CMonster_Crystal::Tick(_float fTimeDelta)
 		if (m_fExplosionDelay <= 0.f)
 		{
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SAFEZONE]->SetActive(false);
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(true);
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(false);
 			m_bRender = false;
 		}
 		if (m_fExplosionDelay < -0.2f)
-			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
 		if (m_fExplosionDelay < -0.5f&& !m_bDead)
 			Set_Die();
 	}
 }
 
-void CMonster_Crystal::LateTick(_float fTimeDelta)
+void CSkill_Crystal::LateTick(_float fTimeDelta)
 {
 	if (m_bRimLight)
 	{
@@ -118,11 +98,17 @@ void CMonster_Crystal::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 	if (m_fExplosionDelay > 0.f)
-		CullingObject();
+	{
+		if (m_bRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+			m_pRendererCom->Add_DebugObject(this);
+		}
+	}
 	m_pRendererCom->Add_DebugObject(this);
 }
 
-HRESULT CMonster_Crystal::Render()
+HRESULT CSkill_Crystal::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -147,31 +133,42 @@ HRESULT CMonster_Crystal::Render()
 	return S_OK;
 }
 
-void CMonster_Crystal::Set_SlowMotion(_bool bSlow)
+void CSkill_Crystal::Set_SlowMotion(_bool bSlow)
 {
 }
 
-void CMonster_Crystal::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+void CSkill_Crystal::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
 		{
-			if(dynamic_cast<CSkill*>( pOther->Get_Owner())->Is_Destructive())
-				Send_Collision(1, Vec3(), STATUSEFFECT::EFFECTEND, 0.f, 0.f, dynamic_cast<CSkill*>(pOther->Get_Owner())->Is_InstantDestruction());
+			if (dynamic_cast<CSkill*>(pOther->Get_Owner())->Is_Destructive())
+			{
+				m_iHp -= 1;
+				Set_RimLight(0.05f);
+
+				if (m_iHp < 1)
+				{
+					m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(false);
+					m_bExplosion = true;
+
+					m_fExplosionDelay = 1.f;
+				}
+			}
 		}
 	}
 }
 
-void CMonster_Crystal::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+void CSkill_Crystal::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Crystal::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+void CSkill_Crystal::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 }
 
-void CMonster_Crystal::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
+void CSkill_Crystal::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
 	m_iHp -= iDamage;
@@ -189,7 +186,16 @@ void CMonster_Crystal::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusE
 	
 }
 
-HRESULT CMonster_Crystal::Ready_Components()
+void CSkill_Crystal::Explosion()
+{
+}
+
+HRESULT CSkill_Crystal::Ready_Coliders()
+{
+	return S_OK;
+}
+
+HRESULT CSkill_Crystal::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -213,7 +219,7 @@ HRESULT CMonster_Crystal::Ready_Components()
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 	///* For.Com_Model */
-	if (FAILED(__super::Add_Component(m_iCurrLevel, TEXT("Prototype_Component_Model_Monster_Crystal"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Component(m_iCurrLevel, TEXT("Prototype_Component_Model_Skill_Crystal"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	{
@@ -269,16 +275,16 @@ HRESULT CMonster_Crystal::Ready_Components()
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER;
+		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS;
 		CSphereCollider* pCollider = nullptr;
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pCollider);
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Radius(4.f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->SetActive(false);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(4.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
 
 	for (auto& Collider : m_Coliders)
 	{
@@ -301,31 +307,27 @@ HRESULT CMonster_Crystal::Ready_Components()
 
 }
 
-HRESULT CMonster_Crystal::Ready_BehaviourTree()
-{
-	return S_OK;
-}
 
-CMonster_Crystal* CMonster_Crystal::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CSkill_Crystal* CSkill_Crystal::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Crystal* pInstance = new CMonster_Crystal(pDevice, pContext);
+	CSkill_Crystal* pInstance = new CSkill_Crystal(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CMonster_Crystal");
+		MSG_BOX("Failed To Created : CSkill_Crystal");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster_Crystal::Clone(void* pArg)
+CGameObject* CSkill_Crystal::Clone(void* pArg)
 {
-	CMonster_Crystal* pInstance = new CMonster_Crystal(*this);
+	CSkill_Crystal* pInstance = new CSkill_Crystal(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed To Clone : CMonster_Crystal");
+		MSG_BOX("Failed To Clone : CSkill_Crystal");
 		Safe_Release(pInstance);
 	}
 
@@ -334,9 +336,10 @@ CGameObject* CMonster_Crystal::Clone(void* pArg)
 
 
 
-void CMonster_Crystal::Free()
+void CSkill_Crystal::Free()
 {
 	__super::Free();
 	for (auto& Collider : m_Coliders)
 		CCollisionManager::GetInstance()->Out_Colider(Collider.second);
 }
+

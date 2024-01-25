@@ -8,7 +8,7 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "ColliderSphere.h"
-#include <Monster_Crystal.h>
+#include <Skill_Crystal.h>
 
 CValtan_BT_Attack_Attack21::CValtan_BT_Attack_Attack21()
 {
@@ -20,6 +20,7 @@ void CValtan_BT_Attack_Attack21::OnStart()
 	m_bShoot[0] = true;
 	m_bShoot[1] = true;
 	m_bShoot[2] = true;
+	m_bShoot[3] = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelta)
@@ -77,6 +78,24 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			}
 		}
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 73 && m_bShoot[3])
+	{
+		m_bShoot[3] = false;
+		Vec3 vDir = Vec3(1.f, 0.f, 1.f);
+		vDir.Normalize();
+		Matrix matRotation90 = Matrix::CreateRotationY(XMConvertToRadians(90.f));
+
+		for (size_t i = 0; i < 4; i++)
+		{
+			Vec3 vPosition = static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition();
+			vDir = Vec3::TransformNormal(vDir, matRotation90);
+			vDir.y = 0.f;
+			vDir.Normalize();
+			vPosition += vDir * 10.f;
+			vPosition.y = -60.f;
+			Add_Stone(vPosition);
+		}
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 8 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
@@ -106,7 +125,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
-			static_cast<CSkill*>(pSkill)->Set_InstantDestruction(true);
 		}
 	}
 	
@@ -139,13 +157,30 @@ void CValtan_BT_Attack_Attack21::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
-	for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
+	for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_SKILL))
 	{
-		if (pGameObject->Get_ObjectTag() == L"Monster_Crystal")
+		if (pGameObject->Get_ObjectTag() == L"Skill_Crystal")
 		{
-			dynamic_cast<CMonster_Crystal*>(pGameObject)->Set_Explosion(true);
+			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_Explosion(true);
+			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_RimLight(0.05f);
 		}
 	}
+}
+void CValtan_BT_Attack_Attack21::Add_Stone(Vec3 vPosition)
+{
+	wstring szComponentName = L"Skill_Crystal";
+	CSkill::MODELDESC Desc;
+	Desc.strFileName = L"Skill_Crystal";
+	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+	Desc.iObjectID = -1;
+	Desc.pOwner = m_pGameObject;
+
+	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
+	CSkill* pSkill = dynamic_cast<CSkill*>(CGameInstance::GetInstance()->Add_GameObject(m_pGameObject->Get_CurrLevel(), Desc.iLayer, szMonsterName, &Desc));
+	pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPosition);
+	pSkill->Get_TransformCom()->LookAt_ForLandObject(Vec3(100.0f, 0.19f, 100.0f));
+	static_cast<CSkill*>(pSkill)->Set_Atk(50);
+	static_cast<CSkill*>(pSkill)->Set_Force(31.f);
 }
 
 

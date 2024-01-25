@@ -5,7 +5,7 @@
 #include <Boss_Valtan.h>
 #include "GameInstance.h"
 #include "ColliderSphere.h"
-#include <Skill_Valtan_DoughnutTerm2sec.h>
+#include <Skill_Valtan_DoughnutTerm2sec.h>	
 
 CValtan_BT_Attack_Attack14::CValtan_BT_Attack_Attack14()
 {

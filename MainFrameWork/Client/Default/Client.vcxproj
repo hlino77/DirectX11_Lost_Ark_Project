@@ -293,7 +293,7 @@
     <ClInclude Include="..\Public\Level_ValtanMain.h" />
     <ClInclude Include="..\Public\Mannequin.h" />
     <ClInclude Include="..\Public\MannequinPart.h" />
-    <ClInclude Include="..\Public\Monster_Crystal.h" />
+    <ClInclude Include="..\Public\Skill_Crystal.h" />
     <ClInclude Include="..\Public\Monster_Prison.h" />
     <ClInclude Include="..\Public\Npc.h" />
     <ClInclude Include="..\Public\NpcTool.h" />
@@ -862,7 +862,7 @@
     <ClCompile Include="..\Private\Level_ValtanMain.cpp" />
     <ClCompile Include="..\Private\Mannequin.cpp" />
     <ClCompile Include="..\Private\MannequinPart.cpp" />
-    <ClCompile Include="..\Private\Monster_Crystal.cpp" />
+    <ClCompile Include="..\Private\Skill_Crystal.cpp" />
     <ClCompile Include="..\Private\Monster_Prison.cpp" />
     <ClCompile Include="..\Private\Npc.cpp" />
     <ClCompile Include="..\Private\NpcTool.cpp" />

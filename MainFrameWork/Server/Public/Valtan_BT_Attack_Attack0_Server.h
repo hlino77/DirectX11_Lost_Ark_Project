@@ -18,10 +18,8 @@ private:
     virtual void		OnEnd()								override;
     virtual void On_FirstAnimStart()override;
     virtual void On_LastAnimEnd()override;
-    void Add_Stone(Vec3 vPosition);
 private:
     Vec3                m_vLandPosition = {};
-    _bool   m_bShoot = true;
 
 public:
     static	CValtan_BT_Attack_Attack0_Server* Create(void* pArg);
