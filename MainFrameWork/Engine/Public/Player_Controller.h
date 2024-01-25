@@ -62,7 +62,7 @@ public:
 	virtual void		Get_SkillChangeStatMessage(SKILL_KEY eKey) { ChangeStat(eKey); }
 	
 	virtual void		Get_DashMessage(Vec3 vPos);
-	virtual void		Get_DashEndMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime; }
+	virtual void		Get_DashEndMessage(_float fCoolTime);
 	virtual void		Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos = Vec3());
 	virtual void		Get_HitEndMessage() { m_eHitType = HIT_TYPE::TYPE_END; m_IsHitState = false;}
 

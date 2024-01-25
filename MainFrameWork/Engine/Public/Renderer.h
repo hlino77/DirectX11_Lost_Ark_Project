@@ -199,6 +199,9 @@ private:
 		_float	fRadialBlurIntensity = 0.f;
 	} m_tRadialBlurData;
 
+	// Eshter Motion
+
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

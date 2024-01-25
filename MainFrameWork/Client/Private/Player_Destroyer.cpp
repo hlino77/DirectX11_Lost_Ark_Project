@@ -275,20 +275,30 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 				m_pController->Get_GrabMessage(pOther->Get_Owner());
 			}
 		}
-		if (false == Is_Invincible())
+
+		if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 		{
-			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
-			{
+			Set_Invincible(true);
+		}
+
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+		{
+			if (false == Is_Invincible())
 				m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
-			}
-			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == Is_Invincible())
 			{
 				Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 
 				if (false == m_pController->Is_HitState())
 					m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
 			}
-			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		}
+		if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == Is_Invincible() || true == static_cast<CSkill*>(pOther->Get_Owner())->Is_SafeZonePierce())
 			{
 				Vec3 vCenter;
 				if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
@@ -339,6 +349,11 @@ void CPlayer_Destroyer::OnCollisionExit(const _uint iColLayer, CCollider* pOther
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 	{
+		if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
+		{
+			Set_Invincible(false);
+		}
+
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
 			if (TEXT("Stop") == Get_State())
