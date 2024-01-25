@@ -208,9 +208,6 @@
     <Filter Include="02. GameObject\04. Boss\Boss_Golem_Server\Behavior">
       <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. Monster\Monster_Crystal">
-      <UniqueIdentifier>{23d77106-3b4d-4c95-ac16-d19f15b94034}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. Monster\Monster_Pawn">
       <UniqueIdentifier>{b6253a4d-d66e-4522-bc0e-210cc8c40e50}</UniqueIdentifier>
     </Filter>
@@ -536,9 +533,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\BreakAbleObject_Server.cpp">
       <Filter>02. GameObject\09. BreakAbleObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Monster_Crystal_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Monster_Crystal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -949,9 +943,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\BreakAbleObject_Server.h">
       <Filter>02. GameObject\09. BreakAbleObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Monster_Crystal_Server.h">
-      <Filter>02. GameObject\03. Monster\Monster_Crystal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,6 @@
 #include "Guide_Chaos_Npc_Server.h"
 #include "ValtanMain_Server.h"
 #include "BreakAbleObject_Server.h"
-#include "Monster_Crystal_Server.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -123,9 +122,6 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 		CMonster_Prison_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Crystal"),
-		CMonster_Crystal_Server::Create(nullptr, nullptr))))
-		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan"),
 		CBoss_Valtan_Server::Create(nullptr, nullptr))))

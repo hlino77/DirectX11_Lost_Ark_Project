@@ -143,7 +143,7 @@
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
 #include "Monster_Prison.h"
-#include "Monster_Crystal.h"
+#include "Skill_Crystal.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -1145,8 +1145,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Crystal"),
-		CMonster_Crystal::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Crystal"),
+		CSkill_Crystal::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1736,7 +1736,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	}
 
 	{
-		wstring strFileName = L"Monster_Crystal";
+		wstring strFileName = L"Skill_Crystal";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

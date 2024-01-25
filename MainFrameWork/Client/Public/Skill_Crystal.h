@@ -1,5 +1,5 @@
 #pragma once
-#include "Monster.h"
+#include "Skill.h"
 #include "Client_Defines.h"
 #include "StateMachine.h"
 #include <atomic>
@@ -14,14 +14,14 @@ END
 
 
 BEGIN(Client)
-class CMonster_Crystal :
-	public CMonster
+class CSkill_Crystal :
+	public CSkill
 {
 
 private:
-	CMonster_Crystal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMonster_Crystal(const CMonster& rhs);
-	virtual ~CMonster_Crystal() = default;
+	CSkill_Crystal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSkill_Crystal(const CSkill& rhs);
+	virtual ~CSkill_Crystal() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -38,22 +38,25 @@ public:
 public:
 	void					Set_Explosion(_bool bExplosion) { m_bExplosion = bExplosion; }
 	_bool					Get_Explosion() { return m_bExplosion; }
-
+	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+	_bool					Get_RimLight() { return m_bRimLight; }
 private:
 	virtual HRESULT		Ready_Components();
-
-	virtual HRESULT Ready_BehaviourTree() override;
+	// CSkill을(를) 통해 상속됨
+	virtual void Explosion() override;
+	virtual HRESULT Ready_Coliders() override;
 private:
-	_float m_fCellHeight = 0.f;
-	_bool  m_bExplosion = false;
-	_float  m_fExplosionDelay = 0.f;
+	_float							m_fCellHeight = 0.f;
+	_bool							m_bExplosion = false;
+	_float							m_fExplosionDelay = 0.f;
+	_bool							m_IsSetuponCell = false;
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightTime = 0.0f;
 
 public:
-	static CMonster_Crystal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CSkill_Crystal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
-
-
 };
 
 END

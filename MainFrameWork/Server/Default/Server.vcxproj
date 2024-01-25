@@ -196,7 +196,6 @@
     <ClCompile Include="..\Private\Level_Loading_Server.cpp" />
     <ClCompile Include="..\Private\Loader_Server.cpp" />
     <ClCompile Include="..\Private\MainApp_Server.cpp" />
-    <ClCompile Include="..\Private\Monster_Crystal_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Ghoul_Server.cpp" />
     <ClCompile Include="..\Private\Boss_Golem_Server.cpp" />
     <ClCompile Include="..\Private\Monster_Pawn_Server.cpp" />
@@ -280,7 +279,6 @@
     <ClInclude Include="..\Public\BreakAbleObject_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h" />
-    <ClInclude Include="..\Public\Monster_Crystal_Server.h" />
     <ClInclude Include="..\Public\Monster_Prison_Server.h" />
     <ClInclude Include="..\Public\Npc_Server.h" />
     <ClInclude Include="..\Public\ValtanMain_Server.h" />
