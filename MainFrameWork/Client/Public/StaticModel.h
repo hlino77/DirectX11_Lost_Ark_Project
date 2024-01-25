@@ -88,7 +88,7 @@ protected:
 
 private:
 
-	CRenderer::RENDERGROUP			m_eRenderGroup;
+	CRenderer::RENDERGROUP			m_eRenderGroup = { CRenderer::RENDERGROUP::RENDER_END };
 
 	vector<CSphereCollider*>		m_StaticColliders;
 	vector<_uint>					m_NaviCellIndex;

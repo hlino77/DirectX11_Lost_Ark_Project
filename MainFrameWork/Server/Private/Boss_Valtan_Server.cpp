@@ -1719,9 +1719,13 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		}
 		// 테스트용
 
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack21)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack12)))
 			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack0)))
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack20)))
+			return E_FAIL;
+
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack21)))
 			return E_FAIL;
 
 

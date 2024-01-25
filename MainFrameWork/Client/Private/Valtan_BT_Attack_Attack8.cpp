@@ -80,7 +80,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			static_cast<CSkill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(6.f, 2.3f);
 		}
-		pSkill == nullptr;
+		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutSecondHit", &ModelDesc);
 		if (pSkill != nullptr)
 		{

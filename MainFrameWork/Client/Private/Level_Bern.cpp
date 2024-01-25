@@ -564,6 +564,8 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
 }
 
 

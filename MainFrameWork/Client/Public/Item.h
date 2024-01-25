@@ -73,7 +73,7 @@ public:
 
 	_float						Get_UpgradeGauge() { return m_fUpgaradeGauge; }
 	void						Set_UpgradeGauge(_float fGauge) { m_fUpgaradeGauge = fGauge; }
-	CTexture*					Get_ItemTexture() { if(nullptr != m_pItemTextureCom)return m_pItemTextureCom; }
+	CTexture*					Get_ItemTexture();
 protected:
 	virtual HRESULT				Ready_Components();
 

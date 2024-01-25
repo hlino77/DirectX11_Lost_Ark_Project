@@ -159,6 +159,8 @@ bool Handel_S_CREATEOBJECT_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	}
 
 	Safe_Release(pGameInstance);
+
+	return true;
 }
 
 

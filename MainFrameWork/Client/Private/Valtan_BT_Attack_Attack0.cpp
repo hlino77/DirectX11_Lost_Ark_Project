@@ -58,7 +58,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(55.f, -45.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f,5.f);
 		}
-		pSkill == nullptr;
+		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{

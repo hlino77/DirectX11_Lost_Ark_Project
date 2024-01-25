@@ -45,6 +45,14 @@ void CItem::Upgrade_Item()
 {
 }
 
+CTexture* CItem::Get_ItemTexture()
+{
+	if (nullptr != m_pItemTextureCom) 
+		return m_pItemTextureCom;
+	else
+		return nullptr;
+}
+
 HRESULT CItem::Ready_Components()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);

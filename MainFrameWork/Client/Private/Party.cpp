@@ -19,4 +19,6 @@ _bool CParty::Add_Player(CGameObject* pPlayer)
 		return false;
 
 	m_Players.push_back(pPlayer);
+
+	return true;
 }

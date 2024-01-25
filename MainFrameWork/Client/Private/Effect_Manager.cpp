@@ -555,8 +555,6 @@ void CEffect_Manager::Tick(_float fTimedelta)
 {
 	for (_int i = 0; i < m_vecEffectResereved.size(); ++i)
 	{
-		m_hashEffectBundles.find(m_vecEffectResereved[i].first);
-
 		for (auto& EffectTag : m_hashEffectBundles[m_vecEffectResereved[i].first])
 		{
 			CEffect* pEffect = nullptr;

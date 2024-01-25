@@ -165,9 +165,9 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 
 		ImGui::Text("LR Type :");
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Left", &m_iSelectPart, PARTTYPE::PART_L));
+		ImGui::RadioButton("Left", &m_iSelectPart, PARTTYPE::PART_L);
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Right", &m_iSelectPart, PARTTYPE::PART_R));
+		ImGui::RadioButton("Right", &m_iSelectPart, PARTTYPE::PART_R);
 
 		ImGui::Spacing();
 
