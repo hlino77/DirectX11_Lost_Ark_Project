@@ -252,6 +252,29 @@ void CPlayer_Controller::Get_GrabMessage(CGameObject* pGrab)
 	m_IsGrabState = true;
 }
 
+void CPlayer_Controller::Get_CheckLengthMessage(_float fCheckLength, CGameObject* pOther)
+{
+	Vec3 vSavePos;
+	Vec3 vOwnerPos = vSavePos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vOwnerPos.y = 0.0f;
+
+	Vec3 vOtherPos = pOther->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vOtherPos.y = 0.0f;
+
+	Vec3 vDir = vOwnerPos - vOtherPos;
+	_float fLength = vDir.Length();
+
+	if (fLength <= fCheckLength)
+	{
+		vDir.Normalize();
+		Vec3 vTargetPos = vOtherPos + vDir * fCheckLength;
+		vSavePos = Vec3::Lerp(vSavePos, vTargetPos, 0.2f);
+
+		Get_StopMessage();
+		m_pOwner->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vSavePos);
+	}
+}
+
 void CPlayer_Controller::Get_GrabEndMessage()
 {
 	m_pGrabber = nullptr;
@@ -668,6 +691,7 @@ void CPlayer_Controller::StatusEffect_Duration(const _float& fTimeDelta)
 		{
 			m_bStatusEffect[i] = false;
 			m_fStatusDuration[i] = -1.f;
+			m_iStatusEffect = (_uint)STATUSEFFECT::_END;
 
 			switch (i)
 			{

@@ -536,7 +536,6 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	if(true == m_bControl)
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;

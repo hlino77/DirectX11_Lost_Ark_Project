@@ -80,6 +80,8 @@ public:
 	virtual void		Get_DeadMessage() { m_IsDead = true; }
 	virtual void		Get_DeadEndMessage() { m_IsDead = false; }
 
+	virtual void		Get_CheckLengthMessage(_float fCheckLength, CGameObject* pOther);
+
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
 	_bool				Is_HitState() { return m_IsHitState; }

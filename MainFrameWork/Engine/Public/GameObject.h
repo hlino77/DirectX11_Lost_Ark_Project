@@ -244,7 +244,7 @@ protected:
 	_int						m_iCurrCell = -1;
 	_int						m_iPrevCell = -1;
 
-	list<COLLISIONSTAY>			m_CollisionList;
+	vector<COLLISIONSTAY>			m_CollisionList;
 
 	int64							m_iHp;
 	uint64							m_iMaxHp;
