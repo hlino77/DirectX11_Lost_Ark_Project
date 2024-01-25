@@ -19,7 +19,6 @@ private:
 private:
     Vec3                m_vLandPosition = {};
     _bool     m_bShoot[3] = {};
-    _float    m_fRotation = 55.f;
 public:
     static	CValtan_BT_Attack_Attack0* Create(void* pArg);
     virtual void Free() override;

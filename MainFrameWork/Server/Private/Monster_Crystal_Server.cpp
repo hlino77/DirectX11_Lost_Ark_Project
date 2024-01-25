@@ -54,7 +54,7 @@ HRESULT CMonster_Crystal_Server::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(0.f);
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 0.f;
-	m_iMaxHp = 10;
+	m_iMaxHp = 1;
 	m_iHp = m_iMaxHp;
 
 	return S_OK;
@@ -110,7 +110,7 @@ void CMonster_Crystal_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint i
 	{
 		Set_Die();
 	}
-	Send_Collision(iDamage, Vec3(), STATUSEFFECT::EFFECTEND, fForce, 0.f, 0);
+	Send_Collision(iDamage, Vec3(), STATUSEFFECT::EFFECTEND, fForce, fDuration, iGroggy);
 }
 
 HRESULT CMonster_Crystal_Server::Ready_Components()

@@ -18,8 +18,9 @@ private:
     virtual void		OnEnd()								override;
     virtual void On_FirstAnimStart()override;
     virtual void On_LastAnimEnd()override;
+    void Add_Stone(Vec3 vPosition);
 private:
-
+    _bool   m_bShoot = true;
     Vec3                m_vLandPosition = {};
 
 public:
