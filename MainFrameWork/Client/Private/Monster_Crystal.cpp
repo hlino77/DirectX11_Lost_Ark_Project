@@ -104,8 +104,6 @@ void CMonster_Crystal::Tick(_float fTimeDelta)
 
 void CMonster_Crystal::LateTick(_float fTimeDelta)
 {
-
-
 	if (m_bRimLight)
 	{
 		m_fRimLightTime -= fTimeDelta;
@@ -139,6 +137,10 @@ HRESULT CMonster_Crystal::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
+	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f)*0.8f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
+		return E_FAIL;
+
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
 
@@ -156,7 +158,7 @@ void CMonster_Crystal::OnCollisionEnter(const _uint iColLayer, CCollider* pOther
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
 		{
 			if(dynamic_cast<CSkill*>( pOther->Get_Owner())->Is_Destructive())
-				Send_Collision(1, Vec3(), STATUSEFFECT::EFFECTEND, 0.f, 0.f, 0);
+				Send_Collision(1, Vec3(), STATUSEFFECT::EFFECTEND, 0.f, 0.f, dynamic_cast<CSkill*>(pOther->Get_Owner())->Is_InstantDestruction());
 		}
 	}
 }
@@ -179,7 +181,10 @@ void CMonster_Crystal::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusE
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(false);
 		m_bExplosion = true;
-		m_fExplosionDelay = 1.f;
+		if(iGroggy == 1)
+			m_fExplosionDelay = 0.f;
+		else
+			m_fExplosionDelay = 1.f;
 	}
 	
 }

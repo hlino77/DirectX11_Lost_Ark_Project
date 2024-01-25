@@ -1402,7 +1402,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 2.5f;
+	AnimationDesc.fMaxLoopTime = 4.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1721,10 +1721,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack0)))
 			return E_FAIL;
-
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack16)))
 			return E_FAIL;
-
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?

@@ -17,8 +17,8 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 private:
-
     Vec3                m_vLandPosition = {};
+    _bool     m_bShoot[3] = {};
 
 public:
     static	CValtan_BT_Attack_Attack16* Create(void* pArg);

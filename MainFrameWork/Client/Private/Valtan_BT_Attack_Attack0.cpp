@@ -30,12 +30,13 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vLandPosition);
 	}
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
+	if (m_iCurrAnimation == 4 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CBoss*>(m_pGameObject)->Get_MoveSpeed() * 1.1f, fTimeDelta);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[10].iAnimIndex && m_fLoopTime < 1.5f)
+
+	if (m_iCurrAnimation == 11 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[11].iAnimIndex && m_fLoopTime < 3.f)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 9 && m_bShoot[0])
@@ -56,7 +57,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 			static_cast<CSkill*>(pSkill)->Set_Atk(40);
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(55.f, -45.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f,5.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 5.f);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
@@ -64,7 +65,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 		{
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_ForLandObject(m_vLandPosition);
-			pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, -33.f , 0.f));
+			pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, -33.f, 0.f));
 			static_cast<CSkill*>(pSkill)->Set_Atk(40);
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(45.f, -55.f);
@@ -72,14 +73,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 		}
 		{
 			CGameObject* pFloor = CGameInstance::GetInstance()->GetInstance()->Find_GameObject(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_BACKGROUND, L"Floor_All_L01");
-			if (pFloor!=nullptr && pFloor->Get_ModelCom()->Get_ModelType() == CModel::TYPE::TYPE_ANIM &&
+			if (pFloor != nullptr && pFloor->Get_ModelCom()->Get_ModelType() == CModel::TYPE::TYPE_ANIM &&
 				pFloor->Get_ModelName() == TEXT("Floor_All_L01"))
 			{
 				static_cast<CAnimModel*>(pFloor)->Break_Floor();
 			}
 		}
-		cout << m_fRotation << endl;
-		m_fRotation += 1.f;
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
 	{
@@ -114,7 +113,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 		}
 	}
 
-	/*	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[10].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[10].iAnimIndex) >= 3 && m_bShoot[2])
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[12].iAnimIndex) >= 3 && m_bShoot[2])
 	{
 		m_bShoot[2] = false;
 		CSkill::ModelDesc ModelDesc = {};
@@ -134,13 +133,20 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0::OnUpdate(const _float& fTimeDelta
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(20.f, -20.f);
 			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
 		}
-	}*/
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_Attack0::OnEnd()
 {
 	__super::OnEnd();
+	for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
+	{
+		if (pGameObject->Get_ObjectTag() == L"Monster_Crystal")
+		{
+			dynamic_cast<CMonster_Crystal*>(pGameObject)->Set_Explosion(true);
+		}
+	}
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
