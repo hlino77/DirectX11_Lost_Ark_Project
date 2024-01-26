@@ -143,7 +143,7 @@
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
 #include "Monster_Prison.h"
-#include "Skill_Crystal.h"
+#include "Boss_Valtan_CounterGhost.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -153,6 +153,7 @@
 #include "Weapon_Boss_Valtan.h"
 
 //BossSkills
+#include "Skill_Crystal.h"
 #include "Skill_King_ChargeSwing.h"
 #include "Skill_King_Eruption.h"
 #include <Skill_Golem_Charge_Punch.h>
@@ -1165,6 +1166,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_CounterGhost"),
+		CBoss_Valtan_CounterGhost::Create(nullptr, nullptr))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

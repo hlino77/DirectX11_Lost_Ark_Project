@@ -30,7 +30,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10_Server::OnUpdate(const _float& fT
 			0.6f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed(),fTimeDelta);
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) < 10 || m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
-
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_bDummy()&& m_iCurrAnimation ==1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 4)
+	{
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_Left(false);
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_AnimationSpeed(0.f);
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_Die();
+		return BT_SUCCESS;
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

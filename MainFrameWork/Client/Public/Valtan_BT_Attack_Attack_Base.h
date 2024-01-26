@@ -16,6 +16,8 @@ protected:
     virtual void		OnStart();
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta);
     virtual void		OnEnd();
+    virtual void		OnStart(_int iAnimIndex) override;
+    void Add_Stone(Vec3 vPosition);
 
 public:
     static	CValtan_BT_Attack_Attack_Base* Create(void* pArg);

@@ -13,8 +13,11 @@ CValtan_BT_Attack_Attack11::CValtan_BT_Attack_Attack11()
 
 void CValtan_BT_Attack_Attack11::OnStart()
 {
-	__super::OnStart();
-	m_bShoot = true;
+	if (static_cast<CBoss*>(m_pGameObject)->Is_bDummy())
+		__super::OnStart(1);
+	else
+		__super::OnStart();
+	m_bShoot = true;		  
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
 }
 
@@ -56,6 +59,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex,
 			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
 			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+	}
+	if (static_cast<CBoss*>(m_pGameObject)->Is_bDummy() && m_iCurrAnimation == 1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_Die();
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

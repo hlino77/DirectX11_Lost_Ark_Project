@@ -4226,6 +4226,12 @@
     <ClInclude Include="..\Public\Skill_Crystal.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_BattleIdle.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6795,9 +6801,6 @@
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Grab</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Item.cpp">
       <Filter>02.GameObjects\Item</Filter>
     </ClCompile>
@@ -7019,6 +7022,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Crystal.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_BattleIdle.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

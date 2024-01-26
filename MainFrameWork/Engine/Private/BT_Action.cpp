@@ -47,7 +47,7 @@ void CBT_Action::OnStart(_int iAnimIndex)
 		m_vecAnimDesc[iAnimIndex].iChangeFrame, m_vecAnimDesc[iAnimIndex].fRootDist, m_vecAnimDesc[iAnimIndex].IsRootRot);
 	m_fFrame = 0.f;
 	m_fLoopTime = 0;
-	m_iCurrAnimation = 0;
+	m_iCurrAnimation = iAnimIndex;
 	m_bSoundOn = false;
 	m_bStart = true;
 	m_bEnd = true;
@@ -117,12 +117,6 @@ void CBT_Action::On_LastAnimEnd()
 void CBT_Action::OnEnd()
 {
 	__super::OnEnd();
-}
-
-void CBT_Action::Start_Animation()
-{
-	m_pGameObject->Get_ModelCom()->Set_CurrAnim(m_vecAnimDesc[0].iAnimIndex);
-	m_pGameObject->Get_ModelCom()->Play_Animation(0.f);
 }
 
 void CBT_Action::Free()

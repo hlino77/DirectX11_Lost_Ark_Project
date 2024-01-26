@@ -15,7 +15,6 @@ private:
 
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
-    void Add_Stone(Vec3 vPosition);
     virtual void		OnEnd()								override;
 private:
     Vec3                m_vLandPosition = {};

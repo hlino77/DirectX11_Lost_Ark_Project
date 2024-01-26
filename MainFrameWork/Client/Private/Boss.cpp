@@ -67,11 +67,11 @@ HRESULT CBoss::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
+	if (!m_bDummy)
+		if (FAILED(Ready_HpUI()))
+			return E_FAIL;
 
-	if (FAILED(Ready_HpUI()))
-		return E_FAIL;
-
-    return S_OK;
+	return S_OK;
 }
 
 void CBoss::Tick(_float fTimeDelta)
@@ -276,8 +276,8 @@ void CBoss::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
-	//m_pHpUI->Set_Dead(true);
-	m_pHpUI->Set_Dead_BossHpUI();
+	if(!m_bDummy)
+		m_pHpUI->Set_Dead_BossHpUI();
 }
 
 void CBoss::Move_to_SpawnPosition()

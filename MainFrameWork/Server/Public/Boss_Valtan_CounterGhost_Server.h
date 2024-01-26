@@ -3,12 +3,12 @@
 
 BEGIN(Server)
 
-class CBoss_Valtan_Server :
+class CBoss_Valtan_CounterGhost_Server :
     public CBoss_Server
 {
-	CBoss_Valtan_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBoss_Valtan_Server(const CBoss_Valtan_Server& rhs);
-	virtual ~CBoss_Valtan_Server() = default;
+	CBoss_Valtan_CounterGhost_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBoss_Valtan_CounterGhost_Server(const CBoss_Valtan_CounterGhost_Server& rhs);
+	virtual ~CBoss_Valtan_CounterGhost_Server() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -23,8 +23,6 @@ public:
 	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
-
-	void BroadCast_Ghost(Vec3 vPosition, Vec3 vLook);
 
 
 public:

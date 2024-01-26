@@ -125,6 +125,8 @@ public:
 	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
 
 
+	_bool						Is_bDummy() { return m_bDummy; }
+	void						Set_bDummy(_bool bDummy) { m_bDummy = bDummy; }
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -149,7 +151,7 @@ protected:
 	_uint m_iPhase = 1;
 	_int m_iGroggyGauge = 0;
 	_uint m_iMaxGroggyGauge = 0;
-
+	_bool							m_bDummy = false;
 	_float m_fForce = 0.f;;
 	_bool	m_IsGroggyLock = false;
 	_uint	m_iHitCount = 0;

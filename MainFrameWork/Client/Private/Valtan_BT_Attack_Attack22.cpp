@@ -68,6 +68,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 					Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 					Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 					vLook.Normalize();
+					pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
 					pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 					pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 					static_cast<CSkill*>(pSkill)->Set_Atk(30);

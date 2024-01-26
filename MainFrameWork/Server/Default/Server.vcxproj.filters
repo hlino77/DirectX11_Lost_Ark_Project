@@ -217,6 +217,12 @@
     <Filter Include="02. GameObject\03. Monster\Monster_Prison">
       <UniqueIdentifier>{41e7177c-cf76-4bf2-b555-f3ac69cc0b0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Boss\Boss_Valtan_CounterGhost_Server">
+      <UniqueIdentifier>{c212e54c-5e1b-488b-87a8-81b6ee196577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle">
+      <UniqueIdentifier>{091f62ee-1d9b-44c2-b60b-6745c9eece50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -533,6 +539,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\BreakAbleObject_Server.cpp">
       <Filter>02. GameObject\09. BreakAbleObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_CounterGhost_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Boss_Valtan_CounterGhost_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_BattleIdle_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -943,6 +955,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\BreakAbleObject_Server.h">
       <Filter>02. GameObject\09. BreakAbleObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_CounterGhost_Server.h">
+      <Filter>02. GameObject\04. Boss\Boss_Valtan_CounterGhost_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_BattleIdle_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

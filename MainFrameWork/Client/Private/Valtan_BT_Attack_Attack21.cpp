@@ -166,22 +166,7 @@ void CValtan_BT_Attack_Attack21::OnEnd()
 		}
 	}
 }
-void CValtan_BT_Attack_Attack21::Add_Stone(Vec3 vPosition)
-{
-	wstring szComponentName = L"Skill_Crystal";
-	CSkill::MODELDESC Desc;
-	Desc.strFileName = L"Skill_Crystal";
-	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
-	Desc.iObjectID = -1;
-	Desc.pOwner = m_pGameObject;
 
-	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
-	CSkill* pSkill = dynamic_cast<CSkill*>(CGameInstance::GetInstance()->Add_GameObject(m_pGameObject->Get_CurrLevel(), Desc.iLayer, szMonsterName, &Desc));
-	pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPosition);
-	pSkill->Get_TransformCom()->LookAt_ForLandObject(Vec3(100.0f, 0.19f, 100.0f));
-	static_cast<CSkill*>(pSkill)->Set_Atk(50);
-	static_cast<CSkill*>(pSkill)->Set_Force(31.f);
-}
 
 
 

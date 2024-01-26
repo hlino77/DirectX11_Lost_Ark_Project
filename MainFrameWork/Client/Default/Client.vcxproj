@@ -196,6 +196,7 @@
     <ClInclude Include="..\Public\Boss_BT_Groggy.h" />
     <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Boss_Valtan.h" />
+    <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h" />
     <ClInclude Include="..\Public\Camera_Lobby.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
@@ -728,6 +729,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h" />
+    <ClInclude Include="..\Public\Valtan_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
@@ -771,6 +773,7 @@
     <ClCompile Include="..\Private\Boss_BT_Groggy.cpp" />
     <ClCompile Include="..\Private\Boss_Golem.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan.cpp" />
+    <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp" />
     <ClCompile Include="..\Private\Camera_Lobby.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
@@ -1303,6 +1306,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />

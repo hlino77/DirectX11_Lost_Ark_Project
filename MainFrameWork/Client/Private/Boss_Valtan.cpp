@@ -1693,6 +1693,12 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.strAnimName = TEXT("att_battle_19_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	AnimationDesc.strAnimName = TEXT("att_battle_19_04");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1734,11 +1740,6 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("idle_battle_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//16번 연환파신권
 	ActionDesc.strActionName = L"Action_Attack23";
 	CBT_Action* pAttack23 = CValtan_BT_Attack_Attack23::Create(&ActionDesc);

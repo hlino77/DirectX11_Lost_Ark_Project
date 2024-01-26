@@ -145,8 +145,9 @@ public:
 	_bool						Is_Invincible() { return m_IsInvincible; }
 
 	int64						Get_Hp() { return m_iHp; }
-	uint64						Get_MaxHp() { return m_iMaxHp; }
 	void						Set_Hp(_int iHp) { m_iHp = iHp; }
+	uint64						Get_MaxHp() { return m_iMaxHp; }
+	void						Set_MaxHp(_int iMaxHp) { m_iMaxHp = iMaxHp; }
 	int64						Get_Mp() { return m_iMp; }
 	uint64						Get_MaxMp() { return m_iMaxMp; }
 	void						Set_Mp(_int iMp) { m_iMp = iMp; }
