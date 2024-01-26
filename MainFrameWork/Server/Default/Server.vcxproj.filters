@@ -91,12 +91,6 @@
     <Filter Include="97. Manager\01. LevelControlManager">
       <UniqueIdentifier>{5b4ef1dc-47dc-46bd-9a31-a6419a0d1c80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. Monster\Pawn">
-      <UniqueIdentifier>{b6253a4d-d66e-4522-bc0e-210cc8c40e50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. Monster\Pawn\Behavior">
-      <UniqueIdentifier>{3413906d-afdc-4b6b-8a1d-9b15d00ed85e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Hit">
       <UniqueIdentifier>{625d36e1-b1e7-45f8-b11f-90564060ea66}</UniqueIdentifier>
     </Filter>
@@ -114,12 +108,6 @@
     </Filter>
     <Filter Include="02. GameObject\03. Monster\CommonBehavior\Action\Spawn">
       <UniqueIdentifier>{33e0e8b8-3051-4a66-adf1-dbf13508ef2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04. Boss\Monster_Golem">
-      <UniqueIdentifier>{7172f3dc-b26f-40a2-9dd7-db769380b0c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04. Boss\Monster_Golem\Behavior">
-      <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\06. ChaosDungean">
       <UniqueIdentifier>{905bfbd3-3054-42ed-b6b9-d189078ec2a4}</UniqueIdentifier>
@@ -211,11 +199,29 @@
     <Filter Include="02. GameObject\08. ValtanRaid\ValtanMain">
       <UniqueIdentifier>{94106135-9c75-412b-93d5-4d5266d0d8d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. Monster\Prison">
-      <UniqueIdentifier>{41e7177c-cf76-4bf2-b555-f3ac69cc0b0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\09. BreakAbleObject">
       <UniqueIdentifier>{384a9bf4-5580-468d-a10f-fd4579d6d5ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Boss_Golem_Server">
+      <UniqueIdentifier>{7172f3dc-b26f-40a2-9dd7-db769380b0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Boss_Golem_Server\Behavior">
+      <UniqueIdentifier>{bad3a2da-5ebc-4b55-a789-748668d37861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\Monster_Pawn">
+      <UniqueIdentifier>{b6253a4d-d66e-4522-bc0e-210cc8c40e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\Monster_Pawn\Behavior">
+      <UniqueIdentifier>{3413906d-afdc-4b6b-8a1d-9b15d00ed85e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Monster\Monster_Prison">
+      <UniqueIdentifier>{41e7177c-cf76-4bf2-b555-f3ac69cc0b0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Boss_Valtan_CounterGhost_Server">
+      <UniqueIdentifier>{c212e54c-5e1b-488b-87a8-81b6ee196577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle">
+      <UniqueIdentifier>{091f62ee-1d9b-44c2-b60b-6745c9eece50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -283,13 +289,13 @@
       <Filter>02. GameObject\03. Monster\Monster_Plant</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Charge_Punch_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Ghoul_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Ghoul</Filter>
@@ -304,10 +310,10 @@
       <Filter>02. GameObject\03. Monster\Monster_Ghoul\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Dash_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Chase_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Reaper_BT_Attack1_Server.cpp">
       <Filter>02. GameObject\03. Monster\Monster_Reaper\Behavior</Filter>
@@ -337,10 +343,10 @@
       <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Pawn_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Pawn</Filter>
+      <Filter>02. GameObject\03. Monster\Monster_Pawn</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Pawn_BT_Attack2_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Pawn\Behavior</Filter>
+      <Filter>02. GameObject\03. Monster\Monster_Pawn\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LevelControlManager.cpp">
       <Filter>97. Manager\01. LevelControlManager</Filter>
@@ -370,7 +376,7 @@
       <Filter>02. GameObject\04. Boss\Behavior\Action</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Golem_Server.cpp">
-      <Filter>02. GameObject\04. Boss\Monster_Golem</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Bound_Server.cpp">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Action\Hit\Bound</Filter>
@@ -529,10 +535,16 @@
       <Filter>02. GameObject\04. Boss\Valtan</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Prison_Server.cpp">
-      <Filter>02. GameObject\03. Monster\Prison</Filter>
+      <Filter>02. GameObject\03. Monster\Monster_Prison</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BreakAbleObject_Server.cpp">
       <Filter>02. GameObject\09. BreakAbleObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_CounterGhost_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Boss_Valtan_CounterGhost_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_BattleIdle_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -618,7 +630,7 @@
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem_Server.h">
-      <Filter>02. GameObject\04. Boss\Monster_Golem</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_Far_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
@@ -627,19 +639,19 @@
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe_Server.h">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump_Server.h">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Common_BT_IF_Skill_Server.h">
       <Filter>02. GameObject\03. Monster\CommonBehavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch_Server.h">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Dash_Server.h">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Ghoul_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Ghoul</Filter>
@@ -654,7 +666,7 @@
       <Filter>02. GameObject\03. Monster\Monster_Ghoul\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Chase_Server.h">
-      <Filter>02. GameObject\04. Boss\Monster_Golem\Behavior</Filter>
+      <Filter>02. GameObject\04. Boss\Boss_Golem_Server\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Reaper_Server.h">
       <Filter>02. GameObject\03. Monster\Monster_Reaper</Filter>
@@ -687,10 +699,10 @@
       <Filter>02. GameObject\04. Boss\King\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Pawn_Server.h">
-      <Filter>02. GameObject\03. Monster\Pawn</Filter>
+      <Filter>02. GameObject\03. Monster\Monster_Pawn</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Pawn_BT_Attack2_Server.h">
-      <Filter>02. GameObject\03. Monster\Pawn\Behavior</Filter>
+      <Filter>02. GameObject\03. Monster\Monster_Pawn\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LevelControlManager.h">
       <Filter>97. Manager\01. LevelControlManager</Filter>
@@ -939,10 +951,16 @@
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Prison_Server.h">
-      <Filter>02. GameObject\03. Monster\Prison</Filter>
+      <Filter>02. GameObject\03. Monster\Monster_Prison</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BreakAbleObject_Server.h">
       <Filter>02. GameObject\09. BreakAbleObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_CounterGhost_Server.h">
+      <Filter>02. GameObject\04. Boss\Boss_Valtan_CounterGhost_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_BattleIdle_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

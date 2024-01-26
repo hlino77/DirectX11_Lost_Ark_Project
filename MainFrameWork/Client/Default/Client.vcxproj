@@ -196,6 +196,7 @@
     <ClInclude Include="..\Public\Boss_BT_Groggy.h" />
     <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Boss_Valtan.h" />
+    <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h" />
     <ClInclude Include="..\Public\Camera_Lobby.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
@@ -294,6 +295,7 @@
     <ClInclude Include="..\Public\Level_ValtanMain.h" />
     <ClInclude Include="..\Public\Mannequin.h" />
     <ClInclude Include="..\Public\MannequinPart.h" />
+    <ClInclude Include="..\Public\Skill_Crystal.h" />
     <ClInclude Include="..\Public\Monster_Prison.h" />
     <ClInclude Include="..\Public\Npc.h" />
     <ClInclude Include="..\Public\NpcTool.h" />
@@ -364,6 +366,8 @@
     <ClInclude Include="..\Public\Skill_WR_WildRush.h" />
     <ClInclude Include="..\Public\Skill_WR_WildStomp.h" />
     <ClInclude Include="..\Public\SkyDome.h" />
+    <ClInclude Include="..\Public\State_GN_Dead_End.h" />
+    <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
     <ClInclude Include="..\Public\State_GN_Fall.h" />
     <ClInclude Include="..\Public\State_GN_Grabbed.h" />
     <ClInclude Include="..\Public\State_GN_Hit.h" />
@@ -372,6 +376,7 @@
     <ClInclude Include="..\Public\State_GN_Idle_Normal.h" />
     <ClInclude Include="..\Public\State_GN_Mode_ToBattle.h" />
     <ClInclude Include="..\Public\State_GN_Mode_ToNormal.h" />
+    <ClInclude Include="..\Public\State_GN_Resurrect.h" />
     <ClInclude Include="..\Public\State_GN_Stand.h" />
     <ClInclude Include="..\Public\State_GN_StandDash.h" />
     <ClInclude Include="..\Public\State_GN_TargetDown_Ready.h" />
@@ -380,6 +385,8 @@
     <ClInclude Include="..\Public\State_MG_Attack_2.h" />
     <ClInclude Include="..\Public\State_MG_Attack_3.h" />
     <ClInclude Include="..\Public\State_MG_Dash.h" />
+    <ClInclude Include="..\Public\State_MG_Dead_End.h" />
+    <ClInclude Include="..\Public\State_MG_Dead_Start.h" />
     <ClInclude Include="..\Public\State_MG_Fall.h" />
     <ClInclude Include="..\Public\State_MG_Grabbed.h" />
     <ClInclude Include="..\Public\State_MG_Hit.h" />
@@ -388,6 +395,7 @@
     <ClInclude Include="..\Public\State_MG_Identity.h" />
     <ClInclude Include="..\Public\State_MG_Identity_Back.h" />
     <ClInclude Include="..\Public\State_MG_Idle.h" />
+    <ClInclude Include="..\Public\State_MG_Resurrect.h" />
     <ClInclude Include="..\Public\State_MG_Run.h" />
     <ClInclude Include="..\Public\State_MG_Sonatine.h" />
     <ClInclude Include="..\Public\State_MG_SongOfGuard.h" />
@@ -406,6 +414,8 @@
     <ClInclude Include="..\Public\State_WDR_Attack_2.h" />
     <ClInclude Include="..\Public\State_WDR_Attack_3.h" />
     <ClInclude Include="..\Public\State_WDR_Dash.h" />
+    <ClInclude Include="..\Public\State_WDR_Dead_End.h" />
+    <ClInclude Include="..\Public\State_WDR_Dead_Start.h" />
     <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
     <ClInclude Include="..\Public\State_WDR_Fall.h" />
@@ -436,6 +446,7 @@
     <ClInclude Include="..\Public\State_WDR_PowerStrike_End.h" />
     <ClInclude Include="..\Public\State_WDR_PowerStrike_Loop.h" />
     <ClInclude Include="..\Public\State_WDR_PowerStrike_Start.h" />
+    <ClInclude Include="..\Public\State_WDR_Resurrect.h" />
     <ClInclude Include="..\Public\State_WDR_Run.h" />
     <ClInclude Include="..\Public\State_WDR_SizemicHammer.h" />
     <ClInclude Include="..\Public\State_WDR_Stand.h" />
@@ -492,6 +503,7 @@
     <ClInclude Include="..\Public\State_WR_Idle_Normal.h" />
     <ClInclude Include="..\Public\State_WR_Mode_ToBattle.h" />
     <ClInclude Include="..\Public\State_WR_Mode_ToNormal.h" />
+    <ClInclude Include="..\Public\State_WR_Resurrect.h" />
     <ClInclude Include="..\Public\State_WR_Run.h" />
     <ClInclude Include="..\Public\State_WR_Run_Normal.h" />
     <ClInclude Include="..\Public\State_WR_SpiningSword_End.h" />
@@ -718,6 +730,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h" />
+    <ClInclude Include="..\Public\Valtan_BT_BattleIdle.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
@@ -761,6 +774,7 @@
     <ClCompile Include="..\Private\Boss_BT_Groggy.cpp" />
     <ClCompile Include="..\Private\Boss_Golem.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan.cpp" />
+    <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp" />
     <ClCompile Include="..\Private\Camera_Lobby.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
@@ -853,6 +867,7 @@
     <ClCompile Include="..\Private\Level_ValtanMain.cpp" />
     <ClCompile Include="..\Private\Mannequin.cpp" />
     <ClCompile Include="..\Private\MannequinPart.cpp" />
+    <ClCompile Include="..\Private\Skill_Crystal.cpp" />
     <ClCompile Include="..\Private\Monster_Prison.cpp" />
     <ClCompile Include="..\Private\Npc.cpp" />
     <ClCompile Include="..\Private\NpcTool.cpp" />
@@ -923,6 +938,8 @@
     <ClCompile Include="..\Private\Skill_WR_WildRush.cpp" />
     <ClCompile Include="..\Private\Skill_WR_WildStomp.cpp" />
     <ClCompile Include="..\Private\SkyDome.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_Fall.cpp" />
     <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit.cpp" />
@@ -932,6 +949,7 @@
     <ClCompile Include="..\Private\State_GN_Mode_ToBattle.cpp" />
     <ClCompile Include="..\Private\State_GN_Mode_ToNormal.cpp" />
     <ClCompile Include="..\Private\State_GN_PerfectShot_End.cpp" />
+    <ClCompile Include="..\Private\State_GN_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_GN_Stand.cpp" />
     <ClCompile Include="..\Private\State_GN_StandDash.cpp" />
     <ClCompile Include="..\Private\State_GN_TargetDown_Ready.cpp" />
@@ -940,6 +958,8 @@
     <ClCompile Include="..\Private\State_MG_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_MG_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
+    <ClCompile Include="..\Private\State_MG_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_MG_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_MG_Fall.cpp" />
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit.cpp" />
@@ -948,6 +968,7 @@
     <ClCompile Include="..\Private\State_MG_Identity.cpp" />
     <ClCompile Include="..\Private\State_MG_Identity_Back.cpp" />
     <ClCompile Include="..\Private\State_MG_Idle.cpp" />
+    <ClCompile Include="..\Private\State_MG_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_MG_Run.cpp" />
     <ClCompile Include="..\Private\State_MG_Sonatine.cpp" />
     <ClCompile Include="..\Private\State_MG_SongOfGuard.cpp" />
@@ -966,6 +987,8 @@
     <ClCompile Include="..\Private\State_WDR_Attack_2.cpp" />
     <ClCompile Include="..\Private\State_WDR_Attack_3.cpp" />
     <ClCompile Include="..\Private\State_WDR_Dash.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Dead_End.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
     <ClCompile Include="..\Private\State_WDR_Fall.cpp" />
@@ -996,6 +1019,7 @@
     <ClCompile Include="..\Private\State_WDR_PowerStrike_End.cpp" />
     <ClCompile Include="..\Private\State_WDR_PowerStrike_Loop.cpp" />
     <ClCompile Include="..\Private\State_WDR_PowerStrike_Start.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_WDR_Run.cpp" />
     <ClCompile Include="..\Private\State_WDR_SizemicHammer.cpp" />
     <ClCompile Include="..\Private\State_WDR_Stand.cpp" />
@@ -1052,6 +1076,7 @@
     <ClCompile Include="..\Private\State_WR_Idle_Normal.cpp" />
     <ClCompile Include="..\Private\State_WR_Mode_ToBattle.cpp" />
     <ClCompile Include="..\Private\State_WR_Mode_ToNormal.cpp" />
+    <ClCompile Include="..\Private\State_WR_Resurrect.cpp" />
     <ClCompile Include="..\Private\State_WR_Run.cpp" />
     <ClCompile Include="..\Private\State_WR_Run_Normal.cpp" />
     <ClCompile Include="..\Private\State_WR_SpiningSword_End.cpp" />
@@ -1283,6 +1308,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_BattleIdle.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />

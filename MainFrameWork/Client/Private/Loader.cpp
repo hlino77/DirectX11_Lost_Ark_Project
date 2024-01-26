@@ -143,6 +143,7 @@
 #include "Boss_Valtan.h"
 #include <Monster_Pawn.h>
 #include "Monster_Prison.h"
+#include "Boss_Valtan_CounterGhost.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -152,6 +153,7 @@
 #include "Weapon_Boss_Valtan.h"
 
 //BossSkills
+#include "Skill_Crystal.h"
 #include "Skill_King_ChargeSwing.h"
 #include "Skill_King_Eruption.h"
 #include <Skill_Golem_Charge_Punch.h>
@@ -1161,6 +1163,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Crystal"),
+		CSkill_Crystal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Mn_PawnShield"),
 		CWeapon_Mn_PawnShield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1176,6 +1183,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_CounterGhost"),
+		CBoss_Valtan_CounterGhost::Create(nullptr, nullptr))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1746,6 +1757,16 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		pUIManager->Add_CurrFile();
 	}
 
+	{
+		wstring strFileName = L"Skill_Crystal";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationX(XMConvertToRadians(90.0f))))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;
 
@@ -1988,6 +2009,45 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 	return S_OK;
 }
 
+HRESULT CLoader::AutoAnimLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	for (const auto& entry : fs::directory_iterator(strPath))
+	{
+		if (fs::is_directory(entry))
+		{
+			{
+				m_Futures.push_back(std::async([=]()->HRESULT
+				{
+					wstring strFileName = entry.path().filename();
+					wstring strFilePath = entry.path().parent_path();
+					wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+					if (SUCCEEDED(pGameInstance->Check_Prototype(eLevel, strComponentName)))
+					{
+						if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
+							CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false, Pivot))))
+							return E_FAIL;
+
+						pUIManager->Add_CurrFile();
+
+					}
+
+					return S_OK;
+				}));
+			}
+		}
+	}
+
+	Safe_Release(pUIManager);
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 
 HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 {
@@ -3725,6 +3785,12 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	AutoLoad(strPath, LEVEL_STATIC);
 
 	strPath = L"../Bin/Resources/Meshes/PC_Weapon/";
+	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
+	AutoAnimLoad(strPath, LEVEL_STATIC, PivotMatrix);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Static/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
 	/* SkyDome */

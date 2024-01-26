@@ -19,7 +19,6 @@ private:
     virtual void On_FirstAnimStart()override;
     virtual void On_LastAnimEnd()override;
 private:
-
     Vec3                m_vLandPosition = {};
 
 public:

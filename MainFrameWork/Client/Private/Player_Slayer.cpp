@@ -45,6 +45,10 @@
 #include "State_WR_Stop.h"
 #include "State_WR_Fall.h"
 
+#include "State_WR_Dead_Start.h"
+#include "State_WR_Dead_End.h"
+#include "State_WR_Resurrect.h"
+
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
 #include "State_WR_FuriousClaw_Loop.h"
@@ -178,6 +182,11 @@ void CPlayer_Slayer::Tick(_float fTimeDelta)
 	{
 		Use_Item(TEXT("IT_WR_Body_Mococo"));
 	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::X) &&
+		TEXT("Dead_End") == Get_State())
+	{
+		Set_State(TEXT("Resurrect"));
+	}
 
 	m_pRigidBody->Tick(fTimeDelta);
 	m_pStateMachine->Tick_State(fTimeDelta);
@@ -274,106 +283,173 @@ HRESULT CPlayer_Slayer::Render_ShadowDepth()
 
 void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-	{
-		if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
-		{
-			if (false == m_pController->Is_GrabState())
-			{
-				m_pController->Get_GrabMessage(pOther->Get_Owner());
-			}
-		}
-
-		if (false == Is_Invincible())
-		{
-			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
-			{
-				m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
-			}
-			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
-			{
-				Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-
-				if (false == m_pController->Is_HitState())
-					m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
-			}
-			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
-			{
-				Vec3 vCenter;
-				if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
-				{
-					if (false == m_pController->Is_HitState())
-						m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
-				}
-
-				m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
-			}
-		}
-	}
-
-
-	if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
-	{
-		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
-		{
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
-			{
-				if(-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(0.1f);
-			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
-			{
-				if (-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(0.1f);
-			}
-		}
-		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
-		{
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
-			{
-				if (-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(0.8f);
-			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
-			{
-				if (-1 != m_pController->Get_IdenGage())
-					m_pController->Increase_IdenGage(0.8f);
-			}
-		}
-	}
-
-	if (TEXT("Skill_WR_WildRush_End") == Get_State())
+	if (true == m_bControl)
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
+			if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
+			{
+				if (false == m_pController->Is_GrabState())
+				{
+					m_pController->Get_GrabMessage(pOther->Get_Owner());
+				}
+			}
+
+			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
+			{
+				Set_Invincible(true);
+			}
+
+			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+			{
+				if (false == Is_Invincible())
+					m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+			{
+				if (false == Is_Invincible())
+				{
+					Vec3 vPos = static_cast<CBoss*>(pOther->Get_Owner())->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+
+					if (false == m_pController->Is_HitState())
+						m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
+				}
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+			{
+				if (false == Is_Invincible() || true == static_cast<CSkill*>(pOther->Get_Owner())->Is_SafeZonePierce())
+				{
+					Vec3 vCenter;
+					if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
+					{
+						if (false == m_pController->Is_HitState())
+							m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+					}
+
+					m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
+				}
+			}
+
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+				if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+				{
+					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
+				}
 			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		}
+
+		if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
+		{
+			if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 			{
-				Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+				if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+				{
+					if (-1 != m_pController->Get_IdenGage())
+						m_pController->Increase_IdenGage(0.1f);
+				}
+				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+				{
+					if (-1 != m_pController->Get_IdenGage())
+						m_pController->Increase_IdenGage(0.1f);
+				}
+			}
+			else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+			{
+				if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+				{
+					if (-1 != m_pController->Get_IdenGage())
+						m_pController->Increase_IdenGage(0.8f);
+				}
+				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+				{
+					if (-1 != m_pController->Get_IdenGage())
+						m_pController->Increase_IdenGage(0.8f);
+				}
+			}
+		}
+
+		if (TEXT("Skill_WR_WildRush_End") == Get_State())
+		{
+			if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+			{
+				if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+				{
+					Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+				}
+				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+				{
+					Set_TargetPos(Vec3(0.f, -1.f, 0.f));
+				}
 			}
 		}
 	}
+	else
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			{
+				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
+			}
+		}
+	}
+	
 }
 
 void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 {
-
+	if (true == m_bControl)
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			{
+				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
+			}
+		}
+	}
+	else
+	{
+		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		{
+			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			{
+				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
+			}
+		}
+	}
 }
 
 void CPlayer_Slayer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+	if (true == m_bControl)
+	{
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
+		{
+			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
+			{
+				Set_Invincible(false);
+			}
+
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			{
+				if (TEXT("Stop") == Get_State())
+				{
+					Set_State(TEXT("Idle"));
+				}
+			}
+		}
+	}
+	else
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Stop") == Get_State())
+			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
-				Set_State(TEXT("Idle"));
+				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pOther);
 			}
-		} 
+		}
 	}
 }
 
@@ -633,6 +709,7 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Skill_WR_WildRush_Stop"), CState_WR_WildRush_Stop::Create(TEXT("Skill_WR_WildRush_Stop"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	//
 	m_pStateMachine->Add_State(TEXT("Hit"), CState_WR_Hit::Create(TEXT("Hit"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
@@ -655,6 +732,15 @@ HRESULT CPlayer_Slayer::Ready_State()
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	m_pStateMachine->Add_State(TEXT("Fall"), CState_WR_Fall::Create(TEXT("Fall"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_Start"), CState_WR_Dead_Start::Create(TEXT("Dead_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Dead_End"), CState_WR_Dead_End::Create(TEXT("Dead_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_WR_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;
@@ -752,9 +838,6 @@ HRESULT CPlayer_Slayer::Ready_Skill()
 
 HRESULT CPlayer_Slayer::Ready_Coliders()
 {
-	if (false == m_bControl)
-		return S_OK;
-
 	{
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->SetActive(true);
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER]->Set_Radius(0.7f);
@@ -790,7 +873,7 @@ HRESULT CPlayer_Slayer::Ready_Item()
 {
 	CItem* pItem = nullptr;
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Helmet_Mococo")));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -798,7 +881,7 @@ HRESULT CPlayer_Slayer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Body_Mococo")));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -806,7 +889,7 @@ HRESULT CPlayer_Slayer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_WP_Mococo")));
 	if (nullptr == pItem)
 		return E_FAIL;
@@ -814,28 +897,28 @@ HRESULT CPlayer_Slayer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	pItem->Use_Item(this);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_WP_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Body_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Leg_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObejct(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Helmet_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;

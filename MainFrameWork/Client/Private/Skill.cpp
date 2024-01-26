@@ -33,7 +33,7 @@ HRESULT CSkill::Initialize(void* pArg)
 	m_iLayer = Desc->iLayer;
 	m_pSkillOwner = Desc->pOwner;
 	m_szModelName = Desc->strFileName;
-
+	m_iCurrLevel = m_pSkillOwner->Get_CurrLevel();
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 

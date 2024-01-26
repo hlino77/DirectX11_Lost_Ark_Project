@@ -67,26 +67,35 @@ void CStaticModel::Tick(_float fTimeDelta)
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1 * fTimeDelta);
 	}
 
-
-	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::H))
+	static _int g_cnt = 0;
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::H))
 	{
 		if (m_StaticColliders.size() != 0)
 		{
-			Set_Dead(true);
-
 			Send_Collision(LEVEL_VALTANMAIN, true); // NaviCell Info Send to Server
-
 
 			for (auto& CellIndex : m_NaviCellIndex)
 			{
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
+
+			//Set_Dead(true);
+			Set_Active(false);
 		}
 	}
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
 {
+	if (m_bRimLight)
+	{
+		m_fRimLightTime -= fTimeDelta;
+		if (m_fRimLightTime <= 0.0f)
+		{
+			m_fRimLightTime = 0.0f;
+			m_bRimLight = false;
+		}
+	}
 	if (nullptr == m_pRendererCom)	
 		return;
 
@@ -110,6 +119,10 @@ HRESULT CStaticModel::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return E_FAIL;
+
+	_float fRimLight = (_float)m_bRimLight;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
@@ -180,7 +193,7 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
 	{
-		Set_Dead(true);
+		//Set_Dead(true);
 
 		Send_Collision(LEVEL_VALTANMAIN, true);
 
@@ -189,12 +202,13 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
 
+		Set_Active(false);
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
 	{
 		if (static_cast<CSkill*> (pOther->Get_Owner())->Is_Destructive())
 		{
-			Set_Dead(true);
+			//Set_Dead(true);
 
 			Send_Collision(LEVEL_VALTANMAIN, true);
 
@@ -202,6 +216,8 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			{
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
+
+			Set_Active(false);
 		}
 
 	}
@@ -390,6 +406,8 @@ HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &(*m_pInstaceData)[m_szModelName].pInstanceBuffer)))
 			return E_FAIL;
 	}
+
+	return S_OK;
 }
 
 HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
@@ -429,7 +447,6 @@ void CStaticModel::Send_Collision(_uint iLevel, _bool bActive)
 
 }
 
-
 CStaticModel* CStaticModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 {
 	CStaticModel* pInstance = new CStaticModel(pDevice, pContext, eObjType);
@@ -459,8 +476,10 @@ CGameObject* CStaticModel::Clone(void* pArg)
 void CStaticModel::Free()
 {
 	__super::Free();
+
 	for (auto& Collider : m_StaticColliders)
 		CCollisionManager::GetInstance()->Out_Colider(Collider);
+
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);

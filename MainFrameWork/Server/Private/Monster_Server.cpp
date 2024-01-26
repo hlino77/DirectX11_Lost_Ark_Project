@@ -420,24 +420,48 @@ void CMonster_Server::Find_NearTarget(_float fTimeDelta)
 	{
 		m_fScantime = 0.f;
 		_float fDistance = 99999.f;
-		CGameObject* pNearTarget = CGameInstance::GetInstance()->Find_NearGameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, this);
-		if (pNearTarget != nullptr)
+		CGameObject* pNearTarget = nullptr;
+
+		vector<CGameObject*> pTargets = CGameInstance::GetInstance()->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+		if (pTargets.empty())
+			m_pNearTarget = nullptr;
+		else
 		{
-			Vec3 vTargetPos = pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			for (auto& Object : pTargets)
+			{
+				_int iObjectID = Object->Get_ObjectID();
+				if (Object->Is_Dead() || Object->Is_Active() == false || (Object)->Get_ServerState() == L"Dead_Start" || (Object)->Get_ServerState() == L"Dead_End")
+					continue;
 
-			fDistance = (vTargetPos - vPos).Length();
+				if (pNearTarget == nullptr)
+				{
+					pNearTarget = Object;
+					Vec3 vCallObjectPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+					Vec3 vObjectPos = Object->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
+					fDistance = (vCallObjectPos - vObjectPos).Length();
+					continue;
+				}
+
+				Vec3 vCallObjectPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+				Vec3 vObjectPos = Object->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
+
+				_float fNewDistance = (vObjectPos - vCallObjectPos).Length();
+
+				if (fNewDistance < fDistance)
+				{
+					pNearTarget = Object;
+					fDistance = fNewDistance;
+				}
+			}
+
 		}
-		if (fDistance > 50.f)
-			pNearTarget = nullptr;
-
 		if (pNearTarget != m_pNearTarget)
 		{
 			m_pNearTarget = pNearTarget;
 			Send_NearTarget();
 		}
-
 	}
+
 }
 
 void CMonster_Server::Send_NearTarget()

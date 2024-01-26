@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Server.h>
+#include <Boss_Valtan_Server.h>
 
 CValtan_BT_Attack_Attack12_Server::CValtan_BT_Attack_Attack12_Server()
 {
@@ -14,7 +15,7 @@ void CValtan_BT_Attack_Attack12_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-
+	m_bShoot = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack12_Server::OnUpdate(const _float& fTimeDelta)
@@ -25,6 +26,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack12_Server::OnUpdate(const _float& fT
 		
 		return BT_SUCCESS;
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 50 && m_bShoot)
+	{
+		m_bShoot = false;
+		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vRight = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT);
+		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vRight.Normalize();
+		vLook.Normalize();		
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->BroadCast_Ghost(vPos, (-vLook - vRight) * 0.5f);
+	}	
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 55 && m_iCurrAnimation == 0)
 	{
 		m_iCurrAnimation = 1;

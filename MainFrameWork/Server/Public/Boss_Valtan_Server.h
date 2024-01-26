@@ -24,6 +24,8 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+	void BroadCast_Ghost(Vec3 vPosition, Vec3 vLook);
+
 
 public:
 

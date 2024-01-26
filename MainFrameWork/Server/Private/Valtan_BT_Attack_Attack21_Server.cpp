@@ -3,7 +3,10 @@
 #include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
+#include "GameInstance.h"
 #include <Boss_Server.h>
+#include <AsUtils.h>
+#include "GameSessionManager.h"
 
 CValtan_BT_Attack_Attack21_Server::CValtan_BT_Attack_Attack21_Server()
 {
@@ -14,7 +17,6 @@ void CValtan_BT_Attack_Attack21_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21_Server::OnUpdate(const _float& fTimeDelta)
@@ -24,19 +26,19 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex&& m_fLoopTime<3.f)
+	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 2.f)
+	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
-
 
 	return __super::OnUpdate(fTimeDelta);
 }
+
 void CValtan_BT_Attack_Attack21_Server::On_FirstAnimStart()
 {
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);

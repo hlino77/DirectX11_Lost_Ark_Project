@@ -47,6 +47,9 @@ private:
 
 	_bool	m_IsAnimEnd = { false };
 
+	_bool	m_IsFall = { false };
+	_uint	m_iFallFrame = { 0 };
+
 public:
 	static CState_MG_Hit* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Bard* pOwner);
 	virtual void Free() override;

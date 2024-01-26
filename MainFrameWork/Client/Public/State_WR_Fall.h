@@ -29,7 +29,7 @@ private:
 private:
 	//Animation
 	_float m_fTimeAcc = { 0.0f };
-	_float m_fFallTime = { 8.0f };
+	_float m_fFallTime = { 5.0f };
 
 public:
 	static CState_WR_Fall* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);

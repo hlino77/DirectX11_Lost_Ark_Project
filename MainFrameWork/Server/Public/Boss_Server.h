@@ -88,6 +88,9 @@ public:
 	_int						Get_MaxGroggyCount() { return m_iMaxGroggyCount; }
 	void						Set_MaxGroggyCount(_int iMaxGroggyCount) { m_iMaxGroggyCount = iMaxGroggyCount; }
 
+	_bool						Is_bDummy() { return m_bDummy; }
+	void						Set_bDummy(_bool bDummy) { m_bDummy = bDummy; }
+
 protected:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
@@ -113,7 +116,7 @@ protected:
 	_int							m_iGroggyCount = 0;
 	_uint							m_iMaxGroggyCount = 0;
 	_float							m_fTimeCount = 0.f;
-	_bool							m_bDbgCout = false;
+	_bool							m_bDummy = false;
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

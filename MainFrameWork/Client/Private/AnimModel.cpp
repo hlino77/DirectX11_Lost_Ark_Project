@@ -97,7 +97,6 @@ void CAnimModel::Tick(_float fTimeDelta)
 
 	if (true == m_bPlayAnim)
 	{
-		//m_pModelCom->Play_Animation(fTimeDelta);
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	}
 
@@ -118,15 +117,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		if (m_szModelName == TEXT("Floor_All_R01"))
 		{
-			m_bPlayAnim = !m_bPlayAnim;
-
-			Send_Collision(LEVEL_VALTANMAIN, false);
-
-			for (auto& CellIndex : m_NaviCellIndex)
-			{
-				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
-			}
-
+			Break_Floor();
 		}
 	}
 
@@ -135,14 +126,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 	{
 		if (m_szModelName == TEXT("Floor_All_L01"))
 		{
-			m_bPlayAnim = !m_bPlayAnim;
-
-			Send_Collision(LEVEL_VALTANMAIN, false);
-
-			for (auto& CellIndex : m_NaviCellIndex)
-			{
-				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
-			}
+			Break_Floor();
 		}
 	}
 	
@@ -159,15 +143,13 @@ void CAnimModel::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 		
 	}
-	m_pModelCom->Set_ToRootPos(m_pTransformCom);
-
-
 
 	if (m_szModelName != TEXT("Chain"))
 	{
-		if (m_pModelCom->Get_Animations()[0]->Is_End() == true)
+		if (true == m_pModelCom->Is_AnimationEnd(0))
 		{
-			Set_Dead(true);
+			//Set_Dead(true);
+			Set_Active(false);
 		}
 	}
 
@@ -182,9 +164,6 @@ void CAnimModel::LateTick(_float fTimeDelta)
 	}
 
 }
-
-
-
 
 HRESULT CAnimModel::Render()
 {
@@ -314,6 +293,18 @@ void CAnimModel::Add_ChildCollider(_uint iIndex)
 	Safe_Release(pGameInstance);
 }
 
+void CAnimModel::Break_Floor()
+{
+	Send_Collision(LEVEL_VALTANMAIN, false);
+
+	for (auto& CellIndex : m_NaviCellIndex)
+	{
+		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
+	}
+
+	m_bPlayAnim = !m_bPlayAnim;
+}
+
 HRESULT CAnimModel::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -416,6 +407,8 @@ HRESULT CAnimModel::Ready_Proto_InstanceBuffer()
 		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &(*m_pInstaceData)[m_szModelName].pInstanceBuffer)))
 			return E_FAIL;
 	}
+
+	return S_OK;
 }
 
 HRESULT CAnimModel::Ready_Instance_For_Render(_uint iSize)

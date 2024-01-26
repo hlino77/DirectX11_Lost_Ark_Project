@@ -60,10 +60,10 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 		{
 			Talk(fTimeDelta);
 		}
-		else if(false == Check_False_All_Sequence_Npc())
+		if( false == Check_False_All_Sequence_Npc())
 		{
 			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -2.5f;
+			m_fTalkStartAcc = -2.0f;
 			m_IsTalkStart = false;
 		}
 	}

@@ -15,7 +15,6 @@ CState_WR_Fall::CState_WR_Fall(const wstring& strStateName, CStateMachine* pMach
 
 HRESULT CState_WR_Fall::Initialize()
 {
-
 	if (m_pPlayer->Is_Control())
 		m_TickFunc = &CState_WR_Fall::Tick_State_Control;
 	else
@@ -29,7 +28,7 @@ void CState_WR_Fall::Enter_State()
 	m_pController->Get_HitEndMessage();
 
 	m_pPlayer->Set_AnimationSpeed(0.0f);
-	m_pPlayer->Set_SuperiorArmorState(true);
+	m_pPlayer->Set_Invincible(true);
 	m_pPlayer->Set_Navi(false);
 	m_pPlayer->Get_RigidBody()->Set_Gravity(true);
 	m_fTimeAcc = 0.0f;
@@ -43,7 +42,7 @@ void CState_WR_Fall::Tick_State(_float fTimeDelta)
 void CState_WR_Fall::Exit_State()
 {
 	m_pPlayer->Set_AnimationSpeed(1.0f);
-	m_pPlayer->Set_SuperiorArmorState(false);
+	m_pPlayer->Set_Invincible(false);
 	m_pPlayer->Set_Navi(true);
 	m_pPlayer->Get_RigidBody()->Set_Gravity(false);
 

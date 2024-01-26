@@ -389,12 +389,6 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
-	//pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_Npc_Item_Upgrade"));
-	//if (nullptr == pUI)
-	//	return E_FAIL;
-	//else
-	//	CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI)); //현재 작업중
-
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -564,6 +558,8 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
 }
 
 

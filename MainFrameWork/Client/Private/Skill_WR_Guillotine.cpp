@@ -34,6 +34,7 @@ HRESULT CSkill_WR_Guillotine::Initialize(void* pArg)
 	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
 	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 60;
 	Proj_Desc.fRepulsion = 31.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;

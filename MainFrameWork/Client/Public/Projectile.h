@@ -24,6 +24,7 @@ public:
 		_bool   bUseFactor = { true };
 		_bool	bUseProjPos = { false };
 		_uint	iDamage = { 0 };
+		_uint   iStagger = { 0 };
 		_uint	iStatusEffect = { (_uint)STATUSEFFECT::EFFECTEND };
 		_float	fStatusDuration = { 0.f };
 		_float	fRepulsion = { false };

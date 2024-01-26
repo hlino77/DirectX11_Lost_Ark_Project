@@ -247,6 +247,14 @@ void CController_WDR::Get_GrabEndMessage()
 	__super::Get_GrabEndMessage();
 }
 
+void CController_WDR::Get_DeadMessage()
+{
+	__super::Get_DeadMessage();
+
+	m_fIdentityGage = 0.0f;
+	m_iMarbleCnt = 0;
+}
+
 void CController_WDR::Get_WDR_IdentityMessage()
 {
 	if (m_fMaxGage <= m_fIdentityGage)

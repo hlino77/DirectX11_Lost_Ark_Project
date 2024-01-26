@@ -1132,9 +1132,6 @@
     <Filter Include="02.GameObjects\UI\16.Npc\01.Item_Upgrade">
       <UniqueIdentifier>{f906d942-fbe1-4f7d-9b5b-f7d68a9873e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Reaper\Plant">
-      <UniqueIdentifier>{4adcb49e-454e-4757-b167-9f53c1438c07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Hit">
       <UniqueIdentifier>{cdcd89c2-ee98-4c70-a4ca-2d48aeaf6dd4}</UniqueIdentifier>
     </Filter>
@@ -1315,9 +1312,6 @@
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stop">
       <UniqueIdentifier>{faaa8751-57b7-49a2-acb8-42b463c46267}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
-      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stop">
       <UniqueIdentifier>{a4a466ce-67ee-46d1-9950-11cce2825be5}</UniqueIdentifier>
     </Filter>
@@ -1371,6 +1365,51 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\WDIdenSpace">
       <UniqueIdentifier>{1609fa11-940f-4220-a45e-e9e3ec409ecd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead">
+      <UniqueIdentifier>{71340d8b-4ca7-4708-a22d-e9511e44e015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start">
+      <UniqueIdentifier>{93733278-e8c8-4cf8-b472-e08b049b7c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End">
+      <UniqueIdentifier>{51622df5-3430-462c-a0cd-b4c62f4c1cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead">
+      <UniqueIdentifier>{477e9f13-6a41-4d76-8f2f-4f2e1a5717ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start">
+      <UniqueIdentifier>{e5be5178-2b60-47de-8337-1d404a72d4b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End">
+      <UniqueIdentifier>{43ade263-450e-4087-864a-d1474bd83df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead">
+      <UniqueIdentifier>{a53c1685-0427-4c0b-b40f-6b6f221743f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_Start">
+      <UniqueIdentifier>{c46d7458-a438-4332-adc0-a48a075edcd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End">
+      <UniqueIdentifier>{166e5202-24f4-4e72-8981-5d6e1845dc13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Resurrect">
+      <UniqueIdentifier>{0a3f237a-80d9-4901-9ea0-39532d41f0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect">
+      <UniqueIdentifier>{fc63f46c-e5fd-4835-a976-cafcc4a2e188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect">
+      <UniqueIdentifier>{4fff3bd5-bf1f-46f5-ade9-4b26270c36a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Resurrect">
+      <UniqueIdentifier>{869ceaa7-dc79-4c25-a8d5-4045ed19ce72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Crystal">
+      <UniqueIdentifier>{240a5f00-8518-430c-80a4-8e530e61d863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
+      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4160,6 +4199,45 @@
     <ClInclude Include="..\Public\Effect_Custom_WDIdenSpace.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\WDIdenSpace</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Crystal.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_BattleIdle.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6729,9 +6807,6 @@
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Grab</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp">
-      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Item.cpp">
       <Filter>02.GameObjects\Item</Filter>
     </ClCompile>
@@ -6923,6 +6998,48 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_WDIdenSpace.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\WDIdenSpace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Crystal.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_BattleIdle.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,14 +25,19 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23_Server::OnUpdate(const _float& fT
 	}
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[14].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[14].iAnimIndex) >= 95 && !m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		m_iCurrAnimation++;
+		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
 
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_Attack23_Server::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 
 void CValtan_BT_Attack_Attack23_Server::On_FirstAnimStart()

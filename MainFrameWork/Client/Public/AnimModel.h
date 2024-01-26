@@ -64,6 +64,8 @@ public:
 	CSphereCollider* Get_StaticCollider(_uint iIndex) { return m_StaticColliders[iIndex]; }
 
 	void						Set_PlayAnim(_bool bPlayAnim) { m_bPlayAnim = bPlayAnim; }
+	void Break_Floor();
+
 protected:
 	virtual HRESULT Ready_Components() override;
 
@@ -76,7 +78,7 @@ private:
 	void    Send_Collision(_uint iLevel, _bool bActive);
 
 private:
-	CRenderer::RENDERGROUP m_eRenderGroup;
+	CRenderer::RENDERGROUP m_eRenderGroup = { CRenderer::RENDERGROUP::RENDER_END };
 	vector<CSphereCollider*> m_StaticColliders;
 
 private:

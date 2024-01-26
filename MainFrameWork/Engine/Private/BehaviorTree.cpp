@@ -72,13 +72,13 @@ HRESULT CBehaviorTree::Change_Action(wstring strActionName)
 	return S_OK;
 }
 
-HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction)
+HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction, _int iAnimIndex)
 {
 	const auto& iter = m_hashActions.find(strAction);
 	if (iter == m_hashActions.end())
 		return E_FAIL;
 	m_PreviousAction = iter;
-	static_cast<CBT_Action*>(m_PreviousAction->second)->Start_Animation();
+	static_cast<CBT_Action*>(m_PreviousAction->second)->OnStart(iAnimIndex);
 	return S_OK;
 }
 

@@ -435,7 +435,7 @@ HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 	return S_OK;
 }
 
-HRESULT CPlayer::Use_Item(wstring strItemTag)
+HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
 {
 	auto& iter = m_mapItems.find(strItemTag);
 	if (iter == m_mapItems.end())
@@ -536,7 +536,6 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	if(true == m_bControl)
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = true;

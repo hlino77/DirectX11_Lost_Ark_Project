@@ -74,7 +74,8 @@ public:
 	void Add_NaviCellIndex(_uint CellIndex) { m_NaviCellIndex.push_back(CellIndex); }
 
 	void Send_Collision(_uint iLevel, _bool bActive);
-
+	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+	_bool					Get_RimLight() { return m_bRimLight; }
 
 protected:
 	virtual HRESULT Ready_Components() override;
@@ -88,12 +89,13 @@ protected:
 
 private:
 
-	CRenderer::RENDERGROUP			m_eRenderGroup;
+	CRenderer::RENDERGROUP			m_eRenderGroup = { CRenderer::RENDERGROUP::RENDER_END };
 
 	vector<CSphereCollider*>		m_StaticColliders;
 	vector<_uint>					m_NaviCellIndex;
 
-
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightTime = 0.0f;
 
 public:
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);

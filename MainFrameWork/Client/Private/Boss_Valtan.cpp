@@ -252,6 +252,11 @@ void CBoss_Valtan::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTi
 	m_pWeapon->Get_ModelCom()->Set_Anim_Speed(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName) ,fAnimspeed);
 }
 
+void CBoss_Valtan::Set_Weapon_Render(_bool IsRender)
+{
+	m_pWeapon->Set_Render(IsRender);
+}
+
 HRESULT CBoss_Valtan::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
@@ -1261,7 +1266,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 4.f;
+	AnimationDesc.fMaxLoopTime = 4.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1288,7 +1293,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 2.f;
+	AnimationDesc.fMaxLoopTime = 4.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1323,7 +1328,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.fMaxLoopTime = 3.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1349,6 +1354,12 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_11_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -1421,7 +1432,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.fMaxLoopTime = 3.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1447,6 +1458,12 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.bIsLoop = false;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_11_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -1553,7 +1570,9 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fRootDist = 1.5f;
 	//7
 
 	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
@@ -1591,8 +1610,9 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.fRootDist = 1.5f;
 	//12
 	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
 	AnimationDesc.iStartFrame = 0;
@@ -1673,6 +1693,12 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.strAnimName = TEXT("att_battle_19_03");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	AnimationDesc.strAnimName = TEXT("att_battle_19_04");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1714,11 +1740,6 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("idle_battle_1");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//16번 연환파신권
 	ActionDesc.strActionName = L"Action_Attack23";
 	CBT_Action* pAttack23 = CValtan_BT_Attack_Attack23::Create(&ActionDesc);

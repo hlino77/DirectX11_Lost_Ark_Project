@@ -33,6 +33,7 @@ public:
 
 public:
 	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
+	void Set_Weapon_Render(_bool IsRender);
 
 private:
 	virtual HRESULT		Ready_Components();

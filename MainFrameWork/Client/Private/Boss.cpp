@@ -67,11 +67,11 @@ HRESULT CBoss::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
+	if (!m_bDummy)
+		if (FAILED(Ready_HpUI()))
+			return E_FAIL;
 
-	if (FAILED(Ready_HpUI()))
-		return E_FAIL;
-
-    return S_OK;
+	return S_OK;
 }
 
 void CBoss::Tick(_float fTimeDelta)
@@ -80,15 +80,6 @@ void CBoss::Tick(_float fTimeDelta)
 	if (KEY_TAP(KEY::B))
 		m_bDbgCout = !m_bDbgCout;
 	m_fTimeCount += fTimeDelta;
-	if (m_fTimeCount > 0.5f&&m_bDbgCout)
-	{
-		m_fTimeCount = 0.f;
-		_float dPercent = (_float)m_iHp / (_float)m_iMaxHp;
-		system("cls");
-		cout << endl << m_iHp << "	/	" << m_iMaxHp << endl << (_int)(dPercent * 160.f) << "	/	" << 160 << endl << "무력화: " << m_iGroggyGauge << "	/ " << m_iMaxGroggyGauge << endl << CAsUtils::ToString(m_strAction) << endl << "특수무력화: " << m_iGroggyCount << "	/ " << m_iMaxGroggyCount << endl;
-		if (m_IsCounterSkill)
-			cout << "파래요" << endl;
-	}
 }
 
 void CBoss::LateTick(_float fTimeDelta)
@@ -182,7 +173,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				IsCritical = true;
 				iDamage *= 2;
 			}
-			Send_Collision(iDamage, vPos, STATUSEFFECT::EFFECTEND, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,1);
+			Send_Collision(iDamage, vPos, STATUSEFFECT::EFFECTEND, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,0);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -216,7 +207,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			STATUSEFFECT eStatusEffect = STATUSEFFECT::EFFECTEND;
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().IsCounter)
 				eStatusEffect = STATUSEFFECT::COUNTER;
-			Send_Collision(iDamage, vPos, eStatusEffect,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,3);
+			Send_Collision(iDamage, vPos, eStatusEffect,  fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStagger);
 			Show_Damage(iDamage, IsCritical);
 		}
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
@@ -285,8 +276,8 @@ void CBoss::Set_Die()
 		Collider.second->SetActive(false);
 
 	m_bDead = true;
-	//m_pHpUI->Set_Dead(true);
-	m_pHpUI->Set_Dead_BossHpUI();
+	if(!m_bDummy)
+		m_pHpUI->Set_Dead_BossHpUI();
 }
 
 void CBoss::Move_to_SpawnPosition()

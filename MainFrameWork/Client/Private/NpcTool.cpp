@@ -609,9 +609,9 @@ void CNpcTool::Type(const _float& fTimeDelta)
 	ImGui::SetNextItemWidth(50);
 	ImGui::Text("NpcType :");
 	ImGui::SameLine();
-	if (ImGui::RadioButton("Deco", &m_iSelectNpType, 0));
+	ImGui::RadioButton("Deco", &m_iSelectNpType, 0);
 	ImGui::SameLine();
-	if (ImGui::RadioButton("Func", &m_iSelectNpType, 1));
+	ImGui::RadioButton("Func", &m_iSelectNpType, 1);
 
 	switch (m_iSelectNpType)
 	{
@@ -683,12 +683,12 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	if (CNpc::NPCSHAPE::SOL == m_eNpcShape)
 	{
 		ImGui::Text("Soldier Type :");
-		if (ImGui::RadioButton("MA Soldier", &m_iSelectSol, 0));
+		ImGui::RadioButton("MA Soldier", &m_iSelectSol, 0);
 		ImGui::SameLine();
-		if (ImGui::RadioButton("MA Knight", &m_iSelectSol, 1));
-		if (ImGui::RadioButton("FE Soldier", &m_iSelectSol, 2));
+		ImGui::RadioButton("MA Knight", &m_iSelectSol, 1);
+		ImGui::RadioButton("FE Soldier", &m_iSelectSol, 2);
 		ImGui::SameLine();
-		if (ImGui::RadioButton("FE Knight", &m_iSelectSol, 3));
+		ImGui::RadioButton("FE Knight", &m_iSelectSol, 3);
 	}
 	else
 	{
@@ -699,11 +699,11 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	{
 		ImGui::Text("Special Type :");
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Adel", &m_iSelectSP, 0));
+		ImGui::RadioButton("Adel", &m_iSelectSP, 0);
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Lineheart", &m_iSelectSP, 1));
+		ImGui::RadioButton("Lineheart", &m_iSelectSP, 1);
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Eadalin", &m_iSelectSP, 2));
+		ImGui::RadioButton("Eadalin", &m_iSelectSP, 2);
 	}
 	else
 	{
@@ -1116,9 +1116,9 @@ void CNpcTool::Weapon(const _float& fTimeDelta)
 		ImGui::SeparatorText("LR Type");
 		ImGui::Text("LR Type :");
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Left", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::LEFT));
+		ImGui::RadioButton("Left", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::LEFT);
 		ImGui::SameLine();
-		if (ImGui::RadioButton("Right", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::RIGHT));
+		ImGui::RadioButton("Right", &m_iSelectPart, (_uint)CNpc::WEAPON_PART::RIGHT);
 
 		switch (m_iSelectPart)
 		{
@@ -1330,9 +1330,9 @@ void CNpcTool::HeadBody(const _float& fTimeDelta)
 			ImGui::SeparatorText("Model Part Type");
 			ImGui::Text("Model Type :");
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Head", &m_iSelectModelPart, (_uint)CNpc::PART::FACE));
+			ImGui::RadioButton("Head", &m_iSelectModelPart, (_uint)CNpc::PART::FACE);
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Body", &m_iSelectModelPart, (_uint)CNpc::PART::BODY));
+			ImGui::RadioButton("Body", &m_iSelectModelPart, (_uint)CNpc::PART::BODY);
 
 
 			switch (m_iSelectModelPart)
@@ -1603,6 +1603,8 @@ HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)
 	MessageBox(g_hWnd, L"Npc 저장 성공", L"확인", MB_OK);
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
 }
 
 void CNpcTool::Clear_Info()

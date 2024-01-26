@@ -34,6 +34,7 @@ HRESULT CSkill_GN_TerminatingShot::Initialize(void* pArg)
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
 	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 10;
 	Proj_Desc.fRepulsion = 2.0f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
@@ -47,6 +48,7 @@ HRESULT CSkill_GN_TerminatingShot::Initialize(void* pArg)
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
 	Proj_Desc.iDamage = 200;
+	Proj_Desc.iStagger = 20;
 	Proj_Desc.fRepulsion = 21.0f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 

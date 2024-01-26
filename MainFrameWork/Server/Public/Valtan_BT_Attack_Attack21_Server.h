@@ -20,6 +20,7 @@ private:
     virtual void		OnEnd()								override;
 
 
+
 public:
     static	CValtan_BT_Attack_Attack21_Server* Create(void* pArg);
     virtual void Free() override;

@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "Valtan_BT_Attack_Attack9_Server.h"
-#include "Monster_Server.h"
 #include "Model.h"
 #include "Transform.h"
-#include <Boss_Server.h>
+#include <Boss_Valtan_Server.h>
 
 CValtan_BT_Attack_Attack9_Server::CValtan_BT_Attack_Attack9_Server()
 {
@@ -14,7 +13,7 @@ void CValtan_BT_Attack_Attack9_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-
+	m_bShoot = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack9_Server::OnUpdate(const _float& fTimeDelta)
@@ -34,6 +33,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack9_Server::OnUpdate(const _float& fTi
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
 
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 4 && m_bShoot)
+	{
+		m_bShoot = false;
+		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->BroadCast_Ghost(vPos, -vLook);
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

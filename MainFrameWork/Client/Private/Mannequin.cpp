@@ -181,6 +181,8 @@ HRESULT CMannequin::Render()
 			}
 		}
 	}
+
+	return S_OK;
 }
 
 void CMannequin::Clear_MQ()

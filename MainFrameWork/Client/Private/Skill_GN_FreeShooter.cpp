@@ -34,6 +34,7 @@ HRESULT CSkill_GN_FreeShooter::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 1.5f);
 	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 7;
 	Proj_Desc.fRepulsion = 1.8f;
 	m_SkillProjDesc = Proj_Desc;
 
