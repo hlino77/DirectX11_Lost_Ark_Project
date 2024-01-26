@@ -2158,17 +2158,20 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 			return E_FAIL;
 		}
 
+		// Object Matrix
 		Matrix	matWorld = file->Read<Matrix>();
 
-		// Collider Info 
-		_uint ModelType = {};
-		file->Read<_uint>(ModelType);
 
 		// Instancing Check
 		_bool bInstance = false;
 		file->Read<_bool>(bInstance);
 
 
+		// ModelType 
+		_uint ModelType = {};
+		file->Read<_uint>(ModelType);
+
+	
 		if (0 == ModelType) // NonAnim
 		{
 
@@ -2247,8 +2250,6 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 			{		
 				Matrix		PivotMatrix = XMMatrixIdentity();
 				PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
-				//PivotMatrix = XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-				//PivotMatrix = XMMatrixScaling(100.f, 100.f, 100.f);
 
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
