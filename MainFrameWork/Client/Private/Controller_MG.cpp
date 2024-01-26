@@ -7,6 +7,7 @@
 #include "ColliderOBB.h"
 #include "Projectile.h"
 #include "Pool.h"
+#include "Esther.h"
 
 CController_MG::CController_MG(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
@@ -315,6 +316,18 @@ void CController_MG::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 void CController_MG::Skill_CoolTime(const _float& fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
+}
+
+void CController_MG::EstherSkill(_uint iIndex)
+{
+	for (auto& pEsther : m_vecEsther)
+	{
+		if (static_cast<CEsther*>(pEsther)->Get_EstherType() == iIndex)
+		{
+			if (false == pEsther->Is_Active())
+				static_cast<CEsther*>(pEsther)->Leader_Active_Esther();
+		}
+	}
 }
 
 void CController_MG::Get_MG_IdentityMessage()

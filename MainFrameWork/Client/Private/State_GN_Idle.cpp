@@ -4,6 +4,7 @@
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
 #include "Model.h"
+#include "Esther.h"
 
 CState_GN_Idle::CState_GN_Idle(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
     : CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -76,6 +77,25 @@ void CState_GN_Idle::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (true == m_pController->Is_EstherSkill())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
+		switch (m_pController->Get_EstherType())
+		{
+		case (_uint)CEsther::ESTHERTYPE::SA:
+			break;
+		case (_uint)CEsther::ESTHERTYPE::WY:
+			m_pPlayer->Set_State(TEXT("Esther_Way"));
+			break;
+		case (_uint)CEsther::ESTHERTYPE::BT:
+			break;
+		}
 	}
 	else if (0 != iIdentity)
 	{

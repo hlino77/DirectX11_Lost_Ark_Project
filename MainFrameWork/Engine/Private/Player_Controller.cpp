@@ -368,7 +368,7 @@ void CPlayer_Controller::Get_DirMessage(Vec3 vPos, _float fMoveSpeed)
 	m_fMoveSpeed = fMoveSpeed;
 }
 
-_uint CPlayer_Controller::Is_EstherSkill()
+_bool CPlayer_Controller::Is_EstherSkill()
 {
 	if (m_iCurEstherGage < m_iMaxEstherGage)
 		return false;
@@ -439,7 +439,15 @@ void CPlayer_Controller::Get_LookMessage(Vec3 vAt)
 		return;
 	}
 
-	Look(vAt);
+	Vec3 vPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 0.0f;
+	Vec3 vTarget = vAt;
+	vTarget.y = 0.0f;
+
+	_float fLength = Vec3(vTarget - vPos).Length();
+
+	if(fLength >= FLT_EPSILON)
+		Look(vAt);
 }
 
 void CPlayer_Controller::Get_DashMessage(Vec3 vPos)
@@ -450,7 +458,15 @@ void CPlayer_Controller::Get_DashMessage(Vec3 vPos)
 		return;
 	}
 
-	Look(vPos);
+	Vec3 vPlayerPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vPlayerPos.y = 0.0f;
+	Vec3 vTarget = vPos;
+	vTarget.y = 0.0f;
+
+	_float fLength = Vec3(vTarget - vPlayerPos).Length();
+
+	if (fLength >= FLT_EPSILON)
+		Look(vPos);
 
 	m_pOwner->Set_Invincible(true);
 }

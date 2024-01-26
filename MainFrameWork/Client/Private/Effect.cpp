@@ -152,34 +152,39 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 
 	// DiffuseTexture
 	m_pDiffuseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDiffuseTexture);
-	if (nullptr == m_pDiffuseTexture) return E_FAIL;
+	if (nullptr == m_pDiffuseTexture) 
+		return E_FAIL;
 
 	// NoiseTexture
 	if (TEXT("") != pDesc->protoNoiseTexture)
 	{
 		m_pNoiseTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoNoiseTexture);
-		if (nullptr == m_pNoiseTexture) return E_FAIL;
+		if (nullptr == m_pNoiseTexture) 
+			return E_FAIL;
 		m_tNoisMaskEmisDslv.NoisMaskEmisDslv.x = 1.f;
 	}
 	// MaskTexture
 	if (TEXT("") != pDesc->protoMaskTexture)
 	{
 		m_pMaskTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoMaskTexture);
-		if (nullptr == m_pMaskTexture) return E_FAIL;
+		if (nullptr == m_pMaskTexture) 
+			return E_FAIL;
 		m_tNoisMaskEmisDslv.NoisMaskEmisDslv.y = 1.f;
 	}
 	// EmissiveTexture
 	if (TEXT("") != pDesc->protoEmissiveTexture)
 	{
 		m_pEmissiveTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoEmissiveTexture);
-		if (nullptr == m_pEmissiveTexture) return E_FAIL;
+		if (nullptr == m_pEmissiveTexture) 
+			return E_FAIL;
 		m_tNoisMaskEmisDslv.NoisMaskEmisDslv.z = 1.f;
 	}
 	// DissolveTexture
 	if (TEXT("") != pDesc->protoDissolveTexture)
 	{
 		m_pDissolveTexture = CTexture::Create(m_pDevice, m_pContext, pDesc->protoDissolveTexture);
-		if (nullptr == m_pDissolveTexture) return E_FAIL;
+		if (nullptr == m_pDissolveTexture) 
+			return E_FAIL;
 		m_tNoisMaskEmisDslv.NoisMaskEmisDslv.w = 1.f;
 	}
 

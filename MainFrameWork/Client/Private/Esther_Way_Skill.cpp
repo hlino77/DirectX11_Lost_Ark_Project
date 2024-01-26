@@ -4,6 +4,7 @@
 #include "Pool.h"
 #include "Model.h"
 #include "Esther_Way_Dochul.h"
+#include "Player.h"
 
 CEsther_Way_Skill::CEsther_Way_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -103,7 +104,8 @@ void CEsther_Way_Skill::Act1(_float fTimeDelta)
 		m_pSkillMesh->Call_Act1(fTimeDelta);
 	}
 	/* 中宜端 社発 */
-	if (55 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (55 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+		&& true == m_pLeaderPlayer->Is_Control())
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
@@ -133,7 +135,8 @@ void CEsther_Way_Skill::Act2(_float fTimeDelta)
 		m_pSkillMesh->Call_Act2(fTimeDelta);
 	}
 	/* 中宜端 社発 */
-	if (95 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (95 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+		&& true == m_pLeaderPlayer->Is_Control())
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
@@ -160,7 +163,8 @@ void CEsther_Way_Skill::Act3(_float fTimeDelta)
 		m_pSkillMesh->Call_Act3(fTimeDelta);
 	}
 	/* 中宜端 社発 */
-	if (145 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (145 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+		&& true == m_pLeaderPlayer->Is_Control())
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
@@ -295,9 +299,9 @@ HRESULT CEsther_Way_Skill::Ready_Projectile()
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_ESTHER;
 	Proj_Desc.fAttackTime = 0.1f;
 	Proj_Desc.fRadius = 2.5f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.0f);
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.5f);
 	Proj_Desc.iDamage = 1500;
-	Proj_Desc.iStagger = 300;
+	Proj_Desc.iStagger = 600;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 

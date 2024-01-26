@@ -49,7 +49,7 @@
 #include "State_WR_Dead_End.h"
 #include "State_WR_Resurrect.h"
 
-#include "State_WR_Esther.h"
+#include "State_WR_Esther_Way.h"
 
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
@@ -339,7 +339,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+				if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 				{
 					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
@@ -395,7 +395,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 			}
@@ -410,7 +410,7 @@ void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
@@ -420,7 +420,7 @@ void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
@@ -452,7 +452,7 @@ void CPlayer_Slayer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pOther);
 			}
@@ -750,7 +750,7 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_WR_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
-	m_pStateMachine->Add_State(TEXT("Esther"), CState_WR_Esther::Create(TEXT("Esther"),
+	m_pStateMachine->Add_State(TEXT("Esther_Way"), CState_WR_Esther_Way::Create(TEXT("Esther_Way"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
 	return S_OK;

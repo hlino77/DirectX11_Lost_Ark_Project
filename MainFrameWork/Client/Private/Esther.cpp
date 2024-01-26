@@ -59,6 +59,8 @@ HRESULT CEsther::Initialize(void* pArg)
 
 void CEsther::Tick(_float fTimeDelta)
 {
+	Check_DeActive_Esther();
+
 	if (false == m_bActive)
 		return;
 

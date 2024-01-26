@@ -109,7 +109,7 @@ void CState_MG_HitEnd::Tick_State_Control(_float fTimeDelta)
 		}
 		else
 		{
-			m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHitEnd) + 1;
+			m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHitEnd) + 2;
 
 			if (m_iFallFrame >= m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHitEnd))
 			{

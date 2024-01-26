@@ -4,6 +4,7 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Model.h"
+#include "Esther.h"
 
 CState_WR_Idle::CState_WR_Idle(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -82,7 +83,16 @@ void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 		else
 			m_pPlayer->Set_TargetPos(Vec3());
 
-		m_pPlayer->Set_State(TEXT("Esther"));
+		switch (m_pController->Get_EstherType())
+		{
+		case (_uint)CEsther::ESTHERTYPE::SA:
+			break;
+		case (_uint)CEsther::ESTHERTYPE::WY:
+			m_pPlayer->Set_State(TEXT("Esther_Way"));
+			break;
+		case (_uint)CEsther::ESTHERTYPE::BT:
+			break;
+		}
 	}
 	else if (true == static_cast<CController_WR*>(m_pController)->Is_Identity())
 	{

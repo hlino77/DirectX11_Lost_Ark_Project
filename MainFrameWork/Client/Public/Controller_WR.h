@@ -61,7 +61,7 @@ private:
 
 
 	void			UpdateIdentityAuraPivot();
-	virtual void	EstherSkill() override;
+	virtual void	EstherSkill(_uint iIndex) override;
 
 
 private:

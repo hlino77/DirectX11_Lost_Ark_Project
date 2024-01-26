@@ -57,6 +57,8 @@ private:
 	void			Change_Skill_Iden(GN_IDENTITY eIndex);
 	void			Change_Iden_Collider(GN_IDENTITY eIndex);
 
+	virtual void	EstherSkill(_uint iIndex) override;
+
 private:
 	GN_IDENTITY				m_eIdentity = { GN_IDENTITY::HAND };
 	GN_IDENTITY				m_ePreIdentity = { GN_IDENTITY::HAND };

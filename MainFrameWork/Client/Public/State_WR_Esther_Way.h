@@ -4,11 +4,11 @@
 
 BEGIN(Client)
 
-class CState_WR_Esther final : public CState
+class CState_WR_Esther_Way final : public CState
 {
 public:
-	CState_WR_Esther(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
-	virtual ~CState_WR_Esther() = default;
+	CState_WR_Esther_Way(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
+	virtual ~CState_WR_Esther_Way() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -23,13 +23,13 @@ public:
 private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
-	std::function<void(CState_WR_Esther&, _float)> m_TickFunc;
+	std::function<void(CState_WR_Esther_Way&, _float)> m_TickFunc;
 
 private:
 	_int	m_iEsther = 0;
 
 public:
-	static CState_WR_Esther* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
+	static CState_WR_Esther_Way* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;
 };
 

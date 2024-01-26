@@ -48,7 +48,7 @@ public:
 	_bool				Is_Interect();
 	_bool				Is_Dash();
 	_bool				Is_Attack();
-	_uint				Is_EstherSkill();
+	_bool				Is_EstherSkill();
 
 	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f);  
 	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f); 
@@ -84,7 +84,7 @@ public:
 	virtual void		Get_CheckLengthMessage(_float fCheckLength, CGameObject* pOther);
 
 	virtual void		Get_EstherGageAddMessage(_uint iGage) { m_iCurEstherGage += iGage; }
-	virtual void		Get_EstherMessage() { EstherSkill(); }
+	virtual void		Get_EstherMessage(_uint iIndex) { EstherSkill(iIndex); }
 
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
@@ -127,7 +127,9 @@ public:
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
 
+	_uint					Get_EstherType() { return m_iEstherType; }
 	void					Set_Esther(CGameObject* pEsther) { m_vecEsther.push_back(pEsther); }
+
 
 public:
 	/* 언젠가는 쓰겠지 */
@@ -155,7 +157,7 @@ protected:
 	virtual void			Stun();
 	virtual void			Silence();
 
-	virtual void			EstherSkill() {};
+	virtual void			EstherSkill(_uint iIndex) {};
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };

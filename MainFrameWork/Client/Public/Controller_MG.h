@@ -50,6 +50,8 @@ private:
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
+	virtual void	EstherSkill(_uint iIndex) override;
+
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 

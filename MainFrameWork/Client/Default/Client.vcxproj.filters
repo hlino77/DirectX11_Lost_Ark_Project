@@ -1447,6 +1447,15 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Esther">
       <UniqueIdentifier>{8295504d-23fe-4802-8893-902d6757f042}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Esther">
+      <UniqueIdentifier>{1b5aa6cb-02d2-4f60-a65e-3dc8a4b8d617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Esther">
+      <UniqueIdentifier>{dfcf3b41-f98f-4a23-85ab-264cdef357b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Esther">
+      <UniqueIdentifier>{485490d9-d72b-4b05-a3b1-29fe4f564927}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4307,8 +4316,17 @@
     <ClInclude Include="..\Public\Esther_Skill.h">
       <Filter>02.GameObjects\Esther\base_Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\State_WR_Esther.h">
+    <ClInclude Include="..\Public\State_WR_Esther_Way.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Esther_Way.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Esther_Way.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Esther_Way.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7146,8 +7164,17 @@
     <ClCompile Include="..\Private\Esther_Skill.cpp">
       <Filter>02.GameObjects\Esther\base_Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\State_WR_Esther.cpp">
+    <ClCompile Include="..\Private\State_WR_Esther_Way.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Esther_Way.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Esther_Way.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Esther_Way.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

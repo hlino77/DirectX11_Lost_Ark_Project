@@ -40,6 +40,8 @@
 #include "State_WDR_Resurrect.h"
 #include "State_WDR_Dead_Start.h"
 #include "State_WDR_Dead_End.h"
+#include "State_WDR_Fall.h"
+#include "State_WDR_Esther_Way.h"
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
@@ -75,6 +77,8 @@
 #include "Boss.h"
 #include "Item.h"
 
+#include "Esther_Way.h"
+
 CPlayer_Destroyer::CPlayer_Destroyer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -104,6 +108,9 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(Ready_Skill()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Esther()))
 		return E_FAIL;
 
 	if (FAILED(Ready_PhysxBoneBranch()))
@@ -314,7 +321,7 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+				if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 				{
 					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
@@ -352,7 +359,7 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 			}
@@ -366,7 +373,7 @@ void CPlayer_Destroyer::OnCollisionStay(const _uint iColLayer, CCollider* pOther
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
@@ -376,7 +383,7 @@ void CPlayer_Destroyer::OnCollisionStay(const _uint iColLayer, CCollider* pOther
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
@@ -397,7 +404,7 @@ void CPlayer_Destroyer::OnCollisionExit(const _uint iColLayer, CCollider* pOther
 
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+				if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 				{
 					Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pOther);
 				}
@@ -420,7 +427,7 @@ void CPlayer_Destroyer::OnCollisionExit(const _uint iColLayer, CCollider* pOther
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
-			if (TEXT("Monster_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
 				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pOther);
 			}
@@ -677,6 +684,12 @@ HRESULT CPlayer_Destroyer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_WDR_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Fall"), CState_WDR_Fall::Create(TEXT("Fall"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Esther_Way"), CState_WDR_Esther_Way::Create(TEXT("Esther_Way"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -921,6 +934,22 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);*/
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Destroyer::Ready_Esther()
+{
+	CGameObject* pEsther = nullptr;
+
+	CEsther::ESTHERDESC tEstherDesc;
+	tEstherDesc.pLeaderPlayer = this;
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Way"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
 
 	return S_OK;
 }

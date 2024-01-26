@@ -248,13 +248,14 @@ void CController_WR::UpdateIdentityAuraPivot()
 	}
 }
 
-void CController_WR::EstherSkill()
+void CController_WR::EstherSkill(_uint iIndex)
 {
 	for (auto& pEsther : m_vecEsther)
 	{
-		if (static_cast<CEsther*>(pEsther)->Get_EstherType() == m_iEstherType)
+		if (static_cast<CEsther*>(pEsther)->Get_EstherType() == iIndex)
 		{
-			static_cast<CEsther*>(pEsther)->Leader_Active_Esther();
+			if(false == pEsther->Is_Active())
+				static_cast<CEsther*>(pEsther)->Leader_Active_Esther();
 		}
 	}
 }

@@ -377,6 +377,7 @@
     <ClInclude Include="..\Public\SkyDome.h" />
     <ClInclude Include="..\Public\State_GN_Dead_End.h" />
     <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_GN_Esther_Way.h" />
     <ClInclude Include="..\Public\State_GN_Fall.h" />
     <ClInclude Include="..\Public\State_GN_Grabbed.h" />
     <ClInclude Include="..\Public\State_GN_Hit.h" />
@@ -396,6 +397,7 @@
     <ClInclude Include="..\Public\State_MG_Dash.h" />
     <ClInclude Include="..\Public\State_MG_Dead_End.h" />
     <ClInclude Include="..\Public\State_MG_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_MG_Esther_Way.h" />
     <ClInclude Include="..\Public\State_MG_Fall.h" />
     <ClInclude Include="..\Public\State_MG_Grabbed.h" />
     <ClInclude Include="..\Public\State_MG_Hit.h" />
@@ -427,6 +429,7 @@
     <ClInclude Include="..\Public\State_WDR_Dead_Start.h" />
     <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
+    <ClInclude Include="..\Public\State_WDR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WDR_Fall.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Fail.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Loop.h" />
@@ -490,7 +493,7 @@
     <ClInclude Include="..\Public\State_WR_Dash.h" />
     <ClInclude Include="..\Public\State_WR_Dead_End.h" />
     <ClInclude Include="..\Public\State_WR_Dead_Start.h" />
-    <ClInclude Include="..\Public\State_WR_Esther.h" />
+    <ClInclude Include="..\Public\State_WR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WR_Fall.h" />
     <ClInclude Include="..\Public\State_WR_FlashBalde.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h" />
@@ -961,6 +964,7 @@
     <ClCompile Include="..\Private\SkyDome.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_GN_Fall.cpp" />
     <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_GN_Hit.cpp" />
@@ -981,6 +985,7 @@
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
     <ClCompile Include="..\Private\State_MG_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_MG_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_MG_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_MG_Fall.cpp" />
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
     <ClCompile Include="..\Private\State_MG_Hit.cpp" />
@@ -1012,6 +1017,7 @@
     <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WDR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Loop.cpp" />
@@ -1075,7 +1081,7 @@
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp" />
-    <ClCompile Include="..\Private\State_WR_Esther.cpp" />
+    <ClCompile Include="..\Private\State_WR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WR_FlashBalde.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp" />

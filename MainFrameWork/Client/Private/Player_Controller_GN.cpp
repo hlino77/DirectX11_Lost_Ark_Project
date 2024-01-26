@@ -8,6 +8,7 @@
 #include "Projectile.h"
 #include "Pool.h"
 #include "Player.h"
+#include "Esther.h"
 
 CPlayer_Controller_GN::CPlayer_Controller_GN(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
@@ -317,6 +318,18 @@ void CPlayer_Controller_GN::Change_Iden_Collider(GN_IDENTITY eIndex)
 	case Client::CPlayer_Controller_GN::LONG:
 		m_AttackDesc = m_LongAttackDesc;
 		break;
+	}
+}
+
+void CPlayer_Controller_GN::EstherSkill(_uint iIndex)
+{
+	for (auto& pEsther : m_vecEsther)
+	{
+		if (static_cast<CEsther*>(pEsther)->Get_EstherType() == iIndex)
+		{
+			if (false == pEsther->Is_Active())
+				static_cast<CEsther*>(pEsther)->Leader_Active_Esther();
+		}
 	}
 }
 
