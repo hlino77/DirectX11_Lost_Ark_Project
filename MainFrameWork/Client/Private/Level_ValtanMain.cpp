@@ -579,7 +579,8 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
 	L"../Bin/Resources/Export/Boss/",
-	L"../Bin/Resources/Export/Lobby/"
+	L"../Bin/Resources/Export/Lobby/",
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 
@@ -613,13 +614,14 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 		// Object World Matrix
 		Matrix	matWorld = file->Read<Matrix>();
 
-		// Object ModelType
-		_uint ModelType = file->Read<_uint>();
-
 		// Instancing Check 
 		_bool bInstance = file->Read<_bool>();
 
 
+		// Object ModelType
+		_uint ModelType = file->Read<_uint>();
+
+	
 		// Clone GameObject
 		CGameObject* pObject = nullptr;
 

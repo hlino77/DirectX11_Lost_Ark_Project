@@ -759,7 +759,8 @@ HRESULT CModel::Load_AssetFile_FromBinary(const wstring& pFilePath, const wstrin
 			m_strFilePath == L"../Bin/Resources/Export/Chaos2/" ||
 			m_strFilePath == L"../Bin/Resources/Export/Chaos3/" ||
 			m_strFilePath == L"../Bin/Resources/Export/Boss/" ||
-			m_strFilePath == L"../Bin/Resources/Export/Lobby/")
+			m_strFilePath == L"../Bin/Resources/Export/Lobby/" || 
+			m_strFilePath == L"../Bin/Resources/Export/Nature/")
 		{
 			if (FAILED(Load_MapMaterialData_FromFile()))
 				return E_FAIL;

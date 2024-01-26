@@ -969,12 +969,14 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_Inventory_UI()))
 		return E_FAIL;
 
-	//Load_MapData(TEXT(LEVEL_BERN, "../Bin/Resources/MapData/Bern.data"));
+	
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 	pUIManager->Add_CurrFile();
-
+	
+	//Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
 	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
-	//CNavigationMgr::GetInstance()->Add_Navigation(TEXT("Level_Chaos_Navi"), L"Chaos1.Navi");
+
+
 	pUIManager->Add_CurrFile();
 
 	/* For.Texture */
@@ -2024,7 +2026,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
 	L"../Bin/Resources/Export/Boss/",
-	L"../Bin/Resources/Export/Lobby/"
+	L"../Bin/Resources/Export/Lobby/",
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 
@@ -2037,6 +2040,8 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		string strFileName = file->Read<string>();
 		wstring selectedPath = {};
 
+
+
 		for (const auto& path : paths)
 		{
 			wstring fullPath = path + CAsUtils::ToWString(strFileName);
@@ -2046,6 +2051,15 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 				selectedPath = path;
 			}
 		}
+
+
+
+		if (selectedPath == L"../Bin/Resources/Export/Nature/")
+		{
+			int a = 1;
+		}
+
+
 
 		if (selectedPath.empty())
 		{
@@ -2130,6 +2144,7 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 	L"../Bin/Resources/Export/Chaos3/",
 	L"../Bin/Resources/Export/Boss/",
 	L"../Bin/Resources/Export/Lobby/"
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 
@@ -2158,17 +2173,20 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 			return E_FAIL;
 		}
 
+		// Object Matrix
 		Matrix	matWorld = file->Read<Matrix>();
 
-		// Collider Info 
-		_uint ModelType = {};
-		file->Read<_uint>(ModelType);
 
 		// Instancing Check
 		_bool bInstance = false;
 		file->Read<_bool>(bInstance);
 
 
+		// ModelType 
+		_uint ModelType = {};
+		file->Read<_uint>(ModelType);
+
+	
 		if (0 == ModelType) // NonAnim
 		{
 
@@ -2247,8 +2265,6 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 			{		
 				Matrix		PivotMatrix = XMMatrixIdentity();
 				PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
-				//PivotMatrix = XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-				//PivotMatrix = XMMatrixScaling(100.f, 100.f, 100.f);
 
 				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))

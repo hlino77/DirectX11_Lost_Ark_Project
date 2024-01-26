@@ -497,7 +497,8 @@ HRESULT CLevel_ChaosLevel3::Load_MapData(LEVELID eLevel, const wstring& szFullPa
 	L"../Bin/Resources/Export/Chaos1/",
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
-	L"../Bin/Resources/Export/Boss/"
+	L"../Bin/Resources/Export/Boss/",
+	L"../Bin/Resources/Export/Nature/"
 	};
 
 
