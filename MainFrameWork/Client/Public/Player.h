@@ -55,6 +55,8 @@ public:
 		uint64	iMaxMp;
 		uint64	iCurMp;
 
+		uint64  iDefHP;
+
 		_uint	iAtkPower;
 
 		_uint	iCrit;

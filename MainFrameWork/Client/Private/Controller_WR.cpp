@@ -8,6 +8,8 @@
 #include "Projectile.h"
 #include "Pool.h"
 
+#include "Esther.h"
+
 CController_WR::CController_WR(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPlayer_Controller(pDevice, pContext)
 {
@@ -214,6 +216,17 @@ void CController_WR::Skill_CoolTime(const _float& fTimeDelta)
 	__super::Skill_CoolTime(fTimeDelta);
 }
 
+void CController_WR::EstherSkill()
+{
+	for (auto& pEsther : m_vecEsther)
+	{
+		if (static_cast<CEsther*>(pEsther)->Get_EstherType() == m_iEstherType)
+		{
+			static_cast<CEsther*>(pEsther)->Leader_Active_Esther();
+		}
+	}
+}
+
 void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
 	__super::Get_HitMessage(iDamge, fForce, vPos);
@@ -262,12 +275,16 @@ void CController_WR::Get_GrabMessage(CGameObject* pGrabber)
 	static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Grabbed"));
 
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
+	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
+
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(true);
 }
 
 void CController_WR::Get_GrabEndMessage()
 {
 	__super::Get_GrabEndMessage();
+
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CController_WR::Get_DeadMessage()

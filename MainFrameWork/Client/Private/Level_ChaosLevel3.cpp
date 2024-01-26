@@ -642,6 +642,8 @@ void CLevel_ChaosLevel3::Start_Collision()
 
 		CGameInstance::GetInstance()->Delete_Timer(L"Timer_Collision");
 		CGameInstance::GetInstance()->Delete_Timer(L"Timer_Collision_60");
+
+		return TRUE;
 	});
 }
 
@@ -680,6 +682,8 @@ void CLevel_ChaosLevel3::Start_Damage()
 
 			CGameInstance::GetInstance()->Delete_Timer(L"Timer_Damage");
 			CGameInstance::GetInstance()->Delete_Timer(L"Timer_Damage_60");
+
+			return TRUE;
 		});
 }
 
@@ -718,6 +722,8 @@ void CLevel_ChaosLevel3::Start_QuadTree()
 
 			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree");
 			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree_60");
+
+			return TRUE;
 		});
 }
 

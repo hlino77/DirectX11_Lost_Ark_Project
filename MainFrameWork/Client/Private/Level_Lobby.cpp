@@ -463,6 +463,8 @@ void CLevel_Lobby::Start_QuadTree()
 
 			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree");
 			CGameInstance::GetInstance()->Delete_Timer(L"Timer_QuadTree_60");
+
+			return TRUE;
 		});
 }
 

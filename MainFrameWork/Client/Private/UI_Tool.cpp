@@ -256,10 +256,10 @@ void CUI_Tool::Modify_UIPannel()
 	{
 		if (nullptr == m_pCurrentUI)
 			return;
-		_bool bResult;
-		if (bResult = MessageBox(NULL, L"저장", L"취소", MB_YESNO | MB_ICONQUESTION))
+		_int iResult;
+		if (iResult = MessageBox(NULL, L"저장", L"취소", MB_YESNO | MB_ICONQUESTION))
 		{
-			if ((nullptr == m_pCurrentUI)&&(bResult == IDNO))
+			if ((nullptr == m_pCurrentUI)&&(iResult == IDNO))
 				return;
 			string strFilePath = "../Bin/Resources/Textures/UI/Binary_UIDesc/";
 			string strFileExtention = ".dat";
@@ -273,10 +273,10 @@ void CUI_Tool::Modify_UIPannel()
 	{
 		if (nullptr == m_pCurrentUI)
 			return;
-		_bool bResult;
-		if (bResult = MessageBox(NULL, L"불러오기", L"취소", MB_YESNO | MB_ICONQUESTION))
+		_int iResult;
+		if (iResult = MessageBox(NULL, L"불러오기", L"취소", MB_YESNO | MB_ICONQUESTION))
 		{
-			if (bResult == IDNO)
+			if (iResult == IDNO)
 				return;
 			string strFilePath = "../Bin/Resources/Textures/UI/Binary_UIDesc/";
 			string strFileExtention = ".dat";

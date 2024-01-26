@@ -4,7 +4,6 @@
 
 #include "Base.h"
 
-
 BEGIN(Engine)
 class CGameInstance;
 class CRenderer;
@@ -25,8 +24,6 @@ public:
 	HRESULT Initialize();
 	void Tick(_float fTimeDelta);
 	HRESULT Render();
-
-
 
 private:
 	CGameInstance*			m_pGameInstance = { nullptr };

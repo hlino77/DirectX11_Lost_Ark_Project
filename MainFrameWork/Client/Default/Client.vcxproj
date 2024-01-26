@@ -232,6 +232,14 @@
     <ClInclude Include="..\Public\Effect_PcModel.h" />
     <ClInclude Include="..\Public\Effect_Texture.h" />
     <ClInclude Include="..\Public\Effect_Trail.h" />
+    <ClInclude Include="..\Public\Esther.h" />
+    <ClInclude Include="..\Public\Esther_Cut.h" />
+    <ClInclude Include="..\Public\Esther_Part.h" />
+    <ClInclude Include="..\Public\Esther_Skill.h" />
+    <ClInclude Include="..\Public\Esther_Way.h" />
+    <ClInclude Include="..\Public\Esther_Way_Cut.h" />
+    <ClInclude Include="..\Public\Esther_Way_Dochul.h" />
+    <ClInclude Include="..\Public\Esther_Way_Skill.h" />
     <ClInclude Include="..\Public\Function_Npc.h" />
     <ClInclude Include="..\Public\Golem_BT_Chase.h" />
     <ClInclude Include="..\Public\Effect.h" />
@@ -479,6 +487,7 @@
     <ClInclude Include="..\Public\State_WR_Dash.h" />
     <ClInclude Include="..\Public\State_WR_Dead_End.h" />
     <ClInclude Include="..\Public\State_WR_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_WR_Esther.h" />
     <ClInclude Include="..\Public\State_WR_Fall.h" />
     <ClInclude Include="..\Public\State_WR_FlashBalde.h" />
     <ClInclude Include="..\Public\State_WR_FuriousClaw_End.h" />
@@ -807,6 +816,14 @@
     <ClCompile Include="..\Private\Effect_PcModel.cpp" />
     <ClCompile Include="..\Private\Effect_Texture.cpp" />
     <ClCompile Include="..\Private\Effect_Trail.cpp" />
+    <ClCompile Include="..\Private\Esther.cpp" />
+    <ClCompile Include="..\Private\Esther_Cut.cpp" />
+    <ClCompile Include="..\Private\Esther_Part.cpp" />
+    <ClCompile Include="..\Private\Esther_Skill.cpp" />
+    <ClCompile Include="..\Private\Esther_Way.cpp" />
+    <ClCompile Include="..\Private\Esther_Way_Cut.cpp" />
+    <ClCompile Include="..\Private\Esther_Way_Dochul.cpp" />
+    <ClCompile Include="..\Private\Esther_Way_Skill.cpp" />
     <ClCompile Include="..\Private\Function_Npc.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Chase.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
@@ -1049,6 +1066,7 @@
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_Esther.cpp" />
     <ClCompile Include="..\Private\State_WR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WR_FlashBalde.cpp" />
     <ClCompile Include="..\Private\State_WR_FuriousClaw_End.cpp" />

@@ -33,6 +33,8 @@ HRESULT CEventMgr::Render()
 {
 	if (m_pCurrEvent)
 		return m_pCurrEvent->Render();
+	else
+		return E_FAIL;
 }
 
 HRESULT CEventMgr::Add_Event(CEvent* pEvent)

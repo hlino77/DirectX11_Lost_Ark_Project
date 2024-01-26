@@ -228,6 +228,8 @@
 #include "IT_WDR_Helmet_Legend.h"
 #include "IT_WDR_WP_Legend.h"
 
+#include "Esther_Way.h"
+
 namespace fs = std::filesystem;
 
 CLoader::CLoader(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -1419,6 +1421,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_WP_Legend"),
 		CIT_MG_WP_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
+		CEsther_Way::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3751,11 +3758,15 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	strPath = L"../Bin/Resources/Meshes/PC_Weapon/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
+	/* ¿¡½º´õ */
 	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
 	AutoAnimLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
-	strPath = L"../Bin/Resources/Meshes/ES/Static/";
+	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Part/";
+	AutoLoad(strPath, LEVEL_STATIC);
 
 	/* SkyDome */
 	{

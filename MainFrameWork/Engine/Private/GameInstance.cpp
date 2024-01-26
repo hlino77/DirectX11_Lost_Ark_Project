@@ -465,7 +465,7 @@ void CGameInstance::Set_Transform(CPipeLine::TRANSFORMSTATE eTransformState, Mat
 const Matrix& CGameInstance::Get_TransformMatrix(const CPipeLine::TRANSFORMSTATE& eTransformState) const
 {
 	if (nullptr == m_pPipeLine)
-		return XMMatrixIdentity();
+		return Matrix();
 
 	return m_pPipeLine->Get_TransformMatrix(eTransformState);
 }
@@ -473,7 +473,7 @@ const Matrix& CGameInstance::Get_TransformMatrix(const CPipeLine::TRANSFORMSTATE
 const Matrix& CGameInstance::Get_TransformMatrixInverse(const CPipeLine::TRANSFORMSTATE& eTransformState) const
 {
 	if (nullptr == m_pPipeLine)
-		return XMMatrixIdentity();
+		return Matrix();
 
 	return m_pPipeLine->Get_TransformMatrixInverse(eTransformState);
 }
@@ -481,7 +481,7 @@ const Matrix& CGameInstance::Get_TransformMatrixInverse(const CPipeLine::TRANSFO
 const Matrix& CGameInstance::Get_ViewProjMatrix() const
 {
 	if (nullptr == m_pPipeLine)
-		return XMMatrixIdentity();
+		return Matrix();
 
 	return m_pPipeLine->Get_ViewProjMatrix();
 }
@@ -489,7 +489,7 @@ const Matrix& CGameInstance::Get_ViewProjMatrix() const
 const Matrix& CGameInstance::Get_LightViewProjMatrix() const
 {
 	if (nullptr == m_pPipeLine)
-		return XMMatrixIdentity();
+		return Matrix();
 
 	return m_pPipeLine->Get_LightViewProjMatrix();
 }
@@ -526,7 +526,6 @@ KEY_STATE CGameInstance::GetKeyState(KEY _eKey)
 
 const POINT& CGameInstance::GetMousePos()
 {
-
 	return POINT();
 }
 

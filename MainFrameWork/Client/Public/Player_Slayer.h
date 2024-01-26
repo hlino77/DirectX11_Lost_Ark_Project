@@ -47,6 +47,7 @@ private:
 	HRESULT			Ready_Skill();
 	HRESULT			Ready_PhysxBoneBranch();
 	HRESULT			Ready_Item();
+	HRESULT			Ready_Esther();
 
 private:
 	HRESULT			Ready_SkillUI();
