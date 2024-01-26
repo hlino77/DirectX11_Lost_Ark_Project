@@ -959,7 +959,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	pUIManager->Add_CurrFile();
 	
 	//Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
-	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Bern_1Test.data"));
+	Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"));
 
 
 	pUIManager->Add_CurrFile();

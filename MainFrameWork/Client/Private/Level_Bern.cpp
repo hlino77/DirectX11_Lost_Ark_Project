@@ -81,7 +81,7 @@ HRESULT CLevel_Bern::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/Bern_1Test.data"))))
+	if (FAILED(Load_MapData(LEVEL_BERN, TEXT("../Bin/Resources/MapData/BernCastle.data"))))
 	{
 		return E_FAIL;
 	}
