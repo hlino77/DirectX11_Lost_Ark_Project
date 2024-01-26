@@ -4,6 +4,7 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Model.h"
+#include "Effect_Manager.h"
 
 CState_WR_Iden_Skill::CState_WR_Iden_Skill(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -27,8 +28,8 @@ HRESULT CState_WR_Iden_Skill::Initialize()
 	m_AttackFrames.push_back(38);
 	m_AttackFrames.push_back(44);
 	m_AttackFrames.push_back(48);
-	m_AttackFrames.push_back(66);
 	m_AttackFrames.push_back(-1);
+	m_AttackFrames.push_back(66);
 
 	return S_OK;
 }
@@ -45,6 +46,9 @@ void CState_WR_Iden_Skill::Enter_State()
 	static_cast<CController_WR*>(m_pController)->Get_WR_IdenSkillMessage(10.f);
 
 	static_cast<CController_WR*>(m_pController)->Set_Attack_Desc(4);
+
+	for (_int i = 0; i < 7; ++i)
+		m_EffectStart[i] = false;
 }
 
 void CState_WR_Iden_Skill::Tick_State(_float fTimeDelta)
@@ -58,7 +62,21 @@ void CState_WR_Iden_Skill::Exit_State()
 
 void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill))
+	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
+	if (!m_EffectStart[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] - 2 <= iCurrFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		if (m_iAttackCnt & 1)
+			EFFECT_START(TEXT("1temp"), &desc)
+		else
+			EFFECT_START(TEXT("0temp"), &desc)
+
+		m_EffectStart[m_iAttackCnt] = true;
+	}
+
+	if (m_AttackFrames[m_iAttackCnt] == iCurrFrame)
 	{
 		m_iAttackCnt++;
 

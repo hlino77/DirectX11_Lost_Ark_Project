@@ -86,7 +86,7 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, inout float fDis
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {
         float2 vNoiseUV = g_NoiseTexture.Sample(Sampler, vOriginUV).rg;
-        vNewUV += (vNoiseUV - 0.5f) * 2.f;
+        vNewUV += (vNoiseUV - 0.5f) * 2.f * 0.1f;
     }
     
     if (EPSILON < NoisMaskEmisDslv.y)   // Mask

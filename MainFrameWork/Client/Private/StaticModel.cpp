@@ -75,7 +75,7 @@ void CStaticModel::Tick(_float fTimeDelta)
 			Set_Dead(true);
 
 			Send_Collision(LEVEL_VALTANMAIN, true); // NaviCell Info Send to Server
-
+			 
 
 			for (auto& CellIndex : m_NaviCellIndex)
 			{
