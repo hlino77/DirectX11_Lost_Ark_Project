@@ -74,6 +74,14 @@ public:
 	_float						Get_UpgradeGauge() { return m_fUpgaradeGauge; }
 	void						Set_UpgradeGauge(_float fGauge) { m_fUpgaradeGauge = fGauge; }
 	CTexture*					Get_ItemTexture();
+
+	void						Add_UpgradeGauge(_float fGauge);
+	_uint						Get_UpgradeLevel() { return m_iItemUpgradelevel; }
+	void						Growth_UpgradeLevel() { m_iItemUpgradelevel++; }
+
+	void						Set_EquipWearing(_bool bEquipWearing) { m_bEquipWearing = bEquipWearing; }
+	_bool						Get_EquipWearing() { return m_bEquipWearing; }
+
 protected:
 	virtual HRESULT				Ready_Components();
 
@@ -92,8 +100,11 @@ protected:
 	_uint						m_iEquipType = { (_uint)PART::_END };
 	vector<_uint>				m_vecUseEquipSlot;
 
-	_float						m_fUpgaradeGauge = { 0.f };
+	_float						m_fUpgradeMaxGauge = { 100.f };
+	_float						m_fUpgradeGauge = { 0.f };
 
+	_uint						m_iItemUpgradelevel = { 1 };
+	_bool						m_bEquipWearing = { false };
 public:
 	virtual void Free();
 };

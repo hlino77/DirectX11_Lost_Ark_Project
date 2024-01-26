@@ -45,12 +45,22 @@ void CItem::Upgrade_Item()
 {
 }
 
+
 CTexture* CItem::Get_ItemTexture()
 {
-	if (nullptr != m_pItemTextureCom) 
+	if (nullptr != m_pItemTextureCom)
 		return m_pItemTextureCom;
 	else
 		return nullptr;
+}
+
+void CItem::Add_UpgradeGauge(_float fGauge)
+{
+	if (100.f >= fGauge)
+		m_fUpgradeGauge += fGauge;
+	
+	if (100.f < m_fUpgradeGauge)
+		m_fUpgradeGauge = 100.f;
 }
 
 HRESULT CItem::Ready_Components()

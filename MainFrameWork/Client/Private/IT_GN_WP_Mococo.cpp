@@ -23,6 +23,7 @@ HRESULT CIT_GN_WP_Mococo::Initialize(void* pArg)
 
 	m_iItemGrade = (_uint)GRADE::PURPLE;
 	m_iItemType = (_uint)TYPE::EQUIP;
+	m_iEquipType = (_uint)PART::WEAPON;
 
 	m_strObjectTag = TEXT("IT_GN_WP_Mococo");
 	m_strItemName = TEXT("¸ðÄÚÄÚ ÃÑ");
@@ -52,7 +53,7 @@ HRESULT CIT_GN_WP_Mococo::Use_Item(CPlayer* pOwner)
 		return E_FAIL;
 
 	if (nullptr != pOwner->Get_EquipItem((_uint)PART::WEAPON))
-		pOwner->Get_EquipItem((_uint)PART::WEAPON)->Disuse_Item(pOwner, false);
+		pOwner->Get_EquipItem((_uint)PART::WEAPON)->Set_EquipWearing(false);
 
 	CPlayer::STATDESC tPcStat = pOwner->Get_PlayerStat_Desc();
 
@@ -67,7 +68,7 @@ HRESULT CIT_GN_WP_Mococo::Use_Item(CPlayer* pOwner)
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_5))->Change_ModelCom(m_pModel_S);
 
 	pOwner->Set_EquipItem((_uint)PART::WEAPON, this);
-
+	Set_EquipWearing(true);
 	return S_OK;
 }
 
@@ -75,7 +76,7 @@ HRESULT CIT_GN_WP_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
-
+	Set_EquipWearing(false);
 	CPlayer::STATDESC tPcStat = pOwner->Get_PlayerStat_Desc();
 
 	tPcStat.iAtkPower -= m_tStatChangeDesc.iAtkPower;

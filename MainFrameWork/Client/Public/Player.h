@@ -25,6 +25,7 @@ class CUI_SpeechBubble;
 class CUI_InGame_NamePlate;
 class CEffect;
 class CItem;
+class CUI_Inventory;
 
 class CPlayer : public CGameObject
 {
@@ -228,6 +229,7 @@ protected:
 	virtual HRESULT			Ready_Parts() { return S_OK; }
 	HRESULT					Ready_SpeechBuble();
 	HRESULT					Ready_NamePlate();
+	HRESULT					Ready_Inventory();
 
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
@@ -301,6 +303,7 @@ protected:
 	CParty* m_pParty = nullptr;
 	CUI_SpeechBubble* m_pSpeechBuble = nullptr;
 	CUI_InGame_NamePlate* m_pNamePlate = { nullptr };
+	CUI_Inventory* m_pUI_Inventory = { nullptr };
 
 	unordered_map<wstring, CEffect*> m_Effects;
 public:

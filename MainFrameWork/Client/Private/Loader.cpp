@@ -131,6 +131,8 @@
 #include "UI_NPC_ChaosDungeon.h"
 #include "UI_NPC_ChaosDungeon_NewWnd.h"
 #include "UI_NPC_ItemUpgrade.h"
+#include "UI_InventoryWnd.h"
+#include "UI_Inventory_ItemSlot.h"
 #include "UI_Inventory.h"
 
 //Monsters
@@ -229,6 +231,8 @@
 #include "IT_WDR_Body_Legend.h"
 #include "IT_WDR_Helmet_Legend.h"
 #include "IT_WDR_WP_Legend.h"
+
+#include "Item_TestItem.h"
 
 namespace fs = std::filesystem;
 
@@ -971,7 +975,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_Inventory_UI()))
 		return E_FAIL;
 
-	
+	if (FAILED(Loading_Item()))
+		return E_FAIL;
+
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 	pUIManager->Add_CurrFile();
 	
@@ -3198,6 +3204,11 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Item_ResultText_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/ResultText_Effect.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Max_GaugeEffect"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Max_GaugeEffect/Max_GaugeEffect%d.png", 25))))
 		return E_FAIL;
@@ -3273,6 +3284,11 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Next_Grade"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Next_Grade.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -3288,9 +3304,25 @@ HRESULT CLoader::Loading_Inventory_UI()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
 		CUI_Inventory::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InventoryWnd"),
+		CUI_InventoryWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory_ItemSlot"),
+		CUI_Inventory_ItemSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_InventoryWnd"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/InventoryWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_ItemSlot"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/Inventory_ItemSlot.png"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3448,6 +3480,28 @@ HRESULT CLoader::Loading_Inventory_UI()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
+
+	Safe_Release(pUIManager);
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Item()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestItem"),
+		CItem_TestItem::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Test_Item"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Consume/Test_Item.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);

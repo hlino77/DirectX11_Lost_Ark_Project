@@ -57,8 +57,10 @@ private:
 
     _bool   m_bHaveSkill = { false };
     _bool   m_bPicked = { false };
+    _bool   m_bSilence = { false };
     _float  m_fAlphaShine = (0.f);
     Vec4    m_vecPickedColor = { 0.5f, 0.5f, 0.5f, 1.f };
+    Vec4    m_vecSilenceColor = { 1.f, 1.f, 1.f, 1.f };
 
     //ÄðÅ¸ÀÓ
     CPlayer_Skill* m_pSkill = { nullptr };

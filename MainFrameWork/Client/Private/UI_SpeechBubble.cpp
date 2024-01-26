@@ -174,6 +174,12 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
     return S_OK;
 }
 
+void CUI_SpeechBubble::DeActive_SpeechBubble()
+{
+    m_pTextBox->Set_Active(false);
+    Set_Active(false);
+}
+
 HRESULT CUI_SpeechBubble::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))

@@ -14,6 +14,7 @@ float2		g_vScaleUV;
 float		g_fRatio;
 float		g_fRoughness;
 float		g_PI = 3.141592f;
+bool		g_Silence;
 
 sampler DefaultSampler = sampler_state {
 
@@ -314,6 +315,42 @@ PS_OUT PS_MAIN_COOLTIME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor.a *= g_Alpha;
+
+	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	float fAngle = atan2(-fTempUV.x, fTempUV.y);
+
+	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
+		Out.vColor = pow(Out.vColor, 1.f / 2.2f);
+	else
+		Out.vColor.rgb *= 0.4f;
+
+	return Out;
+}
+
+
+PS_OUT PS_MAIN_SKILL_SILENCE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	if (true == g_Silence)
+	{
+		Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV));
+		float MaxColor = max(Out.vColor.r, max(Out.vColor.g, Out.vColor.b));
+		Out.vColor.r = MaxColor * 0.8;
+		Out.vColor.g = MaxColor * 0.2f;
+		Out.vColor.b = MaxColor * 0.2f;
+	}
+	else
+	{
+		Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+		Out.vColor.a *= g_Alpha;
+
+		float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
+	}
 	Out.vColor.a *= g_Alpha;
 
 	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
@@ -677,5 +714,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_MASKED_TEXCOLOR();
+	}
+
+	pass Skill_SilenceColor
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_SKILL_SILENCE();
 	}
 }

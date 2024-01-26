@@ -4,7 +4,6 @@
 #include "TextBox.h"
 #include "Player.h"
 #include "Item.h"
-#include "RenderTarget.h"
 
 CUI_NPC_ItemUpgrade::CUI_NPC_ItemUpgrade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -48,12 +47,12 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
     m_pUsingPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
     if (nullptr == m_pUsingPlayer)
         return E_FAIL;
-    for (size_t i = 0; i < 6; i++)
+    for (size_t i = 0; i < SELECTED_END; i++)
     {
         m_pEquips[i] = { nullptr };
     }
     Set_Active_UpGrade(true);
-    if(FAILED(Initialize_TextBox()))
+    if (FAILED(Initialize_TextBox()))
         return E_FAIL;
     return S_OK;
 }
@@ -101,7 +100,11 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_BaseWnd()
     m_pTransform_ItemName->Set_Scale(Vec3(566.f * 0.8f, 98.f * 0.8f, 1.f));
     m_pTransform_ItemName->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 4.f) - g_iWinSizeX * 0.5f, -(m_fY - 140.f) + g_iWinSizeY * 0.5f, 0.03f));
-    ////m_pTransform_Ingredients
+    //m_pTransform_NextLevelIcon
+    m_pTransform_NextLevelIcon->Set_Scale(Vec3(46.f * 0.8f, 34.f * 0.8f, 1.f));
+    m_pTransform_NextLevelIcon->Set_State(CTransform::STATE_POSITION,
+        Vec3((m_fX) - g_iWinSizeX * 0.5f, -(m_fY - 140.f) + g_iWinSizeY * 0.5f, 0.03f));
+    //m_pTransform_Ingredients
     m_pTransform_Ingredients->Set_Scale(Vec3(478.f * 0.8f, 189.f * 0.8f, 1.f));
     m_pTransform_Ingredients->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX + 4.f) - g_iWinSizeX * 0.5f, -((m_fY + 160.f)) + g_iWinSizeY * 0.5f, 0.03f));
@@ -165,6 +168,10 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_BaseWnd()
     m_pTransform_ResultWnd->Set_Scale(Vec3(1092.f, 581.f, 1.f));
     m_pTransform_ResultWnd->Set_State(CTransform::STATE_POSITION,
         Vec3(m_fX - g_iWinSizeX * 0.5f, -(g_iWinSizeY * 0.5f) + g_iWinSizeY * 0.5f, 0.01f));
+    //m_pTransform_ResultTextEffect
+    m_pTransform_ResultTextEffect->Set_Scale(Vec3(204.f * 1.5f, 84.f * 1.5f, 1.f));
+    m_pTransform_ResultTextEffect->Set_State(CTransform::STATE_POSITION,
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.01f));
     //m_pTransform_ResultItemEffect
     m_pTransform_ResultItemEffect->Set_Scale(Vec3(64.f * 5.f, 60.f * 5.f, 1.f));
     m_pTransform_ResultItemEffect->Set_State(CTransform::STATE_POSITION,
@@ -199,7 +206,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_EquipIcon_Face->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY - 215.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_UpgradeIcon_Face
-    m_pTransform_UpgradeIcon_Face->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Face->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Face->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY - 185.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_EquipItemWnd_Helemt
@@ -211,7 +218,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_ItemIcon_Helemt->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY - 135.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_UpgradeIcon_Helemt
-    m_pTransform_UpgradeIcon_Helemt->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Helemt->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Helemt->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY - 120.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_EquipIcon_Helemt
@@ -227,7 +234,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_ItemIcon_Shoulder->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY - 75.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_UpgradeIcon_Shoulder
-    m_pTransform_UpgradeIcon_Shoulder->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Shoulder->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Shoulder->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY - 60.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_EquipIcon_Shoulder
@@ -243,7 +250,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_ItemIcon_Body->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY - 10.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_UpgradeIcon_Body
-    m_pTransform_UpgradeIcon_Body->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Body->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Body->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.03f));
    //m_pTransform_EquipIcon_Body
@@ -259,7 +266,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_ItemIcon_Arm->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY + 55.f) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_UpgradeIcon_Arm
-    m_pTransform_UpgradeIcon_Arm->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Arm->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Arm->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 70) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_EquipIcon_Arm
@@ -275,7 +282,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_ItemIcon_Leg->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY +120.f) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_UpgradeIcon_Leg
-    m_pTransform_UpgradeIcon_Leg->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Leg->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Leg->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 135) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_EquipIcon_Leg
@@ -291,7 +298,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
     m_pTransform_ItemIcon_Weapon->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 480.f) - g_iWinSizeX * 0.5f, -(m_fY + 185.f) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_UpgradeIcon_Weapon
-    m_pTransform_UpgradeIcon_Weapon->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.8f, 1.f));
+    m_pTransform_UpgradeIcon_Weapon->Set_Scale(Vec3(26.f * 0.8f, 22.f * 0.9f, 1.f));
     m_pTransform_UpgradeIcon_Weapon->Set_State(CTransform::STATE_POSITION,
         Vec3((m_fX - 250.f) - g_iWinSizeX * 0.5f, -(m_fY + 200.f) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_EquipIcon_Weapon
@@ -328,7 +335,26 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_TextBox()
     m_strFont = TEXT("´øÆÄ¿¬¸¶µÈÄ®³¯");
     if (FAILED(Ready_TextBox()))
         return E_FAIL;
-    m_pCurrItemNameWnd->Set_Active(false);
+    m_pCurrItemNameWnd->Set_Active(true);
+    m_pItemNameWnd->Set_Active(true);
+    m_pCurrGaugeWnd->Set_Active(true);
+    m_pResultWnd->Set_Active(false);
+    Print_FaceItemNameWnd();
+    Print_FaceItemGradeLevelWnd();
+    Print_HelemetItemNameWnd();
+    Print_HelmetItemGradeLevelWnd();
+    Print_ShoulderItemNameWnd();
+    Print_ShoulderItemGradeLevelWnd();
+    Print_BodyItemNameWnd();
+    Print_BodyItemGradeLevelWnd();
+    Print_ArmItemNameWnd();
+    Print_ArmItemGradeLevelWnd();
+    Print_LegItemNameWnd();
+    Print_LegItemGradeLevelWnd();
+    Print_WeaponItemNameWnd();
+    Print_WeaponItemGradeLevelWnd();
+    Print_CurrGauge();
+
     return S_OK;
 }
 
@@ -338,28 +364,6 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
 
     if (KEY_TAP(KEY::M))//Test
         Update_Items();
-
-    if (m_bTestGaugeOn)
-    {
-        if (nullptr != m_pCurrUpgradeItem)
-        {
-            if (m_fItemGrowthMaxGauge > m_fItemGrowthCurrGauge)
-            {
-                m_fItemGrowthCurrGauge += 100.f * fTimeDelta;
-            }
-            else if (m_fItemGrowthMaxGauge < m_fItemGrowthCurrGauge)
-            {
-                m_bTestGaugeOn = false;
-                m_fItemGrowthCurrGauge = m_fItemGrowthMaxGauge;
-            }
-            //m_pCurrUpgradeItem->Set_UpgradeGauge(m_fItemGrowthCurrGauge);
-
-        if (1.f > m_fHammer_Effect_Alpha)
-            m_fHammer_Effect_Alpha += fTimeDelta;
-        else if (1.f < m_fHammer_Effect_Alpha)
-            m_fHammer_Effect_Alpha = 1.f;
-        }
-    }
 
     if (m_fItemGrowthMaxGauge <= m_fItemGrowthCurrGauge)
         m_bMaxGauge = true;
@@ -387,6 +391,9 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
     if (FAILED(Bind_ShaderResources_SidePannel_L()))
         return E_FAIL;
 
+    if (FAILED(m_pItemNameWnd->Render()))
+        return E_FAIL;
+
     if (FAILED(Bind_ShaderResources_SidePannel_R()))
         return E_FAIL;
 
@@ -397,7 +404,7 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
 
     if (FAILED(Bind_ShaderResources_HammerAura()))
         return E_FAIL;
-    if(!m_bDecreaseEffect)
+    if((m_bMaxGauge)&&(!m_bDecreaseEffect))
         m_pShaderCom->Begin(18);
     else
         m_pShaderCom->Begin(0);
@@ -420,7 +427,7 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
 
     if (FAILED(Bind_ShaderResources_GaugeSpin()))
         return E_FAIL;
-    if (!m_bDecreaseEffect)
+    if ((m_bMaxGauge)&&(!m_bDecreaseEffect))
         m_pShaderCom->Begin(18);
     else
         m_pShaderCom->Begin(0);
@@ -449,8 +456,14 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
+    if (FAILED(Bind_ShaderResources_NextLevelIcon()))
+        return E_FAIL;
+        m_pShaderCom->Begin(0);
+        m_pVIBufferCom->Render();
+
     if (FAILED(m_pCurrItemNameWnd->Render()))
         return E_FAIL;
+
     if (FAILED(Bind_ShaderResources_Ingredients()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -504,6 +517,9 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
         m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
+    if(FAILED(m_pCurrGaugeWnd->Render()))
+        return E_FAIL;
+
     if (FAILED(Bind_ShaderResources_CurrItem()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -533,6 +549,14 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_ResultTextEffect()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+    
+    if(FAILED(m_pResultWnd->Render()))
+        return E_FAIL;
 
     if (FAILED(Bind_ShaderResources_ResultItemSlot()))
         return E_FAIL;
@@ -600,11 +624,19 @@ void CUI_NPC_ItemUpgrade::Update_Items()
 {
     _uint iIndex = 0;
     CItem* pEquips[SELECTED_END];
+    for (size_t i = 0; i < SELECTED_END; i++)
+    {
+        pEquips[i] = nullptr;
+        m_pEquips[i] = nullptr;
+    }
+
     for (size_t i = 0; i < (_uint)(CItem::PART::_END); i++)
     {
         pEquips[i] = static_cast<CPlayer*>(m_pUsingPlayer)->Get_EquipItem(i);
         if (nullptr != pEquips[i])
         {
+            m_strItemsName[i] = TEXT("");
+
             if (i == pEquips[i]->Get_EquipType())
             {
                 m_pTexture_ItemIcon[iIndex] = static_cast<CTexture*>(pEquips[i]->Get_ItemTexture());
@@ -615,6 +647,22 @@ void CUI_NPC_ItemUpgrade::Update_Items()
             }
         }
     }
+    Print_FaceItemNameWnd();
+    Print_FaceItemGradeLevelWnd();
+    Print_HelemetItemNameWnd();
+    Print_HelmetItemGradeLevelWnd();
+    Print_ShoulderItemNameWnd();
+    Print_ShoulderItemGradeLevelWnd();
+    Print_BodyItemNameWnd();
+    Print_BodyItemGradeLevelWnd();
+    Print_ArmItemNameWnd();
+    Print_ArmItemGradeLevelWnd();
+    Print_LegItemNameWnd();
+    Print_LegItemGradeLevelWnd();
+    Print_WeaponItemNameWnd();
+    Print_WeaponItemGradeLevelWnd();
+    Print_CurrItemNameWnd();
+    Print_CurrGauge();
 }
 
 void CUI_NPC_ItemUpgrade::Update_Button(_float fTimeDelta)
@@ -630,25 +678,34 @@ void CUI_NPC_ItemUpgrade::Update_Button(_float fTimeDelta)
     CD3D11_VIEWPORT ViewPort;
     m_pContext->RSGetViewports(&ViewPortIndex, &ViewPort); // ºäÆ÷Æ® °¡Á®¿À±â 
 
-    Upadate_GrowthButton(pt);
+    Upadate_GrowthButton(pt, fTimeDelta);
     Update_UpgradeButton(pt, fTimeDelta);
     Update_QuitButton(pt);
     Update_ResultCheckButton(pt);
-    Update_Items(pt);
+    LateTcik_Items(pt);
 }
 
-void CUI_NPC_ItemUpgrade::Upadate_GrowthButton(POINT pt)
+void CUI_NPC_ItemUpgrade::Upadate_GrowthButton(POINT pt, _float fTimeDelta)
 {
+    if (nullptr != m_pCurrUpgradeItem)
+    {
+        if (m_fItemGrowthMaxGauge <= m_pCurrUpgradeItem->Get_UpgradeGauge())
+        {
+            m_bGrowthOn = false;
+            m_fItemGrowthCurrGauge = m_pCurrUpgradeItem->Get_UpgradeGauge();
+        }
+    }
+
     if ((m_bMaxGauge) || (m_fItemGrowthCurrGauge == m_fItemGrowthMaxGauge))
     {
         m_iGrowthButton_TextureIndex = 2;
         return;
     }
-
-    Is_Picking_GrowthButton(pt);
+    Update_GrowthGauge(fTimeDelta);
+    Is_Picking_GrowthButton(pt, fTimeDelta);
     if ((KEY_TAP(KEY::LBTN)&&(m_bGrowthButton)))
     {
-        m_bTestGaugeOn = true;
+        m_bGrowthOn = true;
         m_bMaxGaugeEffect = true;
     }
 }
@@ -663,14 +720,31 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
     Is_Picking_UpgradeButton(pt);
     if ((m_bUpgradeButton) && (KEY_TAP(KEY::LBTN)))
     {
+        if (nullptr != m_pCurrUpgradeItem)
+        {
+            m_pCurrUpgradeItem->Set_UpgradeGauge(0.f);
+            Print_CurrGauge();
+        }
         m_bResultWaiting = true;
-
         _uint SuccessPercent = 0;
         SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
         if (50 < SuccessPercent)
+        {
+            m_pCurrUpgradeItem->Growth_UpgradeLevel();
+            Print_FaceItemGradeLevelWnd();
+            Print_HelmetItemGradeLevelWnd();
+            Print_ShoulderItemGradeLevelWnd();
+            Print_BodyItemGradeLevelWnd();
+            Print_ArmItemGradeLevelWnd();
+            Print_LegItemGradeLevelWnd();
+            Print_WeaponItemGradeLevelWnd();
+            Print_CurrGauge();
             m_bResultSuccess = true;
+        }
         else
+        {
             m_bResultSuccess = false;
+        }
     }
 
     if (!m_bDecreaseUpgradeEffect)
@@ -696,7 +770,10 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
     Is_Picking_QuitButton(pt);
     if ((m_bQuitButton) && (KEY_TAP(KEY::LBTN)))
     {
+        m_pItemNameWnd->Set_Active(false);
         m_pCurrItemNameWnd->Set_Active(false);
+        m_pItemNameWnd->Set_Active(false);
+        m_pResultWnd->Set_Active(false);
         Set_Active(false);
     }
 }
@@ -709,6 +786,7 @@ void CUI_NPC_ItemUpgrade::Update_ResultCheckButton(POINT pt)
     if ((m_bUpgradeButton) && (KEY_TAP(KEY::LBTN)))
     {
         m_bResultWnd = false;
+        Print_ResultWnd();
     }
 }
 
@@ -720,7 +798,7 @@ void CUI_NPC_ItemUpgrade::Create_Rect_GrowthButton()
     m_rcGrowthButton.bottom = LONG((m_fY + 30.f) + ((44.f * 0.8f) / 2));
 }
 
-void CUI_NPC_ItemUpgrade::Is_Picking_GrowthButton(POINT pt)
+void CUI_NPC_ItemUpgrade::Is_Picking_GrowthButton(POINT pt,_float fTimeDelta)
 {
     if (PtInRect(&m_rcGrowthButton, pt))
     {
@@ -778,7 +856,7 @@ void CUI_NPC_ItemUpgrade::Is_Picking_QuitButton(POINT pt)
     }
 }
 
-void CUI_NPC_ItemUpgrade::Update_Items(POINT pt)
+void CUI_NPC_ItemUpgrade::LateTcik_Items(POINT pt)
 {
     Create_Rect_FaceItem();
     Create_Rect_HelemtItem();
@@ -973,8 +1051,18 @@ void CUI_NPC_ItemUpgrade::Is_Picking_WeaponItem(POINT pt)
 
 void CUI_NPC_ItemUpgrade::Update_GrowthGauge(_float fTimeDelta)
 {
+    if (!m_bGrowthOn)
+        return;
 
-
+    if (nullptr != m_pCurrUpgradeItem)
+    {
+        if (m_fItemGrowthMaxGauge > m_pCurrUpgradeItem->Get_UpgradeGauge())
+        {
+            m_pCurrUpgradeItem->Add_UpgradeGauge(100.f * fTimeDelta);
+            m_fItemGrowthCurrGauge = m_pCurrUpgradeItem->Get_UpgradeGauge();
+            Print_CurrGauge();
+        }
+    }
 }
 
 void CUI_NPC_ItemUpgrade::Update_Hammer_Effects(_float fTimeDelta)
@@ -986,8 +1074,11 @@ void CUI_NPC_ItemUpgrade::Update_Hammer_Effects(_float fTimeDelta)
 void CUI_NPC_ItemUpgrade::Update_Hammer_Effect(_float fTimeDelta)
 {
     if (!m_bMaxGauge)
+    {
+        m_fHammer_Effect_Alpha = 0.f;
+        m_bDecreaseEffect = true;
         return;
-
+    }
     if (m_bDecreaseEffect)
     {
         if (0.f < m_fHammer_Effect_Alpha)
@@ -1019,34 +1110,32 @@ void CUI_NPC_ItemUpgrade::Update_Hammer_Aura(_float fTimeDelta)
 
 void CUI_NPC_ItemUpgrade::Update_Gague_Smoke(_float fTimeDelta)
 {
+    if (43.f >= m_fFrame_Smoke)
+        m_fFrame_Smoke += min(1.0f, 20.f * fTimeDelta);
 
     if (43.f < m_fFrame_Smoke)
         m_fFrame_Smoke = 0.f;
-    else  if (43.f >= m_fFrame_Smoke)
-        m_fFrame_Smoke += min(1.0f, 20.f * fTimeDelta);
 }
 
 void CUI_NPC_ItemUpgrade::Update_Gauge_Effect(_float fTimeDelta)
 {
     if (!m_bMaxGauge)
         return;
-
-    if (9.f < m_fFrame_GaugeEffect)
-        m_fFrame_GaugeEffect = 0.f;
-    else if (9.f >= m_fFrame_GaugeEffect)
+  if (9.f >= m_fFrame_GaugeEffect)
         m_fFrame_GaugeEffect += 9.f * fTimeDelta;
+  if (9.f < m_fFrame_GaugeEffect)
+      m_fFrame_GaugeEffect = 0.f;
 }
 
 void CUI_NPC_ItemUpgrade::Update_Gauge_Spin(_float fTimeDelta)
 {
     if (m_bDecreaseEffect)
         return;
+   if (78.f > m_fFrame_GaugeSpin)
+        m_fFrame_GaugeSpin += 40.f * fTimeDelta;
 
     if (78.f <= m_fFrame_GaugeSpin)
         m_fFrame_GaugeSpin = 0.f;
-    else if (78.f > m_fFrame_GaugeSpin)
-        m_fFrame_GaugeSpin += 40.f * fTimeDelta;
-
 }
 
 void CUI_NPC_ItemUpgrade::Update_Max_Gauge_Effect(_float fTimeDelta)
@@ -1057,14 +1146,15 @@ void CUI_NPC_ItemUpgrade::Update_Max_Gauge_Effect(_float fTimeDelta)
         return;
     }
 
+    if (24.f >= m_fFrame_MaxGaugeEffect)
+    {
+        m_fFrame_MaxGaugeEffect += 20.f * fTimeDelta;
+    }
+
     if (24.f < m_fFrame_MaxGaugeEffect)
     {
         m_bMaxGaugeEffect = false;
         m_fFrame_MaxGaugeEffect = 0.f;
-    }
-    else if (24.f >= m_fFrame_MaxGaugeEffect)
-    {
-        m_fFrame_MaxGaugeEffect += 20.f * fTimeDelta;
     }
 }
 
@@ -1080,6 +1170,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_FACE];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_FACE];
         m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_FACE]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_FACE];
         break;
     case SELECTED_HELMET:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_HELMET])
@@ -1089,6 +1180,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_HELMET];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_HELMET];
         m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_HELMET]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_HELMET];
         break;
     case SELECTED_SHOULDER:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_SHOULDER])
@@ -1098,6 +1190,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_SHOULDER];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_SHOULDER];
         m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_SHOULDER]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_SHOULDER];
         break;
     case SELECTED_BODY:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_BODY])
@@ -1107,6 +1200,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_BODY];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_BODY];
         m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_BODY]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_BODY];
         break;
     case SELECTED_ARM:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_ARM])
@@ -1115,7 +1209,8 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_pTexture_ResultItem = m_pTexture_ItemIcon[(_uint)SELECTED_ARM];
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_ARM];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_ARM];
-        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_BODY]->Get_UpgradeGauge();
+        m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_ARM]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_ARM];
         break;
     case SELECTED_LEG:
         if (nullptr == m_pTexture_ItemIcon[(_uint)SELECTED_LEG])
@@ -1125,6 +1220,7 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_LEG];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_LEG];
         m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_LEG]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_LEG];
         break;
 
     case SELECTED_WEAPON:
@@ -1135,21 +1231,42 @@ void CUI_NPC_ItemUpgrade::Update_ItemIcon()
         m_iCurrItemGrade = m_iSidePannel_L_Wnd_TextureIndex[(_uint)SELECTED_WEAPON];
         m_strCurrItemName = m_strItemsName[(_uint)SELECTED_WEAPON];
         m_fItemGrowthCurrGauge = m_pEquips[(_uint)SELECTED_WEAPON]->Get_UpgradeGauge();
+        m_pCurrUpgradeItem = m_pEquips[(_uint)SELECTED_WEAPON];
         break;
     }
-    m_pCurrItemNameWnd->Set_Active(true);
-    Print_CurrItemNameWnd();
 
+    if (nullptr != m_pCurrUpgradeItem)
+    {
+        if (100.f > m_pCurrUpgradeItem->Get_UpgradeGauge())
+        {
+            m_fHammer_Effect_Alpha = 0.f;
+            m_bDecreaseEffect = true;
+        }
+        m_bMaxGaugeEffect = false;
+        m_fFrame = 0.f;
+        m_fFrame_GaugeEffect = 0.f;
+        m_fFrame_Smoke = 0.f;
+        m_fFrame_MaxGaugeEffect = 0.f;
+        m_fFrame_GaugeSpin = 0.f;
+        m_fFrame_ResultWaiting = 0.f;
+        m_fFrame_ResultEffect = 0.f;
+        Print_CurrItemNameWnd();
+        Print_CurrGauge();
+    }
 }
 
 void CUI_NPC_ItemUpgrade::Update_ResultWaiting(_float fTimeDelta)
 {
     if (!m_bResultWaiting)
         return; 
+    if (77.f > m_fFrame_ResultWaiting)
+        m_fFrame_ResultWaiting += 30.f * fTimeDelta;
+
     if (77.f <= m_fFrame_ResultWaiting)
     {
         m_bResult = true;
 
+        m_fFrame_ResultWaiting = 77.f;
         m_bMaxGauge = false;
         m_bMaxGaugeEffect = false;
         m_bDecreaseEffect = true;
@@ -1161,15 +1278,24 @@ void CUI_NPC_ItemUpgrade::Update_ResultWaiting(_float fTimeDelta)
         m_fFrame_GaugeSpin = 0.f;
         m_fAlpha_UpgradeButton_Effect = 0.f;
         m_fHammer_Effect_Alpha = 0.f;
+        m_pResultWnd->Set_Active(true);
+        Print_ResultWnd();
+        m_pCurrUpgradeItem->Set_UpgradeGauge(0.f);
+        Print_CurrItemNameWnd();
+        Print_CurrGauge();
     }
-    else if (77.f > m_fFrame_ResultWaiting)
-        m_fFrame_ResultWaiting += 30.f * fTimeDelta;
 }
 
 void CUI_NPC_ItemUpgrade::Update_ResultEffect(_float fTimeDelta)
 {
     if (!m_bResult)
         return;
+
+    if (22.f > m_fFrame_ResultEffect)
+    {
+        m_fFrame_ResultEffect += 30.f * fTimeDelta;
+        m_fAlpha_ResultWaiting -= 3.f * fTimeDelta;
+    }
 
     if (22.f <= m_fFrame_ResultEffect)
     {
@@ -1178,11 +1304,6 @@ void CUI_NPC_ItemUpgrade::Update_ResultEffect(_float fTimeDelta)
         m_fFrame_ResultEffect = 0.f;
         m_fFrame_ResultWaiting = 0.f;
         m_fAlpha_ResultWaiting = 1.f;
-    }
-    else
-    {
-        m_fFrame_ResultEffect += 30.f * fTimeDelta;
-        m_fAlpha_ResultWaiting -= 3.f * fTimeDelta;
     }
 }
 
@@ -1210,6 +1331,63 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_TextBox()
             Vec3((m_fX - 4.f) - g_iWinSizeX * 0.5f, -(m_fY - 140.f)+ g_iWinSizeY * 0.5f, 0.02f));
     }
 
+    if (nullptr == m_pItemNameWnd)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = TEXT("ItemUpgrade_ItemsName");
+        m_strTagItemsNameWnd = tTextDesc.szTextBoxTag;
+        tTextDesc.vSize = Vec2(450.f * 0.8f, 728.f * 0.8f);
+        m_pItemNameWnd = static_cast<CTextBox*>(pGameInstance->
+            Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+        m_pItemNameWnd->Set_Render(false);
+        if (nullptr == m_pItemNameWnd)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+        m_pItemNameWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pItemNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+            Vec3((m_fX - 366.f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.02f));
+    }
+
+    if (nullptr == m_pCurrGaugeWnd)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = TEXT("ItemUpgrade_Gauge");
+        m_strUpgradeGagueTag = tTextDesc.szTextBoxTag;
+        tTextDesc.vSize = Vec2(110.f * 0.8f, 110.f * 0.8f);
+        m_pCurrGaugeWnd = static_cast<CTextBox*>(pGameInstance->
+            Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+        m_pCurrGaugeWnd->Set_Render(false);
+        if (nullptr == m_pCurrGaugeWnd)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+        m_pCurrGaugeWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pCurrGaugeWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+            Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 55.f)) + g_iWinSizeY * 0.5f, 0.02f));
+    }
+
+    if (nullptr == m_pResultWnd)
+    {
+        CTextBox::TEXTBOXDESC tTextDesc;
+        tTextDesc.szTextBoxTag = TEXT("ResultWnd");
+        m_strResultWndTag = tTextDesc.szTextBoxTag;
+        tTextDesc.vSize = Vec2(1092.f, 581.f);
+        m_pResultWnd = static_cast<CTextBox*>(pGameInstance->
+            Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+        m_pResultWnd->Set_Render(false);
+        if (nullptr == m_pResultWnd)
+        {
+            Safe_Release(pGameInstance);
+            return E_FAIL;
+        }
+        m_pResultWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+        m_pResultWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+            Vec3(m_fX - g_iWinSizeX * 0.5f, -(g_iWinSizeY * 0.5f) + g_iWinSizeY * 0.5f, 0.01f));
+
+    }
     Safe_Release(pGameInstance);
     return S_OK;
 }
@@ -1247,9 +1425,494 @@ void CUI_NPC_ItemUpgrade::Print_CurrItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd, m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f, (98.f * 0.8f) * 0.5f), Vec2(0.8f, 0.8f), vOrigin, 0.f, vGradeColor);
-    }
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("-1"), m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f -1.f, ((98.f * 0.8f) * 0.5f) - 10.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("-2"), m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f +1.f, ((98.f * 0.8f) * 0.5f) - 10.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("-3"), m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f, ((98.f * 0.8f) * 0.5f) - 9.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("-4"), m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f, ((98.f * 0.8f) * 0.5f) - 11.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd, m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f, ((98.f * 0.8f) * 0.5f) - 10.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, vGradeColor);
 
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("_CurrLevel"), m_strFont, to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel()) +TEXT(" ´Ü°è"), Vec2((566.f * 0.8f) * 0.5f - 28.f, ((98.f * 0.8f) * 0.5f) + 12.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("_NextLevel"), m_strFont, to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel() + 1) + TEXT(" ´Ü°è"), Vec2((566.f * 0.8f) * 0.66f, ((98.f * 0.8f) * 0.5f) + 12.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.67f, 0.85f, 0.18f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_FaceItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_FACE]) && (nullptr != m_pItemNameWnd))
+    {
+        m_pItemNameWnd->Clear_Text();
+        m_pItemNameWnd->Set_Alpha(1.f);
+        m_pItemNameWnd->Get_TransformCom()->Set_Scale(Vec3(450.f * 0.8f, 728.f * 0.8f, 1.f));
+        m_pItemNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3((m_fX - 366.f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.02f));
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::FACE]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::FACE]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f -1, (30.f * 3.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f +1, (30.f * 3.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f, (30.f * 3.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f, (30.f * 3.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f, (30.f * 3.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_FaceItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::FACE]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_FACE])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_FACE]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 3.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_HelemetItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_HELMET]) && (nullptr != m_pItemNameWnd))
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::HELMET]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::HELMET]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f, (30.f * 5.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f, (30.f * 5.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_HelmetItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::HELMET]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_HELMET])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_HELMET]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 5.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_ShoulderItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_SHOULDER]) && (nullptr != m_pItemNameWnd))
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::SHOULDER]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::SHOULDER]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 7.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 7.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f, (30.f * 7.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f, (30.f * 7.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f, (30.f * 7.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_ShoulderItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::SHOULDER]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_SHOULDER])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_SHOULDER]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 7.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_BodyItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_BODY]) && (nullptr != m_pItemNameWnd))
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::BODY]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::BODY]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 9.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 9.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f, (30.f * 9.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f, (30.f * 9.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f, (30.f * 9.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_BodyItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::BODY]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_BODY])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_BODY]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 9.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_ArmItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_ARM]) && (nullptr != m_pItemNameWnd))
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::BODY]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::ARM]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 11.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 11.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f, (30.f * 11.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f, (30.f * 11.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f, (30.f * 11.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_ArmItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::ARM]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_ARM])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_ARM]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 11.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_LegItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_LEG]) && (nullptr != m_pItemNameWnd))
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::LEG]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::LEG]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f+1.f, (30.f * 13.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f-1.f, (30.f * 13.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 13.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 13.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 13.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_LegItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::LEG]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_LEG])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_LEG]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 13.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_WeaponItemNameWnd()
+{
+    if ((nullptr != m_pEquips[SELECTED_WEAPON]) && (nullptr != m_pItemNameWnd))
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::WEAPON]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec4 vGradeColor;
+        switch (m_pEquips[(_uint)CItem::PART::WEAPON]->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-1"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f + 1.f, (30.f * 15.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-2"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f - 1.f, (30.f * 15.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-3"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-4"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem"), TEXT("³Ø½¼Lv1°íµñBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_WeaponItemGradeLevelWnd()
+{
+    if (nullptr != m_pItemNameWnd)
+    {
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strItemsName[(_uint)CItem::PART::WEAPON]);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        wstring strItemGradeLevel;
+        if (nullptr != m_pEquips[SELECTED_WEAPON])
+            strItemGradeLevel = to_wstring(m_pEquips[SELECTED_WEAPON]->Get_UpgradeLevel()) + TEXT("´Ü°è");
+        else
+            strItemGradeLevel = TEXT("");
+
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponGradeLevel"), TEXT("³Ø½¼Lv1°íµñBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 15.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_CurrGauge()
+{
+    if (nullptr != m_pCurrGaugeWnd)
+    {
+        m_pCurrGaugeWnd->Clear_Text();
+        m_pCurrGaugeWnd->Set_Alpha(1.f);
+        m_pCurrGaugeWnd->Get_TransformCom()->Set_Scale(Vec3(110.f * 0.8f, 110.f * 0.8f, 0.f));
+        m_pCurrGaugeWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY - 55.f)) + g_iWinSizeY * 0.5f, 0.02f));
+
+        wstring fUpgradeGauge;
+        if (nullptr != m_pCurrUpgradeItem)
+            fUpgradeGauge = to_wstring((_uint)m_pCurrUpgradeItem->Get_UpgradeGauge()) + TEXT("%");
+        else
+            fUpgradeGauge = TEXT("");
+
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, fUpgradeGauge);
+        Vec2 vOrigin = vMeasure * 0.5f;
+
+        m_pCurrGaugeWnd->Set_Text(m_strUpgradeGagueTag + TEXT("-1"), m_strFont, fUpgradeGauge, Vec2((110.f * 0.8f) * 0.5f - 1.f, (110.f * 0.8f) * 0.5f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.73f, 0.5f, 0.26f, 1.f));
+        m_pCurrGaugeWnd->Set_Text(m_strUpgradeGagueTag + TEXT("-2"), m_strFont, fUpgradeGauge, Vec2((110.f * 0.8f) * 0.5f + 1.f, (110.f * 0.8f) * 0.5f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.73f, 0.5f, 0.26f, 1.f));
+        m_pCurrGaugeWnd->Set_Text(m_strUpgradeGagueTag + TEXT("-3"), m_strFont, fUpgradeGauge, Vec2((110.f * 0.8f) * 0.5f , (110.f * 0.8f) * 0.5f - 1.f) , Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.73f, 0.5f, 0.26f, 1.f));
+        m_pCurrGaugeWnd->Set_Text(m_strUpgradeGagueTag + TEXT("-4"), m_strFont, fUpgradeGauge, Vec2((110.f * 0.8f) * 0.5f , (110.f * 0.8f) * 0.5f + 1.f) , Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.73f, 0.5f, 0.26f, 1.f));
+        m_pCurrGaugeWnd->Set_Text(m_strUpgradeGagueTag, m_strFont, fUpgradeGauge , Vec2((110.f * 0.8f)*0.5f, (110.f * 0.8f) * 0.5f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.93f, 0.85f, 0.76f, 1.f));
+    }
+}
+
+void CUI_NPC_ItemUpgrade::Print_ResultWnd()
+{
+    if (nullptr != m_pResultWnd)
+    {
+        m_pResultWnd->Clear_Text();
+        m_pResultWnd->Set_Alpha(1.f);
+        m_pResultWnd->Get_TransformCom()->Set_Scale(Vec3(1092.f, 581.f, 0.f));
+        m_pResultWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+            Vec3(m_fX - g_iWinSizeX * 0.5f, -(g_iWinSizeY * 0.5f) + g_iWinSizeY * 0.5f, 0.01f));
+
+        wstring fUpgradeGauge;
+        wstring strGradeLevel;
+        wstring strUpgradeCheck;
+        Vec4    vResultColor;
+        if ((nullptr != m_pCurrUpgradeItem) && (m_bResultWnd))
+        {
+            fUpgradeGauge = m_pCurrUpgradeItem->Get_ItemName();
+            if (m_bResultSuccess)
+            {
+                strGradeLevel = to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel()) + TEXT("´Ü°è");
+                strUpgradeCheck = TEXT("Àç·Ã ¼º°ø");
+                vResultColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            }
+            else
+            {
+                strGradeLevel = TEXT("");
+                strUpgradeCheck = TEXT("Àç·Ã ½ÇÆÐ");
+                vResultColor = Vec4(0.69f, 0.28f, 0.27f, 1.f);
+            }
+        }
+        else
+        {
+            fUpgradeGauge = TEXT("");
+            strGradeLevel = TEXT("");
+            strUpgradeCheck = TEXT("");
+        }
+        Vec4 vGradeColor;
+        switch (m_pCurrUpgradeItem->Get_ItemGrade())
+        {
+        case (_uint)CItem::GRADE::WHITE:
+            vGradeColor = Vec4(1.f, 1.f, 1.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::GREEN:
+            vGradeColor = Vec4(0.29f, 0.85f, 0.3f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::BLUE:
+            vGradeColor = Vec4(0.29f, 0.53f, 0.85f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::PURPLE:
+            vGradeColor = Vec4(0.53f, 0.25f, 0.61f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::ORANGE:
+            vGradeColor = Vec4(0.83f, 0.49f, 0.f, 1.f);
+            break;
+        case (_uint)CItem::GRADE::RED:
+            vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
+            break;
+        }
+
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, fUpgradeGauge);
+        Vec2 vOrigin = vMeasure * 0.5f;
+        Vec2 vGradeLevelOrigin = CGameInstance::GetInstance()->MeasureString(m_strFont, strGradeLevel) * 0.5f;
+        Vec2 vResultText = CGameInstance::GetInstance()->MeasureString(m_strFont, strUpgradeCheck) * 0.5f;
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemName-1"), m_strFont, fUpgradeGauge, Vec2(1092.f * 0.5f + 1.f, (581.f * 0.5f) - 50.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemName-2"), m_strFont, fUpgradeGauge, Vec2(1092.f * 0.5f - 1.f, (581.f * 0.5f) - 50.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemName-3"), m_strFont, fUpgradeGauge, Vec2(1092.f * 0.5f, (581.f * 0.5f) - 51.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemName-4"), m_strFont, fUpgradeGauge, Vec2(1092.f * 0.5f, (581.f * 0.5f) - 49.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemName"), m_strFont, fUpgradeGauge, Vec2(1092.f * 0.5f, (581.f * 0.5f) - 50.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, vGradeColor);
+
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeLevel-1"), m_strFont, strGradeLevel, Vec2(1092.f * 0.5f+1.f, (581.f * 0.5f) - 30.f), Vec2(0.4f, 0.4f), vGradeLevelOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeLevel-2"), m_strFont, strGradeLevel, Vec2(1092.f * 0.5f-1.f, (581.f * 0.5f) - 30.f), Vec2(0.4f, 0.4f), vGradeLevelOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeLevel-3"), m_strFont, strGradeLevel, Vec2(1092.f * 0.5f, (581.f * 0.5f) - 31.f), Vec2(0.4f, 0.4f), vGradeLevelOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeLevel-4"), m_strFont, strGradeLevel, Vec2(1092.f * 0.5f, (581.f * 0.5f) - 29.f), Vec2(0.4f, 0.4f), vGradeLevelOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeLevel"), m_strFont, strGradeLevel, Vec2(1092.f * 0.5f, (581.f * 0.5f) - 30.f), Vec2(0.4f, 0.4f), vGradeLevelOrigin, 0.f, Vec4(0.29f, 0.85f, 0.3f, 1.f));
+       
+        
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeCheck-1"), m_strFont, strUpgradeCheck, Vec2(1092.f * 0.5f -1.f, (581.f * 0.5f)), Vec2(0.5f, 0.5f), vResultText, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeCheck-2"), m_strFont, strUpgradeCheck, Vec2(1092.f * 0.5f +1.f, (581.f * 0.5f)), Vec2(0.5f, 0.5f), vResultText, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeCheck-3"), m_strFont, strUpgradeCheck, Vec2(1092.f * 0.5f, (581.f * 0.5f) -1.f), Vec2(0.5f, 0.5f), vResultText, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeCheck-4"), m_strFont, strUpgradeCheck, Vec2(1092.f * 0.5f, (581.f * 0.5f) + 1.f), Vec2(0.5f, 0.5f), vResultText, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pResultWnd->Set_Text(m_strUpgradeGagueTag + TEXT("_ItemGradeCheck"), m_strFont, strUpgradeCheck, Vec2(1092.f * 0.5f, (581.f * 0.5f)), Vec2(0.5f, 0.5f), vResultText, 0.f, vResultColor);
+
+    }
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
@@ -1287,6 +1950,9 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Item_NameFrame"),
         TEXT("Com_Texture_ItemName"), (CComponent**)&m_pTexture_ItemName)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Next_Grade"),
+        TEXT("Com_Texture_NextLevelIcon"), (CComponent**)&m_pTexture_NextLevelIcon)))
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Upgrade_Ingredients_Frame"),
         TEXT("Com_Texture_Ingredients"), (CComponent**)&m_pTexture_Item_Ingredients)))
@@ -1348,6 +2014,9 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_ResultCheck_Button"),
         TEXT("Com_Texturem_ResultCheckButton"), (CComponent**)&m_pTexture_ResultCheckButton)))
         return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Item_ResultText_Effect"),
+        TEXT("Com_Texturem_ResultTextEffect"), (CComponent**)&m_pTexture_ResultTextEffect)))
+        return E_FAIL;
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
         TEXT("Com_Transform_HammerCap"), (CComponent**)&m_pTransform_HammerCap)))
@@ -1372,6 +2041,9 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
         TEXT("Com_Transform_ItemName"), (CComponent**)&m_pTransform_ItemName)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+        TEXT("Com_Transform_NextLevelIcon"), (CComponent**)&m_pTransform_NextLevelIcon)))
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
         TEXT("Com_Transform_Ingredients"), (CComponent**)&m_pTransform_Ingredients)))
@@ -1432,6 +2104,9 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
         return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
         TEXT("Com_Transform_ResultCheckButton"), (CComponent**)&m_pTransform_ResultCheckButton)))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+        TEXT("Com_Transform_ResultTextEffect"), (CComponent**)&m_pTransform_ResultTextEffect)))
         return E_FAIL;
 
     if (FAILED(Ready_Components_SidePannel_L()))
@@ -1618,15 +2293,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_HammerAura()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (!m_bDecreaseEffect)
-    {
-        if (FAILED(m_pTexture_HammerAura->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame)))
-            return E_FAIL;
-    }
-    else
-        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-            return E_FAIL;
-
+  
+        if ((m_bMaxGauge)&&(!m_bDecreaseEffect))
+        {
+            if (FAILED(m_pTexture_HammerAura->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame)))
+                return E_FAIL;
+        }
+        else
+        {
+            if(FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+                return E_FAIL;
+        }
     return S_OK;
 }
 
@@ -1642,9 +2319,14 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_HammerEffect()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-
-    if (FAILED(m_pTexture_HammerEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-        return E_FAIL;
+    if (m_bMaxGauge)
+    {
+        if (FAILED(m_pTexture_HammerEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    else
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
     return S_OK;
 }
 
@@ -1679,7 +2361,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GaugeEffect()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (m_bMaxGauge)
+    if(m_bMaxGauge)
     {
         if (FAILED(m_pTexture_GaugeEffect->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_GaugeEffect)))
             return E_FAIL;
@@ -1722,7 +2404,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GaugeSpin()
     Vec4 fColor = Vec4(2.f, 2.f, 1.f, 1.f);
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &fColor, sizeof(Vec4))))
         return E_FAIL;
-    if (!m_bDecreaseEffect)
+    if ((m_bMaxGauge)&&(!m_bDecreaseEffect))
     {
         if (FAILED(m_pTexture_GaugeSpin->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fFrame_GaugeSpin)))
             return E_FAIL;
@@ -1768,6 +2450,32 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemName()
 
     if(FAILED(m_pTexture_ItemName->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_NextLevelIcon()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_NextLevelIcon->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (nullptr != m_pCurrUpgradeItem)
+    {
+        if (FAILED(m_pTexture_NextLevelIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    else
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
@@ -2261,6 +2969,32 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultCheckButton()
     return S_OK;
 }
 
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ResultTextEffect()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_ResultTextEffect->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if ((m_bResultWnd)&&(m_bResultSuccess))
+    {
+        if (FAILED(m_pTexture_ResultTextEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    else
+    {
+        if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+            return E_FAIL;
+    }
+    return S_OK;
+    return S_OK;
+}
+
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_EquipItemWnd_Face()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_EquipItemWnd_Face->Get_WorldMatrix())))
@@ -2324,7 +3058,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Face()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::FACE)])&&(100.f <= m_pEquips[(_uint)(CItem::PART::FACE)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
@@ -2424,7 +3158,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Helemt()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::HELMET)])&& (100.f <= m_pEquips[(_uint)(CItem::PART::HELMET)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
@@ -2502,7 +3236,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Shoulder()
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
     {
         if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-        return E_FAIL;
+            return E_FAIL;
     }
     else
     {
@@ -2524,7 +3258,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Shoulder()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::SHOULDER)])&& (100.f <= m_pEquips[(_uint)(CItem::PART::SHOULDER)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
@@ -2624,7 +3358,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Body()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])&& (100.f <= m_pEquips[ (_uint)(CItem::PART::BODY)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
             return E_FAIL;
@@ -2724,7 +3458,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Arm()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::ARM)])&& (100.f <= m_pEquips[(_uint)(CItem::PART::ARM)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
             return E_FAIL;
@@ -2824,7 +3558,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Leg()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::LEG)])&& (100.f <= m_pEquips[(_uint)(CItem::PART::LEG)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
             return E_FAIL;
@@ -2924,7 +3658,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_UpgradeIcon_Weapon()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
-    if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)])
+    if ((nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::WEAPON)])&& (100.f <= m_pEquips[(_uint)(CItem::PART::WEAPON)]->Get_UpgradeGauge()))
     {
         if (FAILED(m_pTexture_UpgradeIcon->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
             return E_FAIL;
@@ -3286,9 +4020,9 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    //m_pItemNameWnd->Set_Dead(true);
+    m_pItemNameWnd->Set_Dead(true);
     m_pCurrItemNameWnd->Set_Dead(true);
-    //m_pNextGradeWnd->Set_Dead(true);
+    m_pItemNameWnd->Set_Dead(true);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTexture_None);
@@ -3299,6 +4033,7 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTexture_GaugeEffect);
     Safe_Release(m_pTexture_GrowthButton);
     Safe_Release(m_pTexture_ItemName);
+    Safe_Release(m_pTexture_NextLevelIcon);
     Safe_Release(m_pTexture_ItemGrade);
     Safe_Release(m_pTexture_Item_Ingredients);
     Safe_Release(m_pTexture_UpgradeButton);
@@ -3322,6 +4057,7 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTexture_ResultItemSlot);
     Safe_Release(m_pTexture_ResultCheckButton);
     Safe_Release(m_pTexture_ResultItem);
+    Safe_Release(m_pTexture_ResultTextEffect);
 
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pTransform_HammerCap);
@@ -3332,6 +4068,7 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTransform_GaugeEffect);
     Safe_Release(m_pTransform_GrowthButton);
     Safe_Release(m_pTransform_ItemName);
+    Safe_Release(m_pTransform_NextLevelIcon);
     Safe_Release(m_pTransform_Ingredients);
     Safe_Release(m_pTransform_UpgradeButton);
     Safe_Release(m_pTransform_ItemSlot);
@@ -3350,6 +4087,7 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTransform_ResultItemSlot);
     Safe_Release(m_pTransform_ResultItem);
     Safe_Release(m_pTransform_ResultCheckButton);
+    Safe_Release(m_pTransform_ResultTextEffect);
 
     Free_Side_Pannel_L();
     Free_Side_Pannel_R();

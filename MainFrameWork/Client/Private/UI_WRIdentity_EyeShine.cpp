@@ -75,11 +75,16 @@ void CUI_WRIdentity_EyeShine::Tick(_float fTimeDelta)
 
     if (m_bShineOn)
     {
-        if (1.2f <= m_fAlpha)
+        if ((!m_bDecreaseAlpha) && (1.2f <= m_fAlpha))
+        {
+            m_fAlpha = 1.2f;
             m_bDecreaseAlpha = true;
-        else if (0.8f >= m_fAlpha)
+        }
+        else if ((m_bDecreaseAlpha) && (0.8f >= m_fAlpha))
+        {
+            m_fAlpha = 0.8f;
             m_bDecreaseAlpha = false;
-
+        }
     }
     else
     {
