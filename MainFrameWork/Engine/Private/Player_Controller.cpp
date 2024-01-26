@@ -368,6 +368,33 @@ void CPlayer_Controller::Get_DirMessage(Vec3 vPos, _float fMoveSpeed)
 	m_fMoveSpeed = fMoveSpeed;
 }
 
+_uint CPlayer_Controller::Is_EstherSkill()
+{
+	if (m_iCurEstherGage < m_iMaxEstherGage)
+		return false;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 0;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 1;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 2;
+		return true;
+	}
+
+	return false;
+}
+
 void CPlayer_Controller::Get_LerpLookMessage(Vec3 vAt, _float fSpeed)
 {
 	if (Vec3() == vAt)

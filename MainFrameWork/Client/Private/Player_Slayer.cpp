@@ -49,6 +49,8 @@
 #include "State_WR_Dead_End.h"
 #include "State_WR_Resurrect.h"
 
+#include "State_WR_Esther.h"
+
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
 #include "State_WR_FuriousClaw_Loop.h"
@@ -89,6 +91,8 @@
 #include "Boss.h"
 #include "Item.h"
 
+#include "Esther_Way.h"
+
 CPlayer_Slayer::CPlayer_Slayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -118,6 +122,9 @@ HRESULT CPlayer_Slayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(Ready_Skill()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Esther()))
 		return E_FAIL;
 
 	if (FAILED(Ready_PhysxBoneBranch()))
@@ -743,6 +750,9 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Resurrect"), CState_WR_Resurrect::Create(TEXT("Resurrect"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Esther"), CState_WR_Esther::Create(TEXT("Esther"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -924,6 +934,22 @@ HRESULT CPlayer_Slayer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Slayer::Ready_Esther()
+{
+	CGameObject* pEsther = nullptr;
+
+	CEsther::ESTHERDESC tEstherDesc;
+	tEstherDesc.pLeaderPlayer = this;
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Way"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
 
 	return S_OK;
 }

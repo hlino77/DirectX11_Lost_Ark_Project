@@ -128,7 +128,7 @@ void CState_WR_Hit::Tick_State_Control(_float fTimeDelta)
 		}
 		else
 		{
-			m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHit) + 4;
+			m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHit) + 3;
 
 			if (m_iFallFrame >= m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHit))
 			{

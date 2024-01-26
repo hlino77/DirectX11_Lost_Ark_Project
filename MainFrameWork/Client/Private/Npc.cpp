@@ -152,13 +152,6 @@ void CNpc::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
-	for (auto& pPart : m_pWeaponPart)
-	{
-		if (nullptr == pPart) continue;
-
-		pPart->LateTick(fTimeDelta);
-	}
-
 	//m_pRigidBody->Tick(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)

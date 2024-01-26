@@ -5,6 +5,8 @@
 
 BEGIN(Client)
 
+class CEsther;
+
 class CController_WR final : public CPlayer_Controller
 {
 public:
@@ -57,7 +59,10 @@ private:
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
+
 	void			UpdateIdentityAuraPivot();
+	virtual void	EstherSkill() override;
+
 
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];

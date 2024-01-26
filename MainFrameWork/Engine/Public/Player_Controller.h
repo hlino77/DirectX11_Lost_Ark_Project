@@ -48,6 +48,7 @@ public:
 	_bool				Is_Interect();
 	_bool				Is_Dash();
 	_bool				Is_Attack();
+	_uint				Is_EstherSkill();
 
 	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f);  
 	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f); 
@@ -81,6 +82,9 @@ public:
 	virtual void		Get_DeadEndMessage() { m_IsDead = false; }
 
 	virtual void		Get_CheckLengthMessage(_float fCheckLength, CGameObject* pOther);
+
+	virtual void		Get_EstherGageAddMessage(_uint iGage) { m_iCurEstherGage += iGage; }
+	virtual void		Get_EstherMessage() { EstherSkill(); }
 
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
@@ -123,6 +127,8 @@ public:
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
 
+	void					Set_Esther(CGameObject* pEsther) { m_vecEsther.push_back(pEsther); }
+
 public:
 	/* 언젠가는 쓰겠지 */
 	_bool					Pick(_uint screenX, _uint screenY, Vec3 & pickPos, _float & distance);
@@ -148,6 +154,8 @@ protected:
 	virtual void			Shock();
 	virtual void			Stun();
 	virtual void			Silence();
+
+	virtual void			EstherSkill() {};
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -197,6 +205,12 @@ protected:
 	SKILL_KEY				m_eSelectedSkill = { SKILL_KEY::_END };
 
 	PROJECTILE_DESC			m_AttackDesc;
+
+	/* 에스더 스킬 */
+	_uint					m_iEstherType;
+	_uint					m_iMaxEstherGage = { 100 };
+	_uint					m_iCurEstherGage = { 100 };
+	vector<CGameObject*>	m_vecEsther;
 
 	/* 쿨 타임 */
 	_float					m_fCoolDownAcc[SKILL_KEY::_END];

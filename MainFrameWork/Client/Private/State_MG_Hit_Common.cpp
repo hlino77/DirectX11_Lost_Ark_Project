@@ -79,7 +79,7 @@ void CState_MG_Hit_Common::Exit_State()
 void CState_MG_Hit_Common::Tick_State_Control(_float fTimeDelta)
 {
 	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
-		2 == m_pPlayer->Get_ValtanPhase())
+		2 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}

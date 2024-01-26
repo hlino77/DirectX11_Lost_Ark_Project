@@ -74,6 +74,16 @@ void CState_WR_Idle::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
+	else if (true == m_pController->Is_EstherSkill())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
+		m_pPlayer->Set_State(TEXT("Esther"));
+	}
 	else if (true == static_cast<CController_WR*>(m_pController)->Is_Identity())
 	{
 		if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
