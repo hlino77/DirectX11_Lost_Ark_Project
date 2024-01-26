@@ -44,6 +44,7 @@ void CState_WR_Identity::Tick_State(_float fTimeDelta)
 
 void CState_WR_Identity::Exit_State()
 {
+	
 }
 
 void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
@@ -52,11 +53,22 @@ void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 	{
 		m_bEffect = true;
 
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
 		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 100.f, 0.2f, 10.0f);
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
 
 		EFFECT_START(TEXT("Slayer_Rage"), &desc)
+	
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
+
+
+		auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
+		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;
+
+		m_pPlayer->Add_Effect(L"Slayer_Rage_Aura", m_Effects[0]);
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity))

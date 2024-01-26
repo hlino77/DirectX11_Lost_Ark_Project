@@ -635,7 +635,7 @@ HRESULT CRenderer::Render_MakeSRV()
 
 HRESULT CRenderer::Render_Priority()
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Priority"), m_pShadowDSV)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Priority"))))
 		return E_FAIL;
 
 	for (auto& iter : m_RenderObjects[RENDER_PRIORITY])

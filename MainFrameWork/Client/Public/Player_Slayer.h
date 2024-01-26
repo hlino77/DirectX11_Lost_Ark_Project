@@ -51,7 +51,6 @@ private:
 private:
 	HRESULT			Ready_SkillUI();
 
-
 private:
 	_float					m_fSendInfoTime = 0.0f;
 

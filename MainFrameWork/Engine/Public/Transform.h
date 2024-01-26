@@ -25,6 +25,7 @@ public:
 	virtual Vec3 Get_State(const STATE& eState) PURE;
 
 	virtual Matrix& Get_WorldMatrix() PURE;
+	virtual void	Load_WorldMatrix(Matrix& matWorld) PURE;
 	virtual Matrix Get_WorldMatrix_TP() PURE;
 	virtual Matrix Get_WorldMatrixInverse() PURE;
 

@@ -31,6 +31,7 @@ private:
 
 	_uint m_iAttackCnt = 0;
 	vector<_int> m_AttackFrames;
+	_bool m_EffectStart[7] = { false };
 
 public:
 	static CState_WR_Iden_Skill* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);

@@ -112,7 +112,7 @@ CGameObject* CObject_Manager::Clone_GameObject(const wstring& strPrototypeTag, v
 	return pGameObject;
 }
 
-CGameObject* CObject_Manager::Find_GameObject(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag)
+CGameObject* CObject_Manager::Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, const wstring& strObjectTag)
 {
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
@@ -126,7 +126,7 @@ CGameObject* CObject_Manager::Find_GameObject(_uint iLevelIndex, const _uint iLa
 	return pObj;
 }
 
-CGameObject* CObject_Manager::Find_GameObject(_uint iLevelIndex, const _uint iLayerType, _int iObjectID)
+CGameObject* CObject_Manager::Find_GameObejct(_uint iLevelIndex, const _uint iLayerType, _int iObjectID)
 {
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
@@ -145,7 +145,7 @@ vector<CGameObject*>& CObject_Manager::Find_GameObjects(_uint iLevelIndex, const
 	CLayer* pLayer = Find_Layer(iLevelIndex, iLayerType);
 	if (nullptr == pLayer)
 	{
-		MSG_BOX("Find_GameObjects Failed.");
+		MSG_BOX("Find_GameObejcts Failed.");
 		
 		(nullptr);
 	}
@@ -199,16 +199,46 @@ HRESULT CObject_Manager::Delete_GameObject(_uint iLevelIndex, const _uint iLayer
 	if (nullptr == pLayer)
 		return E_FAIL;
 
+
 	return pLayer->Delete_GameObject(pGameObject);
 }
 
 void CObject_Manager::Tick(_float fTimeDelta)
 {
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_1))
+		m_k[0] = !m_k[0];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_2))
+		m_k[1] = !m_k[1];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_3))
+		m_k[2] = !m_k[2];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_4))
+		m_k[3] = !m_k[3];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_5))
+		m_k[4] = !m_k[4];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_6))
+		m_k[5] = !m_k[5];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_7))
+		m_k[6] = !m_k[6];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_8))
+		m_k[7] = !m_k[7];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::NUM_9))
+		m_k[8] = !m_k[8];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::Q))
+		m_k[9] = !m_k[9];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::W))
+		m_k[10] = !m_k[10];
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::E))
+		m_k[11] = !m_k[11];
+
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
-		for (auto& pLayer : m_pLayers[i])
+		//for (auto& pLayer : m_pLayers[i])
+		for (_int j = 0; j < m_pLayers->size(); ++j)
 		{
-			pLayer->Tick(fTimeDelta);
+			if (m_k[j])
+				continue;
+			m_pLayers[i][j]->Tick(fTimeDelta);
+			//pLayer->Tick(fTimeDelta);
 		}
 	}
 
@@ -218,9 +248,17 @@ void CObject_Manager::LateTick(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
-		for (auto& pLayer : m_pLayers[i])
+		/*for (auto& pLayer : m_pLayers[i])
 		{
-			pLayer->LateTick(fTimeDelta);			
+			pLayer->LateTick(fTimeDelta);
+			
+		}*/
+		for (_int j = 0; j < m_pLayers->size(); ++j)
+		{
+			if (m_k[j])
+				continue;
+			m_pLayers[i][j]->LateTick(fTimeDelta);
+			//pLayer->Tick(fTimeDelta);
 		}
 	}
 }
