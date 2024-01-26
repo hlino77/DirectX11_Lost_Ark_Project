@@ -659,6 +659,7 @@ void CPlayer_Controller::StatusEffect_Duration(const _float& fTimeDelta)
 		{
 			m_bStatusEffect[i] = false;
 			m_fStatusDuration[i] = -1.f;
+			m_iStatusEffect = (_uint)STATUSEFFECT::_END;
 
 			switch (i)
 			{

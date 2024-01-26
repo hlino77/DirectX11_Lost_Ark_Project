@@ -78,7 +78,7 @@ HRESULT CIT_WR_Helmet_Legend::Use_Item(CPlayer* pOwner)
 			pOwner->Set_ModelPart(i, nullptr);
 		}
 	}
-
+	Set_EquipWearing(true);
 	return S_OK;
 }
 
@@ -86,7 +86,7 @@ HRESULT CIT_WR_Helmet_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
-
+	Set_EquipWearing(false);
 	CPlayer::STATDESC tPcStat = pOwner->Get_PlayerStat_Desc();
 
 	tPcStat.iMaxHp -= m_tStatChangeDesc.iHp;

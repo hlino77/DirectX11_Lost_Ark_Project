@@ -27,6 +27,7 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_Host(CGameObject* pObject) { m_pHost = pObject; }
     HRESULT Active_SpeechBuble(wstring szChat);
+    void    DeActive_SpeechBubble();
 
 private:
     virtual HRESULT Ready_Components();

@@ -142,7 +142,7 @@ HRESULT CUI_SkillIcon_Frame::Render()
         }
         m_pTextureCom_Skill->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
 
-        m_pShaderCom->Begin(8);
+        m_pShaderCom->Begin(19);
         m_pVIBufferCom->Render();
     }
 
@@ -179,6 +179,7 @@ void CUI_SkillIcon_Frame::Get_Player_BindingSkill()
         Get_Player_WDR(pPlayer, pTexture);
     else if (nullptr != pPlayer && L"MG" == pPlayer->Get_ObjectTag())
         Get_Player_MG(pPlayer, pTexture);
+
 }
 
 void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
@@ -218,6 +219,10 @@ void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
             _pTexture = (m_pSkill->Get_Skill_Texture());
             m_fCoolMaxTime = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             m_fCurrCool = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            if ((_uint)CPlayer_Controller::STATUSEFFECT::SILENCE == static_cast<CPlayer_Gunslinger*>(_pPlayer)->Get_GN_Controller()->Get_CurStatus())
+                m_bSilence = true;
+            else
+                m_bSilence = false;
             Safe_AddRef(_pTexture);
             if (nullptr != _pTexture)
             {
@@ -245,6 +250,10 @@ void CUI_SkillIcon_Frame::Get_Player_WR(CPlayer* _pPlayer, CTexture* _pTexture)
             _pTexture = (m_pSkill->Get_Skill_Texture());
             m_fCoolMaxTime = static_cast<CController_WR*>(static_cast<CPlayer_Slayer*>(_pPlayer)->Get_WR_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             m_fCurrCool = static_cast<CController_WR*>(static_cast<CPlayer_Slayer*>(_pPlayer)->Get_WR_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            if ((_uint)CPlayer_Controller::STATUSEFFECT::SILENCE == static_cast<CPlayer_Slayer*>(_pPlayer)->Get_WR_Controller()->Get_CurStatus())
+                m_bSilence = true;
+            else
+                m_bSilence = false;
             Safe_AddRef(_pTexture);
             if (nullptr != _pTexture)
             {
@@ -272,6 +281,10 @@ void CUI_SkillIcon_Frame::Get_Player_WDR(CPlayer* _pPlayer, CTexture* _pTexture)
             _pTexture = (m_pSkill->Get_Skill_Texture());
             m_fCoolMaxTime = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            if ((_uint)CPlayer_Controller::STATUSEFFECT::SILENCE == static_cast<CPlayer_Destroyer*>(_pPlayer)->Get_WDR_Controller()->Get_CurStatus())
+                m_bSilence = true;
+            else
+                m_bSilence = false;
             Safe_AddRef(_pTexture);
             if (nullptr != _pTexture)
             {
@@ -299,6 +312,10 @@ void CUI_SkillIcon_Frame::Get_Player_MG(CPlayer* _pPlayer, CTexture* _pTexture)
             _pTexture = (m_pSkill->Get_Skill_Texture());
             m_fCoolMaxTime = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             m_fCurrCool = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            if ((_uint)CPlayer_Controller::STATUSEFFECT::SILENCE == static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller()->Get_CurStatus())
+                m_bSilence = true;
+            else
+                m_bSilence = false;
             Safe_AddRef(_pTexture);
             if (nullptr != _pTexture)
             {
@@ -310,7 +327,7 @@ void CUI_SkillIcon_Frame::Get_Player_MG(CPlayer* _pPlayer, CTexture* _pTexture)
         else
         {
             m_bHaveSkill = false;
-            Safe_Release(m_pTextureCom_Skill); //m_pTextureCom_Skill = nullptr;
+            Safe_Release(m_pTextureCom_Skill);
         }
     }
 }
@@ -405,6 +422,9 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Skill()
         return E_FAIL;
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Silence", &m_bSilence, sizeof(_bool))))
         return E_FAIL;
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fCoolAngle, sizeof(_float))))

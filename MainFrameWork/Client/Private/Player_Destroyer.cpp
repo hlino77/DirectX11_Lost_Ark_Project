@@ -829,6 +829,13 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
+	/*pItem = static_cast<CItem*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("Prototype_GameObject_TestItem")));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);*/
+
 	return S_OK;
 }
 

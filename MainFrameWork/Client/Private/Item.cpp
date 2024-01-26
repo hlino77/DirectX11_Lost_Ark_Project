@@ -45,6 +45,15 @@ void CItem::Upgrade_Item()
 {
 }
 
+void CItem::Add_UpgradeGauge(_float fGauge)
+{
+	if (100.f >= fGauge)
+		m_fUpgradeGauge += fGauge;
+	
+	if (100.f < m_fUpgradeGauge)
+		m_fUpgradeGauge = 100.f;
+}
+
 HRESULT CItem::Ready_Components()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);

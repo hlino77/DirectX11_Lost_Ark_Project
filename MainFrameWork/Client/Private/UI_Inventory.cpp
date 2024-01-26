@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "UI_Inventory.h"
 #include "GameInstance.h"
+#include "UI_InventoryWnd.h"
+#include "UI_Inventory_ItemSlot.h"
 #include "Player.h"
+#include "Item.h"
 
 CUI_Inventory::CUI_Inventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -25,82 +28,156 @@ HRESULT CUI_Inventory::Initialize_Prototype()
 
 HRESULT CUI_Inventory::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-	m_strUITag = TEXT("UI_Inventory");
-
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
+	
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CPlayer*>(pArg);
+		if (nullptr == m_pOwner)
+			return E_FAIL;
 	}
+	else 
+	{
+		m_pOwner = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+		if (nullptr == m_pOwner)
+			return E_FAIL;
+	}
+
+	if (FAILED(UI_SET()))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 void CUI_Inventory::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
+	if (KEY_TAP(KEY::I))
+	{
+		Update_Used_Item();
+		m_bTestActiveKey = !m_bTestActiveKey;
 
+		for (auto& iter : m_vecUIParts)
+		{
+			iter->Set_Active(m_bTestActiveKey);
+		}
+	}
 }
 
 void CUI_Inventory::LateTick(_float fTimeDelta)
 {
-	__super::LateTick(fTimeDelta);
+	if(m_bActive)
+		Move_InventoryWNd();
 }
 
 HRESULT CUI_Inventory::Render()
 {
-	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
-	m_pShaderCom->Begin(0);
-	m_pVIBufferCom->Render();
 	return S_OK;
 }
 
-void CUI_Inventory::Set_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems)
+void CUI_Inventory::Update_Used_Item()
 {
-	m_mapPlayerItems = mapPlayerItems;
-
-
-}
-
-void CUI_Inventory::Update_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems)
-{
-	for (auto& Pair : mapPlayerItems)
+	for (auto& iter : m_vecUIParts)
 	{
-		Pair.first;
-		for (auto& iter : Pair.second)
-		{
-
-		}
+		if (TEXT("UI_InventoryWnd") == iter->Get_UITag())
+			continue;
+		static_cast<CUI_Inventory_ItemSlot*>(iter)->Clear_ItemSlot();
 	}
 
+	auto& iter = m_vecUIParts.begin();
+	++iter;
+	for (auto& Pair : m_pOwner->Get_Items())
+	{
+		(*iter);
+		if (Pair.second.front()->Get_EquipWearing())
+			continue;
 
+		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(Pair.second);
+		++iter;
+	}
+}
+
+void CUI_Inventory::Move_InventoryWNd()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	_uint ViewPortIndex = 1;
+	CD3D11_VIEWPORT ViewPort;
+
+	m_pContext->RSGetViewports(&ViewPortIndex, &ViewPort);
+
+	static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->Move_InventoryWnd(pt);
+	_float fX = m_pInventoryWnd->Get_UIDesc().fX - (m_pInventoryWnd->Get_UIDesc().fSizeX * 0.5f) + 40.f;
+	_float fY = m_pInventoryWnd->Get_UIDesc().fY - (m_pInventoryWnd->Get_UIDesc().fSizeY * 0.5f - 70.f);
+	for (auto& iter : m_vecUIParts)
+	{
+		if(TEXT("UI_InventoryWnd") != iter->Get_UITag())
+			static_cast<CUI_Inventory_ItemSlot*>(iter)->Following_InventortWnd(fX, fY);
+	}
 }
 
 HRESULT CUI_Inventory::Ready_Components()
 {
-	if (FAILED(__super::Ready_Components()))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_InventoryWnd"),
-		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-
 	return S_OK;
 }
 
-HRESULT CUI_Inventory::Bind_ShaderResources()
+HRESULT CUI_Inventory::UI_SET()
 {
-	__super::Bind_ShaderResources();
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
-		return E_FAIL;
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
 
+	m_pInventoryWnd = static_cast<CUI*>(pGameInstance->
+		Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_InventoryWnd")));
+
+	if (nullptr == m_pInventoryWnd)
+		return E_FAIL;
+	else
+		m_vecUIParts.push_back(m_pInventoryWnd);
+
+	INVEN_ITEMDESC* pInvenDesc;
+	ZeroMemory(&pInvenDesc, sizeof(INVEN_ITEMDESC*));
+	pInvenDesc = new INVEN_ITEMDESC;
+	pInvenDesc->pUIWnd = m_pInventoryWnd;
+	pInvenDesc->pPlayer = m_pOwner;
+	pInvenDesc->mapItems = m_pOwner->Get_Items();
+	pInvenDesc->fX = m_pInventoryWnd->Get_UIDesc().fX - (m_pInventoryWnd->Get_UIDesc().fSizeX * 0.5f) + 40.f;
+	pInvenDesc->fY = m_pInventoryWnd->Get_UIDesc().fY - (m_pInventoryWnd->Get_UIDesc().fSizeY * 0.5f - 70.f);
+	_uint iXIndex = 0;
+	_uint iYIndex = 0;
+	CUI* pUI = { nullptr };
+
+	for (size_t i = 0; i < 7; i++)
+	{
+		for (size_t j = 0; j < 7; j++)
+		{
+			pInvenDesc->iSlotIndexX = j;
+			pInvenDesc->iSlotIndexY = i;
+
+			pUI = static_cast<CUI*>(pGameInstance->
+				Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory_ItemSlot"),
+					pInvenDesc));
+
+			if (nullptr == pUI)
+				return E_FAIL;
+			else
+				m_vecUIParts.push_back(pUI);
+			pUI->Set_Active(false);
+		}
+	}
+
+	auto & iter = m_vecUIParts.begin();
+	++iter;
+	for (auto & Pair: m_pOwner->Get_Items())
+	{
+		if (Pair.second.front()->Get_EquipWearing())
+			continue;
+		
+		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(Pair.second);
+		++iter;
+	}
+	
+	delete(pInvenDesc);
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
@@ -110,7 +187,7 @@ CUI_Inventory* CUI_Inventory::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CUI_Inventory");
+		MSG_BOX("Failed To Created : CUI_Inventory");
 		Safe_Release(pInstance);
 	}
 
@@ -123,7 +200,7 @@ CGameObject* CUI_Inventory::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CUI_Inventory");
+		MSG_BOX("Failed To Cloned : CUI_Inventory");
 		Safe_Release(pInstance);
 	}
 
@@ -133,12 +210,4 @@ CGameObject* CUI_Inventory::Clone(void* pArg)
 void CUI_Inventory::Free()
 {
 	__super::Free();
-	Safe_Release(m_pDevice);
-	Safe_Release(m_pContext);
-
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

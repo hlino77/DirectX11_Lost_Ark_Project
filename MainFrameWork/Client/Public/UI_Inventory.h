@@ -2,12 +2,25 @@
 #include "UI.h"
 
 BEGIN(Client)
-class CItem;
 class CPlayer;
+class CItem;
+class CUI_InventoryWnd;
+class CUI_Inventory_ItemSlot;
 
 class CUI_Inventory :
     public CUI
 {
+public:
+    typedef struct Inventory_Item_Desc:public UIDESC
+    {
+        _uint   iSlotIndexX;
+        _uint   iSlotIndexY;
+        CUI* pUIWnd;
+        class CPlayer* pPlayer;
+        unordered_map<wstring, vector<class CItem*>> mapItems;
+        vector<class CItem*>    vecItems;
+    }INVEN_ITEMDESC;
+
 private:
     CUI_Inventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     CUI_Inventory(const CUI& rhs);
@@ -22,18 +35,18 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Set_InventoryOwner(CPlayer* pPlayer) { if(pPlayer != nullptr)m_pOwner = pPlayer; }
-    void    Set_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems);
-    void    Update_PlayerItems(unordered_map<wstring, vector<class CItem*>> mapPlayerItems);
+    void    Update_Used_Item();
+    void    Move_InventoryWNd();
 
 private:
     virtual HRESULT Ready_Components();
-    virtual HRESULT Bind_ShaderResources();
+    HRESULT UI_SET();
 
 private:
     CPlayer* m_pOwner = { nullptr };
     unordered_map<wstring, vector<class CItem*>>    m_mapPlayerItems;
-
+    CUI* m_pInventoryWnd = { nullptr };
+    _bool   m_bTestActiveKey = { false };
 public:
     static  CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

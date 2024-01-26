@@ -23,6 +23,7 @@
 #include "UI_Manager.h"
 #include "UI_SpeechBubble.h"
 #include "UI_InGame_NamePlate.h"
+#include "UI_Inventory.h"
 #include "Effect.h"
 
 #include "Item.h"
@@ -75,6 +76,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 	
 	if (FAILED(Ready_NamePlate()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Inventory()))
 		return E_FAIL;
 
 	m_pRigidBody->Set_Gravity(false);
@@ -432,6 +436,11 @@ HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 		iter->second.push_back(pItem);
 	}
 
+	if (nullptr != m_pUI_Inventory)
+	{
+		m_pUI_Inventory->Update_Used_Item();
+	}
+
 	return S_OK;
 }
 
@@ -459,7 +468,10 @@ HRESULT CPlayer::Use_Item(wstring strItemTag)
 			}
 		}
 	}
-
+	if (nullptr != m_pUI_Inventory)
+	{
+		m_pUI_Inventory->Update_Used_Item();
+	}
 	return S_OK;
 }
 
@@ -609,6 +621,20 @@ HRESULT CPlayer::Ready_NamePlate()
 
 	Safe_Release(pGameInstance);
 
+	return S_OK;
+}
+
+HRESULT CPlayer::Ready_Inventory()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance); 
+
+	m_pUI_Inventory = static_cast<CUI_Inventory*>(pGameInstance->
+		Add_GameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory"),this));
+	if (nullptr == m_pUI_Inventory)
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

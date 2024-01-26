@@ -251,6 +251,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\Item.h" />
+    <ClInclude Include="..\Public\Item_TestItem.h" />
     <ClInclude Include="..\Public\IT_GN_Body_Legend.h" />
     <ClInclude Include="..\Public\IT_GN_Body_Mococo.h" />
     <ClInclude Include="..\Public\IT_GN_Helmet_Legend.h" />
@@ -621,6 +622,8 @@
     <ClInclude Include="..\Public\UI_IdentityGN_WF_Front.h" />
     <ClInclude Include="..\Public\UI_InGame_NamePlate.h" />
     <ClInclude Include="..\Public\UI_Inventory.h" />
+    <ClInclude Include="..\Public\UI_InventoryWnd.h" />
+    <ClInclude Include="..\Public\UI_Inventory_ItemSlot.h" />
     <ClInclude Include="..\Public\UI_ItemIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_Loading.h" />
     <ClInclude Include="..\Public\UI_LoadingArrow.h" />
@@ -809,6 +812,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp" />
     <ClCompile Include="..\Private\Item.cpp" />
+    <ClCompile Include="..\Private\Item_TestItem.cpp" />
     <ClCompile Include="..\Private\IT_GN_Body_Legend.cpp" />
     <ClCompile Include="..\Private\IT_GN_Body_Mococo.cpp" />
     <ClCompile Include="..\Private\IT_GN_Helmet_Legend.cpp" />
@@ -1185,6 +1189,8 @@
     <ClCompile Include="..\Private\UI_IdentityGN_WF_Front.cpp" />
     <ClCompile Include="..\Private\UI_InGame_NamePlate.cpp" />
     <ClCompile Include="..\Private\UI_Inventory.cpp" />
+    <ClCompile Include="..\Private\UI_InventoryWnd.cpp" />
+    <ClCompile Include="..\Private\UI_Inventory_ItemSlot.cpp" />
     <ClCompile Include="..\Private\UI_ItemIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_Loading.cpp" />
     <ClCompile Include="..\Private\UI_LoadingArrow.cpp" />

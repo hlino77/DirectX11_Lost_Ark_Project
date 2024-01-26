@@ -1369,6 +1369,15 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
       <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Item\Consume\TestItem">
+      <UniqueIdentifier>{972a4c94-38bf-4676-9b76-76919e65077c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory\01.ItemSlot">
+      <UniqueIdentifier>{5a43f205-2019-4763-94f9-8703d7838ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory\00.Wnd">
+      <UniqueIdentifier>{53b8c77f-90c5-4f16-85ba-bf01060a4d01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4133,9 +4142,6 @@
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Inventory.h">
-      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\State_WR_Fall.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Fall</Filter>
     </ClInclude>
@@ -4153,6 +4159,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_WR_Dead_Start.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_ItemSlot.h">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory\01.ItemSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_TestItem.h">
+      <Filter>02.GameObjects\Item\Consume\TestItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_InventoryWnd.h">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory.h">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -6894,9 +6912,6 @@
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp">
       <Filter>02.GameObjects\UI\16.Npc\01.Item_Upgrade</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Inventory.cpp">
-      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\State_WR_Fall.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Fall</Filter>
     </ClCompile>
@@ -6914,6 +6929,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_ItemSlot.cpp">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory\01.ItemSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_TestItem.cpp">
+      <Filter>02.GameObjects\Item\Consume\TestItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_InventoryWnd.cpp">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory.cpp">
+      <Filter>02.GameObjects\UI\12.Inventory\00.Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -43,19 +43,19 @@ public:
 private:
     void    Update_Items();
     void    Update_Button(_float fTimeDelta);
-    void    Upadate_GrowthButton(POINT pt);
+    void    Upadate_GrowthButton(POINT pt, _float fTimeDelta);
     void    Update_UpgradeButton(POINT pt, _float fTimeDelta);
     void    Update_QuitButton(POINT pt);
     void    Update_ResultCheckButton(POINT pt);
     void    Create_Rect_GrowthButton();
-    void   Is_Picking_GrowthButton(POINT pt);
+    void   Is_Picking_GrowthButton(POINT pt, _float fTimeDelta);
     void    Create_Rect_UpgradeButton();
     void   Is_Picking_UpgradeButton(POINT pt);
     void    Create_Rect_QuitButton();
     void   Is_Picking_QuitButton(POINT pt);
 
 private:
-    void    Update_Items(POINT pt);
+    void    LateTcik_Items(POINT pt);
     void    Create_Rect_FaceItem();
     void   Is_Picking_FaceItem(POINT pt);
     void    Create_Rect_HelemtItem();
@@ -88,6 +88,22 @@ private:
 private:
     HRESULT Ready_TextBox();
     void    Print_CurrItemNameWnd();    
+    void    Print_FaceItemNameWnd();
+    void    Print_FaceItemGradeLevelWnd();
+    void    Print_HelemetItemNameWnd();
+    void    Print_HelmetItemGradeLevelWnd();
+    void    Print_ShoulderItemNameWnd();
+    void    Print_ShoulderItemGradeLevelWnd();
+    void    Print_BodyItemNameWnd();
+    void    Print_BodyItemGradeLevelWnd();
+    void    Print_ArmItemNameWnd();
+    void    Print_ArmItemGradeLevelWnd();
+    void    Print_LegItemNameWnd();
+    void    Print_LegItemGradeLevelWnd();
+    void    Print_WeaponItemNameWnd();
+    void    Print_WeaponItemGradeLevelWnd();
+    void    Print_CurrGauge();
+    void    Print_ResultWnd();
 
 private:
     virtual HRESULT Ready_Components();
@@ -103,6 +119,7 @@ private:
     HRESULT Bind_ShaderResources_GaugeSpin();
     HRESULT Bind_ShaderResources_GrowthButton();
     HRESULT Bind_ShaderResources_ItemName();
+    HRESULT Bind_ShaderResources_NextLevelIcon();
     HRESULT Bind_ShaderResources_Ingredients();
     HRESULT Bind_ShaderResources_UpgradeButton();
     HRESULT Bind_ShaderResources_UpgradeButtonEffect();
@@ -126,6 +143,7 @@ private:
     HRESULT Bind_ShaderResources_ResultItemGrade();
     HRESULT Bind_ShaderResources_ResultItemIcon();
     HRESULT Bind_ShaderResources_ResultCheckButton();
+    HRESULT Bind_ShaderResources_ResultTextEffect();
 
 private:
     HRESULT Bind_ShaderResources_SidePannel_L();
@@ -173,12 +191,12 @@ private:
     CTexture* m_pTexture_HammerCap = { nullptr };
     CTexture* m_pTexture_HammerEffect = { nullptr };
     CTexture* m_pTexture_Gauge = { nullptr };
-    CTexture* m_pTexture_GaugeAura = { nullptr };
     CTexture* m_pTexture_GaugeSmoke = { nullptr };
     CTexture* m_pTexture_GaugeEffect = { nullptr };
     CTexture* m_pTexture_GaugeSpin = { nullptr };
     CTexture* m_pTexture_GrowthButton = { nullptr };
     CTexture* m_pTexture_ItemName = { nullptr };
+    CTexture* m_pTexture_NextLevelIcon = { nullptr };
     CTexture* m_pTexture_Item_Ingredients = { nullptr };
     CTexture* m_pTexture_UpgradeButton = { nullptr };
     CTexture* m_pTexture_UpgradeButton_Effect = { nullptr };
@@ -215,6 +233,7 @@ private:
     CTexture* m_pTexture_ResultItemSlot = { nullptr };
     CTexture* m_pTexture_ResultItem = { nullptr };
     CTexture* m_pTexture_ResultCheckButton = { nullptr };
+    CTexture* m_pTexture_ResultTextEffect = { nullptr };
     //CTexture* m_pTexture_ = { nullptr };
 
     //BaseWnd_Transform
@@ -226,6 +245,7 @@ private:
     CTransform* m_pTransform_GaugeEffect = { nullptr };
     CTransform* m_pTransform_GrowthButton = { nullptr };
     CTransform* m_pTransform_ItemName = { nullptr };
+    CTransform* m_pTransform_NextLevelIcon = { nullptr };
     CTransform* m_pTransform_Ingredients = { nullptr };
     CTransform* m_pTransform_UpgradeButton = { nullptr };
     CTransform* m_pTransform_ItemSlot = { nullptr };
@@ -284,7 +304,7 @@ private:
     CTransform* m_pTransform_ResultItemSlot = { nullptr };
     CTransform* m_pTransform_ResultItem = { nullptr };
     CTransform* m_pTransform_ResultCheckButton = { nullptr };
-
+    CTransform* m_pTransform_ResultTextEffect = { nullptr };
     //CTransform* m_pTransform_ = { nullptr };
 
     _float  m_fFrame = { 0.f };
@@ -336,7 +356,7 @@ private:
     _bool   m_bResultWnd = { false };
     _bool   m_bResultSuccess = {false};
 
-    _bool   m_bTestGaugeOn = { false };//Test
+    _bool   m_bGrowthOn = { false };//Test
     _bool   m_bMaxGaugeEffect = { false };
 
     Vec4    m_vColorFaceItem = Vec4(1.f, 1.f, 1.f, 1.f);
@@ -347,10 +367,14 @@ private:
     Vec4    m_vColorLegItem = Vec4(1.f, 1.f, 1.f, 1.f);
     Vec4    m_vColorWeaponItem = Vec4(1.f, 1.f, 1.f, 1.f);
 
-    CTextBox* m_pItemNameWnd = { nullptr };
-    CTextBox* m_pCurrItemNameWnd = { nullptr };
-    CTextBox* m_pNextGradeWnd = { nullptr };
+    CTextBox*   m_pItemNameWnd = { nullptr };
+    CTextBox*   m_pCurrItemNameWnd = { nullptr };
+    CTextBox*   m_pCurrGaugeWnd = { nullptr };
+    CTextBox*   m_pResultWnd = { nullptr };
+    wstring     m_strTagItemsNameWnd;
     wstring     m_strTagNameWnd;
+    wstring     m_strUpgradeGagueTag;
+    wstring     m_strResultWndTag;
     wstring     m_strFont;
     wstring     m_strItemsName[SELECTED_END];
     wstring   m_strCurrItemName = TEXT("환상의 모코코 헤드");

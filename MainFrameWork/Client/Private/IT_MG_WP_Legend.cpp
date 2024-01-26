@@ -23,6 +23,7 @@ HRESULT CIT_MG_WP_Legend::Initialize(void* pArg)
 
 	m_iItemGrade = (_uint)GRADE::RED;
 	m_iItemType = (_uint)TYPE::EQUIP;
+	m_iEquipType = (_uint)PART::WEAPON;
 
 	m_strObjectTag = TEXT("IT_MG_WP_Legend");
 	m_strItemName = TEXT("전설의 하프");
@@ -63,6 +64,7 @@ HRESULT CIT_MG_WP_Legend::Use_Item(CPlayer* pOwner)
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(m_pModelCom);
 	pOwner->Set_EquipItem((_uint)PART::WEAPON, this);
 
+	Set_EquipWearing(true);
 	return S_OK;
 }
 
@@ -70,7 +72,7 @@ HRESULT CIT_MG_WP_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 {
 	if (nullptr == pOwner)
 		return E_FAIL;
-
+	Set_EquipWearing(false);
 	CPlayer::STATDESC tPcStat = pOwner->Get_PlayerStat_Desc();
 
 	tPcStat.iAtkPower -= m_tStatChangeDesc.iAtkPower;
