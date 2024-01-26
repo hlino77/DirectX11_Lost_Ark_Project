@@ -1570,7 +1570,9 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fRootDist = 1.5f;
 	//7
 
 	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
@@ -1608,8 +1610,9 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fRootDist = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
+	AnimationDesc.fRootDist = 1.5f;
 	//12
 	AnimationDesc.strAnimName = TEXT("att_battle_13_05-1");
 	AnimationDesc.iStartFrame = 0;

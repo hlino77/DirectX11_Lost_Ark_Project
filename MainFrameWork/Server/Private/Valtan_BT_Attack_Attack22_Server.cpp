@@ -3,7 +3,7 @@
 #include "Boss_Server.h"
 #include "Model.h"
 #include "Transform.h"
-
+#include "NavigationMgr.h"
 
 CValtan_BT_Attack_Attack22_Server::CValtan_BT_Attack_Attack22_Server()
 {
@@ -40,7 +40,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22_Server::OnUpdate(const _float& fT
 	
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
-
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 1.5f))
+		{
+			m_iCurrAnimation++;
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
+		}
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[12].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[12].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_iCurrAnimation=8;

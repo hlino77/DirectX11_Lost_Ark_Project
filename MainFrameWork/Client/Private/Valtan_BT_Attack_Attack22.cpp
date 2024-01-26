@@ -4,7 +4,10 @@
 #include "Model.h"
 #include "Transform.h"
 #include <Boss_Valtan.h>
-
+#include "GameInstance.h"
+#include "ColliderSphere.h"
+#include <Skill.h>	
+#include "NavigationMgr.h"
 
 CValtan_BT_Attack_Attack22::CValtan_BT_Attack_Attack22()
 {
@@ -13,7 +16,8 @@ CValtan_BT_Attack_Attack22::CValtan_BT_Attack_Attack22()
 void CValtan_BT_Attack_Attack22::OnStart()
 {
 	__super::OnStart();
-
+	m_bShoot[0] =true;
+	m_bShoot[1] = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelta)
@@ -45,6 +49,74 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 		m_fLoopTime = 0;
 		return BT_RUNNING;
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 44 && m_bShoot[0])
+	{
+		m_bShoot[0] = false;
+		vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
+		if (!vecTargets.empty())
+			for (auto& Object : vecTargets)
+			{
+				CSkill::ModelDesc ModelDesc = {};
+				ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+				ModelDesc.iObjectID = -1;
+				ModelDesc.pOwner = m_pGameObject;
+
+
+				CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+				if (pSkill != nullptr)
+				{
+					Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+					Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+					vLook.Normalize();
+					pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+					pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+					static_cast<CSkill*>(pSkill)->Set_Atk(30);
+					static_cast<CSkill*>(pSkill)->Set_Force(42.f);
+				}
+			}
+		vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
+		if (!vecTargets.empty())
+			for (auto& Object : vecTargets)
+			{
+				CSkill::ModelDesc ModelDesc = {};
+				ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+				ModelDesc.iObjectID = -1;
+				ModelDesc.pOwner = m_pGameObject;
+
+
+				CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+				if (pSkill != nullptr)
+				{
+					Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+					Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+					vLook.Normalize();
+					pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+					pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+					pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
+					static_cast<CSkill*>(pSkill)->Set_Atk(30);
+					static_cast<CSkill*>(pSkill)->Set_Force(42.f);
+				}
+			}
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(true);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_Radius(1.4f);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
+		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 1.5f))
+		{
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+			m_iCurrAnimation++;
+			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
+				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
+		}
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
+	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

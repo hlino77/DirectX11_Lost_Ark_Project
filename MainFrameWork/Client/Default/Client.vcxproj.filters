@@ -1312,9 +1312,6 @@
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stop">
       <UniqueIdentifier>{faaa8751-57b7-49a2-acb8-42b463c46267}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
-      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stop">
       <UniqueIdentifier>{a4a466ce-67ee-46d1-9950-11cce2825be5}</UniqueIdentifier>
     </Filter>
@@ -1407,6 +1404,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Crystal">
       <UniqueIdentifier>{240a5f00-8518-430c-80a4-8e530e61d863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
+      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
