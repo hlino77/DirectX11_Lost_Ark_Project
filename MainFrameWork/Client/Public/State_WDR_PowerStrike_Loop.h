@@ -22,6 +22,8 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Shot();
+private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_PowerStrike_Loop&, _float)> m_TickFunc;

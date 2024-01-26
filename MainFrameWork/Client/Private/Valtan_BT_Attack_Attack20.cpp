@@ -86,7 +86,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack20::OnUpdate(const _float& fTimeDelt
 		{
 			if (iter->Get_ModelCom()->Get_ModelType() == CModel::TYPE::TYPE_NONANIM && static_cast<CStaticModel*>(iter)->Get_StaticColliders().size() != 0)
 			{
-				iter->Set_Dead(true);
+				iter->Set_Active(false);
 				static_cast<CStaticModel*>(iter)->Disable_NaviCells();
 			}
 		}

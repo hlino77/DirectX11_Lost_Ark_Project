@@ -143,16 +143,18 @@ void CMainApp::Tick(_float fTimeDelta)
 
 HRESULT CMainApp::Render()
 {
-	/* 게임내에 존재하는 여러 객체들의 렌더링. */
+
 	m_pGameInstance->Clear_BackBuffer_View(Vec4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
+	
 	if (FAILED(m_pRenderer_Com->Ready_InstanceRender()))
 		return E_FAIL;
 
+	/* 게임내에 존재하는 여러 객체들의 렌더링. */
 	if (FAILED(m_pRenderer_Com->Draw()))
 		return E_FAIL;
-	
+
 	if (FAILED(CChat_Manager::GetInstance()->Render()))
 		return E_FAIL;
 
@@ -164,7 +166,7 @@ HRESULT CMainApp::Render()
 	/* 초기화한 장면에 객체들을 그린다. */
 	if (FAILED(m_pGameInstance->Present()))
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 

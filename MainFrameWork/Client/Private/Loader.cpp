@@ -188,6 +188,7 @@
 #include "Effect_Custom_EarthEaterParticle.h"
 #include "Effect_Custom_EarthEaterSmallParticle.h"
 #include "Effect_Custom_EarthEaterDecal.h"
+#include "Effect_Custom_WDIdenSpace.h"
 
 //NPC
 #include "tinyxml2.h"
@@ -870,6 +871,18 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Decal/fx_d_decal_019.png"))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Default"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Diffuse/Default.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Mask1"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_i_noise_05.png"))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Noise1"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_j_mirnoise_01.png"))))
+		return E_FAIL;
+
 
 	//Effect
 
@@ -885,7 +898,9 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CEffect_Custom_EarthEaterDecal::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_WDIdenSpace"),
+		CEffect_Custom_WDIdenSpace::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -4001,6 +4016,20 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 
 	{
 		wstring strFileName = L"RockParticle5";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+		}
+
+	}
+
+	{
+		wstring strFileName = L"Effect_Custom_Cone2";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

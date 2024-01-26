@@ -22,7 +22,6 @@ public:
 
 private:
 	void	Effect_Shot();
-
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 

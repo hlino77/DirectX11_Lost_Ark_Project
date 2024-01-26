@@ -4,6 +4,7 @@
 #include "Player_Destroyer.h"
 #include "Controller_WDR.h"
 #include "Model.h"
+#include "Effect.h"
 
 CState_WDR_Iden_Idle::CState_WDR_Iden_Idle(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -46,6 +47,7 @@ void CState_WDR_Iden_Idle::Exit_State()
 
 void CState_WDR_Iden_Idle::Tick_State_Control(_float fTimeDelta)
 {
+
 	if (false == static_cast<CController_WDR*>(m_pController)->Is_In_Identity())
 	{
 		m_pPlayer->Set_State(TEXT("Idle"));
@@ -96,6 +98,7 @@ void CState_WDR_Iden_Idle::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
+
 
 CState_WDR_Iden_Idle* CState_WDR_Iden_Idle::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 {

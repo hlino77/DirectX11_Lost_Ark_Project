@@ -23,6 +23,16 @@ sampler LinearBorderSampler = sampler_state
     AddressW = BORDER;
 };
 
+
+sampler LinearXWrapYBorderSampler = sampler_state
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = wrap;
+	AddressV = BORDER;
+	AddressW = BORDER;
+};
+
+
 sampler PointSampler = sampler_state{
 	Filter = MIN_MAG_MIP_POINT;
 	AddressU = wrap;

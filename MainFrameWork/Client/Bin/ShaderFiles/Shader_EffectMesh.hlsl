@@ -48,6 +48,36 @@ PS_OUT_EFFECT PS_MAIN_FXMESH(VS_OUT In, uniform bool bOneBlend, uniform int iSam
     return Out;
 }
 
+
+PS_OUT_EFFECT PS_MAIN_FXMESH_WDIDEN(VS_OUT In, uniform bool bOneBlend, uniform int iSamplerState)
+{
+    PS_OUT_EFFECT Out = (PS_OUT_EFFECT)0;
+
+    float2 vNewUV = float2(0.f, 0.f);
+
+    vNewUV = (In.vTexUV + vUV_TileIndex) / vUV_TileCount + vUV_Offset;
+
+    float fDistortion = 0.f;
+    float4 vColor = CalculateEffectColor(vNewUV, In.vTexUV, fDistortion, iSamplerState);
+    Out.vDistortion = fDistortion;
+
+    vColor.a *= 1.0f - pow(In.vTexUV.y, 2.0f);
+
+    if (vColor.a < 0.1f)
+        discard;
+
+    Out.vAlphaBlend = vColor;
+    //Out.vOneBlend = float4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    if (EPSILON < NoisMaskEmisDslv.z)	// Emissive
+    {
+        Out.vEmissive = vColor * fIntensity_Bloom;
+    }
+
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass OneBlend
@@ -126,5 +156,44 @@ technique11 DefaultTechnique
         HullShader = NULL;
         DomainShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_FXMESH(false, 2);
+    }
+
+    pass OneBlendXWrapYBorder
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXMESH();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH(true, 3);
+    }
+
+    pass AlphaBlendXWrapYBorder
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXMESH();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH(false, 3);
+    }
+
+    pass WDIden
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_FXMESH();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_FXMESH_WDIDEN(false, 0);
     }
 }

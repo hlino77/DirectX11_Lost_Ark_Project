@@ -21,6 +21,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Start();
+
+private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_Identity&, _float)> m_TickFunc;
@@ -30,6 +33,8 @@ private:
 	_int m_Idle_Identity = 0;
 
 	_float m_fTimeAcc = 0.f;
+
+	_bool m_bEffect = false;
 
 public:
 	static CState_WDR_Identity* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);

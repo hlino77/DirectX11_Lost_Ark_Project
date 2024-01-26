@@ -508,6 +508,7 @@ bool Handel_S_CHAT_Client(PacketSessionRef& session, Protocol::S_CHAT& pkt)
 
 bool Handel_S_MONSTERSTATE_Client(PacketSessionRef& session, Protocol::S_MONSTERSTATE& pkt)
 {
+
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CGameObject* pObject = pGameInstance->Find_GameObejct(pkt.ilevel(), pkt.ilayer() , pkt.iobjectid());
 

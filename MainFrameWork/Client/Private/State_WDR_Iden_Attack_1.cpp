@@ -9,6 +9,7 @@
 #include "Pool.h"
 #include "Projectile.h"
 #include "Effect_Manager.h"
+#include "Effect.h"
 
 CState_WDR_Iden_Attack_1::CState_WDR_Iden_Attack_1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -57,6 +58,7 @@ void CState_WDR_Iden_Attack_1::Exit_State()
 
 void CState_WDR_Iden_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
+
 	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		m_iAttackCnt++;
@@ -158,6 +160,7 @@ void CState_WDR_Iden_Attack_1::Effect_Shot()
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(L"AttGravity1", &desc);
 }
+
 
 CState_WDR_Iden_Attack_1* CState_WDR_Iden_Attack_1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 {

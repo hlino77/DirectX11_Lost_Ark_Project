@@ -127,8 +127,16 @@ void CVoidEffect::Tick(_float fTimeDelta)
 
 	Vec3 vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
 	Vec4 vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
-	Vec4 vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, m_fLifeTimeRatio);
 	Vec3 vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio) + 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+
+
+	_float fRevolutionRatio = 0.0f;
+	if (m_fTimeAcc >= m_fLifeTime && m_fTimeAcc <= m_fLifeTime + m_fRemainTime)
+		fRevolutionRatio = (fmodf(m_fTimeAcc, m_fLifeTime) / m_fLifeTime);
+	else
+		fRevolutionRatio = m_fLifeTimeRatio;
+
+	Vec3 vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, fRevolutionRatio);
 
 	XMStoreFloat4x4(&m_matOffset, XMMatrixScaling(vOffsetScaling.x, vOffsetScaling.y, vOffsetScaling.z)
 		* XMMatrixRotationRollPitchYaw(XMConvertToRadians(vOffsetRotation.x), XMConvertToRadians(vOffsetRotation.y), XMConvertToRadians(vOffsetRotation.z))

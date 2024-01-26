@@ -136,7 +136,7 @@ void CState_WDR_Attack_2::Effect_Attack()
 
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
-	EFFECT_START(L"WDSmoke2", &desc);
+	EFFECT_START(L"WDSmoke", &desc);
 	EFFECT_START(L"WDDecal", &desc);
 }
 

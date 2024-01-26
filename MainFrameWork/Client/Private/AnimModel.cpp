@@ -95,25 +95,10 @@ void CAnimModel::Tick(_float fTimeDelta)
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	}
 
-	//// All Object Animation Play
-	if (KEY_HOLD(KEY::CTRL) &&  KEY_AWAY(KEY::J))
-	{
-		m_bPlayAnim = !m_bPlayAnim;
-	}
-
 	if (true == m_bPlayAnim)
 	{
 		//m_pModelCom->Play_Animation(fTimeDelta);
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-	}
-
-	// All Object Animation First Frame
-	if (KEY_HOLD(KEY::CTRL) && KEY_AWAY(KEY::K))
-	{
-		m_pModelCom->Set_CurrAnimFrame(0);
-		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed); 
-		m_bPlayAnim = false;
-		
 	}
 
 	// Wall Object Animation Play
@@ -282,10 +267,8 @@ void CAnimModel::Add_Collider()
 {
 	CSphereCollider* pCollider = nullptr;
 
-
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-
 
 	CSphereCollider::ColliderInfo tInfo;
 	tInfo.m_bActive = true;

@@ -2,6 +2,7 @@
 #include "..\Public\Skill_WDR_EndurePain.h"
 #include "Player_Destroyer.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
 
 CSkill_WDR_EndurePain::CSkill_WDR_EndurePain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WDR_EndurePain"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -55,6 +56,17 @@ HRESULT CSkill_WDR_EndurePain::Ready_Components()
 _float CSkill_WDR_EndurePain::Change_Player_Status()
 {
 	m_pPlayer->Set_SuperiorArmorState(true);
+	
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+
+	vector<CEffect*> Effects;
+
+	EFFECT_START(L"EndurePain", &tDesc);
+	EFFECT_START_OUTLIST(L"EndurePain1", &tDesc, Effects);
+
+	m_pPlayer->Add_Effect(L"EndurePain", Effects.front());
 
 	return 4.f;
 }
@@ -62,6 +74,7 @@ _float CSkill_WDR_EndurePain::Change_Player_Status()
 _float CSkill_WDR_EndurePain::Restore_Player_Status()
 {
 	m_pPlayer->Set_SuperiorArmorState(false);
+	m_pPlayer->Delete_Effect(L"EndurePain");
 
 	return -1;
 }

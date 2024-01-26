@@ -8,6 +8,9 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
+
 
 CState_WDR_Iden_Skill::CState_WDR_Iden_Skill(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -60,7 +63,10 @@ void CState_WDR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();
+
+		Effect_Shot();
 	}
+
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack))
 	{
@@ -88,6 +94,16 @@ void CState_WDR_Iden_Skill::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
+
+void CState_WDR_Iden_Skill::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+
+	EFFECT_START(L"VotexGravity", &tDesc);
+}
+
 
 CState_WDR_Iden_Skill* CState_WDR_Iden_Skill::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 {

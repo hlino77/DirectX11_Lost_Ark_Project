@@ -1369,6 +1369,9 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
       <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\WDIdenSpace">
+      <UniqueIdentifier>{1609fa11-940f-4220-a45e-e9e3ec409ecd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4154,6 +4157,9 @@
     <ClInclude Include="..\Public\State_WR_Dead_Start.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_WDIdenSpace.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\WDIdenSpace</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6914,6 +6920,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_WDIdenSpace.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\WDIdenSpace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

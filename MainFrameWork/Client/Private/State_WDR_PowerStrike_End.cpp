@@ -5,6 +5,7 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
 
 CState_WDR_PowerStrike_End::CState_WDR_PowerStrike_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -54,6 +55,8 @@ void CState_WDR_PowerStrike_End::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
+
+		Effect_Shot();
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerStrike_End))
@@ -108,6 +111,15 @@ void CState_WDR_PowerStrike_End::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_PowerStrike_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WDR_PowerStrike_End::Effect_Shot()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+	EFFECT_START(L"PowerStrike1", &tDesc);
 }
 
 CState_WDR_PowerStrike_End* CState_WDR_PowerStrike_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
