@@ -233,7 +233,10 @@
 #include "IT_WDR_WP_Legend.h"
 
 #include "Item_TestItem.h"
+
+#include "Esther_Part.h"
 #include "Esther_Way.h"
+#include "Esther_Silian.h"
 
 
 namespace fs = std::filesystem;
@@ -1452,8 +1455,18 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part"),
+		CEsther_Part::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
 		CEsther_Way::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian"),
+		CEsther_Silian::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3893,11 +3906,11 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
 	AutoAnimLoad(strPath, LEVEL_STATIC, ScalePivotMatrix);
 
-	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
-	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
-
 	strPath = L"../Bin/Resources/Meshes/ES/Part/";
 	AutoLoad(strPath, LEVEL_STATIC);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
+	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
 	/* SkyDome */
 	{

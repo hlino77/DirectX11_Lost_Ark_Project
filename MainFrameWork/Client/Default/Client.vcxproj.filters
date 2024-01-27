@@ -1456,6 +1456,15 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Esther">
       <UniqueIdentifier>{485490d9-d72b-4b05-a3b1-29fe4f564927}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Esther\Silian">
+      <UniqueIdentifier>{deeb7405-1598-43d2-9c83-6dcd6f7ce2de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Silian\Cut">
+      <UniqueIdentifier>{0fa5fc00-f8da-4e2f-b3fd-d7552450e7af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Silian\Skill">
+      <UniqueIdentifier>{077ed3cf-3208-4626-978c-c366a52a0110}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4328,6 +4337,18 @@
     <ClInclude Include="..\Public\State_MG_Esther_Way.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Esther_Silian.h">
+      <Filter>02.GameObjects\Esther\Silian</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Silian_Skill.h">
+      <Filter>02.GameObjects\Esther\Silian\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Silian_Cut.h">
+      <Filter>02.GameObjects\Esther\Silian\Cut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Esther_Silian.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7175,6 +7196,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_Esther_Way.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Silian.cpp">
+      <Filter>02.GameObjects\Esther\Silian</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Silian_Skill.cpp">
+      <Filter>02.GameObjects\Esther\Silian\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Silian_Cut.cpp">
+      <Filter>02.GameObjects\Esther\Silian\Cut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Esther_Silian.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

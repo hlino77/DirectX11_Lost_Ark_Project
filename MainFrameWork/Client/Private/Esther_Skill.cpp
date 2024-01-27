@@ -66,15 +66,7 @@ void CEsther_Skill::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
-	//m_pRigidBody->Tick(fTimeDelta);
-
-	if (nullptr == m_pRendererCom)
-		return;
-	{
-		READ_LOCK
-			for (auto& CollisionStay : m_CollisionList)
-				OnCollisionStay(CollisionStay.iColLayer, CollisionStay.pCollider);
-	}
+	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
 	CullingObject();
 

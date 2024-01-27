@@ -99,7 +99,7 @@ void CEsther_Way_Skill::Act1(_float fTimeDelta)
 
 		m_pSkillMesh->Get_TransformCom()->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix());
 		m_pSkillMesh->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(0.025f, 0.025f, 0.025f));
+		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act1(fTimeDelta);
 	}
@@ -130,7 +130,7 @@ void CEsther_Way_Skill::Act2(_float fTimeDelta)
 
 		m_pSkillMesh->Get_TransformCom()->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix());
 		m_pSkillMesh->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(0.025f, 0.025f, 0.025f));
+		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act2(fTimeDelta);
 	}
@@ -158,7 +158,7 @@ void CEsther_Way_Skill::Act3(_float fTimeDelta)
 
 		m_pSkillMesh->Get_TransformCom()->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix());
 		m_pSkillMesh->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(0.025f, 0.025f, 0.025f));
+		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act3(fTimeDelta);
 	}

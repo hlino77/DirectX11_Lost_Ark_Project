@@ -237,6 +237,9 @@
     <ClInclude Include="..\Public\Esther.h" />
     <ClInclude Include="..\Public\Esther_Cut.h" />
     <ClInclude Include="..\Public\Esther_Part.h" />
+    <ClInclude Include="..\Public\Esther_Silian.h" />
+    <ClInclude Include="..\Public\Esther_Silian_Cut.h" />
+    <ClInclude Include="..\Public\Esther_Silian_Skill.h" />
     <ClInclude Include="..\Public\Esther_Skill.h" />
     <ClInclude Include="..\Public\Esther_Way.h" />
     <ClInclude Include="..\Public\Esther_Way_Cut.h" />
@@ -493,6 +496,7 @@
     <ClInclude Include="..\Public\State_WR_Dash.h" />
     <ClInclude Include="..\Public\State_WR_Dead_End.h" />
     <ClInclude Include="..\Public\State_WR_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_WR_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_WR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WR_Fall.h" />
     <ClInclude Include="..\Public\State_WR_FlashBalde.h" />
@@ -830,6 +834,9 @@
     <ClCompile Include="..\Private\Esther.cpp" />
     <ClCompile Include="..\Private\Esther_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Part.cpp" />
+    <ClCompile Include="..\Private\Esther_Silian.cpp" />
+    <ClCompile Include="..\Private\Esther_Silian_Cut.cpp" />
+    <ClCompile Include="..\Private\Esther_Silian_Skill.cpp" />
     <ClCompile Include="..\Private\Esther_Skill.cpp" />
     <ClCompile Include="..\Private\Esther_Way.cpp" />
     <ClCompile Include="..\Private\Esther_Way_Cut.cpp" />
@@ -1081,6 +1088,7 @@
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_WR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WR_FlashBalde.cpp" />

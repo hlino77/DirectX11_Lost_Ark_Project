@@ -5,6 +5,7 @@
 #include "Controller_WDR.h"
 #include "Model.h"
 #include "Effect.h"
+#include "Esther.h"
 
 CState_WDR_Iden_Idle::CState_WDR_Iden_Idle(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -62,6 +63,27 @@ void CState_WDR_Iden_Idle::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
+	}
+	else if (true == m_pController->Is_EstherSkill())
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
+		switch (m_pController->Get_EstherType())
+		{
+		case (_uint)CEsther::ESTHERTYPE::SA:
+			m_pPlayer->Set_State(TEXT("Esther_Silian"));
+			break;
+		case (_uint)CEsther::ESTHERTYPE::WY:
+			m_pPlayer->Set_State(TEXT("Esther_Way"));
+			break;
+		case (_uint)CEsther::ESTHERTYPE::BT:
+			m_pPlayer->Set_State(TEXT("Esther_Bahuntur"));
+			break;
+		}
 	}
 	else if (true == static_cast<CController_WDR*>(m_pController)->Is_Identity())
 	{
