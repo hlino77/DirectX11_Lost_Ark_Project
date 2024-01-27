@@ -59,8 +59,6 @@ private:
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
-
-	void			UpdateIdentityAuraPivot();
 	virtual void	EstherSkill() override;
 
 

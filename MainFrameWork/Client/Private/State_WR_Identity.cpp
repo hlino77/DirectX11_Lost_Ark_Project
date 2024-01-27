@@ -35,6 +35,8 @@ void CState_WR_Identity::Enter_State()
 	m_pController->Get_StopMessage();
 	
 	static_cast<CController_WR*>(m_pController)->Get_WR_IdentityMessage();
+
+	m_Effects.clear();
 }
 
 void CState_WR_Identity::Tick_State(_float fTimeDelta)
@@ -63,7 +65,6 @@ void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 	
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
-
 
 		auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
 		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;

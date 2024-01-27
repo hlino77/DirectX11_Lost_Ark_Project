@@ -139,16 +139,25 @@ HRESULT CLevel_Bern::Render_Debug()
 
 HRESULT CLevel_Bern::Exit()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
 	End_Collision();
 	End_Picking();
 	End_Damage();
 	End_QuadTree();
+	
+	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
+		return E_FAIL;
+	
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_BERN);
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	CUI_Tool::GetInstance()->Set_ToolMode(false);
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }
@@ -186,16 +195,19 @@ HRESULT CLevel_Bern::Ready_Lights()
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
 	LightDesc.vDirection = Vec4(-0.136f, -0.818f, -0.558f, 0.f);
 	LightDesc.vDirection.Normalize();
-	LightDesc.vDiffuse = Vec4(0.8f, 0.8f, 0.8f, 1.f);
+
+	//LightDesc.vDiffuse = Vec4(255.f/255.f, 245.f/255.f, 200.f/255.f, 1.f);
+	LightDesc.vDiffuse = Vec4(255.f/255.f, 215.f/255.f, 100.f/255.f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 
 
 	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Bern.dds");
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
+	if (FAILED(pGameInstance->Set_LightShadowTexture(pStaticShadowMap)))
 		return E_FAIL;
-
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
 
 	Vec3 vLook = LightDesc.vDirection;
 	vLook.Normalize();
@@ -246,7 +258,7 @@ HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	//pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 50.f, 50.f));
 	
 	// IBL
-	CRenderer::Set_IBLTexture(3);
+	CRenderer::Set_IBLTexture(0);
 
 	Safe_Release(pGameInstance);
 

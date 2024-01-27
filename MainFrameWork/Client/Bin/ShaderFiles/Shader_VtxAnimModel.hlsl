@@ -148,9 +148,14 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         }
         else
         {
-            Out.vProperties.x = 1.2f * vSpecular.r;
-            Out.vProperties.y = pow(vSpecular.b, 3.f);
+            Out.vProperties.r = vSpecular.b; // Metalic
+            Out.vProperties.g = vSpecular.g; // Roughness
         }
+    }
+    else
+    {
+        Out.vProperties.r = 0.f;
+        Out.vProperties.g = 0.5f;
     }
     
     if (1.f == SpecMaskEmisExtr.z)
@@ -215,13 +220,13 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     {
         float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 
-        Out.vProperties.r = 1.1f * vSpecular.r * Out.vDiffuse.r;
-        Out.vProperties.g = 1.f - vSpecular.r;
+        Out.vProperties.r = vSpecular.b; // Metalic
+        Out.vProperties.g = vSpecular.g; // Roughness
     }
     else
     {
-        Out.vProperties.r = EPSILON;
-        Out.vProperties.g = 1.f;
+        Out.vProperties.r = 0.f;
+        Out.vProperties.g = 0.5f;
     }
     
     if (1.f == SpecMaskEmisExtr.z)

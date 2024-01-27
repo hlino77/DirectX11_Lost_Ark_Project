@@ -62,7 +62,6 @@ HRESULT CLevel_Logo::Exit()
 {
 	CGameInstance::GetInstance()->StopSoundAll();
 
-
 	return S_OK;
 }
 

@@ -62,7 +62,6 @@ private:
 	HRESULT Render_Effect();
 	HRESULT	Render_ShadowDepth();
 	HRESULT Render_Lights();
-	HRESULT Render_LightAcc();
 
 	HRESULT Render_SSAO();
 	HRESULT Render_Deferred();

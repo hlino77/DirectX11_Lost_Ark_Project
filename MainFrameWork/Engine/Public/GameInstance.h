@@ -85,7 +85,8 @@ public: /* For. Componenet_Manager */
 public: /* For.Light_Manager */
 	const LIGHTDESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Light(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, const LIGHTDESC & LightDesc);
-	HRESULT Add_Light(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, const LIGHTDESC & LightDesc, class CTexture* pTexture);
+	HRESULT Set_LightShadowTexture(CTexture* pTexture);
+	HRESULT Clear_LightShadowTexture();
 	void Ready_LightMatrix(Vec3 vOffset, Vec3 vLook);
 	void Ready_StaticLightMatrix(Vec3 vPos, Vec3 vLook);
 

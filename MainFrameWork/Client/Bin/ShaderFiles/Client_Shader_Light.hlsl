@@ -7,6 +7,9 @@
 float4  g_vBloomColor = float4(1.3f, 1.3f, 1.3f, 1.f);
 float   g_fRimLight = 0.0f;
 
+float4 g_vLightDir;
+float4 g_vLightDiffuse;
+
 // Light
 struct LightDesc
 {

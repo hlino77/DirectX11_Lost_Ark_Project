@@ -61,7 +61,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Properties"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Emissive"),
@@ -233,6 +233,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample2"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
@@ -501,8 +503,6 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_Lights()))
 		return E_FAIL; 
-	if (FAILED(Render_LightAcc()))
-		return E_FAIL;
 	if (FAILED(Render_SSAO()))
 		return E_FAIL;
 
@@ -525,8 +525,12 @@ HRESULT CRenderer::Draw()
 
 	if (FAILED(Render_WorldUI()))
 		return E_FAIL;
+
 	if (FAILED(Render_UI()))
 		return E_FAIL;
+
+
+
 	if (FAILED(Render_Mouse()))
 		return E_FAIL;
 
@@ -855,78 +859,6 @@ HRESULT CRenderer::Render_Lights()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_LightAcc()
-{
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Lights"))))
-		return E_FAIL;
-
-	/* 사각형 버퍼를 직교투영으로 Shade타겟의 사이즈만큼 꽉 채워서 그릴꺼야. */
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
-		return E_FAIL;
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
-		return E_FAIL;
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_ViewMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW))))
-		return E_FAIL;
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ))))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_LightViewMatrix", &CLight_Manager::GetInstance()->Get_DirectionLightMatrix())))
-		return E_FAIL;
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_LightProjMatrix", &CPipeLine::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Bind_Matrix("g_StaticLightViewMatrix", &CLight_Manager::GetInstance()->Get_StaticLightMatrix())))
-		return E_FAIL;
-
-	D3D11_VIEWPORT		ViewportDesc;
-	_uint				iNumViewports = 1;
-	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	Vec2 vWinSize(ViewportDesc.Width, ViewportDesc.Height);
-
-	/*if (KEY_TAP(KEY::UP_ARROW))
-		m_fBias += 0.000001f;
-	if (KEY_TAP(KEY::DOWN_ARROW))
-		m_fBias -= 0.000001f;*/
-
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_fBias", &m_fBias, sizeof(_float))))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_vWinSize", &vWinSize, sizeof(Vec2))))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_fShadowSizeRatio", &m_fShadowTargetSizeRatio, sizeof(_float))))
-		return E_FAIL;
-
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticShadowSizeRatio", &m_fStaticShadowTargetSizeRatio, sizeof(_float))))
-		return E_FAIL;
-
-	Vec4 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
-
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTarget")))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTarget")))
-		return E_FAIL;
-
-	if (FAILED(m_pLight_Manager->Render(m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-
-	/* 다시 장치의 0번째 소켓에 백 버퍼를 올린다. */
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CRenderer::Render_SSAO()
 {
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO"))))
@@ -1059,9 +991,47 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	Vec4 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_Matrix("g_LightViewMatrix", &CLight_Manager::GetInstance()->Get_DirectionLightMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pMRTShader->Bind_Matrix("g_LightProjMatrix", &CPipeLine::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+	if (FAILED(m_pMRTShader->Bind_Matrix("g_ViewMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pMRTShader->Bind_Matrix("g_StaticLightViewMatrix", &CLight_Manager::GetInstance()->Get_StaticLightMatrix())))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fBias", &m_fBias, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fShadowSizeRatio", &m_fShadowTargetSizeRatio, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticShadowSizeRatio", &m_fStaticShadowTargetSizeRatio, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pLight_Manager->Bind_LightDescription(m_pMRTShader)))
+		return E_FAIL;
+	if (FAILED(m_pLight_Manager->Bind_LightShadowTexture(m_pMRTShader)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTarget")))
+		return E_FAIL;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Priority"), "g_PriorityTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Diffuse"), "g_DiffuseTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Normal"), "g_NormalTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
 		return E_FAIL;
 
@@ -1079,8 +1049,7 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (m_bPBR_Switch)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Properties"), "g_PropertiesTarget"))/* ||
-			FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Roughness"), "g_RoughnessTarget"))*/)
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Properties"), "g_PropertiesTarget")))
 			return E_FAIL;
 
 		if (FAILED(m_pMRTShader->Bind_Texture("g_IrradianceTexture", m_pIrradianceTexture->Get_SRV(m_iIBLTextureIndex))) ||
@@ -1093,6 +1062,8 @@ HRESULT CRenderer::Render_Deferred()
 	}
 	else
 	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")))
+			return E_FAIL;
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Specular"), "g_SpecularTarget")))
 			return E_FAIL;
 		if (FAILED(m_pMRTShader->Begin("Deferred")))
@@ -1506,8 +1477,8 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Decals"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;

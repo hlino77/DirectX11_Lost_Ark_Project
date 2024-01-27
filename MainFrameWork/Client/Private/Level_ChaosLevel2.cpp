@@ -129,16 +129,26 @@ HRESULT CLevel_ChaosLevel2::Render_Debug()
 
 HRESULT CLevel_ChaosLevel2::Exit()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
 	End_Collision();
 	End_Picking();
 	End_Damage();
 	End_QuadTree();
+	
+	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
+		return E_FAIL;
+
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_CHAOS_2);
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->StopSoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	//CUI_Tool::GetInstance()->Set_ToolMode(false);
+
+	Safe_Release(pGameInstance);
+
 	return S_OK;
 }
 
@@ -161,9 +171,10 @@ HRESULT CLevel_ChaosLevel2::Ready_Lights()
 
 	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos2.dds");
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
+	if (FAILED(pGameInstance->Set_LightShadowTexture(pStaticShadowMap)))
 		return E_FAIL;
-
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
 
 	Vec3 vLook = LightDesc.vDirection;
 	vLook.Normalize();

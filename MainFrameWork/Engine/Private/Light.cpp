@@ -31,7 +31,6 @@ HRESULT CLight::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 		if (FAILED(pShader->Bind_RawValue("g_vLightDir", &m_LightDesc.vDirection, sizeof(Vec4))))
 			return E_FAIL;
 
-
 		if (m_pStaticShadowMap)
 		{
 			if (FAILED(m_pStaticShadowMap->Set_SRV(pShader, "g_StaticShadowDepthTarget")))

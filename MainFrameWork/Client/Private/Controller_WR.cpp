@@ -123,13 +123,14 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 			m_IsIdentity = false;
 			m_fIdentityGage = 30.f;
 
-			static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura")->EffectEnd();
+			CB_UpdateIdentityAuraPivot.clear();
+			static_cast<CPlayer*>(m_pOwner)->Delete_Effect(L"Slayer_Rage_Aura");
 		}
 		else
 		{
 			Matrix matPivot;
 			CB_UpdateIdentityAuraPivot(matPivot);
-			CEffect* pAuraEffect = static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura");
+			CEffect* pAuraEffect = static_cast<CPlayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura");
 			if (pAuraEffect)
 				pAuraEffect->Update_Pivot(matPivot);
 		}
@@ -226,26 +227,6 @@ void CController_WR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 void CController_WR::Skill_CoolTime(const _float& fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
-}
-
-
-void CController_WR::UpdateIdentityAuraPivot()
-{
-	if (0.f >= m_fIdentityGage)
-	{
-		m_fTimeAcc = 0.f;
-		m_IsIdentity = false;
-		m_fIdentityGage = 30.f;
-
-		static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura")->EffectEnd();
-		// ¿©±â¼­ End_Effect();
-	}
-	else
-	{
-		Matrix matPivot;
-		CB_UpdateIdentityAuraPivot(matPivot);
-		static_cast<CPlayer_Slayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura")->Update_Pivot(matPivot);
-	}
 }
 
 void CController_WR::EstherSkill()
