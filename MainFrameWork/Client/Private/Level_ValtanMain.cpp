@@ -203,7 +203,7 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.9f, 0.f, 100.2f));
 
-	CRenderer::Set_IBLTexture(3);
+	CRenderer::Set_IBLTexture(0);
 
 	Safe_Release(pGameInstance);
 

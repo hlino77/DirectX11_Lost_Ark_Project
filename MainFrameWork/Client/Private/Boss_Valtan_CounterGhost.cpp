@@ -14,15 +14,15 @@
 #include "Common_BT_BattleIdle.h"
 #include "Common_BT_Move.h"
 #include "Common_BT_Spawn.h"
-
 #include "BehaviorTree.h"
 #include <Skill.h>
 #include "ColliderOBB.h"
-#include <Valtan_BT_Attack_Attack10.h>
 #include <Valtan_BT_Attack_Attack11.h>
 #include <Valtan_BT_Attack_Attack1.h>
 #include <Valtan_BT_BattleIdle.h>
-
+#include <Valtan_BT_Attack_Attack9.h>
+#include "RigidBody.h"
+#include "NavigationMgr.h"
 
 CBoss_Valtan_CounterGhost::CBoss_Valtan_CounterGhost(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss(pDevice, pContext)
@@ -49,8 +49,34 @@ HRESULT CBoss_Valtan_CounterGhost::Initialize(void* pArg)
 	m_iMaxHp = 1991561183;
 	m_iHp = m_iMaxHp;
 	m_bDummy = true;
-	if (FAILED(__super::Initialize(pArg)))
+	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
+	m_strObjectTag = Desc->strFileName;
+	m_iObjectID = Desc->iObjectID;
+	m_iLayer = Desc->iLayer;
+	m_iCurrLevel = Desc->iLevel;
+
+	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	m_pRigidBody->SetMass(2.0f);
+	m_pRigidBody->Set_Gravity(false);
+	 
+	m_pTransformCom->LookAt_Dir( Desc->vPos);
+	m_vSpawnPosition = CGameInstance::GetInstance()->Find_GameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_BOSS, L"Boss_Valtan")->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSpawnPosition);
+	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
+
+
+	if (FAILED(Ready_Coliders()))
+		return E_FAIL;
+
+	m_tCullingSphere.Radius = 2.0f;
+
+	if (FAILED(Ready_BehaviourTree()))
+		return E_FAIL;
+	if (!m_bDummy)
+		if (FAILED(Ready_HpUI()))
+			return E_FAIL;
 	m_vecAttackRanges.clear();
 	m_fMoveSpeed = 4.f;
 	m_vecAttackRanges.push_back(2.f);
@@ -62,7 +88,6 @@ HRESULT CBoss_Valtan_CounterGhost::Initialize(void* pArg)
 	m_iArmor = 2;
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
-	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 	return S_OK;
 }
@@ -295,38 +320,23 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 	CBT_Action* pAttack1 = CValtan_BT_Attack_Attack1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_20_01");
+	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 0.f;
+	AnimationDesc.fAnimSpeed = 1.9f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
-
-	AnimationDesc.strAnimName = TEXT("att_battle_20_02");
+	AnimationDesc.fAnimSpeed = 1.15f;
+	AnimationDesc.strAnimName = TEXT("att_battle_7_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.f;
-	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 0.7f;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.bIsLoop = false;
-
-	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	//Á¡ÇÁ ½ÊÀÚ Âï±â
-	ActionDesc.strActionName = L"Action_Attack10";
-	CBT_Action* pAttack10 = CValtan_BT_Attack_Attack10::Create(&ActionDesc);
+	//Á¡ÇÁ Âï±â
+	ActionDesc.strActionName = L"Action_Attack9";
+	CBT_Action* pAttack9 = CValtan_BT_Attack_Attack9::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
@@ -346,7 +356,8 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack11";
 	CBT_Action* pAttack11 = CValtan_BT_Attack_Attack11::Create(&ActionDesc);
 
-	m_pBehaviorTree->Init_PreviousAction(L"Action_Attack1", 1);
+	m_pBehaviorTree->Init_PreviousAction(L"Action_BattleIdle", 0);
+	m_bRender = false;
 	return S_OK;
 }
 
@@ -381,4 +392,6 @@ CGameObject* CBoss_Valtan_CounterGhost::Clone(void* pArg)
 void CBoss_Valtan_CounterGhost::Free()
 {
 	__super::Free();
+	for (auto& Collider : m_Coliders)
+		CCollisionManager::GetInstance()->Out_Colider(Collider.second);
 }

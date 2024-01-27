@@ -1405,9 +1405,6 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Resurrect">
       <UniqueIdentifier>{869ceaa7-dc79-4c25-a8d5-4045ed19ce72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Crystal">
-      <UniqueIdentifier>{240a5f00-8518-430c-80a4-8e530e61d863}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
       <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
     </Filter>
@@ -4349,6 +4346,9 @@
     <ClInclude Include="..\Public\State_WR_Esther_Silian.h">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7208,6 +7208,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_WR_Esther_Silian.cpp">
       <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

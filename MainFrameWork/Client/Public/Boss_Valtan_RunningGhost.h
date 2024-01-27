@@ -7,7 +7,7 @@ END
 
 BEGIN(Client)
 
-class CBoss_Valtan :
+class CBoss_Valtan_RunningGhost :
     public CBoss
 {
 public:
@@ -20,9 +20,9 @@ public:
 		PARTS_END
 
 	};
-	CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBoss_Valtan(const CBoss_Valtan& rhs);
-	virtual ~CBoss_Valtan() = default;
+	CBoss_Valtan_RunningGhost(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBoss_Valtan_RunningGhost(const CBoss_Valtan_RunningGhost& rhs);
+	virtual ~CBoss_Valtan_RunningGhost() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -44,8 +44,6 @@ private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 private:
 	CPartObject* m_pWeapon = nullptr;
-	Vec3		m_vSummonPositions[3] = {};
-	_float		m_fSummonTime = 0.f;
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

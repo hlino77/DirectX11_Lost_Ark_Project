@@ -36,7 +36,7 @@ public:
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 	virtual void Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)override;
 public:
-	void					Set_Explosion(_bool bExplosion) { m_bExplosion = bExplosion; }
+	void					Set_Explosion(_bool bExplosion);
 	_bool					Get_Explosion() { return m_bExplosion; }
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() { return m_bRimLight; }

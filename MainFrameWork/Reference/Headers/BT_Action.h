@@ -48,12 +48,12 @@ public:
 
 	virtual void		Reset()		override { m_eReturn = RETURN_END; }
 	
-	void				Start_Animation();
+
 protected:
 	_int						m_iCurrAnimation = 0;
 	vector<ANIMATION_DESC>	m_vecAnimDesc;
 	_float						m_fFrame = 0.f;
-	_bool						m_bSoundOn = false;
+	_bool						m_bSoundOn[10] = {};
 	wstring						m_strActionName;
 	_float						m_fLoopTime = 0.f;
 	_uint						m_iMaxAnimation = 0;

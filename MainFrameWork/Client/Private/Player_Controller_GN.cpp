@@ -156,15 +156,12 @@ void CPlayer_Controller_GN::Get_GrabMessage(CGameObject* pGrabber)
 
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
-
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(true);
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CPlayer_Controller_GN::Get_GrabEndMessage()
 {
 	__super::Get_GrabEndMessage();
-
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CPlayer_Controller_GN::Skill(GN_IDENTITY eIndex, SKILL_KEY eKey)

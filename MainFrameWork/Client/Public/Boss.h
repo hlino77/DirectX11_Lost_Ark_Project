@@ -125,8 +125,8 @@ public:
 	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
 
 
-	_bool						Is_bDummy() { return m_bDummy; }
-	void						Set_bDummy(_bool bDummy) { m_bDummy = bDummy; }
+	_bool						Is_Dummy() { return m_bDummy; }
+	void						Set_Dummy(_bool bDummy) { m_bDummy = bDummy; }
 
 protected:
 	virtual HRESULT Ready_Components();
