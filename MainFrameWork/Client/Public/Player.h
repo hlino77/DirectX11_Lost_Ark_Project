@@ -226,6 +226,7 @@ public:
 	void					Set_CurValtanPhase(_uint iPhase) { m_iValtanPhase = iPhase; }
 	_uint					Get_ValtanPhase() { return m_iValtanPhase; }
 
+	void					Load_WorldMatrix(Matrix& matWorld);
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }

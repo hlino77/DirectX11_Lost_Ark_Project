@@ -46,6 +46,7 @@ public:
 	void				Set_Class(const _uint iClass) { m_iClass = iClass; }
 	const _uint			Get_Class() { return m_iClass; }
 
+	void				Send_LevelState(LEVELSTATE eLevelState);
 private:
 	ServerSessionRef m_pServerSession;
 

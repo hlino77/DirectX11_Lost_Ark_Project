@@ -106,12 +106,6 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
-	while (true)
-	{
-		if (CServerSessionManager::GetInstance()->Get_ServerSession()->Get_LevelState() == LEVELSTATE::INITEND)
-			break;
-	}
-
 	return S_OK;
 }
 

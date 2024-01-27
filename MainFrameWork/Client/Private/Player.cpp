@@ -507,6 +507,11 @@ void CPlayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_
 	m_Parts[ePart]->Set_Render(Is_Render);
 }
 
+void CPlayer::Load_WorldMatrix(Matrix& matWorld)
+{
+	matWorld = m_pTransformCom->Get_WorldMatrix();
+}
+
 HRESULT CPlayer::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -577,12 +582,6 @@ HRESULT CPlayer::Ready_Components()
 
 
 	Safe_Release(pGameInstance);
-
-	m_vOriginScale.x = 0.01f;
-	m_vOriginScale.y = 0.01f;
-	m_vOriginScale.z = 0.01f;
-
-	m_pTransformCom->Set_Scale(m_vOriginScale);
 
 	return S_OK;
 }

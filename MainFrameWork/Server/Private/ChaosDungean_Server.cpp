@@ -33,20 +33,24 @@ HRESULT CChaosDungean_Server::Initialize(void* pArg)
 
 	m_fCurrSpawn = 0.0f;
 	m_fSpawnDelay = 0.1f;
-
-
 	
 	Send_OpenLevel();
 
 	m_bEnd = false;
+	m_bStart = false;
 	m_fEndDelay = 5.0f;
-
 
     return S_OK;
 }
 
 void CChaosDungean_Server::Tick(_float fTimeDelta)
 {
+	if (m_bStart == false)
+	{
+		Wait_For_Player();
+		return;
+	}
+
 	if (m_fStartDelay > 0.0f)
 	{
 		m_fStartDelay -= fTimeDelta;
@@ -87,6 +91,12 @@ void CChaosDungean_Server::Tick(_float fTimeDelta)
 
 void CChaosDungean_Server::LateTick(_float fTimeDelta)
 {
+	if (m_bStart == false)
+	{
+		return;
+	}
+
+
 	for (auto iterMonster = m_Monsters.begin(); iterMonster != m_Monsters.end();)
 	{
 		if ((*iterMonster)->Is_Dead())
@@ -337,7 +347,10 @@ void CChaosDungean_Server::Send_OpenLevel()
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	
 	for (auto& Player : m_Players)
+	{
+		Player->Get_GameSession()->Set_LevelState(LEVELSTATE::INITREADY);
 		Player->Get_GameSession()->Send(pSendBuffer);
+	}
 }
 
 void CChaosDungean_Server::Enter_NextDungean()
@@ -400,6 +413,30 @@ HRESULT CChaosDungean_Server::Broadcast_PlayerInfo()
 		dynamic_cast<CPlayer_Server*>(Player)->Get_GameSession()->Send(pSendBuffer);
 
 	return S_OK;
+}
+
+void CChaosDungean_Server::Wait_For_Player()
+{
+	m_bStart = true;
+
+	for (auto& Player : m_Players)
+	{
+		if (Player->Get_GameSession()->Get_LevelState() != LEVELSTATE::PLAYERREADY)
+		{
+			m_bStart = false;
+		}
+	}
+
+	if (m_bStart == true)
+	{
+		Protocol::S_LEVEL_STATE pkt;
+		pkt.set_ilevelstate(LEVELSTATE::INITEND);
+		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+		for (auto& Player : m_Players)
+		{
+			Player->Get_GameSession()->Send(pSendBuffer);
+		}
+	}
 }
 
 CChaosDungean_Server* CChaosDungean_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

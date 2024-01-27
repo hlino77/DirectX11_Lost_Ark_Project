@@ -34,26 +34,28 @@ HRESULT CValtanMain_Server::Initialize(void* pArg)
 	m_Players = tDesc->Players;
 	Ready_Dungean();
 
-	
 	Send_OpenLevel();
-
 
 	//if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Test0121.data"))))
 	//{
 	//	return E_FAIL;
 	//}
 
-
-
 	m_bEnd = false;
+	m_bStart = false;
 	m_fEndDelay = 5.0f;
-
 
     return S_OK;
 }
 
 void CValtanMain_Server::Tick(_float fTimeDelta)
 {
+	if (m_bStart == false)
+	{
+		Wait_For_Player();
+		return;
+	}
+
 	if (m_fStartDelay > 0.0f)
 	{
 		m_fStartDelay -= fTimeDelta;
@@ -85,6 +87,11 @@ void CValtanMain_Server::Tick(_float fTimeDelta)
 
 void CValtanMain_Server::LateTick(_float fTimeDelta)
 {
+	if (m_bStart == false)
+	{
+		return;
+	}
+
 	for (auto iterBoss = m_Bosses.begin(); iterBoss != m_Bosses.end();)
 	{
 		if ((*iterBoss)->Is_Dead())
@@ -175,7 +182,11 @@ void CValtanMain_Server::Send_OpenLevel()
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	
 	for (auto& Player : m_Players)
+	{
+		Player->Get_GameSession()->Set_LevelState(LEVELSTATE::INITREADY);
 		Player->Get_GameSession()->Send(pSendBuffer);
+	}
+		
 }
 
 void CValtanMain_Server::Exit_Dungean()
@@ -389,6 +400,30 @@ HRESULT	CValtanMain_Server::Load_BossMapData(LEVELID eLevel, const wstring& szFu
 	Safe_Release(pGameInstance);
 	return S_OK;
 
+}
+
+void CValtanMain_Server::Wait_For_Player()
+{
+	m_bStart = true;
+
+	for (auto& Player : m_Players)
+	{
+		if (Player->Get_GameSession()->Get_LevelState() != LEVELSTATE::PLAYERREADY)
+		{
+			m_bStart = false;
+		}
+	}
+
+	if (m_bStart == true)
+	{
+		Protocol::S_LEVEL_STATE pkt;
+		pkt.set_ilevelstate(LEVELSTATE::INITEND);
+		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
+		for (auto& Player : m_Players)
+		{
+			Player->Get_GameSession()->Send(pSendBuffer);
+		}
+	}
 }
 
 CValtanMain_Server* CValtanMain_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

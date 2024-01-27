@@ -39,7 +39,7 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 	
 	m_vDefaultOffset = m_vOffset = XMVector3TransformNormal(m_vOffset, Matrix::CreateFromAxisAngle(vRight, XMConvertToRadians(50.0f)));
 
-	m_fDefaultLength = m_fTargetCameraLength = m_fCameraLength = 7.5f;
+	m_fDefaultLength = m_fTargetCameraLength = m_fCameraLength = pDesc->fDefaultLength;
 
 	Vec3 vPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);

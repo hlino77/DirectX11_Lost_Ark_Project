@@ -42,7 +42,6 @@ private:
 	HRESULT Send_UserInfo();
 
 private:
-	void		Send_LevelState(LEVELSTATE eState);
 	void		Wait_ServerLevelState(LEVELSTATE eState);
 
 

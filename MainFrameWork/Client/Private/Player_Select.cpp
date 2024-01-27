@@ -286,9 +286,9 @@ HRESULT CPlayer_Select::Ready_Components()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	m_vOriginScale.x = 0.005f;
-	m_vOriginScale.y = 0.005f;
-	m_vOriginScale.z = 0.005f;
+	m_vOriginScale.x = 0.5f;
+	m_vOriginScale.y = 0.5f;
+	m_vOriginScale.z = 0.5f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 

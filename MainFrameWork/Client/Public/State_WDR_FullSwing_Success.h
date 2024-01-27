@@ -22,14 +22,20 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_TrailStart();
+	void	Effect_TrailEnd();
+private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_FullSwing_Success&, _float)> m_TickFunc;
-
+	vector<CEffect*> m_Trails;
 private:
 	//Animation
 	_int m_iFullSwing_Success = 0;
 
+
+	_bool m_bTrailStart = false;
+	_bool m_bTrailEnd = false;
 public:
 	static CState_WDR_FullSwing_Success* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;
