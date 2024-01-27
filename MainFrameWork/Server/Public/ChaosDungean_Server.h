@@ -57,6 +57,8 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	void	Enter_NextDungean();
 	void	Exit_Dungean();
 	HRESULT	Broadcast_PlayerInfo();
+
+	void	Wait_For_Player();
 private:
 	_float m_fStartDelay = 0.0f;
 
@@ -74,6 +76,7 @@ private:
 	_uint m_iBossCount = 0;
 	
 	_bool m_bEnd = false;
+	_bool m_bStart = false;
 	_float m_fEndDelay = 0.0f;
 
 

@@ -3527,6 +3527,13 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
+
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
 	/* Npc 마네킹 및 모델 */
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
@@ -3998,6 +4005,12 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
 	/* 플레이어 */
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
@@ -4009,7 +4022,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 				}
 
@@ -4027,7 +4040,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 				}
 
@@ -4046,7 +4059,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 				}
 
@@ -4064,7 +4077,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 				}
 

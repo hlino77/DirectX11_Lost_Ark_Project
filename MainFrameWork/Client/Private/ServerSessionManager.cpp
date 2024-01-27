@@ -60,6 +60,13 @@ void CServerSessionManager::Send_TimeSync()
 	Send(pSendBuffer);
 }
 
+void CServerSessionManager::Send_LevelState(LEVELSTATE eLevelState)
+{
+	Protocol::S_LEVEL_STATE pkt;
+	pkt.set_ilevelstate(eLevelState);
+	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
+	m_pServerSession->Send(pSendBuffer);
+}
 
 void CServerSessionManager::Free()
 {
@@ -67,4 +74,5 @@ void CServerSessionManager::Free()
 
 	m_pServerSession = nullptr;
 }
+
 

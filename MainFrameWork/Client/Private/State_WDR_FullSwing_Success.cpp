@@ -5,6 +5,8 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
 
 CState_WDR_FullSwing_Success::CState_WDR_FullSwing_Success(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -38,6 +40,10 @@ void CState_WDR_FullSwing_Success::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_pController->Set_SkillSuccess(m_eSkillSelectKey, true);
+
+	m_bTrailStart = false;
+	m_bTrailEnd = false;
+	m_Trails.clear();
 }
 
 void CState_WDR_FullSwing_Success::Tick_State(_float fTimeDelta)
@@ -55,11 +61,26 @@ void CState_WDR_FullSwing_Success::Exit_State()
 
 void CState_WDR_FullSwing_Success::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success);
+
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success))
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
+
+	if (m_bTrailStart == false && iAnimFrame >= 11)
+	{
+		Effect_TrailStart();
+		m_bTrailStart = true;
+	}
+
+	if (m_bTrailEnd == false && iAnimFrame >= 34)
+	{
+		Effect_TrailEnd();
+		m_bTrailEnd = true;
+	}
+
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFullSwing_Success))
 		m_pPlayer->Set_State(TEXT("Idle"));
@@ -114,6 +135,24 @@ void CState_WDR_FullSwing_Success::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
+
+void CState_WDR_FullSwing_Success::Effect_TrailStart()
+{
+	vector<CEffect*> Effects;
+	auto func = bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("Test1"), func, m_Trails);
+}
+
+void CState_WDR_FullSwing_Success::Effect_TrailEnd()
+{
+	/*for (auto& Trail : m_Trails)
+	{
+		Trail->EffectEnd();
+	}
+	m_Trails.clear();*/
+
+}
+
 
 CState_WDR_FullSwing_Success* CState_WDR_FullSwing_Success::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 {

@@ -20,14 +20,13 @@ HRESULT CPhysXMgr::ReserveManager()
 {
 	m_PxFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_PxAllocator, m_PXErrorCallback);
 
-	m_Pvd = PxCreatePvd(*m_PxFoundation);
+	//m_Pvd = PxCreatePvd(*m_PxFoundation);
 	//The PVD needs connection via a socket. It will run on the Address defined, in our case it's our machine
-	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(m_pvdIPAddress.c_str(), m_pvdPortNumber, m_pvdTimeOutSeconds);
-	m_Pvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+	//PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(m_pvdIPAddress.c_str(), m_pvdPortNumber, m_pvdTimeOutSeconds);
+	//m_Pvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 
-
-	m_PhysX = PxCreatePhysics(PX_PHYSICS_VERSION, *m_PxFoundation, PxTolerancesScale(), true, m_Pvd);
-	PxInitExtensions(*m_PhysX, m_Pvd);
+	m_PhysX = PxCreatePhysics(PX_PHYSICS_VERSION, *m_PxFoundation, PxTolerancesScale(), true);
+	//PxInitExtensions(*m_PhysX, m_Pvd);
 	
 	PxSceneDesc sceneDesc(m_PhysX->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f * 10.0f, 0.0f);
@@ -41,14 +40,14 @@ HRESULT CPhysXMgr::ReserveManager()
 	PxCudaContextManagerDesc cudaContextManagerDesc;
 	PxCudaContextManager* cudaContextManager = PxCreateCudaContextManager(*m_PxFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
 
-	PxPvdSceneClient* pvdClient = m_PxScene->getScenePvdClient();
-	if (pvdClient)
-	{
-		//I have a PVD client, so set some flags that it needs
-		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
-		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
-		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
-	}
+	//PxPvdSceneClient* pvdClient = m_PxScene->getScenePvdClient();
+	//if (pvdClient)
+	//{
+	//	//I have a PVD client, so set some flags that it needs
+	//	pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+	//	pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+	//	pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+	//}
 
 
 	return S_OK;

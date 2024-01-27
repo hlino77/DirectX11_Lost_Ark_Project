@@ -135,9 +135,6 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		}
 	}
 
-
-	Send_LevelState(pGameSession, LEVELSTATE::INITEND);
-
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -251,9 +248,6 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 			}
 		}
 	}
-
-
-	Send_LevelState(pOwnerSession, LEVELSTATE::INITEND);
 
 	Safe_Release(pGameInstance);
 	return S_OK;

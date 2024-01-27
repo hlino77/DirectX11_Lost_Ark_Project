@@ -89,6 +89,14 @@ HRESULT CLevel_ChaosLevel3::Initialize()
 	if (FAILED(Ready_Layer_UI(LAYER_TYPE::LAYER_UI)))
 		return E_FAIL;
 
+	CServerSessionManager::GetInstance()->Send_LevelState(LEVELSTATE::PLAYERREADY);
+
+	while (true)
+	{
+		if (CServerSessionManager::GetInstance()->Get_ServerSession()->Get_LevelState() == LEVELSTATE::INITEND)
+			break;
+	}
+
 	if (FAILED(Ready_Player_Camera(LAYER_TYPE::LAYER_CAMERA)))
 		return E_FAIL;
 
@@ -97,14 +105,6 @@ HRESULT CLevel_ChaosLevel3::Initialize()
 	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
-
-
-	while (true)
-	{
-		if (CServerSessionManager::GetInstance()->Get_ServerSession()->Get_LevelState() == LEVELSTATE::INITEND)
-			break;
-	}
-
 
 	return S_OK;
 }
@@ -445,15 +445,6 @@ HRESULT CLevel_ChaosLevel3::Send_UserInfo()
 	}
 
 	return S_OK;
-}
-
-void CLevel_ChaosLevel3::Send_LevelState(LEVELSTATE eState)
-{
-	Protocol::S_LEVEL_STATE pkt;
-	pkt.set_ilevelstate((uint32)eState);
-
-	SendBufferRef sendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
-	CServerSessionManager::GetInstance()->Get_ServerSession()->Send(sendBuffer);
 }
 
 void CLevel_ChaosLevel3::Wait_ServerLevelState(LEVELSTATE eState)

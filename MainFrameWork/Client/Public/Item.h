@@ -71,8 +71,8 @@ public:
 
 	_uint						Get_EquipType() { return m_iEquipType; }
 
-	_float						Get_UpgradeGauge() { return m_fUpgaradeGauge; }
-	void						Set_UpgradeGauge(_float fGauge) { m_fUpgaradeGauge = fGauge; }
+	_float						Get_UpgradeGauge() { return m_fUpgradeGauge; }
+	void						Set_UpgradeGauge(_float fGauge) { m_fUpgradeGauge = fGauge; }
 	CTexture*					Get_ItemTexture();
 
 	void						Add_UpgradeGauge(_float fGauge);
