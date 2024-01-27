@@ -239,7 +239,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23::OnUpdate(const _float& fTimeDelt
 						vLook.Normalize();
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-						pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
+						pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(2.f);
 						static_cast<CSkill*>(pSkill)->Set_Atk(30);
 						static_cast<CSkill*>(pSkill)->Set_Force(42.f);
 					}
@@ -262,7 +262,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23::OnUpdate(const _float& fTimeDelt
 						vLook.Normalize();
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-						pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
+						pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(2.f);
 						static_cast<CSkill*>(pSkill)->Set_Atk(30);
 						static_cast<CSkill*>(pSkill)->Set_Force(42.f);
 					}
@@ -312,7 +312,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack23::OnUpdate(const _float& fTimeDelt
 			vDir.y = 0.f;
 			vDir.Normalize();
 			vPosition += vDir * 5.f;
-			vPosition.y = - 5.f;
+			vPosition.y = - 10.f;
 			Add_Stone(vPosition);
 		}
 

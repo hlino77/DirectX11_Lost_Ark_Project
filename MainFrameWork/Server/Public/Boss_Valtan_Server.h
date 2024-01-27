@@ -45,6 +45,7 @@ private:
 	vector<_int> m_vecGrabbedPlayerIDs;
 	_int		m_iGroggyObsrob = 0;
 	_bool		m_IsRush = {false};
+
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

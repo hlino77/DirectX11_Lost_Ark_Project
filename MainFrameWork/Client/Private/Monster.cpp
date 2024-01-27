@@ -873,10 +873,12 @@ void CMonster::CullingObject()
 	const BoundingFrustum& tCamFrustum = CGameInstance::GetInstance()->Get_CamFrustum();
 
 	if (tCamFrustum.Intersects(m_tCullingSphere) == false)
-		m_bRender = false;
+	{
+		m_IsCulled = true;
+		return;
+	}
 	else
-		m_bRender = true;
-	
+		m_IsCulled = false;
 	if (m_bRender)
 	{
 		if (m_bInstance)

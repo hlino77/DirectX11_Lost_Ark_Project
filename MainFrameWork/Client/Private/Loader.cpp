@@ -146,6 +146,7 @@
 #include <Monster_Pawn.h>
 #include "Monster_Prison.h"
 #include "Boss_Valtan_CounterGhost.h"
+#include "Boss_Valtan_RunningGhost.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -1195,6 +1196,12 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CBoss_Valtan_CounterGhost::Create(nullptr, nullptr))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_RunningGhost"),
+		CBoss_Valtan_RunningGhost::Create(nullptr, nullptr))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

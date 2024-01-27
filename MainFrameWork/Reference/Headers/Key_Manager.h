@@ -25,7 +25,7 @@ public:
 
 
 public:
-	KEY_STATE GetKeyState(KEY _eKey) { if(m_vecKey.empty()) return KEY_STATE::NONE; return m_vecKey[(int)_eKey].eState; }
+	KEY_STATE GetKeyState(KEY _eKey) { return m_vecKey[(int)_eKey].eState; }
 	const POINT& GetMousePos() { return m_tMousePos; }
 
 private:

@@ -77,9 +77,6 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if (KEY_TAP(KEY::B))
-		m_bDbgCout = !m_bDbgCout;
-	m_fTimeCount += fTimeDelta;
 }
 
 void CBoss::LateTick(_float fTimeDelta)

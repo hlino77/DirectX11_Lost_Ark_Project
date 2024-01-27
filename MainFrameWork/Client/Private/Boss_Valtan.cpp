@@ -93,8 +93,16 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_fFontScale = 0.55f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+	m_fSummonTime = 0.f;
+	m_vSummonPositions[0] = m_vSpawnPosition;
+	m_vSummonPositions[0].z += 15.f;
+	Vec3 vDir = { sqrtf(3.f),0.f,-1.f };
+	vDir.Normalize();
+	m_vSummonPositions[1] = m_vSpawnPosition + vDir * 15.f;
+	vDir = { -sqrtf(3.f),0.f,-1.f };
+	vDir.Normalize();
+	m_vSummonPositions[2] = m_vSpawnPosition + vDir * 15.f;
 
-	
 	return S_OK;
 }
 
@@ -104,6 +112,31 @@ void CBoss_Valtan::Tick(_float fTimeDelta)
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
+	if (m_iPhase == 3)
+	{
+		m_fSummonTime += fTimeDelta;
+		if (m_fSummonTime > 10.f)
+		{
+			m_fSummonTime = 0.f;
+			for (_int i = 0; i < 3; i++)
+			{
+				wstring szComponentName = L"Boss_Valtan_RunningGhost";
+				CBoss::MODELDESC Desc;
+				Desc.strFileName = L"Boss_Valtan_RunningGhost";
+				Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+				Desc.iObjectID = -1;
+				Desc.iLevel = m_iCurrLevel;
+				Desc.vPos = m_vSummonPositions[i];
+				wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
+				CBoss* pGhost = dynamic_cast<CBoss*>(CGameInstance::GetInstance()->Add_GameObject(Desc.iLevel, Desc.iLayer, szMonsterName, &Desc));
+				_int iNext = i + 1;
+				if (iNext == 3)
+					iNext = 0;
+				pGhost->Get_TransformCom()->LookAt_ForLandObject(m_vSummonPositions[iNext]);
+				pGhost->Set_TargetPos(m_vSummonPositions[iNext]);
+			}
+		}
+	}
 }
 
 void CBoss_Valtan::LateTick(_float fTimeDelta)
@@ -929,7 +962,6 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	CBT_Action* pAttack13 = CValtan_BT_Attack_Attack13::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
-
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01_start");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
