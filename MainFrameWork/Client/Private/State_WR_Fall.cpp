@@ -46,7 +46,15 @@ void CState_WR_Fall::Exit_State()
 	m_pPlayer->Set_Navi(true);
 	m_pPlayer->Get_RigidBody()->Set_Gravity(false);
 
-	m_pPlayer->Set_TargetPos(CNavigationMgr::GetInstance()->Find_CloseCell_Middle(m_pPlayer->Get_CurrLevel(), m_pPlayer));
+	Vec3 vCellPos = CNavigationMgr::GetInstance()->Find_CloseCell_Middle(m_pPlayer->Get_CurrLevel(), m_pPlayer);
+	vCellPos.y = 0;
+	Vec3 vCenter = Vec3(100.f, 0.f, 100.f);
+	Vec3 vDir = vCenter - vCellPos;
+	vDir.Normalize();
+
+	vCellPos += vDir * 0.4f;
+
+	m_pPlayer->Set_TargetPos(vCellPos);
 }
 
 void CState_WR_Fall::Tick_State_Control(_float fTimeDelta)

@@ -1462,6 +1462,15 @@
     <Filter Include="02.GameObjects\Esther\Silian\Skill">
       <UniqueIdentifier>{077ed3cf-3208-4626-978c-c366a52a0110}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Esther\Bahuntur">
+      <UniqueIdentifier>{c2940448-a7e3-40e7-b1ae-b19da9c15f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Bahuntur\Cut">
+      <UniqueIdentifier>{2c0157f0-db74-4c8f-881a-04a0b523dd49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Bahuntur\Skill">
+      <UniqueIdentifier>{9dad8868-317f-4809-898e-1b9dd5dee401}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4349,6 +4358,9 @@
     <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Cut.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7212,6 +7224,9 @@
     <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Cut.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

@@ -262,7 +262,7 @@ void CBoss::Add_Colider(_int iColIndex , CSphereCollider* pCollider)
 void CBoss::Set_EffectPos()
 {
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectworldzero"));
-	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();
 	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
 }
