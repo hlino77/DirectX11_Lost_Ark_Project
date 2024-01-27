@@ -31,7 +31,6 @@ HRESULT CWeapon_WR::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
-	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
 	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, -90.f));
 
 	return S_OK;
@@ -87,9 +86,9 @@ HRESULT CWeapon_WR::Render_ShadowDepth()
 void CWeapon_WR::Store_Socket()
 {
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
-	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+	m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 	m_pTransformCom->My_Rotation(Vec3(-110.f, -18.f, 93.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-11.5f, -22.5f, 6.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.115f, -0.225f, 0.06f));
 
 	__super::Store_Socket();
 }
@@ -97,7 +96,7 @@ void CWeapon_WR::Store_Socket()
 void CWeapon_WR::UnStore_Socket()
 {
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
-	m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+	m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 	m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, 90.f));
 
 	__super::UnStore_Socket();

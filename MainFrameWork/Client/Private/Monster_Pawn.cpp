@@ -227,13 +227,6 @@ HRESULT CMonster_Pawn::Ready_Components()
 		return E_FAIL;
 	Safe_Release(pGameInstance);
 
-	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
-
-	m_pTransformCom->Set_Scale(vScale);
-
     return S_OK;
 }
 

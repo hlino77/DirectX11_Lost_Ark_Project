@@ -202,12 +202,6 @@ HRESULT CMonster_Plant::Ready_Components()
 
 	Safe_Release(pGameInstance);
 
-	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
-
-	m_pTransformCom->Set_Scale(vScale);
 	m_fFontScale = 0.55f;
     return S_OK;
 }

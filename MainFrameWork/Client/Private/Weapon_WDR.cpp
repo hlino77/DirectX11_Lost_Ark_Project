@@ -32,7 +32,7 @@ HRESULT CWeapon_WDR::Initialize(void* pArg)
 
 	/* 부모 소켓행렬을 기준으로 자식의 상태를 제어한다.  */
 	m_pTransformCom->My_Rotation(Vec3(-10.f, 100.f, -90.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -3.f, 0.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -0.03f, 0.f));
 
 	return S_OK;
 }
@@ -100,13 +100,6 @@ HRESULT CWeapon_WDR::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Model"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
-
-	Vec3 vScale;
-	vScale.x = 100.f;
-	vScale.y = 100.f;
-	vScale.z = 100.f;
-
-	m_pTransformCom->Set_Scale(vScale);
 
 	return S_OK;
 }

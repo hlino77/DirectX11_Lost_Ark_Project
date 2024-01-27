@@ -34,24 +34,24 @@ HRESULT CTea::Initialize(void* pArg)
 	switch (m_ePart)
 	{
 	case CPartObject::PARTS::WEAPON_1:
-		m_pTransformCom->Set_Scale(Vec3(150.f, 150.f, 150.f));
+		m_pTransformCom->Set_Scale(Vec3(1.5f, 1.5f, 1.5f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 0.f, 172.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-2.f, -6.f, 2.5f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.02f, -0.06f, 0.025f));
 		break;
 	case CPartObject::PARTS::WEAPON_2:
-		m_pTransformCom->Set_Scale(Vec3(150.f, 150.f, 150.f));
+		m_pTransformCom->Set_Scale(Vec3(1.5f, 1.5f, 1.5f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, -35.f, 0.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-3.f, 1.f, 2.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.03f, 0.01f, 0.02f));
 		break;
 	case CPartObject::PARTS::WEAPON_3:
-		m_pTransformCom->Set_Scale(Vec3(150.f, 150.f, 150.f));
+		m_pTransformCom->Set_Scale(Vec3(1.5f, 1.5f, 1.5f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 0.f, 0.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-2.5f, 3.f, -5.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.025f, 0.03f, -0.05f));
 		break;
 	case CPartObject::PARTS::WEAPON_4:
-		m_pTransformCom->Set_Scale(Vec3(150.f, 150.f, 150.f));
+		m_pTransformCom->Set_Scale(Vec3(1.5f, 1.5f, 1.5f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 100.f, 0.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-2.f, 1.f, -1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.02f, 0.01f, -0.01f));
 		break;
 	}
 

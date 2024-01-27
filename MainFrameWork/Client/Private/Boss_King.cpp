@@ -210,9 +210,9 @@ HRESULT CBoss_King::Ready_Components()
 	Safe_Release(pGameInstance);
 
 	Vec3 vScale;
-	vScale.x = 0.013f;
-	vScale.y = 0.013f;
-	vScale.z = 0.013f;
+	vScale.x = 1.3f;
+	vScale.y = 1.3f;
+	vScale.z = 1.3f;
 
 	m_pTransformCom->Set_Scale(vScale);
 

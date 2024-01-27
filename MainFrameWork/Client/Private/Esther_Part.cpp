@@ -102,12 +102,6 @@ HRESULT CEsther_Part::Ready_Components()
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	m_vOriginScale.x = 100.f;
-	m_vOriginScale.y = 100.f;
-	m_vOriginScale.z = 100.f;
-
-	m_pTransformCom->Set_Scale(m_vOriginScale);
-
 	return S_OK;
 }
 

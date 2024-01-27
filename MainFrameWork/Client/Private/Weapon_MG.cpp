@@ -100,12 +100,6 @@ HRESULT CWeapon_MG::Ready_Components()
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	m_vOriginScale.x = 100.f;
-	m_vOriginScale.y = 100.f;
-	m_vOriginScale.z = 100.f;
-
-	m_pTransformCom->Set_Scale(m_vOriginScale);
-
 	return S_OK;
 }
 

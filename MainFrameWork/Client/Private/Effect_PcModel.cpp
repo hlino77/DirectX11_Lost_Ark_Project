@@ -342,34 +342,34 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 	switch (eWeapon)
 	{
 	case Client::CEffect_PcModel::SWORD:
-		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 90.f, -90.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SWORD], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::HAND:
-		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(-80.f, 45.f, 40.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[HAND], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::SHOT:
-		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(-80.f, 45.f, 40.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[SHOT], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::LONG:
-		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(-80.f, 45.f, 40.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[LONG], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::HAMMER:
-		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(-10.f, 100.f, -90.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -3.f, 0.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, -0.03f, 0.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[HAMMER], m_pTransformCom->Get_WorldMatrix());
 		break;
 	case Client::CEffect_PcModel::MUSE:
-		m_pTransformCom->Set_Scale(Vec3(100.f, 100.f, 100.f));
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 70.f, 70.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[MUSE], m_pTransformCom->Get_WorldMatrix());
 		break;
@@ -385,7 +385,7 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	CModel* pInstance = nullptr;
 	

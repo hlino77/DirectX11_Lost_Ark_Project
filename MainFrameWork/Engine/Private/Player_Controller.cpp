@@ -584,7 +584,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	Vec3 vCur = m_vPrePos;
 	vNext.y = 0.0f; vCur.y = 0.0f;
 
-	if (Vec3(vNext - vCur).Length() <= 0.05f)
+	if (Vec3(vNext - vCur).Length() <= m_fMoveLength)
 	{
 		m_bMoveStop = true;
 		return;

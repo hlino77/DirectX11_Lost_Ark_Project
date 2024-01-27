@@ -154,12 +154,6 @@ HRESULT CEsther_Skill::Ready_Components()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	m_vOriginScale.x = 0.01f;
-	m_vOriginScale.y = 0.01f;
-	m_vOriginScale.z = 0.01f;
-
-	m_pTransformCom->Set_Scale(m_vOriginScale);
-
 	return S_OK;
 }
 

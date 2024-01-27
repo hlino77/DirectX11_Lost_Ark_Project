@@ -99,13 +99,6 @@ HRESULT CWeapon_Hand_2::Ready_Components()
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	Vec3 vScale;
-	vScale.y = 100.f;
-	vScale.z = 100.f;
-	vScale.x = 100.f;
-
-	m_pTransformCom->Set_Scale(vScale);
-
 	return S_OK;
 }
 

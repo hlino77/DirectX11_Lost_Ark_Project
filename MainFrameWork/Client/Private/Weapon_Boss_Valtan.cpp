@@ -104,14 +104,6 @@ HRESULT CWeapon_Boss_Valtan::Ready_Components()
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	
-	Vec3 vScale;
-	vScale.x = 1.f;
-	vScale.y = 1.f;
-	vScale.z = 1.f;
-
-	m_pTransformCom->Set_Scale(vScale);
-
 	return S_OK;
 }
 

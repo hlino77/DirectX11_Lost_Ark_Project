@@ -1501,6 +1501,16 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
 	pUIManager->Set_MaxFiles(10);
@@ -1517,7 +1527,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1530,7 +1540,7 @@ HRESULT CLoader::Loading_For_Level_Chaos1()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_1, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1560,6 +1570,15 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
 	pUIManager->Set_MaxFiles(5);
@@ -1579,7 +1598,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1591,7 +1610,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1603,7 +1622,7 @@ HRESULT CLoader::Loading_For_Level_Chaos2()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_2, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1622,6 +1641,12 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
@@ -1643,7 +1668,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1665,7 +1690,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_CHAOS_3, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1704,6 +1729,15 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
 	pUIManager->Set_MaxFiles(10);
@@ -1721,7 +1755,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixRotationY(XMConvertToRadians(270.0f))))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1765,7 +1799,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixScaling(0.01f, 0.01f, 0.01f)))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -3857,7 +3891,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 
 	/* 에스더 */
 	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
-	AutoAnimLoad(strPath, LEVEL_STATIC, PivotMatrix);
+	AutoAnimLoad(strPath, LEVEL_STATIC, ScalePivotMatrix);
 
 	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
@@ -4005,12 +4039,7 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
-	Matrix		ScalePivotMatrix = XMMatrixIdentity();
-	ScalePivotMatrix._11 = 0.01f;
-	ScalePivotMatrix._22 = 0.01f;
-	ScalePivotMatrix._33 = 0.01f;
-	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
-
+	Matrix		ScalePivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
 	/* 플레이어 */
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
