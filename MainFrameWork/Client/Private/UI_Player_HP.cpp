@@ -64,7 +64,8 @@ HRESULT CUI_Player_HP::UI_Set()
 		m_vecUIParts.push_back(pUI);
 	}
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_HPFill")));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_HPFill"),
+		CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC,(_uint)LAYER_TYPE::LAYER_PLAYER)));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else

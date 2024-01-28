@@ -2,6 +2,7 @@
 #include "UI_Inventory.h"
 #include "GameInstance.h"
 #include "UI_InventoryWnd.h"
+#include "UI_Manager.h"
 #include "UI_Inventory_ItemSlot.h"
 #include "Player.h"
 #include "Item.h"
@@ -40,6 +41,7 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 		m_pOwner = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
 		if (nullptr == m_pOwner)
 			return E_FAIL;
+
 	}
 
 	if (FAILED(UI_SET()))
@@ -57,6 +59,7 @@ void CUI_Inventory::Tick(_float fTimeDelta)
 
 		for (auto& iter : m_vecUIParts)
 		{
+			iter->Set_Render(m_bTestActiveKey);
 			iter->Set_Active(m_bTestActiveKey);
 		}
 	}
@@ -75,6 +78,9 @@ HRESULT CUI_Inventory::Render()
 
 void CUI_Inventory::Update_Used_Item()
 {
+	if (!m_pOwner->Is_Control())
+		return;
+
 	for (auto& iter : m_vecUIParts)
 	{
 		if (TEXT("UI_InventoryWnd") == iter->Get_UITag())
@@ -84,12 +90,40 @@ void CUI_Inventory::Update_Used_Item()
 
 	auto& iter = m_vecUIParts.begin();
 	++iter;
-	for (auto& Pair : m_pOwner->Get_Items())
+	for (auto& iterator : m_pOwner->Get_Items())
 	{
-		if (Pair.second.front()->Get_EquipWearing())
+		if ((1 > iterator.vecItems.size()) || (nullptr == iterator.vecItems.front()))
+		{
+			++iter;
 			continue;
+		}
+		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(iterator.vecItems);
+		++iter;
+	}
+}
 
-		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(Pair.second);
+void CUI_Inventory::Update_ReSort_Inventory()
+{
+	if (!m_pOwner->Is_Control())
+		return;
+
+	for (auto& iter : m_vecUIParts)
+	{
+		if (TEXT("UI_InventoryWnd") == iter->Get_UITag())
+			continue;
+		static_cast<CUI_Inventory_ItemSlot*>(iter)->Clear_ItemSlot();
+	}
+
+	auto& iter = m_vecUIParts.begin();
+	++iter;
+	for (auto& iterator : m_pOwner->Get_Items())
+	{
+		if ((1 > iterator.vecItems.size()) || (iterator.vecItems.front()->Get_EquipWearing()))
+		{
+			++iter;
+			continue;
+		}
+		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(iterator.vecItems);
 		++iter;
 	}
 }
@@ -106,7 +140,7 @@ void CUI_Inventory::Move_InventoryWNd()
 	m_pContext->RSGetViewports(&ViewPortIndex, &ViewPort);
 
 	static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->Move_InventoryWnd(pt);
-	_float fX = m_pInventoryWnd->Get_UIDesc().fX - (m_pInventoryWnd->Get_UIDesc().fSizeX * 0.5f) + 40.f;
+	_float fX = m_pInventoryWnd->Get_UIDesc().fX - (m_pInventoryWnd->Get_UIDesc().fSizeX * 0.5f) + 30.f;
 	_float fY = m_pInventoryWnd->Get_UIDesc().fY - (m_pInventoryWnd->Get_UIDesc().fSizeY * 0.5f - 70.f);
 	for (auto& iter : m_vecUIParts)
 	{
@@ -126,7 +160,7 @@ HRESULT CUI_Inventory::UI_SET()
 	Safe_AddRef(pGameInstance);
 
 	m_pInventoryWnd = static_cast<CUI*>(pGameInstance->
-		Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_InventoryWnd")));
+		Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_InventoryWnd"), m_pOwner));
 
 	if (nullptr == m_pInventoryWnd)
 		return E_FAIL;
@@ -138,20 +172,21 @@ HRESULT CUI_Inventory::UI_SET()
 	pInvenDesc = new INVEN_ITEMDESC;
 	pInvenDesc->pUIWnd = m_pInventoryWnd;
 	pInvenDesc->pPlayer = m_pOwner;
-	pInvenDesc->mapItems = m_pOwner->Get_Items();
+	pInvenDesc->vecItemSlots = m_pOwner->Get_Items();
 	pInvenDesc->fX = m_pInventoryWnd->Get_UIDesc().fX - (m_pInventoryWnd->Get_UIDesc().fSizeX * 0.5f) + 40.f;
 	pInvenDesc->fY = m_pInventoryWnd->Get_UIDesc().fY - (m_pInventoryWnd->Get_UIDesc().fSizeY * 0.5f - 70.f);
 	_uint iXIndex = 0;
 	_uint iYIndex = 0;
+	_uint iSlotIndex = 0;
 	CUI* pUI = { nullptr };
 
-	for (size_t i = 0; i < 7; i++)
+	for (size_t i = 0; i < 8; i++)
 	{
-		for (size_t j = 0; j < 7; j++)
+		for (size_t j = 0; j < 8; j++)
 		{
 			pInvenDesc->iSlotIndexX = j;
 			pInvenDesc->iSlotIndexY = i;
-
+			pInvenDesc->iSlotIndex = iSlotIndex;
 			pUI = static_cast<CUI*>(pGameInstance->
 				Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory_ItemSlot"),
 					pInvenDesc));
@@ -159,22 +194,25 @@ HRESULT CUI_Inventory::UI_SET()
 			if (nullptr == pUI)
 				return E_FAIL;
 			else
+			{
+				pUI->Set_Active(false);
 				m_vecUIParts.push_back(pUI);
-			pUI->Set_Active(false);
+			}
+			++iSlotIndex;
 		}
 	}
-
-	auto & iter = m_vecUIParts.begin();
+	
+	auto& iter = m_vecUIParts.begin();
 	++iter;
-	for (auto & Pair: m_pOwner->Get_Items())
+	for (auto& iterator : m_pOwner->Get_Items())
 	{
-		if (Pair.second.front()->Get_EquipWearing())
+		if ((1 > iterator.vecItems.size())||(iterator.vecItems.front()->Get_EquipWearing()))
 			continue;
-		
-		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(Pair.second);
+
+		static_cast<CUI_Inventory_ItemSlot*>((*iter))->Set_ItemInfo(iterator.vecItems);
 		++iter;
 	}
-	
+
 	delete(pInvenDesc);
 	Safe_Release(pGameInstance);
 	return S_OK;

@@ -29,9 +29,9 @@ HRESULT CUI_Player_MPFill::Initialize(void* pArg)
     if (nullptr != pArg)
     {
         m_pPlayer = static_cast<CGameObject*>(pArg);
-        m_iMaxMp = m_pPlayer->Get_MaxMp();
-        m_iPlayerMp = m_pPlayer->Get_Mp();
-        m_fCurrentRatio = m_iPlayerMp / m_iMaxHp;
+        m_iMaxMp = static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iMaxMp;
+        m_iPlayerMp = static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iCurMp;
+        m_fCurrentRatio = (_float)m_iPlayerMp / (_float)m_iMaxHp;
         m_fPreRatio = m_fCurrentRatio;
     }
 
@@ -62,7 +62,7 @@ HRESULT CUI_Player_MPFill::Initialize_TextBox()
 {
     Ready_TextBox();
     Set_Active(true);
-
+    Print_Mp();
     return S_OK;
 }
 
@@ -76,8 +76,9 @@ void CUI_Player_MPFill::LateTick(_float fTimeDelta)
     __super::LateTick(fTimeDelta);
     if (nullptr != m_pPlayer)
     {
-        m_iPlayerMp = m_pPlayer->Get_Mp();
-        m_fCurrentRatio = m_iPlayerMp / m_iMaxMp;
+        m_iMaxHp = static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iMaxMp;
+        m_iPlayerMp = static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iCurMp;
+        m_fCurrentRatio = (_float)m_iPlayerMp / (_float)m_iMaxHp;
 
         if (m_fCurrentRatio != m_fPreRatio)
         {
@@ -95,8 +96,6 @@ HRESULT CUI_Player_MPFill::Render()
     m_pShaderCom->Begin(7);
 
     m_pVIBufferCom->Render();
-
-    //Print_Mp();
 
     return S_OK;
 }

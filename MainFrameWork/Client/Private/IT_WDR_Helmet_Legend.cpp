@@ -65,8 +65,9 @@ HRESULT CIT_WDR_Helmet_Legend::Use_Item(CPlayer* pOwner)
 	for (auto& i : m_vecUseEquipSlot)
 	{
 		if (nullptr != pOwner->Get_EquipItem(i))
+		{
 			pOwner->Get_EquipItem(i)->Disuse_Item(pOwner, false);
-
+		}
 		pOwner->Set_EquipItem(i, this);
 
 		if (i == m_iEquipType)
@@ -79,6 +80,8 @@ HRESULT CIT_WDR_Helmet_Legend::Use_Item(CPlayer* pOwner)
 		}
 	}
 	Set_EquipWearing(true);
+	
+
 	return S_OK;
 }
 
@@ -99,6 +102,7 @@ HRESULT CIT_WDR_Helmet_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 		pOwner->Set_ModelPart(i, pOwner->Get_DefaultPart(i));
 		pOwner->Set_EquipItem(i, nullptr);
 	}
+	pOwner->Add_Item(m_strObjectTag, this);
 
 	return S_OK;
 }

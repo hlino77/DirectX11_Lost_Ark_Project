@@ -44,14 +44,25 @@ public:
     void    Set_CurrHPUI(CUI* pUI);
     void    SetDead_CurrHPUI(CUI* pUI);
 
+
+public://Mouse
+    void    Picked_ItemIcon(const wstring& strObjectTag, CTexture* pTexture_Icon , _uint iItemGrade);
+    void    Reset_ItemIcon();
+    _bool    Is_PickedIcon();
+    void    Set_PickedIcon(_bool bPickedIcon);
+    const wstring Get_PickedTag() { return m_strPickedTag; }
+    void    Set_PickedTag(wstring strPickedTag) { m_strPickedTag = strPickedTag; }
+
 private:
     list<class CUI*>*    m_pUIList;
     _uint   m_iCurrentLevel = { 0 };
     _uint   m_iNextLevel = { 0 };
     POINT   m_pt = {};
+    wstring m_strPickedTag = TEXT("");
 
     CUI* m_pCurrentBossHpUI = { nullptr };
-
+    CUI* m_pMouseCursor = { nullptr };
+        
     USE_LOCK
 public:
     virtual void Free() override;

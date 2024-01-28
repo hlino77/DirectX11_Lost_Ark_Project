@@ -4,6 +4,8 @@
 #include "UI.h"
 #include "UI_Loading.h"
 #include "UI_Boss_Hp.h"
+#include "UI_Mouse_Cursor.h"
+#include "Item.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -224,6 +226,46 @@ void CUI_Manager::SetDead_CurrHPUI(CUI* pUI)
 	{
 		pUI->Set_Dead(true);
 	}
+}
+
+void CUI_Manager::Picked_ItemIcon(const wstring& strObjectTag, CTexture* pTexture_Icon, _uint  iItemGrade)
+{
+	m_strPickedTag = strObjectTag;
+
+	if ((nullptr == pTexture_Icon)||((_uint)CItem::GRADE::_END == iItemGrade))
+		return;
+
+	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
+	if (nullptr == m_pMouseCursor)
+		return;
+
+	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Picked_Icon(pTexture_Icon, iItemGrade);
+}
+
+void CUI_Manager::Reset_ItemIcon()
+{
+	m_strPickedTag = TEXT("");
+	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
+	if (nullptr == m_pMouseCursor)
+		return;
+
+	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Reset_Icon();
+}
+
+_bool CUI_Manager::Is_PickedIcon()
+{
+	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
+	if (nullptr != m_pMouseCursor)
+		return static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Is_PickedIcon();
+}
+
+void CUI_Manager::Set_PickedIcon(_bool bPickedIcon)
+{
+	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
+	if (nullptr == m_pMouseCursor)
+		return;
+
+	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Set_PickedIcon(bPickedIcon);
 }
 
 void CUI_Manager::Free()

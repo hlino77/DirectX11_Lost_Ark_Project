@@ -906,7 +906,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Mococo")));
@@ -914,7 +914,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Mococo")));
@@ -922,13 +922,13 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
-
+	
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
@@ -939,18 +939,18 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	/*pItem = static_cast<CItem*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("Prototype_GameObject_TestItem")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
-	Add_Item(pItem->Get_ObjectTag(), pItem);*/
+	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	return S_OK;
 }
