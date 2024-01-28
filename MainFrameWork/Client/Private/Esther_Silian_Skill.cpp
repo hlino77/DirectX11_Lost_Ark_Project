@@ -36,9 +36,12 @@ HRESULT CEsther_Silian_Skill::Initialize(CPlayer* pPlayer, void* pArg)
 	if (FAILED(Ready_Projectile()))
 		return E_FAIL;
 
-	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"sk_swordofchampion", 1.0f);
+	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"sk_swordofchampion", 1.f);
 	if (m_iAnimIndex == -1)
 		return E_FAIL;
+
+	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	m_pModelCom->Play_Animation(0.0f);
 
 	return S_OK;
 }
@@ -70,7 +73,8 @@ void CEsther_Silian_Skill::Reset()
 
 void CEsther_Silian_Skill::Ready()
 {
-	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	//m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
 	m_IsFinished = false;
 }

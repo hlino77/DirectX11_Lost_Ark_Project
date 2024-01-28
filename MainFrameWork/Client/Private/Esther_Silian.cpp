@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Esther_Silian.h"
 #include "GameInstance.h"
-#include "Esther_Silian.h"
+#include "Esther_Silian_Cut.h"
 #include "Esther_Silian_Skill.h"
 
 CEsther_Silian::CEsther_Silian(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -25,7 +25,7 @@ HRESULT CEsther_Silian::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	m_strObjectTag = TEXT("Esther_Way");
+	m_strObjectTag = TEXT("Esther_Silian");
 
 	m_pEsther_Skill = CEsther_Silian_Skill::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
 

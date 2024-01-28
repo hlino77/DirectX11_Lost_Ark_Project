@@ -1,4 +1,5 @@
 #pragma once
+#include "Client_Defines.h"
 
 class CServerSession;
 
@@ -47,6 +48,7 @@ public:
 	const _uint			Get_Class() { return m_iClass; }
 
 	void				Send_LevelState(LEVELSTATE eLevelState);
+
 private:
 	ServerSessionRef m_pServerSession;
 

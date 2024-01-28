@@ -46,6 +46,8 @@
 #include "State_GN_Resurrect.h"
 #include "State_GN_Fall.h"
 #include "State_GN_Esther_Way.h"
+#include "State_GN_Esther_Silian.h"
+#include "State_GN_Esther_Bahuntur.h"
 
 /* State_Skill */
 #include "State_GN_FreeShooter.h"
@@ -835,6 +837,12 @@ HRESULT CPlayer_Gunslinger::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Esther_Way"), CState_GN_Esther_Way::Create(TEXT("Esther_Way"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Esther_Silian"), CState_GN_Esther_Silian::Create(TEXT("Esther_Silian"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Esther_Bahuntur"), CState_GN_Esther_Bahuntur::Create(TEXT("Esther_Bahuntur"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -1045,6 +1053,18 @@ HRESULT CPlayer_Gunslinger::Ready_Esther()
 	tEstherDesc.pLeaderPlayer = this;
 
 	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Way"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Silian"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Bahuntur"), &tEstherDesc);
 	if (nullptr == pEsther)
 		return E_FAIL;
 

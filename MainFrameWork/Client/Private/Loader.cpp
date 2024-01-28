@@ -235,9 +235,11 @@
 
 #include "Item_TestItem.h"
 
+/* 에스더 */
 #include "Esther_Part.h"
 #include "Esther_Way.h"
 #include "Esther_Silian.h"
+#include "Esther_Bahuntur.h"
 
 
 namespace fs = std::filesystem;
@@ -1474,6 +1476,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian"),
 		CEsther_Silian::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur"),
+		CEsther_Bahuntur::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3895,6 +3902,83 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			}));
 	}
 
+	/* 에스더 마네킹 */
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESSA";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESWY";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESWY_Skill";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
 	/* Npc 모델파츠 */
 	wstring strPath = L"../Bin/Resources/Meshes/NpcPart/";
 	AutoLoad(strPath, LEVEL_BERN);
@@ -3910,9 +3994,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
 	/* 에스더 */
-	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
-	AutoAnimLoad(strPath, LEVEL_STATIC, ScalePivotMatrix);
-
 	strPath = L"../Bin/Resources/Meshes/ES/Part/";
 	AutoLoad(strPath, LEVEL_STATIC);
 

@@ -74,5 +74,3 @@ void CServerSessionManager::Free()
 
 	m_pServerSession = nullptr;
 }
-
-

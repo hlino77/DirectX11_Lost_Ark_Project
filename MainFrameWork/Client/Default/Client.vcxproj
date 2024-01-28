@@ -239,6 +239,8 @@
     <ClInclude Include="..\Public\Esther_Bahuntur.h" />
     <ClInclude Include="..\Public\Esther_Bahuntur_Cut.h" />
     <ClInclude Include="..\Public\Esther_Bahuntur_Skill.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Ceiling.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h" />
     <ClInclude Include="..\Public\Esther_Cut.h" />
     <ClInclude Include="..\Public\Esther_Part.h" />
     <ClInclude Include="..\Public\Esther_Silian.h" />
@@ -384,6 +386,8 @@
     <ClInclude Include="..\Public\SkyDome.h" />
     <ClInclude Include="..\Public\State_GN_Dead_End.h" />
     <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_GN_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_GN_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_GN_Esther_Way.h" />
     <ClInclude Include="..\Public\State_GN_Fall.h" />
     <ClInclude Include="..\Public\State_GN_Grabbed.h" />
@@ -404,6 +408,8 @@
     <ClInclude Include="..\Public\State_MG_Dash.h" />
     <ClInclude Include="..\Public\State_MG_Dead_End.h" />
     <ClInclude Include="..\Public\State_MG_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_MG_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_MG_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_MG_Esther_Way.h" />
     <ClInclude Include="..\Public\State_MG_Fall.h" />
     <ClInclude Include="..\Public\State_MG_Grabbed.h" />
@@ -436,6 +442,8 @@
     <ClInclude Include="..\Public\State_WDR_Dead_Start.h" />
     <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
+    <ClInclude Include="..\Public\State_WDR_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_WDR_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_WDR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WDR_Fall.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Fail.h" />
@@ -500,6 +508,7 @@
     <ClInclude Include="..\Public\State_WR_Dash.h" />
     <ClInclude Include="..\Public\State_WR_Dead_End.h" />
     <ClInclude Include="..\Public\State_WR_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_WR_Esther_Bahuntur.h" />
     <ClInclude Include="..\Public\State_WR_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_WR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WR_Fall.h" />
@@ -840,6 +849,8 @@
     <ClCompile Include="..\Private\Esther_Bahuntur.cpp" />
     <ClCompile Include="..\Private\Esther_Bahuntur_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Bahuntur_Skill.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Ceiling.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Floor.cpp" />
     <ClCompile Include="..\Private\Esther_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Part.cpp" />
     <ClCompile Include="..\Private\Esther_Silian.cpp" />
@@ -979,6 +990,8 @@
     <ClCompile Include="..\Private\SkyDome.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_GN_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_GN_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_GN_Fall.cpp" />
     <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
@@ -1000,6 +1013,8 @@
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
     <ClCompile Include="..\Private\State_MG_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_MG_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_MG_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_MG_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_MG_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_MG_Fall.cpp" />
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
@@ -1032,6 +1047,8 @@
     <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_WDR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WDR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp" />
@@ -1096,6 +1113,7 @@
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_Esther_Bahuntur.cpp" />
     <ClCompile Include="..\Private\State_WR_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_WR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WR_Fall.cpp" />

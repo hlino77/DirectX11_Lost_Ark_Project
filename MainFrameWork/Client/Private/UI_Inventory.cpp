@@ -86,7 +86,6 @@ void CUI_Inventory::Update_Used_Item()
 	++iter;
 	for (auto& Pair : m_pOwner->Get_Items())
 	{
-		(*iter);
 		if (Pair.second.front()->Get_EquipWearing())
 			continue;
 
