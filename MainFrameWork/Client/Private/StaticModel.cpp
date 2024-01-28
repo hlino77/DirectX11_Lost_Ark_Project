@@ -34,6 +34,8 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_IsMapObject = Desc->IsMapObject;
 	m_bInstance = Desc->bInstance;
 
+	m_BloomColor = Desc->BloomColor; //
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -68,6 +70,7 @@ void CStaticModel::Tick(_float fTimeDelta)
 	}
 
 	static _int g_cnt = 0;
+
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::H))
 	{
 		if (m_StaticColliders.size() != 0)

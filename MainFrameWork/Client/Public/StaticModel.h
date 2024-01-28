@@ -23,6 +23,8 @@ public:
 		wstring strFileName;
 		Vec3	vPosition;
 		
+		Vec3	BloomColor;
+
 		_bool	IsMapObject = false;
 		_uint	iLayer;
 		_bool	bInstance = false;
@@ -77,14 +79,13 @@ public:
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() { return m_bRimLight; }
 
+
+
 protected:
+
 	virtual HRESULT Ready_Components() override;
-
-
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
 	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
-
-
 
 
 private:
@@ -96,6 +97,8 @@ private:
 
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
+
+	Vec3							m_BloomColor = {};
 
 public:
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);

@@ -2138,9 +2138,6 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 	file->Read<Vec3>(QuadTreeScale);
 	file->Read<_uint>(QuadTreeMaxDepth);
 
-	//CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
-
-
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
@@ -2168,7 +2165,6 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		wstring selectedPath = {};
 
 
-
 		for (const auto& path : paths)
 		{
 			wstring fullPath = path + CAsUtils::ToWString(strFileName);
@@ -2180,23 +2176,19 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 		}
 
 
-
-		if (selectedPath == L"../Bin/Resources/Export/Nature/")
-		{
-			int a = 1;
-		}
-
-
-
 		if (selectedPath.empty())
 		{
 			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
 			return E_FAIL;
 		}
 
+
 		Matrix	matWorld = file->Read<Matrix>();
+
+
 		_bool bInstance = false;
 		file->Read<_bool>(bInstance);
+
 
 		vector<_uint>	QuadTreeIndex;
 		_uint			QuadTreeSize = {};
@@ -2208,7 +2200,6 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 			_uint Index = {};
 			file->Read<_uint>(Index);
 		}
-
 
 
 		CStaticModel::MODELDESC Desc;
@@ -2233,7 +2224,6 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 	Safe_Release(pGameInstance);
 
 	return S_OK;
-
 }
 
 
@@ -2258,9 +2248,6 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 	file->Read<Vec3>(QuadTreePosition);
 	file->Read<Vec3>(QuadTreeScale);
 	file->Read<_uint>(QuadTreeMaxDepth);
-
-	//CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
-
 
 	
 	vector<wstring> paths =
@@ -2316,8 +2303,6 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 	
 		if (0 == ModelType) // NonAnim
 		{
-
-
 			_uint vecNavicellsize = file->Read<_uint>(); // Read Vector Size
 
 			for (size_t i = 0; i < vecNavicellsize; i++)
@@ -2397,12 +2382,9 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 					CModel::Create(m_pDevice, m_pContext, Desc.strFilePath, Desc.strFileName, true, true, PivotMatrix))))
 					return E_FAIL;
 			}
-		
 		}
-
-		int a = 1;
-
 	}
+
 	Safe_Release(pGameInstance);
 	return S_OK;
 
