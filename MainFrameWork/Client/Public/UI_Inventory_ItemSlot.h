@@ -52,6 +52,7 @@ private:
     _uint   m_iEquipType = { 0 };
     _int   m_iSlotIndexX = { -1 };
     _int    m_iSlotIndexY = { -1 };
+    _uint   m_iSlotIndex = { 0 };
 public:
     static  CUI_Inventory_ItemSlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

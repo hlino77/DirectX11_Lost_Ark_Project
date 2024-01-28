@@ -3482,10 +3482,7 @@ HRESULT CLoader::Loading_Inventory_UI()
 	
 	//ETC
 	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Rank"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Rank/Rank%d.png",7))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
+
 	}
 
 	Safe_Release(pUIManager);

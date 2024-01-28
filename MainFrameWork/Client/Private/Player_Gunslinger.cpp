@@ -966,7 +966,7 @@ HRESULT CPlayer_Gunslinger::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_Body_Mococo")));
@@ -974,7 +974,7 @@ HRESULT CPlayer_Gunslinger::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_WP_Mococo")));
@@ -982,7 +982,7 @@ HRESULT CPlayer_Gunslinger::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_GN_WP_Legend")));

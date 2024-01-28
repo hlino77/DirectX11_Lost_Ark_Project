@@ -102,6 +102,17 @@ namespace Client
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, DESTROYER, BARD, CLASSEND };
 
 	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, SILENCE ,  EFFECTEND };
+
+	struct ITEM_SLOTDESC
+	{
+		vector<class CItem*> vecItems;
+	};
+
+	struct ITEMTAG_DESC
+	{
+		_bool	bOwn = { false };
+		_int	iIndex = { -1 };
+	};
 }
 
 #define EFFECT_START(name, pivotDesc)						CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc);

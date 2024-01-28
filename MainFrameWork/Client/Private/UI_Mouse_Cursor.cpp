@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "UI_Mouse_Cursor.h"
 #include "GameInstance.h"
+#include "UI_Mouse_PickedIcon.h"
+#include "Player_Skill.h"
+#include "Item.h"
 
 CUI_Mouse_Cursor::CUI_Mouse_Cursor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -27,6 +30,9 @@ HRESULT CUI_Mouse_Cursor::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    if(FAILED(Initialize_Utility()))
+        return E_FAIL;
+
     m_strUITag = TEXT("Mouse_Cursor");
 
     m_fX = g_iWinSizeX * 0.5f;
@@ -46,26 +52,28 @@ HRESULT CUI_Mouse_Cursor::Initialize(void* pArg)
     return S_OK;
 }
 
+HRESULT CUI_Mouse_Cursor::Initialize_Utility()
+{
+    m_pUitility_PickedIcon = static_cast<CUI_Mouse_PickedIcon*>(CGameInstance::GetInstance()->
+        Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Mouse_PickedIcon")));
+
+    if (nullptr == m_pUitility_PickedIcon)
+        return E_FAIL;
+
+    return S_OK;
+}
+
 void CUI_Mouse_Cursor::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-    POINT pt;
-    GetCursorPos(&pt);
-    ScreenToClient(g_hWnd, &pt);
-
-    m_fX = pt.x;
-    m_fY = pt.y;
-
-    m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+    Moving_MouseCursor();
+    
 
 }
 
 void CUI_Mouse_Cursor::LateTick(_float fTimeDelta)
 {
-
     m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_MOUSE, this);
 }
 
@@ -79,6 +87,24 @@ HRESULT CUI_Mouse_Cursor::Render()
     m_pVIBufferCom->Render();
 
     return S_OK;
+}
+
+void CUI_Mouse_Cursor::Picked_Icon(CTexture* pTexture_Icon, _uint iItemGrade)
+{
+    if (!m_bPickedIcon)
+    {
+        m_bPickedIcon = true;
+        m_pUitility_PickedIcon->Set_IconTexture(pTexture_Icon, iItemGrade);
+    }
+}
+
+void CUI_Mouse_Cursor::Reset_Icon()
+{
+    if (m_bPickedIcon)
+    {
+         m_bPickedIcon = false;
+        m_pUitility_PickedIcon->Set_IconTexture(nullptr, 0);
+    }
 }
 
 HRESULT CUI_Mouse_Cursor::Ready_Components()
@@ -113,6 +139,20 @@ HRESULT CUI_Mouse_Cursor::Bind_ShaderResources()
     return S_OK;
 }
 
+void CUI_Mouse_Cursor::Moving_MouseCursor()
+{
+    POINT pt;
+    GetCursorPos(&pt);
+    ScreenToClient(g_hWnd, &pt);
+
+    m_fX = pt.x;
+    m_fY = pt.y;
+
+    m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+}
+
 CUI_Mouse_Cursor* CUI_Mouse_Cursor::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CUI_Mouse_Cursor* pInstance = new CUI_Mouse_Cursor(pDevice, pContext);
@@ -145,6 +185,7 @@ void CUI_Mouse_Cursor::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
+    m_pUitility_PickedIcon->Set_Dead(true);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pShaderCom);

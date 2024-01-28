@@ -748,7 +748,7 @@ HRESULT CPlayer_Bard::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_Body_Mococo")));
@@ -756,7 +756,7 @@ HRESULT CPlayer_Bard::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_WP_Mococo")));
@@ -764,7 +764,7 @@ HRESULT CPlayer_Bard::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_MG_WP_Legend")));

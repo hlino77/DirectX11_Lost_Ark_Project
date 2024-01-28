@@ -6,6 +6,8 @@ class CPlayer_Skill;
 END
 
 BEGIN(Client)
+class CItem;
+class CPlayer;
 
 class CUI_Mouse_PickedIcon :
     public CUI
@@ -26,7 +28,7 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_IsPicked(_bool IsPicked) { m_bPicked = IsPicked; }
     _bool   Get_IsPicked() { return m_bPicked; }
-    void    Set_IconTexture(CTexture* pTexture);
+    void    Set_IconTexture(CTexture* pTextureCom, _uint iTextureIndex);
 
 private:
     virtual HRESULT Ready_Components();
@@ -34,6 +36,7 @@ private:
     void    UnPickedIcon();
 
 private:
+    CTexture* m_pTexture_Grade = { nullptr };
     _bool   m_bPicked = { false };
 
 public:

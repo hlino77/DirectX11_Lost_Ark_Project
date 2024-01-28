@@ -38,6 +38,7 @@
 #include "UI_LoadingShine.h"
 #include "UI_Manager.h"
 #include "UI_Mouse_Cursor.h"
+#include "UI_Mouse_PickedIcon.h"
 #include "BehaviorTree.h"
 #include "UI_Tool.h"
 #include "TextBox.h"
@@ -388,6 +389,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/Mouse/Basic_Mouse_ReSize.png"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Rank"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Rank/Rank%d.png", 7))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
 		CBackGround_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -422,6 +427,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading_Shine"),
 		CUI_LoadingShine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mouse_PickedIcon"),
+		CUI_Mouse_PickedIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MouseCursor"),

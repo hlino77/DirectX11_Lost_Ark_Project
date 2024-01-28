@@ -76,9 +76,11 @@ HRESULT CLevel_ServerSelect::Ready_Layer_UI()
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_SERVERSELECT, static_cast<CUI*>(pServerUI));
 
-
-	if (nullptr == pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_MouseCursor")))
+	CGameObject* pMouseCursor = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_MouseCursor"));
+	if(nullptr == pMouseCursor)
 		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_STATIC, static_cast<CUI*>(pMouseCursor));
 
 	Safe_Release(pGameInstance);
 
