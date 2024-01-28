@@ -198,6 +198,7 @@
     <ClInclude Include="..\Public\Boss_Valtan.h" />
     <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h" />
     <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h" />
+    <ClInclude Include="..\Public\Camera_Cut.h" />
     <ClInclude Include="..\Public\Camera_Lobby.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
@@ -808,6 +809,7 @@
     <ClCompile Include="..\Private\Boss_Valtan.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp" />
+    <ClCompile Include="..\Private\Camera_Cut.cpp" />
     <ClCompile Include="..\Private\Camera_Lobby.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />

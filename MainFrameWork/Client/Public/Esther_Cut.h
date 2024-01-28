@@ -39,11 +39,14 @@ public:
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			LateTick(_float fTimeDelta);
 	virtual HRESULT			Render();
-	virtual HRESULT			Render_ShadowDepth();
 
 public:
 	void					Set_OwnerEsther(CEsther* pEsther) { m_pOwnerEsther = pEsther; }
+	CEsther*				Get_OwnerEshter() { return m_pOwnerEsther; }
+
 	void					Set_LeaderPlayer(CPlayer* pPlayer) { m_pLeaderPlayer = pPlayer; }
+
+	
 
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
@@ -86,13 +89,14 @@ protected:
 
 protected:
 	/* 플레이어 정보*/
-	CPlayer*		m_pLeaderPlayer = { nullptr };
+	CPlayer* m_pLeaderPlayer = { nullptr };
 
 	/* Esther 정보 */
-	CEsther*		m_pOwnerEsther = { nullptr };
-	_uint			m_iAnimIndex = { 0 };
+	CEsther*						m_pOwnerEsther = { nullptr };
+	_uint							m_iAnimIndex = { 0 };
 
 	/* 파츠 */
+	CModel* m_pModelPartCom[(_uint)MODEL_PART::_END] = { nullptr };
 	CPartObject* m_pPart = { nullptr };
 
 	/* 컬링 절두체 */

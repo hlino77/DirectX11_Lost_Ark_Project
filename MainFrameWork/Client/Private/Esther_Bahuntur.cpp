@@ -28,6 +28,7 @@ HRESULT CEsther_Bahuntur::Initialize(void* pArg)
 	m_strObjectTag = TEXT("Esther_Bahuntur");
 
 	m_pEsther_Skill = CEsther_Bahuntur_Skill::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
+	m_pEsther_Skill->Set_OwnerEsther(this);
 
 	m_iEstherType = (_uint)ESTHERTYPE::BT;
 

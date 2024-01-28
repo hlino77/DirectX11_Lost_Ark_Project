@@ -28,6 +28,10 @@ HRESULT CEsther_Silian::Initialize(void* pArg)
 	m_strObjectTag = TEXT("Esther_Silian");
 
 	m_pEsther_Skill = CEsther_Silian_Skill::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
+	m_pEsther_Skill->Set_OwnerEsther(this);
+
+	/*m_pEsther_Cut = CEsther_Silian_Cut::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
+	m_pEsther_Cut->Set_OwnerEsther(this);*/
 
 	m_iEstherType = (_uint)ESTHERTYPE::SA;
 

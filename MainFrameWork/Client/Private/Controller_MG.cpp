@@ -238,7 +238,7 @@ void CController_MG::Get_DeadMessage()
 
 _uint CController_MG::Is_MG_Identity()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bKeyActive || false == m_bCtrlActive)
 		return 0;
 
 	if (100 > m_iIdentityGage)

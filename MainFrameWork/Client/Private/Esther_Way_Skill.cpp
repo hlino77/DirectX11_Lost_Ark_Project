@@ -3,8 +3,10 @@
 #include "GameInstance.h"
 #include "Pool.h"
 #include "Model.h"
-#include "Esther_Way_Dochul.h"
 #include "Player.h"
+#include "Esther.h"
+
+#include "Esther_Way_Dochul.h"
 
 CEsther_Way_Skill::CEsther_Way_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)

@@ -69,7 +69,7 @@ void CGuide_Chaos_Npc::Tick(_float fTimeDelta)
 			{
 				if (false == m_pChaosUI->Is_Active())
 				{
-					static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Key_Active(true);
+					static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Control_Active(true);
 				}
 			}
 		}
@@ -79,7 +79,7 @@ void CGuide_Chaos_Npc::Tick(_float fTimeDelta)
 			{
 				if (false == m_pChaosUI->Is_Active())
 				{
-					static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Key_Active(true);
+					static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Control_Active(true);
 				}
 			}
 		}
@@ -89,7 +89,7 @@ void CGuide_Chaos_Npc::Tick(_float fTimeDelta)
 			{
 				if (false == m_pChaosUI->Is_Active())
 				{
-					static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Key_Active(true);
+					static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Control_Active(true);
 				}
 			}
 		}
@@ -99,7 +99,7 @@ void CGuide_Chaos_Npc::Tick(_float fTimeDelta)
 			{
 				if (false == m_pChaosUI->Is_Active())
 				{
-					static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Key_Active(true);
+					static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Control_Active(true);
 				}
 			}
 		}
@@ -120,7 +120,7 @@ void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
 			if (true == static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Is_Stop() && true == m_IsClicked)
 			{
 				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Key_Active(false);
+				static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Control_Active(false);
 				m_IsClicked = false;
 			}
 		}
@@ -129,7 +129,7 @@ void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
 			if (true == static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Is_Stop() && true == m_IsClicked)
 			{
 				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Key_Active(false);
+				static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Control_Active(false);
 				m_IsClicked = false;
 			}
 		}
@@ -138,7 +138,7 @@ void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
 			if (true == static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Is_Stop() && true == m_IsClicked)
 			{
 				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Key_Active(false);
+				static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Control_Active(false);
 				m_IsClicked = false;
 			}
 		}
@@ -147,7 +147,7 @@ void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
 			if (true == static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Is_Stop() && true == m_IsClicked)
 			{
 				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Key_Active(false);
+				static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Control_Active(false);
 				m_IsClicked = false;
 			}
 		}

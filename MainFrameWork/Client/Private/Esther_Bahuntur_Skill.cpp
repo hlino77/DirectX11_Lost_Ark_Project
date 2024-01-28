@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Player.h"
 #include "PartObject.h"
+#include "Esther.h"
 
 #include "Esther_Bahuntur_Skill_Ceiling.h"
 #include "Esther_Bahuntur_Skill_Floor.h"

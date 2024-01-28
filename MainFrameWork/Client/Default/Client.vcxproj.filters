@@ -874,9 +874,6 @@
     <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
       <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Camera\00.Lobby">
-      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\01.Lobby">
       <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
     </Filter>
@@ -1471,6 +1468,18 @@
     <Filter Include="02.GameObjects\Esther\Bahuntur\Skill">
       <UniqueIdentifier>{9dad8868-317f-4809-898e-1b9dd5dee401}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera\Cut">
+      <UniqueIdentifier>{b358da5d-93c2-4c02-9059-bc6da855a16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Lobby">
+      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Player">
+      <UniqueIdentifier>{42f8f5bb-9fbf-49e3-aec8-c5b1eb090644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Free">
+      <UniqueIdentifier>{1126c00b-d82e-4136-b6f5-24f35ea37041}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1506,9 +1515,6 @@
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Camera_Free.h">
-      <Filter>02.GameObjects\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\StaticModel.h">
       <Filter>02.GameObjects\Static</Filter>
     </ClInclude>
@@ -1529,9 +1535,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\ServerSessionManager.h">
       <Filter>95.Network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Camera_Player.h">
-      <Filter>02.GameObjects\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -3633,7 +3636,7 @@
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Lobby.h">
-      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
+      <Filter>02.GameObjects\Camera\Lobby</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Lobby</Filter>
@@ -4394,6 +4397,15 @@
     <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h">
       <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Camera_Cut.h">
+      <Filter>02.GameObjects\Camera\Cut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Player.h">
+      <Filter>02.GameObjects\Camera\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free.h">
+      <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4420,9 +4432,6 @@
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Camera_Free.cpp">
-      <Filter>02.GameObjects\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\StaticModel.cpp">
       <Filter>02.GameObjects\Static</Filter>
     </ClCompile>
@@ -4443,9 +4452,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\ServerSessionManager.cpp">
       <Filter>95.Network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Camera_Player.cpp">
-      <Filter>02.GameObjects\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -6523,7 +6529,7 @@
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Lobby.cpp">
-      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
+      <Filter>02.GameObjects\Camera\Lobby</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Lobby</Filter>
@@ -7292,6 +7298,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Floor.cpp">
       <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Cut.cpp">
+      <Filter>02.GameObjects\Camera\Cut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Player.cpp">
+      <Filter>02.GameObjects\Camera\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free.cpp">
+      <Filter>02.GameObjects\Camera\Free</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

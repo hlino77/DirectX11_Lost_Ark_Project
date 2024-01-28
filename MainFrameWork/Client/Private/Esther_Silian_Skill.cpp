@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Player.h"
 #include "PartObject.h"
+#include "Esther.h"
 
 CEsther_Silian_Skill::CEsther_Silian_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -73,7 +74,6 @@ void CEsther_Silian_Skill::Reset()
 
 void CEsther_Silian_Skill::Ready()
 {
-	//m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
 	m_IsFinished = false;
