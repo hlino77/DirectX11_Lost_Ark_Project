@@ -16,6 +16,7 @@
 #include "Controller_MG.h"
 #include "AsUtils.h"
 
+
 #include "ServerSessionManager.h"
 #include "UI_NPC_ChaosDungeon_NewWnd.h"
 
@@ -60,50 +61,6 @@ void CGuide_Chaos_Npc::Tick(_float fTimeDelta)
 		return;
 
 	Activate_GuideUI();
-
-	if (nullptr != m_pCtrlPlayer)
-	{
-		if (TEXT("Gunslinger") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (false == m_IsClicked)
-			{
-				if (false == m_pChaosUI->Is_Active())
-				{
-					static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Control_Active(true);
-				}
-			}
-		}
-		else if (TEXT("WR") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (false == m_IsClicked)
-			{
-				if (false == m_pChaosUI->Is_Active())
-				{
-					static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Control_Active(true);
-				}
-			}
-		}
-		else if (TEXT("WDR") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (false == m_IsClicked)
-			{
-				if (false == m_pChaosUI->Is_Active())
-				{
-					static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Control_Active(true);
-				}
-			}
-		}
-		else if (TEXT("MG") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (false == m_IsClicked)
-			{
-				if (false == m_pChaosUI->Is_Active())
-				{
-					static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Control_Active(true);
-				}
-			}
-		}
-	}
 }
 
 void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
@@ -113,45 +70,6 @@ void CGuide_Chaos_Npc::LateTick(_float fTimeDelta)
 	if (LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
 		return;
 
-	if (nullptr != m_pCtrlPlayer)
-	{
-		if (TEXT("Gunslinger") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (true == static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Is_Stop() && true == m_IsClicked)
-			{
-				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Gunslinger*>(m_pCtrlPlayer)->Get_GN_Controller()->Set_Control_Active(false);
-				m_IsClicked = false;
-			}
-		}
-		else if (TEXT("WR") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (true == static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Is_Stop() && true == m_IsClicked)
-			{
-				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Slayer*>(m_pCtrlPlayer)->Get_WR_Controller()->Set_Control_Active(false);
-				m_IsClicked = false;
-			}
-		}
-		else if (TEXT("WDR") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (true == static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Is_Stop() && true == m_IsClicked)
-			{
-				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Destroyer*>(m_pCtrlPlayer)->Get_WDR_Controller()->Set_Control_Active(false);
-				m_IsClicked = false;
-			}
-		}
-		else if (TEXT("MG") == m_pCtrlPlayer->Get_ObjectTag())
-		{
-			if (true == static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Is_Stop() && true == m_IsClicked)
-			{
-				m_pChaosUI->Set_Active(true);
-				static_cast<CPlayer_Bard*>(m_pCtrlPlayer)->Get_MG_Controller()->Set_Control_Active(false);
-				m_IsClicked = false;
-			}
-		}
-	}
 }
 
 HRESULT CGuide_Chaos_Npc::Render()
@@ -159,6 +77,25 @@ HRESULT CGuide_Chaos_Npc::Render()
 	__super::Render();
 
 	return S_OK;
+}
+
+void CGuide_Chaos_Npc::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
+{
+	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_NPC && (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER == pOther->Get_ColLayer()
+		&& true == static_cast<CPlayer*>(pOther->Get_Owner())->Is_ClickNpc())
+	{
+		m_pChaosUI->Set_Active(true);
+	}
+}
+
+void CGuide_Chaos_Npc::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
+{
+	
+}
+
+void CGuide_Chaos_Npc::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
+{
+
 }
 
 HRESULT CGuide_Chaos_Npc::Ready_Components()
@@ -191,7 +128,6 @@ void CGuide_Chaos_Npc::Activate_GuideUI()
 	if (true == m_pChaosUI->Get_IsClicked())
 	{
 		Send_UI_State();
-		m_pChaosUI->Set_Active(false);
 	}
 }
 

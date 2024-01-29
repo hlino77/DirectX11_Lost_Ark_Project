@@ -4406,6 +4406,9 @@
     <ClInclude Include="..\Public\Camera_Free.h">
       <Filter>02.GameObjects\Camera\Free</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Esther_Part_forCut.h">
+      <Filter>02.GameObjects\Esther\base_Part</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7307,6 +7310,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Part_forCut.cpp">
+      <Filter>02.GameObjects\Esther\base_Part</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

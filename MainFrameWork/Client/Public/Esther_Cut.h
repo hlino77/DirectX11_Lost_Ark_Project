@@ -19,11 +19,28 @@ END
 
 BEGIN(Client)
 
+class CCamera_Cut;
 class CPlayer;
 class CEsther;
 
 class CEsther_Cut abstract : public CGameObject
 {
+public:
+	typedef struct tagEstherCutDesc
+	{
+		CPlayer* pLeaderPlayer = { nullptr };
+		CEsther* pOwnerEsther = { nullptr };
+	}ESTHERCUTDESC;
+
+public:
+	struct  GlobalDesc
+	{
+		Matrix ViewMatrix;// = Matrix::Identity;
+		Matrix ProjMatrix;// = Matrix::Identity;
+		Matrix ViewProj;// = Matrix::Identity;
+		Matrix ViewInverse;// = Matrix::Identity;
+	};
+
 public:
 	enum class ESTHERTYPE { SA, WY, BT, _END };
 	enum class MODEL_PART { FACE, FACE_DEFAULT, FACE_S_ANGRY, FACE_ANGRY, BODY, _END };
@@ -35,18 +52,14 @@ protected:
 
 public:
 	virtual HRESULT			Initialize_Prototype();
-	virtual HRESULT			Initialize(CPlayer* pLeader, void* pArg);
+	virtual HRESULT			Initialize(void* pArg);
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			LateTick(_float fTimeDelta);
 	virtual HRESULT			Render();
 
 public:
-	void					Set_OwnerEsther(CEsther* pEsther) { m_pOwnerEsther = pEsther; }
 	CEsther*				Get_OwnerEshter() { return m_pOwnerEsther; }
-
-	void					Set_LeaderPlayer(CPlayer* pPlayer) { m_pLeaderPlayer = pPlayer; }
-
-	
+	class CCamera_Cut*		Get_CutCamera() { return m_pCutCamera; }	
 
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
@@ -88,8 +101,11 @@ protected:
 	_float							m_fRimLightTime = 0.0f;
 
 protected:
+	/* 카메라 정보 */
+	CCamera_Cut*					m_pCutCamera = { nullptr };
+
 	/* 플레이어 정보*/
-	CPlayer* m_pLeaderPlayer = { nullptr };
+	CPlayer*						m_pLeaderPlayer = { nullptr };
 
 	/* Esther 정보 */
 	CEsther*						m_pOwnerEsther = { nullptr };

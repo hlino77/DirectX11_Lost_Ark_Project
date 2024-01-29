@@ -158,7 +158,6 @@ private:
 
 private:
 	/* HJ Ãß°¡ */	
-	_bool						m_bUseRoot = { false };
 	_bool						m_bRootRotation = { false };
 	_bool						m_IsPreRootRot = { false };
 	_bool						m_bUseRootY = { false };

@@ -22,6 +22,9 @@ public:
 	virtual HRESULT			Render_ShadowDepth();
 	virtual HRESULT			Render_Debug();
 
+public:
+	virtual void			Activate_Function() {};
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts();

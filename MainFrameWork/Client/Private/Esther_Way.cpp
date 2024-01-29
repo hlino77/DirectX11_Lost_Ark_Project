@@ -26,11 +26,14 @@ HRESULT CEsther_Way::Initialize(void* pArg)
 	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Way");
-
-	m_pEsther_Skill = CEsther_Way_Skill::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
-	m_pEsther_Skill->Set_OwnerEsther(this);
-
 	m_iEstherType = (_uint)ESTHERTYPE::WY;
+
+	CEsther_Skill::ESTHERSKILLDESC SkillDesc;
+	SkillDesc.pLeaderPlayer = m_pLeaderPlayer;
+	SkillDesc.pOwnerEsther = this;
+	m_pEsther_Skill = static_cast<CEsther_Way_Skill*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Way_Skill"), &SkillDesc));
+
+	
 
 	return S_OK;
 }

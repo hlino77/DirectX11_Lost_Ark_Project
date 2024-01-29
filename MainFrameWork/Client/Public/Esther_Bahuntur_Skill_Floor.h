@@ -89,7 +89,7 @@ private:
 	BoundingSphere	m_tCullingSphere;
 
 public:
-	static CEsther_Bahuntur_Skill_Floor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, void* pArg);
+	static CEsther_Bahuntur_Skill_Floor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

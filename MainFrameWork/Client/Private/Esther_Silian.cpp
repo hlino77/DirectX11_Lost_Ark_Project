@@ -26,14 +26,17 @@ HRESULT CEsther_Silian::Initialize(void* pArg)
 	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Silian");
-
-	m_pEsther_Skill = CEsther_Silian_Skill::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
-	m_pEsther_Skill->Set_OwnerEsther(this);
-
-	/*m_pEsther_Cut = CEsther_Silian_Cut::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
-	m_pEsther_Cut->Set_OwnerEsther(this);*/
-
 	m_iEstherType = (_uint)ESTHERTYPE::SA;
+
+	CEsther_Skill::ESTHERSKILLDESC SkillDesc;
+	SkillDesc.pLeaderPlayer = m_pLeaderPlayer;
+	SkillDesc.pOwnerEsther = this;
+	m_pEsther_Skill = static_cast<CEsther_Silian_Skill*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Silian_Skill"), &SkillDesc));
+
+	CEsther_Cut::ESTHERCUTDESC CutDesc;
+	CutDesc.pLeaderPlayer = m_pLeaderPlayer;
+	CutDesc.pOwnerEsther = this;
+	m_pEsther_Cut = static_cast<CEsther_Silian_Cut*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Silian_Cut"), &CutDesc));
 
 	return S_OK;
 }

@@ -2,6 +2,14 @@
 #include "UI_NPC_ChaosDungeon_NewWnd.h"
 #include "GameInstance.h"
 #include "TextBox.h"
+#include "Player_Gunslinger.h"
+#include "Player_Slayer.h"
+#include "Player_Destroyer.h"
+#include "Player_Bard.h"
+#include "Player_Controller_GN.h"
+#include "Controller_MG.h"
+#include "Controller_WDR.h"
+#include "Controller_WR.h"
 
 CUI_NPC_ChaosDungeon_NewWnd::CUI_NPC_ChaosDungeon_NewWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -81,7 +89,18 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize_TextBox()
 
 void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
 {
+    if (true == m_IsClicked)
+    {
+        m_IsClicked = false;
+        Reset_Player_Control();
+        Set_Active(false);
+
+        return;
+    }
+
     __super::Tick(fTimeDelta);
+
+    Update_Button();
 
     if (true == m_bActive)
     {
@@ -98,7 +117,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
 void CUI_NPC_ChaosDungeon_NewWnd::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
-    Update_Button();
+   
 
     m_fTimerRatio = m_fCurrTimer / m_fMaxTimer;
 }
@@ -177,6 +196,14 @@ void CUI_NPC_ChaosDungeon_NewWnd::Print_Text()
     }
 }
 
+const _bool CUI_NPC_ChaosDungeon_NewWnd::Get_IsClicked()
+{
+    if (true == m_bActive)
+        return m_bClicked_Entrance;
+    else
+        return false;
+}
+
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Active(_bool bActive)
 {
     if(false == bActive)
@@ -252,7 +279,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_AcceptButton(POINT pt)
         if (KEY_TAP(KEY::LBTN))
         {
             m_bClicked_Entrance = true;
-            Set_Active(false);
+            m_IsClicked = true;
         }
         m_iTextureIndex_AcceptButton = 1;
     }
@@ -267,7 +294,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_RefuseButton(POINT pt)
         if (KEY_TAP(KEY::LBTN))
         {
             m_bClicked_Entrance = false;
-            Set_Active(false);
+            m_IsClicked = true;
         }
         m_iTextureIndex_RefuseButton = 1;
     }
@@ -306,6 +333,31 @@ _bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_RefuseButton(POINT pt)
         return true;//m_bPicking_RefuseButton = true;
     else
         return false;//m_bPicking_RefuseButton = false;
+}
+
+void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
+{
+    CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+    if (nullptr == pPlayer)
+        return;
+
+    if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Control_Active(true);
+    }
+    else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Control_Active(true);
+    }
+    else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Control_Active(true);
+    }
+    else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Control_Active(true);
+    }
+
 }
 
 HRESULT CUI_NPC_ChaosDungeon_NewWnd::Ready_Components()

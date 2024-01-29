@@ -17,6 +17,8 @@
 #include "Esther.h"
 #include "PartObject.h"
 
+#include "Camera_Cut.h"
+
 CEsther_Cut::CEsther_Cut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Esther_Cut", OBJ_TYPE::ESTHER)
 {
@@ -34,19 +36,14 @@ HRESULT CEsther_Cut::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CEsther_Cut::Initialize(CPlayer* pLeader, void* pArg)
+HRESULT CEsther_Cut::Initialize(void* pArg)
 {
-	__super::Initialize_Prototype();
-
-	m_pLeaderPlayer = pLeader;
-
-	if (nullptr == pArg)
-		return E_FAIL;
+	ESTHERCUTDESC* pDesc = static_cast<ESTHERCUTDESC*>(pArg);
+	m_pLeaderPlayer = pDesc->pLeaderPlayer;
+	m_pOwnerEsther = pDesc->pOwnerEsther;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
-	m_pRigidBody->SetMass(2.0f);
 	
 	return S_OK;
 }
@@ -63,6 +60,8 @@ void CEsther_Cut::LateTick(_float fTimeDelta)
 {
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
+
+	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
 	if (nullptr != m_pPart)
 		m_pPart->LateTick(fTimeDelta);
@@ -88,8 +87,18 @@ HRESULT CEsther_Cut::Render()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
-		return S_OK;
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
+		return E_FAIL;
+
+	GlobalDesc gDesc = {
+		m_pCutCamera->Get_TransformCom()->Get_WorldMatrixInverse(),
+		m_pCutCamera->Get_ProjMatrix(),
+		m_pCutCamera->Get_TransformCom()->Get_WorldMatrixInverse() * m_pCutCamera->Get_ProjMatrix(),
+		m_pCutCamera->Get_TransformCom()->Get_WorldMatrix()
+	};
+
+	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+		return E_FAIL;
 
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))

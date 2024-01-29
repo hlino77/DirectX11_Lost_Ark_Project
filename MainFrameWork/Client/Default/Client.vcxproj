@@ -244,6 +244,7 @@
     <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h" />
     <ClInclude Include="..\Public\Esther_Cut.h" />
     <ClInclude Include="..\Public\Esther_Part.h" />
+    <ClInclude Include="..\Public\Esther_Part_forCut.h" />
     <ClInclude Include="..\Public\Esther_Silian.h" />
     <ClInclude Include="..\Public\Esther_Silian_Cut.h" />
     <ClInclude Include="..\Public\Esther_Silian_Skill.h" />
@@ -855,6 +856,7 @@
     <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Floor.cpp" />
     <ClCompile Include="..\Private\Esther_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Part.cpp" />
+    <ClCompile Include="..\Private\Esther_Part_forCut.cpp" />
     <ClCompile Include="..\Private\Esther_Silian.cpp" />
     <ClCompile Include="..\Private\Esther_Silian_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Silian_Skill.cpp" />

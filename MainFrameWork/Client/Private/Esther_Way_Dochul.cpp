@@ -29,13 +29,13 @@ CEsther_Way_Dochul::CEsther_Way_Dochul(const CEsther_Way_Dochul& rhs)
 
 HRESULT CEsther_Way_Dochul::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
 HRESULT CEsther_Way_Dochul::Initialize(void* pArg)
 {
-	__super::Initialize_Prototype();
-
 	__super::Initialize(pArg);
 
 	if (FAILED(Ready_Components()))
@@ -245,11 +245,11 @@ void CEsther_Way_Dochul::Reserve_Animation(_uint iAnimIndex, _float fChangeTime,
 	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse, bUseY);
 }
 
-CEsther_Way_Dochul* CEsther_Way_Dochul::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, void* pArg)
+CEsther_Way_Dochul* CEsther_Way_Dochul::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Way_Dochul* pInstance = new CEsther_Way_Dochul(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed To Created : CEsther_Way_Dochul");
 		Safe_Release(pInstance);
@@ -260,7 +260,15 @@ CEsther_Way_Dochul* CEsther_Way_Dochul::Create(ID3D11Device* pDevice, ID3D11Devi
 
 CGameObject* CEsther_Way_Dochul::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Way_Dochul* pInstance = new CEsther_Way_Dochul(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Way_Dochul");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Way_Dochul::Free()

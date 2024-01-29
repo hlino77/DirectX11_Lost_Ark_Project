@@ -30,14 +30,17 @@ CEsther_Skill::CEsther_Skill(const CEsther_Skill& rhs)
 
 HRESULT CEsther_Skill::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
+
 	return S_OK;
 }
 
-HRESULT CEsther_Skill::Initialize(CPlayer* pLeader, void* pArg)
+HRESULT CEsther_Skill::Initialize(void* pArg)
 {
-	__super::Initialize_Prototype();
-
-	m_pLeaderPlayer = pLeader;
+	ESTHERSKILLDESC* pDesc = static_cast<ESTHERSKILLDESC*>(pArg);
+	m_pLeaderPlayer = pDesc->pLeaderPlayer;
+	m_pOwnerEsther = pDesc->pOwnerEsther;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;

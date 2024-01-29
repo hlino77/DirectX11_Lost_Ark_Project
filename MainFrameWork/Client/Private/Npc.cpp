@@ -330,7 +330,7 @@ HRESULT CNpc::Ready_Components()
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderBody"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 
-		if (pCollider)
+		/*if (pCollider)
 		{
 			{
 				CCollider::ColliderInfo tChildColliderInfo;
@@ -343,9 +343,9 @@ HRESULT CNpc::Ready_Components()
 
 				pCollider->Set_Child(pChildCollider);
 			}
+		}*/
 
-			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_NPC, pCollider);
-		}
+		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_NPC, pCollider);
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

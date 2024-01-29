@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PartObject.h"
 #include "Esther.h"
+#include "Camera_Cut.h"
 
 CEsther_Silian_Cut::CEsther_Silian_Cut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Cut(pDevice, pContext)
@@ -19,12 +20,14 @@ CEsther_Silian_Cut::CEsther_Silian_Cut(const CEsther_Silian_Cut& rhs)
 
 HRESULT CEsther_Silian_Cut::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
-HRESULT CEsther_Silian_Cut::Initialize(CPlayer* pPlayer, void* pArg)
+HRESULT CEsther_Silian_Cut::Initialize(void* pArg)
 {
-	__super::Initialize(pPlayer, pArg);
+	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Silian_Cut");
 
@@ -32,6 +35,9 @@ HRESULT CEsther_Silian_Cut::Initialize(CPlayer* pPlayer, void* pArg)
 		return E_FAIL;
 
 	if (FAILED(Ready_ModelPart()))
+		return E_FAIL;
+
+	if (FAILED(Ready_CutCamera()))
 		return E_FAIL;
 
 	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"evt1_sk_swordofchampion", 1.f);
@@ -51,7 +57,8 @@ void CEsther_Silian_Cut::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	//m_pOwnerEsther->get
+	m_pCutCamera->Tick(fTimeDelta);
+
 
 	Act1(fTimeDelta);
 
@@ -73,7 +80,9 @@ void CEsther_Silian_Cut::Reset()
 
 void CEsther_Silian_Cut::Ready()
 {
-	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
+	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
+
+	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0, 1.f, false, false, true);
 
 	m_IsFinished = false;
 }
@@ -123,43 +132,6 @@ HRESULT CEsther_Silian_Cut::Render()
 				return E_FAIL;
 		}
 	}
-
-	return S_OK;
-}
-
-HRESULT CEsther_Silian_Cut::Render_ShadowDepth()
-{
-	__super::Render_ShadowDepth();
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	{
-		if (nullptr == m_pModelPartCom[(_uint)MODEL_PART::FACE])
-			return E_FAIL;
-
-		_uint		iNumMeshes = m_pModelPartCom[(_uint)MODEL_PART::FACE]->Get_NumMeshes();
-
-		for (_uint i = 0; i < iNumMeshes; ++i)
-		{
-			if (FAILED(m_pModelPartCom[(_uint)MODEL_PART::FACE]->Render(m_pShaderCom, i, "ShadowPass")))
-				return S_OK;
-		}
-	}
-
-	{
-		if (nullptr == m_pModelPartCom[(_uint)MODEL_PART::BODY])
-			return E_FAIL;
-
-		_uint		iNumMeshes = m_pModelPartCom[(_uint)MODEL_PART::BODY]->Get_NumMeshes();
-
-		for (_uint i = 0; i < iNumMeshes; ++i)
-		{
-			if (FAILED(m_pModelPartCom[(_uint)MODEL_PART::BODY]->Render(m_pShaderCom, i, "ShadowPass")))
-				return S_OK;
-		}
-	}
-
-	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -214,7 +186,7 @@ HRESULT CEsther_Silian_Cut::Ready_Parts()
 	PartDesc_Weapon.OffsetMatrix = m_pTransformCom->Get_WorldMatrix();
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 
-	wstring strObject = TEXT("Prototype_GameObject_Esther_Part");
+	wstring strObject = TEXT("Prototype_GameObject_Esther_Part_forCut");
 	m_pPart = static_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon));
 	if (nullptr == m_pPart)
 		return E_FAIL;
@@ -222,11 +194,40 @@ HRESULT CEsther_Silian_Cut::Ready_Parts()
 	return S_OK;
 }
 
-CEsther_Silian_Cut* CEsther_Silian_Cut::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer* pPlayer, void* pArg)
+HRESULT CEsther_Silian_Cut::Ready_CutCamera()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCamera_Cut::CUTCAMERADESC CameraDesc;
+
+	CameraDesc.tCameraDesc.iLayer = (_uint)LAYER_TYPE::LAYER_CAMERA;
+	CameraDesc.tCameraDesc.vEye = Vec4(0.f, 10.f, -10.f, 1.f);
+	CameraDesc.tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
+	CameraDesc.tCameraDesc.fFovy = XMConvertToRadians(60.0f);
+	CameraDesc.tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	CameraDesc.tCameraDesc.fNear = 0.2f;
+	CameraDesc.tCameraDesc.fFar = 1200.0f;
+
+	CameraDesc.tCameraDesc.TransformDesc.fSpeedPerSec = 30.f;
+	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(60.0f);
+
+	CameraDesc.pCutTarget = this;
+
+	wstring strObject = TEXT("Prototype_GameObject_Camera_Cut");
+	m_pCutCamera = static_cast<CCamera_Cut*>(pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Camera_Cut"), &CameraDesc));
+	if (m_pCutCamera == nullptr)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+CEsther_Silian_Cut* CEsther_Silian_Cut::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Silian_Cut* pInstance = new CEsther_Silian_Cut(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pPlayer, pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed To Created : CEsther_Silian_Cut");
 		Safe_Release(pInstance);
@@ -237,7 +238,15 @@ CEsther_Silian_Cut* CEsther_Silian_Cut::Create(ID3D11Device* pDevice, ID3D11Devi
 
 CGameObject* CEsther_Silian_Cut::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Silian_Cut* pInstance = new CEsther_Silian_Cut(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Silian_Cut");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Silian_Cut::Free()

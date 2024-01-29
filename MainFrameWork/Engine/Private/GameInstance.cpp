@@ -352,7 +352,13 @@ CGameObject* CGameInstance::Find_CtrlPlayer(_uint iLevelIndex, const _uint iLaye
 {
 	if (0 != m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType).size())
 	{
-		return m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType).front();
+		for (auto& pObject : m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType))
+		{
+			if (true == pObject->Is_Control())
+			{
+				return pObject;
+			}
+		}
 	}
 	else
 		return nullptr;	

@@ -20,12 +20,14 @@ CEsther_Way_Skill::CEsther_Way_Skill(const CEsther_Way_Skill& rhs)
 
 HRESULT CEsther_Way_Skill::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
-HRESULT CEsther_Way_Skill::Initialize(CPlayer* pPlayer, void* pArg)
+HRESULT CEsther_Way_Skill::Initialize(void* pArg)
 {
-	__super::Initialize(pPlayer, pArg);
+	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Way_Skill");
 
@@ -38,7 +40,7 @@ HRESULT CEsther_Way_Skill::Initialize(CPlayer* pPlayer, void* pArg)
 	if (FAILED(Ready_Projectile()))
 		return E_FAIL;
 
-	m_pSkillMesh = CEsther_Way_Dochul::Create(m_pDevice, m_pContext, nullptr);
+	m_pSkillMesh = static_cast<CEsther_Way_Dochul*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Way_Dochul")));
 	if (nullptr == m_pSkillMesh)
 		return E_FAIL;
 
@@ -314,11 +316,11 @@ HRESULT CEsther_Way_Skill::Ready_Projectile()
 	return S_OK;
 }
 
-CEsther_Way_Skill* CEsther_Way_Skill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer* pPlayer, void* pArg)
+CEsther_Way_Skill* CEsther_Way_Skill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Way_Skill* pInstance = new CEsther_Way_Skill(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pPlayer, pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed To Created : CEsther_Way_Skill");
 		Safe_Release(pInstance);
@@ -329,7 +331,15 @@ CEsther_Way_Skill* CEsther_Way_Skill::Create(ID3D11Device* pDevice, ID3D11Device
 
 CGameObject* CEsther_Way_Skill::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Way_Skill* pInstance = new CEsther_Way_Skill(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Way_Skill");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Way_Skill::Free()

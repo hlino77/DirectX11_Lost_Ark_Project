@@ -29,13 +29,13 @@ CEsther_Bahuntur_Skill_Floor::CEsther_Bahuntur_Skill_Floor(const CEsther_Bahuntu
 
 HRESULT CEsther_Bahuntur_Skill_Floor::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
 HRESULT CEsther_Bahuntur_Skill_Floor::Initialize(void* pArg)
 {
-	__super::Initialize_Prototype();
-
 	__super::Initialize(pArg);
 
 	if (FAILED(Ready_Components()))
@@ -206,11 +206,11 @@ void CEsther_Bahuntur_Skill_Floor::Reserve_Animation(_uint iAnimIndex, _float fC
 	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse, bUseY);
 }
 
-CEsther_Bahuntur_Skill_Floor* CEsther_Bahuntur_Skill_Floor::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, void* pArg)
+CEsther_Bahuntur_Skill_Floor* CEsther_Bahuntur_Skill_Floor::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Bahuntur_Skill_Floor* pInstance = new CEsther_Bahuntur_Skill_Floor(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed To Created : CEsther_Bahuntur_Skill_Floor");
 		Safe_Release(pInstance);
@@ -221,7 +221,15 @@ CEsther_Bahuntur_Skill_Floor* CEsther_Bahuntur_Skill_Floor::Create(ID3D11Device*
 
 CGameObject* CEsther_Bahuntur_Skill_Floor::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Bahuntur_Skill_Floor* pInstance = new CEsther_Bahuntur_Skill_Floor(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Bahuntur_Skill_Floor");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Bahuntur_Skill_Floor::Free()

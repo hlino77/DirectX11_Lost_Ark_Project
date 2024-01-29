@@ -9,9 +9,10 @@ class CCamera_Cut final : public CCamera
 public:
 	typedef struct tagCutCameraDesc
 	{
+		class CGameObject* pCutTarget = nullptr;
 		CCamera::CAMERADESC tCameraDesc;
 		Vec3 vOffset = Vec3(-1.0f, 0.0f, -1.0f);
-		_float fDefaultLength = 7.5f;
+		_float fDefaultLength = 1.5f;
 	}CUTCAMERADESC;
 
 	enum class CameraEstherState { SA, WY, BT, _END };
@@ -37,7 +38,7 @@ public:
 
 	void		Set_Offset(Vec3 vOffset) { m_vOffset = vOffset; m_vOffset.Normalize(); }
 	void		Set_DefaultOffset() { m_vOffset = m_vDefaultOffset; }
-	void		Set_Mode(CameraEstherState eMode) { m_eState = eMode; }
+	void		Set_EstherMode(_uint iMode) { m_iState = iMode; }
 
 
 	_float		Get_CameraLength() { return m_fCameraLength; }
@@ -46,8 +47,11 @@ protected:
 	virtual HRESULT Ready_Components() override;
 
 private:
-	void		Tick_FreeCamera(_float fTimeDelta);
-	void		Tick_DefaultCamera(_float fTimeDelta);
+	void		Tick_SilianCamera(_float fTimeDelta);
+	void		Tick_BahunturCamera(_float fTimeDelta);
+	void		Tick_WayCamera(_float fTimeDelta);
+
+
 	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta);
 private:
 	Vec3 m_vOffset;
@@ -68,9 +72,10 @@ private:
 	Vec2	m_vShakeVelocity;
 	Vec2	m_vShakeOffset;
 
-	CGameObject* m_pTarget = nullptr;
+	class CGameObject* m_pTarget = nullptr;
 
-	CameraEstherState m_eState;
+	_uint m_iState;
+
 public:
 	static CCamera_Cut* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
 	virtual CGameObject* Clone(void* pArg);

@@ -19,12 +19,14 @@ CEsther_Silian_Skill::CEsther_Silian_Skill(const CEsther_Silian_Skill& rhs)
 
 HRESULT CEsther_Silian_Skill::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
-HRESULT CEsther_Silian_Skill::Initialize(CPlayer* pPlayer, void* pArg)
+HRESULT CEsther_Silian_Skill::Initialize(void* pArg)
 {
-	__super::Initialize(pPlayer, pArg);
+	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Silian_Skill");
 
@@ -245,11 +247,11 @@ HRESULT CEsther_Silian_Skill::Ready_Projectile()
 	return S_OK;
 }
 
-CEsther_Silian_Skill* CEsther_Silian_Skill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer* pPlayer, void* pArg)
+CEsther_Silian_Skill* CEsther_Silian_Skill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Silian_Skill* pInstance = new CEsther_Silian_Skill(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pPlayer, pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed To Created : CEsther_Silian_Skill");
 		Safe_Release(pInstance);
@@ -260,7 +262,15 @@ CEsther_Silian_Skill* CEsther_Silian_Skill::Create(ID3D11Device* pDevice, ID3D11
 
 CGameObject* CEsther_Silian_Skill::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Silian_Skill* pInstance = new CEsther_Silian_Skill(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Silian_Skill");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Silian_Skill::Free()
