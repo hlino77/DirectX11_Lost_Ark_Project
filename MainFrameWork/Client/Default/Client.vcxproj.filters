@@ -1642,18 +1642,6 @@
     <ClInclude Include="..\Public\UI_LoadingLabelBottom.h" />
     <ClInclude Include="..\Public\UI_LoadingLabelTop.h" />
     <ClInclude Include="..\Public\UI_ServerEntranceButton.h" />
-    <ClInclude Include="..\Public\Weapon_Hand.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Hand_2.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Long.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Shot.h">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_Server.h">
       <Filter>02.GameObjects\UI\00.Server</Filter>
     </ClInclude>
@@ -1674,12 +1662,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Charge_Punch.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
@@ -1740,26 +1722,11 @@
     <ClInclude Include="..\Public\Weapon_Long.h" />
     <ClInclude Include="..\Public\Weapon_Shot.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
-    <ClInclude Include="..\Public\UI_IdentityGN_Spark.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\05.Skill_CoolTimeRect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Identity_GN.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
       <Filter>01.Levels\98.Tool\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imgui.h">
       <Filter>01.Levels\98.Tool\imgui</Filter>
@@ -1788,20 +1755,11 @@
     <ClInclude Include="..\Public\BackGround_Server.h">
       <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chat_Manager.h">
-      <Filter>96. Manager\Chat_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_Lobby.h">
-      <Filter>01.Levels\Lobby</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_ServerSelect.h">
       <Filter>01.Levels\ServerSelect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -1950,9 +1908,6 @@
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\03.Arrow</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.ShineFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI\imconfig.h">
       <Filter>01.Levels\98.Tool\imgui</Filter>
@@ -4482,7 +4437,35 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
->>>>>>> origin/feature/Jongseok
+    </ClInclude>
+    <ClInclude Include="..\Public\Chat_Manager.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
+    <ClInclude Include="..\Public\Level_Lobby.h" />
+    <ClInclude Include="..\Public\Weapon_Hand.h" />
+    <ClInclude Include="..\Public\Weapon_Hand_2.h" />
+    <ClInclude Include="..\Public\Weapon_Long.h" />
+    <ClInclude Include="..\Public\Weapon_Shot.h" />
+    <ClInclude Include="..\Public\UI_Identity_GN.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_BackGroundFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_CoolRect.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_ShineFrame.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentityGN_Spark.h">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4636,18 +4619,6 @@
     <ClCompile Include="..\Private\UI_LoadingLabelBottom.cpp" />
     <ClCompile Include="..\Private\UI_LoadingLabelTop.cpp" />
     <ClCompile Include="..\Private\UI_ServerEntranceButton.cpp" />
-    <ClCompile Include="..\Private\Weapon_Hand.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Hand_2.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Long.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Shot.cpp">
-      <Filter>02.GameObjects\Player\Player_Gunslinger\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_Server.cpp">
       <Filter>02.GameObjects\UI\00.Server</Filter>
     </ClCompile>
@@ -4671,12 +4642,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -4740,29 +4705,11 @@
     <ClCompile Include="..\Private\Weapon_Long.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
-    <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\05.Skill_CoolTimeRect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Identity_GN.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityGN_BackGroundShine.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <Filter>01.Levels\98.Tool\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\02.Arrow</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui_demo.cpp">
       <Filter>01.Levels\98.Tool\imgui</Filter>
@@ -4788,20 +4735,11 @@
     <ClCompile Include="..\Private\BackGround_Server.cpp">
       <Filter>02.GameObjects\BackGround\01.Server_Select</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chat_Manager.cpp">
-      <Filter>96. Manager\Chat_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_Lobby.cpp">
-      <Filter>01.Levels\Lobby</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_ServerSelect.cpp">
       <Filter>01.Levels\ServerSelect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -4947,9 +4885,6 @@
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\03.Arrow</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp">
-      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\01.ShineFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Public\ImGUI\imgui.cpp">
       <Filter>01.Levels\98.Tool\imgui</Filter>
@@ -7451,7 +7386,38 @@
     </ClCompile>
     <ClCompile Include="..\Private\Common_BT_Spawn.cpp">
       <Filter>02.GameObjects\Monster\Behavior\Action\00.Spawn</Filter>
->>>>>>> origin/feature/Jongseok
+    </ClCompile>
+    <ClCompile Include="..\Private\Chat_Manager.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
+    <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
+    <ClCompile Include="..\Private\Level_Lobby.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hand_2.cpp" />
+    <ClCompile Include="..\Private\Weapon_Long.cpp" />
+    <ClCompile Include="..\Private\Weapon_Shot.cpp" />
+    <ClCompile Include="..\Private\UI_Identity_GN.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_BackGroundWing.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_CoolRect.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_ShineFrame.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentityGN_Spark.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp">
+      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -7477,15 +7443,6 @@
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl">
@@ -7685,6 +7642,9 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">
