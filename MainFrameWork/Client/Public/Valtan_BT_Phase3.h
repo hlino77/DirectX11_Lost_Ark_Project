@@ -16,7 +16,7 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
-
+    virtual void On_FirstAnimStart()override;
 
 public:
     static	CValtan_BT_Phase3* Create(void* pArg);

@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "BindShaderDesc.h"
 #include "Weapon_Mn_Reaper.h"
+#include <Monster.h>
 
 CWeapon_Mn_Reaper::CWeapon_Mn_Reaper(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject(pDevice, pContext, L"Weapon_wp_Reaper", OBJ_TYPE::PART)
@@ -62,10 +63,25 @@ HRESULT CWeapon_Mn_Reaper::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
+	_int	bDissolve = true;
+	if (static_cast<CMonster*>(m_pOwner)->Get_DissolveOut() || static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
+	{
+		bDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
+			return E_FAIL;
 
+		_float g_fDissolveAmount = static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime();
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pOwner)->Get_DissolveTexture()->Get_SRV())))
+			return E_FAIL;
+	}
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
-
+	bDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
+		return E_FAIL;
 
 	return S_OK;
 }

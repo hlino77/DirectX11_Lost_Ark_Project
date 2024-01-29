@@ -147,6 +147,7 @@
 #include "Monster_Prison.h"
 #include "Boss_Valtan_CounterGhost.h"
 #include "Boss_Valtan_RunningGhost.h"
+#include "Boss_Valtan_Corpse.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -1006,7 +1007,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_e_noise_008.png", 1))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
@@ -1200,6 +1204,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_Corpse"),
+		CBoss_Valtan_Corpse::Create(nullptr, nullptr))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_RunningGhost"),
 		CBoss_Valtan_RunningGhost::Create(nullptr, nullptr))))
 		return E_FAIL;
@@ -1210,7 +1219,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	
+
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_AxeWave"),
 		CSkill_Valtan_AxeWave::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1834,6 +1844,9 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
+
+
+
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;
 

@@ -1,5 +1,6 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
+bool    g_bDissolve = false;
 
 VS_OUT VS_MAIN(STATIC_IN In)
 {
@@ -31,7 +32,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 
     if (0.2f >= Out.vDiffuse.a)
         discard;
-
+    if (g_bDissolve == true)
+        ComputeDissolveColor(Out.vDiffuse, In.vTexUV);
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);

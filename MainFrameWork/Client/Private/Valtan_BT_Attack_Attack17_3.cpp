@@ -44,7 +44,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_3::OnUpdate(const _float& fTimeDe
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(20.f);
 			static_cast<CSkill*>(pSkill)->Set_Atk(99999);
-			static_cast<CSkill*>(pSkill)->Set_Force(0.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(10.f);
 		}
 
 	}
@@ -54,6 +54,24 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_3::OnUpdate(const _float& fTimeDe
 void CValtan_BT_Attack_Attack17_3::OnEnd()
 {
 	__super::OnEnd();
+	if (static_cast<CBoss*>(m_pGameObject)->Get_Action() == L"Action_Counter")
+	{
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
+
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SilenceSphere", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
+		}
+	}
 }
 
 

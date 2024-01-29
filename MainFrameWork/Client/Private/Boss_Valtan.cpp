@@ -3,7 +3,6 @@
 #include "BehaviorTree.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
-#include "PartObject.h"
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include "Common_BT_Chase.h"
@@ -52,6 +51,7 @@
 #include <Valtan_BT_Attack_Attack2_1.h>
 #include <Skill.h>
 #include "ColliderOBB.h"
+#include <Weapon_Boss_Valtan.h>
 
 
 CBoss_Valtan::CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -95,14 +95,14 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 	m_fSummonTime = 0.f;
 	m_vSummonPositions[0] = m_vSpawnPosition;
-	m_vSummonPositions[0].z += 15.f;
+	m_vSummonPositions[0].z += 14.f;
 	Vec3 vDir = { sqrtf(3.f),0.f,-1.f };
 	vDir.Normalize();
-	m_vSummonPositions[1] = m_vSpawnPosition + vDir * 15.f;
+	m_vSummonPositions[1] = m_vSpawnPosition + vDir * 14.f;
 	vDir = { -sqrtf(3.f),0.f,-1.f };
 	vDir.Normalize();
-	m_vSummonPositions[2] = m_vSpawnPosition + vDir * 15.f;
-
+	m_vSummonPositions[2] = m_vSpawnPosition + vDir * 14.f;
+	Set_DissolveIn(2.f);
 	return S_OK;
 }
 
@@ -159,17 +159,32 @@ HRESULT CBoss_Valtan::Render()
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
 
+	_int	iDissolve = false;
+	if (m_bDissolveIn || m_bDissolveOut)
+	{
+		iDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float g_fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
+
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f);
+	Color vValtanBloom =  Color(0.62f, 0.93f, 0.85f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	if (m_iArmor > 1&&m_iPhase != 3)
+	if (m_iArmor > 1 && m_iPhase != 3)
 	{
 		_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART1]->Get_NumMeshes();
 
@@ -209,9 +224,11 @@ HRESULT CBoss_Valtan::Render()
 				return E_FAIL;
 		}
 	}
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		return E_FAIL;
 
-
-		return S_OK;
+	return S_OK;
 }
 
 
@@ -368,13 +385,13 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.4f;
 	AnimationDesc.iChangeFrame = 0;
@@ -383,7 +400,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
-	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;

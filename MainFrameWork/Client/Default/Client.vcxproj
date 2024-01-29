@@ -196,6 +196,7 @@
     <ClInclude Include="..\Public\Boss_BT_Groggy.h" />
     <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Boss_Valtan.h" />
+    <ClInclude Include="..\Public\Boss_Valtan_Corpse.h" />
     <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h" />
     <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h" />
     <ClInclude Include="..\Public\Camera_Lobby.h" />
@@ -797,6 +798,7 @@
     <ClCompile Include="..\Private\Boss_BT_Groggy.cpp" />
     <ClCompile Include="..\Private\Boss_Golem.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan.cpp" />
+    <ClCompile Include="..\Private\Boss_Valtan_Corpse.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp" />
     <ClCompile Include="..\Private\Camera_Lobby.cpp" />
