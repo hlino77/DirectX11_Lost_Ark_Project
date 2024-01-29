@@ -3,6 +3,10 @@
 #include "Monster.h"
 #include "Model.h"
 #include <Boss.h>
+#include <Player.h>
+#include "GameInstance.h"
+#include <Boss_Valtan.h>
+
 CValtan_BT_Phase3::CValtan_BT_Phase3()
 {
 }
@@ -11,7 +15,20 @@ void CValtan_BT_Phase3::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CBoss*>(m_pGameObject)->Set_Phase(3);
+	static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER))->Set_CurValtanPhase(3);
 	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(true);
+	(m_pGameObject)->Set_Render(false);
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(false);
+	wstring szComponentName = L"Boss_Valtan_Corpse";
+	CBoss::MODELDESC Desc;
+	Desc.strFileName = L"Boss_Valtan_Corpse";
+	Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
+	Desc.iObjectID = -1;
+	Desc.iLevel = m_pGameObject->Get_CurrLevel();
+	Desc.vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
+	CBoss* pCorpse = dynamic_cast<CBoss*>(CGameInstance::GetInstance()->Add_GameObject(Desc.iLevel, Desc.iLayer, szMonsterName, &Desc));
+	pCorpse->Get_TransformCom()->LookAt_Dir(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK));
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(const _float& fTimeDelta)
@@ -25,6 +42,12 @@ void CValtan_BT_Phase3::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_MaxHp(529402339);
 	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
+}
+
+void CValtan_BT_Phase3::On_FirstAnimStart()
+{
+	(m_pGameObject)->Set_Render(true);
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(true);
 }
 
 

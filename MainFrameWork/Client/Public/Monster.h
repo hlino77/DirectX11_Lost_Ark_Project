@@ -52,6 +52,9 @@ public:
 	virtual HRESULT			Render_ShadowDepth_Instance(_uint iSize) override;
 	virtual HRESULT			Render_Debug() override;
 
+
+
+
 	virtual HRESULT	Render_Instance(_uint iSize) override;
 	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 
@@ -90,7 +93,7 @@ public:
 
 	void					Move_to_RandomPosition(_float fTimeDelta);
 	_bool					Is_Close_To_RandomPosition();
-	virtual void			Set_Die();
+	virtual void			Set_Die(_float fTime = 1.f);
 public:
 	_bool						Is_Hit() { return m_IsHit; }
 	void						Set_Hit(_bool bHit) { m_IsHit = bHit; }
@@ -136,23 +139,34 @@ public:
 	_bool					Get_RimLight() {	return m_bRimLight;	}
 
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
-	void	Deactivate_AllColliders();
+	void					Deactivate_AllColliders();
 
 	_int					Get_Atk() { return m_iAtk; }
 	void					Set_Atk(_int iAtk) { m_iAtk = iAtk; }
 
+	void					Set_DissolveOut(_float fTime) { m_bDissolveOut = true; m_bDissolveIn = false;  m_fDissolvetime = 0; m_fMaxDissolvetime = fTime;	}
+	_bool					Get_DissolveOut() { return m_bDissolveOut; }
 
+
+	void					Set_DissolveIn(_float fTime) { m_bDissolveIn = true; m_bDissolveOut = false; m_fDissolvetime = m_fMaxDissolvetime = fTime;	}
+	_bool					Get_DissolveIn() { return m_bDissolveIn; }
+
+	_float					Get_Dissolvetime() { return m_fDissolvetime; }
+	_float					Get_fMaxDissolvetime() { return m_fMaxDissolvetime; }
+
+	CTexture*				Get_DissolveTexture() {	return m_pDissolveTexture;	}
 
 protected:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_DissolveTexture();
 	virtual HRESULT Ready_BehaviourTree();
-	HRESULT Ready_HP_UI();
-
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
 	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 	HRESULT	Ready_AnimInstance_For_Render(_uint iSize);
 
 protected:
+	void					Update_Dissolve(_float fTimeDelta);
+	HRESULT					Ready_HP_UI();
 	void					CullingObject();
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
 	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy);
@@ -174,7 +188,10 @@ protected:
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
 	_bool							m_IsCulled = false;
-
+	_bool							m_bDissolveIn = false;
+	_bool							m_bDissolveOut = false;
+	_float							m_fDissolvetime = 0.f;
+	_float							m_fMaxDissolvetime = 0.f;
 	_bool							m_IsSpawn = true;
 	_bool							m_IsSuperArmor = false;
 	Vec3							m_vRandomPosition = {};
@@ -188,7 +205,7 @@ protected:
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;
-
+	CTexture* m_pDissolveTexture = nullptr;
 	
 	std::future<HRESULT>			m_PlayAnimation;
 	//상태이상

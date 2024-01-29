@@ -319,7 +319,7 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 					{
 						if (false == m_pController->Is_HitState())
 						{
-							if (true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
+							if (true== m_pController->Is_GrabState() && true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
 							{
 								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), 0, vCenter);
 							}

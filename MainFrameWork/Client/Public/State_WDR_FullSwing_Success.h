@@ -28,7 +28,7 @@ private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_FullSwing_Success&, _float)> m_TickFunc;
-	vector<CEffect*> m_Trails;
+	vector<class CEffect*> m_Trails;
 private:
 	//Animation
 	_int m_iFullSwing_Success = 0;

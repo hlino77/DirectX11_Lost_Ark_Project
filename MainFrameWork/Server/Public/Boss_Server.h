@@ -112,7 +112,7 @@ protected:
 	_int							m_iArmor = 0;
 	Vec3							m_vSpawnPosition;
 	_bool							m_IsGroggyLock = false;
-
+	_bool							m_Is3Counter = false;
 	_int							m_iGroggyCount = 0;
 	_uint							m_iMaxGroggyCount = 0;
 	_float							m_fTimeCount = 0.f;

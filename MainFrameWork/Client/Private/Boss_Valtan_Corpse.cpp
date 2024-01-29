@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Boss_Valtan_RunningGhost.h"
+#include "Boss_Valtan_Corpse.h"
 #include "BehaviorTree.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
@@ -10,18 +10,19 @@
 #include "ColliderOBB.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
+#include "PartObject.h"
 
-CBoss_Valtan_RunningGhost::CBoss_Valtan_RunningGhost(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBoss_Valtan_Corpse::CBoss_Valtan_Corpse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss(pDevice, pContext)
 {
 }
 
-CBoss_Valtan_RunningGhost::CBoss_Valtan_RunningGhost(const CBoss_Valtan_RunningGhost& rhs)
+CBoss_Valtan_Corpse::CBoss_Valtan_Corpse(const CBoss_Valtan_Corpse& rhs)
 	: CBoss(rhs)
 {
 }
 
-HRESULT CBoss_Valtan_RunningGhost::Initialize_Prototype()
+HRESULT CBoss_Valtan_Corpse::Initialize_Prototype()
 {
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
@@ -29,7 +30,7 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
+HRESULT CBoss_Valtan_Corpse::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 1000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
@@ -44,8 +45,7 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	if (FAILED(Ready_DissolveTexture()))
-		return E_FAIL;
+
 	m_pRigidBody->SetMass(2.0f);
 	m_pRigidBody->Set_Gravity(false);
 
@@ -59,6 +59,10 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
 
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
+
+	if (FAILED(Ready_DissolveTexture()))
+		return E_FAIL;
+
 	m_vecAttackRanges.clear();
 	m_fMoveSpeed = 4.f;
 	m_vecAttackRanges.push_back(2.f);
@@ -67,42 +71,41 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 0.f;
 	m_fNoticeRange = 150.f;
-	m_iArmor = 2;
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
-	m_bRender = false;
-	m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.2f, 0, 0);
+	m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_19_06"), 0.1f), 0.f, 0, 0);
+	Set_DissolveOut(2.f);
 	return S_OK;
 }
 
-void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
+void CBoss_Valtan_Corpse::Tick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+	m_pRigidBody->Tick(fTimeDelta);
+
 	Update_StatusEffect(fTimeDelta);
-	_float fDistance = (m_vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length();
-	if (m_bRender && m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim()) > m_pModelCom->Get_Anim_MaxFrame(m_pModelCom->Get_CurrAnim()) - 5 && !m_pModelCom->IsNext())
-		Set_Die();
-	if (fDistance < 15.f && !m_bRender)
-	{
-		m_bRender = true;
-		m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.f, 0, 0);
-	}
+	if (m_pWeapon != nullptr)
+		m_pWeapon->Tick(fTimeDelta);
 }
 
-void CBoss_Valtan_RunningGhost::LateTick(_float fTimeDelta)
+void CBoss_Valtan_Corpse::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
+	if (m_pWeapon != nullptr)
+		m_pWeapon->LateTick(fTimeDelta);
+	Update_Dissolve(fTimeDelta);
 }
 
-HRESULT CBoss_Valtan_RunningGhost::Render()
+HRESULT CBoss_Valtan_Corpse::Render()
 {
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
-	_int	iDissolve = false;
+
+	_int	iDissolve =false ;
 	if (m_bDissolveIn || m_bDissolveOut)
 	{
 		iDissolve = true;
@@ -122,11 +125,11 @@ HRESULT CBoss_Valtan_RunningGhost::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::GHOST]->Get_NumMeshes();
+	_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::BODY]->Get_NumMeshes();
 
 	for (_uint j = 0; j < iNumMeshes; ++j)
 	{
-		if (FAILED(m_pModelPartCom[(_uint)PARTS::GHOST]->Render_SingleMesh(m_pShaderCom, j)))
+		if (FAILED(m_pModelPartCom[(_uint)PARTS::BODY]->Render_SingleMesh(m_pShaderCom, j)))
 			return E_FAIL;
 
 	}
@@ -137,38 +140,28 @@ HRESULT CBoss_Valtan_RunningGhost::Render()
 }
 
 
-HRESULT CBoss_Valtan_RunningGhost::Ready_Coliders()
+HRESULT CBoss_Valtan_Corpse::Ready_Coliders()
 {
 
 
-	{
-		CCollider::ColliderInfo tColliderInfo;
-		tColliderInfo.m_bActive = false;
-		tColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS;
-		CSphereCollider* pCollider = nullptr;
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderAttack"), (CComponent**)&pCollider, &tColliderInfo)))
-			return E_FAIL;
-		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, pCollider);
-	}
-	for (auto& Collider : m_Coliders)
-	{
-		if (Collider.second)
-		{
-			CCollisionManager::GetInstance()->Add_Colider(Collider.second);
-		}
-	}
-
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.5f);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-spine")));
-	Set_Atk(20);
-	Set_Force(52.f);
 	return S_OK;
 }
 
-HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
+void CBoss_Valtan_Corpse::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed)
+{
+	if (m_pWeapon->Get_ModelCom()->Initailize_FindAnimation(strAnimName, fAnimspeed) > m_pWeapon->Get_ModelCom()->Get_MaxAnimIndex())
+		strAnimName = L"att_battle_8_01_loop";
+	m_pWeapon->Get_ModelCom()->Reserve_NextAnimation(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fChangeTime,
+		iStartFrame, iChangeFrame);
+	m_pWeapon->Get_ModelCom()->Set_Anim_Speed(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fAnimspeed);
+}
+
+void CBoss_Valtan_Corpse::Set_Weapon_Render(_bool IsRender)
+{
+	m_pWeapon->Set_Render(IsRender);
+}
+
+HRESULT CBoss_Valtan_Corpse::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -203,8 +196,19 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
 
 
 	Safe_Release(pGameInstance);
-	strComName = L"Prototype_Component_Model_Boss_Valtan_Ghost";
-	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
+	strComName = L"Prototype_Component_Model_Boss_Valtan";
+	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Body"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::BODY])))
+		return E_FAIL;
+
+	CPartObject::PART_DESC			PartDesc_Weapon;
+	PartDesc_Weapon.pOwner = this;
+	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
+	PartDesc_Weapon.pParentTransform = m_pTransformCom;
+	PartDesc_Weapon.pPartenModel = m_pModelCom;
+	PartDesc_Weapon.iSocketBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_r_01"));
+	PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+	m_pWeapon = dynamic_cast<CPartObject*>(CGameInstance::GetInstance()->Clone_GameObject(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"), &PartDesc_Weapon));
+	if (nullptr == m_pWeapon)
 		return E_FAIL;
 
 	m_vOriginScale.x = 1.2f;
@@ -215,31 +219,31 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBoss_Valtan_RunningGhost::Ready_BehaviourTree()
+HRESULT CBoss_Valtan_Corpse::Ready_BehaviourTree()
 {
 	return S_OK;
 }
 
-CBoss* CBoss_Valtan_RunningGhost::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBoss* CBoss_Valtan_Corpse::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CBoss_Valtan_RunningGhost* pInstance = new CBoss_Valtan_RunningGhost(pDevice, pContext);
+	CBoss_Valtan_Corpse* pInstance = new CBoss_Valtan_Corpse(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CBoss_Valtan_RunningGhost");
+		MSG_BOX("Failed To Created : CBoss_Valtan_Corpse");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBoss_Valtan_RunningGhost::Clone(void* pArg)
+CGameObject* CBoss_Valtan_Corpse::Clone(void* pArg)
 {
-	CBoss_Valtan_RunningGhost* pInstance = new CBoss_Valtan_RunningGhost(*this);
+	CBoss_Valtan_Corpse* pInstance = new CBoss_Valtan_Corpse(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		cout << "Failed To Cloned : CBoss_Valtan_RunningGhost" << endl;
+		cout << "Failed To Cloned : CBoss_Valtan_Corpse" << endl;
 		Safe_Release(pInstance);
 	}
 
@@ -248,7 +252,7 @@ CGameObject* CBoss_Valtan_RunningGhost::Clone(void* pArg)
 
 
 
-void CBoss_Valtan_RunningGhost::Free()
+void CBoss_Valtan_Corpse::Free()
 {
 	__super::Free();
 	for (auto& Collider : m_Coliders)

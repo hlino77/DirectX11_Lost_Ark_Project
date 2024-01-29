@@ -58,7 +58,8 @@ HRESULT CBoss::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 	m_vSpawnPosition = Desc->vPos;
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
-
+	if (FAILED(Ready_DissolveTexture()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -216,7 +217,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
-			Send_Collision(0, Vec3(), STATUSEFFECT::EFFECTEND , (_int)pOther->Get_Owner()->Get_ObjectID(), -1.f, 0);
+			Send_Collision(0, Vec3(), STATUSEFFECT::EFFECTEND , (_float)pOther->Get_Owner()->Get_ObjectID(), -1.f, 0);
 		}
 	}
 	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
@@ -267,14 +268,15 @@ void CBoss::Set_EffectPos()
 	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
 }
 
-void CBoss::Set_Die()
+void CBoss::Set_Die(_float fTime)
 {
 	for (auto& Collider : m_Coliders)
 		Collider.second->SetActive(false);
 
-	m_bDead = true;
-	if(!m_bDummy)
-		m_pHpUI->Set_Dead_BossHpUI();
+	if (m_bDissolveOut == false)
+		Set_DissolveOut(fTime);
+	if (m_pHpUI != nullptr)
+		m_pHpUI->Set_Dead(true);
 }
 
 void CBoss::Move_to_SpawnPosition()

@@ -81,10 +81,12 @@ public:
 
 	virtual void Set_EffectPos();
 
+	void Set_Die(_float fTime=1.f);
+
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
 	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
 
-	virtual void			Set_Die();
+
 
 	Vec3						Get_SpawnPosition() { return m_vSpawnPosition; }
 	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
