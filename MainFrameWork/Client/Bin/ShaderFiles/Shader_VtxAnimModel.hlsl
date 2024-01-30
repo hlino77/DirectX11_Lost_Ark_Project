@@ -252,26 +252,31 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     float maxR = g_vColor_R.r + g_vColor_R.g + g_vColor_R.b;
     float maxG = g_vColor_G.r + g_vColor_G.g + g_vColor_G.b;
     float maxB = g_vColor_B.r + g_vColor_B.g + g_vColor_B.b;
+    float fColorFactor;
     
-    if (0.3f <= maxColor)
+    if (0 != maxColor)
     {
         if (0 != vMRMask.r && vMRMask.r == vMRMask.g && vMRMask.g == vMRMask.b)
         {
             if (maxR > maxG)
             {
                 vGiven = g_vColor_R;
+                fColorFactor = vMRMask.r;
             }
             else if (maxR > maxB)
             {
                 vGiven = g_vColor_R;
+                fColorFactor = vMRMask.r;
             }
             else if (maxG > maxB)
             {
                 vGiven = g_vColor_G;
+                fColorFactor = vMRMask.g;
             }
             else
             {
                 vGiven = g_vColor_B;
+                fColorFactor = vMRMask.b;
             }
         }
         else if (0 != vMRMask.r && vMRMask.r == vMRMask.g)
@@ -279,10 +284,12 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
             if (maxR > maxG)
             {
                 vGiven = g_vColor_R;
+                fColorFactor = vMRMask.r;
             }
             else
             {
                 vGiven = g_vColor_G;
+                fColorFactor = vMRMask.g;
             }
         }
         else if (0 != vMRMask.r && vMRMask.r == vMRMask.b)
@@ -290,36 +297,46 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
             if (maxR > maxB)
             {
                 vGiven = g_vColor_R;
+                fColorFactor = vMRMask.r;
             }
             else
             {
                 vGiven = g_vColor_B;
+                fColorFactor = vMRMask.b;
             }
         }
         else if (vMRMask.r == maxColor)
         {
             vGiven = g_vColor_R;
+            fColorFactor = vMRMask.r;
         }
         else if (0 != vMRMask.g && vMRMask.g == vMRMask.b)
         {
             if (maxG > maxB)
             {
                 vGiven = g_vColor_G;
+                fColorFactor = vMRMask.g;
             }
             else
             {
                 vGiven = g_vColor_B;
+                fColorFactor = vMRMask.b;
             }
         }
         else if (vMRMask.g == maxColor)
+        {
             vGiven = g_vColor_G;
+            fColorFactor = vMRMask.g;
+        }
         else if (vMRMask.b == maxColor)
+        {
             vGiven = g_vColor_B;
+            fColorFactor = vMRMask.b;
+        }
         
         if (0 != vGiven.a)
         {
-            Out.vDiffuse.rgb *= vGiven.rgb;
-            Out.vDiffuse.rgb *= vGiven.a;
+            Out.vDiffuse.rgb *= (vGiven.rgb + (1 - fColorFactor)) * vGiven.a;
             Out.vDiffuse.a = 1.f;
         }
     }

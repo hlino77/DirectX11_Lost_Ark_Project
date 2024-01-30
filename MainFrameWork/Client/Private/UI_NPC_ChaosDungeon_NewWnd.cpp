@@ -89,18 +89,7 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize_TextBox()
 
 void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
 {
-    if (true == m_IsClicked)
-    {
-        m_IsClicked = false;
-        Reset_Player_Control();
-        Set_Active(false);
-
-        return;
-    }
-
     __super::Tick(fTimeDelta);
-
-    Update_Button();
 
     if (true == m_bActive)
     {
@@ -120,8 +109,17 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
 
 void CUI_NPC_ChaosDungeon_NewWnd::LateTick(_float fTimeDelta)
 {
+    if (true == m_IsClicked)
+    {
+        m_IsClicked = false;
+        Reset_Player_Control();
+        Set_Active(false);
+
+        return;
+    }
+    Update_Button();
+
     __super::LateTick(fTimeDelta);
-   
 
     m_fTimerRatio = m_fCurrTimer / m_fMaxTimer;
 }
@@ -431,6 +429,10 @@ void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
         static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Control_Active(true);
     }
     else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Control_Active(true);
+    }
+    else if (TEXT("SP") == pPlayer->Get_ObjectTag())
     {
         static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Control_Active(true);
     }

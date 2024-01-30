@@ -242,11 +242,11 @@ void CUI_Lobby_NickName::Initialize_Index(_uint iIndex)
 
 	case 2:
 		m_pLobbyCharacter = CGameInstance::GetInstance()->Find_GameObject((_uint)LEVELID::LEVEL_LOBBY,
-			(_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("MG"));
-		m_iClassIndex = (_uint)CHR_CLASS::BARD;
+			(_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("SP"));
+		m_iClassIndex = (_uint)CHR_CLASS::DOAGA;
 		m_fX = 930.f;
 		m_fY = 800.f;
-		m_strClassName = TEXT("바드");
+		m_strClassName = TEXT("도화가");
 		break;
 
 	case 3:

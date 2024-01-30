@@ -481,6 +481,7 @@ HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
 	}
 	if (nullptr != m_pUI_Inventory)
 		m_pUI_Inventory->Update_Used_Item();
+
 	return S_OK;
 }
 
@@ -1003,12 +1004,12 @@ void CPlayer::Set_State(const wstring& szName)
 	Send_State(szName);
 }
 
-void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY)
+void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY, _bool bIgnoreRoot)
 {
 	if (nullptr == m_pModelCom)
 		return;
 
-	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse, bUseY);
+	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse, bUseY, bIgnoreRoot);
 }
 
 void CPlayer::Free()

@@ -98,9 +98,11 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 		ImGui::Checkbox("Destroyer", &m_CheckBoxStates[2]);
 		ImGui::SameLine();
 		ImGui::Checkbox("Bard", &m_CheckBoxStates[3]);
+		ImGui::SameLine();
+		ImGui::Checkbox("Doaga", &m_CheckBoxStates[4]);
 
 		// 선택된 체크박스 확인
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < CLASS_END; ++i)
 		{
 			if (true == m_CheckBoxStates[i])
 			{
@@ -114,7 +116,7 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 			}
 		}
 
-		for (size_t i = 0; i < 4; i++)
+		for (size_t i = 0; i < CLASS_END; i++)
 		{
 			if (false == m_CheckBoxStates[i]) continue;
 
@@ -126,6 +128,8 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 				m_eSelectClass = CLASS::DESTROYER;
 			else if (i == 3)
 				m_eSelectClass = CLASS::BARD;
+			else if (i == 4)
+				m_eSelectClass = CLASS::DOAGA;
 		}
 
 		ImGui::Spacing();
@@ -182,6 +186,8 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 		ImGui::Checkbox("Hammer", &m_WPCheckBoxStates[4]);
 		ImGui::SameLine();
 		ImGui::Checkbox("Muse", &m_WPCheckBoxStates[5]);
+		ImGui::SameLine();
+		ImGui::Checkbox("Brush", &m_WPCheckBoxStates[6]);
 		// 선택된 체크박스 확인
 		for (int i = 0; i < WEAPON_END; ++i)
 		{
@@ -213,6 +219,8 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 				m_eSelectWeapon = WEAPON::HAMMER;
 			else if (i == WEAPON::MUSE)
 				m_eSelectWeapon = WEAPON::MUSE;
+			else if (i == WEAPON::BRUSH)
+				m_eSelectWeapon = WEAPON::BRUSH;
 		}
 
 		ImGui::Spacing();
@@ -328,6 +336,10 @@ void CEffect_PcModel::SelectClass(CLASS eClass)
 		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[BARD]);
 		m_pCurrentPlayer = m_pMannequin;
 		break;
+	case Client::CEffect_PcModel::DOAGA:
+		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[DOAGA]);
+		m_pCurrentPlayer = m_pMannequin;
+		break;
 	}
 
 	m_iCurrAnimation = 0;
@@ -372,6 +384,12 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
 		m_pTransformCom->My_Rotation(Vec3(0.f, 70.f, 70.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[MUSE], m_pTransformCom->Get_WorldMatrix());
+		break;
+	case Client::CEffect_PcModel::BRUSH:
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		m_pTransformCom->My_Rotation(Vec3(-10.f, 100.f, 0.0f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.0f, 0.0f, -0.005f));
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[BRUSH], m_pTransformCom->Get_WorldMatrix());
 		break;
 	}
 }
@@ -439,6 +457,19 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 		pInstance->Initialize(nullptr);
 
 		m_pPcModels[BARD] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"SP";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pPcModels[DOAGA] = pInstance;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -531,6 +562,19 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 		pInstance->Initialize(nullptr);
 
 		m_pWpModels[MUSE] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"SP_WP_Dino";
+		wstring strFilePath = L"../Bin/Resources/Meshes/PC_Weapon/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pWpModels[BRUSH] = pInstance;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

@@ -39,7 +39,6 @@ public:
 	virtual HRESULT	Ready_PhysxBoneBranch() override;
 public:
 	class CPlayer_Controller_GN* Get_GN_Controller() { return m_pController; }
-
 	virtual _bool	Get_CellPickingPos(Vec3& vPickPos);
 
 private:

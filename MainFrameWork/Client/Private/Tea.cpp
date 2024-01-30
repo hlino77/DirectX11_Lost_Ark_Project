@@ -53,6 +53,11 @@ HRESULT CTea::Initialize(void* pArg)
 		m_pTransformCom->My_Rotation(Vec3(0.f, 100.f, 0.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.02f, 0.01f, -0.01f));
 		break;
+	case CPartObject::PARTS::WEAPON_5:
+		m_pTransformCom->Set_Scale(Vec3(1.5f, 1.5f, 1.5f));
+		m_pTransformCom->My_Rotation(Vec3(30.f, 90.f, 20.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(-0.02f, 0.0f, -0.015f));
+		break;
 	}
 
 	return S_OK;

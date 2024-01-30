@@ -47,6 +47,8 @@ HRESULT CEsther_Silian_Cut::Initialize(void* pArg)
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	m_pModelCom->Play_Animation(0.0f);
 
+	
+
 	return S_OK;
 }
 
@@ -57,10 +59,11 @@ void CEsther_Silian_Cut::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	m_pCutCamera->Tick(fTimeDelta);
-
-
 	Act1(fTimeDelta);
+	Act2(fTimeDelta);
+	Act3(fTimeDelta);
+
+	m_pCutCamera->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 }
@@ -80,14 +83,38 @@ void CEsther_Silian_Cut::Reset()
 
 void CEsther_Silian_Cut::Ready()
 {
+	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
+	m_pTransformCom->My_Rotation(Vec3(0.f, 180.f, 0.f));
+
+	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.42f, 1.14f, -1.98f));
+	m_pCutCamera->Get_TransformCom()->LookAt(Vec3(-0.78f, -0.03f, 0.62f));
+
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
-	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0, 1.f, false, false, true);
+	m_pPart->Set_Render(false);
+
+	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0, 1.f, false, false, false);
 
 	m_IsFinished = false;
 }
 
 void CEsther_Silian_Cut::Act1(_float fTimeDelta)
+{
+	if (10 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		m_pPart->Set_Render(true);
+	}
+}
+
+void CEsther_Silian_Cut::Act2(_float fTimeDelta)
+{
+	if (50 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		m_pModelCom->Set_UseRootY(true);
+	}
+}
+
+void CEsther_Silian_Cut::Act3(_float fTimeDelta)
 {
 	if (85 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{

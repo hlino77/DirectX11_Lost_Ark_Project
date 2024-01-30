@@ -78,6 +78,9 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		case (_uint)CHR_CLASS::BARD:
 			Desc.strFileName = L"MG";
 			break;
+		case (_uint)CHR_CLASS::DOAGA:
+			Desc.strFileName = L"SP";
+			break;
 		}
 		Desc.iObjectID = g_iObjectID++;
 		pGameSession->Set_PlayerID(Desc.iObjectID);
