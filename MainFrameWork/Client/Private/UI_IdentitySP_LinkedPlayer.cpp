@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UI_IdentitySP_LinkedPlayer.h"
+#include "Player.h"
 
 CUI_IdentitySP_LinkedPlayer::CUI_IdentitySP_LinkedPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI(pDevice, pContext)

@@ -39,7 +39,6 @@ public:
     void    Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
     void	Set_Active(_bool bActive);
     void    Set_Dead_BossHpUI();
-    void    Set_HpCount(_uint iHpCount) { m_iHpCount = iHpCount; }
 
 private:
     virtual HRESULT Ready_Components();
@@ -55,6 +54,7 @@ private:
     void    Initialize_Position();
     void    Update_Hp(_float fTimeDelta);
     void    Update_PreHp();
+    void    Update_BossName();
 
 private:
     void    Update_BossHp();
