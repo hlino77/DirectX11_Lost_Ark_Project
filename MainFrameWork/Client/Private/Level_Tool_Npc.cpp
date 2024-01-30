@@ -89,7 +89,15 @@ HRESULT CLevel_Tool_Npc::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_Tool_Npc::Exit()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
+		return E_FAIL;
+
 	CGameInstance::GetInstance()->StopSoundAll();
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

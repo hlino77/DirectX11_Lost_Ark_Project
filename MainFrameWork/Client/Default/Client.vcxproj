@@ -1553,11 +1553,13 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectDecal.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Fxaa3_11.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_IBL.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_SSAO.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_SSR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />

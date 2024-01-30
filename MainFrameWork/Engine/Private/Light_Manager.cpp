@@ -1,5 +1,7 @@
 #include "..\Public\Light_Manager.h"
 #include "Light.h"
+#include "Texture.h"
+#include "Shader.h"
 
 IMPLEMENT_SINGLETON(CLight_Manager)
 
@@ -31,23 +33,50 @@ HRESULT CLight_Manager::Add_Light(ID3D11Device * pDevice, ID3D11DeviceContext * 
 	return S_OK;
 }
 
-HRESULT CLight_Manager::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc, CTexture* pTexture)
+HRESULT CLight_Manager::Bind_LightDescription(CShader* pShader)
 {
-	CLight* pLight = CLight::Create(pDevice, pContext, LightDesc);
-	if (nullptr == pLight)
-		return E_FAIL;
-
-	pLight->Set_StaticShadowMap(pTexture);
-	m_Lights.push_back(pLight);
+	if (!m_Lights.empty())
+	{
+		const Color& vLightDiffuse = m_Lights.front()->Get_LightDesc()->vDiffuse;
+		if (FAILED(pShader->Bind_RawValue("g_vLightDiffuse", &vLightDiffuse, sizeof(Color))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
 
-HRESULT CLight_Manager::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
+HRESULT CLight_Manager::Bind_LightShadowTexture(CShader* pShader)
 {
-	WRITE_LOCK
-	for (auto& pLight : m_Lights)
-		pLight->Render(pShader, pVIBuffer);
+	_int iShadow = true;
+	if (m_pStaticShadowMap)
+	{
+		pShader->Bind_RawValue("g_bShadow", &iShadow, sizeof(_int));
+		if (FAILED(pShader->Bind_Texture("g_StaticShadowDepthTarget", m_pStaticShadowMap->Get_SRV())))
+			return E_FAIL;
+	}
+	else
+	{
+		iShadow = false;
+		pShader->Bind_RawValue("g_bShadow", &iShadow, sizeof(_int));
+	}
+
+	return S_OK;
+}
+
+HRESULT CLight_Manager::Clear_LightShadowTexture()
+{
+	if (m_pStaticShadowMap)
+		Safe_Release(m_pStaticShadowMap);
+
+	return S_OK;
+}
+
+HRESULT CLight_Manager::Set_LightShadowTexture(CTexture* pTexture)
+{
+	if (nullptr == pTexture || nullptr != m_pStaticShadowMap)
+		return E_FAIL;
+
+	m_pStaticShadowMap = pTexture;
 
 	return S_OK;
 }

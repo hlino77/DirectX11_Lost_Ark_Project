@@ -3,10 +3,11 @@
 
 #include "Client_Shader_Defines.hlsl"
 #include "Client_Shader_Global.hlsl"
+#include "Client_Shader_Light.hlsl"
 
 float3 fresnelSchlick(float cosTheta, float3 F0)
 {
-    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.f, 1.f), 5.0);
+    return F0 + (1.0f - F0) * pow(1.0 - cosTheta, 5.0f);
 }
 
 float3 FresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
@@ -225,38 +226,69 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     //float D = D_GGX(fRoughness, NdotH);
     //float G = G_GGX(fRoughness, NdotV, NdotL);
     //float3 F = F_Shlick(vSpecularColor, HdotV);
+    
+    float3 R = reflect(-V, N);
+    
     float D = NormalDistributionGGXTR(NdotH, fRoughness);
     float G = GeometrySmith(NdotV, NdotL, fRoughness);
     float3 F = fresnelSchlick(HdotV, F0);
     
     float3 kS = F;
     float3 kD = float3(1.0f, 1.0f, 1.0f) - kS;
-    kD = kD * (1.0f - fMetallic);
+    kD *= (1.0f - fMetallic);
     
     // Diffuse & Specular factors
     //float denom = max(4.0f * NdotV * NdotL, 0.001f); // 0.001f just in case product is 0
-    float denom = 4.0 * NdotV * NdotL + 0.0001f;
-    float3 specular_factor = (D * G * F) / denom;
-    float3 diffuse_factor = kD * vDiffuseColor / PI;
-    //float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
-    //float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
+    float3 numerator = D * G * F;
+    float denom = 4.0f * NdotV * NdotL;
+    float3 specular_factor = numerator / max(denom, 0.001);
     
-    /////////////////////////
-    float3 R = reflect(-V, N);
+    //////////////////// 240127
+    float3 vRadiance = g_vLightDiffuse.xyz * EPSILON /*attenuation*/;
+    float3 Lo = (kD * vDiffuseColor / PI + specular_factor) * vRadiance * NdotL;
+    
+    float3 F1 = FresnelSchlickRoughness(NdotV, F0, fRoughness);
+    
+    kS = F1;
+    kD = 1.0 - kS;
+    kD *= 1.0 - fMetallic;
     
     float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
     float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
-
-    const float MAX_REFLECTION_LOD = 10.0f;
+    
+    const float MAX_REFLECTION_LOD = 9.0f;
+    
     float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
     float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
-    
-    float3 F1 = FresnelSchlickRoughness(max(NdotV, 0.0), F0, fRoughness);
     float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
-
-    float3 ambient = (kD * vDiffuse + specular) * fAO;
     
-    return (kD * diffuse_factor + specular_factor) * NdotL + ambient;
+    float3 vAmbient = (kD * vDiffuse + specular) * fAO;
+    
+    float3 vColor = vAmbient + Lo;
+    
+    return vColor;
+    ////////////////////
+    
+    //float3 diffuse_factor = kD * vDiffuseColor / PI;
+    ////float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
+    ////float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
+    
+    ///////////////////////////
+    //float3 R = reflect(-V, N);
+    
+    //float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
+    //float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
+
+    //const float MAX_REFLECTION_LOD = 10.0f;
+    //float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
+    //float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
+    
+    //float3 F1 = FresnelSchlickRoughness(max(NdotV, 0.0), F0, fRoughness);
+    //float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
+
+    //float3 ambient = (kD * vDiffuse + specular) * fAO;
+    
+    //return (kD * diffuse_factor + specular_factor) * NdotL + ambient;
     //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
     //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
     //return (kD * vDiffuseColor + specular_factor) * NdotL;

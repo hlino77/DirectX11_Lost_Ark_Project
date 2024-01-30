@@ -4,9 +4,12 @@
 #include "Client_Shader_Defines.hlsl"
 #include "Client_Shader_Global.hlsl"
 
-float4  g_vBloomColor = float4(1.3f, 1.3f, 1.3f, 1.f);
+float4  g_vBloomColor = float4(1.f, 1.f, 1.f, 1.f);
 float   g_fRimLight = 0.0f;
 bool    g_bReverseDissolve = false;
+
+float4 g_vLightDir;
+float4 g_vLightDiffuse;
 
 // Light
 struct LightDesc

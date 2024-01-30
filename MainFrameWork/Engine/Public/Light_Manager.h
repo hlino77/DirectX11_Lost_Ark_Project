@@ -19,8 +19,11 @@ public:
 
 public:
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
-	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc, class CTexture* pTexture);
-	HRESULT Render(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+	HRESULT Set_LightShadowTexture(class CTexture* pTexture);
+
+	HRESULT Bind_LightDescription(CShader* pShader);
+	HRESULT Bind_LightShadowTexture(class CShader* pShader);
+	HRESULT Clear_LightShadowTexture();
 
 public:
 	HRESULT Reset_Lights();
@@ -43,6 +46,8 @@ private:
 
 	Vec3 m_vLightOffset;
 	Vec3 m_vLightLook;
+
+	CTexture* m_pStaticShadowMap = nullptr;
 
 	USE_LOCK
 public:

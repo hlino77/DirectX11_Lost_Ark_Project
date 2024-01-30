@@ -23,7 +23,6 @@ sampler LinearBorderSampler = sampler_state
     AddressW = BORDER;
 };
 
-
 sampler LinearXWrapYBorderSampler = sampler_state
 {
 	Filter = MIN_MAG_MIP_LINEAR;
@@ -32,6 +31,17 @@ sampler LinearXWrapYBorderSampler = sampler_state
 	AddressW = BORDER;
 };
 
+sampler AnisotropicClampSampler = sampler_state
+{
+    Filter = ANISOTROPIC;
+    MaxAnisotropy = 4;
+    AddressU = clamp;
+    AddressV = clamp;
+    AddressW = clamp;
+    ComparisonFunc = ALWAYS;
+    MaxLOD = 0.f;
+    MinLOD = 0.f;
+};
 
 sampler PointSampler = sampler_state{
 	Filter = MIN_MAG_MIP_POINT;

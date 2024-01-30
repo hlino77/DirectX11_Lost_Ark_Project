@@ -44,28 +44,28 @@ void CCamera_Lobby::Tick(_float fTimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	//if (LEVEL_LOBBY != pGameInstance->Get_CurrLevelIndex())
-		//pGameInstance->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, this);
+	if (LEVEL_LOBBY != pGameInstance->Get_CurrLevelIndex())
+		pGameInstance->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, this);
 
-	//if (KEY_HOLD(KEY::UP_ARROW))
-	//{
-	//	m_pTransformCom->Go_Straight(2.0f, fTimeDelta);
-	//}
+	/*if (KEY_HOLD(KEY::UP_ARROW))
+	{
+		m_pTransformCom->Go_Straight(2.0f, fTimeDelta);
+	}
 
-	//if (KEY_HOLD(KEY::DOWN_ARROW))
-	//{
-	//	m_pTransformCom->Go_Backward(2.0f, fTimeDelta);
-	//}
+	if (KEY_HOLD(KEY::DOWN_ARROW))
+	{
+		m_pTransformCom->Go_Backward(2.0f, fTimeDelta);
+	}
 
-	//if (KEY_HOLD(KEY::LEFT_ARROW))
-	//{
-	//	m_pTransformCom->Go_Left(2.0f, fTimeDelta);
-	//}
+	if (KEY_HOLD(KEY::LEFT_ARROW))
+	{
+		m_pTransformCom->Go_Left(2.0f, fTimeDelta);
+	}
 
-	//if (KEY_HOLD(KEY::RIGHT_ARROW))
-	//{
-	//	m_pTransformCom->Go_Right(2.0f, fTimeDelta);
-	//}
+	if (KEY_HOLD(KEY::RIGHT_ARROW))
+	{
+		m_pTransformCom->Go_Right(2.0f, fTimeDelta);
+	}*/
 
 	//if (KEY_TAP(KEY::V))
 	//{
@@ -74,32 +74,33 @@ void CCamera_Lobby::Tick(_float fTimeDelta)
 	//	cout << m_pTransformCom->Get_State(CTransform::STATE_POSITION).z << endl;
 	//}
 	//
-	//	POINT MousePos;
+	/*POINT MousePos;
 
-	//	MousePos.x = g_iWinSizeX / 2;
-	//	MousePos.y = g_iWinSizeY / 2;
+	MousePos.x = g_iWinSizeX / 2;
+	MousePos.y = g_iWinSizeY / 2;
 
-	//	ClientToScreen(g_hWnd, &MousePos);
-	//	SetCursorPos(MousePos.x, MousePos.y);
+	ClientToScreen(g_hWnd, &MousePos);
+	SetCursorPos(MousePos.x, MousePos.y);
 
-	//	_long	MouseMove = 0;
+	_long	MouseMove = 0;
 
-	//	if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
-	//	{
-	//		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
-	//			m_pTransformCom->Move_Dir(-m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta, MouseMove * 3.f);
-	//		else
-	//			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), MouseMove * fTimeDelta * 0.05f);
-	//	}
+	if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
+	{
+		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+			m_pTransformCom->Move_Dir(-m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta, MouseMove * 3.f);
+		else
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), MouseMove * fTimeDelta * 0.05f);
+	}
 
-	//	if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
-	//	{
-	//		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
-	//			m_pTransformCom->Move_Dir(m_pTransformCom->Get_State(CTransform::STATE_UP), fTimeDelta, MouseMove * 3.f);
-	//		else
-	//			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), MouseMove * fTimeDelta * 0.05f);
+	if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
+	{
+		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+			m_pTransformCom->Move_Dir(m_pTransformCom->Get_State(CTransform::STATE_UP), fTimeDelta, MouseMove * 3.f);
+		else
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), MouseMove * fTimeDelta * 0.05f);
 
-	//	}
+	}*/
+
 	Safe_Release(pGameInstance);
 }
 

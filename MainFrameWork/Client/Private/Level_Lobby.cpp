@@ -130,6 +130,14 @@ HRESULT CLevel_Lobby::Exit()
 {
 	End_QuadTree();
 
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
 	CGameInstance::GetInstance()->StopSoundAll();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_LOBBY);
 	CGameInstance::GetInstance()->Reset_Lights();

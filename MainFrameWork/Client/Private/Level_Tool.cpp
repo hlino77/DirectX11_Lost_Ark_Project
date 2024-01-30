@@ -93,6 +93,14 @@ HRESULT CLevel_Tool::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_Tool::Exit()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
 	CGameInstance::GetInstance()->StopSoundAll();
 
 	return S_OK;
@@ -141,7 +149,7 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 
-	CRenderer::Set_IBLTexture(3);
+	CRenderer::Set_IBLTexture(22);
 
 	Safe_Release(pGameInstance);
 
@@ -166,7 +174,9 @@ HRESULT CLevel_Tool::Ready_Lights()
 
 	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos1.dds");
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc, pStaticShadowMap)))
+	if (FAILED(pGameInstance->Set_LightShadowTexture(pStaticShadowMap)))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 
 	Vec3 vLook = LightDesc.vDirection;

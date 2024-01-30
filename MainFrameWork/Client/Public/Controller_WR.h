@@ -62,8 +62,6 @@ private:
 
 	void			UpdateIdentityAuraPivot();
 	virtual void	EstherSkill(_uint iIndex) override;
-
-
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
