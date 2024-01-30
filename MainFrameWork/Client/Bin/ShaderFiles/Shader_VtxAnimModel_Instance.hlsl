@@ -26,7 +26,8 @@ VS_OUT_INSTANCE VS_MAIN(SKELETAL_INSTANCE_IN In)
 
     Out.fRimLight = In.matWorld._14;
     In.matWorld._14 = 0.0f;
-
+    Out.fDissolveAmount = In.matWorld._24;
+    In.matWorld._24 = 0.0f;
 	matWVP = mul(In.matWorld, ViewProj);
 
     In.vBlendIndex *= 4;
@@ -62,7 +63,7 @@ VS_OUT_SHADOW VS_SHADOW(SKELETAL_INSTANCE_IN In)
     VS_OUT_SHADOW Out = (VS_OUT_SHADOW) 0;
 
     In.matWorld._14 = 0.0f;
-
+    In.matWorld._24 = 0.0f;
     matrix matWVP;
 
     matWVP = mul(In.matWorld, ViewProj);
@@ -98,7 +99,8 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
 	
 	if (0.2f >= Out.vDiffuse.a)
 		discard;
-
+    if (In.fDissolveAmount>0.f)
+        ComputeDissolveColorforInstance(Out.vDiffuse, In.vTexUV, In.fDissolveAmount);
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     //float4 vNormalV = float4(In.vNormalV, 0.f);
     //ComputeNormalMapping(vNormalV, In.vTangent, In.vTexUV);

@@ -112,10 +112,6 @@ void CEsther::Leader_Active_Esther()
 
 		m_pEsther_Cut->Ready();
 	}
-	
-
-	
-	
 
 	m_bActive = true;
 }
@@ -137,11 +133,20 @@ void CEsther::Check_DeActive_Esther()
 			m_bActive = false;
 		}
 	}
-	else
+	else if(nullptr != m_pEsther_Skill)
 	{
 		if (true == m_pEsther_Skill->Is_Finished())
 		{
 			m_pEsther_Skill->Reset();
+
+			m_bActive = false;
+		}
+	}
+	else if (nullptr != m_pEsther_Cut)
+	{
+		if (true == m_pEsther_Cut->Is_Finished())
+		{
+			m_pEsther_Cut->Reset();
 
 			m_bActive = false;
 		}

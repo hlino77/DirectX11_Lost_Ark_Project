@@ -61,6 +61,13 @@ HRESULT CMonster_Prison::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fNoticeRange = 0.f;
 
+	Matrix matEffect = m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
+
 	return S_OK;
 }
 

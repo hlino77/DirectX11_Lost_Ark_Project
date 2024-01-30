@@ -29,13 +29,13 @@ CEsther_Bahuntur_Skill_Ceiling::CEsther_Bahuntur_Skill_Ceiling(const CEsther_Bah
 
 HRESULT CEsther_Bahuntur_Skill_Ceiling::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
 HRESULT CEsther_Bahuntur_Skill_Ceiling::Initialize(void* pArg)
 {
-	__super::Initialize_Prototype();
-
 	__super::Initialize(pArg);
 
 	if (FAILED(Ready_Components()))
@@ -212,11 +212,11 @@ void CEsther_Bahuntur_Skill_Ceiling::Reserve_Animation(_uint iAnimIndex, _float 
 	m_pModelCom->Reserve_NextAnimation(iAnimIndex, fChangeTime, iStartFrame, iChangeFrame, fRootDist, bRootRot, bReverse, bUseY);
 }
 
-CEsther_Bahuntur_Skill_Ceiling* CEsther_Bahuntur_Skill_Ceiling::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, void* pArg)
+CEsther_Bahuntur_Skill_Ceiling* CEsther_Bahuntur_Skill_Ceiling::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Bahuntur_Skill_Ceiling* pInstance = new CEsther_Bahuntur_Skill_Ceiling(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed To Created : CEsther_Bahuntur_Skill_Ceiling");
 		Safe_Release(pInstance);
@@ -227,13 +227,20 @@ CEsther_Bahuntur_Skill_Ceiling* CEsther_Bahuntur_Skill_Ceiling::Create(ID3D11Dev
 
 CGameObject* CEsther_Bahuntur_Skill_Ceiling::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Bahuntur_Skill_Ceiling* pInstance = new CEsther_Bahuntur_Skill_Ceiling(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Bahuntur_Skill_Ceiling");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Bahuntur_Skill_Ceiling::Free()
 {
 	__super::Free();
-
 
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);

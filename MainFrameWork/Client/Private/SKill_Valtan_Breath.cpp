@@ -29,7 +29,7 @@ HRESULT CSkill_Valtan_Breath::Initialize(void* pArg)
         return E_FAIL;
 	m_fLastTime = 0.5f;
 	m_SkillDesc.iAtk = 30;
-	m_SkillDesc.fForce = 45.f;
+	m_SkillDesc.fForce = 47.f;
     return S_OK;
 }
 

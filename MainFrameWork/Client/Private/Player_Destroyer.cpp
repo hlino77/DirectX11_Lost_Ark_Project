@@ -149,30 +149,6 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 void CPlayer_Destroyer::Tick(_float fTimeDelta)
 {
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::O))
-	{
-		Use_Item(TEXT("IT_WDR_WP_Mococo"));
-	}
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::P))
-	{
-		Use_Item(TEXT("IT_WDR_WP_Legend"));
-	}
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::K))
-	{
-		Use_Item(TEXT("IT_WDR_Helmet_Legend"));
-	}
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::L))
-	{
-		Use_Item(TEXT("IT_WDR_Body_Legend"));
-	}
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::N))
-	{
-		Use_Item(TEXT("IT_WDR_Helmet_Mococo"));
-	}
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::M))
-	{
-		Use_Item(TEXT("IT_WDR_Body_Mococo"));
-	}
 	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::X) &&
 		TEXT("Dead_End") == Get_State())
 	{
@@ -315,7 +291,7 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 					{
 						if (false == m_pController->Is_HitState())
 						{
-							if (true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
+							if (true == m_pController->Is_GrabState() && true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
 							{
 								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), 0, vCenter);
 							}
@@ -336,6 +312,12 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 				{
 					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
+			}
+
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer() && true == m_IsClickNpc)
+			{
+				m_pController->Set_Control_Active(false);
+				Set_State(TEXT("Idle"));
 			}
 		}
 
@@ -368,7 +350,7 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 	}
 	else
 	{
-		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
 			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
@@ -432,11 +414,16 @@ void CPlayer_Destroyer::OnCollisionExit(const _uint iColLayer, CCollider* pOther
 					}
 				}
 			}
+
+			if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer())
+			{
+				m_pController->Set_Control_Active(true);
+			}
 		}
 	}
 	else
 	{
-		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
 			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
@@ -503,7 +490,8 @@ _bool CPlayer_Destroyer::Get_CellPickingPos(Vec3& vPickPos)
 
 	if (true == m_IsClickNpc)
 	{
-		m_pController->Get_MoveToNpcMessage();
+		//m_pController->Get_MoveToNpcMessage();
+		m_pController->Get_MoveToCellMessage();
 	}
 	else
 	{

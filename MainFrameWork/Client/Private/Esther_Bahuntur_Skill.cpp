@@ -22,12 +22,14 @@ CEsther_Bahuntur_Skill::CEsther_Bahuntur_Skill(const CEsther_Bahuntur_Skill& rhs
 
 HRESULT CEsther_Bahuntur_Skill::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
+
 	return S_OK;
 }
 
-HRESULT CEsther_Bahuntur_Skill::Initialize(CPlayer* pPlayer, void* pArg)
+HRESULT CEsther_Bahuntur_Skill::Initialize(void* pArg)
 {
-	__super::Initialize(pPlayer, pArg);
+	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Bahuntur_Skill");
 
@@ -40,11 +42,11 @@ HRESULT CEsther_Bahuntur_Skill::Initialize(CPlayer* pPlayer, void* pArg)
 	if (FAILED(Ready_Projectile()))
 		return E_FAIL;
 
-	m_pSkillFloor = CEsther_Bahuntur_Skill_Floor::Create(m_pDevice, m_pContext, nullptr);
+	m_pSkillFloor = static_cast<CEsther_Bahuntur_Skill_Floor*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill_Floor")));
 	if (nullptr == m_pSkillFloor)
 		return E_FAIL;
 
-	m_pSkillCeiling = CEsther_Bahuntur_Skill_Ceiling::Create(m_pDevice, m_pContext, nullptr);
+	m_pSkillCeiling = static_cast<CEsther_Bahuntur_Skill_Ceiling*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill_Ceiling")));
 	if (nullptr == m_pSkillCeiling)
 		return E_FAIL;
 
@@ -114,10 +116,8 @@ void CEsther_Bahuntur_Skill::Ready()
 
 	m_bAnim = false;
 	m_fTimeAcc = 0.0f;
-
 	m_fAnimationSpeed = 0.f;
 	Reserve_Animation(m_iAnimIndex, 0.1f, 10, 0);
-	
 
 	m_IsFinished = false;
 }
@@ -317,13 +317,13 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Projectile()
 	return S_OK;
 }
 
-CEsther_Bahuntur_Skill* CEsther_Bahuntur_Skill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer* pPlayer, void* pArg)
+CEsther_Bahuntur_Skill* CEsther_Bahuntur_Skill::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CEsther_Bahuntur_Skill* pInstance = new CEsther_Bahuntur_Skill(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pPlayer, pArg)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed To Created : CEsther_Bahuntur_Skill");
+		MSG_BOX("Failed To Created : CIT_GN_Body_Legend");
 		Safe_Release(pInstance);
 	}
 
@@ -332,7 +332,15 @@ CEsther_Bahuntur_Skill* CEsther_Bahuntur_Skill::Create(ID3D11Device* pDevice, ID
 
 CGameObject* CEsther_Bahuntur_Skill::Clone(void* pArg)
 {
-	return nullptr;
+	CEsther_Bahuntur_Skill* pInstance = new CEsther_Bahuntur_Skill(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed To Cloned : CEsther_Bahuntur_Skill");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CEsther_Bahuntur_Skill::Free()

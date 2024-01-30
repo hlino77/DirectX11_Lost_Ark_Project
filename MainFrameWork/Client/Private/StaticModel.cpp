@@ -86,6 +86,15 @@ void CStaticModel::Tick(_float fTimeDelta)
 			Set_Active(false);
 		}
 	}
+	if (false == m_bActive)
+	{
+
+		for (auto& Collider : m_StaticColliders)
+		{
+			Collider->SetActive(false);
+			Collider->Get_Child()->SetActive(false);
+		}
+	}
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
@@ -204,7 +213,15 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
+		if (false == m_bActive)
+		{
 
+			for (auto& Collider : m_StaticColliders)
+			{
+				Collider->SetActive(false);
+				Collider->Get_Child()->SetActive(false);
+			}
+		}
 		Set_Active(false);
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
@@ -219,7 +236,15 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			{
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
+			if (false == m_bActive)
+			{
 
+				for (auto& Collider : m_StaticColliders)
+				{
+					Collider->SetActive(false);
+					Collider->Get_Child()->SetActive(false);
+				}
+			}
 			Set_Active(false);
 		}
 
@@ -231,6 +256,12 @@ void CStaticModel::Disable_NaviCells()
 	for (auto& CellIndex : m_NaviCellIndex)
 	{
 		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+	}
+
+	for (auto& Collider : m_StaticColliders)
+	{
+		Collider->SetActive(false);
+		Collider->Get_Child()->SetActive(false);
 	}
 }
 

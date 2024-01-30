@@ -133,10 +133,10 @@ HRESULT CDeco_Npc::Ready_Components()
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
 
-			COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Get_Child());
+			/*COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_NPC]->Get_Child());
 			pChildCollider->Set_Scale(Vec3(0.4f, 0.6f, 0.4f));
 			pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
-			pChildCollider->SetActive(true);
+			pChildCollider->SetActive(true);*/
 		}
 
 		for (auto& Collider : m_Coliders)

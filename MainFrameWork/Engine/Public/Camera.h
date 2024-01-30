@@ -31,7 +31,8 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
-
+public:
+	Matrix&						Get_ProjMatrix() { return m_matProj; }
 
 
 protected:

@@ -26,9 +26,11 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     const _bool Get_IsClicked();
+
     void    Set_Player_Control();
     void    Reset_Player_Control();
     void    Set_Active(_bool bActive);
+    _bool   Is_Clicked() { return m_IsClicked; }
 
 private:
     void    Start_Text();
@@ -44,6 +46,7 @@ private:
     void    Update_RefuseButton(POINT pt);
     _bool    Is_Picking_AcceptButton(POINT pt);
     _bool    Is_Picking_RefuseButton(POINT pt);
+    void    Reset_Player_Control();
 
 private:
     virtual HRESULT Ready_Components();
@@ -83,6 +86,7 @@ private:
     wstring      m_strTag_Timer;
 
     _bool       m_bClicked_Entrance = { false };
+    _bool       m_IsClicked = { false };
 
 public:
     static  CUI_NPC_ChaosDungeon_NewWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

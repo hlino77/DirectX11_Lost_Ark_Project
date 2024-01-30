@@ -28,7 +28,7 @@ private:
 private:
 	//Animation
 	_bool m_bEffect = false;
-	vector<CEffect*> m_Effects;
+	vector<class CEffect*> m_Effects;
 
 	_int m_iIdentity = 0;
 

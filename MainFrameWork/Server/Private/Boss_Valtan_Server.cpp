@@ -9,7 +9,7 @@
 #include "Common_BT_Chase_Server.h"
 #include "Common_BT_Damage1_Server.h"
 #include "Common_BT_Damage2_Server.h"
-#include "Common_BT_Dead_Server.h"
+#include "Valtan_BT_Dead_Server.h"
 #include "Common_BT_Idle_Server.h"
 #include "Common_BT_BattleIdle_Server.h"
 #include "Common_BT_Move_Server.h"
@@ -158,6 +158,8 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			_uint iGroggy_Result = iGroggy;
 			_bool	bGroggyObsorb = false;
 			m_iHp -= iDamage_Result;
+			if (m_IsGroggyLock)
+				iGroggy_Result = 0;
 			if (m_iGroggyObsrob > 0)
 			{
 				m_iGroggyObsrob -= iGroggy_Result;
@@ -178,8 +180,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			}
 			else if (!m_IsGroggy && m_iGroggyGauge > 0 && !m_IsGroggyLock)
 				m_iGroggyGauge -= iGroggy_Result;
-			if (m_IsGroggyLock)
-				iGroggy_Result = 0;
+
 
 			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
 				m_iArmorDurability -= iDamage;
@@ -205,8 +206,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 
 			if (m_iHp < 1.f)
 				m_IsHit = true;
-
-			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, bGroggyObsorb, iGroggy_Result);
+			Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
 		}
 }
 
@@ -301,31 +301,62 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.pGameObject = this;
 	ActionDesc.vecAnimations.clear();
 	CBT_Action::ANIMATION_DESC AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fRootDist = 0.f;
 	AnimationDesc.fAnimSpeed = 1.15f;
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.IsEndInstant = false;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	//1
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 4.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("dead_1");
+	AnimationDesc.bIsLoop = false;
+	//2
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");
+	AnimationDesc.iStartFrame = 7;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//3
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 0.3f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	//4
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//5
+	AnimationDesc.strAnimName = TEXT("evt1_att_battle_5_01_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//6
+	AnimationDesc.strAnimName = TEXT("att_battle_19_05");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	ActionDesc.strActionName = L"Action_Dead";
-	CBT_Action* pDead = CCommon_BT_Dead_Server::Create(&ActionDesc);
+	CBT_Action* pDead = CValtan_BT_Dead_Server::Create(&ActionDesc);
+	AnimationDesc.fRootDist = 1.5f;
 
 	CBT_Decorator::DECORATOR_DESC DecoratorDesc = {};
 	DecoratorDesc.pBehaviorTree = m_pBehaviorTree;
@@ -442,11 +473,23 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
+
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
 	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime =0.f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 0.4f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.15f;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;
@@ -456,7 +499,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
@@ -1682,6 +1725,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+
 	//16번 연환파신권
 	ActionDesc.strActionName = L"Action_Attack23";
 	CBT_Action* pAttack23 = CValtan_BT_Attack_Attack23_Server::Create(&ActionDesc);
@@ -1794,7 +1838,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 		if (FAILED(pSequenceNoArmor->AddChild(pAttack1)))
 			return E_FAIL;
-
+		if (FAILED(pSequenceNoArmor->AddChild(pAttack14)))
+			return E_FAIL;
+		pSequenceNoArmor->ShuffleChild();
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_NoArmor = CValtan_BT_IF_NoArmor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
 		if (FAILED(pIf_NoArmor->AddChild(pSequenceNoArmor))) return E_FAIL;
@@ -1903,6 +1949,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		if (FAILED(pSequenceNormalAttack->AddChild(pAttack6)))
 			return E_FAIL;
 
+		pSequenceNormalAttack->ShuffleChild();
 		pSequenceNormalAttack->ShuffleChild();
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;

@@ -3,7 +3,7 @@
 
 float4	g_vHairColor_1;
 float4	g_vHairColor_2;
-
+bool    g_bDissolve = false;
 matrix	g_BoneMatrices[800];
 
 
@@ -111,7 +111,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 	
 	if (0.2f >= Out.vDiffuse.a)
 		discard;
-
+    if(g_bDissolve == true)
+        ComputeDissolveColor(Out.vDiffuse, In.vTexUV);
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     //float4 vNormalV = float4(In.vNormalV, 0.f);
     //ComputeNormalMapping(vNormalV, In.vTangent, In.vTexUV);

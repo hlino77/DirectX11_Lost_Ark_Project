@@ -1551,9 +1551,6 @@
     <ClInclude Include="..\Public\ServerSessionManager.h">
       <Filter>95.Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\MainLogo.h">
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
@@ -4432,6 +4429,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentitySP_LinkedPlayer.h">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Part_forCut.h">
+      <Filter>02.GameObjects\Esther\base_Part</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_Corpse.h">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Dead.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Spawn.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02.GameObjects\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7346,6 +7358,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\Esther_Part_forCut.cpp">
+      <Filter>02.GameObjects\Esther\base_Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_Corpse.cpp">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Dead.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Spawn.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

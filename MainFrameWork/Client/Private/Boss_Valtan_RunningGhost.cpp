@@ -3,24 +3,11 @@
 #include "BehaviorTree.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
-#include "PartObject.h"
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
-#include "Common_BT_Chase.h"
-#include "Common_BT_Damage1.h"
-#include "Common_BT_Damage2.h"
-#include "Common_BT_Dead.h"
-#include "Common_BT_Idle.h"
-#include "Common_BT_BattleIdle.h"
-#include "Common_BT_Move.h"
-#include "Common_BT_Spawn.h"
 #include "BehaviorTree.h"
 #include <Skill.h>
 #include "ColliderOBB.h"
-#include <Valtan_BT_Attack_Attack11.h>
-#include <Valtan_BT_Attack_Attack1.h>
-#include <Valtan_BT_BattleIdle.h>
-#include <Valtan_BT_Attack_Attack9.h>
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 
@@ -36,7 +23,7 @@ CBoss_Valtan_RunningGhost::CBoss_Valtan_RunningGhost(const CBoss_Valtan_RunningG
 
 HRESULT CBoss_Valtan_RunningGhost::Initialize_Prototype()
 {
-	if(FAILED(__super::Initialize_Prototype()))
+	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
 
 	return S_OK;
@@ -57,7 +44,8 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
+	if (FAILED(Ready_DissolveTexture()))
+		return E_FAIL;
 	m_pRigidBody->SetMass(2.0f);
 	m_pRigidBody->Set_Gravity(false);
 
@@ -85,16 +73,16 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
 	m_bRender = false;
 	m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.2f, 0, 0);
 	return S_OK;
-}	
+}
 
 void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	Update_StatusEffect(fTimeDelta);
 	_float fDistance = (m_vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length();
-	if (m_bRender&& m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim()) > m_pModelCom->Get_Anim_MaxFrame(m_pModelCom->Get_CurrAnim()) - 3 && !m_pModelCom->IsNext())
+	if (m_bRender && m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim()) > m_pModelCom->Get_Anim_MaxFrame(m_pModelCom->Get_CurrAnim()) - 5 && !m_pModelCom->IsNext())
 		Set_Die();
-	if (fDistance < 15.f && !m_bRender )
+	if (fDistance < 15.f && !m_bRender)
 	{
 		m_bRender = true;
 		m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.f, 0, 0);
@@ -114,14 +102,20 @@ HRESULT CBoss_Valtan_RunningGhost::Render()
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
+	_int	iDissolve = false;
+	if (m_bDissolveIn || m_bDissolveOut)
+	{
+		iDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
 
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
+		_float g_fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
 
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f);
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
@@ -133,6 +127,9 @@ HRESULT CBoss_Valtan_RunningGhost::Render()
 			return E_FAIL;
 
 	}
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -166,21 +163,6 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Coliders()
 	Set_Atk(20);
 	Set_Force(52.f);
 	return S_OK;
-}
-
-
-void CBoss_Valtan_RunningGhost::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed)
-{
-	if (m_pWeapon->Get_ModelCom()->Initailize_FindAnimation(strAnimName, fAnimspeed) > m_pWeapon->Get_ModelCom()->Get_MaxAnimIndex())
-		strAnimName = L"att_battle_8_01_loop";
-	m_pWeapon->Get_ModelCom()->Reserve_NextAnimation(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fChangeTime,
-		iStartFrame, iChangeFrame);
-	m_pWeapon->Get_ModelCom()->Set_Anim_Speed(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName) ,fAnimspeed);
-}
-
-void CBoss_Valtan_RunningGhost::Set_Weapon_Render(_bool IsRender)
-{
-	m_pWeapon->Set_Render(IsRender);
 }
 
 HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
@@ -222,9 +204,9 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
 		return E_FAIL;
 
-	m_vOriginScale.x = 0.012f;
-	m_vOriginScale.y = 0.012f;
-	m_vOriginScale.z = 0.012f;
+	m_vOriginScale.x = 1.2f;
+	m_vOriginScale.y = 1.2f;
+	m_vOriginScale.z = 1.2f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 	return S_OK;

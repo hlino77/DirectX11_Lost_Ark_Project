@@ -56,6 +56,9 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_BehaviourTree()))
 		return E_FAIL;
 
+	if (FAILED(Ready_DissolveTexture()))
+		return E_FAIL;
+
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPos);
 
 	m_pRigidBody->SetMass(2.0f);
@@ -83,8 +86,8 @@ HRESULT CMonster::Initialize(void* pArg)
 void CMonster::Tick(_float fTimeDelta)
 {
 	Set_EffectPos();
-	if (!m_bDead)
-		m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
+
+	m_pBehaviorTree->Tick_Action(m_strAction, fTimeDelta);
 
 	if (m_IsSetuponCell)
 	{
@@ -113,7 +116,7 @@ void CMonster::LateTick(_float fTimeDelta)
 		return;
 
 	CullingObject();
-
+	Update_Dissolve(fTimeDelta);
 	if (m_bRimLight)
 	{
 		m_fRimLightTime -= fTimeDelta;
@@ -135,7 +138,20 @@ HRESULT CMonster::Render()
 
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
 		return E_FAIL;
+	_int	iDissolve = true;
+	if (m_bDissolveIn || m_bDissolveOut)
+	{
+		iDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
 
+		_float g_fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
@@ -143,7 +159,9 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
 
-
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		return E_FAIL;
     return S_OK;
 }
 
@@ -228,7 +246,8 @@ HRESULT CMonster::Render_Instance(_uint iSize)
 
 	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_Texture("g_InstanceTransform", (*m_pInstaceData)[m_szModelName].pAnimSRV)))
 		return E_FAIL;
-
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+		return E_FAIL;
 	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_GlobalVP()))
 		return E_FAIL;
 
@@ -248,7 +267,13 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 		_uint iID = iIndex;
 		Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
 		matWorld.m[0][3] = (_float)m_bRimLight;
-
+		if (m_bDissolveIn || m_bDissolveOut)
+		{
+			_float fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
+			matWorld.m[1][3] = fDissolveAmount;
+		}
+		else 
+			matWorld.m[1][3] = 0.f;
 		memcpy(pInstanceValue + iDataIndex, &iID, sizeof(_uint));
 		memcpy(pInstanceValue + iDataIndex + sizeof(_uint), &matWorld, sizeof(Matrix));
 	}
@@ -564,20 +589,31 @@ void CMonster::LookAt_Target_Direction()
 }
 
 
-void CMonster::Set_Die()
+void CMonster::Set_Die(_float fTime)
 {
 	for (auto& Collider : m_Coliders)
 		Collider.second->SetActive(false);
 
-	m_bDead = true;
-	if(m_pHpUI != nullptr)
+	if (m_bDissolveOut == false)
+		Set_DissolveOut(fTime);
+	if (m_pHpUI != nullptr)
 		m_pHpUI->Set_Dead(true);
 }
 
+void CMonster::Disable_HpUI()
+{
+	if (m_pHpUI != nullptr)
+	{
+		m_pHpUI->Set_Dead(true);
+		m_pHpUI = nullptr;
+	}
+}
+
+
 void CMonster::Set_Action(wstring strAction)
 {
-	m_pBehaviorTree->Change_Action(strAction);
 	m_strAction = strAction;
+	m_pBehaviorTree->Change_Action(strAction);
 }
 
 void CMonster::Set_AttackRange(_int iRangeIndex)
@@ -700,19 +736,14 @@ HRESULT CMonster::Ready_Components()
     return S_OK;
 }
 
-HRESULT CMonster::Ready_BehaviourTree()
+HRESULT CMonster::Ready_DissolveTexture()
 {
-	return S_OK;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"), TEXT("Com_DissolveTexture"), (CComponent**)&m_pDissolveTexture)))
+		return E_FAIL;
 }
 
-HRESULT CMonster::Ready_HP_UI()
+HRESULT CMonster::Ready_BehaviourTree()
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	//Prototype_GameObject_UI_HP_Monster
-
-	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
@@ -895,6 +926,28 @@ void CMonster::CullingObject()
 		m_pRendererCom->Add_DebugObject(this);
 	}
 
+}
+
+void CMonster::Update_Dissolve(_float fTimeDelta)
+{
+	if (m_bDissolveOut)
+	{
+		m_fDissolvetime += fTimeDelta;
+		if (m_fDissolvetime > m_fMaxDissolvetime)
+		{
+			m_fDissolvetime = m_fMaxDissolvetime;
+			Set_Dead(true);
+		}
+	}
+	else if (m_bDissolveIn)
+	{
+		m_fDissolvetime -= fTimeDelta;
+		if (m_fDissolvetime < 0.0f)
+		{
+			m_fDissolvetime = m_fMaxDissolvetime;
+			m_bDissolveIn = false;		
+		}
+	}
 }
 
 void CMonster::Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance)

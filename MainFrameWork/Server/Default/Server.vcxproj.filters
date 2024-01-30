@@ -229,6 +229,9 @@
     <Filter Include="02. GameObject\05. Skill\Skill_TeleportDoor_Server">
       <UniqueIdentifier>{d9be8682-113d-43c1-84ea-cade4f352cca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Dead">
+      <UniqueIdentifier>{c0c47c10-95cd-43d4-8b7c-30abe1e0c2de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -557,6 +560,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill_TeleportDoor_Server.cpp">
       <Filter>02. GameObject\05. Skill\Skill_TeleportDoor_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Dead_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -979,6 +985,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Skill_TeleportDoor_Server.h">
       <Filter>02. GameObject\05. Skill\Skill_TeleportDoor_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Dead_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

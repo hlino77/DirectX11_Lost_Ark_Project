@@ -196,6 +196,7 @@
     <ClInclude Include="..\Public\Boss_BT_Groggy.h" />
     <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Boss_Valtan.h" />
+    <ClInclude Include="..\Public\Boss_Valtan_Corpse.h" />
     <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h" />
     <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h" />
     <ClInclude Include="..\Public\Camera_Cut.h" />
@@ -244,6 +245,7 @@
     <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h" />
     <ClInclude Include="..\Public\Esther_Cut.h" />
     <ClInclude Include="..\Public\Esther_Part.h" />
+    <ClInclude Include="..\Public\Esther_Part_forCut.h" />
     <ClInclude Include="..\Public\Esther_Silian.h" />
     <ClInclude Include="..\Public\Esther_Silian_Cut.h" />
     <ClInclude Include="..\Public\Esther_Silian_Skill.h" />
@@ -768,8 +770,10 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h" />
     <ClInclude Include="..\Public\Valtan_BT_BattleIdle.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Dead.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Spawn.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
     <ClInclude Include="..\Public\Weapon_Boss_King.h" />
     <ClInclude Include="..\Public\Weapon_Boss_Valtan.h" />
@@ -811,6 +815,7 @@
     <ClCompile Include="..\Private\Boss_BT_Groggy.cpp" />
     <ClCompile Include="..\Private\Boss_Golem.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan.cpp" />
+    <ClCompile Include="..\Private\Boss_Valtan_Corpse.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp" />
     <ClCompile Include="..\Private\Camera_Cut.cpp" />
@@ -859,6 +864,7 @@
     <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Floor.cpp" />
     <ClCompile Include="..\Private\Esther_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Part.cpp" />
+    <ClCompile Include="..\Private\Esther_Part_forCut.cpp" />
     <ClCompile Include="..\Private\Esther_Silian.cpp" />
     <ClCompile Include="..\Private\Esther_Silian_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Silian_Skill.cpp" />
@@ -1383,8 +1389,10 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_BattleIdle.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Dead.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Spawn.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_Valtan.cpp" />

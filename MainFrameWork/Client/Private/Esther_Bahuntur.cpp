@@ -26,11 +26,12 @@ HRESULT CEsther_Bahuntur::Initialize(void* pArg)
 	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Bahuntur");
-
-	m_pEsther_Skill = CEsther_Bahuntur_Skill::Create(m_pDevice, m_pContext, m_pLeaderPlayer, nullptr);
-	m_pEsther_Skill->Set_OwnerEsther(this);
-
 	m_iEstherType = (_uint)ESTHERTYPE::BT;
+
+	CEsther_Skill::ESTHERSKILLDESC SkillDesc;
+	SkillDesc.pLeaderPlayer = m_pLeaderPlayer;
+	SkillDesc.pOwnerEsther = this;
+	m_pEsther_Skill = static_cast<CEsther_Bahuntur_Skill*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill"), &SkillDesc));
 
 	return S_OK;
 }

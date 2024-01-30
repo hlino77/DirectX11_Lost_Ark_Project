@@ -381,10 +381,10 @@ void CMonster_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEf
 		}
 		m_fStatusEffects[iStatusEffect] += fStatusDuration;
 	}
-	Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+	Send_Collision(iDamage, vHitPos,iStatusEffect, fForce, fDuration, iGroggy);
 }
 
-void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy)
+void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, _uint iEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	pGameInstance->AddRef();
@@ -396,7 +396,7 @@ void CMonster_Server::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT e
 	pkt.set_iobjectid(m_iObjectID);
 
 	pkt.set_idamage(iDamage);
-	pkt.set_istatuseffect((_uint)eEffect);
+	pkt.set_istatuseffect(iEffect);
 	pkt.set_fforce(fForce);
 	pkt.set_fduration(fDuration);
 	pkt.set_igroggy(iGroggy);

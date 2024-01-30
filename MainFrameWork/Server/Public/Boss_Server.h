@@ -80,8 +80,6 @@ public:
 	_bool						Is_GroggyLock() { return m_IsGroggyLock; }
 	void						Set_GroggyLock(_bool IsGroggyLock) { m_IsGroggyLock = IsGroggyLock; }
 
-
-
 	_int						Get_GroggyCount() { return m_iGroggyCount; }
 	void						Set_GroggyCount(_int iGroggyCount) { m_iGroggyCount = iGroggyCount; }
 
@@ -112,7 +110,7 @@ protected:
 	_int							m_iArmor = 0;
 	Vec3							m_vSpawnPosition;
 	_bool							m_IsGroggyLock = false;
-
+	_bool							m_Is3Counter = false;
 	_int							m_iGroggyCount = 0;
 	_uint							m_iMaxGroggyCount = 0;
 	_float							m_fTimeCount = 0.f;

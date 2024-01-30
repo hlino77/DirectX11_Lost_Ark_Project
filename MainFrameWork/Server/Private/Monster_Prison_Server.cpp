@@ -110,7 +110,7 @@ void CMonster_Prison_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iS
 	{
 		Set_Die();
 	}
-	Send_Collision(iDamage, Vec3(), STATUSEFFECT::EFFECTEND, fForce, fDuration, iGroggy);
+	Send_Collision(iDamage, Vec3(), (_uint)STATUSEFFECT::EFFECTEND, fForce, fDuration, iGroggy);
 }
 
 HRESULT CMonster_Prison_Server::Ready_Components()

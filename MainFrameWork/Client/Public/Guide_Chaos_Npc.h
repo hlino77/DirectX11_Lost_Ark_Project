@@ -20,6 +20,11 @@ public:
 	virtual HRESULT			Render() override;
 
 private:
+	virtual	void	OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) override;
+	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
+	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
+
+private:
 	virtual HRESULT			Ready_Components() override;
 	HRESULT					Ready_ChaosEntranceUI();
 

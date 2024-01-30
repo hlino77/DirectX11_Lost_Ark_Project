@@ -31,7 +31,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1_Server::OnUpdate(const _float& fTi
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex &&  m_iLoop == 2&& static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() == 2)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex &&  m_iLoop == 2&& static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() < 1)
 			static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 3)
@@ -66,6 +66,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1_Server::OnUpdate(const _float& fTi
 void CValtan_BT_Attack_Attack1_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Rush(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

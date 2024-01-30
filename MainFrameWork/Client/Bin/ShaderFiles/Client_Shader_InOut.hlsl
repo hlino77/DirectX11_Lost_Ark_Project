@@ -97,6 +97,7 @@ struct VS_OUT_INSTANCE
     float4  vProjPos : TEXCOORD1;
     float3  vTangent : TANGENT;
     float   fRimLight : RIM;
+    float   fDissolveAmount : DISSOLVE;
 };
 
 struct VS_OUT_SHADOW

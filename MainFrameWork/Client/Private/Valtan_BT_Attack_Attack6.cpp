@@ -50,7 +50,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
-				static_cast<CSkill*>(pSkill)->Set_Atk(20.f);
+				static_cast<CSkill*>(pSkill)->Set_Atk(20);
 				static_cast<CSkill*>(pSkill)->Set_Force(40.f);
 				static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f+ (_float)i);
 				static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f + (_float)i);
@@ -61,7 +61,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta
 			{
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(-vLook);
-				static_cast<CSkill*>(pSkill)->Set_Atk(20.f);
+				static_cast<CSkill*>(pSkill)->Set_Atk(20);
 				static_cast<CSkill*>(pSkill)->Set_Force(40.f);
 				static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f + (_float)i);
 				static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f + (_float)i);

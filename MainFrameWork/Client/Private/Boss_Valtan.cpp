@@ -3,13 +3,12 @@
 #include "BehaviorTree.h"
 #include "GameInstance.h"
 #include "AsUtils.h"
-#include "PartObject.h"
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include "Common_BT_Chase.h"
 #include "Common_BT_Damage1.h"
 #include "Common_BT_Damage2.h"
-#include "Common_BT_Dead.h"
+#include "Valtan_BT_Dead.h"
 #include "Common_BT_Idle.h"
 #include "Common_BT_BattleIdle.h"
 #include "Common_BT_Move.h"
@@ -17,7 +16,7 @@
 
 #include "BehaviorTree.h"
 #include "Common_BT_Attack1.h"
-#include "Common_BT_Spawn.h"
+#include "Valtan_BT_Spawn.h"
 #include "Boss_BT_Counter.h"
 #include "Boss_BT_Groggy.h"
 #include "Valtan_BT_Attack_Attack0.h"
@@ -52,6 +51,7 @@
 #include <Valtan_BT_Attack_Attack2_1.h>
 #include <Skill.h>
 #include "ColliderOBB.h"
+#include <Weapon_Boss_Valtan.h>
 
 
 CBoss_Valtan::CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -92,17 +92,19 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+	m_bRender = false;
+	m_pWeapon->Set_Render(false);
+	Set_HpUIRender(false);
 	Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 	m_fSummonTime = 0.f;
 	m_vSummonPositions[0] = m_vSpawnPosition;
-	m_vSummonPositions[0].z += 15.f;
+	m_vSummonPositions[0].z += 14.f;
 	Vec3 vDir = { sqrtf(3.f),0.f,-1.f };
 	vDir.Normalize();
-	m_vSummonPositions[1] = m_vSpawnPosition + vDir * 15.f;
+	m_vSummonPositions[1] = m_vSpawnPosition + vDir * 14.f;
 	vDir = { -sqrtf(3.f),0.f,-1.f };
 	vDir.Normalize();
-	m_vSummonPositions[2] = m_vSpawnPosition + vDir * 15.f;
-
+	m_vSummonPositions[2] = m_vSpawnPosition + vDir * 14.f;
 	return S_OK;
 }
 
@@ -112,7 +114,7 @@ void CBoss_Valtan::Tick(_float fTimeDelta)
 
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
-	if (m_iPhase == 3)
+	if (m_iPhase == 3 && m_iHp != 0)
 	{
 		m_fSummonTime += fTimeDelta;
 		if (m_fSummonTime > 10.f)
@@ -159,17 +161,32 @@ HRESULT CBoss_Valtan::Render()
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
 
+	_int	iDissolve = false;
+	if (!m_bRenderPostValtan && m_bDissolveIn || m_bDissolveOut)
+	{
+		iDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
+
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f);
+	Color vValtanBloom = Color(0.62f, 0.93f, 0.85f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	if (m_iArmor > 1&&m_iPhase != 3)
+	if (m_iArmor > 1 && m_iPhase != 3&& !m_bRenderPostValtan)
 	{
 		_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART1]->Get_NumMeshes();
 
@@ -179,7 +196,7 @@ HRESULT CBoss_Valtan::Render()
 				return E_FAIL;
 		}
 	}
-	if (m_iArmor > 0 && m_iPhase != 3)
+	if (m_iArmor > 0 && m_iPhase != 3 && !m_bRenderPostValtan)
 	{
 		_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART2]->Get_NumMeshes();
 
@@ -199,6 +216,73 @@ HRESULT CBoss_Valtan::Render()
 				return E_FAIL;
 		}
 	}
+	else if (m_bRenderPostValtan)
+	{
+		if (m_bDissolveIn)
+		{
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+				return E_FAIL;
+
+			_float fDissolveAmount = 1 - m_fDissolvetime / m_fMaxDissolvetime;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+				return E_FAIL;
+
+			_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Get_NumMeshes();
+
+			for (_uint j = 0; j < iNumMeshes; ++j)
+			{
+				if (FAILED(m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
+			}
+
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &iDissolve, sizeof(_int))))
+				return E_FAIL;
+			fDissolveAmount = (m_fDissolvetime / m_fMaxDissolvetime);
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+			iNumMeshes = m_pModelPartCom[(_uint)PARTS::BODY]->Get_NumMeshes();
+
+			for (_uint j = 0; j < iNumMeshes; ++j)
+			{
+				if (FAILED(m_pModelPartCom[(_uint)PARTS::BODY]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
+			}
+			iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART1]->Get_NumMeshes();
+
+			for (_uint j = 0; j < iNumMeshes; ++j)
+			{
+				if (FAILED(m_pModelPartCom[(_uint)PARTS::PART1]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
+			}
+
+			iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART2]->Get_NumMeshes();
+
+			for (_uint j = 0; j < iNumMeshes; ++j)
+			{
+				if (FAILED(m_pModelPartCom[(_uint)PARTS::PART2]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
+			}
+			iDissolve = false;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &iDissolve, sizeof(_int))))
+				return E_FAIL;
+		}
+		else
+		{
+			_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Get_NumMeshes();
+
+			for (_uint j = 0; j < iNumMeshes; ++j)
+			{
+				if (FAILED(m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Render_SingleMesh(m_pShaderCom, j)))
+					return E_FAIL;
+			}
+		}
+
+	}
 	else
 	{
 		_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::BODY]->Get_NumMeshes();
@@ -209,11 +293,37 @@ HRESULT CBoss_Valtan::Render()
 				return E_FAIL;
 		}
 	}
-
-
-		return S_OK;
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		return E_FAIL;
+	vValtanBloom = Color(1.3f, 1.3f, 1.3f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
+		return E_FAIL;
+	return S_OK;
 }
 
+void CBoss_Valtan::Update_Dissolve(_float fTimeDelta)
+{
+	if (m_bDissolveOut)
+	{
+		m_fDissolvetime += fTimeDelta;
+		if (m_fDissolvetime > m_fMaxDissolvetime)
+		{
+			m_fDissolvetime = m_fMaxDissolvetime;
+			Set_Dead(true);
+		}
+	}
+	else if (m_bDissolveIn)
+	{
+		m_fDissolvetime -= fTimeDelta;
+		if (m_fDissolvetime < 0.0f)
+		{
+			m_fDissolvetime = m_fMaxDissolvetime;
+			m_bDissolveIn = false;
+			m_bRenderPostValtan = false;
+		}
+	}
+}
 
 HRESULT CBoss_Valtan::Ready_Coliders()
 {
@@ -310,6 +420,9 @@ HRESULT CBoss_Valtan::Ready_Components()
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
 		return E_FAIL;
 
+	strComName = L"Prototype_Component_Model_Boss_Valtan_PostDeath";
+	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_PostDeath"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::POSTDEATH])))
+		return E_FAIL;
 	CPartObject::PART_DESC			PartDesc_Weapon;
 	PartDesc_Weapon.pOwner = this;
 	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
@@ -339,42 +452,71 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.pGameObject = this;
 	ActionDesc.vecAnimations.clear();
 	CBT_Action::ANIMATION_DESC AnimationDesc = {};
-	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fAnimSpeed = 1.15f;
-	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fRootDist = 0.f;
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.IsEndInstant = false;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	//1
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 4.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	AnimationDesc.strAnimName = TEXT("dead_1");
+	AnimationDesc.bIsLoop = false;
+	//2
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");
+	AnimationDesc.iStartFrame = 7;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//3
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 0.3f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	//4
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//5
+	AnimationDesc.strAnimName = TEXT("evt1_att_battle_5_01_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//6
+	AnimationDesc.strAnimName = TEXT("att_battle_19_05");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.5f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
 	ActionDesc.strActionName = L"Action_Dead";
-	CBT_Action* pDead = CCommon_BT_Dead::Create(&ActionDesc);
-
-
+	CBT_Action* pDead = CValtan_BT_Dead::Create(&ActionDesc);
+	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.15f;
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("dmg_critical_start_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("dmg_critical_loop_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.4f;
 	AnimationDesc.iChangeFrame = 0;
@@ -383,7 +525,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
-	AnimationDesc.strAnimName = TEXT("dmg_critical_end_1");
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -447,11 +589,23 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 
 
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
+
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_loop");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("abn_groggy_1_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 0.4f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.15f;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;
@@ -461,12 +615,12 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	ActionDesc.strActionName = L"Action_Respawn";
-	CBT_Action* pSpawn = CCommon_BT_Spawn::Create(&ActionDesc);
+	CBT_Action* pSpawn = CValtan_BT_Spawn::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 

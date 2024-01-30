@@ -17,8 +17,7 @@ void CValtan_BT_Attack_Attack11::OnStart()
 		__super::OnStart(1);
 	else
 		__super::OnStart();
-	m_bShoot = true;		  
-	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
+	m_bShoot = true;		 
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelta)
@@ -52,6 +51,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
+		if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
+		{
+			static_cast<CMonster*>(m_pGameObject)->Set_Die();
+			static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.5f);
+		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 55 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
@@ -60,10 +64,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelt
 			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
 			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 	}
-	if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy() && m_iCurrAnimation == 1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
-	{
-		static_cast<CBoss*>(m_pGameObject)->Set_Die();
-	}
+
 	if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 	{
 		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 35 && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())

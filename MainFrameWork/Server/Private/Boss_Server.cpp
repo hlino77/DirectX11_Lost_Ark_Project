@@ -147,12 +147,14 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 		{
 			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
 			_uint iGroggy_Result = iGroggy;
-			_bool	m_bGroggyObsorb = false;
+			_bool	bGroggyObsorb = false;
 			m_iHp -= iDamage_Result;
+			if (m_IsGroggyLock)
+				iGroggy_Result = 0;
 			if (m_iGroggyCount > 0&& m_iMaxGroggyCount > 0)
 			{
 				m_iGroggyCount -= iGroggy_Result;
-				m_bGroggyObsorb = true;
+				bGroggyObsorb = true;
 				if (m_iGroggyCount < 1)
 				{
 					m_IsHit = true;
@@ -164,8 +166,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 			}
 			else if (!m_IsGroggy && m_iGroggyGauge > 0&&!m_IsGroggyLock)
 				m_iGroggyGauge -= iGroggy_Result;
-			if (m_IsGroggyLock)
-				iGroggy_Result = 0;
+
 
 			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
 				m_iArmorDurability -= iDamage;
@@ -191,7 +192,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 			if (m_iHp < 1.f)
 				m_IsHit = true;
 
-			Send_Collision(iDamage_Result, vHitPos, STATUSEFFECT(iStatusEffect), fForce, m_bGroggyObsorb, iGroggy_Result);
+			Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
 		}
 }
 

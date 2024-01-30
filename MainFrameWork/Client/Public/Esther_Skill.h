@@ -25,6 +25,13 @@ class CEsther;
 class CEsther_Skill abstract : public CGameObject
 {
 public:
+	typedef struct tagEstherSkillDesc
+	{
+		CPlayer* pLeaderPlayer = { nullptr };
+		CEsther* pOwnerEsther = { nullptr };
+	}ESTHERSKILLDESC;
+
+public:
 	enum class ESTHERTYPE { SA, WY, BT, _END };
 	enum class MODEL_PART { FACE, FACE_DEFAULT, FACE_S_ANGRY, FACE_ANGRY, BODY, _END };
 
@@ -35,16 +42,13 @@ protected:
 
 public:
 	virtual HRESULT			Initialize_Prototype();
-	virtual HRESULT			Initialize(CPlayer* pLeader, void* pArg);
+	virtual HRESULT			Initialize(void* pArg);
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			LateTick(_float fTimeDelta);
 	virtual HRESULT			Render();
 	virtual HRESULT			Render_ShadowDepth();
 
 public:
-	void					Set_OwnerEsther(CEsther* pEsther) { m_pOwnerEsther = pEsther; }
-	void					Set_LeaderPlayer(CPlayer* pPlayer) { m_pLeaderPlayer = pPlayer; }
-
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }

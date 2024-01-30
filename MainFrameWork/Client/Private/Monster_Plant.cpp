@@ -68,6 +68,7 @@ HRESULT CMonster_Plant::Initialize(void* pArg)
 	m_iBasicAttackStartFrame = 25;
 	m_iBasicAttackEndFrame = 35;
 	m_iAtk = 10;
+	Set_DissolveIn(1.f);
     return S_OK;
 }
 

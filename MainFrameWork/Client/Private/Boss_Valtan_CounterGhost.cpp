@@ -46,7 +46,7 @@ HRESULT CBoss_Valtan_CounterGhost::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 1000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 1991561183;
+	m_iMaxHp = 1;
 	m_iHp = m_iMaxHp;
 	m_bDummy = true;
 	MODELDESC* Desc = static_cast<MODELDESC*>(pArg);
@@ -66,7 +66,8 @@ HRESULT CBoss_Valtan_CounterGhost::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSpawnPosition);
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
-
+	if (FAILED(Ready_DissolveTexture()))
+		return E_FAIL;
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -118,14 +119,21 @@ HRESULT CBoss_Valtan_CounterGhost::Render()
 
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
+	_int	iDissolve = false;
+	if (m_bDissolveIn || m_bDissolveOut)
+	{
+		iDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
 
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
+		_float g_fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
 
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f);
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
+
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
@@ -137,6 +145,9 @@ HRESULT CBoss_Valtan_CounterGhost::Render()
 			return E_FAIL;
 
 	}
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -325,7 +336,7 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 0.f;
-	AnimationDesc.fAnimSpeed = 1.9f;
+	AnimationDesc.fAnimSpeed = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
 	AnimationDesc.fAnimSpeed = 1.15f;

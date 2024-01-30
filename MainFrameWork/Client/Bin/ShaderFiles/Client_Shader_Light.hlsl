@@ -6,6 +6,7 @@
 
 float4  g_vBloomColor = float4(1.3f, 1.3f, 1.3f, 1.f);
 float   g_fRimLight = 0.0f;
+bool    g_bReverseDissolve = false;
 
 // Light
 struct LightDesc
@@ -97,17 +98,37 @@ void ComputeNormalMapping(inout float4 normal, float3 tangent, float2 texcoord)
 void ComputeDissolveColor(inout float4 color, float2 texcoord)
 {
     float4 deffuseCol = g_DiffuseTexture.Sample(LinearSampler, texcoord);
-    float dissolveSample = g_DissolveTexture.Sample(LinearSampler, texcoord * 0.5f).x;
-   
-	//Discard the pixel if the value is below zero
+    float dissolveSample = g_DissolveTexture.Sample(LinearSampler, texcoord * 3.f).x;
+    if (g_bReverseDissolve)
+    {
+        dissolveSample = 1 - dissolveSample;
+    }
+    //Discard the pixel if the value is below zero
     clip(dissolveSample - g_fDissolveAmount);
     float4 emissive = { 0.f, 0.f, 0.f, 0.f };
-	//Make the pixel emissive if the value is below ~f
-    if (dissolveSample - g_fDissolveAmount < 0.25f)/*0.08f*/
+    //Make the pixel emissive if the value is below ~f
+    if (dissolveSample - g_fDissolveAmount < 0.1f)/*0.08f*/
     {
-        emissive = float4(1.f, 0.5f, 0.f, 1.f);
+        emissive = float4(1.3f, 1.3f, 1.3f, 1.f)* g_vBloomColor;
     }
-    
+
+    color = (color + emissive) * deffuseCol;
+};
+
+void ComputeDissolveColorforInstance(inout float4 color, float2 texcoord,float fDissolveAmount)
+{
+    float4 deffuseCol = g_DiffuseTexture.Sample(LinearSampler, texcoord);
+    float dissolveSample = g_DissolveTexture.Sample(LinearSampler, texcoord * 0.5f).x;
+
+    //Discard the pixel if the value is below zero
+    clip(dissolveSample - fDissolveAmount);
+    float4 emissive = { 0.f, 0.f, 0.f, 0.f };
+    //Make the pixel emissive if the value is below ~f
+    if (dissolveSample - fDissolveAmount < 0.25f)/*0.08f*/
+    {
+        emissive = float4(1.3f, 1.3f, 1.3f, 1.f);
+    }
+
     color = (color + emissive) * deffuseCol;
 };
 

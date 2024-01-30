@@ -81,10 +81,18 @@ public:
 
 	virtual void Set_EffectPos();
 
+	void Set_Die(_float fTime=1.f);
+
+	void Set_HpUIRender(_bool bRender);
+
+	virtual void Disable_HpUI();
+
+	void Set_HpUI(_int iHpCount, _int iMaxHp, wstring strBossName);
+
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
 	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
 
-	virtual void			Set_Die();
+
 
 	Vec3						Get_SpawnPosition() { return m_vSpawnPosition; }
 	void						Set_SpawnPosition(Vec3 vPosition) { m_vSpawnPosition = vPosition; }
@@ -130,7 +138,7 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components();
-	HRESULT Ready_HP_UI(_uint iTextureIndex);
+	virtual HRESULT	Ready_HpUI();
 
 
 protected:
@@ -141,8 +149,6 @@ protected:
 protected:
 	_uint m_iBaseAtk = 0;
 	_float m_fBaseForce = 0;
-	//HPUI
-	virtual HRESULT	Ready_HpUI();
 
 protected:
 	_bool m_IsCounterSkill = false;
@@ -160,7 +166,7 @@ protected:
 	_bool							m_bDbgCout = false;
 	_float							m_fTimeCount = 0.f;
 	//HPUI
-	CUI_Boss_Hp*	m_pHpUI = { nullptr };
+	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg);

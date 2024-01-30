@@ -30,7 +30,7 @@
 
 #include "SkyDome.h"
 
-/* 유틸*/
+/* 유틸 */
 #include "Camera_Free.h"
 #include "StaticModel.h"
 #include "AnimModel.h"
@@ -41,7 +41,7 @@
 #include "Camera_Player.h"
 #include "BackGround_Server.h"
 #include "Camera_Lobby.h"
-
+#include "Camera_Cut.h"
 
 #include "Projectile.h"
 
@@ -150,6 +150,7 @@
 #include "Monster_Prison.h"
 #include "Boss_Valtan_CounterGhost.h"
 #include "Boss_Valtan_RunningGhost.h"
+#include "Boss_Valtan_Corpse.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -240,13 +241,24 @@
 
 /* 에스더 */
 #include "Esther_Part.h"
-#include "Esther_Way.h"
-#include "Esther_Silian.h"
-#include "Esther_Bahuntur.h"
+#include "Esther_Part_forCut.h"
 
 //SKILL
 #include "Skill_RisingSun.h"
 #include "Skill_TeleportDoor.h"
+
+#include "Esther_Way.h"
+#include "Esther_Way_Skill.h"
+#include "Esther_Way_Dochul.h"
+
+#include "Esther_Silian.h"
+#include "Esther_Silian_Cut.h"
+#include "Esther_Silian_Skill.h"
+
+#include "Esther_Bahuntur.h"
+#include "Esther_Bahuntur_Skill.h"
+#include "Esther_Bahuntur_Skill_Ceiling.h"
+#include "Esther_Bahuntur_Skill_Floor.h"
 
 
 namespace fs = std::filesystem;
@@ -1023,7 +1035,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_a_noise_003.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
@@ -1050,9 +1065,13 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Player"),
 		CCamera_Player::Create(m_pDevice, m_pContext, L"Player_Camera"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Cut"),
+		CCamera_Cut::Create(m_pDevice, m_pContext, L"Cut_Camera"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1217,6 +1236,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_Corpse"),
+		CBoss_Valtan_Corpse::Create(nullptr, nullptr))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_RunningGhost"),
 		CBoss_Valtan_RunningGhost::Create(nullptr, nullptr))))
 		return E_FAIL;
@@ -1227,7 +1251,8 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	
+
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Valtan_AxeWave"),
 		CSkill_Valtan_AxeWave::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1484,6 +1509,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part_forCut"),
+		CEsther_Part_forCut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
 		CEsther_Way::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1501,13 +1531,48 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way_Skill"),
+		CEsther_Way_Skill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way_Dochul"),
+		CEsther_Way_Dochul::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian"),
 		CEsther_Silian::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian_Skill"),
+		CEsther_Silian_Skill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian_Cut"),
+		CEsther_Silian_Cut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur"),
 		CEsther_Bahuntur::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill"),
+		CEsther_Bahuntur_Skill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill_Floor"),
+		CEsther_Bahuntur_Skill_Floor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill_Ceiling"),
+		CEsther_Bahuntur_Skill_Ceiling::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1848,12 +1913,34 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	}
 
 	{
+		wstring strFileName = L"Boss_Valtan_PostDeath";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
 		wstring strFileName = L"Wp_Boss_Valtan";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixScaling(0.01f, 0.01f, 0.01f)))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Wp_Boss_Valtan_PostDeath";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
@@ -1868,6 +1955,9 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
+
+
+
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
 

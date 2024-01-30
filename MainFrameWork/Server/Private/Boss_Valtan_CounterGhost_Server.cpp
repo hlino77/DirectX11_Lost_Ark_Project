@@ -99,7 +99,7 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Initialize(void* pArg)
 	m_fMoveSpeed = 4.f;;
 	m_IsSuperArmor = true;
 	m_iArmor = 0;
-	m_iPhase = 0;
+	m_iPhase = 1;
 	m_fRootTargetDistance = 0.f;
 	m_iMaxHp = 1;
 	m_iHp = m_iMaxHp;
@@ -144,7 +144,7 @@ void CBoss_Valtan_CounterGhost_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos
 				m_IsCountered = true;
 				m_iHp = 0;
 			}
-			Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+			Send_Collision(iDamage, vHitPos, iStatusEffect, fForce, fDuration, iGroggy);
 		}
 }
 
@@ -302,7 +302,7 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 0.f;
-	AnimationDesc.fAnimSpeed = 1.9f;
+	AnimationDesc.fAnimSpeed = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
 	AnimationDesc.fAnimSpeed = 1.15f;
@@ -359,17 +359,16 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 			return E_FAIL;
 	}
 
-
-	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::WHILE;
-	CBT_Decorator* pWhileRange = CCommon_BT_WHILE_Within_Range_Server::Create(&DecoratorDesc);//공격을 했는가?
-	if (FAILED(pWhileRange->AddChild(pSequenceNormalAttack)))
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Phase1 = CValtan_BT_IF_Phase1_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
+	if (FAILED(pIf_Phase1->AddChild(pSequenceNormalAttack)))
 		return E_FAIL;
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 	CBT_Composite* pRoot = CBT_Composite::Create(&CompositeDesc);
 	if (FAILED(pRoot->AddChild(pIfHit)))
 		return E_FAIL;
-	if (FAILED(pRoot->AddChild(pWhileRange)))
+	if (FAILED(pRoot->AddChild(pIf_Phase1)))
 		return E_FAIL;
 
 	m_pBehaviorTree->SetRoot(pRoot);
