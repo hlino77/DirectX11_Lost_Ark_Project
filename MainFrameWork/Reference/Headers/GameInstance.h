@@ -198,7 +198,7 @@ private:
 	mt19937_64								m_RandomNumber;
 	uniform_real_distribution<float>		m_RandomResult;
 
-	
+	_int m_iIBL_Index_Start = 2;
 
 
 

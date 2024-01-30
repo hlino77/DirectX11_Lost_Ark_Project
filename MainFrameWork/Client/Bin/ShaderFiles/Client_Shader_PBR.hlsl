@@ -256,7 +256,7 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
     float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
     
-    const float MAX_REFLECTION_LOD = 10.0f;
+    const float MAX_REFLECTION_LOD = 9.0f;
     
     float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
     float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
@@ -266,10 +266,7 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     
     float3 vColor = vAmbient + Lo;
     
-    vColor = vColor / (vColor + float3(1.0f, 1.0f, 1.0f));
-    vColor = pow(vColor, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
-    
-    return float4(vColor, 1.0f);
+    return vColor;
     ////////////////////
     
     //float3 diffuse_factor = kD * vDiffuseColor / PI;

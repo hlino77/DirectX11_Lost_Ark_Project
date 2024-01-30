@@ -63,6 +63,8 @@ private:
 	HRESULT	Render_ShadowDepth();
 	HRESULT Render_Lights();
 
+	HRESULT Render_SSR();
+
 	HRESULT Render_SSAO();
 	HRESULT Render_Deferred();
 
@@ -72,6 +74,7 @@ private:
 
 	HRESULT Render_Bloom();
 	HRESULT Render_PostProcess();
+	HRESULT Render_FXAA();
 
 	HRESULT	Render_WorldUI();
 	HRESULT Render_UI();
@@ -135,8 +138,8 @@ private:
 	//SSAO
 	HRESULT Ready_SSAO();
 
-	CShader* m_pSSAOShader = { nullptr };
-	class CVIBuffer_RectSSAO* m_pVIBufferSSAO = { nullptr };
+	CShader* m_pSSAOShader = nullptr;
+	class CVIBuffer_RectSSAO* m_pVIBufferSSAO = nullptr;
 
 	Vec4 m_vFrustumFarCorner[4];
 	Vec4 m_vOffsets[14];
@@ -152,7 +155,7 @@ private:
 		_float gOcclusionFadeStart = 0.2f;
 		_float gOcclusionFadeEnd = 2.0f;
 		_float gSurfaceEpsilon = 0.05f;
-	}; 
+	} m_tSSAO_Data;
 
 	// Transform NDC space [-1,+1]^2 to texture space [0,1]^2
 	const XMMATRIX m_matToTexture =
@@ -167,7 +170,7 @@ private:
 	ID3D11DepthStencilView* m_pDownSample5x5_DSV = nullptr;
 	ID3D11DepthStencilView* m_pDownSample25x25_DSV = nullptr;
 	ID3D11DepthStencilView* m_pDownSample125x125_DSV = nullptr;
-	CShader* m_pBloomShader = { nullptr };
+	CShader* m_pBloomShader =  nullptr;
 	struct tagPerFrame
 	{
 		_float	fTexelWidth = 1.f / 1600.f;
@@ -187,16 +190,32 @@ private:
 
 	static _uint	m_iIBLTextureIndex;
 
-	// MotionBlur
+	// Screen Space Reflection
+	CShader* m_pSSRShader = nullptr;
+	struct SSR_Data
+	{
+		_float	fSSRStep = 0.01f;
+		_int	iSSRStepCount = 50;
+		Vec2	vPadding;
+	} m_tSSR_Data;
+
+	// Chromatic Aberration
+	_float m_fChromaticIntensity = 0.f;
+
+	// Motion Blur
 	Matrix	m_matPreCamView = Matrix::Identity;
 	_bool	m_bMotionBlurInitialized = false;
 
-	// RadialBlur
+	// Radial Blur
 	struct RadialBlur_Data
 	{
 		Vec3	vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
 		_float	fRadialBlurIntensity = 0.f;
-	} m_tRadialBlurData;
+	} m_tRadialBlur_Data;
+
+	// Fxaa3_11
+	CShader* m_pFxaaShader = nullptr;
+	_int	m_iFxaa_Switch = true;
 
 	// Eshter Motion
 

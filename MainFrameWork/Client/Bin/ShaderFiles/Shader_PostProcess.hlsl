@@ -8,6 +8,7 @@ matrix      g_ViewMatrixInv, g_ProjMatrixInv;
 matrix      g_ProjViewMatrixInv;
 
 Texture2D	g_PrePostProcessTarget;
+Texture2D   g_SSRTarget;
 Texture2D	g_DecalOneBlendTarget;
 Texture2D	g_DecalAlphaBlendTarget;
 Texture2D	g_EffectOneBlendTarget;
@@ -21,7 +22,8 @@ Texture2D	g_DistortionTarget;
 Texture2D	g_BlendedTarget;
 Texture2D   g_MotionBlurTarget;
 Texture2D   g_RadialBlurTarget;
-Texture2D   g_BlendEffectTarget;
+
+Texture2D   g_ProcessingTarget;
 
 Texture2D   g_PostProcessedTarget;
 
@@ -32,8 +34,10 @@ int         g_KernelSize; //커널은 이미지 처리에서 필터 또는 윈도우라고도 불리는
 float       g_CenterWeight;
 float	    g_WeightAtt;
 
+//Chromatic Aberration
+float       g_fChromaticIntensity = 0.f;
 //Motion Blur
-float       g_fMotionBlurIntensity = 0.0f;
+float       g_fMotionBlurIntensity = 0.f;
 
 //Radial Blur
 cbuffer RadialBlur
@@ -78,7 +82,7 @@ struct PS_IN
 
 float4 PS_MAIN_POSTPROCESS(PS_IN In) : SV_TARGET0
 {    // 일단 그대로 리턴
-    return g_BlendEffectTarget.Sample(LinearSampler, In.vTexcoord);
+    return g_ProcessingTarget.Sample(LinearSampler, In.vTexcoord);
 }
 
 cbuffer ScreenTone
@@ -116,8 +120,14 @@ float Tonemap_ACES(float x)
 float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 {
     float fDistortion = g_DistortionTarget.Sample(LinearClampSampler, In.vTexcoord).x;
-
     float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
+    
+    float4 vSSR = g_SSRTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
+    
+    if (EPSILON < vSSR.a)
+    {
+        vColor = float4(vSSR.rgb * vSSR.a + vColor.rgb * (1.f - vSSR.a), 1.f);
+    }
     
     float4 vDecalOneBlend = g_DecalOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
     float4 vDecalAlphaBlend = g_DecalAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
@@ -147,11 +157,30 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 	
     float4 vBloom = g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
 
-    float fBrightness = dot(vBloom.rgb, float3(0.2126f, 0.7152f, 0.0722f));
-    vBloom *= Tonemap_ACES(fBrightness);
+    //float fBrightness = dot(vBloom.rgb, float3(0.2126f, 0.7152f, 0.0722f));
+    //vBloom *= Tonemap_ACES(fBrightness);
 
     vColor += vBloom;
     
+    vColor = pow(vColor, 1.f / 2.2f);
+    
+    return vColor;
+}
+
+float4 PS_MAIN_CHROMATIC(PS_IN In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+
+    float2 vCenter = float2(0.2f, 0.7f);
+
+    float2 BlurDir = In.vTexcoord - vCenter;
+
+    vColor.r = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord).r;
+    vColor.g = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * g_fChromaticIntensity * 0.5f).g;
+    vColor.b = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * g_fChromaticIntensity).b;
+
+	//vColor *= (1.0 - g_BlurStrength * 0.5); //안하면 그냥 밝아짐
+
     return vColor;
 }
 
@@ -172,9 +201,9 @@ float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
     vPixelPos = vPixelWorldPos;
     vPixelWorldPos *= fViewZ;
 
-    //vPixelWorldPos = mul(vPixelWorldPos, g_ProjMatrixInv);
-    //vPixelWorldPos = mul(vPixelWorldPos, g_ViewMatrixInv);
-    vPixelWorldPos = mul(vPixelWorldPos, g_ProjViewMatrixInv);
+    vPixelWorldPos = mul(vPixelWorldPos, g_ProjMatrixInv);
+    vPixelWorldPos = mul(vPixelWorldPos, g_ViewMatrixInv);
+    //vPixelWorldPos = mul(vPixelWorldPos, g_ProjViewMatrixInv);
     
     matrix matVP = mul(g_PreCamViewMatrix, g_CamProjMatrix);
 
@@ -189,7 +218,7 @@ float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
     for (int i = -10; i < 10; ++i)
     {
         texCoord += vPixelVelocity * (0.005f + g_fMotionBlurIntensity) * i;
-        float4 currentColor = g_BlendEffectTarget.Sample(LinearClampSampler, texCoord);
+        float4 currentColor = g_ProcessingTarget.Sample(LinearClampSampler, texCoord);
         vColor += currentColor;
     }
 
@@ -228,7 +257,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
 		
         if (0.f > uv.y || 1.f < uv.y)
             continue;
-        vColor += g_BlendEffectTarget.Sample(LinearClampSampler, uv);
+        vColor += g_ProcessingTarget.Sample(LinearClampSampler, uv);
         ++iDivision;
     }
 
@@ -286,6 +315,19 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_BLENDEFFECT();
     }
 
+    pass ChromaticAberration // 4
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        HullShader = NULL;
+        DomainShader = NULL;
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_CHROMATIC();
+    }
+
     pass MotionBlur // 5
     {
         SetRasterizerState(RS_Default);
@@ -313,6 +355,8 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_RADIALBLUR();
     }
+
+
 }
 
 

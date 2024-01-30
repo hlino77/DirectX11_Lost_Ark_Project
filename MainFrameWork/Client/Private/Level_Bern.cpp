@@ -197,7 +197,8 @@ HRESULT CLevel_Bern::Ready_Lights()
 	LightDesc.vDirection.Normalize();
 
 	//LightDesc.vDiffuse = Vec4(255.f/255.f, 245.f/255.f, 200.f/255.f, 1.f);
-	LightDesc.vDiffuse = Vec4(255.f/255.f, 215.f/255.f, 100.f/255.f, 1.f);
+	//LightDesc.vDiffuse = Vec4(255.f/255.f, 215.f/255.f, 100.f/255.f, 1.f);
+	LightDesc.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 

@@ -15,7 +15,7 @@ int g_arrVK[(int)KEY::TYPE_END] =
 	VK_OEM_6,
 	VK_F1, VK_F2, VK_F3, VK_F4, VK_F5, VK_F6, VK_F7, VK_F8, VK_F9,
 	VK_INSERT, VK_DELETE, VK_HOME, VK_END, VK_PRIOR, VK_NEXT,
-	'1', '2', '3', '4', '5', '6', '7', '8', '9',
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 	'Q','W','E','R','T','Y','U','I','O','P',
 	'A','S','D','F','G','H','J','K','L',
 	'Z','X','C','V','B','N','M',

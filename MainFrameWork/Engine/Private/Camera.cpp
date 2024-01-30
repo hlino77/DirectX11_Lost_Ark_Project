@@ -42,10 +42,9 @@ void CCamera::Tick(_float fTimeDelta)
 
 	Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
 
-
-	pPipeLine->Set_Transform(CPipeLine::D3DTS_VIEW, matWorld.Invert());
+	Matrix matView = matWorld.Invert();
+	pPipeLine->Set_Transform(CPipeLine::D3DTS_VIEW, matView);
 	pPipeLine->Set_Transform(CPipeLine::D3DTS_PROJ, m_matProj);
-
 
 	Vec3 vPos, vScale;
 	Quaternion vQuat;

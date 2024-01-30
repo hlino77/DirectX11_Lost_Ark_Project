@@ -7347,6 +7347,12 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Fxaa3_11.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_SSR.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

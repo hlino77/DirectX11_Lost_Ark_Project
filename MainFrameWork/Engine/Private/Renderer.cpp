@@ -121,7 +121,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	// ViewportDesc.Width, ViewportDesc.Height 요거 조절 할 것
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomDownSample2"),
 		ViewportDesc.Width / m_fSampleRatio25x25, ViewportDesc.Height / m_fSampleRatio25x25, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -139,10 +138,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample3"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Bright"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
@@ -170,8 +165,24 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width / m_fSampleRatio125x125, ViewportDesc.Height / m_fSampleRatio125x125, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSR"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSRBlur_H"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSRBlur_HV"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;*/
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlendEffect"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_ChromaticAberration"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_MotionBlur"),
@@ -189,6 +200,14 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Distortion"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_FinalProcessed"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_FXAA"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;*/
 
 #ifdef _DEBUG
 	constexpr _float fTargetX = 128.f;
@@ -224,6 +243,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
@@ -233,8 +254,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample2"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
@@ -248,6 +267,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_25x25"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;*/
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_125x125"), 3.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 
@@ -319,9 +340,24 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomBlur_HV_5x5"), TEXT("Target_BloomBlur_HV_5x5"))))
 		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSR"), TEXT("Target_SSR"))))
+		return E_FAIL;
+	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSRBlur_H"), TEXT("Target_SSRBlur_H"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSRBlur_HV"), TEXT("Target_SSRBlur_HV"))))
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_PrePostProcessScene"), TEXT("Target_PrePostProcess"))))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FinalProcessedScene"), TEXT("Target_FinalProcessed"))))
+		return E_FAIL;
+	
+	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FXAA"), TEXT("Target_FXAA"))))
+		return E_FAIL;*/
+
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlendEffect"), TEXT("Target_BlendEffect"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ChromaticAberration"), TEXT("Target_ChromaticAberration"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_MotionBlur"), TEXT("Target_MotionBlur"))))
 		return E_FAIL;
@@ -357,6 +393,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pMRTShader->Initialize()))
 		return E_FAIL;
 	
+	m_pSSRShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_SSR.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
+	if (nullptr == m_pSSRShader)
+		return E_FAIL;
+	if (FAILED(m_pSSRShader->Initialize()))
+		return E_FAIL;
+	
 	m_pBloomShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Bloom.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
 	if (nullptr == m_pBloomShader)
 		return E_FAIL;
@@ -367,6 +409,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pPostProccessor)
 		return E_FAIL;
 	if (FAILED(m_pPostProccessor->Initialize()))
+		return E_FAIL;
+
+	m_pFxaaShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Fxaa3_11.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
+	if (nullptr == m_pFxaaShader)
+		return E_FAIL;
+	if (FAILED(m_pFxaaShader->Initialize()))
 		return E_FAIL;
 
 	if (FAILED(Ready_MakeSRV_DSV()))
@@ -510,6 +558,9 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_Deferred()))
 		return E_FAIL;
+
+	if (FAILED(Render_SSR()))
+		return E_FAIL;
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
 	if (FAILED(Render_NonLight()))
@@ -517,6 +568,9 @@ HRESULT CRenderer::Draw()
 	/*if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;*/
 	if (FAILED(Render_PostProcess()))
+		return E_FAIL;
+
+	if (FAILED(Render_FXAA()))
 		return E_FAIL;
 
 	// 툴 때문에 임시로 여기에...
@@ -572,8 +626,8 @@ HRESULT CRenderer::Bind_TextBoxSRV(CShader* pShader)
 
 void CRenderer::Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity)
 {
-	m_tRadialBlurData.vRadialBlurWorldPos = vWorldPos;
-	m_tRadialBlurData.fRadialBlurIntensity = fIntensity;
+	m_tRadialBlur_Data.vRadialBlurWorldPos = vWorldPos;
+	m_tRadialBlur_Data.fRadialBlurIntensity = fIntensity;
 }
 
 HRESULT CRenderer::Update_TextBox()
@@ -859,6 +913,105 @@ HRESULT CRenderer::Render_Lights()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_SSR()
+{
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSR"))))
+		return E_FAIL;
+
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_PrePostProcess"), "g_PrePostProcessTarget")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_Normal"), "g_NormalTarget")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_Properties"), "g_PropertiesTarget")))
+		return E_FAIL;
+
+	/*m_tSSR_Data.fSSRStep = 0.004f;
+	m_tSSR_Data.iSSRStepCount = 100;
+
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data, sizeof(SSR_Data))))
+		return E_FAIL;*/
+
+	const Vec4& vCamPos = pPipeLine->Get_CamPosition();
+	if (FAILED(m_pSSRShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
+		return E_FAIL;
+
+	//const Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
+	//const Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
+	//Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;	// TODO : 저장해 두고 쓸 것.
+
+	/*if (FAILED(m_pSSRShader->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))
+		return E_FAIL;*/
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_ViewMatrixInv", &pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_ProjMatrixInv", &pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	//const Matrix& matCamProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+	//const Matrix& matCamView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+	//Matrix matCamProjView = matCamProj * matCamView;	// TODO : 저장해 두고 쓸 것.
+	/*if (FAILED(m_pSSRShader->Bind_Matrix("g_CamViewProjMatrix", &matCamProjView)))
+		return E_FAIL;*/
+
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_CamViewMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pSSRShader->Bind_Matrix("g_CamProjMatrix", &pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	if (FAILED(m_pSSRShader->Begin("SSR")))
+		return E_FAIL;
+	
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSRBlur_H"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_SSR"), "g_SSRTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSRShader->Begin("SSR_Blur_H")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSRBlur_HV"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_SSRBlur_H"), "g_SSRTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSRShader->Begin("SSR_Blur_V")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;*/
+
+	RELEASE_INSTANCE(CPipeLine);
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_SSAO()
 {
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSAO"))))
@@ -867,14 +1020,12 @@ HRESULT CRenderer::Render_SSAO()
 	XMMATRIX P = m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
 	XMMATRIX PT = XMMatrixMultiply(P, m_matToTexture);
 
-	SSAO_Data	tSSAO;
-
-	tSSAO.matViewToTexSpace = PT;
+	m_tSSAO_Data.matViewToTexSpace = PT;
 	for (_int i = 0; i < 4; ++i)
-		tSSAO.vFrustumCorners[i] = m_vFrustumFarCorner[i];
+		m_tSSAO_Data.vFrustumCorners[i] = m_vFrustumFarCorner[i];
 
 	for (_int i = 0; i < 14; ++i)
-		tSSAO.vOffsetVectors[i] = m_vOffsets[i];
+		m_tSSAO_Data.vOffsetVectors[i] = m_vOffsets[i];
 
 	if (FAILED(m_pSSAOShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
@@ -892,7 +1043,7 @@ HRESULT CRenderer::Render_SSAO()
 
 	RELEASE_INSTANCE(CPipeLine);
 
-	if (FAILED(m_pSSAOShader->Bind_CBuffer("PerFrame", &tSSAO, sizeof(SSAO_Data))))
+	if (FAILED(m_pSSAOShader->Bind_CBuffer("PerFrame", &m_tSSAO_Data, sizeof(SSAO_Data))))
 		return E_FAIL;
 
 	if (FAILED(m_pSSAOShader->Bind_Texture("g_RandomVectorTexture", m_pRandomSRV)))
@@ -992,7 +1143,7 @@ HRESULT CRenderer::Render_Deferred()
 		return E_FAIL;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	Vec4 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
+	const Vec4& vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
 		return E_FAIL;
 
@@ -1061,11 +1212,7 @@ HRESULT CRenderer::Render_Deferred()
 			return E_FAIL;
 	}
 	else
-	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Shade"), "g_ShadeTarget")))
-			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Specular"), "g_SpecularTarget")))
-			return E_FAIL;
+	{/* Shade, Specular 삭제 */
 		if (FAILED(m_pMRTShader->Begin("Deferred")))
 			return E_FAIL;
 	}
@@ -1293,6 +1440,8 @@ HRESULT CRenderer::Render_PostProcess()
 
 	if (FAILED(m_pPostProccessor->Begin("BlendEffect")))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_SSRTarget")))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalOneBlend"), "g_DecalOneBlendTarget")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalAlphaBlend"), "g_DecalAlphaBlendTarget")))
@@ -1313,8 +1462,38 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_BlendEffectTarget")))
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_ProcessingTarget")))
 		return E_FAIL;
+
+	// Chromatic Aberration
+	(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::L)) ? m_fChromaticIntensity += 0.0005 : m_fChromaticIntensity -= 0.0005;
+	
+	if (FLT_EPSILON >= m_fChromaticIntensity)
+		m_fChromaticIntensity = 0.f;
+
+	if (FLT_EPSILON < m_fChromaticIntensity)
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_ChromaticAberration"))))
+			return E_FAIL;
+		
+		if (FAILED(m_pPostProccessor->Begin("ChromaticAberration")))
+			return E_FAIL;
+
+		if (FAILED(m_pPostProccessor->Bind_RawValue("g_fChromaticIntensity", &m_fChromaticIntensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_ProcessingTarget")))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_ChromaticAberration"), "g_ProcessingTarget")))
+			return E_FAIL;
+	}
 
 	// Motion Blur
 	if (pPipeLine->Is_CamMoved() || false == m_bMotionBlurInitialized)
@@ -1326,8 +1505,7 @@ HRESULT CRenderer::Render_PostProcess()
 
 		if (FAILED(m_pPostProccessor->Begin("MotionBlur")))
 			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_BlendEffectTarget")))
-			return E_FAIL;
+
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Normal"), "g_NormalTarget")))
 			return E_FAIL;
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")))
@@ -1335,14 +1513,14 @@ HRESULT CRenderer::Render_PostProcess()
 
 		const Matrix& matCamProjInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
 		const Matrix& matCamViewInv = pPipeLine->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
-		Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;
+		//Matrix matCamProjViewInv = matCamProjInv * matCamViewInv;
 
-		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))
-			return E_FAIL;
-		/*if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjMatrixInv", &matCamProjInv)))
+		/*if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjViewMatrixInv", &matCamProjViewInv)))
+			return E_FAIL;*/
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ProjMatrixInv", &matCamProjInv)))
 			return E_FAIL;
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_ViewMatrixInv", &matCamViewInv)))
-			return E_FAIL;*/
+			return E_FAIL;
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_PreCamViewMatrix", &m_matPreCamView)))
 			return E_FAIL;
 
@@ -1356,7 +1534,7 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_BlendEffectTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_ProcessingTarget")))
 			return E_FAIL;
 	}
 
@@ -1374,14 +1552,14 @@ HRESULT CRenderer::Render_PostProcess()
 		tRadialBlur.fRadialBlurIntensity = 0.f;
 	}*/
 
-	if (FLT_EPSILON < m_tRadialBlurData.fRadialBlurIntensity)
+	if (FLT_EPSILON < m_tRadialBlur_Data.fRadialBlurIntensity)
 	{
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_RadialBlur"))))
 			return E_FAIL;
 
 		if (FAILED(m_pPostProccessor->Begin("RadialBlur")))
 			return E_FAIL;
-		if (FAILED(m_pPostProccessor->Bind_CBuffer("RadialBlur", &m_tRadialBlurData, sizeof(RadialBlur_Data))))
+		if (FAILED(m_pPostProccessor->Bind_CBuffer("RadialBlur", &m_tRadialBlur_Data, sizeof(RadialBlur_Data))))
 			return E_FAIL;
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamViewMatrix", &m_matPreCamView)))
 			return E_FAIL;
@@ -1392,19 +1570,26 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_BlendEffectTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_RadialBlur"), "g_ProcessingTarget")))
 			return E_FAIL;
 
-		m_tRadialBlurData.fRadialBlurIntensity = 0.f;
-		m_tRadialBlurData.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
+		m_tRadialBlur_Data.fRadialBlurIntensity = 0.f;
+		m_tRadialBlur_Data.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
 	}
 
 	// 최종 화면
-	if (FAILED(m_pPostProccessor->Begin("PostProcess")))
-		return E_FAIL;
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_FinalProcessedScene"))))
+			return E_FAIL;
 
+		if (FAILED(m_pPostProccessor->Begin("PostProcess")))
+			return E_FAIL;
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	}
 	/*if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendBloom"), "g_BlendedTarget")))
@@ -1413,6 +1598,39 @@ HRESULT CRenderer::Render_PostProcess()
 		return E_FAIL;*/
 
 	RELEASE_INSTANCE(CPipeLine);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_FXAA()
+{
+	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_FXAA"))))
+		return E_FAIL;*/
+
+	if (FAILED(m_pFxaaShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pFxaaShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pFxaaShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::M))
+		1 == m_iFxaa_Switch ? m_iFxaa_Switch = 0 : m_iFxaa_Switch = 1;
+
+	if (FAILED(m_pFxaaShader->Bind_RawValue("g_bFxaa", &m_iFxaa_Switch, sizeof(_int))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pFxaaShader->Begin("Fxaa3_11")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	/*if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -1495,6 +1713,8 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_25x25"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_125x125"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSR"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_EffectShade"), m_pMRTShader, m_pVIBuffer)))
@@ -1800,8 +2020,8 @@ HRESULT CRenderer::Ready_SSAO()
 
 HRESULT CRenderer::Ready_IBL()
 {
-	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap/IrradianceMap%d.dds"), 4);
-	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilteredMap/PreFilteredMap%d.dds"), 4);
+	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap/IrradianceMap%d.dds"), 23);
+	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilteredMap/PreFilteredMap%d.dds"), 23);
 	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf/Brdf0.dds"));
 
 	if (nullptr == m_pIrradianceTexture || nullptr == m_pPreFilteredTexture || nullptr == m_pBRDFTexture)
@@ -1837,5 +2057,12 @@ void CRenderer::Free()
 
 	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pLight_Manager);
+
+	Safe_Release(m_pSSAOShader);
+	Safe_Release(m_pSSRShader);
+	Safe_Release(m_pBloomShader);
+	Safe_Release(m_pVIBuffer);
+	Safe_Release(m_pBRDFTexture);
+	Safe_Release(m_pVIBufferSSAO);
 
 }

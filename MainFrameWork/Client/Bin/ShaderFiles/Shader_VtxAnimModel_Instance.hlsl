@@ -110,6 +110,8 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
     //Out.vNormalV = vector(In.vNormalV * 0.5f + 0.5f, In.vProjPos.w / 1200.0f);
     Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
+
+    Out.vProperties.z = MT_DYNAMIC;
 	
     if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
     {
@@ -125,21 +127,30 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
     if (1.f == SpecMaskEmisExtr.x)
     {
         float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
-        if (1.f == SpecMaskEmisExtr.y)
-        {
-            float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
-            Out.vProperties.x = vSpecular.r * vMRMask.r * (1.f - vSpecular.a);
-            Out.vProperties.y = vSpecular.r * vMRMask.g * vSpecular.a;
-        }
-        else
-        {
-            Out.vProperties.r = vSpecular.b; // Metalic
+        //if (1.f == SpecMaskEmisExtr.y)
+        //{
+        //    float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
+        //    //Out.vProperties.x = smoothstep(0.0f, 1.0f, vSpecular.r * vMRMask.r * (1.f - vSpecular.a));
+        //    //Out.vProperties.y = vSpecular.r * vMRMask.g * vSpecular.a;
+            
+        //    //Out.vProperties.x = smoothstep(0.0f, 1.0f, vSpecular.b * vMRMask.r * (1.f - vSpecular.a));
+        //    //Out.vProperties.y = vSpecular.g * vMRMask.g * vSpecular.a;
+            
+        //    Out.vProperties.r = smoothstep(0.0f, 1.0f, vSpecular.b); // Metalic
+        //    Out.vProperties.g = vSpecular.g; // Roughness
+        //}
+        //else
+        //{
+            Out.vProperties.r = smoothstep(0.0f, 1.0f, vSpecular.b); // Metalic
             Out.vProperties.g = vSpecular.g; // Roughness
-        }
+        //}
+        
+        //Out.vProperties.r = 1.f - pow(1.f - vSpecular.b, 1.7f); // Metalic
+        //Out.vProperties.g = pow(vSpecular.g, 1.7f); // Roughness
     }
     else
     {
-        Out.vProperties.r = 0.f;
+        Out.vProperties.r = 0.04f;
         Out.vProperties.g = 0.5f;
     }
     
@@ -148,8 +159,6 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
         Out.vEmissive *= g_vBloomColor;
     }
-
-    Out.vProperties.z = MT_DYNAMIC;
     Out.vProperties.w = In.fRimLight;
 
     return Out;
@@ -164,6 +173,8 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
     if (0.2f >= Out.vDiffuse.a)
         discard;
 
+    Out.vProperties.z = MT_DYNAMIC;
+    
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 	
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
@@ -179,8 +190,6 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
 		
         return Out;
     } // PBR 적용없이 return
-	
-    Out.vProperties.z = MT_DYNAMIC;
     
     return Out;
 }

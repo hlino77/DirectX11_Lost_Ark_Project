@@ -149,7 +149,7 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 
-	CRenderer::Set_IBLTexture(3);
+	CRenderer::Set_IBLTexture(22);
 
 	Safe_Release(pGameInstance);
 

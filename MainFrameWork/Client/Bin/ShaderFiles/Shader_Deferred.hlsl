@@ -10,13 +10,11 @@ matrix			g_StaticLightViewMatrix;
 
 Texture2D		g_PriorityTarget;
 Texture2D		g_NormalTarget;
+Texture2D		g_NormalDepthTarget;
 Texture2D		g_DiffuseTarget;
-Texture2D		g_ShadeTarget;
-Texture2D		g_SpecularTarget;
 Texture2D		g_PropertiesTarget;
 Texture2D		g_EmissiveTarget;
 Texture2D		g_BloomTarget;
-Texture2D		g_NormalDepthTarget;
 Texture2D		g_SSAOBlurTarget;
 Texture2D		g_BlurTarget;
 Texture2D		g_ShadowDepthTarget;
@@ -168,8 +166,6 @@ float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
         float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
         return vPriority;
     }
-    float4	vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord);
-    float4	vSpecular = g_SpecularTarget.Sample(LinearSampler, In.vTexcoord);
     float4	vEmissive =	g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
 	
     float fAO = 1.f;
@@ -177,7 +173,7 @@ float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     if (true == g_bSSAO)
         fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
 	
-    return fAO * (vDiffuse * vShade + vSpecular) + vEmissive;
+    return fAO * (vDiffuse) + vEmissive;
 }
 
 float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
@@ -188,7 +184,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
         float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
         return vPriority;
     }
-    //vAlbedo = pow(vAlbedo, 2.2f);
+    vAlbedo = pow(vAlbedo, 2.2f);
 	
     float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
     float3	N = vNormal.xyz * 2.f - 1.f;
@@ -216,8 +212,6 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     vWorldPos = vWorldPos * fViewZ;
     vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
     vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
-		
-	//////////////////////////////////////////////////////////////////
 
     float fDot = saturate(dot(normalize(g_vLightDir.xyz) * -1.f, vNormal.xyz));
 
@@ -247,8 +241,6 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
             fResultShadow = fStaticShadow;
     }
 	
-	//////////////////////////////////////////////////////////////////
-	
     float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
 	
     float3 F0 = float3(0.04f, 0.04f, 0.04f);
@@ -259,18 +251,16 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float3 H = normalize(V + L);
 	
     float3 vPBR_Color = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, L, H, fAO);
-	
-    //float3 vShade = g_ShadeTarget.Sample(LinearSampler, In.vTexcoord).rgb;
-	
+		
 	float3 vColor = float3(0.f, 0.f, 0.f);
-   //vColor = g_vLightDiffuse.rgb * /*fResultShadow * */vBRDF_factor /* * vShade*/;
-   //vColor = vColor / (vColor + float3(1.f, 1.f, 1.f));
-   //vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
 	
 	float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
-
+    vEmissive = pow(vEmissive, 2.2f);
+	
     vColor = vPBR_Color * fResultShadow + vEmissive;
-
+	
+    //vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
+	
 	if (fRimLight != 0.0f)
 	{
 	    float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);

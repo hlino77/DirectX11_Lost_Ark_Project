@@ -133,6 +133,15 @@ void CGameInstance::Tick(_float fTimeDelta)
 	m_pObject_Manager->LateTick(fTimeDelta);
 	//m_pPhysXMgr->LateTick(fTimeDelta);
 	m_pLevel_Manager->LateTick(fTimeDelta);
+
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::PAGE_UP))
+		2 <= m_iIBL_Index_Start ? m_iIBL_Index_Start = 2 : ++m_iIBL_Index_Start;
+	else if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::PAGE_DOWN))
+		0 >= m_iIBL_Index_Start ? m_iIBL_Index_Start = 0 : --m_iIBL_Index_Start;
+
+	for (_int i = 0; i < 9; ++i)
+		if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY(22 + i)))
+			CRenderer::Set_IBLTexture(10 * m_iIBL_Index_Start + i);
 }
 
 void CGameInstance::FinalTick(_float fTimeDelta)
