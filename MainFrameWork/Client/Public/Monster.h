@@ -98,6 +98,8 @@ public:
 	_bool						Is_Left() { return m_IsLeft; }
 	void						Set_Left(_bool IsLeft) { m_IsLeft = IsLeft; }
 
+	_bool						Is_Culled() { return m_IsCulled; }
+
 	_bool						Is_Spawn() { return m_IsSpawn; }
 	void						Set_Spawn(_bool IsSpawn) { m_IsSpawn = IsSpawn; }
 
@@ -171,6 +173,8 @@ protected:
 	_uint							m_iBasicAttackEndFrame = 0;
 	_bool							m_IsHit = false;
 	_bool							m_IsLeft = false;
+	_bool							m_IsCulled = false;
+
 	_bool							m_IsSpawn = true;
 	_bool							m_IsSuperArmor = false;
 	Vec3							m_vRandomPosition = {};

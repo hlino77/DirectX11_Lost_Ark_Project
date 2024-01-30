@@ -4,6 +4,8 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
+class CEffect;
+class CUI_HoldingFrame;
 
 class CState_GN_DeadHard_Loop final : public CState_Skill
 {
@@ -29,7 +31,7 @@ private:
 
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
-
+	CUI_HoldingFrame* m_pHoldingUI = { nullptr };
 	std::function<void(CState_GN_DeadHard_Loop&, _float)> m_TickFunc;
 
 private:

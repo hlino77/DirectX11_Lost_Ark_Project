@@ -91,11 +91,13 @@ void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 		switch (m_pController->Get_EstherType())
 		{
 		case (_uint)CEsther::ESTHERTYPE::SA:
+			m_pPlayer->Set_State(TEXT("Esther_Silian"));
 			break;
 		case (_uint)CEsther::ESTHERTYPE::WY:
 			m_pPlayer->Set_State(TEXT("Esther_Way"));
 			break;
 		case (_uint)CEsther::ESTHERTYPE::BT:
+			m_pPlayer->Set_State(TEXT("Esther_Bahuntur"));
 			break;
 		}
 	}

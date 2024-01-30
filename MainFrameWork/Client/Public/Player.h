@@ -196,8 +196,7 @@ public:
 
 	CModel*							Get_DefaultPart(_uint iPartIndex) { return m_pDefaultModel[iPartIndex]; }
 	
-	//
-	unordered_map<wstring, vector<class CItem*>>	Get_Items() { return m_mapItems; }
+	//D
 	HRESULT							Add_Item(wstring strItemTag, class CItem* pItem);
 	HRESULT							Use_Item(wstring strItemTag, _uint iSize = 1);
 	CItem*							Get_EquipItem(_uint iPartIndex) { return m_pEqupis[iPartIndex]; }
@@ -227,6 +226,13 @@ public:
 	_uint					Get_ValtanPhase() { return m_iValtanPhase; }
 
 	void					Load_WorldMatrix(Matrix& matWorld);
+
+	vector<ITEM_SLOTDESC>	Get_Items() { return m_vecItemSlots; }
+	void					Swap_Items_In_Inventory(wstring MoveItemTag, wstring OriginItemTag);
+	void					Swap_Items_In_Inventory(wstring MoveItemTag, _uint iSlotIndex);
+	HRESULT					Equipment_Index_Reset(wstring strItemTag);
+	HRESULT					Equipment_Index_Reallocated(wstring strItemTag);//재할당
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
@@ -237,6 +243,7 @@ protected:
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 	virtual void			Set_EffectPos() override;
+	void					Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pItem);
 	
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
@@ -293,7 +300,8 @@ protected:
 	_uint	m_iValtanPhase = { 0 };
 
 	/* 플레이어 아이템 변수 */
-	unordered_map<wstring, vector<class CItem*>> m_mapItems;
+	vector<ITEM_SLOTDESC> m_vecItemSlots;
+	unordered_map<wstring, ITEMTAG_DESC> m_ItemTags;
 	CItem* m_pEqupis[(_uint)PART::_END] = { nullptr };
 
 	CModel* m_pDefaultModel[(_uint)PART::_END] = { nullptr };

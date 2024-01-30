@@ -90,21 +90,32 @@ HRESULT CEsther::Render()
 
 void CEsther::Leader_Active_Esther()
 {
-	m_pEsther_Skill->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
-	//m_pEsther_Cut->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
+	if(nullptr != m_pEsther_Skill)
+	{
+		m_pEsther_Skill->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
 
-	Vec3 vLook = m_pLeaderPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-	vLook.Normalize();
+		Vec3 vLook = m_pLeaderPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
 
-	Vec3 vPos = m_pLeaderPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vPos += vLook * 1.f;
-	m_pEsther_Skill->Get_TransformCom()->Set_WorldMatrix(m_pLeaderPlayer->Get_TransformCom()->Get_WorldMatrix());
-	m_pEsther_Skill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+		Vec3 vPos = m_pLeaderPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		vPos += vLook * 1.f;
+		m_pEsther_Skill->Get_TransformCom()->Set_WorldMatrix(m_pLeaderPlayer->Get_TransformCom()->Get_WorldMatrix());
+		m_pEsther_Skill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 
-	CNavigationMgr::GetInstance()->Find_FirstCell(m_pLeaderPlayer->Get_CurrLevel(), m_pEsther_Skill);
+		CNavigationMgr::GetInstance()->Find_FirstCell(m_pLeaderPlayer->Get_CurrLevel(), m_pEsther_Skill);
 
-	m_pEsther_Skill->Ready();
-	//m_pEsther_Cut->Ready();
+		m_pEsther_Skill->Ready();
+	}
+	if (nullptr != m_pEsther_Cut)
+	{
+		m_pEsther_Cut->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
+
+		m_pEsther_Cut->Ready();
+	}
+	
+
+	
+	
 
 	m_bActive = true;
 }
@@ -115,21 +126,26 @@ void CEsther::NonLeader_Active_Esther()
 
 void CEsther::Check_DeActive_Esther()
 {
-	if (true == m_pEsther_Skill->Is_Finished())
+	if (nullptr != m_pEsther_Skill && nullptr != m_pEsther_Cut)
 	{
-		m_pEsther_Skill->Reset();
+		if (true == m_pEsther_Skill->Is_Finished() &&
+			true == m_pEsther_Cut->Is_Finished())
+		{
+			m_pEsther_Cut->Reset();
+			m_pEsther_Skill->Reset();
 
-		m_bActive = false;
+			m_bActive = false;
+		}
 	}
-
-	/*if (true == m_pEsther_Skill->Is_Finished() &&
-		true == m_pEsther_Cut->Is_Finished())
+	else
 	{
-		m_pEsther_Cut->Reset();
-		m_pEsther_Skill->Reset();
+		if (true == m_pEsther_Skill->Is_Finished())
+		{
+			m_pEsther_Skill->Reset();
 
-		m_bActive = false;
-	}*/
+			m_bActive = false;
+		}
+	}
 }
 
 HRESULT CEsther::Ready_Components()

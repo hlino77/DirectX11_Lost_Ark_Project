@@ -54,6 +54,7 @@ private:
     void    Initialize_Position();
     void    Update_Hp(_float fTimeDelta);
     void    Update_PreHp();
+    void    Update_BossName();
 
 private:
     void    Update_BossHp();

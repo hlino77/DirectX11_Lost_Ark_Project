@@ -48,7 +48,10 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_fFrame = 0.f;
 	m_fLoopTime = 0;
 	m_iCurrAnimation = iAnimIndex;
-	m_bSoundOn = false;
+	for (size_t i = 0; i < 10; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 	m_bStart = true;
 	m_bEnd = true;
 }

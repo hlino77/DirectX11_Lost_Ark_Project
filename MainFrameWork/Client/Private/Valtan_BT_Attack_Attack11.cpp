@@ -13,7 +13,7 @@ CValtan_BT_Attack_Attack11::CValtan_BT_Attack_Attack11()
 
 void CValtan_BT_Attack_Attack11::OnStart()
 {
-	if (static_cast<CBoss*>(m_pGameObject)->Is_bDummy())
+	if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		__super::OnStart(1);
 	else
 		__super::OnStart();
@@ -26,7 +26,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelt
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 45)
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(2.5f);
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
 		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
@@ -60,9 +60,17 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11::OnUpdate(const _float& fTimeDelt
 			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
 			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 	}
-	if (static_cast<CBoss*>(m_pGameObject)->Is_bDummy() && m_iCurrAnimation == 1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
+	if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy() && m_iCurrAnimation == 1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Set_Die();
+	}
+	if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
+	{
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 35 && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+			static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
+
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 55 && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+			static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

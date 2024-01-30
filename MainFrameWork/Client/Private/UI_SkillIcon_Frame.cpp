@@ -467,6 +467,12 @@ void CUI_SkillIcon_Frame::Print_CoolTime()
     Set_StringCoolTime();
     Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strCoolTime);
     Vec2 vOrigin = vMeasure * 0.5f;
+    
+    m_pCoolTimetWnd->Set_Text(m_strWndName + TEXT("-1"), m_szFont, m_strCoolTime, Vec2(22.f -1.f, 22.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+    m_pCoolTimetWnd->Set_Text(m_strWndName + TEXT("-2"), m_szFont, m_strCoolTime, Vec2(22.f + 1.f, 22.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+    m_pCoolTimetWnd->Set_Text(m_strWndName + TEXT("-3"), m_szFont, m_strCoolTime, Vec2(22.f, 22.f -1.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+    m_pCoolTimetWnd->Set_Text(m_strWndName + TEXT("-4"), m_szFont, m_strCoolTime, Vec2(22.f, 22.f + 1.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+    
     m_pCoolTimetWnd->Set_Text(m_strWndName, m_szFont, m_strCoolTime, Vec2(22.f, 22.f), Vec2(0.8f, 0.8f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
 }
 

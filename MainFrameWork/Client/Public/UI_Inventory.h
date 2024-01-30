@@ -15,10 +15,11 @@ public:
     {
         _uint   iSlotIndexX;
         _uint   iSlotIndexY;
+        _uint   iSlotIndex;
         CUI* pUIWnd;
         class CPlayer* pPlayer;
-        unordered_map<wstring, vector<class CItem*>> mapItems;
-        vector<class CItem*>    vecItems;
+        vector<ITEM_SLOTDESC> vecItemSlots;
+
     }INVEN_ITEMDESC;
 
 private:
@@ -36,6 +37,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Update_Used_Item();
+    void    Update_ReSort_Inventory();
     void    Move_InventoryWNd();
 
 private:
@@ -44,9 +46,10 @@ private:
 
 private:
     CPlayer* m_pOwner = { nullptr };
-    unordered_map<wstring, vector<class CItem*>>    m_mapPlayerItems;
+    vector<ITEM_SLOTDESC> m_vecItemSlots;
+    unordered_map<wstring, ITEMTAG_DESC>m_ItemTags;
     CUI* m_pInventoryWnd = { nullptr };
-    _bool   m_bTestActiveKey = { false };
+    _bool   m_bActiveKey = { false };
 public:
     static  CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

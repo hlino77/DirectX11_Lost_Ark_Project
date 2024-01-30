@@ -55,7 +55,7 @@ void CEsther_Cut::Tick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
-	if (nullptr == m_pPart)
+	if (nullptr != m_pPart)
 		m_pPart->Tick(fTimeDelta);
 }
 
@@ -64,9 +64,7 @@ void CEsther_Cut::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
-	//m_pRigidBody->Tick(fTimeDelta);
-
-	if (nullptr == m_pPart)
+	if (nullptr != m_pPart)
 		m_pPart->LateTick(fTimeDelta);
 
 	if (m_bRender)
@@ -96,19 +94,6 @@ HRESULT CEsther_Cut::Render()
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
-
-	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
-
-	return S_OK;
-}
-
-HRESULT CEsther_Cut::Render_ShadowDepth()
-{
-	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return S_OK;
-
-	if (FAILED(m_pShaderCom->Push_ShadowWVP()))
-		return S_OK;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
@@ -150,8 +135,6 @@ HRESULT CEsther_Cut::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_AnimModel"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
-
-	///* For.Com_RigidBody */
 
 	RELEASE_INSTANCE(CGameInstance);
 

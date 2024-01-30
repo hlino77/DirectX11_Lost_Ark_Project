@@ -3,8 +3,10 @@
 #include "GameInstance.h"
 #include "Pool.h"
 #include "Model.h"
-#include "Esther_Way_Dochul.h"
 #include "Player.h"
+#include "Esther.h"
+
+#include "Esther_Way_Dochul.h"
 
 CEsther_Way_Skill::CEsther_Way_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -40,9 +42,12 @@ HRESULT CEsther_Way_Skill::Initialize(CPlayer* pPlayer, void* pArg)
 	if (nullptr == m_pSkillMesh)
 		return E_FAIL;
 
-	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"sk_dochul", 1.0f);
+	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"sk_dochul", 1.f);
 	if (m_iAnimIndex == -1)
 		return E_FAIL;
+
+	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	m_pModelCom->Play_Animation(0.0f);
 
 	return S_OK;
 }
@@ -78,7 +83,8 @@ void CEsther_Way_Skill::Reset()
 
 void CEsther_Way_Skill::Ready()
 {
-	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	//m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
 	m_IsFinished = false;
 }
@@ -99,7 +105,7 @@ void CEsther_Way_Skill::Act1(_float fTimeDelta)
 
 		m_pSkillMesh->Get_TransformCom()->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix());
 		m_pSkillMesh->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(0.025f, 0.025f, 0.025f));
+		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act1(fTimeDelta);
 	}
@@ -130,7 +136,7 @@ void CEsther_Way_Skill::Act2(_float fTimeDelta)
 
 		m_pSkillMesh->Get_TransformCom()->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix());
 		m_pSkillMesh->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(0.025f, 0.025f, 0.025f));
+		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act2(fTimeDelta);
 	}
@@ -158,7 +164,7 @@ void CEsther_Way_Skill::Act3(_float fTimeDelta)
 
 		m_pSkillMesh->Get_TransformCom()->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix());
 		m_pSkillMesh->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(0.025f, 0.025f, 0.025f));
+		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act3(fTimeDelta);
 	}

@@ -226,21 +226,21 @@ void CBoss_Valtan_Server::BroadCast_Ghost(Vec3 vPosition, Vec3 vLook)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-
+	if(m_iPhase==3&& !m_bDummy)
 	{
 
 		wstring szComponentName = L"Boss_Valtan_CounterGhost";
 		CBoss_Server::MODELDESC Desc;
 		Desc.strFileName = L"Valtan_CounterGhost";
 		Desc.iObjectID = g_iObjectID++;
-		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_BOSS;
+		Desc.iLayer = (_uint)LAYER_TYPE::LAYER_MONSTER;
 		Desc.iLevel = m_iCurrLevel;
 		Desc.vPosition = vPosition;
 		wstring szMonsterName = L"Prototype_GameObject_Boss_Valtan_CounterGhost";
 		CBoss_Server* pBoss = dynamic_cast<CBoss_Server*>(pGameInstance->Add_GameObject(m_iCurrLevel, Desc.iLayer, szMonsterName, &Desc));
 		if (pBoss == nullptr)
 			return;
-		pBoss->Get_TransformCom()->Set_State(CTransform::STATE_LOOK, vLook);
+		pBoss->Get_TransformCom()->LookAt_Dir(vLook);
 		CNavigationMgr::GetInstance()->Find_FirstCell(pBoss->Get_CurrLevel(), pBoss);
 
 		Protocol::S_CREATE_OBJCECT tMonsterPkt;
@@ -255,7 +255,7 @@ void CBoss_Valtan_Server::BroadCast_Ghost(Vec3 vPosition, Vec3 vLook)
 
 		auto vPos = tMonsterPkt.mutable_vpos();
 		vPos->Resize(3, 0.0f);
-		Vec3 vPosition = pBoss->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vPosition = pBoss->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 		memcpy(vPos->mutable_data(), &vPosition, sizeof(Vec3));
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
@@ -1774,13 +1774,10 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		}
 		//// 테스트용
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pPhase2)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
 			return E_FAIL;
 
-		/*if (FAILED(pSequenceNormalAttack->AddChild(pPhase3)))
-			return E_FAIL;*/
-
+		}
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
@@ -1823,7 +1820,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 		if (FAILED(pSelectorNear->AddChild(pBattleIdle)))
 			return E_FAIL;
-
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SELECTOR;
 		CBT_Composite* pSelector_Within_Range = CBT_Composite::Create(&CompositeDesc);

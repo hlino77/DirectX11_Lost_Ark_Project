@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "GameInstance.h"
+#include "UI_HoldingFrame.h"
 
 CState_GN_DeathFire_Start::CState_GN_DeathFire_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -54,6 +55,17 @@ HRESULT CState_GN_DeathFire_Start::Initialize()
 
 	m_SkillFrames.push_back(-1);
 
+	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+	HoldingDesc.strSkillName = TEXT("데스 파이어");
+	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+	HoldingDesc.fSkillEndTime = 3.6f;
+	HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
+	HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
+	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+	if (nullptr == m_pHoldingUI)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -67,6 +79,8 @@ void CState_GN_DeathFire_Start::Enter_State()
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_GN_DeathFire_Start::Tick_State(_float fTimeDelta)
@@ -76,14 +90,17 @@ void CState_GN_DeathFire_Start::Tick_State(_float fTimeDelta)
 
 void CState_GN_DeathFire_Start::Exit_State()
 {
+	m_fSkillTimeAcc = 0.f;
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+	m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_GN_DeathFire_Start::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Start);
-
+	m_fSkillTimeAcc += fTimeDelta;
+	m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
 	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		if (iAnimFrame < 90)
@@ -300,4 +317,5 @@ CState_GN_DeathFire_Start* CState_GN_DeathFire_Start::Create(wstring strStateNam
 void CState_GN_DeathFire_Start::Free()
 {
 	__super::Free();
+	m_pHoldingUI->Set_Dead(true);
 }

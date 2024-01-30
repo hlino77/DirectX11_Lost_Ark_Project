@@ -38,7 +38,6 @@ void CState_GN_Grabbed::Enter_State()
 	m_SaveMatrix = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Set_Navi(false);
-
 }
 
 void CState_GN_Grabbed::Tick_State(_float fTimeDelta)
@@ -77,11 +76,15 @@ void CState_GN_Grabbed::To_GrabPos(_float fTimeDelta)
 	GrabMatrix.r[1] = XMVector3Normalize(GrabMatrix.r[1]);
 	GrabMatrix.r[2] = XMVector3Normalize(GrabMatrix.r[2]);
 
-	Matrix WorldMatrix = m_SaveMatrix * GrabMatrix;
+	Matrix WorldMatrix = m_SaveMatrix;
+	WorldMatrix._41 *= 0.01f;
+	WorldMatrix._42 *= 0.01f;
+	WorldMatrix._43 *= 0.01f;
+	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(0.01f, 0.01f, 0.01f));
+	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
 }
 
 void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
@@ -91,6 +94,7 @@ void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	if (nullptr == m_pValtan)
 		m_pValtan = pGameInstance->Find_GameObject(LEVELID::LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BOSS, TEXT("Boss_Valtan"));
 
+	RELEASE_INSTANCE(CGameInstance);
 
 	Matrix Pivot = m_pValtan->Get_ModelCom()->Get_PivotMatrix();
 	XMMATRIX GrabMatrix = m_pValtan->Get_ModelCom()->Get_CombinedMatrix(m_pValtan->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand"))) * Pivot;
@@ -99,13 +103,15 @@ void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	GrabMatrix.r[1] = XMVector3Normalize(GrabMatrix.r[1]);
 	GrabMatrix.r[2] = XMVector3Normalize(GrabMatrix.r[2]);
 
-	Matrix WorldMatrix = m_SaveMatrix * GrabMatrix;
+	Matrix WorldMatrix = m_SaveMatrix;
+	WorldMatrix._41 *= 0.01f;
+	WorldMatrix._42 *= 0.01f;
+	WorldMatrix._43 *= 0.01f;
+	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_ModelCom()->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(0.01f, 0.01f, 0.01f));
-
-	RELEASE_INSTANCE(CGameInstance);
+	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
 }
 
 CState_GN_Grabbed* CState_GN_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

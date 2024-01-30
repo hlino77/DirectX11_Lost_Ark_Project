@@ -12,7 +12,7 @@ CValtan_BT_Attack_Attack11_Server::CValtan_BT_Attack_Attack11_Server()
 
 void CValtan_BT_Attack_Attack11_Server::OnStart()
 {
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_bDummy())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Dummy())
 		__super::OnStart(1);
 	else
 		__super::OnStart(0);
@@ -35,16 +35,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11_Server::OnUpdate(const _float& fT
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex,
 			m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame,
 			m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
-	}
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_bDummy() && m_iCurrAnimation == 1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
-	{
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_Hit(false);
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_Left(false);
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_AnimationSpeed(0.f);
-		static_cast<CMonster_Server*>(m_pGameObject)->Set_Die();
-	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex)-3 && m_bShoot)
-	{
 		m_bShoot = false;
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vRight = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT);
@@ -52,6 +42,17 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack11_Server::OnUpdate(const _float& fT
 		vRight.Normalize();
 		vLook.Normalize();
 		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->BroadCast_Ghost(vPos, (-vLook + vRight) * 0.5f);
+	}
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Dummy() && m_iCurrAnimation == 1 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_Die();
+
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Is_Dummy())
+	{
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 35 && !static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
+
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 55 && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

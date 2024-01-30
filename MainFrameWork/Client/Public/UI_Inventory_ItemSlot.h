@@ -31,15 +31,18 @@ private:
     virtual HRESULT Bind_ShaderResources();
     virtual HRESULT Bind_ShaderResources_ItemGrade();
     virtual HRESULT Bind_ShaderResources_ItemIcon();
+    virtual HRESULT Bind_ShaderResources_Picked_Effect();
     
 private:
     void    Set_Item_StringInfo(const _uint& iItemType, const _uint& iEquipType, const _uint& iItemGrade);
+    void    Picking_Effect(_float fTimeDelta);
 
 private:
     CPlayer* m_pOwner = { nullptr };
     CTexture* m_pTexture_ItemGrade = { nullptr };
     CTexture* m_pTexture_ItemIcon = { nullptr };
     CTexture* m_pTexture_None = { nullptr };
+    CTexture* m_pTexture_Picked_Effect = { nullptr };
     CTransform* m_pTransform_ItemIcon = { nullptr };
     wstring m_strItemName;
     wstring m_strItemDescript;
@@ -52,6 +55,8 @@ private:
     _uint   m_iEquipType = { 0 };
     _int   m_iSlotIndexX = { -1 };
     _int    m_iSlotIndexY = { -1 };
+    _uint   m_iSlotIndex = { 0 };
+    _float  m_fPickedAlpha = { 0.f };
 public:
     static  CUI_Inventory_ItemSlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

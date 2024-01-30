@@ -106,7 +106,6 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Initialize(void* pArg)
 	m_iMaxArmorDurability = (_uint)(0);
 	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
-	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	m_iMaxGroggyGauge = 0;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_bDummy = true;
@@ -296,39 +295,27 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack1";
 	CBT_Action* pAttack1 = CValtan_BT_Attack_Attack1_Server::Create(&ActionDesc);
 
+
 	ActionDesc.vecAnimations.clear();
-	AnimationDesc.strAnimName = TEXT("att_battle_20_01");
+	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.fRootDist = 0.f;
+	AnimationDesc.fAnimSpeed = 1.9f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
+	AnimationDesc.fAnimSpeed = 1.15f;
 
-	AnimationDesc.strAnimName = TEXT("att_battle_20_02");
+	AnimationDesc.strAnimName = TEXT("att_battle_7_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//Á¡ÇÁ Âï±â
+	ActionDesc.strActionName = L"Action_Attack9";
+	CBT_Action* pAttack9 = CValtan_BT_Attack_Attack9_Server::Create(&ActionDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_20_03");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.f;
-	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 0.7f;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.bIsLoop = false;
-
-	AnimationDesc.strAnimName = TEXT("att_battle_20_04");
-	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
-	AnimationDesc.iChangeFrame = 0;
-	ActionDesc.vecAnimations.push_back(AnimationDesc);
-
-	//Á¡ÇÁ ½ÊÀÚ Âï±â
-	ActionDesc.strActionName = L"Action_Attack10";
-	CBT_Action* pAttack10 = CValtan_BT_Attack_Attack10_Server::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
@@ -363,7 +350,7 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 
 	if (CGameInstance::GetInstance()->Random_Coin(0.5f))
 	{
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
 			return E_FAIL;
 	}
 	else

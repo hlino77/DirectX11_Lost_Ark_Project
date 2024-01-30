@@ -33,7 +33,9 @@ public:
 	virtual void	LateTick(_float fTimeDelta);
 	virtual void	DebugRender();
 
+	virtual void	Set_Control_Active(_bool bActive) { m_bCtrlActive = bActive; }
 	virtual void	Set_Key_Active(_bool bActive) { m_bKeyActive = bActive; }
+	virtual void	Set_Mouse_Active(_bool bActive) { m_bMouseActive = bActive; }
 
 public:
 	_bool				Is_Tap(KEY eKey);
@@ -167,7 +169,9 @@ protected:
 	CTransform*				m_pOwnerTransform = nullptr;
 	CRigidBody*				m_pOwnerRigidBody = nullptr;
 
+	_bool					m_bCtrlActive = { true };
 	_bool					m_bKeyActive = { true };
+	_bool					m_bMouseActive = { true };
 	_bool					m_bSkillKeyActive = { true };
 
 	_int					m_iStatusEffect = { -1 };

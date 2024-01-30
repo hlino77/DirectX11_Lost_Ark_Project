@@ -42,6 +42,8 @@
 #include "State_WDR_Dead_End.h"
 #include "State_WDR_Fall.h"
 #include "State_WDR_Esther_Way.h"
+#include "State_WDR_Esther_Silian.h"
+#include "State_WDR_Esther_Bahuntur.h"
 
 /* State_Skill */
 #include "State_WDR_EndurePain.h"
@@ -312,7 +314,16 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 					if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
 					{
 						if (false == m_pController->Is_HitState())
-							m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+						{
+							if (true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
+							{
+								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), 0, vCenter);
+							}
+							else
+							{
+								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+							}
+						}
 					}
 
 					m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
@@ -690,6 +701,12 @@ HRESULT CPlayer_Destroyer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Esther_Way"), CState_WDR_Esther_Way::Create(TEXT("Esther_Way"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Esther_Silian"), CState_WDR_Esther_Silian::Create(TEXT("Esther_Silian"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Esther_Bahuntur"), CState_WDR_Esther_Bahuntur::Create(TEXT("Esther_Bahuntur"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -889,7 +906,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Mococo")));
@@ -897,7 +914,7 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Mococo")));
@@ -905,13 +922,13 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
-
+	
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
@@ -922,18 +939,18 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
+		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	/*pItem = static_cast<CItem*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
+	pItem = static_cast<CItem*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("Prototype_GameObject_TestItem")));
 	if (nullptr == pItem)
 		return E_FAIL;
 
-	Add_Item(pItem->Get_ObjectTag(), pItem);*/
+	Add_Item(pItem->Get_ObjectTag(), pItem);
 
 	return S_OK;
 }
@@ -946,6 +963,18 @@ HRESULT CPlayer_Destroyer::Ready_Esther()
 	tEstherDesc.pLeaderPlayer = this;
 
 	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Way"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Silian"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Bahuntur"), &tEstherDesc);
 	if (nullptr == pEsther)
 		return E_FAIL;
 

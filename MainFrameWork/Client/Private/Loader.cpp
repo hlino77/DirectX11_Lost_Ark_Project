@@ -134,6 +134,9 @@
 #include "UI_InventoryWnd.h"
 #include "UI_Inventory_ItemSlot.h"
 #include "UI_Inventory.h"
+#include "UI_HoldingFrame.h"
+#include "UI_IdentitySP_MainWnd.h"
+#include "UI_IdentitySP_LinkedPlayer.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -146,6 +149,7 @@
 #include <Monster_Pawn.h>
 #include "Monster_Prison.h"
 #include "Boss_Valtan_CounterGhost.h"
+#include "Boss_Valtan_RunningGhost.h"
 
 //Weapons
 #include "Weapon_Boss_King.h"
@@ -233,7 +237,12 @@
 #include "IT_WDR_WP_Legend.h"
 
 #include "Item_TestItem.h"
+
+/* 에스더 */
+#include "Esther_Part.h"
 #include "Esther_Way.h"
+#include "Esther_Silian.h"
+#include "Esther_Bahuntur.h"
 
 //SKILL
 #include "Skill_RisingSun.h"
@@ -551,6 +560,14 @@ HRESULT CLoader::Loading_For_Level_Logo()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentityMG_UI"),
 		CUI_IdentityMG::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+		
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentitySP_MainWnd"),
+		CUI_IdentitySP_MainWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentitySP_LinkedPlayer"),
+		CUI_IdentitySP_LinkedPlayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -1199,6 +1216,12 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CBoss_Valtan_CounterGhost::Create(nullptr, nullptr))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Valtan_RunningGhost"),
+		CBoss_Valtan_RunningGhost::Create(nullptr, nullptr))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon_Boss_Valtan"),
 		CWeapon_Boss_Valtan::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1456,6 +1479,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part"),
+		CEsther_Part::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
 		CEsther_Way::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1470,6 +1498,16 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_TeleportDoor"),
 		CSkill_TeleportDoor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian"),
+		CEsther_Silian::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur"),
+		CEsther_Bahuntur::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -2851,6 +2889,56 @@ HRESULT CLoader::Loading_QuickSlot()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	//Yinyangshi / Artist /
+	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_BackGround"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/BackGround.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_MainWnd"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/MainWnd.png"))))
+			return E_FAIL;  
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Blue_Light"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Blue_Light.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Ink"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Ink.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Masked_GaugeCut"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Masked_GaugeCut.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Brush"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Brush_%d.png", 2))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Bubble_Frames"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble_Frames.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Brush_Effect"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Brush_Effect/%d.png", 52))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Bubble_Animation"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble/%d.png", 10))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 
@@ -3046,6 +3134,11 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonsterHpUI"),
 			CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_HoldingGauge"),
+			CUI_HoldingFrame::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
@@ -3383,6 +3476,11 @@ HRESULT CLoader::Loading_Inventory_UI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_PickedSlot_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/PickedSlot_Effect.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	//Gunslinger
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_MococoHead"),
@@ -3530,14 +3628,6 @@ HRESULT CLoader::Loading_Inventory_UI()
 		pUIManager->Add_CurrFile();
 	}
 	
-	//ETC
-	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Rank"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Rank/Rank%d.png",7))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -3891,6 +3981,83 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			}));
 	}
 
+	/* 에스더 마네킹 */
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESSA";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESWY";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESWY_Skill";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+					pUIManager->Add_CurrFile();
+				}
+
+				return S_OK;
+			}));
+	}
+
 	/* Npc 모델파츠 */
 	wstring strPath = L"../Bin/Resources/Meshes/NpcPart/";
 	AutoLoad(strPath, LEVEL_BERN);
@@ -3906,14 +4073,11 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
 	/* 에스더 */
-	strPath = L"../Bin/Resources/Meshes/ES/Anim/";
-	AutoAnimLoad(strPath, LEVEL_STATIC, ScalePivotMatrix);
+	strPath = L"../Bin/Resources/Meshes/ES/Part/";
+	AutoLoad(strPath, LEVEL_STATIC);
 
 	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
-
-	strPath = L"../Bin/Resources/Meshes/ES/Part/";
-	AutoLoad(strPath, LEVEL_STATIC);
 
 	/* SkyDome */
 	{
@@ -4977,6 +5141,16 @@ HRESULT CLoader::Loading_SkillIcon()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_Shine"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_Shine.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Perfect_Zone"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Perfect_Zone.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_End"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_End.png"))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 

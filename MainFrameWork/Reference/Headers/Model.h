@@ -158,6 +158,7 @@ private:
 
 private:
 	/* HJ Ãß°¡ */	
+	_bool						m_bUseRoot = { false };
 	_bool						m_bRootRotation = { false };
 	_bool						m_IsPreRootRot = { false };
 	_bool						m_bUseRootY = { false };
@@ -173,7 +174,6 @@ private:
 
 	Vec4						m_vRootTargetPos = { Vec4() };
 	_float						m_fRootDist = { 1.f };
-	_bool						m_bRootY = { false };
 	_bool						m_bReverse = { false };
 	_uint						m_iPreFrame = { 0 };
 

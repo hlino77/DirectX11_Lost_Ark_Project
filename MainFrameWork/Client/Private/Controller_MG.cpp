@@ -221,15 +221,12 @@ void CController_MG::Get_GrabMessage(CGameObject* pGrabber)
 
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
-
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(true);
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CController_MG::Get_GrabEndMessage()
 {
 	__super::Get_GrabEndMessage();
-
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CController_MG::Get_DeadMessage()
@@ -241,7 +238,7 @@ void CController_MG::Get_DeadMessage()
 
 _uint CController_MG::Is_MG_Identity()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bKeyActive || false == m_bCtrlActive)
 		return 0;
 
 	if (100 > m_iIdentityGage)

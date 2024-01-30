@@ -77,9 +77,6 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if (KEY_TAP(KEY::B))
-		m_bDbgCout = !m_bDbgCout;
-	m_fTimeCount += fTimeDelta;
 }
 
 void CBoss::LateTick(_float fTimeDelta)
@@ -265,7 +262,7 @@ void CBoss::Add_Colider(_int iColIndex , CSphereCollider* pCollider)
 void CBoss::Set_EffectPos()
 {
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectworldzero"));
-	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();
 	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
 }

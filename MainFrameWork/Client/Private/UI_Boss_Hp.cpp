@@ -164,9 +164,6 @@ HRESULT CUI_Boss_Hp::Render()
 	m_pShaderCom->Begin(16);
 	m_pVIBufferCom->Render();
 
-	//if(m_bRender)
-		//Print_BossHp();
-
 	return S_OK;
 }
 
@@ -418,6 +415,20 @@ void CUI_Boss_Hp::Update_PreHp()
 	}
 }
 
+void CUI_Boss_Hp::Update_BossName()
+{
+	if (nullptr != m_pInGameNameWnd)
+	{
+		m_pInGameNameWnd->Clear_Text();
+		m_pInGameNameWnd->Set_Alpha(1.f);
+		m_pInGameNameWnd->Get_TransformCom()->Set_Scale(Vec3(480.f, 20.0f, 0.f));
+
+		Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, m_strOutputName);
+		Vec2 vOrigin = vMeasure * 0.5f;
+		m_pInGameNameWnd->Set_Text(m_strTagHP, m_szFont, m_strOutputName, Vec2(225.f, 10.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 0.0f, 0.0f, 1.f));
+	}
+}
+
 void CUI_Boss_Hp::Set_Dead_BossHpUI()
 {
 	CUI_Manager::GetInstance()->SetDead_CurrHPUI(this);
@@ -450,12 +461,16 @@ void CUI_Boss_Hp::Update_BossHp()
 		Vec2 vOrigin = vMeasure * 0.5f;
 		m_pInGameHpCountWnd->Set_Text(m_strTagHpCount, m_szFont, strHpCount, Vec2(25.f, 10.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
 	}
+	Update_BossName();
 }
 
 void CUI_Boss_Hp::Set_Active(_bool bActive)
 {
-	if(bActive == true)
+	if (bActive == true)
+	{
 		Update_BossHp();
+		Update_BossName();
+	}
 	//m_bActive = bActive;
 	m_bRender = bActive;
 	m_pInGameNameWnd->Set_Active(bActive);

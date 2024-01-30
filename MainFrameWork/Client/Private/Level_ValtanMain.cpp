@@ -203,7 +203,7 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.9f, 0.f, 100.2f));
 
-	CRenderer::Set_IBLTexture(3);
+	CRenderer::Set_IBLTexture(0);
 
 	Safe_Release(pGameInstance);
 
@@ -336,11 +336,6 @@ HRESULT CLevel_ValtanMain::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChaosDungeonUI"));
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

@@ -5,6 +5,8 @@
 #include "Player_Controller_GN.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "UI_HoldingFrame.h"
+#include "GameInstance.h"
 
 CState_GN_Apocalypse_Loop::CState_GN_Apocalypse_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -49,7 +51,6 @@ void CState_GN_Apocalypse_Loop::Exit_State()
 void CState_GN_Apocalypse_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	m_fSkillTimeAcc += fTimeDelta;
-
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
 	{
 		m_pPlayer->Set_State(TEXT("Skill_GN_Apocalypse_Success"));
@@ -81,4 +82,5 @@ CState_GN_Apocalypse_Loop* CState_GN_Apocalypse_Loop::Create(wstring strStateNam
 void CState_GN_Apocalypse_Loop::Free()
 {
 	__super::Free();
+
 }

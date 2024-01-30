@@ -197,6 +197,8 @@
     <ClInclude Include="..\Public\Boss_Golem.h" />
     <ClInclude Include="..\Public\Boss_Valtan.h" />
     <ClInclude Include="..\Public\Boss_Valtan_CounterGhost.h" />
+    <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h" />
+    <ClInclude Include="..\Public\Camera_Cut.h" />
     <ClInclude Include="..\Public\Camera_Lobby.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
@@ -235,8 +237,16 @@
     <ClInclude Include="..\Public\Effect_Texture.h" />
     <ClInclude Include="..\Public\Effect_Trail.h" />
     <ClInclude Include="..\Public\Esther.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Cut.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Ceiling.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h" />
     <ClInclude Include="..\Public\Esther_Cut.h" />
     <ClInclude Include="..\Public\Esther_Part.h" />
+    <ClInclude Include="..\Public\Esther_Silian.h" />
+    <ClInclude Include="..\Public\Esther_Silian_Cut.h" />
+    <ClInclude Include="..\Public\Esther_Silian_Skill.h" />
     <ClInclude Include="..\Public\Esther_Skill.h" />
     <ClInclude Include="..\Public\Esther_Way.h" />
     <ClInclude Include="..\Public\Esther_Way_Cut.h" />
@@ -379,6 +389,8 @@
     <ClInclude Include="..\Public\SkyDome.h" />
     <ClInclude Include="..\Public\State_GN_Dead_End.h" />
     <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_GN_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_GN_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_GN_Esther_Way.h" />
     <ClInclude Include="..\Public\State_GN_Fall.h" />
     <ClInclude Include="..\Public\State_GN_Grabbed.h" />
@@ -399,6 +411,8 @@
     <ClInclude Include="..\Public\State_MG_Dash.h" />
     <ClInclude Include="..\Public\State_MG_Dead_End.h" />
     <ClInclude Include="..\Public\State_MG_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_MG_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_MG_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_MG_Esther_Way.h" />
     <ClInclude Include="..\Public\State_MG_Fall.h" />
     <ClInclude Include="..\Public\State_MG_Grabbed.h" />
@@ -431,6 +445,8 @@
     <ClInclude Include="..\Public\State_WDR_Dead_Start.h" />
     <ClInclude Include="..\Public\State_WDR_EarthEater.h" />
     <ClInclude Include="..\Public\State_WDR_EndurePain.h" />
+    <ClInclude Include="..\Public\State_WDR_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_WDR_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_WDR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WDR_Fall.h" />
     <ClInclude Include="..\Public\State_WDR_FullSwing_Fail.h" />
@@ -495,6 +511,8 @@
     <ClInclude Include="..\Public\State_WR_Dash.h" />
     <ClInclude Include="..\Public\State_WR_Dead_End.h" />
     <ClInclude Include="..\Public\State_WR_Dead_Start.h" />
+    <ClInclude Include="..\Public\State_WR_Esther_Bahuntur.h" />
+    <ClInclude Include="..\Public\State_WR_Esther_Silian.h" />
     <ClInclude Include="..\Public\State_WR_Esther_Way.h" />
     <ClInclude Include="..\Public\State_WR_Fall.h" />
     <ClInclude Include="..\Public\State_WR_FlashBalde.h" />
@@ -593,6 +611,7 @@
     <ClInclude Include="..\Public\UI_IdentityMG_Roap.h" />
     <ClInclude Include="..\Public\UI_IdentityMG_Skill.h" />
     <ClInclude Include="..\Public\UI_IdentityMG_SkillFrame.h" />
+    <ClInclude Include="..\Public\UI_IdentitySP_LinkedPlayer.h" />
     <ClInclude Include="..\Public\UI_Identity_GN.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
     <ClInclude Include="..\Public\ImGUI\imgui.h" />
@@ -647,6 +666,7 @@
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_WF_Front.h" />
+    <ClInclude Include="..\Public\UI_IdentitySP_MainWnd.h" />
     <ClInclude Include="..\Public\UI_InGame_NamePlate.h" />
     <ClInclude Include="..\Public\UI_Inventory.h" />
     <ClInclude Include="..\Public\UI_InventoryWnd.h" />
@@ -792,6 +812,8 @@
     <ClCompile Include="..\Private\Boss_Golem.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan.cpp" />
     <ClCompile Include="..\Private\Boss_Valtan_CounterGhost.cpp" />
+    <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp" />
+    <ClCompile Include="..\Private\Camera_Cut.cpp" />
     <ClCompile Include="..\Private\Camera_Lobby.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
@@ -830,8 +852,16 @@
     <ClCompile Include="..\Private\Effect_Texture.cpp" />
     <ClCompile Include="..\Private\Effect_Trail.cpp" />
     <ClCompile Include="..\Private\Esther.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Cut.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Ceiling.cpp" />
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Floor.cpp" />
     <ClCompile Include="..\Private\Esther_Cut.cpp" />
     <ClCompile Include="..\Private\Esther_Part.cpp" />
+    <ClCompile Include="..\Private\Esther_Silian.cpp" />
+    <ClCompile Include="..\Private\Esther_Silian_Cut.cpp" />
+    <ClCompile Include="..\Private\Esther_Silian_Skill.cpp" />
     <ClCompile Include="..\Private\Esther_Skill.cpp" />
     <ClCompile Include="..\Private\Esther_Way.cpp" />
     <ClCompile Include="..\Private\Esther_Way_Cut.cpp" />
@@ -968,6 +998,8 @@
     <ClCompile Include="..\Private\SkyDome.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_GN_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_GN_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_GN_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_GN_Fall.cpp" />
     <ClCompile Include="..\Private\State_GN_Grabbed.cpp" />
@@ -989,6 +1021,8 @@
     <ClCompile Include="..\Private\State_MG_Dash.cpp" />
     <ClCompile Include="..\Private\State_MG_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_MG_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_MG_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_MG_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_MG_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_MG_Fall.cpp" />
     <ClCompile Include="..\Private\State_MG_Grabbed.cpp" />
@@ -1021,6 +1055,8 @@
     <ClCompile Include="..\Private\State_WDR_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_WDR_EarthEater.cpp" />
     <ClCompile Include="..\Private\State_WDR_EndurePain.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_WDR_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_WDR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WDR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WDR_FullSwing_Fail.cpp" />
@@ -1085,6 +1121,8 @@
     <ClCompile Include="..\Private\State_WR_Dash.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_WR_Dead_Start.cpp" />
+    <ClCompile Include="..\Private\State_WR_Esther_Bahuntur.cpp" />
+    <ClCompile Include="..\Private\State_WR_Esther_Silian.cpp" />
     <ClCompile Include="..\Private\State_WR_Esther_Way.cpp" />
     <ClCompile Include="..\Private\State_WR_Fall.cpp" />
     <ClCompile Include="..\Private\State_WR_FlashBalde.cpp" />
@@ -1183,6 +1221,7 @@
     <ClCompile Include="..\Private\UI_IdentityMG_Roap.cpp" />
     <ClCompile Include="..\Private\UI_IdentityMG_Skill.cpp" />
     <ClCompile Include="..\Private\UI_IdentityMG_SkillFrame.cpp" />
+    <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp" />
     <ClCompile Include="..\Private\UI_Identity_GN.cpp" />
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
@@ -1242,6 +1281,7 @@
     <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_WF_Front.cpp" />
+    <ClCompile Include="..\Private\UI_IdentitySP_MainWnd.cpp" />
     <ClCompile Include="..\Private\UI_InGame_NamePlate.cpp" />
     <ClCompile Include="..\Private\UI_Inventory.cpp" />
     <ClCompile Include="..\Private\UI_InventoryWnd.cpp" />

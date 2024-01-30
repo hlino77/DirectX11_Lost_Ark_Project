@@ -44,7 +44,8 @@ private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 private:
 	CPartObject* m_pWeapon = nullptr;
-
+	Vec3		m_vSummonPositions[3] = {};
+	_float		m_fSummonTime = 0.f;
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

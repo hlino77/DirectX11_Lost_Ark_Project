@@ -4,7 +4,8 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
-
+class CEffect;
+class CUI_HoldingFrame;
 class CState_WDR_FullSwing_Loop final : public CState_Skill
 {
 public:
@@ -25,7 +26,7 @@ public:
 	void	Update_Effect(_float fTimeDelta);
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
-
+	CUI_HoldingFrame* m_pHoldingUI = { nullptr };
 	std::function<void(CState_WDR_FullSwing_Loop&, _float)> m_TickFunc;
 
 private:

@@ -64,9 +64,9 @@ HRESULT CPlayer_Controller::Initialize(void* pArg)
 
 void CPlayer_Controller::Tick(_float fTimeDelta)
 {
-	if (false == m_bStop) 
+	if (false == m_bStop)
 		Move(fTimeDelta);
-	if (true == m_bStop) 
+	if (true == m_bStop)
 		Look_Lerp(fTimeDelta);
 
 	/* CoolTime */
@@ -97,39 +97,96 @@ _bool CPlayer_Controller::Is_Idle()
 
 _bool CPlayer_Controller::Is_Tap(KEY eKey)
 {
-	if (false == m_bKeyActive)
+	if (false == m_bCtrlActive)
 		return false;
+
+	if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && true == m_bMouseActive)
+	{
+		return KEY_TAP(eKey);
+	}
+	else if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && false == m_bMouseActive)
+	{
+		return false;
+	}
+
+	if (false == m_bKeyActive)
+	{
+		return false;
+	}
+
 
 	return KEY_TAP(eKey);
 }
 
 _bool CPlayer_Controller::Is_Hold(KEY eKey)
 {
-	if (false == m_bKeyActive)
+	if (false == m_bCtrlActive)
 		return false;
+
+	if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && true == m_bMouseActive)
+	{
+		return KEY_HOLD(eKey);
+	}
+	else if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && false == m_bMouseActive)
+	{
+		return false;
+	}
+
+	if (false == m_bKeyActive)
+	{
+		return false;
+	}
 
 	return KEY_HOLD(eKey);
 }
 
 _bool CPlayer_Controller::Is_HoldorTap(KEY eKey)
 {
-	if (false == m_bKeyActive)
+	if (false == m_bCtrlActive)
 		return false;
+
+	if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && true == m_bMouseActive)
+	{
+		return KEY_HOLD(eKey) || KEY_TAP(eKey);
+	}
+	else if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && false == m_bMouseActive)
+	{
+		return false;
+	}
+
+	if (false == m_bKeyActive)
+	{
+		return false;
+	}
 
 	return KEY_HOLD(eKey) || KEY_TAP(eKey);
 }
 
 _bool CPlayer_Controller::Is_Away(KEY eKey)
 {
-	if (false == m_bKeyActive)
+	if (false == m_bCtrlActive)
 		return false;
+
+	if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && true == m_bMouseActive)
+	{
+		return KEY_AWAY(eKey) || KEY_NONE(eKey);
+	}
+	else if ((KEY::LBTN == eKey || KEY::RBTN == eKey) && false == m_bMouseActive)
+	{
+		return false;
+	}
+
+	if (false == m_bKeyActive)
+	{
+		return false;
+	}
 
 	return KEY_AWAY(eKey) || KEY_NONE(eKey);
 }
 
 _bool CPlayer_Controller::Is_Run()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bMouseActive || false == m_bCtrlActive)
 		return false;
 
 	if (KEY_HOLD(KEY::RBTN) || KEY_TAP(KEY::RBTN))
@@ -142,7 +199,7 @@ _bool CPlayer_Controller::Is_Run()
 
 _bool CPlayer_Controller::Is_Skill()
 {
-	if (false == m_bSkillKeyActive || false == m_bKeyActive)
+	if (false == m_bSkillKeyActive || false == m_bKeyActive || false == m_bCtrlActive)
 		return false;
 
 	if (-1.f == m_fCoolTime[SKILL_KEY::Q] && nullptr != m_pSkills[SKILL_KEY::Q] && (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q)))
@@ -192,7 +249,7 @@ _bool CPlayer_Controller::Is_Skill()
 
 _bool CPlayer_Controller::Is_Interect()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bKeyActive || false == m_bCtrlActive)
 		return false;
 
 	if (KEY_TAP(KEY::G))
@@ -203,7 +260,7 @@ _bool CPlayer_Controller::Is_Interect()
 
 _bool CPlayer_Controller::Is_Dash()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bKeyActive || false == m_bCtrlActive)
 		return false;
 
 	if ( KEY_HOLD(KEY::SPACE) ||KEY_TAP(KEY::SPACE))
@@ -219,7 +276,7 @@ _bool CPlayer_Controller::Is_Dash()
 
 _bool CPlayer_Controller::Is_Attack()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bMouseActive || false == m_bCtrlActive)
 		return false;
 
 	if (KEY_HOLD(KEY::LBTN) || KEY_TAP(KEY::LBTN))

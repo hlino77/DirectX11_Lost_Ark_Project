@@ -151,6 +151,7 @@ void CSkill_Crystal::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				if (m_iHp < 1)
 				{
 					m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(false);
+					m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SAFEZONE]->SetActive(false);
 					m_bExplosion = true;
 
 					m_fExplosionDelay = 1.f;
@@ -184,6 +185,13 @@ void CSkill_Crystal::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEff
 			m_fExplosionDelay = 1.f;
 	}
 	
+}
+void CSkill_Crystal::Set_Explosion(_bool bExplosion)
+{
+	 m_bExplosion = bExplosion; 
+	 Set_RimLight(0.05f);
+	 m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SAFEZONE]->SetActive(false);
+	 m_bExplosion = true;
 }
 
 void CSkill_Crystal::Explosion()
@@ -282,7 +290,7 @@ HRESULT CSkill_Crystal::Ready_Components()
 			return E_FAIL;
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(4.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(3.f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
 

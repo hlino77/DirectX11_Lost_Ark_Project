@@ -50,6 +50,8 @@
 #include "State_WR_Resurrect.h"
 
 #include "State_WR_Esther_Way.h"
+#include "State_WR_Esther_Silian.h"
+#include "State_WR_Esther_Bahuntur.h"
 
 /* State_Skill */
 #include "State_WR_FuriousClaw_Start.h"
@@ -330,7 +332,16 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 					if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
 					{
 						if (false == m_pController->Is_HitState())
-							m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+						{
+							if (true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
+							{
+								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), 0, vCenter);
+							}
+							else
+							{
+								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+							}
+						}
 					}
 
 					m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
@@ -434,6 +445,7 @@ void CPlayer_Slayer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 	{
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
 		{
+		
 			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 			{
 				Set_Invincible(false);
@@ -753,6 +765,12 @@ HRESULT CPlayer_Slayer::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Esther_Way"), CState_WR_Esther_Way::Create(TEXT("Esther_Way"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Esther_Silian"), CState_WR_Esther_Silian::Create(TEXT("Esther_Silian"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Esther_Bahuntur"), CState_WR_Esther_Bahuntur::Create(TEXT("Esther_Bahuntur"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -889,7 +907,7 @@ HRESULT CPlayer_Slayer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Body_Mococo")));
@@ -897,7 +915,7 @@ HRESULT CPlayer_Slayer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_WP_Mococo")));
@@ -905,7 +923,7 @@ HRESULT CPlayer_Slayer::Ready_Item()
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	pItem->Use_Item(this);
+	Use_Item(pItem->Get_ObjectTag());
 
 	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
 		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_WP_Legend")));
@@ -946,6 +964,18 @@ HRESULT CPlayer_Slayer::Ready_Esther()
 	tEstherDesc.pLeaderPlayer = this;
 
 	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Way"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Silian"), &tEstherDesc);
+	if (nullptr == pEsther)
+		return E_FAIL;
+
+	m_pController->Set_Esther(pEsther);
+
+	pEsther = m_pGameInstance->Add_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_ESTHER, TEXT("Prototype_GameObject_Esther_Bahuntur"), &tEstherDesc);
 	if (nullptr == pEsther)
 		return E_FAIL;
 

@@ -23,8 +23,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10::OnUpdate(const _float& fTimeDelt
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[2].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(),
 			0.6f* static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed(),fTimeDelta);
-	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) < 10 || m_pGameObject->Get_ModelCom()->IsNext())
-		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 37 && m_bShoot)
 	{
 		m_bShoot = false;
@@ -43,8 +41,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
-		//if (static_cast<CBoss*>(m_pGameObject)->Is_bDummy())
-		//	static_cast<CBoss*>(m_pGameObject)->Set_Dissolve();
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
 	{
@@ -59,10 +55,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10::OnUpdate(const _float& fTimeDelt
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	}	
-	if (static_cast<CBoss*>(m_pGameObject)->Is_bDummy() && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[1].iAnimIndex) - 3)
-	{
-		static_cast<CBoss*>(m_pGameObject)->Set_Die();
-	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

@@ -25,7 +25,9 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    const _bool Get_IsClicked() { return m_bClicked_Entrance; }
+    const _bool Get_IsClicked();
+    void    Set_Player_Control();
+    void    Reset_Player_Control();
     void    Set_Active(_bool bActive);
 
 private:

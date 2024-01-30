@@ -54,12 +54,15 @@ HRESULT CBackGround_MainLogo::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
+	m_pTextureCom_BackGround->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 	m_pShaderCom->Begin(0);
-
 	m_pVIBufferCom->Render();
 
-
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fFrame);
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
@@ -87,15 +90,13 @@ HRESULT CBackGround_MainLogo::Ready_Components()
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MainLogo_BackGround"),
+		TEXT("Com_Texture_BackGround"), (CComponent**)&m_pTextureCom_BackGround)))
+		return E_FAIL;
+
 	/* Com_Transform */
-	CTransform::tagTransformDesc		TransformDesc;
-	ZeroMemory(&TransformDesc, sizeof TransformDesc);	
-
-	TransformDesc.fSpeedPerSec = 5.f;
-	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
-
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
+		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -117,10 +118,6 @@ HRESULT CBackGround_MainLogo::Bind_ShaderResources()
 	_float fAlpha = 1.0f;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
 		return E_FAIL;
-
-
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fFrame);
-
 	return S_OK;
 }
 
@@ -155,6 +152,7 @@ void CBackGround_MainLogo::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom_BackGround);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pVIBufferCom);

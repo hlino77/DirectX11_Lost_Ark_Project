@@ -109,6 +109,16 @@ namespace Client
 		SKILL_RISINGSUN,
 		SKILL_TELEPORTDOOR,
 		SKILLEND
+
+	struct ITEM_SLOTDESC
+	{
+		vector<class CItem*> vecItems;
+	};
+
+	struct ITEMTAG_DESC
+	{
+		_bool	bOwn = { false };
+		_int	iIndex = { -1 };
 	};
 }
 

@@ -135,7 +135,7 @@ void CState_GN_Hit::Tick_State_Control(_float fTimeDelta)
 
 			if (m_iFallFrame >= m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHit))
 			{
-				m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHit);
+				m_pPlayer->Set_State(TEXT("Fall"));
 			}
 		}
 	}

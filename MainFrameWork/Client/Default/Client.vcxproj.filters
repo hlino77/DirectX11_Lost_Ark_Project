@@ -874,9 +874,6 @@
     <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
       <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Camera\00.Lobby">
-      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\01.Lobby">
       <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
     </Filter>
@@ -1405,9 +1402,6 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Resurrect">
       <UniqueIdentifier>{869ceaa7-dc79-4c25-a8d5-4045ed19ce72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Crystal">
-      <UniqueIdentifier>{240a5f00-8518-430c-80a4-8e530e61d863}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
       <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
     </Filter>
@@ -1462,6 +1456,45 @@
     <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
       <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Esther\Silian">
+      <UniqueIdentifier>{deeb7405-1598-43d2-9c83-6dcd6f7ce2de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Silian\Cut">
+      <UniqueIdentifier>{0fa5fc00-f8da-4e2f-b3fd-d7552450e7af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Silian\Skill">
+      <UniqueIdentifier>{077ed3cf-3208-4626-978c-c366a52a0110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Bahuntur">
+      <UniqueIdentifier>{c2940448-a7e3-40e7-b1ae-b19da9c15f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Bahuntur\Cut">
+      <UniqueIdentifier>{2c0157f0-db74-4c8f-881a-04a0b523dd49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Esther\Bahuntur\Skill">
+      <UniqueIdentifier>{9dad8868-317f-4809-898e-1b9dd5dee401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Cut">
+      <UniqueIdentifier>{b358da5d-93c2-4c02-9059-bc6da855a16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Lobby">
+      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Player">
+      <UniqueIdentifier>{42f8f5bb-9fbf-49e3-aec8-c5b1eb090644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Free">
+      <UniqueIdentifier>{1126c00b-d82e-4136-b6f5-24f35ea37041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi">
+      <UniqueIdentifier>{4759e86d-3d99-4812-a52d-ebe9145cf297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd">
+      <UniqueIdentifier>{2d1c2c56-aee4-403d-ac22-d184b4c2b5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player">
+      <UniqueIdentifier>{0397021f-e667-40ed-ada7-0fc8851e612e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1497,9 +1530,6 @@
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Camera_Free.h">
-      <Filter>02.GameObjects\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\StaticModel.h">
       <Filter>02.GameObjects\Static</Filter>
     </ClInclude>
@@ -1520,9 +1550,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\ServerSessionManager.h">
       <Filter>95.Network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Camera_Player.h">
-      <Filter>02.GameObjects\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -3624,7 +3651,7 @@
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Lobby.h">
-      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
+      <Filter>02.GameObjects\Camera\Lobby</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Lobby.h">
       <Filter>01.Levels\01.Lobby</Filter>
@@ -4340,6 +4367,72 @@
     <ClInclude Include="..\Public\Skill_TeleportDoor.h">
       <Filter>02.GameObjects\Skill\Skill_TeleportDoor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Esther_Silian.h">
+      <Filter>02.GameObjects\Esther\Silian</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Silian_Skill.h">
+      <Filter>02.GameObjects\Esther\Silian\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Silian_Cut.h">
+      <Filter>02.GameObjects\Esther\Silian\Cut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Esther_Silian.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Valtan_RunningGhost.h">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Bahuntur.h">
+      <Filter>02.GameObjects\Esther\Bahuntur</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill.h">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Bahuntur_Cut.h">
+      <Filter>02.GameObjects\Esther\Bahuntur\Cut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WR_Esther_Bahuntur.h">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Esther_Bahuntur.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_GN_Esther_Silian.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Esther_Bahuntur.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_WDR_Esther_Silian.h">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Esther_Bahuntur.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_MG_Esther_Silian.h">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Ceiling.h">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Cut.h">
+      <Filter>02.GameObjects\Camera\Cut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Player.h">
+      <Filter>02.GameObjects\Camera\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free.h">
+      <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentitySP_MainWnd.h">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentitySP_LinkedPlayer.h">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4366,9 +4459,6 @@
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Camera_Free.cpp">
-      <Filter>02.GameObjects\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\StaticModel.cpp">
       <Filter>02.GameObjects\Static</Filter>
     </ClCompile>
@@ -4389,9 +4479,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\ServerSessionManager.cpp">
       <Filter>95.Network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Camera_Player.cpp">
-      <Filter>02.GameObjects\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -6469,7 +6556,7 @@
       <Filter>01.Levels\98.Tool\00.Tools\03.EffectMannequin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Lobby.cpp">
-      <Filter>02.GameObjects\Camera\00.Lobby</Filter>
+      <Filter>02.GameObjects\Camera\Lobby</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Lobby.cpp">
       <Filter>01.Levels\01.Lobby</Filter>
@@ -7193,6 +7280,72 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill_TeleportDoor.cpp">
       <Filter>02.GameObjects\Skill\Skill_TeleportDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Silian.cpp">
+      <Filter>02.GameObjects\Esther\Silian</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Silian_Skill.cpp">
+      <Filter>02.GameObjects\Esther\Silian\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Silian_Cut.cpp">
+      <Filter>02.GameObjects\Esther\Silian\Cut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Esther_Silian.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Valtan_RunningGhost.cpp">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Bahuntur.cpp">
+      <Filter>02.GameObjects\Esther\Bahuntur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Bahuntur_Cut.cpp">
+      <Filter>02.GameObjects\Esther\Bahuntur\Cut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill.cpp">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WR_Esther_Bahuntur.cpp">
+      <Filter>02.GameObjects\Player\Player_Slayer\State_WR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Esther_Bahuntur.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_GN_Esther_Silian.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Esther_Bahuntur.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_WDR_Esther_Silian.cpp">
+      <Filter>02.GameObjects\Player\Player_Destroyer\State_WDR\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Esther_Bahuntur.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_MG_Esther_Silian.cpp">
+      <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Ceiling.cpp">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Esther_Bahuntur_Skill_Floor.cpp">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Cut.cpp">
+      <Filter>02.GameObjects\Camera\Cut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Player.cpp">
+      <Filter>02.GameObjects\Camera\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free.cpp">
+      <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentitySP_MainWnd.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

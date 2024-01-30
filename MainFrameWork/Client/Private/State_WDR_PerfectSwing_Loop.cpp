@@ -8,6 +8,9 @@
 #include "Effect_Manager.h"
 #include "Effect.h"
 #include "Camera_Player.h"
+#include "GameInstance.h"
+#include "UI_HoldingFrame.h"
+
 
 CState_WDR_PerfectSwing_Loop::CState_WDR_PerfectSwing_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -40,13 +43,24 @@ HRESULT CState_WDR_PerfectSwing_Loop::Initialize()
 	m_fCamShakeAcc = 0.0f;
 	m_fCamShakeDelay = 0.12f;
 
+	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+	HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
+	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+	HoldingDesc.fSkillEndTime = m_fSkillEndTime * 0.5f;
+	HoldingDesc.fSkillSuccessTime_Min = 0.f;
+	HoldingDesc.fSkillSuccessTime_Max = 0.f;
+	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+	if (nullptr == m_pHoldingUI)
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CState_WDR_PerfectSwing_Loop::Enter_State()
 {
 	m_fSkillTimeAcc = 0;
-
+	m_fUI_AccTime = 0.f;
 	m_iPerfectSwing_Loop = m_iPerfectSwing_Loop_1;
 	m_pPlayer->Reserve_Animation(m_iPerfectSwing_Loop, 0.1f, 0, 0);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
@@ -56,6 +70,7 @@ void CState_WDR_PerfectSwing_Loop::Enter_State()
 	m_Effects.clear();
 
 	m_fEffectAcc = m_fEffectDelay;
+
 	m_eCameraState = CameraState::CHARGE1;
 
 	m_fEffectAcc = m_fEffectDelay;
@@ -65,6 +80,8 @@ void CState_WDR_PerfectSwing_Loop::Enter_State()
 	{
 		m_pPlayer->Get_Camera()->Set_MotionBlur(1.0f, 0.05f);
 	}
+
+	m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_WDR_PerfectSwing_Loop::Tick_State(_float fTimeDelta)
@@ -78,6 +95,7 @@ void CState_WDR_PerfectSwing_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+	m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
@@ -96,6 +114,9 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 
 	if (m_pPlayer->Get_Camera()->Get_Mode() == CCamera_Player::CameraState::FREE)
 		Update_Camera_Charge(fTimeDelta);
+
+	m_fUI_AccTime += fTimeDelta;
+	m_pHoldingUI->Set_SkillTimeAcc(m_fUI_AccTime);
 
 	if (m_fSkillTimeAcc > m_fSkillEndTime)
 	{
@@ -120,6 +141,7 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Reserve_Animation(m_iPerfectSwing_Loop, 0.1f, 0, 0);
 		m_eCameraState = CameraState::CHARGE2;
 		m_pPlayer->Get_Camera()->Set_MotionBlur(1.0f, 0.05f);
+		m_fUI_AccTime = 0.f;
 	}
 
 
@@ -257,4 +279,5 @@ CState_WDR_PerfectSwing_Loop* CState_WDR_PerfectSwing_Loop::Create(wstring strSt
 void CState_WDR_PerfectSwing_Loop::Free()
 {
 	__super::Free();
+	m_pHoldingUI->Set_Dead(true);
 }

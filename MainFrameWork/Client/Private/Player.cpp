@@ -419,19 +419,21 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 
 HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 {
-	auto& iter = m_mapItems.find(strItemTag);
-	if (iter == m_mapItems.end())
+	auto& iter = m_ItemTags.find(strItemTag);
+	if (iter == m_ItemTags.end())
 	{
-		vector<CItem*> vecItem;
-		vecItem.push_back(pItem);
-		m_mapItems.emplace(strItemTag, vecItem);
+		//추가하는 코드
+		Add_Item_to_EmptySlot(strItemTag, pItem);
 	}
-	else
+	else if (false == (*iter).second.bOwn)
 	{
-		if ((_uint)CItem::TYPE::EQUIP == pItem->Get_ItemType())
-			return E_FAIL;
+		//추가하는 코드
+		Add_Item_to_EmptySlot(strItemTag, pItem);
 
-		iter->second.push_back(pItem);
+	}
+	else if (true == (*iter).second.bOwn)
+	{
+		m_vecItemSlots[(*iter).second.iIndex].vecItems.push_back(pItem);
 	}
 
 	if (nullptr != m_pUI_Inventory)
@@ -444,32 +446,41 @@ HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 
 HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
 {
-	auto& iter = m_mapItems.find(strItemTag);
-	if (iter == m_mapItems.end())
+	auto& iter = m_ItemTags.find(strItemTag);
+	if ((iter == m_ItemTags.end())||(false == (*iter).second.bOwn))
 	{
 		return E_FAIL;
 	}
 	else
 	{
-		iter->second.front()->Use_Item(this);
+		CItem* pItem = m_vecItemSlots[(*iter).second.iIndex].vecItems.back();
 
-		if ((_uint)CItem::TYPE::CONSUM == iter->second.front()->Get_ItemType())
+		if ((_uint)CItem::TYPE::CONSUM == m_vecItemSlots[(*iter).second.iIndex].vecItems.back()->Get_ItemType())
 		{
-			if (1 == iter->second.size())
+			if (1 == m_vecItemSlots[(*iter).second.iIndex].vecItems.size())
 			{
-				iter->second.clear();
-				m_mapItems.erase(iter);
+				iter->second.bOwn = false;
+				m_vecItemSlots[(*iter).second.iIndex].vecItems.clear();
+				iter->second.iIndex = -1;
+
 			}
 			else
 			{
-				iter->second.pop_back();
+				m_vecItemSlots[(*iter).second.iIndex].vecItems.pop_back();
 			}
 		}
+		else if ((_uint)CItem::TYPE::EQUIP == m_vecItemSlots[(*iter).second.iIndex].vecItems.back()->Get_ItemType())
+		{
+			(*iter).second.bOwn = false;
+			m_vecItemSlots[(*iter).second.iIndex].vecItems.clear();
+			(*iter).second.iIndex = -1;
+			//모코코 머리가 현재 0번에 들어있는데 인덱스가 -1들어가 터짐
+		}
+
+		pItem->Use_Item(this);
 	}
 	if (nullptr != m_pUI_Inventory)
-	{
 		m_pUI_Inventory->Update_Used_Item();
-	}
 	return S_OK;
 }
 
@@ -508,6 +519,91 @@ void CPlayer::Set_Several_Weapon_RenderState(CPartObject::PARTS ePart, _bool Is_
 void CPlayer::Load_WorldMatrix(Matrix& matWorld)
 {
 	matWorld = m_pTransformCom->Get_WorldMatrix();
+}
+
+void CPlayer::Swap_Items_In_Inventory(wstring MoveItemTag, wstring OriginItemTag)
+{
+	auto iter_Temp = m_ItemTags.find(MoveItemTag);
+	if (iter_Temp == m_ItemTags.end())
+		return;
+	auto iter_Dst = m_ItemTags.find(OriginItemTag);
+	if (iter_Dst == m_ItemTags.end())
+		return;
+
+	iter_swap(&m_vecItemSlots[(*iter_Temp).second.iIndex],
+		&m_vecItemSlots[(*iter_Dst).second.iIndex]);
+
+	ITEMTAG_DESC ItemDesc;
+	ItemDesc.bOwn = (*iter_Temp).second.bOwn;
+	ItemDesc.iIndex = (*iter_Temp).second.iIndex;
+	(*iter_Temp).second = (*iter_Dst).second;
+	(*iter_Dst).second = ItemDesc;
+
+	CUI_Manager::GetInstance()->Reset_ItemIcon();
+	m_pUI_Inventory->Update_Used_Item();
+}
+
+void CPlayer::Swap_Items_In_Inventory(wstring MoveItemTag, _uint iSlotIndex)
+{
+	auto iter_Temp = m_ItemTags.find(MoveItemTag);
+	if (iter_Temp == m_ItemTags.end())
+		return;
+
+	iter_swap(&m_vecItemSlots[(*iter_Temp).second.iIndex],
+		&m_vecItemSlots[iSlotIndex]);
+	
+	(*iter_Temp).second.iIndex = iSlotIndex;
+
+	CUI_Manager::GetInstance()->Reset_ItemIcon();
+	m_pUI_Inventory->Update_Used_Item();
+}
+
+HRESULT CPlayer::Equipment_Index_Reset(wstring strItemTag)
+{
+	auto& iter = m_ItemTags.find(strItemTag);
+	if ((iter == m_ItemTags.end()) || (false == (*iter).second.bOwn))
+	{
+		return E_FAIL;
+	}
+	else
+		(*iter).second.iIndex = -1;
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Equipment_Index_Reallocated(wstring strItemTag)
+{
+	auto& iter = m_ItemTags.find(strItemTag);
+	if ((iter == m_ItemTags.end()) || (false == (*iter).second.bOwn))
+	{
+		return E_FAIL;
+	}
+	else
+	{
+		_bool	bAssigned = false;
+		size_t smallestUnusedIndex = std::numeric_limits<size_t>::max();
+		for (auto iter_Dst : m_ItemTags)
+		{
+			for (size_t i = 0; i < 64; i++)
+			{
+				if (i == iter_Dst.second.iIndex)
+				{
+					bAssigned = true;
+					break;
+				}
+				else
+				{
+					bAssigned = false;
+					if (i < smallestUnusedIndex)
+					{
+						smallestUnusedIndex = i;
+					}
+				}
+			}
+		}
+		(*iter).second.iIndex = smallestUnusedIndex;
+	}
+	return S_OK;
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -625,6 +721,8 @@ HRESULT CPlayer::Ready_Inventory()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance); 
 
+	m_vecItemSlots.resize(64);
+
 	m_pUI_Inventory = static_cast<CUI_Inventory*>(pGameInstance->
 		Add_GameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory"),this));
 	if (nullptr == m_pUI_Inventory)
@@ -689,6 +787,20 @@ void CPlayer::Set_EffectPos()
 	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
 	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
+}
+
+void CPlayer::Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pItem)
+{
+	for (size_t i = 0; i < m_vecItemSlots.size(); i++)
+	{
+		if (1 > m_vecItemSlots[i].vecItems.size())
+		{
+			m_vecItemSlots[i].vecItems.push_back(pItem);
+			m_ItemTags[strItemTag].bOwn = true;
+			m_ItemTags[strItemTag].iIndex = i;
+			break;
+		}
+	}
 }
 
 void CPlayer::Show_SpeechBuble(const wstring& szChat)

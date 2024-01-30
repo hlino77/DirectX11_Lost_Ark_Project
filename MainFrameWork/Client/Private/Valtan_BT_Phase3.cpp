@@ -25,7 +25,6 @@ void CValtan_BT_Phase3::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_MaxHp(529402339);
 	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
-	static_cast<CBoss*>(m_pGameObject)->Set_Armor(4);
 }
 
 

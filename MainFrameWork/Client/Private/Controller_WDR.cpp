@@ -116,7 +116,7 @@ void CController_WDR::Check_Iden_State(_float fTimeDelta)
 
 _bool CController_WDR::Is_Identity()
 {
-	if (false == m_bKeyActive)
+	if (false == m_bKeyActive || false == m_bCtrlActive)
 		return false;
 
 	if (KEY_HOLD(KEY::Z) || KEY_TAP(KEY::Z))
@@ -253,15 +253,12 @@ void CController_WDR::Get_GrabMessage(CGameObject* pGrabber)
 
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
-
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(true);
+	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CController_WDR::Get_GrabEndMessage()
 {
 	__super::Get_GrabEndMessage();
-
-	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
 }
 
 void CController_WDR::Get_DeadMessage()

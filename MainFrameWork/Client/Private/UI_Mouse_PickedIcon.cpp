@@ -2,6 +2,7 @@
 #include "UI_Mouse_PickedIcon.h"
 #include "GameInstance.h"
 #include "Player_Skill.h"
+#include "Item.h"
 
 CUI_Mouse_PickedIcon::CUI_Mouse_PickedIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -28,7 +29,7 @@ HRESULT CUI_Mouse_PickedIcon::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_strUITag = TEXT("Picked_Frame");
+    m_strUITag = TEXT("Picked_Icon");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = g_iWinSizeY * 0.5f;
@@ -48,57 +49,62 @@ HRESULT CUI_Mouse_PickedIcon::Initialize(void* pArg)
 void CUI_Mouse_PickedIcon::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-    Picking_UI();
-    
-    if (m_bPicked)
-    {
-        POINT pt;
-        GetCursorPos(&pt);
-        ScreenToClient(g_hWnd, &pt);
-
-        m_fX = pt.x;
-        m_fY = pt.y;
-
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-            Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
-    }
-    else
-    {
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-            Vec3(-100.f - g_iWinSizeX * 0.5f, -100.f + g_iWinSizeY * 0.5f, 0.f));
-    }
-
 }
 
 void CUI_Mouse_PickedIcon::LateTick(_float fTimeDelta)
 {
-    if((nullptr != m_pTextureCom)&&(m_bPicked))
-        __super::LateTick(fTimeDelta);
+    if (nullptr == m_pTextureCom)
+        return;
+        
+    if (m_bRender)
+        m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_MOUSE, this);
+
+    POINT pt;
+    GetCursorPos(&pt);
+    ScreenToClient(g_hWnd, &pt); 
+
+    m_fX = pt.x;
+    m_fY = pt.y;
+
+    m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
 }
 
 HRESULT CUI_Mouse_PickedIcon::Render()
 {
-    if ((nullptr != m_pTextureCom) && (m_bPicked))
-        return E_FAIL;
+    if (nullptr == m_pTextureCom)
+        return S_OK;
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
+    m_pTexture_Grade->Set_SRV(m_pShaderCom, "g_DiffuseTexture",m_iTextureIndex);
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
 
-    m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+    m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
     m_pShaderCom->Begin(2);
     m_pVIBufferCom->Render();
 
     return S_OK;
 }
 
-void CUI_Mouse_PickedIcon::Set_IconTexture(CTexture* pTexture)
+void CUI_Mouse_PickedIcon::Set_IconTexture(CTexture* pTextureCom, _uint iTextureIndex)
 {
-    m_pTextureCom = static_cast<CTexture*>(pTexture->Clone(nullptr, nullptr));
+    m_iTextureIndex = iTextureIndex;
+    m_pTextureCom = pTextureCom;
 }
 
 HRESULT CUI_Mouse_PickedIcon::Ready_Components()
 {
-    __super::Ready_Components();
+    if (FAILED(__super::Ready_Components()))
+        return E_FAIL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Rank"),
+        TEXT("Com_Texture"), (CComponent**)&m_pTexture_Grade)))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -123,7 +129,7 @@ HRESULT CUI_Mouse_PickedIcon::Bind_ShaderResources()
 
 void CUI_Mouse_PickedIcon::UnPickedIcon()
 {
-    Safe_Release(m_pTextureCom);
+    m_pTextureCom = nullptr;
 }
 
 CUI_Mouse_PickedIcon* CUI_Mouse_PickedIcon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -159,6 +165,7 @@ void CUI_Mouse_PickedIcon::Free()
     Safe_Release(m_pContext);
 
     Safe_Release(m_pTextureCom);
+    Safe_Release(m_pTexture_Grade);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pVIBufferCom);
