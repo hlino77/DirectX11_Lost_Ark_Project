@@ -255,29 +255,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
     }
 }
 
-void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
-{
-    CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
-    if (nullptr == pPlayer)
-        return;
-    if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
-    {
-        static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
-    }
-    else if (TEXT("WR") == pPlayer->Get_ObjectTag())
-    {
-        static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
-    }
-    else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
-    {
-        static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
-    }
-    else if (TEXT("MG") == pPlayer->Get_ObjectTag())
-    {
-        static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
-    }
-    
-}
+
 
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Active(_bool bActive)
 {
@@ -438,6 +416,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
     }
 
 }
+
 
 HRESULT CUI_NPC_ChaosDungeon_NewWnd::Ready_Components()
 {

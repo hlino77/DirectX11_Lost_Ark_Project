@@ -109,6 +109,7 @@ namespace Client
 		SKILL_RISINGSUN,
 		SKILL_TELEPORTDOOR,
 		SKILLEND
+	};
 
 	struct ITEM_SLOTDESC
 	{

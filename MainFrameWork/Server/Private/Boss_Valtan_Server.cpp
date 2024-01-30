@@ -1792,36 +1792,35 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
 		{
-		////원래 기본 패턴
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-		//	return E_FAIL;
-		//if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
-		//	return E_FAIL;
-
-		}
-		//// 테스트용
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
+		//원래 기본 패턴
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+			return E_FAIL;
+		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
 			return E_FAIL;
 
 		}
+		//// 테스트용
+	/*	if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
+			return E_FAIL;*/
+
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 		CBT_Decorator* pIf_Armor = CValtan_BT_IF_Armor_Server::Create(&DecoratorDesc);//플레이어와 가까운가?
@@ -1875,7 +1874,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		if (FAILED(pIf_Phase1->AddChild(pSelector_Within_Range))) return E_FAIL;
 	}
-
+	
 	//for Phase2
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;

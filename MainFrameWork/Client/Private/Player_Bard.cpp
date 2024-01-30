@@ -146,39 +146,7 @@ void CPlayer_Bard::Tick(_float fTimeDelta)
 		Set_State(TEXT("Resurrect"));
 	}
 
-	if (KEY_TAP(KEY::H))
-	{
-		Protocol::S_CREATE_SKILL pkt;
-		pkt.set_ilevel(m_iCurrLevel);
-		pkt.set_iplayerid(m_iObjectID);
-		pkt.set_iskillid(-1);
-		pkt.set_iskilltype((_uint)SKILL_TYPE::SKILL_RISINGSUN);
-		
-		auto matWorld = pkt.mutable_matrix();
-		matWorld->Resize(16, 0.0f);
-		Matrix matPlayerWorld = m_pTransformCom->Get_WorldMatrix();
-		matPlayerWorld.m[3][1] += 0.7f;
-		memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
 
-		CServerSessionManager::GetInstance()->Send(CClientPacketHandler::MakeSendBuffer(pkt));
-	}
-
-	if (KEY_TAP(KEY::J))
-	{
-		Protocol::S_CREATE_SKILL pkt;
-		pkt.set_ilevel(m_iCurrLevel);
-		pkt.set_iplayerid(m_iObjectID);
-		pkt.set_iskillid(-1);
-		pkt.set_iskilltype((_uint)SKILL_TYPE::SKILL_TELEPORTDOOR);
-
-		auto matWorld = pkt.mutable_matrix();
-		matWorld->Resize(16, 0.0f);
-		Matrix matPlayerWorld = m_pTransformCom->Get_WorldMatrix();
-		matPlayerWorld.m[3][1] += 0.7f;
-		memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
-
-		CServerSessionManager::GetInstance()->Send(CClientPacketHandler::MakeSendBuffer(pkt));
-	}
 
 	m_pRigidBody->Tick(fTimeDelta);
 	m_pStateMachine->Tick_State(fTimeDelta);

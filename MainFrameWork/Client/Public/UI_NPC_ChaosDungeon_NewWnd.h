@@ -46,7 +46,6 @@ private:
     void    Update_RefuseButton(POINT pt);
     _bool    Is_Picking_AcceptButton(POINT pt);
     _bool    Is_Picking_RefuseButton(POINT pt);
-    void    Reset_Player_Control();
 
 private:
     virtual HRESULT Ready_Components();
