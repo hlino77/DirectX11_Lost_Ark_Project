@@ -376,7 +376,7 @@ HRESULT CStaticModel::Render_Debug()
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {
-	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 200;
+	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 500;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),
