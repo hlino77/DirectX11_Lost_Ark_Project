@@ -34,6 +34,8 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_IsMapObject = Desc->IsMapObject;
 	m_bInstance = Desc->bInstance;
 
+	m_BloomColor = Desc->BloomColor; //
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -68,6 +70,7 @@ void CStaticModel::Tick(_float fTimeDelta)
 	}
 
 	static _int g_cnt = 0;
+
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::H))
 	{
 		if (m_StaticColliders.size() != 0)
@@ -373,7 +376,7 @@ HRESULT CStaticModel::Render_Debug()
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {
-	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 200;
+	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 500;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),
