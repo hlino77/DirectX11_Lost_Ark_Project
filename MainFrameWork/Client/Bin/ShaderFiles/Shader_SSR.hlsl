@@ -14,11 +14,12 @@ Texture2D g_NormalDepthTarget;
 Texture2D g_PrePostProcessTarget;
 Texture2D g_PropertiesTarget;
 Texture2D g_SSRTarget;
+Texture2D g_SSROriginalTarget;
 
 cbuffer SSR_Data
 {
-    float fSSRStep = 0.05f;
-    int iStepCount = 50;
+    float fSSRStep = 0.025f;
+    int iStepCount = 75;
     float2 padding;
 }
 
@@ -75,7 +76,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     int iStepDistance = 0;
     float2 vRayPixelPos = (float2) 0;
   
-    [unroll(50)]
+    [unroll(75)]
     for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
     {
         float4 vDirStep = vRayDir * fStep * iStepDistance;
@@ -106,8 +107,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
  
     clip(iStepCount - 0.5f - iStepDistance);
     
-    //return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(vProperties.x / (vProperties.y + EPSILON), 0.01f, 1.f));
-    return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * smoothstep(0.f, 1.f, (((vProperties.x - vProperties.y) + 1) - EPSILON) / (((vProperties.x + vProperties.y) - 1) + EPSILON));
+    return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f));
 }
 
 //cbuffer PerFrame
@@ -145,7 +145,12 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
 //        vFinalPixel.xyz += g_fBlurWeight[i + GAUSSIAN_RADIUS] * g_SSRTarget.Sample(LinearBorderSampler, In.vTexcoord + i * vTexOffset).rgb;
 //    }
     
-//    vFinalPixel.xyz = lerp(g_SSRTarget.Sample(LinearBorderSampler, In.vTexcoord).xyz, vFinalPixel.xyz, pow(vProperties.y, 2.f));
+//    float fS = pow(vProperties.y, 8.f);
+//    float4 vOriginSSR = g_SSROriginalTarget.Sample(LinearBorderSampler, In.vTexcoord);
+    
+//    vFinalPixel.x = lerp(vOriginSSR.x, clamp(vFinalPixel.x, 0.f, 1.f), fS);
+//    vFinalPixel.y = lerp(vOriginSSR.y, clamp(vFinalPixel.y, 0.f, 1.f), fS);
+//    vFinalPixel.z = lerp(vOriginSSR.z, clamp(vFinalPixel.z, 0.f, 1.f), fS);
         
 //    return vFinalPixel;
 //}

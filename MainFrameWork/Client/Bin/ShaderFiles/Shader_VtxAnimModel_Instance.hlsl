@@ -141,8 +141,8 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
         //}
         //else
         //{
-            Out.vProperties.r = smoothstep(0.0f, 1.0f, vSpecular.b); // Metalic
-            Out.vProperties.g = vSpecular.g; // Roughness
+        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
+        Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
         //}
         
         //Out.vProperties.r = 1.f - pow(1.f - vSpecular.b, 1.7f); // Metalic

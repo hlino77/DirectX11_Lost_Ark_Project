@@ -48,8 +48,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         //}
         //else
         //{
-        Out.vProperties.r = clamp(vSpecular.b, 0.0f, 1.0f); // Metalic
-        Out.vProperties.g = vSpecular.g; // Roughness
+        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
+        Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
         //}
         
         //Out.vProperties.r = smoothstep(0.0f, 0.98f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
@@ -101,8 +101,8 @@ PS_OUT_PBR PS_PBR_EFFECT(VS_OUT In)
         //}
         //else
         //{
-        Out.vProperties.r = clamp(vSpecular.b, 0.0f, 1.0f); // Metalic
-        Out.vProperties.g = vSpecular.g; // Roughness
+        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
+        Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
         //}
         
         //Out.vProperties.r = smoothstep(0.0f, 0.98f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
@@ -161,8 +161,8 @@ PS_OUT_PBR PS_PBR_DISSOLVE(VS_OUT In)
         //}
         //else
         //{
-        Out.vProperties.r = clamp(vSpecular.b, 0.0f, 1.0f); // Metalic
-        Out.vProperties.g = vSpecular.g; // Roughness
+        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
+        Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
         //}
         //Out.vProperties.r = smoothstep(0.0f, 0.98f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
         //Out.vProperties.g = pow(vSpecular.g, 1.7f); // Roughness
