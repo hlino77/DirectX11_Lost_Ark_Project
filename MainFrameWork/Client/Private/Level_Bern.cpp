@@ -684,19 +684,19 @@ HRESULT CLevel_Bern::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		Desc.bInstance = bInstance;
 
 
-		// Bloom Color Value Set
-		if (Desc.strFileName == TEXT("BernCastle_Window10_sm"))  // 창문
-		{
-			Desc.BloomColor = {1.f, 1.f, 1.f, 1.f};
-		}
-		else if (Desc.strFileName == TEXT("BernAdd_RHD_Queen_MagicPillar01a"))  // 다리 위 장식
-		{
-			Desc.BloomColor = {1.f, 1.f, 1.f, 1.f};
-		}
-		else
-		{
-			Desc.BloomColor = { -0.1f, -0.1f, -0.1f, -0.1f };
-		}
+		//// Bloom Color Value Set
+		//if (Desc.strFileName == TEXT("BernCastle_Window10_sm"))  // 창문
+		//{
+		//	Desc.BloomColor = {1.f, 1.f, 1.f, 1.f};
+		//}
+		//else if (Desc.strFileName == TEXT("BernAdd_RHD_Queen_MagicPillar01a"))  // 다리 위 장식
+		//{
+		//	Desc.BloomColor = {1.f, 1.f, 1.f, 1.f};
+		//}
+		//else
+		//{
+		//	Desc.BloomColor = { -0.1f, -0.1f, -0.1f, -0.1f };
+		//}
 
 
 		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);

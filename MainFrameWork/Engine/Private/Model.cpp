@@ -1079,6 +1079,8 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 
 		strncpy_s(MaterialDesc.strName, Node->GetText(), strlen(Node->GetText()));
 
+
+
 		// Diffuse Texture
 		Node = Node->NextSiblingElement();
 		if (Node->GetText())
