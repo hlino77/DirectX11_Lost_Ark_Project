@@ -1486,7 +1486,7 @@
     <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd">
       <UniqueIdentifier>{2d1c2c56-aee4-403d-ac22-d184b4c2b5b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Bubble">
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player">
       <UniqueIdentifier>{0397021f-e667-40ed-ada7-0fc8851e612e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -4418,6 +4418,9 @@
     <ClInclude Include="..\Public\UI_IdentitySP_MainWnd.h">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentitySP_LinkedPlayer.h">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7322,6 +7325,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentitySP_MainWnd.cpp">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

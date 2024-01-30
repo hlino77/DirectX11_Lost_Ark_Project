@@ -609,6 +609,7 @@
     <ClInclude Include="..\Public\UI_IdentityMG_Roap.h" />
     <ClInclude Include="..\Public\UI_IdentityMG_Skill.h" />
     <ClInclude Include="..\Public\UI_IdentityMG_SkillFrame.h" />
+    <ClInclude Include="..\Public\UI_IdentitySP_LinkedPlayer.h" />
     <ClInclude Include="..\Public\UI_Identity_GN.h" />
     <ClInclude Include="..\Public\ImGUI\imconfig.h" />
     <ClInclude Include="..\Public\ImGUI\imgui.h" />
@@ -1216,6 +1217,7 @@
     <ClCompile Include="..\Private\UI_IdentityMG_Roap.cpp" />
     <ClCompile Include="..\Private\UI_IdentityMG_Skill.cpp" />
     <ClCompile Include="..\Private\UI_IdentityMG_SkillFrame.cpp" />
+    <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp" />
     <ClCompile Include="..\Private\UI_Identity_GN.cpp" />
     <ClCompile Include="..\Private\MainLogo.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />

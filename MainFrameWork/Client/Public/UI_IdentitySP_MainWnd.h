@@ -29,6 +29,7 @@ private:
     virtual HRESULT Bind_ShaderResources_Ink();
     virtual HRESULT Bind_ShaderResources_Brush();
     virtual HRESULT Bind_ShaderResources_BubbleFrames();
+    virtual HRESULT Bind_ShaderResources_BrushEffect();
 
 private:
     CTexture* m_pTexture_MainWnd = { nullptr };
@@ -36,12 +37,14 @@ private:
     CTexture* m_pTexture_Ink = { nullptr };
     CTexture* m_pTexture_Brush = { nullptr };
     CTexture* m_pTexture_BubbleFrmaes = { nullptr };
+    CTexture* m_pTexture_BrushEffect = { nullptr };
 
     CTransform* m_PTransform_MainWnd = { nullptr };
     CTransform* m_PTransform_BlueLight = { nullptr };
     CTransform* m_PTransform_Ink = { nullptr };
     CTransform* m_PTransform_Brush = { nullptr };
     CTransform* m_PTransform_BubbleFrmaes = { nullptr };
+    CTransform* m_PTransform_BrushEffect = { nullptr };
 
     _float  m_fFrame = { 0.f };
 

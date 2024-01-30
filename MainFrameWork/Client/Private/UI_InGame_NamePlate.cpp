@@ -111,6 +111,11 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 
 		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION
 			, Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.1f));
+	
+		if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z)&&(1.f >= vHostPos.z)))
+			m_pInGameNameWnd->Set_Render(true);
+		else
+			m_pInGameNameWnd->Set_Render(false);
 	}
 }
 
