@@ -1793,6 +1793,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
 		{
 			//원래 기본 패턴
+			if (FAILED(pSequenceNormalAttack->AddChild(pPhase3)))
+				return E_FAIL;
 			if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
 				return E_FAIL;
 			if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))

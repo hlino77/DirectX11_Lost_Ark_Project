@@ -311,7 +311,6 @@ void CBoss_Valtan::Update_Dissolve(_float fTimeDelta)
 		{
 			m_fDissolvetime = m_fMaxDissolvetime;
 			Set_Dead(true);
-			m_bDissolveOut = false;
 		}
 	}
 	else if (m_bDissolveIn)

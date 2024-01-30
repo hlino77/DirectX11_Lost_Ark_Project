@@ -13,7 +13,8 @@ CValtan_BT_Attack_Attack_Base::CValtan_BT_Attack_Attack_Base()
 void CValtan_BT_Attack_Attack_Base::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
+	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack_Base::OnUpdate(const _float& fTimeDelta)
@@ -72,7 +73,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack_Base::OnUpdate(const _float& fTimeD
 void CValtan_BT_Attack_Attack_Base::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
 void CValtan_BT_Attack_Attack_Base::OnStart(_int iAnimIndex)
