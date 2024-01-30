@@ -119,9 +119,6 @@ HRESULT CBoss_Valtan_Corpse::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
 	}
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f);
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
-		return E_FAIL;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 

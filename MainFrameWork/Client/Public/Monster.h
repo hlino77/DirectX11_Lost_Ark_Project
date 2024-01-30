@@ -94,6 +94,8 @@ public:
 	void					Move_to_RandomPosition(_float fTimeDelta);
 	_bool					Is_Close_To_RandomPosition();
 	virtual void			Set_Die(_float fTime = 1.f);
+
+	virtual	void			Disable_HpUI();
 public:
 	_bool						Is_Hit() { return m_IsHit; }
 	void						Set_Hit(_bool bHit) { m_IsHit = bHit; }
@@ -165,14 +167,13 @@ protected:
 	HRESULT	Ready_AnimInstance_For_Render(_uint iSize);
 
 protected:
-	void					Update_Dissolve(_float fTimeDelta);
-	HRESULT					Ready_HP_UI();
+	virtual	void					Update_Dissolve(_float fTimeDelta);
 	void					CullingObject();
 	void					Set_to_RootPosition(_float fTimeDelta, _float _TargetDistance= 0.f);
 	virtual void			Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy);
 	void					Send_CollidingInfo(const _uint iColLayer, CCollider* pOther);
 	virtual void			Set_EffectPos()override;
-
+	virtual HRESULT					Ready_HpUI();
 
 
 protected:
@@ -216,7 +217,7 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	atomic<_int>					m_iSlowMotionCount = 0;
 
 protected:
-	HRESULT	Ready_HpUI();
+
 	CUI_Monster_Hp* m_pHpUI = { nullptr };
 
 public:

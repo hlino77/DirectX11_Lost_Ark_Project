@@ -600,6 +600,16 @@ void CMonster::Set_Die(_float fTime)
 		m_pHpUI->Set_Dead(true);
 }
 
+void CMonster::Disable_HpUI()
+{
+	if (m_pHpUI != nullptr)
+	{
+		m_pHpUI->Set_Dead(true);
+		m_pHpUI = nullptr;
+	}
+}
+
+
 void CMonster::Set_Action(wstring strAction)
 {
 	m_strAction = strAction;
@@ -734,17 +744,6 @@ HRESULT CMonster::Ready_DissolveTexture()
 
 HRESULT CMonster::Ready_BehaviourTree()
 {
-	return S_OK;
-}
-
-HRESULT CMonster::Ready_HP_UI()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	//Prototype_GameObject_UI_HP_Monster
-
-	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
@@ -938,6 +937,7 @@ void CMonster::Update_Dissolve(_float fTimeDelta)
 		{
 			m_fDissolvetime = m_fMaxDissolvetime;
 			Set_Dead(true);
+			m_bDissolveOut = false;
 		}
 	}
 	else if (m_bDissolveIn)

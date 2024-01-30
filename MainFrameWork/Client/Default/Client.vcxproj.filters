@@ -1536,9 +1536,6 @@
     <ClInclude Include="..\Public\ServerSessionManager.h">
       <Filter>95.Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster.h">
-      <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\MainLogo.h">
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
@@ -4411,6 +4408,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Valtan_Corpse.h">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Dead.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Spawn.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02.GameObjects\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7319,6 +7325,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Valtan_Corpse.cpp">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Dead.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Spawn.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

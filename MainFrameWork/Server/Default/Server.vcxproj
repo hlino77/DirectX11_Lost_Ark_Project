@@ -256,6 +256,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_BattleIdle_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Dead_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3_Server.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2_Server.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack24_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_1_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_BattleIdle_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Dead_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_IF_Hp_UnderRatioMultiple.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3_Server.h" />

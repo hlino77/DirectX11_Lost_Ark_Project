@@ -766,8 +766,10 @@
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack_Base.h" />
     <ClInclude Include="..\Public\Valtan_BT_BattleIdle.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Dead.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase2.h" />
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Spawn.h" />
     <ClInclude Include="..\Public\VoidEffect.h" />
     <ClInclude Include="..\Public\Weapon_Boss_King.h" />
     <ClInclude Include="..\Public\Weapon_Boss_Valtan.h" />
@@ -1379,8 +1381,10 @@
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Attack_Base.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_BattleIdle.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Dead.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Spawn.cpp" />
     <ClCompile Include="..\Private\VoidEffect.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_King.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss_Valtan.cpp" />

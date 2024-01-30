@@ -19,7 +19,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack2_Server::OnUpdate(const _float& fTi
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
 	{
-		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_GroggyObsrob(70);
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_GroggyObsrob(80);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Get_GroggyObsrob() < 1)
 	{

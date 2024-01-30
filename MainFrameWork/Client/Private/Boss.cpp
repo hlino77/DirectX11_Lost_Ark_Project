@@ -134,6 +134,11 @@ void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _flo
 	if (m_iHp < 1)
 		m_iHp = 0;
 
+
+	if (m_iGroggyCount != fForce)
+		m_iGroggyCount = fForce;
+	if (m_iGroggyGauge != iStatusEffect)
+		m_iGroggyGauge = iStatusEffect;
 	if (m_iGroggyGauge < 1)
 		m_iGroggyGauge = 0;
 	if (m_iGroggyCount < 1)
@@ -275,8 +280,25 @@ void CBoss::Set_Die(_float fTime)
 
 	if (m_bDissolveOut == false)
 		Set_DissolveOut(fTime);
-	if (m_pHpUI != nullptr)
-		m_pHpUI->Set_Dead(true);
+	if (m_pBossHpUI != nullptr)
+		m_pBossHpUI->Set_Dead(true);
+}
+
+void CBoss::Set_HpUIRender(_bool bRender)
+{
+	if (m_pBossHpUI != nullptr)
+	{
+		m_pBossHpUI->Set_Active(bRender);
+	}
+}
+
+void CBoss::Disable_HpUI()
+{
+	if (m_pBossHpUI != nullptr)
+	{
+		m_pBossHpUI->Set_Dead(true);
+		m_pBossHpUI = nullptr;
+	}
 }
 
 void CBoss::Move_to_SpawnPosition()
@@ -330,19 +352,6 @@ HRESULT CBoss::Ready_Components()
     return S_OK;
 }
 
-
-HRESULT CBoss::Ready_HP_UI(_uint iTextureIndex)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-
-	Safe_Release(pGameInstance);
-
-
-	return S_OK;
-}
-
 void CBoss::CullingObject()
 {
 	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -374,13 +383,13 @@ HRESULT CBoss::Ready_HpUI()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	m_pHpUI = static_cast<CUI_Boss_Hp*>(pGameInstance->Add_GameObject(m_iCurrLevel,
+	m_pBossHpUI = static_cast<CUI_Boss_Hp*>(pGameInstance->Add_GameObject(m_iCurrLevel,
 		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_BossHpUI"), this));
 
-	if (nullptr == m_pHpUI)
+	if (nullptr == m_pBossHpUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Set_CurrHPUI(m_pHpUI);
+		CUI_Manager::GetInstance()->Set_CurrHPUI(m_pBossHpUI);
 
 	Safe_Release(pGameInstance);
 	return S_OK;

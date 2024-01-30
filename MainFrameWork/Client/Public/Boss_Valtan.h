@@ -17,8 +17,8 @@ public:
 		PART1,
 		PART2,
 		GHOST,
+		POSTDEATH,
 		PARTS_END
-
 	};
 	CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CBoss_Valtan(const CBoss_Valtan& rhs);
@@ -31,22 +31,26 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
+	virtual void Update_Dissolve(_float fTimeDelta);
+
 public:
 	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
 	void Set_Weapon_Render(_bool IsRender);
-
+	_bool	Get_RenderPostValtan() { return m_bRenderPostValtan; }
 
 private:
 	virtual HRESULT		Ready_Components();
 	virtual HRESULT		Ready_Coliders();
 	virtual	HRESULT		Ready_BehaviourTree();
 
+
 private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 private:
-	CPartObject* m_pWeapon = nullptr;
-	Vec3		m_vSummonPositions[3] = {};
-	_float		m_fSummonTime = 0.f;
+	CPartObject*					m_pWeapon = nullptr;
+	Vec3							m_vSummonPositions[3] = {};
+	_float							m_fSummonTime = 0.f;
+	_bool							m_bRenderPostValtan = true;
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

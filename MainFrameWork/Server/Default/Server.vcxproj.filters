@@ -223,6 +223,9 @@
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle">
       <UniqueIdentifier>{091f62ee-1d9b-44c2-b60b-6745c9eece50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Dead">
+      <UniqueIdentifier>{c0c47c10-95cd-43d4-8b7c-30abe1e0c2de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -545,6 +548,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_BattleIdle_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Dead_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -961,6 +967,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_BattleIdle_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Valtan_BT_Dead_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

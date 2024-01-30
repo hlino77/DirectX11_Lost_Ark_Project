@@ -1020,7 +1020,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_e_noise_008.png", 1))))
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_a_noise_003.png"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1885,12 +1885,34 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	}
 
 	{
+		wstring strFileName = L"Boss_Valtan_PostDeath";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
 		wstring strFileName = L"Wp_Boss_Valtan";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
 			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixScaling(0.01f, 0.01f, 0.01f)))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Wp_Boss_Valtan_PostDeath";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}

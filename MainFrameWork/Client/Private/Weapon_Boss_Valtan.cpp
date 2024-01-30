@@ -2,7 +2,7 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "Weapon_Boss_Valtan.h"
-#include <Boss.h>
+#include <Boss_Valtan.h>
 
 
 CWeapon_Boss_Valtan::CWeapon_Boss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -66,31 +66,77 @@ HRESULT CWeapon_Boss_Valtan::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-	_bool	bDissolve = true;
-	if (static_cast<CMonster*>(m_pOwner)->Get_DissolveOut() || static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
-	{
-		bDissolve = true;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_bool))))
-			return E_FAIL;
-
-		_float g_fDissolveAmount = static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime();
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
-			return E_FAIL;
-
-		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pOwner)->Get_DissolveTexture()->Get_SRV())))
-			return E_FAIL;
-	}
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
 		return E_FAIL;
+	_int	iDissolve = false;
+	if (!static_cast<CBoss*>(m_pOwner)->Is_Dummy() && static_cast<CBoss_Valtan*>(m_pOwner)->Get_RenderPostValtan())
+	{
+		if (static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
+		{
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+				return E_FAIL;
 
-	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+			_float fDissolveAmount = 1 - (static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime());
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pOwner)->Get_DissolveTexture()->Get_SRV())))
+				return E_FAIL;
+
+			if (FAILED(m_pModel_PostDeathCom->Render(m_pShaderCom)))
+				return E_FAIL;
+
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &iDissolve, sizeof(_int))))
+				return E_FAIL;
+			fDissolveAmount = static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime();
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+				return E_FAIL;
+			
+			iDissolve = false;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &iDissolve, sizeof(_int))))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModel_PostDeathCom->Render(m_pShaderCom)))
+				return E_FAIL;
+		}
+	}
+	else
+	{
+		
+		if (static_cast<CMonster*>(m_pOwner)->Get_DissolveOut() || static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
+		{
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
+				return E_FAIL;
+
+			_float g_fDissolveAmount = static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime();
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pOwner)->Get_DissolveTexture()->Get_SRV())))
+				return E_FAIL;
+		}
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+			return E_FAIL;
+	}
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
 		return E_FAIL;
-
-	bDissolve = false;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_bool))))
+	Color vBloom = Color(1.3f, 1.3f, 1.3f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vBloom, sizeof(Color))))
 		return E_FAIL;
 	return S_OK;
 }
+
+
 
 HRESULT CWeapon_Boss_Valtan::Render_ShadowDepth()
 {
@@ -121,6 +167,10 @@ HRESULT CWeapon_Boss_Valtan::Ready_Components()
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	strComName = L"Prototype_Component_Model_Wp_Boss_Valtan_PostDeath";
+	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName,
+		TEXT("Com_Model_PostDeath"), (CComponent**)&m_pModel_PostDeathCom)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -131,7 +181,7 @@ HRESULT CWeapon_Boss_Valtan::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f);
+	Color vValtanBloom = Color(0.62f, 0.93f, 0.85f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
 

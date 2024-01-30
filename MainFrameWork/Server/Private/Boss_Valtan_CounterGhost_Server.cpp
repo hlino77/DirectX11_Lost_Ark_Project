@@ -144,7 +144,7 @@ void CBoss_Valtan_CounterGhost_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos
 				m_IsCountered = true;
 				m_iHp = 0;
 			}
-			Send_Collision(iDamage, vHitPos, STATUSEFFECT(iStatusEffect), fForce, fDuration, iGroggy);
+			Send_Collision(iDamage, vHitPos, iStatusEffect, fForce, fDuration, iGroggy);
 		}
 }
 

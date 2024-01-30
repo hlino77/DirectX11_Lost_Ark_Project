@@ -80,8 +80,6 @@ public:
 	_bool						Is_GroggyLock() { return m_IsGroggyLock; }
 	void						Set_GroggyLock(_bool IsGroggyLock) { m_IsGroggyLock = IsGroggyLock; }
 
-
-
 	_int						Get_GroggyCount() { return m_iGroggyCount; }
 	void						Set_GroggyCount(_int iGroggyCount) { m_iGroggyCount = iGroggyCount; }
 

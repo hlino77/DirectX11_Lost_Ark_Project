@@ -14,8 +14,6 @@ CKing_BT_Attack_Erruption::CKing_BT_Attack_Erruption()
 void CKing_BT_Attack_Erruption::OnStart()
 {
 	__super::OnStart(0);
-	static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(20);
-	static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
 	m_Shoot[0] = true;
 	m_Shoot[1] = true;
 	m_Shoot[2] = true;
@@ -26,7 +24,7 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 	if (m_Shoot[2] && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
 		m_Shoot[2] = false;
-		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(20);
+		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(150);
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
 	}
 	if (m_fLoopTime > m_vecAnimDesc[3].fMaxLoopTime)
