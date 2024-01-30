@@ -361,7 +361,11 @@ CGameObject* CGameInstance::Find_CtrlPlayer(_uint iLevelIndex, const _uint iLaye
 		}
 	}
 	else
-		return nullptr;	
+	{
+		return nullptr;
+	}
+
+	return nullptr;
 }
 
 

@@ -33,6 +33,8 @@ void CState_MG_SonicVibe_Start::Enter_State()
 	m_pPlayer->Get_MG_Controller()->Get_StopMessage();
 
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_fTimeAcc = 0.0f;
 }
 
 void CState_MG_SonicVibe_Start::Tick_State(_float fTimeDelta)
@@ -78,13 +80,21 @@ void CState_MG_SonicVibe_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Skill_MG_SonicVibe_End"));
 	}
 	
-	if (true == m_pController->Is_Dash())
+	m_fTimeAcc += fTimeDelta;
+	if (m_fTimeAcc >= m_fReleaseTime)
 	{
-		m_pPlayer->Set_State(TEXT("Dash"));
-	}
-	else if (true == m_pController->Is_Run())
+		if (true == m_pController->Is_Dash())
+		{
+			m_pPlayer->Set_State(TEXT("Dash"));
+		}
+		else if (true == m_pController->Is_Run())
+		{
+			m_pPlayer->Set_State(TEXT("Run"));
+		}
+	}	
+	if (m_fTimeAcc >= m_fEndTime)
 	{
-		m_pPlayer->Set_State(TEXT("Run"));
+		m_pPlayer->Set_State(TEXT("Idle"));
 	}
 }
 

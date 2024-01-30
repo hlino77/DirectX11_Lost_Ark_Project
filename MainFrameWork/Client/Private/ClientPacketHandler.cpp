@@ -460,6 +460,9 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	case (_uint)CHR_CLASS::BARD:
 		Desc.strFileName = L"MG";
 		break;
+	case (_uint)CHR_CLASS::DOAGA:
+		Desc.strFileName = L"SP";
+		break;
 	}
 
 	Matrix matWorld(pkt.matworld().data());

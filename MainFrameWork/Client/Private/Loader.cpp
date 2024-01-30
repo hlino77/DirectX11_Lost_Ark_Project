@@ -28,6 +28,10 @@
 #include "Controller_MG.h"
 #include "Weapon_MG.h"
 
+#include "Player_Doaga.h"
+#include "Controller_SP.h"
+#include "Weapon_SP.h"
+
 #include "SkyDome.h"
 
 /* 유틸 */
@@ -180,6 +184,7 @@
 #include "Player_Select_MG.h"
 #include "Player_Select_WDR.h"
 #include "Player_Select_WR.h"
+#include "Player_Select_SP.h"
 #include "Tea.h"
 
 
@@ -233,6 +238,14 @@
 #include "IT_WDR_Body_Legend.h"
 #include "IT_WDR_Helmet_Legend.h"
 #include "IT_WDR_WP_Legend.h"
+
+#include "IT_SP_Body_Dino.h"
+#include "IT_SP_Helmet_Dino.h"
+#include "IT_SP_WP_Dino.h"
+#include "IT_SP_Body_Legend.h"
+#include "IT_SP_Helmet_Legend.h"
+#include "IT_SP_Leg_Legend.h"
+#include "IT_SP_WP_Legend.h"
 
 #include "Item_TestItem.h"
 
@@ -740,6 +753,10 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CController_MG::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Controller_SP"),
+		CController_SP::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Texture */
 	m_strLoading = TEXT("텍스쳐를 로딩 중 입니다.");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_SERVERSELECT, TEXT("Prototype_Component_Texture_Server_Select_BackGround"),
@@ -849,8 +866,12 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 		CPlayer_Select_WDR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_MG"),
+	/*if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_MG"),
 		CPlayer_Select_MG::Create(m_pDevice, m_pContext))))
+		return E_FAIL;*/
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Select_SP"),
+		CPlayer_Select_SP::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
@@ -1079,6 +1100,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_SP"),
+		CPlayer_Doaga::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WP_WR_Base"),
 		CWeapon_WR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1091,6 +1117,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MG_WP_Base"),
 		CWeapon_MG::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_WP_Base"),
+		CWeapon_SP::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -1128,7 +1159,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CWeapon_Shot_2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
-
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Golem"),
 		CBoss_Golem::Create(m_pDevice, m_pContext))))
@@ -1485,6 +1515,41 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_WP_Legend"),
 		CIT_MG_WP_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_WP_Dino"),
+		CIT_SP_WP_Dino::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Body_Dino"),
+		CIT_SP_Body_Dino::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Helmet_Dino"),
+		CIT_SP_Helmet_Dino::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Helmet_Legend"),
+		CIT_SP_Helmet_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Body_Legend"),
+		CIT_SP_Body_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Leg_Legend"),
+		CIT_SP_Leg_Legend::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_WP_Legend"),
+		CIT_SP_WP_Legend::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -4265,6 +4330,24 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 		m_Futures.push_back(std::async([=]()->HRESULT
 			{
 				wstring strFileName = L"MG";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"SP";
 				wstring strFilePath = L"../Bin/Resources/Meshes/";
 				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

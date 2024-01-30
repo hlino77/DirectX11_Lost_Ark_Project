@@ -1480,6 +1480,102 @@
     <Filter Include="02.GameObjects\Camera\Free">
       <UniqueIdentifier>{1126c00b-d82e-4136-b6f5-24f35ea37041}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP">
+      <UniqueIdentifier>{d294a1eb-aeef-4f34-a4a7-1381e1460497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear">
+      <UniqueIdentifier>{952df87c-fad4-42a7-94a9-10576fce7643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon">
+      <UniqueIdentifier>{b75f8c2d-31fd-46a3-9c85-ac401da3754d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Body_Legend">
+      <UniqueIdentifier>{f579db05-a56b-4a4b-80b3-8e236afbbac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Legend">
+      <UniqueIdentifier>{68f5add8-33b3-4c87-b9ea-c1f2e28b967a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Leg_Legend">
+      <UniqueIdentifier>{1b33c94f-cc21-4139-b7e7-da77da7bb337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Body_Dino">
+      <UniqueIdentifier>{1ac0f5de-8dba-4a75-88d0-e985d649b011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Dino">
+      <UniqueIdentifier>{ba36b33f-b77a-4d1d-bfe4-6676ee1c5402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Dino">
+      <UniqueIdentifier>{c8e7553b-5844-4c08-b17f-918f47203cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Legend">
+      <UniqueIdentifier>{c89b84a7-b699-4cfc-8fe1-1563b58d7cf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga">
+      <UniqueIdentifier>{36711d6a-b745-4d9e-8a51-26bfa1516248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Controller_SP">
+      <UniqueIdentifier>{794dfb4c-19b1-4e07-9bbe-117fa466ef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Part_SP">
+      <UniqueIdentifier>{b9b8cae9-6109-4d8f-aeb6-32183132bc0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP">
+      <UniqueIdentifier>{6597eeda-8445-4ac2-8a32-e0e76058f7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP">
+      <UniqueIdentifier>{eaa51ddf-4105-469a-aad0-8c1a885372db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Attack">
+      <UniqueIdentifier>{d24f3e98-c4c2-4934-9cb2-deeaad5e5602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dash">
+      <UniqueIdentifier>{c3a27d46-e1e3-4c23-b83f-293030390ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead">
+      <UniqueIdentifier>{29ce0a5b-bd5f-4f70-848b-2f4a53a7723d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Esther">
+      <UniqueIdentifier>{cb2173e7-3830-43b2-8b96-fea4bff95ff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Fall">
+      <UniqueIdentifier>{c0d4bd50-f988-4b7f-a445-9ee95aeac4bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Grab">
+      <UniqueIdentifier>{54ae0d87-29f9-4e75-9f04-c7908fee27bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Hit">
+      <UniqueIdentifier>{95221768-1748-4d7c-af1d-f158d09609fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy">
+      <UniqueIdentifier>{b2e831fa-276a-4270-bc8e-2f763d34eea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Idle">
+      <UniqueIdentifier>{5833db1c-ceab-462e-ba75-9fd64b732953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Resurrect">
+      <UniqueIdentifier>{4a2510be-e688-4ae9-9626-c26c3ff04e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Run">
+      <UniqueIdentifier>{0b5057a8-6895-4c42-9495-c489e01a013c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill">
+      <UniqueIdentifier>{83f2e02d-1d24-4eca-990c-ed63231663f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Stand">
+      <UniqueIdentifier>{7aa29481-6543-422f-a806-643ff79814fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Stop">
+      <UniqueIdentifier>{97fccf2f-b0f0-4e12-a091-706c02ffb3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Doaga">
+      <UniqueIdentifier>{239bcda0-885b-4462-a10a-eb01fe450e3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_End">
+      <UniqueIdentifier>{aba23577-5b04-4159-a82e-89269b3b76c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_Start">
+      <UniqueIdentifier>{dd08e64a-77e2-4d2f-9fbf-6e6bb349736c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4412,6 +4508,99 @@
     <ClInclude Include="..\Public\Boss_Valtan_Corpse.h">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_Body_Dino.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Body_Dino</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_Body_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Body_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_Helmet_Dino.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Dino</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_Helmet_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_Leg_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Leg_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_WP_Dino.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Dino</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IT_SP_WP_Legend.h">
+      <Filter>02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Legend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Select_SP.h">
+      <Filter>02.GameObjects\Player\Player_Select\Select_Doaga</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Controller_SP.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Controller_SP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Doaga.h">
+      <Filter>02.GameObjects\Player\Player_Doaga</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_SP.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Part_SP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Idle.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Run.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Dash.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Dead_End.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Dead_Start.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Fall.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Esther_Bahuntur.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Esther_Silian.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Esther_Way.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Esther</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_Sp_Grabbed.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Grab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Hit.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Hit_Common.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_HitEnd.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Resurrect.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Resurrect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Stand.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_StandDash.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Stop.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Stop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Attack1.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Attack2.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Attack3.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7319,6 +7508,99 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Valtan_Corpse.cpp">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_Body_Dino.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Body_Dino</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_Body_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Body_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_Helmet_Dino.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Dino</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_Helmet_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_Leg_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Leg_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_WP_Dino.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Dino</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IT_SP_WP_Legend.cpp">
+      <Filter>02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Legend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Select_SP.cpp">
+      <Filter>02.GameObjects\Player\Player_Select\Select_Doaga</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Controller_SP.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Controller_SP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Doaga.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_SP.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Part_SP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Idle.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Run.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Dash.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Dead_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Dead_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Fall.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Esther_Bahuntur.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Esther_Silian.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Esther_Way.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_Sp_Grabbed.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Grab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Hit.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Hit_Common.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_HitEnd.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Resurrect.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Resurrect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Stand.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_StandDash.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Stop.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Stop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Attack1.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Attack2.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Attack3.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

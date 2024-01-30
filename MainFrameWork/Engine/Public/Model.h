@@ -20,6 +20,7 @@ public:
 
 	typedef struct ChangeColor
 	{
+		Vec4	vEm_Color = Vec4::One;
 		Vec4	vColor_R;
 		Vec4	vColor_G;
 		Vec4	vColor_B;
@@ -93,6 +94,12 @@ public:
 	_bool	IsReserved() { return m_bReserved; }
 	_bool	IsNext() { return m_bNext; }
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
+
+public:
+	void	Set_IgnoreRoot(_bool bIgnore) { m_bIgnoreRoot = bIgnore; }
+	void	Set_RotationRoot(_bool bRot) { m_bRootRotation = bRot; }
+	void	Set_UseRootY(_bool bUseY) { m_bUseRootY = bUseY; }
+
 public:
 	virtual HRESULT Initialize_Prototype(Matrix PivotMatrix, const wstring& strFilePath, const wstring& strFileName, _bool bClient, _bool IsMapObject);
 	virtual HRESULT Initialize(void* pArg);
@@ -102,7 +109,7 @@ public:
 	HRESULT SetUp_OnShader(class CShader* pShader, _uint iMaterialIndex, aiTextureType eTextureType, const char* strConstantName);
 	HRESULT SetUpAnimation_OnShader(class CShader* pShader);
 
-	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false);
+	HRESULT	Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false, _bool bIgnoreRoot = false);
 	HRESULT Set_NextAnimation();
 
 	HRESULT Play_Animation(_float fTimeDelta);
@@ -158,6 +165,7 @@ private:
 
 private:
 	/* HJ Ãß°¡ */	
+	_bool						m_bIgnoreRoot = { false };
 	_bool						m_bRootRotation = { false };
 	_bool						m_IsPreRootRot = { false };
 	_bool						m_bUseRootY = { false };
@@ -214,6 +222,7 @@ private:
 
 	_bool								m_IsMapObject = false;
 
+	Vec4								m_vEm_Color;
 	Vec4								m_vColor_R;
 	Vec4								m_vColor_G;
 	Vec4								m_vColor_B;

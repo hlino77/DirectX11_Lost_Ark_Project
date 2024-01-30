@@ -387,11 +387,11 @@ HRESULT CLevel_Lobby::Ready_Mannequin()
 
 	m_pPC_Select[(_uint)CHR_CLASS::DESTROYER] = pObject;
 
-	pObject = pGameInstance->Add_GameObject(LEVEL_LOBBY, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player_Select_MG"));
+	pObject = pGameInstance->Add_GameObject(LEVEL_LOBBY, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player_Select_SP"));
 	if (nullptr == pObject)
 		return E_FAIL;
 
-	m_pPC_Select[(_uint)CHR_CLASS::BARD] = pObject;
+	m_pPC_Select[(_uint)CHR_CLASS::DOAGA] = pObject;
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -416,9 +416,9 @@ void CLevel_Lobby::Select_Player()
 	{
 		m_eSelectClass = CHR_CLASS::DESTROYER;
 	}
-	else if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::BARD])->Is_Selected())
+	else if (true == static_cast<CPlayer_Select*>(m_pPC_Select[(_uint)CHR_CLASS::DOAGA])->Is_Selected())
 	{
-		m_eSelectClass = CHR_CLASS::BARD;
+		m_eSelectClass = CHR_CLASS::DOAGA;
 	}
 	else
 	{

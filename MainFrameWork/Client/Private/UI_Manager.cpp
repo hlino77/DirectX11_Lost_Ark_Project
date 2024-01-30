@@ -257,6 +257,8 @@ _bool CUI_Manager::Is_PickedIcon()
 	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
 	if (nullptr != m_pMouseCursor)
 		return static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Is_PickedIcon();
+
+	return false;
 }
 
 void CUI_Manager::Set_PickedIcon(_bool bPickedIcon)

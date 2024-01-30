@@ -8,6 +8,7 @@ class CUtils;
 class CModel;
 class CTransform;
 class CPartObject;
+class CGameObject;
 END
 
 BEGIN(Client)
@@ -16,13 +17,14 @@ class CVoidEffect;
 class CMannequin;
 class CMannequinPart;
 class CLevel_Tool;
+
 class CEffect_PcModel : public CToolBase
 {
 	using Super = CToolBase;
 
 private:
-	enum CLASS { SLAYER, GUNSLINGER, DESTROYER, BARD, CLASS_END };
-	enum WEAPON { SWORD, HAND, SHOT, LONG, HAMMER, MUSE, WEAPON_END };
+	enum CLASS { SLAYER, GUNSLINGER, DESTROYER, BARD, DOAGA, CLASS_END };
+	enum WEAPON { SWORD, HAND, SHOT, LONG, HAMMER, MUSE, BRUSH, WEAPON_END };
 	enum PARTTYPE { PART_R, PART_L, PART_END };
 
 private:

@@ -730,6 +730,8 @@ HRESULT CMonster::Ready_DissolveTexture()
 {
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"), TEXT("Com_DissolveTexture"), (CComponent**)&m_pDissolveTexture)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CMonster::Ready_BehaviourTree()

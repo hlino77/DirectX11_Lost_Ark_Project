@@ -187,6 +187,7 @@ HRESULT CModel::Initialize(void * pArg)
 
 		for (size_t i = 0; i < 20; i++)
 		{
+			m_vEm_Color = pColorDesc->vEm_Color;
 			m_vColor_R = pColorDesc->vColor_R;
 			m_vColor_G = pColorDesc->vColor_G;
 			m_vColor_B = pColorDesc->vColor_B;
@@ -216,7 +217,7 @@ HRESULT CModel::SetUpAnimation_OnShader(CShader* pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY)
+HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY, _bool bIgnoreRoot)
 {
 	WRITE_LOCK
 
@@ -256,6 +257,7 @@ HRESULT CModel::Reserve_NextAnimation(_int iAnimIndex, _float fChangeTime, _int 
 		m_tReserveChange.m_fChangeRatio = 0.0f;
 	}
 	
+	m_bIgnoreRoot = bIgnoreRoot;
 	m_fRootDist = fRootDist;
 	m_bUseRootY = bUseY;
 	m_IsPreRootRot = m_bRootRotation;
@@ -395,7 +397,7 @@ HRESULT CModel::Play_Reverse_Animation(_float fTimeDelta)
 
 HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 {
-	if (nullptr == pTransform)
+	if (nullptr == pTransform || true == m_bIgnoreRoot)
 		return E_FAIL;
 
 	KEY_DESC tCurrKeyDesc = m_Animations[m_iCurrAnim]->Get_KeyDesc();
@@ -459,6 +461,7 @@ HRESULT CModel::Bind_ChangeColor(CShader* pShader, _uint iMeshIndex)
 	if (false == m_bChangeColor)
 		return E_FAIL;
 
+	pShader->Bind_RawValue("g_vBloomColor", &m_vEm_Color, sizeof(Vec4));
 	pShader->Bind_RawValue("g_vColor_R", &m_vColor_R, sizeof(Vec4));
 	pShader->Bind_RawValue("g_vColor_G", &m_vColor_G, sizeof(Vec4));
 	pShader->Bind_RawValue("g_vColor_B", &m_vColor_B, sizeof(Vec4));
@@ -521,47 +524,54 @@ HRESULT CModel::Set_Animation_Transforms()
 
 		if (TEXT("b_root") == m_ModelBones[i]->strName)
 		{
-			
-			if (false == m_bRootRotation)
+			if (false == m_bIgnoreRoot)
 			{
-				// 이동 제거
-				memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
-				Vec4 Zero;
-				if (true == m_bUseRootY)
+				if (false == m_bRootRotation)
 				{
-					Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+					// 이동 제거
+					memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+					Vec4 Zero;
+					if (true == m_bUseRootY)
+					{
+						Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+					}
+					else
+					{
+						Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+					}
+					memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 				}
-				else
+				else if (true == m_bRootRotation)
 				{
-					Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+					// 이동, 회전 제거
+					memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
+					m_RootMatrix = m_matCurrTransforms[i];
+
+					Vec3 vScale, vPos;
+					m_matCurrTransforms[i].Decompose(vScale, m_RootRotation, vPos);
+					Quaternion rotationQuaternion = Quaternion::CreateFromAxisAngle(Vector3(0.0f, 1.0f, 0.0f), XMConvertToRadians(90.0f));
+					m_RootRotation = m_RootRotation * rotationQuaternion;
+
+					m_matCurrTransforms[i] = XMMatrixScalingFromVector(vScale) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+					Vec4 Zero;
+					if (true == m_bUseRootY)
+					{
+						Zero = Vec4(0.f, 0.f, 0.f, 1.f);
+					}
+					else
+					{
+						Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
+					}
+					memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 				}
+			}
+			else
+			{
+				// 루트 무시
+				Vec4 Zero = Vec4(0.f, 0.f, 0.f, 1.f);
 				memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
 			}
-			else if (true == m_bRootRotation)
-			{
-				// 이동, 회전 제거
-				memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
-				m_RootMatrix = m_matCurrTransforms[i];
-			
-				Vec3 vScale, vPos;
-				m_matCurrTransforms[i].Decompose(vScale, m_RootRotation, vPos);
-				Quaternion rotationQuaternion = Quaternion::CreateFromAxisAngle(Vector3(0.0f, 1.0f, 0.0f), XMConvertToRadians(90.0f));
-				m_RootRotation = m_RootRotation * rotationQuaternion;
-
-				m_matCurrTransforms[i] = XMMatrixScalingFromVector(vScale) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
-
-				Vec4 Zero;
-				if (true == m_bUseRootY)
-				{
-					Zero = Vec4(0.f, 0.f, 0.f, 1.f);
-				}
-				else
-				{
-					Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
-				}
-				memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
-			}
-		
 		}
 
 	}
@@ -695,6 +705,8 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 
 		if (FAILED(Render(pShader, iMeshIndex, "ChangeColor")))
 			return E_FAIL;
+
+		pShader->Bind_RawValue("g_vBloomColor", &Vec4::One, sizeof(Vec4));
 	}
 	else
 	{

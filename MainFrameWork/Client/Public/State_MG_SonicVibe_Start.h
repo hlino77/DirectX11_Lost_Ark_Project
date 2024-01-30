@@ -32,6 +32,11 @@ private:
 
 	Vec3 m_vColliPos;
 
+	_float m_fTimeAcc = 0.0f;
+	_float m_fReleaseTime = 1.f;
+	_float m_fEndTime = 3.f;
+
+
 public:
 	static CState_MG_SonicVibe_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Bard* pOwner);
 	virtual void Free() override;

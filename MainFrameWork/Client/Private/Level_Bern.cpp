@@ -551,6 +551,36 @@ HRESULT CLevel_Bern::Ready_Item(const LAYER_TYPE eLayerType)
 	if (nullptr == pItem)
 		return E_FAIL;
 
+	/* SP */
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_WP_Dino"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_Body_Dino"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_Helmet_Dino"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_WP_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_Body_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_Helmet_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	pItem = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_IT_SP_Leg_Legend"));
+	if (nullptr == pItem)
+		return E_FAIL;
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

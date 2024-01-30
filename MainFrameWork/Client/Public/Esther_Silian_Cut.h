@@ -34,6 +34,7 @@ private:
 private:
 	void					Act1(_float fTimeDelta);
 	void					Act2(_float fTimeDelta);
+	void					Act3(_float fTimeDelta);
 
 private:
 	_uint					m_iAnimIndex;
