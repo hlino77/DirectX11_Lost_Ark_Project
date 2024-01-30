@@ -224,7 +224,7 @@ void CPlayer_Gunslinger::LateTick(_float fTimeDelta)
 
 	Set_Colliders(fTimeDelta);
 
-	if (m_bControl)
+	if (m_bControl && m_bPlayerInfoSend)
 	{
 		m_fSendInfoTime += fTimeDelta;
 		if (m_fSendInfoTime >= 0.05f)

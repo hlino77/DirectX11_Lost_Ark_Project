@@ -120,6 +120,10 @@ public:
 	virtual void EffectEnd();
 	virtual void Update_Pivot(Matrix& matPivot);
 
+	void	Set_Trace(_bool bTrace) { m_bTracer = bTrace; }
+public:
+	FDelegate<Matrix&>         CB_UpdatePivot;
+
 protected:
 	Vec3	m_vPosition_Start = Vec3(0.f, 0.f, 0.f);
 	Vec3	m_vPosition_End = Vec3(0.f, 0.f, 0.f);
@@ -135,6 +139,9 @@ protected:
 	Vec3	m_vRevolution_End = Vec3(0.f, 0.f, 0.f);
 	_bool	m_bRevolution_Lerp = true;
 	_bool	m_bRevolution_Pass = false;
+
+	Vec3	m_vOriginRevolution_Start = Vec3(0.f, 0.f, 0.f);
+	_bool	m_bOriginRevolution_Lerp = true;
 
 	Vec3	m_vScaling_Start = Vec3(1.f, 1.f, 1.f);
 	Vec3	m_vScaling_End = Vec3(1.f, 1.f, 1.f);
@@ -160,6 +167,8 @@ protected:
 	_bool	m_IsSequence = false;
 	_bool	m_IsLoop = false;
 	_float	m_fSequenceTerm = 0.05f;
+
+	_bool	m_bTracer = false;
 
 	struct tagFX_Variables
 	{
@@ -214,9 +223,9 @@ protected:
 	EffectMaterialFlag m_tNoisMaskEmisDslv;
 	string	m_strPassName = "OneBlend";
 
+
 protected:
 	virtual HRESULT Ready_Components() override;
-
 public:
 	virtual void Free();
 };

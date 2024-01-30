@@ -158,16 +158,31 @@ void CState_GN_FreeShooter::Tick_State_NoneControl(_float fTimeDelta)
 		Effect_Shot();
 		m_iEffectCnt++;
 	}
+
+	if (m_bLastShotEffect == false)
+	{
+		if (iAnimFrame == 100)
+		{
+			Effect_LastShot();
+			m_bLastShotEffect = true;
+		}
+	}
+
 }
 
 void CState_GN_FreeShooter::Effect_Shot()
 {
-	if (m_pPlayer->Is_Control())
-		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 500.f, 0.1f, 14.f);
-
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS(m_EffectFrames[m_iEffectCnt].iWeapon)))->Get_Part_WorldMatrix().Translation();
 	matWorld.Translation(vPos);
+
+	if (m_pPlayer->Is_Control())
+	{
+		Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
+		vRadialPos.y += 0.7f;
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 500.f, 0.1f, 14.f);
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.07f);
+	}
 
 	Vec3 vOriginLook = matWorld.Backward();
 	vOriginLook.Normalize();
@@ -203,13 +218,18 @@ void CState_GN_FreeShooter::Effect_Shot()
 
 void CState_GN_FreeShooter::Effect_LastShot()
 {
-	if (m_pPlayer->Is_Control())
-		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 500.f, 0.1f, 14.f);
-
 	{
 		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 		Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix().Translation();
 		matWorld.Translation(vPos);
+
+		if (m_pPlayer->Is_Control())
+		{
+			Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
+			vRadialPos.y += 0.7f;
+			m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 500.f, 0.1f, 14.f);
+			m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.1f);
+		}
 
 		Vec3 vOriginLook = matWorld.Backward();
 		vOriginLook.Normalize();

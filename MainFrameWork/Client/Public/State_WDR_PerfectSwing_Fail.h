@@ -21,10 +21,15 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
-
+	void	Effect_Trail();
 	void	Update_Effect();
 	void	Effect_End();
+	void	Reset_Camera();
 
+	void	Effect_Shot();
+private:
+	void	Init_Camera();
+	void	Update_Camera(_float fTimeDelta);
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
@@ -35,7 +40,11 @@ private:
 	_int m_iPerfectSwing_Fail = 0;
 
 	_bool m_bEffectEnd = false;
+	_bool m_bEffectTrail = false;
 
+	vector<CEffect*> m_Trails;
+
+	Vec3 m_vCameraTargetPos;
 public:
 	static CState_WDR_PerfectSwing_Fail* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

@@ -50,6 +50,9 @@ void CState_GN_TargetDown_Ready::Exit_State()
 	if (true == m_pController->Is_HitState())
 	{
 		Effect_End();
+
+		if (m_pPlayer->Is_Control())
+			Reset_Camera();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -89,7 +92,7 @@ void CState_GN_TargetDown_Ready::Effect_Start()
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->ZoomInOut(12.0f, 3.0f);
 
-	CEffect* pCrossHair = dynamic_cast<CEffect*>(CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_CrossHair"));
+	CEffect* pCrossHair = dynamic_cast<CEffect*>(CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_CrossHair", m_pPlayer));
 
 	m_pPlayer->Add_Effect(L"TargetDownCrossHair", pCrossHair);
 }
@@ -112,12 +115,19 @@ void CState_GN_TargetDown_Ready::Effect_ZoomOut()
 
 void CState_GN_TargetDown_Ready::Effect_End()
 {
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
+	}
+	
+	m_pPlayer->Delete_Effect(L"TargetDownDecal");
+}
+
+void CState_GN_TargetDown_Ready::Reset_Camera()
+{
 	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
-
-	m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
-	m_pPlayer->Delete_Effect(L"TargetDownDecal");
 }
 
 CState_GN_TargetDown_Ready* CState_GN_TargetDown_Ready::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

@@ -7,6 +7,7 @@ BEGIN(Client)
 
 class CState_WDR_PerfectSwing_Loop final : public CState_Skill
 {
+	enum class CameraState { CHARGE1, CHARGE2 };
 public:
 	CState_WDR_PerfectSwing_Loop(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual ~CState_WDR_PerfectSwing_Loop() = default;
@@ -23,7 +24,9 @@ public:
 
 	void	Effect_Start();
 	void	Update_Effect(_float fTimeDelta);
-	
+
+private:
+	void	Update_Camera_Charge(_float fTimeDelta);
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
@@ -42,6 +45,11 @@ private:
 
 	_float m_fEffectAcc = 0.0f;
 	_float m_fEffectDelay = 0.0f;
+
+	CameraState m_eCameraState;
+
+	_float m_fCamShakeDelay = 0.0f;
+	_float m_fCamShakeAcc = 0.0f;
 public:
 	static CState_WDR_PerfectSwing_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

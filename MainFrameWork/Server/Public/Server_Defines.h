@@ -62,6 +62,7 @@ namespace Server
 		LAYER_SPAWNER,
 		LAYER_SAFEZONE,
 		LAYER_CHILD,
+		LAYER_SKILL_PLAYER_BUFF,
 		LAYER_END
 	};
 
@@ -97,6 +98,13 @@ namespace Server
 
 	enum class CHAOSDUNGEANLEVEL { LEVEL1, LEVEL2, LEVEL3, LEVELEND };
 	enum class CHAOSDUNGEANSTATE { READY, PROCEED, CLEAR, LEVELEND };
+
+	enum class SKILL_TYPE
+	{
+		SKILL_RISINGSUN,
+		SKILL_TELEPORTDOOR,
+		SKILLEND
+	};
 }
 
 extern atomic<_uint> g_iObjectID;

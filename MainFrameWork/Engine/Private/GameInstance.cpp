@@ -516,6 +516,11 @@ const BoundingFrustum& CGameInstance::Get_CamFrustum()
 	return m_pPipeLine->Get_CamFrustum();
 }
 
+void CGameInstance::Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensity)
+{
+	m_pPipeLine->Set_MotionBlur(bMotionBlur, fMotionBlurIntensity);
+}
+
 KEY_STATE CGameInstance::GetKeyState(KEY _eKey)
 {
 	if (nullptr == m_pKey_Manager)

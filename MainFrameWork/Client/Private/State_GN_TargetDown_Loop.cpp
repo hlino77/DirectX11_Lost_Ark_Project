@@ -114,12 +114,20 @@ void CState_GN_TargetDown_Loop::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_TargetDown_Loop::Effect_End()
 {
-	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
-	m_pPlayer->Get_Camera()->Set_DefaultOffset();
-	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
+		m_pPlayer->Get_Camera()->Set_DefaultOffset();
+		m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 
-	m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
+		m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
+	}
 	m_pPlayer->Delete_Effect(L"TargetDownDecal");
+}
+
+void CState_GN_TargetDown_Loop::Update_Radial()
+{
+	
 }
 
 CState_GN_TargetDown_Loop* CState_GN_TargetDown_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

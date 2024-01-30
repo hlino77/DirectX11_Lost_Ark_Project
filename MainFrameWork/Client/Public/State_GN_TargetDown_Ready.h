@@ -24,6 +24,7 @@ public:
 	void	Effect_Start();
 	void	Effect_ZoomOut();
 	void	Effect_End();
+	void	Reset_Camera();
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 

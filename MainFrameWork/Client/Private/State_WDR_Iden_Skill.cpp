@@ -10,7 +10,7 @@
 #include "Projectile.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
-
+#include "Camera_Player.h"
 
 CState_WDR_Iden_Skill::CState_WDR_Iden_Skill(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -93,6 +93,12 @@ void CState_WDR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_Iden_Skill::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack))
+	{
+		m_iAttackCnt++;
+		Effect_Shot();
+	}
 }
 
 void CState_WDR_Iden_Skill::Effect_Shot()
@@ -102,6 +108,9 @@ void CState_WDR_Iden_Skill::Effect_Shot()
 	tDesc.pPivotMatrix = &matWorld;
 
 	EFFECT_START(L"VotexGravity", &tDesc);
+
+	if (m_pPlayer->Is_Control())		
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 }
 
 

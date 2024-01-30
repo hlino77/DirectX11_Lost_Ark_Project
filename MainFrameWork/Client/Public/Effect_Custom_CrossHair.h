@@ -8,6 +8,8 @@ END
 
 BEGIN(Client)
 
+class CPlayer;
+
 class CEffect_Custom_CrossHair : public CEffect
 {
 	using Super = CEffect;
@@ -28,7 +30,7 @@ public:
 
 	virtual void EffectEnd();
 
-	void	EffectShot();
+	void	EffectShot(Vec3 vRadialPos);
 private:
 	void		Tick_Start(_float fTimeDelta);
 	void		Tick_Idle(_float fTimeDelta);
@@ -42,6 +44,7 @@ private:
 	void		Update_Scale_Start(_float fTimeDelta);
 	void		Update_Scale_End(_float fTimeDelta);
 
+	void		Update_RadialBlurPos();
 private:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCrossHair = { nullptr };
@@ -61,6 +64,13 @@ private:
 	Vec4					m_vColor;
 
 	CrossHairState m_eState;
+
+	CPlayer* m_pPlayer = nullptr;
+
+	Vec3 m_vRadialPos;
+	_float m_fRadialIntensity;
+	_float m_fDefaultRadial;
+	_float m_fRadialSpeed = 0.0f;
 public:
 	static CEffect_Custom_CrossHair* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

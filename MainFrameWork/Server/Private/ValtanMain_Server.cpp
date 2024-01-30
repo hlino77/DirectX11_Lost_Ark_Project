@@ -43,7 +43,7 @@ HRESULT CValtanMain_Server::Initialize(void* pArg)
 
 	m_bEnd = false;
 	m_bStart = false;
-	m_fEndDelay = 5.0f;
+	m_fEndDelay = 2.0f;
 
     return S_OK;
 }
@@ -121,7 +121,7 @@ HRESULT CValtanMain_Server::Ready_Components()
 HRESULT CValtanMain_Server::Ready_Dungean()
 {
 	m_iCurrLevel = LEVELID::LEVEL_VALTANMAIN;
-	m_fStartDelay = 15.0f;
+	m_fStartDelay = 2.0f;
 	m_iBossCount = 1;
 	return S_OK;
 }

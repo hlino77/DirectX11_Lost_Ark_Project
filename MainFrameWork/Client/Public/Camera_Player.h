@@ -16,7 +16,7 @@ public:
 		_float fDefaultLength = 7.5f;
 	};
 
-	enum class CameraState { FREE, DEFAULT, STATEEND };
+	enum class CameraState { FREE, DEFAULT, RESET, STATEEND };
 
 private:
 	CCamera_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
@@ -38,18 +38,37 @@ public:
 	void		Set_CameraLength(_float fCameraLength) { m_fCameraLength = m_fTargetCameraLength = fCameraLength; }
 
 	void		Set_Offset(Vec3 vOffset) { m_vOffset = vOffset; m_vOffset.Normalize(); }
+	Vec3		Get_Offset() { return m_vOffset; }
 	void		Set_DefaultOffset() { m_vOffset = m_vDefaultOffset; }
 	void		Set_Mode(CameraState eMode) { m_eState = eMode; }
-
+	CameraState Get_Mode() { return m_eState; }
 
 	_float		Get_CameraLength() { return m_fCameraLength; }
 
+	void		Set_ResetSpeed(_float fSpeed) { m_fResetSpeed = fSpeed; }
+
+	void		Set_MotionBlur(_float fTime, _float fIntensity = 0.0f) 
+	{ 
+		m_fMotionBlurAcc = fTime;
+		m_bMotionBlur = true;
+		m_fMotionBlurIntensity = fIntensity; 
+	}
+
+	void		Set_RadialBlur(_float fTime, Vec3& vPos, _float fDamping,_float fIntensity = 0.0f)
+	{
+		m_fRadialBlurAcc = fTime;
+		m_fRadialBlurIntensity = fIntensity;
+		m_bRadialBlur = true;
+		m_fRadialBlurDamping = fDamping;
+		m_vRadialPos = vPos;
+	}
 protected:
 	virtual HRESULT Ready_Components() override;
 
 private:
 	void		Tick_FreeCamera(_float fTimeDelta);
 	void		Tick_DefaultCamera(_float fTimeDelta);
+	void		Tick_ResetCamera(_float fTimeDelta);
 	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta);
 private:
 	Vec3 m_vOffset;
@@ -73,6 +92,18 @@ private:
 	CGameObject* m_pTarget = nullptr;
 
 	CameraState m_eState;
+
+	_bool	m_bMotionBlur = false;
+	_float	m_fMotionBlurAcc = 0.0f;
+	_float	m_fMotionBlurIntensity = 0.0f;
+
+	_bool	m_bRadialBlur = false;
+	_float	m_fRadialBlurAcc = 0.0f;
+	_float	m_fRadialBlurIntensity = 0.0f;
+	_float	m_fRadialBlurDamping = 0.0f;
+	Vec3	m_vRadialPos;
+
+	_float	m_fResetSpeed = 0.0f;
 public:
 	static CCamera_Player* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
 	virtual CGameObject* Clone(void* pArg);

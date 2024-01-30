@@ -85,6 +85,15 @@ void CState_GN_SprialChaser::Tick_State_Control(_float fTimeDelta)
 void CState_GN_SprialChaser::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSprialChaser);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
 }
 
 void CState_GN_SprialChaser::Effect_Shot()

@@ -41,6 +41,9 @@ private:
 
 	vector<CEffect*> m_Effects;
 
+	_float m_fCamShakeDelay = 0.0f;
+	_float m_fCamShakeAcc = 0.0f;
+
 public:
 	static CState_WDR_PowerShoulder_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

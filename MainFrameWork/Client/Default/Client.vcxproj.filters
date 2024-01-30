@@ -1456,6 +1456,12 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Esther">
       <UniqueIdentifier>{485490d9-d72b-4b05-a3b1-29fe4f564927}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
+      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
+      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4328,6 +4334,12 @@
     <ClInclude Include="..\Public\State_MG_Esther_Way.h">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill_RisingSun.h">
+      <Filter>02.GameObjects\Skill\Skill_RisingSun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_TeleportDoor.h">
+      <Filter>02.GameObjects\Skill\Skill_TeleportDoor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7175,6 +7187,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_MG_Esther_Way.cpp">
       <Filter>02.GameObjects\Player\Player_Bard\State_MG\Esther</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_RisingSun.cpp">
+      <Filter>02.GameObjects\Skill\Skill_RisingSun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_TeleportDoor.cpp">
+      <Filter>02.GameObjects\Skill\Skill_TeleportDoor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "Camera_Player.h"
 
 CState_WDR_PerfectSwing_Loop::CState_WDR_PerfectSwing_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -36,6 +37,9 @@ HRESULT CState_WDR_PerfectSwing_Loop::Initialize()
 	m_fEffectAcc = 0.1f;
 	m_fEffectDelay = 0.1f;
 
+	m_fCamShakeAcc = 0.0f;
+	m_fCamShakeDelay = 0.12f;
+
 	return S_OK;
 }
 
@@ -52,6 +56,15 @@ void CState_WDR_PerfectSwing_Loop::Enter_State()
 	m_Effects.clear();
 
 	m_fEffectAcc = m_fEffectDelay;
+	m_eCameraState = CameraState::CHARGE1;
+
+	m_fEffectAcc = m_fEffectDelay;
+	m_fCamShakeAcc = m_fCamShakeDelay;
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Set_MotionBlur(1.0f, 0.05f);
+	}
 }
 
 void CState_WDR_PerfectSwing_Loop::Tick_State(_float fTimeDelta)
@@ -81,6 +94,9 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 
 	m_fSkillTimeAcc += fTimeDelta;
 
+	if (m_pPlayer->Get_Camera()->Get_Mode() == CCamera_Player::CameraState::FREE)
+		Update_Camera_Charge(fTimeDelta);
+
 	if (m_fSkillTimeAcc > m_fSkillEndTime)
 	{
 		m_pPlayer->Set_State(TEXT("Skill_WDR_PerfectSwing_Success"));
@@ -102,6 +118,8 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iPerfectSwing_Loop = m_iPerfectSwing_Loop_2;
 		m_pPlayer->Reserve_Animation(m_iPerfectSwing_Loop, 0.1f, 0, 0);
+		m_eCameraState = CameraState::CHARGE2;
+		m_pPlayer->Get_Camera()->Set_MotionBlur(1.0f, 0.05f);
 	}
 
 
@@ -118,6 +136,25 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_PerfectSwing_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_bEffect == false)
+	{
+		Effect_Start();
+		m_bEffect = true;
+	}
+	else
+	{
+		Update_Effect(fTimeDelta);
+	}
+
+	m_fSkillTimeAcc += fTimeDelta;
+
+	if (m_fSkillSuccessTime_Min <= m_fSkillTimeAcc && m_iPerfectSwing_Loop == m_iPerfectSwing_Loop_1)
+	{
+		m_iPerfectSwing_Loop = m_iPerfectSwing_Loop_2;
+		m_pPlayer->Reserve_Animation(m_iPerfectSwing_Loop, 0.1f, 0, 0);
+		m_eCameraState = CameraState::CHARGE2;
+	}
 }
 
 void CState_WDR_PerfectSwing_Loop::Effect_Start()
@@ -158,6 +195,50 @@ void CState_WDR_PerfectSwing_Loop::Update_Effect(_float fTimeDelta)
 		EFFECT_START_OUTLIST(L"PerfectSwingCharge", &tDesc, m_Effects);
 		m_fEffectAcc = 0.0f;
 	}
+}
+
+void CState_WDR_PerfectSwing_Loop::Update_Camera_Charge(_float fTimeDelta)
+{
+	CCamera_Player* pCamera = m_pPlayer->Get_Camera();
+	
+	Vec3 vLook = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+	Vec3 vUp(0.0f, 1.0f, 0.0f);
+	Vec3 vRight = vUp.Cross(vLook);
+
+	Vec3 vTargetOffset;
+	_float fCameraLength;
+
+	if (m_eCameraState == CameraState::CHARGE1)
+	{
+		vTargetOffset = vLook + vRight * 0.5f;
+		fCameraLength = 1.5f;
+	}
+	else if (m_eCameraState == CameraState::CHARGE2)
+	{
+		vTargetOffset = vRight + vLook * -0.1f;
+		fCameraLength = 1.0f;
+	}
+	vTargetOffset.Normalize();
+	
+	Vec3 vOffset = pCamera->Get_Offset();
+	vOffset = Vec3::Lerp(vOffset, vTargetOffset, 5.0f * fTimeDelta);
+	pCamera->Set_Offset(vOffset);
+	pCamera->ZoomInOut(fCameraLength, 5.0f);
+
+	if (m_fCamShakeAcc >= m_fCamShakeDelay)
+	{
+		if (m_eCameraState == CameraState::CHARGE1)
+		{	
+			m_pPlayer->Get_Camera()->Cam_Shake(0.01f, 200.0f, 0.2f, 10.0f);
+		}
+		else if (m_eCameraState == CameraState::CHARGE2)
+		{
+			m_pPlayer->Get_Camera()->Cam_Shake(0.02f, 200.0f, 0.2f, 10.0f);
+		}	
+		m_fCamShakeAcc = 0.0f;
+	}
+	else
+		m_fCamShakeAcc += fTimeDelta;
 }
 
 CState_WDR_PerfectSwing_Loop* CState_WDR_PerfectSwing_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

@@ -32,10 +32,6 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevel, const wstring& szBackGruo
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CLevel* pLevel = pGameInstance->Get_CurrLevel();
-	if (pLevel)
-		pLevel->Exit();
-
 	m_eNextLevel = eNextLevel;
 
 	m_szBackGruond = szBackGruond;

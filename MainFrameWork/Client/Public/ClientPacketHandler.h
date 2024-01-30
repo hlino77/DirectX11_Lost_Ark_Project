@@ -32,6 +32,9 @@ enum : uint16
 	PKT_S_PARTY = 22,
 	PKT_S_NPC = 23,
 	PKT_S_NAVIGATION = 24,
+	PKT_S_CREATESKILL = 25,
+	PKT_S_BUFFSKILL = 26,
+	PKT_S_PLAYERTELEPORT = 27,
 };
 
 // TODO
@@ -60,7 +63,9 @@ bool Handel_S_IDENTITY_Client(PacketSessionRef& session, Protocol::S_IDENTITY& p
 bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt);
 bool Handel_S_NPC_Client(PacketSessionRef& session, Protocol::S_NPC& pkt);
 bool Handel_S_NAVIGATION_Client(PacketSessionRef& session, Protocol::S_NAVIGATION& pkt);
-
+bool Handel_S_CREATESKILL_Client(PacketSessionRef& session, Protocol::S_CREATE_SKILL& pkt);
+bool Handel_S_BUFFSKILL_Client(PacketSessionRef& session, Protocol::S_BUFF_SKILL& pkt);
+bool Handel_S_PLAYERTELEPORT_Client(PacketSessionRef& session, Protocol::S_PLAYERTELEPORT& pkt);
 
 class CClientPacketHandler
 {
@@ -95,6 +100,9 @@ public:
 		GPacketHandler[PKT_S_PARTY] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PARTY>(Handel_S_PARTY_Client, session, buffer, len); };
 		GPacketHandler[PKT_S_NPC] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_NPC>(Handel_S_NPC_Client, session, buffer, len); };
 		GPacketHandler[PKT_S_NAVIGATION] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_NAVIGATION>(Handel_S_NAVIGATION_Client, session, buffer, len); };
+		GPacketHandler[PKT_S_CREATESKILL] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CREATE_SKILL>(Handel_S_CREATESKILL_Client, session, buffer, len); };
+		GPacketHandler[PKT_S_BUFFSKILL] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_BUFF_SKILL>(Handel_S_BUFFSKILL_Client, session, buffer, len); };
+		GPacketHandler[PKT_S_PLAYERTELEPORT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PLAYERTELEPORT>(Handel_S_PLAYERTELEPORT_Client, session, buffer, len); };
 
 	}
 
@@ -130,6 +138,9 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_PARTY& pkt) { return MakeSendBuffer(pkt, PKT_S_PARTY); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_NPC& pkt) { return MakeSendBuffer(pkt, PKT_S_NPC); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_NAVIGATION& pkt) { return MakeSendBuffer(pkt, PKT_S_NAVIGATION); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_SKILL& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATESKILL); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_BUFF_SKILL& pkt) { return MakeSendBuffer(pkt, PKT_S_BUFFSKILL); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_PLAYERTELEPORT& pkt) { return MakeSendBuffer(pkt, PKT_S_PLAYERTELEPORT); }
 
 
 private:

@@ -38,7 +38,7 @@ private:
 	Vec3 m_vCameraOffset;
 	Vec3 m_vTargetOffset;
 
-
+	_bool m_bZoomOut = false;
 
 public:
 	static CState_GN_TargetDown_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Gunslinger* pOwner);

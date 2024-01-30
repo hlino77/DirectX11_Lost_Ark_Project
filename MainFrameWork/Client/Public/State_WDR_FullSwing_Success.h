@@ -4,9 +4,12 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CState_WDR_FullSwing_Success final : public CState_Skill
 {
+	enum EFFECTSTATE { TRAIL1, TRAIL2, TRAILEND1, EFFECTEND, STATEEND };
+
 public:
 	CState_WDR_FullSwing_Success(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual ~CState_WDR_FullSwing_Success() = default;
@@ -23,19 +26,23 @@ public:
 
 private:
 	void	Effect_TrailStart();
-	void	Effect_TrailEnd();
+	void	Effect_TrailStart2();
+	void	Effect_TrailEnd1();
+	void	Effect_TrailEnd2();
+	void	Effect_End();
+	void	Update_Effect();
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WDR_FullSwing_Success&, _float)> m_TickFunc;
-	vector<CEffect*> m_Trails;
+	vector<CEffect*> m_Trail1;
+	vector<CEffect*> m_Trail2;
+	vector<CEffect*> m_Effects;
 private:
 	//Animation
 	_int m_iFullSwing_Success = 0;
 
-
-	_bool m_bTrailStart = false;
-	_bool m_bTrailEnd = false;
+	EFFECTSTATE m_eEffectState;
 public:
 	static CState_WDR_FullSwing_Success* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

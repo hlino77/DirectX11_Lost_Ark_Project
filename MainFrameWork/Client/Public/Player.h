@@ -309,6 +309,8 @@ protected:
 	CUI_Inventory* m_pUI_Inventory = { nullptr };
 
 	unordered_map<wstring, CEffect*> m_Effects;
+
+	_bool m_bPlayerInfoSend = true;
 public:
 	virtual void Free();
 

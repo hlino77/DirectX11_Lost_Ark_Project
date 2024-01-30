@@ -188,7 +188,7 @@ float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
 
     for (int i = -10; i < 10; ++i)
     {
-        texCoord += vPixelVelocity * (0.005f + g_fMotionBlurIntensity) * i;
+        texCoord += vPixelVelocity * g_fMotionBlurIntensity * i;
         float4 currentColor = g_BlendEffectTarget.Sample(LinearClampSampler, texCoord);
         vColor += currentColor;
     }

@@ -9,15 +9,20 @@ CPipeLine::CPipeLine()
 
 void CPipeLine::Set_Transform(TRANSFORMSTATE eTransformState, Matrix& TransformMatrix)
 {
-	if (eTransformState == D3DTS_VIEW)
-	{
-		if (TransformMatrix != m_TransformMatrix[eTransformState])
-			m_IsCameraMoved = true;
-		else
-			m_IsCameraMoved = false;
-	}
-
 	m_TransformMatrix[eTransformState] = TransformMatrix;
+}
+
+void CPipeLine::Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensity)
+{
+	m_IsMotionBlur = bMotionBlur;
+	if (m_IsMotionBlur)
+	{
+		m_fMotionBlurIntensity = fMotionBlurIntensity;
+	}
+	else
+	{
+		m_fMotionBlurIntensity = 0.0f;
+	}
 }
 
 void CPipeLine::Update()

@@ -6,6 +6,8 @@
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
 #include "AsUtils.h"
+#include "Camera_Player.h"
+#include <math.h>
 
 CEffect_Custom_CrossHair::CEffect_Custom_CrossHair(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
@@ -28,6 +30,8 @@ HRESULT CEffect_Custom_CrossHair::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_strObjectTag = L"GN_CrossHair";
+
+	m_pPlayer = static_cast<CPlayer*>(pArg);
 
 	POINT MousePos;
 
@@ -54,6 +58,9 @@ HRESULT CEffect_Custom_CrossHair::Initialize(void* pArg)
 	m_fShakeAcc = 0.0f;
 	m_fShakeTime = 0.3f;
 
+	m_fDefaultRadial = 0.03f;
+	m_fRadialIntensity = 0.0f;
+	m_fRadialSpeed = 0.4f;
 	return S_OK;
 }
 
@@ -135,7 +142,6 @@ HRESULT CEffect_Custom_CrossHair::Render()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scale(Vec3(fSize, fSize, 1.0f));
-
 	return S_OK;
 }
 
@@ -146,24 +152,53 @@ void CEffect_Custom_CrossHair::EffectEnd()
 	m_eState = CrossHairState::EFFECTEND;
 }
 
-void CEffect_Custom_CrossHair::EffectShot()
+void CEffect_Custom_CrossHair::EffectShot(Vec3 vRadialPos)
 {
 	m_fShakeAcc = 0.0f;
 	m_eState = CrossHairState::SHAKE;
 
 	m_fVelShake = 90.0f;
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_fRadialIntensity = 0.1f;
+		Update_RadialBlurPos();
+	}	
 }
+
+
 
 void CEffect_Custom_CrossHair::Tick_Start(_float fTimeDelta)
 {
 	Update_Scale_Start(fTimeDelta);
 
 	Update_Pos();
+
+	if (m_pPlayer->Is_Control())
+	{
+		Update_RadialBlurPos();
+		m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialIntensity);
+	}
 }
 
 void CEffect_Custom_CrossHair::Tick_Idle(_float fTimeDelta)
 {
 	Update_Pos();
+
+	if (m_pPlayer->Is_Control())
+	{
+		if (m_fRadialIntensity > m_fDefaultRadial)
+		{
+			m_fRadialIntensity -= m_fRadialSpeed * fTimeDelta;
+			if (m_fRadialIntensity < m_fDefaultRadial)
+			{
+				m_fRadialIntensity = m_fDefaultRadial;
+			}
+		}
+
+		Update_RadialBlurPos();
+		m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialIntensity);
+	}
 }
 
 void CEffect_Custom_CrossHair::Tick_Shake(_float fTimeDelta)
@@ -176,6 +211,12 @@ void CEffect_Custom_CrossHair::Tick_Shake(_float fTimeDelta)
 		m_eState = CrossHairState::IDLE;
 
 		m_pTransformCom->Set_Scale(Vec3(m_fDefaultSize, m_fDefaultSize, 1.0f));
+
+		if (m_pPlayer->Is_Control())
+		{
+			//Update_RadialBlurPos();
+			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialIntensity);
+		}
 		return;
 	}
 
@@ -190,6 +231,12 @@ void CEffect_Custom_CrossHair::Tick_Shake(_float fTimeDelta)
 	fOffset += m_fDefaultSize;
 
 	m_pTransformCom->Set_Scale(Vec3(fOffset, fOffset, 1.0f));
+
+	if (m_pPlayer->Is_Control())
+	{
+		//Update_RadialBlurPos();
+		m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialIntensity);
+	}
 }
 
 void CEffect_Custom_CrossHair::Tick_EffectEnd(_float fTimeDelta)
@@ -247,14 +294,19 @@ void CEffect_Custom_CrossHair::Update_Scale_Start(_float fTimeDelta)
 
 	if (vScale.x != m_fDefaultSize)
 	{
-		vScale.y = vScale.x = CAsUtils::Lerpf(vScale.x, m_fDefaultSize, 3.0f * fTimeDelta);
+		vScale.y = vScale.x = CAsUtils::Lerpf(vScale.x, m_fDefaultSize, 5.0f * fTimeDelta);
 
-		if (fabs(vScale.x - m_fDefaultSize) < 0.001f)
+		if (fabs(vScale.x - m_fDefaultSize) < 1.0f)
 		{
 			vScale.x = m_fDefaultSize;
 
 			m_fAlpha = 1.0f;
 			m_eState = CrossHairState::IDLE;
+		}
+
+		if (m_pPlayer->Is_Control())
+		{
+			m_fRadialIntensity = CAsUtils::Lerpf(m_fRadialIntensity, m_fDefaultRadial, 5.0f * fTimeDelta);
 		}
 
 		m_pTransformCom->Set_Scale(vScale);
@@ -279,7 +331,7 @@ void CEffect_Custom_CrossHair::Update_Scale_End(_float fTimeDelta)
 	{
 		vScale.y = vScale.x = CAsUtils::Lerpf(vScale.x, m_fDefaultSize, 7.0f * fTimeDelta);
 
-		if (fabs(vScale.x - m_fDefaultSize) < 0.001f)
+		if (fabs(vScale.x - m_fDefaultSize) < 1.0f)
 		{
 			vScale.x = m_fDefaultSize;
 
@@ -298,6 +350,22 @@ void CEffect_Custom_CrossHair::Update_Scale_End(_float fTimeDelta)
 				m_fAlpha = 0.0f;
 		}
 	}
+}
+
+
+void CEffect_Custom_CrossHair::Update_RadialBlurPos()
+{
+	Vec3 vPos(m_fX, m_fY, 0.5f);
+
+	vPos.x = (vPos.x / g_iWinSizeX) * 2.0f - 1.0f;
+	vPos.y = (vPos.y / g_iWinSizeY) * -2.0f + 1.0f;
+
+	Matrix matView = CGameInstance::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW);
+	Matrix matProjInv = CGameInstance::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ);
+
+	vPos = XMVector3TransformCoord(vPos, matProjInv);
+	vPos = XMVector3TransformCoord(vPos, matView);
+	m_vRadialPos = vPos;
 }
 
 

@@ -25,7 +25,10 @@ public:
 	const Matrix&	Get_TransformMatrixInverse(TRANSFORMSTATE eTransformState) const	{ return m_TransformInverseMatrix[eTransformState]; }
 	const Vec4&	Get_CamPosition() const													{ return m_vCamPosition; }
 	
-	_bool	Is_CamMoved()														{ return m_IsCameraMoved; }
+	_bool	Is_MotionBlur()														{ return m_IsMotionBlur; }
+	void	Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensity = 0.0f);
+
+	_float	Get_MotionBlurIntensity() { return m_fMotionBlurIntensity; }
 
 	const BoundingFrustum& Get_CamFrustum()										{ return m_tCamFrustum; }
 	void Set_Frustum(const BoundingFrustum& tBoundingFrustum)					{ m_tCamFrustum = tBoundingFrustum; }
@@ -41,9 +44,9 @@ private:
 	Vec4				m_vCamPosition;
 
 	BoundingFrustum		m_tCamFrustum;
+	_float				m_fMotionBlurIntensity = 0.0f;
 
-	_bool				m_IsCameraMoved = false;
-
+	_bool				m_IsMotionBlur = false;
 public:
 	virtual void Free() override;
 };

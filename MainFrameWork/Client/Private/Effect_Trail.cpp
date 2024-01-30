@@ -49,9 +49,6 @@ void CEffect_Trail::Tick(_float fTimeDelta)
 	if (m_fWaitingAcc < m_fWaitingTime)
 		return;
 
-	if (m_bTrailEnd == false)
-		CB_UpdatePivot(m_matPivot);
-
 	Run_Sequence(fTimeDelta);
 }
 
@@ -101,13 +98,16 @@ void CEffect_Trail::Reset()
 	}
 
 	m_pBuffer->Stop_Trail();
-	m_bTrailEnd = false;
+	m_bTracer = true;
 	CB_UpdatePivot(m_matPivot);
+
+	m_vRevolution_Start = m_vOriginRevolution_Start;
+	m_bRevolution_Lerp = m_bOriginRevolution_Lerp;
 }
 
 void CEffect_Trail::TrailEnd(_float fRemainTime)
 {
-	m_bTrailEnd = true;
+	m_bTracer = false;
 	m_fRemainTime = fRemainTime;
 	m_fTimeAcc = m_fLifeTime;
 

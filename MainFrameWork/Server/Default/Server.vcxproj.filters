@@ -223,6 +223,12 @@
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle">
       <UniqueIdentifier>{091f62ee-1d9b-44c2-b60b-6745c9eece50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\05. Skill\Skill_RisingSun_Server">
+      <UniqueIdentifier>{3903748b-f429-436e-936e-cd3d0622b3bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. Skill\Skill_TeleportDoor_Server">
+      <UniqueIdentifier>{d9be8682-113d-43c1-84ea-cade4f352cca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -545,6 +551,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_BattleIdle_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_RisingSun_Server.cpp">
+      <Filter>02. GameObject\05. Skill\Skill_RisingSun_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_TeleportDoor_Server.cpp">
+      <Filter>02. GameObject\05. Skill\Skill_TeleportDoor_Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -961,6 +973,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_BattleIdle_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_RisingSun_Server.h">
+      <Filter>02. GameObject\05. Skill\Skill_RisingSun_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_TeleportDoor_Server.h">
+      <Filter>02. GameObject\05. Skill\Skill_TeleportDoor_Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

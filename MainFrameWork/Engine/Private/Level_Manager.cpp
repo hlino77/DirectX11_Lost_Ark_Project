@@ -34,6 +34,7 @@ HRESULT CLevel_Manager::Render_Debug()
 			Safe_AddRef(pGameInstance);
 
 			/* 기존에 추가되어있던 레벨용 자원을 정리한다. */
+			m_pCurrentLevel->Exit();
 			pGameInstance->Clear(m_iCurrentLevelIndex);
 
 			Safe_Release(pGameInstance);

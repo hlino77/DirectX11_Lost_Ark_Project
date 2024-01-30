@@ -3,6 +3,8 @@
 #include "Player_Destroyer.h"
 #include "Projectile.h"
 #include "Effect_Manager.h"
+#include "Camera_Player.h"
+#include "Effect.h"
 
 CSkill_WDR_EndurePain::CSkill_WDR_EndurePain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WDR_EndurePain"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -66,8 +68,19 @@ _float CSkill_WDR_EndurePain::Change_Player_Status()
 
 	EFFECT_START(L"EndurePain", &tDesc);
 	EFFECT_START_OUTLIST(L"EndurePain1", &tDesc, Effects);
+	
+	CEffect* pEffect = Effects.front();
 
-	m_pPlayer->Add_Effect(L"EndurePain", Effects.front());
+	m_pPlayer->Add_Effect(L"EndurePain", pEffect);
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.5f, matWorld.Translation(), 0.1f, 0.1f);
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 80.0f, 1.0f, 5.0f);
+	}
+		
+
+	pEffect->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+	pEffect->Set_Trace(true);
 
 	return 4.f;
 }

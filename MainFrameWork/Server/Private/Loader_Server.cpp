@@ -18,6 +18,8 @@
 #include "ValtanMain_Server.h"
 #include "BreakAbleObject_Server.h"
 #include "Boss_Valtan_CounterGhost_Server.h"
+#include "Skill_RisingSun_Server.h"
+#include "Skill_TeleportDoor_Server.h"
 
 CLoader_Server::CLoader_Server()
 {
@@ -143,6 +145,17 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	/* ±â´É NPC */
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
 		CGuide_Chaos_Npc_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+
+	//===============Skill ===========================
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_RisingSun"),
+		CSkill_RisingSun_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_TeleportDoor"),
+		CSkill_TeleportDoor_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 

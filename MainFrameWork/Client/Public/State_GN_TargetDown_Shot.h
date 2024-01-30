@@ -24,7 +24,7 @@ public:
 private:
 	void	Effect_Shot();
 	void	Effect_End();
-
+	void	Reset_Camera();
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 

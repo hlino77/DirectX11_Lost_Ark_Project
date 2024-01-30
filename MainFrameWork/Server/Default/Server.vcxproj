@@ -220,7 +220,9 @@
     <ClCompile Include="..\Private\Reaper_BT_Attack3_Server.cpp" />
     <ClCompile Include="..\Private\ServerEvent.cpp" />
     <ClCompile Include="..\Private\ServerPacketHandler.cpp" />
+    <ClCompile Include="..\Private\Skill_RisingSun_Server.cpp" />
     <ClCompile Include="..\Private\Skill_Server.cpp" />
+    <ClCompile Include="..\Private\Skill_TeleportDoor_Server.cpp" />
     <ClCompile Include="..\Private\Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <IncludeInUnityFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IncludeInUnityFile>
@@ -284,6 +286,8 @@
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h" />
     <ClInclude Include="..\Public\Monster_Prison_Server.h" />
     <ClInclude Include="..\Public\Npc_Server.h" />
+    <ClInclude Include="..\Public\Skill_RisingSun_Server.h" />
+    <ClInclude Include="..\Public\Skill_TeleportDoor_Server.h" />
     <ClInclude Include="..\Public\ValtanMain_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2_Server.h" />

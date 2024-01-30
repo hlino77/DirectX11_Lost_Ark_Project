@@ -56,6 +56,8 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_bRevolution_Pass(rhs.m_bRevolution_Pass)
 	, m_bScaling_Pass(rhs.m_bScaling_Pass)
 	, m_bVelocity_Pass(rhs.m_bVelocity_Pass)
+	, m_vOriginRevolution_Start(rhs.m_vOriginRevolution_Start)
+	, m_bOriginRevolution_Lerp(rhs.m_bOriginRevolution_Lerp)
 {
 	m_szModelName = rhs.m_szModelName;
 
@@ -88,9 +90,9 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 			m_bRotation_Pass = true;
 	}
 
-	m_vRevolution_Start = pDesc->vRevolution_Start;
+	m_vOriginRevolution_Start = m_vRevolution_Start = pDesc->vRevolution_Start;
 	m_vRevolution_End = pDesc->vRevolution_End;
-	m_bRevolution_Lerp = pDesc->bRevolution_Lerp;
+	m_bOriginRevolution_Lerp = m_bRevolution_Lerp = pDesc->bRevolution_Lerp;
 	if (!m_bRevolution_Lerp)
 	{
 		if (XMVector3Equal(m_vRevolution_Start, Vec3::Zero))
@@ -201,7 +203,7 @@ HRESULT CEffect::Initialize(void* pArg)
 }
 
 void CEffect::Tick(_float fTimeDelta)
-{
+{ 
 	if (m_fWaitingAcc < m_fWaitingTime)
 	{
 		m_fWaitingAcc += fTimeDelta;
@@ -300,6 +302,9 @@ void CEffect::Tick(_float fTimeDelta)
 
 	m_Variables.vUV_Offset.x += m_vUV_Speed.x * fTimeDelta;
 	m_Variables.vUV_Offset.y += m_vUV_Speed.y * fTimeDelta;
+
+	if (m_bTracer == true)
+		CB_UpdatePivot(m_matPivot);
 }
 
 void CEffect::LateTick(_float fTimeDelta)
@@ -374,12 +379,6 @@ HRESULT CEffect::Render()
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
 		return E_FAIL;
 
-	if (FLT_EPSILON < m_fRadialTime)
-	{
-		if (m_fTimeAcc < m_fRadialTime)
-			m_pRendererCom->Set_RadialBlurData(m_matCombined.Translation(), m_fRadialIntensity);
-	}
-
 	return S_OK;
 }
 
@@ -395,17 +394,17 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 	else
 		m_matPivot = *tEffectDesc.pPivotMatrix;
 
-	Vec3 vRight = m_matPivot.Right();
-	vRight.Normalize();
-	m_matPivot.Right(vRight);
+	//Vec3 vRight = m_matPivot.Right();
+	//vRight.Normalize();
+	//m_matPivot.Right(vRight);
 
-	Vec3 vUp = m_matPivot.Up();
-	vUp.Normalize();
-	m_matPivot.Up(vUp);
+	//Vec3 vUp = m_matPivot.Up();
+	//vUp.Normalize();
+	//m_matPivot.Up(vUp);
 
-	Vec3 vLook = m_matPivot.Backward();
-	vLook.Normalize();
-	m_matPivot.Backward(vLook);
+	//Vec3 vLook = m_matPivot.Backward();
+	//vLook.Normalize();
+	//m_matPivot.Backward(vLook);
 
 	//Reset
 	m_fSequenceTimer = 0.0f;
@@ -419,6 +418,10 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 		m_fWaitingAcc = 0.0f;
 		m_bRender = false;
 	}
+
+	m_vRevolution_Start = m_vOriginRevolution_Start;
+	m_bRevolution_Lerp = m_bOriginRevolution_Lerp;
+	m_bTracer = false;
 }
 
 void CEffect::EffectEnd()
@@ -431,17 +434,17 @@ void CEffect::Update_Pivot(Matrix& matPivot)
 {
 	m_matPivot = matPivot;
 
-	Vec3 vRight = m_matPivot.Right();
-	vRight.Normalize();
-	m_matPivot.Right(vRight);
+	//Vec3 vRight = m_matPivot.Right();
+	//vRight.Normalize();
+	//m_matPivot.Right(vRight);
 
-	Vec3 vUp = m_matPivot.Up();
-	vUp.Normalize();
-	m_matPivot.Up(vUp);
+	//Vec3 vUp = m_matPivot.Up();
+	//vUp.Normalize();
+	//m_matPivot.Up(vUp);
 
-	Vec3 vLook = m_matPivot.Backward();
-	vLook.Normalize();
-	m_matPivot.Backward(vLook);
+	//Vec3 vLook = m_matPivot.Backward();
+	//vLook.Normalize();
+	//m_matPivot.Backward(vLook);
 }
 
 

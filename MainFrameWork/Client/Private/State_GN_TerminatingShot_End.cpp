@@ -106,12 +106,17 @@ void CState_GN_TerminatingShot_End::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_TerminatingShot_End::Effect_Shot()
 {
-	if (m_pPlayer->Is_Control())
-		m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 500.f, 0.1f, 12.f);
-
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	Vec3 vPos = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_4))->Get_Part_WorldMatrix().Translation();
 	matWorld.Translation(vPos);
+
+	if (m_pPlayer->Is_Control())
+	{
+		Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
+		vRadialPos.y += 0.7f;
+		m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 500.f, 0.1f, 12.f);
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.1f);
+	}
 
 	Vec3 vOriginLook = matWorld.Backward();
 	vOriginLook.Normalize();

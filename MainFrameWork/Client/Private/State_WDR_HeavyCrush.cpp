@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "Camera_Player.h"
 
 CState_WDR_HeavyCrush::CState_WDR_HeavyCrush(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -125,6 +126,20 @@ void CState_WDR_HeavyCrush::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_HeavyCrush::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHeavyCrush);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		m_iSkillCnt++;
+
+		Effect_Shot();
+	}
+
+	if (iAnimFrame < 40)
+	{
+		Effect_Charge(fTimeDelta);
+	}
 }
 
 
@@ -163,6 +178,9 @@ void CState_WDR_HeavyCrush::Effect_Shot()
 	CEffect_Manager::EFFECTPIVOTDESC tDesc;
 	tDesc.pPivotMatrix = &matWorld;
 	EFFECT_START_OUTLIST(L"HeavyCrush", &tDesc, m_Effects);
+
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 }
 
 CState_WDR_HeavyCrush* CState_WDR_HeavyCrush::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

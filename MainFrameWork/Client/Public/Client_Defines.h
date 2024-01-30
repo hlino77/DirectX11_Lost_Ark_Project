@@ -68,6 +68,7 @@ namespace Client
 		LAYER_SPAWNER,
 		LAYER_SAFEZONE,
 		LAYER_CHILD,
+		LAYER_SKILL_PLAYER_BUFF,
 		LAYER_END
 	};
 
@@ -102,6 +103,13 @@ namespace Client
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, DESTROYER, BARD, CLASSEND };
 
 	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, SILENCE ,  EFFECTEND };
+
+	enum class SKILL_TYPE
+	{
+		SKILL_RISINGSUN,
+		SKILL_TELEPORTDOOR,
+		SKILLEND
+	};
 }
 
 #define EFFECT_START(name, pivotDesc)						CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc);

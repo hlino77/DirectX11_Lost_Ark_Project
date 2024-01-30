@@ -27,7 +27,7 @@ public:
 	
 public:
 	virtual void Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc) override;
-	virtual void EffectEnd() override;
+	void	ParticleEnd();
 private:
 	struct tagFX_Billboard
 	{

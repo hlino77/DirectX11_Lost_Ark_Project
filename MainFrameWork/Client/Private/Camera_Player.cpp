@@ -19,7 +19,6 @@ HRESULT CCamera_Player::Initialize_Prototype()
 {
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -28,8 +27,10 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 	PlayerCameraDesc* pDesc = static_cast<PlayerCameraDesc*>(pArg);
 	m_pTarget = pDesc->pPlayer;
 
-
 	if (FAILED(__super::Initialize(&pDesc->tCameraDesc)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	m_vOffset = pDesc->vOffset;
@@ -58,6 +59,9 @@ void CCamera_Player::Tick(_float fTimeDelta)
 		break;
 	case CameraState::DEFAULT:
 		Tick_DefaultCamera(fTimeDelta);
+		break;
+	case CameraState::RESET:
+		Tick_ResetCamera(fTimeDelta);
 		break;
 	}
 
@@ -123,7 +127,48 @@ void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
 	}
 
 	m_pTransformCom->Set_WorldMatrix(matWorld);
-}
+
+	if (m_bMotionBlur)
+	{
+		m_fMotionBlurAcc -= fTimeDelta;
+		if (m_fMotionBlurAcc <= 0.0f)
+		{
+			CGameInstance::GetInstance()->Set_MotionBlur(false);
+			m_fMotionBlurIntensity = 0.0f;
+			m_bMotionBlur = false;
+			m_fMotionBlurAcc = 0.0f;
+		}
+		else
+		{
+			CGameInstance::GetInstance()->Set_MotionBlur(true, m_fMotionBlurIntensity);
+		}
+	}
+
+	if (m_bRadialBlur)
+	{
+		if (m_fRadialBlurAcc <= 0.0f)
+		{
+			if (m_fRadialBlurIntensity <= 0.0f)
+			{
+				m_vRadialPos = Vec3();
+				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, 0.0f);
+				m_fRadialBlurIntensity = 0.0f;
+				m_bRadialBlur = false;
+				m_fRadialBlurAcc = 0.0f;
+			}
+			else
+			{
+				m_fRadialBlurIntensity -= m_fRadialBlurDamping * fTimeDelta;
+				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+			}
+		}
+		else
+		{
+			m_fRadialBlurAcc -= fTimeDelta;
+			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+		}
+	}
+}	
 
 void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 {
@@ -156,6 +201,143 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 	}
 
 	m_pTransformCom->Set_WorldMatrix(matWorld);
+
+	if (m_bMotionBlur)
+	{
+		m_fMotionBlurAcc -= fTimeDelta;
+		if (m_fMotionBlurAcc <= 0.0f)	
+		{
+			CGameInstance::GetInstance()->Set_MotionBlur(false);
+			m_fMotionBlurIntensity = 0.0f;
+			m_bMotionBlur = false;
+			m_fMotionBlurAcc = 0.0f;
+		}
+		else
+		{
+			CGameInstance::GetInstance()->Set_MotionBlur(true, m_fMotionBlurIntensity);
+		}
+	}
+
+
+	if (m_bRadialBlur)
+	{
+		if (m_fRadialBlurAcc <= 0.0f)
+		{
+			if (m_fRadialBlurIntensity <= 0.0f)
+			{
+				m_vRadialPos = Vec3();
+				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, 0.0f);
+				m_fRadialBlurIntensity = 0.0f;
+				m_bRadialBlur = false;
+				m_fRadialBlurAcc = 0.0f;
+			}
+			else
+			{
+				m_fRadialBlurIntensity -= m_fRadialBlurDamping * fTimeDelta;
+				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+			}
+		}
+		else
+		{
+			m_fRadialBlurAcc -= fTimeDelta;
+			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+		}
+	}
+}
+
+void CCamera_Player::Tick_ResetCamera(_float fTimeDelta)
+{
+	if (m_fCameraLength != m_fDefaultLength)
+	{
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fDefaultLength, m_fResetSpeed * fTimeDelta);
+
+		if (fabs(m_fDefaultLength - m_fCameraLength) <= 0.001f)
+		{
+			m_fCameraLength = m_fTargetCameraLength = m_fDefaultLength;
+		}
+	}
+
+	Vec3 vPlayerPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vCurrLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	Vec3 vTargetPos = vPlayerPos + (m_vDefaultOffset * m_fCameraLength);
+	Vec3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	Vec3 vTargetLook = vPlayerPos - vTargetPos;
+	vTargetLook.Normalize();
+
+	_float fDistance = (vTargetPos - vCurrPos).Length();
+
+	Vec3 vPos;
+	Vec3 vLook;
+
+	if (fDistance < 0.1f)
+	{
+		vPos = vTargetPos;
+		vLook = vTargetLook;
+		m_fCameraLength = m_fTargetCameraLength = m_fDefaultLength;
+		m_eState = CameraState::DEFAULT;
+	}
+	else
+	{
+		vPos = Vec3::Lerp(vCurrPos, vTargetPos, m_fResetSpeed * fTimeDelta);
+		vLook = Vec3::Lerp(vCurrLook, vTargetLook, m_fResetSpeed * fTimeDelta);
+	}
+
+	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	if (m_bShake)
+	{
+		m_fCurrShakeTime += fTimeDelta;
+		if (m_fCurrShakeTime >= m_fShakeTime)
+		{
+			m_bShake = false;
+		}
+
+		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
+		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	m_pTransformCom->Set_WorldMatrix(matWorld);
+
+	if (m_bMotionBlur)
+	{
+		m_fMotionBlurAcc -= fTimeDelta;
+		if (m_fMotionBlurAcc <= 0.0f)
+		{
+			CGameInstance::GetInstance()->Set_MotionBlur(false);
+			m_fMotionBlurIntensity = 0.0f;
+			m_bMotionBlur = false;
+			m_fMotionBlurAcc = 0.0f;
+		}
+		else
+		{
+			CGameInstance::GetInstance()->Set_MotionBlur(true, m_fMotionBlurIntensity);
+		}
+	}
+
+	if (m_bRadialBlur)
+	{
+		if (m_fRadialBlurAcc <= 0.0f)
+		{
+			if (m_fRadialBlurIntensity <= 0.0f)
+			{
+				m_vRadialPos = Vec3();
+				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, 0.0f);
+				m_fRadialBlurIntensity = 0.0f;
+				m_bRadialBlur = false;
+				m_fRadialBlurAcc = 0.0f;
+			}
+			else
+			{
+				m_fRadialBlurIntensity -= m_fRadialBlurDamping * fTimeDelta;
+				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+			}
+		}
+		else
+		{
+			m_fRadialBlurAcc -= fTimeDelta;
+			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+		}
+	}
 }
 
 void CCamera_Player::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta)
@@ -176,6 +358,12 @@ void CCamera_Player::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float
 HRESULT CCamera_Player::Ready_Components()
 {
 	__super::Ready_Components();
+
+	/* For.Com_Renderer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

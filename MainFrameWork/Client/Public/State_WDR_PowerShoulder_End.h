@@ -23,6 +23,7 @@ public:
 
 private:
 	void	Effect_End();
+	void	PrevEffect_End();
 
 	void	Update_Effect_Circle(_float fTimeDelta);
 

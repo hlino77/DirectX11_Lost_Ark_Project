@@ -7,6 +7,9 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "Effect_Trail.h"
+#include "Effect_Particle.h"
+#include "Effect.h"
+#include "Camera_Player.h"
 
 CState_WDR_FullSwing_Success::CState_WDR_FullSwing_Success(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -41,9 +44,10 @@ void CState_WDR_FullSwing_Success::Enter_State()
 
 	m_pController->Set_SkillSuccess(m_eSkillSelectKey, true);
 
-	m_bTrailStart = false;
-	m_bTrailEnd = false;
-	m_Trails.clear();
+	m_eEffectState = EFFECTSTATE::TRAIL1;
+	m_Trail1.clear();
+	m_Trail2.clear();
+	m_Effects.clear();
 }
 
 void CState_WDR_FullSwing_Success::Tick_State(_float fTimeDelta)
@@ -63,23 +67,37 @@ void CState_WDR_FullSwing_Success::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success))
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (m_bTrailStart == false && iAnimFrame >= 11)
+	if (m_eEffectState == EFFECTSTATE::TRAIL1 && iAnimFrame >= 11)
 	{
 		Effect_TrailStart();
-		m_bTrailStart = true;
+		m_eEffectState = EFFECTSTATE::TRAIL2;
 	}
 
-	if (m_bTrailEnd == false && iAnimFrame >= 34)
+	if (m_eEffectState == EFFECTSTATE::TRAIL2 && iAnimFrame >= 30)
 	{
-		Effect_TrailEnd();
-		m_bTrailEnd = true;
+		Effect_TrailStart2();
+		m_eEffectState = EFFECTSTATE::TRAILEND1;
 	}
+
+	if (m_eEffectState == EFFECTSTATE::TRAILEND1 && iAnimFrame >= 34)
+	{
+		Effect_TrailEnd1();
+		m_eEffectState = EFFECTSTATE::EFFECTEND;
+	}
+
+	if (m_eEffectState == EFFECTSTATE::EFFECTEND && iAnimFrame >= 39)
+	{
+		Effect_End();
+		m_eEffectState = EFFECTSTATE::STATEEND;
+	}
+
+	Update_Effect();
 
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFullSwing_Success))
@@ -96,7 +114,7 @@ void CState_WDR_FullSwing_Success::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
-	if (90 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success))
+	if (90 <= iAnimFrame)
 	{
 		if (true == m_pController->Is_Skill())
 		{
@@ -134,23 +152,101 @@ void CState_WDR_FullSwing_Success::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_FullSwing_Success::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success);
+
+	if (m_eEffectState == EFFECTSTATE::TRAIL1 && iAnimFrame >= 11)
+	{
+		Effect_TrailStart();
+		m_eEffectState = EFFECTSTATE::TRAIL2;
+	}
+
+	if (m_eEffectState == EFFECTSTATE::TRAIL2 && iAnimFrame >= 30)
+	{
+		Effect_TrailStart2();
+		m_eEffectState = EFFECTSTATE::TRAILEND1;
+	}
+
+	if (m_eEffectState == EFFECTSTATE::TRAILEND1 && iAnimFrame >= 34)
+	{
+		Effect_TrailEnd1();
+		m_eEffectState = EFFECTSTATE::EFFECTEND;
+	}
+
+	if (m_eEffectState == EFFECTSTATE::EFFECTEND && iAnimFrame >= 39)
+	{
+		Effect_End();
+		m_eEffectState = EFFECTSTATE::STATEEND;
+	}
+
+	Update_Effect();
+
 }
 
 void CState_WDR_FullSwing_Success::Effect_TrailStart()
 {
 	vector<CEffect*> Effects;
 	auto func = bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
-	TRAIL_START_OUTLIST(TEXT("Test1"), func, m_Trails);
+	TRAIL_START_OUTLIST(TEXT("FullSwingTrail1"), func, m_Trail1);
+
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+	EFFECT_START_OUTLIST(L"FullSwingSmoke", &tDesc, m_Effects);
 }
 
-void CState_WDR_FullSwing_Success::Effect_TrailEnd()
+void CState_WDR_FullSwing_Success::Effect_TrailStart2()
 {
-	/*for (auto& Trail : m_Trails)
-	{
-		Trail->EffectEnd();
-	}
-	m_Trails.clear();*/
+	vector<CEffect*> Effects;
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("FullSwingTrail2"), func, m_Trail2);
+}
 
+void CState_WDR_FullSwing_Success::Effect_TrailEnd1()
+{
+	for (auto& Trail : m_Trail1)
+	{
+		dynamic_cast<CEffect_Trail*>(Trail)->TrailEnd(1.0f);
+	}
+	m_Trail1.clear();
+}
+
+void CState_WDR_FullSwing_Success::Effect_TrailEnd2()
+{
+	for (auto& Trail : m_Trail2)
+	{
+		dynamic_cast<CEffect_Trail*>(Trail)->TrailEnd(1.0f);
+	}
+	m_Trail2.clear();
+}
+
+
+
+void CState_WDR_FullSwing_Success::Effect_End()
+{
+	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+	EFFECT_START(L"FullSwingEndDecal", &tDesc);
+
+	for (auto& Effect : m_Effects)
+	{
+		dynamic_cast<CEffect_Particle*>(Effect)->ParticleEnd();
+	}
+	m_Effects.clear();
+
+	Effect_TrailEnd2();
+
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.5f, 10.0f);
+}
+
+void CState_WDR_FullSwing_Success::Update_Effect()
+{
+	for (auto& Effect : m_Effects)
+	{
+		Effect->Update_Pivot(m_pPlayer->Get_TransformCom()->Get_WorldMatrix());
+	}
 }
 
 

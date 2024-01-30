@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect_Manager.h"
+#include "Camera_Player.h"
 
 CState_WDR_PowerStrike_Start::CState_WDR_PowerStrike_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -82,6 +83,13 @@ void CState_WDR_PowerStrike_Start::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_PowerStrike_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Start))
+	{
+		m_iSkillCnt++;
+
+		Effect_Shot();
+	}
 }
 
 void CState_WDR_PowerStrike_Start::Effect_Shot()
@@ -91,6 +99,9 @@ void CState_WDR_PowerStrike_Start::Effect_Shot()
 	CEffect_Manager::EFFECTPIVOTDESC tDesc;
 	tDesc.pPivotMatrix = &matWorld;
 	EFFECT_START(L"PowerStrike1", &tDesc);
+
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 }
 
 CState_WDR_PowerStrike_Start* CState_WDR_PowerStrike_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

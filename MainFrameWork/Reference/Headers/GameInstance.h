@@ -106,6 +106,8 @@ public: /* For.PipeLine */
 	Matrix Get_TransformFloat4x4_TP(CPipeLine::TRANSFORMSTATE eTransformState) const;
 	Vec4 Get_CamPosition();
 	const BoundingFrustum& Get_CamFrustum();
+	void	Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensity = 0.0f);
+
 /* For. KeyManager */
 public:
 	KEY_STATE GetKeyState(KEY _eKey);

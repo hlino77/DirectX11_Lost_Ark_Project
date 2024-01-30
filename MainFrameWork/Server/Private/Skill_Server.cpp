@@ -35,13 +35,6 @@ HRESULT CSkill_Server::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	if (FAILED(Ready_Coliders()))
-		return E_FAIL;
-
-
-	if(m_pRigidBody)
-		m_pRigidBody->SetMass(2.0f);
-
     return S_OK;
 }
 
@@ -53,7 +46,7 @@ void CSkill_Server::Tick(_float fTimeDelta)
 
 void CSkill_Server::LateTick(_float fTimeDelta)
 {
-	Set_Colliders(fTimeDelta);
+
 }
 
 HRESULT CSkill_Server::Render()
@@ -83,50 +76,19 @@ void CSkill_Server::Send_Collision(_uint iColLayer, CCollider* pOther, _bool bEn
 
 
 
+
 HRESULT CSkill_Server::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc;
-	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
-
-	TransformDesc.fSpeedPerSec = 5.f;
-	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
-
-	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_UseLock_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
-		return E_FAIL;
-
-	///* For.Com_RigidBody */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_RigidBody"), TEXT("Com_RigidBody"), (CComponent**)&m_pRigidBody)))
-		return E_FAIL;
-
-	
-
 
 	Safe_Release(pGameInstance);
-
-	Vec3 vScale;
-	vScale.x = 0.01f;
-	vScale.y = 0.01f;
-	vScale.z = 0.01f;
-
-	m_pTransformCom->Set_Scale(vScale);
 
     return S_OK;
 }
 
 
-void CSkill_Server::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
-{
-	m_pTransformCom->LookAt_Lerp(vDir, 5.0f, fTimeDelta);
-	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
-}
 
 
 void CSkill_Server::Set_Die()

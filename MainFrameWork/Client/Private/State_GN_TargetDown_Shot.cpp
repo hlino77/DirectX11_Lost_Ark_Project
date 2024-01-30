@@ -66,6 +66,9 @@ void CState_GN_TargetDown_Shot::Exit_State()
 	if (true == m_pController->Is_HitState())
 	{
 		Effect_End();
+
+		if (m_pPlayer->Is_Control())
+			Reset_Camera();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -90,6 +93,12 @@ void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 void CState_GN_TargetDown_Shot::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
+	{
+		m_iSkillCnt++;
+		Effect_Shot();
+	}
 }
 
 void CState_GN_TargetDown_Shot::Effect_Shot()
@@ -134,17 +143,6 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-		
-
-		if (m_pPlayer->Is_Control())
-		{
-			m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 108.f, 0.3f, 18.0f);
-
-			CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(m_pPlayer->Get_Effect(L"TargetDownCrossHair"));
-
-			pEffect->EffectShot();
-		}
-			
 		Vec3 vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vPos = m_pPlayer->Get_TargetPos();
 		vPos.y += 0.7f;
@@ -166,6 +164,15 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = &matWorld;
 		EFFECT_START(TEXT("TargetDown"), &desc);
+
+		if (m_pPlayer->Is_Control())
+		{
+			m_pPlayer->Get_Camera()->Cam_Shake(0.7f, 108.f, 0.3f, 18.0f);
+
+			CEffect_Custom_CrossHair* pEffect = dynamic_cast<CEffect_Custom_CrossHair*>(m_pPlayer->Get_Effect(L"TargetDownCrossHair"));
+
+			pEffect->EffectShot(vPos);
+		}
 
 		for (_uint i = 0; i < 60; ++i)
 		{
@@ -193,10 +200,17 @@ void CState_GN_TargetDown_Shot::Effect_Shot()
 
 void CState_GN_TargetDown_Shot::Effect_End()
 {
-	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+	if(m_pPlayer->Is_Control())
+		m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
 
-	m_pPlayer->Delete_Effect(L"TargetDownCrossHair");
 	m_pPlayer->Delete_Effect(L"TargetDownDecal");
+}
+
+void CState_GN_TargetDown_Shot::Reset_Camera()
+{
+	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
+	m_pPlayer->Get_Camera()->Set_DefaultOffset();
+	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 }
 
 CState_GN_TargetDown_Shot* CState_GN_TargetDown_Shot::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

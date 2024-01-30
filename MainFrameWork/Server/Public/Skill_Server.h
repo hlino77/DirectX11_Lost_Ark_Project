@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "StateMachine.h"
 #include <atomic>
+#include "Lock.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -47,6 +48,7 @@ public:
 
 
 	virtual void	Explosion() PURE;
+	virtual void	Buff_Player(_uint iPlayerID) {};
 
 
 	virtual HRESULT					Ready_Coliders() = 0;
@@ -60,6 +62,7 @@ public:
 
 	CGameObject*			Get_SkillOwner() { return m_pSkillOwner; }
 
+
 public:
 
 
@@ -72,10 +75,6 @@ public:
 	void					Send_ColliderState(const _uint& iLayer);
 
 	void					Set_Colliders(_float fTimeDelta);
-
-
-
-	void					Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta);
 
 	void					Set_Die();
 
@@ -96,8 +95,10 @@ protected:
 	_float							m_fFollowDistance = 0.0f;
 
 	CGameObject*					m_pSkillOwner = nullptr;
-protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 
+	USE_LOCK;
+
+private:
 
 public:
 	virtual void Free();

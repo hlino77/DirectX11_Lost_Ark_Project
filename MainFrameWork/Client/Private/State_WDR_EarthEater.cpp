@@ -11,6 +11,7 @@
 #include "Effect_Custom_EarthEaterSmallParticle.h"
 #include "Effect_Manager.h"
 #include "Effect_Custom_EarthEaterDecal.h"
+#include "Camera_Player.h"
 
 CState_WDR_EarthEater::CState_WDR_EarthEater(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -148,6 +149,31 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_EarthEater::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEarthEater);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		m_iSkillCnt++;
+
+		if (iAnimFrame == 23)
+		{
+			Effect_Start();
+		}
+
+
+		if (iAnimFrame == 91)
+		{
+			Effect_End();
+		}
+
+	}
+
+	if (m_bSwing == false && iAnimFrame >= 88)
+	{
+		Effect_Swing();
+		m_bSwing = true;
+	}
 }
 
 void CState_WDR_EarthEater::Effect_Start()
@@ -194,6 +220,8 @@ void CState_WDR_EarthEater::Effect_Start()
 
 	}
 
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 40.0f, 0.5f, 10.0f);
 	
 	Safe_Release(pGameInstance);
 }
@@ -234,6 +262,8 @@ void CState_WDR_EarthEater::Effect_End()
 		EFFECT_START(L"EarthEater2", &tDesc);
 	}
 
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 }
 
 CState_WDR_EarthEater* CState_WDR_EarthEater::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

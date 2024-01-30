@@ -45,6 +45,7 @@ void CState_GN_TargetDown_Start::Enter_State()
 	{
 		Init_CameraOffset();
 	}
+	m_bZoomOut = false;
 }
 
 void CState_GN_TargetDown_Start::Tick_State(_float fTimeDelta)
@@ -56,7 +57,8 @@ void CState_GN_TargetDown_Start::Exit_State()
 {
 	if (true == m_pController->Is_HitState())
 	{
-		Reset_Camera();
+		if (m_pPlayer->Is_Control())
+			Reset_Camera();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -76,7 +78,8 @@ void CState_GN_TargetDown_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Skill_GN_TargetDown_Ready"));
 	}
 
-	Update_Camera(fTimeDelta);
+	if (m_pPlayer->Get_Camera()->Get_Mode() == CCamera_Player::CameraState::FREE)
+		Update_Camera(fTimeDelta);
 }
 
 void CState_GN_TargetDown_Start::Tick_State_NoneControl(_float fTimeDelta)
@@ -98,7 +101,7 @@ void CState_GN_TargetDown_Start::Update_Camera(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Start);
 
-	if (iAnimFrame > 25)
+	if (m_bZoomOut == false && iAnimFrame > 25)
 	{
 		m_pPlayer->Get_Camera()->ZoomInOut(1.0f, 15.0f);
 	}

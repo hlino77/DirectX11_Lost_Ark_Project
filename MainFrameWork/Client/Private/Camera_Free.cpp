@@ -120,8 +120,6 @@ void CCamera_Free::Tick(_float fTimeDelta)
 
 	if (m_bShake)
 	{
-		
-
 		m_fCurrShakeTime += fTimeDelta;
 		if (m_fCurrShakeTime >= m_fShakeTime)
 		{

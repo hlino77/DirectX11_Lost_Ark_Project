@@ -61,6 +61,7 @@ public:
 	_bool Get_Collider_Center(_uint iID, Vec3* pCenter);
 
 	virtual void	Explosion() PURE;
+	virtual void	Buff_Player(_uint iPlayerID) {};
 
 
 	virtual HRESULT					Ready_Coliders() = 0;

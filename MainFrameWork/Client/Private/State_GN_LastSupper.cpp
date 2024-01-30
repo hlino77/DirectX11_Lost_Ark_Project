@@ -86,10 +86,15 @@ void CState_GN_LastSupper::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_GN_LastSupper::Effect_Shot()
 {
-	if (m_pPlayer->Is_Control())
-		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 500.f, 0.1f, 12.f);
-
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+	if (m_pPlayer->Is_Control())
+	{
+		Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
+		vRadialPos.y += 0.7f;
+		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 500.f, 0.1f, 12.f);
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.1f);
+	}
 
 	Vec3 vLook = matWorld.Backward();
 	vLook.Normalize();

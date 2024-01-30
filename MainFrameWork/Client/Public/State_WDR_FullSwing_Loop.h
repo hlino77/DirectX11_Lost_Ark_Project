@@ -21,6 +21,8 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+
+	void	Update_Effect(_float fTimeDelta);
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
@@ -29,6 +31,15 @@ private:
 private:
 	//Animation
 	_int m_iFullSwing_Loop = 0;
+
+
+	vector<CEffect*> m_Effects;
+
+	_float m_fEffectAcc = 0.0f;
+	_float m_fEffectDelay = 0.0f;
+
+	_float m_fCamShakeDelay = 0.0f;
+	_float m_fCamShakeAcc = 0.0f;
 
 public:
 	static CState_WDR_FullSwing_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);

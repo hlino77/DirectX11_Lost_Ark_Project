@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect.h"
+#include "Camera_Player.h"
 
 CState_WDR_PowerShoulder_Loop::CState_WDR_PowerShoulder_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -28,6 +29,9 @@ HRESULT CState_WDR_PowerShoulder_Loop::Initialize()
 	m_SkillFrames.push_back(22);
 	m_SkillFrames.push_back(26);
 	m_SkillFrames.push_back(-1);
+
+
+
 
 	return S_OK;
 }
@@ -63,32 +67,33 @@ void CState_WDR_PowerShoulder_Loop::Exit_State()
 
 void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
 	if (true == m_pPlayer->Get_WDR_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop) &&
-		29 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+		10 <= iAnimFrame &&
+		29 > iAnimFrame)
 	{
 		m_bComboContinue = true;
 	}
 
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerShoulder_Loop))
+	if (true == iAnimFrame)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (29 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+	if (29 == iAnimFrame)
 	{
 		if (true == m_bComboContinue)
 		{
 			m_pPlayer->Set_State(TEXT("Skill_WDR_PowerShoulder_End"));
-			Effect_End();
 			m_bEffectEnd = true;
 		}
 	}
-	else if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+	else if (29 < iAnimFrame)
 	{
 		if (m_bEffectEnd == false)
 		{
@@ -145,6 +150,20 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_PowerShoulder_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop);
+
+	if (29 < iAnimFrame)
+	{
+		if (m_bEffectEnd == false)
+		{
+			Effect_End();
+			m_bEffectEnd = true;
+		}
+	}
+
+	if (m_bEffectEnd == false)
+		Update_Effect();
 }
 
 void CState_WDR_PowerShoulder_Loop::Update_Effect()
@@ -159,6 +178,9 @@ void CState_WDR_PowerShoulder_Loop::Effect_End()
 {
 	m_pPlayer->Delete_Effect(L"WDPowerShoulder1");
 	m_pPlayer->Delete_Effect(L"WDPowerShoulder2");
+
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 CState_WDR_PowerShoulder_Loop* CState_WDR_PowerShoulder_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

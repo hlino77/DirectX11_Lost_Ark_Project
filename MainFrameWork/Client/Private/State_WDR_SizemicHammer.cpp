@@ -8,6 +8,7 @@
 #include "GameInstance.h"
 #include "Effect_Custom_SeismicHammerRock.h"
 #include "Effect_Manager.h"
+#include "Camera_Player.h"
 
 CState_WDR_SizemicHammer::CState_WDR_SizemicHammer(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -26,7 +27,7 @@ HRESULT CState_WDR_SizemicHammer::Initialize()
 		m_TickFunc = &CState_WDR_SizemicHammer::Tick_State_NoneControl;
 
 	m_SkillFrames.push_back(41);
-	m_SkillFrames.push_back(70);
+	m_SkillFrames.push_back(60);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;
@@ -68,6 +69,12 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 		if (iAnimFrame == 41)
 		{
 			Effect_Skill();
+			m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 100.0f, 0.5f, 10.0f);
+		}
+
+		if (iAnimFrame == 60)
+		{
+			m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 		}
 	}
 
@@ -122,6 +129,18 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		m_iSkillCnt++;
+
+		if (iAnimFrame == 41)
+		{
+			Effect_Skill();
+		}
+	}
 }
 
 void CState_WDR_SizemicHammer::Effect_Skill()

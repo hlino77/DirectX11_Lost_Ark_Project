@@ -17,6 +17,8 @@
 #include "NavigationMgr.h"
 #include "Chat_Manager.h"
 #include "Party.h"
+#include "Skill_RisingSun.h"
+#include "Skill_TeleportDoor.h"
 
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
@@ -660,7 +662,134 @@ bool Handel_S_NPC_Client(PacketSessionRef& session, Protocol::S_NPC& pkt)
 bool Handel_S_NAVIGATION_Client(PacketSessionRef& session, Protocol::S_NAVIGATION& pkt)
 {
 
+	return true;
+}
 
+bool Handel_S_CREATESKILL_Client(PacketSessionRef& session, Protocol::S_CREATE_SKILL& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	switch ((SKILL_TYPE)pkt.iskilltype())
+	{
+	case SKILL_TYPE::SKILL_RISINGSUN:
+	{
+		_uint iPlayerID = pkt.iplayerid();
+		CGameObject* pPlayer = nullptr;
+
+		if (CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID() == iPlayerID)
+		{
+			pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+		}
+		else
+		{
+			pPlayer = pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID);
+		}
+
+		if (pPlayer == nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+
+		CSkill_RisingSun::RisingSunDesc tDesc;
+		tDesc.iObjectID = pkt.iskillid();
+		tDesc.pSkillOwner = pPlayer;
+
+		Matrix matWorld(pkt.matrix().data());
+		tDesc.matWorld = &matWorld;
+
+		CGameObject* pObject = pGameInstance->Add_GameObject(pPlayer->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_RisingSun", &tDesc);
+
+	}
+	
+		break;
+
+	case SKILL_TYPE::SKILL_TELEPORTDOOR:
+	{
+		_uint iPlayerID = pkt.iplayerid();
+		CGameObject* pPlayer = nullptr;
+
+		if (CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID() == iPlayerID)
+		{
+			pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+		}
+		else
+		{
+			pPlayer = pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID);
+		}
+
+		if (pPlayer == nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+
+		CSkill_TeleportDoor::RisingSunDesc tDesc;
+		tDesc.iObjectID = pkt.iskillid();
+		tDesc.pSkillOwner = pPlayer;
+
+		Matrix matWorld(pkt.matrix().data());
+		tDesc.matWorld = &matWorld;
+
+		CGameObject* pObject = pGameInstance->Add_GameObject(pPlayer->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_TeleportDoor", &tDesc);
+
+	}
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_BUFFSKILL_Client(PacketSessionRef& session, Protocol::S_BUFF_SKILL& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CSkill* pSkill = dynamic_cast<CSkill*>(pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_SKILL, pkt.iskillid()));
+	
+	if (pSkill == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	pSkill->Buff_Player(pkt.iplayerid());
+
+	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_PLAYERTELEPORT_Client(PacketSessionRef& session, Protocol::S_PLAYERTELEPORT& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_uint iPlayerID = pkt.iplayerid();
+	CPlayer* pPlayer = nullptr;
+
+	if (CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID() == iPlayerID)
+	{
+		pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	}
+	else
+	{
+		pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
+	}
+
+	if (pPlayer == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	pPlayer->Set_Render(false);
+	pPlayer->Set_NoneControlState(L"Idle");
+
+	Matrix matWorld(pkt.matrix().data());
+	pPlayer->Set_TargetMatrix(matWorld);
+	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
+	pPlayer->Set_Render(true);
+
+	Safe_Release(pGameInstance);
 	return true;
 }
 

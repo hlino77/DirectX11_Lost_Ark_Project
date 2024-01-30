@@ -23,6 +23,8 @@ public:
 
 
 	void	Effect_End();
+
+	void	Update_Radial();
 private:
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 

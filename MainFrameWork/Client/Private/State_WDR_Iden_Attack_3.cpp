@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "Camera_Player.h"
 
 CState_WDR_Iden_Attack_3::CState_WDR_Iden_Attack_3(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -162,6 +163,12 @@ void CState_WDR_Iden_Attack_3::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_Iden_Attack_3::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+	{
+		m_iAttackCnt++;
+		Effect_Shot();
+	}
 }
 
 void CState_WDR_Iden_Attack_3::Effect_Shot()
@@ -171,6 +178,9 @@ void CState_WDR_Iden_Attack_3::Effect_Shot()
 	CEffect_Manager::EFFECTPIVOTDESC desc;
 	desc.pPivotMatrix = &matWorld;
 	EFFECT_START(L"AttGravity3", &desc);
+
+	if (m_pPlayer->Is_Control())
+		m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 100.0f, 0.5f, 10.0f);
 }
 
 

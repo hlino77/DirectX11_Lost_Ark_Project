@@ -1346,7 +1346,7 @@ HRESULT CRenderer::Render_PostProcess()
 		return E_FAIL;
 
 	// Motion Blur
-	if (pPipeLine->Is_CamMoved() || false == m_bMotionBlurInitialized)
+	if (pPipeLine->Is_MotionBlur() || false == m_bMotionBlurInitialized)
 	{
 		if (false == m_bMotionBlurInitialized) m_bMotionBlurInitialized = true;
 
@@ -1379,6 +1379,10 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamProjMatrix", &matCamProj)))
 			return E_FAIL;
 
+		_float fIntensity = CPipeLine::GetInstance()->Get_MotionBlurIntensity();
+		if (FAILED(m_pPostProccessor->Bind_RawValue("g_fMotionBlurIntensity", &fIntensity, sizeof(_float))))
+			return E_FAIL;
+
 		if (FAILED(m_pVIBuffer->Render()))
 			return E_FAIL;
 
@@ -1391,18 +1395,6 @@ HRESULT CRenderer::Render_PostProcess()
 
 	m_matPreCamView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
 
-	// Radial Blur
-	/*RadialBlur_Data tRadialBlur;
-	if (CInput_Device::GetInstance()->Get_DIMKeyState(DIMK::DIMK_RBUTTON))
-	{
-		tRadialBlur.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
-		tRadialBlur.fRadialBlurIntensity = 0.2f;
-	}
-	else
-	{
-		tRadialBlur.fRadialBlurIntensity = 0.f;
-	}*/
-
 	if (FLT_EPSILON < m_tRadialBlurData.fRadialBlurIntensity)
 	{
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_RadialBlur"))))
@@ -1412,7 +1404,12 @@ HRESULT CRenderer::Render_PostProcess()
 			return E_FAIL;
 		if (FAILED(m_pPostProccessor->Bind_CBuffer("RadialBlur", &m_tRadialBlurData, sizeof(RadialBlur_Data))))
 			return E_FAIL;
+
 		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamViewMatrix", &m_matPreCamView)))
+			return E_FAIL;
+
+		Matrix matCamProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamProjMatrix", &matCamProj)))
 			return E_FAIL;
 
 		if (FAILED(m_pVIBuffer->Render()))

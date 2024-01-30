@@ -7,6 +7,10 @@
 #include <AnimModel.h>
 #include "GameInstance.h"
 #include "Player.h"
+#include "Camera_Player.h"
+#include "ServerSessionManager.h"
+#include "AsUtils.h"
+
 CValtan_BT_Phase2::CValtan_BT_Phase2()
 {
 }
@@ -14,6 +18,13 @@ CValtan_BT_Phase2::CValtan_BT_Phase2()
 void CValtan_BT_Phase2::OnStart()
 {
 	__super::OnStart(0);
+
+	m_eCameraState = CameraState::Ready;
+	m_bBreak = false;
+	m_fCameraSpeed = 8.0f;
+	m_bRadial = false;
+
+	m_fCamShakeTimeAcc = m_fCamShakeTimeDelay = 0.23f;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
@@ -23,17 +34,111 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) > 41 && m_iCurrAnimation == 3)
-		for (auto iter : CGameInstance::GetInstance()->GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_BACKGROUND))
-		{
-			if (iter->Get_ModelCom()->Get_ModelType() == CModel::TYPE::TYPE_ANIM &&
-				iter->Get_ModelName() == TEXT("Wall01") ||
-				iter->Get_ModelName() == TEXT("Wall02") ||
-				iter->Get_ModelName() == TEXT("Wall03") ||
-				iter->Get_ModelName() == TEXT("Wall04"))
-				static_cast<CAnimModel*>(iter)->Set_PlayAnim(true);
 
+	_uint iAnimFrame3 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex);
+
+	if (m_iCurrAnimation == 3 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex)
+	{
+		if (m_bBreak == false && iAnimFrame3 > 41)
+		{
+			for (auto iter : CGameInstance::GetInstance()->GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_BACKGROUND))
+			{
+				if (iter->Get_ModelCom()->Get_ModelType() == CModel::TYPE::TYPE_ANIM &&
+					iter->Get_ModelName() == TEXT("Wall01") ||
+					iter->Get_ModelName() == TEXT("Wall02") ||
+					iter->Get_ModelName() == TEXT("Wall03") ||
+					iter->Get_ModelName() == TEXT("Wall04"))
+					static_cast<CAnimModel*>(iter)->Set_PlayAnim(true);
+			}
+
+			m_bBreak = true;
 		}
+
+		if (m_eCameraState == CameraState::Ready)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			vPos += Vec3(-0.354f, 0.935f, 0.0f);
+			CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+			pCamera->Set_Mode(CCamera_Player::CameraState::FREE);
+			pCamera->Set_TargetPos(vPos);
+			pCamera->Set_Offset(Vec3(-0.09f, 0.161f, -0.983f));
+			pCamera->Set_CameraLength(2.3f);
+			pCamera->ZoomInOut(6.0f, 2.0f);
+			m_eCameraState = CameraState::Start;
+		}
+		else if (m_eCameraState == CameraState::Start)
+		{
+			CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+			if (iAnimFrame3 < 39)
+			{
+				Vec3 vOffset = pCamera->Get_Offset();
+				Vec3 vTargetOffset = Vec3(-0.025f, 0.330f, -0.848f);
+				vTargetOffset.Normalize();
+				vOffset = Vec3::Lerp(vOffset, vTargetOffset, 2.0f * fTimeDelta);
+				pCamera->Set_Offset(vOffset);
+			}
+			else if(iAnimFrame3 >= 39 && iAnimFrame3 < 41)
+			{
+				_float fLength = pCamera->Get_CameraLength();
+				fLength += m_fCameraSpeed * fTimeDelta;
+				pCamera->Set_CameraLength(fLength);
+			}
+			else if (iAnimFrame3 >= 41 && iAnimFrame3 < 42)
+			{
+				if (m_bRadial == false)
+				{
+					Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+					vPos.y += 1.0f;
+					pCamera->Set_RadialBlur(0.2f, vPos, 0.2f, 0.2f);
+					m_bRadial = false;
+				}
+				m_fCameraSpeed = 300.0f;
+				_float fLength = pCamera->Get_CameraLength();
+				fLength += m_fCameraSpeed * fTimeDelta;
+				pCamera->Set_CameraLength(fLength);
+
+				Vec3 vOffset = pCamera->Get_Offset();
+				Vec3 vTargetOffset = Vec3(-0.025f, 0.830f, -0.848f);
+				vTargetOffset.Normalize();
+				vOffset = Vec3::Lerp(vOffset, vTargetOffset, 7.0f * fTimeDelta);
+				pCamera->Set_Offset(vOffset);
+
+				if (m_fCamShakeTimeAcc >= m_fCamShakeTimeDelay)
+				{
+					pCamera->Cam_Shake(0.4f, 100.0f, 2.0f, 5.0f);
+					m_fCamShakeTimeAcc = 0.0f;
+				}
+				else
+				{
+					m_fCamShakeTimeAcc += fTimeDelta;
+				}
+			}
+			else if (iAnimFrame3 >= 42)
+			{
+				Vec3 vOffset = pCamera->Get_Offset();
+				Vec3 vTargetOffset = Vec3(-0.025f, 0.830f, -0.848f);
+				vTargetOffset.Normalize();
+				vOffset = Vec3::Lerp(vOffset, vTargetOffset, 7.0f * fTimeDelta);
+				pCamera->Set_Offset(vOffset);
+
+				m_fCameraSpeed = CAsUtils::Lerpf(m_fCameraSpeed, 4.0f, 10.0f * fTimeDelta);
+				_float fLength = pCamera->Get_CameraLength();
+				fLength += m_fCameraSpeed * fTimeDelta;
+				pCamera->Set_CameraLength(fLength);
+
+				if (m_fCamShakeTimeAcc >= m_fCamShakeTimeDelay)
+				{
+					pCamera->Cam_Shake(0.4f, 100.0f, 1.0f, 10.0f);
+					m_fCamShakeTimeAcc = 0.0f;
+				}
+				else
+				{
+					m_fCamShakeTimeAcc += fTimeDelta;
+				}
+			}
+		}
+		
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) > 77 && m_iCurrAnimation == 3)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Set_Invincible(false);
@@ -48,7 +153,16 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_iCurrAnimation == 3)
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(false);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_iCurrAnimation == 4)
+	{
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(true);
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+		m_fCameraSpeed = CAsUtils::Lerpf(m_fCameraSpeed, 4.0f, 10.0f * fTimeDelta);
+		_float fLength = pCamera->Get_CameraLength();
+		fLength += m_fCameraSpeed * fTimeDelta;
+		pCamera->Set_CameraLength(fLength);
+	}
+	
 
 
 	return __super::OnUpdate(fTimeDelta);
@@ -59,6 +173,37 @@ void CValtan_BT_Phase2::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_Phase(2);
 	static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER))->Set_CurValtanPhase(2);
+
+
+	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_ResetSpeed(5.0f);
+	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Mode(CCamera_Player::CameraState::RESET);
+}
+
+void CValtan_BT_Phase2::Update_Camera(_float fTimeDelta)
+{
+	switch (m_eCameraState)
+	{
+	case CameraState::Ready:
+	{
+
+	}
+		break;
+	case CameraState::Start:
+	{
+
+	}
+		break;
+	case CameraState::ZoomOut:
+	{
+
+	}
+		break;
+	case CameraState::CameraEnd:
+	{
+
+	}
+		break;
+	}
 }
 
 

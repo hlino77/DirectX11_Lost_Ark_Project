@@ -21,7 +21,9 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
-
+private:
+	void	Init_Camera();
+	void	Reset_Camera();
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
@@ -31,6 +33,7 @@ private:
 	//Animation
 	_int m_iPerfectSwing_Start = 0;
 
+	Vec3 m_vCameraOffset;
 public:
 	static CState_WDR_PerfectSwing_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

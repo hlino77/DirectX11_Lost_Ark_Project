@@ -5,6 +5,9 @@
 #include "Controller_WDR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
+#include "Camera_Player.h"
 
 CState_WDR_FullSwing_Loop::CState_WDR_FullSwing_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -27,6 +30,12 @@ HRESULT CState_WDR_FullSwing_Loop::Initialize()
 	m_fSkillSuccessTime_Min = 1.0f;
 	m_fSkillSuccessTime_Max = 1.2f;
 
+	m_fEffectAcc = 0.1f;
+	m_fEffectDelay = 0.1f;
+
+	m_fCamShakeAcc = 0.0f;
+	m_fCamShakeDelay = 0.3f;
+
 	return S_OK;
 }
 
@@ -36,6 +45,13 @@ void CState_WDR_FullSwing_Loop::Enter_State()
 
 	m_pPlayer->Reserve_Animation(m_iFullSwing_Loop, 0.1f, 0, 0);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+
+
+	m_Effects.clear();
+
+	m_fEffectAcc = m_fEffectDelay;
+	m_fCamShakeAcc = m_fCamShakeDelay;
 }
 
 void CState_WDR_FullSwing_Loop::Tick_State(_float fTimeDelta)
@@ -51,6 +67,16 @@ void CState_WDR_FullSwing_Loop::Exit_State()
 
 void CState_WDR_FullSwing_Loop::Tick_State_Control(_float fTimeDelta)
 {
+	Update_Effect(fTimeDelta);
+
+	if (m_fCamShakeAcc >= m_fCamShakeDelay)
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.02f, 80.0f, 1.0f, 5.0f);
+		m_fCamShakeAcc = 0.0f;
+	}
+	else
+		m_fCamShakeAcc += fTimeDelta;
+
 	m_fSkillTimeAcc += fTimeDelta;
 
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
@@ -87,6 +113,36 @@ void CState_WDR_FullSwing_Loop::Tick_State_Control(_float fTimeDelta)
 void CState_WDR_FullSwing_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	Update_Effect(fTimeDelta);
+}
+
+
+void CState_WDR_FullSwing_Loop::Update_Effect(_float fTimeDelta)
+{
+	Matrix matWorld = static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix();
+
+	for (auto& Effectiter = m_Effects.begin(); Effectiter != m_Effects.end();)
+	{
+		if ((*Effectiter)->Is_Active())
+		{
+			(*Effectiter)->Update_Pivot(matWorld);
+			++Effectiter;
+		}
+		else
+		{
+			Effectiter = m_Effects.erase(Effectiter);
+		}
+	}
+
+	m_fEffectAcc += fTimeDelta;
+	if (m_fEffectAcc >= m_fEffectDelay)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		EFFECT_START_OUTLIST(L"PerfectSwingCharge", &tDesc, m_Effects);
+		m_fEffectAcc = 0.0f;
+	}
 }
 
 CState_WDR_FullSwing_Loop* CState_WDR_FullSwing_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

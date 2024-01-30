@@ -235,6 +235,10 @@
 #include "Item_TestItem.h"
 #include "Esther_Way.h"
 
+//SKILL
+#include "Skill_RisingSun.h"
+#include "Skill_TeleportDoor.h"
+
 
 namespace fs = std::filesystem;
 
@@ -1454,6 +1458,18 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
 		CEsther_Way::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	//================= Skill ==========================
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_RisingSun"),
+		CSkill_RisingSun::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_TeleportDoor"),
+		CSkill_TeleportDoor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
