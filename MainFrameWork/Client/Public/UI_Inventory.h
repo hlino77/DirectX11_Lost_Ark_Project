@@ -49,7 +49,7 @@ private:
     vector<ITEM_SLOTDESC> m_vecItemSlots;
     unordered_map<wstring, ITEMTAG_DESC>m_ItemTags;
     CUI* m_pInventoryWnd = { nullptr };
-    _bool   m_bTestActiveKey = { false };
+    _bool   m_bActiveKey = { false };
 public:
     static  CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

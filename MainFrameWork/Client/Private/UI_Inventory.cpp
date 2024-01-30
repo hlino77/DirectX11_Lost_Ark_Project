@@ -41,7 +41,6 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 		m_pOwner = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
 		if (nullptr == m_pOwner)
 			return E_FAIL;
-
 	}
 
 	if (FAILED(UI_SET()))
@@ -55,20 +54,23 @@ void CUI_Inventory::Tick(_float fTimeDelta)
 	if (KEY_TAP(KEY::I))
 	{
 		Update_Used_Item();
-		m_bTestActiveKey = !m_bTestActiveKey;
-
+		m_bActiveKey = !m_bActiveKey;
+		
 		for (auto& iter : m_vecUIParts)
 		{
-			iter->Set_Render(m_bTestActiveKey);
-			iter->Set_Active(m_bTestActiveKey);
+			iter->Set_Render(m_bActiveKey);
+			iter->Set_Active(m_bActiveKey);
 		}
 	}
 }
 
 void CUI_Inventory::LateTick(_float fTimeDelta)
 {
-	if(m_bActive)
+	if (m_bActiveKey)
+	{
 		Move_InventoryWNd();
+		static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->Set_Player_Control(m_pOwner, m_bActiveKey);
+	}
 }
 
 HRESULT CUI_Inventory::Render()

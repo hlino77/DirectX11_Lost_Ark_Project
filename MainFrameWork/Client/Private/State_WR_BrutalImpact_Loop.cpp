@@ -5,6 +5,8 @@
 #include "Controller_WR.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "GameInstance.h"
+#include "UI_HoldingFrame.h"
 
 CState_WR_BrutalImpact_Loop::CState_WR_BrutalImpact_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -28,6 +30,17 @@ HRESULT CState_WR_BrutalImpact_Loop::Initialize()
 	m_fSkillSuccessTime_Max = 1.5f;
 	m_fSkillSuccessTime_Min = 0.5f;
 
+	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+	HoldingDesc.strSkillName = TEXT("∫Í∑Á≈ª ¿”∆—∆Æ");
+	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+	HoldingDesc.fSkillEndTime = m_fSkillEndTime;
+	HoldingDesc.fSkillSuccessTime_Min = 0.f;
+	HoldingDesc.fSkillSuccessTime_Max = 0.f;
+	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+	if (nullptr == m_pHoldingUI)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -42,6 +55,7 @@ void CState_WR_BrutalImpact_Loop::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_fSkillTimeAcc = 0.f;
+	m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_WR_BrutalImpact_Loop::Tick_State(_float fTimeDelta)
@@ -53,12 +67,13 @@ void CState_WR_BrutalImpact_Loop::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+	m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	m_fSkillTimeAcc += fTimeDelta;
-
+	m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
 	{
 		m_pController->Set_SkillSuccess(m_eSkillSelectKey, true);
@@ -116,4 +131,5 @@ CState_WR_BrutalImpact_Loop* CState_WR_BrutalImpact_Loop::Create(wstring strStat
 void CState_WR_BrutalImpact_Loop::Free()
 {
 	__super::Free();
+	m_pHoldingUI->Set_Dead(true);
 }

@@ -37,6 +37,8 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
 
+	CTexture* m_pTextureCom_BackGround = { nullptr };
+
 private:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	Matrix					m_ViewMatrix, m_ProjMatrix;
@@ -45,7 +47,6 @@ private:
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
-
 
 public:
 	static CBackGround_MainLogo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

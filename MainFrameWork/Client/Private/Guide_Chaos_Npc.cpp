@@ -189,10 +189,7 @@ HRESULT CGuide_Chaos_Npc::Ready_ChaosEntranceUI()
 void CGuide_Chaos_Npc::Activate_GuideUI()
 {
 	if (true == m_pChaosUI->Get_IsClicked())
-	{
 		Send_UI_State();
-		m_pChaosUI->Set_Active(false);
-	}
 }
 
 void CGuide_Chaos_Npc::Send_UI_State()

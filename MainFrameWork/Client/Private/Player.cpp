@@ -78,11 +78,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_NamePlate()))
 		return E_FAIL;
 
-	if (m_bControl)
-	{
-		if (FAILED(Ready_Inventory()))
-			return E_FAIL;
-	}
+	if (FAILED(Ready_Inventory()))
+		return E_FAIL;
+
 	m_pRigidBody->Set_Gravity(false);
 
 	return S_OK;

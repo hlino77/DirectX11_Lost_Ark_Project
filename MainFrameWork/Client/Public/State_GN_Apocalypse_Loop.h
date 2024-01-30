@@ -4,7 +4,7 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
-
+class CUI_HoldingFrame;
 class CState_GN_Apocalypse_Loop final : public CState_Skill
 {
 public:

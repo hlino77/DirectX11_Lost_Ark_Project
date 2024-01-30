@@ -137,6 +137,7 @@ void CUI_Inventory_ItemSlot::LateTick(_float fTimeDelta)
 				m_pOwner->Use_Item(m_vecItems.front()->Get_ObjectTag());
 		}
 	}
+	Picking_Effect(fTimeDelta);
 }
 
 HRESULT CUI_Inventory_ItemSlot::Render()
@@ -154,6 +155,11 @@ HRESULT CUI_Inventory_ItemSlot::Render()
 	if (FAILED(Bind_ShaderResources_ItemIcon()))
 		return E_FAIL;
 	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_Picked_Effect()))
+		return E_FAIL;
+	m_pShaderCom->Begin(2);
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -228,6 +234,10 @@ HRESULT CUI_Inventory_ItemSlot::Ready_Components()
 		TEXT("Com_Texture_None"), (CComponent**)&m_pTexture_None)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_PickedSlot_Effect"),
+		TEXT("Com_Texture_Picked_Effect"), (CComponent**)&m_pTexture_Picked_Effect)))
+		return E_FAIL;
+
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
 		TEXT("Com_Transform_ItemIcon"), (CComponent**)&m_pTransform_ItemIcon)))
 		return E_FAIL;
@@ -295,6 +305,25 @@ HRESULT CUI_Inventory_ItemSlot::Bind_ShaderResources_ItemIcon()
 		if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
 			return E_FAIL;
 	}
+	return S_OK;
+}
+
+HRESULT CUI_Inventory_ItemSlot::Bind_ShaderResources_Picked_Effect()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_ItemIcon->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fPickedAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+
+	if (FAILED(m_pTexture_Picked_Effect->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -381,6 +410,28 @@ void CUI_Inventory_ItemSlot::Set_Item_StringInfo(const _uint& iItemType, const _
 	}
 }
 
+void CUI_Inventory_ItemSlot::Picking_Effect(_float fTimeDelta)
+{
+	if (!m_bPick)
+	{
+		if (0.f < m_fPickedAlpha)
+		{
+			m_fPickedAlpha -= 3.f * fTimeDelta;
+		}
+		if (0.f > m_fPickedAlpha)
+			m_fPickedAlpha = 0.f;
+	}
+	else
+	{
+		if (1.f > m_fPickedAlpha)
+		{
+			m_fPickedAlpha += 3.f * fTimeDelta;
+		}
+		if (1.f < m_fPickedAlpha)
+			m_fPickedAlpha = 1.f;
+	}
+}
+
 CUI_Inventory_ItemSlot* CUI_Inventory_ItemSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUI_Inventory_ItemSlot* pInstance = new CUI_Inventory_ItemSlot(pDevice, pContext);
@@ -417,6 +468,7 @@ void CUI_Inventory_ItemSlot::Free()
 	Safe_Release(m_pTexture_ItemIcon);
 	Safe_Release(m_pTexture_ItemGrade);
 	Safe_Release(m_pTexture_None);
+	Safe_Release(m_pTexture_Picked_Effect);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransform_ItemIcon);
 	Safe_Release(m_pShaderCom);

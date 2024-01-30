@@ -30,6 +30,7 @@ public:
     void    Move_InventoryWnd(POINT pt);
     void    Create_Rect_MoveWnd();
     void    Is_Picking_MoveWnd(POINT pt);
+    void    Set_Player_Control(class CPlayer* pPlayer, _bool bRender);
 
 private:
     virtual HRESULT Ready_Components();
@@ -40,6 +41,7 @@ private:
 private:
     RECT    m_rcMovingWnd = {};
     _bool   m_bHolding = { false };
+    _bool   m_bMovingRect = { false };
 
     CTextBox* m_pMoneyWnd = { false };
     wstring   m_strWndTag;

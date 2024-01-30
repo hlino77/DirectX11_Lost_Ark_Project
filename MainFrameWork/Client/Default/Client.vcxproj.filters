@@ -1480,6 +1480,15 @@
     <Filter Include="02.GameObjects\Camera\Free">
       <UniqueIdentifier>{1126c00b-d82e-4136-b6f5-24f35ea37041}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi">
+      <UniqueIdentifier>{4759e86d-3d99-4812-a52d-ebe9145cf297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd">
+      <UniqueIdentifier>{2d1c2c56-aee4-403d-ac22-d184b4c2b5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Bubble">
+      <UniqueIdentifier>{0397021f-e667-40ed-ada7-0fc8851e612e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4406,6 +4415,9 @@
     <ClInclude Include="..\Public\Camera_Free.h">
       <Filter>02.GameObjects\Camera\Free</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentitySP_MainWnd.h">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7307,6 +7319,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentitySP_MainWnd.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

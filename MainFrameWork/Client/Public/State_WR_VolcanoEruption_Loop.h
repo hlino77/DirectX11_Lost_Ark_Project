@@ -4,7 +4,8 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
-
+class CEffect;
+class CUI_HoldingFrame;
 class CState_WR_VolcanoEruption_Loop final : public CState_Skill
 {
 public:
@@ -23,7 +24,7 @@ public:
 
 private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
-
+	CUI_HoldingFrame* m_pHoldingUI = { nullptr };
 	std::function<void(CState_WR_VolcanoEruption_Loop&, _float)> m_TickFunc;
 
 private:

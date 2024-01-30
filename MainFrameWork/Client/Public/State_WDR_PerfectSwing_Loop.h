@@ -4,7 +4,8 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
-
+class CEffect;
+class CUI_HoldingFrame;
 class CState_WDR_PerfectSwing_Loop final : public CState_Skill
 {
 public:
@@ -26,7 +27,7 @@ public:
 	
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
-
+	CUI_HoldingFrame* m_pHoldingUI = { nullptr };
 	std::function<void(CState_WDR_PerfectSwing_Loop&, _float)> m_TickFunc;
 
 private:
@@ -42,6 +43,7 @@ private:
 
 	_float m_fEffectAcc = 0.0f;
 	_float m_fEffectDelay = 0.0f;
+	_float	m_fUI_AccTime = { 0.0f };
 public:
 	static CState_WDR_PerfectSwing_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

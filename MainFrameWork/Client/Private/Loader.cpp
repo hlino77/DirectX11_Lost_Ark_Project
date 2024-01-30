@@ -134,6 +134,7 @@
 #include "UI_InventoryWnd.h"
 #include "UI_Inventory_ItemSlot.h"
 #include "UI_Inventory.h"
+#include "UI_HoldingFrame.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -3060,6 +3061,11 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_HoldingGauge"),
+			CUI_HoldingFrame::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChaosDungeon_Clear"),
 			CUI_ChaosDungeon_Clear::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
@@ -3394,6 +3400,11 @@ HRESULT CLoader::Loading_Inventory_UI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_PickedSlot_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/PickedSlot_Effect.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	//Gunslinger
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_MococoHead"),
@@ -3541,9 +3552,37 @@ HRESULT CLoader::Loading_Inventory_UI()
 		pUIManager->Add_CurrFile();
 	}
 	
-	//ETC
+	//Yinyangshi / Artist /
 	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_BackGround"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/BackGround.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_MainWnd"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/MainWnd.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Ink"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Ink.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Masked_GaugeCut"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Masked_GaugeCut.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Brush"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Brush_%d.png",2))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Bubble_Frames"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble_Frames"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
 	}
 
 	Safe_Release(pUIManager);
@@ -5059,6 +5098,16 @@ HRESULT CLoader::Loading_SkillIcon()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_Shine"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_Shine.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Perfect_Zone"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Perfect_Zone.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Holding_End"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Holding_Bar/Holding_End.png"))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 

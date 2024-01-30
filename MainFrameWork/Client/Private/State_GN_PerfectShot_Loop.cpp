@@ -8,6 +8,7 @@
 #include "Effect_Manager.h"
 #include "GameInstance.h"
 #include "Effect.h"
+#include "UI_HoldingFrame.h"
 
 CState_GN_PerfectShot_Loop::CState_GN_PerfectShot_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -25,14 +26,25 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_PerfectShot_Loop::Tick_State_NoneControl;
 
-	m_fSkillEndTime = 4.f;
+	m_fSkillEndTime = 3.f;
 
-	m_fSkillSuccessTime_Min = 3.f;
-	m_fSkillSuccessTime_Max = 3.5f;
+	m_fSkillSuccessTime_Min = 2.f;
+	m_fSkillSuccessTime_Max = 2.5f;
 
 	m_fEffectChargeTime = 0.23f;
 
 	m_fEffectCharge2Time = 0.4f;
+
+	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+	HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
+	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+	HoldingDesc.fSkillEndTime = m_fSkillEndTime;
+	HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
+	HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
+	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+	if (nullptr == m_pHoldingUI)
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -48,6 +60,8 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 
 	m_fEffectChargeAcc = 0.4f;
 	m_fEffectCharge2Acc = 0.3f;
+
+	m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
@@ -69,12 +83,13 @@ void CState_GN_PerfectShot_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+	m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	m_fSkillTimeAcc += fTimeDelta;
-
+	m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
 	Vec3 vClickPos;
 	if (m_pPlayer->Get_CellPickingPos(vClickPos))
 	{
@@ -224,4 +239,5 @@ CState_GN_PerfectShot_Loop* CState_GN_PerfectShot_Loop::Create(wstring strStateN
 void CState_GN_PerfectShot_Loop::Free()
 {
 	__super::Free();
+	m_pHoldingUI->Set_Dead(true);
 }

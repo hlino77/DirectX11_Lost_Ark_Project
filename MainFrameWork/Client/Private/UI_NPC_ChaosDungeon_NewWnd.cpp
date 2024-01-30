@@ -2,6 +2,14 @@
 #include "UI_NPC_ChaosDungeon_NewWnd.h"
 #include "GameInstance.h"
 #include "TextBox.h"
+#include "Player_Gunslinger.h"
+#include "Player_Slayer.h"
+#include "Player_Destroyer.h"
+#include "Player_Bard.h"
+#include "Player_Controller_GN.h"
+#include "Controller_MG.h"
+#include "Controller_WDR.h"
+#include "Controller_WR.h"
 
 CUI_NPC_ChaosDungeon_NewWnd::CUI_NPC_ChaosDungeon_NewWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -86,10 +94,14 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
     if (true == m_bActive)
     {
         if (0 < m_fCurrTimer)
+        {
             m_fCurrTimer -= fTimeDelta;
+            Set_Player_Control();
+        }
         else if (0 > m_fCurrTimer)
         {
             m_fCurrTimer = 0.f;
+            Reset_Player_Control();
             Set_Active(false);
         }
     }
@@ -175,6 +187,87 @@ void CUI_NPC_ChaosDungeon_NewWnd::Print_Text()
         Vec2 vOrigin = vMeasure * 0.5f;
         m_pTimeCountWnd->Set_Text(m_strTag_Timer, TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strTimeCount, Vec2(243.5f, 140.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
     }
+}
+
+const _bool CUI_NPC_ChaosDungeon_NewWnd::Get_IsClicked()
+{
+    if (m_bActive)
+        return m_bClicked_Entrance;
+    else
+        return false;
+}
+
+void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
+{
+    Create_Rect();
+    Picking_UI();
+
+    CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
+    if (nullptr == pPlayer)
+        return;
+
+    if (m_bPick)
+    {
+        if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(false);
+        }
+        else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(false);
+        }
+        else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(false);
+        }
+        else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(false);
+        }
+    }
+    else if((!m_bPick))
+    {
+        if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
+        }
+        else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
+        }
+        else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
+        }
+        else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+        }
+    }
+}
+
+void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
+{
+    CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
+    if (nullptr == pPlayer)
+        return;
+    if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
+    }
+    else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
+    }
+    else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
+    }
+    else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+    {
+        static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+    }
+    
 }
 
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Active(_bool bActive)

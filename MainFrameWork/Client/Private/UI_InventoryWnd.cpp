@@ -1,7 +1,14 @@
 #include "stdafx.h"
 #include "UI_InventoryWnd.h"
 #include "GameInstance.h"
-#include "Player.h"
+#include "Player_Gunslinger.h"
+#include "Player_Slayer.h"
+#include "Player_Destroyer.h"
+#include "Player_Bard.h"
+#include "Player_Controller_GN.h"
+#include "Controller_MG.h"
+#include "Controller_WDR.h"
+#include "Controller_WR.h"
 #include "UI_Manager.h"
 #include "UI_Inventory_ItemSlot.h"
 #include "Item_TestItem.h"
@@ -51,8 +58,7 @@ HRESULT CUI_InventoryWnd::Initialize(void* pArg)
 	{
 		Initialize_TextBox(static_cast<CPlayer*>(pArg));
 	}
-	
-	
+
 	m_bActive = false;
 	return S_OK;
 }
@@ -97,7 +103,7 @@ void CUI_InventoryWnd::Move_InventoryWnd(POINT pt)
 	_float	MouseMoveX, MouseMoveY;
 	MouseMoveX = CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	
-	if ((m_bPick)&&(KEY_HOLD(KEY::LBTN)))
+	if ((m_bMovingRect)&&(KEY_HOLD(KEY::LBTN)))
 		m_bHolding = true;
 
 	if (m_bHolding)
@@ -128,9 +134,9 @@ void CUI_InventoryWnd::Create_Rect_MoveWnd()
 void CUI_InventoryWnd::Is_Picking_MoveWnd(POINT pt)
 {
 	if (PtInRect(&m_rcMovingWnd, pt))  
-		m_bPick = true;
+		m_bMovingRect = true;
 	else
-		m_bPick = false;
+		m_bMovingRect = false;
 }
 
 HRESULT CUI_InventoryWnd::Ready_Components()
@@ -224,6 +230,54 @@ void CUI_InventoryWnd::Print_Player_Money()
 	vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strGold);
 	vOrigin = vMeasure * 0.5f;
 	m_pMoneyWnd->Set_Text(m_strWndTag + TEXT("_Gold"), m_strFont, m_strGold, Vec2((470.f * 0.8f) * 0.5f + 30.f, (560.f * 0.8f) - 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 0.0f, 1.f));
+}
+
+void CUI_InventoryWnd::Set_Player_Control(class CPlayer* pPlayer ,_bool bRender)
+{
+	if (!bRender)
+		return;
+
+	Create_Rect();
+	Picking_UI();
+
+	if (m_bPick)
+	{
+		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(false);
+		}
+	}
+	else
+	{
+		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+		}
+	}
 }
 
 CUI_InventoryWnd* CUI_InventoryWnd::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
