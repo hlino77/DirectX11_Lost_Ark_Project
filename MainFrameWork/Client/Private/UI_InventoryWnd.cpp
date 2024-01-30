@@ -280,6 +280,28 @@ void CUI_InventoryWnd::Set_Player_Control(class CPlayer* pPlayer ,_bool bRender)
 	}
 }
 
+void CUI_InventoryWnd::ReSet_Player_Control(CPlayer* pPlayer)
+{
+
+		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+		}
+
+}
+
 CUI_InventoryWnd* CUI_InventoryWnd::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUI_InventoryWnd* pInstance = new CUI_InventoryWnd(pDevice, pContext);

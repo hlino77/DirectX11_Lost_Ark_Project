@@ -155,8 +155,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         //}
         //else
         //{
-        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
-        Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
+        Out.vProperties.r = smoothstep(0.0f, 1.f, vSpecular.b); // Metalic
+        Out.vProperties.g = vSpecular.g; // Roughness
         //}
         
         //Out.vProperties.r = 1.f - pow(1.f - vSpecular.b, 1.7f); // Metalic
@@ -228,11 +228,11 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     {
         float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 
-        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
-        Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
+        //Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
+        //Out.vProperties.g = pow(vSpecular.g, 1.8f); // Roughness
         
-        //Out.vProperties.r = 1.f - pow(1.f - vSpecular.b, 1.7f); // Metalic
-        //Out.vProperties.g = pow(vSpecular.g, 1.7f); // Roughness
+        Out.vProperties.r = smoothstep(0.0f, 1.f, vSpecular.b); // Metalic
+        Out.vProperties.g = vSpecular.g; // Roughness
     }
     else
     {

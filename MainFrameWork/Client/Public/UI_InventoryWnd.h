@@ -31,6 +31,7 @@ public:
     void    Create_Rect_MoveWnd();
     void    Is_Picking_MoveWnd(POINT pt);
     void    Set_Player_Control(class CPlayer* pPlayer, _bool bRender);
+    void    ReSet_Player_Control(class CPlayer* pPlayer);
 
 private:
     virtual HRESULT Ready_Components();

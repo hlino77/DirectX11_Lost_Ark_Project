@@ -55,7 +55,8 @@ void CUI_Inventory::Tick(_float fTimeDelta)
 	{
 		Update_Used_Item();
 		m_bActiveKey = !m_bActiveKey;
-		static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->Set_Player_Control(m_pOwner, m_bActiveKey);
+		if(!m_bActiveKey)
+			static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->ReSet_Player_Control(m_pOwner);
 		for (auto& iter : m_vecUIParts)
 		{
 			iter->Set_Render(m_bActiveKey);
@@ -69,6 +70,7 @@ void CUI_Inventory::LateTick(_float fTimeDelta)
 	if (m_bActiveKey)
 	{
 		Move_InventoryWNd();
+		static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->Set_Player_Control(m_pOwner, m_bActiveKey);
 	}
 }
 
