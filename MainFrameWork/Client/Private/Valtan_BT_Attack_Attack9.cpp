@@ -87,8 +87,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack9::OnUpdate(const _float& fTimeDelta
 void CValtan_BT_Attack_Attack9::OnEnd()
 {
 	__super::OnEnd();
-	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
-		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
 

@@ -301,6 +301,16 @@ void CBoss::Disable_HpUI()
 	}
 }
 
+void CBoss::Set_HpUI(_int iHpCount, _int  iMaxHp, wstring strBossName)
+{
+	if (m_pBossHpUI != nullptr)
+	{
+		m_pBossHpUI->Set_HpCount(iHpCount);
+		m_pBossHpUI->Set_MaxHp(iMaxHp);
+		m_pBossHpUI->Set_BossName(strBossName);
+	}
+}
+
 void CBoss::Move_to_SpawnPosition()
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSpawnPosition);

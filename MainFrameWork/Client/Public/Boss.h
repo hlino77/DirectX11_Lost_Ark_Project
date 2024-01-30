@@ -87,6 +87,8 @@ public:
 
 	virtual void Disable_HpUI();
 
+	void Set_HpUI(_int iHpCount, _int iMaxHp, wstring strBossName);
+
 	_bool						Is_CounterSkill() { return m_IsCounterSkill; }
 	void						Set_CounterSkill(_bool IsCounterSkill) { m_IsCounterSkill = IsCounterSkill; }
 
