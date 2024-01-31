@@ -47,6 +47,7 @@ public:
 	static void	Set_IBLTexture(_int iIndex) { m_iIBLTextureIndex = iIndex; }
 
 	void	Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity);
+	void	Set_ChromaticData(Vec3 vWorldPos, _float fIntensity);
 
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
 
@@ -200,7 +201,11 @@ private:
 	} m_tSSR_Data;
 
 	// Chromatic Aberration
-	_float m_fChromaticIntensity = 0.f;
+	struct ChromaticBlur_Data
+	{
+		Vec3	vChromaticWorldPos = Vec3(0.f, 0.f, 0.f);
+		_float	fChromaticIntensity = 0.f;
+	} m_tChromatic_Data;
 
 	// Motion Blur
 	Matrix	m_matPreCamView = Matrix::Identity;

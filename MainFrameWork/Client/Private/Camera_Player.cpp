@@ -168,6 +168,31 @@ void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
 			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
 		}
 	}
+
+	if (m_bChromatic)
+	{
+		if (m_fChromaticAcc <= 0.0f)
+		{
+			if (m_fChromaticIntensity <= 0.0f)
+			{
+				m_vChromaticPos = Vec3();
+				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, 0.0f);
+				m_fChromaticIntensity = 0.0f;
+				m_bChromatic = false;
+				m_fChromaticAcc = 0.0f;
+			}
+			else
+			{
+				m_fChromaticIntensity -= m_fChromaticDamping * fTimeDelta;
+				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, m_fChromaticIntensity);
+			}
+		}
+		else
+		{
+			m_fChromaticAcc -= fTimeDelta;
+			m_pRendererCom->Set_ChromaticData(m_vChromaticPos, m_fChromaticIntensity);
+		}
+	}
 }	
 
 void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
@@ -241,6 +266,31 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 		{
 			m_fRadialBlurAcc -= fTimeDelta;
 			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+		}
+	}
+
+	if (m_bChromatic)
+	{
+		if (m_fChromaticAcc <= 0.0f)
+		{
+			if (m_fChromaticIntensity <= 0.0f)
+			{
+				m_vChromaticPos = Vec3();
+				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, 0.0f);
+				m_fChromaticIntensity = 0.0f;
+				m_bChromatic = false;
+				m_fChromaticAcc = 0.0f;
+			}
+			else
+			{
+				m_fChromaticIntensity -= m_fChromaticDamping * fTimeDelta;
+				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, m_fChromaticIntensity);
+			}
+		}
+		else
+		{
+			m_fChromaticAcc -= fTimeDelta;
+			m_pRendererCom->Set_ChromaticData(m_vChromaticPos, m_fChromaticIntensity);
 		}
 	}
 }
@@ -336,6 +386,31 @@ void CCamera_Player::Tick_ResetCamera(_float fTimeDelta)
 		{
 			m_fRadialBlurAcc -= fTimeDelta;
 			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
+		}
+	}
+
+	if (m_bChromatic)
+	{
+		if (m_fChromaticAcc <= 0.0f)
+		{
+			if (m_fChromaticIntensity <= 0.0f)
+			{
+				m_vChromaticPos = Vec3();
+				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, 0.0f);
+				m_fChromaticIntensity = 0.0f;
+				m_bChromatic = false;
+				m_fChromaticAcc = 0.0f;
+			}
+			else
+			{
+				m_fChromaticIntensity -= m_fChromaticDamping * fTimeDelta;
+				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, m_fChromaticIntensity);
+			}
+		}
+		else
+		{
+			m_fChromaticAcc -= fTimeDelta;
+			m_pRendererCom->Set_ChromaticData(m_vChromaticPos, m_fChromaticIntensity);
 		}
 	}
 }
