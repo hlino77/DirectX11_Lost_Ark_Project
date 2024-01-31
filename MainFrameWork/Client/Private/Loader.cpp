@@ -3043,8 +3043,6 @@ HRESULT CLoader::Loading_QuickSlot()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
-
-
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Ink"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Ink.png"))))
 			return E_FAIL;
@@ -3072,6 +3070,26 @@ HRESULT CLoader::Loading_QuickSlot()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Bubble_Animation"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble/%d.png", 10))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_MoonFall"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/MoonFall.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Sunrise"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Sunrise.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Skill_Frame"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Skill_Frame.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Skill_Cap"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Skill_Cap.png"))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
