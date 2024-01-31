@@ -163,8 +163,16 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
 
     if (TEXT("None") != szText)
     {
-        m_IsRender = true;
-        m_pTextBox->Set_Active(true);
+        if (((-1.f <= m_vecHostProjPos.x) && (1.f >= m_vecHostProjPos.x)) && ((-1.f <= m_vecHostProjPos.y) && (1.f >= m_vecHostProjPos.y)) && ((0.f <= m_vecHostProjPos.z) && (1.f >= m_vecHostProjPos.z)))
+        {
+            m_IsRender = true;
+            m_pTextBox->Set_Render(true);
+        }
+        else
+        {
+            m_IsRender = false;
+            m_pTextBox->Set_Render(false);
+        }
     }
     else
     {
@@ -238,18 +246,8 @@ void CUI_SpeechBubble::Setting_HostPos()
     if ((nullptr != m_pHost)&&(nullptr != m_pTransformCom))
     {
         Vec3 vHostPos = m_pHost->Get_EffectPos();
-
-        if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z) && (1.f >= vHostPos.z)))
-        {
-            m_IsRender = true;
-            m_pTextBox->Set_Render(true);
-        }
-        else
-        {
-            m_IsRender = false;
-            m_pTextBox->Set_Render(false);
-        }
-
+        m_vecHostProjPos = vHostPos;
+       
         vHostPos.x *= g_iWinSizeX * 0.5f;
         vHostPos.y *= g_iWinSizeY * 0.5f;
 

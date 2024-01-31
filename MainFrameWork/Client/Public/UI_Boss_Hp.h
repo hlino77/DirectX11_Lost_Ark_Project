@@ -40,9 +40,9 @@ public:
     void	Set_Active(_bool bActive);
     void    Set_Dead_BossHpUI(); 
     void    Set_HpCount(_int iHpCount) { m_iHpCount = iHpCount; }
-    void    Set_MaxHp(_int  iMaxHp) { CUI_Boss_Hp::m_iMaxHp = iMaxHp; }
+    void    Set_MaxHp(_int  iMaxHp);
     void    Set_CurrHpColor(_uint iHpColor) { m_iCurrHpColor = iHpColor; }//절대 6을 넘기지마!!!
-    void    Set_BossName(wstring strBossName) { m_strBossName = strBossName; } 
+    void    Set_BossName(wstring strBossName) { m_strOutputName = strBossName; }
 
 private:
     virtual HRESULT Ready_Components();
