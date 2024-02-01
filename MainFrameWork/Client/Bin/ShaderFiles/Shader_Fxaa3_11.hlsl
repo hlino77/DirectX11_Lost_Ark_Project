@@ -150,11 +150,11 @@ FXAA_SUBPIX_CAP - Insures fine detail is not completely removed.
 =====================================================*/
 
 #ifndef FXAA_PRESET
-#ifdef _DEBUG
-#define FXAA_PRESET 3
-#else
-#define FXAA_PRESET 6
-#endif
+    #ifdef _DEBUG
+        #define FXAA_PRESET 3
+    #else
+        #define FXAA_PRESET 6
+    #endif
 #endif
 
 #if (FXAA_PRESET == 0)

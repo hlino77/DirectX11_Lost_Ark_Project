@@ -517,10 +517,4 @@ CGameObject* CMonster_Ghoul::Clone(void* pArg)
 void CMonster_Ghoul::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pModelCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pRendererCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pBehaviorTree);
 }
