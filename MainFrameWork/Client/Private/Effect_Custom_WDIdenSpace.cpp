@@ -37,7 +37,7 @@ HRESULT CEffect_Custom_WDIdenSpace::Initialize(void* pArg)
 	m_Variables.vColor_Clip = Vec4(0.1f, 0.1f, 0.1f, 0.1f);
 	m_Variables.vColor_Mul = Vec4(0.1f, 1.1f, 3.0f, 1.5f);
 	m_Variables.vUV_TileCount = Vec2(0.5f, 0.5f);
-	m_Intensity.fBloom = 0.02f;
+	m_Intensity.fBloom = 0.2f;
 
 	m_pTransformCom->Turn_Axis(Vec3(1.0f, 0.0f, 0.0f), XM_PI * 1.5f);
 

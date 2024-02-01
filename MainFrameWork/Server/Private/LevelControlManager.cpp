@@ -208,7 +208,6 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 		Vec3 vTargetPos = pOtherPlayer->Get_TargetPos();
 		memcpy(vPktTargetPos->mutable_data(), &vTargetPos, sizeof(Vec3));
 
-
 		auto vPacketWorld = tPlayerPkt.mutable_matworld();
 		vPacketWorld->Resize(16, 0.0f);
 		Matrix matOtherWorld = pOtherPlayer->Get_TransformCom()->Get_WorldMatrix();

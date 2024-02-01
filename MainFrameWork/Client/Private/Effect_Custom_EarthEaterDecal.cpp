@@ -45,7 +45,7 @@ HRESULT CEffect_Custom_EarthEaterDecal::Initialize(void* pArg)
 
 	m_fLifeTime = 3.0f;
 
-	m_Variables.vColor_Mul = Vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_Variables.vColor_Mul = Vec4(0.1f, 0.1f, 0.1f, 1.0f);
 
 	return S_OK;
 }
