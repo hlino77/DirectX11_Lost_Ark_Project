@@ -578,10 +578,4 @@ CGameObject* CBoss_King::Clone(void* pArg)
 void CBoss_King::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pModelCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pRendererCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pBehaviorTree);
 }
