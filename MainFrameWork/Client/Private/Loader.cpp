@@ -5410,7 +5410,7 @@ HRESULT CLoader::Loading_SkillIcon()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_MGSpace"),
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_SPSpace"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Space%d.png", 2))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();

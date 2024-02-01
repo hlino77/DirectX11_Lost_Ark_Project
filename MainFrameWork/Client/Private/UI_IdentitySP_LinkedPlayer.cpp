@@ -67,11 +67,11 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Initialize(void* pArg)
 	//m_pTransform_SkillFrameL
 	m_pTransform_SkillFrameL->Set_Scale(Vec3(56.f, 56.f, 1.f));
 	m_pTransform_SkillFrameL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX - 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 28.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_SkillFrameR
 	m_pTransform_SkillFrameR->Set_Scale(Vec3(56.f, 56.f, 1.f));
 	m_pTransform_SkillFrameR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 28.f) + g_iWinSizeY * 0.5f, 0.2f));
 	for (size_t i = 0; i < 3; i++)
 	{
 		m_fSizeX_Masked[i] = 262.f;

@@ -62,7 +62,7 @@ HRESULT CSkill_SP_Inkshot::Ready_Components()
 	if (false == m_pPlayer->Is_Control())
 		return S_OK;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Bard_Sonatina"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Sprinkle"),
 		TEXT("Com_Texture"), (CComponent**)&m_pSkillTextureCom)))
 		return E_FAIL;
 
