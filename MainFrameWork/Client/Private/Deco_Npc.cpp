@@ -40,9 +40,13 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
-	if (true == m_NpcDesc.IsMove)
+	if (true == m_NpcDesc.IsMove && false == m_NpcDesc.IsMovePatrol)
 	{
 		Move(fTimeDelta);
+	}
+	else if (true == m_NpcDesc.IsMove && true == m_NpcDesc.IsMovePatrol)
+	{
+		Move_Patrol(fTimeDelta);
 	}
 
 	if (true == m_NpcDesc.IsTalk)
@@ -325,6 +329,49 @@ void CDeco_Npc::Move(const _float& fTimeDelta)
 		if (m_NpcDesc.vecMovePos.size() < m_iMoveCnt)
 		{
 			m_iMoveCnt = 0;
+		}
+	}
+}
+
+void CDeco_Npc::Move_Patrol(const _float& fTimeDelta)
+{
+	Vec3 vMove;
+	if (-1 == m_iMoveCnt && true == m_bReach)
+	{
+		vMove = m_vStartPos;
+	}
+	else
+	{
+		vMove = m_NpcDesc.vecMovePos[m_iMoveCnt];
+	}
+
+	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 0; vMove.y = 0;
+	Vec3 vDir = vMove - vPos;
+	m_pTransformCom->Move_ToPos(vDir, 10.f, 1.f, fTimeDelta);
+
+	if (false == m_bReach)
+	{
+		if (vDir.Length() <= 0.06f)
+		{
+			m_iMoveCnt++;
+			if (m_NpcDesc.vecMovePos.size() <= m_iMoveCnt)
+			{
+				m_bReach = true;
+				m_iMoveCnt--;
+			}
+		}
+	}
+	else
+	{
+		if (vDir.Length() <= 0.06f)
+		{
+			m_iMoveCnt--;
+			if (-1 > m_iMoveCnt)
+			{
+				m_bReach = false;
+				m_iMoveCnt = 0;
+			}
 		}
 	}
 }

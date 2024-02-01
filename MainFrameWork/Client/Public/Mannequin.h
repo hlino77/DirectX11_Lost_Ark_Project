@@ -53,7 +53,7 @@ public:
 
 public:
 	void			Set_AnimationPlay() { m_bAnimationPlay = !m_bAnimationPlay; }
-	void			Set_Move_State(_bool IsMove);
+	void			Set_Move_State(_bool IsMove, _bool IsPatrol);
 	void			Set_StartPos(Vec3 vPos) { m_vStartPos = vPos; }
 
 	void			Set_Talk_State(_bool IsTalk, vector<wstring> TalkScript, _float fTalkTime);
@@ -71,6 +71,7 @@ private:
 	virtual void	Set_EffectPos() override;
 
 	void			Move(const _float& fTimeDelta);
+	void			Move_Patrol(const _float& fTimeDelta);
 	void			Talk(const _float& fTimeDelta);
 
 private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
@@ -92,8 +93,10 @@ private:
 
 	/* Npc용 변수 */
 	_bool			m_IsMove = { false };
+	_bool			m_IsMovePatrol = { false };
+	_bool			m_bReach = { false };
 
-	_uint			m_iMoveCnt = { 0 };
+	_int			m_iMoveCnt = { 0 };
 	vector<Vec3>	m_vecMovePos;
 
 	Vec3			m_vStartPos;

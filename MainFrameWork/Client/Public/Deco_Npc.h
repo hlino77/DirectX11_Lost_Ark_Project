@@ -35,14 +35,16 @@ private:
 
 private:
 	void	Move(const _float& fTimeDelta);
+	void	Move_Patrol(const _float& fTimeDelta);
 	void	Talk(const _float& fTimeDelta);
 
 private:
-	_float	m_fTalkStartAcc = { 0.f };
-	_uint	m_iCurrTalk = { 0 };
-	_uint	m_iMoveCnt = { 0 };
+	_float			m_fTalkStartAcc = { 0.f };
+	_uint			m_iCurrTalk = { 0 };
+	_int			m_iMoveCnt = { 0 };
+	_bool			m_bReach = { false };
 
-	_bool   m_bTalkStart = false;
+	_bool			m_bTalkStart = false;
 
 public:
 	static CDeco_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

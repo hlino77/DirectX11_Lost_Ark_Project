@@ -18,10 +18,24 @@ public:
 	virtual HRESULT			Ready_Components();
 
 public:
+	virtual void			Enter() override;
+	virtual void			Exit() override;
+
+public:
 	virtual void			Check_ColliderState() override;
 
 private:
 	class CPlayer_Doaga* m_pPlayer = { nullptr };
+
+	std::future<HRESULT>			m_PlayAnimation;
+
+	_int							m_iAnimIndex = -1;
+
+	_float							m_fEndAcc = { 0.0f };
+	_float							m_fEndTime = { 3.f };
+
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightTime = 0.0f;
 
 public:
 	static CSkill_SP_Flyheaven* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Doaga* pPlayer, void* pArg);

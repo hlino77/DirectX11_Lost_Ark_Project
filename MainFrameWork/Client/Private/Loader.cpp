@@ -2088,6 +2088,7 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 
 	_uint	iSize;
 	LoadObject->Read<_bool>(NpcCreateDesc.IsMove);
+	LoadObject->Read<_bool>(NpcCreateDesc.IsMovePatrol);
 	LoadObject->Read<_uint>(iSize);
 	for (size_t i = 0; i < iSize; i++)
 	{
@@ -3855,7 +3856,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 
 				
@@ -3876,7 +3877,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -3895,7 +3896,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -3914,7 +3915,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -3933,7 +3934,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -3952,7 +3953,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -3971,7 +3972,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -3990,7 +3991,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4009,7 +4010,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4028,7 +4029,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4047,7 +4048,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4066,7 +4067,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4085,7 +4086,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4104,7 +4105,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4123,7 +4124,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4142,7 +4143,7 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
 				{
 					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
-						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
 						return E_FAIL;
 					pUIManager->Add_CurrFile();
 				}
@@ -4627,7 +4628,8 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
+	Matrix RotPivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	/* Npc ¸¶³×Å· ¹× ¸ðµ¨ */
 	{
@@ -4925,7 +4927,7 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 
 	/* Npc ¹«±âÆÄÃ÷ */
 	strPath = L"../Bin/Resources/Meshes/NpcWeapon/";
-	AutoLoad(strPath, LEVEL_TOOL_NPC, PivotMatrix);
+	AutoLoad(strPath, LEVEL_TOOL_NPC, RotPivotMatrix);
 
 
 	RELEASE_INSTANCE(CGameInstance);

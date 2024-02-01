@@ -54,6 +54,7 @@ public:
 		_float			fChangeAnimTime = { 0.f };
 
 		_bool			IsMove = { false };
+		_bool			IsMovePatrol = { false };
 		vector<Vec3>	vecMovePos;
 
 		_bool			IsTalk = { false };
