@@ -415,6 +415,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(Ready_IBL()))
 		return E_FAIL;
 
+	//SSR
+	if (FAILED(Ready_SSR()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -540,15 +544,13 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_NonLight()))
 		return E_FAIL;
-	/*if (FAILED(Render_AlphaBlend()))
-		return E_FAIL;*/
 	if (FAILED(Render_PostProcess()))
 		return E_FAIL;
 
 	if (FAILED(Render_FXAA()))
 		return E_FAIL;
 
-	// 툴 때문에 임시로 여기에...
+	// ...
 	if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;
 
@@ -917,11 +919,13 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_Properties"), "g_PropertiesTarget")))
 		return E_FAIL;
 
-	/*m_tSSR_Data.fSSRStep = 0.004f;
-	m_tSSR_Data.iSSRStepCount = 100;
-
-	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data, sizeof(SSR_Data))))
-		return E_FAIL;*/
+#ifdef _DEBUG
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[1], sizeof(SSR_Data))))
+		return E_FAIL;
+#else
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[4], sizeof(SSR_Data))))
+		return E_FAIL;
+#endif
 
 	const Vec4& vCamPos = pPipeLine->Get_CamPosition();
 	if (FAILED(m_pSSRShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(Vec4))))
@@ -1446,18 +1450,20 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendEffect"), "g_ProcessingTarget")))
 		return E_FAIL;
 
-	// Chromatic Aberration
-	(KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::L)) ? m_tChromatic_Data.fChromaticIntensity += 0.0005 : m_tChromatic_Data.fChromaticIntensity -= 0.0005;
-	
-	if (FLT_EPSILON >= m_tChromatic_Data.fChromaticIntensity)
-		m_tChromatic_Data.fChromaticIntensity = 0.f;
-
 	if (FLT_EPSILON < m_tChromatic_Data.fChromaticIntensity)
 	{
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_ChromaticAberration"))))
 			return E_FAIL;
 		
 		if (FAILED(m_pPostProccessor->Begin("ChromaticAberration")))
+			return E_FAIL;
+
+		Matrix matCamView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+		Matrix matCamProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamViewMatrix", &matCamView)))
+			return E_FAIL;
+		if (FAILED(m_pPostProccessor->Bind_Matrix("g_CamProjMatrix", &matCamProj)))
 			return E_FAIL;
 
 		if (FAILED(m_pPostProccessor->Bind_CBuffer("ChromaticBlur", &m_tChromatic_Data, sizeof(ChromaticBlur_Data))))
@@ -1992,6 +1998,26 @@ HRESULT CRenderer::Ready_IBL()
 
 	if (nullptr == m_pIrradianceTexture || nullptr == m_pPreFilteredTexture || nullptr == m_pBRDFTexture)
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Ready_SSR()
+{
+	m_tSSR_Data[0].fSSRStep = 0.0f;
+	m_tSSR_Data[0].iSSRStepCount = 0;
+
+	m_tSSR_Data[1].fSSRStep = 0.0125f;
+	m_tSSR_Data[1].iSSRStepCount = 30;
+
+	m_tSSR_Data[2].fSSRStep = 0.008333333f;
+	m_tSSR_Data[2].iSSRStepCount = 45;
+
+	m_tSSR_Data[3].fSSRStep = 0.00625f;
+	m_tSSR_Data[3].iSSRStepCount = 60;
+
+	m_tSSR_Data[4].fSSRStep = 0.005f;
+	m_tSSR_Data[4].iSSRStepCount = 75;
 
 	return S_OK;
 }

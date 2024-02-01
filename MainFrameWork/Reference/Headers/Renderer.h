@@ -192,13 +192,14 @@ private:
 	static _uint	m_iIBLTextureIndex;
 
 	// Screen Space Reflection
+	HRESULT		Ready_SSR();
 	CShader* m_pSSRShader = nullptr;
 	struct SSR_Data
 	{
 		_float	fSSRStep = 0.01f;
 		_int	iSSRStepCount = 50;
 		Vec2	vPadding;
-	} m_tSSR_Data;
+	} m_tSSR_Data[5];
 
 	// Chromatic Aberration
 	struct ChromaticBlur_Data

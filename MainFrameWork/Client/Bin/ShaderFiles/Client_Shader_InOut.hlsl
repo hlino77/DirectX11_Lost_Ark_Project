@@ -146,8 +146,9 @@ struct PS_OUT_PBR
     float4  vNormalV : SV_TARGET2;
     float4  vProperties : SV_TARGET3;
 	float4  vEmissive : SV_TARGET4;
+	float4  vAlpha : SV_TARGET5;
 };
-	
+
 struct PS_OUT_PHONG
 {
     float4  vDiffuse : SV_TARGET0;

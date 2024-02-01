@@ -108,7 +108,6 @@ void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
 		}
 	}
 
-
 	Vec3 vTargetPos = m_vTargetPos;
 	Vec3 vPos = vTargetPos + (m_vOffset * m_fCameraLength);
 	Vec3 vLook = vTargetPos - vPos;
@@ -207,7 +206,6 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 		}
 	}
 
-
 	Vec3 vPlayerPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vPos = vPlayerPos + (m_vDefaultOffset * m_fCameraLength);
 	Vec3 vLook = vPlayerPos - vPos;
@@ -242,7 +240,6 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 			CGameInstance::GetInstance()->Set_MotionBlur(true, m_fMotionBlurIntensity);
 		}
 	}
-
 
 	if (m_bRadialBlur)
 	{

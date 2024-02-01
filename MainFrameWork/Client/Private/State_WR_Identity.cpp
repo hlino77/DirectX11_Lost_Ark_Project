@@ -62,7 +62,8 @@ void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 		desc.pPivotMatrix = &matPivot;
 
 		EFFECT_START(TEXT("Slayer_Rage"), &desc)
-	
+		m_pPlayer->Get_Camera()->Set_Chromatic(0.3f, matPivot.Translation(), 0.1f, 0.1f);
+
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
 
