@@ -73,9 +73,9 @@ void CUI_IdentitySP_MainWnd::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (51.f > m_fFrame)
+	if (59.f > m_fFrame)
 		m_fFrame += 20.f * fTimeDelta;
-	if (51.f <= m_fFrame)
+	if (59.f <= m_fFrame)
 		m_fFrame = 0.f;
 }
 

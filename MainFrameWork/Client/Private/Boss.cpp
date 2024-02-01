@@ -281,7 +281,10 @@ void CBoss::Set_Die(_float fTime)
 	if (m_bDissolveOut == false)
 		Set_DissolveOut(fTime);
 	if (m_pBossHpUI != nullptr)
-		m_pBossHpUI->Set_Dead(true);
+	{
+		m_pBossHpUI->Set_Dead_BossHpUI();
+		m_pBossHpUI = nullptr;
+	}
 }
 
 void CBoss::Set_HpUIRender(_bool bRender)
@@ -296,7 +299,7 @@ void CBoss::Disable_HpUI()
 {
 	if (m_pBossHpUI != nullptr)
 	{
-		m_pBossHpUI->Set_Dead(true);
+		m_pBossHpUI->Set_Dead_BossHpUI();
 		m_pBossHpUI = nullptr;
 	}
 }

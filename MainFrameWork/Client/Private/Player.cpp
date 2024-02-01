@@ -725,7 +725,7 @@ HRESULT CPlayer::Ready_Inventory()
 	m_vecItemSlots.resize(64);
 
 	m_pUI_Inventory = static_cast<CUI_Inventory*>(pGameInstance->
-		Add_GameObject(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory"),this));
+		Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory"),this));
 	if (nullptr == m_pUI_Inventory)
 		return E_FAIL;
 

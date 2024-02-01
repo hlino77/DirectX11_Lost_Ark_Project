@@ -29,8 +29,9 @@ public:
 
 	/* 아덴 관련 함수 */
 	_uint			Is_SP_Identity();
-	const _int&		Get_IdenGage() { return m_iIdentityGage; }
-	const _int&		Get_IdenMaxGauge() { return m_iMaxGage; }
+	const _float&		Get_IdenGage() { return m_fIdentityGage; }
+	const _float&		Get_IdenMaxGauge() { return m_fMaxGage; }
+	const _int&		Get_CurrMarble() { return m_iMarbleCnt; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -40,7 +41,7 @@ public:
 public:
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	void			Get_SP_IdentityMessage();
-	void			Increase_IdenGage(_uint iGage);
+	void			Increase_IdenGage(_float iGage);
 
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
@@ -53,8 +54,8 @@ private:
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
-	_int	m_iIdentityGage = { 0 };
-	_int	m_iMaxGage = { 100 };
+	_float	m_fIdentityGage = { 0.f };
+	_float	m_fMaxGage = { 100.f };
 
 	_uint	m_iMarbleCnt = { 0 };
 	_uint	m_iMaxMarbleCnt = { 3 };

@@ -365,7 +365,7 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	}
 	else if(L"SP" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
 	{
-		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_IdentitySP_MainWnd"));
+		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_UI_IdentitySP"));
 		if (nullptr == pUI)
 			return E_FAIL;
 		else
@@ -396,11 +396,6 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
-	//pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_Skill_HoldingGauge"));
-	//if (nullptr == pUI)
-	//	return E_FAIL;
-	//else
-	//	CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

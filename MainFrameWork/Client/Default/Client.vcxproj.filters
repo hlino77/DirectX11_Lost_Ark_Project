@@ -4634,6 +4634,9 @@
     <ClInclude Include="..\Public\State_SP_Attack3.h">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentitySP.h">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7547,7 +7550,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Esther_Part_forCut.cpp">
       <Filter>02.GameObjects\Esther\base_Part</Filter>
     </ClCompile>
@@ -7652,6 +7655,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_SP_Attack3.cpp">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentitySP.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

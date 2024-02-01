@@ -195,7 +195,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
         }
         m_vTextBoxMaxScale = m_vTextBoxScale * 1.4f;
 
-        m_fRandomZ = CGameInstance::GetInstance()->Get_RandomFloat(0.f, 1.f);
+        m_fRandomZ = CGameInstance::GetInstance()->Get_RandomFloat(0.20f, 0.29f);
        // m_fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
 
         m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));

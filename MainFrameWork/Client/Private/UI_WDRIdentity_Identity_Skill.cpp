@@ -5,6 +5,7 @@
 #include "ServerSessionManager.h"
 #include "Controller_WDR.h"
 #include "Player_Destroyer.h"
+#include "TextBox.h"
 
 CUI_WDRIdentity_Identity_Skill::CUI_WDRIdentity_Identity_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -45,9 +46,23 @@ HRESULT CUI_WDRIdentity_Identity_Skill::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
-	if(nullptr != pPlayer)
+	if (nullptr != pPlayer)
 		m_fCoolMaxTime = static_cast<CPlayer_Destroyer*>(pPlayer)->
-			Get_WDR_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::Z);
+		Get_WDR_Controller()->Get_IdenSkillCool();
+
+	if (FAILED(Initialize_TextBox()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CUI_WDRIdentity_Identity_Skill::Initialize_TextBox()
+{
+	m_strFont = TEXT("³Ø½¼Lv1°íµñBold");
+	if (FAILED(Ready_TextBox()))
+		return E_FAIL;
+	m_pCoolTimeWnd->Set_Active(false);
+	
 	return S_OK;
 }
 
@@ -58,21 +73,14 @@ void CUI_WDRIdentity_Identity_Skill::Tick(_float fTimeDelta)
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 	if (nullptr != pPlayer)
 	{
-		m_fCurrCool = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(pPlayer)->
-			Get_WDR_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::Z);
+		m_fCurrCool = static_cast<CPlayer_Destroyer*>(pPlayer)->
+			Get_WDR_Controller()->Get_IdentitySkill_CoolDown();
 
-		m_bIdentity_On = static_cast<CController_WDR*>(static_cast<CPlayer_Destroyer*>(pPlayer)->
-			Get_WDR_Controller())->Is_In_Identity();
+		m_bIdentity_On = static_cast<CPlayer_Destroyer*>(pPlayer)->
+			Get_WDR_Controller()->Is_In_Identity();
 	}
-
+	m_fResultCool = m_fCoolMaxTime - m_fCurrCool;
 	
-	if (m_fCoolMaxTime == m_fResultCool)
-		m_fCoolAngle = XM_PI;
-	else
-	{
-		m_fCoolRatio = 1.0f - (m_fResultCool / m_fCoolMaxTime);
-		m_fCoolAngle = -XM_PI + (2 * XM_PI * m_fCoolRatio);
-	}
 }
 
 void CUI_WDRIdentity_Identity_Skill::LateTick(_float fTimeDelta)
@@ -80,20 +88,55 @@ void CUI_WDRIdentity_Identity_Skill::LateTick(_float fTimeDelta)
 	if(m_bIdentity_On)
 		__super::LateTick(fTimeDelta);
 
-	m_fResultCool = m_fCoolMaxTime - m_fCurrCool;
+	if (m_fCoolMaxTime == m_fResultCool)
+	{
+		m_fCoolAngle = XM_PI;
+		m_pCoolTimeWnd->Set_Active(false);
+	}
+	else
+	{
+		m_fCoolRatio = 1.0f - (m_fResultCool / m_fCoolMaxTime);
+		m_fCoolAngle = -XM_PI + (2 * XM_PI * m_fCoolRatio);
+		m_pCoolTimeWnd->Set_Active(true);
+		Print_CoolTime();
+	}
 }
 
 HRESULT CUI_WDRIdentity_Identity_Skill::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
 	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
-
-	m_pShaderCom->Begin(8);
+	m_pShaderCom->Begin(20);
 	m_pVIBufferCom->Render();
 
+	if(m_fCoolMaxTime != m_fResultCool)
+		m_pCoolTimeWnd->Render();
+
 	return S_OK;
+}
+
+void CUI_WDRIdentity_Identity_Skill::Print_CoolTime()
+{
+	if ((nullptr == m_pCoolTimeWnd))
+		return;
+
+	m_pCoolTimeWnd->Clear_Text();
+
+	m_pCoolTimeWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - (g_iWinSizeX * 0.5f), -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+	wstring strCool = to_wstring((_uint)m_fResultCool)+ TEXT("s");
+
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", strCool);
+	Vec2 vOrigin = vMeasure * 0.5f;
+
+	m_pCoolTimeWnd->Set_Text(m_strTag + TEXT("-1"), m_strFont, strCool, Vec2(22.f - 1.f, 22.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+	m_pCoolTimeWnd->Set_Text(m_strTag + TEXT("-2"), m_strFont, strCool, Vec2(22.f + 1.f, 22.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+	m_pCoolTimeWnd->Set_Text(m_strTag + TEXT("-3"), m_strFont, strCool, Vec2(22.f, 22.f - 1.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+	m_pCoolTimeWnd->Set_Text(m_strTag + TEXT("-4"), m_strFont, strCool, Vec2(22.f, 22.f + 1.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+
+	m_pCoolTimeWnd->Set_Text(m_strTag, m_strFont, strCool, Vec2(22.f, 22.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
 }
 
 HRESULT CUI_WDRIdentity_Identity_Skill::Ready_Components()
@@ -122,6 +165,36 @@ HRESULT CUI_WDRIdentity_Identity_Skill::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fCoolAngle, sizeof(_float))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CUI_WDRIdentity_Identity_Skill::Ready_TextBox()
+{
+	if(nullptr == m_pCoolTimeWnd)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		Safe_AddRef(pGameInstance);
+
+		CTextBox::TEXTBOXDESC tTextDesc;
+		tTextDesc.szTextBoxTag = TEXT("Destroyer_IdentitySkillCool");
+		m_strTag = tTextDesc.szTextBoxTag;
+		tTextDesc.vSize = Vec2(44.f, 44.0f);
+		m_pCoolTimeWnd = static_cast<CTextBox*>(pGameInstance->
+			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+		if (nullptr == m_pCoolTimeWnd)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+		m_pCoolTimeWnd->Set_Render(false);
+
+		m_pCoolTimeWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+		m_pCoolTimeWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+
+	Safe_Release(pGameInstance);
+	}
 
 	return S_OK;
 }
@@ -158,6 +231,7 @@ void CUI_WDRIdentity_Identity_Skill::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
+	m_pCoolTimeWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

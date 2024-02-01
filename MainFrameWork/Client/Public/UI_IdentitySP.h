@@ -3,13 +3,13 @@
 
 BEGIN(Client)
 
-class CUI_LoadingLabelBottom :
+class CUI_IdentitySP :
     public CUI
 {
 private:
-    CUI_LoadingLabelBottom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CUI_LoadingLabelBottom(const CUI& rhs);
-    virtual ~CUI_LoadingLabelBottom() = default;
+    CUI_IdentitySP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CUI_IdentitySP(const CUI& rhs);
+    virtual ~CUI_IdentitySP() = default;
 
 public:
     virtual HRESULT Initialize_Prototype();
@@ -20,18 +20,14 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Set_ToolTip();
 
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
-
-private:
-    wstring m_strTip = TEXT("фа");
-    wstring m_strToolTips;
+    HRESULT UI_Set();
 
 public:
-    static  CUI_LoadingLabelBottom* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static  CUI_IdentitySP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void    Free() override;
 };

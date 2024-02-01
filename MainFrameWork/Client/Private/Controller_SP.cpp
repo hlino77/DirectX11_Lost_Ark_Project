@@ -163,7 +163,7 @@ void CController_SP::Get_DeadMessage()
 {
 	__super::Get_DeadMessage();
 
-	m_iIdentityGage = 0;
+	m_fIdentityGage = 0.f;
 }
 
 _uint CController_SP::Is_SP_Identity()
@@ -281,13 +281,13 @@ void CController_SP::Get_SP_IdentityMessage()
 	}
 }
 
-void CController_SP::Increase_IdenGage(_uint iGage)
+void CController_SP::Increase_IdenGage(_float iGage)
 {
-	m_iIdentityGage += iGage;
+	m_fIdentityGage += iGage;
 
-	if (m_iMaxGage <= m_iIdentityGage)
+	if (m_fMaxGage <= m_fIdentityGage)
 	{
-		m_iIdentityGage = 0;
+		m_fIdentityGage = 0;
 
 		m_iMarbleCnt++;
 

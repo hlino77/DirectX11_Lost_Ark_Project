@@ -141,6 +141,7 @@
 #include "UI_HoldingFrame.h"
 #include "UI_IdentitySP_MainWnd.h"
 #include "UI_IdentitySP_LinkedPlayer.h"
+#include "UI_IdentitySP.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -593,6 +594,10 @@ HRESULT CLoader::Loading_For_Level_Logo()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IdentitySP_LinkedPlayer"),
 		CUI_IdentitySP_LinkedPlayer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_IdentitySP"),
+		CUI_IdentitySP::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -2667,7 +2672,7 @@ HRESULT CLoader::Loading_LobbyUI()
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Emblem"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Character_Select/Emblem%d.png",4 ))))
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Character_Select/Emblem%d.png",5 ))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Equipment_Level"),
@@ -3048,7 +3053,7 @@ HRESULT CLoader::Loading_QuickSlot()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Masked_GaugeCut"),
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Masked_Effect"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Masked_GaugeCut.png"))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
@@ -3064,7 +3069,7 @@ HRESULT CLoader::Loading_QuickSlot()
 		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Brush_Effect"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Brush_Effect/%d.png", 52))))
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Brush_Effect/%d.png", 60))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
@@ -3092,6 +3097,12 @@ HRESULT CLoader::Loading_QuickSlot()
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Skill_Cap.png"))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Bubble_Gauge"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble_Gauge_%d.png",2))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+		//
 	}
 
 	Safe_Release(pUIManager);

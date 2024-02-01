@@ -3,6 +3,8 @@
 
 BEGIN(Client)
 class CPlayer;
+class CPlayer_Doaga;
+
 class CUI_IdentitySP_LinkedPlayer :
     public CUI
 {
@@ -20,6 +22,9 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    void    Update_BubbleGauge(_float fTimeDelta);
+    void    Update_BubbleAnim(_float fTimeDelta);
+    void    Update_BubbleMaskedEffect(_float fTimeDelta);
 
 private:
     virtual HRESULT Ready_Components();
@@ -31,13 +36,18 @@ private:
     HRESULT Bind_ShaderResources_SkillR();
     HRESULT Bind_ShaderResources_SkillFrameL();
     HRESULT Bind_ShaderResources_SkillFrameR();
+    HRESULT Bind_ShaderResources_MaskedShineL();
+    HRESULT Bind_ShaderResources_MaskedShineC();
+    HRESULT Bind_ShaderResources_MaskedShineR();
 
 private:
     CPlayer* m_pPlayer = { nullptr };
 
-    CTexture* m_pTexture_BubbleGauge = { nullptr };
+    CTexture* m_pTexture_BubbleGaugeL = { nullptr };
+    CTexture* m_pTexture_BubbleGaugeC = { nullptr };
+    CTexture* m_pTexture_BubbleGaugeR = { nullptr };
     CTexture* m_pTexture_BubbleAnim = { nullptr };
-    CTexture* m_pTexture_GaugeCut = { nullptr };
+    CTexture* m_pTexture_Masked_Effect = { nullptr };
     CTexture* m_pTexture_MoonFall = { nullptr };
     CTexture* m_pTexture_SunRise = { nullptr };
     CTexture* m_pTexture_SkillFrame = { nullptr };
@@ -46,13 +56,30 @@ private:
     CTransform* m_pTransform_BubbleGaugeL = { nullptr };
     CTransform* m_pTransform_BubbleGaugeC = { nullptr };
     CTransform* m_pTransform_BubbleGaugeR = { nullptr };
+    CTransform* m_pTransform_Masked_EffectL = { nullptr };
+    CTransform* m_pTransform_Masked_EffectC = { nullptr };
+    CTransform* m_pTransform_Masked_EffectR = { nullptr };
     CTransform* m_pTransform_SkillL = { nullptr };
     CTransform* m_pTransform_SkillR = { nullptr };
-    CTransform* m_pTransfrom_SkillFrameL = { nullptr };
-    CTransform* m_pTransfrom_SkillFrameR = { nullptr };
+    CTransform* m_pTransform_SkillFrameL = { nullptr };
+    CTransform* m_pTransform_SkillFrameR = { nullptr };
 
-    _float  m_pBubbleFrame = { 0.f };
+    _uint   m_iMaxBubble = { 3 };
+    _uint   m_iBubbleTextureIndex[3] = { 0, 0 };
+    _uint   m_iCurrBubbleCount = { 0 };
+    _uint   m_iPreBubbleCount = { 0 };
 
+    _float  m_fCurrBubbleGauge[3] = { 0 };
+    _float  m_fMaxBubbleGauge = { 0 };
+    _float  m_fMaxCool = { 1.f };
+    _float  m_fBubbleAnimFrame[3] = { 0.f, 0.f, 0.f };
+    _float  m_fBubbleRatio = { 0.f };
+    _float  m_fRatioAngle = { 0.f };
+    _float  m_fSkillAlpha[2] = { 1.f, 1.f };
+    _bool   m_bBubbleMax[3] = { false, false, false };
+    _float  m_fMaskedEffectAlpha[3] = { 0.f, 0.f, 0.f };
+    _bool   m_bMaskedEffect[3] = { false, false, false };
+    
 public:
     static  CUI_IdentitySP_LinkedPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
