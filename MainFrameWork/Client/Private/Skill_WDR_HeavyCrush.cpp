@@ -42,6 +42,19 @@ HRESULT CSkill_WDR_HeavyCrush::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WDR_HeavyCrush::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WDR_HeavyCrush::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WDR_HeavyCrush::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WDR_HeavyCrush::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

@@ -41,6 +41,19 @@ HRESULT CSkill_GN_LastSupper::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_LastSupper::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_LastSupper::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_LastSupper::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_LastSupper::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

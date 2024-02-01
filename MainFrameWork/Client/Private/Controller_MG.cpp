@@ -161,10 +161,24 @@ HRESULT CController_MG::Initialize(void* pArg)
 void CController_MG::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->Tick(fTimeDelta);
+	}
 }
 
 void CController_MG::LateTick(_float fTimeDelta)
 {
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->LateTick(fTimeDelta);
+	}
+
 	__super::LateTick(fTimeDelta);
 }
 
@@ -174,6 +188,9 @@ void CController_MG::DebugRender()
 
 void CController_MG::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
+	if (true == m_IsDead)
+		return;
+
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?

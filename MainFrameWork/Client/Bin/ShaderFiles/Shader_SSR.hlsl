@@ -18,8 +18,8 @@ Texture2D g_SSROriginalTarget;
 
 cbuffer SSR_Data
 {
-    float fSSRStep = 0.025f;
-    int iStepCount = 75;
+    float fSSRStep = 0.0175f;
+    int iStepCount = 25;
     float2 padding;
 }
 
@@ -76,7 +76,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     int iStepDistance = 0;
     float2 vRayPixelPos = (float2) 0;
   
-    [unroll(75)]
+    [unroll(10)]
     for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
     {
         float4 vDirStep = vRayDir * fStep * iStepDistance;
@@ -108,6 +108,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     clip(iStepCount - 0.5f - iStepDistance);
     
     return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f));
+    
 }
 
 //cbuffer PerFrame

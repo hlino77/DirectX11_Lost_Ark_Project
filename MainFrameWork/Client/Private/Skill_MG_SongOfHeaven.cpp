@@ -41,6 +41,19 @@ HRESULT CSkill_MG_SongOfHeaven::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_SongOfHeaven::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_SongOfHeaven::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_SongOfHeaven::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_SongOfHeaven::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

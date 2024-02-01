@@ -43,6 +43,19 @@ HRESULT CSkill_MG_Sonatine::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_Sonatine::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_Sonatine::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_Sonatine::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_Sonatine::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

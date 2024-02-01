@@ -94,11 +94,28 @@ void CController_WR::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+	/* Skill Tick */
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->Tick(fTimeDelta);
+	}
+
 	Check_Iden_State(fTimeDelta);
 }
 
 void CController_WR::LateTick(_float fTimeDelta)
 {
+	/* Skill Tick */
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->LateTick(fTimeDelta);
+	}
+
+
 	__super::LateTick(fTimeDelta);
 }
 
@@ -262,6 +279,9 @@ void CController_WR::EstherSkill(_uint iIndex)
 
 void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
+	if (true == m_IsDead)
+		return;
+
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?

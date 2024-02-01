@@ -56,6 +56,19 @@ HRESULT CSkill_MG_SoundShock::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_SoundShock::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_SoundShock::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_SoundShock::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_SoundShock::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

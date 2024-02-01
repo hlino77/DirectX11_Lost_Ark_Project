@@ -38,11 +38,35 @@
 #include "State_SP_Attack1.h"
 #include "State_SP_Attack2.h"
 #include "State_SP_Attack3.h"
+#include "State_SP_Attack4.h"
+
+#include "State_SP_Identity_Sun.h"
+#include "State_SP_Identity_Moon.h"
+#include "State_SP_Identity_Moon_End.h"
 
 /* State_Skill */
-
+#include "State_SP_Inkpaddle.h"
+#include "State_SP_DimensionalShift_Start.h"
+#include "State_SP_DimensionalShift_End.h"
+#include "State_SP_Inkshot.h"
+#include "State_SP_Onestroke.h"
+#include "State_SP_Moondrawing_Start.h"
+#include "State_SP_Moondrawing_End.h"
+#include "State_SP_SkyKongKong_Start.h"
+#include "State_SP_SkyKongKong_Loop.h"
+#include "State_SP_SkyKongKong_End.h"
+#include "State_SP_SpiritHarmony.h"
+#include "State_SP_Flyheaven.h"
 
 /* 스킬 */
+#include "Skill_SP_Inkpaddle.h"
+#include "Skill_SP_DimensionalShift.h"
+#include "Skill_SP_Inkshot.h"
+#include "Skill_SP_Onestroke.h"
+#include "Skill_SP_Moondrawing.h"
+#include "Skill_SP_SkyKongKong.h"
+#include "Skill_SP_SpiritHarmony.h"
+#include "Skill_SP_Flyheaven.h"
 
 
 #include "Skill.h"
@@ -123,41 +147,6 @@ void CPlayer_Doaga::Tick(_float fTimeDelta)
 	{
 		Set_State(TEXT("Resurrect"));
 	}
-
-	if (KEY_TAP(KEY::H))
-	{
-		Protocol::S_CREATE_SKILL pkt;
-		pkt.set_ilevel(m_iCurrLevel);
-		pkt.set_iplayerid(m_iObjectID);
-		pkt.set_iskillid(-1);
-		pkt.set_iskilltype((_uint)SKILL_TYPE::SKILL_RISINGSUN);
-
-		auto matWorld = pkt.mutable_matrix();
-		matWorld->Resize(16, 0.0f);
-		Matrix matPlayerWorld = m_pTransformCom->Get_WorldMatrix();
-		matPlayerWorld.m[3][1] += 0.7f;
-		memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
-
-		CServerSessionManager::GetInstance()->Send(CClientPacketHandler::MakeSendBuffer(pkt));
-	}
-
-	if (KEY_TAP(KEY::J))
-	{
-		Protocol::S_CREATE_SKILL pkt;
-		pkt.set_ilevel(m_iCurrLevel);
-		pkt.set_iplayerid(m_iObjectID);
-		pkt.set_iskillid(-1);
-		pkt.set_iskilltype((_uint)SKILL_TYPE::SKILL_TELEPORTDOOR);
-
-		auto matWorld = pkt.mutable_matrix();
-		matWorld->Resize(16, 0.0f);
-		Matrix matPlayerWorld = m_pTransformCom->Get_WorldMatrix();
-		matPlayerWorld.m[3][1] += 0.7f;
-		memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
-
-		CServerSessionManager::GetInstance()->Send(CClientPacketHandler::MakeSendBuffer(pkt));
-	}
-
 
 	m_pRigidBody->Tick(fTimeDelta);
 	m_pStateMachine->Tick_State(fTimeDelta);
@@ -617,6 +606,55 @@ HRESULT CPlayer_Doaga::Ready_State()
 	m_pStateMachine->Add_State(TEXT("Attack_3"), CState_SP_Attack3::Create(TEXT("Attack_3"),
 		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
 
+	m_pStateMachine->Add_State(TEXT("Attack_4"), CState_SP_Attack4::Create(TEXT("Attack_4"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Sun"), CState_SP_Identity_Sun::Create(TEXT("Identity_Sun"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Moon"), CState_SP_Identity_Moon::Create(TEXT("Identity_Moon"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Identity_Moon_End"), CState_SP_Identity_Moon_End::Create(TEXT("Identity_Moon_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	/* 스킬 스테이트 */
+	m_pStateMachine->Add_State(TEXT("Skill_SP_Inkpaddle"), CState_SP_Inkpaddle::Create(TEXT("Skill_SP_Inkpaddle"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_DimensionalShift_Start"), CState_SP_DimensionalShift_Start::Create(TEXT("Skill_SP_DimensionalShift_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_DimensionalShift_End"), CState_SP_DimensionalShift_End::Create(TEXT("Skill_SP_DimensionalShift_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_Inkshot"), CState_SP_Inkshot::Create(TEXT("Skill_SP_Inkshot"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_Onestroke"), CState_SP_Onestroke::Create(TEXT("Skill_SP_Onestroke"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_Moondrawing_Start"), CState_SP_Moondrawing_Start::Create(TEXT("Skill_SP_Moondrawing_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_Moondrawing_End"), CState_SP_Moondrawing_End::Create(TEXT("Skill_SP_Moondrawing_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_SkyKongKong_Start"), CState_SP_SkyKongKong_Start::Create(TEXT("Skill_SP_SkyKongKong_Start"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_SkyKongKong_Loop"), CState_SP_SkyKongKong_Loop::Create(TEXT("Skill_SP_SkyKongKong_Loop"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_SkyKongKong_End"), CState_SP_SkyKongKong_End::Create(TEXT("Skill_SP_SkyKongKong_End"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_SpiritHarmony"), CState_SP_SpiritHarmony::Create(TEXT("Skill_SP_SpiritHarmony"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
+	m_pStateMachine->Add_State(TEXT("Skill_SP_Flyheaven"), CState_SP_Flyheaven::Create(TEXT("Skill_SP_Flyheaven"),
+		m_pStateMachine, static_cast<CPlayer_Controller*>(m_pController), this));
+
 	return S_OK;
 }
 
@@ -625,13 +663,73 @@ HRESULT CPlayer_Doaga::Ready_Skill()
 	CPlayer_Skill* pSkill = nullptr;
 	CPlayer_Skill::PLAYERSKILL_DESC SkillDesc;
 
-	/*SkillDesc.pOwner = this;
-	SkillDesc.strSkill_StartName = TEXT("Skill_MG_SoundShock");
-	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_MG_SoundShock")));
-	pSkill = CSkill_MG_SoundShock::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Inkpaddle");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Inkpaddle")));
+	pSkill = CSkill_SP_Inkpaddle::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
 	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::Q, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
-	SkillDesc.State_Skills.clear();*/
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Inkshot");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Inkshot")));
+	pSkill = CSkill_SP_Inkshot::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::W, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_SkyKongKong_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_SkyKongKong_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_SkyKongKong_Loop")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_SkyKongKong_End")));
+	pSkill = CSkill_SP_SkyKongKong::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::E, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Flyheaven");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Flyheaven")));
+	pSkill = CSkill_SP_Flyheaven::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::R, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Onestroke");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Onestroke")));
+	pSkill = CSkill_SP_Onestroke::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::A, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Moondrawing_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Moondrawing_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Moondrawing_End")));
+	pSkill = CSkill_SP_Moondrawing::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::S, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_SpiritHarmony");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_SpiritHarmony")));
+	pSkill = CSkill_SP_SpiritHarmony::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::D, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
+
+	SkillDesc.pOwner = this;
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_DimensionalShift_Start");
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_DimensionalShift_Start")));
+	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_DimensionalShift_End")));
+	pSkill = CSkill_SP_DimensionalShift::Create(m_pDevice, m_pContext, this, &SkillDesc);
+	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);
+	m_pController->Bind_Skill(CPlayer_Controller::SKILL_KEY::F, m_pController->Find_Skill(pSkill->Get_Skill_Name()));
+	SkillDesc.State_Skills.clear();
 
 
 

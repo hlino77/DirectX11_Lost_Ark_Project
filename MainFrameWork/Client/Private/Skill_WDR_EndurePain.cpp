@@ -44,6 +44,19 @@ HRESULT CSkill_WDR_EndurePain::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WDR_EndurePain::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WDR_EndurePain::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WDR_EndurePain::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WDR_EndurePain::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

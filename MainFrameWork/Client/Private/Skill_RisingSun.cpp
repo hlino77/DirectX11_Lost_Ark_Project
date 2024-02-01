@@ -61,6 +61,16 @@ HRESULT CSkill_RisingSun::Initialize(void* pArg)
 
 void CSkill_RisingSun::Tick(_float fTimeDelta)
 {
+	if (0.f >= m_fDeadTime)
+	{
+		Effect_End();
+		m_bEnd = true;
+	}
+	else
+	{
+		m_fDeadTime -= fTimeDelta;
+	}
+
 	if (m_bEnd == true)
 	{
 		if (m_fDelay <= 0.0f)

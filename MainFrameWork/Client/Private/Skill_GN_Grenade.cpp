@@ -40,6 +40,19 @@ HRESULT CSkill_GN_Grenade::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_Grenade::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_Grenade::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_Grenade::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_Grenade::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

@@ -56,34 +56,22 @@ HRESULT CController_SP::Initialize(void* pArg)
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[1] = Proj_Desc;
 
-	///* 아덴공격 */
-	//Proj_Desc.fRadius = 2.5f;
-	//Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
-	//Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
-	//Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
-	//Proj_Desc.iDamage = 100;
-	//Proj_Desc.fRepulsion = 6.f;
-	//Proj_Desc.bUseFactor = false;
-	//m_Attack_Desces[2] = Proj_Desc;
-
-	//Proj_Desc.fRadius = 2.5f;
-	//Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
-	//Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
-	//Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
-	//Proj_Desc.iDamage = 100;
-	//Proj_Desc.fRepulsion = 8.f;
-	//Proj_Desc.bUseFactor = false;
-	//m_Attack_Desces[3] = Proj_Desc;
 
 	///* 아덴스킬 */
-	//Proj_Desc.fRadius = 2.5f;
-	//Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
-	//Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
-	//Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
-	//Proj_Desc.iDamage = 100;
-	//Proj_Desc.fRepulsion = 8.f;
-	//Proj_Desc.bUseFactor = true;
-	//m_Attack_Desces[4] = Proj_Desc;
+	PROJECTILE_DESC Proj_Iden_Desc;
+	Proj_Iden_Desc.pAttackOwner = m_pOwner;
+	Proj_Iden_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+	Proj_Iden_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Iden_Desc.fAttackTime = 0.05f;
+	Proj_Iden_Desc.fRadius = 2.2f;
+	Proj_Iden_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
+	Proj_Iden_Desc.iDamage = 2;
+	Proj_Iden_Desc.iStatusEffect = (_uint)STATUSEFFECT::EARTHQUAKE;
+	Proj_Iden_Desc.fStatusDuration = 3.f;
+	Proj_Iden_Desc.bUseProjPos = true;
+	m_Attack_Desces[2] = Proj_Iden_Desc;
+	
+	
 
 	return S_OK;
 }
@@ -91,10 +79,24 @@ HRESULT CController_SP::Initialize(void* pArg)
 void CController_SP::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->Tick(fTimeDelta);
+	}
 }
 
 void CController_SP::LateTick(_float fTimeDelta)
 {
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->LateTick(fTimeDelta);
+	}
+
 	__super::LateTick(fTimeDelta);
 }
 
@@ -104,6 +106,9 @@ void CController_SP::DebugRender()
 
 void CController_SP::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
+	if (true == m_IsDead)
+		return;
+
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
@@ -164,6 +169,7 @@ void CController_SP::Get_DeadMessage()
 	__super::Get_DeadMessage();
 
 	m_iIdentityGage = 0;
+	m_iMarbleCnt = 0;
 }
 
 _uint CController_SP::Is_SP_Identity()
@@ -234,6 +240,11 @@ void CController_SP::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 {
 	if (nullptr == m_pSkills[eKey])
 		return;
+
+	if (false == m_pSkills[eKey]->Is_Active())
+	{
+		m_pSkills[eKey]->Set_Active(true);
+	}
 
 	CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 	if (Vec3() != vPos)

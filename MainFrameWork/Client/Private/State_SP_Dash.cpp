@@ -51,7 +51,7 @@ void CState_SP_Dash::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 	}
 
-	if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash))
+	if (true == m_pController->Is_Run() && 30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash))
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))

@@ -1591,6 +1591,60 @@
     <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_Start">
       <UniqueIdentifier>{dd08e64a-77e2-4d2f-9fbf-6e6bb349736c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkpaddle">
+      <UniqueIdentifier>{8cf3782f-f8ae-4ae3-8f65-e7ed4f2caa0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Inkpaddle">
+      <UniqueIdentifier>{51b2e187-97e3-41e1-87a7-4a211b90c400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift">
+      <UniqueIdentifier>{6256a8d1-2b0a-4e00-a3fb-2c08c3e18b84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\DimensionalShift">
+      <UniqueIdentifier>{9c6b05cd-19dd-420c-84ed-2ff4867c4488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Sun">
+      <UniqueIdentifier>{da08fe71-3df1-453c-b618-27c3a2b20ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon">
+      <UniqueIdentifier>{a7830927-7154-476c-89d5-53831e138db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Inkshot">
+      <UniqueIdentifier>{a1109284-eafa-40e3-90eb-5889105e45ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkshot">
+      <UniqueIdentifier>{f72890f6-34a3-4b4f-b188-a44607b849e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Onestroke">
+      <UniqueIdentifier>{6435950e-52d6-49f8-b610-e1b7abf6240c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Onestorke">
+      <UniqueIdentifier>{843bf2e0-a5b3-4c5e-a4d8-5d558d8eacd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing">
+      <UniqueIdentifier>{c22961c7-5f3a-400e-aee5-7b9cfa828361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Moondrawing">
+      <UniqueIdentifier>{9df161d2-0dc8-42b9-a7b5-ce7156b01ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong">
+      <UniqueIdentifier>{96d1b419-a2ae-4b98-ae53-efc2557c2310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\SkyKongKong">
+      <UniqueIdentifier>{3bd22954-e5fd-4bf3-8868-83358a24e84d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\SpiritHarmony">
+      <UniqueIdentifier>{63b7819b-25fd-4323-aa9a-ccf961c4b345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\SpiritHarmony">
+      <UniqueIdentifier>{64afcfd4-612f-400a-9a5b-95fb1a823fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven">
+      <UniqueIdentifier>{bc45c164-d7b9-48a6-a1e6-4ba9805ae409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Flyheaven">
+      <UniqueIdentifier>{ade536cd-b292-4c03-89b7-7ecbc62e3074}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4634,6 +4688,78 @@
     <ClInclude Include="..\Public\State_SP_Attack3.h">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Attack4.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_Inkpaddle.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Inkpaddle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Inkpaddle.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkpaddle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_DimensionalShift_Start.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_DimensionalShift.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\DimensionalShift</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_DimensionalShift_End.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Identity_Sun.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Sun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Identity_Moon.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Identity_Moon_End.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_Inkshot.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Inkshot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Inkshot.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkshot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_Onestroke.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Onestroke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Onestroke.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Onestorke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_Moondrawing.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Moondrawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Moondrawing_End.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Moondrawing_Start.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_SkyKongKong.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\SkyKongKong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_SkyKongKong_End.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_SkyKongKong_Loop.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_SkyKongKong_Start.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_SpiritHarmony.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\SpiritHarmony</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_SpiritHarmony.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SpiritHarmony</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_SP_Flyheaven.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Flyheaven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State_SP_Flyheaven.h">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7547,7 +7673,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentitySP_LinkedPlayer.cpp">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Esther_Part_forCut.cpp">
       <Filter>02.GameObjects\Esther\base_Part</Filter>
     </ClCompile>
@@ -7652,6 +7778,78 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_SP_Attack3.cpp">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Attack4.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_Inkpaddle.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Inkpaddle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Inkpaddle.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkpaddle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_DimensionalShift_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_DimensionalShift.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\DimensionalShift</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_DimensionalShift_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Identity_Sun.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Sun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Identity_Moon.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Identity_Moon_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_Inkshot.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Inkshot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Inkshot.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkshot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_Onestroke.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Onestroke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Onestroke.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Onestorke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_Moondrawing.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Moondrawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Moondrawing_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Moondrawing_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_SkyKongKong.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\SkyKongKong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_SkyKongKong_End.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_SkyKongKong_Loop.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_SkyKongKong_Start.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_SpiritHarmony.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\SpiritHarmony</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_SpiritHarmony.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\SpiritHarmony</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_SP_Flyheaven.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\Skill_SP\Flyheaven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State_SP_Flyheaven.cpp">
+      <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

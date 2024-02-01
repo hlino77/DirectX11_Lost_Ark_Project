@@ -42,6 +42,19 @@ HRESULT CSkill_MG_SongOfGuard::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_SongOfGuard::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_SongOfGuard::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_SongOfGuard::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_SongOfGuard::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

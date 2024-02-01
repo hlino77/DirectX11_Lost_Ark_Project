@@ -86,9 +86,9 @@ void CState_SP_Idle::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(Vec3());
 
 		if (1 == iIdentity)
-			m_pPlayer->Set_State(TEXT("Identity_SP_Moon"));
+			m_pPlayer->Set_State(TEXT("Identity_Moon"));
 		else if (2 == iIdentity)
-			m_pPlayer->Set_State(TEXT("Identity_SP_Sun"));
+			m_pPlayer->Set_State(TEXT("Identity_Sun"));
 	}
 	else if (true == m_pController->Is_Skill())
 	{

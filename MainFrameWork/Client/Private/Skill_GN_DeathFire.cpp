@@ -52,6 +52,19 @@ HRESULT CSkill_GN_DeathFire::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_DeathFire::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_DeathFire::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_DeathFire::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_DeathFire::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

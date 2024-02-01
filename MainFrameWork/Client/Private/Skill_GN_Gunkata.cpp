@@ -69,6 +69,19 @@ HRESULT CSkill_GN_Gunkata::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_Gunkata::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_Gunkata::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_Gunkata::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_Gunkata::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

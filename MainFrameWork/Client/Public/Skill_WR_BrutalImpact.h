@@ -12,6 +12,9 @@ private:
 
 public:
 	virtual HRESULT			Initialize(void* pArg);
+	virtual void			Tick(_float fTimeDelta);
+	virtual void			LateTick(_float fTimeDelta);
+	virtual HRESULT			Render();
 	virtual HRESULT			Ready_Components();
 
 public:

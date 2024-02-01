@@ -17,7 +17,32 @@ HRESULT CPlayer_Skill::Initialize(void* pArg)
 		m_State_Skills = pSkillDesc->State_Skills;
 	}
 
+	m_bActive = false;
+
 	return S_OK;
+}
+
+void CPlayer_Skill::Tick(_float fTimeDelta)
+{
+}
+
+void CPlayer_Skill::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CPlayer_Skill::Render()
+{
+	return S_OK;
+}
+
+void CPlayer_Skill::Enter()
+{
+	m_bActive = true;
+}
+
+void CPlayer_Skill::Exit()
+{
+	m_bActive = false;
 }
 
 CTexture* CPlayer_Skill::Get_Skill_Texture()

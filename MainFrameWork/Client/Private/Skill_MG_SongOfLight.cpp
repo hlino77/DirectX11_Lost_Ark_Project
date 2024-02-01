@@ -41,6 +41,19 @@ HRESULT CSkill_MG_SongOfLight::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_SongOfLight::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_SongOfLight::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_SongOfLight::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_SongOfLight::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

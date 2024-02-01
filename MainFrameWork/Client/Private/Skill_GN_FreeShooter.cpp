@@ -41,6 +41,19 @@ HRESULT CSkill_GN_FreeShooter::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_FreeShooter::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_FreeShooter::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_FreeShooter::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_FreeShooter::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())
