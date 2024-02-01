@@ -408,6 +408,10 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_BubblePop"),
 		TEXT("Com_Texture_BubblePop"), (CComponent**)&m_pTexture_BubblePop)))
 		return E_FAIL;
+	//m_pTexture_BubbleMaxEffect
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_ShineEffect"),
+		TEXT("Com_Texture_BubbleMaxEffect"), (CComponent**)&m_pTexture_BubbleMaxEffect)))
+		return E_FAIL;
 
 	//m_pTransform_BubbleGaugeL
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
@@ -449,7 +453,18 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
 		TEXT("Com_Transform_Masked_EffectR"), (CComponent**)&m_pTransform_Masked_EffectR)))
 		return E_FAIL;
-
+	//m_pTransform_BubbleMaxEffectL
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_Transform_BubbleMaxEffectL"), (CComponent**)&m_pTransform_BubbleMaxEffectL)))
+		return E_FAIL;
+	//m_pTransform_BubbleMaxEffectC
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_Transform_BubbleMaxEffectC"), (CComponent**)&m_pTransform_BubbleMaxEffectC)))
+		return E_FAIL;
+	//m_pTransform_BubbleMaxEffectR
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_Transform_BubbleMaxEffectR"), (CComponent**)&m_pTransform_BubbleMaxEffectR)))
+		return E_FAIL;
     return S_OK;
 }
 
@@ -733,6 +748,7 @@ void CUI_IdentitySP_LinkedPlayer::Free()
 	Safe_Release(m_pTexture_SunRise);
 	Safe_Release(m_pTexture_SkillFrame);
 	Safe_Release(m_pTexture_BubblePop);
+	Safe_Release(m_pTexture_BubbleMaxEffect);
 
 	Safe_Release(m_pTransform_BubbleGaugeL);
 	Safe_Release(m_pTransform_BubbleGaugeC);

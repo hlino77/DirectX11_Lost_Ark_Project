@@ -12,6 +12,8 @@
 #include "Player_Destroyer.h"
 #include "Controller_MG.h"
 #include "Player_Bard.h"
+#include "Controller_SP.h"
+#include "Player_Doaga.h"
 #include "TextBox.h"
 
 CUI_SpaceBar_Icon::CUI_SpaceBar_Icon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -106,6 +108,14 @@ void CUI_SpaceBar_Icon::Tick(_float fTimeDelta)
                 Get_MG_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
             m_fCurrCool = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(pPlayer)->
                 Get_MG_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
+        }
+
+        else if (nullptr != pPlayer && L"SP" == pPlayer->Get_ObjectTag())
+        {
+            m_fCoolMaxTime = static_cast<CPlayer_Doaga*>(pPlayer)->
+                Get_SP_Controller()->Get_Skill_CoolTime(CPlayer_Controller::SKILL_KEY::SPACE);
+            m_fCurrCool = static_cast<CController_SP*>(static_cast<CPlayer_Doaga*>(pPlayer)->
+                Get_SP_Controller())->Get_Skill_CoolDown(CPlayer_Controller::SKILL_KEY::SPACE);
         }
     }
 

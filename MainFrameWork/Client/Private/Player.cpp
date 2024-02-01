@@ -719,8 +719,8 @@ HRESULT CPlayer::Ready_NamePlate()
 
 HRESULT CPlayer::Ready_Inventory()
 {
-	if (!Is_Control())
-		return S_OK;
+	//if (!Is_Control())
+		//return S_OK;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance); 
