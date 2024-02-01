@@ -110,7 +110,7 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 		Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
 		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION
-			, Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.1f));
+			, Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.2f));
 	
 		if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z)&&(1.f >= vHostPos.z)))
 			m_pInGameNameWnd->Set_Render(true);

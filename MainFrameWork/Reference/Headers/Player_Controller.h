@@ -117,6 +117,9 @@ public:
 		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return -1.f;
 		else return m_fCoolTime[eKey];
 	}
+	_float					Get_IdentitySkill_CoolDown() {
+		return m_fCoolDownAcc[SKILL_KEY::Z];
+	}
 
 	HIT_TYPE				Get_HitType() { return m_eHitType; }
 	_float					Get_Forced() { return m_fForced; }

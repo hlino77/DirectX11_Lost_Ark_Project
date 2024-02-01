@@ -434,7 +434,11 @@ void CUI_Boss_Hp::Set_Dead_BossHpUI()
 	CUI_Manager::GetInstance()->SetDead_CurrHPUI(this);
 }
 
-
+void CUI_Boss_Hp::Set_MaxHp(_int iMaxHp)
+{
+	CUI_Boss_Hp::m_iMaxHp = iMaxHp;
+	m_fDivideCountHp = (_float)m_iMaxHp / (_float)m_iHpCount;
+}
 
 void CUI_Boss_Hp::Update_BossHp()
 {

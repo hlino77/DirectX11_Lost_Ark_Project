@@ -4759,6 +4759,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_SP_Flyheaven.h">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven</Filter>
+   </ClInclude>
+    <ClInclude Include="..\Public\UI_IdentitySP.h">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7850,6 +7853,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_SP_Flyheaven.cpp">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_IdentitySP.cpp">
+      <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

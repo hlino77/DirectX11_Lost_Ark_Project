@@ -3,6 +3,7 @@
 
 BEGIN(Engine)
 class CPlayer_Skill;
+class CTextBox;
 END
 
 BEGIN(Client)
@@ -18,6 +19,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    HRESULT Initialize_TextBox();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -28,6 +30,10 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    HRESULT Ready_TextBox();
+
+private:
+    void    Print_CoolTime();
 
 private:
     wstring m_strCurrSkillName = TEXT("");
@@ -41,6 +47,9 @@ private:
     _float  m_fCoolRatio = { 0.f };
     _float  m_fCoolAngle = { 0.f };
 
+    CTextBox* m_pCoolTimeWnd = { nullptr };
+    wstring m_strTag;
+    wstring m_strFont;
 public:
     static  CUI_WRIdentity_SkillIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

@@ -32,6 +32,7 @@ public:
 	const _float&	Get_IdenMaxGauge() { return m_fMaxGage; }
 	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
 	const _float	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
+	const	_float& Get_IdenSkillCool() { return m_fIdenSkillCool; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -46,7 +47,7 @@ public:
 	virtual void	Get_DeadMessage();
 
 	void			Get_WR_IdentityMessage();
-	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_fIdentityGage -= 5.f; }
+	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = m_fIdenSkillCool; m_fIdentityGage -= 5.f; }
 
 	void			Increase_IdenGage(_float iGage);
 
@@ -73,7 +74,7 @@ private:
 	_float	m_fIdenTimeAcc = { 0.f };
 	_float	m_fIdenCoolTime = { 30.f };
 
-
+	_float	m_fIdenSkillCool = { 5.f };
 
 public:
 	static CController_WR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

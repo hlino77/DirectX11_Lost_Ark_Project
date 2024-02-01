@@ -625,6 +625,7 @@
     <ClInclude Include="..\Public\UI_ChaosDungeon_TimerFrame.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
+    <ClInclude Include="..\Public\UI_IdentitySP.h" />
     <ClInclude Include="..\Public\UI_ETCIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_HoldingFrame.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_Arrow.h" />
@@ -1294,6 +1295,7 @@
     <ClCompile Include="..\Private\UI_ChaosDungeon_TimerFrame.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />
+    <ClCompile Include="..\Private\UI_IdentitySP.cpp" />
     <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_HoldingFrame.cpp" />
     <ClCompile Include="..\Private\UI_IdentityGN_Arrow.cpp" />

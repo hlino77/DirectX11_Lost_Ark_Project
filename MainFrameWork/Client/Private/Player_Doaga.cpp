@@ -317,11 +317,13 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				m_pController->Increase_IdenGage(0.1);
+				//m_pController->Increase_IdenGage(0.1);
+				m_pController->Increase_IdenGage(1.f);
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
-				m_pController->Increase_IdenGage(0.1);
+				//m_pController->Increase_IdenGage(0.1);
+				m_pController->Increase_IdenGage(20.);
 			}
 		}
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)

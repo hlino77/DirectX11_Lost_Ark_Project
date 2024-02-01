@@ -163,7 +163,7 @@ HRESULT CUI_Inventory::UI_SET()
 	Safe_AddRef(pGameInstance);
 
 	m_pInventoryWnd = static_cast<CUI*>(pGameInstance->
-		Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_InventoryWnd"), m_pOwner));
+		Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_InventoryWnd"), m_pOwner));
 
 	if (nullptr == m_pInventoryWnd)
 		return E_FAIL;
@@ -191,7 +191,7 @@ HRESULT CUI_Inventory::UI_SET()
 			pInvenDesc->iSlotIndexY = i;
 			pInvenDesc->iSlotIndex = iSlotIndex;
 			pUI = static_cast<CUI*>(pGameInstance->
-				Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory_ItemSlot"),
+				Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory_ItemSlot"),
 					pInvenDesc));
 
 			if (nullptr == pUI)

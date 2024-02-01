@@ -19,6 +19,7 @@ private:
 public:
     virtual HRESULT Initialize_Prototype();
     virtual HRESULT Initialize(void* pArg);
+    HRESULT Initialize_TextBox();
     virtual void Tick(_float fTimeDelta);
     virtual void LateTick(_float fTimeDelta);
     virtual HRESULT Render();
@@ -27,9 +28,12 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
 
 private:
+    void    Print_CoolTime();
+
+private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
-
+    HRESULT Ready_TextBox();
 private:
     _bool   m_bIdentity_On = { false };
 
@@ -45,6 +49,9 @@ private:
     _float  m_fCoolRatio = { 0.f };
     _float  m_fCoolAngle = { 0.f };
 
+    CTextBox* m_pCoolTimeWnd = { nullptr };
+    wstring m_strTag;
+    wstring m_strFont;
 public:
     static  CUI_WDRIdentity_Identity_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
