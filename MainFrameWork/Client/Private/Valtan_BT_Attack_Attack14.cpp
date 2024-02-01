@@ -65,11 +65,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 					ModelDesc.pOwner = m_pGameObject;
 
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &ModelDesc);
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+						Vec3 vLook = vPos - m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 						vLook.Normalize();	
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
@@ -85,11 +85,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 					ModelDesc.pOwner = m_pGameObject;
 
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &ModelDesc);
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+						Vec3 vLook = vPos - m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 						vLook.Normalize();
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);

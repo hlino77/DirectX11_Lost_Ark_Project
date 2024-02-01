@@ -573,8 +573,8 @@ void CMonster::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	m_pTransformCom->LookAt_Lerp(vTargetPosition - vCurrentPosition, 4.0f, fTimeDelta);
+	if ((vTargetPosition - vCurrentPosition).Length() > 0.05f)
+		m_pTransformCom->LookAt_Lerp(vTargetPosition - vCurrentPosition, 4.0f, fTimeDelta);
 }
 
 void CMonster::LookAt_Target_Direction()
@@ -986,15 +986,14 @@ void CMonster::Send_CollidingInfo(const _uint iColLayer, CCollider* pOther)
 	if (false == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseFactor)
 		fStatusDuration += 100.f;
 	STATUSEFFECT eEffect = (STATUSEFFECT)static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect;
-	_int iCritical = rand() % 10;
 
-	iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
+	iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.5)) + 1) * 26789;
 	_bool IsCritical = false;
-	if (iCritical < 3)
+	if (CGameInstance::GetInstance()->Random_Coin(0.3f))
 	{
 		IsCritical = true;
 		iDamage *= 2;
-	};
+	}
 	Send_Collision(iDamage, vPos, eEffect, fForce, fStatusDuration,0);
 	Show_Damage(iDamage, IsCritical);
 }

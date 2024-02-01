@@ -54,14 +54,14 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	/* ¾Æµ§°ø°Ý */
 	Proj_Desc.fRadius = 1.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 100;
+	Proj_Desc.iDamage = 300;
 	Proj_Desc.fRepulsion = 5.f;
 	Proj_Desc.bUseFactor = false;
 	m_Attack_Desces[2] = Proj_Desc;
 
 	Proj_Desc.fRadius = 1.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 100;
+	Proj_Desc.iDamage = 300;
 	Proj_Desc.fRepulsion = 0.f;
 	m_Attack_Desces[3] = Proj_Desc;
 
@@ -69,7 +69,7 @@ HRESULT CController_WDR::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.2f;
 	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 250;
+	Proj_Desc.iDamage = 800;
 	Proj_Desc.fRepulsion = -6.f;
 	Proj_Desc.bUseProjPos = true;
 	m_Attack_Desces[4] = Proj_Desc;

@@ -31,7 +31,7 @@ HRESULT CSkill_GN_RapidFire::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
-	Proj_Desc.iDamage = 100;
+	Proj_Desc.iDamage = 300;
 	Proj_Desc.iStagger = 0;
 	Proj_Desc.fRepulsion = 1.5f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);

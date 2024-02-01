@@ -82,7 +82,7 @@ HRESULT CController_WR::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
-	Proj_Desc.iDamage = 100;
+	Proj_Desc.iDamage = 900;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = true;
 	m_Attack_Desces[4] = Proj_Desc;

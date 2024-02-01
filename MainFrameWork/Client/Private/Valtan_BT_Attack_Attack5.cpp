@@ -38,10 +38,21 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5::OnUpdate(const _float& fTimeDelta
 		m_iStack++;
 		m_fLoopTime = 0.f;
 		m_vDirection.Normalize();
-		Vec3 vPlayerPosition = static_cast<CMonster*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		vPlayerPosition += (m_vDirection * 35.f);
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
-		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
+		Vec3 vPlayerPosition;
+		if (m_pGameObject->Get_NearTarget() != nullptr)
+		{
+			vPlayerPosition = static_cast<CMonster*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			vPlayerPosition += (m_vDirection * 35.f);
+			m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
+			static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
+		}
+		else
+		{
+			vPlayerPosition = static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition();
+			vPlayerPosition += (m_vDirection * 35.f);
+			m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
+			static_cast<CMonster*>(m_pGameObject)->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
+		}
 		m_vDirection = Vec3::TransformNormal(m_vDirection, Matrix::CreateRotationY(XMConvertToRadians(205.f)));
 		m_vDirection.Normalize();
 	}

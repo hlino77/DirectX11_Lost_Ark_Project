@@ -34,7 +34,7 @@ HRESULT CSkill_WDR_SizemicHammer::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.9f);
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 0.7f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.9f);
-	Proj_Desc.iDamage = 50;
+	Proj_Desc.iDamage = 230;
 	Proj_Desc.iStagger = 30;
 	Proj_Desc.fRepulsion = 0.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
@@ -48,7 +48,7 @@ HRESULT CSkill_WDR_SizemicHammer::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.2f);
 	Proj_Desc.vChildScale = Vec3(1.6f, 0.6f, 2.f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.2f);
-	Proj_Desc.iDamage = 200;
+	Proj_Desc.iDamage = 1000;
 	Proj_Desc.iStagger = 60;
 	Proj_Desc.fRepulsion = 0.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);

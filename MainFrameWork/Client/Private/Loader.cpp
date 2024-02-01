@@ -182,6 +182,8 @@
 #include "Skill_Valtan_SphereTerm.h"
 #include "Skill_Valtan_PizzaTerm.h"
 #include "Skill_Valtan_PizzaInstant.h"
+#include "SKill_Valtan_RainingAxe.h"
+
 //Lobby MQ
 #include "Player_Select_GN.h"
 #include "Player_Select_MG.h"
@@ -1343,6 +1345,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SKill_Valtan_RainingAxe"),
+		CSKill_Valtan_RainingAxe::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
 		CSkyDome::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -2021,7 +2028,16 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		pUIManager->Add_CurrFile();
 	}
 
+	{
+		wstring strFileName = L"Skill_Boss_Valtan_Axe";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
 
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;

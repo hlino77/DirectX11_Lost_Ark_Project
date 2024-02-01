@@ -18,8 +18,24 @@ void CValtan_BT_Attack_Attack15_Server::OnStart()
 {
 	__super::OnStart(0);
 	vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER);
-	CGameObject* pRandomTarget = vecTargets[CGameInstance::GetInstance()->Random_Int(0, _int(vecTargets.size() - 1))];
-	m_iTargetID = pRandomTarget->Get_ObjectID();
+
+	auto iter = vecTargets.begin();
+	for (auto& pPlayer : vecTargets)
+	{
+		if (TEXT("Dead_End") == static_cast<CPlayer_Server*>(pPlayer)->Get_ServerState())
+		{
+			iter = vecTargets.erase(iter);
+		}
+		else
+			iter++;
+	}
+	if (vecTargets.size() > 0)
+	{
+		CGameObject* pRandomTarget = vecTargets[CGameInstance::GetInstance()->Random_Int(0, _int(vecTargets.size() - 1))];
+		m_iTargetID = pRandomTarget->Get_ObjectID();
+	}
+	else
+		m_iTargetID = -1;
 	m_pGameObject->Set_TargetPos(Vec3(_float(m_iTargetID), _float(m_iTargetID), _float(m_iTargetID)));
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
@@ -32,8 +48,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);		
 		return BT_SUCCESS;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
-		Add_Prison();
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext()&& m_iTargetID != -1)
+			Add_Prison();
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > 27)
 	{
 		for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))

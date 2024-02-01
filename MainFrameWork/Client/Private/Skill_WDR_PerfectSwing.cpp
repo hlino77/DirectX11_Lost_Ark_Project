@@ -32,7 +32,7 @@ HRESULT CSkill_WDR_PerfectSwing::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 200;
+	Proj_Desc.iDamage = 420;
 	Proj_Desc.iStagger = 100;
 	Proj_Desc.fRepulsion = 10.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
@@ -56,13 +56,13 @@ HRESULT CSkill_WDR_PerfectSwing::Ready_Components()
 
 void CSkill_WDR_PerfectSwing::Check_ColliderState()
 {
-	if (TEXT("Skill_WR_PerfectSwing_Success") == static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_State())
+	if (TEXT("Skill_WDR_PerfectSwing_Success") == static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_State())
 	{
-		m_SkillProjDesc.iDamage = 300;
+		m_SkillProjDesc.iDamage = 3000;
 	}
 	else
 	{
-		m_SkillProjDesc.iDamage = 150;
+		m_SkillProjDesc.iDamage = 2000;
 	}
 }
 

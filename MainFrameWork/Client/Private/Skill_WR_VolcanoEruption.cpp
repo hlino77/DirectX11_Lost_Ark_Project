@@ -33,7 +33,7 @@ HRESULT CSkill_WR_VolcanoEruption::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.5f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.f);
-	Proj_Desc.iDamage = 80;
+	Proj_Desc.iDamage = 110;
 	Proj_Desc.iStagger = 5;
 	Proj_Desc.fRepulsion = 0.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
@@ -42,7 +42,7 @@ HRESULT CSkill_WR_VolcanoEruption::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.f);
-	Proj_Desc.iDamage = 200;
+	Proj_Desc.iDamage = 950;
 	Proj_Desc.iStagger = 40;
 	Proj_Desc.fRepulsion = 31.f;
 	Proj_Desc.bUseProjPos = true;

@@ -123,7 +123,7 @@ HRESULT CSkill_Crystal::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
-	Color vValtanBloom = Color(0.1f, 1.0f, 0.6f, 1.f)*0.8f;
+	Color vValtanBloom = Color::Lerp(Color(1.f, 0.0f, 0.0f, 1.f), Color(0.1f, 1.0f, 0.6f, 1.f), m_fExplosionDelay);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
 
@@ -188,10 +188,13 @@ void CSkill_Crystal::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEff
 }
 void CSkill_Crystal::Set_Explosion(_bool bExplosion)
 {
-	 m_bExplosion = bExplosion; 
-	 Set_RimLight(0.05f);
-	 m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SAFEZONE]->SetActive(false);
-	 m_bExplosion = true;
+	if (!m_bExplosion)
+	{
+		m_bExplosion = bExplosion;
+		Set_RimLight(0.05f);
+		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SAFEZONE]->SetActive(false);
+		m_bExplosion = true;
+	}
 }
 
 void CSkill_Crystal::Explosion()

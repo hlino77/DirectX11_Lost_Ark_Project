@@ -32,7 +32,7 @@ HRESULT CSkill_GN_Grenade::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.3f, 0.0f);
-	Proj_Desc.iDamage = 120;
+	Proj_Desc.iDamage = 800;
 	Proj_Desc.iStagger = 0;
 	Proj_Desc.fRepulsion = 0.f;
 	m_SkillProjDesc = Proj_Desc;

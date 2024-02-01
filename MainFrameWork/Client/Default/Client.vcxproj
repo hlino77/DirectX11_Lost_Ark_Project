@@ -371,6 +371,7 @@
     <ClInclude Include="..\Public\Skill_Valtan_DoughnutInstant.h" />
     <ClInclude Include="..\Public\Skill_Valtan_PizzaInstant.h" />
     <ClInclude Include="..\Public\Skill_Valtan_PizzaTerm.h" />
+    <ClInclude Include="..\Public\SKill_Valtan_RainingAxe.h" />
     <ClInclude Include="..\Public\Skill_Valtan_SilenceSphere.h" />
     <ClInclude Include="..\Public\Skill_Valtan_SphereInstant.h" />
     <ClInclude Include="..\Public\Skill_Valtan_DoughnutTerm2sec.h" />
@@ -1015,6 +1016,7 @@
     <ClCompile Include="..\Private\Skill_Valtan_DoughnutInstant.cpp" />
     <ClCompile Include="..\Private\Skill_Valtan_PizzaInstant.cpp" />
     <ClCompile Include="..\Private\Skill_Valtan_PizzaTerm.cpp" />
+    <ClCompile Include="..\Private\SKill_Valtan_RainingAxe.cpp" />
     <ClCompile Include="..\Private\Skill_Valtan_SilenceSphere.cpp" />
     <ClCompile Include="..\Private\Skill_Valtan_SphereInstant.cpp" />
     <ClCompile Include="..\Private\Skill_Valtan_DoughnutTerm2sec.cpp" />

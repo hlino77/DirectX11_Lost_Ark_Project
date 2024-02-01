@@ -33,7 +33,7 @@ HRESULT CSkill_GN_PerfectShot::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.5f);
 	Proj_Desc.IsMove = true;
 	Proj_Desc.fMoveSpeed = 30.f;
-	Proj_Desc.iDamage = 150;
+	Proj_Desc.iDamage = 700;
 	Proj_Desc.iStagger = 20;
 	Proj_Desc.fRepulsion = 21.f;	
 	m_vecSkillProjDesces.push_back(Proj_Desc);

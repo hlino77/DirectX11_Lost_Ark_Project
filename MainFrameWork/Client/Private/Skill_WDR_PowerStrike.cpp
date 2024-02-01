@@ -32,7 +32,7 @@ HRESULT CSkill_WDR_PowerStrike::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 1.4f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
-	Proj_Desc.iDamage = 150;
+	Proj_Desc.iDamage = 600;
 	Proj_Desc.iStagger = 15;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = false;

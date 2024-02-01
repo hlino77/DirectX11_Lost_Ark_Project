@@ -113,7 +113,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(30.f);
 			static_cast<CSkill*>(pSkill)->Set_Atk(50);
-			static_cast<CSkill*>(pSkill)->Set_Force(10.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(33.f);
 		}
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
@@ -121,7 +121,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			static_cast<CSkill*>(pSkill)->Set_Atk(9999);
-			static_cast<CSkill*>(pSkill)->Set_Force(30.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(35.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 			static_cast<CSkill*>(pSkill)->Set_Destructive(true);

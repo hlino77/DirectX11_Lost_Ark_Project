@@ -33,7 +33,7 @@ HRESULT CSkill_WR_FuriousClaw::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
-	Proj_Desc.iDamage = 100;
+	Proj_Desc.iDamage = 350;
 	Proj_Desc.iStagger = 5;
 	Proj_Desc.fRepulsion = 5.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
@@ -44,7 +44,7 @@ HRESULT CSkill_WR_FuriousClaw::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.2f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
-	Proj_Desc.iDamage = 120;
+	Proj_Desc.iDamage = 700;
 	Proj_Desc.iStagger = 10;
 	Proj_Desc.fRepulsion = 8.f;
 	Proj_Desc.bUseFactor = false;

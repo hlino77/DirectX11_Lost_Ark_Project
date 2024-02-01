@@ -47,6 +47,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
 		m_fLoopTime = 0;
+
 		return BT_RUNNING;
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 44 && m_bShoot[0])
@@ -117,7 +118,32 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[12].iAnimIndex) >= 49 && m_bShoot[1])
+	{
+		m_bShoot[1] = false;
+		if (m_pGameObject->Get_NearTarget() == nullptr)
+		{
+			CSkill::ModelDesc ModelDesc = {};
+			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+			ModelDesc.iObjectID = -1;
+			ModelDesc.pOwner = m_pGameObject;
 
+
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+			if (pSkill != nullptr)
+			{
+				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vLook.Normalize();
+				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(30.f);
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				static_cast<CSkill*>(pSkill)->Set_Atk(99999999);
+				static_cast<CSkill*>(pSkill)->Set_Force(50.f);
+			}
+		}
+
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
