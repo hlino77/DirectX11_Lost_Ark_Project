@@ -70,11 +70,11 @@ void CSkill_WDR_FullSwing::Check_ColliderState()
 {
 	if (true == m_IsSkillSuccess)
 	{
-		m_SkillProjDesc.iDamage = 150;
+		m_SkillProjDesc.iDamage = 750;
 	}
 	else
 	{
-		m_SkillProjDesc.iDamage = 100;
+		m_SkillProjDesc.iDamage = 350;
 	}
 }
 

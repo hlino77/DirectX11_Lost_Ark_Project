@@ -26,18 +26,19 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 1)
 	{
+		m_pGameObject->Set_Render(false);
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 	}
 	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 2&& m_fLoopTime < m_vecAnimDesc[1].fMaxLoopTime-1.f&& !m_pGameObject->Get_ModelCom()->IsNext())
 	{
+		m_pGameObject->Set_Render(false);
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_NearTarget_Position());
 	}
-	if (m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime)
-	{
-		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[2].strAnimName, m_vecAnimDesc[2].fChangeTime, m_vecAnimDesc[2].iStartFrame, m_vecAnimDesc[2].iChangeFrame, m_vecAnimDesc[2].fAnimSpeed);
-	}
+	if (m_iCurrAnimation == 2)
+		m_pGameObject->Set_Render(true);
+	
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		m_fAttackTerm += fTimeDelta;
@@ -65,14 +66,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 					ModelDesc.pOwner = m_pGameObject;
 
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &ModelDesc);
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+						Vec3 vLook = vPos - m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 						vLook.Normalize();	
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
 					}
 				}
 			vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -85,14 +87,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 					ModelDesc.pOwner = m_pGameObject;
 
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &ModelDesc);
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = Object->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+						Vec3 vLook = vPos - m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 						vLook.Normalize();
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
 					}
 				}
 		}

@@ -50,7 +50,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack4::OnUpdate(const _float& fTimeDelta
 		}
 
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
-		if (pSkill != nullptr)
+		if (pSkill != nullptr&& m_pGameObject->Get_NearTarget()!= nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);

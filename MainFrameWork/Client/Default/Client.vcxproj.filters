@@ -4762,6 +4762,9 @@
    </ClInclude>
     <ClInclude Include="..\Public\UI_IdentitySP.h">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
+   </ClInclude>
+    <ClInclude Include="..\Public\SKill_Valtan_RainingAxe.h">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7856,6 +7859,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentitySP.cpp">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SKill_Valtan_RainingAxe.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

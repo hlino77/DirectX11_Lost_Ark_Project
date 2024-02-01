@@ -120,6 +120,10 @@ HRESULT CBoss_Valtan_Corpse::Render()
 			return E_FAIL;
 	}
 
+	Color vValtanBloom = Color(0.4f, 1.6f, 1.3f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
+		return E_FAIL;
+
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 	_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::BODY]->Get_NumMeshes();

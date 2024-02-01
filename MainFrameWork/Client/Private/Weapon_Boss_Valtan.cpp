@@ -181,7 +181,7 @@ HRESULT CWeapon_Boss_Valtan::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 
-	Color vValtanBloom = Color(0.62f, 0.93f, 0.85f, 1.f);
+	Color vValtanBloom = Color(0.4f, 1.6f, 1.3f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
 

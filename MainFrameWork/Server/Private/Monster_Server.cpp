@@ -594,8 +594,8 @@ void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	m_pTransformCom->LookAt_Lerp(vTargetPosition- vCurrentPosition, 4.0f, fTimeDelta);
+	if ((vTargetPosition - vCurrentPosition).Length() > 0.05f)
+		m_pTransformCom->LookAt_Lerp(vTargetPosition- vCurrentPosition, 4.0f, fTimeDelta);
 }
 
 void CMonster_Server::LookAt_Target_Direction()

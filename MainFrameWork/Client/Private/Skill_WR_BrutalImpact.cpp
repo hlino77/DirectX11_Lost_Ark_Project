@@ -33,7 +33,7 @@ HRESULT CSkill_WR_BrutalImpact::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.f);
 	Proj_Desc.vChildScale = Vec3(1.f, 0.6f, 1.8f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.f);
-	Proj_Desc.iDamage = 200;
+	Proj_Desc.iDamage = 1500;
 	Proj_Desc.iStagger = 100;
 	Proj_Desc.fRepulsion = 21.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
@@ -71,12 +71,12 @@ void CSkill_WR_BrutalImpact::Check_ColliderState()
 {
 	if (m_IsSkillSuccess)
 	{
-		m_SkillProjDesc.iDamage = 400;
+		m_SkillProjDesc.iDamage = 2000;
 		m_SkillProjDesc.fRepulsion = 25.f;
 	}
 	else
 	{
-		m_SkillProjDesc.iDamage = 200;
+		m_SkillProjDesc.iDamage = 1500;
 		m_SkillProjDesc.fRepulsion = 5.f;
 	}
 }

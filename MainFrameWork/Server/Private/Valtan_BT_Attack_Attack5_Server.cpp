@@ -31,10 +31,21 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack5_Server::OnUpdate(const _float& fTi
 		m_fLoopTime = 0.f;
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_SetuponCell(false);
 		m_vDirection.Normalize();
-		Vec3 vPlayerPosition = static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-		vPlayerPosition += (m_vDirection * 35.f);
-		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition + (m_vDirection * 20.f));
-		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+		Vec3 vPlayerPosition ;
+		if (m_pGameObject->Get_NearTarget() != nullptr)
+		{
+			vPlayerPosition = static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			vPlayerPosition += (m_vDirection * 35.f);
+			m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
+			static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
+		}
+		else
+		{
+			vPlayerPosition = static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition();
+			vPlayerPosition += (m_vDirection * 35.f);
+			m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
+			static_cast<CMonster_Server*>(m_pGameObject)->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition());
+		}
 		m_vDirection = Vec3::TransformNormal(m_vDirection, Matrix::CreateRotationY(XMConvertToRadians(205.f)));
 		m_vDirection.Normalize();
 	}

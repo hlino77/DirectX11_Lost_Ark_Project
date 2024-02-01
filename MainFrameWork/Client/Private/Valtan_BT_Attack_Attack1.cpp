@@ -42,7 +42,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1::OnUpdate(const _float& fTimeDelta
 		if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		{
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.7f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.8f);	
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
 			static_cast<CBoss*>(m_pGameObject)->Set_Atk(20);
@@ -54,7 +54,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1::OnUpdate(const _float& fTimeDelta
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iCurrAnimation == 1)
 	{
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
-		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 1.3f))
+		_float fOffset = 1.1f;
+		if(static_cast<CBoss*>(m_pGameObject)->Get_Phase()==1)
+			fOffset = 1.1f;
+		else
+			fOffset = 2.f;
+		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, fOffset))
 		{
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);

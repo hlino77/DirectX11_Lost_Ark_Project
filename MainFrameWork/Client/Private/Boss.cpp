@@ -169,9 +169,9 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			 iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			int iCritical = rand() % 10;
 
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
+			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.4f)) + 1) * 26789;
 			_bool IsCritical = false;
-			if (iCritical < 3)
+			if (CGameInstance::GetInstance()->Random_Coin(0.3f))
 			{
 				IsCritical = true;
 				iDamage *= 2;
@@ -200,9 +200,9 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			int iCritical = rand() % 10;
 
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage - 50, iDamage + 50) + 1) * 26789;
+			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.5f)) + 1) * 26789;
 			_bool IsCritical = false;
-			if (iCritical < 3)
+			if (CGameInstance::GetInstance()->Random_Coin(0.3f))
 			{
 				IsCritical = true;
 				iDamage *= 2;

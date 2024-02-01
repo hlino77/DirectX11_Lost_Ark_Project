@@ -34,7 +34,7 @@ HRESULT CSkill_WDR_EndurePain::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.5f;
 	Proj_Desc.fRadius = 1.3f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
-	Proj_Desc.iDamage = 50;
+	Proj_Desc.iDamage = 1200;
 	Proj_Desc.iStagger = 10;
 	Proj_Desc.fRepulsion = 1.f;
 	Proj_Desc.bUseProjPos = true;
