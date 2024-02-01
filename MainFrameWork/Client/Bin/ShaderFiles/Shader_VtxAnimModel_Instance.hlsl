@@ -99,8 +99,10 @@ PS_OUT_PBR PS_PBR(VS_OUT_INSTANCE In)
 	
 	if (0.2f >= Out.vDiffuse.a)
 		discard;
-    if (In.fDissolveAmount>0.f)
+
+    if (In.fDissolveAmount > 0.f)
         ComputeDissolveColorforInstance(Out.vDiffuse, In.vTexUV, In.fDissolveAmount);
+
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     //float4 vNormalV = float4(In.vNormalV, 0.f);
     //ComputeNormalMapping(vNormalV, In.vTangent, In.vTexUV);

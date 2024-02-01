@@ -596,6 +596,7 @@ void CMonster::Set_Die(_float fTime)
 
 	if (m_bDissolveOut == false)
 		Set_DissolveOut(fTime);
+
 	if (m_pHpUI != nullptr)
 		m_pHpUI->Set_Dead(true);
 }

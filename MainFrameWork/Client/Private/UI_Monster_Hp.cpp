@@ -220,9 +220,4 @@ void CUI_Monster_Hp::Free()
 	Safe_Release(m_pTextureCom_Hp);
 	Safe_Release(m_pTextureCom_PrisonWnd);
 	Safe_Release(m_pTextureCom_PrisonGauge);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTransform_Hp);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }
