@@ -53,6 +53,7 @@ private:
     CTexture* m_pTexture_SunRise = { nullptr };
     CTexture* m_pTexture_SkillFrame = { nullptr };
     CTexture* m_pTexture_None = { nullptr };
+    CTexture* m_pTexture_BubblePop = { nullptr };
 
     CTransform* m_pTransform_BubbleGaugeL = { nullptr };
     CTransform* m_pTransform_BubbleGaugeC = { nullptr };
@@ -81,8 +82,8 @@ private:
 
     _float  m_fSizeX_Masked[3] = { 0.f, 0.f, 0.f };
     _float  m_fSizeY_Masked[3] = { 0.f, 0.f, 0.f };
-    _float  m_fBubblePop[3] = { 0.f, 0.f, 0.f };
     _float  m_fMaskedEffectAlpha[3] = { 0.f, 0.f, 0.f };
+    _float  m_fBubblePopFrame[3] = { 0.f, 0.f, 0.f };
     _bool   m_bMaskedEffect[3] = { false, false, false };//사라지는 이펙트 On
     
 public:

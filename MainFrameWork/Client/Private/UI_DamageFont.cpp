@@ -141,8 +141,6 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     m_vHostPos += vOffSet;
     m_vOffset = vOffSet;
 
-
-
     if (0 < iDamage)
     {
         if (!IsCritical)
@@ -303,12 +301,7 @@ CGameObject* CUI_DamageFont::Clone(void* pArg)
 void CUI_DamageFont::Free()
 {
     __super::Free();
-    Safe_Release(m_pDamageFontWnd);
+    m_pDamageFontWnd->Set_Dead(true);
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
-
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }

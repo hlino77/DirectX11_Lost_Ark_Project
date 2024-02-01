@@ -594,12 +594,7 @@ void CUI_SkillIcon_Frame::Free()
     Safe_Release(m_pContext);
 
     m_pCoolTimetWnd->Set_Dead(true);
-    Safe_Release(m_pTextureCom);//엠프티
     Safe_Release(m_pTextureCom_Skill);//테스트용
     Safe_Release(m_pTextureCom_Shine);//마우스 올릴시 빛나는 이펙트
     Safe_Release(m_pTextureCom_Frame);//프레임
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }

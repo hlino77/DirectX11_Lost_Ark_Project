@@ -464,14 +464,9 @@ void CUI_Inventory_ItemSlot::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTexture_ItemIcon);
 	Safe_Release(m_pTexture_ItemGrade);
 	Safe_Release(m_pTexture_None);
 	Safe_Release(m_pTexture_Picked_Effect);
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransform_ItemIcon);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

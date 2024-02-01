@@ -567,18 +567,11 @@ void CUI_NPC_ChaosDungeon_NewWnd::Free()
     m_pTextBoxWnd->Set_Dead(true);
     m_pTimeCountWnd->Set_Dead(true);
 
-    Safe_Release(m_pTextureCom);
     Safe_Release(m_pTexture_AcceptButton);
     Safe_Release(m_pTexture_RefuseButton);
     Safe_Release(m_pTexture_TimerEmpty);
     Safe_Release(m_pTexture_TimerGauge);
-    Safe_Release(m_pTransformCom);
     Safe_Release(m_pTransform_AcceptButton);
     Safe_Release(m_pTransform_RefuseButton);
     Safe_Release(m_pTransform_Timer);
-
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
-
 }

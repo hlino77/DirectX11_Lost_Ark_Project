@@ -312,7 +312,6 @@ void CUI_IdentitySP_MainWnd::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTexture_MainWnd);
 	Safe_Release(m_pTexture_BlueLight);
 	Safe_Release(m_pTexture_Ink);
@@ -320,15 +319,10 @@ void CUI_IdentitySP_MainWnd::Free()
 	Safe_Release(m_pTexture_BubbleFrmaes);
 	Safe_Release(m_pTexture_BrushEffect);
 
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_PTransform_MainWnd);
 	Safe_Release(m_PTransform_BlueLight);
 	Safe_Release(m_PTransform_Ink);
 	Safe_Release(m_PTransform_Brush);
 	Safe_Release(m_PTransform_BubbleFrmaes);
 	Safe_Release(m_PTransform_BrushEffect);
-
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

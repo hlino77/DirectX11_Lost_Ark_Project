@@ -559,7 +559,6 @@ void CUI_ChaosDungeon_Clear::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTexture_ClearLine);
 	Safe_Release(m_pTexture_ClearShine);
 	Safe_Release(m_pTexture_Line_L);
@@ -568,7 +567,6 @@ void CUI_ChaosDungeon_Clear::Free()
 	Safe_Release(m_pTexture_ClearBackGround);
 	Safe_Release(m_pTexture_ClearCheckButton);
 
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransform_ClearLine);
 	Safe_Release(m_pTransform_ClearShine);
 	Safe_Release(m_pTransform_Line_L);
@@ -576,9 +574,5 @@ void CUI_ChaosDungeon_Clear::Free()
 	Safe_Release(m_pTransform_ClearMessage);
 	Safe_Release(m_pTransform_ClearBackGround);
 	Safe_Release(m_pTransform_ClearCheckButton);
-
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 
 }

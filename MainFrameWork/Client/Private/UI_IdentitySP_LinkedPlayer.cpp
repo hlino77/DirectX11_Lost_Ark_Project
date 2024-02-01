@@ -74,21 +74,21 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Initialize(void* pArg)
 		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 28.f) + g_iWinSizeY * 0.5f, 0.2f));
 	for (size_t i = 0; i < 3; i++)
 	{
-		m_fSizeX_Masked[i] = 262.f;
-		m_fSizeY_Masked[i] = 114.f;
+		m_fSizeX_Masked[i] = 80.f;
+		m_fSizeY_Masked[i] = 80.f;
 	}
 	//m_pTransform_Masked_EffectL
 	m_pTransform_Masked_EffectL->Set_Scale(Vec3(m_fSizeX_Masked[0], m_fSizeY_Masked[0], 1.f));
 	m_pTransform_Masked_EffectL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 41.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX - 41.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_Masked_EffectC
 	m_pTransform_Masked_EffectC->Set_Scale(Vec3(m_fSizeX_Masked[1], m_fSizeY_Masked[1], 1.f));
 	m_pTransform_Masked_EffectC->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 2.f) - (g_iWinSizeX * 0.5f), -(m_fY + 12.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX + 2.f) - (g_iWinSizeX * 0.5f), -(m_fY + 28.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_Masked_EffectR
 	m_pTransform_Masked_EffectR->Set_Scale(Vec3(m_fSizeX_Masked[2], m_fSizeY_Masked[2], 1.f));
 	m_pTransform_Masked_EffectR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -177,17 +177,17 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Render()
 
 	if (FAILED(Bind_ShaderResources_MaskedShineL()))
 		return E_FAIL;
-	m_pShaderCom->Begin(18);
+	m_pShaderCom->Begin(3);
 	m_pVIBufferCom->Render();
 
 	if (FAILED(Bind_ShaderResources_MaskedShineC()))
 		return E_FAIL;
-	m_pShaderCom->Begin(18);
+	m_pShaderCom->Begin(3);
 	m_pVIBufferCom->Render();
 
 	if (FAILED(Bind_ShaderResources_MaskedShineR()))
 		return E_FAIL;
-	m_pShaderCom->Begin(18);
+	m_pShaderCom->Begin(3);
 	m_pVIBufferCom->Render();
 
     return S_OK;
@@ -339,15 +339,20 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubblePopAnim(_float fTimeDelta)
 		if ((m_bMaskedEffect[i]) && (0.f < m_fMaskedEffectAlpha[i]))
 		{
 			m_fSizeX_Masked[i] += (20.f * fTimeDelta);
-			m_fSizeY_Masked[i] += 114.f + (20.f * fTimeDelta);
+			m_fSizeY_Masked[i] += (20.f * fTimeDelta);
 			m_fMaskedEffectAlpha[i] -= 5.f * fTimeDelta;
+			if(17.f > m_fBubblePopFrame[i])
+				m_fBubblePopFrame[i] += (20.f * fTimeDelta);
+			if (17.f < m_fBubblePopFrame[i])
+				m_fBubblePopFrame[i] = 0.f;
 		}
 		else if ((m_bMaskedEffect[i]) && (0.f > m_fMaskedEffectAlpha[i]))
 		{
-			m_fSizeX_Masked[i] = 262.f;
-			m_fSizeY_Masked[i] = 114.f;
+			m_fSizeX_Masked[i] = 80.f;
+			m_fSizeY_Masked[i] = 80.f;
 			m_fMaskedEffectAlpha[i] = 0.f;
 			m_bMaskedEffect[i] = false;
+			m_fBubblePopFrame[i] = 1.f;
 		}
 		switch (i)
 		{
@@ -362,15 +367,6 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubblePopAnim(_float fTimeDelta)
 			break;
 		}
 	}
-	//m_pTransform_Masked_EffectL
-	m_pTransform_Masked_EffectL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 41.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
-	//m_pTransform_Masked_EffectC
-	m_pTransform_Masked_EffectC->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 2.f) - (g_iWinSizeX * 0.5f), -(m_fY + 12.f) + g_iWinSizeY * 0.5f, 0.2f));
-	//m_pTransform_Masked_EffectR
-	m_pTransform_Masked_EffectR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
 }
 
 HRESULT CUI_IdentitySP_LinkedPlayer::Ready_Components()
@@ -408,7 +404,10 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Skill_Cap"),
 		TEXT("Com_Texture_SkillFrame"), (CComponent**)&m_pTexture_SkillFrame)))
 		return E_FAIL;
-
+	//m_pTexture_BubblePop
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_BubblePop"),
+		TEXT("Com_Texture_BubblePop"), (CComponent**)&m_pTexture_BubblePop)))
+		return E_FAIL;
 
 	//m_pTransform_BubbleGaugeL
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
@@ -584,7 +583,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineL()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_MaskTexture");
+	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[0]);
 	return S_OK;
 }
 
@@ -601,7 +600,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineC()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_MaskTexture");
+	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[1]);
 	return S_OK;
 }
 
@@ -618,7 +617,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineR()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_MaskTexture");
+	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[2]);
 	return S_OK;
 }
 
@@ -726,7 +725,6 @@ void CUI_IdentitySP_LinkedPlayer::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTexture_BubbleGaugeL);
 	Safe_Release(m_pTexture_BubbleGaugeC);
 	Safe_Release(m_pTexture_BubbleGaugeR);
@@ -734,8 +732,8 @@ void CUI_IdentitySP_LinkedPlayer::Free()
 	Safe_Release(m_pTexture_MoonFall);
 	Safe_Release(m_pTexture_SunRise);
 	Safe_Release(m_pTexture_SkillFrame);
+	Safe_Release(m_pTexture_BubblePop);
 
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransform_BubbleGaugeL);
 	Safe_Release(m_pTransform_BubbleGaugeC);
 	Safe_Release(m_pTransform_BubbleGaugeR);
@@ -746,8 +744,4 @@ void CUI_IdentitySP_LinkedPlayer::Free()
 	Safe_Release(m_pTransform_SkillR);
 	Safe_Release(m_pTransform_SkillFrameL);
 	Safe_Release(m_pTransform_SkillFrameR);
-
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

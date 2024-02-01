@@ -323,11 +323,6 @@ void CUI_Lobby_NickNameChange::Free()
 	Safe_Release(m_pContext);
 
 	m_pInputWnd->Set_Dead(true);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTextureCom_NewWnd);
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransformCom_NewWnd);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

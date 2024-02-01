@@ -102,9 +102,8 @@ void CUI_WRIdentity_SkillIcon::Tick(_float fTimeDelta)
 
 void CUI_WRIdentity_SkillIcon::LateTick(_float fTimeDelta)
 {
-    //if(m_bSkillIcon_On)
+    if (m_bSkillIcon_On)
         __super::LateTick(fTimeDelta);
-
     if (m_fCoolMaxTime == m_fResultCool)
     {
         m_fCoolAngle = XM_PI;
@@ -112,10 +111,19 @@ void CUI_WRIdentity_SkillIcon::LateTick(_float fTimeDelta)
     }
     else
     {
-        m_fAlpha = 1.f;
+        if (m_bSkillIcon_On)
+        {
+            m_fAlpha = 1.f;
+            m_pCoolTimeWnd->Set_Active(true);
+        }
+        else
+        {
+            m_fAlpha = 0.f;
+            m_pCoolTimeWnd->Set_Active(false);
+        }
         m_fCoolRatio = 1.0f - (m_fResultCool / m_fCoolMaxTime);
         m_fCoolAngle = -XM_PI + (2 * XM_PI * m_fCoolRatio);
-        m_pCoolTimeWnd->Set_Active(true);
+       
         Print_CoolTime();
     }
 }
@@ -253,9 +261,4 @@ void CUI_WRIdentity_SkillIcon::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
     m_pCoolTimeWnd->Set_Dead(true);
-    Safe_Release(m_pTextureCom);//¿¥ÇÁÆ¼
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }

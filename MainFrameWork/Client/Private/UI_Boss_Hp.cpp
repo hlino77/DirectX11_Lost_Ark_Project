@@ -583,18 +583,13 @@ void CUI_Boss_Hp::Free()
 	m_pInGameNameWnd->Set_Dead(true);
 	m_pInGameHpWnd->Set_Dead(true);
 	m_pInGameHpCountWnd->Set_Dead(true);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTextureCom_Hp);
 	Safe_Release(m_pTextureCom_Frame);
 	Safe_Release(m_pTextureCom_NextHp);
 	Safe_Release(m_pTextureCom_Groggy);
 	Safe_Release(m_pTextureCom_GroggyGauge);
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTransformCom_Hp);
 	Safe_Release(m_pTransformCom_Frame);
 	Safe_Release(m_pTransformCom_Groggy);
 	Safe_Release(m_pTransformCom_GroggyGauge);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

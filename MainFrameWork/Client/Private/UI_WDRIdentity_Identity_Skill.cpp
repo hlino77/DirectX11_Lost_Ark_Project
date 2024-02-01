@@ -232,9 +232,4 @@ void CUI_WDRIdentity_Identity_Skill::Free()
 	Safe_Release(m_pContext);
 
 	m_pCoolTimeWnd->Set_Dead(true);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

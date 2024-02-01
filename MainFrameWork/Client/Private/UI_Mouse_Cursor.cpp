@@ -186,9 +186,4 @@ void CUI_Mouse_Cursor::Free()
     Safe_Release(m_pContext);
 
     m_pUitility_PickedIcon->Set_Dead(true);
-    Safe_Release(m_pTextureCom);
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }

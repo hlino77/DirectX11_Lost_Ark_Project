@@ -4024,7 +4024,6 @@ void CUI_NPC_ItemUpgrade::Free()
     m_pCurrItemNameWnd->Set_Dead(true);
     m_pItemNameWnd->Set_Dead(true);
 
-    Safe_Release(m_pTextureCom);
     Safe_Release(m_pTexture_None);
     Safe_Release(m_pTexture_HammerCap);
     Safe_Release(m_pTexture_HammerEffect);
@@ -4059,7 +4058,6 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTexture_ResultItem);
     Safe_Release(m_pTexture_ResultTextEffect);
 
-    Safe_Release(m_pTransformCom);
     Safe_Release(m_pTransform_HammerCap);
     Safe_Release(m_pTransform_HammerEffect);
     Safe_Release(m_pTransform_HammerAura);
@@ -4091,10 +4089,6 @@ void CUI_NPC_ItemUpgrade::Free()
 
     Free_Side_Pannel_L();
     Free_Side_Pannel_R();
-
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 
 }
 

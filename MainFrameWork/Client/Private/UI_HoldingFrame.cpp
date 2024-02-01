@@ -501,7 +501,6 @@ void CUI_HoldingFrame::Free()
     if (nullptr != m_pSkillNameWnd)
         m_pSkillNameWnd->Set_Dead(true);
 
-    Safe_Release(m_pTextureCom);
     Safe_Release(m_pTextureCom_Empty);
     Safe_Release(m_pTexture_Frame);
     Safe_Release(m_pTexture_GaugeCut);
@@ -509,14 +508,9 @@ void CUI_HoldingFrame::Free()
     Safe_Release(m_pTexture_HoldingEnd);
     Safe_Release(m_pTexture_None);
 
-    Safe_Release(m_pTransformCom);
     Safe_Release(m_pTransform_Empty);
     Safe_Release(m_pTransform_Frame);
     Safe_Release(m_pTransform_GaugeCut);
     Safe_Release(m_pTransform_PerfectZone);
     Safe_Release(m_pTransform_HoldingEnd);
-
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }
