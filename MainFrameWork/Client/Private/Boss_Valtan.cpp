@@ -149,8 +149,9 @@ void CBoss_Valtan::LateTick(_float fTimeDelta)
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Center_ToBone();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Center_ToBone();
-	if (m_pWeapon != nullptr)
+	if (m_pWeapon != nullptr&& m_bRender)
 		m_pWeapon->LateTick(fTimeDelta);
+
 }
 
 HRESULT CBoss_Valtan::Render()
@@ -179,8 +180,7 @@ HRESULT CBoss_Valtan::Render()
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
-
-	Color vValtanBloom = Color(0.62f, 0.93f, 0.85f, 1.f);
+	Color vValtanBloom = Color(0.4f, 1.6f, 1.3f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
 

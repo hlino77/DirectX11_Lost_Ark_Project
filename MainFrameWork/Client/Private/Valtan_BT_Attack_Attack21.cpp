@@ -29,12 +29,17 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 	{
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+		m_pGameObject->Set_Render(true);
 	}
-
+	if (m_iCurrAnimation == 2)
+		m_pGameObject->Set_Render(false);
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+		m_pGameObject->Set_Render(true);
 	}
+	if (m_iCurrAnimation == 6)
+		m_pGameObject->Set_Render(false);
 
 	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
 	{
