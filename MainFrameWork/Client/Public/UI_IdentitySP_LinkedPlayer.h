@@ -82,7 +82,7 @@ private:
 
     _float  m_fSizeX_Masked[3] = { 0.f, 0.f, 0.f };
     _float  m_fSizeY_Masked[3] = { 0.f, 0.f, 0.f };
-    _float  m_fMaskedEffectAlpha[3] = { 1.f, 1.f, 1.f };
+    _float  m_fMaskedEffectAlpha[3] = { 0.f, 0.f, 0.f };
     _float  m_fBubblePopFrame[3] = { 0.f, 0.f, 0.f };
     _bool   m_bMaskedEffect[3] = { false, false, false };//사라지는 이펙트 On
     

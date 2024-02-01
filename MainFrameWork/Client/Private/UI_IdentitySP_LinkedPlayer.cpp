@@ -579,7 +579,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineL()
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[0]
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[0], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
@@ -596,7 +596,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineC()
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[1]
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[1], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
@@ -613,7 +613,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineR()
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[2]
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &fAlpha, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[2], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
