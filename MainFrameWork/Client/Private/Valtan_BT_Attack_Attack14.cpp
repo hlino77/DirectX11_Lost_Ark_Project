@@ -74,6 +74,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 						vLook.Normalize();	
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
 					}
 				}
 			vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -94,6 +95,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 						vLook.Normalize();
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
 					}
 				}
 		}

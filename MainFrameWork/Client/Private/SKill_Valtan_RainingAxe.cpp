@@ -5,6 +5,7 @@
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderDoughnut.h>
+#include <Boss.h>
 
 CSKill_Valtan_RainingAxe::CSKill_Valtan_RainingAxe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -43,7 +44,7 @@ void CSKill_Valtan_RainingAxe::Tick(_float fTimeDelta)
 	if (m_fBlinkTime < 0.f && m_fLastTime > 0.f)
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive());
 
-	m_vOffset = Vec3::Lerp(Vec3(0.f, 0.9f, 0.f), Vec3(0.f, 20.f, -3.f),  max(0.f, m_fBlinkTime));
+	m_vOffset = Vec3::Lerp(Vec3(0.f, 0.9f, 0.f), Vec3(0.f, 20.f, CGameInstance::GetInstance()->Random_Float(-8.f, 0.f)),  max(0.f, m_fBlinkTime));
 }
 
 void CSKill_Valtan_RainingAxe::LateTick(_float fTimeDelta)
@@ -73,8 +74,27 @@ HRESULT CSKill_Valtan_RainingAxe::Render()
 	_float fRimLight = 0.5f;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
+	_int	iDissolve = false;
+
+	if (m_fLastTime < 0.f)
+	{
+		iDissolve = true;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float fDissolveAmount = -m_fLastTime/ 5.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pSkillOwner)->Get_DissolveTexture()->Get_SRV())))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+		return E_FAIL;
+
+	iDissolve = false;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
 		return E_FAIL;
 
     return S_OK;
