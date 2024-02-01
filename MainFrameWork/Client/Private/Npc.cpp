@@ -68,6 +68,7 @@ HRESULT CNpc::Initialize(void* pArg)
 		m_NpcDesc.fChangeAnimTime = pDesc->fChangeAnimTime;
 
 		m_NpcDesc.IsMove = pDesc->IsMove;
+		m_NpcDesc.IsMovePatrol = pDesc->IsMovePatrol;
 		m_NpcDesc.vecMovePos = pDesc->vecMovePos;
 
 		m_NpcDesc.IsTalk = pDesc->IsTalk;
@@ -468,7 +469,7 @@ void CNpc::CullingObject()
 void CNpc::Set_EffectPos()
 {
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
-	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex);
+	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();
 	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
 	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);

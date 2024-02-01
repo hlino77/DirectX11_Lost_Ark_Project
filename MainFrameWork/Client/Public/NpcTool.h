@@ -121,6 +121,7 @@ private: /* NPC 트랜스폼 변수 */
 
 private: /* NPC 이동 변수*/
 	_bool	m_IsMove = { false };
+	_bool	m_IsMovePatrol = { false };
 	Vec3	m_vMovePos;
 	vector<Vec3> m_vecMovePos;
 	_int	m_iCurMove;

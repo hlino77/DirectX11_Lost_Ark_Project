@@ -246,6 +246,11 @@ CGameObject* CSkill_RisingSun::Clone(void* pArg)
 
 void CSkill_RisingSun::Free()
 {
+	if (false == m_bEnd)
+	{
+		Effect_End();
+	}
+
 	__super::Free();
 }
 

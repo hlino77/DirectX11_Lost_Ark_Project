@@ -287,6 +287,9 @@ _bool CPlayer_Controller::Is_Attack()
 
 void CPlayer_Controller::Get_SkillStartMessage()
 {
+	if (nullptr == m_pSkills[m_eSelectedSkill] || true == m_pSkills[m_eSelectedSkill]->Is_Active())
+		return;
+
 	m_pSkills[m_eSelectedSkill]->Enter();
 }
 

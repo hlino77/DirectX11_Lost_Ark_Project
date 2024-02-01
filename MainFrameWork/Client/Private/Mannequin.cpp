@@ -49,9 +49,13 @@ void CMannequin::Tick(_float fTimeDelta)
 	if (nullptr == m_pModelCom)
 		return;
 
-	if (true == m_IsMove)
+	if (true == m_IsMove && false == m_IsMovePatrol)
 	{
 		Move(fTimeDelta);
+	}
+	else if (true == m_IsMove && true == m_IsMovePatrol)
+	{
+		Move_Patrol(fTimeDelta);
 	}
 	if (true == m_IsTalk)
 	{
@@ -301,9 +305,10 @@ void CMannequin::Set_HairColor(Vec3 rgb1, Vec3 rgb2)
 	m_vHairColor_2 = Vec4(rgb2.x, rgb2.y, rgb2.z, 1.f);
 }
 
-void CMannequin::Set_Move_State(_bool IsMove)
+void CMannequin::Set_Move_State(_bool IsMove, _bool IsPatrol)
 {
 	m_IsMove = IsMove;
+	m_IsMovePatrol = IsPatrol;
 	if (false == m_IsMove)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vStartPos);
@@ -429,6 +434,49 @@ void CMannequin::Move(const _float& fTimeDelta)
 		if (m_vecMovePos.size() < m_iMoveCnt)
 		{
 			m_iMoveCnt = 0;
+		}
+	}
+}
+
+void CMannequin::Move_Patrol(const _float& fTimeDelta)
+{
+	Vec3 vMove;
+	if (-1 == m_iMoveCnt && true == m_bReach)
+	{
+		vMove = m_vStartPos;
+	}
+	else
+	{
+		vMove = m_vecMovePos[m_iMoveCnt];
+	}
+
+	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 0; vMove.y = 0;
+	Vec3 vDir = vMove - vPos;
+	m_pTransformCom->Move_ToPos(vDir, 10.f, 1.f, fTimeDelta);
+
+	if (false == m_bReach)
+	{
+		if (vDir.Length() <= 0.06f)
+		{
+			m_iMoveCnt++;
+			if (m_vecMovePos.size() <= m_iMoveCnt)
+			{
+				m_bReach = true;
+				m_iMoveCnt--;
+			}
+		}
+	}
+	else
+	{
+		if (vDir.Length() <= 0.06f)
+		{
+			m_iMoveCnt--;
+			if (-1 > m_iMoveCnt)
+			{
+				m_bReach = false;
+				m_iMoveCnt = 0;
+			}
 		}
 	}
 }

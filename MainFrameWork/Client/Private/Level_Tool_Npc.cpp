@@ -223,6 +223,7 @@ HRESULT CLevel_Tool_Npc::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	file->Read<Vec3>(QuadTreeScale);
 	file->Read<_uint>(QuadTreeMaxDepth);
 
+
 	CQuadTreeMgr::GetInstance()->Make_QaudTree(QuadTreePosition, QuadTreeScale, QuadTreeMaxDepth);
 
 	vector<wstring> paths =
@@ -231,8 +232,10 @@ HRESULT CLevel_Tool_Npc::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 	L"../Bin/Resources/Export/Chaos1/",
 	L"../Bin/Resources/Export/Chaos2/",
 	L"../Bin/Resources/Export/Chaos3/",
-	L"../Bin/Resources/Export/Boss/"
+	L"../Bin/Resources/Export/Boss/",
+	L"../Bin/Resources/Export/Nature/"
 	};
+
 
 	_uint iSize = file->Read<_uint>();
 	bool fileFound = false;
@@ -270,6 +273,22 @@ HRESULT CLevel_Tool_Npc::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		Desc.IsMapObject = true;
 		Desc.bInstance = bInstance;
 
+
+		//// Bloom Color Value Set
+		//if (Desc.strFileName == TEXT("BernCastle_Window10_sm"))  // 창문
+		//{
+		//	Desc.BloomColor = {1.f, 1.f, 1.f, 1.f};
+		//}
+		//else if (Desc.strFileName == TEXT("BernAdd_RHD_Queen_MagicPillar01a"))  // 다리 위 장식
+		//{
+		//	Desc.BloomColor = {1.f, 1.f, 1.f, 1.f};
+		//}
+		//else
+		//{
+		//	Desc.BloomColor = { -0.1f, -0.1f, -0.1f, -0.1f };
+		//}
+
+
 		CGameObject* pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
 
 		if (nullptr == pObject)
@@ -279,7 +298,6 @@ HRESULT CLevel_Tool_Npc::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 		pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
-
 
 		_uint			QuadTreeSize = {};
 
@@ -295,6 +313,7 @@ HRESULT CLevel_Tool_Npc::Load_MapData(LEVELID eLevel, const wstring& szFullPath)
 		}
 
 	}
+
 
 	Safe_Release(pGameInstance);
 	return S_OK;

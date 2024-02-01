@@ -260,6 +260,11 @@ CGameObject* CSkill_TeleportDoor::Clone(void* pArg)
 
 void CSkill_TeleportDoor::Free()
 {
+	if (false == m_bEnd)
+	{
+		Effect_End();
+	}
+
 	__super::Free();
 }
 

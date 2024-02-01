@@ -22,7 +22,7 @@ HRESULT CState_SP_SkyKongKong_Loop::Initialize()
 	else
 		m_TickFunc = &CState_SP_SkyKongKong_Loop::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(19);
+	m_SkillFrames.push_back(14);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;

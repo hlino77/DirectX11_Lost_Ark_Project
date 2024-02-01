@@ -285,6 +285,7 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 
 	_uint	iSize;
 	LoadObject->Read<_bool>(NpcCreateDesc.IsMove);
+	LoadObject->Read<_bool>(NpcCreateDesc.IsMovePatrol);
 	LoadObject->Read<_uint>(iSize);
 	for (size_t i = 0; i < iSize; i++)
 	{
@@ -872,7 +873,7 @@ void CNpcTool::Move(const _float& fTimeDelta)
 		{
 			if (true == m_IsMove)
 			{
-				m_pMannequin->Set_Move_State(true);
+				m_pMannequin->Set_Move_State(true, m_IsMovePatrol);
 
 				m_NpcCreateDesc.IsMove = m_IsMove;
 				m_NpcCreateDesc.vecMovePos = m_vecMovePos;
@@ -881,7 +882,7 @@ void CNpcTool::Move(const _float& fTimeDelta)
 			else if (false == m_IsMove)
 			{
 				
-				m_pMannequin->Set_Move_State(false);
+				m_pMannequin->Set_Move_State(false, false);
 				m_pMannequin->Clear_MovePos();
 
 				m_NpcCreateDesc.IsMove = m_IsMove;
@@ -889,6 +890,10 @@ void CNpcTool::Move(const _float& fTimeDelta)
 				m_vecforMoveList.clear();
 				m_vecMovePos.clear();
 			}
+		}
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Move_Patrol", &m_IsMovePatrol))
+		{
 			
 		}
 		ImGui::Spacing();
@@ -1499,6 +1504,7 @@ HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)
 		SaveObject->Write<string>(CAsUtils::W2S(pDesc.strNpcBody));
 
 		SaveObject->Write<_bool>(pDesc.IsMove);
+		SaveObject->Write<_bool>(pDesc.IsMovePatrol);
 		SaveObject->Write<_uint>(pDesc.vecMovePos.size());
 		for (size_t i = 0; i < pDesc.vecMovePos.size(); i++)
 		{
@@ -1642,6 +1648,7 @@ void CNpcTool::Clear_Info()
 	
 
 	m_IsMove = { false };
+	m_IsMovePatrol = { false };
 	m_vMovePos = Vec3().Zero;
 	m_vecMovePos.clear();
 
