@@ -15,6 +15,7 @@ public:
     struct HOLDING_SKILL_DESC
     {
         class CState_Skill* pSkill;
+        class CPlayer* pPlayer;
         wstring strSkillName;
 
         _float fSkillTimeAcc = 0.f;
@@ -95,7 +96,8 @@ private:
     _bool   m_bIsSkillEnd = { false };
 
     CState_Skill* m_pSkill = { nullptr };
-
+    
+    class CPlayer* m_pPlayer = { nullptr };
     class CTextBox* m_pSkillNameWnd = { nullptr };
     wstring m_strFont;
     wstring m_strWndTag;

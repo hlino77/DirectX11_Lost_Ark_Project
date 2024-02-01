@@ -43,17 +43,19 @@ HRESULT CState_WDR_PerfectSwing_Loop::Initialize()
 	m_fCamShakeAcc = 0.0f;
 	m_fCamShakeDelay = 0.12f;
 
-	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
-	HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
-	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
-	HoldingDesc.fSkillEndTime = m_fSkillEndTime * 0.5f;
-	HoldingDesc.fSkillSuccessTime_Min = 0.f;
-	HoldingDesc.fSkillSuccessTime_Max = 0.f;
-	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
-		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
-	if (nullptr == m_pHoldingUI)
-		return E_FAIL;
-
+	if (m_pPlayer->Is_Control())
+	{
+		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+		HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
+		HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+		HoldingDesc.fSkillEndTime = m_fSkillEndTime * 0.5f;
+		HoldingDesc.fSkillSuccessTime_Min = 0.f;
+		HoldingDesc.fSkillSuccessTime_Max = 0.f;
+		m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+			_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+		if (nullptr == m_pHoldingUI)
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -80,8 +82,8 @@ void CState_WDR_PerfectSwing_Loop::Enter_State()
 	{
 		m_pPlayer->Get_Camera()->Set_MotionBlur(1.0f, 0.05f);
 	}
-
-	m_pHoldingUI->Set_SkillOn(true);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_WDR_PerfectSwing_Loop::Tick_State(_float fTimeDelta)
@@ -95,7 +97,8 @@ void CState_WDR_PerfectSwing_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
-	m_pHoldingUI->Set_SkillOn(false);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
@@ -116,7 +119,8 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 		Update_Camera_Charge(fTimeDelta);
 
 	m_fUI_AccTime += fTimeDelta;
-	m_pHoldingUI->Set_SkillTimeAcc(m_fUI_AccTime);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillTimeAcc(m_fUI_AccTime);
 
 	if (m_fSkillTimeAcc > m_fSkillEndTime)
 	{

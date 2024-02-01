@@ -42,17 +42,19 @@ HRESULT CState_WR_VolcanoEruption_Loop::Initialize()
 	m_fSkillSuccessTime_Min = 1.3f;
 	m_fSkillSuccessTime_Max = 1.8f;
 
-	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
-	HoldingDesc.strSkillName = TEXT("볼케이노 이럽션");
-	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
-	HoldingDesc.fSkillEndTime = m_fSkillEndTime;
-	HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
-	HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
-	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
-		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
-	if (nullptr == m_pHoldingUI)
-		return E_FAIL;
-
+	if (m_pPlayer->Is_Control())
+	{
+		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+		HoldingDesc.strSkillName = TEXT("볼케이노 이럽션");
+		HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+		HoldingDesc.fSkillEndTime = m_fSkillEndTime;
+		HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
+		HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
+		m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+			_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+		if (nullptr == m_pHoldingUI)
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -69,7 +71,8 @@ void CState_WR_VolcanoEruption_Loop::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_fSkillTimeAcc = 0.f;
-	m_pHoldingUI->Set_SkillOn(true);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_WR_VolcanoEruption_Loop::Tick_State(_float fTimeDelta)
@@ -81,7 +84,8 @@ void CState_WR_VolcanoEruption_Loop::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
-	m_pHoldingUI->Set_SkillOn(false);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)
@@ -93,7 +97,8 @@ void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)
 	}
 
 	m_fSkillTimeAcc += fTimeDelta;
-	m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
 	{
 		m_pPlayer->Set_State(TEXT("Skill_WR_VolcanoEruption_Fail"));
