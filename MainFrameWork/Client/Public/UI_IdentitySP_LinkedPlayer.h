@@ -25,7 +25,7 @@ public:
     void    Update_BubbleGauge(_float fTimeDelta);
     void    Update_BubbleAnim(_float fTimeDelta);
     void    Update_BubbleCount(_float fTimeDelta);
-    void    Update_BubbleMaksedEffect(_float fTimeDelta);
+    void    Update_BubblePopAnim(_float fTimeDelta);
 
 private:
     virtual HRESULT Ready_Components();
@@ -81,6 +81,7 @@ private:
 
     _float  m_fSizeX_Masked[3] = { 0.f, 0.f, 0.f };
     _float  m_fSizeY_Masked[3] = { 0.f, 0.f, 0.f };
+    _float  m_fBubblePop[3] = { 0.f, 0.f, 0.f };
     _float  m_fMaskedEffectAlpha[3] = { 0.f, 0.f, 0.f };
     _bool   m_bMaskedEffect[3] = { false, false, false };//사라지는 이펙트 On
     

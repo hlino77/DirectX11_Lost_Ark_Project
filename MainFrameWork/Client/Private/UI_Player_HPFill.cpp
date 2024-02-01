@@ -99,6 +99,8 @@ HRESULT CUI_Player_HPFill::Render()
 
     m_pVIBufferCom->Render();
 
+    m_pPlayerHpWnd->Render();
+
     return S_OK;
 }
 
@@ -146,7 +148,7 @@ void CUI_Player_HPFill::Print_Hp()
         m_pPlayerHpWnd->Set_Alpha(1.f);
         m_pPlayerHpWnd->Get_TransformCom()->Set_Scale(Vec3(240.f, 16.0f, 0.f));
         m_pPlayerHpWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
-            Vec3(590.f - g_iWinSizeX * 0.5f, -790.f + g_iWinSizeY * 0.5f, 0.f));
+            Vec3(590.f - g_iWinSizeX * 0.5f, -790.f + g_iWinSizeY * 0.5f, 0.2f));
         if (0 >= m_iPlayerHp)
             m_iPlayerHp = 0;
         wstring strPlayerHp = to_wstring(m_iPlayerHp) + TEXT("/") + to_wstring(m_iMaxHp);
@@ -180,7 +182,7 @@ HRESULT CUI_Player_HPFill::Ready_TextBox()
             Safe_Release(pGameInstance);
             return E_FAIL;
         }
-
+        m_pPlayerHpWnd->Set_Render(false);
         m_pPlayerHpWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
         m_pPlayerHpWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
     }

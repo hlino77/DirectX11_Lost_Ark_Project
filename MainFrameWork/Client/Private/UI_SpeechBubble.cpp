@@ -166,12 +166,12 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
         if (((-1.f <= m_vecHostProjPos.x) && (1.f >= m_vecHostProjPos.x)) && ((-1.f <= m_vecHostProjPos.y) && (1.f >= m_vecHostProjPos.y)) && ((0.f <= m_vecHostProjPos.z) && (1.f >= m_vecHostProjPos.z)))
         {
             m_IsRender = true;
-            m_pTextBox->Set_Render(true);
+            m_pTextBox->Set_Active(true);
         }
         else
         {
             m_IsRender = false;
-            m_pTextBox->Set_Render(false);
+            m_pTextBox->Set_Active(false);
         }
     }
     else

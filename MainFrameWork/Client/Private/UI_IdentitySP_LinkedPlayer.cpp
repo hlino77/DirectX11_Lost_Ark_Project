@@ -135,7 +135,7 @@ void CUI_IdentitySP_LinkedPlayer::LateTick(_float fTimeDelta)
 
 	Update_BubbleGauge(fTimeDelta);
 	Update_BubbleCount(fTimeDelta);
-	Update_BubbleMaksedEffect(fTimeDelta);
+	Update_BubblePopAnim(fTimeDelta);
 }
 
 HRESULT CUI_IdentitySP_LinkedPlayer::Render()
@@ -332,7 +332,7 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleCount(_float fTimeDelta)
 	}
 }
 
-void CUI_IdentitySP_LinkedPlayer::Update_BubbleMaksedEffect(_float fTimeDelta)
+void CUI_IdentitySP_LinkedPlayer::Update_BubblePopAnim(_float fTimeDelta)
 {
 	for (size_t i = 0; i < 3; i++)
 	{
