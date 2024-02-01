@@ -5305,6 +5305,89 @@ HRESULT CLoader::Loading_SkillIcon()
 
 	}
 
+	//Artist
+	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Butterfly_Dream"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Butterfly_Dream.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Crane_Wing"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Crane_Wing.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Door_of_Illusion"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Door_of_Illusion.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Drawing_Orchids"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Drawing_Orchids.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Hopper"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Hopper.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Ink_Shower"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Ink_Shower.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Ink_Well"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Ink_Well.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Inkrise"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Inkrise.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_MoonSketch"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/MoonSketch.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_One_Stroke"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/One_Stroke.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Puncing_Tiger"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Puncing_Tiger.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Sprinkle"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Sprinkle.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_StarryNight"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/StarryNight.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Sun_Well"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Sun_Well.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_SunSketch"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/SunSketch.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Upward_Stroke"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Normal/Upward_Stroke.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
 	//Space
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"),//GN
@@ -5324,6 +5407,11 @@ HRESULT CLoader::Loading_SkillIcon()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_MGSpace"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/MG_SkillIcon/Space%d.png", 2))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_MGSpace"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/Yinyanshi_SkillIcon/Space%d.png", 2))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
