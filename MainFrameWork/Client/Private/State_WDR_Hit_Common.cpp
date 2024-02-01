@@ -45,6 +45,7 @@ void CState_WDR_Hit_Common::Enter_State()
 	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::FORCE);
 	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::VELOCITY_CHANGE);
 	m_pPlayer->Get_RigidBody()->AddForce(vDir * m_fForceDist, ForceMode::FORCE);
+	m_pPlayer->Set_TargetPos(vDir);
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if (true == pGameInstance->Random_Coin(0.5f))

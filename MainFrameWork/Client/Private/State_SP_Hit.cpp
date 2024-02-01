@@ -117,7 +117,7 @@ void CState_SP_Hit::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}
 	if (false == m_IsFall && false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer)
-		&& 2 <= m_pPlayer->Get_ValtanPhase())
+		&& 0 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_Invincible(true);
 		m_pPlayer->Set_Navi(false);

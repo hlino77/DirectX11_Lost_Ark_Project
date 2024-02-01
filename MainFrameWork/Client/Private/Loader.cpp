@@ -4449,6 +4449,25 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 			}));
 	}
 
+	/* 스킬 애니메이션 */
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"SK_SDM_FH";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+			}));
+	}
+
 	/* 장비 */
 	wstring strPath = L"../Bin/Resources/Meshes/PC_Part/";
 	AutoLoad(strPath, LEVEL_STATIC);

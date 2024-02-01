@@ -30,9 +30,27 @@ void CState_SP_Fall::Enter_State()
 	m_pPlayer->Set_AnimationSpeed(0.0f);
 	m_pPlayer->Set_SuperiorArmorState(true);
 	m_pPlayer->Set_Navi(false);
-	m_pPlayer->Get_RigidBody()->Set_Gravity(true);
+	//m_pPlayer->Get_RigidBody()->Set_Gravity(true);
+
+	if (TEXT("Hit_Common") == m_pPlayer->Get_PreState())
+	{
+		m_vFallDir = m_pPlayer->Get_TargetPos();
+		m_vFallDir.Normalize();
+	}
+	else
+	{
+		m_vFallDir = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		m_vFallDir.Normalize();
+	}
+	
+
+	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::FORCE);
+	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::VELOCITY_CHANGE);
 
 	m_fTimeAcc = 0.0f;
+	m_fStartAcc = 0.0f;
+
+	m_bStart = false;
 }
 
 void CState_SP_Fall::Tick_State(_float fTimeDelta)
@@ -60,10 +78,23 @@ void CState_SP_Fall::Exit_State()
 
 void CState_SP_Fall::Tick_State_Control(_float fTimeDelta)
 {
-	m_fTimeAcc += fTimeDelta;
-	if (m_fFallTime < m_fTimeAcc)
+	if (false == m_bStart)
 	{
-		m_pPlayer->Set_State(TEXT("Dead_End"));
+		m_fStartAcc += fTimeDelta;
+		if (m_fStartTime < m_fStartAcc)
+		{
+			m_pPlayer->Get_RigidBody()->AddForce(m_vFallDir * -2.f, ForceMode::FORCE);
+			m_pPlayer->Get_RigidBody()->Set_Gravity(true);
+			m_bStart = true;
+		}
+	}
+	if (true == m_bStart)
+	{
+		m_fTimeAcc += fTimeDelta;
+		if (m_fFallTime <= m_fTimeAcc)
+		{
+			m_pPlayer->Set_State(TEXT("Dead_End"));
+		}
 	}
 }
 
