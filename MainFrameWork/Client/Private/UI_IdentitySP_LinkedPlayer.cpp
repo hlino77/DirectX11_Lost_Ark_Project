@@ -47,43 +47,48 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Initialize(void* pArg)
 	//m_pTransform_BubbleGaugeL
 	m_pTransform_BubbleGaugeL->Set_Scale(Vec3(52.f, 52.f, 1.f));
 	m_pTransform_BubbleGaugeL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 42.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX - 42.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_BubbleGaugeC
 	m_pTransform_BubbleGaugeC->Set_Scale(Vec3(52.f, 52.f, 1.f));
 	m_pTransform_BubbleGaugeC->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - (g_iWinSizeX * 0.5f), -(m_fY + 28.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3(m_fX - (g_iWinSizeX * 0.5f), -(m_fY + 28.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_BubbleGaugeR
 	m_pTransform_BubbleGaugeR->Set_Scale(Vec3(52.f, 52.f, 1.f));
 	m_pTransform_BubbleGaugeR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 42.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX + 42.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_SkillL
 	m_pTransform_SkillL->Set_Scale(Vec3(44.f * 0.75f, 44.f * 0.75f, 1.f));
 	m_pTransform_SkillL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX - 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_SkillR
 	m_pTransform_SkillR->Set_Scale(Vec3(44.f * 0.75f, 44.f * 0.75f, 1.f));
 	m_pTransform_SkillR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_SkillFrameL
 	m_pTransform_SkillFrameL->Set_Scale(Vec3(56.f, 56.f, 1.f));
 	m_pTransform_SkillFrameL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX - 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_SkillFrameR
 	m_pTransform_SkillFrameR->Set_Scale(Vec3(56.f, 56.f, 1.f));
 	m_pTransform_SkillFrameR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
+	for (size_t i = 0; i < 3; i++)
+	{
+		m_fSizeX_Masked[i] = 262.f;
+		m_fSizeY_Masked[i] = 114.f;
+	}
 	//m_pTransform_Masked_EffectL
-	m_pTransform_Masked_EffectL->Set_Scale(Vec3(56.f, 56.f, 1.f));
+	m_pTransform_Masked_EffectL->Set_Scale(Vec3(m_fSizeX_Masked[0], m_fSizeY_Masked[0], 1.f));
 	m_pTransform_Masked_EffectL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX - 41.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_Masked_EffectC
-	m_pTransform_Masked_EffectC->Set_Scale(Vec3(56.f, 56.f, 1.f));
+	m_pTransform_Masked_EffectC->Set_Scale(Vec3(m_fSizeX_Masked[1], m_fSizeY_Masked[1], 1.f));
 	m_pTransform_Masked_EffectC->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX + 2.f) - (g_iWinSizeX * 0.5f), -(m_fY + 12.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_Masked_EffectR
-	m_pTransform_Masked_EffectR->Set_Scale(Vec3(56.f, 56.f, 1.f));
+	m_pTransform_Masked_EffectR->Set_Scale(Vec3(m_fSizeX_Masked[2], m_fSizeY_Masked[2], 1.f));
 	m_pTransform_Masked_EffectR->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 50.f) - (g_iWinSizeX * 0.5f), -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -129,7 +134,8 @@ void CUI_IdentitySP_LinkedPlayer::LateTick(_float fTimeDelta)
 	__super::LateTick(fTimeDelta);
 
 	Update_BubbleGauge(fTimeDelta);
-	Update_BubbleMaskedEffect(fTimeDelta);
+	Update_BubbleCount(fTimeDelta);
+	Update_BubbleMaksedEffect(fTimeDelta);
 }
 
 HRESULT CUI_IdentitySP_LinkedPlayer::Render()
@@ -167,6 +173,21 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Render()
 	if (FAILED(Bind_ShaderResources_SkillFrameR()))
 		return E_FAIL;
 	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_MaskedShineL()))
+		return E_FAIL;
+	m_pShaderCom->Begin(18);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_MaskedShineC()))
+		return E_FAIL;
+	m_pShaderCom->Begin(18);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_MaskedShineR()))
+		return E_FAIL;
+	m_pShaderCom->Begin(18);
 	m_pVIBufferCom->Render();
 
     return S_OK;
@@ -226,7 +247,7 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleAnim(_float fTimeDelta)
 {
 	if ((0 < m_iCurrBubbleCount)&&(!m_bBubbleMax[0]))
 		m_fBubbleAnimFrame[0] += 30.f * fTimeDelta;
-	if (9.f <= m_fBubbleAnimFrame[0])
+	if (11.f <= m_fBubbleAnimFrame[0])
 	{
 		m_fBubbleAnimFrame[0] = 0.f;
 		m_bBubbleMax[0] = true;
@@ -234,7 +255,7 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleAnim(_float fTimeDelta)
 
 	if ((1 < m_iCurrBubbleCount) && (!m_bBubbleMax[1]))
 		m_fBubbleAnimFrame[1] += 30.f * fTimeDelta;
-	if (9.f <= m_fBubbleAnimFrame[1])
+	if (11.f <= m_fBubbleAnimFrame[1])
 	{
 		m_fBubbleAnimFrame[1] = 0.f;
 		m_bBubbleMax[1] = true;
@@ -242,55 +263,114 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleAnim(_float fTimeDelta)
 
 	if ((2 < m_iCurrBubbleCount) && (!m_bBubbleMax[2]))
 		m_fBubbleAnimFrame[2] += 30.f * fTimeDelta;
-	if (9.f <= m_fBubbleAnimFrame[2])
+	if (11.f <= m_fBubbleAnimFrame[2])
 	{
 		m_fBubbleAnimFrame[2] = 0.f;
 		m_bBubbleMax[2] = true;
 	}
 }
 
-void CUI_IdentitySP_LinkedPlayer::Update_BubbleMaskedEffect(_float fTimeDelta)
+void CUI_IdentitySP_LinkedPlayer::Update_BubbleCount(_float fTimeDelta)
 {
 	if (m_iPreBubbleCount < m_iCurrBubbleCount)
 		m_iPreBubbleCount = m_iCurrBubbleCount;
 
 	if (m_iPreBubbleCount > m_iCurrBubbleCount)
 	{
-		_uint iIdentity = static_cast<CPlayer_Doaga*>(m_pPlayer)->Get_SP_Controller()->Is_SP_Identity();
+		_uint iIdentity = static_cast<CPlayer_Doaga*>(m_pPlayer)->Get_SP_Controller()->Get_IdenSkill();
 		switch (iIdentity)
 		{
-		case 1 :
+		case CController_SP::MOON :
 			if (2 < m_iPreBubbleCount)
 			{
+				m_bBubbleMax[0] = true;
 				m_bBubbleMax[1] = false;
 				m_bBubbleMax[2] = false;
+				m_bMaskedEffect[2] = true;
+				m_bMaskedEffect[1] = true;
+				m_fMaskedEffectAlpha[2] = 1.f;
+				m_fMaskedEffectAlpha[1] = 1.f;
 			}
 			else if (2 == m_iPreBubbleCount)
 			{
 				m_bBubbleMax[0] = false;
 				m_bBubbleMax[1] = false;
+				m_bMaskedEffect[0] = true;
+				m_bMaskedEffect[1] = true;
+				m_fMaskedEffectAlpha[1] = 1.f;
+				m_fMaskedEffectAlpha[0] = 1.f;
 			}
 			break;
 
-		case 2:
+		case CController_SP::SUN:
 			switch (m_iPreBubbleCount)
 			{
 			case 1:
 				m_bBubbleMax[0] = false;
+				m_bMaskedEffect[0] = true;
+				m_fMaskedEffectAlpha[0] = 1.f;
 				break;
 
 			case 2:
+				m_bBubbleMax[0] = true;
 				m_bBubbleMax[1] = false;
+				m_bMaskedEffect[1] = true;
+				m_fMaskedEffectAlpha[1] = 1.f;
 				break;
 
 			case 3:
+				m_bBubbleMax[0] = true;
+				m_bBubbleMax[1] = true;
 				m_bBubbleMax[2] = false;
+				m_bMaskedEffect[2] = true;
+				m_fMaskedEffectAlpha[2] = 1.f;
 				break;
 			}
 			break;
 		}
 		m_iPreBubbleCount = m_iCurrBubbleCount;
 	}
+}
+
+void CUI_IdentitySP_LinkedPlayer::Update_BubbleMaksedEffect(_float fTimeDelta)
+{
+	for (size_t i = 0; i < 3; i++)
+	{
+		if ((m_bMaskedEffect[i]) && (0.f < m_fMaskedEffectAlpha[i]))
+		{
+			m_fSizeX_Masked[i] += (20.f * fTimeDelta);
+			m_fSizeY_Masked[i] += 114.f + (20.f * fTimeDelta);
+			m_fMaskedEffectAlpha[i] -= 5.f * fTimeDelta;
+		}
+		else if ((m_bMaskedEffect[i]) && (0.f > m_fMaskedEffectAlpha[i]))
+		{
+			m_fSizeX_Masked[i] = 262.f;
+			m_fSizeY_Masked[i] = 114.f;
+			m_fMaskedEffectAlpha[i] = 0.f;
+			m_bMaskedEffect[i] = false;
+		}
+		switch (i)
+		{
+		case 0:
+			m_pTransform_Masked_EffectL->Set_Scale(Vec3(m_fSizeX_Masked[i], m_fSizeY_Masked[i], 1.f));
+			break;
+		case 1:
+			m_pTransform_Masked_EffectC->Set_Scale(Vec3(m_fSizeX_Masked[i], m_fSizeY_Masked[i], 1.f));
+			break;
+		case 2:
+			m_pTransform_Masked_EffectR->Set_Scale(Vec3(m_fSizeX_Masked[i], m_fSizeY_Masked[i], 1.f));
+			break;
+		}
+	}
+	//m_pTransform_Masked_EffectL
+	m_pTransform_Masked_EffectL->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX - 41.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
+	//m_pTransform_Masked_EffectC
+	m_pTransform_Masked_EffectC->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX + 2.f) - (g_iWinSizeX * 0.5f), -(m_fY + 12.f) + g_iWinSizeY * 0.5f, 0.2f));
+	//m_pTransform_Masked_EffectR
+	m_pTransform_Masked_EffectR->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.2f));
 }
 
 HRESULT CUI_IdentitySP_LinkedPlayer::Ready_Components()
@@ -314,7 +394,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Ready_Components()
 		return E_FAIL;
 	//m_pTexture_Masked_Effect
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Masked_Effect"),
-		TEXT("Com_Texture_GaugeCut"), (CComponent**)&m_pTexture_Masked_Effect)))
+		TEXT("Com_Texture_Masked_Effect"), (CComponent**)&m_pTexture_Masked_Effect)))
 		return E_FAIL;
 	//m_pTexture_MoonFall
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_MoonFall"),
@@ -499,11 +579,12 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineL()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
+	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[0]
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[0], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_MaskTexture");
 	return S_OK;
 }
 
@@ -515,11 +596,12 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineC()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
+	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[1]
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[1], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_MaskTexture");
 	return S_OK;
 }
 
@@ -531,11 +613,12 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineR()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
+	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[2]
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[2], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	m_pTexture_Masked_Effect->Set_SRV(m_pShaderCom, "g_MaskTexture");
 	return S_OK;
 }
 

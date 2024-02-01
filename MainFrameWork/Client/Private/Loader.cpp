@@ -3074,7 +3074,7 @@ HRESULT CLoader::Loading_QuickSlot()
 		pUIManager->Add_CurrFile();
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_Bubble_Animation"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble/%d.png", 10))))
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble/%d.png", 12))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
@@ -3102,7 +3102,11 @@ HRESULT CLoader::Loading_QuickSlot()
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/Bubble_Gauge_%d.png",2))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
-		//
+	
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Identity_Yinyangshi_BubblePop"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Yinyangshi/BubblePop/%d.png", 18))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
 	}
 
 	Safe_Release(pUIManager);

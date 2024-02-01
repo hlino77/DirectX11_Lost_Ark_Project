@@ -24,7 +24,8 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Update_BubbleGauge(_float fTimeDelta);
     void    Update_BubbleAnim(_float fTimeDelta);
-    void    Update_BubbleMaskedEffect(_float fTimeDelta);
+    void    Update_BubbleCount(_float fTimeDelta);
+    void    Update_BubbleMaksedEffect(_float fTimeDelta);
 
 private:
     virtual HRESULT Ready_Components();
@@ -77,8 +78,11 @@ private:
     _float  m_fRatioAngle = { 0.f };
     _float  m_fSkillAlpha[2] = { 1.f, 1.f };
     _bool   m_bBubbleMax[3] = { false, false, false };
+
+    _float  m_fSizeX_Masked[3] = { 0.f, 0.f, 0.f };
+    _float  m_fSizeY_Masked[3] = { 0.f, 0.f, 0.f };
     _float  m_fMaskedEffectAlpha[3] = { 0.f, 0.f, 0.f };
-    _bool   m_bMaskedEffect[3] = { false, false, false };
+    _bool   m_bMaskedEffect[3] = { false, false, false };//사라지는 이펙트 On
     
 public:
     static  CUI_IdentitySP_LinkedPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

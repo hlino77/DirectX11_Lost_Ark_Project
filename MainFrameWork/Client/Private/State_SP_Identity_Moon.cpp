@@ -33,7 +33,7 @@ void CState_SP_Identity_Moon::Enter_State()
 	m_pPlayer->Get_SP_Controller()->Get_StopMessage();
 	m_pPlayer->Get_SP_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 
-	//m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
+	m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
 	m_pPlayer->Set_SuperArmorState(true);
 
 	static_cast<CController_SP*>(m_pController)->Set_Attack_Desc(2);

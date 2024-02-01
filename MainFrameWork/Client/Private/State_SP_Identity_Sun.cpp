@@ -52,7 +52,7 @@ void CState_SP_Identity_Sun::Enter_State()
 		m_vColliPos.y += 0.7f;
 	}
 
-	//m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
+	m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
 	m_pPlayer->Set_SuperArmorState(true);
 }
 
