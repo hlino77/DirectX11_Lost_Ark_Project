@@ -45,6 +45,7 @@ void CState_SP_Hit_Common::Enter_State()
 	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::FORCE);
 	m_pPlayer->Get_RigidBody()->ClearForce(ForceMode::VELOCITY_CHANGE);
 	m_pPlayer->Get_RigidBody()->AddForce(vDir * m_fForceDist, ForceMode::FORCE);
+	m_pPlayer->Set_TargetPos(vDir);
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if (true == pGameInstance->Random_Coin(0.5f))
@@ -79,7 +80,7 @@ void CState_SP_Hit_Common::Exit_State()
 void CState_SP_Hit_Common::Tick_State_Control(_float fTimeDelta)
 {
 	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
-		2 <= m_pPlayer->Get_ValtanPhase())
+		0 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}

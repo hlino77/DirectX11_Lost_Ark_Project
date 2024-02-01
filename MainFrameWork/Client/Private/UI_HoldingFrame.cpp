@@ -4,6 +4,7 @@
 #include "State_Skill.h"
 #include "Player_Skill.h"
 #include "TextBox.h"
+#include "Player.h"
 
 CUI_HoldingFrame::CUI_HoldingFrame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -104,16 +105,18 @@ HRESULT CUI_HoldingFrame::Initialize_TextBox()
 
 void CUI_HoldingFrame::Tick(_float fTimeDelta)
 {
+
     Update_CurrGauge();
-    __super::Tick(fTimeDelta);
+   __super::Tick(fTimeDelta);
 }
 
 void CUI_HoldingFrame::LateTick(_float fTimeDelta)
 {
 
-    Update_GaugeCut();
-    Update_HoldingEnd(fTimeDelta);
-    __super::LateTick(fTimeDelta);
+        Update_GaugeCut();
+        Update_HoldingEnd(fTimeDelta);
+        __super::LateTick(fTimeDelta);
+
 }
 
 HRESULT CUI_HoldingFrame::Render()

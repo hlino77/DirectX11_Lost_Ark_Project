@@ -39,6 +39,19 @@ HRESULT CSkill_GN_TargetDown::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_TargetDown::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_TargetDown::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_TargetDown::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_TargetDown::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

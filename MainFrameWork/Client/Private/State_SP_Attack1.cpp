@@ -16,7 +16,7 @@ CState_SP_Attack1::CState_SP_Attack1(const wstring& strStateName, CStateMachine*
 
 HRESULT CState_SP_Attack1::Initialize()
 {
-	m_Attack_1 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_battle_1_03", 1.0f);
+	m_Attack_1 = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"att_battle_1_03", 1.2f);
 	if (m_Attack_1 == -1)
 		return E_FAIL;
 
@@ -67,9 +67,9 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 	{
 		m_IsAttackContinue = true;
 	}
-	if (true == m_pController->Is_Tap(KEY::RBTN) &&
-		15 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
-		10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	if (true == m_pController->Is_HoldorTap(KEY::RBTN) &&
+		20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
+		15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		m_IsAttackContinue = false;
 		m_IsChargeAttack = true;
@@ -126,7 +126,7 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Attack_2"));
 	}
-	else if (true == m_IsChargeAttack && 15 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	else if (true == m_IsChargeAttack && 20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -137,9 +137,9 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Attack_4"));
 	}
-	else if (true == m_pController->Is_Run())
+	else if (true == m_pController->Is_Run() && false == m_IsAttackContinue)
 	{
-		if (15 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		if (20 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
 		{
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))

@@ -51,6 +51,19 @@ HRESULT CSkill_WR_VolcanoEruption::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_VolcanoEruption::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_VolcanoEruption::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_VolcanoEruption::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_VolcanoEruption::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

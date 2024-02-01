@@ -73,23 +73,23 @@ HRESULT CUI_LoadingLabelBottom::Render()
 
 void CUI_LoadingLabelBottom::Set_ToolTip()
 {
-    _uint iRandomIndex = CGameInstance::GetInstance()->Random_Int(0, 5);
+    _uint iRandomIndex = CGameInstance::GetInstance()->Random_Int(0, 4);
     switch (iRandomIndex)
     {
     case 0:
-        m_strToolTips = TEXT("건슬링어가 아니라 건걸이빈다.");
+        m_strToolTips = TEXT("바드를 만들었지만 저희와 함께 할 수 없었습니다.");
         break;
 
     case 1:
-        m_strToolTips = TEXT("돈치스팸은 무적입니다.");
+        m_strToolTips = TEXT("건슬링어는 팀초기에 건걸로 불렀습니다.");
         break;
 
     case 2:
-        m_strToolTips = TEXT("로아가 뜯길 줄 몰랐스빈다.");
+        m_strToolTips = TEXT("저희도 로아가 뜯길 줄 몰랐습니다.");
         break;
 
     case 3:
-        m_strToolTips = TEXT("툴팁 뭐적지");
+        m_strToolTips = TEXT("쓸거추천받습니다.");
         break;
 
     case 4:

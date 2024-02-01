@@ -43,6 +43,19 @@ HRESULT CSkill_WR_WildStomp::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_WildStomp::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_WildStomp::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_WildStomp::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_WildStomp::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

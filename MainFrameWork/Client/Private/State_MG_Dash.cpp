@@ -26,7 +26,7 @@ HRESULT CState_MG_Dash::Initialize()
 
 void CState_MG_Dash::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 1.2f);
+	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0);
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());

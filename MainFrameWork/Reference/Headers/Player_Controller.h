@@ -61,6 +61,7 @@ public:
 	virtual void		Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	virtual void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
 	virtual void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
+	virtual void		Get_SkillStartMessage();
 	virtual void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
 	virtual void		Get_SkillChangeStatMessage(SKILL_KEY eKey) { ChangeStat(eKey); }
 	
@@ -115,6 +116,9 @@ public:
 	_float					Get_Skill_CoolTime(SKILL_KEY eKey) {
 		if ((SKILL_KEY::SPACE != eKey) && (nullptr == m_pSkills[eKey])) return -1.f;
 		else return m_fCoolTime[eKey];
+	}
+	_float					Get_IdentitySkill_CoolDown() {
+		return m_fCoolDownAcc[SKILL_KEY::Z];
 	}
 
 	HIT_TYPE				Get_HitType() { return m_eHitType; }

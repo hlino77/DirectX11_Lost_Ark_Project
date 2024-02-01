@@ -368,6 +368,27 @@ PS_OUT PS_MAIN_SKILL_SILENCE(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_COOLTIME_NOGAMMA(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor.a *= g_Alpha;
+
+	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	float fAngle = atan2(-fTempUV.x, fTempUV.y);
+
+	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
+		Out.vColor = Out.vColor;
+	else
+		Out.vColor.rgb *= 0.4f;
+
+	return Out;
+}
+
 PS_OUT PS_MAIN_COLORFRAME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -406,7 +427,7 @@ PS_OUT PS_MAIN_WRGAUGE(PS_IN In)
 	float fAngle = atan2(-fTempUV.x, fTempUV.y);
 
 	if ((-g_PI < fAngle) && (g_fRatio < fAngle))
-		return Out;//Out.vColor = pow(Out.vColor, 1.f / 2.2f);
+		return Out;
 	else
 		Out.vColor.rgb *= 0.f;
 
@@ -497,6 +518,27 @@ PS_OUT PS_MAIN_DISCARDBLACK(PS_IN In)
 	Out.vColor.a *= fAlphaTemp;
 
 	if (0.1f >= Out.vColor.a)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_DOAGA_GAUGE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = saturate(g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV) * g_Color);
+	Out.vColor.a *= g_Alpha;
+
+	float2 fTempUV = In.vTexUV * 2.0f - 1.0f;
+
+	if (0.0f >= Out.vColor.a)
+		discard;
+
+	float fAngle = atan2(fTempUV.x, -fTempUV.y);
+
+	if ((-g_PI < fAngle) && (g_fRatio > fAngle))
+		Out.vColor;
+	else
 		discard;
 
 	return Out;
@@ -725,5 +767,27 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_SKILL_SILENCE();
+	}
+
+	pass TextureCoolTime_NoGamma//No.2O
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME_NOGAMMA();
+	}
+
+	pass Texture_DoagaGauge
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DOAGA_GAUGE();
 	}
 }

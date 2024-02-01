@@ -53,6 +53,19 @@ HRESULT CSkill_WR_FuriousClaw::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_FuriousClaw::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_FuriousClaw::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_FuriousClaw::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_FuriousClaw::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

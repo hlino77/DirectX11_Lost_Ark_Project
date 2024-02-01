@@ -285,6 +285,11 @@ _bool CPlayer_Controller::Is_Attack()
 	return false;
 }
 
+void CPlayer_Controller::Get_SkillStartMessage()
+{
+	m_pSkills[m_eSelectedSkill]->Enter();
+}
+
 void CPlayer_Controller::Get_RootMessage()
 {
 	Vec3 vTargetPos = m_pOwner->Get_TargetPos();
@@ -736,8 +741,6 @@ void CPlayer_Controller::ChangeStat(SKILL_KEY eKey)
 	m_fChangeStatTime[eKey] = m_pSkills[eKey]->Change_Player_Status();
 	m_fChangeStatAcc[eKey] = 0.f;
 }
-
-
 
 void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 {

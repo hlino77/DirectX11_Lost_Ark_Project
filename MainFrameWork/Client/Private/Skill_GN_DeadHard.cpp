@@ -42,6 +42,19 @@ HRESULT CSkill_GN_DeadHard::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_DeadHard::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_DeadHard::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_DeadHard::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_DeadHard::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

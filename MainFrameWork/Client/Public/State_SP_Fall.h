@@ -28,8 +28,16 @@ private:
 
 private:
 	//Animation
+	_float m_fStartAcc = { 0.0f };
+	_float m_fStartTime = { 0.1f };
+
+	_float m_bStart = { false };
+
 	_float m_fTimeAcc = { 0.0f };
-	_float m_fFallTime = { 5.0f };
+	_float m_fFallTime = { 5.f };
+	_float m_fGravityTime = { 0.4f };
+
+	Vec3 m_vFallDir;
 
 public:
 	static CState_SP_Fall* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);

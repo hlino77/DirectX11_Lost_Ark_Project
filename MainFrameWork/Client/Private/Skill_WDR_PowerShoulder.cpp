@@ -56,6 +56,19 @@ HRESULT CSkill_WDR_PowerShoulder::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WDR_PowerShoulder::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WDR_PowerShoulder::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WDR_PowerShoulder::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WDR_PowerShoulder::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

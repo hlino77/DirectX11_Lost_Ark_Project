@@ -18,8 +18,8 @@ Texture2D g_SSROriginalTarget;
 
 cbuffer SSR_Data
 {
-    float fSSRStep = 0.025f;
-    int iStepCount = 75;
+    float fSSRStep = 0.0175f;
+    int iStepCount = 25;
     float2 padding;
 }
 
@@ -40,75 +40,76 @@ VS_OUT_TARGET VS_MAIN_SSR(TARGET_IN In)
 
 float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
 {
-    //float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
-    //
-    //float4 vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
-    //float4 vDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord);
-    //float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
-    //
-    //float fViewZ = vDepth.w * 1200.f;
-    //
-    //float4 vWorldPos;
-
-    //vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
-    //vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
-    //vWorldPos.z = vNormal.w;
-    //vWorldPos.w = 1.0f;
-    //
-    //vWorldPos *= fViewZ;
-    ////vWorldPos = mul(vWorldPos, g_ProjViewMatrixInv);
-    //vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-    //vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
-    //
-    //float4 vViewDir = normalize(vWorldPos - g_vCamPosition);
-    //vViewDir.w = 0.f;
-    //
-    //float4 vRayOrigin = vWorldPos;
-    //
-    //vNormal = float4(vNormal.xyz * 2.f - 1.f, 0.f);
-    //float4 vRayDir = normalize(reflect(vViewDir, vNormal));
-    //vRayDir.w = 0.f;
-    //
-    //float fStep = fSSRStep;
-    //matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
-    //
-    //float fPixelDepth = 0.f;
-    //int iStepDistance = 0;
-    //float2 vRayPixelPos = (float2) 0;
-  
-    //[unroll(75)]
-    //for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
-    //{
-    //    float4 vDirStep = vRayDir * fStep * iStepDistance;
-    //    vDirStep.w = 0.f;
-    //    float4 vRayWorldPos = vRayOrigin + vDirStep;
-
-    //    float4 vRayProjPos = mul(vRayWorldPos, matVP);
-    //    vRayProjPos.x = vRayProjPos.x / vRayProjPos.w;
-    //    vRayProjPos.y = vRayProjPos.y / vRayProjPos.w;
-    //  
-    //    vRayPixelPos = float2(vRayProjPos.x * 0.5f + 0.5f, vRayProjPos.y * -0.5f + 0.5f);
-    //    
-    //    clip(vRayPixelPos);
-    //    clip(1.f - vRayPixelPos);
-    //    
-    //    float2 vPixelCoord = float2(0.f, 0.f);
-    //    //vPixelCoord.x = g_NormalTarget.Sample(LinearSampler, vRayPixelPos).w;
-    //    //vPixelCoord.y = g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w;
-    //    
-    //    fPixelDepth = g_NormalTarget.Sample(LinearSampler, vRayPixelPos).w;
-    //    fPixelDepth *= g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w * 1200.f;
-    //    
-    //    float fDiff = vRayProjPos.z - fPixelDepth;
-    //    
-    //    if (fDiff > 0.0f && fDiff < fSSRStep)
-    //        break;
-    //}
- 
-    //clip(iStepCount - 0.5f - iStepDistance);
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
-    //return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f));
-    return g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
+    
+    float fViewZ = vDepth.w * 1200.f;
+    
+    float4 vWorldPos;
+
+    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    vWorldPos.z = vNormal.w;
+    vWorldPos.w = 1.0f;
+    
+    vWorldPos *= fViewZ;
+    //vWorldPos = mul(vWorldPos, g_ProjViewMatrixInv);
+    vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+    vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+    
+    float4 vViewDir = normalize(vWorldPos - g_vCamPosition);
+    vViewDir.w = 0.f;
+    
+    float4 vRayOrigin = vWorldPos;
+    
+    vNormal = float4(vNormal.xyz * 2.f - 1.f, 0.f);
+    float4 vRayDir = normalize(reflect(vViewDir, vNormal));
+    vRayDir.w = 0.f;
+    
+    float fStep = fSSRStep;
+    matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
+    
+    float fPixelDepth = 0.f;
+    int iStepDistance = 0;
+    float2 vRayPixelPos = (float2) 0;
+  
+    [unroll(10)]
+    for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
+    {
+        float4 vDirStep = vRayDir * fStep * iStepDistance;
+        vDirStep.w = 0.f;
+        float4 vRayWorldPos = vRayOrigin + vDirStep;
+
+        float4 vRayProjPos = mul(vRayWorldPos, matVP);
+        vRayProjPos.x = vRayProjPos.x / vRayProjPos.w;
+        vRayProjPos.y = vRayProjPos.y / vRayProjPos.w;
+      
+        vRayPixelPos = float2(vRayProjPos.x * 0.5f + 0.5f, vRayProjPos.y * -0.5f + 0.5f);
+        
+        clip(vRayPixelPos);
+        clip(1.f - vRayPixelPos);
+        
+        float2 vPixelCoord = float2(0.f, 0.f);
+        //vPixelCoord.x = g_NormalTarget.Sample(LinearSampler, vRayPixelPos).w;
+        //vPixelCoord.y = g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w;
+        
+        fPixelDepth = g_NormalTarget.Sample(LinearSampler, vRayPixelPos).w;
+        fPixelDepth *= g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w * 1200.f;
+        
+        float fDiff = vRayProjPos.z - fPixelDepth;
+        
+        if (fDiff > 0.0f && fDiff < fSSRStep)
+            break;
+    }
+ 
+    clip(iStepCount - 0.5f - iStepDistance);
+    
+
+    return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f));
+    
 }
 
 //cbuffer PerFrame

@@ -12,6 +12,8 @@
 #include "Player_Destroyer.h"
 #include "Controller_MG.h"
 #include "Player_Bard.h"
+#include "Controller_SP.h"
+#include "Player_Doaga.h"
 #include "TextBox.h"
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -179,7 +181,8 @@ void CUI_SkillIcon_Frame::Get_Player_BindingSkill()
         Get_Player_WDR(pPlayer, pTexture);
     else if (nullptr != pPlayer && L"MG" == pPlayer->Get_ObjectTag())
         Get_Player_MG(pPlayer, pTexture);
-
+    else if (nullptr != pPlayer && L"SP" == pPlayer->Get_ObjectTag())
+        Get_Player_SP(pPlayer, pTexture);
 }
 
 void CUI_SkillIcon_Frame::Get_Player_GN(CPlayer* _pPlayer, CTexture* _pTexture)
@@ -313,6 +316,37 @@ void CUI_SkillIcon_Frame::Get_Player_MG(CPlayer* _pPlayer, CTexture* _pTexture)
             m_fCoolMaxTime = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             m_fCurrCool = static_cast<CController_MG*>(static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
             if ((_uint)CPlayer_Controller::STATUSEFFECT::SILENCE == static_cast<CPlayer_Bard*>(_pPlayer)->Get_MG_Controller()->Get_CurStatus())
+                m_bSilence = true;
+            else
+                m_bSilence = false;
+            Safe_AddRef(_pTexture);
+            if (nullptr != _pTexture)
+            {
+                m_bHaveSkill = true;
+                m_pTextureCom_Skill = static_cast<CTexture*>(_pTexture->Clone(nullptr, nullptr));
+            }
+            Safe_Release(_pTexture);
+        }
+        else
+        {
+            m_bHaveSkill = false;
+            Safe_Release(m_pTextureCom_Skill);
+        }
+    }
+}
+
+void CUI_SkillIcon_Frame::Get_Player_SP(CPlayer* _pPlayer, CTexture* _pTexture)
+{
+    if (nullptr != _pPlayer)
+    {
+        m_pSkill = static_cast<CPlayer_Doaga*>(_pPlayer)->
+            Get_SP_Controller()->Get_PlayerSkill((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+        if (nullptr != m_pSkill)
+        {
+            _pTexture = (m_pSkill->Get_Skill_Texture());
+            m_fCoolMaxTime = static_cast<CController_SP*>(static_cast<CPlayer_Doaga*>(_pPlayer)->Get_SP_Controller())->Get_Skill_CoolTime((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            m_fCurrCool = static_cast<CController_SP*>(static_cast<CPlayer_Doaga*>(_pPlayer)->Get_SP_Controller())->Get_Skill_CoolDown((CPlayer_Controller::SKILL_KEY)m_eSkillKey);
+            if ((_uint)CPlayer_Controller::STATUSEFFECT::SILENCE == static_cast<CPlayer_Doaga*>(_pPlayer)->Get_SP_Controller()->Get_CurStatus())
                 m_bSilence = true;
             else
                 m_bSilence = false;

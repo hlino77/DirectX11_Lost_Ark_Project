@@ -55,17 +55,19 @@ HRESULT CState_GN_DeadHard_Loop::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC(21, (_uint)CPartObject::PARTS::WEAPON_2));
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
-	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
-	HoldingDesc.strSkillName = TEXT("레인 오브 불릿");
-	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
-	HoldingDesc.fSkillEndTime = m_fSkillEndTime;
-	HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
-	HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
-	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
-		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
-	if (nullptr == m_pHoldingUI)
-		return E_FAIL;
-
+	if (m_pPlayer->Is_Control())
+	{
+		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+		HoldingDesc.strSkillName = TEXT("레인 오브 불릿");
+		HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+		HoldingDesc.fSkillEndTime = m_fSkillEndTime;
+		HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
+		HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
+		m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+			_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+		if (nullptr == m_pHoldingUI)
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -79,7 +81,8 @@ void CState_GN_DeadHard_Loop::Enter_State()
 	m_iDeadHard = m_iDeadHard_Loop;
 
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
-	m_pHoldingUI->Set_SkillOn(true);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_GN_DeadHard_Loop::Tick_State(_float fTimeDelta)
@@ -94,8 +97,8 @@ void CState_GN_DeadHard_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
-
-	m_pHoldingUI->Set_SkillOn(false);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
@@ -169,7 +172,8 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 	}
 
 	m_fSkillTimeAcc += fTimeDelta;
-	m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
 	if (m_fSkillTimeAcc >= m_fSkillEndTime)
 	{
 		m_pPlayer->Set_State(TEXT("Skill_GN_DeadHard_End"));

@@ -12,11 +12,11 @@ CState_WR_Dash::CState_WR_Dash(const wstring& strStateName, CStateMachine* pMach
 
 HRESULT CState_WR_Dash::Initialize()
 {
-	m_iDash_Normal = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_dash", 1.0f);
+	m_iDash_Normal = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_dash", 1.2f);
 	if (m_iDash_Normal == -1)
 		return E_FAIL;
 
-	m_iDash_Identity = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_dash_identity1", 1.0f);
+	m_iDash_Identity = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_dash_identity1", 1.2f);
 	if (m_iDash == -1)
 		return E_FAIL;
 
@@ -32,12 +32,12 @@ void CState_WR_Dash::Enter_State()
 {
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 	{
-		m_pPlayer->Reserve_Animation(m_iDash_Identity, 0.2f, 0, 0, 2.5f);
+		m_pPlayer->Reserve_Animation(m_iDash_Identity, 0.2f, 0, 0, 1.2f);
 		m_iDash = m_iDash_Identity;
 	}
 	else
 	{
-		m_pPlayer->Reserve_Animation(m_iDash_Normal, 0.2f, 0, 0, 1.5f);
+		m_pPlayer->Reserve_Animation(m_iDash_Normal, 0.2f, 0, 0);
 		m_iDash = m_iDash_Normal;
 	}
 

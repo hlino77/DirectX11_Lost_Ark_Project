@@ -72,8 +72,6 @@ void CState_WDR_HitEnd::Enter_State()
 		break;
 	}
 
-	m_pController->Get_HitEndMessage();
-
 	m_IsFall = false;
 	m_iFallFrame = 0;
 }
@@ -85,6 +83,8 @@ void CState_WDR_HitEnd::Tick_State(_float fTimeDelta)
 
 void CState_WDR_HitEnd::Exit_State()
 {
+	m_pController->Get_HitEndMessage();
+
 	m_fTimeAcc = 0.f;
 	m_pPlayer->Set_AnimationSpeed(1.f);
 	m_IsAnimEnd = false;
@@ -120,6 +120,7 @@ void CState_WDR_HitEnd::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHitEnd))
 	{
+		m_pController->Get_HitEndMessage();
 		m_pPlayer->Set_AnimationSpeed(0.f);
 		m_IsAnimEnd = true;
 	}

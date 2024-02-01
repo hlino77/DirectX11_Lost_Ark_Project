@@ -177,9 +177,9 @@ HRESULT CUI_SpaceBar_Icon::Ready_Components()
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }
-    else
+    else if(nullptr != pPlayer && L"SP" == pPlayer->Get_ObjectTag())
     {
-        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_MGSpace"),
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_SPSpace"),
             TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
             return E_FAIL;
     }

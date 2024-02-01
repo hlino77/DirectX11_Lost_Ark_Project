@@ -42,6 +42,8 @@ private:
 	_uint	m_iCurrTalk = { 0 };
 	_uint	m_iMoveCnt = { 0 };
 
+	_bool   m_bTalkStart = false;
+
 public:
 	static CDeco_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

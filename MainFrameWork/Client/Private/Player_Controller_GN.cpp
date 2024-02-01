@@ -68,10 +68,49 @@ HRESULT CPlayer_Controller_GN::Initialize(void* pArg)
 void CPlayer_Controller_GN::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	for (auto& pSkill : m_pHandSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->Tick(fTimeDelta);
+	}
+	for (auto& pSkill : m_pShotSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->Tick(fTimeDelta);
+	}
+	for (auto& pSkill : m_pLongSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->Tick(fTimeDelta);
+	}
+
 }
 
 void CPlayer_Controller_GN::LateTick(_float fTimeDelta)
 {
+	for (auto& pSkill : m_pHandSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->LateTick(fTimeDelta);
+	}
+	for (auto& pSkill : m_pShotSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->LateTick(fTimeDelta);
+	}
+	for (auto& pSkill : m_pLongSkills)
+	{
+		if (nullptr == pSkill || false == pSkill->Is_Active()) continue;
+
+		pSkill->LateTick(fTimeDelta);
+	}
+
 	__super::LateTick(fTimeDelta);
 }
 
@@ -109,6 +148,9 @@ _uint CPlayer_Controller_GN::Is_GN_Identity()
 
 void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
+	if (true == m_IsDead)
+		return;
+
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?

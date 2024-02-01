@@ -40,6 +40,19 @@ HRESULT CSkill_GN_RapidFire::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_RapidFire::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_RapidFire::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_RapidFire::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_RapidFire::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

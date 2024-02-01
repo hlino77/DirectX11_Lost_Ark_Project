@@ -63,6 +63,19 @@ HRESULT CSkill_MG_SonicVibe::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_SonicVibe::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_SonicVibe::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_SonicVibe::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_SonicVibe::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

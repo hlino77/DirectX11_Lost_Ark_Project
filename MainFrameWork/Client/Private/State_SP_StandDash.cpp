@@ -26,7 +26,7 @@ HRESULT CState_SP_StandDash::Initialize()
 
 void CState_SP_StandDash::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iStandDash, 0.1f, 0, 0);
+	m_pPlayer->Reserve_Animation(m_iStandDash, 0.1f, 0, 0, 1.2f);
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());

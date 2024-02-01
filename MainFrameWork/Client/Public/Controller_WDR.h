@@ -28,6 +28,7 @@ public:
 	const _float&	Get_IdenGage() { return m_fIdentityGage; }
 	const _float&	Get_MaxGage() { return m_fMaxGage; }
 	const _uint&	Get_MarbleCnt() { return m_iMarbleCnt; }
+	const	_float& Get_IdenSkillCool() { return m_fIdenSkillCool; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
@@ -41,7 +42,7 @@ public:
 	virtual void	Get_DeadMessage();
 
 	void			Get_WDR_IdentityMessage();
-	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = fCoolTime; m_fIdentityGage -= 5.f; }
+	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = m_fIdenSkillCool; m_fIdentityGage -= 5.f; }
 	void			Get_AddMarbleMessage(_uint iMarbleCnt) { m_IsAddMarble = true;  m_iReserveMarbleCnt = iMarbleCnt; }
 	void			Get_ResetMarbleMessage() { m_IsAddMarble = false;  m_iReserveMarbleCnt = 0; };
 	void			Get_UseMarbleMessage();
@@ -70,6 +71,7 @@ private:
 	_bool	m_IsAddMarble = { false };
 	_uint	m_iReserveMarbleCnt = { 0 };
 
+	_float	m_fIdenSkillCool = { 5.f };
 
 public:
 	static CController_WDR* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

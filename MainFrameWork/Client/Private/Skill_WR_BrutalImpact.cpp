@@ -42,6 +42,19 @@ HRESULT CSkill_WR_BrutalImpact::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_BrutalImpact::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_BrutalImpact::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_BrutalImpact::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_BrutalImpact::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

@@ -53,7 +53,10 @@ void CState_WDR_PowerShoulder_End::Tick_State(_float fTimeDelta)
 
 void CState_WDR_PowerShoulder_End::Exit_State()
 {
-	m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+	if (true == m_pController->Is_HitState() && 20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_End))
+	{
+		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
@@ -83,6 +86,8 @@ void CState_WDR_PowerShoulder_End::Tick_State_Control(_float fTimeDelta)
 
 	if (20 <= iAnimFrame)
 	{
+		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
 		{

@@ -43,6 +43,19 @@ HRESULT CSkill_WR_WildRush::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_WildRush::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_WildRush::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_WildRush::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_WildRush::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

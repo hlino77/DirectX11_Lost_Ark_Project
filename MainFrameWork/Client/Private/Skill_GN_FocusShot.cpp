@@ -56,6 +56,19 @@ HRESULT CSkill_GN_FocusShot::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_FocusShot::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_FocusShot::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_FocusShot::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_FocusShot::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

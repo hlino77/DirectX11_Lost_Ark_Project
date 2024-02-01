@@ -55,9 +55,9 @@ void CState_WDR_PowerShoulder_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WDR_PowerShoulder_Loop::Exit_State()
 {
-	if (29 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop) || true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerShoulder_Loop))
+	if (true == m_pController->Is_HitState() && 29 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
 	{
-		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);		
+		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	}
 	m_bComboContinue = false;
 
@@ -95,6 +95,8 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (29 < iAnimFrame)
 	{
+		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+
 		if (m_bEffectEnd == false)
 		{
 			Effect_End();

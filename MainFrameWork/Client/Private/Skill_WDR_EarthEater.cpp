@@ -66,6 +66,19 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WDR_EarthEater::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WDR_EarthEater::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WDR_EarthEater::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WDR_EarthEater::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

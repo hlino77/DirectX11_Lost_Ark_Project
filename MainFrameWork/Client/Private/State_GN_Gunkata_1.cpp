@@ -54,6 +54,10 @@ void CState_GN_Gunkata_1::Exit_State()
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	}
+	else if (true == m_pController->Is_HitState())
+	{
+		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
+	}
 	m_bComboContinue = false;
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())

@@ -42,6 +42,19 @@ HRESULT CSkill_WR_FlashBlade::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_FlashBlade::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_FlashBlade::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_FlashBlade::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_FlashBlade::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

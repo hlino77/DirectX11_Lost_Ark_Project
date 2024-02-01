@@ -149,7 +149,7 @@ FXAA_SUBPIX_CAP - Insures fine detail is not completely removed.
                   1.0 - no capping of sub-pixel aliasing removal
 =====================================================*/
 #ifndef FXAA_PRESET
-#define FXAA_PRESET 6
+#define FXAA_PRESET 3
 #endif
 
 #if (FXAA_PRESET == 0)

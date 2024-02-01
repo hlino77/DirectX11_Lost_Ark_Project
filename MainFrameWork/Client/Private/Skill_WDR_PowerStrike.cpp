@@ -43,6 +43,19 @@ HRESULT CSkill_WDR_PowerStrike::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WDR_PowerStrike::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WDR_PowerStrike::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WDR_PowerStrike::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WDR_PowerStrike::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

@@ -49,6 +49,7 @@ private:
 	_bool m_bSend = false;
 	_bool m_bEnd = false;
 	_float m_fDelay = 0.0f;
+	_float m_fDeadTime = 10.f;
 
 	vector<CEffect*> m_Effects;
 public:

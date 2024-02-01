@@ -28,7 +28,7 @@ private:
 
 private:
     wstring m_strTip = TEXT("팁");
-    wstring m_strToolTips = TEXT("건슬링어가 아니라 건걸이빈다.");
+    wstring m_strToolTips;
 
 public:
     static  CUI_LoadingLabelBottom* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

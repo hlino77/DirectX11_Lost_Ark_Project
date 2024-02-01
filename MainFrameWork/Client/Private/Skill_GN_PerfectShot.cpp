@@ -44,6 +44,19 @@ HRESULT CSkill_GN_PerfectShot::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_GN_PerfectShot::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_GN_PerfectShot::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_GN_PerfectShot::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_GN_PerfectShot::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

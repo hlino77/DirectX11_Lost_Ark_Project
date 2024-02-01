@@ -72,7 +72,6 @@ void CState_SP_HitEnd ::Enter_State()
 		break;
 	}
 
-	m_pController->Get_HitEndMessage();
 
 	m_IsFall = false;
 	m_iFallFrame = 0;
@@ -85,6 +84,8 @@ void CState_SP_HitEnd ::Tick_State(_float fTimeDelta)
 
 void CState_SP_HitEnd ::Exit_State()
 {
+	m_pController->Get_HitEndMessage();
+
 	m_fTimeAcc = 0.f;
 	m_pPlayer->Set_AnimationSpeed(1.f);
 	m_IsAnimEnd = false;
@@ -97,7 +98,7 @@ void CState_SP_HitEnd ::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}
 	if (false == m_IsFall && false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
-		2 <= m_pPlayer->Get_ValtanPhase())
+		0 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_Invincible(true);
 		m_pPlayer->Set_Navi(false);
@@ -120,6 +121,7 @@ void CState_SP_HitEnd ::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHitEnd))
 	{
+		m_pController->Get_HitEndMessage();
 		m_pPlayer->Set_AnimationSpeed(0.f);
 		m_IsAnimEnd = true;
 	}

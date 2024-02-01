@@ -41,6 +41,19 @@ HRESULT CSkill_MG_SongOfWind::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_MG_SongOfWind::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_MG_SongOfWind::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_MG_SongOfWind::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_MG_SongOfWind::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

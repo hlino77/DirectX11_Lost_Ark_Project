@@ -35,16 +35,19 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 
 	m_fEffectCharge2Time = 0.4f;
 
-	CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
-	HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
-	HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
-	HoldingDesc.fSkillEndTime = m_fSkillEndTime;
-	HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
-	HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
-	m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
-		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
-	if (nullptr == m_pHoldingUI)
-		return E_FAIL;
+	if (m_pPlayer->Is_Control())
+	{
+		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
+		HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
+		HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
+		HoldingDesc.fSkillEndTime = m_fSkillEndTime;
+		HoldingDesc.fSkillSuccessTime_Min = m_fSkillSuccessTime_Min;
+		HoldingDesc.fSkillSuccessTime_Max = m_fSkillSuccessTime_Max;
+		m_pHoldingUI = static_cast<CUI_HoldingFrame*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC,
+			_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Skill_HoldingGauge"), &HoldingDesc));
+		if (nullptr == m_pHoldingUI)
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -60,8 +63,8 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 
 	m_fEffectChargeAcc = 0.4f;
 	m_fEffectCharge2Acc = 0.3f;
-
-	m_pHoldingUI->Set_SkillOn(true);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(true);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
@@ -83,13 +86,15 @@ void CState_GN_PerfectShot_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
-	m_pHoldingUI->Set_SkillOn(false);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillOn(false);
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	m_fSkillTimeAcc += fTimeDelta;
-	m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
+	if (nullptr != m_pHoldingUI)
+		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
 	Vec3 vClickPos;
 	if (m_pPlayer->Get_CellPickingPos(vClickPos))
 	{

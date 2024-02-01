@@ -42,6 +42,19 @@ HRESULT CSkill_WR_Guillotine::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CSkill_WR_Guillotine::Tick(_float fTimeDelta)
+{
+}
+
+void CSkill_WR_Guillotine::LateTick(_float fTimeDelta)
+{
+}
+
+HRESULT CSkill_WR_Guillotine::Render()
+{
+	return S_OK;
+}
+
 HRESULT CSkill_WR_Guillotine::Ready_Components()
 {
 	if (false == m_pPlayer->Is_Control())

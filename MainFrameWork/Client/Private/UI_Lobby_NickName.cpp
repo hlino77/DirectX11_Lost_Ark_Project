@@ -390,10 +390,10 @@ void CUI_Lobby_NickName::Random_NickName()
 	switch (iRandomIndex)	
 	{
 	case 0 :
-		m_strNickName = TEXT("쥬신147기");
+		m_strNickName = TEXT("쥬신6232기");
 		break;
 	case 1:
-		m_strNickName = TEXT("범부여");
+		m_strNickName = TEXT("로아하고싶어요");
 		break;
 	case 2:
 		m_strNickName = TEXT("내뇌가Nullptr");
