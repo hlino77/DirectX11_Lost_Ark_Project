@@ -1031,6 +1031,7 @@ void CPlayer::Free()
 
 	CPool<CUI_SpeechBubble>::Return_Obj(m_pSpeechBuble);
 	m_pSpeechBuble = nullptr;
-	m_pUI_Inventory->Set_Dead(true);
+	if(m_pUI_Inventory)
+		m_pUI_Inventory->Set_Dead(true);
 	m_pNamePlate->Set_Dead(true);
 }

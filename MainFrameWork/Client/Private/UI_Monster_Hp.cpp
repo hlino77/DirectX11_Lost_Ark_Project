@@ -216,7 +216,6 @@ void CUI_Monster_Hp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTextureCom_Hp);
 	Safe_Release(m_pTextureCom_PrisonWnd);
 	Safe_Release(m_pTextureCom_PrisonGauge);

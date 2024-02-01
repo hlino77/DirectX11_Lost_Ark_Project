@@ -37,8 +37,8 @@ HRESULT CPhysXMgr::ReserveManager()
 	//Create the scene now by passing the scene's description
 	m_PxScene = m_PhysX->createScene(sceneDesc);
 	
-	PxCudaContextManagerDesc cudaContextManagerDesc;
-	PxCudaContextManager* cudaContextManager = PxCreateCudaContextManager(*m_PxFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
+	//PxCudaContextManagerDesc cudaContextManagerDesc;
+	//PxCudaContextManager* cudaContextManager = PxCreateCudaContextManager(*m_PxFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
 
 	//PxPvdSceneClient* pvdClient = m_PxScene->getScenePvdClient();
 	//if (pvdClient)

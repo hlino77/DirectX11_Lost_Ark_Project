@@ -598,7 +598,7 @@ void CMonster::Set_Die(_float fTime)
 		Set_DissolveOut(fTime);
 
 	if (m_pHpUI != nullptr)
-		m_pHpUI->Set_Dead(true);
+		m_pHpUI->Set_Active(false);
 }
 
 void CMonster::Disable_HpUI()
@@ -939,7 +939,7 @@ void CMonster::Update_Dissolve(_float fTimeDelta)
 		if (m_fDissolvetime > m_fMaxDissolvetime)
 		{
 			m_fDissolvetime = m_fMaxDissolvetime;
-			Set_Dead(true);
+			Set_Active(false);
 		}
 	}
 	else if (m_bDissolveIn)
