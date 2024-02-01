@@ -72,15 +72,13 @@ void CUI_WRIdentity_GaugeShine::Tick(_float fTimeDelta)
     {
         if (1.f <= m_fAlpha)
             m_bDecreaseAlpha = true;
-        else if (0.1f >= m_fAlpha)
-            m_bDecreaseAlpha = false;
-        else if (0 > m_fAlpha)
-            m_fAlpha = 0.f;
+        if (1.f < m_fAlpha)
+            m_fAlpha = 1.f;
 
-       /* if (2.f <= m_fAlpha)
-            m_bDecreaseAlpha = true;
-        else if (1.f >= m_fAlpha)
-            m_bDecreaseAlpha = false;*/
+        if (0.1f >= m_fAlpha)
+            m_bDecreaseAlpha = false;
+        if (0 > m_fAlpha)
+            m_fAlpha = 0.f;
 
         if (CUI_WRIdentity_Body::WRIDENTITY_TRANSFORM_OFF == static_cast<CUI_WRIdentity_Body*>(m_pBodyUI)->Get_Current_IdentityState())
             m_bShineOn = false;
@@ -177,10 +175,4 @@ void CUI_WRIdentity_GaugeShine::Free()
     __super::Free();
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
-
-    Safe_Release(m_pTextureCom);
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }

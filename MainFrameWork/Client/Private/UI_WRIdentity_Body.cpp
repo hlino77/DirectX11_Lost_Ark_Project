@@ -50,7 +50,6 @@ HRESULT CUI_WRIdentity_Body::Initialize(void* pArg)
     m_fIdentity_MaxGauge = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenMaxGauge();
     m_fIdentity_MaxCool = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_IdenCoolTime();
 
-    m_iIdentity_CurrState = (_uint)WRIDENTITY_NORMAL;
     m_fFrame = 0.f;
 
     return S_OK;
@@ -247,10 +246,4 @@ void CUI_WRIdentity_Body::Free()
     __super::Free();
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
-
-    Safe_Release(m_pTextureCom);
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
 }

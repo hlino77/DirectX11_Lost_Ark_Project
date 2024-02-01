@@ -462,13 +462,8 @@ void CUI_Lobby_NickName::Free()
 
 	m_pNickNameWnd->Set_Dead(true);
 	m_pClassNameWnd->Set_Dead(true);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTextureCom_NickNameShine);
 	Safe_Release(m_pTextureCom_Emblem);
 	Safe_Release(m_pTextureCom_Equipment);
 	Safe_Release(m_pTransformCom_Emblem);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

@@ -169,9 +169,4 @@ void CUI_LoadingWnd::Free()
 
 	Safe_Release(m_pTextureComImg);
 	Safe_Release(m_pTextureCom_Frame);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

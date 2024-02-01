@@ -324,9 +324,8 @@ void CUI_SpeechBubble::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    Safe_Release(m_pTextureCom);
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pVIBufferCom);
-    Safe_Release(m_pRendererCom);
+    Safe_Release(m_pTextureUp);
+    Safe_Release(m_pTextureDown);
+    Safe_Release(m_pTransformUp);
+    Safe_Release(m_pTransformDown);
 }

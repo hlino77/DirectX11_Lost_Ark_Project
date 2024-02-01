@@ -237,9 +237,4 @@ void CUILobby_Entrance_to_ServrerButton::Free()
 	Safe_Release(m_pContext);
 
 	m_pTextWnd->Set_Dead(true);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }

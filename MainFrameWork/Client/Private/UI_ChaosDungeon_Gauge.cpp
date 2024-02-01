@@ -232,9 +232,4 @@ void CUI_ChaosDungeon_Gauge::Free()
 	Safe_Release(m_pContext);
 
 	m_pPercentWnd->Set_Dead(true);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pRendererCom);
 }
