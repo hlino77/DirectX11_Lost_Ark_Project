@@ -41,6 +41,8 @@ public:
 	virtual void Turn_Axis(Vec3 vAxis, _float fRadian) override;
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) override;
 	virtual void Rotation(Vec3 vAxis, _float fRadian) override;
+	void		 Turn_Rotation_CurrentState(Vec3 vAxis, _float fTimeDelta);
+
 
 	virtual void LookAt(Vec3 vAt) override;
 	virtual void LookAt_ForLandObject(Vec3 vAt) override;

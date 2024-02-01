@@ -190,6 +190,19 @@ void CLockFree_Transform::Rotation(Vec3 vAxis, _float fRadian)
 	Set_State(CLockFree_Transform::STATE_LOOK, vLook * vScale.z);
 }
 
+void CLockFree_Transform::Turn_Rotation_CurrentState(Vec3 vAxis, _float fTimeDelta)
+{
+	Matrix WorldMatrix = XMLoadFloat4x4(&m_WorldMatrix);
+
+
+	Matrix RotationMatrix = XMMatrixRotationAxis(vAxis, fTimeDelta);
+
+
+	WorldMatrix = XMMatrixMultiply(RotationMatrix, WorldMatrix);
+
+	XMStoreFloat4x4(&m_WorldMatrix, WorldMatrix);
+}
+
 void CLockFree_Transform::My_Rotation(Vec3 vEulers)
 {
 	Matrix matRotation = Matrix::Identity;
