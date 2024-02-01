@@ -56,7 +56,8 @@ HRESULT CUI_InventoryWnd::Initialize(void* pArg)
 	
 	if (nullptr != pArg)
 	{
-		Initialize_TextBox(static_cast<CPlayer*>(pArg));
+		if(static_cast<CPlayer*>(pArg)->Is_Control())
+			Initialize_TextBox(static_cast<CPlayer*>(pArg));
 	}
 
 	m_bActive = false;
@@ -258,6 +259,10 @@ void CUI_InventoryWnd::Set_Player_Control(class CPlayer* pPlayer ,_bool bRender)
 		{
 			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(false);
 		}
+		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(false);
+		}
 	}
 	else
 	{
@@ -274,6 +279,10 @@ void CUI_InventoryWnd::Set_Player_Control(class CPlayer* pPlayer ,_bool bRender)
 			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
 		}
 		else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
 		{
 			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
 		}
@@ -299,7 +308,10 @@ void CUI_InventoryWnd::ReSet_Player_Control(CPlayer* pPlayer)
 		{
 			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
 		}
-
+		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+		}
 }
 
 CUI_InventoryWnd* CUI_InventoryWnd::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -334,5 +346,6 @@ void CUI_InventoryWnd::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	m_pMoneyWnd->Set_Dead(true);
+	if(nullptr != m_pMoneyWnd)
+		m_pMoneyWnd->Set_Dead(true);
 }

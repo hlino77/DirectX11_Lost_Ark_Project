@@ -39,15 +39,15 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
-
-	if (FAILED(UI_SET()))
-		return E_FAIL;
-
+		if (FAILED(UI_SET()))
+			return E_FAIL;
 	return S_OK;
 }
 
 void CUI_Inventory::Tick(_float fTimeDelta)
 {
+	if(!m_pOwner->Is_Control())
+		return;
 	if (KEY_TAP(KEY::I))
 	{
 		Update_Used_Item();
@@ -64,6 +64,8 @@ void CUI_Inventory::Tick(_float fTimeDelta)
 
 void CUI_Inventory::LateTick(_float fTimeDelta)
 {
+	if (!m_pOwner->Is_Control())
+		return;
 	if (m_bActiveKey)
 	{
 		Move_InventoryWNd();

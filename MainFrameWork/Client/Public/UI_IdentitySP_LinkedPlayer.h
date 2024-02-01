@@ -54,6 +54,7 @@ private:
     CTexture* m_pTexture_SkillFrame = { nullptr };
     CTexture* m_pTexture_None = { nullptr };
     CTexture* m_pTexture_BubblePop = { nullptr };
+    CTexture* m_pTexture_BubbleMaxEffect= { nullptr };
 
     CTransform* m_pTransform_BubbleGaugeL = { nullptr };
     CTransform* m_pTransform_BubbleGaugeC = { nullptr };
@@ -65,6 +66,9 @@ private:
     CTransform* m_pTransform_SkillR = { nullptr };
     CTransform* m_pTransform_SkillFrameL = { nullptr };
     CTransform* m_pTransform_SkillFrameR = { nullptr };
+    CTransform* m_pTransform_BubbleMaxEffectL = { nullptr };
+    CTransform* m_pTransform_BubbleMaxEffectC = { nullptr };
+    CTransform* m_pTransform_BubbleMaxEffectR = { nullptr };
 
     _uint   m_iMaxBubble = { 3 };
     _uint   m_iBubbleTextureIndex[3] = { 0, 0 };
