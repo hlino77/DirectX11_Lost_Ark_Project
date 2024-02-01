@@ -18,8 +18,8 @@ Texture2D g_SSROriginalTarget;
 
 cbuffer SSR_Data
 {
-    float fSSRStep = 0.0175f;
-    int iStepCount = 25;
+    float fSSRStep = 0.005f;
+    int iStepCount = 75;
     float2 padding;
 }
 
@@ -40,6 +40,9 @@ VS_OUT_TARGET VS_MAIN_SSR(TARGET_IN In)
 
 float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
 {
+    if (0 == iStepCount || EPSILON > fSSRStep)
+        return g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+    
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
     float4 vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
@@ -76,7 +79,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     int iStepDistance = 0;
     float2 vRayPixelPos = (float2) 0;
   
-    [unroll(10)]
+    [loop]
     for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
     {
         float4 vDirStep = vRayDir * fStep * iStepDistance;

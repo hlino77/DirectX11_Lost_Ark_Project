@@ -89,6 +89,7 @@ _float CSkill_WDR_EndurePain::Change_Player_Status()
 	{
 		m_pPlayer->Get_Camera()->Set_RadialBlur(0.5f, matWorld.Translation(), 0.1f, 0.1f);
 		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 80.0f, 1.0f, 5.0f);
+		m_pPlayer->Get_Camera()->Set_Chromatic(0.5f, matWorld.Translation(), 0.1f, 0.1f);
 	}
 		
 

@@ -49,19 +49,29 @@ public:
 
 	void		Set_MotionBlur(_float fTime, _float fIntensity = 0.0f) 
 	{ 
-		m_fMotionBlurAcc = fTime;
 		m_bMotionBlur = true;
+		m_fMotionBlurAcc = fTime;
 		m_fMotionBlurIntensity = fIntensity; 
 	}
 
 	void		Set_RadialBlur(_float fTime, Vec3& vPos, _float fDamping,_float fIntensity = 0.0f)
 	{
+		m_bRadialBlur = true;
 		m_fRadialBlurAcc = fTime;
 		m_fRadialBlurIntensity = fIntensity;
-		m_bRadialBlur = true;
 		m_fRadialBlurDamping = fDamping;
 		m_vRadialPos = vPos;
 	}
+
+	void		Set_Chromatic(_float fTime, Vec3& vPos, _float fDamping, _float fIntensity = 0.0f)
+	{
+		m_bChromatic = true;
+		m_fChromaticAcc = fTime;
+		m_fChromaticIntensity = fIntensity;
+		m_fChromaticDamping = fDamping;
+		m_vChromaticPos = vPos;
+	}
+
 protected:
 	virtual HRESULT Ready_Components() override;
 
@@ -93,17 +103,27 @@ private:
 
 	CameraState m_eState;
 
+	// MotionBlur
 	_bool	m_bMotionBlur = false;
 	_float	m_fMotionBlurAcc = 0.0f;
 	_float	m_fMotionBlurIntensity = 0.0f;
 
+	// RadialBlur
 	_bool	m_bRadialBlur = false;
 	_float	m_fRadialBlurAcc = 0.0f;
 	_float	m_fRadialBlurIntensity = 0.0f;
 	_float	m_fRadialBlurDamping = 0.0f;
 	Vec3	m_vRadialPos;
 
+	// ChromaticAberration
+	_bool	m_bChromatic = false;
+	_float	m_fChromaticAcc = 0.0f;
+	_float	m_fChromaticIntensity = 0.f;
+	_float	m_fChromaticDamping = 0.0f;
+	Vec3	m_vChromaticPos;
+
 	_float	m_fResetSpeed = 0.0f;
+
 public:
 	static CCamera_Player* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
 	virtual CGameObject* Clone(void* pArg);

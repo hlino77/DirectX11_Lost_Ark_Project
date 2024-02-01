@@ -34,6 +34,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         discard;
     if (g_bDissolve == true)
         ComputeDissolveColor(Out.vDiffuse, In.vTexUV);
+    
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
@@ -74,6 +75,23 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     Out.vProperties.w = g_fRimLight;
 
     return Out;
+}
+
+float4 PS_ALPHA(VS_OUT In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+
+    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+    float4 vLook = In.vProjPos - float4(CameraPosition(), 1.f);
+
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 30.f);
+
+    vColor = (g_vLightDiffuse * vColor) + fSpecular;
+    
+    return vColor;
 }
 
 PS_OUT_PHONG PS_PHONG(VS_OUT In)
@@ -307,7 +325,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_SHADOW();
     }
 
-    pass PBR_AlphaBlend // 3
+    pass Alpha // 3
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -315,7 +333,7 @@ technique11 DefaultTechnique
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_PBR();
+        PixelShader = compile ps_5_0 PS_ALPHA();
     }
 
     pass Diffuse // 4 юс╫ц

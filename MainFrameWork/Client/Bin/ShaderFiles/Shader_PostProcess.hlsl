@@ -35,7 +35,12 @@ float       g_CenterWeight;
 float	    g_WeightAtt;
 
 //Chromatic Aberration
-float       g_fChromaticIntensity = 0.f;
+cbuffer ChromaticBlur
+{
+    float3 vChromaticPosition;
+    float fChromaticIntensity;
+}
+
 //Motion Blur
 float       g_fMotionBlurIntensity = 0.f;
 
@@ -170,14 +175,21 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 float4 PS_MAIN_CHROMATIC(PS_IN In) : SV_TARGET0
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
+    float4 vChromaticCenter = mul(float4(vChromaticPosition, 1.f), matVP);
+    vChromaticCenter /= vChromaticCenter.w;
 
-    float2 vCenter = float2(0.2f, 0.7f);
-
-    float2 BlurDir = In.vTexcoord - vCenter;
+    vChromaticCenter.x = vChromaticCenter.x * 0.5f + 0.5f;
+    vChromaticCenter.y = vChromaticCenter.y * -0.5f + 0.5f;
+	
+    float2 center = float2(vChromaticCenter.x, vChromaticCenter.y);
+    
+    float2 BlurDir = In.vTexcoord - center;
 
     vColor.r = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord).r;
-    vColor.g = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * g_fChromaticIntensity * 0.5f).g;
-    vColor.b = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * g_fChromaticIntensity).b;
+    vColor.g = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * fChromaticIntensity * 0.5f).g;
+    vColor.b = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * fChromaticIntensity).b;
 
 	//vColor *= (1.0 - g_BlurStrength * 0.5); //¾ÈÇÏ¸é ±×³É ¹à¾ÆÁü
 

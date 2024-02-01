@@ -90,7 +90,7 @@ float4 PS_DOWNSAMPLE_BRIGHT(VS_OUT_TARGET In) : SV_TARGET
     //outColor /= 25;
     outColor *= 0.04f;
     
-    float intensity = max(dot(outColor, float3(1.f, 1.f, 1.f)), EPSILON);
+    float intensity = max(dot(outColor, float3(1.05f, 1.05f, 1.05f)), EPSILON);
     //float intensity = max(dot(outColor, float3(0.3f, 0.59f, 0.11f)), 0.000001f);
     
     float bloom_intensity = min(GetBloomCurve(intensity, g_Threshold_Min), g_Threshold_Max);
