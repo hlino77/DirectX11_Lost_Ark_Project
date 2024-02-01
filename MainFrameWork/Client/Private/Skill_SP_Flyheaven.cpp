@@ -131,13 +131,6 @@ void CSkill_SP_Flyheaven::Check_ColliderState()
 
 HRESULT CSkill_SP_Flyheaven::Ready_Components()
 {
-	if (false == m_pPlayer->Is_Control())
-		return S_OK;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Crane_Wing"),
-		TEXT("Com_Texture"), (CComponent**)&m_pSkillTextureCom)))
-		return E_FAIL;
-
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
@@ -161,6 +154,13 @@ HRESULT CSkill_SP_Flyheaven::Ready_Components()
 	///* For.Com_Model */
 	wstring strComName = L"Prototype_Component_Model_SK_SDM_FH";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+		return E_FAIL;
+
+	if (false == m_pPlayer->Is_Control())
+		return S_OK;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yinyanshi_Crane_Wing"),
+		TEXT("Com_Texture"), (CComponent**)&m_pSkillTextureCom)))
 		return E_FAIL;
 
 	return S_OK;

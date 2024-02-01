@@ -36,12 +36,9 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 		if (nullptr == m_pOwner)
 			return E_FAIL;
 	}
-	else 
-	{
-		m_pOwner = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
-		if (nullptr == m_pOwner)
-			return E_FAIL;
-	}
+	else
+		return E_FAIL;
+
 
 	if (FAILED(UI_SET()))
 		return E_FAIL;

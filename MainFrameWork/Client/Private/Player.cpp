@@ -719,6 +719,9 @@ HRESULT CPlayer::Ready_NamePlate()
 
 HRESULT CPlayer::Ready_Inventory()
 {
+	if (!Is_Control())
+		return S_OK;
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance); 
 
@@ -1028,5 +1031,6 @@ void CPlayer::Free()
 
 	CPool<CUI_SpeechBubble>::Return_Obj(m_pSpeechBuble);
 	m_pSpeechBuble = nullptr;
+	m_pUI_Inventory->Set_Dead(true);
 	m_pNamePlate->Set_Dead(true);
 }
