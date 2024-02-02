@@ -84,14 +84,16 @@ void CEsther_Silian_Cut::Ready()
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 	m_pTransformCom->My_Rotation(Vec3(0.f, 180.f, 0.f));
 
-	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.42f, 2.14f, -1.98f));
-	m_pCutCamera->Get_TransformCom()->LookAt(Vec3(-0.78f, -0.03f, 0.62f));
+	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.5f, 0.7f, -1.3f));
+	m_pCutCamera->Set_TargetOffset(Vec3(-1.21f, 1.0f, 0.f));
 
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
 	m_pPart->Set_Render(false);
 
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0, 1.f, false, false, false);
+	m_pModelCom->Set_IgnoreRoot(false);
+
 
 	m_IsFinished = false;
 }
@@ -108,7 +110,7 @@ void CEsther_Silian_Cut::Act2(_float fTimeDelta)
 {
 	if (50 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
-		m_pModelCom->Set_UseRootY(true);
+		m_pModelCom->Set_IgnoreRoot(true);
 	}
 }
 

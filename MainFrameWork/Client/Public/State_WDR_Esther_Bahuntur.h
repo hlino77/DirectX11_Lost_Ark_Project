@@ -27,6 +27,7 @@ private:
 
 private:
 	_int	m_iEsther = 0;
+	_bool	m_bEstherActive = false;
 
 public:
 	static CState_WDR_Esther_Bahuntur* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);

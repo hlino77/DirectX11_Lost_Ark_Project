@@ -141,7 +141,7 @@ void CEsther_Bahuntur_Skill::Act1(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 {
-	if (30 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (25 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
 		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();

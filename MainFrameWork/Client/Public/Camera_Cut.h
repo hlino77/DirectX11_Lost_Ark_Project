@@ -52,9 +52,7 @@ public:
 	void		Set_EstherMode(_uint iMode) { m_iState = iMode; }
 
 	// Target
-	void		Target_ZoomInOut(_float fTargetLength, _float fSpeed) { m_fReTargetLength = fTargetLength; m_fTargetZoomSpeed = fSpeed; }
-	void		Target_Set_CameraLength(_float fTargetLength) { m_fTargetLength = m_fReTargetLength = fTargetLength; }
-	void		Target_Set_Offset(Vec3 vOffset) { m_vTargetOffset = vOffset; m_vTargetOffset.Normalize(); }
+	void		Set_TargetOffset(Vec3 vOffset) { m_vTargetOffset = vOffset; }
 
 
 	_float		Get_CameraLength() { return m_fCameraLength; }

@@ -86,16 +86,14 @@ void CEsther_Bahuntur_Cut::Ready()
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 	m_pTransformCom->My_Rotation(Vec3(0.f, 180.f, 0.f));
 
-	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.42f, 2.14f, -5.f));
+	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.42f, 1.14f, -3.f));
 	m_pCutCamera->Get_TransformCom()->LookAt(Vec3(-0.78f, -0.03f, 0.62f));
 
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
-	m_pPart->Set_Render(false);
+	Reserve_Animation(m_iAnimIndex, 0.1f, 25, 0, 1.f);
 
-	Reserve_Animation(m_iAnimIndex, 0.1f, 30, 0, 1.f);
-
-	m_pModelCom->Set_UseRootY(true);
+	m_pModelCom->Set_IgnoreRoot(true);
 
 	m_IsFinished = false;
 }

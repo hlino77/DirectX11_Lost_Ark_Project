@@ -46,8 +46,6 @@ HRESULT CCamera_Cut::Initialize(void* pArg)
 	Vec3 vPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
-
-
 	return S_OK;
 }
 
@@ -65,8 +63,6 @@ void CCamera_Cut::Tick(_float fTimeDelta)
 		Tick_BahunturCamera(fTimeDelta);
 		break;
 	}
-
-	//__super::Tick(fTimeDelta);
 }
 
 void CCamera_Cut::LateTick(_float fTimeDelta)
@@ -133,22 +129,12 @@ void CCamera_Cut::Tick_SilianCamera(_float fTimeDelta)
 			m_fCameraLength = m_fTargetCameraLength;
 		}
 	}
-	if (m_fTargetLength != m_fReTargetLength)
-	{
-		m_fTargetLength = CAsUtils::Lerpf(m_fTargetLength, m_fReTargetLength, m_fTargetZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fReTargetLength - m_fTargetLength) <= 0.001f)
-		{
-			m_fTargetLength = m_fReTargetLength;
-		}
-	}
-
 
 	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vPos = vPos + (m_vOffset * m_fCameraLength);
 
 	Vec3 vTargetPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vTargetPos = vTargetPos + (m_vTargetOffset * m_fTargetLength);
+	vTargetPos = vTargetPos + m_vTargetOffset;
 
 	Vec3 vLook = vTargetPos - vPos;
 	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
@@ -179,21 +165,12 @@ void CCamera_Cut::Tick_BahunturCamera(_float fTimeDelta)
 			m_fCameraLength = m_fTargetCameraLength;
 		}
 	}
-	if (m_fTargetLength != m_fReTargetLength)
-	{
-		m_fTargetLength = CAsUtils::Lerpf(m_fTargetLength, m_fReTargetLength, m_fTargetZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fReTargetLength - m_fTargetLength) <= 0.001f)
-		{
-			m_fTargetLength = m_fReTargetLength;
-		}
-	}
 
 	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vPos = vPos + (m_vOffset * m_fCameraLength);
 
 	Vec3 vTargetPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vTargetPos = vTargetPos + (m_vTargetOffset * m_fTargetLength);
+	vTargetPos = vTargetPos + m_vTargetOffset;
 
 	Vec3 vLook = vTargetPos - vPos;
 	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
@@ -224,21 +201,12 @@ void CCamera_Cut::Tick_WayCamera(_float fTimeDelta)
 			m_fCameraLength = m_fTargetCameraLength;
 		}
 	}
-	if (m_fTargetLength != m_fReTargetLength)
-	{
-		m_fTargetLength = CAsUtils::Lerpf(m_fTargetLength, m_fReTargetLength, m_fTargetZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fReTargetLength - m_fTargetLength) <= 0.001f)
-		{
-			m_fTargetLength = m_fReTargetLength;
-		}
-	}
 
 	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vPos = vPos + (m_vOffset * m_fCameraLength);
 
 	Vec3 vTargetPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vTargetPos = vTargetPos + (m_vTargetOffset * m_fTargetLength);
+	vTargetPos = vTargetPos + m_vTargetOffset;
 
 	Vec3 vLook = vTargetPos - vPos;
 	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));

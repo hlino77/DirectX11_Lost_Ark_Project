@@ -83,7 +83,7 @@ void CState_WR_Fall::Tick_State_Control(_float fTimeDelta)
 		m_fStartAcc += fTimeDelta;
 		if (m_fStartTime < m_fStartAcc)
 		{
-			m_pPlayer->Get_RigidBody()->AddForce(m_vFallDir * -2.f, ForceMode::FORCE);
+			m_pPlayer->Get_RigidBody()->AddForce(m_vFallDir * -3.f, ForceMode::FORCE);
 			m_pPlayer->Get_RigidBody()->Set_Gravity(true);
 
 			m_bStart = true;

@@ -27,6 +27,7 @@ private:
 
 private:
 	_int	m_iEsther = 0;
+	_bool	m_bEstherActive = false;
 
 public:
 	static CState_WR_Esther_Way* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
