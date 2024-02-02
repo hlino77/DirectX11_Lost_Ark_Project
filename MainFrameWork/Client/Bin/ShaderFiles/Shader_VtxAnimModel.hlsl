@@ -213,6 +213,25 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     return Out;
 }
 
+float4 PS_ALPHA(VS_OUT In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    if (g_bDissolve == true)
+        ComputeDissolveColor(vColor, In.vTexUV);
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+
+    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+    float4 vLook = In.vProjPos - float4(CameraPosition(), 1.f);
+
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 30.f);
+
+    vColor = (g_vLightDiffuse * vColor) + fSpecular;
+    
+    return vColor;
+}
+
 PS_OUT_PHONG PS_PHONG(VS_OUT In)
 {
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
