@@ -51,6 +51,7 @@ public:
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) override;
 
 	virtual void Rotation(Vec3 vAxis, _float fRadian) override;
+	virtual void Turn_Rotation_CurrentState(Vec3 vAxis, _float fTimeDelta) override;
 
 	virtual void LookAt(Vec3 vAt) override;
 	virtual void LookAt_ForLandObject(Vec3 vAt) override;
@@ -63,6 +64,7 @@ public:
 	virtual void LookAt_Lerp_ForLand(Vec3 vAt, _float fSpeed, _float fTimeDelta) override;
 	virtual void SetUp_Lerp(Vec3 vLook, _float fSpeed, _float fTimeDelta) override;
 	virtual void Move_Pos(Vec3 vTargetPos) override;
+
 
 	virtual void Set_Up(Vec3 vNormal) override;
 

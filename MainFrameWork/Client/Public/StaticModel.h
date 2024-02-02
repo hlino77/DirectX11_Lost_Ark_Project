@@ -79,26 +79,30 @@ public:
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() { return m_bRimLight; }
 
-
-
 protected:
 
 	virtual HRESULT Ready_Components() override;
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
 	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
-
 private:
 
 	CRenderer::RENDERGROUP			m_eRenderGroup = { CRenderer::RENDERGROUP::RENDER_END };
-
 	vector<CSphereCollider*>		m_StaticColliders;
 	vector<_uint>					m_NaviCellIndex;
-
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
+	
+	// ShaderPass
+	_uint			m_iPass = 0;
 
-	Vec3							m_BloomColor = {};
+	// Move
+	_float			fAccTime = {};
+	_bool			bUp = true;
+	_bool			bStop = true;
+
+	// Color
+	Vec3			m_BloomColor = {};
 
 public:
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);

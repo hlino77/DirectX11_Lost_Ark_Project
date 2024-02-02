@@ -51,6 +51,7 @@ public:
 	virtual void Turn_Axis(Vec3 vAxis, _float fRadian) PURE;
 	virtual void Turn_Speed(Vec3 vAxis, _float fSpeed, _float fTimeDelta) PURE;
 	virtual void Rotation(Vec3 vAxis, _float fRadian) PURE;
+	virtual void Turn_Rotation_CurrentState(Vec3 vAxis, _float fTimeDelta) PURE;
 
 	virtual void LookAt(Vec3 vAt) PURE;
 	virtual void LookAt_ForLandObject(Vec3 vAt) PURE;

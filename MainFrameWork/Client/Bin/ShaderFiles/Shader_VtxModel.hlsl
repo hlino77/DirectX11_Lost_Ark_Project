@@ -88,6 +88,8 @@ float4 PS_ALPHA(VS_OUT In) : SV_TARGET0
     float4 vLook = In.vProjPos - float4(CameraPosition(), 1.f);
 
     float fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 30.f);
+    
+
 
     vColor = (g_vLightDiffuse * vColor) + fSpecular;
     

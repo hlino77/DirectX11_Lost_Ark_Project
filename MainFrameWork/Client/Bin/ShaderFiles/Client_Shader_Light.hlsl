@@ -9,7 +9,7 @@ float   g_fRimLight = 0.0f;
 bool    g_bReverseDissolve = false;
 
 float4 g_vLightDir;
-float4 g_vLightDiffuse;
+float4 g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f);
 
 // Light
 struct LightDesc
