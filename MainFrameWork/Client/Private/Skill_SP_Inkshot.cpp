@@ -31,9 +31,9 @@ HRESULT CSkill_SP_Inkshot::Initialize(void* pArg)
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
-	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
+	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
 	Proj_Desc.iDamage = 200;
 	Proj_Desc.iStagger = 60;
 	Proj_Desc.fRepulsion = 10.f;

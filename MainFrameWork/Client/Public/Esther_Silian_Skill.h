@@ -33,6 +33,7 @@ private:
 	virtual HRESULT			Ready_Projectile();
 
 private:
+	void					Cut_Start(_float fTimeDelta);
 	void					Act1(_float fTimeDelta);
 
 private:

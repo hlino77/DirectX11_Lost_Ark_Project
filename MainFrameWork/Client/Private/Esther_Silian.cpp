@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Esther_Silian_Cut.h"
 #include "Esther_Silian_Skill.h"
+#include "Player.h"
 
 CEsther_Silian::CEsther_Silian(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther(pDevice, pContext)

@@ -30,7 +30,6 @@ void CState_SP_Fall::Enter_State()
 	m_pPlayer->Set_AnimationSpeed(0.0f);
 	m_pPlayer->Set_SuperiorArmorState(true);
 	m_pPlayer->Set_Navi(false);
-	//m_pPlayer->Get_RigidBody()->Set_Gravity(true);
 
 	if (TEXT("Hit_Common") == m_pPlayer->Get_PreState())
 	{

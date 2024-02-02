@@ -33,6 +33,11 @@ HRESULT CEsther_Bahuntur::Initialize(void* pArg)
 	SkillDesc.pOwnerEsther = this;
 	m_pEsther_Skill = static_cast<CEsther_Bahuntur_Skill*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill"), &SkillDesc));
 
+	CEsther_Cut::ESTHERCUTDESC CutDesc;
+	CutDesc.pLeaderPlayer = m_pLeaderPlayer;
+	CutDesc.pOwnerEsther = this;
+	m_pEsther_Cut = static_cast<CEsther_Bahuntur_Cut*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Bahuntur_Cut"), &CutDesc));
+
 	return S_OK;
 }
 

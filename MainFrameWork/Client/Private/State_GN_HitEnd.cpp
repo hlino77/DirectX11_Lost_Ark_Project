@@ -92,30 +92,10 @@ void CState_GN_HitEnd::Exit_State()
 
 void CState_GN_HitEnd::Tick_State_Control(_float fTimeDelta)
 {
-	if (true == m_IsFall && m_iFallFrame == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHitEnd))
+	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
+		2 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
-	}
-	if (false == m_IsFall && false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer)
-		&& 2 <= m_pPlayer->Get_ValtanPhase())
-	{
-		m_pPlayer->Set_Invincible(true);
-		m_pPlayer->Set_Navi(false);
-		m_IsFall = true;
-
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHitEnd))
-		{
-			m_pPlayer->Set_State(TEXT("Fall"));
-		}
-		else
-		{
-			m_iFallFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHitEnd) + 2;
-
-			if (m_iFallFrame >= m_pPlayer->Get_ModelCom()->Get_Anim_MaxFrame(m_iHitEnd))
-			{
-				m_pPlayer->Set_State(TEXT("Fall"));
-			}
-		}
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHitEnd))

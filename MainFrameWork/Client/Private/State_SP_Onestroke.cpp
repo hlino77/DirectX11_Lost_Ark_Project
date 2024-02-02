@@ -22,7 +22,7 @@ HRESULT CState_SP_Onestroke::Initialize()
 	else
 		m_TickFunc = &CState_SP_Onestroke::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(45);
+	m_SkillFrames.push_back(44);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;

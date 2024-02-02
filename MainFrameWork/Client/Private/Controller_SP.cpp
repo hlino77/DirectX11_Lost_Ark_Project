@@ -241,11 +241,6 @@ void CController_SP::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	if (nullptr == m_pSkills[eKey])
 		return;
 
-	if (false == m_pSkills[eKey]->Is_Active())
-	{
-		m_pSkills[eKey]->Set_Active(true);
-	}
-
 	CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 	if (Vec3() != vPos)
 	{
@@ -294,6 +289,9 @@ void CController_SP::Get_SP_IdentityMessage()
 
 void CController_SP::Increase_IdenGage(_float iGage)
 {
+	if (m_iMarbleCnt == m_iMaxMarbleCnt)
+		return;
+
 	m_fIdentityGage += iGage;
 
 	if (m_fMaxGage <= m_fIdentityGage)

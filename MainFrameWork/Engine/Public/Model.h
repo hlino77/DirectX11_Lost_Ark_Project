@@ -96,6 +96,7 @@ public:
 	vector<class CMesh*>& Get_Meshes() { return m_Meshes; }
 
 public:
+	void	Set_ActivateRoot(_bool bActivate) { m_bActivateRoot = bActivate; }
 	void	Set_IgnoreRoot(_bool bIgnore) { m_bIgnoreRoot = bIgnore; }
 	void	Set_RotationRoot(_bool bRot) { m_bRootRotation = bRot; }
 	void	Set_UseRootY(_bool bUseY) { m_bUseRootY = bUseY; }
@@ -120,8 +121,11 @@ public:
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const _uint iPassIndex = 0);
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const string& strPassName);
 	HRESULT Render(class CShader*& pShader);
+	HRESULT Render_Outline(class CShader*& pShader);
 
 	HRESULT Render_SingleMesh(class CShader*& pShader, const _int& iMeshIndex);
+	HRESULT Render_OutlineMesh(class CShader*& pShader, const _int& iMeshIndex);
+	HRESULT Render_Alpha(class CShader*& pShader, const _int& iMeshIndex);
 
 	//Instancing
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iStride, _uint iPassIndex = 0);
@@ -165,6 +169,7 @@ private:
 
 private:
 	/* HJ Ãß°¡ */	
+	_bool						m_bActivateRoot = { true };
 	_bool						m_bIgnoreRoot = { false };
 	_bool						m_bRootRotation = { false };
 	_bool						m_IsPreRootRot = { false };

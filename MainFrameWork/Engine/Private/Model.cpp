@@ -522,7 +522,7 @@ HRESULT CModel::Set_Animation_Transforms()
 			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
 
 
-		if (TEXT("b_root") == m_ModelBones[i]->strName)
+		if (TEXT("b_root") == m_ModelBones[i]->strName && true == m_bActivateRoot)
 		{
 			if (false == m_bIgnoreRoot)
 			{
@@ -614,7 +614,7 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 		else
 			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
 			
-		if (TEXT("b_root") == m_ModelBones[i]->strName)
+		if (TEXT("b_root") == m_ModelBones[i]->strName && true == m_bActivateRoot)
 		{
 			// 이동 제거
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
@@ -667,6 +667,85 @@ HRESULT CModel::Render(CShader*& pShader)
 		if (FAILED(Render_SingleMesh(pShader, i)))
 			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_Outline(CShader*& pShader)
+{
+	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	{
+		if (FAILED(Render_OutlineMesh(pShader, i)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_Alpha(CShader*& pShader, const _int& iMeshIndex)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tFlag.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tFlag.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tFlag.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+		return E_FAIL;
+
+	if (FAILED(Render(pShader, iMeshIndex, "Alpha")))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_OutlineMesh(CShader*& pShader, const _int& iMeshIndex)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tFlag.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tFlag.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tFlag.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+		return E_FAIL;
+
+	if (FAILED(Render(pShader, iMeshIndex, "Alpha")))
+		return E_FAIL;
+
+	
 
 	return S_OK;
 }

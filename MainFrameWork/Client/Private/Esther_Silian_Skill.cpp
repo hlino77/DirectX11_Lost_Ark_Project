@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PartObject.h"
 #include "Esther.h"
+#include "Esther_Silian_Cut.h"
 
 CEsther_Silian_Skill::CEsther_Silian_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -56,6 +57,7 @@ void CEsther_Silian_Skill::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
+	Cut_Start(fTimeDelta);
 	Act1(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
@@ -79,6 +81,15 @@ void CEsther_Silian_Skill::Ready()
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
 	m_IsFinished = false;
+}
+
+void CEsther_Silian_Skill::Cut_Start(_float fTimeDelta)
+{
+	if (0 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		static_cast<CEsther_Silian_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
+		static_cast<CEsther_Silian_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
+	}
 }
 
 void CEsther_Silian_Skill::Act1(_float fTimeDelta)

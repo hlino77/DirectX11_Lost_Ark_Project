@@ -227,6 +227,7 @@
 #include "Esther_Way.h"
 #include "Esther_Way_Skill.h"
 #include "Esther_Way_Dochul.h"
+#include "Esther_Way_Cut.h"
 
 #include "Esther_Silian.h"
 #include "Esther_Silian_Cut.h"
@@ -236,6 +237,7 @@
 #include "Esther_Bahuntur_Skill.h"
 #include "Esther_Bahuntur_Skill_Ceiling.h"
 #include "Esther_Bahuntur_Skill_Floor.h"
+#include "Esther_Bahuntur_Cut.h"
 
 
 namespace fs = std::filesystem;
@@ -1414,6 +1416,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way_Cut"),
+		CEsther_Way_Cut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian"),
 		CEsther_Silian::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1436,6 +1443,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur_Skill"),
 		CEsther_Bahuntur_Skill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur_Cut"),
+		CEsther_Bahuntur_Cut::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

@@ -73,6 +73,11 @@ void CState_WDR_Esther_Bahuntur::Tick_State_Control(_float fTimeDelta)
 
 void CState_WDR_Esther_Bahuntur::Tick_State_NoneControl(_float fTimeDelta)
 {
+	if (20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEsther))
+	{
+		m_pPlayer->Get_WDR_Controller()->Get_EstherMessage((_uint)CEsther::ESTHERTYPE::BT);
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

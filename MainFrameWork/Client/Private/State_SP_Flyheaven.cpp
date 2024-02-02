@@ -58,7 +58,7 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
-		m_pController->Get_SkillStartMessage();
+		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage();
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFlyheaven))

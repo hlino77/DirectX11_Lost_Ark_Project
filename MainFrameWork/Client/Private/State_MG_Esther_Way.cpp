@@ -66,6 +66,11 @@ void CState_MG_Esther_Way::Tick_State_Control(_float fTimeDelta)
 
 void CState_MG_Esther_Way::Tick_State_NoneControl(_float fTimeDelta)
 {
+	if (20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEsther))
+	{
+		m_pPlayer->Get_MG_Controller()->Get_EstherMessage((_uint)CEsther::ESTHERTYPE::WY);
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

@@ -45,6 +45,8 @@ HRESULT CEsther_Cut::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	
+	m_IsFinished = true;
+
 	return S_OK;
 }
 

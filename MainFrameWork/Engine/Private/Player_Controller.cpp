@@ -287,7 +287,7 @@ _bool CPlayer_Controller::Is_Attack()
 
 void CPlayer_Controller::Get_SkillStartMessage()
 {
-	if (nullptr == m_pSkills[m_eSelectedSkill] || true == m_pSkills[m_eSelectedSkill]->Is_Active())
+	if (nullptr == m_pSkills[m_eSelectedSkill])
 		return;
 
 	m_pSkills[m_eSelectedSkill]->Enter();
@@ -779,10 +779,12 @@ void CPlayer_Controller::Skill_ChangeStat_CoolTime(const _float& fTimeDelta)
 
 void CPlayer_Controller::Skill_Check_Collider()
 {
-	if (SKILL_KEY::_END == m_eSelectedSkill)
-		return;
+	for (auto& pSkill : m_pSkills)
+	{
+		if (nullptr == pSkill) continue;
 
-	m_pSkills[m_eSelectedSkill]->Check_ColliderState();
+		pSkill->Check_ColliderState();
+	}
 }
 
 void CPlayer_Controller::StatusEffect_Duration(const _float& fTimeDelta)

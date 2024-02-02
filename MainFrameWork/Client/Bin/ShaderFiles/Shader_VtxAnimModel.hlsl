@@ -4,8 +4,7 @@
 float4	g_vHairColor_1;
 float4	g_vHairColor_2;
 bool    g_bDissolve = false;
-matrix	g_BoneMatrices[800];
-
+matrix g_BoneMatrices[800];
 
 VS_OUT VS_MAIN_NO_NORMAL(SKELETAL_IN In)
 {
@@ -99,6 +98,41 @@ VS_OUT_SHADOW VS_SHADOW(SKELETAL_IN In)
 
     Out.vPosition = mul(vPosition, matWVP);
     Out.vProjPos = Out.vPosition;
+	
+    return Out;
+}
+
+VS_OUT_OUTLINE VS_MAIN_OUTLINE(SKELETAL_IN In)
+{
+    VS_OUT_OUTLINE Out = (VS_OUT_OUTLINE) 0;
+
+    matrix matWVP;
+
+    matWVP = mul(WorldMatrix, ViewProj);
+
+    float fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+	
+    float4x4 vMatX = g_BoneMatrices[In.vBlendIndex.x];
+    float4x4 vMatY = g_BoneMatrices[In.vBlendIndex.y];
+    float4x4 vMatZ = g_BoneMatrices[In.vBlendIndex.z];
+    float4x4 vMatW = g_BoneMatrices[In.vBlendIndex.w];
+
+    float4x4 BoneMatrix = vMatX * In.vBlendWeight.x +
+		vMatY * In.vBlendWeight.y +
+		vMatZ * In.vBlendWeight.z +
+		vMatW * fWeightW;
+
+    vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
+
+    Out.vPosition = mul(vPosition, matWVP);
+    Out.vNormal = normalize(mul(vNormal, WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+    
+    Out.vTexUV = In.vTexUV;
+    Out.vProjPos = Out.vPosition;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
+    Out.vWorldPos = mul(vPosition, WorldMatrix);
 	
     return Out;
 }
@@ -377,6 +411,28 @@ PS_OUT_PHONG PS_DIFFUSE(VS_OUT In)
     return Out;
 }
 
+float4 PS_ALPHA(VS_OUT_OUTLINE In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    if (g_bDissolve == true)
+        ComputeDissolveColor(vColor, In.vTexUV);
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+
+    float4 vDir = float4(CameraPosition(), 1.f) - In.vWorldPos;
+    
+    float fDot = dot(normalize(vDir), In.vNormal);
+    fDot = pow(fDot, 2.f);
+    
+    if (0.1f >= fDot)
+    {
+        vColor = float4(0.f, 0.f, 0.f, 1.f);
+    }
+    
+    return vColor;
+}
+
 technique11 DefaultTechnique
 {
     pass PBR // 0
@@ -432,5 +488,16 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_CHANGECOLOR();
+    }
+
+    pass Alpha // 4
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_ALPHA();
     }
 }

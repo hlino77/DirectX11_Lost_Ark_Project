@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PartObject.h"
 #include "Esther.h"
+#include "Esther_Bahuntur_Cut.h"
 
 #include "Esther_Bahuntur_Skill_Ceiling.h"
 #include "Esther_Bahuntur_Skill_Floor.h"
@@ -69,6 +70,7 @@ void CEsther_Bahuntur_Skill::Tick(_float fTimeDelta)
 		return;
 
 	Act1(fTimeDelta);
+	Cut_Start(fTimeDelta);
 	Act2(fTimeDelta);
 	Act3(fTimeDelta);
 
@@ -134,6 +136,15 @@ void CEsther_Bahuntur_Skill::Act1(_float fTimeDelta)
 			m_fAnimationSpeed = 1.f;
 
 		m_bAnim = true;
+	}
+}
+
+void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
+{
+	if (30 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
+		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
 	}
 }
 

@@ -26,23 +26,21 @@ public:
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();
 	virtual void	Get_DeadMessage();
+	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
+	void			Get_SP_IdentityMessage();
 
 	/* 아덴 관련 함수 */
 	_uint			Is_SP_Identity();
-	const _float&		Get_IdenGage() { return m_fIdentityGage; }
-	const _float&		Get_IdenMaxGauge() { return m_fMaxGage; }
+	const _float&	Get_IdenGage() { return m_fIdentityGage; }
+	const _float&	Get_IdenMaxGauge() { return m_fMaxGage; }
 	const _int&		Get_CurrMarble() { return m_iMarbleCnt; }
-	const	_uint& Get_IdenSkill() { return m_iIdenSkill; }
+	const _uint&    Get_IdenSkill() { return m_iIdenSkill; }
+	void			Increase_IdenGage(_float iGage);
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 	void			Set_Attack_Desc(_uint iIndex) { m_AttackDesc = m_Attack_Desces[iIndex]; }
 	CPlayer_Skill*  Get_PlayerSkill_MG(SKILL_KEY eKey);
-
-public:
-	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
-	void			Get_SP_IdentityMessage();
-	void			Increase_IdenGage(_float iGage);
 
 private:
 	virtual void	Input(const _float& fTimeDelta) override;

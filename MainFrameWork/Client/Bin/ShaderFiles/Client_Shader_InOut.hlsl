@@ -88,6 +88,17 @@ struct VS_OUT
     float3  vTangent : TANGENT;
 };
 
+struct VS_OUT_OUTLINE
+{
+    float4 vPosition : SV_POSITION;
+    float4 vNormal : NORMAL;
+    float3 vNormalV : NORMALV;
+    float2 vTexUV : TEXCOORD0;
+    float4 vProjPos : TEXCOORD1;
+    float4 vWorldPos : TEXCOORD2;
+    float3 vTangent : TANGENT;
+};
+
 struct VS_OUT_INSTANCE
 {
     float4  vPosition : SV_POSITION;
