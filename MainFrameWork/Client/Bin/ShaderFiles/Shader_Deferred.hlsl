@@ -266,14 +266,14 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	    float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
 		if (abs(fRimLight - 0.9f) < 0.03f)
 		{
-			vRimLightColor = float3(0.f, 0.4f, 0.7f);
+			vRimLightColor = float3(0.f, 0.2f, 0.45f);
 		}
 		if (abs(fRimLight - 0.8f) < 0.03f)
 		{
 			vRimLightColor = float3(0.4f, 0.7f, 0.5f);
 		}
 		ComputeRimLight(vRimLightColor, N, -V);
-	    vColor = vRimLightColor;
+	    vColor += vRimLightColor;
 	}
 	
 	return float4(vColor, 1.f);
