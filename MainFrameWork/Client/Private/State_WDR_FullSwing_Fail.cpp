@@ -180,11 +180,10 @@ void CState_WDR_FullSwing_Fail::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_WDR_FullSwing_Fail::Effect_TrailStart()
 {
-	vector<CEffect*> Effects;
 	auto func = bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
 	TRAIL_START_OUTLIST(TEXT("FullSwingTrail1"), func, m_Trail1);
 
-	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Matrix& matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	CEffect_Manager::EFFECTPIVOTDESC tDesc;
 	tDesc.pPivotMatrix = &matWorld;
 	EFFECT_START_OUTLIST(L"FullSwingSmoke", &tDesc, m_Effects);
@@ -192,7 +191,6 @@ void CState_WDR_FullSwing_Fail::Effect_TrailStart()
 
 void CState_WDR_FullSwing_Fail::Effect_TrailStart2()
 {
-	vector<CEffect*> Effects;
 	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 	TRAIL_START_OUTLIST(TEXT("FullSwingTrail2"), func, m_Trail2);
 }

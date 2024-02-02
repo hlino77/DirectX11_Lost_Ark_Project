@@ -4,6 +4,7 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Manager.h"
 #include "Model.h"
 
 CState_WR_FuriousClaw_End::CState_WR_FuriousClaw_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -38,6 +39,10 @@ void CState_WR_FuriousClaw_End::Enter_State()
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iFuriousClaw_End, 1.f);
 
+	m_bEffectStart = false;
+	m_bTrail = false;
+	m_Trail.clear();
+
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 }
 
@@ -54,8 +59,32 @@ void CState_WR_FuriousClaw_End::Exit_State()
 
 void CState_WR_FuriousClaw_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_End))
+	if (!m_bEffectStart && m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_End))
 	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		if (static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		{
+			if (!m_bTrail)
+			{
+				m_bTrail = true;
+
+				auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+				TRAIL_START_OUTLIST(TEXT("Slayer_Rage_FuriousClaw_Trail"), func, m_Trail)
+			}
+
+			EFFECT_START(TEXT("Slayer_Rage_FuriousClaw3"), &desc)
+			EFFECT_START(TEXT("Slayer_Rage_FuriousClaw4"), &desc)
+		}
+		else
+		{
+			EFFECT_START(TEXT("Slayer_FuriousClaw3"), &desc)
+			EFFECT_START(TEXT("Slayer_FuriousClaw4"), &desc)
+		}
+
+		m_bEffectStart = true;
+
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
