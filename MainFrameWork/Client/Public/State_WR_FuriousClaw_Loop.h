@@ -30,6 +30,11 @@ private:
 	//Animation
 	_int m_iFuriousClaw_Loop = 0;
 
+	_uint m_iEffectCnt = 0;
+	_bool m_EffectStart[3] = { false, false, false };
+	_bool m_bTrail = false;
+	vector<class CEffect*> m_Trail;
+
 public:
 	static CState_WR_FuriousClaw_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;

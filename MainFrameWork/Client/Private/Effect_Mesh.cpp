@@ -38,6 +38,8 @@ HRESULT CEffect_Mesh::Initialize(void* pArg)
 void CEffect_Mesh::Tick(_float fTimeDelta)
 {
 	Super::Tick(fTimeDelta);
+
+	Run_Sequence(fTimeDelta);
 }
 
 void CEffect_Mesh::LateTick(_float fTimeDelta)
@@ -62,6 +64,33 @@ HRESULT CEffect_Mesh::Render()
 
 	return S_OK;
 }
+
+void CEffect_Mesh::Run_Sequence(const _float& fTimeDelta)
+{
+	if (m_IsSequence && m_bRender)
+	{
+		m_fSequenceTimer += fTimeDelta;
+		while (m_fSequenceTimer >= m_fSequenceTerm)
+		{
+			m_fSequenceTimer -= m_fSequenceTerm;
+			++m_Variables.vUV_TileIndex.x;
+
+			if (m_Variables.vUV_TileIndex.x >= m_Variables.vUV_TileCount.x)
+			{
+				m_Variables.vUV_TileIndex.x = 0.0f;
+				++m_Variables.vUV_TileIndex.y;
+				if (m_Variables.vUV_TileIndex.y >= m_Variables.vUV_TileCount.y)
+				{
+					if (m_IsLoop)
+						m_Variables.vUV_TileIndex.y = 0.0f;
+					else
+						m_bRender = false;
+				}
+			}
+		}
+	}
+}
+
 
 HRESULT CEffect_Mesh::Ready_Components()
 {
