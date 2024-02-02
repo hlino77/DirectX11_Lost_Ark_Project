@@ -25,10 +25,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10_Server::OnUpdate(const _float& fT
 		
 		return BT_SUCCESS;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[2].iAnimIndex)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
+	{
+		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 		static_cast<CMonster_Server*>(m_pGameObject)->Move_Dir(static_cast<CMonster_Server*>(m_pGameObject)->Get_Target_Direction(),
-			0.6f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed(),fTimeDelta);
-
+			0.7f * static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed(), fTimeDelta);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

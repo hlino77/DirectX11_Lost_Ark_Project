@@ -21,8 +21,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8_Server::OnUpdate(const _float& fTi
 {
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() && static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() != 3)
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
-		
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);		
 		return BT_SUCCESS;
 	}
 	return __super::OnUpdate(fTimeDelta);

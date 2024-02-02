@@ -143,57 +143,59 @@ void CBoss_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
-		if (!m_IsInvincible)
-		{
-			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
-			_uint iGroggy_Result = iGroggy;
-			_bool	bGroggyObsorb = false;
-			m_iHp -= iDamage_Result;
-			if (m_IsGroggyLock)
-				iGroggy_Result = 0;
-			if (m_iGroggyCount > 0&& m_iMaxGroggyCount > 0)
+	{
+		WRITE_LOCK
+			if (!m_IsInvincible)
 			{
-				m_iGroggyCount -= iGroggy_Result;
-				bGroggyObsorb = true;
-				if (m_iGroggyCount < 1)
+				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
+				_uint iGroggy_Result = iGroggy;
+				_bool	bGroggyObsorb = false;
+				m_iHp -= iDamage_Result;
+				if (m_IsGroggyLock)
+					iGroggy_Result = 0;
+				else if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
+				{
+					m_iGroggyCount -= iGroggy_Result;
+					bGroggyObsorb = true;
+					if (m_iGroggyCount < 1)
+					{
+						m_IsHit = true;
+						m_bSkipAction = true;
+						m_IsGroggy = true;
+						m_iGroggyCount = 0;
+						m_iMaxGroggyCount = 0;
+					}
+				}
+				else if (!m_IsGroggy && m_iGroggyGauge > 0 && !m_IsGroggyLock)
+					m_iGroggyGauge -= iGroggy_Result;
+
+
+				if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
+					m_iArmorDurability -= iDamage;
+				if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+				{
+					m_bSkipAction = true;
+					m_IsHit = true;
+					m_IsCounterSkill = false;
+					m_IsCountered = true;
+				}
+				if (m_iGroggyGauge < 1 )
 				{
 					m_IsHit = true;
 					m_bSkipAction = true;
 					m_IsGroggy = true;
-					m_iGroggyCount = 0;
-					m_iMaxGroggyCount = 0;
 				}
+
+
+				m_fStatusEffects[iStatusEffect] += fDuration;
+				if (m_iHp < 1.f && m_iPhase == 2)
+					m_iHp = 1;
+
+				if (m_iHp < 1.f)
+					m_IsHit = true;
+				Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
 			}
-			else if (!m_IsGroggy && m_iGroggyGauge > 0&&!m_IsGroggyLock)
-				m_iGroggyGauge -= iGroggy_Result;
-
-
-			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
-				m_iArmorDurability -= iDamage;
-			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
-			{
-				m_bSkipAction = true;
-				m_IsHit = true;
-				m_IsCounterSkill = false;
-				m_IsCountered = true;
-			}
-			if ((_uint)STATUSEFFECT::GROGGY == iStatusEffect || m_iGroggyGauge < 1)
-			{
-				m_IsHit = true;
-				m_bSkipAction = true;
-				m_IsGroggy = true;
-			}
-
-
-			m_fStatusEffects[iStatusEffect] += fDuration;
-			if (m_iHp < 1.f && m_iPhase == 2)
-				m_iHp = 1;
-
-			if (m_iHp < 1.f)
-				m_IsHit = true;
-
-			Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
-		}
+	}
 }
 
 void CBoss_Server::Move_to_SpawnPosition()

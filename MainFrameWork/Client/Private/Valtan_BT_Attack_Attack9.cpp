@@ -4,6 +4,9 @@
 #include "Model.h"
 #include "Transform.h"
 #include "GameInstance.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 #include <Skill.h>
 
 CValtan_BT_Attack_Attack9::CValtan_BT_Attack_Attack9()
@@ -22,6 +25,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack9::OnUpdate(const _float& fTimeDelta
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 95 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 50.0f, 0.1f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -49,7 +53,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack9::OnUpdate(const _float& fTimeDelta
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
-		ModelDesc.pOwner = m_pGameObject;
+		ModelDesc.pOwner = m_pGameObject;		
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 50.0f, 0.1f, 10.0f);
 
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
 		if (pSkill != nullptr)

@@ -71,7 +71,7 @@ HRESULT CSKill_Valtan_RainingAxe::Render()
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
 		return E_FAIL;
 
-	_float fRimLight = 0.5f;
+	_float fRimLight = 0.8f;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 	_int	iDissolve = false;
@@ -152,9 +152,9 @@ HRESULT CSKill_Valtan_RainingAxe::Ready_Components()
 	if (FAILED(__super::Add_Component(m_iCurrLevel, TEXT("Prototype_Component_Model_Skill_Boss_Valtan_Axe"), TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 	Vec3 vScale;
-	vScale.x = 1.f;
-	vScale.y = 1.f;
-	vScale.z = 1.f;
+	vScale.x = 1.5f;
+	vScale.y = 1.5f;
+	vScale.z = 1.5f;
 
 	m_pTransformCom->Set_Scale(vScale);
     return S_OK;

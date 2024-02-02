@@ -193,7 +193,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
     float fMetallic = vProperties.x /* юс╫ц */ /* * 0.8f*/;
     float fRoughness = vProperties.y;
     float fRimLight = vProperties.w;
-	
+
     float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 	
     float fAO = 1.f;
@@ -264,8 +264,16 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	if (fRimLight != 0.0f)
 	{
 	    float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
-	    ComputeRimLight(vRimLightColor, N, -V);
-	    vColor += vRimLightColor;
+		if (abs(fRimLight - 0.9f) < 0.03f)
+		{
+			vRimLightColor = float3(0.f, 0.4f, 0.7f);
+		}
+		if (abs(fRimLight - 0.8f) < 0.03f)
+		{
+			vRimLightColor = float3(0.4f, 0.7f, 0.5f);
+		}
+		ComputeRimLight(vRimLightColor, N, -V);
+	    vColor = vRimLightColor;
 	}
 	
 	return float4(vColor, 1.f);

@@ -75,7 +75,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1::OnUpdate(const _float& fTimeDelta
 
 void CValtan_BT_Attack_Attack1::OnEnd()
 {
-	__super::OnEnd();
+	__super::OnEnd();		
+	static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));

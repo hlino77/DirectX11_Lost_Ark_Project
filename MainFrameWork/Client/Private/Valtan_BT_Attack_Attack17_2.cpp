@@ -7,6 +7,9 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "ColliderSphere.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack17_2::CValtan_BT_Attack_Attack17_2()
 {
@@ -24,9 +27,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_2::OnUpdate(const _float& fTimeDe
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[0].iAnimIndex) - 3 && m_bShoot)
+	if (m_iCurrAnimation == 2 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 31 && m_bShoot)
 	{
 		m_bShoot = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -43,7 +47,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_2::OnUpdate(const _float& fTimeDe
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(20.f);
 			static_cast<CSkill*>(pSkill)->Set_Atk(70);
-			static_cast<CSkill*>(pSkill)->Set_Force(0.f);
+			static_cast<CSkill*>(pSkill)->Set_Force(42.f);
 		}
 
 	}
@@ -57,6 +61,7 @@ void CValtan_BT_Attack_Attack17_2::OnEnd()
 	if (static_cast<CBoss*>(m_pGameObject)->Get_Action() == L"Action_Counter")
 	{
 		CSkill::ModelDesc ModelDesc = {};
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;

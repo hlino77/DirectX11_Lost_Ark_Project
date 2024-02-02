@@ -23,7 +23,9 @@
 #include "Projectile.h"
 #include "UI_Boss_Hp.h"
 #include "UI_Manager.h"
-
+#include <Camera_Player.h>
+#include "ServerSessionManager.h"
+#include "Player.h"
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -83,6 +85,8 @@ void CBoss::Tick(_float fTimeDelta)
 void CBoss::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	if (m_IsCounterSkill)
+		Set_RimLight(0.1f,0.9f);
 }
 
 HRESULT CBoss::Render()
@@ -146,7 +150,15 @@ void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _flo
 		m_iGroggyCount = 0;
 		m_iMaxGroggyCount = 0;
 	}
-	Set_RimLight(0.05f);
+	if (iDamage == 0.f)
+	{
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.3f, 100.0f, 1.5f, 9.0f);
+		if(vHitPos.x == (_float)STATUSEFFECT::GROGGY)
+			Set_RimLight(0.05f,1.f);
+	}
+	else
+		Set_RimLight(0.05f, 1.f);
+
 }
 
 void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
@@ -230,7 +242,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		if (pOther->Get_Owner()->Get_ModelName() == L"ITR_02307_Pillar_Small")
 		{
 			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(2.f);
+			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(3.f);
 			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(2.46f, 0.f, -1.65f));
 			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-spine")));
 			m_iAtk=0;

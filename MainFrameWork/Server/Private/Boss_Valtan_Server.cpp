@@ -97,6 +97,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
+	//m_bTest = true;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	m_vecAttackRanges.clear();
@@ -109,12 +110,13 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 0.f;
 	m_iMaxHp = 1991561183;
+	//8214139495
 	m_iHp = m_iMaxHp;
 	m_iMaxArmorDurability = (_uint)((_float)m_iMaxHp / 160.f * 3.f);
 	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
-	m_iMaxGroggyGauge = 1000;
+	m_iMaxGroggyGauge = 2000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	return S_OK;
 }
@@ -157,6 +159,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
 			_uint iGroggy_Result = iGroggy;
 			_bool	bGroggyObsorb = false;
+			STATUSEFFECT eEfect = STATUSEFFECT::EFFECTEND;
 			m_iHp -= iDamage_Result;
 			if (m_IsGroggyLock)
 				iGroggy_Result = 0;
@@ -186,6 +189,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				m_iArmorDurability -= iDamage;
 			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
 			{
+				eEfect = STATUSEFFECT::COUNTER;
 				m_bSkipAction = true;
 				m_IsHit = true;
 				m_IsCounterSkill = false;
@@ -193,6 +197,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 			}
 			if ( m_iGroggyGauge < 1|| (_uint)STATUSEFFECT::GROGGY == iStatusEffect &&m_IsRush)
 			{
+				eEfect = STATUSEFFECT::GROGGY;
 				m_IsHit = true;
 				m_bSkipAction = true;
 				m_IsGroggy = true;
@@ -206,7 +211,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 
 			if (m_iHp < 1.f)
 				m_IsHit = true;
-			Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
+			Send_Collision(iDamage_Result, Vec3(_float(eEfect), _float(eEfect), _float(eEfect)) , m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
 		}
 }
 
@@ -829,7 +834,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 0.7f;
+	AnimationDesc.fMaxLoopTime = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1018,7 +1023,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 
-	AnimationDesc.strAnimName = TEXT("att_battle_14_04-1");
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -1049,7 +1054,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_14_04-1");
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -1791,35 +1796,39 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 		CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 		CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
+		if (m_bTest == false)
 		{
-		//원래 기본 패턴
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
-			return E_FAIL;
-		if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
-			return E_FAIL;
+			//원래 기본 패턴
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack10)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack8)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack14)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack3)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+				return E_FAIL;
+			if (FAILED(pSequenceNormalAttack->AddChild(pRepeat_99)))
+				return E_FAIL;
 
 		}
-		//// 테스트용
-		/*if (FAILED(pSequenceNormalAttack->AddChild(pAttack24)))
-				return E_FAIL;*/
+		else
+		{
+			// 테스트용
+			if (FAILED(pSequenceNormalAttack->AddChild(pAttack23)))
+				return E_FAIL;
+		}
 
 
 		DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;

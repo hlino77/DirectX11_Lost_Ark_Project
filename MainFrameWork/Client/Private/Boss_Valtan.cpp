@@ -74,7 +74,7 @@ HRESULT CBoss_Valtan::Initialize_Prototype()
 
 HRESULT CBoss_Valtan::Initialize(void* pArg)
 {
-	m_iMaxGroggyGauge = 1000;
+	m_iMaxGroggyGauge = 2000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 1991561183;
 	m_iHp = m_iMaxHp;
@@ -176,10 +176,9 @@ HRESULT CBoss_Valtan::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
 	}
-
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
+	if (m_bRimLight)
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
+			return E_FAIL;
 	Color vValtanBloom = Color(0.4f, 1.6f, 1.3f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
@@ -974,7 +973,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 0.7f;
+	AnimationDesc.fMaxLoopTime = 1.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1178,6 +1177,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_Attack15";
 	CBT_Action* pAttack15 = CValtan_BT_Attack_Attack15::Create(&ActionDesc);
 
+
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
 	AnimationDesc.iStartFrame = 0;
@@ -1201,7 +1201,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 
-	AnimationDesc.strAnimName = TEXT("att_battle_14_04-1");
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
@@ -1238,7 +1238,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	AnimationDesc.strAnimName = TEXT("att_battle_14_04-1");
+	AnimationDesc.strAnimName = TEXT("att_battle_14_04-2");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;

@@ -7,6 +7,9 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "ColliderSphere.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack10::CValtan_BT_Attack_Attack10()
 {
@@ -21,8 +24,11 @@ void CValtan_BT_Attack_Attack10::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[2].iAnimIndex)
-		static_cast<CMonster*>(m_pGameObject)->Move_Dir(static_cast<CMonster*>(m_pGameObject)->Get_Target_Direction(),
-			0.6f* static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed(),fTimeDelta);
+	{
+		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction();
+		static_cast<CBoss*>(m_pGameObject)->Move_Dir(static_cast<CBoss*>(m_pGameObject)->Get_Target_Direction(),
+			0.7f * static_cast<CBoss*>(m_pGameObject)->Get_MoveSpeed(), fTimeDelta);
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 37 && m_bShoot)
 	{
 		m_bShoot = false;
@@ -30,7 +36,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack10::OnUpdate(const _float& fTimeDelt
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 50.0f, 0.3f, 10.0f);
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SeismicWave", &ModelDesc);
 		if (pSkill != nullptr)
 		{

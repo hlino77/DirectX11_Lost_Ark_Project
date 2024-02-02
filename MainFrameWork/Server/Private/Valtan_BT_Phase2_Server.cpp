@@ -43,7 +43,7 @@ void CValtan_BT_Phase2_Server::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss_Server*>(m_pGameObject)->Reset_SkillStack();
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
-	
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(2);
 }
 

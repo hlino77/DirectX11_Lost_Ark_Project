@@ -124,6 +124,7 @@ void CMonster::LateTick(_float fTimeDelta)
 		{
 			m_fRimLightTime = 0.0f;
 			m_bRimLight = false;
+			m_fRimLightColor = 0.f;
 		}
 	}
 }
@@ -152,9 +153,9 @@ HRESULT CMonster::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
 	}
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
+	if (m_bRimLight)
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
+			return E_FAIL;
 
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
@@ -266,7 +267,7 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 		_uint iDataIndex = iIndex * iSizePerInstance;
 		_uint iID = iIndex;
 		Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
-		matWorld.m[0][3] = (_float)m_bRimLight;
+		matWorld.m[0][3] = (_float)m_fRimLightColor;
 		if (m_bDissolveIn || m_bDissolveOut)
 		{
 			_float fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
@@ -443,7 +444,7 @@ void CMonster::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _
 
 
 
-	Set_RimLight(0.05f);
+	Set_RimLight(0.05f,1.f);
 }
 
 void CMonster::Send_Collision(_uint iDamage, Vec3 vHitPos, STATUSEFFECT eEffect, _float fForce, _float fDuration, _uint iGroggy)

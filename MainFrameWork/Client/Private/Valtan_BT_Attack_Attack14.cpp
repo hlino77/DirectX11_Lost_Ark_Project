@@ -6,6 +6,9 @@
 #include "GameInstance.h"
 #include "ColliderSphere.h"
 #include <Skill.h>	
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack14::CValtan_BT_Attack_Attack14()
 {
@@ -102,7 +105,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack14::OnUpdate(const _float& fTimeDelt
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 8 && m_bShoot)
 	{
-		m_bShoot = false;
+		m_bShoot = false;	
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.8f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;

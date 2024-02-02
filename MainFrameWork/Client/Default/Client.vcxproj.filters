@@ -4592,9 +4592,6 @@
     <ClInclude Include="..\Public\Valtan_BT_Spawn.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster.h">
-      <Filter>02.GameObjects\Static</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\IT_SP_Body_Dino.h">
       <Filter>02.GameObjects\Item\Equip\SP\Gear\SP_Body_Dino</Filter>
     </ClInclude>
@@ -4771,6 +4768,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ItemCode.h">
       <Filter>02.GameObjects\Item</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

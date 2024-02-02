@@ -8,6 +8,9 @@
 #include <Skill_Valtan_DoughnutSecondHit.h>
 #include "ColliderSphere.h"
 #include "GameInstance.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack8::CValtan_BT_Attack_Attack8()
 {
@@ -42,9 +45,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 94)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 45)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 66)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 94 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 90.0f, 0.1f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -59,7 +67,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			vPos += vLook * 2.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(7.5f,2.3f);
+			static_cast<CSkill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(7.5f,3.3f);
 		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 68 && m_bShoot[1])
@@ -78,7 +86,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(6.f, 2.3f);
+			static_cast<CSkill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(6.f, 4.3f);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutSecondHit", &ModelDesc);
@@ -89,7 +97,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack8::OnUpdate(const _float& fTimeDelta
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill_Valtan_DoughnutSecondHit*>(pSkill)->Set_DoughnutRadii(9.f, 5.3f);
+			static_cast<CSkill_Valtan_DoughnutSecondHit*>(pSkill)->Set_DoughnutRadii(10.f, 5.3f);
 		}
 	}
 
