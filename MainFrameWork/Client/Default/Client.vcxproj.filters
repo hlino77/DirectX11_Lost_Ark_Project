@@ -4759,12 +4759,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\State_SP_Flyheaven.h">
       <Filter>02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\UI_IdentitySP.h">
       <Filter>02.GameObjects\UI\03.Identity\04.Yinyanshi</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\SKill_Valtan_RainingAxe.h">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Manager.h">
+      <Filter>02.GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemCode.h">
+      <Filter>02.GameObjects\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7862,6 +7868,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SKill_Valtan_RainingAxe.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Manager.cpp">
+      <Filter>02.GameObjects\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -46,6 +46,7 @@ public:
 		wstring szNickName;
 		_int	iWeaponIndex;
 		_uint	iCurrLevel;
+		_int*	pItemCodes = nullptr;
 	}MODELDESC;
 
 public:
@@ -199,13 +200,18 @@ public:
 	
 	//D
 	HRESULT							Add_Item(wstring strItemTag, class CItem* pItem);
-	HRESULT							Use_Item(wstring strItemTag, _uint iSize = 1);
+	HRESULT							Use_Item(wstring strItemTag, _uint iSize = 1, _bool bSend = true);
 	CItem*							Get_EquipItem(_uint iPartIndex) { return m_pEqupis[iPartIndex]; }
 	void							Set_EquipItem(_uint iPartIndex, CItem* pEquipItem) { m_pEqupis[iPartIndex] = pEquipItem; }
+	void							Send_Equips();
+
 
 	void							Add_Effect(const wstring& szEffectName, CEffect* pEffect);
 	void							Delete_Effect(const wstring& szEffectName);
+	void							Delete_Effect_Trail(const wstring& szEffectName, _float fRemainTime);
 	CEffect*						Get_Effect(const wstring& szEffectName);
+
+	
 public:
 	/* 플레이어 상태 세팅 */
 	const _bool&			Is_SuperArmor() { return  m_IsSuperArmor; }
@@ -234,12 +240,15 @@ public:
 	HRESULT					Equipment_Index_Reset(wstring strItemTag);
 	HRESULT					Equipment_Index_Reallocated(wstring strItemTag);//재할당
 
+	
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
 	HRESULT					Ready_SpeechBuble();
 	HRESULT					Ready_NamePlate();
 	HRESULT					Ready_Inventory();
+	HRESULT					Ready_Item_NoneControl(_int* ItemCodes);
 
 	void					CullingObject();
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);

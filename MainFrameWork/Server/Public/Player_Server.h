@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Server_Defines.h"
 #include "GameObject.h"
 
@@ -11,7 +10,6 @@ class CRenderer;
 class CTransform;
 class CPipeLine;
 END
-
 
 BEGIN(Server)
 
@@ -30,6 +28,7 @@ public:
 		_int	iWeaponIndex;
 		_uint	iCurrLevel;
 		shared_ptr<CGameSession> pGameSession = nullptr;
+		_int* pItemCodes = nullptr;
 	}MODELDESC;
 private:
 	CPlayer_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -51,6 +50,9 @@ public:
 
 
 	_uint		Get_Class() { return m_iClass; }
+
+	void	Set_Equips(_int* pItemCodes);
+	_int*	Get_Equips() { return m_Equpis; }
 public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
 
@@ -78,6 +80,8 @@ private:
 	
 
 	wstring m_szNickName;
+
+	_int m_Equpis[(_uint)ITEMPART::_END];
 public:
 	static CPlayer_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

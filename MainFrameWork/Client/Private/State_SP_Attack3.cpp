@@ -8,6 +8,9 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Trail.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
 
 CState_SP_Attack3::CState_SP_Attack3(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -27,7 +30,7 @@ HRESULT CState_SP_Attack3::Initialize()
 
 
 	/* 일반공격 프레임 */
-	m_AttackFrames.push_back(17);
+	m_AttackFrames.push_back(18);
 	m_AttackFrames.push_back(-1);
 
 	return S_OK;
@@ -40,6 +43,8 @@ void CState_SP_Attack3::Enter_State()
 	m_pPlayer->Reserve_Animation(m_Attack_3, 0.2f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	static_cast<CController_SP*>(m_pController)->Set_Attack_Desc(0);
+
+	m_bEffect = false;
 }
 
 void CState_SP_Attack3::Tick_State(_float fTimeDelta)
@@ -50,19 +55,29 @@ void CState_SP_Attack3::Tick_State(_float fTimeDelta)
 void CState_SP_Attack3::Exit_State()
 {
 	m_IsAttackContinue = false;
+
+	TrailEnd();
 }
 
 void CState_SP_Attack3::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3);
+
+	if (m_bEffect == false && iAnimFrame > 16)
+	{
+		Effect_Shot();
+		m_bEffect = true;
+	}
+
+	if (m_AttackFrames[m_iAttackCnt] == iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_AttackMessage();
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		38 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3) &&
-		30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+		38 > iAnimFrame &&
+		30 <= iAnimFrame)
 	{
 		m_IsAttackContinue = true;
 	}
@@ -107,7 +122,7 @@ void CState_SP_Attack3::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 38 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+	else if (true == m_IsAttackContinue && 38 == iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -120,7 +135,7 @@ void CState_SP_Attack3::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (true == m_pController->Is_Run())
 	{
-		if (39 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+		if (39 < iAnimFrame)
 		{
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -135,6 +150,18 @@ void CState_SP_Attack3::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Attack3::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_Attack3::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"InkAttackTrail", 4.0f);
+}
+
+void CState_SP_Attack3::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"SP_Attack3", &tDesc);
 }
 
 CState_SP_Attack3* CState_SP_Attack3::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

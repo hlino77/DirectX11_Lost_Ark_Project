@@ -5,6 +5,8 @@
 #include "Controller_SP.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
 
 CState_SP_SkyKongKong_Start::CState_SP_SkyKongKong_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -40,6 +42,8 @@ void CState_SP_SkyKongKong_Start::Enter_State()
 
 
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_bTrail = false;
 }
 
 void CState_SP_SkyKongKong_Start::Tick_State(_float fTimeDelta)
@@ -49,19 +53,36 @@ void CState_SP_SkyKongKong_Start::Tick_State(_float fTimeDelta)
 
 void CState_SP_SkyKongKong_Start::Exit_State()
 {
-	if (true == m_pController->Is_HitState() && 20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
+
+	if (true == m_pController->Is_HitState())
 	{
-		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+		TrailEnd();
+
+		if (20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
+		{
+			m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+		}
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+
 }
 
 void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start);
+
+	if (m_bTrail == false)
 	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		Effect_Shot();
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
@@ -76,7 +97,7 @@ void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
 		m_bComboContinue = true;
 	}
 
-	if (20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start) && true == m_bComboContinue)
+	if (20 == iAnimFrame && true == m_bComboContinue)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -86,8 +107,10 @@ void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Skill_SP_SkyKongKong_Loop"));
 	}
-	else if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
+	else if (30 <= iAnimFrame)
 	{
+		TrailEnd();
+
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
@@ -147,6 +170,26 @@ void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
 void CState_SP_SkyKongKong_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_SkyKongKong_Start::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"SkyKongKongShot", &tDesc);
+}
+
+void CState_SP_SkyKongKong_Start::Effect_Trail()
+{
+	vector<CEffect*> Effects;
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("SkyKongKongTrail"), func, Effects);
+	m_pPlayer->Add_Effect(L"SkyKongKongTrail", Effects.front());
+}
+
+void CState_SP_SkyKongKong_Start::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"SkyKongKongTrail", 5.0f);
 }
 
 CState_SP_SkyKongKong_Start* CState_SP_SkyKongKong_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

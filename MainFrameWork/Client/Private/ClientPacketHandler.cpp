@@ -19,7 +19,8 @@
 #include "Party.h"
 #include "Skill_RisingSun.h"
 #include "Skill_TeleportDoor.h"
-
+#include "Item_Manager.h"
+#include "Item.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -478,6 +479,7 @@ bool Handel_S_CREATEPLAYER_Client(PacketSessionRef& session, Protocol::S_CREATE_
 	Desc.szNickName = CAsUtils::S2W(pkt.strnickname());
 	Desc.iWeaponIndex = pkt.iweaponindex();
 	Desc.iCurrLevel = pkt.ilevel();
+	Desc.pItemCodes = (_int*)pkt.itemcodes().data();
 
 	wstring szProtoName = L"Prototype_GameObject_Player_" + Desc.strFileName;
 
@@ -793,6 +795,58 @@ bool Handel_S_PLAYERTELEPORT_Client(PacketSessionRef& session, Protocol::S_PLAYE
 	pPlayer->Set_Render(true);
 
 	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_CHANGEEQUIP_Client(PacketSessionRef& session, Protocol::S_CHANGEEQUIP& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_uint iPlayerID = pkt.iplayerid();
+	CPlayer* pPlayer = nullptr;
+
+	if (CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID() == iPlayerID)
+	{
+		pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	}
+	else
+	{
+		pPlayer = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
+	}
+
+	if (pPlayer == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	for (_uint i = 0; i < (_uint)CItem::PART::_END; ++i)
+	{
+		_int iItemCode = pkt.itemcodes(i);
+
+		if (iItemCode == -1)
+		{
+			if (pPlayer->Get_EquipItem(i) != nullptr)
+			{
+				pPlayer->Get_EquipItem(i)->Disuse_Item(pPlayer, true);
+			}
+
+			continue;
+		}
+		else if (pPlayer->Get_EquipItem(i) == nullptr || (_int)pPlayer->Get_EquipItem(i)->Get_ItemCode() != iItemCode)
+		{
+			CItem* pItem = CItem_Manager::GetInstance()->Get_Item((ITEMCODE)iItemCode);
+
+			if (pItem == nullptr)
+			{
+				Safe_Release(pGameInstance);
+				return true;
+			}
+
+			pItem->Use_Item(pPlayer);
+		}
+	}
+
 	return true;
 }
 

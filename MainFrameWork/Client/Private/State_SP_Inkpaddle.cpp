@@ -5,6 +5,8 @@
 #include "Controller_SP.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
 
 CState_SP_Inkpaddle::CState_SP_Inkpaddle(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -39,6 +41,9 @@ void CState_SP_Inkpaddle::Enter_State()
 
 	m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_bEffect = false;
+	m_bTrail = false;
 }
 
 void CState_SP_Inkpaddle::Tick_State(_float fTimeDelta)
@@ -50,14 +55,30 @@ void CState_SP_Inkpaddle::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	TrailEnd();
 }
 
 void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkpaddle))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkpaddle);
+
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (m_bEffect == false && iAnimFrame == 12)
+	{
+		Effect_Shot();
+		m_bEffect = true;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iInkpaddle))
@@ -123,6 +144,28 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Inkpaddle::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_Inkpaddle::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"InkPaddle", &tDesc);
+}
+
+void CState_SP_Inkpaddle::Effect_Trail()
+{
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("InkPaddleTrail"), func, m_Trails);
+}
+
+void CState_SP_Inkpaddle::TrailEnd()
+{
+	for (auto& Trail : m_Trails)
+	{
+		dynamic_cast<CEffect_Trail*>(Trail)->TrailEnd(3);
+	}
+	m_Trails.clear();
 }
 
 CState_SP_Inkpaddle* CState_SP_Inkpaddle::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

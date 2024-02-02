@@ -105,6 +105,8 @@ namespace Server
 		SKILL_TELEPORTDOOR,
 		SKILLEND
 	};
+
+	enum class ITEMPART { FACE, HELMET, SHOULDER, BODY, ARM, LEG, WEAPON, _END };
 }
 
 extern atomic<_uint> g_iObjectID;

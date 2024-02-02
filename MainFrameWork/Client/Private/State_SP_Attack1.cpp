@@ -8,6 +8,9 @@
 #include "ColliderOBB.h"
 #include "Pool.h"
 #include "Projectile.h"
+#include "Effect_Trail.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
 
 CState_SP_Attack1::CState_SP_Attack1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -27,7 +30,7 @@ HRESULT CState_SP_Attack1::Initialize()
 
 
 	/* 일반공격 프레임 */
-	m_AttackFrames.push_back(7);
+	m_AttackFrames.push_back(9);
 	m_AttackFrames.push_back(-1);
 
 	return S_OK;
@@ -40,6 +43,9 @@ void CState_SP_Attack1::Enter_State()
 	m_pPlayer->Reserve_Animation(m_Attack_1, 0.2f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	static_cast<CController_SP*>(m_pController)->Set_Attack_Desc(0);
+
+	m_bEffect = false;
+	m_bTrail = false;
 }
 
 void CState_SP_Attack1::Tick_State(_float fTimeDelta)
@@ -51,25 +57,44 @@ void CState_SP_Attack1::Exit_State()
 {
 	m_IsAttackContinue = false;
 	m_IsChargeAttack = false;
+
+	if (m_pPlayer->Get_ServerState() != TEXT("Attack_2") && m_pPlayer->Get_ServerState() != TEXT("Attack_4"))
+	{
+		TrailEnd();
+	}
 }
 
 void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
+
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
+	if (m_bEffect == false && iAnimFrame > 7)
+	{
+		Effect_Shot();
+		m_bEffect = true;
+	}
+
+	if (m_AttackFrames[m_iAttackCnt] == iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_AttackMessage();
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		15 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
-		5 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		15 > iAnimFrame &&
+		5 <= iAnimFrame)
 	{
 		m_IsAttackContinue = true;
 	}
 	if (true == m_pController->Is_HoldorTap(KEY::RBTN) &&
-		20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
-		15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		20 > iAnimFrame &&
+		15 <= iAnimFrame)
 	{
 		m_IsAttackContinue = false;
 		m_IsChargeAttack = true;
@@ -115,7 +140,7 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 15 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	else if (true == m_IsAttackContinue && 15 == iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -126,7 +151,7 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Attack_2"));
 	}
-	else if (true == m_IsChargeAttack && 20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	else if (true == m_IsChargeAttack && 20 == iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -139,7 +164,7 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (true == m_pController->Is_Run() && false == m_IsAttackContinue)
 	{
-		if (20 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		if (20 < iAnimFrame)
 		{
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -154,6 +179,27 @@ void CState_SP_Attack1::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Attack1::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_Attack1::Effect_Trail()
+{
+	vector<CEffect*> Effects;
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("InkPaddleTrail"), func, Effects);
+
+	m_pPlayer->Add_Effect(L"InkAttackTrail", Effects.front());
+}
+
+void CState_SP_Attack1::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"InkAttackTrail", 4.0f);
+}
+
+void CState_SP_Attack1::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"SP_Attack1", &tDesc);
 }
 
 CState_SP_Attack1* CState_SP_Attack1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

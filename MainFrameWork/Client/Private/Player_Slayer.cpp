@@ -92,6 +92,7 @@
 #include "Skill.h"
 #include "Boss.h"
 #include "Item.h"
+#include "Item_Manager.h"
 
 #include "Esther_Way.h"
 
@@ -114,9 +115,6 @@ HRESULT CPlayer_Slayer::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	if (FAILED(Ready_Item()))
-		return E_FAIL;
-
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -134,6 +132,9 @@ HRESULT CPlayer_Slayer::Initialize(void* pArg)
 
 	if (m_bControl)
 	{
+		if (FAILED(Ready_Item()))
+			return E_FAIL;
+
 		if (FAILED(Ready_SkillUI()))
 			return E_FAIL;
 	}
@@ -885,59 +886,54 @@ HRESULT CPlayer_Slayer::Ready_PhysxBoneBranch()
 HRESULT CPlayer_Slayer::Ready_Item()
 {
 	CItem* pItem = nullptr;
+	CItem_Manager* pItemManager = GET_INSTANCE(CItem_Manager);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Helmet_Mococo")));
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_Helmet_Mococo);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	Use_Item(pItem->Get_ObjectTag());
+	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Body_Mococo")));
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_Body_Mococo);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	Use_Item(pItem->Get_ObjectTag());
+	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_WP_Mococo")));
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_WP_Mococo);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	Use_Item(pItem->Get_ObjectTag());
+	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_WP_Legend")));
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Body_Legend")));
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_WP_Legend);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Leg_Legend")));
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_Body_Legend);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WR_Helmet_Legend")));
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_Leg_Legend);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
+	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::WR_Helmet_Legend);
+	if (nullptr == pItem)
+		return E_FAIL;
+
+	Add_Item(pItem->Get_ObjectTag(), pItem);
+
+	Safe_Release(pItemManager);
 	return S_OK;
 }
 

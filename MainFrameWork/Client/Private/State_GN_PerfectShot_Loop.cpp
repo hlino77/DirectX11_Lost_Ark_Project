@@ -65,6 +65,8 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 	m_fEffectCharge2Acc = 0.3f;
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(true);
+
+
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)

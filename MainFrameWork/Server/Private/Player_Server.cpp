@@ -36,10 +36,10 @@ HRESULT CPlayer_Server::Initialize(void* pArg)
 	m_iClass = Desc->iClass;
 	m_iCurrLevel = Desc->iCurrLevel;
 
+	memcpy(m_Equpis, Desc->pItemCodes, sizeof(_int) * (_uint)ITEMPART::_END);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
-
 
     return S_OK;
 }
@@ -77,6 +77,11 @@ void CPlayer_Server::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 void CPlayer_Server::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 	
+}
+
+void CPlayer_Server::Set_Equips(_int* pItemCodes)
+{
+	memcpy(m_Equpis, pItemCodes, sizeof(_int) * (_uint)ITEMPART::_END);
 }
 
 

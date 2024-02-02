@@ -285,6 +285,7 @@
     <ClInclude Include="..\Public\BreakAbleObject_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h" />
+    <ClInclude Include="..\Public\ItemCode.h" />
     <ClInclude Include="..\Public\Monster_Prison_Server.h" />
     <ClInclude Include="..\Public\Npc_Server.h" />
     <ClInclude Include="..\Public\Skill_RisingSun_Server.h" />

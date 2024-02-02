@@ -274,6 +274,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\Item.h" />
+    <ClInclude Include="..\Public\ItemCode.h" />
+    <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\Public\Item_TestItem.h" />
     <ClInclude Include="..\Public\IT_GN_Body_Legend.h" />
     <ClInclude Include="..\Public\IT_GN_Body_Mococo.h" />
@@ -944,6 +946,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp" />
     <ClCompile Include="..\Private\Item.cpp" />
+    <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\Private\Item_TestItem.cpp" />
     <ClCompile Include="..\Private\IT_GN_Body_Legend.cpp" />
     <ClCompile Include="..\Private\IT_GN_Body_Mococo.cpp" />

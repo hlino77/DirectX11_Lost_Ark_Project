@@ -121,6 +121,7 @@ namespace Client
 		_bool	bOwn = { false };
 		_int	iIndex = { -1 };
 	};
+
 }
 
 #define EFFECT_START(name, pivotDesc)						CEffect_Manager::GetInstance()->Effect_Start(name, pivotDesc);

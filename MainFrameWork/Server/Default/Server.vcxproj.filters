@@ -989,6 +989,9 @@
     <ClInclude Include="..\Public\Valtan_BT_Dead_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ItemCode.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto">

@@ -26,6 +26,9 @@ private:
 	std::function<void(CState_SP_Attack2&, _float)> m_TickFunc;
 
 private:
+	void	TrailEnd();
+	void	Effect_Shot();
+private:
 	//Animation
 	_int m_Attack_2 = 0;
 
@@ -34,6 +37,7 @@ private:
 
 	_bool m_IsAttackContinue = false;
 
+	_bool m_bEffect = false;
 public:
 	static CState_SP_Attack2* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

@@ -25,6 +25,7 @@
 #include "LockFree_Transform.h"
 #include "UseLock_Transform.h"
 #include "BehaviorTree.h"
+#include "LevelControlManager.h"
 
 CMainApp_Server::CMainApp_Server()
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -79,6 +80,8 @@ HRESULT CMainApp_Server::Initialize()
 
 void CMainApp_Server::Tick(_float fTimeDelta)
 {
+	CLevelControlManager::GetInstance()->Update_LevelMove();
+
 	m_pGameInstance->FinalTick(fTimeDelta);
 
 	CGameSessionManager::GetInstance()->Tick(fTimeDelta);

@@ -5,6 +5,8 @@
 
 BEGIN(Client)
 
+class CEffect;
+
 class CState_SP_Inkshot final : public CState_Skill
 {
 public:
@@ -26,10 +28,18 @@ private:
 
 	std::function<void(CState_SP_Inkshot&, _float)> m_TickFunc;
 
+	void	Effect_Charge();
+	void	Charge_End();
+	void	Update_Effect();
+	void	Effect_Shot();
 private:
 	//Animation
 	_int m_iInkshot = 0;
 
+	_bool m_bEffect = false;
+	_bool m_bChargeEffect = false;
+
+	vector<CEffect*> m_Effects;
 public:
 	static CState_SP_Inkshot* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

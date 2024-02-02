@@ -25,8 +25,10 @@
 #include "UI_InGame_NamePlate.h"
 #include "UI_Inventory.h"
 #include "Effect.h"
+#include "Effect_Trail.h"
 
 #include "Item.h"
+#include "Item_Manager.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
@@ -78,8 +80,16 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_NamePlate()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Inventory()))
-		return E_FAIL;
+	if (m_bControl == false)
+	{
+		if (FAILED(Ready_Item_NoneControl(Desc->pItemCodes)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(Ready_Inventory()))
+			return E_FAIL;
+	}
 
 	m_pRigidBody->Set_Gravity(false);
 
@@ -444,7 +454,7 @@ HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 	return S_OK;
 }
 
-HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
+HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize, _bool bSend)
 {
 	auto& iter = m_ItemTags.find(strItemTag);
 	if ((iter == m_ItemTags.end())||(false == (*iter).second.bOwn))
@@ -468,6 +478,8 @@ HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
 			{
 				m_vecItemSlots[(*iter).second.iIndex].vecItems.pop_back();
 			}
+
+			pItem->Use_Item(this);
 		}
 		else if ((_uint)CItem::TYPE::EQUIP == m_vecItemSlots[(*iter).second.iIndex].vecItems.back()->Get_ItemType())
 		{
@@ -475,14 +487,38 @@ HRESULT CPlayer::Use_Item(wstring strItemTag, _uint iSize)
 			m_vecItemSlots[(*iter).second.iIndex].vecItems.clear();
 			(*iter).second.iIndex = -1;
 			//모코코 머리가 현재 0번에 들어있는데 인덱스가 -1들어가 터짐
-		}
 
-		pItem->Use_Item(this);
+			pItem->Use_Item(this);
+
+			if(bSend == true)
+				Send_Equips();
+		}
 	}
 	if (nullptr != m_pUI_Inventory)
 		m_pUI_Inventory->Update_Used_Item();
 
 	return S_OK;
+}
+
+void CPlayer::Send_Equips()
+{
+	Protocol::S_CHANGEEQUIP pkt;
+	pkt.set_ilevel(m_iCurrLevel);
+	pkt.set_iplayerid(m_iObjectID);
+
+	for (_uint i = 0; i < (_uint)PART::_END; ++i)
+	{
+		if (m_pEqupis[i] != nullptr)
+		{
+			pkt.add_itemcodes((_uint)m_pEqupis[i]->Get_ItemCode());
+		}
+		else
+		{
+			pkt.add_itemcodes(-1);
+		}
+	}
+	
+	CServerSessionManager::GetInstance()->Send(CClientPacketHandler::MakeSendBuffer(pkt));
 }
 
 void CPlayer::Add_Effect(const wstring& szEffectName, CEffect* pEffect)
@@ -497,6 +533,16 @@ void CPlayer::Delete_Effect(const wstring& szEffectName)
 		return;
 
 	(*iter).second->EffectEnd();
+	m_Effects.erase(iter);
+}
+
+void CPlayer::Delete_Effect_Trail(const wstring& szEffectName, _float fRemainTime)
+{
+	auto iter = m_Effects.find(szEffectName);
+	if (iter == m_Effects.end())
+		return;
+
+	dynamic_cast<CEffect_Trail*>((*iter).second)->TrailEnd(fRemainTime);
 	m_Effects.erase(iter);
 }
 
@@ -719,9 +765,6 @@ HRESULT CPlayer::Ready_NamePlate()
 
 HRESULT CPlayer::Ready_Inventory()
 {
-	//if (!Is_Control())
-		//return S_OK;
-
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance); 
 
@@ -733,6 +776,30 @@ HRESULT CPlayer::Ready_Inventory()
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+
+HRESULT CPlayer::Ready_Item_NoneControl(_int* ItemCodes)
+{
+	CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+	for (_uint i = 0; i < (_uint)PART::_END; ++i)
+	{
+		_int iItemCode = *(ItemCodes + i);
+
+		if (iItemCode != -1)
+		{
+			CItem* pItem = pItem_Manager->Get_Item((ITEMCODE)iItemCode);
+
+			if (pItem == nullptr)
+				return E_FAIL;
+
+			pItem->Use_Item(this);
+		}
+	}
+
+	Safe_Release(pItem_Manager);
 	return S_OK;
 }
 
@@ -1003,6 +1070,7 @@ void CPlayer::Send_Hp()
 
 void CPlayer::Set_State(const wstring& szName)
 {
+	m_szState = szName;
 	m_pStateMachine->Change_State(szName);
 	Send_State(szName);
 }
@@ -1018,11 +1086,6 @@ void CPlayer::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStar
 void CPlayer::Free()
 {
 	__super::Free();
-
-	for (size_t i = 0; i < (_uint)PART::_END; i++)
-	{
-		Safe_Release(m_pModelPartCom[i]);
-	}
 
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);

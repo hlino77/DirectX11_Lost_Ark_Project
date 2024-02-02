@@ -53,6 +53,7 @@
 #include "Effect.h"
 #include "UI_SpeechBubble.h"
 #include "QuadTreeMgr.h"
+#include "Item_Manager.h"
 
 namespace fs = std::filesystem;
 
@@ -203,6 +204,8 @@ HRESULT CMainApp::Initialize_Client()
 	if (FAILED(CEffect_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext)))
 		return E_FAIL;
 	//CUI_Tool::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext);
+	if (FAILED(CItem_Manager::GetInstance()->Reserve_Manager(m_pDevice, m_pContext)))
+		return E_FAIL;
 
 	ThreadManager::GetInstance()->ReserveManager(0);
 

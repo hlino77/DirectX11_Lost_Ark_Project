@@ -161,9 +161,6 @@ public:
 	_int						Get_CurrLevel() { return m_iCurrLevel; }
 	void						Set_CurrLevel(_uint iIndex) { m_iCurrLevel = iIndex; }
 
-	_bool						Is_LevelMove() { return m_bLevelMove; }
-	void						Set_LevelMove(_bool bLevelMove) { m_bLevelMove = bLevelMove; }
-
 	_int						Get_Layer() { return m_iLayer; }
 
 	_bool						Get_IsMapObject() { return m_IsMapObject; }
@@ -256,7 +253,6 @@ protected:
 
 	//Level
 	_int						m_iCurrLevel = -1;
-	_bool						m_bLevelMove = false;
 
 	//Instancing
 	_bool						m_bInstance = false;

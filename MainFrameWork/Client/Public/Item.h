@@ -82,6 +82,9 @@ public:
 	void						Set_EquipWearing(_bool bEquipWearing) { m_bEquipWearing = bEquipWearing; }
 	_bool						Get_EquipWearing() { return m_bEquipWearing; }
 
+	void						Set_ItemCode(ITEMCODE eItemCode) { m_eItemCode = eItemCode; }
+	ITEMCODE					Get_ItemCode() { return m_eItemCode; }
+
 protected:
 	virtual HRESULT				Ready_Components();
 
@@ -105,6 +108,8 @@ protected:
 
 	_uint						m_iItemUpgradelevel = { 1 };
 	_bool						m_bEquipWearing = { false };
+
+	ITEMCODE					m_eItemCode = ITEMCODE::Default;
 public:
 	virtual void Free();
 };

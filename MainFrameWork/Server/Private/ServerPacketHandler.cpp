@@ -356,7 +356,7 @@ bool Handel_S_PLAYERLEVELMOVE_Server(PacketSessionRef& session, Protocol::S_PLAY
 {
 	shared_ptr<CGameSession> pGameSession = dynamic_pointer_cast<CGameSession>(session);
 
-	CLevelControlManager::GetInstance()->Player_LevelMove(pGameSession, (LEVELID)pkt.icurrlevel(), (LEVELID)pkt.inextlevel());
+	CLevelControlManager::GetInstance()->Reserve_LevelMove(pGameSession, (LEVELID)pkt.icurrlevel(), (LEVELID)pkt.inextlevel());
 
 	return true;
 }
@@ -559,6 +559,26 @@ bool Handel_S_PLAYERTELEPORT_Server(PacketSessionRef& session, Protocol::S_PLAYE
 	pPlayer->Set_ServerState(L"Idle");
 
 	CGameSessionManager::GetInstance()->Broadcast_Others(CServerPacketHandler::MakeSendBuffer(pkt), session->GetSessionID());
+	Safe_Release(pGameInstance);
+	return true;
+}
+
+bool Handel_S_CHANGEEQUIP_Server(PacketSessionRef& session, Protocol::S_CHANGEEQUIP& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_uint iPlayerID = pkt.iplayerid();
+	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
+
+	if (pPlayer == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	pPlayer->Set_Equips((_int*)pkt.itemcodes().data());
+	CGameSessionManager::GetInstance()->Broadcast_Others(CServerPacketHandler::MakeSendBuffer(pkt), session->GetSessionID());
+
 	Safe_Release(pGameInstance);
 	return true;
 }

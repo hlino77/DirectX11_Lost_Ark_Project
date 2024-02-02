@@ -80,7 +80,8 @@ HRESULT CIT_SP_WP_Dino::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(nullptr);
 	pOwner->Set_EquipItem((_uint)PART::WEAPON, nullptr);
-	pOwner->Add_Item(m_strObjectTag, this);
+	if (pOwner->Is_Control())
+		pOwner->Add_Item(m_strObjectTag, this);
 	return S_OK;
 }
 

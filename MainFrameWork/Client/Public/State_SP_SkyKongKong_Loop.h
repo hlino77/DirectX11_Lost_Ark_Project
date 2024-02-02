@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Shot();
+	void	TrailEnd();
+private:
 	class CPlayer_Doaga* m_pPlayer = nullptr;
 
 	std::function<void(CState_SP_SkyKongKong_Loop&, _float)> m_TickFunc;

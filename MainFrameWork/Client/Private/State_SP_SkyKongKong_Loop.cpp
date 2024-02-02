@@ -5,6 +5,7 @@
 #include "Controller_SP.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Trail.h"
 
 CState_SP_SkyKongKong_Loop::CState_SP_SkyKongKong_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -56,12 +57,19 @@ void CState_SP_SkyKongKong_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pController->Is_HitState() || m_pPlayer->Get_ServerState() != TEXT("Skill_SP_SkyKongKong_Loop"))
+	{
+		TrailEnd();
+	}
 }
 
 void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop))
 	{
+		Effect_Shot();
+
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
@@ -149,6 +157,20 @@ void CState_SP_SkyKongKong_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
+
+void CState_SP_SkyKongKong_Loop::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"SkyKongKongShot", &tDesc);
+}
+
+void CState_SP_SkyKongKong_Loop::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"SkyKongKongTrail", 5.0f);
+}
+
+
 
 CState_SP_SkyKongKong_Loop* CState_SP_SkyKongKong_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 {

@@ -58,6 +58,11 @@ void CState_WDR_PerfectSwing_Success::Exit_State()
 	{
 		Reset_Camera();
 	}
+
+	if (m_pController->Is_HitState() == true)
+	{
+		Effect_End();
+	}
 }
 
 void CState_WDR_PerfectSwing_Success::Tick_State_Control(_float fTimeDelta)

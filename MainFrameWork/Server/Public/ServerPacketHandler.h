@@ -35,7 +35,8 @@ enum : uint16
 	PKT_S_NAVIGATION = 24,
 	PKT_S_CREATESKILL = 25,
 	PKT_S_BUFFSKILL = 26,
-	PKT_S_PLAYERTELEPORT = 27
+	PKT_S_PLAYERTELEPORT = 27,
+	PKT_S_CHANGEEQUIP = 28,
 };
 
 //TODO
@@ -67,6 +68,8 @@ bool Handel_S_NAVIGATION_Server(PacketSessionRef& session, Protocol::S_NAVIGATIO
 bool Handel_S_CREATESKILL_Server(PacketSessionRef& session, Protocol::S_CREATE_SKILL& pkt);
 bool Handel_S_BUFFSKILL_Server(PacketSessionRef& session, Protocol::S_BUFF_SKILL& pkt);
 bool Handel_S_PLAYERTELEPORT_Server(PacketSessionRef& session, Protocol::S_PLAYERTELEPORT& pkt);
+bool Handel_S_CHANGEEQUIP_Server(PacketSessionRef& session, Protocol::S_CHANGEEQUIP& pkt);
+
 
 class CServerPacketHandler
 {
@@ -104,6 +107,7 @@ public:
 		GPacketHandler[PKT_S_CREATESKILL] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CREATE_SKILL>(Handel_S_CREATESKILL_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_BUFFSKILL] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_BUFF_SKILL>(Handel_S_BUFFSKILL_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_PLAYERTELEPORT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PLAYERTELEPORT>(Handel_S_PLAYERTELEPORT_Server, session, buffer, len); };
+		GPacketHandler[PKT_S_CHANGEEQUIP] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CHANGEEQUIP>(Handel_S_CHANGEEQUIP_Server, session, buffer, len); };
 
 	}
 
@@ -141,6 +145,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_SKILL& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATESKILL); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_BUFF_SKILL& pkt) { return MakeSendBuffer(pkt, PKT_S_BUFFSKILL); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_PLAYERTELEPORT& pkt) { return MakeSendBuffer(pkt, PKT_S_PLAYERTELEPORT); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_CHANGEEQUIP& pkt) { return MakeSendBuffer(pkt, PKT_S_CHANGEEQUIP); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

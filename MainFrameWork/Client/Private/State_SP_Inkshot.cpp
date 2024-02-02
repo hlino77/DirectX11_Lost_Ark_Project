@@ -5,6 +5,8 @@
 #include "Controller_SP.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CState_SP_Inkshot::CState_SP_Inkshot(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -22,7 +24,7 @@ HRESULT CState_SP_Inkshot::Initialize()
 	else
 		m_TickFunc = &CState_SP_Inkshot::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(16);
+	m_SkillFrames.push_back(20);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;
@@ -39,6 +41,9 @@ void CState_SP_Inkshot::Enter_State()
 
 	m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_bEffect = false;
+	m_bChargeEffect = false;
 }
 
 void CState_SP_Inkshot::Tick_State(_float fTimeDelta)
@@ -50,21 +55,43 @@ void CState_SP_Inkshot::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	Charge_End();
 }
 
 void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
+	if (iAnimFrame < 18)
+	{
+		if (m_bChargeEffect == false)
+		{
+			Effect_Charge();
+			m_bChargeEffect = true;
+		}
+
+		Update_Effect();
+	}
+	else if (m_bEffect == false && iAnimFrame == 18)
+	{
+		Charge_End();
+		Effect_Shot();
+		m_bEffect = true;
+	}
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iInkshot))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (38 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot))
+	if (38 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 
@@ -123,6 +150,39 @@ void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Inkshot::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_Inkshot::Effect_Charge()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = const_cast<Matrix*>(&dynamic_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix());
+	EFFECT_START_OUTLIST(L"InkShotParticle1", &tDesc, m_Effects);
+}
+
+void CState_SP_Inkshot::Charge_End()
+{
+	for (auto& Effect : m_Effects)
+	{
+		Effect->EffectEnd();
+	}
+	m_Effects.clear();
+}
+
+void CState_SP_Inkshot::Update_Effect()
+{
+	Matrix matWorld = dynamic_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1))->Get_Part_WorldMatrix();
+
+	for (auto& Effect : m_Effects)
+	{
+		Effect->Update_Pivot(matWorld);
+	}
+}
+
+void CState_SP_Inkshot::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"InkShotEndParticle1", &tDesc);
 }
 
 CState_SP_Inkshot* CState_SP_Inkshot::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

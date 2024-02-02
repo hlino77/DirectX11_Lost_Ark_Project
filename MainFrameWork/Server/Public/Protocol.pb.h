@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[33]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[34]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -65,6 +65,9 @@ extern S_BUFF_SKILLDefaultTypeInternal _S_BUFF_SKILL_default_instance_;
 class S_CAMSHAKE;
 struct S_CAMSHAKEDefaultTypeInternal;
 extern S_CAMSHAKEDefaultTypeInternal _S_CAMSHAKE_default_instance_;
+class S_CHANGEEQUIP;
+struct S_CHANGEEQUIPDefaultTypeInternal;
+extern S_CHANGEEQUIPDefaultTypeInternal _S_CHANGEEQUIP_default_instance_;
 class S_CHARACTER_NAME;
 struct S_CHARACTER_NAMEDefaultTypeInternal;
 extern S_CHARACTER_NAMEDefaultTypeInternal _S_CHARACTER_NAME_default_instance_;
@@ -160,6 +163,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::S_ANIMATION* Arena::CreateMaybeMessage<::Protocol::S_ANIMATION>(Arena*);
 template<> ::Protocol::S_BUFF_SKILL* Arena::CreateMaybeMessage<::Protocol::S_BUFF_SKILL>(Arena*);
 template<> ::Protocol::S_CAMSHAKE* Arena::CreateMaybeMessage<::Protocol::S_CAMSHAKE>(Arena*);
+template<> ::Protocol::S_CHANGEEQUIP* Arena::CreateMaybeMessage<::Protocol::S_CHANGEEQUIP>(Arena*);
 template<> ::Protocol::S_CHARACTER_NAME* Arena::CreateMaybeMessage<::Protocol::S_CHARACTER_NAME>(Arena*);
 template<> ::Protocol::S_CHAT* Arena::CreateMaybeMessage<::Protocol::S_CHAT>(Arena*);
 template<> ::Protocol::S_COLLIDERSTATE* Arena::CreateMaybeMessage<::Protocol::S_COLLIDERSTATE>(Arena*);
@@ -3862,6 +3866,7 @@ class S_CREATE_PLAYER final :
   enum : int {
     kMatWorldFieldNumber = 5,
     kVTargetPosFieldNumber = 7,
+    kItemCodesFieldNumber = 10,
     kStrNickNameFieldNumber = 6,
     kStrStateFieldNumber = 8,
     kIObjectIDFieldNumber = 1,
@@ -3913,6 +3918,28 @@ class S_CREATE_PLAYER final :
       vtargetpos() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_vtargetpos();
+
+  // repeated int32 ItemCodes = 10 [packed = true];
+  int itemcodes_size() const;
+  private:
+  int _internal_itemcodes_size() const;
+  public:
+  void clear_itemcodes();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_itemcodes(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      _internal_itemcodes() const;
+  void _internal_add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      _internal_mutable_itemcodes();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::int32 itemcodes(int index) const;
+  void set_itemcodes(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
+  void add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      itemcodes() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      mutable_itemcodes();
 
   // bytes strNickName = 6;
   void clear_strnickname();
@@ -3996,6 +4023,8 @@ class S_CREATE_PLAYER final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > matworld_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > vtargetpos_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > itemcodes_;
+  mutable std::atomic<int> _itemcodes_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strnickname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strstate_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
@@ -5856,6 +5885,174 @@ class S_PLAYERTELEPORT final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > matrix_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  ::PROTOBUF_NAMESPACE_ID::int32 iplayerid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_CHANGEEQUIP final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_CHANGEEQUIP) */ {
+ public:
+  inline S_CHANGEEQUIP() : S_CHANGEEQUIP(nullptr) {}
+  ~S_CHANGEEQUIP() override;
+  explicit constexpr S_CHANGEEQUIP(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_CHANGEEQUIP(const S_CHANGEEQUIP& from);
+  S_CHANGEEQUIP(S_CHANGEEQUIP&& from) noexcept
+    : S_CHANGEEQUIP() {
+    *this = ::std::move(from);
+  }
+
+  inline S_CHANGEEQUIP& operator=(const S_CHANGEEQUIP& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_CHANGEEQUIP& operator=(S_CHANGEEQUIP&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_CHANGEEQUIP& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_CHANGEEQUIP* internal_default_instance() {
+    return reinterpret_cast<const S_CHANGEEQUIP*>(
+               &_S_CHANGEEQUIP_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    33;
+
+  friend void swap(S_CHANGEEQUIP& a, S_CHANGEEQUIP& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_CHANGEEQUIP* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_CHANGEEQUIP* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_CHANGEEQUIP* New() const final {
+    return new S_CHANGEEQUIP();
+  }
+
+  S_CHANGEEQUIP* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_CHANGEEQUIP>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_CHANGEEQUIP& from);
+  void MergeFrom(const S_CHANGEEQUIP& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_CHANGEEQUIP* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_CHANGEEQUIP";
+  }
+  protected:
+  explicit S_CHANGEEQUIP(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kItemCodesFieldNumber = 3,
+    kILevelFieldNumber = 1,
+    kIPlayerIDFieldNumber = 2,
+  };
+  // repeated int32 ItemCodes = 3 [packed = true];
+  int itemcodes_size() const;
+  private:
+  int _internal_itemcodes_size() const;
+  public:
+  void clear_itemcodes();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_itemcodes(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      _internal_itemcodes() const;
+  void _internal_add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      _internal_mutable_itemcodes();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::int32 itemcodes(int index) const;
+  void set_itemcodes(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
+  void add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      itemcodes() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      mutable_itemcodes();
+
+  // int32 iLevel = 1;
+  void clear_ilevel();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel() const;
+  void set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilevel() const;
+  void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iPlayerID = 2;
+  void clear_iplayerid();
+  ::PROTOBUF_NAMESPACE_ID::int32 iplayerid() const;
+  void set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iplayerid() const;
+  void _internal_set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_CHANGEEQUIP)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > itemcodes_;
+  mutable std::atomic<int> _itemcodes_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
   ::PROTOBUF_NAMESPACE_ID::int32 iplayerid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -8280,6 +8477,53 @@ inline void S_CREATE_PLAYER::set_iweaponindex(::PROTOBUF_NAMESPACE_ID::int32 val
   // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.iWeaponIndex)
 }
 
+// repeated int32 ItemCodes = 10 [packed = true];
+inline int S_CREATE_PLAYER::_internal_itemcodes_size() const {
+  return itemcodes_.size();
+}
+inline int S_CREATE_PLAYER::itemcodes_size() const {
+  return _internal_itemcodes_size();
+}
+inline void S_CREATE_PLAYER::clear_itemcodes() {
+  itemcodes_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CREATE_PLAYER::_internal_itemcodes(int index) const {
+  return itemcodes_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CREATE_PLAYER::itemcodes(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_PLAYER.ItemCodes)
+  return _internal_itemcodes(index);
+}
+inline void S_CREATE_PLAYER::set_itemcodes(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
+  itemcodes_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CREATE_PLAYER.ItemCodes)
+}
+inline void S_CREATE_PLAYER::_internal_add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  itemcodes_.Add(value);
+}
+inline void S_CREATE_PLAYER::add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_add_itemcodes(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_CREATE_PLAYER.ItemCodes)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+S_CREATE_PLAYER::_internal_itemcodes() const {
+  return itemcodes_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+S_CREATE_PLAYER::itemcodes() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_CREATE_PLAYER.ItemCodes)
+  return _internal_itemcodes();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+S_CREATE_PLAYER::_internal_mutable_itemcodes() {
+  return &itemcodes_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+S_CREATE_PLAYER::mutable_itemcodes() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_CREATE_PLAYER.ItemCodes)
+  return _internal_mutable_itemcodes();
+}
+
 // -------------------------------------------------------------------
 
 // S_CHAT
@@ -9335,9 +9579,102 @@ S_PLAYERTELEPORT::mutable_matrix() {
   return _internal_mutable_matrix();
 }
 
+// -------------------------------------------------------------------
+
+// S_CHANGEEQUIP
+
+// int32 iLevel = 1;
+inline void S_CHANGEEQUIP::clear_ilevel() {
+  ilevel_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHANGEEQUIP::_internal_ilevel() const {
+  return ilevel_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHANGEEQUIP::ilevel() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHANGEEQUIP.iLevel)
+  return _internal_ilevel();
+}
+inline void S_CHANGEEQUIP::_internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilevel_ = value;
+}
+inline void S_CHANGEEQUIP::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilevel(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CHANGEEQUIP.iLevel)
+}
+
+// int32 iPlayerID = 2;
+inline void S_CHANGEEQUIP::clear_iplayerid() {
+  iplayerid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHANGEEQUIP::_internal_iplayerid() const {
+  return iplayerid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHANGEEQUIP::iplayerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHANGEEQUIP.iPlayerID)
+  return _internal_iplayerid();
+}
+inline void S_CHANGEEQUIP::_internal_set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  iplayerid_ = value;
+}
+inline void S_CHANGEEQUIP::set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_iplayerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CHANGEEQUIP.iPlayerID)
+}
+
+// repeated int32 ItemCodes = 3 [packed = true];
+inline int S_CHANGEEQUIP::_internal_itemcodes_size() const {
+  return itemcodes_.size();
+}
+inline int S_CHANGEEQUIP::itemcodes_size() const {
+  return _internal_itemcodes_size();
+}
+inline void S_CHANGEEQUIP::clear_itemcodes() {
+  itemcodes_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHANGEEQUIP::_internal_itemcodes(int index) const {
+  return itemcodes_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_CHANGEEQUIP::itemcodes(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHANGEEQUIP.ItemCodes)
+  return _internal_itemcodes(index);
+}
+inline void S_CHANGEEQUIP::set_itemcodes(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
+  itemcodes_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CHANGEEQUIP.ItemCodes)
+}
+inline void S_CHANGEEQUIP::_internal_add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  itemcodes_.Add(value);
+}
+inline void S_CHANGEEQUIP::add_itemcodes(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_add_itemcodes(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_CHANGEEQUIP.ItemCodes)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+S_CHANGEEQUIP::_internal_itemcodes() const {
+  return itemcodes_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+S_CHANGEEQUIP::itemcodes() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_CHANGEEQUIP.ItemCodes)
+  return _internal_itemcodes();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+S_CHANGEEQUIP::_internal_mutable_itemcodes() {
+  return &itemcodes_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+S_CHANGEEQUIP::mutable_itemcodes() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_CHANGEEQUIP.ItemCodes)
+  return _internal_mutable_itemcodes();
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

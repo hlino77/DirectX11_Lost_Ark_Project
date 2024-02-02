@@ -60,6 +60,11 @@ void CState_GN_FocusShot_End::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pController->Is_HitState())
+	{
+		Effect_Glow(false);
+	}
 }
 
 void CState_GN_FocusShot_End::Tick_State_Control(_float fTimeDelta)

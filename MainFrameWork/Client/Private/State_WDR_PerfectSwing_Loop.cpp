@@ -95,6 +95,11 @@ void CState_WDR_PerfectSwing_Loop::Exit_State()
 {
 	m_pPlayer->Delete_Effect(L"PerfectParticle");
 
+	if (m_pController->Is_HitState() == true)
+	{
+		m_pPlayer->Delete_Effect(L"PerfectCircle");
+	}
+
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)

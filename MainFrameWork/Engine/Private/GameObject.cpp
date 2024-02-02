@@ -76,6 +76,7 @@ CComponent* CGameObject::Get_Component(const wstring& strComponentTag)
 
 void CGameObject::Set_NoneControlState(const wstring& szName)
 {
+	m_szState = szName;
 	m_pStateMachine->Change_State(szName);
 }
 

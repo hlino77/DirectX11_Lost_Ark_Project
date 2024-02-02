@@ -81,6 +81,8 @@
 
 #include "Esther_Way.h"
 
+#include "Item_Manager.h"
+
 CPlayer_Destroyer::CPlayer_Destroyer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -100,9 +102,6 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	if (FAILED(Ready_Item()))
-		return E_FAIL;
-
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -120,6 +119,9 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 	if (m_bControl)
 	{
+		if (FAILED(Ready_Item()))
+			return E_FAIL;
+
 		if (FAILED(Ready_SkillUI()))
 			return E_FAIL;
 	}
@@ -888,58 +890,48 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 {
 	CItem* pItem = nullptr;
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Mococo")));
+	CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Helmet_Mococo);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	Use_Item(pItem->Get_ObjectTag());
+	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Mococo")));
+	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Body_Mococo);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	Use_Item(pItem->Get_ObjectTag());
+	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Mococo")));
+	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_WP_Mococo);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
-	Use_Item(pItem->Get_ObjectTag());
+	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Helmet_Legend")));
-	if (nullptr == pItem)
-		return E_FAIL;
-	
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_Body_Legend")));
+	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Helmet_Legend);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Find_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("IT_WDR_WP_Legend")));
+	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Body_Legend);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
-	pItem = static_cast<CItem*>(m_pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
-		(_uint)LAYER_TYPE::LAYER_ITEM, TEXT("Prototype_GameObject_TestItem")));
+	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_WP_Legend);
 	if (nullptr == pItem)
 		return E_FAIL;
 
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 
+	Safe_Release(pItem_Manager);
 	return S_OK;
 }
 

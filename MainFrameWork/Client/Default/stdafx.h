@@ -25,6 +25,7 @@
 #include "ThreadManager.h"
 
 #include "TypeLessValue.h"
+#include "ItemCode.h"
 
 #define _CLIENT
 

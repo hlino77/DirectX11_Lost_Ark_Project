@@ -5,7 +5,7 @@
 #include "GameInstance.h"
 #include "Player_Server.h"
 #include "AsUtils.h"
-
+#include "ItemCode.h"
 
 
 
@@ -41,6 +41,10 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		tPlayerPkt.set_ilevel(iLevel);
 		tPlayerPkt.set_iweaponindex(pOtherPlayer->Get_WeaponIndex());
 
+		auto ItemCodes = tPlayerPkt.mutable_itemcodes();
+		ItemCodes->Resize((_uint)ITEMPART::_END, -1);
+		memcpy(ItemCodes->mutable_data(), pOtherPlayer->Get_Equips(), sizeof(_int) * (_uint)ITEMPART::_END);
+
 		auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
 		vPktTargetPos->Resize(3, 0.0f);
 		Vec3 vTargetPos = pOtherPlayer->Get_TargetPos(); 
@@ -60,6 +64,10 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 	pGameSession->Set_NickName(CAsUtils::S2W(pkt.strnickname()));
 
 	{
+		vector<_int> m_Equips;
+		m_Equips.resize((_uint)ITEMPART::_END, -1);
+		Compute_DefaultEquipCodes(pkt.iclass(), m_Equips);
+
 		CPlayer_Server::MODELDESC Desc;
 		Desc.iWeaponIndex = -1;
 
@@ -90,6 +98,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		Desc.iClass = pGameSession->Get_Class();
 		Desc.szNickName = pGameSession->Get_NickName();
 		Desc.iCurrLevel = iLevel;
+		Desc.pItemCodes = m_Equips.data();
 
 		Matrix matWorld = XMMatrixIdentity();
 		matWorld.Translation(Get_LevelSpawnPos((LEVELID)iLevel));
@@ -113,6 +122,10 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 			tPlayerPkt.set_strstate("Idle");
 			tPlayerPkt.set_ilevel(iLevel);
 			tPlayerPkt.set_iweaponindex(Desc.iWeaponIndex);
+
+			auto ItemCodes = tPlayerPkt.mutable_itemcodes();
+			ItemCodes->Resize((_uint)ITEMPART::_END, -1);
+			memcpy(ItemCodes->mutable_data(), pPlayer->Get_Equips(), sizeof(_int) * (_uint)ITEMPART::_END);
 
 			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
 			vPktTargetPos->Resize(3, 0.0f);
@@ -146,15 +159,11 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 
 HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerSession, _uint iCurrLevel, _uint iNextLevel)
 {
-	WRITE_LOCK
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pOwnerSession->Get_PlayerID()));
 
 	vector<CGameObject*>& CurrLevelPlayers = CGameInstance::GetInstance()->Find_GameObjects(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
-
-	pPlayer->Set_CurrLevel(iNextLevel);
-	pPlayer->Set_LevelMove(true);
 
 	{
 		Protocol::S_DELETEGAMEOBJECT tDeletePkt;	
@@ -178,12 +187,13 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 	pPlayer->Get_TransformCom()->Set_Scale(vScale);
 
 
-	while (true)
 	{
-		if (pPlayer->Is_LevelMove() == false)
-			break;
+		Safe_AddRef(pPlayer);
+		pGameInstance->Delete_GameObject(iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer);
+		pGameInstance->Add_GameObject(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer);
 	}
 
+	pPlayer->Set_CurrLevel(iNextLevel);
 	vector<CGameObject*> NextLevelPlayers = pGameInstance->Find_GameObjects(iNextLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
 
 	for (auto& Player : NextLevelPlayers)
@@ -202,6 +212,10 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 		tPlayerPkt.set_strstate(CAsUtils::ToString(pOtherPlayer->Get_ServerState()));
 		tPlayerPkt.set_ilevel(iNextLevel);
 		tPlayerPkt.set_iweaponindex(pOtherPlayer->Get_WeaponIndex());
+
+		auto ItemCodes = tPlayerPkt.mutable_itemcodes();
+		ItemCodes->Resize((_uint)ITEMPART::_END, -1);
+		memcpy(ItemCodes->mutable_data(), pOtherPlayer->Get_Equips(), sizeof(_int) * (_uint)ITEMPART::_END);
 
 		auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
 		vPktTargetPos->Resize(3, 0.0f);
@@ -231,6 +245,10 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 			tPlayerPkt.set_ilevel(iNextLevel);
 			tPlayerPkt.set_iweaponindex(pPlayer->Get_WeaponIndex());
 
+			auto ItemCodes = tPlayerPkt.mutable_itemcodes();
+			ItemCodes->Resize((_uint)ITEMPART::_END, -1);
+			memcpy(ItemCodes->mutable_data(), pPlayer->Get_Equips(), sizeof(_int) * (_uint)ITEMPART::_END);
+
 			auto vPktTargetPos = tPlayerPkt.mutable_vtargetpos();
 			vPktTargetPos->Resize(3, 0.0f);
 			Vec3 vTargetPos = pPlayer->Get_TargetPos();
@@ -256,6 +274,59 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 
 }
 
+void CLevelControlManager::Compute_DefaultEquipCodes(_uint iClass, vector<_int>& pItemCodes)
+{
+	switch (iClass)
+	{
+	case (_uint)CHR_CLASS::GUNSLINGER:
+		pItemCodes[(_uint)ITEMPART::HELMET] = (_int)ITEMCODE::GN_Helmet_Mococo;
+		pItemCodes[(_uint)ITEMPART::BODY] = (_int)ITEMCODE::GN_Body_Mococo;
+		pItemCodes[(_uint)ITEMPART::WEAPON] = (_int)ITEMCODE::GN_WP_Mococo;
+		break;
+	case (_uint)CHR_CLASS::SLAYER:
+		pItemCodes[(_uint)ITEMPART::HELMET] = (_int)ITEMCODE::WR_Helmet_Mococo;
+		pItemCodes[(_uint)ITEMPART::BODY] = (_int)ITEMCODE::WR_Body_Mococo;
+		pItemCodes[(_uint)ITEMPART::WEAPON] = (_int)ITEMCODE::WR_WP_Mococo;
+		break;
+	case (_uint)CHR_CLASS::DESTROYER:
+		pItemCodes[(_uint)ITEMPART::HELMET] = (_int)ITEMCODE::WDR_Helmet_Mococo;
+		pItemCodes[(_uint)ITEMPART::BODY] = (_int)ITEMCODE::WDR_Body_Mococo;
+		pItemCodes[(_uint)ITEMPART::WEAPON] = (_int)ITEMCODE::WDR_WP_Mococo;
+		break;
+	case (_uint)CHR_CLASS::BARD:
+		break;
+	case (_uint)CHR_CLASS::DOAGA:
+		pItemCodes[(_uint)ITEMPART::HELMET] = (_int)ITEMCODE::SP_Helmet_Dino;
+		pItemCodes[(_uint)ITEMPART::BODY] = (_int)ITEMCODE::SP_Body_Dino;
+		pItemCodes[(_uint)ITEMPART::WEAPON] = (_int)ITEMCODE::SP_WP_Dino;
+		break;
+	}
+}
+
+
+
+void CLevelControlManager::Update_LevelMove()
+{
+	WRITE_LOCK
+	for (auto Desc : m_LevelMoveList)
+	{
+		Player_LevelMove(Desc.pSession, Desc.iCurrLevel, Desc.iNextLevel);
+	}
+	m_LevelMoveList.clear();
+}
+
+HRESULT CLevelControlManager::Reserve_LevelMove(shared_ptr<CGameSession>& pOwnerSession, _uint iCurrLevel, _uint iNextLevel)
+{
+	LEVELMOVEDESC tDesc;
+	tDesc.pSession = pOwnerSession;
+	tDesc.iCurrLevel = iCurrLevel;
+	tDesc.iNextLevel = iNextLevel;
+
+	WRITE_LOCK;
+	m_LevelMoveList.push_back(tDesc);
+
+	return S_OK;
+}
 
 void CLevelControlManager::Send_LevelState(shared_ptr<CGameSession>& pSession, _uint iLevelState)
 {

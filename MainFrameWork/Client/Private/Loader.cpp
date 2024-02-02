@@ -213,45 +213,6 @@
 #include "Guide_Chaos_Npc.h"
 #include "Npc_Part.h"
 
-//ITEM
-#include "IT_GN_Body_Mococo.h"
-#include "IT_GN_Helmet_Mococo.h"
-#include "IT_GN_WP_Mococo.h"
-#include "IT_GN_Body_Legend.h"
-#include "IT_GN_Helmet_Legend.h"
-#include "IT_GN_Leg_Legend.h"
-#include "IT_GN_WP_Legend.h"
-
-#include "IT_MG_Body_Mococo.h"
-#include "IT_MG_Helmet_Mococo.h"
-#include "IT_MG_WP_Mococo.h"
-#include "IT_MG_WP_Legend.h"
-#include "IT_MG_Body_Legend.h"
-#include "IT_MG_Leg_Legend.h"
-#include "IT_MG_Helmet_Legend.h"
-
-#include "IT_WR_Body_Mococo.h"
-#include "IT_WR_Helmet_Mococo.h"
-#include "IT_WR_WP_Mococo.h"
-#include "IT_WR_Body_Legend.h"
-#include "IT_WR_Helmet_Legend.h"
-#include "IT_WR_Leg_Legend.h"
-#include "IT_WR_WP_Legend.h"
-
-#include "IT_WDR_Body_Mococo.h"
-#include "IT_WDR_Helmet_Mococo.h"
-#include "IT_WDR_WP_Mococo.h"
-#include "IT_WDR_Body_Legend.h"
-#include "IT_WDR_Helmet_Legend.h"
-#include "IT_WDR_WP_Legend.h"
-
-#include "IT_SP_Body_Dino.h"
-#include "IT_SP_Helmet_Dino.h"
-#include "IT_SP_WP_Dino.h"
-#include "IT_SP_Body_Legend.h"
-#include "IT_SP_Helmet_Legend.h"
-#include "IT_SP_Leg_Legend.h"
-#include "IT_SP_WP_Legend.h"
 
 #include "Item_TestItem.h"
 
@@ -1006,6 +967,33 @@ HRESULT CLoader::Loading_For_Level_Lobby()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Lobby"),
 		CBackGround_Lobby::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part"),
+		CEsther_Part::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part_forCut"),
+		CEsther_Part_forCut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
+		CEsther_Way::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
+		CUI_Inventory::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InventoryWnd"),
+		CUI_InventoryWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory_ItemSlot"),
+		CUI_Inventory_ItemSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	Load_MapData(LEVEL_LOBBY, TEXT("../Bin/Resources/MapData/Character_Select_Lobby_ver2.data"));
 
@@ -1033,12 +1021,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 
 	if (FAILED(Loading_Npc_UI()))
-		return E_FAIL;
-
-	if (FAILED(Loading_Inventory_UI()))
-		return E_FAIL;
-
-	if (FAILED(Loading_Item()))
 		return E_FAIL;
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
@@ -1407,192 +1389,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	/* ITEM */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_Body_Mococo"),
-		CIT_GN_Body_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_Helmet_Mococo"),
-		CIT_GN_Helmet_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_WP_Mococo"),
-		CIT_GN_WP_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_WP_Legend"),
-		CIT_GN_WP_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_Helmet_Legend"),
-		CIT_GN_Helmet_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_Body_Legend"),
-		CIT_GN_Body_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_GN_Leg_Legend"),
-		CIT_GN_Leg_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Body_Mococo"),
-		CIT_MG_Body_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Helmet_Mococo"),
-		CIT_MG_Helmet_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_WP_Mococo"),
-		CIT_MG_WP_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Body_Mococo"),
-		CIT_WR_Body_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Helmet_Mococo"),
-		CIT_WR_Helmet_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_WP_Mococo"),
-		CIT_WR_WP_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Body_Legend"),
-		CIT_WR_Body_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Helmet_Legend"),
-		CIT_WR_Helmet_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_Leg_Legend"),
-		CIT_WR_Leg_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WR_WP_Legend"),
-		CIT_WR_WP_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Body_Mococo"),
-		CIT_WDR_Body_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Helmet_Mococo"),
-		CIT_WDR_Helmet_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_WP_Mococo"),
-		CIT_WDR_WP_Mococo::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_WP_Legend"),
-		CIT_WDR_WP_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Body_Legend"),
-		CIT_WDR_Body_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_WDR_Helmet_Legend"),
-		CIT_WDR_Helmet_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Helmet_Legend"),
-		CIT_MG_Helmet_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Body_Legend"),
-		CIT_MG_Body_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_Leg_Legend"),
-		CIT_MG_Leg_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_MG_WP_Legend"),
-		CIT_MG_WP_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_WP_Dino"),
-		CIT_SP_WP_Dino::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Body_Dino"),
-		CIT_SP_Body_Dino::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Helmet_Dino"),
-		CIT_SP_Helmet_Dino::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Helmet_Legend"),
-		CIT_SP_Helmet_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Body_Legend"),
-		CIT_SP_Body_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_Leg_Legend"),
-		CIT_SP_Leg_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_IT_SP_WP_Legend"),
-		CIT_SP_WP_Legend::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part"),
-		CEsther_Part::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part_forCut"),
-		CEsther_Part_forCut::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way"),
-		CEsther_Way::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3636,219 +3432,6 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_Inventory_UI()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	Safe_AddRef(pUIManager);
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
-		CUI_Inventory::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InventoryWnd"),
-		CUI_InventoryWnd::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory_ItemSlot"),
-		CUI_Inventory_ItemSlot::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_InventoryWnd"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/InventoryWnd.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_ItemSlot"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/Inventory_ItemSlot.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_PickedSlot_Effect"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Inventory/PickedSlot_Effect.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	//Gunslinger
-	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_MococoHead"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_MococoHead.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_MococoBody"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_MococoBody.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_Mococo_Weapon"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_Mococo_Weapon.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_Legend_Head"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_Legend_Head.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_Legend_Body"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_Legend_Body.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_Legend_Leg"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_Legend_Leg.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_Legend_Weapon"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Gunslinger/Gunslinger_Legend_Weapon.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-	}
-
-	//Destroyer
-	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Mococo_Head"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Destroyer/Desrtoyer_Mococo_Head.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Mococo_Body"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Destroyer/Desrtoyer_Mococo_Body.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Mococo_Weapon"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Destroyer/Desrtoyer_Mococo_Weapon.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Legend_Head"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Destroyer/Desrtoyer_Legend_Head.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Legend_Body"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Destroyer/Desrtoyer_Legend_Body.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Desrtoyer_Legend_Weaopn"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Destroyer/Desrtoyer_Legend_Weaopn.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
-	//Bard
-	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Mococo_Head"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Mococo_Head.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Mococo_Body"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Mococo_Body.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Mococo_Weapon"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Mococo_Weapon.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Legend_Head"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Legend_Head.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Legend_Body"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Legend_Body.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Legend_Leg"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Legend_Leg.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Bard_Legend_Weapon"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Bard/Bard_Legend_Weapon.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-
-	//Slayer
-	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Mococo_Head"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Mococo_Head.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Mococo_Body"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Mococo_Body.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Mococo_Weapon"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Mococo_Weapon.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Legend_Head"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Legend_Head.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Legend_Body"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Legend_Body.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Legend_Leg"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Legend_Leg.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Legend_Weapon"),
-			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Slayer/Slayer_Legend_Weapon.png"))))
-			return E_FAIL;
-		pUIManager->Add_CurrFile();
-	}
-	
-	Safe_Release(pUIManager);
-	Safe_Release(pGameInstance);
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_Item()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	Safe_AddRef(pUIManager);
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestItem"),
-		CItem_TestItem::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Test_Item"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Consume/Test_Item.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	Safe_Release(pUIManager);
-	Safe_Release(pGameInstance);
-	return S_OK;
-}
-
-
-
 HRESULT CLoader::Loading_Model_For_Level_Bern()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -4258,12 +3841,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	strPath = L"../Bin/Resources/Meshes/NpcWeapon/";
 	AutoLoad(strPath, LEVEL_BERN, PivotMatrix);
 
-	strPath = L"../Bin/Resources/Meshes/PC_Default/";
-	AutoLoad(strPath, LEVEL_STATIC);
-
-	strPath = L"../Bin/Resources/Meshes/PC_Weapon/";
-	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
-
 	/* 에스더 */
 	strPath = L"../Bin/Resources/Meshes/ES/Part/";
 	AutoLoad(strPath, LEVEL_STATIC);
@@ -4523,9 +4100,6 @@ HRESULT CLoader::Loading_Model_For_Level_Lobby()
 			}));
 	}
 
-	/* 장비 */
-	wstring strPath = L"../Bin/Resources/Meshes/PC_Part/";
-	AutoLoad(strPath, LEVEL_STATIC);
 
 	{
 		wstring strFileName = L"Tea";

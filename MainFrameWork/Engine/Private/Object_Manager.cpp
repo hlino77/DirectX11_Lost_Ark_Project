@@ -227,27 +227,6 @@ void CObject_Manager::LateTick(_float fTimeDelta)
 
 void CObject_Manager::FinalTick(_float fTimeDelta)
 {
-	vector<CGameObject*> MoveList;
-
-	for (size_t i = 0; i < m_iNumLevels; i++)
-	{
-		for (auto& pLayer : m_pLayers[i])
-		{
-			vector<CGameObject*>& GameObjects = pLayer->Find_GameObjects();
-			
-			for (auto Objectiter = GameObjects.begin(); Objectiter != GameObjects.end();)
-			{
-				if ((*Objectiter)->Is_LevelMove())
-				{
-					MoveList.push_back(*Objectiter);
-					Objectiter = GameObjects.erase(Objectiter);
-				}
-				else
-					++Objectiter;
-			}
-		}
-	}
-
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& pLayer : m_pLayers[i])
@@ -255,19 +234,6 @@ void CObject_Manager::FinalTick(_float fTimeDelta)
 			pLayer->FinalTick(fTimeDelta);
 		}
 	}
-
-
-	for (auto& Object : MoveList)
-	{
-		m_pLayers[Object->Get_CurrLevel()][Object->Get_Layer()]->Add_GameObject(Object);
-	}
-
-	for (auto& Object : MoveList)
-	{
-		Object->Set_LevelMove(false);
-	}
-	MoveList.clear();
-
 }
 
 void CObject_Manager::Clear(_uint iLevelIndex)
