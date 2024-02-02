@@ -119,9 +119,11 @@ public:
 
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const _uint iPassIndex = 0);
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const string& strPassName);
+	HRESULT Render(class CShader*& pShader, const string& strPassName); // Alpha Blend Use
 	HRESULT Render(class CShader*& pShader);
 
 	HRESULT Render_SingleMesh(class CShader*& pShader, const _int& iMeshIndex);
+	HRESULT Render_AlpahBlendSingleMesh(class CShader*& pShader, const _int& iMeshIndex);
 
 	//Instancing
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iStride, _uint iPassIndex = 0);

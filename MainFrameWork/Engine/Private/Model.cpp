@@ -657,6 +657,18 @@ HRESULT CModel::Render(CShader*& pShader, const _uint& iMeshIndex, const string&
 	if (FAILED(m_Meshes[iMeshIndex]->Render()))
 		return E_FAIL;
 
+
+	return S_OK;
+}
+
+HRESULT CModel::Render(CShader*& pShader, const string& strPassName)
+{
+	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	{
+		if (FAILED(Render_AlpahBlendSingleMesh(pShader, i)))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -711,6 +723,52 @@ HRESULT CModel::Render_SingleMesh(CShader*& pShader, const _int& iMeshIndex)
 	else
 	{
 		if (FAILED(Render(pShader, iMeshIndex, "PBR")))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_AlpahBlendSingleMesh(CShader*& pShader, const _int& iMeshIndex)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tFlag.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tFlag.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tFlag.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+		return E_FAIL;
+
+	if (true == m_bChangeColor)
+	{
+		if (FAILED(Bind_ChangeColor(pShader, iMeshIndex)))
+			return E_FAIL;
+
+		if (FAILED(Render(pShader, iMeshIndex, "ChangeColor")))
+			return E_FAIL;
+
+		pShader->Bind_RawValue("g_vBloomColor", &Vec4::One, sizeof(Vec4));
+	}
+	else
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Alpha")))
 			return E_FAIL;
 	}
 

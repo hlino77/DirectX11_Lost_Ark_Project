@@ -269,8 +269,14 @@ HRESULT CStaticModel::Render()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, 0, "Alpha")))
+		//if (FAILED(m_pModelCom->Render(m_pShaderCom, 0, "Alpha")))
+		//	return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, "Alpha")))
+		{
 			return E_FAIL;
+		}
+
 
 	}
 
