@@ -1645,6 +1645,12 @@
     <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Flyheaven">
       <UniqueIdentifier>{ade536cd-b292-4c03-89b7-7ecbc62e3074}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\18.PartyHPUI">
+      <UniqueIdentifier>{70edb11e-66ad-435d-9cf8-f534e47c0927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\18.PartyHPUI\00.HpWnd">
+      <UniqueIdentifier>{4e3c4266-3130-4b2e-abf2-9f017e9f0e79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4772,6 +4778,12 @@
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_PartyUI.h">
+      <Filter>02.GameObjects\UI\18.PartyHPUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PartyHPWnd.h">
+      <Filter>02.GameObjects\UI\18.PartyHPUI\00.HpWnd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7871,6 +7883,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Manager.cpp">
       <Filter>02.GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PartyUI.cpp">
+      <Filter>02.GameObjects\UI\18.PartyHPUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PartyHPWnd.cpp">
+      <Filter>02.GameObjects\UI\18.PartyHPUI\00.HpWnd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

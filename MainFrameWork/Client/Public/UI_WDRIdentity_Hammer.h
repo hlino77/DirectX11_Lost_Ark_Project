@@ -27,10 +27,13 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     _uint   Get_CurrHammerState() { return m_iCurrHammerState; }
+    void    Update_EffectPos(_float fTimeDelta);
 
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    virtual HRESULT Bind_ShaderResources_OnEffect();
+    virtual HRESULT Bind_ShaderResources_MaskedEffect();
 
 private:
     void    Update_Identity_Hammer(_float fTimeDelta);
@@ -46,6 +49,21 @@ private:
     Vec4    m_vNormalColor = { 1.f, 1.f, 1.f, 1.f };
     _bool   m_bIdentity_On = { false };
     _bool   m_bColorDecrease = { false };
+
+    CTexture* m_pTexture_HammerOnEffect = { nullptr };
+    CTransform* m_pTransform_HammerOnEffect = { nullptr };
+
+    CTexture* m_pTexture_MaskedOnEffect = { nullptr };
+    CTransform* m_pTransform_MaskedOnEffect = { nullptr };
+
+    _float m_fSizeX_OnEffect = { 0.f };
+    _float m_fSizeY_OnEffect = { 0.f };
+    _float m_fOnEffectAlpha = { 0.f };
+
+    _float m_fSizeX_MaskedEffect = { 0.f };
+    _float m_fSizeY_MaskedEffect = { 0.f };
+    _float  m_fMaskedEffectAlpha = { 0.f };
+    _bool   m_bMaskedEffectAlphaDecrease = { false };
 
 public:
     static  CUI_WDRIdentity_Hammer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

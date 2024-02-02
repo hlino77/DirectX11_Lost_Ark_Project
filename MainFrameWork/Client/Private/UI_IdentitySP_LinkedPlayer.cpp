@@ -80,14 +80,32 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Initialize(void* pArg)
 	//m_pTransform_Masked_EffectL
 	m_pTransform_Masked_EffectL->Set_Scale(Vec3(m_fSizeX_Masked[0], m_fSizeY_Masked[0], 1.f));
 	m_pTransform_Masked_EffectL->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX - 41.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX - 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_Masked_EffectC
 	m_pTransform_Masked_EffectC->Set_Scale(Vec3(m_fSizeX_Masked[1], m_fSizeY_Masked[1], 1.f));
 	m_pTransform_Masked_EffectC->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + 2.f) - (g_iWinSizeX * 0.5f), -(m_fY + 28.f) + g_iWinSizeY * 0.5f, 0.2f));
+		Vec3((m_fX) - (g_iWinSizeX * 0.5f), -(m_fY + 28.f) + g_iWinSizeY * 0.5f, 0.2f));
 	//m_pTransform_Masked_EffectR
 	m_pTransform_Masked_EffectR->Set_Scale(Vec3(m_fSizeX_Masked[2], m_fSizeY_Masked[2], 1.f));
 	m_pTransform_Masked_EffectR->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
+	
+	for (size_t i = 0; i < 3; i++)
+	{
+		m_fSizeX_MaxEffect[i] = { 167.f * 0.5f };
+		m_fSizeY_MaxEffect[i] = { 160.f * 0.5f };
+	}
+	//m_pTransform_BubbleMaxEffectL
+	m_pTransform_BubbleMaxEffectL->Set_Scale(Vec3(m_fSizeX_Masked[2], m_fSizeY_Masked[2], 1.f));
+	m_pTransform_BubbleMaxEffectL->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX - 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
+	//m_pTransform_BubbleMaxEffectC
+	m_pTransform_BubbleMaxEffectC->Set_Scale(Vec3(m_fSizeX_Masked[2], m_fSizeY_Masked[2], 1.f));
+	m_pTransform_BubbleMaxEffectC->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX) - (g_iWinSizeX * 0.5f), -(m_fY + 42.f) + g_iWinSizeY * 0.5f, 0.2f));
+	//m_pTransform_BubbleMaxEffectR
+	m_pTransform_BubbleMaxEffectR->Set_Scale(Vec3(m_fSizeX_Masked[2], m_fSizeY_Masked[2], 1.f));
+	m_pTransform_BubbleMaxEffectR->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fX + 44.f) - (g_iWinSizeX * 0.5f), -(m_fY + 22.f) + g_iWinSizeY * 0.5f, 0.2f));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
@@ -136,6 +154,7 @@ void CUI_IdentitySP_LinkedPlayer::LateTick(_float fTimeDelta)
 	Update_BubbleGauge(fTimeDelta);
 	Update_BubbleCount(fTimeDelta);
 	Update_BubblePopAnim(fTimeDelta);
+	Update_BubbleMaxEffext(fTimeDelta);
 }
 
 HRESULT CUI_IdentitySP_LinkedPlayer::Render()
@@ -188,6 +207,21 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Render()
 	if (FAILED(Bind_ShaderResources_MaskedShineR()))
 		return E_FAIL;
 	m_pShaderCom->Begin(3);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_BubbleMaxEffectR()))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_BubbleMaxEffectC()))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_BubbleMaxEffectL()))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
     return S_OK;
@@ -245,36 +279,28 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleGauge(_float fTimeDelta)
 
 void CUI_IdentitySP_LinkedPlayer::Update_BubbleAnim(_float fTimeDelta)
 {
-	if ((0 < m_iCurrBubbleCount)&&(!m_bBubbleMax[0]))
-		m_fBubbleAnimFrame[0] += 30.f * fTimeDelta;
-	if (11.f <= m_fBubbleAnimFrame[0])
+	for (size_t i = 0; i < 3; i++)
 	{
-		m_fBubbleAnimFrame[0] = 0.f;
-		m_bBubbleMax[0] = true;
-	}
-
-	if ((1 < m_iCurrBubbleCount) && (!m_bBubbleMax[1]))
-		m_fBubbleAnimFrame[1] += 30.f * fTimeDelta;
-	if (11.f <= m_fBubbleAnimFrame[1])
-	{
-		m_fBubbleAnimFrame[1] = 0.f;
-		m_bBubbleMax[1] = true;
-	}
-
-	if ((2 < m_iCurrBubbleCount) && (!m_bBubbleMax[2]))
-		m_fBubbleAnimFrame[2] += 30.f * fTimeDelta;
-	if (11.f <= m_fBubbleAnimFrame[2])
-	{
-		m_fBubbleAnimFrame[2] = 0.f;
-		m_bBubbleMax[2] = true;
+		if ((i < m_iCurrBubbleCount) && (!m_bBubbleMax[i]))
+		{
+			m_fBubbleAnimFrame[i] += 30.f * fTimeDelta;
+		}
+		if ((!m_bBubbleMax[i])&&(11.f <= m_fBubbleAnimFrame[i]))
+		{
+			m_fBubbleAnimFrame[i] = 0.f;
+			m_bBubbleMax[i] = true;
+			m_fBubbleMaxEffect[i] = true;
+			m_fBubbleMaxAlpha[i] = 1.f;
+		}
 	}
 }
 
 void CUI_IdentitySP_LinkedPlayer::Update_BubbleCount(_float fTimeDelta)
 {
 	if (m_iPreBubbleCount < m_iCurrBubbleCount)
+	{
 		m_iPreBubbleCount = m_iCurrBubbleCount;
-
+	}
 	if (m_iPreBubbleCount > m_iCurrBubbleCount)
 	{
 		_uint iIdentity = static_cast<CPlayer_Doaga*>(m_pPlayer)->Get_SP_Controller()->Get_IdenSkill();
@@ -309,6 +335,8 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleCount(_float fTimeDelta)
 				m_bBubbleMax[0] = false;
 				m_bMaskedEffect[0] = true;
 				m_fMaskedEffectAlpha[0] = 1.f;
+				m_fBubbleMaxEffect[1] = true;
+				m_fBubbleMaxAlpha[1] = 0.f;
 				break;
 
 			case 2:
@@ -316,6 +344,8 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleCount(_float fTimeDelta)
 				m_bBubbleMax[1] = false;
 				m_bMaskedEffect[1] = true;
 				m_fMaskedEffectAlpha[1] = 1.f;
+				m_fBubbleMaxEffect[2] = true;
+				m_fBubbleMaxAlpha[2] = 0.f;
 				break;
 
 			case 3:
@@ -330,6 +360,15 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubbleCount(_float fTimeDelta)
 		}
 		m_iPreBubbleCount = m_iCurrBubbleCount;
 	}
+	if (TEXT("Dead_End") == m_pPlayer->Get_State())
+	{
+		for (size_t i = 0; i < 3; i++)
+		{
+			m_bBubbleMax[i] = false;
+			m_bMaskedEffect[i] = false;
+			m_fMaskedEffectAlpha[i] = 0.f;
+		}
+	}
 }
 
 void CUI_IdentitySP_LinkedPlayer::Update_BubblePopAnim(_float fTimeDelta)
@@ -340,9 +379,9 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubblePopAnim(_float fTimeDelta)
 		{
 			m_fSizeX_Masked[i] += (20.f * fTimeDelta);
 			m_fSizeY_Masked[i] += (20.f * fTimeDelta);
-			m_fMaskedEffectAlpha[i] -= 5.f * fTimeDelta;
+			m_fMaskedEffectAlpha[i] -= 2.5f * fTimeDelta;
 			if(17.f > m_fBubblePopFrame[i])
-				m_fBubblePopFrame[i] += (20.f * fTimeDelta);
+				m_fBubblePopFrame[i] += (15.f * fTimeDelta);
 			if (17.f < m_fBubblePopFrame[i])
 				m_fBubblePopFrame[i] = 0.f;
 		}
@@ -365,6 +404,61 @@ void CUI_IdentitySP_LinkedPlayer::Update_BubblePopAnim(_float fTimeDelta)
 		case 2:
 			m_pTransform_Masked_EffectR->Set_Scale(Vec3(m_fSizeX_Masked[i], m_fSizeY_Masked[i], 1.f));
 			break;
+		}
+	}
+}
+
+void CUI_IdentitySP_LinkedPlayer::Update_BubbleMaxEffext(_float fTimeDelta)
+{
+	for (size_t i = 0; i < 3; i++)
+	{
+		if (m_fBubbleMaxEffect[i])
+		{
+			if (1.f >= m_fBubbleMaxAlpha[i])
+			{
+				m_fBubbleMaxAlpha[i] -= 2.f * fTimeDelta;
+				switch (i)
+				{
+				case 0:
+					m_fSizeX_MaxEffect[i] += 20.f * fTimeDelta;
+					m_fSizeY_MaxEffect[i] += 20.f * fTimeDelta;
+					m_pTransform_BubbleMaxEffectL->Set_Scale(Vec3(m_fSizeX_MaxEffect[i], m_fSizeY_MaxEffect[i], 1.f));
+					break;
+				case 1 :
+					m_fSizeX_MaxEffect[i] += 20.f * fTimeDelta;
+					m_fSizeY_MaxEffect[i] += 20.f * fTimeDelta;
+					m_pTransform_BubbleMaxEffectC->Set_Scale(Vec3(Vec3(m_fSizeX_MaxEffect[i], m_fSizeY_MaxEffect[i], 1.f)));
+					break;
+				case 2:
+					m_fSizeX_MaxEffect[i] += 20.f * fTimeDelta;
+					m_fSizeY_MaxEffect[i] += 20.f * fTimeDelta;
+					m_pTransform_BubbleMaxEffectR->Set_Scale(Vec3(Vec3(m_fSizeX_MaxEffect[i], m_fSizeY_MaxEffect[i], 1.f)));
+					break;
+				}
+			}
+			if (0.f > m_fBubbleMaxAlpha[i])
+			{
+				m_fBubbleMaxAlpha[i] = 0.f;
+				m_fBubbleMaxEffect[i] = false;
+				switch (i)
+				{
+				case 0:
+					m_fSizeX_MaxEffect[i] = { 167.f * 0.5f };
+					m_fSizeY_MaxEffect[i] = { 160.f * 0.5f };
+					m_pTransform_BubbleMaxEffectL->Set_Scale(Vec3(Vec3(m_fSizeX_MaxEffect[i], m_fSizeY_MaxEffect[i], 1.f)));
+					break;
+				case 1:
+					m_fSizeX_MaxEffect[i] = { 167.f * 0.5f };
+					m_fSizeY_MaxEffect[i] = { 160.f * 0.5f };
+					m_pTransform_BubbleMaxEffectC->Set_Scale(Vec3(Vec3(m_fSizeX_MaxEffect[i], m_fSizeY_MaxEffect[i], 1.f)));
+					break;
+				case 2:
+					m_fSizeX_MaxEffect[i] = { 167.f * 0.5f };
+					m_fSizeY_MaxEffect[i] = { 160.f * 0.5f };
+					m_pTransform_BubbleMaxEffectR->Set_Scale(Vec3(Vec3(m_fSizeX_MaxEffect[i], m_fSizeY_MaxEffect[i], 1.f)));
+					break;
+				}
+			}
 		}
 	}
 }
@@ -593,7 +687,6 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineL()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
-	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[0]
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[0], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
@@ -610,7 +703,6 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineC()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
-	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[1]
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[1], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
@@ -627,12 +719,61 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineR()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
-	_float fAlpha = 1.f;//m_fMaskedEffectAlpha[2]
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fMaskedEffectAlpha[2], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
 	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[2]);
+	return S_OK;
+}
+
+HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_BubbleMaxEffectL()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_BubbleMaxEffectL->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fBubbleMaxAlpha[0], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	m_pTexture_BubbleMaxEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	return S_OK;
+}
+
+
+HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_BubbleMaxEffectC()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_BubbleMaxEffectC->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fBubbleMaxAlpha[1], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	m_pTexture_BubbleMaxEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	return S_OK;
+}
+
+
+HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_BubbleMaxEffectR()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_BubbleMaxEffectR->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fBubbleMaxAlpha[2], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	m_pTexture_BubbleMaxEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 	return S_OK;
 }
 
@@ -760,4 +901,7 @@ void CUI_IdentitySP_LinkedPlayer::Free()
 	Safe_Release(m_pTransform_SkillR);
 	Safe_Release(m_pTransform_SkillFrameL);
 	Safe_Release(m_pTransform_SkillFrameR);
+	Safe_Release(m_pTransform_BubbleMaxEffectL);
+	Safe_Release(m_pTransform_BubbleMaxEffectC);
+	Safe_Release(m_pTransform_BubbleMaxEffectR);
 }

@@ -26,6 +26,7 @@ public:
     void    Update_BubbleAnim(_float fTimeDelta);
     void    Update_BubbleCount(_float fTimeDelta);
     void    Update_BubblePopAnim(_float fTimeDelta);
+    void    Update_BubbleMaxEffext(_float fTimeDelta);
 
 private:
     virtual HRESULT Ready_Components();
@@ -40,6 +41,9 @@ private:
     HRESULT Bind_ShaderResources_MaskedShineL();
     HRESULT Bind_ShaderResources_MaskedShineC();
     HRESULT Bind_ShaderResources_MaskedShineR();
+    HRESULT Bind_ShaderResources_BubbleMaxEffectR();
+    HRESULT Bind_ShaderResources_BubbleMaxEffectC();
+    HRESULT Bind_ShaderResources_BubbleMaxEffectL();
 
 private:
     CPlayer* m_pPlayer = { nullptr };
@@ -86,8 +90,13 @@ private:
 
     _float  m_fSizeX_Masked[3] = { 0.f, 0.f, 0.f };
     _float  m_fSizeY_Masked[3] = { 0.f, 0.f, 0.f };
+    _float  m_fSizeX_MaxEffect[3] = { 0.f, 0.f, 0.f };
+    _float  m_fSizeY_MaxEffect[3] = { 0.f, 0.f, 0.f };
     _float  m_fMaskedEffectAlpha[3] = { 0.f, 0.f, 0.f };
+    _float  m_fBubbleMaxAlpha[3] = { 0.f, 0.f, 0.f };
     _float  m_fBubblePopFrame[3] = { 0.f, 0.f, 0.f };
+    
+    _bool  m_fBubbleMaxEffect[3] = { false, false, false };//나타나는 이펙트
     _bool   m_bMaskedEffect[3] = { false, false, false };//사라지는 이펙트 On
     
 public:
