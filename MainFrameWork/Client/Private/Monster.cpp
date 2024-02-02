@@ -267,7 +267,8 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 		_uint iDataIndex = iIndex * iSizePerInstance;
 		_uint iID = iIndex;
 		Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
-		matWorld.m[0][3] = (_float)m_fRimLightColor;
+		if(m_bRimLight)
+			matWorld.m[0][3] = (_float)m_fRimLightColor;
 		if (m_bDissolveIn || m_bDissolveOut)
 		{
 			_float fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
