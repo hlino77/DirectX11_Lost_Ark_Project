@@ -286,8 +286,8 @@ float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
 {
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
-    if (vColor.a <= 0.1f)
-        discard;
+   /* if (vColor.a == 0.0f)
+        discard;*/
 
     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }

@@ -181,7 +181,7 @@ void CState_GN_FreeShooter::Effect_Shot()
 		Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
 		vRadialPos.y += 0.7f;
 		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 500.f, 0.1f, 14.f);
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.07f);
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.03f);
 	}
 
 	Vec3 vOriginLook = matWorld.Backward();
@@ -228,7 +228,7 @@ void CState_GN_FreeShooter::Effect_LastShot()
 			Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
 			vRadialPos.y += 0.7f;
 			m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 500.f, 0.1f, 14.f);
-			m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.1f);
+			m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.06f);
 		}
 
 		Vec3 vOriginLook = matWorld.Backward();

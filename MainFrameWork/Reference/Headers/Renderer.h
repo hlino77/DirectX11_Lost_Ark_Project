@@ -124,7 +124,7 @@ private:
 	_int	m_iKernelSize;
 	vector<_float> m_BlurWeights;
 
-	_float	m_fBias = 0.00000022f;
+	_float	m_fBias = 0.0000022f;
 
 	_bool	m_bRenderStaticShadow = false;
 

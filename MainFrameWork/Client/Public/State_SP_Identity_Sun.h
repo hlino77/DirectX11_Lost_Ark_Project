@@ -21,6 +21,8 @@ public:
 	void	Tick_State_Control(_float fTimeDelta);
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
+	void	Effect_Trail();
+	void	TrailEnd();
 private:
 	class CPlayer_Doaga* m_pPlayer = nullptr;
 
@@ -34,6 +36,9 @@ private:
 	_uint m_iAttackCnt = 0;
 	vector<_int> m_AttackFrames;
 
+	_bool m_bTrail = false;
+
+	vector<CEffect*> m_Trails;
 public:
 	static CState_SP_Identity_Sun* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

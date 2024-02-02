@@ -93,7 +93,7 @@ void CState_GN_LastSupper::Effect_Shot()
 		Vec3 vRadialPos = matWorld.Translation() + matWorld.Backward() * 1.3f;
 		vRadialPos.y += 0.7f;
 		m_pPlayer->Get_Camera()->Cam_Shake(0.3f, 500.f, 0.1f, 12.f);
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.1f);
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, vRadialPos, 0.2f, 0.05f);
 	}
 
 	Vec3 vLook = matWorld.Backward();
