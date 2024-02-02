@@ -106,12 +106,6 @@ void CEsther::Leader_Active_Esther()
 
 		m_pEsther_Skill->Ready();
 	}
-	if (nullptr != m_pEsther_Cut)
-	{
-		m_pEsther_Cut->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
-
-		m_pEsther_Cut->Ready();
-	}
 
 	m_bActive = true;
 }
@@ -129,24 +123,6 @@ void CEsther::Check_DeActive_Esther()
 		{
 			m_pEsther_Cut->Reset();
 			m_pEsther_Skill->Reset();
-
-			m_bActive = false;
-		}
-	}
-	else if(nullptr != m_pEsther_Skill)
-	{
-		if (true == m_pEsther_Skill->Is_Finished())
-		{
-			m_pEsther_Skill->Reset();
-
-			m_bActive = false;
-		}
-	}
-	else if (nullptr != m_pEsther_Cut)
-	{
-		if (true == m_pEsther_Cut->Is_Finished())
-		{
-			m_pEsther_Cut->Reset();
 
 			m_bActive = false;
 		}

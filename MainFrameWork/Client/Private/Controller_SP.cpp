@@ -289,6 +289,9 @@ void CController_SP::Get_SP_IdentityMessage()
 
 void CController_SP::Increase_IdenGage(_float iGage)
 {
+	if (m_iMarbleCnt == m_iMaxMarbleCnt)
+		return;
+
 	m_fIdentityGage += iGage;
 
 	if (m_fMaxGage <= m_fIdentityGage)

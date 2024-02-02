@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Player.h"
 #include "Esther.h"
+#include "Esther_Way_Cut.h"
 
 #include "Esther_Way_Dochul.h"
 
@@ -61,6 +62,7 @@ void CEsther_Way_Skill::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
+	Cut_Start(fTimeDelta);
 	Act1(fTimeDelta);
 	Act2(fTimeDelta);
 	Act3(fTimeDelta);
@@ -89,6 +91,15 @@ void CEsther_Way_Skill::Ready()
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
 	m_IsFinished = false;
+}
+
+void CEsther_Way_Skill::Cut_Start(_float fTimeDelta)
+{
+	if (85 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		static_cast<CEsther_Way_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
+		static_cast<CEsther_Way_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
+	}
 }
 
 void CEsther_Way_Skill::Act1(_float fTimeDelta)

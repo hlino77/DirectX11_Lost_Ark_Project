@@ -39,10 +39,12 @@ HRESULT CSkill_SP_Flyheaven::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.4f);
 	Proj_Desc.IsMove = true;
-	Proj_Desc.fMoveSpeed = 5.5f;
+	Proj_Desc.fMoveSpeed = 5.2f;
 	Proj_Desc.iDamage = 300;
 	Proj_Desc.iStagger = 70;
-	Proj_Desc.fRepulsion = 21.f;
+	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::STUN;
+	Proj_Desc.fStatusDuration = 2.f;
+	Proj_Desc.fRepulsion = 0.f;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;

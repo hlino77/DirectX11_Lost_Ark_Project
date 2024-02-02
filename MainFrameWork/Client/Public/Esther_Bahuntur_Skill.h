@@ -34,11 +34,12 @@ private:
 
 private:
 	void					Act1(_float fTimeDelta);
+	void					Cut_Start(_float fTimeDelta);
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
 
 private:
-	class CEsther_Bahuntur_Skill_Floor*	m_pSkillFloor = { nullptr };
+	class CEsther_Bahuntur_Skill_Floor*		m_pSkillFloor = { nullptr };
 	class CEsther_Bahuntur_Skill_Ceiling*	m_pSkillCeiling = { nullptr };
 
 	_uint					m_iAnimIndex;

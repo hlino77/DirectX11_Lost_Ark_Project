@@ -317,24 +317,26 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
-				//m_pController->Increase_IdenGage(0.1);
-				m_pController->Increase_IdenGage(1.f);
+				m_pController->Increase_IdenGage(0.1f);
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
-				//m_pController->Increase_IdenGage(0.1);
-				m_pController->Increase_IdenGage(20.);
+				m_pController->Increase_IdenGage(1.f);
 			}
+			
 		}
 		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			if (TEXT("Identity_Moon_End") != Get_State())
 			{
-				m_pController->Increase_IdenGage(0.8f);
-			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
-			{
-				m_pController->Increase_IdenGage(0.8f);
+				if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+				{
+					m_pController->Increase_IdenGage(0.8f);
+				}
+				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+				{
+					m_pController->Increase_IdenGage(8.f);
+				}
 			}
 		}
 	}
