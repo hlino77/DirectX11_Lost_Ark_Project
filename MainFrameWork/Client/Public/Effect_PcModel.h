@@ -23,8 +23,8 @@ class CEffect_PcModel : public CToolBase
 	using Super = CToolBase;
 
 private:
-	enum CLASS { SLAYER, GUNSLINGER, DESTROYER, BARD, DOAGA, CLASS_END };
-	enum WEAPON { SWORD, HAND, SHOT, LONG, HAMMER, MUSE, BRUSH, WEAPON_END };
+	enum CLASS { SLAYER, GUNSLINGER, DESTROYER, BARD, DOAGA, GOLEM, KING, VALTAN, CLASS_END };
+	enum WEAPON { SWORD, HAND, SHOT, LONG, HAMMER, MUSE, BRUSH, KINGSWORD, VALTANAXE, WEAPON_END };
 	enum PARTTYPE { PART_R, PART_L, PART_END };
 
 private:
@@ -74,7 +74,9 @@ private:
 
 private:
 	CLASS m_eSelectClass = { CLASS_END };
+	CLASS m_ePreSelectClass = { CLASS_END };
 	WEAPON m_eSelectWeapon = { WEAPON_END };
+	WEAPON m_ePreSelectWeapon = { WEAPON_END };
 	
 
 	_bool	m_CheckBoxStates[CLASS_END] = { false };
@@ -88,6 +90,12 @@ private:
 	_char	m_szCurrAnimName[MAX_PATH];
 	_uint	m_iCurrAnimation = 0;
 	_bool	m_bAnimationPlay = true;
+
+	_char	m_szWPAnimationName[MAX_PATH];
+	_char	m_szWPCurrAnimName[MAX_PATH];
+	_uint	m_iWPCurrAnimation = 0;
+
+	_bool	m_bActiveRoot = { false };
 
 public:
 	static class CEffect_PcModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CLevel_Tool* pLevel_Tool);

@@ -82,7 +82,7 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 		m_bComboContinue = true;
 	}
 
-	if (true == iAnimFrame)
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerShoulder_Loop))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (29 == iAnimFrame)

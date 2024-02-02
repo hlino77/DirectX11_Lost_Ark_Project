@@ -82,6 +82,8 @@ void CMannequin::LateTick(_float fTimeDelta)
 	
 	m_PlayAnimation.get();
 
+	//m_pModelCom->Set_ToRootPos(m_pTransformCom);
+
 	Set_EffectPos();
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
@@ -217,7 +219,7 @@ void CMannequin::Clear_MQ()
 void CMannequin::Set_ModelCom(CModel* pModel)
 {
 	if (nullptr != m_pModelCom)
-		Safe_Release(m_pModelCom);
+		m_pModelCom = nullptr;
 
 	m_pModelCom = pModel;
 	for (size_t i = 0; i < PART_END; i++)
@@ -252,6 +254,10 @@ CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMa
 		}
 		if (-1 == iBoneIndex)
 		{
+			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_r_01"));
+		}
+		if (-1 == iBoneIndex)
+		{
 			return nullptr;
 		}
 
@@ -270,6 +276,10 @@ CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMa
 		if (-1 == iBoneIndex)
 		{
 			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
+		}
+		if (-1 == iBoneIndex)
+		{
+			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_r_01"));
 		}
 		if (-1 == iBoneIndex)
 		{

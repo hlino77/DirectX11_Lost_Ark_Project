@@ -522,7 +522,7 @@ HRESULT CModel::Set_Animation_Transforms()
 			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
 
 
-		if (TEXT("b_root") == m_ModelBones[i]->strName)
+		if (TEXT("b_root") == m_ModelBones[i]->strName && true == m_bActivateRoot)
 		{
 			if (false == m_bIgnoreRoot)
 			{
@@ -614,7 +614,7 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 		else
 			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
 			
-		if (TEXT("b_root") == m_ModelBones[i]->strName)
+		if (TEXT("b_root") == m_ModelBones[i]->strName && true == m_bActivateRoot)
 		{
 			// 이동 제거
 			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));

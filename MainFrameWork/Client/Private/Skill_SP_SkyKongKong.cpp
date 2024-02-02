@@ -32,8 +32,8 @@ HRESULT CSkill_SP_SkyKongKong::Initialize(void* pArg)
 	Proj_Desc.fAttackTime = 0.05f;
 	Proj_Desc.fRadius = 2.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
-	Proj_Desc.iDamage = 150.f;
-	Proj_Desc.iStagger = 15.f;
+	Proj_Desc.iDamage = 150;
+	Proj_Desc.iStagger = 15;
 	Proj_Desc.fRepulsion = 0.f;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);

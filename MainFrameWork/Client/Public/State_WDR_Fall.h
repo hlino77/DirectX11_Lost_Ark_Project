@@ -31,7 +31,7 @@ private:
 	_float m_fStartAcc = { 0.0f };
 	_float m_fStartTime = { 0.1f };
 
-	_float m_bStart = { false };
+	_bool m_bStart = { false };
 
 	_float m_fTimeAcc = { 0.0f };
 	_float m_fFallTime = { 5.f };
