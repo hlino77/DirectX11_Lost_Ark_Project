@@ -213,15 +213,13 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 		}
-		if (false == m_bActive)
-		{
 
-			for (auto& Collider : m_StaticColliders)
-			{
-				Collider->SetActive(false);
-				Collider->Get_Child()->SetActive(false);
-			}
+		for (auto& Collider : m_StaticColliders)
+		{
+			Collider->SetActive(false);
+			Collider->Get_Child()->SetActive(false);
 		}
+
 		Set_Active(false);
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
@@ -236,16 +234,13 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			{
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
-			if (false == m_bActive)
-			{
-
-				for (auto& Collider : m_StaticColliders)
-				{
-					Collider->SetActive(false);
-					Collider->Get_Child()->SetActive(false);
-				}
-			}
 			Set_Active(false);
+
+			for (auto& Collider : m_StaticColliders)
+			{
+				Collider->SetActive(false);
+				Collider->Get_Child()->SetActive(false);
+			}
 		}
 
 	}

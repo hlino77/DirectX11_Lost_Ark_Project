@@ -9,6 +9,9 @@
 #include <Skill.h>
 #include "ColliderSphere.h"
 #include <Skill_Crystal.h>
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack21::CValtan_BT_Attack_Attack21()
 {
@@ -29,26 +32,26 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 	{
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
-		m_pGameObject->Set_Render(true);
+		m_pGameObject->Set_Render(false);
 	}
 	if (m_iCurrAnimation == 2)
-		m_pGameObject->Set_Render(false);
+		m_pGameObject->Set_Render(true);
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
-		m_pGameObject->Set_Render(true);
+		m_pGameObject->Set_Render(false);
 	}
 	if (m_iCurrAnimation == 6)
-		m_pGameObject->Set_Render(false);
+		m_pGameObject->Set_Render(true);
 
 	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
-	{
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
-	}
+	
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 73 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -89,7 +92,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 		Vec3 vDir = Vec3(1.f, 0.f, 1.f);
 		vDir.Normalize();
 		Matrix matRotation90 = Matrix::CreateRotationY(XMConvertToRadians(90.f));
-
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		for (size_t i = 0; i < 4; i++)
 		{
 			Vec3 vPosition = static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition();
@@ -104,6 +107,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack21::OnUpdate(const _float& fTimeDelt
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 8 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(2.f, 110.0f, 1.5f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -167,7 +171,6 @@ void CValtan_BT_Attack_Attack21::OnEnd()
 		if (pGameObject->Get_ObjectTag() == L"Skill_Crystal")
 		{
 			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_Explosion(true);
-			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_RimLight(0.05f);
 		}
 	}
 }

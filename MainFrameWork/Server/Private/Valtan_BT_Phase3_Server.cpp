@@ -32,7 +32,7 @@ void CValtan_BT_Phase3_Server::OnEnd()
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Groggy(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Countered(false);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
-	
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Phase(3); 
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxHp(529402339);
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_Hp(529402339);

@@ -8,6 +8,9 @@
 #include "ColliderSphere.h"
 #include <Skill.h>	
 #include "NavigationMgr.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack22::CValtan_BT_Attack_Attack22()
 {
@@ -26,10 +29,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 	{
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
-		m_pGameObject->Set_Render(true);
+		m_pGameObject->Set_Render(false);
 	}
 	if (m_iCurrAnimation == 2)
-		m_pGameObject->Set_Render(false);
+		m_pGameObject->Set_Render(true);
 	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex)
 	{
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
@@ -50,12 +53,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
 		m_fLoopTime = 0;
-
 		return BT_RUNNING;
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 44 && m_bShoot[0])
 	{
-		m_bShoot[0] = false;
+		m_bShoot[0] = false;	
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.2f, 30.0f, 0.1f, 10.0f);
 		vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 		if (!vecTargets.empty())
 			for (auto& Object : vecTargets)
@@ -123,9 +126,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack22::OnUpdate(const _float& fTimeDelt
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[12].iAnimIndex) >= 49 && m_bShoot[1])
 	{
-		m_bShoot[1] = false;
 		if (m_pGameObject->Get_NearTarget() == nullptr)
 		{
+			m_bShoot[1] = false;
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(2.f, 110.0f, 1.f, 11.0f);
 			CSkill::ModelDesc ModelDesc = {};
 			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 			ModelDesc.iObjectID = -1;

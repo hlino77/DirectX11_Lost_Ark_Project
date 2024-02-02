@@ -137,7 +137,7 @@ public:
 	void Set_RootTargetDistance(_float fDistance) { m_fRootTargetDistance = fDistance; }
 	Vec3 Get_BonePos(wstring strBoneName);
 
-	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
+	void					Set_RimLight(_float fTime, _float fColor) { m_bRimLight = true; m_fRimLightTime = fTime; m_fRimLightColor = fColor; }
 	_bool					Get_RimLight() {	return m_bRimLight;	}
 
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
@@ -201,6 +201,7 @@ protected:
 	_float							m_fRootTargetDistance =0.f;
 	_float							m_fFontScale=0.4f;
 	_bool							m_bRimLight = false;
+	_float							m_fRimLightColor = 1.f;
 	_float							m_fRimLightTime = 0.0f;
 	_bool							m_IsSetuponCell = true;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */

@@ -6,6 +6,9 @@
 #include "GameInstance.h"
 #include <Skill_Valtan_PizzaTerm.h>
 #include "ColliderSphere.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack6::CValtan_BT_Attack_Attack6()
 {
@@ -19,7 +22,7 @@ void CValtan_BT_Attack_Attack6::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 10)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 3)
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
@@ -34,6 +37,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[2].iAnimIndex) - 3 && m_bShoot)
 	{
 		m_bShoot = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.2f, 100.0f, 0.3f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -52,6 +56,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta
 				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
 				static_cast<CSkill*>(pSkill)->Set_Atk(20);
 				static_cast<CSkill*>(pSkill)->Set_Force(40.f);
+				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
+				static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f,0.f);
 				static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f+ (_float)i);
 				static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f + (_float)i);
 			}
@@ -64,6 +70,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack6::OnUpdate(const _float& fTimeDelta
 				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
 				static_cast<CSkill*>(pSkill)->Set_Atk(20);
 				static_cast<CSkill*>(pSkill)->Set_Force(40.f);
+				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
+				static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 0.f);
 				static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f + (_float)i);
 				static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f + (_float)i);
 			}

@@ -9,6 +9,9 @@
 #include "ColliderSphere.h"
 #include <Skill_Crystal.h>
 #include <AnimModel.h>
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CValtan_BT_Attack_Attack16::CValtan_BT_Attack_Attack16()
 {
@@ -43,7 +46,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack16::OnUpdate(const _float& fTimeDelt
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 9 && m_bShoot[0])
 	{
-		m_bShoot[0] = false;
+		m_bShoot[0] = false;		
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(1.1f, 150.0f, 1.5f, 13.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -165,7 +169,6 @@ void CValtan_BT_Attack_Attack16::OnEnd()
 	{
 		if (pGameObject->Get_ObjectTag() == L"Skill_Crystal")
 		{
-			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_RimLight(0.05f);
 			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_Explosion(true);
 		}
 	}
