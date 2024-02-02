@@ -1027,8 +1027,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_Npc_UI()))
 		return E_FAIL;
 
-	if (FAILED(Loading_Item()))
-		return E_FAIL;
 
 	if(FAILED(Loading_PartyUI()))
 		return E_FAIL;

@@ -430,7 +430,7 @@ PS_OUT_PHONG PS_DIFFUSE(VS_OUT In)
     return Out;
 }
 
-float4 PS_ALPHA(VS_OUT_OUTLINE In) : SV_TARGET0
+float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
@@ -517,6 +517,6 @@ technique11 DefaultTechnique
 
         VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_ALPHA();
+        PixelShader = compile ps_5_0 PS_ALPHABLEND();
     }
 }
