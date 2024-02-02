@@ -57,6 +57,17 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 		m_iMaxHp = dynamic_cast<CMonster*>(m_pOwner)->Get_MaxHp();
 		m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
 		m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
+
+		if (nullptr != m_pOwner)
+		{
+			Vec3 vHostPos = m_pOwner->Get_EffectPos();
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+				Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
+
+			m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
+				Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
+		}
 	}
 
 	return S_OK;

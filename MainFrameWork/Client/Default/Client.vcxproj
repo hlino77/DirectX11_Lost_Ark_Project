@@ -756,6 +756,8 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h" />
+    <ClInclude Include="..\Public\UI_PartyHPWnd.h" />
+    <ClInclude Include="..\Public\UI_PartyUI.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_HPEmpty.h" />
     <ClInclude Include="..\Public\UI_Player_HPFill.h" />
@@ -1432,6 +1434,8 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp" />
+    <ClCompile Include="..\Private\UI_PartyHPWnd.cpp" />
+    <ClCompile Include="..\Private\UI_PartyUI.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPEmpty.cpp" />
     <ClCompile Include="..\Private\UI_Player_HPFill.cpp" />

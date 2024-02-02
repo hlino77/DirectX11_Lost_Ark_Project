@@ -26,10 +26,10 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 	else
 		m_TickFunc = &CState_GN_PerfectShot_Loop::Tick_State_NoneControl;
 
-	m_fSkillEndTime = 3.f;
+	m_fSkillEndTime = 2.f;
 
-	m_fSkillSuccessTime_Min = 2.f;
-	m_fSkillSuccessTime_Max = 2.5f;
+	m_fSkillSuccessTime_Min = 1.5f;
+	m_fSkillSuccessTime_Max = 1.9f;
 
 	m_fEffectChargeTime = 0.23f;
 

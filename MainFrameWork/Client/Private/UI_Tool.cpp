@@ -135,56 +135,59 @@ void CUI_Tool::UI_Hierachy()
 		return;
 
 	ImGui::Begin("Hierachy");
-	ImGui::BeginListBox("UI_List");
 
-	m_UIList_CurrentLevel = *CUI_Manager::GetInstance()->Get_UIList((LEVELID)m_iCurrentLevel);
-	if (nullptr == &m_UIList_CurrentLevel)
-		return;
-	
-	_uint iIndex = 0;
-	for (auto iter : m_UIList_CurrentLevel)
+	if (ImGui::BeginListBox("UI_List"))
 	{
-		if(ImGui::Selectable(CGameInstance::GetInstance()->wstring_to_string(iter->Get_UITag()).c_str(), iIndex == m_iCurrIndex))
-		{
-			m_pCurrentUI = iter;
-			m_iCurrIndex = iIndex;
-		}
-		++iIndex;
-	}
-	ImGui::EndListBox();
+		m_UIList_CurrentLevel = *CUI_Manager::GetInstance()->Get_UIList((LEVELID)m_iCurrentLevel);
+		if (nullptr == &m_UIList_CurrentLevel)
+			return;
 
-
-	ImGui::BeginListBox("Part_List");
-	if (nullptr != m_pCurrentUI)
-	{
-		if (1 < m_pCurrentUI->Get_UIParts().size())
-			m_vecUIPart_CurrentLevel = m_pCurrentUI->Get_UIParts();
-		else if (1 >= m_pCurrentUI->Get_UIParts().size())
+		_uint iIndex = 0;
+		for (auto iter : m_UIList_CurrentLevel)
 		{
-			m_vecUIPart_CurrentLevel.clear();
-
-			m_vecUIPart_CurrentLevel.push_back(m_pCurrentUI);
-		}
-	}
-	if (nullptr != &m_vecUIPart_CurrentLevel)
-	{
-		_int iPartIndex = 0;
-		for (auto iter : m_vecUIPart_CurrentLevel)
-		{
-			if (ImGui::Selectable(CGameInstance::GetInstance()->wstring_to_string(iter->Get_UITag()).c_str(), iPartIndex == m_iCurrentPartIndex))
+			if (ImGui::Selectable(CGameInstance::GetInstance()->wstring_to_string(iter->Get_UITag()).c_str(), iIndex == m_iCurrIndex))
 			{
-				m_pPartUI = iter;
-				if ((nullptr != m_pBeforePartUI)&&(m_pPartUI != m_pBeforePartUI))
-					m_pBeforePartUI->Set_ToolMode(false);
-				m_pBeforePartUI = iter;
-				m_pPartUI->Set_ToolMode(true);
-				m_iCurrentPartIndex = iPartIndex;
+				m_pCurrentUI = iter;
+				m_iCurrIndex = iIndex;
 			}
-			++iPartIndex;
+			++iIndex;
 		}
+		ImGui::EndListBox();
 	}
 
-	ImGui::EndListBox();
+	if (ImGui::BeginListBox("Part_List"))
+	{
+		if (nullptr != m_pCurrentUI)
+		{
+			if (1 < m_pCurrentUI->Get_UIParts().size())
+				m_vecUIPart_CurrentLevel = m_pCurrentUI->Get_UIParts();
+			else if (1 >= m_pCurrentUI->Get_UIParts().size())
+			{
+				m_vecUIPart_CurrentLevel.clear();
+
+				m_vecUIPart_CurrentLevel.push_back(m_pCurrentUI);
+			}
+		}
+		if (nullptr != &m_vecUIPart_CurrentLevel)
+		{
+			_int iPartIndex = 0;
+			for (auto iter : m_vecUIPart_CurrentLevel)
+			{
+				if (ImGui::Selectable(CGameInstance::GetInstance()->wstring_to_string(iter->Get_UITag()).c_str(), iPartIndex == m_iCurrentPartIndex))
+				{
+					m_pPartUI = iter;
+					if ((nullptr != m_pBeforePartUI) && (m_pPartUI != m_pBeforePartUI))
+						m_pBeforePartUI->Set_ToolMode(false);
+					m_pBeforePartUI = iter;
+					m_pPartUI->Set_ToolMode(true);
+					m_iCurrentPartIndex = iPartIndex;
+				}
+				++iPartIndex;
+			}
+		}
+		ImGui::EndListBox();
+	}
+
 	ImGui::End();
 }
 
