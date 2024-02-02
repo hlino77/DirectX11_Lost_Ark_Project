@@ -42,6 +42,13 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
+	if (m_szModelName == TEXT("Elevator01d_Edit_Glass") || m_szModelName == TEXT("Ehgeiz_A_Bossfloor01b_Top"))
+	{
+		m_iPass = 1;
+		m_bInstance = false;
+	}
+
+
 	if (m_bInstance)
 	{
 		if (m_pInstaceData->find(m_szModelName) == m_pInstaceData->end())
@@ -50,10 +57,11 @@ HRESULT CStaticModel::Initialize(void* pArg)
 				return E_FAIL;
 		}
 	}
+
+
 	
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc->vPosition.x, Desc->vPosition.y, Desc->vPosition.z, 1.f));
-
 	//m_pTransformCom->My_Rotation(Vec3(90.f,180.f, 0.f));
 
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
@@ -64,13 +72,93 @@ HRESULT CStaticModel::Initialize(void* pArg)
 void CStaticModel::Tick(_float fTimeDelta)
 {
 
-	if (m_szModelName == TEXT("Vol_ETC_C_Ship01f") || m_szModelName == TEXT("Vol_Knaly_D_Decocore01h"))
+#pragma region Specific Object Behavior
+
+
+	// Chaos 2 Object
 	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1 * fTimeDelta);
+		if (m_szModelName == TEXT("Ehrgeiz_A_gear01a") || m_szModelName == TEXT("Ehrgeiz_A_gear01c"))
+		{
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 2.f * fTimeDelta);
+		}
+		if (m_szModelName == TEXT("Ehrgeiz_A_gear01b") )
+		{
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), -2.f * fTimeDelta);
+		}
+
 	}
+
+
+	// Chaos 3 Object 
+	{
+		if (m_szModelName == TEXT("Vol_ETC_C_Ship01f") || m_szModelName == TEXT("Vol_Knaly_D_Decocore01h"))
+		{
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1f * fTimeDelta);
+		}
+
+		if (m_szModelName == TEXT("Vol_Add_Etc_Pattern01") ||
+			m_szModelName == TEXT("Vol_Add_Etc_Pattern02"))
+		{
+			m_pTransformCom->Turn_Rotation_CurrentState(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.3f * fTimeDelta);
+		}
+
+		if (m_szModelName == TEXT("Vol_Add_Etc_Pattern02_001"))
+		{
+			m_pTransformCom->Turn_Rotation_CurrentState(XMVectorSet(0.f, 1.f, 0.f, 1.f), -0.3f * fTimeDelta);
+		}
+
+		if (m_szModelName == TEXT("Vol_Add_Gjunglevol_Deco01"))
+		{
+			m_pTransformCom->Turn_Rotation_CurrentState(XMVectorSet(0.f, 1.f, 0.f, 1.f), -2 * fTimeDelta);
+		}
+
+		if (m_szModelName == TEXT("Vol_Add_Knaly_Watergate01a"))
+		{
+			m_pTransformCom->Turn_Rotation_CurrentState(XMVectorSet(1.f, 0.f, 0.f, 1.f), 0.3f * fTimeDelta);
+		}
+
+		if (m_szModelName == TEXT("Vol_Add_Common_Elevator01"))
+		{
+			_float MaxY = 1.f;
+			_float MinY = -16.f;
+			Vec3 Position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			if ((Position.y >= MaxY && bUp == true) ||
+				(Position.y <= MinY && bUp == false))
+			{
+				bStop = true;
+				bUp = !bUp;
+			}
+
+			if (true == bStop)
+			{
+				fAccTime += fTimeDelta;
+
+				if (fAccTime >= 2.f)
+				{
+					fAccTime = 0.f;
+					bStop = false;
+				}
+			}
+
+			if (true == bUp && false == bStop)
+			{
+				m_pTransformCom->Go_Up(0.5 * fTimeDelta);
+			}
+			else if (false == bUp && false == bStop)
+			{
+				m_pTransformCom->Go_Down(0.5 * fTimeDelta);
+			}
+		}
+	}
+
+#pragma endregion
 
 	static _int g_cnt = 0;
 
+#pragma region For BreakAble Object 
+
+	// BreakAble Object Active Setting
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::H))
 	{
 		if (m_StaticColliders.size() != 0)
@@ -81,11 +169,12 @@ void CStaticModel::Tick(_float fTimeDelta)
 			{
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
-
 			//Set_Dead(true);
 			Set_Active(false);
 		}
 	}
+
+	// Collider Active Setting
 	if (false == m_bActive)
 	{
 
@@ -95,6 +184,9 @@ void CStaticModel::Tick(_float fTimeDelta)
 			Collider->Get_Child()->SetActive(false);
 		}
 	}
+
+#pragma endregion
+
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
@@ -113,32 +205,74 @@ void CStaticModel::LateTick(_float fTimeDelta)
 
 	if (m_bRender)
 	{
-		m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
-		if (m_bInstance)
-			m_pRendererCom->Add_InstanceRenderGroup(m_eRenderGroup, this);
-		else
-			m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
+		// NonBlend Render
+		if (m_iPass == 0)
+		{
+			m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
+
+			if (m_bInstance)
+			{
+				m_pRendererCom->Add_InstanceRenderGroup(m_eRenderGroup, this);
+			}
+			else
+			{
+				m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
+			}
+		}
+		else if (m_iPass == 1)
+		{
+			m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_ALPHABLEND;
+
+			if (m_bInstance)
+			{
+				m_pRendererCom->Add_InstanceRenderGroup(m_eRenderGroup, this);
+			}
+			else
+			{
+				m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
+			}
+		}
 		  
 		// Draw Collider
-		//m_pRendererCom->Add_DebugObject(this);
+		m_pRendererCom->Add_DebugObject(this);
 	}
 
 }
 
 HRESULT CStaticModel::Render()
 {
-	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
-		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
-		return E_FAIL;
+	if (m_iPass == 0)
+	{
+		if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+			return E_FAIL;
 
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+			return E_FAIL;
 
-	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
-		return E_FAIL;
+		_float fRimLight = (_float)m_bRimLight;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom)))
+			return E_FAIL;
+	}
+	else if (m_iPass == 1)
+	{
+		if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+			return E_FAIL;
+
+		_float fRimLight = (_float)m_bRimLight;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, 0, "Alpha")))
+			return E_FAIL;
+
+	}
 
     return S_OK;
 }
@@ -184,11 +318,10 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_GlobalVP()))
 		return E_FAIL;
 
+
 	if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
 		return E_FAIL;
 
-
-	//Safe_Release(pGameInstance);
 
 	return S_OK;
 }

@@ -202,6 +202,19 @@ void CUseLock_Transform::Rotation(Vec3 vAxis, _float fRadian)
 	Set_State(CUseLock_Transform::STATE_LOOK, vLook * vScale.z);
 }
 
+void CUseLock_Transform::Turn_Rotation_CurrentState(Vec3 vAxis, _float fTimeDelta)
+{
+	Matrix WorldMatrix = XMLoadFloat4x4(&m_WorldMatrix);
+
+
+	Matrix RotationMatrix = XMMatrixRotationAxis(vAxis, fTimeDelta);
+
+
+	WorldMatrix = XMMatrixMultiply(RotationMatrix, WorldMatrix);
+
+	XMStoreFloat4x4(&m_WorldMatrix, WorldMatrix);
+}
+
 void CUseLock_Transform::LookAt(Vec3 vAt)
 {
 	Vec3		vLook = vAt - Get_State(CUseLock_Transform::STATE_POSITION);
