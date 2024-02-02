@@ -19,7 +19,7 @@ Texture2D g_SSROriginalTarget;
 cbuffer SSR_Data
 {
     float fSSRStep = 0.005f;
-    int iStepCount = 75;
+    int iStepCount = 15;
     float2 padding;
 }
 

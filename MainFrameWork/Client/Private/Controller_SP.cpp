@@ -241,11 +241,6 @@ void CController_SP::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	if (nullptr == m_pSkills[eKey])
 		return;
 
-	if (false == m_pSkills[eKey]->Is_Active())
-	{
-		m_pSkills[eKey]->Set_Active(true);
-	}
-
 	CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 	if (Vec3() != vPos)
 	{

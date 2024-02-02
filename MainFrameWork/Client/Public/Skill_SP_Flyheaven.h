@@ -31,11 +31,14 @@ private:
 
 	_int							m_iAnimIndex = -1;
 
-	_float							m_fEndAcc = { 0.0f };
-	_float							m_fEndTime = { 3.f };
+	_float							m_fSpeed = 0.0f;
+	_float							m_fStartSpeed = 0.1f;
+	_float							m_fTargetSpeed = 10.f;
 
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
+
+	LERP_FLOAT						m_tLerp;
 
 public:
 	static CSkill_SP_Flyheaven* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Doaga* pPlayer, void* pArg);
