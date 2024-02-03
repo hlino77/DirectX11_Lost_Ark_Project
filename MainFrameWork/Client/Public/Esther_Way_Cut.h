@@ -38,6 +38,7 @@ private:
 
 private:
 	_uint					m_iAnimIndex;
+	_bool					m_bLerpActive = false;
 
 
 public:

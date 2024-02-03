@@ -44,7 +44,8 @@ private:
 
 	_uint					m_iAnimIndex;
 
-	_bool					m_bAnim = false;
+	_bool					m_bCutStart = { false };
+	_bool					m_bAnim = { false };
 
 	_float					m_fTimeAcc = { 0.0f };
 	_float					m_fAnimTime = { 1.5f };

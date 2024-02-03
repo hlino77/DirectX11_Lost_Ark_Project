@@ -29,38 +29,24 @@ HRESULT CCamera_Cut::Initialize(void* pArg)
 {
 	CUTCAMERADESC* pDesc = static_cast<CUTCAMERADESC*>(pArg);
 	m_pTarget = pDesc->pCutTarget;
-	m_iState = static_cast<CEsther_Cut*>(m_pTarget)->Get_OwnerEshter()->Get_EstherType();
 
 	if (FAILED(__super::Initialize(&pDesc->tCameraDesc)))
 		return E_FAIL;
-
-	/*m_vOffset = pDesc->vOffset;
-	m_vOffset.Normalize();
-
-	Vec3 vRight = m_vOffset.Cross(Vec3(0.0f, 1.0f, 0.0f));
-
-	m_vDefaultOffset = m_vOffset = XMVector3TransformNormal(m_vOffset, Matrix::CreateFromAxisAngle(vRight, XMConvertToRadians(50.0f)));
-
-	m_fDefaultLength = m_fTargetCameraLength = m_fCameraLength = pDesc->fDefaultLength;*/
-
-	Vec3 vPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION) + (m_vOffset * m_fCameraLength);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
 	return S_OK;
 }
 
 void CCamera_Cut::Tick(_float fTimeDelta)
 {
+
+
 	switch (m_iState)
 	{
-	case (_uint)CameraEstherState::SA:
-		Tick_SilianCamera(fTimeDelta);
+	case (_uint)CAMERATYPE::OFFSET:
+		Tick_Offset(fTimeDelta);
 		break;
-	case (_uint)CameraEstherState::WY:
-		Tick_WayCamera(fTimeDelta);
-		break;
-	case (_uint)CameraEstherState::BT:
-		Tick_BahunturCamera(fTimeDelta);
+	case (_uint)CAMERATYPE::LOOKTARGET:
+		Tick_LookTarget(fTimeDelta);
 		break;
 	}
 }
@@ -69,35 +55,68 @@ void CCamera_Cut::LateTick(_float fTimeDelta)
 {
 }
 
+void CCamera_Cut::Tick_Offset(_float fTimeDelta)
+{
+	if (m_fCameraLength != m_fTargetCameraLength)
+	{
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+
+		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
+		{
+			m_fCameraLength = m_fTargetCameraLength;
+		}
+	}
+	if (true == m_tLerpOffset.bActive)
+	{
+		m_vOffset = m_tLerpOffset.Update_Lerp(fTimeDelta);
+	}
+	if (true == m_tLerpTarget.bActive)
+	{
+		m_vTargetOffset = m_tLerpTarget.Update_Lerp(fTimeDelta);
+	}
+
+	Vec3 vTargetPos = static_cast<CPlayer*>(m_pTarget)->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vTargetPos = vTargetPos + m_vTargetOffset;
+
+	Vec3 vPos = vTargetPos + (m_vOffset * m_fCameraLength);
+
+	Vec3 vLook = vTargetPos - vPos;
+	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	m_pTransformCom->Set_WorldMatrix(matWorld);
+}
+
+void CCamera_Cut::Tick_LookTarget(_float fTimeDelta)
+{
+	if (m_fCameraLength != m_fTargetCameraLength)
+	{
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+
+		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
+		{
+			m_fCameraLength = m_fTargetCameraLength;
+		}
+	}
+	if (true == m_tLerpTarget.bActive)
+	{
+		m_vTargetOffset = m_tLerpTarget.Update_Lerp(fTimeDelta);
+	}
+
+	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	
+	Vec3 vTargetPos = static_cast<CPlayer*>(m_pTarget)->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	vTargetPos = vTargetPos + (m_vTargetOffset);
+
+	Vec3 vLook = vTargetPos - vPos;
+	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+	m_pTransformCom->Set_WorldMatrix(matWorld);
+}
+
 HRESULT CCamera_Cut::Render()
 {
 	return S_OK;
 }
-
-HRESULT CCamera_Cut::Load_CutFrame()
-{
-	switch (m_iState)
-	{
-		case (_uint)CameraEstherState::SA:
-		{
-
-		}
-		break;
-		case (_uint)CameraEstherState::WY:
-		{
-
-		}
-		break;
-		case (_uint)CameraEstherState::BT:
-		{
-
-		}
-		break;
-	}
-
-	return S_OK;
-}
-
 
 void CCamera_Cut::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _float fBreak)
 {
@@ -116,114 +135,6 @@ void CCamera_Cut::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _fl
 	m_vShakeVelocity.Normalize();
 
 	m_vShakeVelocity *= fFirstShake;
-}
-
-void CCamera_Cut::Tick_SilianCamera(_float fTimeDelta)
-{
-	if (m_fCameraLength != m_fTargetCameraLength)
-	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
-		{
-			m_fCameraLength = m_fTargetCameraLength;
-		}
-	}
-
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos = vPos + (m_vOffset * m_fCameraLength);
-
-	Vec3 vTargetPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vTargetPos = vTargetPos + m_vTargetOffset;
-
-	Vec3 vLook = vTargetPos - vPos;
-	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-
-	if (m_bShake)
-	{
-		m_fCurrShakeTime += fTimeDelta;
-		if (m_fCurrShakeTime >= m_fShakeTime)
-		{
-			m_bShake = false;
-		}
-
-		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
-		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-	}
-
-	m_pTransformCom->Set_WorldMatrix(matWorld);
-}
-
-void CCamera_Cut::Tick_BahunturCamera(_float fTimeDelta)
-{
-	if (m_fCameraLength != m_fTargetCameraLength)
-	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
-		{
-			m_fCameraLength = m_fTargetCameraLength;
-		}
-	}
-
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos = vPos + (m_vOffset * m_fCameraLength);
-
-	Vec3 vTargetPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vTargetPos = vTargetPos + m_vTargetOffset;
-
-	Vec3 vLook = vTargetPos - vPos;
-	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-
-	if (m_bShake)
-	{
-		m_fCurrShakeTime += fTimeDelta;
-		if (m_fCurrShakeTime >= m_fShakeTime)
-		{
-			m_bShake = false;
-		}
-
-		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
-		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-	}
-
-	m_pTransformCom->Set_WorldMatrix(matWorld);
-}
-
-void CCamera_Cut::Tick_WayCamera(_float fTimeDelta)
-{
-	if (m_fCameraLength != m_fTargetCameraLength)
-	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
-
-		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
-		{
-			m_fCameraLength = m_fTargetCameraLength;
-		}
-	}
-
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos = vPos + (m_vOffset * m_fCameraLength);
-
-	Vec3 vTargetPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vTargetPos = vTargetPos + m_vTargetOffset;
-
-	Vec3 vLook = vTargetPos - vPos;
-	Matrix matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-
-	if (m_bShake)
-	{
-		m_fCurrShakeTime += fTimeDelta;
-		if (m_fCurrShakeTime >= m_fShakeTime)
-		{
-			m_bShake = false;
-		}
-
-		Update_ShakeLook(vPos, matWorld.Up(), matWorld.Right(), fTimeDelta);
-		matWorld = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
-	}
-
-	m_pTransformCom->Set_WorldMatrix(matWorld);
 }
 
 void CCamera_Cut::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta)

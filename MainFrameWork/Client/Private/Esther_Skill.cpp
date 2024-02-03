@@ -55,7 +55,7 @@ void CEsther_Skill::Tick(_float fTimeDelta)
 {
 	if (m_bNavi)
 	{
-		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
+		//CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	}
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);

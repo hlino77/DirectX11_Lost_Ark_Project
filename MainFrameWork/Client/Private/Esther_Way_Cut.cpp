@@ -40,7 +40,7 @@ HRESULT CEsther_Way_Cut::Initialize(void* pArg)
 	if (FAILED(Ready_CutCamera()))
 		return E_FAIL;
 
-	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"evt1_sk_dochul", 1.1f);
+	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"evt1_sk_dochul", 1.0f);
 	if (m_iAnimIndex == -1)
 		return E_FAIL;
 
@@ -76,6 +76,7 @@ void CEsther_Way_Cut::LateTick(_float fTimeDelta)
 
 void CEsther_Way_Cut::Reset()
 {
+	m_bLerpActive = false;
 	m_IsFinished = true;
 }
 
@@ -84,8 +85,10 @@ void CEsther_Way_Cut::Ready()
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 	m_pTransformCom->My_Rotation(Vec3(0.f, 180.f, 0.f));
 
-	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.3f, 1.05f, -1.42f));
-	m_pCutCamera->Set_TargetOffset(Vec3(-1.35f, 1.0f, 0.f));
+	m_pCutCamera->Set_CutMode((_uint)CCamera_Cut::CAMERATYPE::OFFSET);
+	m_pCutCamera->Set_Offset(Vec3(0.737f, -0.187f, -0.650f));
+	m_pCutCamera->Set_CameraLength(2.2f);
+	m_pCutCamera->Set_Direct_TargetOffset(Vec3(-1.303f, 1.224f, 0.f));
 
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
@@ -98,7 +101,8 @@ void CEsther_Way_Cut::Ready()
 
 void CEsther_Way_Cut::Act1(_float fTimeDelta)
 {
-	if (140 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (140 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) &&
+		170 > m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_ANGRY];
 	}
@@ -106,7 +110,7 @@ void CEsther_Way_Cut::Act1(_float fTimeDelta)
 
 void CEsther_Way_Cut::Act2(_float fTimeDelta)
 {
-	if (170 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (170 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_DEFAULT];
 	}
@@ -114,7 +118,11 @@ void CEsther_Way_Cut::Act2(_float fTimeDelta)
 
 void CEsther_Way_Cut::Act3(_float fTimeDelta)
 {
-	
+	if (175 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bLerpActive)
+	{
+		m_pCutCamera->Set_Lerp_TargetOffset(1.2f, Vec3(-2.f, 1.224f, 0.f), LERP_MODE::EASE_IN);
+		m_bLerpActive = true;
+	}
 }
 
 void CEsther_Way_Cut::Check_Finish()
@@ -122,6 +130,7 @@ void CEsther_Way_Cut::Check_Finish()
 	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
 	{
 		m_IsFinished = true;
+		m_bLerpActive = false;
 	}
 }
 

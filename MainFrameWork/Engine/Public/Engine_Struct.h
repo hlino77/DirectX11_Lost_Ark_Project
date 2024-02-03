@@ -489,6 +489,95 @@ namespace Engine
 		_float Lerp_Float(const _float& _f1, const _float& _f2, const _float _fTime) { return (1 - _fTime) * _f1 + (_fTime * _f2); }
 
 	}LERP_FLOAT;
+
+	typedef struct ENGINE_DLL MyLerpVec3Info
+	{
+		_float		fStartTime = 0.f;
+		_float		fEndTime = 0.f;
+		_float		fCurTime = 0.f;
+
+		Vec3		vStartVec;
+		Vec3		vTargetVec;
+		Vec3		vCurVec;
+
+		_bool		bActive = false;
+
+		LERP_MODE	eMode = LERP_MODE::DEFAULT;
+
+		void Init_Lerp(const _float& _fTime, const Vec3 _vStartValue, const Vec3 _vTargetValue, const LERP_MODE& _eMode = LERP_MODE::DEFAULT)
+		{
+			bActive = true;
+			fCurTime = 0.f;
+			vCurVec = Vec3::Zero;
+			eMode = _eMode;
+
+			Set_Lerp(_fTime, _vStartValue, _vTargetValue);
+		}
+
+		void Set_Lerp(const _float& _fTime, const Vec3 _vStartValue, const Vec3 _vTargetValue)
+		{
+			fEndTime = _fTime;
+			vStartVec = vCurVec = _vStartValue;
+			vTargetVec = _vTargetValue;
+		}
+
+		Vec3 Update_Lerp(const _float& fTimeDelta)
+		{
+			if (false == bActive)
+			{
+				return vTargetVec;
+			}
+
+			fCurTime += fTimeDelta;
+
+			if (fCurTime >= fEndTime)
+			{
+				bActive = false;
+				fCurTime = fEndTime;
+				vCurVec = vTargetVec;
+
+				return vCurVec;
+			}
+
+			_float t = fCurTime / fEndTime;
+
+			switch (eMode)
+			{
+			case LERP_MODE::DEFAULT:
+			{
+			}
+			break;
+			case LERP_MODE::EASE_OUT:
+			{
+				t = sinf(t * XM_PI * 0.5f);
+			}
+			break;
+			case LERP_MODE::EASE_IN:
+			{
+				t = 1.f - cosf(t * XM_PI * 0.5f);
+			}
+			break;
+			case LERP_MODE::EXPONENTIAL:
+			{
+				t = t * t;
+			}
+			break;
+			case LERP_MODE::SMOOTHSTEP:
+			{
+				t = t * t * (3.f - 2.f * t);
+			}
+			break;
+			case LERP_MODE::SMOOTHERSTEP:
+			{
+				t = t * t * t * (t * (6.f * t - 15.f) + 10.f);
+			}
+			break;
+			}
+
+			return vCurVec = XMVectorLerp(vStartVec, vTargetVec, t);
+
+		}
+	}LERP_VEC3;
 }
 
 #endif // Engine_Struct_h__

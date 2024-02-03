@@ -45,8 +45,13 @@ HRESULT CEsther_Bahuntur_Cut::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	m_pModelCom->Set_Enforce_CurrAnimFrame(m_pModelCom->Get_Anim_MaxFrame(m_iAnimIndex));
 	m_pModelCom->Play_Animation(0.0f);
 
+	for (size_t i = 0; i < 4; i++)
+	{
+		m_bCut[i] = false;
+	}
 
 
 	return S_OK;
@@ -58,6 +63,11 @@ void CEsther_Bahuntur_Cut::Tick(_float fTimeDelta)
 
 	if (true == m_IsFinished)
 		return;
+	
+	Cut1(fTimeDelta);
+	Cut2(fTimeDelta);
+	Cut3(fTimeDelta);
+	Cut4(fTimeDelta);
 
 	Act1(fTimeDelta);
 	Act2(fTimeDelta);
@@ -83,32 +93,79 @@ void CEsther_Bahuntur_Cut::Reset()
 
 void CEsther_Bahuntur_Cut::Ready()
 {
+	// 모델 초기화
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 	m_pTransformCom->My_Rotation(Vec3(0.f, 180.f, 0.f));
 
-	m_pCutCamera->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.42f, 1.14f, -3.f));
-	m_pCutCamera->Get_TransformCom()->LookAt(Vec3(-0.78f, -0.03f, 0.62f));
+	// 카메라 초기화
+	m_pCutCamera->Set_CutMode((_uint)CCamera_Cut::CAMERATYPE::OFFSET);
+	m_pCutCamera->Set_Offset(Vec3(0.796f, -0.274f, -0.540f));
+	m_pCutCamera->Set_CameraLength(2.98f);
+	m_pCutCamera->Set_Direct_TargetOffset(Vec3(-1.027f, 2.302f, 0.f));
 
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
-	Reserve_Animation(m_iAnimIndex, 0.1f, 25, 0, 1.f);
+	Reserve_Animation(m_iAnimIndex, 0.1f, 25, 0);
 
 	m_pModelCom->Set_IgnoreRoot(true);
 
+	for (size_t i = 0; i < 4; i++)
+	{
+		m_bCut[i] = false;
+	}
 	m_IsFinished = false;
+}
+
+void CEsther_Bahuntur_Cut::Cut1(_float fTimeDelta)
+{
+	if (26 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCut[0])
+	{
+		m_pCutCamera->Set_Lerp_Offset(0.5f, Vec3(0.770f, -0.436f, -0.467f), LERP_MODE::EASE_OUT);
+		m_pCutCamera->ZoomInOut(3.73f, 7.f);
+		m_pCutCamera->Set_Lerp_TargetOffset(0.5f, Vec3(-1.750f, 1.750f, -0.891f), LERP_MODE::EASE_OUT);
+
+		m_bCut[0] = true;
+	}
+}
+
+void CEsther_Bahuntur_Cut::Cut2(_float fTimeDelta)
+{
+	if (55 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCut[1])
+	{
+		m_pCutCamera->Set_Lerp_Offset(0.6f, Vec3(0.785f, -0.590f, -0.186f), LERP_MODE::EASE_OUT);
+		m_pCutCamera->ZoomInOut(5.600f, 5.f);
+		m_pCutCamera->Set_Lerp_TargetOffset(0.6f, Vec3(-3.440f, 3.618f, 0.f), LERP_MODE::EASE_OUT);
+
+		m_bCut[1] = true;
+	}
+}
+
+void CEsther_Bahuntur_Cut::Cut3(_float fTimeDelta)
+{
+	if (85 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCut[2])
+	{
+		m_pCutCamera->Set_Lerp_TargetOffset(0.6f, Vec3(-3.440f, 4.500f, 0.f), LERP_MODE::EASE_IN);
+
+		m_bCut[2] = true;
+	}
+}
+
+void CEsther_Bahuntur_Cut::Cut4(_float fTimeDelta)
+{
+	
 }
 
 void CEsther_Bahuntur_Cut::Act1(_float fTimeDelta)
 {
-
+	if (60 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_ANGRY];
+	}
 }
 
 void CEsther_Bahuntur_Cut::Act2(_float fTimeDelta)
 {
-	if (60 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
-	{
-		m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_ANGRY];
-	}
+	
 }
 
 void CEsther_Bahuntur_Cut::Act3(_float fTimeDelta)
@@ -118,7 +175,7 @@ void CEsther_Bahuntur_Cut::Act3(_float fTimeDelta)
 
 void CEsther_Bahuntur_Cut::Check_Finish()
 {
-	if (95 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (100 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_IsFinished = true;
 	}

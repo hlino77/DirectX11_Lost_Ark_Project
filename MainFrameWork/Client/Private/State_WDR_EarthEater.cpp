@@ -112,7 +112,6 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 	}
 	if (110 <= iAnimFrame)
 	{
-	
 		if (true == m_pController->Is_Skill())
 		{
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))

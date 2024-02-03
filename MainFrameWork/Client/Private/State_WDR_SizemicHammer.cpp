@@ -27,7 +27,7 @@ HRESULT CState_WDR_SizemicHammer::Initialize()
 		m_TickFunc = &CState_WDR_SizemicHammer::Tick_State_NoneControl;
 
 	m_SkillFrames.push_back(41);
-	m_SkillFrames.push_back(60);
+	m_SkillFrames.push_back(57);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;

@@ -59,6 +59,8 @@ HRESULT CEsther_Bahuntur_Skill::Initialize(void* pArg)
 	m_pModelCom->Set_Enforce_CurrAnimFrame(m_pModelCom->Get_Anim_MaxFrame(m_iAnimIndex));
 	m_pModelCom->Play_Animation(0.0f);
 
+	m_bCutStart = false;
+
 	return S_OK;
 }
 
@@ -121,6 +123,7 @@ void CEsther_Bahuntur_Skill::Ready()
 	m_fAnimationSpeed = 0.f;
 	Reserve_Animation(m_iAnimIndex, 0.1f, 10, 0);
 
+	m_bCutStart = false;
 	m_IsFinished = false;
 }
 
@@ -141,10 +144,12 @@ void CEsther_Bahuntur_Skill::Act1(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 {
-	if (25 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
 		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
 		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
+
+		m_bCutStart = true;
 	}
 }
 
