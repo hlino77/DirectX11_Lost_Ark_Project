@@ -28,9 +28,9 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch_Server::OnUpdate(const _float&
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && !static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && !static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(false);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);

@@ -1871,7 +1871,6 @@
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
@@ -4774,7 +4773,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\ItemCode.h">
       <Filter>02.GameObjects\Item</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
@@ -4783,6 +4782,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_PartyHPWnd.h">
       <Filter>02.GameObjects\UI\18.PartyHPUI\00.HpWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5004,7 +5006,6 @@
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
@@ -7889,6 +7890,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_PartyHPWnd.cpp">
       <Filter>02.GameObjects\UI\18.PartyHPUI\00.HpWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

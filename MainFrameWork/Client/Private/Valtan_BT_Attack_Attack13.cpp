@@ -32,7 +32,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack13::OnUpdate(const _float& fTimeDelt
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-
+		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.2f, 0.7f);
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.2f, 0.7f);
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SilenceSphere", &ModelDesc);
 		if (pSkill != nullptr)
 		{
@@ -43,10 +44,13 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack13::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
 	}
-
+	if (m_bOutSide && m_iCurrAnimation == 2)
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.05f, 0.7f);
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 7 && m_bShoot[1])
 	{
-		m_bShoot[1] = false;		
+		m_bShoot[1] = false;
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 110.0f, 0.5f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;

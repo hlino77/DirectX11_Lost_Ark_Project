@@ -28,7 +28,7 @@ private:
 
 private:
 	_float							m_fAnimationSpeed = 1.0f;
-	Vec3							m_vRotationms;
+	Vec3							m_vRotations;
 	std::future<HRESULT>			m_PlayAnimation;
 	CModel* m_pModel_PostDeathCom = {};
 public:

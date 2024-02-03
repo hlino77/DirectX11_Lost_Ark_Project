@@ -86,7 +86,7 @@ void CBoss::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 	if (m_IsCounterSkill)
-		Set_RimLight(0.1f,0.9f);
+		Set_RimLight(0.1f, 0.9f);
 }
 
 HRESULT CBoss::Render()

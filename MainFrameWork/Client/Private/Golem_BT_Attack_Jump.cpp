@@ -26,10 +26,12 @@ CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 	if (m_Shoot[0] && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
 	{ 
 		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
-
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vOriginalPos = matWorld.Translation();
+		Vec3 vLook = matWorld.Backward();
+		matWorld.Translation(vOriginalPos + vLook*4.f);
+		desc.pPivotMatrix = &matWorld;
 		EFFECT_START(TEXT("Chaos_Rook_Cross_Warnning"), &desc)
-
 		m_Shoot[0] = false;
 	}
 

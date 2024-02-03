@@ -31,7 +31,8 @@ HRESULT CWeapon_Boss_Valtan::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_pTransformCom->My_Rotation(Vec3(60.5, -150.2f , 147.4f));
+	m_vRotations = Vec3(49.6770355f, -171.7637627f, 117.160029f);
+	m_pTransformCom->My_Rotation(m_vRotations);
 	m_fAnimationSpeed = 1.f;
 	return S_OK;
 }
@@ -54,11 +55,22 @@ void CWeapon_Boss_Valtan::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 	{
 		m_PlayAnimation.get();
+		m_pModelCom->Set_ToRootPos(m_pTransformCom);
 	}
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
+	}
+	if (m_bRimLight)
+	{
+		m_fRimLightTime -= fTimeDelta;
+		if (m_fRimLightTime <= 0.0f)
+		{
+			m_fRimLightTime = 0.0f;
+			m_bRimLight = false;
+			m_fRimLightColor = 0.f;
+		}
 	}
 }
 
@@ -67,7 +79,10 @@ HRESULT CWeapon_Boss_Valtan::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
-		return E_FAIL;
+		return E_FAIL;	
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
+			return E_FAIL;
+
 	_int	iDissolve = false;
 	if (!static_cast<CBoss*>(m_pOwner)->Is_Dummy() && static_cast<CBoss_Valtan*>(m_pOwner)->Get_RenderPostValtan())
 	{
@@ -130,8 +145,13 @@ HRESULT CWeapon_Boss_Valtan::Render()
 	iDissolve = false;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
 		return E_FAIL;
+
 	Color vBloom = Color(1.3f, 1.3f, 1.3f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vBloom, sizeof(Color))))
+		return E_FAIL;
+
+	_float fRimLightColor = 0.f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
 		return E_FAIL;
 	return S_OK;
 }
@@ -178,6 +198,7 @@ HRESULT CWeapon_Boss_Valtan::Bind_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
 		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 

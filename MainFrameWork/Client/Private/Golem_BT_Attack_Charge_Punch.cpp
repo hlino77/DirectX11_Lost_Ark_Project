@@ -63,6 +63,7 @@ void CGolem_BT_Attack_Charge_Punch::OnEnd()
 	dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, false);
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(false);
+	static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 }
 
 

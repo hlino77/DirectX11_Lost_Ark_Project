@@ -147,7 +147,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 		WRITE_LOCK
 			if (!m_IsInvincible)
 			{
-				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
+				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f))*10.f;
 				_uint iGroggy_Result = iGroggy;
 				_bool	bGroggyObsorb = false;
 				m_iHp -= iDamage_Result;

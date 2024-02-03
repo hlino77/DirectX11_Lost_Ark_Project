@@ -96,7 +96,9 @@ HRESULT CSKill_Valtan_RainingAxe::Render()
 	iDissolve = false;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
 		return E_FAIL;
-
+	_float fRimLightColor = 0.f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+		return E_FAIL;
     return S_OK;
 }
 
@@ -126,7 +128,7 @@ HRESULT CSKill_Valtan_RainingAxe::Ready_Coliders()
 
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(1.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(2.f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 

@@ -163,7 +163,14 @@ HRESULT CMonster::Render()
 	iDissolve = false;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
 		return E_FAIL;
-    return S_OK;
+
+	if (m_bRimLight)
+	{
+		_float fRimLightColor = 0.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+			return E_FAIL;
+	}
+	return S_OK;
 }
 
 HRESULT CMonster::Render_ShadowDepth()

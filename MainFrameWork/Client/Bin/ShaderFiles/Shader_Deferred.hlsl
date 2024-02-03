@@ -270,8 +270,17 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 		}
 		if (abs(fRimLight - 0.8f) < 0.03f)
 		{
-			vRimLightColor = float3(0.4f, 0.7f, 0.5f);
+			vRimLightColor = float3(0.18, 0.522, 0.514); 
 		}
+		if (abs(fRimLight - 0.7f) < 0.03f)
+		{
+			vRimLightColor = float3(0.4f, 1.f, 0.8f);
+		}
+		if (abs(fRimLight - 0.6f) < 0.03f)
+		{
+			vRimLightColor = float3(0.f, 0.616f, 0.639f);
+		}
+		
 		ComputeRimLight(vRimLightColor, N, -V);
 	    vColor += vRimLightColor;
 	}
