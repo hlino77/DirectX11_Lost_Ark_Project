@@ -30,6 +30,9 @@ private:
 	//Animation
 	_int m_iVolcano_Start_2 = 0;
 
+	//Effect
+	_bool m_bEffectStart = false;
+
 public:
 	static CState_WR_VolcanoEruption_Start_2* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;
