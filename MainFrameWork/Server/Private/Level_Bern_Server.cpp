@@ -157,7 +157,7 @@ HRESULT CLevel_Bern_Server::Broadcast_Character()
 void CLevel_Bern_Server::Broadcast_LevelState(LEVELSTATE eState)
 {
 	Protocol::S_LEVEL_STATE pkt;
-	pkt.set_ilevelstate((uint32)eState);
+	pkt.set_ilevelstate((uint32)eState); 
 
 	SendBufferRef sendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(sendBuffer);

@@ -11,6 +11,8 @@
 #include "ServerSessionManager.h"
 #include "AsUtils.h"
 
+#include "NavigationMgr.h"
+
 CValtan_BT_Phase2::CValtan_BT_Phase2()
 {
 }
@@ -25,6 +27,7 @@ void CValtan_BT_Phase2::OnStart()
 	m_bRadial = false;
 
 	m_fCamShakeTimeAcc = m_fCamShakeTimeDelay = 0.23f;
+
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
@@ -48,7 +51,15 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 					iter->Get_ModelName() == TEXT("Wall02") ||
 					iter->Get_ModelName() == TEXT("Wall03") ||
 					iter->Get_ModelName() == TEXT("Wall04"))
+				{
 					static_cast<CAnimModel*>(iter)->Set_PlayAnim(true);
+					
+					if (false == m_bSendServerNaviInfo && iter->Get_ModelName() == TEXT("Wall02"))
+					{
+						static_cast<CAnimModel*>(iter)->Break_OutWall();
+						m_bSendServerNaviInfo = true;
+					}
+				}
 			}
 
 			m_bBreak = true;

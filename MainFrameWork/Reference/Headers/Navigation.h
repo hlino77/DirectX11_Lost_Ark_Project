@@ -58,6 +58,13 @@ public:  // Get Set
 	void Reset_CellPoint();
 
 	void Set_Active_Specific_Cell(_uint Index, _bool Active) { m_vecCells[Index]->Set_Active(Active); }
+	void Set_Active_All_Cell(_bool Active) 
+	{
+		for (auto Cell : m_vecCells)
+		{
+			Cell->Set_Active(Active);
+		}
+	}
 
 	_bool Is_NeighborActive(CGameObject* pObject);
 

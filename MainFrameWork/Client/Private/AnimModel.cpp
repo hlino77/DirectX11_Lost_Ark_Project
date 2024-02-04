@@ -70,19 +70,26 @@ HRESULT CAnimModel::Initialize(void* pArg)
 		_uint MaxCellIndex = 614;
 
 		Creat_NaviCellIndex(MinCellIndex, MaxCellIndex);
-		m_NaviCellIndex.push_back(926); // Except
+
+		for (size_t i = 926; i <= 934; i++)
+		{
+			m_NaviCellIndex.push_back(i); // Except
+		}
 	}
 
 	if (m_szModelName == TEXT("Floor_All_L01"))
 	{
 		_uint MinCellIndex = 615;
 		_uint MaxCellIndex = 925;
-
+		
 		Creat_NaviCellIndex(MinCellIndex, MaxCellIndex);
 		
 	}
 
-
+	if (m_szModelName == TEXT("Wall02"))
+	{
+		Creat_NaviCellIndex_ExceptObject();
+	}
 
     return S_OK;
 }
@@ -108,7 +115,7 @@ void CAnimModel::Tick(_float fTimeDelta)
 			m_szModelName == TEXT("Wall03") ||
 			m_szModelName == TEXT("Wall04"))
 		{
-			m_bPlayAnim = !m_bPlayAnim;
+			Break_OutWall();
 		}
 	}
 
@@ -305,6 +312,20 @@ void CAnimModel::Break_Floor()
 	m_bPlayAnim = !m_bPlayAnim;
 }
 
+void CAnimModel::Break_OutWall()
+{
+	Send_Collision(LEVEL_VALTANMAIN, true);
+
+	for (auto& CellIndex : m_NaviCellIndex)
+	{
+		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
+	}
+
+
+}
+
+
+
 HRESULT CAnimModel::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -444,6 +465,41 @@ void CAnimModel::Creat_NaviCellIndex(_uint MinIndex, _uint MaxIndex)
 	{
 		m_NaviCellIndex.push_back(i);
 	}
+
+}
+
+void CAnimModel::Creat_NaviCellIndex_ExceptObject()
+{
+	// 01
+	m_NaviCellIndex.push_back(931);
+	m_NaviCellIndex.push_back(932);
+	m_NaviCellIndex.push_back(933);
+	m_NaviCellIndex.push_back(934);
+
+	// 02
+	m_NaviCellIndex.push_back(571);
+	m_NaviCellIndex.push_back(572);
+	m_NaviCellIndex.push_back(894);
+	m_NaviCellIndex.push_back(895);
+	m_NaviCellIndex.push_back(897);
+    m_NaviCellIndex.push_back(898);
+	m_NaviCellIndex.push_back(899);
+	m_NaviCellIndex.push_back(900);
+
+	// 03
+	m_NaviCellIndex.push_back(799);
+	m_NaviCellIndex.push_back(827);
+	m_NaviCellIndex.push_back(828);
+	m_NaviCellIndex.push_back(829);
+	m_NaviCellIndex.push_back(834);
+
+	// 04
+	m_NaviCellIndex.push_back(666);
+	m_NaviCellIndex.push_back(667);
+	m_NaviCellIndex.push_back(668);
+	m_NaviCellIndex.push_back(699);
+	m_NaviCellIndex.push_back(700); 
+	m_NaviCellIndex.push_back(701);
 
 }
 

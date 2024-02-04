@@ -61,10 +61,11 @@ public:
 
 	vector<CSphereCollider*>& Get_StaticColliders() { return m_StaticColliders; }
 
-	CSphereCollider* Get_StaticCollider(_uint iIndex) { return m_StaticColliders[iIndex]; }
+	CSphereCollider*	Get_StaticCollider(_uint iIndex) { return m_StaticColliders[iIndex]; }
 
-	void						Set_PlayAnim(_bool bPlayAnim) { m_bPlayAnim = bPlayAnim; }
-	void Break_Floor();
+	void				Set_PlayAnim(_bool bPlayAnim) { m_bPlayAnim = bPlayAnim; }
+	void				Break_Floor();
+	void				Break_OutWall();
 
 protected:
 	virtual HRESULT Ready_Components() override;
@@ -75,6 +76,7 @@ protected:
 
 private:
 	void	Creat_NaviCellIndex(_uint MinIndex, _uint MaxIndex);
+	void    Creat_NaviCellIndex_ExceptObject();
 	void    Send_Collision(_uint iLevel, _bool bActive);
 
 private:

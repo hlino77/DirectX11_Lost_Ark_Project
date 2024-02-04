@@ -48,6 +48,8 @@ private:
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFullPath);
 	HRESULT Load_BossMapData(LEVELID eLevel, const wstring& szFullPath);
+	
+	HRESULT Ready_NonActive_NaviCell();
 
 	HRESULT Ready_Events();
 

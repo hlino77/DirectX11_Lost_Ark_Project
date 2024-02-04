@@ -670,7 +670,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-	//65번 유령페이즈 시작 모션
+	//65줄 유령페이즈 시작 모션
 	ActionDesc.strActionName = L"Action_Phase3";
 	CBT_Action* pPhase3 = CValtan_BT_Phase3::Create(&ActionDesc);
 
@@ -907,7 +907,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	//앞뒤앞
+	//앞뒤앞 찍기
 	ActionDesc.strActionName = L"Action_Attack7";
 	CBT_Action* pAttack7 = CValtan_BT_Attack_Attack7::Create(&ActionDesc);
 
@@ -929,7 +929,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	//도끼찍고 휘두루기
+	//도끼찍고 휘두르기
 	ActionDesc.strActionName = L"Action_Attack8";
 	CBT_Action* pAttack8 = CValtan_BT_Attack_Attack8::Create(&ActionDesc);
 

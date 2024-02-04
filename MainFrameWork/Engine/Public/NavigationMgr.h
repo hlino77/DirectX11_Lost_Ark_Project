@@ -38,6 +38,9 @@ public:
 	Vec3   Find_CloseCell_Middle(_uint iLevel, CGameObject * pObject);
 
 	void	OnOff_Render() { m_bRender = !m_bRender; }
+
+	void  Set_AllNaviCell_Active(_uint LevelIndex, _bool bActive);
+
 private:
 	unordered_map<_uint, CNavigation*> m_Navigations;
 

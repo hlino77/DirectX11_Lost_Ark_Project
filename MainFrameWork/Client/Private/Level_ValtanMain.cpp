@@ -77,14 +77,15 @@ HRESULT CLevel_ValtanMain::Initialize()
 		return E_FAIL;
 
 
-
 	if (FAILED(Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_End.data"))))
 	{
 		return E_FAIL;
 	}
-		
 
-
+	if (FAILED(Ready_NonActive_NaviCell()))
+	{
+		return E_FAIL;
+	}
 
 	while (true)
 	{
@@ -107,6 +108,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 
 	if (FAILED(Ready_Player_Camera(LAYER_TYPE::LAYER_CAMERA)))
 		return E_FAIL;
+
 
 	Start_Collision();
 	Start_Damage();
@@ -655,8 +657,6 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 
 				dynamic_cast<CStaticModel*>(pObject)->Add_NaviCellIndex(CellIndex);
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
-
-
 			}
 			
 
@@ -748,6 +748,45 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_ValtanMain::Ready_NonActive_NaviCell()
+{
+	// Except Navi Cell Index -> bottom of Anim Model Wall02_01 ~ Wall02_04 
+	
+	// 01
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 931, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 932, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 933, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 934, false);
+
+	// 02
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 571, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 572, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 894, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 895, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 897, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 898, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 899, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 900, false);
+
+	// 03
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 799, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 827, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 828, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 829, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 834, false);
+
+	// 04
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 666, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 667, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 668, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 699, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 700, false);
+	CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, 701, false);
+
+
 	return S_OK;
 }
 
