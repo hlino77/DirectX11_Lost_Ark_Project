@@ -86,7 +86,7 @@ void CBoss::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 	if (m_IsCounterSkill)
-		Set_RimLight(0.1f,0.9f);
+		Set_RimLight(0.1f, 0.9f);
 }
 
 HRESULT CBoss::Render()
@@ -239,7 +239,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	}
 	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
 	{
-		if (pOther->Get_Owner()->Get_ModelName() == L"ITR_02307_Pillar_Small")
+		if (pOther->Get_Owner()->Get_ModelName() == L"ITR_02307_Pillar_Small"|| pOther->Get_Owner()->Get_ModelName() == L"ITR_022306_GiYurk")
 		{
 			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 			Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(3.f);

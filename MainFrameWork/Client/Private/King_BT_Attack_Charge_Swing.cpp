@@ -56,7 +56,8 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDe
 
 void CKing_BT_Attack_Charge_Swing::OnEnd()
 {
-	__super::OnEnd();
+	__super::OnEnd();		
+	static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(false);
 }
 

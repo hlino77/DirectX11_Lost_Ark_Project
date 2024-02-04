@@ -42,7 +42,8 @@ public:
 	PARTS					Get_Part_Index()       const { return m_ePart; }
 	const Matrix&			Get_Part_WorldMatrix() const { return m_WorldMatrix; }
 	void					Load_Part_WorldMatrix(Matrix& matWorld) { matWorld = m_WorldMatrix; }
-
+	void					Set_RimLight(_float fTime, _float fColor) { m_bRimLight = true; m_fRimLightTime = fTime; m_fRimLightColor = fColor; }
+	_bool					Get_RimLight() { return m_bRimLight; }
 public:
 	virtual void			Store_Socket();
 	virtual void			UnStore_Socket();
@@ -78,6 +79,9 @@ protected:
 	_bool					m_IsStored = { false };
 	_bool					m_bStopUpdate = { false };
 
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightColor = 0.f;
+	_float							m_fRimLightTime = 0.0f;
 	Matrix					m_OffSetMatrix;
 	wstring					m_strPartModel;
 

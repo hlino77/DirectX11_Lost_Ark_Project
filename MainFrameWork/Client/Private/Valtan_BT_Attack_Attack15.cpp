@@ -47,6 +47,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 		}
 
 	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) < 30)
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f, 0.7f);
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > 27)
 	{
 		for (auto pGameObject : CGameInstance::GetInstance()->Find_GameObjects(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_MONSTER))
@@ -58,7 +63,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 				ModelDesc.iObjectID = -1;
 				ModelDesc.pOwner = m_pGameObject;
 
-
 				CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
 				if (pSkill != nullptr)
 				{
@@ -67,7 +71,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack15::OnUpdate(const _float& fTimeDelt
 					vLook.Normalize();
 					pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 					pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-					pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
+					pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
 					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f);
 					static_cast<CSkill*>(pSkill)->Set_Force(10.f);

@@ -55,6 +55,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack1::OnUpdate(const _float& fTimeDelta
 	{
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
 		_float fOffset = 1.1f;
+
+		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f,0.7f);
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
 		if(static_cast<CBoss*>(m_pGameObject)->Get_Phase()==1)
 			fOffset = 1.1f;
 		else

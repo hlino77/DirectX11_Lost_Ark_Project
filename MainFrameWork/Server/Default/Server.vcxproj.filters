@@ -181,9 +181,6 @@
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_Phase2">
       <UniqueIdentifier>{67d91c2a-de31-4f0e-90af-3710130deaf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_Phase3">
-      <UniqueIdentifier>{d84e16c2-1d4b-4a94-8d0d-11886edf7eec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\07. Npc">
       <UniqueIdentifier>{69220833-87a5-48c1-be2c-d6720af7e298}</UniqueIdentifier>
     </Filter>
@@ -231,6 +228,9 @@
     </Filter>
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Dead">
       <UniqueIdentifier>{c0c47c10-95cd-43d4-8b7c-30abe1e0c2de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_Phase3">
+      <UniqueIdentifier>{d84e16c2-1d4b-4a94-8d0d-11886edf7eec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

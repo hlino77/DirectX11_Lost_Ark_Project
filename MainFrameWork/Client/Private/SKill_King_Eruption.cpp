@@ -27,7 +27,7 @@ HRESULT CSkill_King_Eruption::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 2.55f;
+	m_fLastTime = 2.7f;
 	m_SkillDesc.iAtk = 5;
 	m_SkillDesc.fForce = 40.f;
 	m_fBlinkTime = 2.5f;
@@ -38,7 +38,7 @@ void CSkill_King_Eruption::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fBlinkTime -= fTimeDelta;
-	if (m_fBlinkTime < 0.f&&m_fLastTime < 0.f)
+	if (m_fBlinkTime < 0.f&&m_fLastTime > 0.f)
 	{
 		m_fBlinkTime =  5.f;
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
@@ -103,10 +103,10 @@ HRESULT CSkill_King_Eruption::Ready_Coliders()
 
 	CFrustumCollider* pChildCollider = dynamic_cast<CFrustumCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 
-	pChildCollider->Set_Offset(Vec3(0.0f, 0.1f, 0.f));
+	pChildCollider->Set_Offset(Vec3(0.0f, 0.5f, 0.f));
 	pChildCollider->Set_Far(7.5f);
 	pChildCollider->Set_Near(0.f);
-	pChildCollider->Set_Slopes(Vec4(0.05f, -0.05f, tanf(XMConvertToRadians(30.f)), tanf(XMConvertToRadians(-30.f))));
+	pChildCollider->Set_Slopes(Vec4(1.f, -1.f, tanf(XMConvertToRadians(30.f)), tanf(XMConvertToRadians(-30.f))));
 	pChildCollider->SetActive(true);
 	for (auto& Collider : m_Coliders)
 	{

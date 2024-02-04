@@ -36,6 +36,8 @@ public:
 public:
 	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
 	void Set_Weapon_Render(_bool IsRender);
+	void Set_Weapon_RimLight(_float fTime, _float fColor);
+
 	_bool	Get_RenderPostValtan() { return m_bRenderPostValtan; }
 
 private:

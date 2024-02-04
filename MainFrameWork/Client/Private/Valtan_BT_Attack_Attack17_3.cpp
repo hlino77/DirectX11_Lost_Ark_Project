@@ -58,6 +58,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack17_3::OnUpdate(const _float& fTimeDe
 void CValtan_BT_Attack_Attack17_3::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	if (static_cast<CBoss*>(m_pGameObject)->Get_Action() == L"Action_Counter")
 	{
 		CSkill::ModelDesc ModelDesc = {};

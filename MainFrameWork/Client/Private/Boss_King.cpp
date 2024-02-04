@@ -53,7 +53,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 400;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 2400000000;
+	m_iMaxHp = 4800000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -84,6 +84,8 @@ void CBoss_King::LateTick(_float fTimeDelta)
 	__super::LateTick(fTimeDelta);
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
+	if (m_IsCounterSkill)
+		m_pWeapon->Set_RimLight(0.1f, 0.9f);
 }
 
 

@@ -32,7 +32,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Attack0_Server::OnUpdate(const _float& fTi
 		m_pGameObject->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition());
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 1.1f, fTimeDelta);
 	}
-	if (m_iCurrAnimation == 11 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[11].iAnimIndex&& m_fLoopTime < 1.5f)
+	if (m_iCurrAnimation == 12 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex&& m_fLoopTime < 1.5f)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	

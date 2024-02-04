@@ -51,7 +51,7 @@ HRESULT CBoss_Golem::Initialize(void* pArg)
 {
 	m_iMaxGroggyGauge = 200;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 12000000;
+	m_iMaxHp = 2400000000;
 	m_iHp = m_iMaxHp;
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -397,7 +397,7 @@ HRESULT CBoss_Golem::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.1f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.f;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 	ActionDesc.strActionName = L"Action_Charge_Punch";
