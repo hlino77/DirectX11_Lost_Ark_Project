@@ -6,6 +6,9 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "GameInstance.h"
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
+#include "Effect.h"
 #include "UI_HoldingFrame.h"
 
 CState_WR_VolcanoEruption_Loop::CState_WR_VolcanoEruption_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -62,6 +65,9 @@ void CState_WR_VolcanoEruption_Loop::Enter_State()
 {
 	m_iSkillCnt = 0;
 
+	m_bEffectStart = false;
+	m_Effect.clear();
+
 	m_pPlayer->Reserve_Animation(m_iVolcano_Loop, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Loop, 1.2f);
@@ -86,6 +92,9 @@ void CState_WR_VolcanoEruption_Loop::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
+
+	for (auto& pEffect : m_Effect)
+		pEffect->EffectEnd();
 }
 
 void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)
@@ -94,6 +103,27 @@ void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (false == m_bEffectStart)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+
+		EFFECT_START_OUTLIST(TEXT("Slayer_VolcanoEruption_Charge"), &desc, m_Effect)
+
+		/*for(_int i = 0; i < 8; ++i)
+			m_pPlayer->Add_Effect(TEXT("Slayer_VolcanoEruption_Charge%d", i), m_Effect[i]);*/
+
+		m_bEffectStart = true;
+
+		m_pPlayer->Get_Camera()->Set_RadialBlur(1.f, matPivot.Translation(), 0.1f, 0.1f);		
+		//m_pPlayer->Get_Camera()->Set_Chromatic(0.5f, matPivot.Translation(), 0.1f, 0.1f);
+	}
+	else
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.08f, 0.08f, fTimeDelta, 0.f);
 	}
 
 	m_fSkillTimeAcc += fTimeDelta;
