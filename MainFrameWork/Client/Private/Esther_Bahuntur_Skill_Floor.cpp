@@ -140,6 +140,10 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
 			return E_FAIL;
 
+		Vec4 vDissolveColor = Vec4(1.f, 0.8f, 0.45f, 1.f);
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
+			return E_FAIL;
+
 		_float g_fDissolveAmount = m_fDissolveAcc / m_fMaxDissolve;
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
 			return E_FAIL;
@@ -163,6 +167,10 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 	{
 		iDissolve = false;
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		Vec4 vDissolveColor = Vec4::One;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
 			return E_FAIL;
 	}
 
