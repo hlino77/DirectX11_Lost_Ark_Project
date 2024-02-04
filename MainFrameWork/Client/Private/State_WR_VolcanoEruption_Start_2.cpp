@@ -63,7 +63,7 @@ void CState_WR_VolcanoEruption_Start_2::Tick_State_Control(_float fTimeDelta)
 		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START(TEXT("Slayer_VolcanoEruption_Start"), &desc)
-		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 80.0f, 0.2f, 5.0f);
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 80.0f, 0.5f, 5.0f);
 
 		m_bEffectStart = true;
 	}
