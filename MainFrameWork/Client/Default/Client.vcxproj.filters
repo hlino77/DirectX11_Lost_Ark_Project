@@ -1669,6 +1669,9 @@
     <Filter Include="02.GameObjects\UI\20.Esther_Gauge">
       <UniqueIdentifier>{2e51cbc3-7eaf-41fc-a5c7-b743285bb551}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\21.DeadScene">
+      <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4813,6 +4816,9 @@
     <ClInclude Include="..\Public\UI_ValtanClearWnd.h">
       <Filter>02.GameObjects\UI\19.Valtan\ValtanClear</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_DeadScene.h">
+      <Filter>02.GameObjects\UI\21.DeadScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7929,6 +7935,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ValtanClearWnd.cpp">
       <Filter>02.GameObjects\UI\19.Valtan\ValtanClear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_DeadScene.cpp">
+      <Filter>02.GameObjects\UI\21.DeadScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
