@@ -47,12 +47,13 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
-    virtual HRESULT Bind_ShaderResources_Hp_Rough();
-    virtual HRESULT Bind_ShaderResources_Hp();
-    virtual HRESULT Bind_ShaderResources_Frame();
-    virtual HRESULT Bind_ShaderResources_GroggyFrame();
-    virtual HRESULT Bind_ShaderResources_GroggyGauge();
-
+    HRESULT Bind_ShaderResources_Hp_Next();
+    HRESULT Bind_ShaderResources_Hp_Lerp();
+    HRESULT Bind_ShaderResources_Hp();
+    HRESULT Bind_ShaderResources_HPGaugeCut();
+    HRESULT Bind_ShaderResources_Frame();
+    HRESULT Bind_ShaderResources_GroggyFrame();
+    HRESULT Bind_ShaderResources_GroggyGauge();
 
 private:
     void    Initialize_Position();
@@ -62,6 +63,8 @@ private:
 
 private:
     void    Update_BossHp();
+    void    Update_HpCut();
+    void    Update_LerpHp(_float fTimeDelta);
     HRESULT Ready_TextBox(const wstring& strName);
 
 private:
@@ -69,12 +72,15 @@ private:
     CTexture* m_pTextureCom_Hp = { nullptr };
     CTexture* m_pTextureCom_Frame = { nullptr };
     CTexture* m_pTextureCom_NextHp = { nullptr };
+    CTexture* m_pTextureCom_Lerp = { nullptr };
     CTexture* m_pTextureCom_Groggy = { nullptr };
     CTexture* m_pTextureCom_GroggyGauge = { nullptr };
+    CTexture* m_pTextureCom_HpCut = { nullptr };
     CTransform* m_pTransformCom_Hp = { nullptr };
     CTransform* m_pTransformCom_Frame = { nullptr };
     CTransform* m_pTransformCom_Groggy = { nullptr };
     CTransform* m_pTransformCom_GroggyGauge = { nullptr };
+    CTransform* m_pTansformCom_HpCut = { nullptr };
 
     uint64      m_iMaxHp = { 0 };
     int64       m_iCurrHp = { 0 };
@@ -84,12 +90,12 @@ private:
     _uint       m_iCurrHpColor = { 0 };
     _float      m_fDivideCountHp = { 0.f };
     _float      m_fHpRatio = { 0.f };
-    _float      m_fHpRoughRatio = { 0.f };
-    _float      m_fHpRoughMax = { 0.f };
-    _float      m_fHpRoughMin = { 0.f };
+    _float      m_fHpLerpRatio = { 0.f };
+    _float      m_fLerpAlpha = { 0.6f };
     _uint       m_iMaxGroggyGauge = { 0 };
     _int        m_iGroggyGauge = { 0 };
     _float      m_fGroggyRatio = { 0.f };
+    _float      m_fHPCutAlpha = { 1.f };
 
     _float      m_fSizeXHp, m_fSizeYHp, m_fXHp, m_fYHp;
 
@@ -108,6 +114,8 @@ private:
     CTextBox* m_pInGameHpWnd = { nullptr };
     CTextBox* m_pInGameHpCountWnd = { nullptr };
     _bool   m_bTextOn = false;
+
+    LERP_FLOAT  m_tLerp = {};
 
 public:
     static  CUI_Boss_Hp* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

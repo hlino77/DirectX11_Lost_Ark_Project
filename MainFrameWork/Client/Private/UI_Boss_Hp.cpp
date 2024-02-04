@@ -114,8 +114,11 @@ void CUI_Boss_Hp::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 
-	if(!m_bDead)
+	if (!m_bDead)
+	{
 		Update_PreHp();
+		//Update_LerpHp(fTimeDelta);
+	}
 }
 
 HRESULT CUI_Boss_Hp::Render()
@@ -128,11 +131,19 @@ HRESULT CUI_Boss_Hp::Render()
 	m_pVIBufferCom->Render();
 
 	//나중에 줄어들 HP
-	if (FAILED(Bind_ShaderResources_Hp_Rough()))
+	if (FAILED(Bind_ShaderResources_Hp_Next()))
 		return E_FAIL;
 	if (FAILED(m_pTextureCom_NextHp->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iNextHpColor)))
 		return E_FAIL;
 	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
+	//러프되는 HP
+	if (FAILED(Bind_ShaderResources_Hp_Lerp()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom_Lerp->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iCurrHpColor)))
+		return E_FAIL;
+	m_pShaderCom->Begin(16);
 	m_pVIBufferCom->Render();
 
 	//실제 HP
@@ -145,7 +156,10 @@ HRESULT CUI_Boss_Hp::Render()
 
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iBossType)))
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
+	if (FAILED(Bind_ShaderResources_HPGaugeCut()))
 		return E_FAIL;
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
@@ -193,6 +207,9 @@ HRESULT CUI_Boss_Hp::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Hp"),
 		TEXT("Com_TextureNextHp"), (CComponent**)&m_pTextureCom_NextHp)))
 		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Hp"),
+		TEXT("Com_TextureLerp"), (CComponent**)&m_pTextureCom_Lerp)))
+		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Groggy_GaugeFrame"),
 		TEXT("Com_TextureGroggyFrame"), (CComponent**)&m_pTextureCom_Groggy)))
@@ -207,21 +224,33 @@ HRESULT CUI_Boss_Hp::Ready_Components()
 		TEXT("Com_TransformGroggyGauge"), (CComponent**)&m_pTransformCom_GroggyGauge)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_HpCut"),
+		TEXT("Com_TextureHpCut"), (CComponent**)&m_pTextureCom_HpCut)))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_TransformHpCut"), (CComponent**)&m_pTansformCom_HpCut)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CUI_Boss_Hp::Bind_ShaderResources()
 {
-	if(FAILED(__super::Bind_ShaderResources()))
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return E_FAIL;
-
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iBossType);
 	return S_OK;
 }
 
-HRESULT CUI_Boss_Hp::Bind_ShaderResources_Hp_Rough()
+HRESULT CUI_Boss_Hp::Bind_ShaderResources_Hp_Next()
 {
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom_Hp->Get_WorldMatrix())))
 		return E_FAIL;
@@ -232,6 +261,24 @@ HRESULT CUI_Boss_Hp::Bind_ShaderResources_Hp_Rough()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+
+	return  S_OK;
+}
+
+HRESULT CUI_Boss_Hp::Bind_ShaderResources_Hp_Lerp()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom_Hp->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fLerpAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fHpLerpRatio, sizeof(_float))))
 		return E_FAIL;
 
 	return  S_OK;
@@ -251,6 +298,23 @@ HRESULT CUI_Boss_Hp::Bind_ShaderResources_Hp()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &m_fHpRatio, sizeof(_float))))
 		return E_FAIL;
+
+	return  S_OK;
+}
+
+HRESULT CUI_Boss_Hp::Bind_ShaderResources_HPGaugeCut()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTansformCom_HpCut->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fHPCutAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	m_pTextureCom_HpCut->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 
 	return  S_OK;
 }
@@ -372,6 +436,10 @@ void CUI_Boss_Hp::Initialize_Position()
 	m_pInGameHpCountWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fXHp + 200.f) - g_iWinSizeX * 0.5f, -m_fYHp + g_iWinSizeY * 0.5f, 0.f));
 
+	m_pTansformCom_HpCut->Set_Scale(Vec3(10.f, 56.f * 0.8f, 1.f));
+	m_pTansformCom_HpCut->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fXHp - (m_fSizeXHp * 0.5f) + (m_fSizeXHp), -(m_fYHp + 2.f) + g_iWinSizeY * 0.5f, 0.2f));
+
 	m_iCurrHpColor = HP_BLUE;
 	m_iNextHpColor = HP_SIAN;
 	m_fDivideCountHp = (_float)m_iMaxHp / (_float)m_iHpCount;
@@ -387,7 +455,8 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 		m_fHpRatio = ((_float)m_iCurrHp - (m_fDivideCountHp * (m_iHpCount - 1))) / m_fDivideCountHp;
 	else
 		m_fHpRatio = (_float)m_iCurrHp / m_fDivideCountHp;
-
+	Update_HpCut();
+	Update_LerpHp(fTimeDelta);
 	if (0.f >= m_fHpRatio)
 	{
 		if(0 <= (m_iHpCount-1))
@@ -410,7 +479,14 @@ void CUI_Boss_Hp::Update_PreHp()
 	if (m_iPreHp != m_iCurrHp)
 	{
 		CUI_Manager::GetInstance()->Set_CurrHPUI(this);
+		_float	fPreRatio;
+		if (0 <= (m_iHpCount - 1))
+			fPreRatio = ((_float)m_iPreHp - (m_fDivideCountHp * (m_iHpCount - 1))) / m_fDivideCountHp;
+		else
+			fPreRatio = (_float)m_iPreHp / m_fDivideCountHp;
+		
 		m_iPreHp = m_iCurrHp;
+		m_tLerp.Init_Lerp(0.3f, fPreRatio, m_fHpRatio, LERP_MODE::SMOOTHERSTEP);
 		Update_BossHp();
 	}
 }
@@ -466,6 +542,25 @@ void CUI_Boss_Hp::Update_BossHp()
 		m_pInGameHpCountWnd->Set_Text(m_strTagHpCount, m_szFont, strHpCount, Vec2(25.f, 10.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
 	}
 	Update_BossName();
+}
+
+void CUI_Boss_Hp::Update_HpCut()
+{
+	m_pTansformCom_HpCut->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fXHp - (m_fSizeXHp * 0.5f) + (m_fSizeXHp * m_fHpRatio)) - g_iWinSizeX * 0.5f, -(m_fYHp + 2.f) + g_iWinSizeY * 0.5f, 0.2f));
+
+	if (0.98f <= m_fHpRatio)
+		m_fHPCutAlpha = 0.f;
+	else
+		m_fHPCutAlpha = 1.f;
+}
+
+void CUI_Boss_Hp::Update_LerpHp(_float fTimeDelta)
+{
+	if (true == m_tLerp.bActive)
+	{
+		m_fHpLerpRatio = m_tLerp.Update_Lerp(fTimeDelta);
+	}
 }
 
 void CUI_Boss_Hp::Set_Active(_bool bActive)
@@ -592,4 +687,7 @@ void CUI_Boss_Hp::Free()
 	Safe_Release(m_pTransformCom_Frame);
 	Safe_Release(m_pTransformCom_Groggy);
 	Safe_Release(m_pTransformCom_GroggyGauge);
+	Safe_Release(m_pTextureCom_HpCut);
+	Safe_Release(m_pTansformCom_HpCut);
+	Safe_Release(m_pTextureCom_Lerp);
 }

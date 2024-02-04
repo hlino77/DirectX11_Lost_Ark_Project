@@ -6,10 +6,12 @@
 #include "Player_Slayer.h"
 #include "Player_Destroyer.h"
 #include "Player_Bard.h"
+#include "Player_Doaga.h"
 #include "Player_Controller_GN.h"
 #include "Controller_MG.h"
 #include "Controller_WDR.h"
 #include "Controller_WR.h"
+#include "Controller_SP.h"
 
 CUI_NPC_ChaosDungeon_NewWnd::CUI_NPC_ChaosDungeon_NewWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -208,9 +210,6 @@ const _bool CUI_NPC_ChaosDungeon_NewWnd::Get_IsClicked()
 
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
 {
-    Create_Rect();
-    Picking_UI();
-
     CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
     if (nullptr == pPlayer)
         return;
@@ -233,6 +232,10 @@ void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
         {
             static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(false);
         }
+        else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(false);
+        }
     }
     else if((!m_bPick))
     {
@@ -251,6 +254,10 @@ void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
         else if (TEXT("MG") == pPlayer->Get_ObjectTag())
         {
             static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+        }
+        else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+        {
+            static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(true);
         }
     }
 }
@@ -312,6 +319,40 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Ready_TextBox()
     return S_OK;
 }
 
+void CUI_NPC_ChaosDungeon_NewWnd::Update_MovingWnd(POINT pt)
+{
+   if (true == Is_Picking_MovingWnd(pt))
+   {
+       if (KEY_HOLD(KEY::LBTN))
+           m_bHolding = true;
+   }
+
+   if (m_bHolding)
+   {
+       _float	MouseMoveX, MouseMoveY;
+       MouseMoveX = CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
+
+       m_fX += MouseMoveX * 0.8f;
+       m_fY = pt.y + 94.f;
+
+       m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+           Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.1f));
+       m_pTransform_AcceptButton->Set_State(CTransform::STATE_POSITION,
+           Vec3((m_fX - 55.5f) - g_iWinSizeX * 0.5f, -(m_fY + 80.f) + g_iWinSizeY * 0.5f, 0.1f));
+       m_pTransform_RefuseButton->Set_State(CTransform::STATE_POSITION,
+           Vec3((m_fX + 55.5f) - g_iWinSizeX * 0.5f, -(m_fY + 80.f) + g_iWinSizeY * 0.5f, 0.1f));
+       m_pTransform_Timer->Set_State(CTransform::STATE_POSITION,
+           Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY + 15.f) + g_iWinSizeY * 0.5f, 0.1f));
+       m_pTextBoxWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+           Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY + 15.f) + g_iWinSizeY * 0.5f, 0.f));
+       m_pTimeCountWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
+           Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY + 15.f) + g_iWinSizeY * 0.5f, 0.f));
+
+       if (KEY_AWAY(KEY::LBTN))
+           m_bHolding = false;
+   }
+}
+
 void CUI_NPC_ChaosDungeon_NewWnd::Update_Button()
 {
     POINT pt;
@@ -321,8 +362,13 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_Button()
     CD3D11_VIEWPORT ViewPort;
     m_pContext->RSGetViewports(&ViewPortIndex, &ViewPort); // 뷰포트 가져오기 
 
+    Create_Rect_AcceptButton();
+    Create_Rect_RefuseButton();
+    Create_Rect_MovingWnd();
+
     Update_AcceptButton(pt);
     Update_RefuseButton(pt);
+    Update_MovingWnd(pt);
 }
 
 void CUI_NPC_ChaosDungeon_NewWnd::Update_AcceptButton(POINT pt)
@@ -388,6 +434,22 @@ _bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_RefuseButton(POINT pt)
         return false;//m_bPicking_RefuseButton = false;
 }
 
+void CUI_NPC_ChaosDungeon_NewWnd::Create_Rect_MovingWnd()
+{
+    m_rcMovingWnd.left = LONG(m_fX - (101.f / 2));
+    m_rcMovingWnd.top = LONG((m_fY - 94.f ) - (36.f / 2));
+    m_rcMovingWnd.right = LONG(m_fX + (101.f / 2));
+    m_rcMovingWnd.bottom = LONG((m_fY - 94.f) + (36.f / 2));
+}
+
+_bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_MovingWnd(POINT pt)
+{
+    if (PtInRect(&m_rcMovingWnd, pt))
+        return true;
+    else
+        return false;
+}
+
 void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
 {
     CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
@@ -412,7 +474,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
     }
     else if (TEXT("SP") == pPlayer->Get_ObjectTag())
     {
-        static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Control_Active(true);
+        static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Control_Active(true);
     }
 
 }

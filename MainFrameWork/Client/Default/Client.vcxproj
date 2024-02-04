@@ -628,6 +628,7 @@
     <ClInclude Include="..\Public\UI_ChaosDungeon_TimerFrame.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
+    <ClInclude Include="..\Public\UI_EstherSkill.h" />
     <ClInclude Include="..\Public\UI_IdentitySP.h" />
     <ClInclude Include="..\Public\UI_ETCIcon_Frame.h" />
     <ClInclude Include="..\Public\UI_HoldingFrame.h" />
@@ -758,6 +759,7 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h" />
+    <ClInclude Include="..\Public\UI_PartyEntrance.h" />
     <ClInclude Include="..\Public\UI_PartyHPWnd.h" />
     <ClInclude Include="..\Public\UI_PartyUI.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
@@ -780,6 +782,7 @@
     <ClInclude Include="..\Public\UI_SpaceBar_Icon.h" />
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
+    <ClInclude Include="..\Public\UI_ValtanClearWnd.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity_BackGround.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity_Bubble.h" />
@@ -1302,6 +1305,7 @@
     <ClCompile Include="..\Private\UI_ChaosDungeon_TimerFrame.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />
+    <ClCompile Include="..\Private\UI_EstherSkill.cpp" />
     <ClCompile Include="..\Private\UI_IdentitySP.cpp" />
     <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp" />
     <ClCompile Include="..\Private\UI_HoldingFrame.cpp" />
@@ -1437,6 +1441,7 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp" />
+    <ClCompile Include="..\Private\UI_PartyEntrance.cpp" />
     <ClCompile Include="..\Private\UI_PartyHPWnd.cpp" />
     <ClCompile Include="..\Private\UI_PartyUI.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
@@ -1459,6 +1464,7 @@
     <ClCompile Include="..\Private\UI_SpaceBar_Icon.cpp" />
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
+    <ClCompile Include="..\Private\UI_ValtanClearWnd.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity_BackGround.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity_Bubble.cpp" />

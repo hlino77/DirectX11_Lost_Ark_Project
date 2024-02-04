@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "TextBox.h"
 #include "GameInstance.h"
+#include "UI_PartyHPWnd.h"
+#include "UI_PartyEntrance.h"
 
 CUI_PartyUI::CUI_PartyUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -32,7 +34,7 @@ HRESULT CUI_PartyUI::Initialize(void* pArg)
 	m_fSizeX = 235.f;
 	m_fSizeY = 29.f;
 	m_fX = 130.f;
-	m_fY = 230.f;
+	m_fY = 300.f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -93,13 +95,43 @@ void CUI_PartyUI::Print_Text()
 	m_pTextBox->Clear_Text();
 	m_pTextBox->Set_Alpha(1.f);
 
-	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f);
 	m_pTextBox->Get_TransformCom()->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 0.f));// Vec2(205.f, 53.0f);
 	m_pTextBox->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"넥슨Lv1고딕Bold", TEXT("모코코파티"));
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"넥슨Lv1고딕Bold", TEXT("집게이리아 파티"));
 	Vec2 vOrigin = vMeasure * 0.5f;
-	m_pTextBox->Set_Text(m_strWndTag, m_strFont, TEXT("모코코파티"), Vec2(m_fSizeX * 0.2f , m_fSizeY * 0.5f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	m_pTextBox->Set_Text(m_strWndTag, m_strFont, TEXT("집게이리아 파티"), Vec2(m_fSizeX * 0.05f , m_fSizeY * 0.2f), Vec2(0.4f, 0.4f), Vec2(0.f, 0.f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+}
+
+void CUI_PartyUI::Add_PartyHp(CPlayer* pPlayer)
+{
+	if (nullptr == pPlayer)
+		return;
+	for (size_t i = 0; i < 4; i++)
+	{
+		if (nullptr == m_pPlayer[i])
+		{
+			m_pPlayer[i] = pPlayer;
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			Safe_AddRef(pGameInstance);
+
+			CUI_PartyHPWnd::PARTYHP_DESC pPartyHpDesc;
+			pPartyHpDesc.pPlayer = m_pPlayer[i];
+			pPartyHpDesc.iPartyIndex = i;
+			CUI* pUI = nullptr;
+			pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
+				, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_PartyHPWnd"), &pPartyHpDesc));
+			if (nullptr == pUI)
+				return;
+			else
+				m_vecUIParts.push_back(pUI);
+
+			Safe_Release(pGameInstance);
+
+			break;
+		}
+	}
 }
 
 HRESULT CUI_PartyUI::Ready_Components()
@@ -143,6 +175,15 @@ HRESULT CUI_PartyUI::UI_Set()
 			m_vecUIParts.push_back(pUI);
 	}
 
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
+		, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_PartyEntrance")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+	{
+		m_pUI_PartyEntrance = static_cast<CUI_PartyEntrance*>(pUI);
+		m_vecUIParts.push_back(pUI);
+	}
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -204,7 +245,6 @@ CGameObject* CUI_PartyUI::Clone(void* pArg)
 void CUI_PartyUI::Free()
 {
 	__super::Free();
-	m_pOwner = nullptr;
 
 	for (size_t i = 0; i < 4; i++)
 	{

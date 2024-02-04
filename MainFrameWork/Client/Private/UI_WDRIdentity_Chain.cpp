@@ -134,7 +134,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 					m_bRender = true;
 					m_iCurrChaniState = CHAIN_THREE;
 				}
-				else if ((0.3f <= m_fCurrRatio) && (0.6f > m_fCurrRatio)&&((_uint)CHAIN_TWO > m_iCurrChaniState))
+				if ((0.3f <= m_fCurrRatio) && (0.6f > m_fCurrRatio)&&((_uint)CHAIN_TWO > m_iCurrChaniState))
 				{
 					m_bRender = true;
 					m_bCutting = true;
@@ -142,7 +142,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 					m_iCurrChaniState = CHAIN_CUT1;
 				}
 
-				else if ((0.6f <= m_fCurrRatio) && (0.88f > m_fCurrRatio)&& ((_uint)CHAIN_ONE > m_iCurrChaniState))
+				if ((0.6f <= m_fCurrRatio) && (0.88f > m_fCurrRatio)&& ((_uint)CHAIN_ONE > m_iCurrChaniState))
 				{
 					m_bRender = true;
 					m_bCutting = true;
@@ -150,7 +150,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 					m_iCurrChaniState = CHAIN_CUT2;
 				}
 
-				else if ((1.f <= m_fCurrRatio)&&(((_uint)CHAIN_NONE > m_iCurrChaniState)))
+				if ((1.f <= m_fCurrRatio)&&(((_uint)CHAIN_NONE > m_iCurrChaniState)))
 				{
 					m_bRender = true;
 					m_bCutting = true;
@@ -195,7 +195,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Idle(_float fTimeDelta)
 			}
 		}
 
-		else if (CHAIN_TWO == m_iCurrChaniState)
+		if (CHAIN_TWO == m_iCurrChaniState)
 		{
 			if (9.f >= m_fFrame)
 				m_fFrame += 10.f * fTimeDelta;
@@ -206,7 +206,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Idle(_float fTimeDelta)
 			}
 		}
 
-		else if (CHAIN_ONE == m_iCurrChaniState)
+		if (CHAIN_ONE == m_iCurrChaniState)
 		{
 			if (14.f >= m_fFrame)
 				m_fFrame += 10.f * fTimeDelta;
@@ -216,7 +216,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Idle(_float fTimeDelta)
 				m_fFrame = 10.f;
 			}
 		}
-		else if(CHAIN_NONE == m_iCurrChaniState)
+		if(CHAIN_NONE == m_iCurrChaniState)
 		{
 			m_bRender = false;
 		}
@@ -239,7 +239,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Cutting(_float fTimeDelta)
 			m_bCutting = false;
 		}
 	}
-	else if (CHAIN_CUT2 == m_iCurrChaniState)
+	if (CHAIN_CUT2 == m_iCurrChaniState)
 	{
 		if (32.f >= m_fFrame)
 			m_fFrame += 25.f * fTimeDelta;
@@ -250,7 +250,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Cutting(_float fTimeDelta)
 			m_bCutting = false;
 		}
 	}
-	else if (CHAIN_CUT3 == m_iCurrChaniState)
+	if (CHAIN_CUT3 == m_iCurrChaniState)
 	{
 		if (49.f >= m_fFrame)
 			m_fFrame += 25.f * fTimeDelta;
@@ -259,6 +259,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Cutting(_float fTimeDelta)
 			m_fFrame = 0.f;
 			m_iCurrChaniState = CHAIN_NONE;
 			m_bCutting = false;
+			m_bRender = false;
 		}
 	}
 

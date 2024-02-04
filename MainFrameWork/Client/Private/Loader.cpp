@@ -144,6 +144,9 @@
 #include "UI_IdentitySP.h"
 #include "UI_PartyUI.h"
 #include "UI_PartyHPWnd.h"
+#include "UI_ValtanClearWnd.h"
+#include "UI_EstherSkill.h"
+#include "UI_PartyEntrance.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -1027,8 +1030,10 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_Npc_UI()))
 		return E_FAIL;
 
-
 	if(FAILED(Loading_PartyUI()))
+		return E_FAIL;
+
+	if (FAILED(Loading_ValtanUI()))//완성 후 발탄맵으로 옮길 예정
 		return E_FAIL;
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
@@ -2771,6 +2776,11 @@ HRESULT CLoader::Loading_QuickSlot()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_OnCenter_Shine"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Identity_OnCenter_Shine.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Vortex_Gravity"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Identity/Destroyer/Vortex_Gravity.png"))))
 		return E_FAIL;
@@ -3014,6 +3024,11 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_HpCut"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_HpCut.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+		
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Groggy_GaugeFrame"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Groggy_GaugeFrame.png"))))
 			return E_FAIL;
@@ -3469,6 +3484,11 @@ HRESULT CLoader::Loading_PartyUI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PartyEntrance"),
+		CUI_PartyEntrance::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_HPUI_Emblem"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/Emblem%d.png",4))))
@@ -3512,6 +3532,149 @@ HRESULT CLoader::Loading_PartyUI()
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.4"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No4_%d.png", 2))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.4"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No4_%d.png", 2))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_Death_Mark"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/Death_Mark.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_AcceptButton"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_Entrance/AcceptButton%d.png", 3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_RefuseButton"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_Entrance/RefuseButton%d.png", 3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_EntrancePartyWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_Entrance/EntrancePartyWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_Timer_Empty"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_Entrance/Timer_Empty.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_Timer"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_Entrance/Timer.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	Safe_Release(pUIManager);
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ValtanUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ValtanClearWnd"),
+		CUI_ValtanClearWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_EstherSkill"),
+		CUI_EstherSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_BackGroundWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/BackGroundWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearBackGround"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearBackGround.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearCircle"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearCircle.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearDots"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearDots.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearMasked"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearMasked.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearEmblem"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearEmblem.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearText"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearText.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_ClearFailed"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/ClearFailed.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_MaskedBackGround"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/MaskedBackGround.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_Masked_Anim"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/Masked_Anim/%d.png",33))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanClear_MaskedShine_Anim"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Valtan/ValtanClear/MaskedShine_Anim/%d.png", 41))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanRaid_EstherIconFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Esther/Frame_%d.png", 3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanRaid_IconFrame_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Esther/IconFrame_Effect.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanRaid_EstherSkillWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Esther/EstherSkillWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanRaid_Esther_GaugeFrame"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Esther/Esther_GaugeFrame.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanRaid_Esther_Gauge"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Esther/Esther_Gauge.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ValtanRaid_Max_GaugeEffect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Esther/Max_GaugeEffect.png"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

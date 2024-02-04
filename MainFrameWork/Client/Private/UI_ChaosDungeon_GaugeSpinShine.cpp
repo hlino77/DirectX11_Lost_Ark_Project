@@ -65,7 +65,7 @@ HRESULT CUI_ChaosDungeon_GaugeSpinShine::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(15);
+	m_pShaderCom->Begin(18);
 
 	m_pVIBufferCom->Render();
 
