@@ -7,6 +7,7 @@ END
 
 BEGIN(Client)
 class CPlayer;
+class CUI_PartyEntrance;
 class CUI_PartyUI :
     public CUI
 {
@@ -27,6 +28,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Print_Text();
+    void    Add_PartyHp(class CPlayer* pPlayer);
 
 private:
     virtual HRESULT Ready_Components();
@@ -35,11 +37,9 @@ private:
     HRESULT Ready_NameTextBox(CPlayer* pOwner);
 
 private:
-    CPlayer* m_pOwner = { nullptr };
     CPlayer* m_pPlayer[4] = { nullptr, nullptr, nullptr, nullptr };
     //기본 텍스처클래스와 트랜스폼클래스는 메인파티Wnd 텍스처 사용
-
-    _uint   m_iNumTextureIndex[4] = { 0, 0, 0, 0 };
+    CUI_PartyEntrance* m_pUI_PartyEntrance = { nullptr };
 
     CTextBox* m_pTextBox = { nullptr };
     wstring m_strWndTag;

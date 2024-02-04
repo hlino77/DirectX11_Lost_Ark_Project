@@ -71,6 +71,7 @@ private:
 	HRESULT	Loading_Npc_UI_Texture();
 
 	HRESULT	Loading_PartyUI();
+	HRESULT	Loading_ValtanUI();
 
 	HRESULT Loading_Model_For_Level_Bern();
 	HRESULT Loading_Model_For_Level_Lobby();

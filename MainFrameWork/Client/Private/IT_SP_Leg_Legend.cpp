@@ -121,7 +121,7 @@ HRESULT CIT_SP_Leg_Legend::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom, &pChangeColor)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Gunslinger_Legend_Leg"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Legend_Leg"),
 		TEXT("Com_Texture"), (CComponent**)&m_pItemTextureCom)))
 		return E_FAIL;
 

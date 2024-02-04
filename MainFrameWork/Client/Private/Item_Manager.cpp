@@ -594,6 +594,36 @@ HRESULT CItem_Manager::Loading_Inventory_UI()
 			return E_FAIL;
 	}
 
+	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Dinyong_Head"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Dinyong_Head.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Dinyong_Body"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Dinyong_Body.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Dinyong_Weapon"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Dinyong_Weapon.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Legend_Head"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Legend_Head.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Legend_Body"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Legend_Body.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Legend_Leg"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Legend_Leg.png"))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Artist_Legend_Weapon"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Artist/SP_Legend_Weapon.png"))))
+			return E_FAIL;
+
+	}
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

@@ -88,11 +88,11 @@ HRESULT CUI_InventoryWnd::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
-	if (m_bRender)
+	/*if (m_bRender)
 	{
 		Print_Player_Money();
 		m_pMoneyWnd->Render();
-	}
+	}*/
 	return S_OK;
 }
 
@@ -228,9 +228,9 @@ void CUI_InventoryWnd::Print_Player_Money()
 		}
 		++iIndex;
 	}
-	vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strGold);
-	vOrigin = vMeasure * 0.5f;
-	m_pMoneyWnd->Set_Text(m_strWndTag + TEXT("_Gold"), m_strFont, m_strGold, Vec2((470.f * 0.8f) * 0.5f + 30.f, (560.f * 0.8f) - 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 0.0f, 1.f));
+	Vec2 vMeasureG = CGameInstance::GetInstance()->MeasureString(m_strFont, m_strGold);
+	Vec2 vOriginG = vMeasure * 0.5f;
+	m_pMoneyWnd->Set_Text(m_strWndTag + TEXT("_Gold"), m_strFont, m_strGold, Vec2((470.f * 0.8f) * 0.5f + 30.f, (560.f * 0.8f) - 20.f), Vec2(0.35f, 0.35f), vOriginG, 0.f, Vec4(1.0f, 1.0f, 0.0f, 1.f));
 }
 
 void CUI_InventoryWnd::Set_Player_Control(class CPlayer* pPlayer ,_bool bRender)
