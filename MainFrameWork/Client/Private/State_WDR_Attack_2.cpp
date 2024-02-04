@@ -56,7 +56,9 @@ void CState_WDR_Attack_2::Exit_State()
 
 void CState_WDR_Attack_2::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2);
+
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimIndex)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();
@@ -65,8 +67,8 @@ void CState_WDR_Attack_2::Tick_State_Control(_float fTimeDelta)
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		40 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2) &&
-		30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+		40 > iAnimIndex &&
+		30 <= iAnimIndex)
 	{
 		m_IsAttackContinue = true;
 	}
@@ -101,7 +103,7 @@ void CState_WDR_Attack_2::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 40 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+	else if (true == m_IsAttackContinue && 40 <= iAnimIndex)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -114,7 +116,7 @@ void CState_WDR_Attack_2::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (true == m_pController->Is_Run())
 	{
-		if (40 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+		if (40 < iAnimIndex)
 		{
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -130,7 +132,7 @@ void CState_WDR_Attack_2::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+	if (m_AttackFrames[m_iAttackCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
 	{
 		m_iAttackCnt++;
 		Effect_Attack();

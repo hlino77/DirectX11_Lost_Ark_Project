@@ -28,6 +28,7 @@ private:
 private:
 	//Animation
 	_int m_Attack_1 = 0;
+	_bool m_bEffectOn[2];
 
 	_uint m_iAttackCnt = 0;
 	vector<_int> m_AttackFrames;

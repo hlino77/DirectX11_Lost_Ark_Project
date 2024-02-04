@@ -75,7 +75,9 @@ void CState_GN_TerminatingShot_Start::Exit_State()
 
 void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{ 
 		Effect_Shot();
 
@@ -87,26 +89,23 @@ void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1) &&
-		40 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+		30 <= iAnimFrame &&
+		40 > iAnimFrame)
 	{
 		m_bComboContinue = true;
 	}
 
-	if (40 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	if (40 <= iAnimFrame && true == m_bComboContinue)
 	{
-		if (true == m_bComboContinue)
-		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+			m_pPlayer->Set_TargetPos(vClickPos);
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
 
-			m_pPlayer->Set_State(TEXT("Skill_GN_TerminatingShot_End"));
-		}
+		m_pPlayer->Set_State(TEXT("Skill_GN_TerminatingShot_End"));
 	}
-	else if (40 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	else if (40 < iAnimFrame)
 	{
 		if (true == m_pController->Is_Dash())
 		{
@@ -130,7 +129,7 @@ void CState_GN_TerminatingShot_Start::Tick_State_NoneControl(_float fTimeDelta)
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
 	{
 		Effect_Shot();
 

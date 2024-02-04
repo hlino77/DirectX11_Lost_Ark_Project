@@ -106,7 +106,7 @@ void CState_GN_DeathFire_Start::Tick_State_Control(_float fTimeDelta)
 	m_fSkillTimeAcc += fTimeDelta;
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		if (iAnimFrame < 90)
 			Effect_Shot();
@@ -133,7 +133,7 @@ void CState_GN_DeathFire_Start::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeathFire_Start);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		if (iAnimFrame < 90)
 			Effect_Shot();

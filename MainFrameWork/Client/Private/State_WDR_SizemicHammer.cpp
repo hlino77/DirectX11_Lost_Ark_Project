@@ -30,6 +30,11 @@ HRESULT CState_WDR_SizemicHammer::Initialize()
 	m_SkillFrames.push_back(57);
 	m_SkillFrames.push_back(-1);
 
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_bShake[i] = false;
+	}
+
 	return S_OK;
 }
 
@@ -44,6 +49,11 @@ void CState_WDR_SizemicHammer::Enter_State()
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_pPlayer->Get_WDR_Controller()->Get_UseMarbleMessage();
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_bShake[i] = false;
+	}
 }
 
 void CState_WDR_SizemicHammer::Tick_State(_float fTimeDelta)
@@ -61,20 +71,22 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 
-		if (iAnimFrame == 41)
+		if (iAnimFrame >= 41 && false == m_bShake[0])
 		{
 			Effect_Skill();
 			m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 100.0f, 0.5f, 10.0f);
+			m_bShake[0] = true;
 		}
 
-		if (iAnimFrame == 60)
+		if (iAnimFrame >= 60 && false == m_bShake[1])
 		{
 			m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
+			m_bShake[1] = true;
 		}
 	}
 
@@ -132,13 +144,14 @@ void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 
-		if (iAnimFrame == 41)
+		if (iAnimFrame >= 41 && false == m_bShake[0])
 		{
 			Effect_Skill();
+			m_bShake[0] = true;
 		}
 	}
 }

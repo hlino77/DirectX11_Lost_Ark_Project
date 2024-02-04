@@ -184,6 +184,7 @@ public:
 	void							Set_Party(CParty* pParty) { m_pParty = pParty; }
 
 	const _bool&					Is_ClickNpc() { return m_IsClickNpc; }
+	void							Set_ClickNpcState(_bool bClick) { m_IsClickNpc = bClick; }
 
 	/* 아이템관련 함수들 */
 	CModel*							 Get_ModelPart(_uint iPartIndex) { return m_pModelPartCom[iPartIndex]; }

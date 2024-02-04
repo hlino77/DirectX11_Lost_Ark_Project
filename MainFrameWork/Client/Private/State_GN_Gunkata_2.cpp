@@ -65,7 +65,9 @@ void CState_GN_Gunkata_2::Exit_State()
 
 void CState_GN_Gunkata_2::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -78,12 +80,12 @@ void CState_GN_Gunkata_2::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2) &&
-		15 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
+		10 <= iAnimFrame &&
+		15 > iAnimFrame)
 	{
 		m_bComboContinue = true;
 	}
-	else if (true == m_bComboContinue && 15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
+	else if (true == m_bComboContinue && 15 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -99,7 +101,7 @@ void CState_GN_Gunkata_2::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_2))
 	{
 		Effect_Shot();
 

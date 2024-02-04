@@ -64,7 +64,7 @@ void CState_GN_FocusShot_Loop::Exit_State()
 
 void CState_GN_FocusShot_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocusShot_Loop))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocusShot_Loop))
 	{
 		Effect_Shot();
 
@@ -97,7 +97,7 @@ void CState_GN_FocusShot_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocusShot_Loop))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFocusShot_Loop))
 	{
 		Effect_Shot();
 	}

@@ -52,7 +52,9 @@ void CState_WDR_PowerStrike_End::Exit_State()
 
 void CState_WDR_PowerStrike_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End))
+	_int iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -73,7 +75,7 @@ void CState_WDR_PowerStrike_End::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
-	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End))
+	if (30 <= iAnimIndex)
 	{
 
 		if (true == m_pController->Is_Skill())
@@ -113,7 +115,7 @@ void CState_WDR_PowerStrike_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End))
 	{
 		m_iSkillCnt++;
 

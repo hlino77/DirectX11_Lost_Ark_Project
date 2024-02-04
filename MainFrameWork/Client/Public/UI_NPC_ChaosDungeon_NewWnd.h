@@ -25,12 +25,12 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    const _bool Get_IsClicked();
 
     void    Set_Player_Control();
     void    Reset_Player_Control();
     void    Set_Active(_bool bActive);
     _bool   Is_Clicked() { return m_IsClicked; }
+    _bool   Is_Entered();
 
 private:
     void    Start_Text();
@@ -86,6 +86,9 @@ private:
 
     _bool       m_bClicked_Entrance = { false };
     _bool       m_IsClicked = { false };
+
+    _bool       m_bDeActive = { false };
+    _float      m_fDeActiveAcc = { 0.0f };
 
 public:
     static  CUI_NPC_ChaosDungeon_NewWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

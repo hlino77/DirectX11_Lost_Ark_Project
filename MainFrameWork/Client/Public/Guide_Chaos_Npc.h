@@ -34,7 +34,7 @@ private:
 
 private:
 	class CUI_NPC_ChaosDungeon_NewWnd* m_pChaosUI = { nullptr };
-
+	class CPlayer* m_pPlayer = { nullptr };
 
 public:
 	static CGuide_Chaos_Npc* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

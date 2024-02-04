@@ -69,7 +69,7 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -85,7 +85,7 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iPowerShoulder_Loop))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (29 == iAnimFrame)
+	if (29 <= iAnimFrame)
 	{
 		if (true == m_bComboContinue)
 		{

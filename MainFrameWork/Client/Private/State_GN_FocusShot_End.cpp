@@ -76,7 +76,7 @@ void CState_GN_FocusShot_End::Tick_State_Control(_float fTimeDelta)
 		Update_Effect(fTimeDelta);
 	}
 	
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Glow(false);
 		Effect_Shot();
@@ -112,7 +112,7 @@ void CState_GN_FocusShot_End::Tick_State_NoneControl(_float fTimeDelta)
 		Update_Effect(fTimeDelta);
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Glow(false);
 		Effect_Shot();

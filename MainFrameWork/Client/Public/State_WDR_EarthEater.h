@@ -35,6 +35,7 @@ private:
 private:
 	//Animation
 	_int m_iEarthEater = 0;
+	_bool	m_bEffectOn[2];
 
 	vector<CEffect_Custom_EarthEaterParticle*> m_Particles;
 	vector<CEffect_Custom_EarthEaterSmallParticle*> m_SmallParticles;

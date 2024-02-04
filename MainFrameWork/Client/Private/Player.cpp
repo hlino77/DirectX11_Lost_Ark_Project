@@ -386,19 +386,21 @@ _bool CPlayer::Stop_VoiceSound()
 
 _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 {
-	m_vecNpcs = m_pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_NPC);
-	for (auto& pNpc : m_vecNpcs)
+	if (TEXT("Idle") || TEXT("Run"))
 	{
-		if ((_uint)CNpc::NPCTYPE::FUNCTION == static_cast<CNpc*>(pNpc)->Get_NpcType())
+		m_vecNpcs = m_pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_NPC);
+		for (auto& pNpc : m_vecNpcs)
 		{
-			if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos))
+			if ((_uint)CNpc::NPCTYPE::FUNCTION == static_cast<CNpc*>(pNpc)->Get_NpcType())
 			{
-				m_IsClickNpc = true;
-				return true;
+				if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos))
+				{
+					m_IsClickNpc = true;
+					return true;
+				}
 			}
 		}
 	}
-
 	m_IsClickNpc = false;
 
 	POINT pt;

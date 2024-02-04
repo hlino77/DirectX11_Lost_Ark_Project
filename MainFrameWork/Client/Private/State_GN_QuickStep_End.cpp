@@ -63,13 +63,13 @@ void CState_GN_QuickStep_End::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -83,7 +83,7 @@ void CState_GN_QuickStep_End::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iQuickStep_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End))
+	if (30 <= iAnimFrame)
 	{
 		if (true == m_pController->Is_Run())
 		{
@@ -112,7 +112,7 @@ void CState_GN_QuickStep_End::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End);
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();

@@ -70,7 +70,7 @@ void CState_SP_Attack4::Tick_State_Control(_float fTimeDelta)
 	}
 
 
-	if (m_AttackFrames[m_iAttackCnt] == iAnimFrame)
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_AttackMessage();
@@ -123,7 +123,7 @@ void CState_SP_Attack4::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 30 == iAnimFrame)
+	else if (true == m_IsAttackContinue && 30 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))

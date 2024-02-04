@@ -44,6 +44,8 @@ private:
 	_uint m_iAttackCnt = 0;
 	_uint m_iEffectCnt = 0;
 
+	_bool m_IsAttackContinue = false;
+
 	vector<_uint> m_AttackFrames;
 	vector<EffectFrameDesc> m_EffectFrames;
 

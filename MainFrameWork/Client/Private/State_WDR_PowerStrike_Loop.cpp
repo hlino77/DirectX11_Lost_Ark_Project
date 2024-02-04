@@ -51,7 +51,9 @@ void CState_WDR_PowerStrike_Loop::Exit_State()
 
 void CState_WDR_PowerStrike_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Loop))
+	_int iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Loop);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -59,7 +61,7 @@ void CState_WDR_PowerStrike_Loop::Tick_State_Control(_float fTimeDelta)
 		Effect_Shot();
 	}
 
-	if (27 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Loop))
+	if (27 <= iAnimIndex)
 		m_pPlayer->Set_State(TEXT("Skill_WDR_PowerStrike_End"));
 
 	Vec3 vClickPos;
@@ -78,7 +80,7 @@ void CState_WDR_PowerStrike_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Loop))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Loop))
 	{
 		m_iSkillCnt++;
 

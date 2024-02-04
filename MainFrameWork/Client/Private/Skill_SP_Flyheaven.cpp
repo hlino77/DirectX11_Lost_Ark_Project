@@ -66,6 +66,7 @@ void CSkill_SP_Flyheaven::Tick(_float fTimeDelta)
 		Exit();
 	}
 
+
 	m_fSpeed = m_tLerp.Update_Lerp(fTimeDelta);
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);

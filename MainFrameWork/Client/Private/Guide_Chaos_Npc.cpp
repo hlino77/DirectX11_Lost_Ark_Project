@@ -85,6 +85,7 @@ void CGuide_Chaos_Npc::OnCollisionEnter(const _uint iColLayer, CCollider* pOther
 		&& true == static_cast<CPlayer*>(pOther->Get_Owner())->Is_ClickNpc())
 	{
 		m_pChaosUI->Set_Active(true);
+		static_cast<CPlayer*>(pOther->Get_Owner())->Set_ClickNpcState(false);
 	}
 }
 
@@ -125,8 +126,11 @@ HRESULT CGuide_Chaos_Npc::Ready_ChaosEntranceUI()
 
 void CGuide_Chaos_Npc::Activate_GuideUI()
 {
-	if (true == m_pChaosUI->Get_IsClicked())
+	if (true == m_pChaosUI->Is_Entered() && false == m_pChaosUI->Is_Active())
+	{
 		Send_UI_State();
+	}
+		
 }
 
 void CGuide_Chaos_Npc::Send_UI_State()

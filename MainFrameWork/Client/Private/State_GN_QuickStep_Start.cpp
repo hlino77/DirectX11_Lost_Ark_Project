@@ -57,20 +57,22 @@ void CState_GN_QuickStep_Start::Exit_State()
 
 void CState_GN_QuickStep_Start::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start);
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iQuickStep_Start))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		5 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start) &&
-		10 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start))
+		5 <= iAnimFrame &&
+		10 > iAnimFrame)
 	{
 		m_bComboContinue = true;
 	}
-	else if (true == m_bComboContinue && 10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start))
+	else if (true == m_bComboContinue && 10 <= iAnimFrame)
 	{
 		m_pPlayer->Set_State(TEXT("Skill_GN_QuickStep_End"));
 	}
-	else if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_Start))
+	else if (25 <= iAnimFrame)
 	{
 		if (true == m_pController->Is_Dash())
 		{

@@ -36,6 +36,11 @@ HRESULT CState_WDR_EarthEater::Initialize()
 	m_SkillFrames.push_back(91);
 	m_SkillFrames.push_back(-1);
 
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_bEffectOn[i] = false;
+	}
+
 	return S_OK;
 }
 
@@ -53,6 +58,11 @@ void CState_WDR_EarthEater::Enter_State()
 	m_pPlayer->Get_WDR_Controller()->Get_UseMarbleMessage();
 
 	m_bSwing = false;
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_bEffectOn[i] = false;
+	}
 }
 
 void CState_WDR_EarthEater::Tick_State(_float fTimeDelta)
@@ -73,20 +83,22 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEarthEater);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 
-		if (iAnimFrame == 23)
+		if (iAnimFrame >= 23 && false == m_bEffectOn[0])
 		{
 			Effect_Start();
+			m_bEffectOn[0] = true;
 		}
 
 
-		if (iAnimFrame == 91)
+		if (iAnimFrame >= 91 && false == m_bEffectOn[1])
 		{
 			Effect_End();
+			m_bEffectOn[1] = true;
 		}
 
 	}
@@ -151,19 +163,21 @@ void CState_WDR_EarthEater::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEarthEater);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 
-		if (iAnimFrame == 23)
+		if (iAnimFrame >= 23 && false == m_bEffectOn[0])
 		{
 			Effect_Start();
+			m_bEffectOn[0] = true;
 		}
 
 
-		if (iAnimFrame == 91)
+		if (iAnimFrame >= 91 && false == m_bEffectOn[1])
 		{
 			Effect_End();
+			m_bEffectOn[1] = true;
 		}
 
 	}

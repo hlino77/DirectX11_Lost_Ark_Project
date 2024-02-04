@@ -89,10 +89,21 @@ HRESULT CUI_NPC_ChaosDungeon_NewWnd::Initialize_TextBox()
 
 void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
 {
-    __super::Tick(fTimeDelta);
-
-    if (true == m_bActive)
+    if (true == m_bDeActive)
     {
+        m_fDeActiveAcc += fTimeDelta;
+        if (m_fDeActiveAcc >= 0.5f)
+        {
+            m_bDeActive = false;
+            Reset_Player_Control();
+            Set_Active(false);
+        }
+    }
+
+    if (true == m_bActive && false == m_bDeActive)
+    {
+        __super::Tick(fTimeDelta);
+
         if (0 < m_fCurrTimer)
         {
             m_fCurrTimer -= fTimeDelta;
@@ -101,27 +112,34 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
         else if (0 > m_fCurrTimer)
         {
             m_fCurrTimer = 0.f;
-            Reset_Player_Control();
-            Set_Active(false);
+            m_bDeActive = true;
+            m_fDeActiveAcc = 0.0f;
+            m_pTextBoxWnd->Set_Active(false);
+            m_pTimeCountWnd->Set_Active(false);
         }
     }
 }
 
 void CUI_NPC_ChaosDungeon_NewWnd::LateTick(_float fTimeDelta)
 {
-    if (true == m_IsClicked)
+    if (false == m_bDeActive)
     {
-        m_IsClicked = false;
-        Reset_Player_Control();
-        Set_Active(false);
+        if (true == m_IsClicked)
+        {
+            m_IsClicked = false;
+            m_bDeActive = true;
+            m_fDeActiveAcc = 0.0f;
+            m_pTextBoxWnd->Set_Active(false);
+            m_pTimeCountWnd->Set_Active(false);
+   
+            return;
+        }
+        Update_Button();
 
-        return;
+        __super::LateTick(fTimeDelta);
+
+        m_fTimerRatio = m_fCurrTimer / m_fMaxTimer;
     }
-    Update_Button();
-
-    __super::LateTick(fTimeDelta);
-
-    m_fTimerRatio = m_fCurrTimer / m_fMaxTimer;
 }
 
 HRESULT CUI_NPC_ChaosDungeon_NewWnd::Render()
@@ -198,14 +216,6 @@ void CUI_NPC_ChaosDungeon_NewWnd::Print_Text()
     }
 }
 
-const _bool CUI_NPC_ChaosDungeon_NewWnd::Get_IsClicked()
-{
-    if (true == m_bActive)
-        return m_bClicked_Entrance;
-    else
-        return false;
-}
-
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
 {
     Create_Rect();
@@ -265,6 +275,11 @@ void CUI_NPC_ChaosDungeon_NewWnd::Set_Active(_bool bActive)
     m_bActive = bActive;
     m_pTextBoxWnd->Set_Active(bActive);
     m_pTimeCountWnd->Set_Active(bActive);
+}
+
+_bool CUI_NPC_ChaosDungeon_NewWnd::Is_Entered()
+{
+    return m_bClicked_Entrance; 
 }
 
 HRESULT CUI_NPC_ChaosDungeon_NewWnd::Ready_TextBox()
