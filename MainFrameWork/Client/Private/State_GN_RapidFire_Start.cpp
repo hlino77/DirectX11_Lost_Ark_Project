@@ -71,7 +71,9 @@ void CState_GN_RapidFire_Start::Exit_State()
 
 void CState_GN_RapidFire_Start::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -84,13 +86,13 @@ void CState_GN_RapidFire_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (22 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start) &&
-		32 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start) &&
+	if (22 <= iAnimFrame &&
+		32 > iAnimFrame &&
 		true == m_pPlayer->Get_GN_Controller()->Is_HoldorTap(m_eSkillBindKey))
 	{
 		m_bComboContinue = true;
 	}
-	if (true == m_bComboContinue && 32 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	if (true == m_bComboContinue && 32 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -106,7 +108,7 @@ void CState_GN_RapidFire_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
 	{
 		Effect_Shot();
 

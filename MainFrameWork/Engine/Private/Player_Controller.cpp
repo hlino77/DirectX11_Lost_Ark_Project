@@ -285,12 +285,12 @@ _bool CPlayer_Controller::Is_Attack()
 	return false;
 }
 
-void CPlayer_Controller::Get_SkillStartMessage()
+void CPlayer_Controller::Get_SkillStartMessage(_uint iBindKey)
 {
-	if (nullptr == m_pSkills[m_eSelectedSkill])
+	if (nullptr == m_pSkills[iBindKey])
 		return;
 
-	m_pSkills[m_eSelectedSkill]->Enter();
+	m_pSkills[iBindKey]->Enter();
 }
 
 void CPlayer_Controller::Get_RootMessage()

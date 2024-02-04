@@ -237,7 +237,7 @@ void CState_WDR_PerfectSwing_Loop::Update_Camera_Charge(_float fTimeDelta)
 	Vec3 vRight = vUp.Cross(vLook);
 
 	Vec3 vTargetOffset;
-	_float fCameraLength;
+	_float fCameraLength = 0.f;
 
 	if (m_eCameraState == CameraState::CHARGE1)
 	{

@@ -73,7 +73,7 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
-		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage();
+		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage(m_eSkillSelectKey);
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFlyheaven))
@@ -138,6 +138,12 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 
 void CState_SP_Flyheaven::Tick_State_NoneControl(_float fTimeDelta)
 {
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
+	{
+		m_iSkillCnt++;
+		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage(m_eSkillSelectKey);
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))

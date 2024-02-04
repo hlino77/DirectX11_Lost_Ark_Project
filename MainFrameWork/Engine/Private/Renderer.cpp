@@ -923,7 +923,7 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[1], sizeof(SSR_Data))))
 		return E_FAIL;
 #else
-	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[4], sizeof(SSR_Data))))
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
 		return E_FAIL;
 #endif
 

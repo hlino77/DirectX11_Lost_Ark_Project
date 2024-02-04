@@ -25,33 +25,37 @@ HRESULT CSkill_WDR_SizemicHammer::Initialize(void* pArg)
 	m_eCtrlType = SKILL_CTRLTYPE::NORMAL;
 	m_IsSuperArmor = true;
 
-	PROJECTILE_DESC Proj_Desc;
-	Proj_Desc.pAttackOwner = m_pOwner;
-	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
-	Proj_Desc.fAttackTime = 0.1f;
-	Proj_Desc.fRadius = 2.5f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.9f);
-	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 0.7f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 0.9f);
-	Proj_Desc.iDamage = 230;
-	Proj_Desc.iStagger = 30;
-	Proj_Desc.fRepulsion = 0.f;
-	m_vecSkillProjDesces.push_back(Proj_Desc);
-	m_SkillProjDesc = Proj_Desc;
+	{
+		PROJECTILE_DESC Proj_Desc;
+		Proj_Desc.pAttackOwner = m_pOwner;
+		Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+		Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+		Proj_Desc.fAttackTime = 0.1f;
+		Proj_Desc.fRadius = 1.4f;
+		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.2f);
+		Proj_Desc.iDamage = 230;
+		Proj_Desc.iStagger = 30;
+		Proj_Desc.fRepulsion = 0.f;
+		m_vecSkillProjDesces.push_back(Proj_Desc);
+		m_SkillProjDesc = Proj_Desc;
+	}
+	
 
-	Proj_Desc.pAttackOwner = m_pOwner;
-	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
-	Proj_Desc.fAttackTime = 0.1f;
-	Proj_Desc.fRadius = 2.5f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.2f);
-	Proj_Desc.vChildScale = Vec3(1.6f, 0.6f, 2.f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.2f);
-	Proj_Desc.iDamage = 1000;
-	Proj_Desc.iStagger = 60;
-	Proj_Desc.fRepulsion = 0.f;
-	m_vecSkillProjDesces.push_back(Proj_Desc);
+	{
+		PROJECTILE_DESC Proj_Desc;
+		Proj_Desc.pAttackOwner = m_pOwner;
+		Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
+		Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+		Proj_Desc.fAttackTime = 0.1f;
+		Proj_Desc.fRadius = 3.f;
+		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.6f);
+		Proj_Desc.vChildScale = Vec3(2.f, 0.6f, 2.4f);
+		Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.6f);
+		Proj_Desc.iDamage = 1500;
+		Proj_Desc.iStagger = 100;
+		Proj_Desc.fRepulsion = 21.f;
+		m_vecSkillProjDesces.push_back(Proj_Desc);
+	}
 
 	return S_OK;
 }
@@ -83,14 +87,17 @@ HRESULT CSkill_WDR_SizemicHammer::Ready_Components()
 
 void CSkill_WDR_SizemicHammer::Check_ColliderState()
 {
-	_uint iAnimIndex = static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_CurrAnim();
-	if (60 >= static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
+	if (TEXT("Skill_WDR_SizemicHammer") == static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_State())
 	{
-		m_SkillProjDesc = m_vecSkillProjDesces[0];
-	}
-	if (60 < static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
-	{
-		m_SkillProjDesc = m_vecSkillProjDesces[1];
+		_uint iAnimIndex = static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_CurrAnim();
+		if (52 > static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
+		{
+			m_SkillProjDesc = m_vecSkillProjDesces[0];
+		}
+		else if (52 <= static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
+		{
+			m_SkillProjDesc = m_vecSkillProjDesces[1];
+		}
 	}
 }
 

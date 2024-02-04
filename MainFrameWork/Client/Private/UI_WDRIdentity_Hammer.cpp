@@ -51,11 +51,16 @@ HRESULT CUI_WDRIdentity_Hammer::Initialize(void* pArg)
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
 	//m_pTransform_MaskedOnEffect
-	m_fSizeX_MaskedEffect = 131.f * 1.3f;
-	m_fSizeY_MaskedEffect = 125.f * 1.3f;
+	m_fSizeX_MaskedEffect = 256.f * 0.35f;
+	m_fSizeY_MaskedEffect = 256.f * 0.35f;
 	m_pTransform_MaskedOnEffect->Set_Scale(Vec3(m_fSizeX_MaskedEffect, m_fSizeY_MaskedEffect, 1.f));
 	m_pTransform_MaskedOnEffect->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
+
+	//m_pTransform_HorizonEffect
+	m_pTransform_HorizonEffect->Set_Scale(Vec3(337.f, 35.f, 1.f));
+	m_pTransform_HorizonEffect->Set_State(CTransform::STATE_POSITION,
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY - 20.f) + g_iWinSizeY * 0.5f, 0.2f));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -64,6 +69,8 @@ HRESULT CUI_WDRIdentity_Hammer::Initialize(void* pArg)
 	if (nullptr != m_pPlayer)
 		m_bIdentity_On = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
 		Get_WDR_Controller()->Is_Identity();
+
+	m_bMaskedEffectAlphaDecrease = 0.f;
 
 	return S_OK;
 }
@@ -78,7 +85,7 @@ void CUI_WDRIdentity_Hammer::Tick(_float fTimeDelta)
 void CUI_WDRIdentity_Hammer::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-	//Update_EffectPos(fTimeDelta);
+	Update_EffectPos(fTimeDelta);
 }
 
 HRESULT CUI_WDRIdentity_Hammer::Render()
@@ -99,6 +106,11 @@ HRESULT CUI_WDRIdentity_Hammer::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
+	if (FAILED(Bind_ShaderResources_HorizonEffect()))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
 	return S_OK;
 }
 
@@ -107,6 +119,7 @@ void CUI_WDRIdentity_Hammer::Update_EffectPos(_float fTimeDelta)
 	if (m_bIdentity_On)
 	{
 		m_fOnEffectAlpha = 1.f;
+		m_fMaskedEffectDelay += fTimeDelta;
 		if ((512.f * 0.4f) > m_fSizeX_OnEffect)
 		{
 			m_fSizeX_OnEffect += (m_fSizeX_OnEffect * 0.1f) * 25.f * fTimeDelta;
@@ -118,23 +131,30 @@ void CUI_WDRIdentity_Hammer::Update_EffectPos(_float fTimeDelta)
 			m_fSizeY_OnEffect = (512.f * 0.4f);
 		}
 
-		if ((131.f * 1.5f) > m_fSizeX_MaskedEffect)
+		if (0.f <= m_fMaskedEffectAlpha)//((1.f <= m_fMaskedEffectDelay)&&(256.f * 0.5f) > m_fSizeX_MaskedEffect)
 		{
-			if ((!m_bMaskedEffectAlphaDecrease)&&(1.f <= m_fMaskedEffectAlpha))
-				m_bMaskedEffectAlphaDecrease = true;
-			if(m_bMaskedEffectAlphaDecrease)
-				m_fMaskedEffectAlpha -= fTimeDelta;
 			if (!m_bMaskedEffectAlphaDecrease)
-				m_fMaskedEffectAlpha +=  1.2f * fTimeDelta;
-			m_fSizeX_MaskedEffect += (m_fSizeX_MaskedEffect * 0.1f) * fTimeDelta;
-			m_fSizeY_MaskedEffect += (m_fSizeY_MaskedEffect * 0.1f) * fTimeDelta;
+				m_fMaskedEffectAlpha += 3.f * fTimeDelta;
+			if ((!m_bMaskedEffectAlphaDecrease) && (1.f <= m_fMaskedEffectAlpha))
+				m_bMaskedEffectAlphaDecrease = true;
+			if (m_bMaskedEffectAlphaDecrease)
+				m_fMaskedEffectAlpha -= 1.5f * fTimeDelta;
+			if ((256.f * 0.5f) >= m_fSizeX_MaskedEffect)
+			{
+				m_fSizeX_MaskedEffect += (m_fSizeX_MaskedEffect * 0.1f) * 5.f * fTimeDelta;
+				m_fSizeY_MaskedEffect += (m_fSizeY_MaskedEffect * 0.1f) * 5.f * fTimeDelta;
+			}
 		}
-		if ((131.f * 1.5f) <= m_fSizeX_MaskedEffect)
+		if ((256.f * 0.5f) < m_fSizeX_MaskedEffect)
 		{
-			m_fMaskedEffectAlpha = 0.f;
-			m_fSizeX_MaskedEffect = 131.f * 1.2f;
-			m_fSizeY_MaskedEffect = 125.f * 1.2f;
-			m_bMaskedEffectAlphaDecrease = false;
+			if (0.f >= m_fMaskedEffectAlpha)
+			{
+				m_fMaskedEffectAlpha = 0.f;
+				m_fSizeX_MaskedEffect = 256.f * 0.35f;
+				m_fSizeY_MaskedEffect = 256.f * 0.35f;
+				m_bMaskedEffectAlphaDecrease = false;
+				m_fMaskedEffectDelay = 0.f;
+			}
 		}
 	}
 	else
@@ -142,6 +162,7 @@ void CUI_WDRIdentity_Hammer::Update_EffectPos(_float fTimeDelta)
 		m_fOnEffectAlpha = 0.f;
 		m_fMaskedEffectAlpha = 0.f;
 		m_bMaskedEffectAlphaDecrease = false;
+		m_fMaskedEffectDelay = 0.f;
 	}
 
 	m_pTransform_HammerOnEffect->Set_Scale(Vec3(m_fSizeX_OnEffect, m_fSizeY_OnEffect, 1.f));
@@ -151,6 +172,10 @@ void CUI_WDRIdentity_Hammer::Update_EffectPos(_float fTimeDelta)
 	m_pTransform_MaskedOnEffect->Set_Scale(Vec3(m_fSizeX_MaskedEffect, m_fSizeY_MaskedEffect, 1.f));
 	m_pTransform_MaskedOnEffect->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
+
+	m_pTransform_HorizonEffect->Set_Scale(Vec3(337.f, 35.f, 1.f));
+	m_pTransform_HorizonEffect->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX + 4.f) - g_iWinSizeX * 0.5f, -(m_fY - 30.f) + g_iWinSizeY * 0.5f, 0.2f));
 }
 
 HRESULT CUI_WDRIdentity_Hammer::Ready_Components()
@@ -165,9 +190,13 @@ HRESULT CUI_WDRIdentity_Hammer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_On_BlueEffect"),
 		TEXT("Com_Texture_HammerOnEffect"), (CComponent**)&m_pTexture_HammerOnEffect)))
 		return E_FAIL;
-	//
+	//m_pTexture_MaskedOnEffect
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_WhiteEffect"),
 		TEXT("Com_Texture_MaskedOnEffect"), (CComponent**)&m_pTexture_MaskedOnEffect)))
+		return E_FAIL;
+	//m_pTexture_HorizonEffect
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WDR_Identity_OnCenter_Shine"),
+		TEXT("Com_Texture_HorizonEffect"), (CComponent**)&m_pTexture_HorizonEffect)))
 		return E_FAIL;
 
 	//m_pTransform_HammerOnEffect
@@ -177,6 +206,10 @@ HRESULT CUI_WDRIdentity_Hammer::Ready_Components()
 	//m_pTransform_MaskedOnEffect
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
 		TEXT("Com_Transform_MaskedOnEffect"), (CComponent**)&m_pTransform_MaskedOnEffect)))
+		return E_FAIL;
+	//m_pTransform_HorizonEffect;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+		TEXT("Com_Transform_HorizonEffect"), (CComponent**)&m_pTransform_HorizonEffect)))
 		return E_FAIL;
 
 	return S_OK;
@@ -227,6 +260,22 @@ HRESULT CUI_WDRIdentity_Hammer::Bind_ShaderResources_MaskedEffect()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
 	m_pTexture_MaskedOnEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
+	return S_OK;
+}
+
+HRESULT CUI_WDRIdentity_Hammer::Bind_ShaderResources_HorizonEffect()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_HorizonEffect->Get_WorldMatrix())))
+		return S_OK;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fOnEffectAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+	m_pTexture_HorizonEffect->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 	return S_OK;
 }
 
@@ -423,4 +472,7 @@ void CUI_WDRIdentity_Hammer::Free()
 
 	Safe_Release(m_pTexture_MaskedOnEffect);
 	Safe_Release(m_pTransform_MaskedOnEffect);
+
+	Safe_Release(m_pTexture_HorizonEffect);
+	Safe_Release(m_pTransform_HorizonEffect);
 }

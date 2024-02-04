@@ -313,6 +313,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer() && true == m_IsClickNpc)
 			{
+
 				m_pController->Set_Control_Active(false);
 				Set_State(TEXT("Idle"));
 			}
@@ -715,7 +716,7 @@ HRESULT CPlayer_Doaga::Ready_Skill()
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.pOwner = this;
-	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Moondrawing_Start");
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_Moondrawing_Start//Banish");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Moondrawing_Start")));
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_Moondrawing_End")));
 	pSkill = CSkill_SP_Moondrawing::Create(m_pDevice, m_pContext, this, &SkillDesc);
@@ -724,7 +725,7 @@ HRESULT CPlayer_Doaga::Ready_Skill()
 	SkillDesc.State_Skills.clear();
 
 	SkillDesc.pOwner = this;
-	SkillDesc.strSkill_StartName = TEXT("Skill_SP_SpiritHarmony");
+	SkillDesc.strSkill_StartName = TEXT("Skill_SP_SpiritHarmony//Banish");
 	SkillDesc.State_Skills.push_back(m_pStateMachine->Find_State(TEXT("Skill_SP_SpiritHarmony")));
 	pSkill = CSkill_SP_SpiritHarmony::Create(m_pDevice, m_pContext, this, &SkillDesc);
 	m_pController->Set_SkilltoCtrl(pSkill->Get_Skill_Name(), pSkill);

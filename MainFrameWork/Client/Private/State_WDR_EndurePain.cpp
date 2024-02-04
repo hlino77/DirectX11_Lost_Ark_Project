@@ -56,7 +56,9 @@ void CState_WDR_EndurePain::Exit_State()
 
 void CState_WDR_EndurePain::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEndurePain))
+	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEndurePain);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -65,7 +67,7 @@ void CState_WDR_EndurePain::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iEndurePain))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEndurePain))
+	if (30 <= iAnimIndex)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())

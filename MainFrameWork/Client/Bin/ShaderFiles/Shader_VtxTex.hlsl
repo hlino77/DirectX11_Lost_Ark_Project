@@ -491,21 +491,14 @@ PS_OUT PS_MAIN_ORANGE(PS_IN In)
 	float roughness = 0.5;
 
 	float fAlphaTemp = Out.vColor.r;
-	//Out.vColor.a = fAlphaTemp;
-	//float alpha = saturate(Out.vColor.a - smoothstep(0, roughness, length(distanceFromCenter)));
 	Out.vColor.a *= fAlphaTemp;
 
 	if( 0.1f >= Out.vColor.a)
 		discard;
 
-	//Out.vColor.rgb = float3(1.f, 1.f, 1.f);
-
 	float3 vOrangeColor = float3(0.83f, 0.55f, 0.26f);
 	vOrangeColor *= g_Color;
 	Out.vColor.rgb = vOrangeColor;
-	//float roughFactor = saturate(1.0 - smoothstep(0, roughness, length(distanceFromCenter)));
-	//float3 interpolatedColor = lerp(Out.vColor.rgb, vOrangeColor, roughFactor);
-	//Out.vColor.rgb = interpolatedColor;
 
 	return Out;
 }

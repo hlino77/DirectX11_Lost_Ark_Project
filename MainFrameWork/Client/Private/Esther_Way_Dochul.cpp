@@ -85,7 +85,14 @@ void CEsther_Way_Dochul::LateTick(_float fTimeDelta)
 	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
-	//m_pRigidBody->Tick(fTimeDelta);
+	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_IsDissolve)
+	{
+		m_IsDissolve = true;
+	}
+	else if (true == m_IsDissolve)
+	{
+		m_fDissolveAcc += fTimeDelta;
+	}
 
 	CullingObject();
 
@@ -104,6 +111,8 @@ void CEsther_Way_Dochul::Act1(_float fTimeDelta)
 {
 	m_iAnimIndex = m_iAnimAct1;
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	m_IsDissolve = false;
+	m_fDissolveAcc = 0.0f;
 
 	m_bActive = true;
 }
@@ -112,6 +121,8 @@ void CEsther_Way_Dochul::Act2(_float fTimeDelta)
 {
 	m_iAnimIndex = m_iAnimAct2;
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	m_IsDissolve = false;
+	m_fDissolveAcc = 0.0f;
 
 	m_bActive = true;
 }
@@ -120,6 +131,8 @@ void CEsther_Way_Dochul::Act3(_float fTimeDelta)
 {
 	m_iAnimIndex = m_iAnimAct3;
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
+	m_IsDissolve = false;
+	m_fDissolveAcc = 0.0f;
 
 	m_bActive = true;
 }
@@ -140,6 +153,23 @@ HRESULT CEsther_Way_Dochul::Render()
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return S_OK;
 
+	_int iDissolve = true;
+	if (true == m_IsDissolve)
+	{
+		iDissolve = true;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float g_fDissolveAmount = m_fDissolveAcc / m_fMaxDissolve;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
+
+
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
@@ -151,6 +181,13 @@ HRESULT CEsther_Way_Dochul::Render()
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
 		if (FAILED(m_pModelCom->Render_SingleMesh(m_pShaderCom, i)))
+			return E_FAIL;
+	}
+
+	if (true == m_IsDissolve)
+	{
+		iDissolve = false;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
 			return E_FAIL;
 	}
 
@@ -214,6 +251,9 @@ HRESULT CEsther_Way_Dochul::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"), TEXT("Com_DissolveTexture"), (CComponent**)&m_pDissolveTexture)))
+		return E_FAIL;
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -275,7 +315,7 @@ void CEsther_Way_Dochul::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pDissolveTexture);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);

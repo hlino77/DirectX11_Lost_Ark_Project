@@ -65,7 +65,9 @@ void CState_WR_Identity_Attack_3::Tick_State_Control(_float fTimeDelta)
 		TRAIL_START(TEXT("Slayer_Rage_Attack_3"), func)
 	}
 
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3);
+
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
@@ -77,6 +79,9 @@ void CState_WR_Identity_Attack_3::Tick_State_Control(_float fTimeDelta)
 	{
 		m_IsAttackContinue = true;
 	}
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_3))
+		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pController->Is_Dash())
 	{
@@ -109,7 +114,7 @@ void CState_WR_Identity_Attack_3::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+	else if (true == m_IsAttackContinue && 20 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -126,22 +131,14 @@ void CState_WR_Identity_Attack_3::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_State(TEXT("Attack_4"));
 		}
 	}
-	else if (true == m_pController->Is_Run())
+	else if (true == m_pController->Is_Run() && 20 < iAnimFrame)
 	{
-		if (20 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pPlayer->Set_State(TEXT("Run"));
 		}
-	}
-	else if (true == m_pController->Is_Idle())
-	{
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_3))
-			m_pPlayer->Set_State(TEXT("Idle"));
 	}
 }
 

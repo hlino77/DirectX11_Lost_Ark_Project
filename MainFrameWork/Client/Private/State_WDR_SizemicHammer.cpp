@@ -27,7 +27,7 @@ HRESULT CState_WDR_SizemicHammer::Initialize()
 		m_TickFunc = &CState_WDR_SizemicHammer::Tick_State_NoneControl;
 
 	m_SkillFrames.push_back(41);
-	m_SkillFrames.push_back(60);
+	m_SkillFrames.push_back(57);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;
@@ -61,21 +61,21 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
-		m_iSkillCnt++;
-		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
-
-		if (iAnimFrame == 41)
+		if (m_SkillFrames[m_iSkillCnt] == 41)
 		{
 			Effect_Skill();
 			m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 100.0f, 0.5f, 10.0f);
 		}
 
-		if (iAnimFrame == 60)
+		if (m_SkillFrames[m_iSkillCnt] == 57)
 		{
 			m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 		}
+
+		m_iSkillCnt++;
+		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSizemicHammer))
@@ -132,14 +132,13 @@ void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
-		m_iSkillCnt++;
-
-		if (iAnimFrame == 41)
+		if (m_SkillFrames[m_iSkillCnt] == 41)
 		{
 			Effect_Skill();
 		}
+		m_iSkillCnt++;
 	}
 }
 

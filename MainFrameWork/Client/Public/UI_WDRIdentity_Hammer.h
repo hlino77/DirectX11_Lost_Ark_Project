@@ -34,6 +34,7 @@ private:
     virtual HRESULT Bind_ShaderResources();
     virtual HRESULT Bind_ShaderResources_OnEffect();
     virtual HRESULT Bind_ShaderResources_MaskedEffect();
+    virtual HRESULT Bind_ShaderResources_HorizonEffect();
 
 private:
     void    Update_Identity_Hammer(_float fTimeDelta);
@@ -63,7 +64,12 @@ private:
     _float m_fSizeX_MaskedEffect = { 0.f };
     _float m_fSizeY_MaskedEffect = { 0.f };
     _float  m_fMaskedEffectAlpha = { 0.f };
+    _float  m_fMaskedEffectDelay = { 0.f };
     _bool   m_bMaskedEffectAlphaDecrease = { false };
+
+    CTexture* m_pTexture_HorizonEffect = { nullptr };
+    CTransform* m_pTransform_HorizonEffect = { nullptr };
+    
 
 public:
     static  CUI_WDRIdentity_Hammer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

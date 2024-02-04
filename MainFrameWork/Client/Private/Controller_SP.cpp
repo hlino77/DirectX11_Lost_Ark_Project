@@ -38,9 +38,9 @@ HRESULT CController_SP::Initialize(void* pArg)
 
 	/* 기본공격 */
 	Proj_Desc.fRadius = 2.5f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.4f);
-	Proj_Desc.vChildScale = Vec3(1.f, 0.6f, 1.2f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.4f);
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.2f);
+	Proj_Desc.vChildScale = Vec3(1.f, 0.6f, 1.0f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.2f);
 	Proj_Desc.iDamage = 80;
 	Proj_Desc.fRepulsion = 5.f;
 	Proj_Desc.bUseFactor = false;

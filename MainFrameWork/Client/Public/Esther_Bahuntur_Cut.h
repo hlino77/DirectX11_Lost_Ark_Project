@@ -32,6 +32,11 @@ private:
 	virtual HRESULT			Ready_CutCamera();
 
 private:
+	void					Cut1(_float fTimeDelta);
+	void					Cut2(_float fTimeDelta);
+	void					Cut3(_float fTimeDelta);
+	void					Cut4(_float fTimeDelta);
+
 	void					Act1(_float fTimeDelta);
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
@@ -39,6 +44,7 @@ private:
 private:
 	_uint					m_iAnimIndex;
 
+	_bool					m_bCut[4];
 
 public:
 	static CEsther_Bahuntur_Cut* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

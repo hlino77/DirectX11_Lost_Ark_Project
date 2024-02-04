@@ -1651,6 +1651,24 @@
     <Filter Include="02.GameObjects\UI\18.PartyHPUI\00.HpWnd">
       <UniqueIdentifier>{4e3c4266-3130-4b2e-abf2-9f017e9f0e79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd">
+      <UniqueIdentifier>{602a4e7e-1e59-40e8-8f8e-ea02e8d509fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan">
+      <UniqueIdentifier>{e129429a-ef69-47c6-a0ab-627ac7bde14f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan\ValtanClear">
+      <UniqueIdentifier>{3de4f30a-4370-4665-8eff-41929df33665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan\ValtanEntrance">
+      <UniqueIdentifier>{7e3c3a60-9a6c-463c-9d95-d556e1f69cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan\Stage">
+      <UniqueIdentifier>{3929711e-c057-480c-a53f-982d0c69ba0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\20.Esther_Gauge">
+      <UniqueIdentifier>{2e51cbc3-7eaf-41fc-a5c7-b743285bb551}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4786,6 +4804,15 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_PartyEntrance.h">
+      <Filter>02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_EstherSkill.h">
+      <Filter>02.GameObjects\UI\20.Esther_Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ValtanClearWnd.h">
+      <Filter>02.GameObjects\UI\19.Valtan\ValtanClear</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7893,6 +7920,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_PartyEntrance.cpp">
+      <Filter>02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_EstherSkill.cpp">
+      <Filter>02.GameObjects\UI\20.Esther_Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ValtanClearWnd.cpp">
+      <Filter>02.GameObjects\UI\19.Valtan\ValtanClear</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

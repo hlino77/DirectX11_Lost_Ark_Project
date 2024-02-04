@@ -63,18 +63,23 @@ void CState_WR_Attack_1::Tick_State_Control(_float fTimeDelta)
 		TRAIL_START(TEXT("Slayer_Attack_1"), func)
 	}
 
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
+
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		20 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
-		10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		20 > iAnimFrame &&
+		10 <= iAnimFrame)
 	{
 		m_IsAttackContinue = true;
 	}
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_1))
+		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pController->Is_Dash())
 	{
@@ -114,7 +119,7 @@ void CState_WR_Attack_1::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	else if (true == m_IsAttackContinue && 20 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -124,22 +129,14 @@ void CState_WR_Attack_1::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Attack_2"));
 	}
-	else if (true == m_pController->Is_Run())
+	else if (true == m_pController->Is_Run() && 20 < iAnimFrame)
 	{
-		if (20 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pPlayer->Set_State(TEXT("Run"));
 		}
-	}
-	else if (true == m_pController->Is_Idle())
-	{
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_1))
-			m_pPlayer->Set_State(TEXT("Idle"));
 	}
 }
 

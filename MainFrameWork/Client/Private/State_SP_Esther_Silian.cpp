@@ -30,8 +30,9 @@ HRESULT CState_SP_Esther_Silian::Initialize()
 
 void CState_SP_Esther_Silian::Enter_State()
 {
-	m_pPlayer->Reserve_Animation(m_iEsther, 0.1f, 0, 0);
+	m_bEstherActive = false;
 
+	m_pPlayer->Reserve_Animation(m_iEsther, 0.1f, 0, 0);
 
 	m_pPlayer->Get_SP_Controller()->Get_StopMessage();
 	m_pPlayer->Get_SP_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -54,9 +55,10 @@ void CState_SP_Esther_Silian::Exit_State()
 
 void CState_SP_Esther_Silian::Tick_State_Control(_float fTimeDelta)
 {
-	if (20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEsther))
+	if (20 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEsther) && false == m_bEstherActive)
 	{
 		m_pPlayer->Get_SP_Controller()->Get_EstherMessage((_uint)CEsther::ESTHERTYPE::SA);
+		m_bEstherActive = true;
 	}
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iEsther))
 	{
@@ -66,9 +68,10 @@ void CState_SP_Esther_Silian::Tick_State_Control(_float fTimeDelta)
 
 void CState_SP_Esther_Silian::Tick_State_NoneControl(_float fTimeDelta)
 {
-	if (20 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEsther))
+	if (20 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEsther) && false == m_bEstherActive)
 	{
 		m_pPlayer->Get_SP_Controller()->Get_EstherMessage((_uint)CEsther::ESTHERTYPE::SA);
+		m_bEstherActive = true;
 	}
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);

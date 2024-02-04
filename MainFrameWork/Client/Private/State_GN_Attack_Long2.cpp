@@ -38,10 +38,13 @@ void CState_GN_Attack_Long2::Enter_State()
 {
 	m_iAttackCnt = 0;
 
-	m_iShotFire++;
+	if (2 < m_iShotFire)
+		m_iShotFire = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Long2, 0.2f, 0, 0);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+
+	m_IsAttackContinue = false;
 }
 
 void CState_GN_Attack_Long2::Tick_State(_float fTimeDelta)
@@ -51,13 +54,14 @@ void CState_GN_Attack_Long2::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Long2::Exit_State()
 {
-	if (3 < m_iShotFire)
-		m_iShotFire = 0;
+
 }
 
 void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2);
+
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -65,10 +69,22 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
 
+	if (true == m_pController->Is_Attack() &&
+		10 > iAnimFrame &&
+		2 <= iAnimFrame)
+	{
+		m_IsAttackContinue = true;
+	}
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_Long2))
+		m_pPlayer->Set_State(TEXT("Idle"));
+
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 
 	if (true == m_pController->Is_Dash())
 	{
+		m_iShotFire = 0;
+
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
@@ -79,33 +95,29 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (0 != iIdentity)
 	{
-		if (10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2) && 3 >= m_iShotFire)
-		{
+		m_iShotFire = 0;
+
+		if (1 == iIdentity)
 			m_pPlayer->Set_State(TEXT("Identity_GN"));
-		}
-		else if(true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_Long2) && 3 < m_iShotFire)
-		{
-			if (1 == iIdentity)
-				m_pPlayer->Set_State(TEXT("Identity_GN"));
-			else if (2 == iIdentity)
-				m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
-		}
+		else if (2 == iIdentity)
+			m_pPlayer->Set_State(TEXT("Identity_GN_Back"));
 	}
 	else if (true == m_pController->Is_Skill())
 	{
+		m_iShotFire = 0;
+
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
 		else
 			m_pPlayer->Set_TargetPos(Vec3());
 
-
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_pController->Is_Attack())
+	else if (true == m_IsAttackContinue && 10 <= iAnimFrame)
 	{
-		if (10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2) && 3 >= m_iShotFire)
+		if (2 >= m_iShotFire)
 		{
 			Vec3 vClickPos;
 			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -114,43 +126,26 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("Attack_Long_2"));
-		}
-		else if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_Long2) && 3 < m_iShotFire)
-		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
 
-			m_pPlayer->Set_State(TEXT("Attack_Long_1"));
+			m_iShotFire++;
 		}
-	}
-	else if (true == m_pController->Is_Run())
-	{
-		if (10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2) && 3 >= m_iShotFire)
+		if (2 < m_iShotFire)
 		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
-		}
-		else if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_Long2) && 3 < m_iShotFire)
-		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
-		}
-	}
-	else if (true == m_pController->Is_Idle())
-	{
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_Long2))
+			m_iShotFire = 0;
+
 			m_pPlayer->Set_State(TEXT("Idle"));
+		}
+	}
+	else if (true == m_pController->Is_Run() && 10 < iAnimFrame)
+	{
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
+		{
+			m_iShotFire = 0;
+
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pPlayer->Set_State(TEXT("Run"));
+		}
 	}
 }
 
@@ -158,7 +153,7 @@ void CState_GN_Attack_Long2::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2))
+	if (m_AttackFrames[m_iAttackCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long2))
 	{
 		Effect_Shot();
 

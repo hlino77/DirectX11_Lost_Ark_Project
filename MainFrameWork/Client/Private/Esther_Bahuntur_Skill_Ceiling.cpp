@@ -61,6 +61,28 @@ void CEsther_Bahuntur_Skill_Ceiling::LateTick(_float fTimeDelta)
 	if (false == m_bActive)
 		return;
 
+	if (true == m_IsDissolve)
+	{
+		if (false == m_IsReverseDissolve)
+		{
+			m_fDissolveAcc += fTimeDelta;
+			if (m_fDissolveAcc >= m_fMaxDissolve)
+			{
+				m_fDissolveAcc = m_fMaxDissolve;
+				Set_Active(false);
+			}
+		}
+		else
+		{
+			m_fDissolveAcc -= fTimeDelta;
+			if (m_fDissolveAcc <= 0.0f)
+			{
+				m_fDissolveAcc = 0.0f;
+				m_IsDissolve = false;
+			}
+		}
+	}
+
 	CullingObject();
 
 	if (m_bRimLight)
@@ -89,6 +111,9 @@ void CEsther_Bahuntur_Skill_Ceiling::Act2(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill_Ceiling::Act3(_float fTimeDelta)
 {
+	m_IsDissolve = true;
+	m_IsReverseDissolve = false;
+	m_fDissolveAcc = 0.0f;
 }
 
 void CEsther_Bahuntur_Skill_Ceiling::Call_Finish()
@@ -99,6 +124,11 @@ void CEsther_Bahuntur_Skill_Ceiling::Call_Finish()
 void CEsther_Bahuntur_Skill_Ceiling::Ready()
 {
 	m_vFinishPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	m_bActive = true;
+	m_fDissolveAcc = m_fMaxDissolve;
+	m_IsDissolve = true;
+	m_IsReverseDissolve = true;
 }
 
 HRESULT CEsther_Bahuntur_Skill_Ceiling::Render()
@@ -113,6 +143,26 @@ HRESULT CEsther_Bahuntur_Skill_Ceiling::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
+	_int iDissolve = true;
+	if (true == m_IsDissolve)
+	{
+		iDissolve = true;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		Vec4 vDissolveColor = Vec4(1.f, 0.8f, 0.45f, 1.f);
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
+			return E_FAIL;
+
+		_float g_fDissolveAmount = m_fDissolveAcc / m_fMaxDissolve;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
+
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
@@ -120,6 +170,17 @@ HRESULT CEsther_Bahuntur_Skill_Ceiling::Render()
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
 		if (FAILED(m_pModelCom->Render_SingleMesh(m_pShaderCom, i)))
+			return E_FAIL;
+	}
+
+	if (true == m_IsDissolve)
+	{
+		iDissolve = false;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		Vec4 vDissolveColor = Vec4::One;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
 			return E_FAIL;
 	}
 
@@ -181,6 +242,9 @@ HRESULT CEsther_Bahuntur_Skill_Ceiling::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_DissolveTexture_Monster"), TEXT("Com_DissolveTexture"), (CComponent**)&m_pDissolveTexture)))
+		return E_FAIL;
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -199,7 +263,7 @@ void CEsther_Bahuntur_Skill_Ceiling::CullingObject()
 	if (m_bRender)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 	}
 
 }
@@ -242,6 +306,7 @@ void CEsther_Bahuntur_Skill_Ceiling::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pDissolveTexture);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);

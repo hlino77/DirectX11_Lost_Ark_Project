@@ -27,6 +27,7 @@ private:
 
 private:
 	_int	m_iEsther = 0;
+	_bool	m_bEstherActive = false;
 
 public:
 	static CState_SP_Esther_Silian* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);

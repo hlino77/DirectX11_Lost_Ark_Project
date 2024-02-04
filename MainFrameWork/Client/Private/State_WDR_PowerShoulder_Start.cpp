@@ -77,7 +77,7 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -120,7 +120,7 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 	}
 
-	if (29 == iAnimFrame)
+	if (29 <= iAnimFrame)
 	{
 		if (true == m_bComboContinue)
 		{

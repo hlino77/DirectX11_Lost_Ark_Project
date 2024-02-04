@@ -25,12 +25,12 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    const _bool Get_IsClicked();
 
     void    Set_Player_Control();
     void    Reset_Player_Control();
     void    Set_Active(_bool bActive);
     _bool   Is_Clicked() { return m_IsClicked; }
+    _bool   Is_Entered();
 
 private:
     void    Start_Text();
@@ -42,10 +42,13 @@ private:
     void    Create_Rect_AcceptButton();
     void    Create_Rect_RefuseButton();
     void    Update_Button();
+    void    Update_MovingWnd(POINT pt);
     void    Update_AcceptButton(POINT pt);
     void    Update_RefuseButton(POINT pt);
     _bool    Is_Picking_AcceptButton(POINT pt);
     _bool    Is_Picking_RefuseButton(POINT pt);
+    void    Create_Rect_MovingWnd();
+    _bool   Is_Picking_MovingWnd(POINT pt);
 
 private:
     virtual HRESULT Ready_Components();
@@ -70,6 +73,7 @@ private:
 
     RECT        m_rcAcceptButton = {};
     RECT        m_rcRefuseButton = {};
+    RECT        m_rcMovingWnd = {};
 
     _bool       m_bPicking_AcceptButton = { false };
     _bool       m_bPicking_RefuseButton = { false };
@@ -86,6 +90,10 @@ private:
 
     _bool       m_bClicked_Entrance = { false };
     _bool       m_IsClicked = { false };
+    _bool       m_bHolding = { false };
+
+    _bool       m_bDeActive = { false };
+    _float      m_fDeActiveAcc = { 0.0f };
 
 public:
     static  CUI_NPC_ChaosDungeon_NewWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -82,7 +82,7 @@ void CUI_Monster_Hp::LateTick(_float fTimeDelta)
 {
 	m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
 	m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
-	if ((0.f < m_fHpRatio) || ((static_cast<CMonster*>(m_pOwner)->Is_Render()) && (!static_cast<CMonster*>(m_pOwner)->Is_Culled())))
+	if ((0.f < m_fHpRatio) && ((static_cast<CMonster*>(m_pOwner)->Is_Render()) && (!static_cast<CMonster*>(m_pOwner)->Is_Culled())))
 		__super::LateTick(fTimeDelta);
 	
 	Update_Postion();

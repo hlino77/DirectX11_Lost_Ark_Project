@@ -62,18 +62,23 @@ void CState_WR_Identity_Attack_2::Tick_State_Control(_float fTimeDelta)
 		TRAIL_START(TEXT("Slayer_Rage_Attack_2"), func)
 	}
 
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2);
+
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		25 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2) &&
-		15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+		25 > iAnimFrame &&
+		15 <= iAnimFrame)
 	{
 		m_IsAttackContinue = true;
 	}
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_2))
+		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pController->Is_Dash())
 	{
@@ -106,7 +111,7 @@ void CState_WR_Identity_Attack_2::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 25 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+	else if (true == m_IsAttackContinue && 25 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -123,22 +128,14 @@ void CState_WR_Identity_Attack_2::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_State(TEXT("Attack_3"));
 		}
 	}
-	else if (true == m_pController->Is_Run())
+	else if (true == m_pController->Is_Run() && 25 < iAnimFrame)
 	{
-		if (25 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2))
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pPlayer->Set_State(TEXT("Run"));
 		}
-	}
-	else if (true == m_pController->Is_Idle())
-	{
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_2))
-			m_pPlayer->Set_State(TEXT("Idle"));
 	}
 }
 

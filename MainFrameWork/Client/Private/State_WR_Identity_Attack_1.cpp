@@ -31,6 +31,11 @@ HRESULT CState_WR_Identity_Attack_1::Initialize()
 	m_AttackFrames.push_back(21);
 	m_AttackFrames.push_back(-1);
 
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_bEffectOn[i] = false;
+	}
+
 	return S_OK;
 }
 
@@ -42,6 +47,11 @@ void CState_WR_Identity_Attack_1::Enter_State()
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 
 	static_cast<CController_WR*>(m_pController)->Set_Attack_Desc(2);
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_bEffectOn[i] = false;
+	}
 }
 
 void CState_WR_Identity_Attack_1::Tick_State(_float fTimeDelta)
@@ -56,30 +66,39 @@ void CState_WR_Identity_Attack_1::Exit_State()
 
 void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
-	if (4 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
+
+	if (4 <= iAnimFrame && false == m_bEffectOn[0])
 	{
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+
+		m_bEffectOn[0] = true;
 	}
 
-	if (17 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	if (17 <= iAnimFrame && false == m_bEffectOn[1])
 	{
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+
+		m_bEffectOn[1] = true;
 	}
 
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
 	}
 
 	if (true == m_pController->Is_Attack() &&
-		35 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1) &&
-		25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		35 > iAnimFrame &&
+		25 <= iAnimFrame)
 	{
 		m_IsAttackContinue = true;
 	}
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_1))
+		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pController->Is_Dash())
 	{
@@ -113,7 +132,7 @@ void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 35 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+	else if (true == m_IsAttackContinue && 35 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -130,27 +149,37 @@ void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_State(TEXT("Attack_2"));
 		}
 	}
-	else if (true == m_pController->Is_Run())
+	else if (true == m_pController->Is_Run() && 35 < iAnimFrame)
 	{
-		if (35 < m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1))
+		Vec3 vClickPos;
+		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
+			m_pPlayer->Set_TargetPos(vClickPos);
+			m_pPlayer->Set_State(TEXT("Run"));
 		}
-	}
-	else if (true == m_pController->Is_Idle())
-	{
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_1))
-			m_pPlayer->Set_State(TEXT("Idle"));
 	}
 }
 
 void CState_WR_Identity_Attack_1::Tick_State_NoneControl(_float fTimeDelta)
 {
+	/*_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
+
+	if (4 <= iAnimFrame && false == m_bEffectOn[0])
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+
+			m_bEffectOn[0] = true;
+	}
+
+	if (17 <= iAnimFrame && false == m_bEffectOn[1])
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+
+			m_bEffectOn[1] = true;
+	}*/
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
