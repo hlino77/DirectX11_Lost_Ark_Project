@@ -5,6 +5,7 @@
 #include "Controller_WR.h"
 #include "Player_Skill.h"
 #include "Effect_Manager.h"
+#include "Effect_Trail.h"
 #include "Model.h"
 
 CState_WR_FuriousClaw_End::CState_WR_FuriousClaw_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -55,6 +56,9 @@ void CState_WR_FuriousClaw_End::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	for (auto& pTrail : m_Trail)
+		static_cast<CEffect_Trail*>(pTrail)->TrailEnd(1.f);
 }
 
 void CState_WR_FuriousClaw_End::Tick_State_Control(_float fTimeDelta)

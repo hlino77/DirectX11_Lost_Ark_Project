@@ -165,7 +165,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     //float fBrightness = dot(vBloom.rgb, float3(0.2126f, 0.7152f, 0.0722f));
     //vBloom *= Tonemap_ACES(fBrightness);
 
-    vColor += vBloom;
+    vColor.rgb += vBloom.rgb * vBloom.a;
     
     vColor = pow(vColor, 1.f / 2.2f);
     
