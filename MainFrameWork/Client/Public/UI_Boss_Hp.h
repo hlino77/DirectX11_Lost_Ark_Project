@@ -97,7 +97,10 @@ private:
     _float      m_fGroggyRatio = { 0.f };
     _float      m_fHPCutAlpha = { 1.f };
 
-    _float      m_fSizeXHp, m_fSizeYHp, m_fXHp, m_fYHp;
+    _float      m_fSizeXHp = { 0.f };
+    _float      m_fSizeYHp = { 0.f };
+    _float      m_fXHp = { 0.f };
+    _float      m_fYHp = { 0.f };
 
     _uint   m_iBossType = { (_uint)BOSS_END };
 

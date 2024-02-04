@@ -486,7 +486,7 @@ void CUI_Boss_Hp::Update_PreHp()
 			fPreRatio = (_float)m_iPreHp / m_fDivideCountHp;
 		
 		m_iPreHp = m_iCurrHp;
-		m_tLerp.Init_Lerp(0.3f, fPreRatio, m_fHpRatio, LERP_MODE::SMOOTHERSTEP);
+		m_tLerp.Init_Lerp(0.5f, fPreRatio, m_fHpRatio, LERP_MODE::SMOOTHERSTEP);
 		Update_BossHp();
 	}
 }
