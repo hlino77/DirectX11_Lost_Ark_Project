@@ -5,6 +5,7 @@
 #include "Controller_SP.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
 
 CState_SP_DimensionalShift_Start::CState_SP_DimensionalShift_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -43,6 +44,8 @@ void CState_SP_DimensionalShift_Start::Enter_State()
 		m_vColliPos += vDir * 4.f;
 		m_pPlayer->Set_TargetPos(m_vColliPos);
 	}
+
+	m_bTrail = false;
 }
 
 void CState_SP_DimensionalShift_Start::Tick_State(_float fTimeDelta)
@@ -54,10 +57,21 @@ void CState_SP_DimensionalShift_Start::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (m_pPlayer->Get_ServerState() != L"Skill_SP_DimensionalShift_End")
+	{
+		TrailEnd();
+	}
 }
 
 void CState_SP_DimensionalShift_Start::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDimensionalShift_Start))
 		m_pPlayer->Set_State(TEXT("Skill_SP_DimensionalShift_End"));
 }
@@ -65,6 +79,28 @@ void CState_SP_DimensionalShift_Start::Tick_State_Control(_float fTimeDelta)
 void CState_SP_DimensionalShift_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+}
+
+void CState_SP_DimensionalShift_Start::Effect_Trail()
+{
+	vector<CEffect*> Trails;
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("TeleportDoorTrail"), func, Trails);
+
+	m_pPlayer->Add_Effect(L"TeleportDoorTrail1", Trails[0]);
+	m_pPlayer->Add_Effect(L"TeleportDoorTrail2", Trails[1]);
+}
+
+void CState_SP_DimensionalShift_Start::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"TeleportDoorTrail1", 3.0f);
+	m_pPlayer->Delete_Effect_Trail(L"TeleportDoorTrail2", 3.0f);
 }
 
 CState_SP_DimensionalShift_Start* CState_SP_DimensionalShift_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

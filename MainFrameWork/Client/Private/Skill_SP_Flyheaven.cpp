@@ -108,9 +108,9 @@ void CSkill_SP_Flyheaven::Enter()
 	vLook.Normalize();
 
 	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	vPos += vLook * 1.f;
+	vPos += vLook * 0.5f;
 	m_pTransformCom->Set_WorldMatrix(m_pPlayer->Get_TransformCom()->Get_WorldMatrix());
-	m_pTransformCom->Get_TransformCom()->Set_Scale(Vec3(0.8f, 0.8f, 0.8f));
+	m_pTransformCom->Get_TransformCom()->Set_Scale(Vec3(0.7f, 0.7f, 0.7f));
 	m_pTransformCom->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);

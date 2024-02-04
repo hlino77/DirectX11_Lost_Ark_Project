@@ -75,6 +75,8 @@
 
 #include "Esther_Way.h"
 #include "Item_Manager.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CPlayer_Doaga::CPlayer_Doaga(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
@@ -140,6 +142,8 @@ HRESULT CPlayer_Doaga::Initialize(void* pArg)
 
 	return S_OK;
 }
+
+vector<CEffect*> Effects;
 
 void CPlayer_Doaga::Tick(_float fTimeDelta)
 {

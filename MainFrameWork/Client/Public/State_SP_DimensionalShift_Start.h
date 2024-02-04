@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Trail();
+	void	TrailEnd();
+private:
 	class CPlayer_Doaga* m_pPlayer = nullptr;
 
 	std::function<void(CState_SP_DimensionalShift_Start&, _float)> m_TickFunc;
@@ -31,6 +34,8 @@ private:
 	_int m_iDimensionalShift_Start = 0;
 
 	Vec3 m_vColliPos;
+
+	_bool m_bTrail = false;
 
 public:
 	static CState_SP_DimensionalShift_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);

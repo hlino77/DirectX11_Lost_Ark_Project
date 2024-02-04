@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "ServerSessionManager.h"
+#include "Effect_Manager.h"
 
 CState_SP_Identity_Moon::CState_SP_Identity_Moon(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -33,10 +34,12 @@ void CState_SP_Identity_Moon::Enter_State()
 	m_pPlayer->Get_SP_Controller()->Get_StopMessage();
 	m_pPlayer->Get_SP_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 
-	m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
+	//m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
 	m_pPlayer->Set_SuperArmorState(true);
 
 	static_cast<CController_SP*>(m_pController)->Set_Attack_Desc(2);
+
+	m_bTrail = false;
 }
 
 void CState_SP_Identity_Moon::Tick_State(_float fTimeDelta)
@@ -47,10 +50,21 @@ void CState_SP_Identity_Moon::Tick_State(_float fTimeDelta)
 void CState_SP_Identity_Moon::Exit_State()
 {
 	m_pPlayer->Set_SuperArmorState(false);
+
+	if (m_pPlayer->Get_ServerState() != L"Identity_Moon_End")
+	{
+		TrailEnd();
+	}
 }
 
 void CState_SP_Identity_Moon::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity_Moon_Start))
 	{
 		m_pPlayer->Set_State(TEXT("Identity_Moon_End"));
@@ -60,6 +74,22 @@ void CState_SP_Identity_Moon::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Identity_Moon::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_Identity_Moon::Effect_Trail()
+{
+	vector<CEffect*> Effects;
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("SP_IdenMoonTrail"), func, Effects);
+
+	m_pPlayer->Add_Effect(L"IdenMoonTrail1", Effects[0]);
+	m_pPlayer->Add_Effect(L"IdenMoonTrail2", Effects[1]);
+}
+
+void CState_SP_Identity_Moon::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"IdenMoonTrail1", 3.0f);
+	m_pPlayer->Delete_Effect_Trail(L"IdenMoonTrail2", 3.0f);
 }
 
 CState_SP_Identity_Moon* CState_SP_Identity_Moon::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

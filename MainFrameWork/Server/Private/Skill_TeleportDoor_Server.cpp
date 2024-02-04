@@ -34,12 +34,21 @@ HRESULT CSkill_TeleportDoor_Server::Initialize(void* pArg)
 
 	m_bEnd = false;
 
+	m_fDelay = 10.0f;
+
     return S_OK;
 }
 
 void CSkill_TeleportDoor_Server::Tick(_float fTimeDelta)
 {
-
+	if (m_fDelay <= 0.0f)
+	{
+		Set_Dead(true);
+	}
+	else
+	{
+		m_fDelay -= fTimeDelta;
+	}
 }
 
 void CSkill_TeleportDoor_Server::LateTick(_float fTimeDelta)

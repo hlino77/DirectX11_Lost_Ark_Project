@@ -47,6 +47,7 @@ protected:
 private:
 	_bool m_bEnd = false;
 
+	_float m_fDelay = 0.0f;
 public:
 	virtual void Free();
 	static CSkill_TeleportDoor_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

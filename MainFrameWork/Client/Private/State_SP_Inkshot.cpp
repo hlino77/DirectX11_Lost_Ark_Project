@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "Camera_Player.h"
 
 CState_SP_Inkshot::CState_SP_Inkshot(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -150,6 +151,25 @@ void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Inkshot::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot);
+
+	if (iAnimFrame < 18)
+	{
+		if (m_bChargeEffect == false)
+		{
+			Effect_Charge();
+			m_bChargeEffect = true;
+		}
+
+		Update_Effect();
+	}
+	else if (m_bEffect == false && iAnimFrame == 18)
+	{
+		Charge_End();
+		Effect_Shot();
+		m_bEffect = true;
+	}
 }
 
 void CState_SP_Inkshot::Effect_Charge()
@@ -183,6 +203,11 @@ void CState_SP_Inkshot::Effect_Shot()
 	CEffect_Manager::EFFECTPIVOTDESC tDesc;
 	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	EFFECT_START(L"InkShotEndParticle1", &tDesc);
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.2f, 10.0f);
+	}
 }
 
 CState_SP_Inkshot* CState_SP_Inkshot::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

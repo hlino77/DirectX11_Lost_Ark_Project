@@ -8,6 +8,7 @@
 #include "ServerSessionManager.h"
 #include "Effect_Manager.h"
 #include "Effect_Trail.h"
+#include "Camera_Player.h"
 
 CState_SP_Identity_Sun::CState_SP_Identity_Sun(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -52,7 +53,7 @@ void CState_SP_Identity_Sun::Enter_State()
 		m_vColliPos = m_pPlayer->Get_TargetPos();
 	}
 
-	m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
+	//m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
 	m_pPlayer->Set_SuperArmorState(true);
 
 	m_bTrail = false;

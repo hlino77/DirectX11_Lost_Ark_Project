@@ -48,17 +48,26 @@ HRESULT CSkill_TeleportDoor::Initialize(void* pArg)
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER_BUFF]->Update_Collider();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER_BUFF]->SetActive(true);
 
-	{
-		CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
-		tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
-		EFFECT_START_OUTLIST(L"TeleportDoor", &tEffectDesc, m_Effects);
-	}
+	
+
+	m_bEffect = false;
 
     return S_OK;
 }
 
 void CSkill_TeleportDoor::Tick(_float fTimeDelta)
 {
+	if (m_bEffect == false)
+	{
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
+			tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"TeleportDoor", &tEffectDesc, m_Effects);
+		}
+		m_bEffect = true;
+	}
+
+
 	if (0.f >= m_fDeadTime)
 	{
 		Effect_End();
@@ -228,7 +237,8 @@ void CSkill_TeleportDoor::Effect_End()
 {
 	for (auto& Effect : m_Effects)
 	{
-		Effect->EffectEnd();
+		if(Effect->Is_Active())
+			Effect->EffectEnd();
 	}
 }
 
@@ -260,10 +270,7 @@ CGameObject* CSkill_TeleportDoor::Clone(void* pArg)
 
 void CSkill_TeleportDoor::Free()
 {
-	if (false == m_bEnd)
-	{
-		Effect_End();
-	}
+	Effect_End();
 
 	__super::Free();
 }

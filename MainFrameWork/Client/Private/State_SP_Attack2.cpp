@@ -11,6 +11,7 @@
 #include "Effect_Trail.h"
 #include "Effect_Manager.h"
 #include "Effect_Trail.h"
+#include "Camera_Player.h"
 
 CState_SP_Attack2::CState_SP_Attack2(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -154,6 +155,14 @@ void CState_SP_Attack2::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Attack2::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2);
+
+	if (m_bEffect == false && iAnimFrame > 10)
+	{
+		Effect_Shot();
+		m_bEffect = true;
+	}
 }
 
 void CState_SP_Attack2::TrailEnd()
@@ -166,6 +175,11 @@ void CState_SP_Attack2::Effect_Shot()
 	CEffect_Manager::EFFECTPIVOTDESC tDesc;
 	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	EFFECT_START(L"SP_Attack2", &tDesc);
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.05f, 100.0f, 0.2f, 10.0f);
+	}
 }
 
 CState_SP_Attack2* CState_SP_Attack2::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

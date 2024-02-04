@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Manager.h"
 #include "Effect_Trail.h"
+#include "Camera_Player.h"
 
 CState_SP_Inkpaddle::CState_SP_Inkpaddle(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -73,6 +74,11 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+
+		if (m_pPlayer->Is_Control())
+		{
+			m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.2f, 10.0f);
+		}
 	}
 
 	if (m_bEffect == false && iAnimFrame == 12)
@@ -144,6 +150,20 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Inkpaddle::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkpaddle);
+
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
+	if (m_bEffect == false && iAnimFrame == 12)
+	{
+		Effect_Shot();
+		m_bEffect = true;
+	}
 }
 
 void CState_SP_Inkpaddle::Effect_Shot()

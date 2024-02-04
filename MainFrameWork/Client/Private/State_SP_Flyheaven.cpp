@@ -5,6 +5,9 @@
 #include "Controller_SP.h"
 #include "Player_Skill.h"
 #include "Model.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
+#include "Camera_Player.h"
 
 CState_SP_Flyheaven::CState_SP_Flyheaven(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -39,6 +42,8 @@ void CState_SP_Flyheaven::Enter_State()
 
 	m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_bTrail = false;
 }
 
 void CState_SP_Flyheaven::Tick_State(_float fTimeDelta)
@@ -50,12 +55,22 @@ void CState_SP_Flyheaven::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	TrailEnd();
 }
 
 void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 {
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
 	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
 	{
+		Effect_Shot();
+
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage();
@@ -124,6 +139,54 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Flyheaven::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage();
+	}
+
+	if (m_bTrail == false)
+	{
+		Effect_Trail();
+		m_bTrail = true;
+	}
+
+	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
+}
+
+void CState_SP_Flyheaven::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"FlyHeaven", &tDesc);
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.2f, 10.0f);
+	}
+}
+
+void CState_SP_Flyheaven::Effect_Trail()
+{
+	auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+	TRAIL_START_OUTLIST(TEXT("FlyHeavenTrail"), func, m_Trails);
+}
+
+void CState_SP_Flyheaven::TrailEnd()
+{
+	for (auto& Effect : m_Trails)
+	{
+		dynamic_cast<CEffect_Trail*>(Effect)->TrailEnd(3.0f);
+	}
+	m_Trails.clear();
 }
 
 CState_SP_Flyheaven* CState_SP_Flyheaven::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

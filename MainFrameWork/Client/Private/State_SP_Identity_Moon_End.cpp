@@ -6,6 +6,8 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "ServerSessionManager.h"
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
 
 CState_SP_Identity_Moon_End::CState_SP_Identity_Moon_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -23,7 +25,7 @@ HRESULT CState_SP_Identity_Moon_End::Initialize()
 	else
 		m_TickFunc = &CState_SP_Identity_Moon_End::Tick_State_NoneControl;
 
-	m_AttackFrames.push_back(2);
+	m_AttackFrames.push_back(1);
 	m_AttackFrames.push_back(-1);
 
 	return S_OK;
@@ -46,12 +48,16 @@ void CState_SP_Identity_Moon_End::Tick_State(_float fTimeDelta)
 void CState_SP_Identity_Moon_End::Exit_State()
 {
 	m_pPlayer->Set_SuperArmorState(false);
+
+	TrailEnd();
 }
 
 void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)
 {
 	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_End))
 	{
+		Effect_Shot();
+
 		m_iAttackCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_AttackMessage();
 	}
@@ -119,6 +125,24 @@ void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Identity_Moon_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_SP_Identity_Moon_End::Effect_Shot()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"SP_IdenMoon", &tDesc);
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.2f, 10.0f);
+	}
+}
+
+void CState_SP_Identity_Moon_End::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"IdenMoonTrail1", 3.0f);
+	m_pPlayer->Delete_Effect_Trail(L"IdenMoonTrail2", 3.0f);
 }
 
 CState_SP_Identity_Moon_End* CState_SP_Identity_Moon_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

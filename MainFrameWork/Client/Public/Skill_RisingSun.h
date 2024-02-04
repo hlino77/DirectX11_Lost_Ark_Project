@@ -52,6 +52,8 @@ private:
 	_float m_fDeadTime = 10.f;
 
 	vector<CEffect*> m_Effects;
+
+	_bool m_bEffect = false;
 public:
 	static	CSkill_RisingSun* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);

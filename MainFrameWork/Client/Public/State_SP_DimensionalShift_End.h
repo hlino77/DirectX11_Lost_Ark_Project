@@ -22,6 +22,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	TrailEnd();
+	void	Effect_Decal();
+private:
 	class CPlayer_Doaga* m_pPlayer = nullptr;
 
 	std::function<void(CState_SP_DimensionalShift_End&, _float)> m_TickFunc;
@@ -30,6 +33,7 @@ private:
 	//Animation
 	_int m_iDimensionalShift_End = 0;
 
+	_bool m_bEffect = false;
 public:
 	static CState_SP_DimensionalShift_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "ServerSessionManager.h"
+#include "Effect_Manager.h"
 
 CState_SP_DimensionalShift_End::CState_SP_DimensionalShift_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -36,6 +37,8 @@ void CState_SP_DimensionalShift_End::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iDimensionalShift_End, 0.1f, 0, 0);
 
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	m_bEffect = false;
 }
 
 void CState_SP_DimensionalShift_End::Tick_State(_float fTimeDelta)
@@ -47,11 +50,15 @@ void CState_SP_DimensionalShift_End::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	TrailEnd();
 }
 
 void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDimensionalShift_End))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDimensionalShift_End);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		
@@ -65,7 +72,6 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 		matWorld->Resize(16, 0.0f);
 		Matrix matPlayerWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 		Vec3 vPos = m_pPlayer->Get_TargetPos();
-		vPos.y += 0.7f;
 		memcpy(matPlayerWorld.m[3], &vPos, sizeof(Vec3));
 		memcpy(matWorld->mutable_data(), &matPlayerWorld, sizeof(Matrix));
 
@@ -75,8 +81,13 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDimensionalShift_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
+	if (m_bEffect == false)
+	{
+		Effect_Decal();
+		m_bEffect = true;
+	}
 
-	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDimensionalShift_End))
+	if (30 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 
@@ -135,6 +146,25 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 void CState_SP_DimensionalShift_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	if (m_bEffect == false)
+	{
+		Effect_Decal();
+		m_bEffect = true;
+	}
+}
+
+void CState_SP_DimensionalShift_End::TrailEnd()
+{
+	m_pPlayer->Delete_Effect_Trail(L"TeleportDoorTrail1", 3.0f);
+	m_pPlayer->Delete_Effect_Trail(L"TeleportDoorTrail2", 3.0f);
+}
+
+void CState_SP_DimensionalShift_End::Effect_Decal()
+{
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	EFFECT_START(L"TeleportDoorDecal", &tDesc);
 }
 
 CState_SP_DimensionalShift_End* CState_SP_DimensionalShift_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

@@ -7,6 +7,7 @@
 #include "ServerSessionManager.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "Camera_Player.h"
 
 CSkill_RisingSun::CSkill_RisingSun(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -48,19 +49,29 @@ HRESULT CSkill_RisingSun::Initialize(void* pArg)
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER_BUFF]->SetActive(true);
 
 
-	{
-		CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
-		tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
-		EFFECT_START_OUTLIST(L"RisingSun", &tEffectDesc, m_Effects);
-	}
-
 	
+	m_bEffect = false;
+	
+	if (m_pSkillOwner->Is_Control())
+	{
+		dynamic_cast<CPlayer*>(m_pSkillOwner)->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.2f, 10.0f);
+	}
 
     return S_OK;
 }
 
 void CSkill_RisingSun::Tick(_float fTimeDelta)
 {
+	if (m_bEffect == false)
+	{
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
+			tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"RisingSun", &tEffectDesc, m_Effects);
+		}
+		m_bEffect = true;
+	}
+
 	if (0.f >= m_fDeadTime)
 	{
 		Effect_End();
@@ -214,7 +225,8 @@ void CSkill_RisingSun::Effect_End()
 {
 	for (auto& Effect : m_Effects)
 	{
-		Effect->EffectEnd();
+		if(Effect->Is_Active())
+			Effect->EffectEnd();
 	}
 }
 
@@ -246,10 +258,7 @@ CGameObject* CSkill_RisingSun::Clone(void* pArg)
 
 void CSkill_RisingSun::Free()
 {
-	if (false == m_bEnd)
-	{
-		Effect_End();
-	}
+	Effect_End();
 
 	__super::Free();
 }

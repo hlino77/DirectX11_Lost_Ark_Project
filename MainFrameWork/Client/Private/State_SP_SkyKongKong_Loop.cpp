@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Effect_Trail.h"
+#include "Camera_Player.h"
 
 CState_SP_SkyKongKong_Loop::CState_SP_SkyKongKong_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -23,7 +24,7 @@ HRESULT CState_SP_SkyKongKong_Loop::Initialize()
 	else
 		m_TickFunc = &CState_SP_SkyKongKong_Loop::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(14);
+	m_SkillFrames.push_back(13);
 	m_SkillFrames.push_back(-1);
 
 	return S_OK;
@@ -66,7 +67,9 @@ void CState_SP_SkyKongKong_Loop::Exit_State()
 
 void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -75,8 +78,8 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 	}
 
 	if (true == m_pPlayer->Get_SP_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		5 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop) &&
-		15 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop) &&
+		5 <= iAnimFrame &&
+		15 > iAnimFrame &&
 		1 > m_iContinueCnt)
 	{
 		m_bComboContinue = true;
@@ -156,6 +159,15 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 void CState_SP_SkyKongKong_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	{
+		Effect_Shot();
+
+		m_iSkillCnt++;
+	}
 }
 
 void CState_SP_SkyKongKong_Loop::Effect_Shot()
@@ -163,6 +175,11 @@ void CState_SP_SkyKongKong_Loop::Effect_Shot()
 	CEffect_Manager::EFFECTPIVOTDESC tDesc;
 	tDesc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	EFFECT_START(L"SkyKongKongShot", &tDesc);
+
+	if (m_pPlayer->Is_Control())
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.2f, 10.0f);
+	}
 }
 
 void CState_SP_SkyKongKong_Loop::TrailEnd()
