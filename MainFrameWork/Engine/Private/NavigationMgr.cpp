@@ -121,6 +121,11 @@ Vec3 CNavigationMgr::Find_CloseCell_Middle(_uint iLevel, CGameObject* pObject)
 	return m_Navigations[iLevel]->Find_CloseCell_Middle(pObject);
 }
 
+void CNavigationMgr::Set_AllNaviCell_Active(_uint LevelIndex, _bool bActive)
+{
+	m_Navigations[LevelIndex]->Set_Active_All_Cell(bActive);
+}
+
 
 void CNavigationMgr::Free()
 {

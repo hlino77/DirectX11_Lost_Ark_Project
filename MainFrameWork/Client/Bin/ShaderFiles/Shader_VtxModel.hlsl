@@ -32,6 +32,8 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 
     if (0.2f >= Out.vDiffuse.a)
         discard;
+
+
     if (g_bDissolve == true)
         ComputeDissolveColor(Out.vDiffuse, In.vTexUV);
     

@@ -30,6 +30,8 @@ private:
 
     _float m_fCamShakeTimeAcc = 0.0f;
     _float m_fCamShakeTimeDelay = 0.0f;
+
+    _bool  m_bSendServerNaviInfo = false;
 public:
     static	CValtan_BT_Phase2* Create(void* pArg);
     virtual void Free() override;

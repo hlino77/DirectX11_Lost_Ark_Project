@@ -91,7 +91,8 @@ void CStaticModel::Tick(_float fTimeDelta)
 
 	// Chaos 3 Object 
 	{
-		if (m_szModelName == TEXT("Vol_ETC_C_Ship01f") || m_szModelName == TEXT("Vol_Knaly_D_Decocore01h"))
+		if (m_szModelName == TEXT("Vol_ETC_C_Ship01f") || 
+			m_szModelName == TEXT("Vol_Knaly_D_Decocore01h"))
 		{
 			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.1f * fTimeDelta);
 		}
@@ -121,6 +122,7 @@ void CStaticModel::Tick(_float fTimeDelta)
 		{
 			_float MaxY = 1.f;
 			_float MinY = -16.f;
+
 			Vec3 Position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 			if ((Position.y >= MaxY && bUp == true) ||
@@ -129,18 +131,17 @@ void CStaticModel::Tick(_float fTimeDelta)
 				bStop = true;
 				bUp = !bUp;
 			}
-
+			// Stop Move
 			if (true == bStop)
 			{
 				fAccTime += fTimeDelta;
-
 				if (fAccTime >= 2.f)
 				{
 					fAccTime = 0.f;
 					bStop = false;
 				}
 			}
-
+			// Loop Move
 			if (true == bUp && false == bStop)
 			{
 				m_pTransformCom->Go_Up(0.5 * fTimeDelta);
@@ -154,7 +155,6 @@ void CStaticModel::Tick(_float fTimeDelta)
 
 #pragma endregion
 
-	static _int g_cnt = 0;
 
 #pragma region For BreakAble Object 
 
