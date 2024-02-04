@@ -32,7 +32,6 @@ private:
 private:
 	//Animation
 	_int m_iSizemicHammer = 0;
-	_bool m_bShake[2];
 
 public:
 	static CState_WDR_SizemicHammer* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
