@@ -37,6 +37,7 @@ private:
 	void					Cut_Start(_float fTimeDelta);
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
+	void					Act4(_float fTimeDelta);
 
 private:
 	class CEsther_Bahuntur_Skill_Floor*		m_pSkillFloor = { nullptr };
@@ -45,7 +46,9 @@ private:
 	_uint					m_iAnimIndex;
 
 	_bool					m_bCutStart = { false };
+	_bool					m_bProjStart = { false };
 	_bool					m_bAnim = { false };
+	_bool					m_bEndStart = { false };
 
 	_float					m_fTimeAcc = { 0.0f };
 	_float					m_fAnimTime = { 1.5f };

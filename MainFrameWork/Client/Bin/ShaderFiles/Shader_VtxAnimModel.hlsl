@@ -4,7 +4,7 @@
 float4	g_vHairColor_1;
 float4	g_vHairColor_2;
 bool    g_bDissolve = false;
-matrix g_BoneMatrices[800];
+matrix  g_BoneMatrices[800];
 
 VS_OUT VS_MAIN_NO_NORMAL(SKELETAL_IN In)
 {

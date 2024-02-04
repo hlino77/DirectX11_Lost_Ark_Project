@@ -53,6 +53,7 @@ public:
 	void					Call_Finish();
 	void					Call_Act1(_float fTimeDelta) { Act1(fTimeDelta); }
 	void					Call_Act2(_float fTimeDelta) { Act2(fTimeDelta); }
+	void					Call_Act3(_float fTimeDelta) { Act3(fTimeDelta); }
 
 public:
 	void					Ready();
@@ -70,7 +71,7 @@ private:
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
 
-protected:
+private:
 	_bool							m_bDebugRender = { false };
 
 	_float							m_fAnimationSpeed = 1.0f;
@@ -92,9 +93,15 @@ private:
 	_bool							m_bAct2 = false;
 	_bool							m_bAct3 = false;
 
-
 	/* 컬링 절두체 */
 	BoundingSphere	m_tCullingSphere;
+
+	_bool			m_IsDissolve = { false };
+	_bool			m_IsReverseDissolve = { false };
+	_float			m_fDissolveAcc = { 0.0f };
+	_float			m_fMaxDissolve = { 1.f };
+
+	class CTexture* m_pDissolveTexture = { nullptr };
 
 public:
 	static CEsther_Bahuntur_Skill_Ceiling* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

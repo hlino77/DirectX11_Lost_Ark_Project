@@ -71,10 +71,12 @@ void CEsther_Bahuntur_Skill::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	Act1(fTimeDelta);
 	Cut_Start(fTimeDelta);
+
+	Act1(fTimeDelta);
 	Act2(fTimeDelta);
 	Act3(fTimeDelta);
+	Act4(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 	m_pSkillCeiling->Tick(fTimeDelta);
@@ -87,6 +89,11 @@ void CEsther_Bahuntur_Skill::LateTick(_float fTimeDelta)
 		return;
 
 	__super::LateTick(fTimeDelta);
+	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
+	{
+		m_fAnimationSpeed = 0.0f;
+	}
+
 	m_pSkillCeiling->LateTick(fTimeDelta);
 	m_pSkillFloor->LateTick(fTimeDelta);
 }
@@ -123,23 +130,10 @@ void CEsther_Bahuntur_Skill::Ready()
 	m_fAnimationSpeed = 0.f;
 	Reserve_Animation(m_iAnimIndex, 0.1f, 10, 0);
 
+	m_bEndStart = false;
 	m_bCutStart = false;
+	m_bProjStart = false;
 	m_IsFinished = false;
-}
-
-void CEsther_Bahuntur_Skill::Act1(_float fTimeDelta)
-{
-	m_pSkillFloor->Set_Active(true);
-	m_pSkillCeiling->Set_Active(true);
-
-	m_fTimeAcc += fTimeDelta;
-	if (m_fAnimTime <= m_fTimeAcc)
-	{
-		if (false == m_bAnim)
-			m_fAnimationSpeed = 1.f;
-
-		m_bAnim = true;
-	}
 }
 
 void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
@@ -150,6 +144,19 @@ void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
 
 		m_bCutStart = true;
+	}
+}
+
+
+void CEsther_Bahuntur_Skill::Act1(_float fTimeDelta)
+{
+	m_fTimeAcc += fTimeDelta;
+	if (m_fAnimTime <= m_fTimeAcc)
+	{
+		if (false == m_bAnim)
+			m_fAnimationSpeed = 1.f;
+
+		m_bAnim = true;
 	}
 }
 
@@ -169,22 +176,32 @@ void CEsther_Bahuntur_Skill::Act2(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
 {
-	if (79 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (79 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart)
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
 		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+
+		m_bProjStart = true;
+	}
+}
+
+void CEsther_Bahuntur_Skill::Act4(_float fTimeDelta)
+{
+	if (105 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bEndStart)
+	{
+		m_pSkillCeiling->Call_Act3(fTimeDelta);
+		m_pSkillFloor->Call_Act1(fTimeDelta);
+
+		m_bEndStart = true;
 	}
 }
 
 void CEsther_Bahuntur_Skill::Check_Finish()
 {
-	if (true == m_bAnim && true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
+	if (false == m_pSkillCeiling->Is_Active() && false == m_pSkillFloor->Is_Active())
 	{
-		m_pSkillFloor->Set_Active(false);
-		m_pSkillCeiling->Set_Active(false);
-
 		m_IsFinished = true;
 	}
 }

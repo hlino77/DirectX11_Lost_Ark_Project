@@ -112,7 +112,7 @@ void ComputeDissolveColor(inout float4 color, float2 texcoord)
     //Make the pixel emissive if the value is below ~f
     if (dissolveSample - g_fDissolveAmount < 0.1f)/*0.08f*/
     {
-        emissive = float4(1.3f, 1.3f, 1.3f, 1.f)* g_vBloomColor;
+        emissive = float4(1.3f, 1.3f, 1.3f, 1.f) * g_vBloomColor;
     }
 
     color = (color + emissive) * deffuseCol;

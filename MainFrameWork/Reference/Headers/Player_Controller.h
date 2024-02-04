@@ -61,7 +61,7 @@ public:
 	virtual void		Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
 	virtual void		Get_SkillMessage(SKILL_KEY eKey) { Skill(eKey); }
 	virtual void		Get_SkillAttackMessage(SKILL_KEY eKey, Vec3 vPos = Vec3()) { SkillAttack(eKey, vPos); }
-	virtual void		Get_SkillStartMessage();
+	virtual void		Get_SkillStartMessage(_uint iBindKey);
 	virtual void		Get_SkillEndMessage() { m_eSelectedSkill = SKILL_KEY::_END; }
 	virtual void		Get_SkillChangeStatMessage(SKILL_KEY eKey) { ChangeStat(eKey); }
 	
