@@ -17,10 +17,10 @@
 #include "BehaviorTree.h"
 #include <Skill.h>
 #include "ColliderOBB.h"
-#include <Valtan_BT_Attack_Attack11.h>
-#include <Valtan_BT_Attack_Attack1.h>
+#include <Valtan_BT_Attack_SwingSeismic.h>
+#include <Valtan_BT_Attack_Rush.h>
 #include <Valtan_BT_BattleIdle.h>
-#include <Valtan_BT_Attack_Attack9.h>
+#include <Valtan_BT_Attack_DoubleJumpWave.h>
 #include "RigidBody.h"
 #include "NavigationMgr.h"
 
@@ -328,7 +328,7 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 	AnimationDesc.fRootDist = 1.5f;
 	//돌진&1패 이후 카운터 돌진
 	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CValtan_BT_Attack_Attack1::Create(&ActionDesc);
+	CBT_Action* pAttack1 = CValtan_BT_Attack_Rush::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
@@ -346,8 +346,8 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//점프 찍기
-	ActionDesc.strActionName = L"Action_Attack9";
-	CBT_Action* pAttack9 = CValtan_BT_Attack_Attack9::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_DoubleJumpWave";
+	CBT_Action* pDoubleJumpWave = CValtan_BT_Attack_DoubleJumpWave::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_1_01");
@@ -364,8 +364,8 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 
 
 	//십자 찍기
-	ActionDesc.strActionName = L"Action_Attack11";
-	CBT_Action* pAttack11 = CValtan_BT_Attack_Attack11::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_SwingSeismic";
+	CBT_Action* pSwingSeismic = CValtan_BT_Attack_SwingSeismic::Create(&ActionDesc);
 
 	m_pBehaviorTree->Init_PreviousAction(L"Action_BattleIdle", 0);
 	m_bRender = false;

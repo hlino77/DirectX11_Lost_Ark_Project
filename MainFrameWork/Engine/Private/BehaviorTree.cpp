@@ -1,7 +1,7 @@
 #include "BehaviorTree.h"
 #include "BT_Composite.h"
 #include "BT_Action.h"
-
+#include "AsUtils.h"
 CBehaviorTree::CBehaviorTree(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
 {
@@ -66,7 +66,10 @@ HRESULT CBehaviorTree::Change_Action(wstring strActionName)
 {
 	const auto& iter = m_hashActions.find(strActionName);
 	if (iter == m_hashActions.end())
+	{ 
+		cout << "Action	" << CAsUtils::ToString(strActionName) << "	not Found" << endl;
 		return E_FAIL;
+	}
 	m_PreviousAction->second->OnEnd();
 	m_PreviousAction->second->Reset();
 	return S_OK;
