@@ -108,8 +108,29 @@ HRESULT CBoss_Valtan_Corpse::Render()
 	_int	iDissolve =false ;
 	if (m_bDissolveIn || m_bDissolveOut)
 	{
-		iDissolve = true;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		_int   bDissolve = true;
+		_int  bReverseDissovle = false;
+		_float fDissolveDensity = 3.f;
+		_float fDissolveValue = 0.1f;
+		_float fDissolveColorValue = 0.02f;
+		_int  bDissolveEmissive = true;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &bReverseDissovle, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveValue", &fDissolveValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveColorValue", &fDissolveColorValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolveEmissive", &bDissolveEmissive, sizeof(_int))))
 			return E_FAIL;
 
 		_float g_fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
@@ -118,6 +139,7 @@ HRESULT CBoss_Valtan_Corpse::Render()
 
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
+
 	}
 
 	Color vValtanBloom = Color(0.4f, 1.6f, 1.3f, 1.f);
@@ -134,9 +156,37 @@ HRESULT CBoss_Valtan_Corpse::Render()
 			return E_FAIL;
 
 	}
-	iDissolve = false;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
-		return E_FAIL;
+	if (m_bDissolveIn || m_bDissolveOut)
+	{
+		_int bDissolve = false;
+		_int   bReverseDissovle = false;
+		_float fDissolveDensity = 1.f;
+		_float fDissolveValue = 0.1f;
+		_float fDissolveColorValue = 0.02f;
+		_int   bDissolveEmissive = false;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &bReverseDissovle, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveValue", &fDissolveValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveColorValue", &fDissolveColorValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolveEmissive", &bDissolveEmissive, sizeof(_int))))
+			return E_FAIL;
+
+		Vec4 vDissolveColor = Vec4::One;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
