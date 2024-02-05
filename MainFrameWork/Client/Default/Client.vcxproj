@@ -203,6 +203,7 @@
     <ClInclude Include="..\Public\Camera_Lobby.h" />
     <ClInclude Include="..\Public\Chat_Manager.h" />
     <ClInclude Include="..\Public\ClientEvent.h" />
+    <ClInclude Include="..\Public\ClientEvent_BernStart.h" />
     <ClInclude Include="..\Public\ColMesh.h" />
     <ClInclude Include="..\Public\Common_BT_Bound.h" />
     <ClInclude Include="..\Public\Common_BT_BoundLand.h" />
@@ -887,6 +888,7 @@
     <ClCompile Include="..\Private\Camera_Lobby.cpp" />
     <ClCompile Include="..\Private\Chat_Manager.cpp" />
     <ClCompile Include="..\Private\ClientEvent.cpp" />
+    <ClCompile Include="..\Private\ClientEvent_BernStart.cpp" />
     <ClCompile Include="..\Private\ColMesh.cpp" />
     <ClCompile Include="..\Private\Common_BT_Bound.cpp" />
     <ClCompile Include="..\Private\Common_BT_BoundLand.cpp" />

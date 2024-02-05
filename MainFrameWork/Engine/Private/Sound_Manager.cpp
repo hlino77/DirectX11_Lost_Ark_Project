@@ -35,36 +35,20 @@ HRESULT CSound_Manager::Initialize_LoopChannel(_uint iStart, _uint iEnd)
 	return S_OK;
 }
 
-HRESULT CSound_Manager::PlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume)
+HRESULT CSound_Manager::PlaySoundFile(const wstring& strSoundKey, _uint iChannel)
 {
 	auto iter = m_Sounds.find(strSoundKey);
 
 	if (iter == m_Sounds.end())
 		return E_FAIL;
 
-	FMOD_Channel_Stop(m_pChannelArr[iChannel]);
 	FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
-
-	FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
 
 	FMOD_System_Update(m_pSystem);
 
 	return S_OK;
 }
 
-HRESULT CSound_Manager::PlaySound_Distance(const wstring& strSoundKey, _uint iChannel, _float fVolume, Vec3 vPos, _float fRange)
-{
-	Vec3 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
-
-	_float fDistance = (vCamPos - vPos).Length();
-
-	if (fDistance > fRange)
-		return S_OK;
-
-	_float fDistanceVolume = min(fVolume * (1.0f - (fDistance / fRange)) * 1.25f, fVolume);
-	
-	return PlaySoundFile(strSoundKey, iChannel, fDistanceVolume);
-}
 
 HRESULT CSound_Manager::PlaySoundFile_LoopChannel(const wstring& strSoundKey, _float fVolume)
 {
@@ -100,6 +84,7 @@ HRESULT CSound_Manager::PlaySoundFile_LoopChannel(const wstring& strSoundKey, _f
 	m_LoopChannelList.pop_front();
 	m_LoopChannelList.push_back(iChannel);
 
+	FMOD_Channel_Stop(m_pChannelArr[iChannel]);
 	FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
 	FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
 	FMOD_System_Update(m_pSystem);

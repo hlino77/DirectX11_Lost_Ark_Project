@@ -630,9 +630,9 @@ void CGameInstance::InputText(wstring& szInputText)
 	m_pText_Manager->InputText(szInputText);
 }
 
-HRESULT CGameInstance::PlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume)
+HRESULT CGameInstance::PlaySoundFile(const wstring& strSoundKey, _uint iChannel)
 {
-	return m_pSoundMgr->PlaySoundFile(strSoundKey, iChannel, fVolume);
+	return m_pSoundMgr->PlaySoundFile(strSoundKey, iChannel);
 }
 
 HRESULT CGameInstance::PlayBGM(const wstring& strSoundKey, _uint iChannel, _float fVolume)
@@ -665,10 +665,6 @@ HRESULT CGameInstance::Initialize_LoopChannel(_uint iStart, _uint iEnd)
 	return m_pSoundMgr->Initialize_LoopChannel(iStart, iEnd);
 }
 
-HRESULT CGameInstance::PlaySound_Distance(const wstring& strSoundKey, _uint iChannel, _float fVolume, Vec3 vPos, _float fRange)
-{
-	return m_pSoundMgr->PlaySound_Distance(strSoundKey, iChannel, fVolume, vPos, fRange);
-}
 
 HRESULT CGameInstance::PlaySoundFile_LoopChannel(const wstring& strSoundKey, _float fVolume)
 {

@@ -116,14 +116,13 @@ HRESULT CEffect_Custom_Grenade::Ready_Components()
 void CEffect_Custom_Grenade::Init_Projectile_Motion()
 {
 	_float fMaxTime = 0.15f;
-	_float fMaxHeight = 2.0f;
 
 	/*_float fMaxTime = 2.15f;
 	_float fMaxHeight = 5.0f;*/
 
 	Vec3 vTargetPos = m_vTargetPos;
 	_float fEndHeight = vTargetPos.y - m_vStartPos.y;
-	_float fHeight = fMaxHeight - m_vStartPos.y;
+	_float fHeight = 1.0f;
 
 	m_fGravity = 2.0f * fHeight / (fMaxTime * fMaxTime);
 

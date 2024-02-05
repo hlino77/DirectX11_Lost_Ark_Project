@@ -1672,6 +1672,9 @@
     <Filter Include="02.GameObjects\UI\21.DeadScene">
       <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Event\00. ClientEvent_BernStart">
+      <UniqueIdentifier>{62627dad-f5f5-4bbe-bc60-f8ded35d43db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1893,9 +1896,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -4819,6 +4819,10 @@
     <ClInclude Include="..\Public\UI_DeadScene.h">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\ClientEvent_BernStart.h">
+      <Filter>03.Event\00. ClientEvent_BernStart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5040,9 +5044,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -7926,7 +7927,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_PartyEntrance.cpp">
       <Filter>02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd</Filter>
     </ClCompile>
@@ -7938,6 +7939,10 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_DeadScene.cpp">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
+    <ClCompile Include="..\Private\ClientEvent_BernStart.cpp">
+      <Filter>03.Event\00. ClientEvent_BernStart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -163,8 +163,8 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL3:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_3;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 1;
-		m_iMonsterMaxSpawnCount = 0;
+		m_iMonsterCount = 0;
+		m_iMonsterMaxSpawnCount = 1;
 		m_iBossCount = 1;
 		m_MonsterSpawnList.push_back(L"Pawn");
 		m_BossSpawnList.push_back(L"King");
