@@ -1331,10 +1331,9 @@ class Create_Party final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTPlayersFieldNumber = 2,
-    kIPartyIDFieldNumber = 1,
+    kTPlayersFieldNumber = 1,
   };
-  // repeated .Protocol.PlayerInfo tPlayers = 2;
+  // repeated .Protocol.PlayerInfo tPlayers = 1;
   int tplayers_size() const;
   private:
   int _internal_tplayers_size() const;
@@ -1352,15 +1351,6 @@ class Create_Party final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
       tplayers() const;
 
-  // int32 iPartyID = 1;
-  void clear_ipartyid();
-  ::PROTOBUF_NAMESPACE_ID::int32 ipartyid() const;
-  void set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ipartyid() const;
-  void _internal_set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.Create_Party)
  private:
   class _Internal;
@@ -1369,7 +1359,6 @@ class Create_Party final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo > tplayers_;
-  ::PROTOBUF_NAMESPACE_ID::int32 ipartyid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
@@ -1485,23 +1474,23 @@ class Join_Party final :
   enum : int {
     kTPlayerFieldNumber = 1,
   };
-  // .Protocol.PlayerInfo tPlayer = 1;
-  bool has_tplayer() const;
+  // repeated .Protocol.PlayerInfo tPlayer = 1;
+  int tplayer_size() const;
   private:
-  bool _internal_has_tplayer() const;
+  int _internal_tplayer_size() const;
   public:
   void clear_tplayer();
-  const ::Protocol::PlayerInfo& tplayer() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::PlayerInfo* release_tplayer();
-  ::Protocol::PlayerInfo* mutable_tplayer();
-  void set_allocated_tplayer(::Protocol::PlayerInfo* tplayer);
+  ::Protocol::PlayerInfo* mutable_tplayer(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
+      mutable_tplayer();
   private:
-  const ::Protocol::PlayerInfo& _internal_tplayer() const;
-  ::Protocol::PlayerInfo* _internal_mutable_tplayer();
+  const ::Protocol::PlayerInfo& _internal_tplayer(int index) const;
+  ::Protocol::PlayerInfo* _internal_add_tplayer();
   public:
-  void unsafe_arena_set_allocated_tplayer(
-      ::Protocol::PlayerInfo* tplayer);
-  ::Protocol::PlayerInfo* unsafe_arena_release_tplayer();
+  const ::Protocol::PlayerInfo& tplayer(int index) const;
+  ::Protocol::PlayerInfo* add_tplayer();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
+      tplayer() const;
 
   // @@protoc_insertion_point(class_scope:Protocol.Join_Party)
  private:
@@ -1510,7 +1499,7 @@ class Join_Party final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::Protocol::PlayerInfo* tplayer_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo > tplayer_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
@@ -1624,35 +1613,25 @@ class Invitation_Party final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTPlayersFieldNumber = 2,
-    kIPartyIDFieldNumber = 1,
+    kTPlayersFieldNumber = 1,
   };
-  // .Protocol.PlayerInfo tPlayers = 2;
-  bool has_tplayers() const;
+  // repeated .Protocol.PlayerInfo tPlayers = 1;
+  int tplayers_size() const;
   private:
-  bool _internal_has_tplayers() const;
+  int _internal_tplayers_size() const;
   public:
   void clear_tplayers();
-  const ::Protocol::PlayerInfo& tplayers() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::PlayerInfo* release_tplayers();
-  ::Protocol::PlayerInfo* mutable_tplayers();
-  void set_allocated_tplayers(::Protocol::PlayerInfo* tplayers);
+  ::Protocol::PlayerInfo* mutable_tplayers(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
+      mutable_tplayers();
   private:
-  const ::Protocol::PlayerInfo& _internal_tplayers() const;
-  ::Protocol::PlayerInfo* _internal_mutable_tplayers();
+  const ::Protocol::PlayerInfo& _internal_tplayers(int index) const;
+  ::Protocol::PlayerInfo* _internal_add_tplayers();
   public:
-  void unsafe_arena_set_allocated_tplayers(
-      ::Protocol::PlayerInfo* tplayers);
-  ::Protocol::PlayerInfo* unsafe_arena_release_tplayers();
-
-  // int32 iPartyID = 1;
-  void clear_ipartyid();
-  ::PROTOBUF_NAMESPACE_ID::int32 ipartyid() const;
-  void set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ipartyid() const;
-  void _internal_set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
+  const ::Protocol::PlayerInfo& tplayers(int index) const;
+  ::Protocol::PlayerInfo* add_tplayers();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
+      tplayers() const;
 
   // @@protoc_insertion_point(class_scope:Protocol.Invitation_Party)
  private:
@@ -1661,8 +1640,7 @@ class Invitation_Party final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::Protocol::PlayerInfo* tplayers_;
-  ::PROTOBUF_NAMESPACE_ID::int32 ipartyid_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo > tplayers_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
@@ -2250,27 +2228,7 @@ inline void PlayerInfo::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
 
 // Create_Party
 
-// int32 iPartyID = 1;
-inline void Create_Party::clear_ipartyid() {
-  ipartyid_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 Create_Party::_internal_ipartyid() const {
-  return ipartyid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 Create_Party::ipartyid() const {
-  // @@protoc_insertion_point(field_get:Protocol.Create_Party.iPartyID)
-  return _internal_ipartyid();
-}
-inline void Create_Party::_internal_set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  ipartyid_ = value;
-}
-inline void Create_Party::set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_ipartyid(value);
-  // @@protoc_insertion_point(field_set:Protocol.Create_Party.iPartyID)
-}
-
-// repeated .Protocol.PlayerInfo tPlayers = 2;
+// repeated .Protocol.PlayerInfo tPlayers = 1;
 inline int Create_Party::_internal_tplayers_size() const {
   return tplayers_.size();
 }
@@ -2313,194 +2271,86 @@ Create_Party::tplayers() const {
 
 // Join_Party
 
-// .Protocol.PlayerInfo tPlayer = 1;
-inline bool Join_Party::_internal_has_tplayer() const {
-  return this != internal_default_instance() && tplayer_ != nullptr;
+// repeated .Protocol.PlayerInfo tPlayer = 1;
+inline int Join_Party::_internal_tplayer_size() const {
+  return tplayer_.size();
 }
-inline bool Join_Party::has_tplayer() const {
-  return _internal_has_tplayer();
+inline int Join_Party::tplayer_size() const {
+  return _internal_tplayer_size();
 }
 inline void Join_Party::clear_tplayer() {
-  if (GetArenaForAllocation() == nullptr && tplayer_ != nullptr) {
-    delete tplayer_;
-  }
-  tplayer_ = nullptr;
+  tplayer_.Clear();
 }
-inline const ::Protocol::PlayerInfo& Join_Party::_internal_tplayer() const {
-  const ::Protocol::PlayerInfo* p = tplayer_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::PlayerInfo&>(
-      ::Protocol::_PlayerInfo_default_instance_);
-}
-inline const ::Protocol::PlayerInfo& Join_Party::tplayer() const {
-  // @@protoc_insertion_point(field_get:Protocol.Join_Party.tPlayer)
-  return _internal_tplayer();
-}
-inline void Join_Party::unsafe_arena_set_allocated_tplayer(
-    ::Protocol::PlayerInfo* tplayer) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(tplayer_);
-  }
-  tplayer_ = tplayer;
-  if (tplayer) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.Join_Party.tPlayer)
-}
-inline ::Protocol::PlayerInfo* Join_Party::release_tplayer() {
-  
-  ::Protocol::PlayerInfo* temp = tplayer_;
-  tplayer_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::Protocol::PlayerInfo* Join_Party::unsafe_arena_release_tplayer() {
-  // @@protoc_insertion_point(field_release:Protocol.Join_Party.tPlayer)
-  
-  ::Protocol::PlayerInfo* temp = tplayer_;
-  tplayer_ = nullptr;
-  return temp;
-}
-inline ::Protocol::PlayerInfo* Join_Party::_internal_mutable_tplayer() {
-  
-  if (tplayer_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::PlayerInfo>(GetArenaForAllocation());
-    tplayer_ = p;
-  }
-  return tplayer_;
-}
-inline ::Protocol::PlayerInfo* Join_Party::mutable_tplayer() {
+inline ::Protocol::PlayerInfo* Join_Party::mutable_tplayer(int index) {
   // @@protoc_insertion_point(field_mutable:Protocol.Join_Party.tPlayer)
-  return _internal_mutable_tplayer();
+  return tplayer_.Mutable(index);
 }
-inline void Join_Party::set_allocated_tplayer(::Protocol::PlayerInfo* tplayer) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete tplayer_;
-  }
-  if (tplayer) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::Protocol::PlayerInfo>::GetOwningArena(tplayer);
-    if (message_arena != submessage_arena) {
-      tplayer = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, tplayer, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  tplayer_ = tplayer;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.Join_Party.tPlayer)
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
+Join_Party::mutable_tplayer() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.Join_Party.tPlayer)
+  return &tplayer_;
+}
+inline const ::Protocol::PlayerInfo& Join_Party::_internal_tplayer(int index) const {
+  return tplayer_.Get(index);
+}
+inline const ::Protocol::PlayerInfo& Join_Party::tplayer(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.Join_Party.tPlayer)
+  return _internal_tplayer(index);
+}
+inline ::Protocol::PlayerInfo* Join_Party::_internal_add_tplayer() {
+  return tplayer_.Add();
+}
+inline ::Protocol::PlayerInfo* Join_Party::add_tplayer() {
+  // @@protoc_insertion_point(field_add:Protocol.Join_Party.tPlayer)
+  return _internal_add_tplayer();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
+Join_Party::tplayer() const {
+  // @@protoc_insertion_point(field_list:Protocol.Join_Party.tPlayer)
+  return tplayer_;
 }
 
 // -------------------------------------------------------------------
 
 // Invitation_Party
 
-// int32 iPartyID = 1;
-inline void Invitation_Party::clear_ipartyid() {
-  ipartyid_ = 0;
+// repeated .Protocol.PlayerInfo tPlayers = 1;
+inline int Invitation_Party::_internal_tplayers_size() const {
+  return tplayers_.size();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Invitation_Party::_internal_ipartyid() const {
-  return ipartyid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 Invitation_Party::ipartyid() const {
-  // @@protoc_insertion_point(field_get:Protocol.Invitation_Party.iPartyID)
-  return _internal_ipartyid();
-}
-inline void Invitation_Party::_internal_set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  ipartyid_ = value;
-}
-inline void Invitation_Party::set_ipartyid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_ipartyid(value);
-  // @@protoc_insertion_point(field_set:Protocol.Invitation_Party.iPartyID)
-}
-
-// .Protocol.PlayerInfo tPlayers = 2;
-inline bool Invitation_Party::_internal_has_tplayers() const {
-  return this != internal_default_instance() && tplayers_ != nullptr;
-}
-inline bool Invitation_Party::has_tplayers() const {
-  return _internal_has_tplayers();
+inline int Invitation_Party::tplayers_size() const {
+  return _internal_tplayers_size();
 }
 inline void Invitation_Party::clear_tplayers() {
-  if (GetArenaForAllocation() == nullptr && tplayers_ != nullptr) {
-    delete tplayers_;
-  }
-  tplayers_ = nullptr;
+  tplayers_.Clear();
 }
-inline const ::Protocol::PlayerInfo& Invitation_Party::_internal_tplayers() const {
-  const ::Protocol::PlayerInfo* p = tplayers_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::PlayerInfo&>(
-      ::Protocol::_PlayerInfo_default_instance_);
-}
-inline const ::Protocol::PlayerInfo& Invitation_Party::tplayers() const {
-  // @@protoc_insertion_point(field_get:Protocol.Invitation_Party.tPlayers)
-  return _internal_tplayers();
-}
-inline void Invitation_Party::unsafe_arena_set_allocated_tplayers(
-    ::Protocol::PlayerInfo* tplayers) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(tplayers_);
-  }
-  tplayers_ = tplayers;
-  if (tplayers) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.Invitation_Party.tPlayers)
-}
-inline ::Protocol::PlayerInfo* Invitation_Party::release_tplayers() {
-  
-  ::Protocol::PlayerInfo* temp = tplayers_;
-  tplayers_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::Protocol::PlayerInfo* Invitation_Party::unsafe_arena_release_tplayers() {
-  // @@protoc_insertion_point(field_release:Protocol.Invitation_Party.tPlayers)
-  
-  ::Protocol::PlayerInfo* temp = tplayers_;
-  tplayers_ = nullptr;
-  return temp;
-}
-inline ::Protocol::PlayerInfo* Invitation_Party::_internal_mutable_tplayers() {
-  
-  if (tplayers_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::PlayerInfo>(GetArenaForAllocation());
-    tplayers_ = p;
-  }
-  return tplayers_;
-}
-inline ::Protocol::PlayerInfo* Invitation_Party::mutable_tplayers() {
+inline ::Protocol::PlayerInfo* Invitation_Party::mutable_tplayers(int index) {
   // @@protoc_insertion_point(field_mutable:Protocol.Invitation_Party.tPlayers)
-  return _internal_mutable_tplayers();
+  return tplayers_.Mutable(index);
 }
-inline void Invitation_Party::set_allocated_tplayers(::Protocol::PlayerInfo* tplayers) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete tplayers_;
-  }
-  if (tplayers) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::Protocol::PlayerInfo>::GetOwningArena(tplayers);
-    if (message_arena != submessage_arena) {
-      tplayers = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, tplayers, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  tplayers_ = tplayers;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.Invitation_Party.tPlayers)
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >*
+Invitation_Party::mutable_tplayers() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.Invitation_Party.tPlayers)
+  return &tplayers_;
+}
+inline const ::Protocol::PlayerInfo& Invitation_Party::_internal_tplayers(int index) const {
+  return tplayers_.Get(index);
+}
+inline const ::Protocol::PlayerInfo& Invitation_Party::tplayers(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.Invitation_Party.tPlayers)
+  return _internal_tplayers(index);
+}
+inline ::Protocol::PlayerInfo* Invitation_Party::_internal_add_tplayers() {
+  return tplayers_.Add();
+}
+inline ::Protocol::PlayerInfo* Invitation_Party::add_tplayers() {
+  // @@protoc_insertion_point(field_add:Protocol.Invitation_Party.tPlayers)
+  return _internal_add_tplayers();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::PlayerInfo >&
+Invitation_Party::tplayers() const {
+  // @@protoc_insertion_point(field_list:Protocol.Invitation_Party.tPlayers)
+  return tplayers_;
 }
 
 #ifdef __GNUC__

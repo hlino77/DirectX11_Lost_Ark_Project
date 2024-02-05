@@ -335,11 +335,11 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	}
 	else if (L"SP" == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectTag())
 	{
-		pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_UI_IdentitySP"));
+		pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_UI_IdentitySP"));
 		if (nullptr == pUI)
 			return E_FAIL;
 		else
-			CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+			CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 	}
 
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PlayerHPUI"));
@@ -372,17 +372,17 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_PartyUI"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PartyUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("CUI_ChaosDungeon_Clear"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChaosDungeon_Clear"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
 	Safe_Release(pGameInstance);
 	return S_OK;

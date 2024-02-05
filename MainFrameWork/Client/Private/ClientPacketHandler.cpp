@@ -630,13 +630,13 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 		}
 
 
-		pPlayer->Set_Party(new CParty(tCreateParty.ipartyid(), Players));
+		pPlayer->Set_Party(new CParty(Players));
 	}
 	else if (pkt.tjoinparty().empty() == false)
 	{
 		auto& tJoinParty = pkt.tjoinparty(0);
 
-		CGameObject* pObject = pGameInstance->Find_GameObject(tJoinParty.tplayer().ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer().iid());
+		CGameObject* pObject = pGameInstance->Find_GameObject(tJoinParty.tplayer(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer(0).iid());
 		if (pObject == nullptr)
 		{
 			Safe_Release(pGameInstance);

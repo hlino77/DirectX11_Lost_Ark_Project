@@ -2,9 +2,8 @@
 #include "Party.h"
 #include "Client_Defines.h"
 
-CParty::CParty(_uint iID, vector<CGameObject*> Players)
-	: m_iID(iID)
-	, m_Players(Players)
+CParty::CParty(vector<CGameObject*> Players)
+	: m_Players(Players)
 {
 
 }

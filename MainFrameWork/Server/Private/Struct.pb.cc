@@ -115,8 +115,7 @@ struct PlayerInfoDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
 constexpr Create_Party::Create_Party(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : tplayers_()
-  , ipartyid_(0){}
+  : tplayers_(){}
 struct Create_PartyDefaultTypeInternal {
   constexpr Create_PartyDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -128,7 +127,7 @@ struct Create_PartyDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Create_PartyDefaultTypeInternal _Create_Party_default_instance_;
 constexpr Join_Party::Join_Party(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : tplayer_(nullptr){}
+  : tplayer_(){}
 struct Join_PartyDefaultTypeInternal {
   constexpr Join_PartyDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -140,8 +139,7 @@ struct Join_PartyDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Join_PartyDefaultTypeInternal _Join_Party_default_instance_;
 constexpr Invitation_Party::Invitation_Party(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : tplayers_(nullptr)
-  , ipartyid_(0){}
+  : tplayers_(){}
 struct Invitation_PartyDefaultTypeInternal {
   constexpr Invitation_PartyDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -215,7 +213,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Struct_2eproto::offsets[] PROT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Protocol::Create_Party, ipartyid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::Create_Party, tplayers_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::Join_Party, _internal_metadata_),
@@ -228,7 +225,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Struct_2eproto::offsets[] PROT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Protocol::Invitation_Party, ipartyid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::Invitation_Party, tplayers_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -240,8 +236,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 40, -1, sizeof(::Protocol::MonsterCreateInfo)},
   { 46, -1, sizeof(::Protocol::PlayerInfo)},
   { 53, -1, sizeof(::Protocol::Create_Party)},
-  { 60, -1, sizeof(::Protocol::Join_Party)},
-  { 66, -1, sizeof(::Protocol::Invitation_Party)},
+  { 59, -1, sizeof(::Protocol::Join_Party)},
+  { 65, -1, sizeof(::Protocol::Invitation_Party)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -269,20 +265,19 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "\003 \001(\010\"8\n\rChildCollider\022\023\n\007vOffset\030\001 \003(\002B"
   "\002\020\001\022\022\n\006vScale\030\002 \003(\002B\002\020\001\",\n\021MonsterCreate"
   "Info\022\027\n\017fFollowDistance\030\001 \001(\002\")\n\nPlayerI"
-  "nfo\022\013\n\003iID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\"H\n\014Crea"
-  "te_Party\022\020\n\010iPartyID\030\001 \001(\005\022&\n\010tPlayers\030\002"
-  " \003(\0132\024.Protocol.PlayerInfo\"3\n\nJoin_Party"
-  "\022%\n\007tPlayer\030\001 \001(\0132\024.Protocol.PlayerInfo\""
-  "L\n\020Invitation_Party\022\020\n\010iPartyID\030\001 \001(\005\022&\n"
-  "\010tPlayers\030\002 \001(\0132\024.Protocol.PlayerInfob\006p"
-  "roto3"
+  "nfo\022\013\n\003iID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\"6\n\014Crea"
+  "te_Party\022&\n\010tPlayers\030\001 \003(\0132\024.Protocol.Pl"
+  "ayerInfo\"3\n\nJoin_Party\022%\n\007tPlayer\030\001 \003(\0132"
+  "\024.Protocol.PlayerInfo\":\n\020Invitation_Part"
+  "y\022&\n\010tPlayers\030\001 \003(\0132\024.Protocol.PlayerInf"
+  "ob\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Struct_2eproto_deps[1] = {
   &::descriptor_table_Enum_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Struct_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Struct_2eproto = {
-  false, false, 685, descriptor_table_protodef_Struct_2eproto, "Struct.proto", 
+  false, false, 649, descriptor_table_protodef_Struct_2eproto, "Struct.proto", 
   &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 10,
   schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
   file_level_metadata_Struct_2eproto, file_level_enum_descriptors_Struct_2eproto, file_level_service_descriptors_Struct_2eproto,
@@ -2021,12 +2016,10 @@ Create_Party::Create_Party(const Create_Party& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       tplayers_(from.tplayers_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ipartyid_ = from.ipartyid_;
   // @@protoc_insertion_point(copy_constructor:Protocol.Create_Party)
 }
 
 void Create_Party::SharedCtor() {
-ipartyid_ = 0;
 }
 
 Create_Party::~Create_Party() {
@@ -2056,7 +2049,6 @@ void Create_Party::Clear() {
   (void) cached_has_bits;
 
   tplayers_.Clear();
-  ipartyid_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2066,23 +2058,16 @@ const char* Create_Party::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 iPartyID = 1;
+      // repeated .Protocol.PlayerInfo tPlayers = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ipartyid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // repeated .Protocol.PlayerInfo tPlayers = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_tplayers(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -2114,18 +2099,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 iPartyID = 1;
-  if (this->ipartyid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_ipartyid(), target);
-  }
-
-  // repeated .Protocol.PlayerInfo tPlayers = 2;
+  // repeated .Protocol.PlayerInfo tPlayers = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_tplayers_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, this->_internal_tplayers(i), target, stream);
+      InternalWriteMessage(1, this->_internal_tplayers(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2144,18 +2123,11 @@ size_t Create_Party::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .Protocol.PlayerInfo tPlayers = 2;
+  // repeated .Protocol.PlayerInfo tPlayers = 1;
   total_size += 1UL * this->_internal_tplayers_size();
   for (const auto& msg : this->tplayers_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // int32 iPartyID = 1;
-  if (this->ipartyid() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_ipartyid());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2190,9 +2162,6 @@ void Create_Party::MergeFrom(const Create_Party& from) {
   (void) cached_has_bits;
 
   tplayers_.MergeFrom(from.tplayers_);
-  if (from.ipartyid() != 0) {
-    _internal_set_ipartyid(from._internal_ipartyid());
-  }
 }
 
 void Create_Party::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2217,7 +2186,6 @@ void Create_Party::InternalSwap(Create_Party* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   tplayers_.InternalSwap(&other->tplayers_);
-  swap(ipartyid_, other->ipartyid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Create_Party::GetMetadata() const {
@@ -2230,32 +2198,23 @@ void Create_Party::InternalSwap(Create_Party* other) {
 
 class Join_Party::_Internal {
  public:
-  static const ::Protocol::PlayerInfo& tplayer(const Join_Party* msg);
 };
 
-const ::Protocol::PlayerInfo&
-Join_Party::_Internal::tplayer(const Join_Party* msg) {
-  return *msg->tplayer_;
-}
 Join_Party::Join_Party(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  tplayer_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:Protocol.Join_Party)
 }
 Join_Party::Join_Party(const Join_Party& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      tplayer_(from.tplayer_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_tplayer()) {
-    tplayer_ = new ::Protocol::PlayerInfo(*from.tplayer_);
-  } else {
-    tplayer_ = nullptr;
-  }
   // @@protoc_insertion_point(copy_constructor:Protocol.Join_Party)
 }
 
 void Join_Party::SharedCtor() {
-tplayer_ = nullptr;
 }
 
 Join_Party::~Join_Party() {
@@ -2266,7 +2225,6 @@ Join_Party::~Join_Party() {
 
 void Join_Party::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete tplayer_;
 }
 
 void Join_Party::ArenaDtor(void* object) {
@@ -2285,10 +2243,7 @@ void Join_Party::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && tplayer_ != nullptr) {
-    delete tplayer_;
-  }
-  tplayer_ = nullptr;
+  tplayer_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2298,11 +2253,16 @@ const char* Join_Party::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .Protocol.PlayerInfo tPlayer = 1;
+      // repeated .Protocol.PlayerInfo tPlayer = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_tplayer(), ptr);
-          CHK_(ptr);
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_tplayer(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -2334,12 +2294,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo tPlayer = 1;
-  if (this->has_tplayer()) {
+  // repeated .Protocol.PlayerInfo tPlayer = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_tplayer_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        1, _Internal::tplayer(this), target, stream);
+      InternalWriteMessage(1, this->_internal_tplayer(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2358,11 +2318,11 @@ size_t Join_Party::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo tPlayer = 1;
-  if (this->has_tplayer()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *tplayer_);
+  // repeated .Protocol.PlayerInfo tPlayer = 1;
+  total_size += 1UL * this->_internal_tplayer_size();
+  for (const auto& msg : this->tplayer_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2396,9 +2356,7 @@ void Join_Party::MergeFrom(const Join_Party& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_tplayer()) {
-    _internal_mutable_tplayer()->::Protocol::PlayerInfo::MergeFrom(from._internal_tplayer());
-  }
+  tplayer_.MergeFrom(from.tplayer_);
 }
 
 void Join_Party::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2422,7 +2380,7 @@ bool Join_Party::IsInitialized() const {
 void Join_Party::InternalSwap(Join_Party* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(tplayer_, other->tplayer_);
+  tplayer_.InternalSwap(&other->tplayer_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Join_Party::GetMetadata() const {
@@ -2435,36 +2393,23 @@ void Join_Party::InternalSwap(Join_Party* other) {
 
 class Invitation_Party::_Internal {
  public:
-  static const ::Protocol::PlayerInfo& tplayers(const Invitation_Party* msg);
 };
 
-const ::Protocol::PlayerInfo&
-Invitation_Party::_Internal::tplayers(const Invitation_Party* msg) {
-  return *msg->tplayers_;
-}
 Invitation_Party::Invitation_Party(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  tplayers_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:Protocol.Invitation_Party)
 }
 Invitation_Party::Invitation_Party(const Invitation_Party& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      tplayers_(from.tplayers_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_tplayers()) {
-    tplayers_ = new ::Protocol::PlayerInfo(*from.tplayers_);
-  } else {
-    tplayers_ = nullptr;
-  }
-  ipartyid_ = from.ipartyid_;
   // @@protoc_insertion_point(copy_constructor:Protocol.Invitation_Party)
 }
 
 void Invitation_Party::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&tplayers_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&ipartyid_) -
-    reinterpret_cast<char*>(&tplayers_)) + sizeof(ipartyid_));
 }
 
 Invitation_Party::~Invitation_Party() {
@@ -2475,7 +2420,6 @@ Invitation_Party::~Invitation_Party() {
 
 void Invitation_Party::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete tplayers_;
 }
 
 void Invitation_Party::ArenaDtor(void* object) {
@@ -2494,11 +2438,7 @@ void Invitation_Party::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && tplayers_ != nullptr) {
-    delete tplayers_;
-  }
-  tplayers_ = nullptr;
-  ipartyid_ = 0;
+  tplayers_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2508,18 +2448,16 @@ const char* Invitation_Party::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 iPartyID = 1;
+      // repeated .Protocol.PlayerInfo tPlayers = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ipartyid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // .Protocol.PlayerInfo tPlayers = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_tplayers(), ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_tplayers(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -2551,18 +2489,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 iPartyID = 1;
-  if (this->ipartyid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_ipartyid(), target);
-  }
-
-  // .Protocol.PlayerInfo tPlayers = 2;
-  if (this->has_tplayers()) {
+  // repeated .Protocol.PlayerInfo tPlayers = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_tplayers_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        2, _Internal::tplayers(this), target, stream);
+      InternalWriteMessage(1, this->_internal_tplayers(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2581,18 +2513,11 @@ size_t Invitation_Party::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo tPlayers = 2;
-  if (this->has_tplayers()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *tplayers_);
-  }
-
-  // int32 iPartyID = 1;
-  if (this->ipartyid() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_ipartyid());
+  // repeated .Protocol.PlayerInfo tPlayers = 1;
+  total_size += 1UL * this->_internal_tplayers_size();
+  for (const auto& msg : this->tplayers_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2626,12 +2551,7 @@ void Invitation_Party::MergeFrom(const Invitation_Party& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_tplayers()) {
-    _internal_mutable_tplayers()->::Protocol::PlayerInfo::MergeFrom(from._internal_tplayers());
-  }
-  if (from.ipartyid() != 0) {
-    _internal_set_ipartyid(from._internal_ipartyid());
-  }
+  tplayers_.MergeFrom(from.tplayers_);
 }
 
 void Invitation_Party::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2655,12 +2575,7 @@ bool Invitation_Party::IsInitialized() const {
 void Invitation_Party::InternalSwap(Invitation_Party* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Invitation_Party, ipartyid_)
-      + sizeof(Invitation_Party::ipartyid_)
-      - PROTOBUF_FIELD_OFFSET(Invitation_Party, tplayers_)>(
-          reinterpret_cast<char*>(&tplayers_),
-          reinterpret_cast<char*>(&other->tplayers_));
+  tplayers_.InternalSwap(&other->tplayers_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Invitation_Party::GetMetadata() const {
