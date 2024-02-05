@@ -4,6 +4,7 @@
 #include "Party_Server.h"
 #include "Player_Server.h"
 #include "GameSession.h"
+#include "GameInstance.h"
 
 IMPLEMENT_SINGLETON(CPartyManager)
 
@@ -11,30 +12,56 @@ CPartyManager::CPartyManager()
 {
 }
 
-void CPartyManager::Create_Party(CGameObject* pLeader)
+void CPartyManager::JoinParty(Protocol::S_PARTY& pkt)
 {
-	WRITE_LOCK
-	_uint iPartyID = m_iPartyID++;
-	m_Parties.emplace(iPartyID, new CParty_Server(iPartyID, pLeader));
+	WRITE_LOCK;
 
-	Protocol::S_PARTY pkt;
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	auto tCreateParty = pkt.add_tcreateparty();
-	auto Player = tCreateParty->add_tplayers();
-	Player->set_iid(pLeader->Get_ObjectID());
-	Player->set_ilevel(0);
+	auto& tJoinParty = pkt.tjoinparty(0);
 
-	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
-	dynamic_cast<CPlayer_Server*>(pLeader)->Get_GameSession()->Send(pSendBuffer);
+	CPlayer_Server* pPartyLeader = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(tJoinParty.tplayer(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer(0).iid()));
+	if (pPartyLeader == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return;
+	}
+
+	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(tJoinParty.tplayer(1).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tJoinParty.tplayer(1).iid()));
+	if (pPlayer == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return;
+	}
+
+	CParty_Server* pParty = Get_Party(pPartyLeader->Get_ObjectID());
+	if (pParty == nullptr)
+	{
+		vector<CPlayer_Server*> Players;
+		Players.push_back(pPartyLeader);
+		Players.push_back(pPlayer);
+
+		m_Parties.emplace(pPartyLeader->Get_ObjectID(), new CParty_Server(Players));
+	}
+	else
+	{
+		pParty->Add_Player(pPlayer);
+	}
+
+
+	Safe_Release(pGameInstance);
 }
 
-_bool CPartyManager::Join_Party(_uint iID, CGameObject* pPlayer)
+CParty_Server* CPartyManager::Get_Party(_uint iObjectID)
 {
-	WRITE_LOCK
-	if (m_Parties.find(iID) == m_Parties.end())
-		return false;
+	auto iter = m_Parties.find(iObjectID);
 
-	return m_Parties[iID]->Add_Player(pPlayer);
+	if (iter == m_Parties.end())
+	{
+		return nullptr;
+	}
+
+	return (*iter).second;
 }
 
 

@@ -177,7 +177,8 @@ HRESULT CUI_PartyHPWnd::Render()
 		m_pVIBufferCom->Render();
 	}
 
-	m_pTextBox->Render();
+	if(m_bRender)
+		m_pTextBox->Render();
 
 	return S_OK;
 }

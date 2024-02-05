@@ -649,7 +649,15 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 	{
 		auto& tInvitation = pkt.tinvitationparty(0);
 
-		
+		CPlayer* pPartyLeader = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObject(tInvitation.tplayers(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tInvitation.tplayers(0).iid()));
+		if (pPartyLeader == nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
+
+		//초대 수락
+
 	}
 
 	Safe_Release(pGameInstance);

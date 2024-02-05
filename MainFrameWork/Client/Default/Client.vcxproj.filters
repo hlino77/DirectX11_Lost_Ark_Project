@@ -1672,6 +1672,9 @@
     <Filter Include="02.GameObjects\UI\21.DeadScene">
       <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Event\00. ClientEvent_BernStart">
+      <UniqueIdentifier>{62627dad-f5f5-4bbe-bc60-f8ded35d43db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1893,9 +1896,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -3742,73 +3742,73 @@
     <ClInclude Include="..\Public\Boss_Valtan.h">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack0.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_FirstTerrainDestruction.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack1.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Rush.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_CounterAttack.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack3.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_WhirlWind.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack4.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_FistSmashExplosion.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack5.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_TeleportRush.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack6.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_TrunningPizza.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack7.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_FrontBackWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack8.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_DoubleSwingChopSwing.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack9.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_DoubleJumpWave.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack10.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_JumpSeismic.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack11.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_SwingSeismic.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack12.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_MultipleChop.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack13.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_SilenceChop.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack14.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_RainingAxe.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack15.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Imprisonment.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack16.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_SecondTerrainDestruction.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack19.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_RushGrab.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack20.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_WipeAssult.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack21.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_Imposter.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack22.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_BugSmash.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack23.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_ChainDestructionFist.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack24.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_GhostGrab.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss_BT_Groggy.h">
@@ -3958,13 +3958,13 @@
     <ClInclude Include="..\Public\Valtan_BT_Phase3.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_1.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_TrippleCounterChop_1.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_2.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_TrippleCounterChop_2.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack17_3.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_TrippleCounterChop_3.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityMG_BackGround.h">
@@ -4009,7 +4009,7 @@
     <ClInclude Include="..\Public\Deco_Npc.h">
       <Filter>02.GameObjects\Npc\Deco_Npc</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Valtan_BT_Attack_Attack2_1.h">
+    <ClInclude Include="..\Public\Valtan_BT_Attack_CounterAttack_1.h">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_Lobby.h">
@@ -4819,6 +4819,9 @@
     <ClInclude Include="..\Public\UI_DeadScene.h">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ClientEvent_BernStart.h">
+      <Filter>03.Event\00. ClientEvent_BernStart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5040,9 +5043,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -6859,73 +6859,73 @@
     <ClCompile Include="..\Private\Boss_Valtan.cpp">
       <Filter>02.GameObjects\Boss\Valtan</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack0.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_FirstTerrainDestruction.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack1.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Rush.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_CounterAttack.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack3.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_WhirlWind.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack4.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_FistSmashExplosion.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack5.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_TeleportRush.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack6.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_TrunningPizza.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack7.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_FrontBackWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack8.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_DoubleSwingChopSwing.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack9.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_DoubleJumpWave.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack10.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_JumpSeismic.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack11.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_SwingSeismic.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack12.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_MultipleChop.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack13.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_SilenceChop.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack14.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_RainingAxe.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack15.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Imprisonment.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack16.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_SecondTerrainDestruction.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack19.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_RushGrab.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack20.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_WipeAssult.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack21.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_Imposter.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack22.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_BugSmash.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack23.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_ChainDestructionFist.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack24.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_GhostGrab.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss_BT_Groggy.cpp">
@@ -7075,13 +7075,13 @@
     <ClCompile Include="..\Private\Valtan_BT_Phase3.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_1.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_TrippleCounterChop_1.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_2.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_TrippleCounterChop_2.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack17_3.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_TrippleCounterChop_3.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_IdentityMG_BackGround.cpp">
@@ -7126,7 +7126,7 @@
     <ClCompile Include="..\Private\Deco_Npc.cpp">
       <Filter>02.GameObjects\Npc\Deco_Npc</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Valtan_BT_Attack_Attack2_1.cpp">
+    <ClCompile Include="..\Private\Valtan_BT_Attack_CounterAttack_1.cpp">
       <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround_Lobby.cpp">
@@ -7926,7 +7926,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_PartyEntrance.cpp">
       <Filter>02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd</Filter>
     </ClCompile>
@@ -7938,6 +7938,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_DeadScene.cpp">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ClientEvent_BernStart.cpp">
+      <Filter>03.Event\00. ClientEvent_BernStart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -8161,6 +8164,9 @@
     </Text>
     <Text Include="..\..\포스계수.txt">
       <Filter>02.GameObjects\Boss</Filter>
+    </Text>
+    <Text Include="..\..\발탄액션 정리.txt">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
     </Text>
   </ItemGroup>
 </Project>

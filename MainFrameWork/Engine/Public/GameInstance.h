@@ -139,7 +139,7 @@ public:
 
 	/* For. SoundManager */
 
-	HRESULT PlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume);
+	HRESULT PlaySoundFile(const wstring& strSoundKey, _uint iChannel);
 	HRESULT PlayBGM(const wstring& strSoundKey, _uint iChannel, _float fVolume);
 	HRESULT StopSound(_uint iChannel);
 	HRESULT StopSoundAll();
@@ -147,7 +147,6 @@ public:
 	HRESULT CheckPlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume);
 
 	HRESULT	Initialize_LoopChannel(_uint iStart, _uint iEnd);
-	HRESULT	PlaySound_Distance(const wstring& strSoundKey, _uint iChannel, _float fVolume, Vec3 vPos, _float fRange);
 	HRESULT PlaySoundFile_LoopChannel(const wstring& strSoundKey, _float fVolume);
 	HRESULT	PlaySound_Distance_LoopChannel(const wstring& strSoundKey, _float fVolume, Vec3 vPos, _float fRange);
 	HRESULT Find_Stop_Sound(const wstring& strSoundKey);

@@ -1,0 +1,27 @@
+#pragma once
+
+#include "Client_Defines.h"
+#include "Valtan_BT_Attack_Attack_Base.h"
+
+BEGIN(Client)
+
+class CValtan_BT_Attack_FistSmashExplosion :
+    public CValtan_BT_Attack_Attack_Base
+{
+private:
+    CValtan_BT_Attack_FistSmashExplosion();
+    CValtan_BT_Attack_FistSmashExplosion(const CValtan_BT_Attack_FistSmashExplosion& rhs) = delete;
+    virtual ~CValtan_BT_Attack_FistSmashExplosion() =  default;
+
+    virtual void		OnStart()							override;
+    virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
+    virtual void		OnEnd()								override;
+private:
+    _bool   m_bShoot = {};
+
+public:
+    static	CValtan_BT_Attack_FistSmashExplosion* Create(void* pArg);
+    virtual void Free() override;
+};
+
+END

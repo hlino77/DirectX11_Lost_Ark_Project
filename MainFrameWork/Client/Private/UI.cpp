@@ -5,6 +5,16 @@
 #include "AsFileUtils.h"
 #include "AsUtils.h"
 #include <filesystem>
+#include "Player_Gunslinger.h"
+#include "Player_Slayer.h"
+#include "Player_Destroyer.h"
+#include "Player_Bard.h"
+#include "Player_Doaga.h"
+#include "Player_Controller_GN.h"
+#include "Controller_MG.h"
+#include "Controller_WDR.h"
+#include "Controller_WR.h"
+#include "Controller_SP.h"
 
 CUI::CUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext, L"UI", OBJ_TYPE::UI)
@@ -221,6 +231,14 @@ void CUI::Set_UIParts_Render(_bool bRender)
 	}
 }
 
+void CUI::Set_UIParts_Active(_bool bActive)
+{
+	for (auto& iter : m_vecUIParts)
+	{
+		iter->Set_Active(bActive);
+	}
+}
+
 void CUI::Change_SizeX(_float MMX)
 {
 	m_fSizeX += MMX;
@@ -356,6 +374,88 @@ HRESULT CUI::Bind_ShaderResources()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CUI::Reset_Player_Control()
+{
+	CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	if (nullptr == pPlayer)
+		return;
+
+	if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Control_Active(true);
+	}
+	else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Control_Active(true);
+	}
+	else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Control_Active(true);
+	}
+	else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Control_Active(true);
+	}
+	else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Control_Active(true);
+	}
+}
+
+void CUI::Set_Player_Control()
+{
+	CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	if (nullptr == pPlayer)
+		return;
+
+	if (m_bPick)
+	{
+		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(false);
+		}
+		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(false);
+		}
+	}
+	else if ((!m_bPick))
+	{
+		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("MG") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Bard*>(pPlayer)->Get_MG_Controller()->Set_Mouse_Active(true);
+		}
+		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+		{
+			static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(true);
+		}
+	}
 }
 
 void CUI::Free()

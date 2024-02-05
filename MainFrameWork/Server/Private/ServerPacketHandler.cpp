@@ -394,26 +394,24 @@ bool Handel_S_PARTY_Server(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 
 	if (pkt.tcreateparty().empty() == false)
 	{
-		auto& tCreateParty = pkt.tcreateparty(0);
-		CGameObject* pObject = pGameInstance->Find_GameObject(tCreateParty.tplayers(0).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tCreateParty.tplayers(0).iid());
-		if (pObject == nullptr)
-		{
-			Safe_Release(pGameInstance);
-			return true;
-		}
 
-		CPartyManager::GetInstance()->Create_Party(pObject);
 	}
 	else if (pkt.tjoinparty().empty() == false)
 	{
-		auto& tJoinParty = pkt.tjoinparty(0);
-
+		CPartyManager::GetInstance()->JoinParty(pkt);
 	}
 	else if (pkt.tinvitationparty().empty() == false)
 	{
 		auto& tInvitation = pkt.tinvitationparty(0);
 
+		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(tInvitation.tplayers(1).ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, tInvitation.tplayers(1).iid()));
+		if (pPlayer == nullptr)
+		{
+			Safe_Release(pGameInstance);
+			return true;
+		}
 
+		pPlayer->Get_GameSession()->Send(CServerPacketHandler::MakeSendBuffer(pkt));
 	}
 
 	Safe_Release(pGameInstance);

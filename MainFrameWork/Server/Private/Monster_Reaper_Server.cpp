@@ -499,8 +499,8 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack5";
-	CBT_Action* pAttack5 = CReaper_BT_Attack2_Server::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TeleportRush";
+	CBT_Action* pTeleportRush = CReaper_BT_Attack2_Server::Create(&ActionDesc);
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
@@ -510,7 +510,7 @@ HRESULT CMonster_Reaper_Server::Ready_BehaviourTree()
 
 	if (FAILED(pSequenceNear->AddChild(pAttack2)))
 		return E_FAIL;
-	if (FAILED(pSequenceNear->AddChild(pAttack5)))
+	if (FAILED(pSequenceNear->AddChild(pTeleportRush)))
 		return E_FAIL;
 
 	if (FAILED(pSequenceNear->AddChild(pAttack4)))

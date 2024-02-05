@@ -122,7 +122,7 @@ CValtan_BT_Attack_Attack_Base* CValtan_BT_Attack_Attack_Base::Create(void* pArg)
 	CValtan_BT_Attack_Attack_Base* pInstance = new CValtan_BT_Attack_Attack_Base;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CValtan_BT_Attack_Attack0");
+		MSG_BOX("Failed to Created : Valtan_BT_Attack_Attack_Base");
 		Safe_Release(pInstance);
 	}
 

@@ -22,7 +22,7 @@ CBT_Node::BT_RETURN CValtan_BT_BattleIdle_Server::OnUpdate(const _float& fTimeDe
 	m_pGameObject->Get_TransformCom()->Turn_Speed(Vec3(0.f,1.f,0.f), XMConvertToRadians(180.f),fTimeDelta);
 
 	m_fIdletime += fTimeDelta;
-	if (m_fIdletime> 1.f)
+	if (m_fIdletime> 2.f)
 		return BT_SUCCESS;
 
 	return BT_RUNNING;

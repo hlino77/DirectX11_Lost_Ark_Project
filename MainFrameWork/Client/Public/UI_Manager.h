@@ -41,9 +41,9 @@ public:
     void    Set_UIState(LEVELID iLevelIndex, CUI::UISTATE eState);
     void    Set_UIState(LEVELID iLevelIndex, const wstring& strUITag, CUI::UISTATE eState);
 
+public://BossHp
     void    Set_CurrHPUI(CUI* pUI);
     void    SetDead_CurrHPUI(CUI* pUI);
-
 
 public://Mouse
     void    Picked_ItemIcon(const wstring& strObjectTag, CTexture* pTexture_Icon , _uint iItemGrade);
@@ -52,6 +52,10 @@ public://Mouse
     void    Set_PickedIcon(_bool bPickedIcon);
     const wstring Get_PickedTag() { return m_strPickedTag; }
     void    Set_PickedTag(wstring strPickedTag) { m_strPickedTag = strPickedTag; }
+
+public://Cut_Scene
+    void    Set_RenderUIs(_bool bRender, LEVELID iLevelIndex);
+    void Set_UIs_Active(_bool bRender, LEVELID iLevelIndex);
 
 private:
     list<class CUI*>*    m_pUIList;

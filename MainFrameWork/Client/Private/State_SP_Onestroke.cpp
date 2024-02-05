@@ -279,17 +279,16 @@ void CState_SP_Onestroke::End_StartParticle()
 void CState_SP_Onestroke::Init_Camera()
 {
 	CCamera_Player* pCamera = m_pPlayer->Get_Camera();
-	m_vCameraTargetPos = m_pPlayer->Get_TargetPos();
 
 	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	Vec3 vLook = m_vCameraTargetPos - vPos;
+	Vec3 vLook = m_pPlayer->Get_TargetPos() - vPos;
 	vLook.y = 0.0f;
 	vLook.Normalize();
 	Vec3 vUp(0.0f, 1.0f, 0.0f);
 	Vec3 vRight = vUp.Cross(vLook);
 	vRight.Normalize();
 
-	m_vRadialPos = vPos + vLook * 5.0f;
+	m_vCameraTargetPos = m_vRadialPos = vPos + vLook * 5.0f;
 
 	Vec3 vTargetPos = vPos;
 	vTargetPos.y += 0.7f;
@@ -326,17 +325,23 @@ void CState_SP_Onestroke::Update_Camera(_uint iAnimFrame, _float fTimeDelta)
 		Vec3 vTargetPos = vPos;
 		vTargetPos.y += 0.4f;
 		Vec3 vCameraTargetPos = pCamera->Get_TargetPos();
-		vTargetPos = Vec3::Lerp(vTargetPos, vCameraTargetPos, 3.0f * fTimeDelta);
-		pCamera->Set_TargetPos(vTargetPos);
+		vCameraTargetPos = Vec3::Lerp(vCameraTargetPos, vTargetPos, 3.0f * fTimeDelta);
+		pCamera->Set_TargetPos(vCameraTargetPos);
 	}
 	else
 	{
-		Vec3 vTargetOffset = vLook * 1.0f + vRight * 0.2f + vUp * 0.2f;
+		Vec3 vTargetPos = m_vCameraTargetPos + vLook * -1.0f;
+		vTargetPos.y += 0.4f;
+		Vec3 vCameraTargetPos = pCamera->Get_TargetPos();
+		vCameraTargetPos = Vec3::Lerp(vCameraTargetPos, vTargetPos, 6.0f * fTimeDelta);
+		pCamera->Set_TargetPos(vCameraTargetPos);
+
+		Vec3 vTargetOffset = vLook * 1.0f + vRight * 0.7f + vUp * 0.3f;
 		Vec3 vOffset = pCamera->Get_Offset();
 		vOffset = Vec3::Lerp(vOffset, vTargetOffset, 6.0f * fTimeDelta);
 		pCamera->Set_Offset(vOffset);
 
-		pCamera->ZoomInOut(10.0f, 10.0f);
+		pCamera->ZoomInOut(6.0f, 10.0f);
 	}
 }
 

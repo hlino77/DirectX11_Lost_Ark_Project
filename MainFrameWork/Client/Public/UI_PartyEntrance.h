@@ -98,6 +98,9 @@ private:
     LERP_FLOAT  m_tLerp = {};
     _bool   m_bTestBool = { false };
 
+    //²¨Áü µô·¹ÀÌ
+    _bool   m_bDeActive = { false };
+    _float   m_fDeActiceDelay = { 0.f };
 public:
     static  CUI_PartyEntrance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

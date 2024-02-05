@@ -89,6 +89,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Initialize_Client()))
 		return E_FAIL;
 
+	if (FAILED(Ready_SoundManager()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Prototype_Component()))
 		return E_FAIL;
 
@@ -611,6 +614,16 @@ HRESULT CMainApp::Ready_Camera_Free()
 
 	m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
 
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_SoundManager()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	pGameInstance->Initialize_LoopChannel(CHANNEL_LOOPSTART, CHANNEL_END);
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

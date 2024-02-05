@@ -41,7 +41,11 @@ private:
 	HRESULT Ready_Prototype_Font();
 	HRESULT Ready_Prototype_Effect();
 	HRESULT Ready_Camera_Free();
+
+	HRESULT Ready_SoundManager();
 	void	Active_Camera_Free();
+
+
 
 	_bool m_bMouse = false;
 	

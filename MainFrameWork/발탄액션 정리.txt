@@ -1,0 +1,111 @@
+//돌진&1패 이후 카운터 돌진
+ L"Action_Rush"
+CValtan_BT_Attack_Rush
+
+//반격
+ L"Action_CounterAttack"
+CValtan_BT_Attack_CounterAttack
+//성공
+L"Action_CounterAttack_1";
+CValtan_BT_Attack_CounterAttack_1
+
+//휠윈드
+L"Action_WhirlWind";
+CValtan_BT_Attack_WhirlWind;
+
+// 양손 찍고 폭발
+L"Action_FistSmashExplosion";
+CValtan_BT_Attack_FistSmashExplosion
+
+// 어디로든지문 돌격
+L"Action_TeleportRush";
+CValtan_BT_Attack_TeleportRush
+
+// 소용돌이 후 장판
+L"Action_TrunningPizza";
+CValtan_BT_Attack_TrunningPizza
+
+//앞뒤앞 찍기
+L"Action_FrontBackWave";
+CValtan_BT_Attack_FrontBackWave
+
+//도끼찍고 휘두르기
+L"Action_DoubleSwingChopSwing";
+CValtan_BT_Attack_DoubleSwingChopSwing
+
+//점프 찍기
+ L"Action_DoubleJumpWave";
+CValtan_BT_Attack_DoubleJumpWave
+
+//점프 십자 찍기
+L"Action_JumpSeismic";
+CValtan_BT_Attack_JumpSeismic
+
+//십자 찍기
+L"Action_SwingSeismic";
+CValtan_BT_Attack_SwingSeismic
+
+//4번 찍기
+L"Action_MultipleChop";
+CValtan_BT_Attack_MultipleChop
+
+//3번 찍기 페이즈3
+L"Action_MultipleChop_1";
+CValtan_BT_Attack_MultipleChop
+
+//침묵 찍기
+L"Action_SilenceChop";
+CValtan_BT_Attack_SilenceChop
+
+//점프 후 비
+L"Action_RainingAxe";
+CValtan_BT_Attack_RainingAxe
+
+//감금
+L"Action_Imprisonment";
+CValtan_BT_Attack_Imprisonment
+
+//3카운터-1
+L"Action_TrippleCounterChop_1";
+CValtan_BT_Attack_TrippleCounterChop_1
+
+//3카운터-2
+L"Action_TrippleCounterChop_2";
+CValtan_BT_Attack_TrippleCounterChop_2
+
+//3카운터-3
+L"Action_TrippleCounterChop_3";
+CValtan_BT_Attack_TrippleCounterChop_3
+
+//잡기
+L"Action_RushGrab";
+CValtan_BT_Attack_RushGrab
+
+//130줄 전멸기
+L"Action_WipeAssult";
+CValtan_BT_Attack_WipeAssult
+
+//110줄 임포스터
+L"Action_Imposter";
+CValtan_BT_Attack_Imposter
+
+
+//88번 지형파괴
+L"Action_FirstTerrainDestruction";
+CValtan_BT_Attack_FirstTerrainDestruction
+
+//65번 버러지패턴
+L"Action_BugSmash";
+CValtan_BT_Attack_BugSmash
+
+//30줄 지형파괴
+L"Action_SecondTerrainDestruction";
+CValtan_BT_Attack_SecondTerrainDestruction
+
+//16번 연환파신권
+L"Action_ChainDestructionFist";
+CValtan_BT_Attack_ChainDestructionFist
+
+//유령 잡기
+L"Action_GhostGrab";
+CValtan_BT_Attack_GhostGrab
