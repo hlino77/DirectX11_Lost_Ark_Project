@@ -105,13 +105,13 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeadHard);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -236,7 +236,7 @@ void CState_GN_DeadHard_Loop::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDeadHard);
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame == iAnimFrame)
 	{
 		Effect_Shot();
 

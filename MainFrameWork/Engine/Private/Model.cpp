@@ -721,7 +721,7 @@ HRESULT CModel::Render_Alpha(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
-	if (FAILED(Render(pShader, iMeshIndex, "Alpha")))
+	if (FAILED(Render(pShader, iMeshIndex, "Outline")))
 		return E_FAIL;
 
 	return S_OK;
@@ -754,7 +754,7 @@ HRESULT CModel::Render_OutlineMesh(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
-	if (FAILED(Render(pShader, iMeshIndex, "Alpha")))
+	if (FAILED(Render(pShader, iMeshIndex, "Outline")))
 		return E_FAIL;
 
 	

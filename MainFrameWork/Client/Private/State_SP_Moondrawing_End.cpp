@@ -47,10 +47,7 @@ void CState_SP_Moondrawing_End::Tick_State(_float fTimeDelta)
 
 void CState_SP_Moondrawing_End::Exit_State()
 {
-	if (true == m_pController->Is_HitState() && 25 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_End))
-	{
-		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
-	}
+	m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
@@ -58,7 +55,9 @@ void CState_SP_Moondrawing_End::Exit_State()
 
 void CState_SP_Moondrawing_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_End))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_End);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -67,7 +66,7 @@ void CState_SP_Moondrawing_End::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iMoondrawing_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_End))
+	if (25 <= iAnimFrame)
 	{
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 

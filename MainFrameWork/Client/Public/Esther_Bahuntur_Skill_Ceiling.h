@@ -99,7 +99,7 @@ private:
 	_bool			m_IsDissolve = { false };
 	_bool			m_IsReverseDissolve = { false };
 	_float			m_fDissolveAcc = { 0.0f };
-	_float			m_fMaxDissolve = { 1.f };
+	_float			m_fMaxDissolve = { 1.5f };
 
 	class CTexture* m_pDissolveTexture = { nullptr };
 

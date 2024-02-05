@@ -33,9 +33,17 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     if (0.2f >= Out.vDiffuse.a)
         discard;
 
-
     if (g_bDissolve == true)
-        ComputeDissolveColor(Out.vDiffuse, In.vTexUV);
+    {
+        if (false == (ComputeDissolveColor(Out.vDiffuse, In.vTexUV)))
+            discard;
+        
+        if (-1 == Out.vDiffuse.a)
+        {
+            Out.vDiffuse = float4(Out.vDiffuse.rgb, 1);
+            Out.vEmissive = float4(Out.vDiffuse.rgb, 1);
+        }
+    }
     
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     
@@ -69,8 +77,11 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     
     if (1.f == SpecMaskEmisExtr.z)
     {
-        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
-        Out.vEmissive *= g_vBloomColor;
+        if (false == any(Out.vEmissive))
+        {
+            Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+            Out.vEmissive *= g_vBloomColor;
+        }
     }
     
     Out.vProperties.z = MT_STATIC;
@@ -90,8 +101,6 @@ float4 PS_ALPHA(VS_OUT In) : SV_TARGET0
     float4 vLook = In.vProjPos - float4(CameraPosition(), 1.f);
 
     float fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 30.f);
-    
-
 
     vColor = (g_vLightDiffuse * vColor) + fSpecular;
     

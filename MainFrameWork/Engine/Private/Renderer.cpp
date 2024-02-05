@@ -920,7 +920,7 @@ HRESULT CRenderer::Render_SSR()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[1], sizeof(SSR_Data))))
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
 		return E_FAIL;
 #else
 	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))

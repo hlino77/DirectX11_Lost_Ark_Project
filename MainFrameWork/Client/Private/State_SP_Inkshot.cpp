@@ -64,7 +64,7 @@ void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -80,7 +80,7 @@ void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 
 		Update_Effect();
 	}
-	else if (m_bEffect == false && iAnimFrame == 18)
+	else if (m_bEffect == false && 18 <= iAnimFrame)
 	{
 		Charge_End();
 		Effect_Shot();
@@ -164,7 +164,7 @@ void CState_SP_Inkshot::Tick_State_NoneControl(_float fTimeDelta)
 
 		Update_Effect();
 	}
-	else if (m_bEffect == false && iAnimFrame == 18)
+	else if (m_bEffect == false && 18 <= iAnimFrame)
 	{
 		Charge_End();
 		Effect_Shot();

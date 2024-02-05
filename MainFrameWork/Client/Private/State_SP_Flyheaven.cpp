@@ -67,7 +67,9 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 		m_bTrail = true;
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -80,7 +82,7 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (45 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
+	if (45 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 
@@ -140,25 +142,18 @@ void CState_SP_Flyheaven::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
 	{
 		Effect_Shot();
+		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage(m_eSkillSelectKey);
 
 		m_iSkillCnt++;
-		static_cast<CController_SP*>(m_pController)->Get_SkillStartMessage(m_eSkillSelectKey);
 	}
 
 	if (m_bTrail == false)
 	{
 		Effect_Trail();
 		m_bTrail = true;
-	}
-
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))
-	{
-		Effect_Shot();
-
-		m_iSkillCnt++;
 	}
 }
 

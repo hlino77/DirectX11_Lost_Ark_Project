@@ -11,6 +11,11 @@ bool    g_bReverseDissolve = false;
 float4 g_vLightDir;
 float4 g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f);
 
+float g_fDissolveDensity = 1.f;
+float g_fDissolveValue = 0.1f;
+float g_fDissolveColorValue = 0.02f;
+bool  g_bDissolveEmissive = false;
+
 // Light
 struct LightDesc
 {
@@ -98,24 +103,37 @@ void ComputeNormalMapping(inout float4 normal, float3 tangent, float2 texcoord)
 };
 
 
-void ComputeDissolveColor(inout float4 color, float2 texcoord)
+bool ComputeDissolveColor(inout float4 color, float2 texcoord)
 {
     float4 deffuseCol = g_DiffuseTexture.Sample(LinearSampler, texcoord);
-    float dissolveSample = g_DissolveTexture.Sample(LinearSampler, texcoord * 3.f).x;
+    float dissolveSample = g_DissolveTexture.Sample(LinearSampler, texcoord * g_fDissolveDensity).x;
     if (g_bReverseDissolve)
     {
         dissolveSample = 1 - dissolveSample;
     }
-    //Discard the pixel if the value is below zero
-    clip(dissolveSample - g_fDissolveAmount);
-    float4 emissive = { 0.f, 0.f, 0.f, 0.f };
-    //Make the pixel emissive if the value is below ~f
-    if (dissolveSample - g_fDissolveAmount < 0.1f)/*0.08f*/
+    
+    float fDissolveAlpha = saturate(-g_fDissolveAmount + dissolveSample);
+    
+    if (fDissolveAlpha <= g_fDissolveValue)
+        return false;
+    
+    if (fDissolveAlpha <= g_fDissolveValue + g_fDissolveColorValue)
     {
-        emissive = float4(1.3f, 1.3f, 1.3f, 1.f) * g_vBloomColor;
+        if (false == g_bDissolveEmissive)
+        {
+            color = g_vBloomColor;
+        }
+        else
+        {
+            color = g_vBloomColor;
+            color.a = -1;
+        }
     }
-
-    color = (color + emissive) * deffuseCol;
+    else
+    {
+        color = float4(deffuseCol.rgb, 1.f);
+    }
+    return true;
 };
 
 void ComputeDissolveColorforInstance(inout float4 color, float2 texcoord,float fDissolveAmount)
