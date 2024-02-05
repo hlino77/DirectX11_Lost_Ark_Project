@@ -1273,14 +1273,20 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 		if (Node->GetText())
 		{
 			wstring strTexture = CAsUtils::ToWString(Node->GetText());
+
 			if (strTexture.length() > 0)
 			{
+				size_t lastDotPos = strTexture.find_last_of(L'.');
+				wstring strDDsTexturePath = strTexture.substr(0, lastDotPos) + L".dds";
+
 				wstring szFullPath = L"";
 
 				if (m_eModelType == TYPE::TYPE_ANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
+
+
 
 				MaterialDesc.pTexture[aiTextureType_DIFFUSE] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE])
@@ -1296,12 +1302,16 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 			wstring strTexture = CAsUtils::ToWString(Node->GetText());
 			if (strTexture.length() > 0)
 			{
+				size_t lastDotPos = strTexture.find_last_of(L'.');
+				wstring strDDsTexturePath = strTexture.substr(0, lastDotPos) + L".dds";
+
 				wstring szFullPath = L"";
 
 				if (m_eModelType == TYPE::TYPE_ANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
+
 
 				MaterialDesc.pTexture[aiTextureType_SPECULAR] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_SPECULAR])
@@ -1316,12 +1326,16 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 			wstring strTexture = CAsUtils::ToWString(Node->GetText());
 			if (strTexture.length() > 0)
 			{
+				size_t lastDotPos = strTexture.find_last_of(L'.');
+				wstring strDDsTexturePath = strTexture.substr(0, lastDotPos) + L".dds";
+
 				wstring szFullPath = L"";
 
 				if (m_eModelType == TYPE::TYPE_ANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
+
 
 				MaterialDesc.pTexture[aiTextureType_NORMALS] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_NORMALS])
@@ -1336,12 +1350,16 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 			wstring strTexture = CAsUtils::ToWString(Node->GetText());
 			if (strTexture.length() > 0)
 			{
+				size_t lastDotPos = strTexture.find_last_of(L'.');
+				wstring strDDsTexturePath = strTexture.substr(0, lastDotPos) + L".dds";
+
 				wstring szFullPath = L"";
 
 				if (m_eModelType == TYPE::TYPE_ANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
+
 
 				MaterialDesc.pTexture[aiTextureType_EMISSIVE] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_EMISSIVE])
@@ -1356,12 +1374,17 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 			wstring strTexture = CAsUtils::ToWString(Node->GetText());
 			if (strTexture.length() > 0)
 			{
+			
+				size_t lastDotPos = strTexture.find_last_of(L'.');
+				wstring strDDsTexturePath = strTexture.substr(0, lastDotPos) + L".dds";
+
 				wstring szFullPath = L"";
 
 				if (m_eModelType == TYPE::TYPE_ANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
+
 
 				MaterialDesc.pTexture[aiTextureType_METALNESS] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_METALNESS])
@@ -1376,12 +1399,15 @@ HRESULT CModel::Load_MapMaterialData_FromFile()
 			wstring strTexture = CAsUtils::ToWString(Node->GetText());
 			if (strTexture.length() > 0)
 			{
+				size_t lastDotPos = strTexture.find_last_of(L'.');
+				wstring strDDsTexturePath = strTexture.substr(0, lastDotPos) + L".dds";
+
 				wstring szFullPath = L"";
 
 				if (m_eModelType == TYPE::TYPE_ANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 				else if (m_eModelType == TYPE::TYPE_NONANIM)
-					szFullPath = L"../Bin/Resources/Export/Texture/" + strTexture;
+					szFullPath = L"../Bin/Resources/Export/ConvertedDDS/" + strDDsTexturePath;
 
 				MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS] = Create_Texture(szFullPath);
 				if (nullptr == MaterialDesc.pTexture[aiTextureType_DIFFUSE_ROUGHNESS])
@@ -1571,7 +1597,6 @@ CTexture* CModel::Create_Texture(const wstring& szFullPath)
 	Safe_AddRef(pGameInstance);
 
 	_tchar			szFileName[MAX_PATH] = TEXT("");
-
 	_wsplitpath_s(szFullPath.c_str(), nullptr, 0, nullptr, 0, szFileName, MAX_PATH, nullptr, 0);
 
 

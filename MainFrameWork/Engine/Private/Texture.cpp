@@ -80,10 +80,20 @@ CTexture* CTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
 
 	if (FAILED(pInstance->Initialize_Prototype(strTextureFilePath, iNumTextures)))
 	{
-		wstring strMessage = L"Failed To Created Texture : ";
-		strMessage += strTextureFilePath;
-		MessageBoxW(nullptr, strMessage.c_str(), L"Fail", MB_OK);
-		Safe_Release(pInstance);
+		wstring TextureFrontPath = L"../Bin/Resources/Export/Texture/";
+
+		_tchar			szFileName[MAX_PATH] = TEXT("");
+		_wsplitpath_s(strTextureFilePath.c_str(), nullptr, 0, nullptr, 0, szFileName, MAX_PATH, nullptr, 0);
+
+		wstring FullPath = TextureFrontPath + szFileName + L".png";
+
+		if (FAILED(pInstance->Initialize_Prototype(szFileName, iNumTextures)))
+		{
+			wstring strMessage = L"Failed To Created Texture : ";
+			strMessage += strTextureFilePath;
+			MessageBoxW(nullptr, strMessage.c_str(), L"Fail", MB_OK);
+			Safe_Release(pInstance);
+		}
 	}
 
 	return pInstance;
