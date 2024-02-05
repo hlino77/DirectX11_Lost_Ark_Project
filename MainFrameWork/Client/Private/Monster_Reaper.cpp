@@ -436,8 +436,8 @@ HRESULT CMonster_Reaper::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	ActionDesc.strActionName = L"Action_Attack5";
-	CBT_Action* pAttack5 = CReaper_BT_Attack2::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TeleportRush";
+	CBT_Action* pTeleportRush = CReaper_BT_Attack2::Create(&ActionDesc);
 
 
 

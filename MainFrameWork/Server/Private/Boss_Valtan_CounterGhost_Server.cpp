@@ -6,70 +6,17 @@
 #include "ColliderSphere.h"
 #include "GameSessionManager.h"
 #include "CollisionManager.h"
-#include "Common_BT_Chase_Server.h"
-#include "Common_BT_Damage1_Server.h"
-#include "Common_BT_Damage2_Server.h"
-#include "Common_BT_Dead_Server.h"
-#include "Common_BT_Idle_Server.h"
-#include "Valtan_BT_BattleIdle_Server.h"
-#include "Common_BT_Move_Server.h"
-#include "Common_BT_Spawn_Server.h"
-#include "Common_BT_WHILE_Within_Range_Server.h"
-#include "Common_BT_IF_Dead_Server.h"
-#include "Common_BT_IF_Hit_Server.h"
-#include "Common_BT_IF_SecondHit_Server.h"
-#include "Common_BT_IF_Near_Server.h"
-#include "Common_BT_IF_Far_Server.h"
-#include "Common_BT_IF_Spawn_Server.h"
-#include "BT_Composite.h"
-#include "BehaviorTree.h"
-#include "Common_BT_IF_Attacked_Server.h"
-#include "Common_BT_Attack1_Server.h"
-#include "Common_BT_Spawn_Server.h"
-#include <Common_BT_IF_Skill_Server.h>
-#include "Boss_BT_Counter_Server.h"
-#include "Boss_BT_IF_Countered_Server.h"
-#include "Boss_BT_Groggy_Server.h"
-#include "Boss_BT_IF_Groggy_Server.h"
-#include "Valtan_BT_Attack_Attack0_Server.h"
-#include "Valtan_BT_Attack_Attack1_Server.h"
-#include "Valtan_BT_Attack_Attack2_Server.h"
-#include "Valtan_BT_Attack_Attack3_Server.h"
-#include "Valtan_BT_Attack_Attack4_Server.h"
-#include "Valtan_BT_Attack_Attack5_Server.h"
-#include "Valtan_BT_Attack_Attack6_Server.h"
-#include "Valtan_BT_Attack_Attack7_Server.h"
-#include "Valtan_BT_Attack_Attack8_Server.h"
-#include "Valtan_BT_Attack_Attack9_Server.h"
-#include "Valtan_BT_Attack_Attack10_Server.h"
-#include "Valtan_BT_Attack_Attack11_Server.h"
-#include "Valtan_BT_Attack_Attack12_Server.h"
-#include "Valtan_BT_Attack_Attack13_Server.h"
-#include "Valtan_BT_Attack_Attack14_Server.h"
-#include "Valtan_BT_Attack_Attack15_Server.h"
-#include "Valtan_BT_IF_Phase1_Server.h"
-#include "Valtan_BT_IF_NoArmor_Server.h"
-#include "Valtan_BT_Attack_Attack16_Server.h"
-#include "Valtan_BT_Attack_Attack17_1_Server.h"
-#include "Valtan_BT_Attack_Attack17_2_Server.h"
-#include "Valtan_BT_Attack_Attack17_3_Server.h"
-#include "Valtan_BT_Attack_Attack19_Server.h"
-#include "Valtan_BT_Attack_Attack20_Server.h"
-#include "Valtan_BT_Attack_Attack21_Server.h"
-#include "Valtan_BT_Attack_Attack22_Server.h"
-#include "Valtan_BT_Attack_Attack23_Server.h"
-#include "Valtan_BT_Attack_Attack24_Server.h"
-#include "Valtan_BT_IF_Phase2_Server.h"
-#include "Valtan_BT_IF_Phase3_Server.h"
-#include <Valtan_BT_IF_Hp_UnderRatio.h>
-#include <Valtan_BT_IF_Armor_Server.h>
-#include <Valtan_BT_Repeat_Server.h>
-#include <Boss_BT_ArmorBreak_Server.h>
-#include <Boss_BT_IF_ArmorBreak_Server.h>
-#include <Valtan_BT_Phase3_Server.h>
-#include <Valtan_BT_Phase2_Server.h>
-#include <Valtan_BT_Attack_Attack2_1_Server.h>
 #include <Player_Server.h>
+#include <BT_Composite.h>
+#include <BT_Decorator.h>
+#include <Valtan_BT_IF_Phase1_Server.h>
+#include <Valtan_BT_Attack_SwingSeismic_Server.h>
+#include <Valtan_BT_Attack_DoubleJumpWave_Server.h>
+#include <Valtan_BT_Attack_Rush_Server.h>
+#include <Common_BT_IF_Hit_Server.h>
+#include <Valtan_BT_BattleIdle_Server.h>
+#include <Common_BT_Dead_Server.h>
+#include <Common_BT_IF_Dead_Server.h>
 
 
 
@@ -292,8 +239,8 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
 	//돌진&1패 이후 카운터 돌진
-	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CValtan_BT_Attack_Attack1_Server::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Rush";
+	CBT_Action* pRush = CValtan_BT_Attack_Rush_Server::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -313,8 +260,8 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//점프 찍기
-	ActionDesc.strActionName = L"Action_Attack9";
-	CBT_Action* pAttack9 = CValtan_BT_Attack_Attack9_Server::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_DoubleJumpWave";
+	CBT_Action* pDoubleJumpWave = CValtan_BT_Attack_DoubleJumpWave_Server::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -332,8 +279,8 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 
 
 	//십자 찍기
-	ActionDesc.strActionName = L"Action_Attack11";
-	CBT_Action* pAttack11 = CValtan_BT_Attack_Attack11_Server::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_SwingSeismic";
+	CBT_Action* pSwingSeismic = CValtan_BT_Attack_SwingSeismic_Server::Create(&ActionDesc);
 
 
 
@@ -342,7 +289,7 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 	CBT_Composite* pSequenceNormalAttack = CBT_Composite::Create(&CompositeDesc);
 
 
-	if (FAILED(pSequenceNormalAttack->AddChild(pAttack1)))
+	if (FAILED(pSequenceNormalAttack->AddChild(pRush)))
 		return E_FAIL;
 	
 	if (FAILED(pSequenceNormalAttack->AddChild(pBattleIdle)))
@@ -350,12 +297,12 @@ HRESULT CBoss_Valtan_CounterGhost_Server::Ready_BehaviourTree()
 
 	if (CGameInstance::GetInstance()->Random_Coin(0.5f))
 	{
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack9)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pDoubleJumpWave)))
 			return E_FAIL;
 	}
 	else
 	{
-		if (FAILED(pSequenceNormalAttack->AddChild(pAttack11)))
+		if (FAILED(pSequenceNormalAttack->AddChild(pSwingSeismic)))
 			return E_FAIL;
 	}
 

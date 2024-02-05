@@ -15,40 +15,39 @@
 #include "Common_BT_Spawn.h"
 
 #include "BehaviorTree.h"
-#include "Common_BT_Attack1.h"
 #include "Valtan_BT_Spawn.h"
 #include "Boss_BT_Counter.h"
 #include "Boss_BT_Groggy.h"
-#include "Valtan_BT_Attack_Attack0.h"
-#include "Valtan_BT_Attack_Attack1.h"
-#include "Valtan_BT_Attack_Attack2.h"
-#include "Valtan_BT_Attack_Attack3.h"
-#include "Valtan_BT_Attack_Attack4.h"
-#include "Valtan_BT_Attack_Attack5.h"
-#include "Valtan_BT_Attack_Attack6.h"
-#include "Valtan_BT_Attack_Attack7.h"
-#include "Valtan_BT_Attack_Attack8.h"
-#include "Valtan_BT_Attack_Attack9.h"
-#include "Valtan_BT_Attack_Attack10.h"
-#include "Valtan_BT_Attack_Attack11.h"
-#include "Valtan_BT_Attack_Attack12.h"
-#include "Valtan_BT_Attack_Attack13.h"
-#include "Valtan_BT_Attack_Attack14.h"
-#include "Valtan_BT_Attack_Attack15.h"
-#include "Valtan_BT_Attack_Attack16.h"
-#include "Valtan_BT_Attack_Attack19.h"
-#include "Valtan_BT_Attack_Attack20.h"
-#include "Valtan_BT_Attack_Attack21.h"
-#include "Valtan_BT_Attack_Attack22.h"
-#include "Valtan_BT_Attack_Attack23.h"
-#include "Valtan_BT_Attack_Attack24.h"
+#include "Valtan_BT_Attack_FirstTerrainDestruction.h"
+#include "Valtan_BT_Attack_Rush.h"
+#include "Valtan_BT_Attack_CounterAttack.h"
+#include "Valtan_BT_Attack_WhirlWind.h"
+#include "Valtan_BT_Attack_FistSmashExplosion.h"
+#include "Valtan_BT_Attack_TeleportRush.h"
+#include "Valtan_BT_Attack_TrunningPizza.h"
+#include "Valtan_BT_Attack_FrontBackWave.h"
+#include "Valtan_BT_Attack_DoubleSwingChopSwing.h"
+#include "Valtan_BT_Attack_DoubleJumpWave.h"
+#include "Valtan_BT_Attack_JumpSeismic.h"
+#include "Valtan_BT_Attack_SwingSeismic.h"
+#include "Valtan_BT_Attack_MultipleChop.h"
+#include "Valtan_BT_Attack_SilenceChop.h"
+#include "Valtan_BT_Attack_RainingAxe.h"
+#include "Valtan_BT_Attack_Imprisonment.h"
+#include "Valtan_BT_Attack_SecondTerrainDestruction.h"
+#include "Valtan_BT_Attack_RushGrab.h"
+#include "Valtan_BT_Attack_WipeAssult.h"
+#include "Valtan_BT_Attack_Imposter.h"
+#include "Valtan_BT_Attack_BugSmash.h"
+#include "Valtan_BT_Attack_ChainDestructionFist.h"
+#include "Valtan_BT_Attack_GhostGrab.h"
 #include <Boss_BT_ArmorBreak.h>
 #include <Valtan_BT_Phase2.h>
 #include <Valtan_BT_Phase3.h>
-#include <Valtan_BT_Attack_Attack17_1.h>
-#include <Valtan_BT_Attack_Attack17_2.h>
-#include <Valtan_BT_Attack_Attack17_3.h>
-#include <Valtan_BT_Attack_Attack2_1.h>
+#include <Valtan_BT_Attack_TrippleCounterChop_1.h>
+#include <Valtan_BT_Attack_TrippleCounterChop_2.h>
+#include <Valtan_BT_Attack_TrippleCounterChop_3.h>
+#include <Valtan_BT_Attack_CounterAttack_1.h>
 #include <Skill.h>
 #include "ColliderOBB.h"
 #include <Weapon_Boss_Valtan.h>
@@ -715,8 +714,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//돌진&1패 이후 카운터 돌진
-	ActionDesc.strActionName = L"Action_Attack1";
-	CBT_Action* pAttack1 = CValtan_BT_Attack_Attack1::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Rush";
+	CBT_Action* pRush = CValtan_BT_Attack_Rush::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -749,8 +748,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//반격
-	ActionDesc.strActionName = L"Action_Attack2";
-	CBT_Action* pAttack2 = CValtan_BT_Attack_Attack2::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_CounterAttack";
+	CBT_Action* pCounterAttack = CValtan_BT_Attack_CounterAttack::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_9_01_end-2");
@@ -765,8 +764,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
-	ActionDesc.strActionName = L"Action_Attack2_1";
-	CBT_Action* pAttack2_1 = CValtan_BT_Attack_Attack2_1::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_CounterAttack_1";
+	CBT_Action* pCounterAttack_1 = CValtan_BT_Attack_CounterAttack_1::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -798,8 +797,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//휠윈드
-	ActionDesc.strActionName = L"Action_Attack3";
-	CBT_Action* pAttack3 = CValtan_BT_Attack_Attack3::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_WhirlWind";
+	CBT_Action* pWhirlWind = CValtan_BT_Attack_WhirlWind::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_19_02");
@@ -820,8 +819,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	// 양손 찍고 폭발
-	ActionDesc.strActionName = L"Action_Attack4";
-	CBT_Action* pAttack4 = CValtan_BT_Attack_Attack4::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_FistSmashExplosion";
+	CBT_Action* pFistSmashExplosion = CValtan_BT_Attack_FistSmashExplosion::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_18_01");
@@ -851,8 +850,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	// 어디로든지문 돌격
-	ActionDesc.strActionName = L"Action_Attack5";
-	CBT_Action* pAttack5 = CValtan_BT_Attack_Attack5::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TeleportRush";
+	CBT_Action* pTeleportRush = CValtan_BT_Attack_TeleportRush::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_15_01");
@@ -885,8 +884,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	// 소용돌이 후 장판
-	ActionDesc.strActionName = L"Action_Attack6";
-	CBT_Action* pAttack6 = CValtan_BT_Attack_Attack6::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TrunningPizza";
+	CBT_Action* pTrunningPizza = CValtan_BT_Attack_TrunningPizza::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_19_01");
@@ -918,8 +917,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//앞뒤앞 찍기
-	ActionDesc.strActionName = L"Action_Attack7";
-	CBT_Action* pAttack7 = CValtan_BT_Attack_Attack7::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_FrontBackWave";
+	CBT_Action* pFrontBackWave = CValtan_BT_Attack_FrontBackWave::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_10_01");
@@ -940,8 +939,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//도끼찍고 휘두르기
-	ActionDesc.strActionName = L"Action_Attack8";
-	CBT_Action* pAttack8 = CValtan_BT_Attack_Attack8::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_DoubleSwingChopSwing";
+	CBT_Action* pDoubleSwingChopSwing = CValtan_BT_Attack_DoubleSwingChopSwing::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_7_01");
@@ -962,8 +961,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//점프 찍기
-	ActionDesc.strActionName = L"Action_Attack9";
-	CBT_Action* pAttack9 = CValtan_BT_Attack_Attack9::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_DoubleJumpWave";
+	CBT_Action* pDoubleJumpWave = CValtan_BT_Attack_DoubleJumpWave::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_20_01");
@@ -999,8 +998,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//점프 십자 찍기
-	ActionDesc.strActionName = L"Action_Attack10";
-	CBT_Action* pAttack10 = CValtan_BT_Attack_Attack10::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_JumpSeismic";
+	CBT_Action* pJumpSeismic = CValtan_BT_Attack_JumpSeismic::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 
@@ -1022,8 +1021,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//십자 찍기
-	ActionDesc.strActionName = L"Action_Attack11";
-	CBT_Action* pAttack11 = CValtan_BT_Attack_Attack11::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_SwingSeismic";
+	CBT_Action* pSwingSeismic = CValtan_BT_Attack_SwingSeismic::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
@@ -1056,8 +1055,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//4번 찍기
-	ActionDesc.strActionName = L"Action_Attack12";
-	CBT_Action* pAttack12 = CValtan_BT_Attack_Attack12::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_MultipleChop";
+	CBT_Action* pMultipleChop = CValtan_BT_Attack_MultipleChop::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_2_01");
@@ -1084,8 +1083,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//3번 찍기 페이즈3
-	ActionDesc.strActionName = L"Action_Attack12_1";
-	CBT_Action* pAttack12_1 = CValtan_BT_Attack_Attack12::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_MultipleChop_1";
+	CBT_Action* pMultipleChop_1 = CValtan_BT_Attack_MultipleChop::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("evt1_att_battle_5_01_end");
@@ -1121,8 +1120,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//침묵 찍기
-	ActionDesc.strActionName = L"Action_Attack13";
-	CBT_Action* pAttack13 = CValtan_BT_Attack_Attack13::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_SilenceChop";
+	CBT_Action* pSilenceChop = CValtan_BT_Attack_SilenceChop::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_8_01_start");
@@ -1152,8 +1151,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//점프 후 비
-	ActionDesc.strActionName = L"Action_Attack14";
-	CBT_Action* pAttack14 = CValtan_BT_Attack_Attack14::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_RainingAxe";
+	CBT_Action* pRainingAxe = CValtan_BT_Attack_RainingAxe::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 
@@ -1184,8 +1183,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//감금
-	ActionDesc.strActionName = L"Action_Attack15";
-	CBT_Action* pAttack15 = CValtan_BT_Attack_Attack15::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Imprisonment";
+	CBT_Action* pImprisonment = CValtan_BT_Attack_Imprisonment::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -1223,8 +1222,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//3카운터-1
-	ActionDesc.strActionName = L"Action_Attack17_1";
-	CBT_Action* pAttack17_1 = CValtan_BT_Attack_Attack17_1::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TrippleCounterChop_1";
+	CBT_Action* pTrippleCounterChop_1 = CValtan_BT_Attack_TrippleCounterChop_1::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
@@ -1260,8 +1259,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//3카운터-2
-	ActionDesc.strActionName = L"Action_Attack17_2";
-	CBT_Action* pAttack17_2 = CValtan_BT_Attack_Attack17_2::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TrippleCounterChop_2";
+	CBT_Action* pTrippleCounterChop_2 = CValtan_BT_Attack_TrippleCounterChop_2::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_14_01");
@@ -1297,8 +1296,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//3카운터-3
-	ActionDesc.strActionName = L"Action_Attack17_3";
-	CBT_Action* pAttack17_3 = CValtan_BT_Attack_Attack17_3::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_TrippleCounterChop_3";
+	CBT_Action* pTrippleCounterChop_3 = CValtan_BT_Attack_TrippleCounterChop_3::Create(&ActionDesc);
 
 
 
@@ -1357,8 +1356,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//잡기
-	ActionDesc.strActionName = L"Action_Attack19";
-	CBT_Action* pAttack19 = CValtan_BT_Attack_Attack19::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_RushGrab";
+	CBT_Action* pRushGrab = CValtan_BT_Attack_RushGrab::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_5_02_start");
@@ -1397,7 +1396,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fMaxLoopTime = 0.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
-
+	     
 	AnimationDesc.strAnimName = TEXT("att_battle_15_03");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
@@ -1422,8 +1421,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//130줄 전멸기
-	ActionDesc.strActionName = L"Action_Attack20";
-	CBT_Action* pAttack20 = CValtan_BT_Attack_Attack20::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_WipeAssult";
+	CBT_Action* pWipeAssult = CValtan_BT_Attack_WipeAssult::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("att_battle_12_01");
@@ -1507,8 +1506,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//110줄 임포스터
-	ActionDesc.strActionName = L"Action_Attack21";
-	CBT_Action* pAttack21 = CValtan_BT_Attack_Attack21::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_Imposter";
+	CBT_Action* pImposter = CValtan_BT_Attack_Imposter::Create(&ActionDesc);
 
 	//0
 	ActionDesc.vecAnimations.clear();
@@ -1621,8 +1620,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//88번 지형파괴
-	ActionDesc.strActionName = L"Action_Attack0";
-	CBT_Action* pAttack0 = CValtan_BT_Attack_Attack0::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_FirstTerrainDestruction";
+	CBT_Action* pFirstTerrainDestruction = CValtan_BT_Attack_FirstTerrainDestruction::Create(&ActionDesc);
 
 
 	//0
@@ -1736,8 +1735,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//30줄 지형파괴
-	ActionDesc.strActionName = L"Action_Attack16";
-	CBT_Action* pAttack16 = CValtan_BT_Attack_Attack16::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_SecondTerrainDestruction";
+	CBT_Action* pSecondTerrainDestruction = CValtan_BT_Attack_SecondTerrainDestruction::Create(&ActionDesc);
 
 	//0
 	ActionDesc.vecAnimations.clear();
@@ -1857,8 +1856,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//65번 버러지패턴
-	ActionDesc.strActionName = L"Action_Attack22";
-	CBT_Action* pAttack22 = CValtan_BT_Attack_Attack22::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_BugSmash";
+	CBT_Action* pBugSmash = CValtan_BT_Attack_BugSmash::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -1970,8 +1969,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
 	//16번 연환파신권
-	ActionDesc.strActionName = L"Action_Attack23";
-	CBT_Action* pAttack23 = CValtan_BT_Attack_Attack23::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_ChainDestructionFist";
+	CBT_Action* pChainDestructionFist = CValtan_BT_Attack_ChainDestructionFist::Create(&ActionDesc);
 
 
 	ActionDesc.vecAnimations.clear();
@@ -2008,8 +2007,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	//유령 잡기
-	ActionDesc.strActionName = L"Action_Attack24";
-	CBT_Action* pAttack24 = CValtan_BT_Attack_Attack24::Create(&ActionDesc);
+	ActionDesc.strActionName = L"Action_GhostGrab";
+	CBT_Action* pValtan_BT_Attack_GhostGrab = CValtan_BT_Attack_GhostGrab::Create(&ActionDesc);
 
 
 
