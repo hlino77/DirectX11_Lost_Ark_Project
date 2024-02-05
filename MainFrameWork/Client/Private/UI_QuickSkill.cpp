@@ -93,6 +93,13 @@ HRESULT CUI_QuickSkill::UI_Set()
 
 	Load_UIData(TEXT("QuickSlot_Icon_Desc"));
 
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SpaceBarIcon")
+		));
+	if (nullptr != pUI)
+	{
+		m_vecUIParts.push_back(pUI);
+	}
+
 	for (auto& iter : m_vecUIParts)
 	{
 		iter->Create_Rect();

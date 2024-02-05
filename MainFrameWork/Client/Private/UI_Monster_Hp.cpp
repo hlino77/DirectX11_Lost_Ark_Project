@@ -82,14 +82,22 @@ void CUI_Monster_Hp::LateTick(_float fTimeDelta)
 {
 	m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
 	m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
-	if ((static_cast<CMonster*>(m_pOwner)->Is_Render()) && (!static_cast<CMonster*>(m_pOwner)->Is_Culled()))
-	{
-		if (0.f < m_fHpRatio)
-			m_bRender = true;
-		else
-			m_bRender = false;
-	}
+
 	Update_Postion();
+
+	if (((-1.f <= m_vEffectPos.x) && (1.f >= m_vEffectPos.x)) && ((-1.f <= m_vEffectPos.y) && (1.f >= m_vEffectPos.y)) && ((0.f <= m_vEffectPos.z) && (1.f >= m_vEffectPos.z)))
+	{
+		if ((static_cast<CMonster*>(m_pOwner)->Is_Render()) && (!static_cast<CMonster*>(m_pOwner)->Is_Culled()))
+		{
+			if (0.f < m_fHpRatio)
+				m_bRender = true;
+			else
+				m_bRender = false;
+		}
+	}
+	else
+		m_bRender = false;
+
 	__super::LateTick(fTimeDelta);
 }
 
@@ -190,6 +198,7 @@ void CUI_Monster_Hp::Update_Postion()
 	if (nullptr != m_pOwner)
 	{
 		Vec3 vHostPos = m_pOwner->Get_EffectPos();
+		m_vEffectPos = vHostPos;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
@@ -197,10 +206,6 @@ void CUI_Monster_Hp::Update_Postion()
 		m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
 			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
 
-		if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z) && (1.f >= vHostPos.z)))
-			m_bRender = true;
-		else
-			m_bRender = false;
 	}
 }
 

@@ -73,7 +73,7 @@ HRESULT CMainLogo::Ready_Components()
 	/* Com_Shader */
 	//if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom), &CShader::SHADERDESC(TEXT("Shader_VtxTex"))))
+		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	/* Com_VIBuffer */

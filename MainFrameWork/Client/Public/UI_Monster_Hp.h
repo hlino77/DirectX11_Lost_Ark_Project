@@ -46,6 +46,8 @@ private:
     wstring m_szFont;
     wstring m_strName = TEXT("");
 
+    Vec3    m_vEffectPos = {};
+
 public:
     static  CUI_Monster_Hp* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

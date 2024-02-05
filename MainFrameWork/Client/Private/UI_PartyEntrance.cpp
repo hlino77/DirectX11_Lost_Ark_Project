@@ -90,8 +90,20 @@ HRESULT CUI_PartyEntrance::Initialize_TextBox()
 
 void CUI_PartyEntrance::Tick(_float fTimeDelta)
 {
+	if (m_bDeActive)
+	{
+		m_fDeActiceDelay += fTimeDelta;
+		if (m_fDeActiceDelay >= 0.5f)
+		{
+			m_bDeActive = false;
+			Reset_Player_Control();
+			m_bRender = true;
+			Set_Active(false);
+		}
+	}
+
 	__super::Tick(fTimeDelta);
-	if (KEY_TAP(KEY::P))
+	if (KEY_TAP(KEY::P))//TESTCODE
 	{
 		m_bTestBool = !m_bTestBool;
 		m_tLerp.Init_Lerp(0.3f, g_iWinSizeX + (m_fSizeX * 0.5f), (g_iWinSizeX - (m_fSizeX * 0.5f)), LERP_MODE::SMOOTHSTEP);
@@ -108,9 +120,9 @@ void CUI_PartyEntrance::Tick(_float fTimeDelta)
 		else if (0.f > m_fCurrTimer)
 		{
 			m_fCurrTimer = 0.f;
-			Reset_Player_Control();
-			Set_Active(false);
-			m_pTextBoxWnd->Set_Active(true);
+			m_pTextBoxWnd->Set_Active(false);
+			m_bRender = false;
+			m_bDeActive = true;
 		}
 	}
 }
@@ -120,9 +132,9 @@ void CUI_PartyEntrance::LateTick(_float fTimeDelta)
 	if (true == m_IsClicked)
 	{
 		m_IsClicked = false;
-		Reset_Player_Control();
-		Set_Active(false);
-
+		m_pTextBoxWnd->Set_Active(false);
+		m_bRender = false;
+		m_bDeActive = true;
 		return;
 	}
 	Update_Button();
