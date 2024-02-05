@@ -8165,5 +8165,8 @@
     <Text Include="..\..\포스계수.txt">
       <Filter>02.GameObjects\Boss</Filter>
     </Text>
+    <Text Include="..\..\발탄액션 정리.txt">
+      <Filter>02.GameObjects\Boss\Valtan</Filter>
+    </Text>
   </ItemGroup>
 </Project>
