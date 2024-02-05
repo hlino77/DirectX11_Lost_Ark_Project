@@ -77,6 +77,7 @@ public:
 	_uint			Set_ButtonState(_uint iButtonState) { m_iButtonState = (BUTTON_STATE)iButtonState; }
 	void			Load_UIData(const wstring& _FilePath);
 	void			Set_UIParts_Render(_bool bRender);
+	void			Set_UIParts_Active(_bool bActive);
 
 public://IMGUI
 	void	Change_SizeX(_float MMX);
@@ -135,6 +136,10 @@ protected:
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Bind_ShaderResources();
+
+protected:
+	void	Reset_Player_Control();
+	void	Set_Player_Control();
 
 public:
 	virtual void Free() override;

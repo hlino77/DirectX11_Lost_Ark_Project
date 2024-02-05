@@ -118,6 +118,11 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
 {
 	CUI_Tool::GetInstance()->LateTick();
+
+	if(KEY_TAP(KEY::C))
+		CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_BERN);
+	if (KEY_TAP(KEY::V))
+		CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVEL_BERN);
 	return S_OK;
 }
 
@@ -382,12 +387,6 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
 
 	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_QuickSkillUI"));
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
-
-	pUI = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SpaceBarIcon"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else

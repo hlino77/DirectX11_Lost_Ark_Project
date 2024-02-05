@@ -273,6 +273,22 @@ void CUI_Manager::Set_PickedIcon(_bool bPickedIcon)
 	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Set_PickedIcon(bPickedIcon);
 }
 
+void CUI_Manager::Set_RenderUIs(_bool bRender, LEVELID iLevelIndex)
+{
+	for (auto iter : m_pUIList[iLevelIndex])
+	{
+		iter->Set_UIParts_Render(bRender);
+	}
+}
+
+void CUI_Manager::Set_UIs_Active(_bool bRender, LEVELID iLevelIndex)
+{
+	for (auto iter : m_pUIList[iLevelIndex])
+	{
+		iter->Set_UIParts_Active(bRender);
+	}
+}
+
 void CUI_Manager::Free()
 {
 	__super::Free();
