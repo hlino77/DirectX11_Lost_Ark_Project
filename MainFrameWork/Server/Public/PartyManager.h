@@ -19,11 +19,11 @@ public:
 	virtual ~CPartyManager() = default;
 
 public:
-	void	Create_Party(CGameObject* pLeader);
-	_bool	Join_Party(_uint iID, CGameObject* pPlayer);
+	void	JoinParty(Protocol::S_PARTY& pkt);
+
+	CParty_Server* Get_Party(_uint iObjectID);
 
 private:
-	atomic<_uint> m_iPartyID = 1;
 	unordered_map<_uint, CParty_Server*> m_Parties;
 
 	USE_LOCK
