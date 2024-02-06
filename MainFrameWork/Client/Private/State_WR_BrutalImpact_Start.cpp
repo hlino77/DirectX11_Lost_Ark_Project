@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Trail.h"
+#include "Effect_Manager.h"
 #include "Model.h"
 
 CState_WR_BrutalImpact_Start::CState_WR_BrutalImpact_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -27,6 +29,9 @@ HRESULT CState_WR_BrutalImpact_Start::Initialize()
 
 void CState_WR_BrutalImpact_Start::Enter_State()
 {
+	m_bTrailStart = false;
+	m_bEffectStart = false;
+
 	m_pPlayer->Reserve_Animation(m_iBrutalImpact_Start, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_Start, 1.2f);
@@ -49,10 +54,33 @@ void CState_WR_BrutalImpact_Start::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	for (auto& iter : m_Trails)
+	{
+		static_cast<CEffect_Trail*>(iter)->TrailEnd(0.5f);
+	}
 }
 
 void CState_WR_BrutalImpact_Start::Tick_State_Control(_float fTimeDelta)
 {
+	if (false == m_bTrailStart)
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START_OUTLIST(TEXT("Slayer_BrutalImpact_Start"), func, m_Trails)
+
+		m_bTrailStart = true;
+	}
+
+	if (false == m_bEffectStart)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+
+		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Impact1"), &desc)
+		m_bEffectStart = true;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iBrutalImpact_Start))
 		m_pPlayer->Set_State(TEXT("Skill_WR_BrutalImpact_Loop"));
 

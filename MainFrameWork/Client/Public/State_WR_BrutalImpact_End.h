@@ -30,6 +30,8 @@ private:
 	//Animation
 	_int m_BrutalImpact_End = 0;
 
+	_bool m_bEffectStart = false;
+
 public:
 	static CState_WR_BrutalImpact_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;

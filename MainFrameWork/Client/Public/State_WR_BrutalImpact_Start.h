@@ -5,6 +5,7 @@
 
 BEGIN(Client)
 
+class CEffect;
 class CState_WR_BrutalImpact_Start final : public CState_Skill
 {
 public:
@@ -29,6 +30,12 @@ private:
 private:
 	//Animation
 	_int m_iBrutalImpact_Start = 0;
+
+	//Effect
+	_bool m_bTrailStart = false;
+	_bool m_bEffectStart = false;
+
+	vector<CEffect*> m_Trails;
 
 public:
 	static CState_WR_BrutalImpact_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
