@@ -110,11 +110,10 @@ void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Aura"), &desc)
-		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Impact1"), &desc)
 		m_bEffectStart[0] = true;
 	}
 
-	if (false == m_bEffectStart[1] && 14 <= iAnimFrame)
+	if (false == m_bEffectStart[1] && 4 <= iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -124,7 +123,7 @@ void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 		m_bEffectStart[1] = true;
 	}
 
-	if (false == m_bEffectStart[2] && 29 <= iAnimFrame)
+	if (false == m_bEffectStart[2] && 23 <= iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -132,7 +131,7 @@ void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Impact3"), &desc)
 		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Lightning"), &desc)
 
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.03f, matPivot.Translation(), 0.1f, 0.5f);
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 0.1f, 0.08f);
 
 		m_bEffectStart[2] = true;
 	}
