@@ -6,6 +6,7 @@
 #include "UI_Inventory_ItemSlot.h"
 #include "Player.h"
 #include "Item.h"
+#include "Chat_Manager.h"
 
 CUI_Inventory::CUI_Inventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -48,7 +49,7 @@ void CUI_Inventory::Tick(_float fTimeDelta)
 {
 	if(!m_pOwner->Is_Control())
 		return;
-	if (KEY_TAP(KEY::I))
+	if ((!CChat_Manager::GetInstance()->Is_Chat())&&(KEY_TAP(KEY::I)))
 	{
 		Update_Used_Item();
 		m_bActiveKey = !m_bActiveKey;
