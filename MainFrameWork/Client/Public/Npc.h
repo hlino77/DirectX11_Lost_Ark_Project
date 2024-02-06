@@ -176,8 +176,8 @@ protected:
 protected:
 	/* 플레이어 정보*/
 	CPlayer* m_pCtrlPlayer = { nullptr };
-	_float	 m_fPlayerDist = { 0.0f };
-	_float	 m_fTalkDist = { 8.0f };
+	_float	 m_fPlayerDist = { 100.0f };
+	_float	 m_fTalkDist = { 3.0f };
 
 	/* NPC 정보 */
 	Npc_Desc		m_NpcDesc;

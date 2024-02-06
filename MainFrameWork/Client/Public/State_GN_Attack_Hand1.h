@@ -11,8 +11,8 @@ class CState_GN_Attack_Hand1 final : public CState
 		EffectFrameDesc() {};
 		EffectFrameDesc(_uint iFrameIndex, _uint iWeaponIndex) : iFrame(iFrameIndex), iWeapon(iWeaponIndex) {}
 
-		_int iFrame = -1;
-		_int iWeapon = -1;
+		_uint iFrame = -1;
+		_uint iWeapon = -1;
 	}EFFECTFRAMEDESC;
 
 public:

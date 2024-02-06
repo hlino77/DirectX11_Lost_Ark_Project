@@ -131,7 +131,7 @@ void CUI_PartyUI::Add_PartyInfo(vector<_uint> vecPlayersId)
 	CGameInstance* pInstance = GET_INSTANCE(CGameInstance);
 	CPlayer* pPlayer = { nullptr };
 	auto& iterUI = m_vecUIParts.begin();
-	++++iterUI;
+	++iterUI;
 	CUI_PartyHPWnd::PARTYHP_DESC tDesc;
 	_uint    iPartyIndex = 0;
 	for (auto& iter : vecPlayersId)
@@ -212,7 +212,6 @@ HRESULT CUI_PartyUI::UI_Set()
 	else
 	{
 		m_pUI_PartyEntrance = static_cast<CUI_PartyEntrance*>(pUI);
-		m_vecUIParts.push_back(pUI);
 	}
 
 	pUI = nullptr;

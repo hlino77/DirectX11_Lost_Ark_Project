@@ -71,7 +71,7 @@ void CState_GN_Attack_Hand1::Tick_State_Control(_float fTimeDelta)
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
 	{
 		Effect_Shot();
 		m_iEffectCnt++;
