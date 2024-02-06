@@ -104,6 +104,18 @@ private:
 	// Color
 	Vec3			m_BloomColor = {};
 
+	
+	// Grass
+	_bool			m_IsGrass = false;
+	_float			m_fWindChangeTime = 0.f;
+	Vec3			m_WindDir = { 0.f, 0.f, 0.f };
+	_float			m_fWindPower = 0.f;
+	Vec3			m_TargetWindDir = { 0.f, 0.f, 0.f };
+	_float          m_fTargetWindPower = 0.f;
+
+
+
+
 public:
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);
 	virtual CGameObject* Clone(void* pArg);

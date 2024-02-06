@@ -31,9 +31,6 @@
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{91ff704d-cfae-4d8f-8be1-b64393bcf977}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Static">
-      <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster">
       <UniqueIdentifier>{5b216187-dcb0-48f0-97da-18e9b63474c2}</UniqueIdentifier>
     </Filter>
@@ -1168,9 +1165,6 @@
     <Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
       <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\AnimModel">
-      <UniqueIdentifier>{ebd3eadb-62fe-47c9-99c0-b63ae46a5b9b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Grab">
       <UniqueIdentifier>{55a32f88-7551-49d5-ac58-f3e8cc1833cf}</UniqueIdentifier>
     </Filter>
@@ -1672,6 +1666,15 @@
     <Filter Include="02.GameObjects\UI\21.DeadScene">
       <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\MapObject">
+      <UniqueIdentifier>{72e88bee-794c-4ef6-a2c1-29f59ff6b7a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\MapObject\AnimModel">
+      <UniqueIdentifier>{ebd3eadb-62fe-47c9-99c0-b63ae46a5b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\MapObject\StaticModel">
+      <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1708,7 +1711,7 @@
       <Filter>02.GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\StaticModel.h">
-      <Filter>02.GameObjects\Static</Filter>
+      <Filter>02.GameObjects\MapObject\StaticModel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Enum.pb.h">
       <Filter>95.Network\Protocol</Filter>
@@ -1735,7 +1738,7 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ColMesh.h">
-      <Filter>02.GameObjects\Static</Filter>
+      <Filter>02.GameObjects\MapObject\StaticModel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss.h">
       <Filter>02.GameObjects\Boss</Filter>
@@ -1893,9 +1896,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -4232,7 +4232,7 @@
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AnimModel.h">
-      <Filter>02.GameObjects\AnimModel</Filter>
+      <Filter>02.GameObjects\MapObject\AnimModel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
@@ -4819,6 +4819,7 @@
     <ClInclude Include="..\Public\UI_DeadScene.h">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4846,7 +4847,7 @@
       <Filter>02.GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\StaticModel.cpp">
-      <Filter>02.GameObjects\Static</Filter>
+      <Filter>02.GameObjects\MapObject\StaticModel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Enum.pb.cc">
       <Filter>95.Network\Protocol</Filter>
@@ -4879,7 +4880,7 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ColMesh.cpp">
-      <Filter>02.GameObjects\Static</Filter>
+      <Filter>02.GameObjects\MapObject\StaticModel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss.cpp">
       <Filter>02.GameObjects\Boss</Filter>
@@ -5040,9 +5041,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -7358,7 +7356,7 @@
       <Filter>02.GameObjects\Effect\Effect_Custom\SeismicHammer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AnimModel.cpp">
-      <Filter>02.GameObjects\AnimModel</Filter>
+      <Filter>02.GameObjects\MapObject\AnimModel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp">
       <Filter>02.GameObjects\UI\16.Npc\00.ChaosDungeon</Filter>
@@ -7926,7 +7924,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_PartyEntrance.cpp">
       <Filter>02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd</Filter>
     </ClCompile>
@@ -7939,6 +7937,7 @@
     <ClCompile Include="..\Private\UI_DeadScene.cpp">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
