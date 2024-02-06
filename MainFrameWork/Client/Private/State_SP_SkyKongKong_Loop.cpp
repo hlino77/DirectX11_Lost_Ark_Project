@@ -54,14 +54,13 @@ void CState_SP_SkyKongKong_Loop::Tick_State(_float fTimeDelta)
 
 void CState_SP_SkyKongKong_Loop::Exit_State()
 {
-	m_iContinueCnt++;
-
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
 	if (true == m_pController->Is_HitState() || m_pPlayer->Get_ServerState() != TEXT("Skill_SP_SkyKongKong_Loop"))
 	{
 		TrailEnd();
+		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	}
 }
 
@@ -69,7 +68,7 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -80,8 +79,9 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_SP_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
 		5 <= iAnimFrame &&
 		15 > iAnimFrame &&
-		1 > m_iContinueCnt)
+		2 > m_iContinueCnt)
 	{
+		m_iContinueCnt++;
 		m_bComboContinue = true;
 	}
 

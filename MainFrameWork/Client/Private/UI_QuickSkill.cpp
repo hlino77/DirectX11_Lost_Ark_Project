@@ -105,7 +105,7 @@ HRESULT CUI_QuickSkill::UI_Set()
 		iter->Create_Rect();
 		iter->Set_Z(0.2f);
 	}
-
+	                                                                            
 	Safe_Release(pGameInstance);
 
 	return S_OK;

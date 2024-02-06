@@ -88,12 +88,12 @@ void CEsther_Bahuntur_Skill::LateTick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	__super::LateTick(fTimeDelta);
 	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
 	{
 		m_fAnimationSpeed = 0.0f;
 	}
 
+	__super::LateTick(fTimeDelta);
 	m_pSkillCeiling->LateTick(fTimeDelta);
 	m_pSkillFloor->LateTick(fTimeDelta);
 }

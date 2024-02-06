@@ -54,12 +54,11 @@ void CState_SP_SkyKongKong_Start::Tick_State(_float fTimeDelta)
 
 void CState_SP_SkyKongKong_Start::Exit_State()
 {
-
 	if (true == m_pController->Is_HitState())
 	{
 		TrailEnd();
 
-		if (20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
+		if (30 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
 		{
 			m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 		}
@@ -67,8 +66,6 @@ void CState_SP_SkyKongKong_Start::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
-
-
 }
 
 void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
@@ -81,24 +78,24 @@ void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
 		m_bTrail = true;
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
-		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+		m_iSkillCnt++;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSkyKongKong_Start))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pPlayer->Get_SP_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		10 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start) &&
-		20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start))
+		10 <= iAnimFrame &&
+		20 > iAnimFrame)
 	{
 		m_bComboContinue = true;
 	}
 
-	if (20 == iAnimFrame && true == m_bComboContinue)
+	if (20 <= iAnimFrame && true == m_bComboContinue)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -180,7 +177,7 @@ void CState_SP_SkyKongKong_Start::Tick_State_NoneControl(_float fTimeDelta)
 		m_bTrail = true;
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 		m_iSkillCnt++;

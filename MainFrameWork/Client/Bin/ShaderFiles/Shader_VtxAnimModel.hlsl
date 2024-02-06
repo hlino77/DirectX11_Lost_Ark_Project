@@ -145,9 +145,21 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 	
 	if (0.2f >= Out.vDiffuse.a)
 		discard;
+    
     if(g_bDissolve == true)
-        ComputeDissolveColor(Out.vDiffuse, In.vTexUV);
-    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+    {
+        if (false == (ComputeDissolveColor(Out.vDiffuse, In.vTexUV)))
+            discard;
+        
+        if (-1 == Out.vDiffuse.a)
+        {
+            Out.vDiffuse = float4(Out.vDiffuse.rgb, 1);
+            Out.vEmissive = float4(Out.vDiffuse.rgb, 1);
+        }
+    }
+
+    ComputeNormalMapping
+        (In.vNormal, In.vTangent, In.vTexUV);
     //float4 vNormalV = float4(In.vNormalV, 0.f);
     //ComputeNormalMapping(vNormalV, In.vTangent, In.vTexUV);
     
@@ -204,8 +216,11 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     
     if (1.f == SpecMaskEmisExtr.z)
     {
-        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
-        Out.vEmissive *= g_vBloomColor;
+        if (false == any(Out.vEmissive))
+        {
+            Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+            Out.vEmissive *= g_vBloomColor;
+        }
     }
 
     Out.vProperties.w = g_fRimLight;
@@ -509,7 +524,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_CHANGECOLOR();
     }
 
-    pass Alpha // 4
+    pass Outline // 5
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);

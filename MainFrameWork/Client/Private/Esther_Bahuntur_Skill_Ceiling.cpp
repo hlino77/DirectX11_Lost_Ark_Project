@@ -18,7 +18,7 @@
 #include "Esther.h"
 
 CEsther_Bahuntur_Skill_Ceiling::CEsther_Bahuntur_Skill_Ceiling(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject(pDevice, pContext, L"Eshter_Skill_Dochul", OBJ_TYPE::ESTHER)
+	: CGameObject(pDevice, pContext, L"Eshter_Skill_Ceiling", OBJ_TYPE::ESTHER)
 {
 }
 
@@ -143,15 +143,34 @@ HRESULT CEsther_Bahuntur_Skill_Ceiling::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
-	_int iDissolve = true;
 	if (true == m_IsDissolve)
 	{
-		iDissolve = true;
+		_int   bDissolve = true;
+		_int  bReverseDissovle = m_IsReverseDissolve;
+		_float fDissolveDensity = 1.f;
+		_float fDissolveValue = 0.1f;
+		_float fDissolveColorValue = 0.02f;
+		_int  bDissolveEmissive = true;
 
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
 			return E_FAIL;
 
-		Vec4 vDissolveColor = Vec4(1.f, 0.8f, 0.45f, 1.f);
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &bReverseDissovle, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveValue", &fDissolveValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveColorValue", &fDissolveColorValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolveEmissive", &bDissolveEmissive, sizeof(_int))))
+			return E_FAIL;
+
+		Vec4 vDissolveColor = Vec4(1.3f, 1.3f, 1.3f, 1.f);
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
 			return E_FAIL;
 
@@ -175,8 +194,29 @@ HRESULT CEsther_Bahuntur_Skill_Ceiling::Render()
 
 	if (true == m_IsDissolve)
 	{
-		iDissolve = false;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		_int bDissolve = false;
+		_int   bReverseDissovle = false;
+		_float fDissolveDensity = 1.f;
+		_float fDissolveValue = 0.1f;
+		_float fDissolveColorValue = 0.02f;
+		_int   bDissolveEmissive = false;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &bReverseDissovle, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveValue", &fDissolveValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveColorValue", &fDissolveColorValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolveEmissive", &bDissolveEmissive, sizeof(_int))))
 			return E_FAIL;
 
 		Vec4 vDissolveColor = Vec4::One;

@@ -161,6 +161,10 @@ HRESULT CEsther_Way_Dochul::Render()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
 			return E_FAIL;
 
+		_float fDissolveDensity = 3.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
 		_float g_fDissolveAmount = m_fDissolveAcc / m_fMaxDissolve;
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
 			return E_FAIL;
@@ -188,6 +192,10 @@ HRESULT CEsther_Way_Dochul::Render()
 	{
 		iDissolve = false;
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float fDissolveDensity = 1.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
 			return E_FAIL;
 	}
 

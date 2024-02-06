@@ -60,7 +60,9 @@ void CState_SP_Moondrawing_Start::Exit_State()
 
 void CState_SP_Moondrawing_Start::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -70,13 +72,13 @@ void CState_SP_Moondrawing_Start::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pPlayer->Get_SP_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
-		15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start) &&
-		25 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start))
+		15 <= iAnimFrame &&
+		25 > iAnimFrame)
 	{
 		m_bComboContinue = true;
 	}
 
-	if (25 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start) && true == m_bComboContinue)
+	if (25 <= iAnimFrame && true == m_bComboContinue)
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -86,7 +88,7 @@ void CState_SP_Moondrawing_Start::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Skill_SP_Moondrawing_End"));
 	}
-	else if (45 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start))
+	else if (45 <= iAnimFrame)
 	{
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 

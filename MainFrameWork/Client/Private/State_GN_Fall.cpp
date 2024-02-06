@@ -62,8 +62,8 @@ void CState_GN_Fall::Exit_State()
 {
 	m_pPlayer->Set_AnimationSpeed(1.0f);
 	m_pPlayer->Set_SuperiorArmorState(false);
-	m_pPlayer->Set_Navi(true);
 	m_pPlayer->Get_RigidBody()->Set_Gravity(false);
+	m_pPlayer->Set_Navi(true);
 
 	Vec3 vCellPos = CNavigationMgr::GetInstance()->Find_CloseCell_Middle(m_pPlayer->Get_CurrLevel(), m_pPlayer);
 	vCellPos.y = 0;

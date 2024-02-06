@@ -176,6 +176,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="..\..\발탄액션 정리.txt" />
     <Text Include="..\..\포스계수.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>

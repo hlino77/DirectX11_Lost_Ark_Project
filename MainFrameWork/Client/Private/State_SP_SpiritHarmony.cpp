@@ -54,7 +54,9 @@ void CState_SP_SpiritHarmony::Exit_State()
 
 void CState_SP_SpiritHarmony::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiritHarmony))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiritHarmony);
+
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -64,7 +66,7 @@ void CState_SP_SpiritHarmony::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (50 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiritHarmony))
+	if (50 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 

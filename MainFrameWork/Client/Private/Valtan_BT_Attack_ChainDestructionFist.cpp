@@ -19,6 +19,7 @@ CValtan_BT_Attack_ChainDestructionFist::CValtan_BT_Attack_ChainDestructionFist()
 void CValtan_BT_Attack_ChainDestructionFist::OnStart()
 {
 	__super::OnStart();
+	static_cast<CBoss*>(m_pGameObject)->Set_SetuponCell(false);
 	m_bShoot[0] = true;
 	m_bShoot[1] = true;
 	m_bShoot[2] = true;
@@ -34,6 +35,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
 	{
+		static_cast<CBoss*>(m_pGameObject)->Set_SetuponCell(true);
 		static_cast<CBoss*>(m_pGameObject)->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 	}

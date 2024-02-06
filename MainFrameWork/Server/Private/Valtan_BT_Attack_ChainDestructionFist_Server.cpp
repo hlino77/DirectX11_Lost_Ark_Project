@@ -13,13 +13,14 @@ void CValtan_BT_Attack_ChainDestructionFist_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_SetuponCell(false);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
 	{
+		static_cast<CMonster_Server*>(m_pGameObject)->Set_SetuponCell(true);
 		static_cast<CBoss_Server*>(m_pGameObject)->Get_TransformCom()->LookAt_Dir(Vec3(0.f,0.f,-1.f));
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
 	}

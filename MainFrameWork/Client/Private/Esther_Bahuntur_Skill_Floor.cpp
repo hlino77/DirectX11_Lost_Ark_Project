@@ -18,7 +18,7 @@
 #include "Esther.h"
 
 CEsther_Bahuntur_Skill_Floor::CEsther_Bahuntur_Skill_Floor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject(pDevice, pContext, L"Eshter_Skill_Dochul", OBJ_TYPE::ESTHER)
+	: CGameObject(pDevice, pContext, L"Eshter_Skill_Floor", OBJ_TYPE::ESTHER)
 {
 }
 
@@ -109,7 +109,7 @@ void CEsther_Bahuntur_Skill_Floor::Act2(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill_Floor::Call_Finish()
 {
-	m_bActive = false;
+	m_IsFinish = true;
 }
 
 void CEsther_Bahuntur_Skill_Floor::Ready()
@@ -132,15 +132,34 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 		return E_FAIL;
 
-	_int iDissolve = true;
 	if (true == m_IsDissolve)
 	{
-		iDissolve = true;
+		_int   bDissolve = true;
+		_int  bReverseDissovle = m_IsReverseDissolve;
+		_float fDissolveDensity = 1.f;
+		_float fDissolveValue = 0.1f;
+		_float fDissolveColorValue = 0.02f;
+		_int  bDissolveEmissive = true;
 
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
 			return E_FAIL;
 
-		Vec4 vDissolveColor = Vec4(1.f, 0.8f, 0.45f, 1.f);
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &bReverseDissovle, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveValue", &fDissolveValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveColorValue", &fDissolveColorValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolveEmissive", &bDissolveEmissive, sizeof(_int))))
+			return E_FAIL;
+
+		Vec4 vDissolveColor = Vec4(1.3f, 1.3f, 1.3f, 1.f);
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
 			return E_FAIL;
 
@@ -151,7 +170,6 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
 	}
-
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
@@ -165,8 +183,29 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 
 	if (true == m_IsDissolve)
 	{
-		iDissolve = false;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+		_int bDissolve = false;
+		_int   bReverseDissovle = false;
+		_float fDissolveDensity = 1.f;
+		_float fDissolveValue = 0.1f;
+		_float fDissolveColorValue = 0.02f;
+		_int   bDissolveEmissive = false;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &bReverseDissovle, sizeof(_int))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveValue", &fDissolveValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveColorValue", &fDissolveColorValue, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolveEmissive", &bDissolveEmissive, sizeof(_int))))
 			return E_FAIL;
 
 		Vec4 vDissolveColor = Vec4::One;
@@ -187,13 +226,10 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render_ShadowDepth()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	
-
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "ShadowPass")))
 			return S_OK;
 	}
@@ -209,7 +245,7 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 1.5f;
+	TransformDesc.fSpeedPerSec = 2.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),

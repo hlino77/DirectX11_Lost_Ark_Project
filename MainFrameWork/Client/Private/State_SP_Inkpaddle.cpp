@@ -70,7 +70,7 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 		m_bTrail = true;
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -81,7 +81,7 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 		}
 	}
 
-	if (m_bEffect == false && iAnimFrame == 12)
+	if (m_bEffect == false && 12 <= iAnimFrame)
 	{
 		Effect_Shot();
 		m_bEffect = true;
@@ -91,7 +91,7 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkpaddle))
+	if (30 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 
@@ -159,7 +159,7 @@ void CState_SP_Inkpaddle::Tick_State_NoneControl(_float fTimeDelta)
 		m_bTrail = true;
 	}
 
-	if (m_bEffect == false && iAnimFrame == 12)
+	if (m_bEffect == false && 12 <= iAnimFrame)
 	{
 		Effect_Shot();
 		m_bEffect = true;
