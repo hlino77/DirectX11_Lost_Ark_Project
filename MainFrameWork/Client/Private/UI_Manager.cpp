@@ -8,6 +8,17 @@
 #include "Item.h"
 #include "UI_Mouse_EntranceParty.h"
 #include "UI_PartyUI.h"
+#include "Player_Gunslinger.h"
+#include "Player_Slayer.h"
+#include "Player_Destroyer.h"
+#include "Player_Bard.h"
+#include "Player_Doaga.h"
+#include "Player_Controller_GN.h"
+#include "Controller_MG.h"
+#include "Controller_WDR.h"
+#include "Controller_WR.h"
+#include "Controller_SP.h"
+#include "ServerSessionManager.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -326,6 +337,31 @@ void CUI_Manager::Set_UIs_Active(_bool bRender, LEVELID iLevelIndex)
 	{
 		iter->Set_UIParts_Active(bRender);
 	}
+}
+
+void CUI_Manager::Set_Player_Control(_bool bControl)
+{
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr == pPlayer)
+		return;
+
+	if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Key_Active(bControl);
+	}
+	else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Key_Active(bControl);
+	}
+	else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Key_Active(bControl);
+	}
+	else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Key_Active(bControl);
+	}
+
 }
 
 void CUI_Manager::Free()

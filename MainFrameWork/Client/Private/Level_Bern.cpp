@@ -124,10 +124,6 @@ HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
 {
 	CUI_Tool::GetInstance()->LateTick();
 
-	if(KEY_TAP(KEY::C))
-		CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_BERN);
-	if (KEY_TAP(KEY::V))
-		CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVEL_BERN);
 	return S_OK;
 }
 
