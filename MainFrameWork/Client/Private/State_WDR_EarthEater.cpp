@@ -279,6 +279,22 @@ void CState_WDR_EarthEater::Effect_End()
 		m_pPlayer->Get_Camera()->Cam_Shake(0.15f, 100.0f, 0.5f, 10.0f);
 }
 
+void CState_WDR_EarthEater::Effect_Exit()
+{
+	for (auto& Effect : m_Particles)
+	{
+		Effect->Set_Dead(true);
+	}
+
+
+	for (auto& Effect : m_SmallParticles)
+	{
+		Effect->Set_Dead(true);
+	}
+
+
+}
+
 CState_WDR_EarthEater* CState_WDR_EarthEater::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 {
 	CState_WDR_EarthEater* pInstance = new CState_WDR_EarthEater(strStateName, pMachine, pController, pOwner);

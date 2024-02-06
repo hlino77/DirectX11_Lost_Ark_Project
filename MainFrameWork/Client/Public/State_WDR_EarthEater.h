@@ -27,6 +27,8 @@ private:
 	void	Effect_Start();
 	void	Effect_Swing();
 	void	Effect_End();
+
+	void	Effect_Exit();
 private:
 	class CPlayer_Destroyer* m_pPlayer = nullptr;
 
