@@ -59,14 +59,7 @@ HRESULT CMonster_Prison::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(0.f);
 	m_vecAttackRanges.push_back(0.f);
 	m_fAttackRange = m_vecAttackRanges[0];
-	m_fNoticeRange = 0.f;
-
-	Matrix matEffect = m_pTransformCom->Get_WorldMatrix();
-	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
-	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
-	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
-	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
-	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
+	m_fNoticeRange = 0.f; 
 
 	return S_OK;
 }
@@ -82,6 +75,13 @@ void CMonster_Prison::LateTick(_float fTimeDelta)
 	if (nullptr == m_pRendererCom)
 		return;
 	m_pRendererCom->Add_DebugObject(this);
+
+	Matrix matEffect = m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
 }
 
 HRESULT CMonster_Prison::Render()

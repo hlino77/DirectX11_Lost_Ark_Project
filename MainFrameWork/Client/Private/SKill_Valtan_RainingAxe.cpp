@@ -29,8 +29,8 @@ HRESULT CSKill_Valtan_RainingAxe::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	m_fLastTime = 2.2f;
-	m_fBlinkTime = 2.f;
+	m_fLastTime = 1.2f;
+	m_fBlinkTime = 1.f;
 	m_SkillDesc.iAtk = 20;
 	m_SkillDesc.fForce = 12.f;
 	m_vOffset = { 0.f,5.f,-3.f};
