@@ -87,7 +87,7 @@ CTexture* CTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
 
 		wstring FullPath = TextureFrontPath + szFileName + L".png";
 
-		if (FAILED(pInstance->Initialize_Prototype(szFileName, iNumTextures)))
+		if (FAILED(pInstance->Initialize_Prototype(FullPath, iNumTextures)))
 		{
 			wstring strMessage = L"Failed To Created Texture : ";
 			strMessage += strTextureFilePath;
