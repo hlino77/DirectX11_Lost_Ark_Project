@@ -152,11 +152,11 @@ private: /* NPC 무기파츠 변수*/
 	_int	m_iWPLeftLastCheck = -1;
 	_int	m_iWPRightLastCheck = -1;
 
-	Vec3	m_vWpLeftScale = { 100.f, 100.f, 100.f };
+	Vec3	m_vWpLeftScale = { 1.f, 1.f, 1.f };
 	Vec3	m_vWpLeftRot;
 	Vec3	m_vWpLeftPos;
 
-	Vec3	m_vWpRightScale = { 100.f, 100.f, 100.f };
+	Vec3	m_vWpRightScale = { 1.f, 1.f, 1.f };
 	Vec3	m_vWpRightRot;
 	Vec3	m_vWpRightPos;
 

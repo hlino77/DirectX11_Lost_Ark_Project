@@ -137,6 +137,43 @@ VS_OUT_OUTLINE VS_MAIN_OUTLINE(SKELETAL_IN In)
     return Out;
 }
 
+VS_OUT_OUTLINE VS_MAIN_SUBOUTLINE(SKELETAL_IN In)
+{
+    VS_OUT_OUTLINE Out = (VS_OUT_OUTLINE) 0;
+
+    matrix matWVP;
+
+    matWVP = mul(WorldMatrix, ViewProj);
+
+    float fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+	
+    float4x4 vMatX = g_BoneMatrices[In.vBlendIndex.x];
+    float4x4 vMatY = g_BoneMatrices[In.vBlendIndex.y];
+    float4x4 vMatZ = g_BoneMatrices[In.vBlendIndex.z];
+    float4x4 vMatW = g_BoneMatrices[In.vBlendIndex.w];
+
+    float4x4 BoneMatrix = vMatX * In.vBlendWeight.x +
+		vMatY * In.vBlendWeight.y +
+		vMatZ * In.vBlendWeight.z +
+		vMatW * fWeightW;
+
+    
+    vector vPosition = mul(vector(In.vPosition.xyz + In.vNormal.xyz * g_fOutlineThickness, 1.f), BoneMatrix);
+    vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
+
+    vPosition = CreateOutline(vPosition, 0.001f);
+    Out.vPosition = mul(vPosition, matWVP);
+    Out.vNormal = normalize(mul(vNormal, WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+    
+    Out.vTexUV = In.vTexUV;
+    Out.vProjPos = Out.vPosition;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix));
+    Out.vWorldPos = mul(vPosition, WorldMatrix);
+	
+    return Out;
+}
+
 PS_OUT_PBR PS_PBR(VS_OUT In)
 {
     PS_OUT_PBR Out = (PS_OUT_PBR) 0;
@@ -467,6 +504,28 @@ float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
     return vColor;
 }
 
+PS_OUT_OUTLINE PS_OUTLINE(VS_OUT_OUTLINE In)
+{
+    PS_OUT_OUTLINE Out = (PS_OUT_OUTLINE) 0;
+    
+    Out.vDiffuse = g_vOutlineColor;
+    Out.vEmissive = g_vOutlineBloom;
+    
+    if (g_bDissolve == true)
+    {
+        if (false == (ComputeDissolveColor(Out.vDiffuse, In.vTexUV)))
+            discard;
+        
+        if (-1 == Out.vDiffuse.a)
+        {
+            Out.vDiffuse = float4(Out.vDiffuse.rgb, 1);
+            Out.vEmissive = float4(Out.vDiffuse.rgb, 1);
+        }
+    }
+    
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass PBR // 0
@@ -533,5 +592,27 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_ALPHABLEND();
+    }
+
+    pass SubOutline // 5
+    {
+        SetRasterizerState(RS_Outline);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_SUBOUTLINE();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_OUTLINE();
+    }
+
+    pass Inline // 6
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR();
     }
 }

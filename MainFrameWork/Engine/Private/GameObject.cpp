@@ -60,6 +60,7 @@ void CGameObject::LateTick(_float fTimeDelta)
 
 HRESULT CGameObject::Render()
 {
+
 	return S_OK;
 }
 
@@ -79,9 +80,6 @@ void CGameObject::Set_NoneControlState(const wstring& szName)
 	m_szState = szName;
 	m_pStateMachine->Change_State(szName);
 }
-
-
-
 
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg)
 {

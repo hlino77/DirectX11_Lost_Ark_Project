@@ -114,6 +114,9 @@ void CEsther_Way_Dochul::Act1(_float fTimeDelta)
 	m_IsDissolve = false;
 	m_fDissolveAcc = 0.0f;
 
+	m_bRimLight = true;
+	m_fRimLightTime = 10.f;
+
 	m_bActive = true;
 }
 
@@ -124,6 +127,9 @@ void CEsther_Way_Dochul::Act2(_float fTimeDelta)
 	m_IsDissolve = false;
 	m_fDissolveAcc = 0.0f;
 
+	m_bRimLight = true;
+	m_fRimLightTime = 10.f;
+
 	m_bActive = true;
 }
 
@@ -133,6 +139,9 @@ void CEsther_Way_Dochul::Act3(_float fTimeDelta)
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	m_IsDissolve = false;
 	m_fDissolveAcc = 0.0f;
+
+	m_bRimLight = true;
+	m_fRimLightTime = 10.f;
 
 	m_bActive = true;
 }
@@ -172,21 +181,13 @@ HRESULT CEsther_Way_Dochul::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
 	}
-
-
-	_float fRimLight = (_float)m_bRimLight;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-		return E_FAIL;
+	if (true == m_bRimLight)
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
+			return E_FAIL;
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->Render_SingleMesh(m_pShaderCom, i)))
-			return E_FAIL;
-	}
+	m_pModelCom->Render(m_pShaderCom);
 
 	if (true == m_IsDissolve)
 	{
@@ -221,6 +222,60 @@ HRESULT CEsther_Way_Dochul::Render_ShadowDepth()
 			return S_OK;
 	}
 
+
+	return S_OK;
+}
+
+HRESULT CEsther_Way_Dochul::Render_Outline()
+{
+ 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+		return S_OK;
+
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return S_OK;
+
+	_int iDissolve = true;
+	if (true == m_IsDissolve)
+	{
+		iDissolve = true;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float fDissolveDensity = 3.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+
+		_float g_fDissolveAmount = m_fDissolveAcc / m_fMaxDissolve;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
+			return E_FAIL;
+	}
+
+	_float     fOutlineThickness = 0.012f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fOutlineThickness", &fOutlineThickness, sizeof(_float))))
+		return E_FAIL;
+
+	Vec4	   vOutlineColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vOutlineColor", &vOutlineColor, sizeof(Vec4))))
+		return E_FAIL;
+
+	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
+
+	m_pModelCom->Render_Outline(m_pShaderCom, true);
+
+	if (true == m_IsDissolve)
+	{
+		iDissolve = false;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
+			return E_FAIL;
+
+		_float fDissolveDensity = 1.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -279,6 +334,7 @@ void CEsther_Way_Dochul::CullingObject()
 
 	if (m_bRender)
 	{
+		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_OUTLINE , this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 	}

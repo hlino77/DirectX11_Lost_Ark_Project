@@ -44,6 +44,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Outline"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_MakeSRV"),
 		500, 500, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
@@ -247,12 +251,17 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 
 #endif
 
 	/* 이 렌더타겟들은 그려지는 객체로부터 값을 저장받는다. */
 	/* For.MRT_GameObjects */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Priority"), TEXT("Target_Priority"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects"), TEXT("Target_Outline"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
@@ -266,6 +275,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Roughness"))))
 		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Emissive"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Outline"))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effects"), TEXT("Target_EffectOneBlend"))))
@@ -507,9 +519,6 @@ HRESULT CRenderer::Ready_InstanceRender()
 HRESULT CRenderer::Draw()
 {
 	//CGameInstance::GetInstance()->Execute_BeforeRenderCommandList();
-
-	
-
 	if (m_bRenderStaticShadow)
 		if (FAILED(Render_StaticShadow()))
 			return E_FAIL;
@@ -520,6 +529,7 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
+
 	if (FAILED(Render_NonAlphaBlend()))
 		return E_FAIL;
 	if (FAILED(Render_Decal()))
@@ -553,6 +563,9 @@ HRESULT CRenderer::Draw()
 	// ...
 	if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;
+
+	/*if (FAILED(Render_Outline()))
+		return E_FAIL;*/
 
 	if (FAILED(Render_WorldUI()))
 		return E_FAIL;
@@ -821,6 +834,26 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 			ObjectList.second.clear();
 		}
 	}
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Outline()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects"))))
+		return E_FAIL;
+
+	for (auto& iter : m_RenderObjects[RENDER_OUTLINE])
+	{
+		if (FAILED(iter->Render_Outline()))
+			return E_FAIL;
+
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_OUTLINE].clear();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1113,6 +1146,8 @@ HRESULT CRenderer::Render_SSAO()
 
 	return S_OK;
 }
+
+
 
 HRESULT CRenderer::Render_Deferred()
 {
@@ -1713,7 +1748,6 @@ HRESULT CRenderer::Render_DebugObject()
 
 	return S_OK;
 }
-
 
 HRESULT CRenderer::Ready_MakeSRV_DSV()
 {

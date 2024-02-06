@@ -122,10 +122,13 @@ public:
 	HRESULT Render(class CShader*& pShader, const _uint& iMeshIndex, const string& strPassName);
 	HRESULT Render(class CShader*& pShader, const string& strPassName); // Alpha Blend Use
 	HRESULT Render(class CShader*& pShader);
-	HRESULT Render_Outline(class CShader*& pShader);
+	HRESULT Render_Outline(class CShader*& pShader, _bool bSub = false);
+	HRESULT Render_Inline(class CShader*& pShader);
 
 	HRESULT Render_SingleMesh(class CShader*& pShader, const _int& iMeshIndex);
 	HRESULT Render_OutlineMesh(class CShader*& pShader, const _int& iMeshIndex);
+	HRESULT Render_SubOutlineMesh(class CShader*& pShader, const _int& iMeshIndex);
+	HRESULT Render_InlineMesh(class CShader*& pShader, const _int& iMeshIndex);
 	HRESULT Render_Alpha(class CShader*& pShader, const _int& iMeshIndex);
 	HRESULT Render_AlpahBlendSingleMesh(class CShader*& pShader, const _int& iMeshIndex);
 

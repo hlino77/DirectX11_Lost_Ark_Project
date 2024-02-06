@@ -13,7 +13,7 @@ float4 g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f);
 
 float g_fDissolveDensity = 1.f;
 float g_fDissolveValue = 0.1f;
-float g_fDissolveColorValue = 0.02f;
+float g_fDissolveColorValue = 0.0f;
 bool  g_bDissolveEmissive = false;
 
 // Light
@@ -129,10 +129,7 @@ bool ComputeDissolveColor(inout float4 color, float2 texcoord)
             color.a = -1;
         }
     }
-    else
-    {
-        color = float4(deffuseCol.rgb, 1.f);
-    }
+    
     return true;
 };
 
