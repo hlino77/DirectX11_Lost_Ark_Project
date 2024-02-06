@@ -63,6 +63,9 @@ public://Cut_Scene
     void    Set_RenderUIs(_bool bRender, LEVELID iLevelIndex);
     void Set_UIs_Active(_bool bRender, LEVELID iLevelIndex);
 
+public:
+    void    Set_Player_Control(_bool bControl);
+
 private:
     list<class CUI*>*    m_pUIList;
     _uint   m_iCurrentLevel = { 0 };

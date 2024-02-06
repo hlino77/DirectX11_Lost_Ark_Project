@@ -292,6 +292,13 @@ HRESULT CUI_SpeechBubble::Ready_TextBox(_uint iIndex)
     return S_OK;
 }
 
+void CUI_SpeechBubble::Reset_SpeechBubble()
+{
+    m_fDuration = { 5.5f };
+    Set_Active(false);
+    m_pTextBox->Set_Active(false);
+}
+
 CUI_SpeechBubble* CUI_SpeechBubble::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CUI_SpeechBubble* pInstance = new CUI_SpeechBubble(pDevice, pContext);
