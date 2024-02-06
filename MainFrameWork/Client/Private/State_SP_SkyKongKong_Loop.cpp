@@ -32,9 +32,6 @@ HRESULT CState_SP_SkyKongKong_Loop::Initialize()
 
 void CState_SP_SkyKongKong_Loop::Enter_State()
 {
-	if (2 <= m_iContinueCnt)
-		m_iContinueCnt = 0;
-
 	m_iSkillCnt = 0;
 	m_bComboContinue = false;
 
@@ -79,7 +76,8 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_SP_Controller()->Is_HoldorTap(m_eSkillBindKey) &&
 		5 <= iAnimFrame &&
 		15 > iAnimFrame &&
-		2 > m_iContinueCnt)
+		1 > m_iContinueCnt &&
+		false == m_bComboContinue)
 	{
 		m_iContinueCnt++;
 		m_bComboContinue = true;
@@ -98,6 +96,7 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 	else if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSkyKongKong_Loop) && false == m_bComboContinue)
 	{
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+		m_iContinueCnt = 0;
 
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 

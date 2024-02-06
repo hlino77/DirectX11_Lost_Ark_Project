@@ -35,11 +35,11 @@ HRESULT CSkill_SP_Flyheaven::Initialize(void* pArg)
 	Proj_Desc.pAttackOwner = m_pOwner;
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
-	Proj_Desc.fAttackTime = 1.5f;
+	Proj_Desc.fAttackTime = 1.4f;
 	Proj_Desc.fRadius = 1.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.4f);
+	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
 	Proj_Desc.IsMove = true;
-	Proj_Desc.fMoveSpeed = 5.2f;
+	Proj_Desc.fMoveSpeed = 4.8f;
 	Proj_Desc.iDamage = 300;
 	Proj_Desc.iStagger = 70;
 	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::STUN;
