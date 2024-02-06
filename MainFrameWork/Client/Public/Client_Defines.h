@@ -89,6 +89,7 @@ namespace Client
 
 	enum class EVENT
 	{
+		BERNSTART,
 		EVENTEND
 	};
 

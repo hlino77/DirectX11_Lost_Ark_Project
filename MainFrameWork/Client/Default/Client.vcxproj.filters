@@ -1675,6 +1675,9 @@
     <Filter Include="03.Event\00. ClientEvent_BernStart">
       <UniqueIdentifier>{62627dad-f5f5-4bbe-bc60-f8ded35d43db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\04. CameraTool">
+      <UniqueIdentifier>{0638af66-f470-40aa-ad10-8cba72592ec5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4822,6 +4825,9 @@
     <ClInclude Include="..\Public\ClientEvent_BernStart.h">
       <Filter>03.Event\00. ClientEvent_BernStart</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CameraTool.h">
+      <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7941,6 +7947,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ClientEvent_BernStart.cpp">
       <Filter>03.Event\00. ClientEvent_BernStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CameraTool.cpp">
+      <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

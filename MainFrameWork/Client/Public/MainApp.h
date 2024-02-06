@@ -43,6 +43,7 @@ private:
 	HRESULT Ready_Camera_Free();
 
 	HRESULT Ready_SoundManager();
+	HRESULT Ready_Event();
 	void	Active_Camera_Free();
 
 

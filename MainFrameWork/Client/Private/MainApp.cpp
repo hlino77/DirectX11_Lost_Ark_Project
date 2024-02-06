@@ -54,6 +54,7 @@
 #include "UI_SpeechBubble.h"
 #include "QuadTreeMgr.h"
 #include "Item_Manager.h"
+#include "ClientEvent_BernStart.h"
 
 namespace fs = std::filesystem;
 
@@ -90,6 +91,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_SoundManager()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Event()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_Component()))
@@ -624,6 +628,13 @@ HRESULT CMainApp::Ready_SoundManager()
 	pGameInstance->Initialize_LoopChannel(CHANNEL_LOOPSTART, CHANNEL_END);
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Event()
+{
+	CEventMgr::GetInstance()->Add_Event(new CClientEvent_BernStart((_uint)EVENT::BERNSTART, m_pDevice, m_pContext));
+
 	return S_OK;
 }
 

@@ -62,6 +62,8 @@ private:
 	void			End_Collision();
 	void			End_QuadTree();
 private:
+	_bool m_bFirstEnter = false;
+
 	thread* m_pCollisionThread = nullptr;
 	thread* m_pPickingThread = nullptr;
 	thread* m_pDamageThread = nullptr;

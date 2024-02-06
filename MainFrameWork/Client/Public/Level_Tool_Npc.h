@@ -13,6 +13,7 @@ BEGIN(Client)
 
 class CCamera_Free;
 class CNpcTool;
+class CCameraTool;
 
 class CLevel_Tool_Npc final : public CLevel
 {
@@ -47,6 +48,7 @@ private:
 
 private:
 	CNpcTool* m_pNpcTool = { nullptr };
+	CCameraTool* m_pCameraTool = { nullptr };
 
 	_bool	m_IsImGUIReady = false;
 	Vec4	clear_color = Vec4(0.f);

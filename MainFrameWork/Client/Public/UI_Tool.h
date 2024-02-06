@@ -48,7 +48,6 @@ private:
 	void	UI_Inspector();
 	void	Reset_CurrentUI();
 	void	Change_Mode();
-
 private:
 	//내부기능
 	void	Modify_UIPannel();

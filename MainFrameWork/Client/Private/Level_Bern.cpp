@@ -103,6 +103,11 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
+	if (m_bFirstEnter)
+	{
+		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+	}
+
 	return S_OK;
 }
 
@@ -461,6 +466,8 @@ HRESULT CLevel_Bern::Send_UserInfo()
 
 		SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 		CServerSessionManager::GetInstance()->Send(pSendBuffer);
+
+		m_bFirstEnter = true;
 	}
 	else
 	{

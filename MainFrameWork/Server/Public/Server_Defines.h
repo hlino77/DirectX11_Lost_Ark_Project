@@ -82,11 +82,7 @@ namespace Server
 
 	enum class EVENT
 	{
-		ARENASTART,
-		PLAYERSTART,
-		BATTLESTART,
-		MADARAMETEOR,
-		KONOHASTART,
+		BERNSTART,
 		EVENTEND
 	};
 

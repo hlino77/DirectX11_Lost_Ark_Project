@@ -92,7 +92,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	}
 
 	m_pRigidBody->Set_Gravity(false);
-
 	return S_OK;
 }
 

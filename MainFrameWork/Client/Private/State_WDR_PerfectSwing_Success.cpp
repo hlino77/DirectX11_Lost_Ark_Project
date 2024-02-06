@@ -213,6 +213,7 @@ void CState_WDR_PerfectSwing_Success::Effect_Shot()
 
 	m_pPlayer->Get_Camera()->Set_RadialBlur(0.5f, vPos, 0.1f, 0.1f);
 	m_pPlayer->Get_Camera()->Cam_Shake(0.2f, 100.0f, 0.5f, 10.0f);
+	m_pPlayer->Get_Camera()->Set_Chromatic(0.5f, vPos, 0.1f, 0.1f);
 }
 
 void CState_WDR_PerfectSwing_Success::Init_Camera()

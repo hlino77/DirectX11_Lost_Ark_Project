@@ -115,6 +115,7 @@ void CState_SP_Onestroke::Tick_State_Control(_float fTimeDelta)
 		{
 			m_pPlayer->Get_Camera()->Cam_Shake(0.5f, 100.0f, 1.0f, 10.0f);
 			m_pPlayer->Get_Camera()->Set_RadialBlur(0.5f, m_vRadialPos, 0.1f, 0.1f);
+			m_pPlayer->Get_Camera()->Set_Chromatic(0.5f, m_vRadialPos, 0.1f, 0.05f);
 			m_bBrushUpdate = false;
 		}
 	}
@@ -350,6 +351,7 @@ void CState_SP_Onestroke::Reset_Camera()
 	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
 }
 
 CState_SP_Onestroke* CState_SP_Onestroke::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)

@@ -59,7 +59,10 @@ HRESULT CUI_Tool::Tick()
 		m_bToolMode = !m_bToolMode;
 	}
 	if (m_bToolMode)
+	{
 		UI_Tool();
+	}
+		
 
 	return S_OK;
 }
@@ -205,6 +208,7 @@ void CUI_Tool::Reset_CurrentUI()
 void CUI_Tool::Change_Mode()
 {
 }
+
 
 void CUI_Tool::Modify_UIPannel()
 {
@@ -519,6 +523,7 @@ void CUI_Tool::Load_UIData(wstring _strFolderPath)
 	}
 	MSG_BOX("Load Success");
 }
+
 
 void CUI_Tool::Free()
 {

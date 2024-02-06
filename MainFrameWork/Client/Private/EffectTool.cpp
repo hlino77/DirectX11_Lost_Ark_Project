@@ -614,13 +614,13 @@ HRESULT CEffectTool::EffectsList()
 			string strItem = "";
 			if (0 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_M";
-			else if(1 == m_vecEffects[i]->m_iEffectType)
+			else if (1 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_T";
-			else if(2 == m_vecEffects[i]->m_iEffectType)
+			else if (2 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_P";
-			else if(3 == m_vecEffects[i]->m_iEffectType)
+			else if (3 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_D";
-			else if(4 == m_vecEffects[i]->m_iEffectType)
+			else if (4 == m_vecEffects[i]->m_iEffectType)
 				strItem = "Effect_" + to_string(i) + "_TR";
 
 			if (ImGui::Selectable(strItem.c_str(), isSelected))
@@ -1514,6 +1514,7 @@ HRESULT CEffectTool::Ready_Camera()
 
 	m_pCamera = dynamic_cast<CCamera_Free*>(CGameInstance::GetInstance()->Find_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free"));
 
+	m_pCamera->Set_Active(true);
 
 	return S_OK;
 }

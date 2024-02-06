@@ -8,6 +8,14 @@ class CCamera_Free;
 
 class CClientEvent_BernStart : public CClientEvent
 {
+private:
+	typedef struct CameraPos
+	{
+		_float fSpeed = 1.0f;
+		Vec3 vPos;
+		Vec3 vLook;
+	};
+
 public:
 	CClientEvent_BernStart(_uint iID, ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CClientEvent_BernStart() = default;
@@ -23,16 +31,19 @@ public:
 
 	virtual HRESULT Render();
 
-protected:
+private:
+	void		Update_Camera(_float fTimeDelta);
+
+	void		Load_CameraData();
+private:
 	EVENTSTATE eState;
 
-	CCamera_Free* m_pCamera = nullptr;
+	_float m_fCameraSpeed = 1.0f;
+	_float m_fTimeRatio = 0.0f;
 
-	_bool m_bEnd = false;
-	_float m_fDelayTime = 0.0f;
-
-private:
-	_float m_fCameraTime = 0.0f;
+	vector<vector<CameraPos>> m_CameraPos;
+	_uint m_iCurrPos = 0;
+	_uint m_iCurrScene = 0;
 
 public:
 	virtual void Free();

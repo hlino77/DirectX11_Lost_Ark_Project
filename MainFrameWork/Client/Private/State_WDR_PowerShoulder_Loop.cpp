@@ -55,10 +55,16 @@ void CState_WDR_PowerShoulder_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WDR_PowerShoulder_Loop::Exit_State()
 {
-	if (true == m_pController->Is_HitState() && 29 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+	if (true == m_pController->Is_HitState())
 	{
-		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+		if(m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Loop))
+			m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+
+		Effect_End();
 	}
+
+
+
 	m_bComboContinue = false;
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -89,11 +95,14 @@ void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
 	{
 		if (true == m_bComboContinue)
 		{
+			Effect_End();
 			m_pPlayer->Set_State(TEXT("Skill_WDR_PowerShoulder_End"));
 			m_bEffectEnd = true;
+			return;
 		}
 	}
-	else if (29 < iAnimFrame)
+
+	if (29 < iAnimFrame)
 	{
 		m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 

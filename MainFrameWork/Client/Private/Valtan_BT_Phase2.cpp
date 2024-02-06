@@ -101,6 +101,7 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 					Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 					vPos.y += 1.0f;
 					pCamera->Set_RadialBlur(0.2f, vPos, 0.2f, 0.2f);
+					pCamera->Set_Chromatic(0.2f, vPos, 0.2f, 0.2f);
 					m_bRadial = false;
 				}
 				m_fCameraSpeed = 300.0f;

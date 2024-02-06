@@ -10,7 +10,7 @@
 #include "QuadTreeMgr.h"
 #include <filesystem>
 #include "NpcTool.h"
-
+#include "CameraTool.h"
 #include "GameInstance.h"
 
 CLevel_Tool_Npc::CLevel_Tool_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -74,16 +74,14 @@ HRESULT CLevel_Tool_Npc::Tick(const _float& fTimeDelta)
 	ImGui::NewFrame();
 
 	m_pNpcTool->Tick(fTimeDelta);
-	m_pCamera->Tick(fTimeDelta);
-
+	m_pCameraTool->Tick(fTimeDelta);
 	return S_OK;
 }
 
 HRESULT CLevel_Tool_Npc::LateTick(const _float& fTimeDelta)
 {
 	m_pNpcTool->LateTick(fTimeDelta);
-	m_pCamera->LateTick(fTimeDelta);
-
+	m_pCameraTool->LateTick(fTimeDelta);
 	return S_OK;
 }
 
@@ -109,6 +107,8 @@ HRESULT CLevel_Tool_Npc::Render_Debug()
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
+
+	m_pCameraTool->DebugRender();
 
 	return S_OK;
 }
@@ -179,21 +179,9 @@ HRESULT CLevel_Tool_Npc::Ready_Layer_UI()
 
 HRESULT CLevel_Tool_Npc::Ready_Camera()
 {
-	CCamera::CAMERADESC tCameraDesc;
+	m_pCamera = dynamic_cast<CCamera_Free*>(CGameInstance::GetInstance()->Find_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free"));
 
-	tCameraDesc.iLayer = (_uint)LAYER_TYPE::LAYER_CAMERA;
-	tCameraDesc.vEye = Vec4(0.f, 3.f, -3.f, 1.f);
-	tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
-	tCameraDesc.fFovy = XMConvertToRadians(60.0f);
-	tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
-	tCameraDesc.fNear = 0.2f;
-	tCameraDesc.fFar = 1200.0f;
-	tCameraDesc.TransformDesc.fRotationPerSec = 10.0f;
-	tCameraDesc.TransformDesc.fSpeedPerSec = 10.0f;
-
-	CGameObject* pCamera = CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, L"Prototype_GameObject_Camera_Free", &tCameraDesc);
-
-	m_pCamera = dynamic_cast<CCamera_Free*>(pCamera);
+	m_pCamera->Set_Active(true);
 
 	return S_OK;
 }
@@ -203,6 +191,11 @@ HRESULT CLevel_Tool_Npc::Ready_Tools()
 	m_pNpcTool = CNpcTool::Create(m_pDevice, m_pContext, this);
 	if (nullptr == m_pNpcTool)
 		return E_FAIL;
+
+	m_pCameraTool = CCameraTool::Create(m_pDevice, m_pContext);
+	if (nullptr == m_pNpcTool)
+		return E_FAIL;
+
 
 	return S_OK;
 }
