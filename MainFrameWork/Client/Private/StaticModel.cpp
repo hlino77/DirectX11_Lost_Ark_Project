@@ -144,11 +144,11 @@ void CStaticModel::Tick(_float fTimeDelta)
 			// Loop Move
 			if (true == bUp && false == bStop)
 			{
-				m_pTransformCom->Go_Up(0.5 * fTimeDelta);
+				m_pTransformCom->Go_Up(0.5f * fTimeDelta);
 			}
 			else if (false == bUp && false == bStop)
 			{
-				m_pTransformCom->Go_Down(0.5 * fTimeDelta);
+				m_pTransformCom->Go_Down(0.5f * fTimeDelta);
 			}
 		}
 	}
@@ -607,7 +607,7 @@ void CStaticModel::Send_Collision(_uint iLevel, _bool bActive)
 	pkt.set_bactive(bActive);
 
 	auto Indices = pkt.mutable_iindex();
-	Indices->Resize(m_NaviCellIndex.size(), -1);
+	Indices->Resize((_int)m_NaviCellIndex.size(), -1);
 	memcpy(Indices->mutable_data(), m_NaviCellIndex.data(), sizeof(_uint) * m_NaviCellIndex.size());
 
 	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);

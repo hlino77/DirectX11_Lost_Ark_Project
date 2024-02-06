@@ -49,6 +49,7 @@ void CParty_Server::Add_Player(CPlayer_Server* pPlayer)
 		tJoinPlayer->set_ilevel(pPlayer->Get_CurrLevel());
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(JoinPkt);
+
 		for (auto& Player : m_Players)
 		{
 			auto tPlayer = tCreateParty->add_tplayers();

@@ -67,7 +67,7 @@ void CState_WR_Identity_Attack_4::Tick_State_Control(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_4);
 
-	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
+	if (m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();

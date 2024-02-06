@@ -15,7 +15,7 @@ class CLevelControlManager : public CBase
 	DECLARE_SINGLETON(CLevelControlManager);
 
 private:
-	typedef struct LEVELMOVEDESC
+	struct LEVELMOVEDESC
 	{
 		shared_ptr<CGameSession> pSession = nullptr;
 		_uint iCurrLevel;

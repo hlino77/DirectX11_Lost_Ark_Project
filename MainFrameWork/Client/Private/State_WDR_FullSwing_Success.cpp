@@ -67,7 +67,7 @@ void CState_WDR_FullSwing_Success::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);

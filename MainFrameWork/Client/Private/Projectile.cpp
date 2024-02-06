@@ -94,7 +94,7 @@ void CProjectile::LateTick(_float fTimeDelta)
 		AttackEnd();
 		m_IsSpawner = false;
 	}
-	else if (true == m_IsSpawner && m_iSpawnMaxCnt <= m_iSpawnCnt)
+	else if (true == m_IsSpawner && m_iSpawnMaxCnt <= (_int)m_iSpawnCnt)
 	{
 		if (-1 != m_iSpawnMaxCnt)
 		{

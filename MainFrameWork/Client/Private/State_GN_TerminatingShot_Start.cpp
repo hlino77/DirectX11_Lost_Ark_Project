@@ -77,7 +77,7 @@ void CState_GN_TerminatingShot_Start::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= (_uint)iAnimFrame)
 	{ 
 		Effect_Shot();
 
@@ -129,7 +129,7 @@ void CState_GN_TerminatingShot_Start::Tick_State_NoneControl(_float fTimeDelta)
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot1))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iTerminatingShot1))
 	{
 		Effect_Shot();
 

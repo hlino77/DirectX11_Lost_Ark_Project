@@ -271,7 +271,7 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 		BYTE* pInstanceValue = static_cast<BYTE*>((*m_pInstaceData)[m_szModelName].pInstanceValue->GetValue());
 
 		size_t iSizePerInstance = sizeof(_uint) + sizeof(Matrix);
-		_uint iDataIndex = iIndex * iSizePerInstance;
+		_uint iDataIndex = iIndex * (_uint)iSizePerInstance;
 		_uint iID = iIndex;
 		Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
 		if(m_bRimLight)
@@ -787,12 +787,12 @@ HRESULT CMonster::Ready_Proto_InstanceBuffer()
 			ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 			// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
-			BufferDesc.ByteWidth = (*m_pInstaceData)[m_szModelName].iMaxInstanceCount * iSizePerInstacne;
+			BufferDesc.ByteWidth = (*m_pInstaceData)[m_szModelName].iMaxInstanceCount * (_uint)iSizePerInstacne;
 			BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
 			BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 			BufferDesc.MiscFlags = 0;
-			BufferDesc.StructureByteStride = iSizePerInstacne;
+			BufferDesc.StructureByteStride = (_uint)iSizePerInstacne;
 
 			D3D11_SUBRESOURCE_DATA		InitialData;
 

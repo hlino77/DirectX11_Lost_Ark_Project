@@ -59,7 +59,7 @@ void CState_GN_RapidFire_Start::Tick_State(_float fTimeDelta)
 
 void CState_GN_RapidFire_Start::Exit_State()
 {
-	if (40 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	if (40 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iRapidFire_Start))
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::HAND, m_eSkillSelectKey);
 	}
@@ -71,9 +71,9 @@ void CState_GN_RapidFire_Start::Exit_State()
 
 void CState_GN_RapidFire_Start::Tick_State_Control(_float fTimeDelta)
 {
-	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start);
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iRapidFire_Start);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -108,7 +108,7 @@ void CState_GN_RapidFire_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
+	if (m_SkillFrames[m_iSkillCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRapidFire_Start))
 	{
 		Effect_Shot();
 

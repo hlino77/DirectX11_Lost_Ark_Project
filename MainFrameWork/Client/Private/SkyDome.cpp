@@ -50,7 +50,7 @@ HRESULT CSkyDome::Render()
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
 
-	_int iMeshIndex = m_pModelCom->Get_Meshes().size();
+	_int iMeshIndex = (_int)m_pModelCom->Get_Meshes().size();
 	for (_int i = 0; i < iMeshIndex; ++i)
 	{
 		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))

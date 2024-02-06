@@ -69,7 +69,7 @@ void CState_GN_TerminatingShot_End::Exit_State()
 
 void CState_GN_TerminatingShot_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot2))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iTerminatingShot2))
 	{
 		Effect_Shot();
 
@@ -77,7 +77,7 @@ void CState_GN_TerminatingShot_End::Tick_State_Control(_float fTimeDelta)
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTerminatingShot2))
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd((_uint)m_iTerminatingShot2))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (true == m_pController->Is_Dash())
@@ -96,7 +96,7 @@ void CState_GN_TerminatingShot_End::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTerminatingShot2))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iTerminatingShot2))
 	{
 		Effect_Shot();
 

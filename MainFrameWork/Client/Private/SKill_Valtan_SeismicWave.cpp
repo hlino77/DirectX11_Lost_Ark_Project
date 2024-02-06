@@ -42,7 +42,7 @@ void CSkill_Valtan_SeismicWave::Tick(_float fTimeDelta)
 	CSphereColliderGroup* pChildCollider = dynamic_cast<CSphereColliderGroup*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 	for (size_t i = 0; i < 4; i++)
 	{
-		CSphereCollider* pChildSphereCollider = dynamic_cast<CSphereCollider*>(pChildCollider->Get_Collider(i));
+		CSphereCollider* pChildSphereCollider = dynamic_cast<CSphereCollider*>(pChildCollider->Get_Collider((_uint)i));
 		switch (i)
 		{
 		case 0:

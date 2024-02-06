@@ -56,7 +56,7 @@ void CState_GN_LastSupper::Exit_State()
 
 void CState_GN_LastSupper::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iLastSupper))
+	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iLastSupper))
 	{
 		Effect_Shot();
 

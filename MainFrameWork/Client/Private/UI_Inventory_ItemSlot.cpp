@@ -55,7 +55,7 @@ HRESULT CUI_Inventory_ItemSlot::Initialize(void* pArg)
 			m_iItemType = m_vecItems.front()->Get_ItemType();
 			m_iEquipType = m_vecItems.front()->Get_ItemType();
 			m_iItemGrade = m_vecItems.front()->Get_ItemGrade();
-			m_iItemCount = m_vecItems.size();
+			m_iItemCount = (_uint)m_vecItems.size();
 			m_pTexture_ItemIcon = 
 				static_cast<CTexture*>(m_vecItems.front()->Get_ItemTexture()->Clone(nullptr, nullptr));
 			Safe_AddRef(m_pTexture_ItemIcon);
@@ -192,7 +192,7 @@ void CUI_Inventory_ItemSlot::Set_ItemInfo(vector<class CItem*> vecItems)
 	m_iItemType = m_vecItems.front()->Get_ItemType();
 	m_iEquipType = m_vecItems.front()->Get_ItemType();
 	m_iItemGrade = m_vecItems.front()->Get_ItemGrade();
-	m_iItemCount = m_vecItems.size();
+	m_iItemCount = (_uint)m_vecItems.size();
 
 	m_pTexture_ItemIcon =
 		static_cast<CTexture*>(m_vecItems.front()->Get_ItemTexture()->Clone(nullptr, nullptr));

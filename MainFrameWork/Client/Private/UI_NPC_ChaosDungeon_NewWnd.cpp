@@ -344,8 +344,8 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_MovingWnd(POINT pt)
 
    if (m_bHolding)
    {
-       _float	MouseMoveX, MouseMoveY;
-       MouseMoveX = CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
+       _float	MouseMoveX;
+       MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 
        m_fX += MouseMoveX * 0.8f;
        m_fY = pt.y + 94.f;

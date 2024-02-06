@@ -632,7 +632,7 @@ void CUI_NPC_ItemUpgrade::Update_Items()
 
     for (size_t i = 0; i < (_uint)(CItem::PART::_END); i++)
     {
-        pEquips[i] = static_cast<CPlayer*>(m_pUsingPlayer)->Get_EquipItem(i);
+        pEquips[i] = static_cast<CPlayer*>(m_pUsingPlayer)->Get_EquipItem((_uint)i);
         if (nullptr != pEquips[i])
         {
             m_strItemsName[i] = TEXT("");

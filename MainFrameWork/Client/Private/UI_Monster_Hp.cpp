@@ -54,8 +54,8 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
-		m_iMaxHp = dynamic_cast<CMonster*>(m_pOwner)->Get_MaxHp();
-		m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
+		m_iMaxHp = (_uint)dynamic_cast<CMonster*>(m_pOwner)->Get_MaxHp();
+		m_iCurrHp = (_int)dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
 		m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
 
 		if (nullptr != m_pOwner)
@@ -80,7 +80,7 @@ void CUI_Monster_Hp::Tick(_float fTimeDelta)
 
 void CUI_Monster_Hp::LateTick(_float fTimeDelta)
 {
-	m_iCurrHp = dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
+	m_iCurrHp = (_int)dynamic_cast<CMonster*>(m_pOwner)->Get_Hp();
 	m_fHpRatio = (_float)m_iCurrHp / (_float)m_iMaxHp;
 
 	Update_Postion();

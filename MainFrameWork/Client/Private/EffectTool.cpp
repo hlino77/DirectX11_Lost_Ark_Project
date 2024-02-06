@@ -601,6 +601,24 @@ HRESULT CEffectTool::EffectsList()
 			m_iSelectedEffectIndex = ::max(0, (_int)(m_vecEffects.size() - 1));
 	}
 
+	ImGui::SameLine();
+	if (ImGui::Button("Clear All"))
+	{
+		if (m_vecEffects.empty())
+		{
+			ImGui::End();
+			return S_OK;
+		}
+
+		for (auto& iter = m_vecEffects.begin(); iter != m_vecEffects.end();)
+		{
+			(*iter)->Set_Dead(true);
+			m_vecEffects.erase(iter);
+		}
+		
+		m_iSelectedEffectIndex = 0;
+	}
+
 	//vector<const _char*> vecItems;
 	//m_vecEffects; // 이펙트가 자기 이름 저장하게 하고(오브젝트 아이디나)
 	//vecItems.push_back();

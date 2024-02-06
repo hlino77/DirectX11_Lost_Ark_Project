@@ -649,7 +649,7 @@ HRESULT CPlayer::Equipment_Index_Reallocated(wstring strItemTag)
 				}
 			}
 		}
-		(*iter).second.iIndex = smallestUnusedIndex;
+		(*iter).second.iIndex = (_int)smallestUnusedIndex;
 	}
 	return S_OK;
 }
@@ -869,7 +869,7 @@ void CPlayer::Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pIte
 		{
 			m_vecItemSlots[i].vecItems.push_back(pItem);
 			m_ItemTags[strItemTag].bOwn = true;
-			m_ItemTags[strItemTag].iIndex = i;
+			m_ItemTags[strItemTag].iIndex = (_int)i;
 			break;
 		}
 	}
@@ -1063,7 +1063,7 @@ void CPlayer::Send_Hp()
 	pkt.set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
 	pkt.set_ilayer(m_iLayer);
 	pkt.set_iobjectid(m_iObjectID);
-	pkt.set_ihp(m_iHp);
+	pkt.set_ihp((int32)m_iHp);
 
 	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);

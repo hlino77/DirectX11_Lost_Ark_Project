@@ -204,7 +204,7 @@ void CUI_PartyHPWnd::Update_PlayeHp()
 	if (nullptr == m_pIndexPlayer)
 		return;
 
-	m_fCurrHp = m_pIndexPlayer->Get_PlayerStat_Desc().iCurHp;
+	m_fCurrHp = (_float)m_pIndexPlayer->Get_PlayerStat_Desc().iCurHp;
 	m_fHpRatio = m_fCurrHp / m_fMaxHp;
 
 	/*if ((0 == m_fHpRatio)||(TEXT("Dead_End") == m_pIndexPlayer->Get_State()))

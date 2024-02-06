@@ -1022,7 +1022,7 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 				if (ImGui::Selectable(m_vecSelectTalk[i].c_str(), i == iCurrIndex))
 				{
 					strcpy_s(m_szTalk, m_vecSelectTalk[i].c_str());
-					m_iCurTalk = i;
+					m_iCurTalk = (_int)i;
 				}
 			}
 			ImGui::EndListBox();
@@ -1101,8 +1101,8 @@ void CNpcTool::Animaition(const _float& fTimeDelta)
 					if (ImGui::Selectable(CAsUtils::ToString(Animations[i]->Get_Name()).c_str(), i == iCurrIndex))
 					{
 						strcpy_s(m_szAnimationName, CAsUtils::ToString(Animations[i]->Get_Name()).c_str());
-						m_iCurrAnimation = i;
-						m_pMannequin->Get_ModelCom()->Set_CurrAnim(i);
+						m_iCurrAnimation = (_uint)i;
+						m_pMannequin->Get_ModelCom()->Set_CurrAnim((_int)i);
 						m_pMannequin->Get_ModelCom()->Set_CurrAnimFrame(0);
 					}
 				}
@@ -1505,7 +1505,7 @@ HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)
 
 		SaveObject->Write<_bool>(pDesc.IsMove);
 		SaveObject->Write<_bool>(pDesc.IsMovePatrol);
-		SaveObject->Write<_uint>(pDesc.vecMovePos.size());
+		SaveObject->Write<_uint>((_uint)pDesc.vecMovePos.size());
 		for (size_t i = 0; i < pDesc.vecMovePos.size(); i++)
 		{
 			SaveObject->Write<Vec3>(pDesc.vecMovePos[i]);

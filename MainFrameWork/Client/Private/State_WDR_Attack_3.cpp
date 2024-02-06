@@ -58,7 +58,7 @@ void CState_WDR_Attack_3::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3);
 
-	if (m_AttackFrames[m_iAttackCnt] <= iAnimIndex)
+	if (m_AttackFrames[m_iAttackCnt] <= (_uint)iAnimIndex)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();
@@ -130,7 +130,7 @@ void CState_WDR_Attack_3::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_AttackFrames[m_iAttackCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3))
+	if (m_AttackFrames[m_iAttackCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_Attack_3))
 	{
 		m_iAttackCnt++;
 		Effect_Attack();

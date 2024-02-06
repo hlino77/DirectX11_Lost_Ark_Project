@@ -118,7 +118,7 @@ void CUI_PartyUI::Add_PartyHp(CPlayer* pPlayer)
 
 			CUI_PartyHPWnd::PARTYHP_DESC pPartyHpDesc;
 			pPartyHpDesc.pPlayer = m_pPlayer[i];
-			pPartyHpDesc.iPartyIndex = i;
+			pPartyHpDesc.iPartyIndex = (_uint)i;
 			CUI* pUI = nullptr;
 			pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
 				, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_PartyHPWnd"), &pPartyHpDesc));

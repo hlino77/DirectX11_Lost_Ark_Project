@@ -149,7 +149,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
             szDamage = to_wstring(iDamage);
             
             _uint iIndex = 1;
-            for (_uint i = szDamage.length() - 1; i > 0; --i)
+            for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
             {
                 if ((iIndex % 3) == 0)
                 {
@@ -174,7 +174,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
             szDamage = to_wstring(iDamage);
 
             _uint iIndex = 1;
-            for (_uint i = szDamage.length()-1; i > 0; --i)
+            for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
             {
                 if ((iIndex % 3) == 0)
                 {

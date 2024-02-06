@@ -71,7 +71,7 @@ void CState_GN_SprialChaser::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSprialChaser);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -88,7 +88,7 @@ void CState_GN_SprialChaser::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSprialChaser);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 
