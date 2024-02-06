@@ -126,6 +126,7 @@ HRESULT CStaticModel::Initialize(void* pArg)
 		m_iPass = 1;
 	}
 
+
 	if (m_bInstance)
 	{
 		if (m_pInstaceData->find(m_szModelName) == m_pInstaceData->end())
