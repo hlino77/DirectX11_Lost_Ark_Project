@@ -182,8 +182,20 @@ void CState_WDR_PowerShoulder_Loop::Update_Effect()
 {
 	Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
-	m_pPlayer->Get_Effect(L"WDPowerShoulder1")->Update_Pivot(matWorld);
-	m_pPlayer->Get_Effect(L"WDPowerShoulder2")->Update_Pivot(matWorld);
+	{
+		CEffect* pEffect = m_pPlayer->Get_Effect(L"WDPowerShoulder1");
+		if (pEffect)
+		{
+			pEffect->Update_Pivot(matWorld);
+		}
+	}
+	{
+		CEffect* pEffect = m_pPlayer->Get_Effect(L"WDPowerShoulder2");
+		if (pEffect)
+		{
+			pEffect->Update_Pivot(matWorld);
+		}
+	}
 }
 
 void CState_WDR_PowerShoulder_Loop::Effect_End()

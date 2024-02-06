@@ -480,7 +480,6 @@ void CUI::Set_Player_Control(_bool bControl)
 	{
 		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(bControl);
 	}
-
 }
 
 void CUI::Free()

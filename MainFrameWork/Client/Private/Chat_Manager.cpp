@@ -10,6 +10,7 @@
 #include <atlstr.h>
 #include "UI_TextBox.h"
 #include "TextBox.h"
+#include "UI_Manager.h"
 
 IMPLEMENT_SINGLETON(CChat_Manager);
 
@@ -279,12 +280,14 @@ void CChat_Manager::Set_Active(_bool bActive)
 
         //m_pChatWindow->Appear();
         m_pChatWindow->Set_Active(true);
+        //CUI_Manager::GetInstance()->Set_Player_Control(false);   
     }
     else
     {
         EndChat();
         //m_pChatWindow->Disappear();
         m_pChatWindow->Set_Active(false);
+       //CUI_Manager::GetInstance()->Set_Player_Control(true);
     }
        
 }

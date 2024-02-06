@@ -390,7 +390,7 @@ HRESULT CLevel_ValtanMain::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CCamera_Player::PlayerCameraDesc CameraDesc;
 
 	CameraDesc.tCameraDesc.iLayer = (_uint)eLayerType;
-	CameraDesc.tCameraDesc.vEye = Vec4(0.f, 10.f, -10.f, 1.f);
+	CameraDesc.tCameraDesc.vEye = Vec4(0.f, 10.0f, -10.f, 1.f);
 	CameraDesc.tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
 	CameraDesc.tCameraDesc.fFovy = XMConvertToRadians(60.0f);
 	CameraDesc.tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
@@ -401,6 +401,7 @@ HRESULT CLevel_ValtanMain::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	CameraDesc.pPlayer = pPlayer;
+	CameraDesc.vOffset = Vec3(0.0f, 0.0f, -1.0f);
 
 	CGameObject* pCamera = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_Camera_Player"), &CameraDesc);
 	if (pCamera == nullptr)
