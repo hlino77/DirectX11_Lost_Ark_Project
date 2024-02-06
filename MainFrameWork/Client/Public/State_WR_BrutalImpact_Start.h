@@ -30,6 +30,11 @@ private:
 	//Animation
 	_int m_iBrutalImpact_Start = 0;
 
+	//Effect
+	_bool m_bTrailStart = false;
+
+	vector<CEffect*> m_Trails;
+
 public:
 	static CState_WR_BrutalImpact_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;

@@ -31,6 +31,9 @@ private:
 	//Animation
 	_int m_iBrutalImpact_Loop = 0;
 
+	//Effect
+	_bool m_bEffectStart[3] = { false, false, false };
+
 public:
 	static CState_WR_BrutalImpact_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;

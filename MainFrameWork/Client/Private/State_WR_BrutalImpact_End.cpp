@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
 #include "Model.h"
 
 CState_WR_BrutalImpact_End::CState_WR_BrutalImpact_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -31,6 +33,7 @@ HRESULT CState_WR_BrutalImpact_End::Initialize()
 void CState_WR_BrutalImpact_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_bEffectStart = false;
 
 	m_pPlayer->Reserve_Animation(m_BrutalImpact_End, 0.1f, 0, 0, 1.f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
@@ -56,10 +59,25 @@ void CState_WR_BrutalImpact_End::Exit_State()
 
 void CState_WR_BrutalImpact_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End))
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (false == m_bEffectStart && 23 == iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_BrutalImpact_Slash_Explode"), &desc)
+
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 60.0f, 0.4f, 5.0f);
+		m_pPlayer->Get_Camera()->Set_Chromatic(0.25f, matPivot.Translation(), 0.15f, 0.1f);
+
+		m_bEffectStart = true;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_BrutalImpact_End))
