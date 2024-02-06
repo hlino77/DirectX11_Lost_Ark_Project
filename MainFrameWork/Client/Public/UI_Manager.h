@@ -52,6 +52,12 @@ public://Mouse
     void    Set_PickedIcon(_bool bPickedIcon);
     const wstring Get_PickedTag() { return m_strPickedTag; }
     void    Set_PickedTag(wstring strPickedTag) { m_strPickedTag = strPickedTag; }
+    void    Set_EntranceParty_Player(_bool  bEntrance, class CPlayer* pPlayer);
+
+public://Party
+    void    Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer);
+    void    Set_Add_PartyInfo(vector<_uint> vecPartys);
+    CPlayer* Get_PartyLeader();
 
 public://Cut_Scene
     void    Set_RenderUIs(_bool bRender, LEVELID iLevelIndex);
@@ -66,6 +72,7 @@ private:
 
     CUI* m_pCurrentBossHpUI = { nullptr };
     CUI* m_pMouseCursor = { nullptr };
+    CPlayer* m_pPartyLeader = { nullptr };
         
     USE_LOCK
 public:

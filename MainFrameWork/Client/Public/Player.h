@@ -174,6 +174,7 @@ public:
 
 
 	virtual _bool					Get_CellPickingPos(Vec3& vPickPos);
+	virtual	void					Get_Picking_NonePlayer();
 
 	CGameObject*					Get_Parts(const CPartObject::PARTS& ePart) { return m_Parts[ePart]; }
 	void							Set_Part_RenderState(CPartObject::PARTS iInex, _bool IsRender) { m_Parts[iInex]->Set_Render(IsRender); }
@@ -241,7 +242,7 @@ public:
 	HRESULT					Equipment_Index_Reset(wstring strItemTag);
 	HRESULT					Equipment_Index_Reallocated(wstring strItemTag);//재할당
 
-	
+	_bool					Intersect_Mouse();
 
 protected:
 	virtual HRESULT			Ready_Components();
@@ -320,6 +321,10 @@ protected:
 	/* NPC 정보 변수 */
 	vector<CGameObject*> m_vecNpcs;
 	_bool				 m_IsClickNpc = { false };
+
+	/*NoneControl Player Info*/
+	vector<CGameObject*>	m_vecPlayers;
+	_bool				m_IsClickPlayer = { false };
 
 	/* UI */
 	CParty* m_pParty = nullptr;

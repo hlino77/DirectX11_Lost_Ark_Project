@@ -57,7 +57,7 @@ void CState_WDR_PowerStrike_Start::Exit_State()
 
 void CState_WDR_PowerStrike_Start::Tick_State_Control(_float fTimeDelta)
 {
-	_int iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Start);
+	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Start);
 
 	if (m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
 	{

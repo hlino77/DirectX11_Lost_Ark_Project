@@ -39,6 +39,7 @@
 #include "UI_Manager.h"
 #include "UI_Mouse_Cursor.h"
 #include "UI_Mouse_PickedIcon.h"
+#include "UI_Mouse_EntranceParty.h"
 #include "BehaviorTree.h"
 #include "UI_Tool.h"
 #include "TextBox.h"
@@ -400,6 +401,14 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Item_Icon/Rank/Rank%d.png", 7))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_EntranceNameWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/EntranceNameWnd.png"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_EntranceWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/EntranceWnd%d.png",2))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround_Loading"),
 		CBackGround_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -442,6 +451,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MouseCursor"),
 		CUI_Mouse_Cursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MouseEntranceParty"),
+		CUI_Mouse_EntranceParty::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_Model */

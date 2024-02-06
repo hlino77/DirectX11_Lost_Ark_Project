@@ -10,6 +10,9 @@
 #include "Controller_WDR.h"
 #include "Controller_WR.h"
 #include "Controller_SP.h"
+#include "ServerSessionManager.h"
+#include "UI_Manager.h"
+#include "Party.h"
 
 CUI_PartyEntrance::CUI_PartyEntrance(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -36,13 +39,12 @@ HRESULT CUI_PartyEntrance::Initialize(void* pArg)
 
 	m_fSizeX = 487.f * 0.6f;
 	m_fSizeY = 224.f * 0.6f;
-	m_fX = g_iWinSizeX + (m_fSizeX * 0.5f);//g_iWinSizeX - (m_fSizeX * 0.5f);
-	m_fY = 700.f;//400.f;
+	m_fX = g_iWinSizeX + (m_fSizeX * 0.5f);
+	m_fY = 700.f;
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.1f));
-
 
 	m_fSizeX_Button = 101.f * 0.6f;
 	m_fSizeY_Button = 34.f * 0.6f;
@@ -81,10 +83,9 @@ HRESULT CUI_PartyEntrance::Initialize(void* pArg)
 
 HRESULT CUI_PartyEntrance::Initialize_TextBox()
 {
-	m_strText = TEXT("ºô¸®´õ°ÔÀÌ´ÔÀÌ ÆÄÆ¼ ¸ðÁý¿¡ ÃÊ´ëÇÏ¿´½À´Ï´Ù.");
 	Ready_TextBox();
-	//Set_Active(false);
 	m_pTextBoxWnd->Set_Active(false);
+	Set_Active(false);
 	return S_OK;
 }
 
@@ -93,33 +94,28 @@ void CUI_PartyEntrance::Tick(_float fTimeDelta)
 	if (m_bDeActive)
 	{
 		m_fDeActiceDelay += fTimeDelta;
-		if (m_fDeActiceDelay >= 0.5f)
+		if (0.5f < m_fDeActiceDelay)
 		{
-			m_bDeActive = false;
+			m_fDeActiceDelay = 0.f;
+			m_fCurrTimer = 20.f;
 			Reset_Player_Control();
 			m_bRender = true;
-			Set_Active(false);
+			m_bDeActive = false;
+			m_bActive = false;
 		}
 	}
 
 	__super::Tick(fTimeDelta);
-	if (KEY_TAP(KEY::P))//TESTCODE
-	{
-		m_bTestBool = !m_bTestBool;
-		m_tLerp.Init_Lerp(0.3f, g_iWinSizeX + (m_fSizeX * 0.5f), (g_iWinSizeX - (m_fSizeX * 0.5f)), LERP_MODE::SMOOTHSTEP);
-		m_pTextBoxWnd->Set_Active(true);
-		Print_Text();
-	}
-	if (m_bTestBool)//if (true == m_bActive)
+
+	if (true == m_bActive)
 	{
 		if (0.f < m_fCurrTimer)
 		{
 			m_fCurrTimer -= fTimeDelta;
-			Set_Player_Control();
 		}
 		else if (0.f > m_fCurrTimer)
 		{
-			m_fCurrTimer = 0.f;
+			m_fCurrTimer = 20.f;
 			m_pTextBoxWnd->Set_Active(false);
 			m_bRender = false;
 			m_bDeActive = true;
@@ -137,6 +133,7 @@ void CUI_PartyEntrance::LateTick(_float fTimeDelta)
 		m_bDeActive = true;
 		return;
 	}
+	Set_Player_Control();
 	Update_Button();
 
 	__super::LateTick(fTimeDelta);
@@ -185,79 +182,6 @@ const _bool CUI_PartyEntrance::Get_IsClicked()
 		return false;
 }
 
-void CUI_PartyEntrance::Set_Player_Control()
-{
-	Create_Rect();
-	Picking_UI();
-
-	CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
-	if (nullptr == pPlayer)
-		return;
-
-	if (m_bPick)
-	{
-		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(false);
-		}
-		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(false);
-		}
-		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(false);
-		}
-		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(false);
-		}
-	}
-	else if ((!m_bPick))
-	{
-		if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(true);
-		}
-		else if (TEXT("WR") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(true);
-		}
-		else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(true);
-		}
-		else if (TEXT("SP") == pPlayer->Get_ObjectTag())
-		{
-			static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(true);
-		}
-	}
-}
-
-void CUI_PartyEntrance::Reset_Player_Control()
-{
-	CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
-	if (nullptr == pPlayer)
-		return;
-	if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
-	{
-		static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Control_Active(true);
-	}
-	else if (TEXT("WR") == pPlayer->Get_ObjectTag())
-	{
-		static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Control_Active(true);
-	}
-	else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
-	{
-		static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Control_Active(true);
-	}
-	else if (TEXT("SP") == pPlayer->Get_ObjectTag())
-	{
-		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Control_Active(true);
-	}
-
-}
-
 void CUI_PartyEntrance::Set_PartyLeaderName(CPlayer* pPlayer)
 {
 	m_pPartyLeader = pPlayer;
@@ -270,6 +194,7 @@ void CUI_PartyEntrance::Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer*
 	if (!pPlayer->Is_Control())
 		return;
 
+	m_tLerp.Init_Lerp(0.3f, g_iWinSizeX + (m_fSizeX * 0.5f), (g_iWinSizeX - (m_fSizeX * 0.5f)), LERP_MODE::SMOOTHSTEP);
 	Set_PartyLeaderName(pPartyLeader);
 	Set_Active(true);
 	m_pTextBoxWnd->Set_Active(true);
@@ -282,7 +207,6 @@ void CUI_PartyEntrance::Print_Text()
 		m_pTextBoxWnd->Clear_Text();
 		m_pTextBoxWnd->Set_Alpha(1.f);
 		m_pTextBoxWnd->Get_TransformCom()->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 0.f));
-		m_strText = TEXT("ºô¸®´õ°ÔÀÌ´ÔÀÌ ÆÄÆ¼ ¸ðÁý¿¡");
 		Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(TEXT("³Ø½¼Lv1°íµñBold"), m_strText);
 		Vec2 vOrigin = vMeasure * 0.5f;
 		m_pTextBoxWnd->Set_Text(m_strTag + TEXT("_FirstLine"), TEXT("³Ø½¼Lv1°íµñBold"), m_strText, Vec2(m_fSizeX * 0.5f, m_fSizeY * 0.4f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
@@ -322,9 +246,6 @@ HRESULT CUI_PartyEntrance::Ready_TextBox()
 
 void CUI_PartyEntrance::Update_OnTransform(_float fTimeDelta)
 {
-	if (!m_bTestBool)
-		return;
-
 	m_fX = m_tLerp.Update_Lerp(fTimeDelta);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -390,6 +311,8 @@ void CUI_PartyEntrance::Update_Buttons(POINT pt)
 			m_bClicked_Entrance = true;
 			m_IsClicked = true;
 			m_iTextureIndex_AcceptButton = 2;
+
+			Send_Join_to_Party();
 		}
 		m_iTextureIndex_AcceptButton = 1;
 	}
@@ -538,6 +461,22 @@ HRESULT CUI_PartyEntrance::Bind_ShaderResources_Timer()
 		return E_FAIL;
 	m_pTexture_TimerGauge->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 	return S_OK;
+}
+
+void CUI_PartyEntrance::Send_Join_to_Party()
+{
+	Protocol::S_PARTY pkt;
+	auto tJoin = pkt.add_tjoinparty();
+
+	auto tPartyLeader = tJoin->add_tplayer();
+	tPartyLeader->set_iid(m_pPartyLeader->Get_ObjectID());
+	tPartyLeader->set_ilevel(m_pPartyLeader->Get_CurrLevel());
+
+	auto tPartyMember = tJoin->add_tplayer();
+	tPartyMember->set_iid(CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID());
+	tPartyMember->set_ilevel(CServerSessionManager::GetInstance()->Get_Player()->Get_CurrLevel());
+
+	CServerSessionManager::GetInstance()->Send(CClientPacketHandler::MakeSendBuffer(pkt));
 }
 
 CUI_PartyEntrance* CUI_PartyEntrance::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -27,12 +27,9 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     const _bool Get_IsClicked();
 
-    void    Set_Player_Control();
-    void    Reset_Player_Control();
     _bool   Is_Clicked() { return m_IsClicked; }
     void    Set_PartyLeaderName(CPlayer* pPlayer);
-    void    Set_ControlPlayer(CPlayer* pPlayer) { m_pControlPlayer = pPlayer; }
-
+    
     void    Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer);
 
 private:
@@ -56,8 +53,10 @@ private:
     HRESULT Bind_ShaderResources_Timer();
 
 private:
+    void    Send_Join_to_Party();
+
+private:
     CPlayer* m_pPartyLeader = { nullptr };
-    CPlayer* m_pControlPlayer = { nullptr };
 
     CTexture* m_pTexture_AcceptButton = { nullptr };
     CTexture* m_pTexture_RefuseButton = { nullptr };
@@ -96,7 +95,6 @@ private:
     _bool       m_IsClicked = { false };
 
     LERP_FLOAT  m_tLerp = {};
-    _bool   m_bTestBool = { false };
 
     //²¨Áü µô·¹ÀÌ
     _bool   m_bDeActive = { false };

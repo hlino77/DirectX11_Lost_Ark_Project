@@ -753,6 +753,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Monster_Hp.h" />
     <ClInclude Include="..\Public\UI_Mouse_Cursor.h" />
+    <ClInclude Include="..\Public\UI_Mouse_EntranceParty.h" />
     <ClInclude Include="..\Public\UI_Mouse_PickedIcon.h" />
     <ClInclude Include="..\Public\UI_Mouse_ToolTip.h" />
     <ClInclude Include="..\Public\UI_Mouse_ToolTip_Frame.h" />
@@ -1436,6 +1437,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_Cursor.cpp" />
+    <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_PickedIcon.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_ToolTip.cpp" />
     <ClCompile Include="..\Private\UI_Mouse_ToolTip_Frame.cpp" />

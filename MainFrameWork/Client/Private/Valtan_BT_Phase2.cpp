@@ -183,7 +183,7 @@ void CValtan_BT_Phase2::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_Phase(2);
-	static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER))->Set_CurValtanPhase(2);
+	CServerSessionManager::GetInstance()->Get_Player()->Set_CurValtanPhase(2);
 
 
 	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_ResetSpeed(5.0f);

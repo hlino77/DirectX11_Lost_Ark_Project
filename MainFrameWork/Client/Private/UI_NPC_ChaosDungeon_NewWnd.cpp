@@ -12,6 +12,7 @@
 #include "Controller_WDR.h"
 #include "Controller_WR.h"
 #include "Controller_SP.h"
+#include "ServerSessionManager.h"
 
 CUI_NPC_ChaosDungeon_NewWnd::CUI_NPC_ChaosDungeon_NewWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -467,7 +468,7 @@ _bool CUI_NPC_ChaosDungeon_NewWnd::Is_Picking_MovingWnd(POINT pt)
 
 void CUI_NPC_ChaosDungeon_NewWnd::Reset_Player_Control()
 {
-    CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+    CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     if (nullptr == pPlayer)
         return;
 

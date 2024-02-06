@@ -5,6 +5,9 @@
 #include "GameInstance.h"
 #include "UI_PartyHPWnd.h"
 #include "UI_PartyEntrance.h"
+#include "ServerSessionManager.h"
+#include "UI_Manager.h"
+#include "Party.h"
 
 CUI_PartyUI::CUI_PartyUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -43,6 +46,8 @@ HRESULT CUI_PartyUI::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	if (4 != m_vecPlayers.size())
+		m_vecPlayers.resize(4);
 	if (FAILED(UI_Set()))
 		return E_FAIL;
 
@@ -69,11 +74,13 @@ HRESULT CUI_PartyUI::Initialize_Get_Players()
 void CUI_PartyUI::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	Update_PartInfo();
 }
 
 void CUI_PartyUI::LateTick(_float fTimeDelta)
 {
-	__super::LateTick(fTimeDelta);
+	if (nullptr != CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
+		__super::LateTick(fTimeDelta);
 }
 
 HRESULT CUI_PartyUI::Render()
@@ -88,6 +95,16 @@ HRESULT CUI_PartyUI::Render()
 	return S_OK;
 }
 
+void CUI_PartyUI::Update_PartInfo()
+{
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr != pPlayer)
+	{
+		if ((nullptr != pPlayer->Get_Party()) && (0 < pPlayer->Get_Party()->Get_PartyMembers().size()))
+			Add_PartyInfo(CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers());
+	}
+}
+
 void CUI_PartyUI::Print_Text()
 {
 	if (nullptr == m_pTextBox)
@@ -99,38 +116,61 @@ void CUI_PartyUI::Print_Text()
 	m_pTextBox->Get_TransformCom()->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 0.f));// Vec2(205.f, 53.0f);
 	m_pTextBox->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", TEXT("Áý°ÔÀÌ¸®¾Æ ÆÄÆ¼"));
+	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", TEXT("137±â ÆÄÆ¼"));
 	Vec2 vOrigin = vMeasure * 0.5f;
-	m_pTextBox->Set_Text(m_strWndTag, m_strFont, TEXT("Áý°ÔÀÌ¸®¾Æ ÆÄÆ¼"), Vec2(m_fSizeX * 0.05f , m_fSizeY * 0.2f), Vec2(0.4f, 0.4f), Vec2(0.f, 0.f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	m_pTextBox->Set_Text(m_strWndTag, m_strFont, TEXT("137±â ÆÄÆ¼"), Vec2(m_fSizeX * 0.05f , m_fSizeY * 0.2f), Vec2(0.4f, 0.4f), Vec2(0.f, 0.f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
-void CUI_PartyUI::Add_PartyHp(CPlayer* pPlayer)
+void CUI_PartyUI::Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer)
 {
-	if (nullptr == pPlayer)
-		return;
-	for (size_t i = 0; i < 4; i++)
+	m_pUI_PartyEntrance->Set_Active_EntranceParty(pPartyLeader, pPlayer);
+}
+
+void CUI_PartyUI::Add_PartyInfo(vector<_uint> vecPlayersId)
+{
+	CGameInstance* pInstance = GET_INSTANCE(CGameInstance);
+	CPlayer* pPlayer = { nullptr };
+	auto& iterUI = m_vecUIParts.begin();
+	++++iterUI;
+	CUI_PartyHPWnd::PARTYHP_DESC tDesc;
+	_uint	iPartyIndex = 0;
+	for (auto& iter : vecPlayersId)
 	{
-		if (nullptr == m_pPlayer[i])
+		pPlayer = static_cast<CPlayer*>(pInstance->
+			Find_GameObject(CServerSessionManager::GetInstance()->Get_Player()->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iter));
+		if (nullptr != pPlayer)
 		{
-			m_pPlayer[i] = pPlayer;
-			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-			Safe_AddRef(pGameInstance);
-
-			CUI_PartyHPWnd::PARTYHP_DESC pPartyHpDesc;
-			pPartyHpDesc.pPlayer = m_pPlayer[i];
-			pPartyHpDesc.iPartyIndex = i;
-			CUI* pUI = nullptr;
-			pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
-				, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_PartyHPWnd"), &pPartyHpDesc));
-			if (nullptr == pUI)
-				return;
+			tDesc.pPlayer = pPlayer;
+			if(CServerSessionManager::GetInstance()->Get_Player()->Get_CurrLevel() == tDesc.pPlayer->Get_CurrLevel())
+			{
+				tDesc.iPartyIndex = iPartyIndex;
+				tDesc.strObjectTag = tDesc.pPlayer->Get_ObjectTag();
+				static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+			}
 			else
-				m_vecUIParts.push_back(pUI);
-
-			Safe_Release(pGameInstance);
-
-			break;
+			{
+				tDesc.pPlayer = pPlayer;
+				tDesc.iPartyIndex = iPartyIndex;
+				tDesc.strObjectTag = TEXT("");
+				static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+			}
 		}
+		else if (iter == (CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID()))
+		{
+			tDesc.pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+			tDesc.iPartyIndex = iPartyIndex;
+			tDesc.strObjectTag = tDesc.pPlayer->Get_ObjectTag();
+			static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+		}
+		else
+		{
+			tDesc.pPlayer = nullptr;
+			tDesc.iPartyIndex = iPartyIndex;
+			tDesc.strObjectTag = TEXT("");
+			static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+		}
+		iPartyIndex++;
+		iterUI++;
 	}
 }
 
@@ -165,6 +205,17 @@ HRESULT CUI_PartyUI::UI_Set()
 	Safe_AddRef(pGameInstance);
 	m_vecUIParts.push_back(this);
 	CUI* pUI = nullptr;
+	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
+		, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_PartyEntrance")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+	{
+		m_pUI_PartyEntrance = static_cast<CUI_PartyEntrance*>(pUI);
+		m_vecUIParts.push_back(pUI);
+	}
+
+	pUI = nullptr;
 	for (size_t i = 0; i < 4; i++)
 	{
 		pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
@@ -175,15 +226,6 @@ HRESULT CUI_PartyUI::UI_Set()
 			m_vecUIParts.push_back(pUI);
 	}
 
-	pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex()
-		, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_PartyEntrance")));
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-	{
-		m_pUI_PartyEntrance = static_cast<CUI_PartyEntrance*>(pUI);
-		m_vecUIParts.push_back(pUI);
-	}
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -195,7 +237,7 @@ HRESULT CUI_PartyUI::Ready_NameTextBox(CPlayer* pOwner)
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		Safe_AddRef(pGameInstance);
 		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = TEXT("Mococo's_PartyNameWnd");
+		tTextDesc.szTextBoxTag = CServerSessionManager::GetInstance()->Get_NickName() + TEXT("s_PartyNameWnd");
 		m_strWndTag = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(m_fSizeX, m_fSizeY);
 		m_pTextBox = static_cast<CTextBox*>(pGameInstance->
@@ -246,10 +288,7 @@ void CUI_PartyUI::Free()
 {
 	__super::Free();
 
-	for (size_t i = 0; i < 4; i++)
-	{
-		m_pPlayer[i] = nullptr;
-	}
+	m_vecPlayers.clear();
 
 	if(nullptr != m_pTextBox)
 		m_pTextBox->Set_Dead(true);

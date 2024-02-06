@@ -11,14 +11,14 @@ BEGIN(Client)
 class CParty : public CBase
 {
 public:
-	CParty(vector<CGameObject*> Players);
+	CParty(vector<_uint> PlayersId);
 	~CParty();
 public:
 	_bool	Add_Player(CGameObject* pPlayer);
-
+	vector< _uint>	Get_PartyMembers() { return m_PlayersId; }
 
 private:
-	vector<CGameObject*> m_Players;
+	vector< _uint> m_PlayersId;
 
 	USE_LOCK
 };

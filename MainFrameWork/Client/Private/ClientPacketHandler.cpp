@@ -21,6 +21,7 @@
 #include "Skill_TeleportDoor.h"
 #include "Item_Manager.h"
 #include "Item.h"
+#include "UI_Manager.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -605,7 +606,7 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 
 		auto& tCreateParty = pkt.tcreateparty(0);
 
-		vector<CGameObject*> Players;
+		vector<_uint> Players;
 		
 
 		for (_uint i = 0; i < tCreateParty.tplayers().size(); ++i)
@@ -614,7 +615,8 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 
 			if (iObjectID == pPlayer->Get_ObjectID())
 			{
-				Players.push_back(pPlayer);
+				Players.push_back(pPlayer->Get_ObjectID());
+				
 				continue;
 			}
 
@@ -625,12 +627,11 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 				Safe_Release(pGameInstance);
 				return true;
 			}
-			Players.push_back(pObject);
-
+			Players.push_back(pObject->Get_ObjectID());
+			
 		}
-
-
 		pPlayer->Set_Party(new CParty(Players));
+		CUI_Manager::GetInstance()->Set_Add_PartyInfo(pPlayer->Get_Party()->Get_PartyMembers());
 	}
 	else if (pkt.tjoinparty().empty() == false)
 	{
@@ -644,6 +645,7 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 		}
 
 		pPlayer->Get_Party()->Add_Player(pObject);
+		CUI_Manager::GetInstance()->Set_Add_PartyInfo(pPlayer->Get_Party()->Get_PartyMembers());
 	}
 	else if (pkt.tinvitationparty().empty() == false)
 	{
@@ -655,9 +657,9 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 			Safe_Release(pGameInstance);
 			return true;
 		}
-
+		
 		//초대 수락
-
+		CUI_Manager::GetInstance()->Set_Active_EntranceParty(pPartyLeader, pPlayer);
 	}
 
 	Safe_Release(pGameInstance);

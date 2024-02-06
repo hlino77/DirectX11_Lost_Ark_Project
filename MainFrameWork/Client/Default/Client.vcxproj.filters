@@ -580,9 +580,6 @@
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip">
       <UniqueIdentifier>{ce70cde3-4ad2-431d-8a83-01f4cafd1b78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Move_Point">
-      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon">
       <UniqueIdentifier>{88317a8f-6525-4a1b-9f48-6d3cb2ee5a2e}</UniqueIdentifier>
     </Filter>
@@ -1672,6 +1669,9 @@
     <Filter Include="02.GameObjects\UI\21.DeadScene">
       <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance">
+      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1893,9 +1893,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClInclude>
@@ -4819,6 +4816,10 @@
     <ClInclude Include="..\Public\UI_DeadScene.h">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\UI_Mouse_EntranceParty.h">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5040,9 +5041,6 @@
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
-    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
-      <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp">
       <Filter>02.GameObjects\Monster\Golem\Behavior</Filter>
     </ClCompile>
@@ -7926,7 +7924,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_PartyEntrance.cpp">
       <Filter>02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd</Filter>
     </ClCompile>
@@ -7938,6 +7936,10 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_DeadScene.cpp">
       <Filter>02.GameObjects\UI\21.DeadScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
+    <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
