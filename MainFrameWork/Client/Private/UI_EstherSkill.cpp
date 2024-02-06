@@ -9,6 +9,7 @@
 #include "Controller_MG.h"
 #include "Controller_WDR.h"
 #include "Controller_WR.h"
+#include "ServerSessionManager.h"
 
 CUI_EstherSkill::CUI_EstherSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -77,7 +78,7 @@ HRESULT CUI_EstherSkill::Initialize(void* pArg)
 	m_fCurrGauge = m_fMaxGauge;
 	m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
 
-	m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	m_pPartyLeader = CServerSessionManager::GetInstance()->Get_Player();
 
 	return S_OK;
 }

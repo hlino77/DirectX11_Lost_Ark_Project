@@ -580,9 +580,6 @@
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip">
       <UniqueIdentifier>{ce70cde3-4ad2-431d-8a83-01f4cafd1b78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Move_Point">
-      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon">
       <UniqueIdentifier>{88317a8f-6525-4a1b-9f48-6d3cb2ee5a2e}</UniqueIdentifier>
     </Filter>
@@ -1677,6 +1674,9 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\04. CameraTool">
       <UniqueIdentifier>{0638af66-f470-40aa-ad10-8cba72592ec5}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance">
+      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4827,6 +4827,10 @@
     </ClInclude>
     <ClInclude Include="..\Public\CameraTool.h">
       <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
+    <ClInclude Include="..\Public\UI_Mouse_EntranceParty.h">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7950,6 +7954,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CameraTool.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp">
+      <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

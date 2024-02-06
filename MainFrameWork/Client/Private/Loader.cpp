@@ -3515,28 +3515,13 @@ HRESULT CLoader::Loading_PartyUI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.1"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No1_%d.png",2))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_LiveNumber"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/LNo_%d.png",4))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.2"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No2_%d.png", 2))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.3"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No3_%d.png", 2))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.4"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No4_%d.png", 2))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.4"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/No4_%d.png", 2))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_DeadNumber"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Party_HPUI/DNo_%d.png", 4))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

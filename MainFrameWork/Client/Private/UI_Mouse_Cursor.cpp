@@ -2,8 +2,10 @@
 #include "UI_Mouse_Cursor.h"
 #include "GameInstance.h"
 #include "UI_Mouse_PickedIcon.h"
+#include "UI_Mouse_EntranceParty.h"
 #include "Player_Skill.h"
 #include "Item.h"
+#include "Player.h"
 
 CUI_Mouse_Cursor::CUI_Mouse_Cursor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -54,10 +56,14 @@ HRESULT CUI_Mouse_Cursor::Initialize(void* pArg)
 
 HRESULT CUI_Mouse_Cursor::Initialize_Utility()
 {
-    m_pUitility_PickedIcon = static_cast<CUI_Mouse_PickedIcon*>(CGameInstance::GetInstance()->
+    m_pUtility_PickedIcon = static_cast<CUI_Mouse_PickedIcon*>(CGameInstance::GetInstance()->
         Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_Mouse_PickedIcon")));
+    if (nullptr == m_pUtility_PickedIcon)
+        return E_FAIL;
 
-    if (nullptr == m_pUitility_PickedIcon)
+    m_pUtility_EntranceParty = static_cast<CUI_Mouse_EntranceParty*>(CGameInstance::GetInstance()->
+        Add_GameObject(LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_MouseEntranceParty")));
+    if(nullptr == m_pUtility_EntranceParty)
         return E_FAIL;
 
     return S_OK;
@@ -69,7 +75,6 @@ void CUI_Mouse_Cursor::Tick(_float fTimeDelta)
 
     Moving_MouseCursor();
     
-
 }
 
 void CUI_Mouse_Cursor::LateTick(_float fTimeDelta)
@@ -94,7 +99,7 @@ void CUI_Mouse_Cursor::Picked_Icon(CTexture* pTexture_Icon, _uint iItemGrade)
     if (!m_bPickedIcon)
     {
         m_bPickedIcon = true;
-        m_pUitility_PickedIcon->Set_IconTexture(pTexture_Icon, iItemGrade);
+        m_pUtility_PickedIcon->Set_IconTexture(pTexture_Icon, iItemGrade);
     }
 }
 
@@ -103,8 +108,17 @@ void CUI_Mouse_Cursor::Reset_Icon()
     if (m_bPickedIcon)
     {
          m_bPickedIcon = false;
-        m_pUitility_PickedIcon->Set_IconTexture(nullptr, 0);
+        m_pUtility_PickedIcon->Set_IconTexture(nullptr, 0);
     }
+}
+
+void CUI_Mouse_Cursor::Entrance_Party(_bool bPick, CPlayer* pPlayer)
+{
+    if (!bPick)
+        return;
+
+    m_pUtility_EntranceParty->Set_NickName(pPlayer->Get_NickName());
+    m_pUtility_EntranceParty->Set_Active_EntrancePartyWnd(bPick, pPlayer);
 }
 
 HRESULT CUI_Mouse_Cursor::Ready_Components()
@@ -185,5 +199,6 @@ void CUI_Mouse_Cursor::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    m_pUitility_PickedIcon->Set_Dead(true);
+    m_pUtility_PickedIcon->Set_Dead(true);
+    m_pUtility_EntranceParty->Set_Dead(true);
 }

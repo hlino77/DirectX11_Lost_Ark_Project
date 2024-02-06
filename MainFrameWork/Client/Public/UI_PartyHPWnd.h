@@ -15,6 +15,7 @@ public:
     struct PARTYHP_DESC
     {
         class CPlayer* pPlayer = nullptr;
+        wstring strObjectTag = TEXT("");
         _uint   iPartyIndex;
     }; 
 
@@ -33,11 +34,12 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    void    Set_PlayerDesc(PARTYHP_DESC tDesc);
 
 private:
-    void    Print_NickName();
     void    Update_PlayeHp();
-   
+    void    Print_NickName();
+
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
@@ -49,7 +51,7 @@ private:
     HRESULT Ready_NameTextBox();
 
 private:
-    CPlayer* m_pIndexPlayer = { nullptr };
+    CPlayer* m_pPartyPlayer = { nullptr };
 
     CTexture* m_pTexture_PartyEmblem = { nullptr };
     CTransform* m_pTransform_PartyEmblem = { nullptr };
@@ -60,13 +62,15 @@ private:
     CTexture* m_pTexture_LeaderCrown = { nullptr };
     CTransform* m_pTransform_LeaderCrown = { nullptr };
 
-    CTexture* m_pTexture_Num = { nullptr };
+    CTexture* m_pTexture_LNum = { nullptr };
+    CTexture* m_pTexture_DNum = { nullptr };
     CTransform* m_pTransform_Num = { nullptr };
 
     CTexture* m_pTexture_DeathMark = { nullptr };
     CTransform* m_pTransform_DeathMark = { nullptr };
 
     _uint   m_iEmblemIndex = { 0 };
+    _uint   m_iNumIndex = { 0 };
     _uint   m_iNumTextureIndex = { 0 };
 
     _float  m_fHpWndAlpha = { 0.f };
@@ -80,13 +84,14 @@ private:
     CTextBox* m_pTextBox = { nullptr };
     wstring m_strWndTag;
     wstring m_strFont;
-    wstring m_strName = TEXT("∫Ù∏Æ¥ı∞‘¿Ã");
+    wstring m_strName = TEXT("");
 
     _bool   m_bPartyLeader = { false };
 
     Vec4    m_vTextColor = { 1.f, 1.f, 1.f, 1.f };
     
-
+    _bool   m_bReNewName = { false };
+    wstring m_strObjectTag = TEXT("");
 public:
     static  CUI_PartyHPWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

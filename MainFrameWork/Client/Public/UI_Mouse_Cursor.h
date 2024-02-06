@@ -3,6 +3,7 @@
 
 BEGIN(Client)
 class CUI_Mouse_PickedIcon;
+class CUI_Mouse_EntranceParty;
 
 class CUI_Mouse_Cursor :
     public CUI
@@ -37,12 +38,14 @@ public:
     void    Set_Is_PickedIcon(_bool bPickedIcon) { m_bPickedIcon = bPickedIcon; }
     _uint   Get_PickedType() { return m_iPickedType; }
     CGameObject* Get_PickedObject() { return m_pPickedObject; }
+    CUI_Mouse_EntranceParty* Get_Utilty_EntranceParty() { return m_pUtility_EntranceParty; }
 
 public:
     void    Picked_Icon(CTexture* pTexture_Icon, _uint iItemGrade);
     void    Reset_Icon();
     _bool   Is_PickedIcon() { return m_bPickedIcon; }
     void    Set_PickedIcon(_bool bPickedIcon) { m_bPickedIcon = bPickedIcon; }
+    void    Entrance_Party(_bool bPick, CPlayer* pPlayer);
 
 private:
     virtual HRESULT Ready_Components();
@@ -52,7 +55,8 @@ private:
 
 private:
     CGameObject* m_pPickedObject = { nullptr };
-    CUI_Mouse_PickedIcon* m_pUitility_PickedIcon = { nullptr };
+    CUI_Mouse_PickedIcon* m_pUtility_PickedIcon = { nullptr };
+    CUI_Mouse_EntranceParty* m_pUtility_EntranceParty = { nullptr };
 
     _bool   m_bPickedIcon = { false };
     _uint   m_iMouseState = { 0 };

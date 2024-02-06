@@ -23,7 +23,6 @@ HRESULT CUI_PartyHPWnd::Initialize_Prototype()
 
 HRESULT CUI_PartyHPWnd::Initialize(void* pArg)
 {
-
 	if (nullptr != pArg)
 	{
 		m_strUITag = TEXT("UI_PartyHPWnd") + to_wstring(*static_cast<_uint*>(pArg));
@@ -33,41 +32,8 @@ HRESULT CUI_PartyHPWnd::Initialize(void* pArg)
 		m_fX = 160.f;
 		m_fY = 350.f + (60.f * (*static_cast<_uint*>(pArg)));
 		m_fHpWndAlpha = 1.5f;
-		m_iEmblemIndex = *static_cast<_uint*>(pArg);
-		if (0 == m_iEmblemIndex)
-			m_bPartyLeader = true;
+		m_iNumIndex = *static_cast<_uint*>(pArg);
 	}
-	else
-	{
-		m_strUITag = TEXT("UI_PartyHPWnd");
-
-		m_fSizeX = 208.f;
-		m_fSizeY = 28.f;
-		m_fX = 160.f;
-		m_fY = 280.f;
-		m_fHpWndAlpha = 1.5f;
-	}
-
-	/*
-	if (nullptr != pArg)
-	{
-		PARTYHP_DESC*	pPartyDesc;
-		pPartyDesc	= static_cast<PARTYHP_DESC*>(pArg);
-		m_strUITag = TEXT("UI_PartyHPWnd") + to_wstring(pPartyDesc->iPartyIndex);
-		m_strName = pPartyDesc->pPlayer->Get_NickName();
-		m_fMaxHp = (_float)m_pIndexPlayer->Get_PlayerStat_Desc().iMaxHp;
-		m_fCurrHp = (_float )m_pIndexPlayer->Get_PlayerStat_Desc().iCurHp;
-		m_fHpRatio = m_fCurrHp/m_fMaxHp;
-		m_fSizeX = 208.f;
-		m_fSizeY = 28.f;
-		m_fX = 160.f;
-		m_fY = 280.f + (60.f * (pPartyDesc->iPartyIndex));
-		m_fHpWndAlpha = 1.5f;
-		m_iEmblemIndex = pPartyDesc->iPartyIndex;
-		if (0 == (pPartyDesc->iPartyIndex - 1))
-			m_bPartyLeader = true;
-	}
-	*/
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -125,21 +91,13 @@ void CUI_PartyHPWnd::Tick(_float fTimeDelta)
 
 void CUI_PartyHPWnd::LateTick(_float fTimeDelta)
 {
-	__super::LateTick(fTimeDelta);
+	if(TEXT("") != m_strName)
+		__super::LateTick(fTimeDelta);
+
 	Update_PlayeHp();
-	if (0 == m_fHpRatio)//TestCode
-	{
-		m_iNumTextureIndex = 1;
-		m_fDeathMarkAlpha = 1.f;
-		m_vTextColor = Vec4(0.3f, 0.3f, 0.3f, 1.f);
-	}
-	else
-	{
-		m_iNumTextureIndex = 0;
-		m_fDeathMarkAlpha = 0.f;
-		m_vTextColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	}
-	Print_NickName();
+
+	if (m_bReNewName)
+		Print_NickName();
 }
 
 HRESULT CUI_PartyHPWnd::Render()
@@ -183,6 +141,46 @@ HRESULT CUI_PartyHPWnd::Render()
 	return S_OK;
 }
 
+void CUI_PartyHPWnd::Set_PlayerDesc(PARTYHP_DESC tDesc)
+{
+	PARTYHP_DESC pPartyDesc;
+	pPartyDesc = tDesc;
+	m_pPartyPlayer = pPartyDesc.pPlayer;
+	m_strUITag = TEXT("UI_PartyHPWnd") + to_wstring(pPartyDesc.iPartyIndex);
+	m_strObjectTag = pPartyDesc.strObjectTag;
+	if (TEXT("") != m_strObjectTag)
+	{
+		m_strName = m_pPartyPlayer->Get_NickName();
+		m_fMaxHp = m_pPartyPlayer->Get_PlayerStat_Desc().iMaxHp;
+		m_fCurrHp = m_pPartyPlayer->Get_PlayerStat_Desc().iCurHp;
+		m_fHpRatio = m_fCurrHp / m_fMaxHp;
+		m_fHpWndAlpha = 1.5f;
+		m_fAlpha = 1.f;
+		if (TEXT("Gunslinger") == m_pPartyPlayer->Get_ObjectTag())
+			m_iEmblemIndex = 0;
+		else if (TEXT("WR") == m_pPartyPlayer->Get_ObjectTag())
+			m_iEmblemIndex = 1;
+		else if (TEXT("WDR") == m_pPartyPlayer->Get_ObjectTag())
+			m_iEmblemIndex = 2;
+		else if (TEXT("SP") == m_pPartyPlayer->Get_ObjectTag())
+			m_iEmblemIndex = 3;
+		m_vTextColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	}
+	else
+	{
+		m_strName = TEXT("½ÅÈ£ ¾øÀ½");
+		m_fMaxHp = 0.f;
+		m_fCurrHp = 0.f;
+		m_fHpRatio = 0.f;
+		m_fHpWndAlpha = 1.5f;
+		m_fAlpha = 0.f;
+		m_iEmblemIndex = 0;
+		m_vTextColor = Vec4(0.3f, 0.3f, 0.3f, 1.f);
+	}
+	if (!m_bReNewName)
+		m_bReNewName = true;
+}
+
 void CUI_PartyHPWnd::Print_NickName()
 {
 	if (nullptr == m_pTextBox)
@@ -194,29 +192,32 @@ void CUI_PartyHPWnd::Print_NickName()
 	m_pTextBox->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
 		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
-	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", m_strName);
-	Vec2 vOrigin = vMeasure * 0.5f;
 	m_pTextBox->Set_Text(m_strWndTag, m_strFont, m_strName, Vec2(m_fSizeX * 0.1f , m_fSizeY * 0.2f), Vec2(0.4f, 0.4f), Vec2(0.f, 0.f), 0.f, m_vTextColor);
+
+	if (m_bReNewName)
+		m_bReNewName = false;
 }
 
 void CUI_PartyHPWnd::Update_PlayeHp()
 {
-	if (nullptr == m_pIndexPlayer)
+	if (nullptr == m_pPartyPlayer)
 		return;
 
-	m_fCurrHp = (_float)m_pIndexPlayer->Get_PlayerStat_Desc().iCurHp;
+	m_fCurrHp = m_pPartyPlayer->Get_PlayerStat_Desc().iCurHp;
 	m_fHpRatio = m_fCurrHp / m_fMaxHp;
 
-	/*if ((0 == m_fHpRatio)||(TEXT("Dead_End") == m_pIndexPlayer->Get_State()))
+	if ((0 == m_fHpRatio) || (TEXT("Dead_End") == m_pPartyPlayer->Get_State()))
 	{
 		m_iNumTextureIndex = 1;
 		m_fDeathMarkAlpha = 1.f;
+		m_vTextColor = Vec4(0.3f, 0.3f, 0.3f, 1.f);
 	}
 	else
 	{
-		m_iNumTextureIndex = 0;
 		m_fDeathMarkAlpha = 0.f;
-	}*/
+		m_iNumTextureIndex = 0;
+		m_vTextColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	}
 }
 
 HRESULT CUI_PartyHPWnd::Ready_Components()
@@ -235,30 +236,16 @@ HRESULT CUI_PartyHPWnd::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_HPUI_Emblem"),
 		TEXT("Com_Texture_PartyEmblem"), (CComponent**)&m_pTexture_PartyEmblem)))
 		return E_FAIL;
-	/*m_pTexture_Num*/
-	switch (m_iEmblemIndex)
-	{
-	case 0:
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.1"),
-			TEXT("Com_Texture_Num"), (CComponent**)&m_pTexture_Num)))
-			return E_FAIL;
-		break;
-	case 1:
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.2"),
-			TEXT("Com_Texture_Num"), (CComponent**)&m_pTexture_Num)))
-			return E_FAIL;
-		break;
-	case 2:
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.3"),
-			TEXT("Com_Texture_Num"), (CComponent**)&m_pTexture_Num)))
-			return E_FAIL;
-		break;
-	case 3:
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_No.4"),
-			TEXT("Com_Texture_Num"), (CComponent**)&m_pTexture_Num)))
-			return E_FAIL;
-		break;
-	}
+
+	/*m_pTexture_LNum*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_LiveNumber"),
+		TEXT("Com_Texture_LNum"), (CComponent**)&m_pTexture_LNum)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_DeadNumber"),
+		TEXT("Com_Texture_DNum"), (CComponent**)&m_pTexture_DNum)))
+		return E_FAIL;
+
 	/*m_pTexture_LeaderCrown*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Party_PartyLeader"),
 		TEXT("Com_Texture_LeaderCrown"), (CComponent**)&m_pTexture_LeaderCrown)))
@@ -345,7 +332,6 @@ HRESULT CUI_PartyHPWnd::Bind_ShaderResources_DeathMark()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
-	m_fDeathMarkAlpha = 1.f;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fDeathMarkAlpha, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
@@ -366,7 +352,11 @@ HRESULT CUI_PartyHPWnd::Bind_ShaderResources_Num()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_Num->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iNumTextureIndex);
+
+	if(0 != m_fCurrHp)
+		m_pTexture_LNum->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iNumIndex);
+	else
+		m_pTexture_DNum->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iNumIndex);
 
 	return S_OK;
 }
@@ -396,7 +386,7 @@ HRESULT CUI_PartyHPWnd::Ready_NameTextBox()
 		Safe_AddRef(pGameInstance);
 
 		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = to_wstring(m_iEmblemIndex) + TEXT("'s_Player_NameWnd");
+		tTextDesc.szTextBoxTag = to_wstring(m_iNumIndex) + TEXT("'s_Player_NameWnd");
 		m_strWndTag = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(m_fSizeX, m_fSizeY);
 		m_pTextBox = static_cast<CTextBox*>(pGameInstance->
@@ -409,7 +399,7 @@ HRESULT CUI_PartyHPWnd::Ready_NameTextBox()
 		}
 		m_pTextBox->Set_ScaleUV(Vec2(1.0f, 1.0f));
 		m_pTextBox->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
-		//m_pTextBox->Set_Render(false);
+		m_pTextBox->Set_Render(false);
 
 		Safe_Release(pGameInstance);
 	}
@@ -447,10 +437,13 @@ void CUI_PartyHPWnd::Free()
 {
 	__super::Free();
 
+	m_pPartyPlayer = nullptr;
+
 	Safe_Release(m_pTexture_PartyEmblem);
 	Safe_Release(m_pTexture_PartyHPFill);
 
-	Safe_Release(m_pTexture_Num);
+	Safe_Release(m_pTexture_LNum);
+	Safe_Release(m_pTexture_DNum);
 	Safe_Release(m_pTransform_Num);
 
 	Safe_Release(m_pTransform_PartyHP);

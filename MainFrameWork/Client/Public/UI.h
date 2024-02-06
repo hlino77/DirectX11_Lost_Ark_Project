@@ -9,6 +9,7 @@ class CTexture;
 class CRenderer;
 class CTransform;
 class CVIBuffer_Rect;
+class CPlayer_Controller;
 END
 
 BEGIN(Client)
@@ -125,7 +126,7 @@ protected:
 	_float					m_fAlpha = 1.0f;
 	Vec4					m_vColor = { 1.f, 1.f, 1.f ,1.f };
 
-	_uint		m_iButtonState = { BUTTON_NORMAL };
+	_uint				m_iButtonState = { BUTTON_NORMAL };
 	_bool				m_bPick = { false };
 	_bool				m_bTool = { false };
 	_bool				m_bChange = { false };
@@ -140,6 +141,7 @@ protected:
 protected:
 	void	Reset_Player_Control();
 	void	Set_Player_Control();
+	void	Set_Player_Control(_bool bControl);
 
 public:
 	virtual void Free() override;

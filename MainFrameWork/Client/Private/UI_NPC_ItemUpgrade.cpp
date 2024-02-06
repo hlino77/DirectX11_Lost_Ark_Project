@@ -4,6 +4,7 @@
 #include "TextBox.h"
 #include "Player.h"
 #include "Item.h"
+#include "ServerSessionManager.h"
 
 CUI_NPC_ItemUpgrade::CUI_NPC_ItemUpgrade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -44,7 +45,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-    m_pUsingPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+    m_pUsingPlayer = CServerSessionManager::GetInstance()->Get_Player();
     if (nullptr == m_pUsingPlayer)
         return E_FAIL;
     for (size_t i = 0; i < SELECTED_END; i++)
@@ -611,7 +612,7 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
     }
     else if ((true == IsUpgrade)&&(nullptr == pPlayer))
     {
-        m_pUsingPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+        m_pUsingPlayer = CServerSessionManager::GetInstance()->Get_Player();
         if (nullptr == m_pUsingPlayer)
             return;
         Update_Items();

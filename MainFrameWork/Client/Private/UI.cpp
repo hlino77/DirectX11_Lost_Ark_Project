@@ -15,6 +15,7 @@
 #include "Controller_WDR.h"
 #include "Controller_WR.h"
 #include "Controller_SP.h"
+#include "ServerSessionManager.h"
 
 CUI::CUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext, L"UI", OBJ_TYPE::UI)
@@ -369,7 +370,6 @@ HRESULT CUI::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
-
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
 		return E_FAIL;
 
@@ -378,7 +378,7 @@ HRESULT CUI::Bind_ShaderResources()
 
 void CUI::Reset_Player_Control()
 {
-	CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 	if (nullptr == pPlayer)
 		return;
 
@@ -406,7 +406,7 @@ void CUI::Reset_Player_Control()
 
 void CUI::Set_Player_Control()
 {
-	CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 	if (nullptr == pPlayer)
 		return;
 
@@ -456,6 +456,31 @@ void CUI::Set_Player_Control()
 			static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(true);
 		}
 	}
+}
+
+void CUI::Set_Player_Control(_bool bControl)
+{
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr == pPlayer)
+		return;
+
+	if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(bControl);
+	}
+	else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(bControl);
+	}
+	else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(bControl);
+	}
+	else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(bControl);
+	}
+
 }
 
 void CUI::Free()

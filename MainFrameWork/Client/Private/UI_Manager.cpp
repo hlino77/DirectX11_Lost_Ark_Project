@@ -6,6 +6,8 @@
 #include "UI_Boss_Hp.h"
 #include "UI_Mouse_Cursor.h"
 #include "Item.h"
+#include "UI_Mouse_EntranceParty.h"
+#include "UI_PartyUI.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -273,6 +275,43 @@ void CUI_Manager::Set_PickedIcon(_bool bPickedIcon)
 	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Set_PickedIcon(bPickedIcon);
 }
 
+void CUI_Manager::Set_EntranceParty_Player(_bool bEntrance, class CPlayer* pPlayer)
+{
+	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
+	if (nullptr == m_pMouseCursor)
+		return;
+
+	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Entrance_Party(bEntrance, pPlayer);
+}
+
+void CUI_Manager::Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer)
+{
+	CUI* pUI_PartyWnd = Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_PartyWnd"));
+	if (nullptr == pUI_PartyWnd)
+		return;
+
+	m_pPartyLeader = pPartyLeader;
+
+	static_cast<CUI_PartyUI*>(pUI_PartyWnd)->Set_Active_EntranceParty(pPartyLeader, pPlayer);
+}
+
+void CUI_Manager::Set_Add_PartyInfo(vector<_uint> vecPartys)
+{
+	CUI* pUI_PartyWnd = Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_PartyWnd"));
+	if (nullptr == pUI_PartyWnd)
+		return;
+	
+	static_cast<CUI_PartyUI*>(pUI_PartyWnd)->Add_PartyInfo(vecPartys);
+}
+
+CPlayer* CUI_Manager::Get_PartyLeader()
+{
+	if(nullptr == m_pPartyLeader)
+		return nullptr;
+
+	return m_pPartyLeader;
+}
+
 void CUI_Manager::Set_RenderUIs(_bool bRender, LEVELID iLevelIndex)
 {
 	for (auto iter : m_pUIList[iLevelIndex])
@@ -292,7 +331,7 @@ void CUI_Manager::Set_UIs_Active(_bool bRender, LEVELID iLevelIndex)
 void CUI_Manager::Free()
 {
 	__super::Free();
-
+	m_pPartyLeader = nullptr;
 	for (size_t i = 0; i < (_uint)LEVEL_END; i++)
 	{
 		m_pUIList[i].clear();

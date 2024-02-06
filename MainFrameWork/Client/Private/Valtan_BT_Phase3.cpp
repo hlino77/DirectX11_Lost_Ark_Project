@@ -6,6 +6,7 @@
 #include <Player.h>
 #include "GameInstance.h"
 #include <Boss_Valtan.h>
+#include "ServerSessionManager.h"
 
 CValtan_BT_Phase3::CValtan_BT_Phase3()
 {
@@ -15,7 +16,7 @@ void CValtan_BT_Phase3::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CBoss*>(m_pGameObject)->Set_Phase(3);
-	static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER))->Set_CurValtanPhase(3);
+	CServerSessionManager::GetInstance()->Get_Player()->Set_CurValtanPhase(3);
 	static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(true);
 	(m_pGameObject)->Set_Render(false);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(false);

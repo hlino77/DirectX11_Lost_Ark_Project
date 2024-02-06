@@ -131,6 +131,7 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 		{
 			Effect_End();
 			m_pPlayer->Set_State(TEXT("Skill_WDR_PowerShoulder_End"));
+			Effect_End();
 			m_bEffectEnd = true;
 			return;
 		}

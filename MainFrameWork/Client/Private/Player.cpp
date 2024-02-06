@@ -107,7 +107,7 @@ void CPlayer::Tick(_float fTimeDelta)
 
 void CPlayer::LateTick(_float fTimeDelta)
 {
-	if(m_PlayAnimation.valid())
+	if (m_PlayAnimation.valid())
 		m_PlayAnimation.get();
 
 	Set_EffectPos();
@@ -151,6 +151,11 @@ void CPlayer::LateTick(_float fTimeDelta)
 			m_fRimLightTime = 0.0f;
 			m_bRimLight = false;
 		}
+	}
+
+	if ((KEY_HOLD(KEY::CTRL)) && (KEY_TAP(KEY::RBTN)))
+	{	
+		Get_Picking_NonePlayer();
 	}
 }
 
@@ -428,6 +433,27 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 	return CNavigationMgr::GetInstance()->Picking_Cell(m_iCurrLevel, vRayPos, vRayDir, vPickPos);
 }
 
+void CPlayer::Get_Picking_NonePlayer()
+{
+	if (TEXT("Idle") || TEXT("Run"))
+	{
+		m_vecPlayers = m_pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_PLAYER);
+		for (auto& pPlayer : m_vecPlayers)
+		{
+			if (false == static_cast<CPlayer*>(pPlayer)->Is_Control())
+			{
+				if (true == static_cast<CPlayer*>(pPlayer)->Intersect_Mouse())
+				{
+					m_IsClickPlayer = true;
+					CUI_Manager::GetInstance()->Set_EntranceParty_Player(m_IsClickPlayer, static_cast<CPlayer*>(pPlayer));
+				}
+			}
+		}
+	}
+	m_IsClickPlayer = false;
+	CUI_Manager::GetInstance()->Set_EntranceParty_Player(m_IsClickPlayer, nullptr);
+}
+
 HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)
 {
 	auto& iter = m_ItemTags.find(strItemTag);
@@ -652,6 +678,37 @@ HRESULT CPlayer::Equipment_Index_Reallocated(wstring strItemTag)
 		(*iter).second.iIndex = (_int)smallestUnusedIndex;
 	}
 	return S_OK;
+}
+
+_bool CPlayer::Intersect_Mouse()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	_float viewX = (+2.0f * pt.x / g_iWinSizeX - 1.0f) / m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ)(0, 0);
+	_float viewY = (-2.0f * pt.y / g_iWinSizeY + 1.0f) / m_pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ)(1, 1);
+
+	Vec4 vRayOrigin = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	Vec4 vRayDir = Vec4(viewX, viewY, 1.0f, 0.0f);
+
+	Vec3 vWorldRayOrigin = XMVector3TransformCoord(vRayOrigin, m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW));
+	Vec3 vWorldRayDir = XMVector3TransformNormal(vRayDir, m_pGameInstance->Get_TransformMatrixInverse(CPipeLine::D3DTS_VIEW));
+	vWorldRayDir.Normalize();
+
+	Ray MouseRay = Ray(vWorldRayOrigin, vWorldRayDir);
+
+	_float fDist;
+	for (auto& Colider : m_Coliders)
+	{
+		if (Colider.second->IsActive())
+		{
+			return Colider.second->Intersects(MouseRay, fDist);
+		}
+
+	}
+
+	return false;
 }
 
 HRESULT CPlayer::Ready_Components()

@@ -189,6 +189,9 @@ _bool CPlayer_Controller::Is_Run()
 	if (false == m_bMouseActive || false == m_bCtrlActive)
 		return false;
 
+	if (KEY_HOLD(KEY::CTRL))
+		return false;
+
 	if (KEY_HOLD(KEY::RBTN) || KEY_TAP(KEY::RBTN))
 	{
 		return true;
