@@ -19,7 +19,7 @@ void CValtan_BT_Attack_RainingAxe::OnStart()
 	__super::OnStart();
 	if (static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 1)
 		m_iAttackCount = 9;
-	if (static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 2)
+	else
 		m_iAttackCount = 3;
 	m_fAttackTerm = 0.f;
 	m_bShoot =true;
@@ -45,12 +45,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		m_fAttackTerm += fTimeDelta;
-		_float fMaxTerm = 0.f;
-		if (static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 2)
-			fMaxTerm = 1.f;
-		else
-			fMaxTerm = 0.75f;
-		if (m_fAttackTerm > fMaxTerm && m_iAttackCount >0)
+
+		if (m_fAttackTerm > 1.f && m_iAttackCount >0)
 		{
 			m_iAttackCount--;
 			m_fAttackTerm = 0.f;
@@ -73,7 +69,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = vPos - m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+						Vec3 vLook = Vec3(1.f, 0.f, 0.f);
 						vLook.Normalize();	
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
@@ -94,7 +90,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 					if (pSkill != nullptr)
 					{
 						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = vPos - m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+						Vec3 vLook = Vec3(1.f,0.f,0.f);
 						vLook.Normalize();
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
