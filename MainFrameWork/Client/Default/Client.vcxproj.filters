@@ -55,9 +55,6 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger">
       <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\02.Bern">
-      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\98.Tool">
       <UniqueIdentifier>{4e23252b-8f1e-4aa3-a035-332256279a07}</UniqueIdentifier>
     </Filter>
@@ -1668,10 +1665,10 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\04. CameraTool">
       <UniqueIdentifier>{0638af66-f470-40aa-ad10-8cba72592ec5}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance">
       <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\MapObject">
       <UniqueIdentifier>{72e88bee-794c-4ef6-a2c1-29f59ff6b7a8}</UniqueIdentifier>
     </Filter>
@@ -1680,6 +1677,9 @@
     </Filter>
     <Filter Include="02.GameObjects\MapObject\StaticModel">
       <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\02.Bern">
+      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4830,7 +4830,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\CameraTool.h">
       <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\UI_Mouse_EntranceParty.h">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
@@ -7957,7 +7957,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\CameraTool.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
     </ClCompile>
