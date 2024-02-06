@@ -36,6 +36,7 @@ public:
 	virtual void			LateTick(_float fTimeDelta);
 	virtual HRESULT			Render();
 	virtual HRESULT			Render_ShadowDepth();
+	virtual HRESULT         Render_Outline();
 
 public:
 
@@ -94,6 +95,8 @@ private:
 	_bool			m_IsDissolve = { false };
 	_float			m_fDissolveAcc = { 0.0f };
 	_float			m_fMaxDissolve = { 1.f };
+
+	_float			m_fRimLightColor = { 0.95f };
 
 	class CTexture* m_pDissolveTexture = { nullptr };
 

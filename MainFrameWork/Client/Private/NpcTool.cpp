@@ -1625,10 +1625,10 @@ void CNpcTool::Clear_Info()
 	m_vNpcPos = Vec3().Zero;
 
 	m_iSelectPart = -1;
-	m_vWpRightScale = Vec3(100.f, 100.f, 100.f);
+	m_vWpRightScale = Vec3(1.f, 1.f, 1.f);
 	m_vWpRightPos = Vec3().Zero;
 	m_vWpRightRot = Vec3().Zero;
-	m_vWpLeftScale = Vec3(100.f, 100.f, 100.f);
+	m_vWpLeftScale = Vec3(1.f, 1.f, 1.f);
 	m_vWpLeftPos = Vec3().Zero;
 	m_vWpLeftRot = Vec3().Zero;
 	m_bSetWpLeftPart = false;

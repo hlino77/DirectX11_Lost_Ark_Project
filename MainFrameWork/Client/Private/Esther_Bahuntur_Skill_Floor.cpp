@@ -138,7 +138,7 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 		_int  bReverseDissovle = m_IsReverseDissolve;
 		_float fDissolveDensity = 1.f;
 		_float fDissolveValue = 0.1f;
-		_float fDissolveColorValue = 0.02f;
+		_float fDissolveColorValue = 0.05f;
 		_int  bDissolveEmissive = true;
 
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))
@@ -187,7 +187,7 @@ HRESULT CEsther_Bahuntur_Skill_Floor::Render()
 		_int   bReverseDissovle = false;
 		_float fDissolveDensity = 1.f;
 		_float fDissolveValue = 0.1f;
-		_float fDissolveColorValue = 0.02f;
+		_float fDissolveColorValue = 0.0f;
 		_int   bDissolveEmissive = false;
 
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &bDissolve, sizeof(_int))))

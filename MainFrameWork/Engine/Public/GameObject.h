@@ -37,6 +37,7 @@ public:
 	virtual HRESULT				Render();
 	virtual HRESULT				Render_Instance(_uint iSize) { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
+	virtual HRESULT				Render_Outline() { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth_Instance(_uint iSize) { return S_OK; }
 	virtual HRESULT				Render_MakeSRV() { return S_OK; }
 	virtual HRESULT				Render_Debug() { return S_OK; }

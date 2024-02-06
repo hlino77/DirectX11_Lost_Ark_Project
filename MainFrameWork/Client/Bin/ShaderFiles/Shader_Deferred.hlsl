@@ -19,6 +19,7 @@ Texture2D		g_SSAOBlurTarget;
 Texture2D		g_BlurTarget;
 Texture2D		g_ShadowDepthTarget;
 Texture2D		g_StaticShadowDepthTarget;
+texture2D		g_OutlineTarget;
 
 bool			g_bSSAO = true;
 bool			g_bShadow = false;
@@ -268,6 +269,10 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 		{
 			vRimLightColor = float3(0.f, 0.2f, 0.45f);
 		}
+        if (abs(fRimLight - 0.95f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.45f, 0.3f);
+        }
 		if (abs(fRimLight - 0.8f) < 0.03f)
 		{
 			vRimLightColor = float3(0.18, 0.522, 0.514); 

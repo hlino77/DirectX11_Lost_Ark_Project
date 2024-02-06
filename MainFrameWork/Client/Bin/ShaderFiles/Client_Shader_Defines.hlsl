@@ -72,6 +72,17 @@ RasterizerState RS_Skybox
 	FrontCounterClockwise = false;
 };
 
+RasterizerState RS_Outline
+{
+    FillMode = solid;
+
+	/* 앞면을 컬링하겠다. == 후면을 보여주겠다. */
+    CullMode = Front;
+
+	/* 앞면을 시계방향으로 쓰겠다. */
+    FrontCounterClockwise = false;
+};
+
 RasterizerState RS_Effect
 {
 	FillMode = Solid;
@@ -113,6 +124,32 @@ DepthStencilState DSS_Effect
 {
     DepthEnable = true;
     DepthWriteMask = zero;
+};
+
+DepthStencilState DSS_Outline
+{
+    DepthEnable = true;
+    DepthWriteMask = zero;
+
+    StencilEnable = true;
+    StencilWriteMask = 0xff;
+
+    FrontFaceStencilFunc = not_equal;
+    FrontFaceStencilPass = keep;
+    FrontFaceStencilFail = keep;
+};
+
+DepthStencilState DSS_Inline
+{
+    DepthEnable = true;
+    DepthWriteMask = zero;
+
+    StencilEnable = true;
+    StencilWriteMask = 0xff;
+
+    FrontFaceStencilFunc = always;
+    FrontFaceStencilPass = keep;
+    FrontFaceStencilFail = keep;
 };
 
 BlendState BS_Default

@@ -683,11 +683,33 @@ HRESULT CModel::Render(CShader*& pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Render_Outline(CShader*& pShader)
+HRESULT CModel::Render_Outline(CShader*& pShader, _bool bSub)
+{
+	if (false == bSub)
+	{
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			if (FAILED(Render_OutlineMesh(pShader, i)))
+				return E_FAIL;
+		}
+	}
+	else
+	{
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			if (FAILED(Render_SubOutlineMesh(pShader, i)))
+				return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_Inline(CShader*& pShader)
 {
 	for (_uint i = 0; i < m_iNumMeshes; ++i)
 	{
-		if (FAILED(Render_OutlineMesh(pShader, i)))
+		if (FAILED(Render_InlineMesh(pShader, i)))
 			return E_FAIL;
 	}
 
@@ -757,7 +779,73 @@ HRESULT CModel::Render_OutlineMesh(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(Render(pShader, iMeshIndex, "Outline")))
 		return E_FAIL;
 
-	
+	return S_OK;
+}
+
+HRESULT CModel::Render_InlineMesh(CShader*& pShader, const _int& iMeshIndex)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tFlag.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tFlag.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tFlag.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+		return E_FAIL;
+
+	if (FAILED(Render(pShader, iMeshIndex, "Inline")))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CModel::Render_SubOutlineMesh(CShader*& pShader, const _int& iMeshIndex)
+{
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_NORMALS, "g_NormalTexture")))
+	{
+		if (FAILED(Render(pShader, iMeshIndex, "Diffuse")))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
+	MaterialFlag tFlag = { Vec4(0.f, 0.f, 0.f, 0.f) };
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_SPECULAR, "g_SpecularTexture")))
+		tFlag.SpecMaskEmisExtr.x = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE_ROUGHNESS, "g_MRMaskTexture")))
+		tFlag.SpecMaskEmisExtr.y = 1.f;
+
+	if (SUCCEEDED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_EMISSIVE, "g_EmissiveTexture")))
+		tFlag.SpecMaskEmisExtr.z = 1.f;
+
+	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
+		return E_FAIL;
+
+	if (FAILED(Render(pShader, iMeshIndex, "SubOutline")))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }
