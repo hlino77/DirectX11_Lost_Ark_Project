@@ -2208,8 +2208,19 @@ HRESULT CLoader::Load_MapData(LEVELID eLevel, const wstring& szFilePath)
 
 		if (selectedPath.empty())
 		{
-			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			// Convert String -> wstring
+			int bufferSize = MultiByteToWideChar(CP_UTF8, 0, strFileName.c_str(), -1, nullptr, 0);
+			
+			wstring wStrFileName(bufferSize, L'\0');
+
+			MultiByteToWideChar(CP_UTF8, 0, strFileName.c_str(), -1, &wStrFileName[0], bufferSize);
+			
+			wstring errorMessage = L"File not found in any specified paths: " + wStrFileName;
+
+			MessageBox(g_hWnd, errorMessage.c_str(), L"Error", MB_OK);
 			return E_FAIL;
+
+
 		}
 
 
@@ -2313,7 +2324,16 @@ HRESULT CLoader::Load_BossMapData(LEVELID eLevel, const wstring& szFilePath)
 
 		if (selectedPath.empty())
 		{
-			MessageBox(g_hWnd, L"File not found in any specified paths.", L"Error", MB_OK);
+			// Convert String -> wstring
+			int bufferSize = MultiByteToWideChar(CP_UTF8, 0, strFileName.c_str(), -1, nullptr, 0);
+
+			wstring wStrFileName(bufferSize, L'\0');
+
+			MultiByteToWideChar(CP_UTF8, 0, strFileName.c_str(), -1, &wStrFileName[0], bufferSize);
+
+			wstring errorMessage = L"File not found in any specified paths: " + wStrFileName;
+
+			MessageBox(g_hWnd, errorMessage.c_str(), L"Error", MB_OK);
 			return E_FAIL;
 		}
 

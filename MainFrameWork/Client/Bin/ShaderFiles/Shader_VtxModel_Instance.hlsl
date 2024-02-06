@@ -1,6 +1,13 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
 
+// For Grass
+float3      g_vWind = { 0.f, 0.f, 0.f };
+float       g_fPower = 0.f;
+float       g_fTime = 2.f;
+float       g_fmaxHeight = 2.f;
+
+
 VS_OUT VS_MAIN(STATIC_INSTANCE_IN In)
 {
     VS_OUT		Out = (VS_OUT)0;
@@ -21,13 +28,38 @@ VS_OUT VS_MAIN(STATIC_INSTANCE_IN In)
     return Out;
 }
 
+VS_OUT VS_GRASS_INSTANCE(STATIC_INSTANCE_IN In)
+{
+    VS_OUT Out = (VS_OUT)0;
+
+    matrix matWV = mul(In.matWorld, ViewMatrix);
+    matrix matWVP = mul(matWV, ProjMatrix);
+
+    float heightFactor = saturate(In.vPosition.y / g_fmaxHeight);
+    float windEffect = sin(g_fTime + In.vPosition.x * g_vWind.x + In.vPosition.y * g_vWind.y + In.vPosition.z * g_vWind.z) * g_fPower * heightFactor;
+
+    float3 modifiedPosition = In.vPosition + windEffect * g_vWind;
+
+    Out.vPosition = mul(float4(modifiedPosition, 1.f), matWVP);
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), In.matWorld));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+    Out.vTexUV = In.vTexUV;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), In.matWorld)).xyz;
+    Out.vProjPos = Out.vPosition;
+
+    return Out;
+}
+
+
+
+
 PS_OUT_PBR PS_PBR(VS_OUT In)
 {
     PS_OUT_PBR Out = (PS_OUT_PBR)0;
 
     Out.vDiffuse = (vector) 1.f;
 
-    Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    Out.vDiffuse = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 
     if (0.2f >= Out.vDiffuse.a)
         discard;
@@ -39,7 +71,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 
     if (1.f == SpecMaskEmisExtr.x)
     {
-        float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
+        float4 vSpecular = g_SpecularTexture.Sample(PointSampler, In.vTexUV);
         //if (1.f == SpecMaskEmisExtr.y)
         //{
         //    //float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
@@ -66,7 +98,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 
     if (1.f == SpecMaskEmisExtr.z)
     {
-        Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+        Out.vEmissive = g_EmissiveTexture.Sample(PointSampler, In.vTexUV);
         Out.vEmissive *= g_vBloomColor;
     }
 
@@ -126,4 +158,17 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_PHONG();
     }
+
+
+    pass GrassInstance
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_GRASS_INSTANCE();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR();
+    }
+
 }

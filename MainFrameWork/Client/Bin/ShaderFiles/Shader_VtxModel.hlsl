@@ -2,6 +2,14 @@
 #include "Client_Shader_InOut.hlsl"
 bool    g_bDissolve = false;
 
+// For Grass
+float3      g_vWind = { 0.f, 0.f, 0.f };
+float       g_fPower = 0.f;
+float       g_fTime = 2.f;
+float       g_fmaxHeight = 2.f;
+
+
+
 VS_OUT VS_MAIN(STATIC_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
@@ -21,6 +29,29 @@ VS_OUT VS_MAIN(STATIC_IN In)
 	
 	return Out;
 }
+
+VS_OUT VS_GRASS(STATIC_IN In)
+{
+    VS_OUT Out = (VS_OUT)0;
+
+    matrix matWV = mul(WorldMatrix, ViewProj);
+    matrix matWVP = mul(matWV, ProjMatrix);
+
+    float heightFactor = saturate(In.vPosition.y / g_fmaxHeight);
+    float windEffect = sin(g_fTime + In.vPosition.x * g_vWind.x + In.vPosition.y * g_vWind.y + In.vPosition.z * g_vWind.z) * g_fPower * heightFactor;
+
+    float3 modifiedPosition = In.vPosition + windEffect * g_vWind;
+
+    Out.vPosition = mul(float4(modifiedPosition, 1.f), matWVP);
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+    Out.vTexUV = In.vTexUV;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix)).xyz;
+    Out.vProjPos = Out.vPosition;
+
+    return Out;
+}
+
 
 PS_OUT_PBR PS_PBR(VS_OUT In)
 {
@@ -369,6 +400,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_CHANGECOLOR();
+    }
+
+    pass Grass  // 6
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_GRASS();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PBR();
     }
 
 }

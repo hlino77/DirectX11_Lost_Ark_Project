@@ -136,8 +136,11 @@ public:
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iStride, _uint iPassIndex = 0);
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader* pShader, _uint iMeshIndex, _uint iStride, const string& strPassName);
 	HRESULT Render_Instance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, _uint iStride);
+	HRESULT Render_GrassInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, _uint iStride);
+
 	HRESULT Render_SingleMeshInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, const _int& iMeshIndex, _uint iStride);
-	
+	HRESULT Render_SingleMeshGrassInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, const _int& iMeshIndex, _uint iStride);
+
 	HRESULT Render_AlphaBlendSingleMeshInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, CShader*& pShader, const _int& iMeshIndex, _uint iStride);
 	HRESULT Render_AlpahBlendInstance(ID3D11Buffer* pInstanceBuffer, _uint iSize, class CShader*& pShader, _uint iStride);
 

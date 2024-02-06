@@ -36,18 +36,95 @@ HRESULT CStaticModel::Initialize(void* pArg)
 
 	m_BloomColor = Desc->BloomColor; //
 
+#pragma region Bern Grass Object
+
+// Basic
+	if (m_szModelName == TEXT("Anh_Fiilage_Te_b73") || m_szModelName == TEXT("Atm_Foliage2_B94"))
+	{
+		m_IsGrass = true;
+		m_iPass = 6;
+	}
+
+	// Flower
+	if (m_szModelName == TEXT("Anh_Fiilage_Te_f02") || m_szModelName == TEXT("Anh_Fiilage_Te_f03") ||
+		m_szModelName == TEXT("Anh_Fiilage_Te_f29") || m_szModelName == TEXT("Anh_Fiilage_Te_f30") ||
+		m_szModelName == TEXT("Anh_Fiilage_Te_f01") || m_szModelName == TEXT("Atm_Foliage2_Flower02") ||
+		m_szModelName == TEXT("Atm_Foliage2_Flower03"))
+	{
+		m_IsGrass = true;
+		m_iPass = 6;
+		
+	}
+
+	// Grass
+	if (m_szModelName == TEXT("Anh_Fiilage_Te_b58") || m_szModelName == TEXT("Anh_Fiilage_Te_f26") ||
+		m_szModelName == TEXT("Atm_Foliage2_B09") || m_szModelName == TEXT("Atm_Foliage2_Crops04") ||
+		m_szModelName == TEXT("Atm_Foliage2_Filedgrass01") || m_szModelName == TEXT("Anh_Fiilage_Crops16"))
+	{
+		m_IsGrass = true;
+		m_iPass = 6;
+		
+	}
+
+	// Bush
+	if (m_szModelName == TEXT("Atm_Foliage2_BushTree01") || m_szModelName == TEXT("Anh_Fiilage_Te_b50") ||
+		m_szModelName == TEXT("Atm_Foliage2_BushTree02"))
+	{
+		m_IsGrass = true;
+		m_iPass = 6;
+	}
+
+#pragma endregion
+
+#pragma region Chaos3 Grass Object
+
+	// Flower
+	if (m_szModelName == TEXT("Vol_Foliage_Flower05_sky") || m_szModelName == TEXT("Vol_Foliage_Flower05a_sky"))
+	{
+		m_IsGrass = true;
+	}
+
+	// Grass
+	if (m_szModelName == TEXT("Vol_Add_LV_Vol_gjunglevol_Foilage01") || m_szModelName == TEXT("Vol_Add_LV_Vol_gjunglevol_Foilage02") ||
+		m_szModelName == TEXT("Pap_Foliage_Tropic02") || m_szModelName == TEXT("Pap_Foliage_Tropic01") ||
+		m_szModelName == TEXT("Pap_Foliage_Tropic01a") || m_szModelName == TEXT("Vol_Foliage_Flower03_sky") ||
+		m_szModelName == TEXT("Vol_Tree_Leaf02"))
+	{
+		m_IsGrass = true;
+	}
+
+	// Tree
+	if (m_szModelName == TEXT("Ber_Stone_CherryBlossom01") || m_szModelName == TEXT("Ber_Stone_Ginkgo01") ||
+		m_szModelName == TEXT("Ber_Stone_MapleTree01fbx"))
+	{
+		m_IsGrass = true;
+	}
+
+	// Bush
+	if (m_szModelName == TEXT("Vol_Add_LV_Vol_gjunglevol_Foilage08") || m_szModelName == TEXT("Atm_Foliage2_Flower07") ||
+		m_szModelName == TEXT("Vol_Tree_Leaf01") || m_szModelName == TEXT("Atm_Foliage_glass02"))
+	{
+		m_IsGrass = true;
+	}
+
+
+#pragma endregion
+
+
+
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
+
 	if (m_szModelName == TEXT("Elevator01d_Edit_Glass") || m_szModelName == TEXT("Ehgeiz_A_Bossfloor01b_Top"))
 	{
-		m_iPass = 1;
 		m_bInstance = false;
+		m_iPass = 1;
 	}
-
 
 	if (m_bInstance)
 	{
@@ -56,10 +133,13 @@ HRESULT CStaticModel::Initialize(void* pArg)
 			if (FAILED(Ready_Proto_InstanceBuffer()))
 				return E_FAIL;
 		}
+
+		if (true == m_IsGrass)
+		{
+			m_iPass = 2;
+		}
 	}
 
-
-	
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc->vPosition.x, Desc->vPosition.y, Desc->vPosition.z, 1.f));
 	//m_pTransformCom->My_Rotation(Vec3(90.f,180.f, 0.f));
@@ -187,10 +267,42 @@ void CStaticModel::Tick(_float fTimeDelta)
 
 #pragma endregion
 
+
+
+#pragma region Grass Object
+
+	if (true == m_IsGrass)
+	{
+		m_fWindChangeTime += fTimeDelta;
+
+		if (m_fWindChangeTime >= 2.f)
+		{
+
+			m_TargetWindDir.x = ((float)rand() / RAND_MAX) * 1.4f - 0.7f; // Random Range -0.7 ~ 0.7
+			m_TargetWindDir.z = ((float)rand() / RAND_MAX) * 1.4f - 0.7f; // Random Range -0.7 ~ 0.7
+			m_TargetWindDir.y = 0;
+
+			m_fTargetWindPower = ((float)rand() / RAND_MAX) * 1.8f - 0.9f; // Random Range -0.5 ~ 0.9
+
+			m_fWindChangeTime = 0.f;
+
+		}
+
+		float lerpFactor = fTimeDelta * 0.3;
+
+		m_WindDir = XMVectorLerp(XMLoadFloat3(&m_WindDir), XMLoadFloat3(&m_TargetWindDir), lerpFactor);
+		m_fWindPower = m_fWindPower + (m_fTargetWindPower - m_fWindPower) * lerpFactor;
+
+	}
+
+#pragma endregion
+
+
 }
 
 void CStaticModel::LateTick(_float fTimeDelta)
 {
+
 	if (m_bRimLight)
 	{
 		m_fRimLightTime -= fTimeDelta;
@@ -200,6 +312,8 @@ void CStaticModel::LateTick(_float fTimeDelta)
 			m_bRimLight = false;
 		}
 	}
+
+
 	if (nullptr == m_pRendererCom)	
 		return;
 
@@ -222,6 +336,19 @@ void CStaticModel::LateTick(_float fTimeDelta)
 		else if (m_iPass == 1)
 		{
 			m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_ALPHABLEND;
+
+			if (m_bInstance)
+			{
+				m_pRendererCom->Add_InstanceRenderGroup(m_eRenderGroup, this);
+			}
+			else
+			{
+				m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
+			}
+		}
+		else if (m_iPass == 2)
+		{
+			m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 
 			if (m_bInstance)
 			{
@@ -269,16 +396,38 @@ HRESULT CStaticModel::Render()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
 			return E_FAIL;
 
-		//if (FAILED(m_pModelCom->Render(m_pShaderCom, 0, "Alpha")))
-		//	return E_FAIL;
-
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, "Alpha")))
 		{
 			return E_FAIL;
 		}
-
-
 	}
+	else if (m_iPass == 6)
+	{
+		if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_vWind", &m_WindDir, sizeof(Vec3))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fPower", &m_fWindPower, sizeof(_float))))
+			return E_FAIL;
+
+
+		_float fRimLight = (_float)m_bRimLight;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, "Grass")))
+		{
+			return E_FAIL;
+		}
+	}
+
+
+
 
     return S_OK;
 }
@@ -325,9 +474,24 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 		return E_FAIL;
 
 
-	if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
-		return E_FAIL;
+	if (true == m_IsGrass)
+	{
+		if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_vWind", &m_WindDir, sizeof(Vec3))))
+			return E_FAIL;
 
+		if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_fPower", &m_fWindPower, sizeof(_float))))
+			return E_FAIL;
+
+
+		if (FAILED(m_pModelCom->Render_GrassInstance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
+			return E_FAIL;
+	}
+	else
+	{
+
+		if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
