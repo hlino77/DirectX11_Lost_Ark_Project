@@ -35,12 +35,13 @@ private:
     void    Setting_HostPos();
 
     HRESULT Ready_TextBox(_uint iIndex);
+    void    Reset_SpeechBubble();
 
 private:
     Vec4    m_vHostProjPos = { 0.f, 0.f, 0.f, 0.f };
     CGameObject* m_pHost = { nullptr };
 
-    _float	m_fDuration = { 3.f };
+    _float	m_fDuration = { 5.5f };
 
     CTextBox* m_pTextBox = nullptr;
 
