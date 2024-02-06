@@ -25,8 +25,6 @@ _bool CParty_Server::Add_Player(CGameObject* pPlayer)
 
 		auto tJoinParty = pkt.add_tjoinparty();
 
-		tJoinParty->mutable_tplayer()->set_iid(pPlayer->Get_ObjectID());
-		tJoinParty->mutable_tplayer()->set_ilevel(pPlayer->Get_CurrLevel());
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);	
 
@@ -39,8 +37,7 @@ _bool CParty_Server::Add_Player(CGameObject* pPlayer)
 		Protocol::S_PARTY pkt;
 
 		auto tCreateParty = pkt.add_tcreateparty();
-		tCreateParty->set_ipartyid(m_iID);
-
+		
 		for (auto& Player : m_Players)
 		{
 			auto tPlayer = tCreateParty->add_tplayers();

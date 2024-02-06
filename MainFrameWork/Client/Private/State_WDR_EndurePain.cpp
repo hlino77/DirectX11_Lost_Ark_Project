@@ -39,7 +39,7 @@ void CState_WDR_EndurePain::Enter_State()
 	m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
-	m_pPlayer->Get_WDR_Controller()->Get_AddMarbleMessage(3.f);
+	m_pPlayer->Get_WDR_Controller()->Get_AddMarbleMessage((_uint)3.f);
 }
 
 void CState_WDR_EndurePain::Tick_State(_float fTimeDelta)
@@ -56,15 +56,15 @@ void CState_WDR_EndurePain::Exit_State()
 
 void CState_WDR_EndurePain::Tick_State_Control(_float fTimeDelta)
 {
-	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEndurePain);
+	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iEndurePain);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
+	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimIndex)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iEndurePain))
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd((_uint)m_iEndurePain))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 	if (30 <= iAnimIndex)

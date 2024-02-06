@@ -72,7 +72,7 @@ void CState_SP_Attack4::Tick_State_Control(_float fTimeDelta)
 	}
 
 
-	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
+	if (m_AttackFrames[m_iAttackCnt] <= (_uint)iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_AttackMessage();

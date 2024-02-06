@@ -147,7 +147,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 		WRITE_LOCK
 			if (!m_IsInvincible)
 			{
-				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f))*10.f;
+				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f)) * (_uint)10.f;
 				_uint iGroggy_Result = iGroggy;
 				_bool	bGroggyObsorb = false;
 				m_iHp -= iDamage_Result;
@@ -193,7 +193,7 @@ void CBoss_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffec
 
 				if (m_iHp < 1.f)
 					m_IsHit = true;
-				Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
+				Send_Collision(iDamage_Result, vHitPos, m_iGroggyGauge, (_float)m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
 			}
 	}
 }

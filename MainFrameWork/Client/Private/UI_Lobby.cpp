@@ -72,7 +72,7 @@ HRESULT CUI_Lobby::UI_Set()
 			pUINickName->Create_Rect();
 		}
 
-		LobbyStageNameDesc.iIndex = i;
+		LobbyStageNameDesc.iIndex = (_uint)i;
 		LobbyStageNameDesc.pUI = pUINickName;
 
 		CUI* pUIStageName = static_cast<CUI*>(pGameInstance->Add_GameObject(iLevelIndex, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Lobby_StageName"), &LobbyStageNameDesc));

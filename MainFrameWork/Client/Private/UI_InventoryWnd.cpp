@@ -101,8 +101,8 @@ void CUI_InventoryWnd::Move_InventoryWnd(POINT pt)
 	Create_Rect_MoveWnd();
 	Is_Picking_MoveWnd(pt);
 
-	_float	MouseMoveX, MouseMoveY;
-	MouseMoveX = CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
+	_float	MouseMoveX;
+	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	
 	if ((m_bMovingRect)&&(KEY_HOLD(KEY::LBTN)))
 		m_bHolding = true;
@@ -206,7 +206,7 @@ void CUI_InventoryWnd::Print_Player_Money()
 	//Player한테 돈받아오기
 	_uint iMoney = 1000000;
 	m_strSilver = to_wstring(iMoney);
-	for (_uint i = m_strSilver.length() - 1; i > 0; --i)
+	for (_uint i = (_uint)m_strSilver.length() - 1; i > 0; --i)
 	{
 		if ((iIndex % 3) == 0)
 		{
@@ -220,7 +220,7 @@ void CUI_InventoryWnd::Print_Player_Money()
 	m_pMoneyWnd->Set_Text(m_strWndTag + TEXT("_Sliver"), m_strFont, m_strSilver, Vec2((470.f * 0.8f) *0.5f - 30.f, (560.f * 0.8f) - 20.f), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));
 
 	m_strGold = to_wstring(iMoney);
-	for (_uint i = m_strGold.length() - 1; i > 0; --i)
+	for (_uint i = (_uint)m_strGold.length() - 1; i > 0; --i)
 	{
 		if ((iIndex % 3) == 0)
 		{

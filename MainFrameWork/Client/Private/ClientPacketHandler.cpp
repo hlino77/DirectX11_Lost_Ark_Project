@@ -201,7 +201,7 @@ bool Handel_S_OBJECTINFO_Client(PacketSessionRef& session, Protocol::S_OBJECTINF
 	_uint iUserPlayerID = pPlayer->Get_ObjectID();
 
 
-	for (_uint i = 0; i < pkt.tobject_size(); ++i)
+	for (_uint i = 0; i < (_int)pkt.tobject_size(); ++i)
 	{
 		auto tObject = pkt.mutable_tobject(i);
 
@@ -324,7 +324,7 @@ bool Handel_S_COLLISION_Client(PacketSessionRef& session, Protocol::S_COLLISION&
 		return true;
 	}
 
-	pObject->Hit_Collision(pkt.idamage(), Vec3(pkt.vhitpos().data()), pkt.istatuseffect(), pkt.fforce(), pkt.fduration(), pkt.igroggy());
+	pObject->Hit_Collision((_uint)pkt.idamage(), Vec3(pkt.vhitpos().data()), pkt.istatuseffect(), pkt.fforce(), pkt.fduration(), pkt.igroggy());
 
 	Safe_Release(pGameInstance);
 
@@ -608,7 +608,7 @@ bool Handel_S_PARTY_Client(PacketSessionRef& session, Protocol::S_PARTY& pkt)
 		vector<CGameObject*> Players;
 		
 
-		for (_uint i = 0; i < tCreateParty.tplayers().size(); ++i)
+		for (_uint i = 0; i < (_uint)tCreateParty.tplayers().size(); ++i)
 		{
 			_uint iObjectID = tCreateParty.tplayers(i).iid();
 

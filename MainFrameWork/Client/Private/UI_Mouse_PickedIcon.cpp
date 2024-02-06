@@ -63,8 +63,8 @@ void CUI_Mouse_PickedIcon::LateTick(_float fTimeDelta)
     GetCursorPos(&pt);
     ScreenToClient(g_hWnd, &pt); 
 
-    m_fX = pt.x;
-    m_fY = pt.y;
+    m_fX = (_float)pt.x;
+    m_fY = (_float)pt.y;
 
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,

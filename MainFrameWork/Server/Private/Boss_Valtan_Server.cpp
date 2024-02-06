@@ -210,7 +210,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 
 			if (m_iHp < 1.f)
 				m_IsHit = true;
-			Send_Collision(iDamage_Result, Vec3(_float(eEfect), _float(eEfect), _float(eEfect)) , m_iGroggyGauge, m_iGroggyCount, bGroggyObsorb, iGroggy_Result);
+			Send_Collision(iDamage_Result, Vec3(_float(eEfect), _float(eEfect), _float(eEfect)) , m_iGroggyGauge, (_float)m_iGroggyCount, (_float)bGroggyObsorb, iGroggy_Result);
 		}
 }
 

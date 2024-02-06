@@ -720,7 +720,7 @@ void CMonster_Server::Send_Hp()
 	pkt.set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
 	pkt.set_ilayer(m_iLayer);
 	pkt.set_iobjectid(m_iObjectID);
-	pkt.set_ihp(m_iHp);
+	pkt.set_ihp((int32)m_iHp);
 
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);

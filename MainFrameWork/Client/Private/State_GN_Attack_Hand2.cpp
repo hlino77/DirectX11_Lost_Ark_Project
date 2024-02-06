@@ -69,13 +69,13 @@ void CState_GN_Attack_Hand2::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2);
 
-	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
+	if (m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 		m_iEffectCnt++;
@@ -148,7 +148,7 @@ void CState_GN_Attack_Hand2::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand2);
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 		m_iEffectCnt++;

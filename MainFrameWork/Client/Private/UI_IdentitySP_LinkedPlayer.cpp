@@ -594,7 +594,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_BubbleGaugeL()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &fRatio, sizeof(_float))))
 			return E_FAIL;
 		if (!m_bBubbleMax[0])
-			m_pTexture_BubbleAnim->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_fBubbleAnimFrame[0]);
+			m_pTexture_BubbleAnim->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fBubbleAnimFrame[0]);
 		else
 			m_pTexture_BubbleGaugeL->Set_SRV(m_pShaderCom, "g_DiffuseTexture", 1);
 	}
@@ -633,7 +633,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_BubbleGaugeC()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &fRatio, sizeof(_float))))
 			return E_FAIL;
 		if (!m_bBubbleMax[1])
-			m_pTexture_BubbleAnim->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_fBubbleAnimFrame[1]);
+			m_pTexture_BubbleAnim->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fBubbleAnimFrame[1]);
 		else
 			m_pTexture_BubbleGaugeC->Set_SRV(m_pShaderCom, "g_DiffuseTexture", 1);
 	}
@@ -672,7 +672,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_BubbleGaugeR()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRatio", &fRatio, sizeof(_float))))
 			return E_FAIL;
 		if(!m_bBubbleMax[2])
-			m_pTexture_BubbleAnim->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_fBubbleAnimFrame[2]);
+			m_pTexture_BubbleAnim->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_fBubbleAnimFrame[2]);
 		else
 			m_pTexture_BubbleGaugeR->Set_SRV(m_pShaderCom, "g_DiffuseTexture", 1);
 	}
@@ -691,7 +691,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineL()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[0]);
+	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fBubblePopFrame[0]);
 	return S_OK;
 }
 
@@ -707,7 +707,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineC()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[1]);
+	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fBubblePopFrame[1]);
 	return S_OK;
 }
 
@@ -723,7 +723,7 @@ HRESULT CUI_IdentitySP_LinkedPlayer::Bind_ShaderResources_MaskedShineR()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
-	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", m_fBubblePopFrame[2]);
+	m_pTexture_BubblePop->Set_SRV(m_pShaderCom, "g_MaskTexture", (_uint)m_fBubblePopFrame[2]);
 	return S_OK;
 }
 

@@ -304,8 +304,8 @@ void CUI_Tool::Modify_UIController()
 	ScreenToClient(g_hWnd, &pt);
 
 	_float	MouseMoveX, MouseMoveY;
-	MouseMoveX = CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
-	MouseMoveY = CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_Y);
+	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
+	MouseMoveY = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_Y);
 
 	ImGui::Text("Mouse moving Length:\t");
 	ImGui::DragFloat("##MouseMoveX", &MouseMoveX);

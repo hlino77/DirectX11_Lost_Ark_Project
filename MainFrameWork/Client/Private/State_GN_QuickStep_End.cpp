@@ -63,13 +63,13 @@ void CState_GN_QuickStep_End::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (m_SkillFrames[m_iSkillCnt] <= (_uint)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_uint)iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -112,7 +112,7 @@ void CState_GN_QuickStep_End::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iQuickStep_End);
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)
+	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_uint)iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix matWorld = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();

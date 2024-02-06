@@ -20,7 +20,6 @@ void CPartyManager::Create_Party(CGameObject* pLeader)
 	Protocol::S_PARTY pkt;
 
 	auto tCreateParty = pkt.add_tcreateparty();
-	tCreateParty->set_ipartyid(iPartyID);
 	auto Player = tCreateParty->add_tplayers();
 	Player->set_iid(pLeader->Get_ObjectID());
 	Player->set_ilevel(0);

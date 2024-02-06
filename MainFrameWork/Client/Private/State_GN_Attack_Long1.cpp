@@ -55,7 +55,7 @@ void CState_GN_Attack_Long1::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long1);
 
-	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
+	if (m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -128,7 +128,7 @@ void CState_GN_Attack_Long1::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_AttackFrames[m_iAttackCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long1))
+	if (m_AttackFrames[m_iAttackCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Long1))
 	{
 		Effect_Shot();
 

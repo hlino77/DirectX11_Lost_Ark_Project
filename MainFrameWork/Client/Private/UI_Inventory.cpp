@@ -186,8 +186,8 @@ HRESULT CUI_Inventory::UI_SET()
 	{
 		for (size_t j = 0; j < 8; j++)
 		{
-			pInvenDesc->iSlotIndexX = j;
-			pInvenDesc->iSlotIndexY = i;
+			pInvenDesc->iSlotIndexX = (_uint)j;
+			pInvenDesc->iSlotIndexY = (_uint)i;
 			pInvenDesc->iSlotIndex = iSlotIndex;
 			pUI = static_cast<CUI*>(pGameInstance->
 				Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Inventory_ItemSlot"),
