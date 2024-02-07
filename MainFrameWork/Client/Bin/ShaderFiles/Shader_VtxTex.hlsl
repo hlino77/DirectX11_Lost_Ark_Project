@@ -537,6 +537,20 @@ PS_OUT PS_MAIN_DOAGA_GAUGE(PS_IN In)
 	return Out;
 }
 
+
+PS_OUT PS_MAIN_FADEINOUT(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Color;
+
+	if (0.0001f >= Out.vColor.a)
+		discard;
+
+	return Out;
+}
+
+
 technique11 DefaultTechnique
 {
 	pass DefaultPass
@@ -762,7 +776,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_SKILL_SILENCE();
 	}
 
-	pass TextureCoolTime_NoGamma//No.2O
+	pass TextureCoolTime_NoGamma //No.2O
 	{
 		SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
@@ -782,5 +796,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_DOAGA_GAUGE();
+	}
+
+	pass Texture_FadeInOut
+	{
+		SetRasterizerState(RS_Effect);
+		SetDepthStencilState(DSS_None, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_FADEINOUT();
 	}
 }

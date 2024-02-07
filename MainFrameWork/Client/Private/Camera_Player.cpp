@@ -47,6 +47,8 @@ HRESULT CCamera_Player::Initialize(void* pArg)
 	
 	m_eState = CameraState::DEFAULT;
 
+	Ready_FadeInOut();
+
 	return S_OK;
 }
 
@@ -70,10 +72,23 @@ void CCamera_Player::Tick(_float fTimeDelta)
 
 void CCamera_Player::LateTick(_float fTimeDelta)
 {
+	if (m_bFade)
+	{
+		Update_FadeInOut(fTimeDelta);
+	}
+		
+
+	if (m_bFade == true)
+	{
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_UI, this);
+	}
 }
 
 HRESULT CCamera_Player::Render()
 {
+	if (FAILED(Render_FadeInOut()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -427,6 +442,83 @@ void CCamera_Player::Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float
 	vLook += m_vShakeOffset.y * vUp;
 }
 
+HRESULT CCamera_Player::Render_FadeInOut()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_FadeWorld)))
+		return S_OK;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_FadeVeiw)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_FadeProj)))
+		return E_FAIL;
+
+	Vec4 vColor = m_vFadeColor;
+	vColor.w = m_fFadeIntensity;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &vColor, sizeof(Vec4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Begin("Texture_FadeInOut")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CCamera_Player::Ready_FadeInOut()
+{
+	m_FadeWorld = Matrix::CreateScale(Vec3(g_iWinSizeX, g_iWinSizeY, 1.0f));
+
+	XMStoreFloat4x4(&m_FadeVeiw, XMMatrixIdentity());
+	XMStoreFloat4x4(&m_FadeProj, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
+}
+
+void CCamera_Player::Update_FadeInOut(_float fTimeDelta)
+{
+	if (m_bFadeInOut == true)
+	{	
+		if (m_fFadeIntensity >= 1.0f)
+		{
+			m_fFadeIntensity = 1.0f;
+		}
+		else
+		{
+			m_fFadeIntensity += m_fFadeSpeed * fTimeDelta;
+		}
+	}
+	else
+	{
+		if (m_fFadeIntensity <= 0.0f)
+		{
+			m_fFadeIntensity = 0.0f;
+			m_bFade = false;
+		}
+		else
+		{
+			m_fFadeIntensity -= m_fFadeSpeed * fTimeDelta;
+		}
+	}
+}
+
+void CCamera_Player::Set_FadeInOut(_float fSpeed, _bool bInOut, Vec4 vColor)
+{
+	m_fFadeSpeed = fSpeed;
+	m_vFadeColor = vColor;
+
+	m_bFadeInOut = bInOut;
+
+	if (m_bFadeInOut == true)
+	{
+		m_fFadeIntensity = 0.0f;
+	}
+	else
+	{
+		m_fFadeIntensity = 1.0f;
+	}
+
+	m_bFade = true;
+}
+
 HRESULT CCamera_Player::Ready_Components()
 {
 	__super::Ready_Components();
@@ -435,6 +527,22 @@ HRESULT CCamera_Player::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
 		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
 		return E_FAIL;
+
+	/* Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
+
+	/* Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
+		return E_FAIL;
+
+	/* Com_Texture*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_DefaultWhite"),
+		TEXT("Com_TextureFade"), (CComponent**)&m_pTextureFade)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

@@ -74,10 +74,10 @@ HRESULT CGuide_Chaos_Npc_Server::Actice_Npc_Function(int32 iLevel, int32 iPlayer
 
 	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
 
-	CParty_Server* pParty = CPartyManager::GetInstance()->Get_Party(pPlayer->Get_ObjectID());
+	CParty_Server* pParty = pPlayer->Get_Party();
 
 	vector<CPlayer_Server*> Players;
-	if (pParty == nullptr)
+	if (pParty != nullptr)
 	{
 		Players = pParty->Get_Players();
 	}

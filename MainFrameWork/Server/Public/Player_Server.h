@@ -14,6 +14,7 @@ END
 BEGIN(Server)
 
 class CGameSession;
+class CParty_Server;
 
 class CPlayer_Server final : public CGameObject
 {
@@ -59,6 +60,9 @@ public:
 
 	shared_ptr<CGameSession> Get_GameSession() { return m_pGameSession; }
 	const wstring& Get_NickName() { return m_szNickName; }
+
+	void	Set_Party(CParty_Server* pParty) { m_pParty = pParty; }
+	CParty_Server* Get_Party() { return m_pParty; }
 public:
 	void				Set_Colliders(_float fTimeDelta);
 
@@ -82,6 +86,8 @@ private:
 	wstring m_szNickName;
 
 	_int m_Equpis[(_uint)ITEMPART::_END];
+
+	CParty_Server* m_pParty = nullptr;
 public:
 	static CPlayer_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

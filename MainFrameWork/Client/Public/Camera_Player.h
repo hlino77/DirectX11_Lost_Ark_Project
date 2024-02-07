@@ -72,6 +72,8 @@ public:
 		m_vChromaticPos = vPos;
 	}
 
+	void		Set_FadeInOut(_float fSpeed, _bool bInOut, Vec4 vColor = Vec4());
+	void		Set_FadeIntensity(_float fIntensity) { m_fFadeIntensity = fIntensity; }
 protected:
 	virtual HRESULT Ready_Components() override;
 
@@ -80,6 +82,10 @@ private:
 	void		Tick_DefaultCamera(_float fTimeDelta);
 	void		Tick_ResetCamera(_float fTimeDelta);
 	void		Update_ShakeLook(Vec3& vLook, Vec3 vUp, Vec3 vRight, _float fTimeDelta);
+	HRESULT		Render_FadeInOut();
+
+	void		Ready_FadeInOut();
+	void		Update_FadeInOut(_float fTimeDelta);
 private:
 	Vec3 m_vOffset;
 	Vec3 m_vDefaultOffset;
@@ -124,6 +130,16 @@ private:
 
 	_float	m_fResetSpeed = 0.0f;
 
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureFade = { nullptr };
+
+	_bool m_bFade = false;
+	_float m_fFadeIntensity = 0.0f;
+	_float m_fFadeSpeed = 0.0f;
+	Vec4 m_vFadeColor;
+	_bool m_bFadeInOut = false;
+
+	Matrix m_FadeWorld, m_FadeVeiw, m_FadeProj;
 public:
 	static CCamera_Player* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag);
 	virtual CGameObject* Clone(void* pArg);

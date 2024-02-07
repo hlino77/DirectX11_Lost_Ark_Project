@@ -48,10 +48,13 @@ void CClientEvent_BernStart::Enter_Event()
 	pCamera->Set_TargetPos(Vec3(159.4f, 5.33f, 99.75f));
 	pCamera->Set_Offset(Vec3(-1.0f, 1.0f, 0.2f));
 	pCamera->ZoomInOut(80.0f, 0.5f);
+	pCamera->Set_FadeIntensity(1.0f);
+	pCamera->Set_FadeInOut(2.0f, false, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	m_iCurrPos = 1;
 	m_fTimeRatio = 0.0f;
 	m_iCurrScene = 0;
+	m_bFadeIn = false;
 
 	m_iState = (_uint)EVENTSTATE::READY;
 
@@ -73,7 +76,6 @@ void CClientEvent_BernStart::Enter_Event()
 	{
 		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Control_Active(false);
 	}
-
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_BERN);
 
@@ -140,6 +142,8 @@ void CClientEvent_BernStart::Update_Camera(_float fTimeDelta)
 {
 	_bool bNextScene = false;
 
+	CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
 	m_fTimeRatio += m_fCameraSpeed * fTimeDelta;
 	if (m_fTimeRatio >= 1.0f)
 	{
@@ -176,14 +180,20 @@ void CClientEvent_BernStart::Update_Camera(_float fTimeDelta)
 
 	m_fCameraSpeed = CAsUtils::Lerpf(m_CameraPos[m_iCurrScene][m_iCurrPos].fSpeed, m_CameraPos[m_iCurrScene][m_iCurrPos].fSpeed, m_fTimeRatio);
 
+	if (m_iCurrPos == m_CameraPos[m_iCurrScene].size() - 3 && m_bFadeIn == false && m_fTimeRatio > 0.8f)
+	{
+		if (m_iCurrScene != 3)
+			pCamera->Set_FadeInOut(2.0f, true, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		m_bFadeIn = true;
+	}
+
 	vLook.Normalize();
 
 	Vec3 vTargetPos = vPos + vLook;
 	Vec3 vOffset = vPos - vTargetPos;
 	_float fLength = vOffset.Length();
 	vOffset.Normalize();
-	
-	CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
 	pCamera->Set_TargetPos(vTargetPos);
 	pCamera->Set_Offset(vOffset);
@@ -194,6 +204,8 @@ void CClientEvent_BernStart::Update_Camera(_float fTimeDelta)
 		++m_iCurrScene;
 		m_iCurrPos = 1;
 		m_fTimeRatio = 0.0f;
+		m_bFadeIn = false;
+		pCamera->Set_FadeInOut(2.0f, false, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 }
 

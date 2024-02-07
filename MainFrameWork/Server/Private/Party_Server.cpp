@@ -22,6 +22,7 @@ CParty_Server::CParty_Server(vector<CPlayer_Server*>& Players)
 	SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	for (auto& Player : Players)
 	{
+		Player->Set_Party(this);
 		Player->Get_GameSession()->Send(pSendBuffer);
 	}
 }
@@ -59,6 +60,7 @@ void CParty_Server::Add_Player(CPlayer_Server* pPlayer)
 		}
 	}
 
+	pPlayer->Set_Party(this);
 	m_Players.push_back(pPlayer);
 	auto tPlayer = tCreateParty->add_tplayers();
 	tPlayer->set_iid((pPlayer->Get_ObjectID()));

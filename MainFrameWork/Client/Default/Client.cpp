@@ -101,8 +101,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		if (fTimeAcc >= 1.f / iMaxFrame)
 		{
-			pMainApp->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_60")));
-			pMainApp->Render();
+            _float fTimeDelta = pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
+            if (fTimeDelta < 0.15f)
+            {
+                pMainApp->Tick(fTimeDelta);
+                pMainApp->Render();
+            }
 
 			fTimeAcc = 0.f;
             ++iFrameCount;

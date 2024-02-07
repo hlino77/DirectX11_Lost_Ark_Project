@@ -44,7 +44,7 @@ private:
 	vector<vector<CameraPos>> m_CameraPos;
 	_uint m_iCurrPos = 0;
 	_uint m_iCurrScene = 0;
-
+	_bool m_bFadeIn = false;
 public:
 	virtual void Free();
 };
