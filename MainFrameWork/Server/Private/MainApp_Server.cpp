@@ -39,7 +39,7 @@ HRESULT CMainApp_Server::Initialize()
 
 	CServerPacketHandler::Init();
 
-	wstring strIP = L"192.168.0.30";
+	wstring strIP = L"127.0.0.1";
 	ServerServiceRef service = std::make_shared<ServerService>(
 		NetAddress(strIP, 7777),
 		std::make_shared<IocpCore>(),

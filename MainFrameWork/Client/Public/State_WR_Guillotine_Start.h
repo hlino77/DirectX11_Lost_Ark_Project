@@ -30,6 +30,8 @@ private:
 	//Animation
 	_int m_iGuillotine_Start = 0;
 
+	_bool m_bEffectStart = false;
+
 public:
 	static CState_WR_Guillotine_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;
