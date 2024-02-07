@@ -679,7 +679,7 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 		//m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 
 		(*m_pInstaceData)[m_szModelName].Future_Instance = std::async(&CStaticModel::Ready_Instance_For_Render, this, iSize);
-
+		 
 		//ThreadManager::GetInstance()->EnqueueJob([=]()
 		//	{
 		//		promise<HRESULT> PromiseInstance;

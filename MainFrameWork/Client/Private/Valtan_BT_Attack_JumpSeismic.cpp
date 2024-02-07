@@ -24,9 +24,10 @@ void CValtan_BT_Attack_JumpSeismic::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[2].iAnimIndex)
-	{
-		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction();
-		static_cast<CBoss*>(m_pGameObject)->Move_Dir(static_cast<CBoss*>(m_pGameObject)->Get_Target_Direction(),
+	{ 
+		if(static_cast<CBoss*>(m_pGameObject)->Get_Target_Distance()>0.2f)
+			static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction();
+		static_cast<CBoss*>(m_pGameObject)->Move_Dir(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK),
 			0.7f * static_cast<CBoss*>(m_pGameObject)->Get_MoveSpeed(), fTimeDelta);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 37 && m_bShoot)
