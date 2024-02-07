@@ -63,7 +63,7 @@ void CState_GN_TerminatingShot_Start::Exit_State()
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::SHOT, m_eSkillSelectKey);
 	}
-	else if (true == m_pController->Is_HitState())
+	else if (true == m_pPlayer->Is_CancelState())
 	{
 		m_pPlayer->Get_GN_Controller()->Get_SkillMessage(CPlayer_Controller_GN::GN_IDENTITY::SHOT, m_eSkillSelectKey);
 	}

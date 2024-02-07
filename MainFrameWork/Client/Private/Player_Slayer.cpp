@@ -279,7 +279,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 			{
-				Set_Invincible(true);
+				m_IsSafeZone = true;
 			}
 
 			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
@@ -299,25 +299,28 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
 			{
-				if (false == Is_Invincible() || true == static_cast<CSkill*>(pOther->Get_Owner())->Is_SafeZonePierce())
+				if (false == Is_Invincible())
 				{
-					Vec3 vCenter;
-					if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
+					if (false == m_IsSafeZone || true == static_cast<CSkill*>(pOther->Get_Owner())->Is_SafeZonePierce())
 					{
-						if (false == m_pController->Is_HitState())
+						Vec3 vCenter;
+						if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
 						{
-							if (true == m_pController->Is_GrabState() && true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
+							if (false == m_pController->Is_HitState())
 							{
-								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), 0, vCenter);
-							}
-							else
-							{
-								m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+								if (true == m_pController->Is_GrabState() && true == static_cast<CBoss*>((static_cast<CSkill*>(pOther->Get_Owner())->Get_SkillOwner()))->Is_Dummy())
+								{
+									m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), 0, vCenter);
+								}
+								else
+								{
+									m_pController->Get_HitMessage(static_cast<CSkill*>(pOther->Get_Owner())->Get_Atk(), static_cast<CSkill*>(pOther->Get_Owner())->Get_Force(), vCenter);
+								}
 							}
 						}
-					}
 
-					m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
+						m_pController->Get_StatusEffectMessage((_uint)static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffect(), static_cast<CSkill*>(pOther->Get_Owner())->Get_StatusEffectDuration());
+					}
 				}
 			}
 
@@ -428,7 +431,7 @@ void CPlayer_Slayer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 		
 			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 			{
-				Set_Invincible(false);
+				m_IsSafeZone = false;
 			}
 
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())

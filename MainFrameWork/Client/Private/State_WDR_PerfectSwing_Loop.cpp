@@ -95,7 +95,7 @@ void CState_WDR_PerfectSwing_Loop::Exit_State()
 {
 	m_pPlayer->Delete_Effect(L"PerfectParticle");
 
-	if (m_pController->Is_HitState() == true)
+	if (true == m_pPlayer->Is_CancelState())
 	{
 		m_pPlayer->Delete_Effect(L"PerfectCircle");
 	}

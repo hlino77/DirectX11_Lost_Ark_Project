@@ -29,6 +29,8 @@ HRESULT CState_GN_Dead_End::Initialize()
 
 void CState_GN_Dead_End::Enter_State()
 {
+	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
+
 	m_pController->Get_HitEndMessage();
 
 	m_pPlayer->Set_Invincible(true);

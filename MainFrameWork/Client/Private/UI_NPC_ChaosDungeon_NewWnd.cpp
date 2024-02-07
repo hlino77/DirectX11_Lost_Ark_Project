@@ -221,7 +221,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Print_Text()
 
 void CUI_NPC_ChaosDungeon_NewWnd::Set_Player_Control()
 {
-    CPlayer* pPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER));
+    CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     if (nullptr == pPlayer)
         return;
 

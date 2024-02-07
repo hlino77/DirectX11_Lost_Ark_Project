@@ -408,7 +408,7 @@ void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 	}
 }
 
-void CPlayer_Controller::Get_MoveMessage(Vec3 vPos, _float fMoveSpeed)
+void CPlayer_Controller::Get_MoveMessage(Vec3 vPos)
 {
 	if (Vec3() == vPos)
 	{
@@ -419,10 +419,9 @@ void CPlayer_Controller::Get_MoveMessage(Vec3 vPos, _float fMoveSpeed)
 	m_vNextMove = vPos; 
 	m_bStop = false; 
 	m_IsDir = false; 
-	m_fMoveSpeed = fMoveSpeed;
 }
 
-void CPlayer_Controller::Get_DirMessage(Vec3 vPos, _float fMoveSpeed)
+void CPlayer_Controller::Get_DirMessage(Vec3 vPos)
 {
 	if (Vec3() == vPos)
 	{
@@ -433,7 +432,6 @@ void CPlayer_Controller::Get_DirMessage(Vec3 vPos, _float fMoveSpeed)
 	m_vNextMove = vPos; 
 	m_bStop = false; 
 	m_IsDir = true; 
-	m_fMoveSpeed = fMoveSpeed;
 }
 
 _bool CPlayer_Controller::Is_EstherSkill()

@@ -59,7 +59,7 @@ void CState_WDR_PerfectSwing_Success::Exit_State()
 		Reset_Camera();
 	}
 
-	if (m_pController->Is_HitState() == true)
+	if (true == m_pPlayer->Is_CancelState())
 	{
 		Effect_End();
 	}

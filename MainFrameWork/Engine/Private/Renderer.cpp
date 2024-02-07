@@ -209,6 +209,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Dead"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_FXAA"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;*/
@@ -338,7 +342,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FinalProcessedScene"), TEXT("Target_FinalProcessed"))))
 		return E_FAIL;
-	
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_DeadScene"), TEXT("Target_Dead"))))
+		return E_FAIL;
+
 	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FXAA"), TEXT("Target_FXAA"))))
 		return E_FAIL;*/
 
@@ -956,7 +963,7 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
 		return E_FAIL;
 #else
-	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[4], sizeof(SSR_Data))))
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
 		return E_FAIL;
 #endif
 
@@ -1608,12 +1615,27 @@ HRESULT CRenderer::Render_PostProcess()
 
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
+	
 	}
-	/*if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendBloom"), "g_BlendedTarget")))
-		return E_FAIL;
-	if (FAILED(m_pVIBuffer->Render()))
+
+	if(true == m_bDeadScene)
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DeadScene"))))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_FinalProcessed"), "g_FinalScene")))
+			return E_FAIL;
+
+		if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBuffer->Render()))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	}
+	/*if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendBloom"), "g_BlendedTarget")))
 		return E_FAIL;*/
 
 	RELEASE_INSTANCE(CPipeLine);
@@ -1639,8 +1661,16 @@ HRESULT CRenderer::Render_FXAA()
 	if (FAILED(m_pFxaaShader->Bind_RawValue("g_bFxaa", &m_iFxaa_Switch, sizeof(_int))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
-		return E_FAIL;
+	if (false == m_bDeadScene)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pFxaaShader->Begin("Fxaa3_11")))
 		return E_FAIL;

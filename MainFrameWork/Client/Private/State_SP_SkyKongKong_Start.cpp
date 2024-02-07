@@ -54,7 +54,7 @@ void CState_SP_SkyKongKong_Start::Tick_State(_float fTimeDelta)
 
 void CState_SP_SkyKongKong_Start::Exit_State()
 {
-	if (true == m_pController->Is_HitState())
+	if (true == m_pPlayer->Is_CancelState())
 	{
 		TrailEnd();
 

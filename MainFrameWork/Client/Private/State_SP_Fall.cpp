@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "NavigationMgr.h"
 #include "Cell.h"
+#include "Renderer.h"
 
 CState_SP_Fall::CState_SP_Fall(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -50,6 +51,8 @@ void CState_SP_Fall::Enter_State()
 	m_fStartAcc = 0.0f;
 
 	m_bStart = false;
+
+	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
 }
 
 void CState_SP_Fall::Tick_State(_float fTimeDelta)
@@ -70,8 +73,7 @@ void CState_SP_Fall::Exit_State()
 	Vec3 vDir = vCenter - vCellPos;
 	vDir.Normalize();
 
-	vCellPos += vDir * 0.4f;
-
+	vCellPos += vDir * 0.5f;
 	m_pPlayer->Set_TargetPos(vCellPos);
 }
 

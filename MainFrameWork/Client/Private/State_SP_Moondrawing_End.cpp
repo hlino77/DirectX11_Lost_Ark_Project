@@ -47,7 +47,11 @@ void CState_SP_Moondrawing_End::Tick_State(_float fTimeDelta)
 
 void CState_SP_Moondrawing_End::Exit_State()
 {
-	m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		if (25 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_End))
+			m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);

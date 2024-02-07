@@ -244,6 +244,8 @@ public:
 
 	_bool					Intersect_Mouse();
 
+	_bool					Is_CancelState();
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
@@ -256,7 +258,7 @@ protected:
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 	virtual void			Set_EffectPos() override;
 	void					Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pItem);
-	
+
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
 	
@@ -279,8 +281,6 @@ protected:
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
-	CRenderer* m_pRendererCom = nullptr;
-
 	/* 파츠 맵 */
 	unordered_map<CPartObject::PARTS, CGameObject*>	m_Parts;
 
@@ -299,6 +299,9 @@ protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	_float m_fVoiceSoundDelay;
 
 protected:
+	/* 세이프존 */
+	_bool m_IsSafeZone = false;
+
 	/* 플레이어 변수 설정 */
 	STATDESC	m_tPCStatDesc;
 

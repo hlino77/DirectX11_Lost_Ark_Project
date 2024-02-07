@@ -52,8 +52,9 @@ public:
 	_bool				Is_Attack();
 	_bool				Is_EstherSkill();
 
-	virtual void		Get_MoveMessage(Vec3 vPos, _float fMoveSpeed = 3.f);  
-	virtual void		Get_DirMessage(Vec3 vPos, _float fMoveSpeed = 3.f); 
+	virtual void		Get_MoveMessage(Vec3 vPos);  
+	virtual void		Get_MoveSpeedMessage(_float fSpeed) { m_fMoveSpeed = fSpeed; }
+	virtual void		Get_DirMessage(Vec3 vPos); 
 	virtual void		Get_StopMessage()	{ m_vNextMove = Vec3(); m_bStop = true;}
 	virtual void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f); 
 	virtual void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
@@ -192,7 +193,7 @@ protected:
 	_bool					m_IsDir = { false };
 	_float					m_fLerpLook_Speed = { 20.f };
 	_float					m_fMoveSpeed = { 3.f };
-
+	_float					m_fDefaultMoveSpeed = { 3.f };
 	_float					m_fMoveLength = { 0.01f };
 
 	/* 플레이어 히트 변수*/

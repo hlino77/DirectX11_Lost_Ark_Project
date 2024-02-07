@@ -41,7 +41,7 @@ void CState_SP_SkyKongKong_End::Tick_State(_float fTimeDelta)
 
 void CState_SP_SkyKongKong_End::Exit_State()
 {
-	if (true == m_pController->Is_HitState() && 20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_End))
+	if (true == m_pPlayer->Is_CancelState() && 20 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_End))
 	{
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	}

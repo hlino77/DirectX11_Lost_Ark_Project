@@ -22,6 +22,7 @@ Texture2D	g_DistortionTarget;
 Texture2D	g_BlendedTarget;
 Texture2D   g_MotionBlurTarget;
 Texture2D   g_RadialBlurTarget;
+Texture2D   g_FinalScene;
 
 Texture2D   g_ProcessingTarget;
 
@@ -92,14 +93,14 @@ float4 PS_MAIN_POSTPROCESS(PS_IN In) : SV_TARGET0
 
 cbuffer ScreenTone
 {
-    float g_fGrayScale = 1.f;
+    float g_fGrayScale = 0.2f;
     float g_fContrastValue = 1.f;
     float g_fSaturation = 1.f;
 }
 
 float4 PS_MAIN_SCREENTONE(PS_IN In) : SV_TARGET0
 {
-    float4 vColor = g_BlendedTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vColor = g_FinalScene.Sample(LinearSampler, In.vTexcoord);
 	
     vColor *= g_fSaturation;
 	

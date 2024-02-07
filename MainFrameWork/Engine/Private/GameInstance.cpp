@@ -373,27 +373,6 @@ HRESULT CGameInstance::Delete_GameObject(_uint iLevelIndex, const _uint iLayerTy
 	return m_pObject_Manager->Delete_GameObject(iLevelIndex, iLayerType, pGameObject);
 }
 
-CGameObject* CGameInstance::Find_CtrlPlayer(_uint iLevelIndex, const _uint iLayerType)
-{
-	if (0 != m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType).size())
-	{
-		for (auto& pObject : m_pObject_Manager->Find_GameObjects(iLevelIndex, iLayerType))
-		{
-			if (true == pObject->Is_Control())
-			{
-				return pObject;
-			}
-		}
-	}
-	else
-	{
-		return nullptr;
-	}
-
-	return nullptr;
-}
-
-
 string CGameInstance::wstring_to_string(const wstring& strW)
 {
 	return m_pUtilities->wstring_to_string(strW);

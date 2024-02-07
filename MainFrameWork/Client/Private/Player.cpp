@@ -931,6 +931,21 @@ void CPlayer::Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pIte
 		}
 	}
 }
+_bool CPlayer::Is_CancelState()
+{
+	wstring strNextState = Get_ServerState();
+
+	if (TEXT("Hit") == strNextState ||
+		TEXT("Hit_Common") == strNextState ||
+		TEXT("Dead_Start") == strNextState ||
+		TEXT("Dead_End") == strNextState ||
+		TEXT("Fall") == strNextState ||
+		TEXT("Grabbed") == strNextState ||
+		TEXT("Stop") == strNextState)
+			return true;
+
+	return false;
+}
 
 void CPlayer::Show_SpeechBuble(const wstring& szChat)
 {

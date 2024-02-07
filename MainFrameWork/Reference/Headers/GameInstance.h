@@ -70,7 +70,6 @@ public: /* For.Object_Manager */
 	CGameObject* Find_NearGameObject(_uint iLevelIndex, const _uint iLayerType, CGameObject * pObject);
 	vector<CGameObject*>& Find_GameObjects(_uint iLevelIndex, const _uint iLayerType);
 	HRESULT Delete_GameObject(_uint iLevelIndex, const _uint iLayerType, const CGameObject* pGameObject);
-	CGameObject* Find_CtrlPlayer(_uint iLevelIndex, const _uint iLayerType);
 
 public: /* For.Utilities */
 	string wstring_to_string(const wstring & strW);

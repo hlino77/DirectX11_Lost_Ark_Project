@@ -35,6 +35,8 @@ void CState_WDR_Dead_Start::Enter_State()
 	m_pPlayer->Set_Invincible(true);
 
 	m_pPlayer->Reserve_Animation(m_iDead_Start, 0.1f, 0, 0);
+
+	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
 }
 
 void CState_WDR_Dead_Start::Tick_State(_float fTimeDelta)
