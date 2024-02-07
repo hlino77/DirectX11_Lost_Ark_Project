@@ -79,8 +79,10 @@ HRESULT CNpc::Initialize(void* pArg)
 		m_NpcDesc.vecTalkSound = pDesc->vecTalkSound;
 
 		m_NpcDesc.bUseWeaponPart = pDesc->bUseWeaponPart;
+
 		m_NpcDesc.strLeftPart = pDesc->strLeftPart;
 		m_NpcDesc.Left_OffsetMatrix = pDesc->Left_OffsetMatrix;
+
 		m_NpcDesc.strRightPart = pDesc->strRightPart;
 		m_NpcDesc.Right_OffsetMatrix = pDesc->Right_OffsetMatrix;
 	}
@@ -139,7 +141,11 @@ void CNpc::Tick(_float fTimeDelta)
 
 	Check_ChangeAnim(fTimeDelta);
 
-	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	if (true == m_bRender)
+	{
+		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
+	}
+	
 
 	for (auto& pPart : m_pWeaponPart)
 	{
@@ -151,10 +157,8 @@ void CNpc::Tick(_float fTimeDelta)
 
 void CNpc::LateTick(_float fTimeDelta)
 {
-	if (m_PlayAnimation.valid())
+	if (true == m_bRender && m_PlayAnimation.valid())
 		m_PlayAnimation.get();
-
-	//m_pRigidBody->Tick(fTimeDelta);
 
 	if (nullptr == m_pRendererCom)
 		return;
@@ -332,21 +336,6 @@ HRESULT CNpc::Ready_Components()
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_SphereColider"), TEXT("Com_ColliderBody"), (CComponent**)&pCollider, &tColliderInfo)))
 			return E_FAIL;
 
-		/*if (pCollider)
-		{
-			{
-				CCollider::ColliderInfo tChildColliderInfo;
-				tChildColliderInfo.m_bActive = true;
-				tChildColliderInfo.m_iLayer = (_uint)LAYER_COLLIDER::LAYER_CHILD;
-				COBBCollider* pChildCollider = nullptr;
-
-				if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_OBBColider"), TEXT("Com_ColliderBodyChild"), (CComponent**)&pChildCollider, &tChildColliderInfo)))
-					return E_FAIL;
-
-				pCollider->Set_Child(pChildCollider);
-			}
-		}*/
-
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_NPC, pCollider);
 	}
 
@@ -372,18 +361,18 @@ HRESULT CNpc::Ready_Parts()
 
 	if (TEXT("None") != m_NpcDesc.strRightPart)
 	{
-		CPartObject::PART_DESC			PartDesc_Weapon;
-		PartDesc_Weapon.pOwner = this;
-		PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;
-		PartDesc_Weapon.pParentTransform = m_pTransformCom;
-		PartDesc_Weapon.pPartenModel = m_pModelCom;
-		PartDesc_Weapon.iSocketBoneIndex = m_iRightBoneIndex;
-		PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-		PartDesc_Weapon.strModel = m_NpcDesc.strRightPart;
-		PartDesc_Weapon.OffsetMatrix = m_NpcDesc.Right_OffsetMatrix;
+		CPartObject::PART_DESC			PartDesc_RightWeapon;
+		PartDesc_RightWeapon.pOwner = this;
+		PartDesc_RightWeapon.ePart = CPartObject::PARTS::WEAPON_1;
+		PartDesc_RightWeapon.pParentTransform = m_pTransformCom;
+		PartDesc_RightWeapon.pPartenModel = m_pModelCom;
+		PartDesc_RightWeapon.iSocketBoneIndex = m_iRightBoneIndex;
+		PartDesc_RightWeapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+		PartDesc_RightWeapon.strModel = m_NpcDesc.strRightPart;
+		PartDesc_RightWeapon.OffsetMatrix = m_NpcDesc.Right_OffsetMatrix;
 
 		wstring strObject = TEXT("Prototype_GameObject_NpcPart");
-		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
+		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_RightWeapon);
 		if (nullptr == pParts)
 			return E_FAIL;
 
@@ -392,18 +381,18 @@ HRESULT CNpc::Ready_Parts()
 
 	if (TEXT("None") != m_NpcDesc.strLeftPart)
 	{
-		CPartObject::PART_DESC			PartDesc_Weapon;
-		PartDesc_Weapon.pOwner = this;
-		PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_2;
-		PartDesc_Weapon.pParentTransform = m_pTransformCom;
-		PartDesc_Weapon.pPartenModel = m_pModelCom;
-		PartDesc_Weapon.iSocketBoneIndex = m_iLeftBoneIndex;
-		PartDesc_Weapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
-		PartDesc_Weapon.strModel = m_NpcDesc.strLeftPart;
-		PartDesc_Weapon.OffsetMatrix = m_NpcDesc.Left_OffsetMatrix;
+		CPartObject::PART_DESC			PartDesc_LeftWeapon;
+		PartDesc_LeftWeapon.pOwner = this;
+		PartDesc_LeftWeapon.ePart = CPartObject::PARTS::WEAPON_2;
+		PartDesc_LeftWeapon.pParentTransform = m_pTransformCom;
+		PartDesc_LeftWeapon.pPartenModel = m_pModelCom;
+		PartDesc_LeftWeapon.iSocketBoneIndex = m_iLeftBoneIndex;
+		PartDesc_LeftWeapon.SocketPivotMatrix = m_pModelCom->Get_PivotMatrix();
+		PartDesc_LeftWeapon.strModel = m_NpcDesc.strLeftPart;
+		PartDesc_LeftWeapon.OffsetMatrix = m_NpcDesc.Left_OffsetMatrix;
 
 		wstring strObject = TEXT("Prototype_GameObject_NpcPart");
-		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_Weapon);
+		pParts = pGameInstance->Clone_GameObject(strObject, &PartDesc_LeftWeapon);
 		if (nullptr == pParts)
 			return E_FAIL;
 
@@ -456,15 +445,18 @@ void CNpc::CullingObject()
 	const BoundingFrustum& tCamFrustum = CGameInstance::GetInstance()->Get_CamFrustum();
 
 	if (tCamFrustum.Intersects(m_tCullingSphere) == false)
+	{
+		m_bRender = false;
 		return;
-
+	}
+		
+	m_bRender = true;
 	if (m_bRender)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 		m_pRendererCom->Add_DebugObject(this);
 	}
-
 }
 
 void CNpc::Set_EffectPos()

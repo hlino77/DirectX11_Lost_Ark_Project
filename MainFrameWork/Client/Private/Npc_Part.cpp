@@ -114,8 +114,6 @@ HRESULT CNpc_Part::Ready_Components()
 				return E_FAIL;
 	}
 		
-
-
 	m_vOriginScale.x = 100.f;
 	m_vOriginScale.y = 100.f;
 	m_vOriginScale.z = 100.f;

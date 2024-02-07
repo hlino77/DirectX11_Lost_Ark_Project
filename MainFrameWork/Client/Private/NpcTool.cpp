@@ -1199,7 +1199,7 @@ void CNpcTool::LeftWeapon(const _float& fTimeDelta)
 	if (false == m_bSetWpLeftPart)
 	{
 		m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::LEFT, nullptr, XMMatrixIdentity());
-		m_NpcCreateDesc.strLeftPart = TEXT("");
+		m_NpcCreateDesc.strLeftPart = TEXT("None");
 		m_NpcCreateDesc.Left_OffsetMatrix = XMMatrixIdentity();
 		m_iCurWpLeftIndex = -1;
 	}
@@ -1293,13 +1293,11 @@ void CNpcTool::RightWeapon(const _float& fTimeDelta)
 	if (false == m_bSetWpRightPart)
 	{
 		m_pMannequin->Set_Part((_uint)CNpc::WEAPON_PART::RIGHT, nullptr, XMMatrixIdentity());
-		m_NpcCreateDesc.strRightPart = TEXT("");
+		m_NpcCreateDesc.strRightPart = TEXT("None");
 		m_NpcCreateDesc.Right_OffsetMatrix = XMMatrixIdentity();
 		m_iCurWpRightIndex = -1;
 	}
 	ImGui::Spacing();
-
-
 
 	ImGui::SeparatorText("Select Right Wp Part");
 	_int iCurrIndex = m_iCurWpRightIndex;
@@ -1472,6 +1470,14 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 		if (TEXT("") == m_NpcCreateDesc.strNpcName)
 		{
 			m_NpcCreateDesc.strNpcName = TEXT("None");
+		}
+		if (TEXT("") == m_NpcCreateDesc.strLeftPart)
+		{
+			m_NpcCreateDesc.strLeftPart = TEXT("None");
+		}
+		if (TEXT("") == m_NpcCreateDesc.strRightPart)
+		{
+			m_NpcCreateDesc.strRightPart = TEXT("None");
 		}
 
 		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
