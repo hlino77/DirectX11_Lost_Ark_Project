@@ -1687,6 +1687,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeIn">
       <UniqueIdentifier>{5211e478-f0c1-43f2-944d-00dd8a1d4b98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Upgrade_Npc">
+      <UniqueIdentifier>{e7757667-bee8-4300-b8e6-bebbd122a804}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -4841,6 +4844,9 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Upgrade_Npc.h">
+      <Filter>02.GameObjects\Npc\Function_Npc\Upgrade_Npc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -7966,6 +7972,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Upgrade_Npc.cpp">
+      <Filter>02.GameObjects\Npc\Function_Npc\Upgrade_Npc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

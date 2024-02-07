@@ -216,6 +216,7 @@
 #include "tinyxml2.h"
 #include "Deco_Npc.h"
 #include "Guide_Chaos_Npc.h"
+#include "Upgrade_Npc.h"
 #include "Npc_Part.h"
 
 
@@ -680,6 +681,10 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
 		CGuide_Chaos_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Upgrade_Npc"),
+		CUpgrade_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
@@ -1404,6 +1409,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Upgrade_Npc"),
+		CUpgrade_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -2064,6 +2074,13 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 		{
 			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
 				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
+		else if (TEXT("Upgrade_Npc") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Upgrade_Npc"), &NpcCreateDesc);
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}
@@ -4017,6 +4034,27 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 			}));
 	}
 
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+
+
+				}
+
+				pUIManager->Add_CurrFile();
+				return S_OK;
+			}));
+	}
+
 	/* 에스더 마네킹 */
 	{
 		m_Futures.push_back(std::async([=]()->HRESULT
@@ -4775,6 +4813,25 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 
 			return S_OK;
 		}));	
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+
+			}));
 	}
 
 	/* Npc 모델파츠 */

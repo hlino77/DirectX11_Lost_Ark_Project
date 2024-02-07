@@ -423,6 +423,13 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}
+		else if (TEXT("Upgrade_Npc") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Upgrade_Npc"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
 	}
 	
 
@@ -705,6 +712,8 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 		ImGui::RadioButton("Lineheart", &m_iSelectSP, 1);
 		ImGui::SameLine();
 		ImGui::RadioButton("Eadalin", &m_iSelectSP, 2);
+		ImGui::SameLine();
+		ImGui::RadioButton("Bahuntur", &m_iSelectSP, 3);
 	}
 	else
 	{
@@ -790,6 +799,10 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	case 2:
 		m_NpcCreateDesc.strNpcMq = TEXT("NP_SP_Eadalin");
 		m_strGroup = TEXT("Eadalin");
+		break;
+	case 3:
+		m_NpcCreateDesc.strNpcMq = TEXT("NP_ESBT");
+		m_strGroup = TEXT("Bahuntur");
 		break;
 	default:
 		break;
@@ -1157,6 +1170,11 @@ void CNpcTool::LeftWeapon(const _float& fTimeDelta)
 	else
 		StopButtonName = "Set";
 
+	if ("Set" == StopButtonName)
+	{
+		m_NpcCreateDesc.strLeftPart = TEXT("None");
+	}
+
 	if (ImGui::Button(StopButtonName.c_str()))
 	{
 		m_bSetWpLeftPart = !m_bSetWpLeftPart;
@@ -1245,6 +1263,11 @@ void CNpcTool::RightWeapon(const _float& fTimeDelta)
 		StopButtonName = "Unset";
 	else
 		StopButtonName = "Set";
+
+	if ("Set" == StopButtonName)
+	{
+		m_NpcCreateDesc.strRightPart = TEXT("None");
+	}
 
 	if (ImGui::Button(StopButtonName.c_str()))
 	{
@@ -1473,6 +1496,24 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 
 			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
 				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &m_NpcCreateDesc);
+			if (nullptr == pInstance)
+				return;
+		}
+		else if (TEXT("Upgrade_Npc") == m_NpcCreateDesc.strNpcTag)
+		{
+			m_pMannequin->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
+			m_pMannequin->Get_TransformCom()->Set_Scale(m_vNpcScale);
+			m_pMannequin->Get_TransformCom()->My_Rotation(m_vNpcRot);
+			m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vNpcPos);
+			m_NpcCreateDesc.matStart = m_pMannequin->Get_TransformCom()->Get_WorldMatrix();
+
+			if (TEXT("") == m_NpcCreateDesc.strNpcName)
+			{
+				m_NpcCreateDesc.strNpcName = TEXT("None");
+			}
+
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Upgrade_Npc"), &m_NpcCreateDesc);
 			if (nullptr == pInstance)
 				return;
 		}

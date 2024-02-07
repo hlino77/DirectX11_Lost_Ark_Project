@@ -809,6 +809,7 @@
     <ClInclude Include="..\Public\UI_WRIdentity_Shine.h" />
     <ClInclude Include="..\Public\UI_WRIdentity_SkillIcon.h" />
     <ClInclude Include="..\Public\UI_WRIdentity_Spark.h" />
+    <ClInclude Include="..\Public\Upgrade_Npc.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_FirstTerrainDestruction.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Rush.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_JumpSeismic.h" />
@@ -1495,6 +1496,7 @@
     <ClCompile Include="..\Private\UI_WRIdentity_Shine.cpp" />
     <ClCompile Include="..\Private\UI_WRIdentity_SkillIcon.cpp" />
     <ClCompile Include="..\Private\UI_WRIdentity_Spark.cpp" />
+    <ClCompile Include="..\Private\Upgrade_Npc.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_FirstTerrainDestruction.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Rush.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_JumpSeismic.cpp" />
