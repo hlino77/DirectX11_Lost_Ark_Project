@@ -205,6 +205,14 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 
 	CRenderer::Set_IBLTexture(0);
 
+
+	// Fog
+	CRenderer::Set_Fog_StartHeight(-20.f);
+	CRenderer::Set_Fog_EndHeight(-70.f);
+	CRenderer::Set_Fog_Density(0.01f);
+	CRenderer::Set_Fog_Color(Vec3(0.2f, 0.3f, 0.7f));
+
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

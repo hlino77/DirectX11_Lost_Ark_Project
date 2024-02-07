@@ -21,7 +21,6 @@ CStaticModel::CStaticModel(const CStaticModel& rhs)
 HRESULT CStaticModel::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
-
     return S_OK;
 }
 
@@ -34,17 +33,17 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	m_IsMapObject = Desc->IsMapObject;
 	m_bInstance = Desc->bInstance;
 
-	m_BloomColor = Desc->BloomColor; //
+
+	m_BloomColor = Desc->BloomColor; 
 
 #pragma region Bern Grass Object
 
-// Basic
+	// Basic
 	if (m_szModelName == TEXT("Anh_Fiilage_Te_b73") || m_szModelName == TEXT("Atm_Foliage2_B94"))
 	{
 		m_IsGrass = true;
 		m_iPass = 6;
 	}
-
 	// Flower
 	if (m_szModelName == TEXT("Anh_Fiilage_Te_f02") || m_szModelName == TEXT("Anh_Fiilage_Te_f03") ||
 		m_szModelName == TEXT("Anh_Fiilage_Te_f29") || m_szModelName == TEXT("Anh_Fiilage_Te_f30") ||
@@ -53,9 +52,7 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	{
 		m_IsGrass = true;
 		m_iPass = 6;
-		
 	}
-
 	// Grass
 	if (m_szModelName == TEXT("Anh_Fiilage_Te_b58") || m_szModelName == TEXT("Anh_Fiilage_Te_f26") ||
 		m_szModelName == TEXT("Atm_Foliage2_B09") || m_szModelName == TEXT("Atm_Foliage2_Crops04") ||
@@ -63,9 +60,13 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	{
 		m_IsGrass = true;
 		m_iPass = 6;
-		
 	}
-
+	// Tree
+	if (m_szModelName == TEXT("Anh_Fiilage_Te_t52"))
+	{
+		m_IsGrass = true;
+		m_iPass = 6;
+	}
 	// Bush
 	if (m_szModelName == TEXT("Atm_Foliage2_BushTree01") || m_szModelName == TEXT("Anh_Fiilage_Te_b50") ||
 		m_szModelName == TEXT("Atm_Foliage2_BushTree02"))
@@ -82,8 +83,8 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	if (m_szModelName == TEXT("Vol_Foliage_Flower05_sky") || m_szModelName == TEXT("Vol_Foliage_Flower05a_sky"))
 	{
 		m_IsGrass = true;
+		m_iPass = 6;
 	}
-
 	// Grass
 	if (m_szModelName == TEXT("Vol_Add_LV_Vol_gjunglevol_Foilage01") || m_szModelName == TEXT("Vol_Add_LV_Vol_gjunglevol_Foilage02") ||
 		m_szModelName == TEXT("Pap_Foliage_Tropic02") || m_szModelName == TEXT("Pap_Foliage_Tropic01") ||
@@ -91,25 +92,24 @@ HRESULT CStaticModel::Initialize(void* pArg)
 		m_szModelName == TEXT("Vol_Tree_Leaf02"))
 	{
 		m_IsGrass = true;
+		m_iPass = 6;
 	}
-
 	// Tree
 	if (m_szModelName == TEXT("Ber_Stone_CherryBlossom01") || m_szModelName == TEXT("Ber_Stone_Ginkgo01") ||
 		m_szModelName == TEXT("Ber_Stone_MapleTree01fbx"))
 	{
 		m_IsGrass = true;
+		m_iPass = 6;
 	}
-
 	// Bush
 	if (m_szModelName == TEXT("Vol_Add_LV_Vol_gjunglevol_Foilage08") || m_szModelName == TEXT("Atm_Foliage2_Flower07") ||
 		m_szModelName == TEXT("Vol_Tree_Leaf01") || m_szModelName == TEXT("Atm_Foliage_glass02"))
 	{
 		m_IsGrass = true;
+		m_iPass = 6;
 	}
 
-
 #pragma endregion
-
 
 
 
@@ -140,10 +140,6 @@ HRESULT CStaticModel::Initialize(void* pArg)
 			m_iPass = 2;
 		}
 	}
-
-
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc->vPosition.x, Desc->vPosition.y, Desc->vPosition.z, 1.f));
-	//m_pTransformCom->My_Rotation(Vec3(90.f,180.f, 0.f));
 
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
 

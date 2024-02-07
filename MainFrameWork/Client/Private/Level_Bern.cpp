@@ -105,7 +105,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (m_bFirstEnter)
 	{
-		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
 
 	return S_OK;
@@ -261,6 +261,13 @@ HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	
 	// IBL
 	CRenderer::Set_IBLTexture(0);
+
+	// Fog
+	CRenderer::Set_Fog_StartHeight(-10.f);
+	CRenderer::Set_Fog_EndHeight(-35.f);
+	CRenderer::Set_Fog_Density(0.01f);
+	CRenderer::Set_Fog_Color(Vec3(0.80f, 0.90f, 0.95f));
+
 
 	Safe_Release(pGameInstance);
 

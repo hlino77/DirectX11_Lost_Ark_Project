@@ -10,7 +10,13 @@
 #include "Input_Device.h"
 #include "Utils.h"
 
-_uint CRenderer::m_iIBLTextureIndex = 0;
+_uint  CRenderer::m_iIBLTextureIndex = 0;
+
+_float CRenderer::m_fFogDensity      = 0.f;
+_float CRenderer::m_fFogStartHeight  = 0.f;
+_float CRenderer::m_fFogEndHeight    = 0.f;
+Vec3   CRenderer::m_vFogColor        = Vec3(0.f, 0.f, 0.f);
+
 
 CRenderer::CRenderer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
@@ -1189,6 +1195,20 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticShadowSizeRatio", &m_fStaticShadowTargetSizeRatio, sizeof(_float))))
 		return E_FAIL;
 
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogStartHeight", &m_fFogStartHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogEndHeight", &m_fFogEndHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogDensity", &m_fFogDensity, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_vFogColor", &m_vFogColor, sizeof(Vec3))))
+		return E_FAIL;
+
+
+
 	if (FAILED(m_pLight_Manager->Bind_LightDescription(m_pMRTShader)))
 		return E_FAIL;
 	if (FAILED(m_pLight_Manager->Bind_LightShadowTexture(m_pMRTShader)))
@@ -1205,6 +1225,8 @@ HRESULT CRenderer::Render_Deferred()
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
 		return E_FAIL;
+
+
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::N))
 		1 == m_iSSAO_Switch ? m_iSSAO_Switch = 0 : m_iSSAO_Switch = 1;

@@ -51,6 +51,13 @@ public:
 
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
 
+	// For Fog
+	static void Set_Fog_StartHeight(_float Height) { m_fFogStartHeight = Height; }
+	static void Set_Fog_EndHeight(_float Height) { m_fFogEndHeight = Height; }
+	static void Set_Fog_Density(_float Density) { m_fFogDensity = Density; }
+	static void Set_Fog_Color(Vec3 Color) { m_vFogColor = Color; }
+
+
 private:
 	HRESULT Update_TextBox();
 	HRESULT	Render_MakeSRV();
@@ -100,7 +107,18 @@ private:
 	class CLight_Manager* m_pLight_Manager = { nullptr };
 
 	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
+	
+	// Deferred
 	CShader* m_pMRTShader = { nullptr };
+
+	// Deferred for Fog
+	static  _float 	m_fFogStartHeight;
+	static  _float  m_fFogEndHeight;
+	static  _float	m_fFogDensity;
+	static  Vec3    m_vFogColor;
+	
+
+	// PostProccess
 	CShader* m_pPostProccessor = { nullptr };
 
 	Matrix	m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;

@@ -40,17 +40,16 @@ private:
 	HRESULT Ready_Player_Camera(const LAYER_TYPE eLayerType);
 
 	HRESULT Send_UserInfo();
+
 private:
-	void		Wait_ServerLevelState(LEVELSTATE eState);
 
-
+	void	Wait_ServerLevelState(LEVELSTATE eState);
 
 	HRESULT Load_MapData(LEVELID eLevel, const wstring& szFullPath);
 
 	HRESULT Ready_Events();
 
 	HRESULT	Ready_Renderer();
-
 
 	void			Set_CheckGruop();
 	void			Start_Collision();
@@ -60,6 +59,7 @@ private:
 	void			End_Picking();
 	void			End_Collision();
 	void			End_QuadTree();
+
 private:
 	thread* m_pCollisionThread = nullptr;
 	thread* m_pPickingThread = nullptr;
