@@ -68,3 +68,18 @@ void CParty_Server::Add_Player(CPlayer_Server* pPlayer)
 	pPlayer->Get_GameSession()->Send(CServerPacketHandler::MakeSendBuffer(CreatePkt));
 }
 
+_uint CParty_Server::Get_PartyIndex(CPlayer_Server* pPlayer)
+{
+	_uint iIndex = 1;
+	for (auto& Player : m_Players)
+	{
+		if (pPlayer == Player)
+		{
+			return iIndex;
+		}
+		++iIndex;
+	}
+
+	return -1;
+}
+

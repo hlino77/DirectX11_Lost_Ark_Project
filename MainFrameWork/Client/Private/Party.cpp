@@ -22,3 +22,19 @@ _bool CParty::Add_Player(CGameObject* pPlayer)
 
 	return true;
 }
+
+_uint CParty::Get_PartyIndex(CGameObject* pPlayer)
+{
+	_uint iIndex = 1;
+	for (auto& PlayerID : m_PlayersId)
+	{
+		if (pPlayer->Get_ObjectID() == PlayerID)
+		{
+			return iIndex;
+		}
+		++iIndex;
+	}
+
+
+	return -1;
+}

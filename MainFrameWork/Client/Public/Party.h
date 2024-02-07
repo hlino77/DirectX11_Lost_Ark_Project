@@ -17,6 +17,7 @@ public:
 	_bool	Add_Player(CGameObject* pPlayer);
 	vector< _uint>	Get_PartyMembers() { return m_PlayersId; }
 
+	_uint	Get_PartyIndex(CGameObject* pPlayer);
 private:
 	vector< _uint> m_PlayersId;
 
