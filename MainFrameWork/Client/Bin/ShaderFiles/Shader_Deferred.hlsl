@@ -37,16 +37,17 @@ float	g_fBias;
 
 float	g_fShadowSizeRatio;
 float	g_fStaticShadowSizeRatio;
-float2	g_vWinSize = float2(1600.f, 900.f);
+float2	g_vWinSize = float2(1600.f, 900.f);	
 
 
 // For Fog
 float  g_fFogStartHeight =  0.f;
 float  g_fFogEndHeight   =  0.f;
 float  g_fFogDensity	 =  0.f; // Fog Power 
-float3 g_vFogColor       = float3(0.f, 0.f, 0.f); // FogColor (R, G, B) Same == Gray
-
-
+float3 g_vFogColor       =  float3(0.f, 0.f, 0.f); // FogColor (R, G, B) Same == Gray
+float  g_fTime			 =  0.f;
+float  g_fFogChangeSpeed =  0.f;
+float  g_fFogMinValue    =  0.f;
 
 
 sampler DefaultSampler = sampler_state {
@@ -311,17 +312,20 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	float height = vWorldPos.y; 
 	float fogFactor = 0.0f;
 
-
-	if (height < g_fFogStartHeight)
+	if (height < g_fFogStartHeight) 
 	{
+		
 		float heightDifference = g_fFogStartHeight - height;
-		fogFactor = 1.0f - exp(-heightDifference * g_fFogDensity);
+		
+		float densityModifier = sin(g_fTime * g_fFogChangeSpeed) * 0.5f + 0.5f;
+
+		densityModifier = (densityModifier * (1 - g_fFogMinValue)) + g_fFogMinValue;
+
+		fogFactor = 1.0f - exp( -heightDifference * g_fFogDensity * densityModifier);
 	}
 
-
-	float3 finalColor = lerp(vColor.rgb, g_vFogColor, fogFactor);
-	return float4(finalColor, 1.f); 
-
+	float3 finalColorWithFog = lerp(vColor.rgb, g_vFogColor, fogFactor);
+	return float4(finalColorWithFog, 1.f);
 
 #pragma endregion
 

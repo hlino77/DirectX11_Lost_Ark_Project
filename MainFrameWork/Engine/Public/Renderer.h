@@ -56,7 +56,10 @@ public:
 	static void Set_Fog_EndHeight(_float Height) { m_fFogEndHeight = Height; }
 	static void Set_Fog_Density(_float Density) { m_fFogDensity = Density; }
 	static void Set_Fog_Color(Vec3 Color) { m_vFogColor = Color; }
-
+	static void Set_Fog_Time(_float fTime) { m_fFogTime = fTime; }
+	static void Set_Add_Fog_Time(_float fTime) { m_fFogTime += fTime; }
+	static void Set_Fog_ChangeSpeed(_float fSpeed) { m_fFogChangeSpeed = fSpeed; }
+	static void Set_Fog_MinValue(_float fMinValue) { m_fFogMinValue = fMinValue; }
 
 private:
 	HRESULT Update_TextBox();
@@ -112,11 +115,13 @@ private:
 	CShader* m_pMRTShader = { nullptr };
 
 	// Deferred for Fog
+	static  Vec3    m_vFogColor;
 	static  _float 	m_fFogStartHeight;
 	static  _float  m_fFogEndHeight;
 	static  _float	m_fFogDensity;
-	static  Vec3    m_vFogColor;
-	
+	static  _float  m_fFogTime;
+	static  _float  m_fFogChangeSpeed;
+	static  _float  m_fFogMinValue;
 
 	// PostProccess
 	CShader* m_pPostProccessor = { nullptr };
@@ -244,6 +249,9 @@ private:
 	_int	m_iFxaa_Switch = true;
 
 	// Eshter Motion
+
+
+
 
 
 public:

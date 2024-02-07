@@ -15,6 +15,9 @@ _uint  CRenderer::m_iIBLTextureIndex = 0;
 _float CRenderer::m_fFogDensity      = 0.f;
 _float CRenderer::m_fFogStartHeight  = 0.f;
 _float CRenderer::m_fFogEndHeight    = 0.f;
+_float CRenderer::m_fFogTime		 = 0.f;
+_float CRenderer::m_fFogChangeSpeed  = 0.f;
+_float CRenderer::m_fFogMinValue     = 0.f;
 Vec3   CRenderer::m_vFogColor        = Vec3(0.f, 0.f, 0.f);
 
 
@@ -1195,6 +1198,8 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticShadowSizeRatio", &m_fStaticShadowTargetSizeRatio, sizeof(_float))))
 		return E_FAIL;
 
+
+	// For Fog
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogStartHeight", &m_fFogStartHeight, sizeof(_float))))
 		return E_FAIL;
 
@@ -1205,6 +1210,15 @@ HRESULT CRenderer::Render_Deferred()
 		return E_FAIL;
 
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_vFogColor", &m_vFogColor, sizeof(Vec3))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fTime", &m_fFogTime, sizeof(Vec3))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogChangeSpeed", &m_fFogChangeSpeed, sizeof(Vec3))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogMinValue", &m_fFogMinValue, sizeof(Vec3))))
 		return E_FAIL;
 
 
