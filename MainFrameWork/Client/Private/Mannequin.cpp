@@ -49,14 +49,8 @@ void CMannequin::Tick(_float fTimeDelta)
 	if (nullptr == m_pModelCom)
 		return;
 
-	if (true == m_IsMove)
-	{
-		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
-	}
-
 	if (true == m_IsMove && false == m_IsMovePatrol)
 	{
-		
 		Move(fTimeDelta);
 	}
 	else if (true == m_IsMove && true == m_IsMovePatrol)
@@ -66,7 +60,12 @@ void CMannequin::Tick(_float fTimeDelta)
 	if (true == m_IsTalk)
 	{
 		Talk(fTimeDelta);
-	}		
+	}
+
+	if (true == m_IsMove)
+	{
+		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
+	}
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 

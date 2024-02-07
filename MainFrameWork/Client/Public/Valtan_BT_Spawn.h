@@ -17,8 +17,16 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 
+    Vec3    Get_EndPos();
+
+    void    Init_StartScene();
+    void    Update_StartCamera(_float fTimeDelta);
+
+    void    End_Scene();
 private:
    _bool m_bShoot = false;
+
+   _float m_fCameraLength;
 public:
     static	CValtan_BT_Spawn* Create(void* pArg);
     virtual void Free() override;

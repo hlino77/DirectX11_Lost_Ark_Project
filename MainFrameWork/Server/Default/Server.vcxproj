@@ -261,6 +261,7 @@
     <ClCompile Include="..\Private\Valtan_BT_Dead_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase2_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Phase3_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Spawn_Server.cpp" />
     <ClCompile Include="..\Private\Zombie_BT_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_BattleIdle_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Chase_Server.cpp" />
@@ -418,6 +419,7 @@
     <ClInclude Include="..\Public\Common_BT_Spawn_Server.h" />
     <ClInclude Include="..\Public\Common_BT_WHILE_Within_Range_Server.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Valtan_BT_Spawn_Server.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Protobuf\bin\Enum.proto" />

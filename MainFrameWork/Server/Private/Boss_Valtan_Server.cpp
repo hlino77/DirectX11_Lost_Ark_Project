@@ -24,7 +24,7 @@
 #include "BT_Composite.h"
 #include "BehaviorTree.h"
 #include "Common_BT_IF_Attacked_Server.h"
-#include "Common_BT_Spawn_Server.h"
+#include "Valtan_BT_Spawn_Server.h"
 #include <Common_BT_IF_Skill_Server.h>
 #include "Boss_BT_Counter_Server.h"
 #include "Boss_BT_IF_Countered_Server.h"
@@ -109,7 +109,8 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_iMaxArmorDurability = (_uint)((_float)m_iMaxHp / 160.f * 3.f);
 	m_iArmorDurability = m_iMaxArmorDurability;
 	m_fNoticeRange = 150.f;
-	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, 1.f));
+	m_pTransformCom->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(-1.f));
 	m_iMaxGroggyGauge = 2000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	return S_OK;
@@ -478,7 +479,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 2.5f;
+	AnimationDesc.fMaxLoopTime = 4.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -495,6 +496,17 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	
+	AnimationDesc.strAnimName = TEXT("walk_normal_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
+	AnimationDesc.fMaxLoopTime = 0.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
@@ -502,8 +514,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
+
 	ActionDesc.strActionName = L"Action_Respawn";
-	CBT_Action* pSpawn = CCommon_BT_Spawn_Server::Create(&ActionDesc);
+	CBT_Action* pSpawn = CValtan_BT_Spawn_Server::Create(&ActionDesc);
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
 	CBT_Decorator* pIfSpawn = CCommon_BT_IF_Spawn_Server::Create(&DecoratorDesc);//스폰 직후인가?
 	if (FAILED(pIfSpawn->AddChild(pSpawn)))

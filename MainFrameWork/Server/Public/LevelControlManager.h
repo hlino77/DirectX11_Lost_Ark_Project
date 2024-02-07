@@ -9,6 +9,7 @@ END
 
 BEGIN(Server)
 class CGameSession;
+class CPlayer_Server;
 
 class CLevelControlManager : public CBase
 {
@@ -37,7 +38,7 @@ public:
 
 
 private:
-	Vec3 Get_LevelSpawnPos(LEVELID eLevel);
+	Vec3 Get_LevelSpawnPos(LEVELID eLevel, CPlayer_Server* pPlayer);
 	HRESULT Player_LevelMove(shared_ptr<CGameSession>& pOwnerSession, _uint iCurrLevel, _uint iNextLevel);
 
 	void	Compute_DefaultEquipCodes(_uint iClass, vector<_int>& pItemCodes);

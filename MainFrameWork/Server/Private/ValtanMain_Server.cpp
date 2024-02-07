@@ -62,7 +62,7 @@ void CValtanMain_Server::Tick(_float fTimeDelta)
 		if (m_fStartDelay < 0.0f)
 		{
 			m_fStartDelay = 0.0f;
-			Broadcast_Boss(Vec3(100.0f, 0.19f, 100.0f), L"Valtan");
+			Broadcast_Boss(Vec3(100.3f, 0.19f, 100.0f), L"Valtan");
 		}
 			
 		return;

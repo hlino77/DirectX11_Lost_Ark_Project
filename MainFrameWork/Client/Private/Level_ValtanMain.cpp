@@ -34,6 +34,8 @@
 #include "UI_SpaceBar_Icon.h"
 #include "QuadTreeMgr.h"
 #include <filesystem>
+#include "Party.h"
+
 
 CLevel_ValtanMain::CLevel_ValtanMain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -115,6 +117,9 @@ HRESULT CLevel_ValtanMain::Initialize()
 	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
+
+	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.0f, true);
+	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeIntensity(1.0f);
 
 	return S_OK;
 }
@@ -438,7 +443,37 @@ HRESULT CLevel_ValtanMain::Send_UserInfo()
 		Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
 		pPlayer->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
-		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.19f, 100.f));
+		
+		Vec3 vPos;
+		_uint iPartyIndex = 0;
+		CParty* pParty = pPlayer->Get_Party();
+		if (pParty != nullptr)
+		{
+			iPartyIndex = pParty->Get_PartyIndex(pPlayer);
+		}
+
+		if (iPartyIndex == 1)
+		{
+			vPos = Vec3(97.96f, 0.32f, 85.25f);
+		}
+		else if (iPartyIndex == 2)
+		{
+			vPos = Vec3(99.18f, 0.32f, 85.13f);
+		}
+		else if (iPartyIndex == 3)
+		{
+			vPos = Vec3(100.90f, 0.32f, 85.08f);
+		}
+		else if (iPartyIndex == 4)
+		{
+			vPos = Vec3(102.26f, 0.32f, 85.24f);
+		}
+		else
+		{
+			vPos = Vec3(97.96f, 0.32f, 85.25f);
+		}
+
+		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
 		pPlayer->Ready_Coliders();

@@ -6,7 +6,7 @@
 #include "Player_Server.h"
 #include "AsUtils.h"
 #include "ItemCode.h"
-
+#include "Party_Server.h"
 
 
 IMPLEMENT_SINGLETON(CLevelControlManager)
@@ -101,7 +101,7 @@ HRESULT CLevelControlManager::Login_Player(shared_ptr<CGameSession>& pGameSessio
 		Desc.pItemCodes = m_Equips.data();
 
 		Matrix matWorld = XMMatrixIdentity();
-		matWorld.Translation(Get_LevelSpawnPos((LEVELID)iLevel));
+		matWorld.Translation(Get_LevelSpawnPos((LEVELID)iLevel, nullptr));
 
 		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Add_GameObject(iLevel, (_uint)LAYER_TYPE::LAYER_PLAYER, TEXT("Prototype_GameObject_Player"), &Desc));
 		if (nullptr == pPlayer)
@@ -182,7 +182,7 @@ HRESULT CLevelControlManager::Player_LevelMove(shared_ptr<CGameSession>& pOwnerS
 
 	Matrix matWorld = XMMatrixIdentity();
 	Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
-	matWorld.Translation(Get_LevelSpawnPos((LEVELID)iNextLevel));
+	matWorld.Translation(Get_LevelSpawnPos((LEVELID)iNextLevel, pPlayer));
 	pPlayer->Get_TransformCom()->Set_WorldMatrix(matWorld);
 	pPlayer->Get_TransformCom()->Set_Scale(vScale);
 
@@ -337,7 +337,7 @@ void CLevelControlManager::Send_LevelState(shared_ptr<CGameSession>& pSession, _
 	pSession->Send(pSendBuffer);
 }
 
-Vec3 CLevelControlManager::Get_LevelSpawnPos(LEVELID eLevel)
+Vec3 CLevelControlManager::Get_LevelSpawnPos(LEVELID eLevel, CPlayer_Server* pPlayer)
 {
 	Vec3 vPos;
 
@@ -356,7 +356,34 @@ Vec3 CLevelControlManager::Get_LevelSpawnPos(LEVELID eLevel)
 		vPos = Vec3(100.f, 0.19f, 98.f);
 		break;
 	case LEVELID::LEVEL_VALTANMAIN:
-		vPos = Vec3(100.f, 0.19f, 100.f);
+		
+		_uint iPartyIndex = 0;
+		CParty_Server* pParty = pPlayer->Get_Party();
+		if (pParty != nullptr)
+		{
+			iPartyIndex = pParty->Get_PartyIndex(pPlayer);
+		}
+
+		if (iPartyIndex == 1)
+		{
+			vPos = Vec3(97.96f, 0.32f, 85.25f);
+		}
+		else if (iPartyIndex == 2)
+		{
+			vPos = Vec3(99.18f, 0.32f, 85.13f);
+		}
+		else if (iPartyIndex == 3)
+		{
+			vPos = Vec3(100.90f, 0.32f, 85.08f);
+		}
+		else if (iPartyIndex == 4)
+		{
+			vPos = Vec3(102.26f, 0.32f, 85.24f);
+		}
+		else if (iPartyIndex == 0)
+		{
+			vPos = Vec3(97.96f, 0.32f, 85.25f);
+		}
 		break;
 
 	}
