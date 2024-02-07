@@ -2,6 +2,8 @@
 #include "Valtan_BT_Spawn.h"
 #include "Boss_Valtan.h"
 #include "Model.h"
+#include "Transform.h"
+
 CValtan_BT_Spawn::CValtan_BT_Spawn()
 {
 }
@@ -24,6 +26,10 @@ CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 	{
 		m_bShoot = false;
 		static_cast<CMonster*>(m_pGameObject)->Set_DissolveIn(4.f);
+	}
+	if (m_iCurrAnimation == 4|| m_iCurrAnimation == 3)
+	{
+		m_pGameObject->Get_TransformCom()->LookAt_Lerp_ForLand(Vec3(0.f, 0.f, -1.f), 3.f, fTimeDelta);
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

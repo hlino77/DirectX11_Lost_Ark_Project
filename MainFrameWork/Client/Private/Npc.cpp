@@ -131,7 +131,7 @@ void CNpc::Tick(_float fTimeDelta)
 {
 	Find_Control_Pc();
 
-	if (m_bNavi)
+	if (m_NpcDesc.IsMove)
 	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(m_iCurrLevel, this);
 	}

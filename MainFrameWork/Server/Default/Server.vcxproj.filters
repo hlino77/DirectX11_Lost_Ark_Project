@@ -232,6 +232,9 @@
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_Phase3">
       <UniqueIdentifier>{d84e16c2-1d4b-4a94-8d0d-11886edf7eec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Spawn">
+      <UniqueIdentifier>{d77f0c53-57de-4202-a3d7-4a2dffbb96af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -563,6 +566,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Dead_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Valtan_BT_Spawn_Server.cpp">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Spawn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -991,6 +997,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ItemCode.h">
       <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Valtan_BT_Spawn_Server.h">
+      <Filter>02. GameObject\04. Boss\Valtan\Behavior\Spawn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

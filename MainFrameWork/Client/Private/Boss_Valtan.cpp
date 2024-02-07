@@ -92,7 +92,8 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_iArmor = 2;
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
-	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
+	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, 1.f));
+	m_pTransformCom->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(-1.f));
 	m_bRender = false;
 	m_pWeapon->Set_Render(false);
 	Set_HpUIRender(false);
@@ -685,12 +686,24 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.strAnimName = TEXT("walk_normal_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.IsEndInstant = true;
+	AnimationDesc.fMaxLoopTime = 0.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+	AnimationDesc.IsEndInstant = false;
+
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
+
 	ActionDesc.strActionName = L"Action_Respawn";
 	CBT_Action* pSpawn = CValtan_BT_Spawn::Create(&ActionDesc);
 
