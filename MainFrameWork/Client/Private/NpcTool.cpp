@@ -907,9 +907,11 @@ void CNpcTool::Move(const _float& fTimeDelta)
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Move_Patrol", &m_IsMovePatrol))
 		{
-			
+			m_NpcCreateDesc.IsMovePatrol = m_IsMovePatrol;
 		}
 		ImGui::Spacing();
+
+
 		ImGui::Text("Move X : %.2f", m_vMovePos.x);
 		ImGui::SameLine();
 		ImGui::Text("Move Y : %.2f", m_vMovePos.y);
@@ -1716,6 +1718,7 @@ void CNpcTool::Clear_Info()
 	m_NpcCreateDesc.iTalkSequence = -1;
 
 	m_NpcCreateDesc.IsMove = false;
+	m_NpcCreateDesc.IsMovePatrol = false;
 	m_NpcCreateDesc.vecMovePos.clear();
 
 	m_NpcCreateDesc.bUseWeaponPart = false;
