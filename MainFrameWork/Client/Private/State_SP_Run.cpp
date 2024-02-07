@@ -29,6 +29,8 @@ HRESULT CState_SP_Run::Initialize()
 void CState_SP_Run::Enter_State()
 {
 	m_pPlayer->Reserve_Animation(m_iRun, 0.1f, 0, 0);
+
+	m_pController->Get_MoveSpeedMessage(3.f);
 	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
 }

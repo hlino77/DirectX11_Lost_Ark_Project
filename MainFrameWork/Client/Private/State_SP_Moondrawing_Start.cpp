@@ -49,7 +49,7 @@ void CState_SP_Moondrawing_Start::Tick_State(_float fTimeDelta)
 
 void CState_SP_Moondrawing_Start::Exit_State()
 {
-	if (true == m_pController->Is_HitState() && 45 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start))
+	if (true == m_pPlayer->Is_CancelState() && 45 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iMoondrawing_Start))
 	{
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	}

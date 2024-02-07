@@ -31,11 +31,13 @@ HRESULT CState_WR_Run::Initialize()
 
 void CState_WR_Run::Enter_State()
 {
+	m_pController->Get_MoveSpeedMessage(3.f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 	{
 		m_pPlayer->Reserve_Animation(m_Run_Identity, 0.2f, 0, 0, 1.8f);
 		m_iRun = m_Run_Identity;
-		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
+		m_pController->Get_MoveSpeedMessage(4.f);
+		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	}
 	else
 	{
@@ -137,11 +139,13 @@ void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(vClickPos);
 			if (m_iRun == m_Run_Normal)
 			{
+				m_pController->Get_MoveSpeedMessage(3.f);
 				m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 			}
 			else if (m_iRun == m_Run_Identity)
 			{
-				m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
+				m_pController->Get_MoveSpeedMessage(4.f);
+				m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 			}
 		}
 	}
@@ -160,13 +164,15 @@ void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 
 void CState_WR_Run::Tick_State_NoneControl(_float fTimeDelta)
 {
+	m_pController->Get_MoveSpeedMessage(3.f);
 	if (m_iRun == m_Run_Normal)
 	{
 		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	}
 	else if (m_iRun == m_Run_Identity)
 	{
-		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos(), 4.f);
+		m_pController->Get_MoveSpeedMessage(4.f);
+		m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	}
 
 	if (m_iRun == m_Run_Identity && false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())

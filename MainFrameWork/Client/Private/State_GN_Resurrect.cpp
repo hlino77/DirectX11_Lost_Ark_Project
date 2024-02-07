@@ -4,6 +4,7 @@
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
 #include "Model.h"
+#include "Renderer.h"
 
 CState_GN_Resurrect::CState_GN_Resurrect(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -29,6 +30,8 @@ void CState_GN_Resurrect::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iResurrect, 0.2f, 0, 0);
 
 	m_pPlayer->Set_Invincible(true);
+
+	m_pPlayer->Get_RendererCom()->Set_DeadScene(false);
 }
 
 void CState_GN_Resurrect::Tick_State(_float fTimeDelta)

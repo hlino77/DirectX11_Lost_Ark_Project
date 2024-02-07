@@ -54,7 +54,7 @@ void CState_SP_SkyKongKong_Loop::Exit_State()
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
-	if (true == m_pController->Is_HitState() || m_pPlayer->Get_ServerState() != TEXT("Skill_SP_SkyKongKong_Loop"))
+	if (true == m_pPlayer->Is_CancelState() || m_pPlayer->Get_ServerState() != TEXT("Skill_SP_SkyKongKong_Loop"))
 	{
 		TrailEnd();
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);

@@ -47,7 +47,7 @@ void CState_GN_TargetDown_Ready::Tick_State(_float fTimeDelta)
 
 void CState_GN_TargetDown_Ready::Exit_State()
 {
-	if (true == m_pController->Is_HitState())
+	if (true == m_pPlayer->Is_CancelState())
 	{
 		Effect_End();
 

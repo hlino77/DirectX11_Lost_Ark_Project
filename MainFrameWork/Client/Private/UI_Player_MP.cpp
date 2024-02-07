@@ -2,6 +2,7 @@
 #include "UI_Player_MP.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "ServerSessionManager.h"
 
 CUI_Player_MP::CUI_Player_MP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -65,7 +66,7 @@ HRESULT CUI_Player_MP::UI_Set()
 	}
 
 	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_MPFill"), 
-		CGameInstance::GetInstance()->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER)));
+		CServerSessionManager::GetInstance()->Get_Player()));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else

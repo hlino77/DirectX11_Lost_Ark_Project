@@ -73,6 +73,8 @@ HRESULT CState_GN_DeadHard_Loop::Initialize()
 
 void CState_GN_DeadHard_Loop::Enter_State()
 {
+	m_pController->Get_MoveSpeedMessage(2.5f);
+
 	m_iSkillCnt = 0;
 	m_iEffectCnt = 0;
 
@@ -128,7 +130,7 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pController->Is_HoldorTap(KEY::RBTN) && true == m_pPlayer->Get_CellPickingPos(vClickPos))
 	{
 		m_pPlayer->Set_TargetPos(vClickPos);
-		m_pController->Get_DirMessage(vClickPos, 2.5f);
+		m_pController->Get_DirMessage(vClickPos);
 
 		_float fDegree = m_pPlayer->Get_TransformCom()->Get_TargetDegree(vClickPos);
 
@@ -201,7 +203,7 @@ void CState_GN_DeadHard_Loop::Tick_State_NoneControl(_float fTimeDelta)
 	}
 	else
 	{
-		m_pController->Get_DirMessage(vTargetPos, 2.5f);
+		m_pController->Get_DirMessage(vTargetPos);
 
 		_float fDegree = m_pPlayer->Get_TransformCom()->Get_TargetDegree(vTargetPos);
 

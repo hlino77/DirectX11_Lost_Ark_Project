@@ -51,6 +51,8 @@ public:
 
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
 
+	void	Set_DeadScene(_bool bSetDead) { m_bDeadScene = bSetDead; }
+
 private:
 	HRESULT Update_TextBox();
 	HRESULT	Render_MakeSRV();
@@ -227,6 +229,8 @@ private:
 
 	// Eshter Motion
 
+	// Screen Ton
+	_bool	m_bDeadScene = { false };
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

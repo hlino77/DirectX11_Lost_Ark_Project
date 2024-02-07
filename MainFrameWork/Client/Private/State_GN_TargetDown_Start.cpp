@@ -55,7 +55,7 @@ void CState_GN_TargetDown_Start::Tick_State(_float fTimeDelta)
 
 void CState_GN_TargetDown_Start::Exit_State()
 {
-	if (true == m_pController->Is_HitState())
+	if (true == m_pPlayer->Is_CancelState())
 	{
 		if (m_pPlayer->Is_Control())
 			Reset_Camera();

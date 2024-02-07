@@ -28,6 +28,7 @@ public:
     void    Set_Host(CGameObject* pObject) { m_pHost = pObject; }
     HRESULT Active_SpeechBuble(wstring szChat);
     void    DeActive_SpeechBubble();
+    void    Reset_SpeechBubble();
 
 private:
     virtual HRESULT Ready_Components();
@@ -35,7 +36,7 @@ private:
     void    Setting_HostPos();
 
     HRESULT Ready_TextBox(_uint iIndex);
-    void    Reset_SpeechBubble();
+   
 
 private:
     Vec4    m_vHostProjPos = { 0.f, 0.f, 0.f, 0.f };

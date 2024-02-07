@@ -53,6 +53,7 @@ void CState_GN_Run::Enter_State()
 		break;
 	}
 	
+	m_pController->Get_MoveSpeedMessage(3.f);
 	m_pController->Get_MoveMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
 }

@@ -51,6 +51,8 @@ void CState_WDR_Fall::Enter_State()
 	m_fStartAcc = 0.0f;
 
 	m_bStart = false;
+
+	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
 }
 
 void CState_WDR_Fall::Tick_State(_float fTimeDelta)

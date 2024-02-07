@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_IdentitySP.h"
 #include "GameInstance.h"
+#include "ServerSessionManager.h"
 
 CUI_IdentitySP::CUI_IdentitySP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI(pDevice, pContext)
@@ -70,7 +71,7 @@ HRESULT CUI_IdentitySP::UI_Set()
     }
 
     pUI = static_cast<CUI*>(pGameInstance->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_IdentitySP_LinkedPlayer"),
-        pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER)));
+        CServerSessionManager::GetInstance()->Get_Player()));
     if (nullptr == pUI)
         return E_FAIL;
     else

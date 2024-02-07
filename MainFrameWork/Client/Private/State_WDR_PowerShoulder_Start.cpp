@@ -63,10 +63,9 @@ void CState_WDR_PowerShoulder_Start::Tick_State(_float fTimeDelta)
 
 void CState_WDR_PowerShoulder_Start::Exit_State()
 {
-
-	if (true == m_pController->Is_HitState())
+	if (true == m_pPlayer->Is_CancelState())
 	{
-		if (m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start))
+		if (29 >= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerShoulder_Start))
 			m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 
 		Effect_End();

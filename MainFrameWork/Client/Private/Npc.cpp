@@ -20,6 +20,7 @@
 #include "UI_SpeechBubble.h"
 #include "UI_InGame_NamePlate.h"
 
+#include "ServerSessionManager.h"
 #include "Player.h"
 
 CNpc::CNpc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -519,7 +520,7 @@ HRESULT CNpc::Find_Control_Pc()
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	m_pCtrlPlayer = static_cast<CPlayer*>(pGameInstance->Find_CtrlPlayer(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER));
+	m_pCtrlPlayer = CServerSessionManager::GetInstance()->Get_Player();
 	if (nullptr == m_pCtrlPlayer)
 	{
 		RELEASE_INSTANCE(CGameInstance);

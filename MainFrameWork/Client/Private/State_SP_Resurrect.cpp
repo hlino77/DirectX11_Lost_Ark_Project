@@ -4,6 +4,7 @@
 #include "Player_Doaga.h"
 #include "Controller_SP.h"
 #include "Model.h"
+#include "Renderer.h"
 
 CState_SP_Resurrect::CState_SP_Resurrect(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -29,6 +30,8 @@ void CState_SP_Resurrect::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iResurrect, 0.2f, 0, 0);
 
 	m_pPlayer->Set_Invincible(true);
+
+	m_pPlayer->Get_RendererCom()->Set_DeadScene(false);
 }
 
 void CState_SP_Resurrect::Tick_State(_float fTimeDelta)

@@ -51,24 +51,32 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 
 	if (true == m_NpcDesc.IsTalk)
 	{
-		if (m_fTalkDist >= m_fPlayerDist)
-		{
-			m_bTalkReady = true;
-		}
-		else
-		{
-			m_bTalkReady = false;
-		}
-
-		if (true == Check_True_All_Sequence_Npc())
+		if (m_NpcDesc.iCurLevel == LEVELID::LEVEL_TOOL_NPC)
 		{
 			Talk(fTimeDelta);
 		}
 		else
 		{
-			m_iCurrTalk = 0;
-			m_fTalkStartAcc = -2.0f;
-			m_IsTalkStart = false;
+			if (m_fTalkDist >= m_fPlayerDist)
+			{
+				m_bTalkReady = true;
+			}
+			else
+			{
+				m_bTalkReady = false;
+			}
+
+			if (true == Check_True_All_Sequence_Npc())
+			{
+				Talk(fTimeDelta);
+			}
+			else
+			{
+				m_pSpeechBuble->Reset_SpeechBubble();
+				m_iCurrTalk = 0;
+				m_fTalkStartAcc = -2.0f;
+				m_IsTalkStart = false;
+			}
 		}
 	}
 }

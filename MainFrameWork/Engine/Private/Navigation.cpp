@@ -190,24 +190,36 @@ Vec3 CNavigation::Find_CloseCell_Middle(CGameObject* pObject)
 {
 	Vec3   vCloseCellPos;
 
-	_float fCloseDist = 100.f;
+	_float fCloseDist = -1.f;
 
 	Vec3 vPosition = pObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	vPosition.y = 0.0f;
 
+	_int a = 0;
 	for (auto& pCell : m_vecCells)
 	{
-		if (false == pCell->Is_Active()) continue;
+		if (false == pCell->Is_Active())
+		{
+			cout << "²¨Á³´Ï? : " << a << endl;
+			continue;
+		}
 
 		Vec3 vCellPos = pCell->Get_Cell_MiddlePos();
 		vCellPos.y = 0.0f;
 
-		_float fCmpDist = Vec3(vCellPos - vPosition).Length();
+		_float fCmpDist = fabs(Vec3(vCellPos - vPosition).Length());
 
-		if (fCmpDist < fCloseDist)
+		if (-1.f == fCloseDist)
 		{
 			fCloseDist = fCmpDist;
 			vCloseCellPos = pCell->Get_Cell_MiddlePos();
+			m_iCurrentIndex = pCell->Get_CellIndex();
+		}
+		else if (fCmpDist <= fCloseDist)
+		{
+			fCloseDist = fCmpDist;
+			vCloseCellPos = pCell->Get_Cell_MiddlePos();
+			m_iCurrentIndex = pCell->Get_CellIndex();
 		}
 	}
 

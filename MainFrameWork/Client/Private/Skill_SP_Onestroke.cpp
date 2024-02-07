@@ -30,10 +30,10 @@ HRESULT CSkill_SP_Onestroke::Initialize(void* pArg)
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 2.2f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.0f);
-	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.8f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.0f);
+	Proj_Desc.fRadius = 2.8f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.6f);
+	Proj_Desc.vChildScale = Vec3(1.5f, 0.6f, 2.4f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.6f);
 	Proj_Desc.iDamage = 900;
 	Proj_Desc.iStagger = 80;
 	Proj_Desc.fRepulsion = 21.f;
