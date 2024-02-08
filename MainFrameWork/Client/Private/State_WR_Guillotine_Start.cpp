@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Camera_Player.h"
+#include "Effect_Manager.h"
 #include "Model.h"
 
 CState_WR_Guillotine_Start::CState_WR_Guillotine_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -27,12 +29,13 @@ HRESULT CState_WR_Guillotine_Start::Initialize()
 
 void CState_WR_Guillotine_Start::Enter_State()
 {
+	m_bEffectStart = false;
+
 	m_pPlayer->Reserve_Animation(m_iGuillotine_Start, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.2f);
 	else
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);
-
 
 	m_pPlayer->Get_WR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -55,6 +58,18 @@ void CState_WR_Guillotine_Start::Tick_State_Control(_float fTimeDelta)
 {
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGuillotine_Start))
 		m_pPlayer->Set_State(TEXT("Skill_WR_Guillotine_Loop"));
+
+	if (false == m_bEffectStart && 4 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGuillotine_Start))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_Guillotine_Charge"), &desc)
+
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 1.f, 0.05f);
+
+		m_bEffectStart = true;
+	}
 
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);

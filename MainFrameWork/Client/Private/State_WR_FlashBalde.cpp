@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
 #include "Model.h"
 
 CState_WR_FlashBalde::CState_WR_FlashBalde(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -31,6 +33,8 @@ HRESULT CState_WR_FlashBalde::Initialize()
 void CState_WR_FlashBalde::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_bTrailStart = false;
+	m_bEffectStart = false;
 
 	m_pPlayer->Reserve_Animation(m_iFlashBlade, 0.1f, 0, 0, 0.8f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
@@ -53,6 +57,11 @@ void CState_WR_FlashBalde::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	for (_int i = 0; i < m_Trail.size(); ++i)
+		static_cast<CEffect_Trail*>(m_Trail[i])->TrailEnd(1.f);
+
+	m_Trail.clear();
 }
 
 void CState_WR_FlashBalde::Tick_State_Control(_float fTimeDelta)
@@ -65,6 +74,29 @@ void CState_WR_FlashBalde::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFlashBlade))
 		m_pPlayer->Set_State(TEXT("Idle"));
+
+	if (false == m_bTrailStart && 5 <= iAnimFrame)
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START_OUTLIST(TEXT("Slayer_FlashBlade_Trail"), func, m_Trail)
+
+		m_bTrailStart = true;
+	}
+
+	if (false == m_bEffectStart && m_Trail.size() && 10 <= iAnimFrame)
+	{
+		for (auto& iter : m_Trail)
+		{
+			static_cast<CEffect_Trail*>(iter)->TrailEnd(1.f);
+		}
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_FlashBlade_Decal"), &desc)
+
+		m_bEffectStart = true;
+	}
 
 	if (15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlashBlade))
 	{

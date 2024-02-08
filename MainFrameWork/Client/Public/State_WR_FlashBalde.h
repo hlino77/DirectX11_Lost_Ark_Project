@@ -5,6 +5,7 @@
 
 BEGIN(Client)
 
+class CEffect;
 class CState_WR_FlashBalde final : public CState_Skill
 {
 public:
@@ -29,6 +30,11 @@ private:
 private:
 	//Animation
 	_int m_iFlashBlade = 0;
+
+	//Effect
+	_bool m_bTrailStart = false;
+	_bool m_bEffectStart = false;
+	vector<CEffect*> m_Trail;
 
 public:
 	static CState_WR_FlashBalde* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
