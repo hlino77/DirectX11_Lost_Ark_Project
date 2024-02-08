@@ -53,7 +53,7 @@ HRESULT CSkill_WDR_PowerShoulder::Initialize(void* pArg)
 	Proj_Desc.fRepulsion = 21.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
-	m_iUseMana = 0;
+	m_iUseMana = 67;
 
 	return S_OK;
 }

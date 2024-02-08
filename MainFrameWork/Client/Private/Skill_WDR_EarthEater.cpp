@@ -64,7 +64,7 @@ HRESULT CSkill_WDR_EarthEater::Initialize(void* pArg)
 	Proj_Desc.bUseFactor = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
-	m_iUseMana = 0;
+	m_iUseMana = 85;
 
 	return S_OK;
 }

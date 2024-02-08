@@ -34,12 +34,14 @@ HRESULT CSkill_SP_Inkshot::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.6f);
 	Proj_Desc.vChildScale = Vec3(1.4f, 0.6f, 1.4f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.6f);
-	Proj_Desc.iDamage = 200;
+	Proj_Desc.iDamage = 646;
 	Proj_Desc.iStagger = 60;
 	Proj_Desc.fRepulsion = 10.f;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	m_iUseMana = 74;
 
 	return S_OK;
 }

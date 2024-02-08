@@ -34,13 +34,15 @@ HRESULT CSkill_SP_Inkpaddle::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
 	Proj_Desc.vChildScale = Vec3(0.8f, 0.6f, 1.5f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
-	Proj_Desc.iDamage = 100;
+	Proj_Desc.iDamage = 387;
 	Proj_Desc.iStagger = 30;
 	Proj_Desc.fRepulsion = 10.f;
 	Proj_Desc.IsCounter = true;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	m_iUseMana = 53;
 
 	return S_OK;
 }
