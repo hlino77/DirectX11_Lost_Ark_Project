@@ -45,7 +45,7 @@ float  g_fFogStartHeight =  0.f;
 float  g_fFogEndHeight   =  0.f;
 float  g_fFogDensity	 =  0.f; // Fog Power 
 float3 g_vFogColor       =  float3(0.f, 0.f, 0.f); // FogColor (R, G, B) Same == Gray
-float  g_fTime			 =  0.f;
+float  g_fFogTime        =  0.f;
 float  g_fFogChangeSpeed =  0.f;
 float  g_fFogMinValue    =  0.f;
 
@@ -314,10 +314,9 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 
 	if (height < g_fFogStartHeight) 
 	{
-		
 		float heightDifference = g_fFogStartHeight - height;
 		
-		float densityModifier = sin(g_fTime * g_fFogChangeSpeed) * 0.5f + 0.5f;
+		float densityModifier = sin(g_fFogTime * g_fFogChangeSpeed) * 0.5f + 0.5f;
 
 		densityModifier = (densityModifier * (1 - g_fFogMinValue)) + g_fFogMinValue;
 

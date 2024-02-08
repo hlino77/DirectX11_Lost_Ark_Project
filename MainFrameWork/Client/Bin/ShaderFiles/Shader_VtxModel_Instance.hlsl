@@ -8,11 +8,16 @@ float       g_fTime = 2.f;
 float       g_fmaxHeight = 2.f;
 
 
+
 VS_OUT VS_MAIN(STATIC_INSTANCE_IN In)
 {
     VS_OUT		Out = (VS_OUT)0;
 
     matrix		matWVP;
+
+
+    Out.fRimLight = In.matWorld._14;
+    In.matWorld._14 = 0.0f;
 
     matWVP = mul(In.matWorld, ViewProj);
 
@@ -102,9 +107,10 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         Out.vEmissive *= g_vBloomColor;
     }
 
-    Out.vProperties.z = MT_STATIC;
-    Out.vProperties.w = g_fRimLight;
 
+    Out.vProperties.z = MT_STATIC;
+    Out.vProperties.w = In.fRimLight;
+   
     return Out;
 }
 

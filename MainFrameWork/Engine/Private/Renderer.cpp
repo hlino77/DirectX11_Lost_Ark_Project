@@ -1212,13 +1212,13 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_vFogColor", &m_vFogColor, sizeof(Vec3))))
 		return E_FAIL;
 
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_fTime", &m_fFogTime, sizeof(Vec3))))
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogTime", &m_fFogTime, sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogChangeSpeed", &m_fFogChangeSpeed, sizeof(Vec3))))
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogChangeSpeed", &m_fFogChangeSpeed, sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogMinValue", &m_fFogMinValue, sizeof(Vec3))))
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogMinValue", &m_fFogMinValue, sizeof(_float))))
 		return E_FAIL;
 
 

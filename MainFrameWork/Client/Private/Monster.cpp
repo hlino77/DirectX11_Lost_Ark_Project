@@ -117,6 +117,7 @@ void CMonster::LateTick(_float fTimeDelta)
 
 	CullingObject();
 	Update_Dissolve(fTimeDelta);
+
 	if (m_bRimLight)
 	{
 		m_fRimLightTime -= fTimeDelta;
@@ -153,23 +154,29 @@ HRESULT CMonster::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 			return E_FAIL;
 	}
+
 	if (m_bRimLight)
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
 			return E_FAIL;
 
+
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
+
 
 	iDissolve = false;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_int))))
 		return E_FAIL;
 
+	// Init 
 	if (m_bRimLight)
 	{
 		_float fRimLightColor = 0.f;
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
 			return E_FAIL;
 	}
+
+
 	return S_OK;
 }
 
@@ -272,10 +279,14 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 
 		size_t iSizePerInstance = sizeof(_uint) + sizeof(Matrix);
 		_uint iDataIndex = iIndex * (_uint)iSizePerInstance;
-		_uint iID = iIndex;
+		_uint iID = iIndex;                                               
+
+
 		Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
+
 		if(m_bRimLight)
 			matWorld.m[0][3] = (_float)m_fRimLightColor;
+
 		if (m_bDissolveIn || m_bDissolveOut)
 		{
 			_float fDissolveAmount = m_fDissolvetime / m_fMaxDissolvetime;
@@ -285,6 +296,8 @@ void CMonster::Add_InstanceData(_uint iSize, _uint& iIndex)
 			matWorld.m[1][3] = 0.f;
 		memcpy(pInstanceValue + iDataIndex, &iID, sizeof(_uint));
 		memcpy(pInstanceValue + iDataIndex + sizeof(_uint), &matWorld, sizeof(Matrix));
+
+
 	}
 
 	{

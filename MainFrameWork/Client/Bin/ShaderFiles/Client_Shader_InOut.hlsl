@@ -86,6 +86,7 @@ struct VS_OUT
     float2  vTexUV : TEXCOORD0;
     float4  vProjPos : TEXCOORD1;
     float3  vTangent : TANGENT;
+    float   fRimLight : RIM;
 };
 
 struct VS_OUT_OUTLINE
@@ -158,6 +159,7 @@ struct PS_OUT_PBR
     float4  vProperties : SV_TARGET3;
 	float4  vEmissive : SV_TARGET4;
 	float4  vOutline : SV_TARGET5;
+
 };
 
 struct PS_OUT_PHONG

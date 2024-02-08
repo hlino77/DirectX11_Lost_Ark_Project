@@ -31,6 +31,8 @@ HRESULT CLevel_Logo::Initialize()
 
 HRESULT CLevel_Logo::Tick(const _float& fTimeDelta)
 {
+
+
 	if (KEY_TAP(KEY::ENTER))
 	{
 		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SERVERSELECT, L"None"))))
@@ -53,8 +55,6 @@ HRESULT CLevel_Logo::Tick(const _float& fTimeDelta)
 HRESULT CLevel_Logo::LateTick(const _float& fTimeDelta)
 {
 	
-
-
 	return S_OK;
 }
 

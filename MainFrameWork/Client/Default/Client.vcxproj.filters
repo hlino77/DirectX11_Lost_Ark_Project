@@ -1668,10 +1668,10 @@
     </Filter>
     <Filter Include="01.Levels\98.Tool\00.Tools\04. CameraTool">
       <UniqueIdentifier>{0638af66-f470-40aa-ad10-8cba72592ec5}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance">
       <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\MapObject">
       <UniqueIdentifier>{72e88bee-794c-4ef6-a2c1-29f59ff6b7a8}</UniqueIdentifier>
     </Filter>
@@ -1680,6 +1680,9 @@
     </Filter>
     <Filter Include="02.GameObjects\MapObject\StaticModel">
       <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\MapObject\ColMesh">
+      <UniqueIdentifier>{519e433b-78b5-4f7a-a99b-cd1be82b8483}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1742,9 +1745,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\BackGround_Loading.h">
       <Filter>02.GameObjects\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ColMesh.h">
-      <Filter>02.GameObjects\MapObject\StaticModel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss.h">
       <Filter>02.GameObjects\Boss</Filter>
@@ -3334,9 +3334,6 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
-      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Boss_Golem.h">
       <Filter>02.GameObjects\Boss\Golem</Filter>
     </ClInclude>
@@ -4830,10 +4827,16 @@
     </ClInclude>
     <ClInclude Include="..\Public\CameraTool.h">
       <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\UI_Mouse_EntranceParty.h">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
+      <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ColMesh.h">
+      <Filter>02.GameObjects\MapObject\ColMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4893,9 +4896,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\BackGround_Loading.cpp">
       <Filter>02.GameObjects\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ColMesh.cpp">
-      <Filter>02.GameObjects\MapObject\StaticModel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss.cpp">
       <Filter>02.GameObjects\Boss</Filter>
@@ -7957,9 +7957,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CameraTool.cpp">
       <Filter>01.Levels\98.Tool\00.Tools\04. CameraTool</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ColMesh.cpp">
+      <Filter>02.GameObjects\MapObject\ColMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@
 #include "NavigationMgr.h"
 #include "ServerSessionManager.h"
 #include "Skill.h"
+#include "Effect_Manager.h"
 
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
@@ -112,9 +113,9 @@ HRESULT CStaticModel::Initialize(void* pArg)
 #pragma endregion
 
 
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
@@ -151,7 +152,6 @@ void CStaticModel::Tick(_float fTimeDelta)
 
 #pragma region Specific Object Behavior
 
-
 	// Chaos 2 Object
 	{
 		if (m_szModelName == TEXT("Ehrgeiz_A_gear01a") || m_szModelName == TEXT("Ehrgeiz_A_gear01c"))
@@ -164,7 +164,6 @@ void CStaticModel::Tick(_float fTimeDelta)
 		}
 
 	}
-
 
 	// Chaos 3 Object 
 	{
@@ -247,7 +246,8 @@ void CStaticModel::Tick(_float fTimeDelta)
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
 			//Set_Dead(true);
-			Set_Active(false);
+			//Set_Active(false);
+			m_bBreak = true;
 		}
 	}
 
@@ -263,7 +263,6 @@ void CStaticModel::Tick(_float fTimeDelta)
 	}
 
 #pragma endregion
-
 
 
 #pragma region Grass Object
@@ -299,17 +298,32 @@ void CStaticModel::Tick(_float fTimeDelta)
 
 void CStaticModel::LateTick(_float fTimeDelta)
 {
+	// BreakAble Object
+	if (true == m_bBreak)
+	{
+		m_bRimLight = true;
 
+		if (m_fRimLightTime <= 0.f)
+		{
+			Set_Active(false);
+		}
+
+
+	}
+
+	// RimLight 
 	if (m_bRimLight)
 	{
 		m_fRimLightTime -= fTimeDelta;
+
 		if (m_fRimLightTime <= 0.0f)
 		{
 			m_fRimLightTime = 0.0f;
 			m_bRimLight = false;
+			m_fRimLightColor = 0.f;
+			//Set_Active(false);
 		}
 	}
-
 
 	if (nullptr == m_pRendererCom)	
 		return;
@@ -374,12 +388,31 @@ HRESULT CStaticModel::Render()
 		if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 			return E_FAIL;
 
-		_float fRimLight = (_float)m_bRimLight;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-			return E_FAIL;
 
+		if (true == m_bRimLight)
+		{
+			_float fRimLightColor = (_float)m_bRimLight;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+		else
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+	
 		if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 			return E_FAIL;
+
+		// Init 
+		if (true == m_bRimLight)
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+
 	}
 	else if (m_iPass == 1)
 	{
@@ -389,14 +422,33 @@ HRESULT CStaticModel::Render()
 		if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 			return E_FAIL;
 
-		_float fRimLight = (_float)m_bRimLight;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-			return E_FAIL;
+		if (true == m_bRimLight)
+		{
+			_float fRimLightColor = (_float)m_bRimLight;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+		else
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, "Alpha")))
 		{
 			return E_FAIL;
 		}
+
+		// Init 
+		if (true == m_bRimLight)
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+
+
 	}
 	else if (m_iPass == 6)
 	{
@@ -413,20 +465,36 @@ HRESULT CStaticModel::Render()
 			return E_FAIL;
 
 
-		_float fRimLight = (_float)m_bRimLight;
-		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
-			return E_FAIL;
+		if (true == m_bRimLight)
+		{
+			_float fRimLightColor = (_float)m_bRimLight;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+		else
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, "Grass")))
 		{
 			return E_FAIL;
 		}
+
+		// Init
+		if (true == m_bRimLight)
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+		}
+
 	}
 
-
-
-
     return S_OK;
+
 }
 
 HRESULT CStaticModel::Render_ShadowDepth()
@@ -451,10 +519,12 @@ HRESULT CStaticModel::Render_ShadowDepth()
 	}
 
 	return S_OK;
+
 }
 
 HRESULT CStaticModel::Render_Instance(_uint iSize)
 {
+
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
 
@@ -471,6 +541,7 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 		return E_FAIL;
 
 
+	// For Grass 
 	if (true == m_IsGrass)
 	{
 		if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_vWind", &m_WindDir, sizeof(Vec3))))
@@ -485,9 +556,34 @@ HRESULT CStaticModel::Render_Instance(_uint iSize)
 	}
 	else
 	{
+		if (true == m_bRimLight)
+		{
 
-		if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
-			return E_FAIL;
+	/*		if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
+				return E_FAIL;*/
+
+			_float fRimLightColor = (_float)m_bRimLight;
+			if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
+				return E_FAIL;
+
+			fRimLightColor = 0.f;
+			if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+
+		}
+		else
+		{
+			_float fRimLightColor = 0.f;
+			if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, sizeof(Matrix))))
+				return E_FAIL;
+		}
+
 	}
 
 	return S_OK;
@@ -505,8 +601,6 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 {
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
 	{
-		//Set_Dead(true);
-
 		Send_Collision(LEVEL_VALTANMAIN, true);
 
 		for (auto& CellIndex : m_NaviCellIndex)
@@ -519,8 +613,14 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Collider->SetActive(false);
 			Collider->Get_Child()->SetActive(false);
 		}
+		//Set_Active(false);
+		m_bBreak = true; 
 
-		Set_Active(false);
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+		EFFECT_START(L"DustCloud0", &tDesc);
+
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
 	{
@@ -534,8 +634,15 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			{
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 			}
-			Set_Active(false);
+			//Set_Active(false);
+			m_bBreak = true;
 
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			//tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+			EFFECT_START(L"DustCloud0", &tDesc);
+
+			
 			for (auto& Collider : m_StaticColliders)
 			{
 				Collider->SetActive(false);
@@ -667,24 +774,25 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 {
 	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(((*m_pInstaceData)[m_szModelName].pInstanceValue)->GetValue());
 
-	(*pInstanceValue)[iIndex] = m_pTransformCom->Get_WorldMatrix();
+
+	Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
+
+	if (m_bRimLight)
+	{
+		matWorld.m[0][3] = (_float)m_fRimLightColor;
+	}
+	
+	(*pInstanceValue)[iIndex] = matWorld;
 
 	if (iSize - 1 == iIndex)
 	{
-
-		//m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
 		(*m_pInstaceData)[m_szModelName].Future_Instance = std::async(&CStaticModel::Ready_Instance_For_Render, this, iSize);
-
-		//ThreadManager::GetInstance()->EnqueueJob([=]()
-		//	{
-		//		promise<HRESULT> PromiseInstance;
-		//		m_pInstaceData->Future_Instance = PromiseInstance.get_future();
-		//		PromiseInstance.set_value(Ready_Instance_For_Render(iSize));
-		//	});
 	}
 	else
+	{
 		++iIndex;
+	}
+		
 }
 
 HRESULT CStaticModel::Render_Debug()
