@@ -160,11 +160,6 @@ HRESULT CUI_DeadWnd::Bind_ShaderResources_BackButton()
 	return S_OK;
 }
 
-HRESULT CUI_DeadWnd::Bind_ShaderResources_BackButton()
-{
-	return S_OK;
-}
-
 HRESULT CUI_DeadWnd::Bind_ShaderResources_ReturnkButton()
 {
 	return S_OK;

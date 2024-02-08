@@ -3,6 +3,7 @@
 #include "Player_Destroyer.h"
 #include "Model.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_WDR_EarthEater::CSkill_WDR_EarthEater(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WDR_EarthEater"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -107,6 +108,20 @@ void CSkill_WDR_EarthEater::Check_ColliderState()
 	if (80 < static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[2];
+	}
+	
+
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			m_SkillProjDesc.iDamage * 1.f;
+		}
+		else
+		{
+			m_SkillProjDesc.iDamage * 1.5f;
+		}
 	}
 }
 

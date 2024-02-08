@@ -229,6 +229,13 @@ void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 	// 데미지하락 및 밉라이트?
 	CPlayer::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 	tPcStat.iCurHp -= m_iDamaged;
+	if (0 >= tPcStat.iCurHp)
+	{
+		tPcStat.iCurHp = 0;
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Dead_Start"));
+		return;
+	}
 	m_pOwner->Set_PlayerStat_Desc(tPcStat);
 
 

@@ -3,6 +3,7 @@
 #include "Player_Destroyer.h"
 #include "Model.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_WDR_PerfectSwing::CSkill_WDR_PerfectSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WDR_PerfectSwing"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -77,6 +78,19 @@ void CSkill_WDR_PerfectSwing::Check_ColliderState()
 	else
 	{
 		m_SkillProjDesc.iDamage = 2000;
+	}
+
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			m_SkillProjDesc.iDamage * 1.f;
+		}
+		else
+		{
+			m_SkillProjDesc.iDamage * 1.5f;
+		}
 	}
 }
 

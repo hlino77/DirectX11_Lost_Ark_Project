@@ -71,9 +71,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	Reset_Triangle();
 
-	m_iHp = 100;
-	m_iMaxHp = 100;
-
 	if (FAILED(Ready_SpeechBuble()))
 		return E_FAIL;
 	
@@ -92,6 +89,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	}
 
 	m_pRigidBody->Set_Gravity(false);
+
 	return S_OK;
 }
 

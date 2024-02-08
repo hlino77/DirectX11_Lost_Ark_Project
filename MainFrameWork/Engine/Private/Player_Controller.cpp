@@ -69,6 +69,9 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 	if (true == m_bStop)
 		Look_Lerp(fTimeDelta);
 
+	/* Refill Mana*/
+	Refill_Mana(fTimeDelta);
+
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
 	Skill_ChangeStat_CoolTime(fTimeDelta);
@@ -217,6 +220,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::W] && nullptr != m_pSkills[SKILL_KEY::W] && (KEY_HOLD(KEY::W) || KEY_TAP(KEY::W)))
@@ -231,6 +235,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::E] && nullptr != m_pSkills[SKILL_KEY::E] && (KEY_HOLD(KEY::E) || KEY_TAP(KEY::E)))
@@ -245,6 +250,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::R] && nullptr != m_pSkills[SKILL_KEY::R] && (KEY_HOLD(KEY::R) || KEY_TAP(KEY::R)))
@@ -259,6 +265,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::A] && nullptr != m_pSkills[SKILL_KEY::A] && (KEY_HOLD(KEY::A) || KEY_TAP(KEY::A)))
@@ -273,6 +280,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::S] && nullptr != m_pSkills[SKILL_KEY::S] && (KEY_HOLD(KEY::S) || KEY_TAP(KEY::S)))
@@ -287,6 +295,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::D] && nullptr != m_pSkills[SKILL_KEY::D] && (KEY_HOLD(KEY::D) || KEY_TAP(KEY::D)))
@@ -301,6 +310,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::F] && nullptr != m_pSkills[SKILL_KEY::F] && (KEY_HOLD(KEY::F) || KEY_TAP(KEY::F)))
@@ -315,6 +325,7 @@ _bool CPlayer_Controller::Is_Skill()
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		m_fRefillManaAcc = -2.f;
 		return true;
 	}
 
@@ -968,6 +979,27 @@ void CPlayer_Controller::Silence()
 	else
 	{
 		m_bSkillKeyActive = false;
+	}
+}
+
+void CPlayer_Controller::Refill_Mana(_float fTimeDelta)
+{
+	CGameObject::STATDESC tPcDesc = m_pOwner->Get_PlayerStat_Desc();
+
+	if (tPcDesc.iCurMp >= tPcDesc.iMaxMp)
+		return;
+
+	m_fRefillManaAcc += fTimeDelta;
+	if (1.f <= m_fRefillManaAcc)
+	{
+		m_fRefillManaAcc = 0.0f;
+
+		tPcDesc.iCurMp += tPcDesc.iMaxMp * 0.1;
+		if (tPcDesc.iCurMp >= tPcDesc.iMaxMp)
+		{
+			tPcDesc.iCurMp = tPcDesc.iMaxMp;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcDesc);
 	}
 }
 

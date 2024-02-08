@@ -165,6 +165,7 @@ protected:
 	virtual void			Silence();
 
 	virtual void			EstherSkill(_uint iIndex) {};
+	virtual void			Refill_Mana(_float fTimeDelta);
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -230,6 +231,7 @@ protected:
 	_float					m_fChangeStatAcc[SKILL_KEY::_END];
 	_float					m_fChangeStatTime[SKILL_KEY::_END];
 
+	_float					m_fRefillManaAcc = 0.0f;
 
 	/* SG엔진 변수 */
 	Vec3					m_vMaxLinearSpeed;

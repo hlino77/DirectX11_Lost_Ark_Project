@@ -1615,6 +1615,7 @@ HRESULT CRenderer::Render_PostProcess()
 	
 	}
 
+	// µ¥µå½Å
 	if(true == m_bDeadScene)
 	{
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DeadScene"))))

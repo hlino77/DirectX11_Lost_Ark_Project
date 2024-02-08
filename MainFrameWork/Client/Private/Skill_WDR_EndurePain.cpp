@@ -5,6 +5,7 @@
 #include "Effect_Manager.h"
 #include "Camera_Player.h"
 #include "Effect.h"
+#include "Item.h"
 
 CSkill_WDR_EndurePain::CSkill_WDR_EndurePain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WDR_EndurePain"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -41,7 +42,7 @@ HRESULT CSkill_WDR_EndurePain::Initialize(void* pArg)
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
-	m_iUseMana = 0;
+	m_iUseMana = 20;
 
 	return S_OK;
 }
@@ -111,6 +112,18 @@ _float CSkill_WDR_EndurePain::Restore_Player_Status()
 
 void CSkill_WDR_EndurePain::Check_ColliderState()
 {
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			m_SkillProjDesc.iDamage * 1.f;
+		}
+		else
+		{
+			m_SkillProjDesc.iDamage * 1.5f;
+		}
+	}
 }
 
 CSkill_WDR_EndurePain* CSkill_WDR_EndurePain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer, void* pArg)
