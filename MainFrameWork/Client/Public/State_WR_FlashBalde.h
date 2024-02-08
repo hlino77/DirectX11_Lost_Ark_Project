@@ -5,6 +5,7 @@
 
 BEGIN(Client)
 
+class CEffect;
 class CState_WR_FlashBalde final : public CState_Skill
 {
 public:
@@ -32,6 +33,7 @@ private:
 
 	//Effect
 	_bool m_bTrailStart = false;
+	_bool m_bEffectStart = false;
 	vector<CEffect*> m_Trail;
 
 public:
