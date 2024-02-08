@@ -38,8 +38,6 @@ HRESULT CCamera_Cut::Initialize(void* pArg)
 
 void CCamera_Cut::Tick(_float fTimeDelta)
 {
-
-
 	switch (m_iState)
 	{
 	case (_uint)CAMERATYPE::OFFSET:

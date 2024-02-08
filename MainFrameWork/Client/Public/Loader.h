@@ -54,6 +54,7 @@ private:
 	HRESULT Loading_For_Level_Chaos2();
 	HRESULT Loading_For_Level_Chaos3();
 	HRESULT Loading_For_Level_ValtanMain();
+	HRESULT Loading_For_Level_Stuio();
 
 	HRESULT	Load_NpcData();
 	HRESULT Start_Load_Npc(const wstring& strPath);
@@ -78,6 +79,7 @@ private:
 	HRESULT Loading_Model_For_Level_Bern();
 	HRESULT Loading_Model_For_Level_Lobby();
 	HRESULT	Loading_Model_For_Level_Tool_Npc();
+	HRESULT Loading_Model_For_Level_Studio();
 
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVELID eNextLevel);

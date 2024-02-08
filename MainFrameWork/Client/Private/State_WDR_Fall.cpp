@@ -52,6 +52,10 @@ void CState_WDR_Fall::Enter_State()
 
 	m_bStart = false;
 
+	CGameObject::STATDESC tPcDesc = m_pPlayer->Get_PlayerStat_Desc();
+	tPcDesc.iCurHp = 0;
+	m_pPlayer->Set_PlayerStat_Desc(tPcDesc);
+
 	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
 }
 

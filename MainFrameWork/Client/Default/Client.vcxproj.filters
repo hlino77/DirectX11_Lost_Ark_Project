@@ -4880,6 +4880,9 @@
     <ClInclude Include="..\Public\UI_DeadWnd.h">
       <Filter>02.GameObjects\UI\21.DeadScene\00.DeadWnd</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Studio.h">
+      <Filter>01.Levels\90. Studio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -8023,6 +8026,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_DeadWnd.cpp">
       <Filter>02.GameObjects\UI\21.DeadScene\00.DeadWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Studio.cpp">
+      <Filter>01.Levels\90. Studio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

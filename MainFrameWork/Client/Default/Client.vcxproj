@@ -322,6 +322,7 @@
     <ClInclude Include="..\Public\Level_ChaosLevel3.h" />
     <ClInclude Include="..\Public\Level_Lobby.h" />
     <ClInclude Include="..\Public\Level_ServerSelect.h" />
+    <ClInclude Include="..\Public\Level_Studio.h" />
     <ClInclude Include="..\Public\Level_Tool.h" />
     <ClInclude Include="..\Public\Level_Tool_Npc.h" />
     <ClInclude Include="..\Public\Level_ValtanMain.h" />
@@ -1008,6 +1009,7 @@
     <ClCompile Include="..\Private\Level_ChaosLevel3.cpp" />
     <ClCompile Include="..\Private\Level_Lobby.cpp" />
     <ClCompile Include="..\Private\Level_ServerSelect.cpp" />
+    <ClCompile Include="..\Private\Level_Studio.cpp" />
     <ClCompile Include="..\Private\Level_Tool.cpp" />
     <ClCompile Include="..\Private\Level_Tool_Npc.cpp" />
     <ClCompile Include="..\Private\Level_ValtanMain.cpp" />

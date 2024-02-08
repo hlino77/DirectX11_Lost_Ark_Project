@@ -23,13 +23,13 @@ public:
 public:
 	typedef struct tagStatDesc
 	{
-		uint64	iMaxHp;
-		uint64	iCurHp;
+		int64	iMaxHp;
+		int64	iCurHp;
 
-		uint64	iMaxMp;
-		uint64	iCurMp;
+		int64	iMaxMp;
+		int64	iCurMp;
 
-		uint64  iDefHP;
+		int64  iDefHP;
 
 		_uint	iAtkPower;
 

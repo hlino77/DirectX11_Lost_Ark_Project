@@ -90,6 +90,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pRigidBody->Set_Gravity(false);
 
+	m_tPCStatDesc.iMaxMp = 1000;
+	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
+
 	return S_OK;
 }
 

@@ -214,9 +214,8 @@ _bool CPlayer_Controller::Is_Skill()
 
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -229,9 +228,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -244,9 +242,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -259,9 +256,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -274,9 +270,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -289,9 +284,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -304,9 +298,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -319,9 +312,8 @@ _bool CPlayer_Controller::Is_Skill()
 		
 		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
-		if (0 >= tPcStat.iCurMp)
+		if (0 > tPcStat.iCurMp)
 		{
-			tPcStat.iCurMp = 0;
 			return false;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
@@ -985,6 +977,8 @@ void CPlayer_Controller::Silence()
 void CPlayer_Controller::Refill_Mana(_float fTimeDelta)
 {
 	CGameObject::STATDESC tPcDesc = m_pOwner->Get_PlayerStat_Desc();
+	if (0 >= tPcDesc.iCurMp)
+		tPcDesc.iCurMp = 0;
 
 	if (tPcDesc.iCurMp >= tPcDesc.iMaxMp)
 		return;
@@ -994,7 +988,7 @@ void CPlayer_Controller::Refill_Mana(_float fTimeDelta)
 	{
 		m_fRefillManaAcc = 0.0f;
 
-		tPcDesc.iCurMp += tPcDesc.iMaxMp * 0.1;
+		tPcDesc.iCurMp += tPcDesc.iMaxMp * 0.1f;
 		if (tPcDesc.iCurMp >= tPcDesc.iMaxMp)
 		{
 			tPcDesc.iCurMp = tPcDesc.iMaxMp;

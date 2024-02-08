@@ -1,19 +1,12 @@
 #pragma once
-
 #include "Client_Defines.h"
 #include "Level.h"
 
-
-
 BEGIN(Engine)
-
 class CRenderer;
 END
 
-
-
 BEGIN(Client)
-
 
 class CLevel_ValtanMain final : public CLevel
 {
