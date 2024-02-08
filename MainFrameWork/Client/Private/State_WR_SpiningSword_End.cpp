@@ -62,8 +62,9 @@ void CState_WR_SpiningSword_End::Exit_State()
 
 void CState_WR_SpiningSword_End::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_End);
 
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_End))
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -93,7 +94,7 @@ void CState_WR_SpiningSword_End::Tick_State_Control(_float fTimeDelta)
 		m_bEffectStart[0] = true;
 	}
 
-	if (false == m_bEffectStart[1] && 11 <= iAnimFrmae)
+	if (false == m_bEffectStart[1] && 11 <= iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -106,7 +107,7 @@ void CState_WR_SpiningSword_End::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSpiningSword_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (25 <= iAnimFrmae)
+	if (25 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
