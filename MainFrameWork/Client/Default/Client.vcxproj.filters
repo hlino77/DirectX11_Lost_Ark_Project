@@ -1912,7 +1912,6 @@
     <ClInclude Include="..\Public\UI_LoadingShine.h">
       <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
@@ -4883,6 +4882,9 @@
     <ClInclude Include="..\Public\Level_Studio.h">
       <Filter>01.Levels\90. Studio</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Player_Controller_GN.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5084,7 +5086,6 @@
     <ClCompile Include="..\Private\UI_LoadingShine.cpp">
       <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
@@ -8029,6 +8030,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Studio.cpp">
       <Filter>01.Levels\90. Studio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Controller_GN.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

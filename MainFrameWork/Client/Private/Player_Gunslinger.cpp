@@ -126,6 +126,12 @@ HRESULT CPlayer_Gunslinger::Initialize_Prototype()
 HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
+	
+	m_tPCStatDesc.iMaxHp = 70000 + CGameInstance::GetInstance()->Random_Int(0, 7000);
+	m_tPCStatDesc.iCurHp = m_tPCStatDesc.iMaxHp;
+
+	m_tPCStatDesc.iMaxMp = 1000;
+	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
@@ -173,11 +179,7 @@ HRESULT CPlayer_Gunslinger::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 	
-	m_tPCStatDesc.iMaxHp = 70000 + CGameInstance::GetInstance()->Random_Int(0, 7000);
-	m_tPCStatDesc.iCurHp = m_tPCStatDesc.iMaxHp;
 
-	m_tPCStatDesc.iMaxMp = 1000;
-	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
 
 	return S_OK;
 }
