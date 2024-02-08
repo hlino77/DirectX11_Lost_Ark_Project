@@ -2,6 +2,7 @@
 #include "..\Public\Skill_WDR_FullSwing.h"
 #include "Player_Destroyer.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_WDR_FullSwing::CSkill_WDR_FullSwing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Destroyer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WDR_FullSwing"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -37,6 +38,8 @@ HRESULT CSkill_WDR_FullSwing::Initialize(void* pArg)
 	Proj_Desc.bUseFactor = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	m_iUseMana = 130;
 
 	return S_OK;
 }
@@ -75,6 +78,19 @@ void CSkill_WDR_FullSwing::Check_ColliderState()
 	else
 	{
 		m_SkillProjDesc.iDamage = 350;
+	}
+
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			m_SkillProjDesc.iDamage * 1.f;
+		}
+		else
+		{
+			m_SkillProjDesc.iDamage * 1.5f;
+		}
 	}
 }
 

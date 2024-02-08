@@ -67,7 +67,7 @@ void CState_WR_FuriousClaw_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
 
-	if (false == m_EffectStart[m_iEffectCnt] && m_SkillFrames[m_iEffectCnt] - 1 <= iCurrFrame)
+	if (false == m_EffectStart[m_iEffectCnt] && -1 != m_SkillFrames[m_iEffectCnt] && m_SkillFrames[m_iEffectCnt] - 1 <= iCurrFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -105,7 +105,7 @@ void CState_WR_FuriousClaw_Loop::Tick_State_Control(_float fTimeDelta)
 		++m_iEffectCnt;
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] == iCurrFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iCurrFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);

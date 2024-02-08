@@ -74,7 +74,7 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 			{
 				m_pSpeechBuble->Reset_SpeechBubble();
 				m_iCurrTalk = 0;
-				m_fTalkStartAcc = -2.0f;
+				m_fTalkStartAcc = 0.f;
 				m_IsTalkStart = false;
 			}
 		}
@@ -407,7 +407,7 @@ void CDeco_Npc::Talk(const _float& fTimeDelta)
 	if (m_NpcDesc.vecTalks.size() <= m_iCurrTalk)
 	{
 		m_iCurrTalk = 0;
-		m_fTalkStartAcc = -5.f;
+		m_fTalkStartAcc = -2.f;
 		m_IsTalkStart = false;
 	}
 }

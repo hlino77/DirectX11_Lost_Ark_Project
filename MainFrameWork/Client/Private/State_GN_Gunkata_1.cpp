@@ -68,7 +68,7 @@ void CState_GN_Gunkata_1::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_1);
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		Effect_Trail();
 

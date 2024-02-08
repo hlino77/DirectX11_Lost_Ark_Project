@@ -32,6 +32,11 @@ void CState_SP_Resurrect::Enter_State()
 	m_pPlayer->Set_Invincible(true);
 
 	m_pPlayer->Get_RendererCom()->Set_DeadScene(false);
+
+	CGameObject::STATDESC tPcStat = m_pPlayer->Get_PlayerStat_Desc();
+	tPcStat.iCurHp = tPcStat.iMaxHp;
+	tPcStat.iCurMp = tPcStat.iMaxMp;
+	m_pPlayer->Set_PlayerStat_Desc(tPcStat);
 }
 
 void CState_SP_Resurrect::Tick_State(_float fTimeDelta)

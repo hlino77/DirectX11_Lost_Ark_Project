@@ -39,6 +39,8 @@ HRESULT CSkill_GN_DeadHard::Initialize(void* pArg)
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
+	m_iUseMana = 84;
+
 	return S_OK;
 }
 

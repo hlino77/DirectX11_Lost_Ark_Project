@@ -72,7 +72,7 @@ void CState_WDR_PowerShoulder_End::Tick_State_Control(_float fTimeDelta)
 		Update_Effect_Circle(fTimeDelta);
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -142,7 +142,7 @@ void CState_WDR_PowerShoulder_End::Tick_State_NoneControl(_float fTimeDelta)
 		Update_Effect_Circle(fTimeDelta);
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		Effect_End();

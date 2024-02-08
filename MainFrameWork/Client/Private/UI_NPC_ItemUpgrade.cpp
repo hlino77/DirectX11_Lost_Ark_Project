@@ -45,9 +45,6 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-    m_pUsingPlayer = CServerSessionManager::GetInstance()->Get_Player();
-    if (nullptr == m_pUsingPlayer)
-        return E_FAIL;
     for (size_t i = 0; i < SELECTED_END; i++)
     {
         m_pEquips[i] = { nullptr };
@@ -55,6 +52,10 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
     Set_Active_UpGrade(true);
     if (FAILED(Initialize_TextBox()))
         return E_FAIL;
+
+
+    m_bActive = false;
+
     return S_OK;
 }
 
@@ -189,6 +190,8 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_BaseWnd()
     m_pTransform_ResultCheckButton->Set_Scale(Vec3(221.f * 0.8f, 42.f * 0.8f, 1.f));
     m_pTransform_ResultCheckButton->Set_State(CTransform::STATE_POSITION,
         Vec3(m_fX - g_iWinSizeX * 0.5f, -((m_fY + 264.f)) + g_iWinSizeY * 0.5f, 0.01f));
+
+    m_fDeActiveAcc = 0.0f;
     return S_OK;
 }
 
@@ -361,7 +364,27 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_TextBox()
 
 void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
 {
+    if (nullptr == m_pUsingPlayer)
+    {
+        m_pUsingPlayer = CServerSessionManager::GetInstance()->Get_Player();
+        
+    }
+        
+
     __super::Tick(fTimeDelta);
+
+    if (true == m_bDeActive)
+    {
+        m_fDeActiveAcc += fTimeDelta;
+        if (0.5f <= m_fDeActiveAcc)
+        {
+            m_fDeActiveAcc = 0.0f;
+            m_bDeActive = false;
+            Reset_Player_Control();
+            Set_Active(false);
+        }
+    }
+
 
     if (KEY_TAP(KEY::M))//Test
         Update_Items();
@@ -370,6 +393,7 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
         m_bMaxGauge = true;
     else
         m_bMaxGauge = false;
+
     m_fItemGrowthRatio = m_fItemGrowthCurrGauge / m_fItemGrowthMaxGauge;
 }
 
@@ -617,8 +641,6 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
             return;
         Update_Items();
     }
-
-
 }
 
 void CUI_NPC_ItemUpgrade::Update_Items()
@@ -775,7 +797,7 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         m_pCurrItemNameWnd->Set_Active(false);
         m_pItemNameWnd->Set_Active(false);
         m_pResultWnd->Set_Active(false);
-        Set_Active(false);
+        m_bDeActive = true;
     }
 }
 
@@ -1395,7 +1417,7 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_TextBox()
 
 void CUI_NPC_ItemUpgrade::Print_CurrItemNameWnd()
 {
-    if (nullptr != m_pCurrItemNameWnd)
+    if (nullptr != m_pCurrItemNameWnd && nullptr != m_pCurrUpgradeItem)
     {
         m_pCurrItemNameWnd->Clear_Text();
         m_pCurrItemNameWnd->Set_Alpha(1.f);
@@ -4024,6 +4046,7 @@ void CUI_NPC_ItemUpgrade::Free()
     m_pItemNameWnd->Set_Dead(true);
     m_pCurrItemNameWnd->Set_Dead(true);
     m_pItemNameWnd->Set_Dead(true);
+    m_pCurrGaugeWnd->Set_Dead(true);
 
     Safe_Release(m_pTexture_None);
     Safe_Release(m_pTexture_HammerCap);

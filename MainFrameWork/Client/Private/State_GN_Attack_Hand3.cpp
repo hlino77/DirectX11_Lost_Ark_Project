@@ -60,13 +60,13 @@ void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3);
 
-	if (m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
+	if (-1 != m_EffectFrames[m_iEffectCnt].iFrame && m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 

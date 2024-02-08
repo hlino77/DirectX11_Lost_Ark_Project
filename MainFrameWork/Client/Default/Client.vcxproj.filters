@@ -1687,6 +1687,36 @@
     <Filter Include="02.GameObjects\MapObject\StaticModel">
       <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\02.Bern">
+      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeOut">
+      <UniqueIdentifier>{70a04fdf-3c8b-49e3-a756-ed369c000777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeIn">
+      <UniqueIdentifier>{5211e478-f0c1-43f2-944d-00dd8a1d4b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Upgrade_Npc">
+      <UniqueIdentifier>{e7757667-bee8-4300-b8e6-bebbd122a804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\90. Studio">
+      <UniqueIdentifier>{987128dc-6685-483e-bc20-10678336b0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\22. Option">
+      <UniqueIdentifier>{7f8f6746-3bc7-4aa2-8330-d7b8eac782fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\22. Option\00.Wnd">
+      <UniqueIdentifier>{7306f7de-dad8-4b04-8dcd-e10d037d34b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\22. Option\02.Sound_Option">
+      <UniqueIdentifier>{6e545aaa-a683-4a03-a728-9650f911841f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\22. Option\01.Video_Option">
+      <UniqueIdentifier>{c25b5235-e036-4072-b2da-bb8c9136f942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\21.DeadScene\00.DeadWnd">
+      <UniqueIdentifier>{54de9de8-35dc-48fd-a1b2-cc556156c4e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1891,7 +1921,6 @@
     <ClInclude Include="..\Public\UI_LoadingShine.h">
       <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_Controller_GN.h" />
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
@@ -4841,6 +4870,30 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h">
       <Filter>02.GameObjects\Boss\Golem\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Upgrade_Npc.h">
+      <Filter>02.GameObjects\Npc\Function_Npc\Upgrade_Npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Option.h">
+      <Filter>02.GameObjects\UI\22. Option</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_OptionWnd.h">
+      <Filter>02.GameObjects\UI\22. Option\00.Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Option_Video.h">
+      <Filter>02.GameObjects\UI\22. Option\01.Video_Option</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Option_Sound.h">
+      <Filter>02.GameObjects\UI\22. Option\02.Sound_Option</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_DeadWnd.h">
+      <Filter>02.GameObjects\UI\21.DeadScene\00.DeadWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Studio.h">
+      <Filter>01.Levels\90. Studio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Controller_GN.h">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5042,7 +5095,6 @@
     <ClCompile Include="..\Private\UI_LoadingShine.cpp">
       <Filter>02.GameObjects\UI\01.Loading\02.Bar\03.Shine</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player_Controller_GN.cpp" />
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
@@ -7966,6 +8018,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Mouse_EntranceParty.cpp">
       <Filter>02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Upgrade_Npc.cpp">
+      <Filter>02.GameObjects\Npc\Function_Npc\Upgrade_Npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Option.cpp">
+      <Filter>02.GameObjects\UI\22. Option</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_OptionWnd.cpp">
+      <Filter>02.GameObjects\UI\22. Option\00.Wnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Option_Video.cpp">
+      <Filter>02.GameObjects\UI\22. Option\01.Video_Option</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Option_Sound.cpp">
+      <Filter>02.GameObjects\UI\22. Option\02.Sound_Option</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_DeadWnd.cpp">
+      <Filter>02.GameObjects\UI\21.DeadScene\00.DeadWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Studio.cpp">
+      <Filter>01.Levels\90. Studio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Controller_GN.cpp">
+      <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

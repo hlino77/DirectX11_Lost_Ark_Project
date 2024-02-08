@@ -63,7 +63,7 @@ HRESULT CSkill_SP_Moondrawing::Initialize(void* pArg)
 
 		m_vecSkillProjDesces.push_back(Proj_Desc);
 	}
-
+	m_iUseMana = 80;
 	return S_OK;
 }
 

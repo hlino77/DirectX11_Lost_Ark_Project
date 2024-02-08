@@ -96,7 +96,7 @@ void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 		m_EffectStart[m_iAttackCnt] = true;
 	}
 
-	if (m_AttackFrames[m_iAttackCnt] <= iCurrFrame && true == m_EffectStart[m_iAttackCnt])
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iCurrFrame && true == m_EffectStart[m_iAttackCnt])
 	{
 		m_iAttackCnt++;
 

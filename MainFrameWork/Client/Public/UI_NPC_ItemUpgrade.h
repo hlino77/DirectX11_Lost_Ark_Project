@@ -383,6 +383,11 @@ private:
     CItem* m_pEquips[SELECTED_END];
     CItem* m_pCurrUpgradeItem = { nullptr };
 
+private:
+    _bool   m_bDeActive = false;
+    _float  m_fDeActiveAcc = 0.0f;
+
+
 public:
     static  CUI_NPC_ItemUpgrade* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

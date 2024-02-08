@@ -97,6 +97,13 @@ HRESULT CPlayer_Doaga::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
+	m_tPCStatDesc.iMaxHp = 80000 + CGameInstance::GetInstance()->Random_Int(0, 7000);
+	m_tPCStatDesc.iCurHp = m_tPCStatDesc.iMaxHp;
+
+
+	m_tPCStatDesc.iMaxMp = 1200;
+	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
+
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -139,6 +146,8 @@ HRESULT CPlayer_Doaga::Initialize(void* pArg)
 	m_pStateMachine->Change_State(Desc->szState);
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
+
+	
 
 	return S_OK;
 }

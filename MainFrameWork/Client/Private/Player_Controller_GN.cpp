@@ -154,6 +154,19 @@ void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPo
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
+	CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+
+	m_iDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 20;
+
+	tPcStat.iCurHp -= m_iDamaged;
+	if (0 >= tPcStat.iCurHp)
+	{
+		tPcStat.iCurHp = 0;
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Dead_Start"));
+		return;
+	}
+	m_pOwner->Set_PlayerStat_Desc(tPcStat);
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{

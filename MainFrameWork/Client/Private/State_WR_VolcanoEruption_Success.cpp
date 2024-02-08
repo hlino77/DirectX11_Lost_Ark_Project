@@ -60,7 +60,7 @@ void CState_WR_VolcanoEruption_Success::Tick_State_Control(_float fTimeDelta)
 {
 	_int iSkillFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iVolcano_Success);
 
-	if (m_SkillFrames[m_iSkillCnt] == iSkillFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == iSkillFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);

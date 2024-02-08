@@ -27,6 +27,7 @@ public:
 	virtual void	Get_GrabEndMessage();
 	virtual void	Get_DeadMessage();
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
+
 	void			Get_SP_IdentityMessage();
 
 	/* 아덴 관련 함수 */

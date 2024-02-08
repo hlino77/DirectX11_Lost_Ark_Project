@@ -21,6 +21,7 @@ namespace Client
 		LEVEL_VALTANMAIN,
 		LEVEL_LOADING,
 		LEVEL_TOOL_NPC,
+		LEVEL_STUDIO,
 		LEVEL_END 
 	};
 

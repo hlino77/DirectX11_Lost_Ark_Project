@@ -73,13 +73,13 @@ void CState_GN_Gunkata_3::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_3);
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
+	if (-1 != m_EffectFrames[m_iEffectCnt].iFrame && m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
 	{
 		if (m_EffectFrames[m_iEffectCnt].iFrame == 5)
 		{
@@ -116,7 +116,7 @@ void CState_GN_Gunkata_3::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGunkata_3);
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
+	if (-1 != m_EffectFrames[m_iEffectCnt].iFrame && m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
 	{
 		if (m_EffectFrames[m_iEffectCnt].iFrame == 5)
 		{

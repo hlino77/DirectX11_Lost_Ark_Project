@@ -147,6 +147,10 @@
 #include "UI_ValtanClearWnd.h"
 #include "UI_EstherSkill.h"
 #include "UI_PartyEntrance.h"
+#include "UI_OptionWnd.h"
+#include "UI_Option_Sound.h"
+#include "UI_Option_Video.h"
+#include "UI_Option.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -216,6 +220,7 @@
 #include "tinyxml2.h"
 #include "Deco_Npc.h"
 #include "Guide_Chaos_Npc.h"
+#include "Upgrade_Npc.h"
 #include "Npc_Part.h"
 
 
@@ -682,6 +687,10 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 		CGuide_Chaos_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Upgrade_Npc"),
+		CUpgrade_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1038,6 +1047,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 
 	if (FAILED(Loading_ValtanUI()))//¿Ï¼º ÈÄ ¹ßÅº¸ÊÀ¸·Î ¿Å±æ ¿¹Á¤
+		return E_FAIL;
+
+	if (FAILED(Loading_OptionUI()))
 		return E_FAIL;
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
@@ -1401,6 +1413,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
 		CGuide_Chaos_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Upgrade_Npc"),
+		CUpgrade_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -2065,6 +2082,13 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 		{
 			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
 				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
+		else if (TEXT("Upgrade_Npc") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Upgrade_Npc"), &NpcCreateDesc);
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}
@@ -3490,6 +3514,117 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_OptionUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_OptionWnd"),
+		CUI_OptionWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_OptionSound"),
+		CUI_Option_Sound::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_OptionVideo"),
+		CUI_Option_Video::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Option"),
+		CUI_Option::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Button%d.png",3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_CheckBox"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Option_CheckBox%d.png",3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_DetailButton"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/OptionDetailButton%d.png",2))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_Quit_Option"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/QuitOption%d.png", 2))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_OptionTag"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/OptionTag%d.png", 3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_DragBar"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/DragBar.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_Line"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Line.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_DragLine"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Option_DragLine.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_OptionWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/OptionWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_ValueTextWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/ValueTextWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	Safe_Release(pUIManager);
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_DeadSceneUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_DeadSceneUI"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/DeadSceneUI.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_AnimEffect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/%d.png",20))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_Button"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/Button%d.png", 3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	Safe_Release(pUIManager);
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 
 HRESULT CLoader::Loading_PartyUI()
 {
@@ -4014,6 +4149,27 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 					pUIManager->Add_CurrFile();
 				}
 
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_BERN, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_BERN, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+
+
+				}
+
+				pUIManager->Add_CurrFile();
 				return S_OK;
 			}));
 	}
@@ -4776,6 +4932,25 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 
 			return S_OK;
 		}));	
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"NP_ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_TOOL_NPC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_TOOL_NPC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+
+			}));
 	}
 
 	/* Npc ¸ðµ¨ÆÄÃ÷ */

@@ -65,7 +65,7 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -161,7 +161,7 @@ void CState_SP_SkyKongKong_Loop::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Loop);
 
-	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		Effect_Shot();
 

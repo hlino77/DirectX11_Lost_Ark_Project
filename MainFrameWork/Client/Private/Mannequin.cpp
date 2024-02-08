@@ -62,8 +62,10 @@ void CMannequin::Tick(_float fTimeDelta)
 		Talk(fTimeDelta);
 	}
 
-	if ((_uint)LEVEL_TOOL_NPC == m_iCurrLevel&& m_IsMove)
+	if (true == m_IsMove)
+	{
 		CNavigationMgr::GetInstance()->SetUp_OnCell(LEVEL_TOOL_NPC, this);
+	}
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta);
 

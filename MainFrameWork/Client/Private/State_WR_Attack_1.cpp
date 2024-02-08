@@ -65,7 +65,7 @@ void CState_WR_Attack_1::Tick_State_Control(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
 
-	if (m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();

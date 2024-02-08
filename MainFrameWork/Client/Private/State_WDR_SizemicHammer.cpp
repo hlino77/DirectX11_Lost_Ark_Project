@@ -61,7 +61,7 @@ void CState_WDR_SizemicHammer::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		if (m_SkillFrames[m_iSkillCnt] == 41)
 		{
@@ -132,7 +132,7 @@ void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSizemicHammer);
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		if (m_SkillFrames[m_iSkillCnt] == 41)
 		{

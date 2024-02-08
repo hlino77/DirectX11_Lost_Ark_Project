@@ -63,7 +63,7 @@ void CState_WR_FuriousClaw_End::Exit_State()
 
 void CState_WR_FuriousClaw_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (!m_bEffectStart && m_SkillFrames[m_iSkillCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_End))
+	if (!m_bEffectStart && -1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_End))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();

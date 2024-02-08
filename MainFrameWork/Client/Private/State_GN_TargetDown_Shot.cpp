@@ -77,7 +77,7 @@ void CState_GN_TargetDown_Shot::Exit_State()
 
 void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
 	{
 		m_iSkillCnt++;
 		Effect_Shot();
@@ -94,7 +94,7 @@ void CState_GN_TargetDown_Shot::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
 	{
 		m_iSkillCnt++;
 		Effect_Shot();

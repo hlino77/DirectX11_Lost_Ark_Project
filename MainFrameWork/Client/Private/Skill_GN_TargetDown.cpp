@@ -36,6 +36,8 @@ HRESULT CSkill_GN_TargetDown::Initialize(void* pArg)
 	Proj_Desc.fRepulsion = 1.8f;
 	m_SkillProjDesc = Proj_Desc;
 
+	m_iUseMana = 111;
+
 	return S_OK;
 }
 

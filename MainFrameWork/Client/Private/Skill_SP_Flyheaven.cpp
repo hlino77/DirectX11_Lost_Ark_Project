@@ -40,7 +40,7 @@ HRESULT CSkill_SP_Flyheaven::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
 	Proj_Desc.IsMove = true;
 	Proj_Desc.fMoveSpeed = 4.8f;
-	Proj_Desc.iDamage = 300;
+	Proj_Desc.iDamage = 1000;
 	Proj_Desc.iStagger = 70;
 	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::STUN;
 	Proj_Desc.fStatusDuration = 2.f;
@@ -48,6 +48,8 @@ HRESULT CSkill_SP_Flyheaven::Initialize(void* pArg)
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	m_iUseMana = 101;
 
 	m_iAnimIndex = m_pModelCom->Initailize_FindAnimation(L"sk_flyinheaven", 1.f);
 	if (m_iAnimIndex == -1)

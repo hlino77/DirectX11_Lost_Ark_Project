@@ -160,6 +160,9 @@ HRESULT CUI_SkillIcon_Frame::Render()
     m_pShaderCom->Begin(2);
     m_pVIBufferCom->Render();
 
+    if(m_fCoolMaxTime > m_fResultCool)
+        m_pCoolTimetWnd->Render();
+
     return S_OK;
 }
 
@@ -537,6 +540,7 @@ HRESULT CUI_SkillIcon_Frame::Ready_TextBox()
 
         m_pCoolTimetWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
         m_pCoolTimetWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+        m_pCoolTimetWnd->Set_Render(false);
     }
     Safe_Release(pGameInstance);
     return S_OK;

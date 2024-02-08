@@ -34,13 +34,15 @@ HRESULT CSkill_SP_Onestroke::Initialize(void* pArg)
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.6f);
 	Proj_Desc.vChildScale = Vec3(1.5f, 0.6f, 2.4f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.6f);
-	Proj_Desc.iDamage = 900;
+	Proj_Desc.iDamage = 1800;
 	Proj_Desc.iStagger = 80;
 	Proj_Desc.fRepulsion = 21.f;
 	Proj_Desc.IsCounter = true;
 
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
+
+	m_iUseMana = 103;
 
 	return S_OK;
 }

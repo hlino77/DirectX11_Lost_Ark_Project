@@ -12,8 +12,8 @@ protected:
 		EffectFrameDesc() {};
 		EffectFrameDesc(_uint iFrameIndex, _uint iWeaponIndex) : iFrame(iFrameIndex), iWeapon(iWeaponIndex) {}
 
-		_uint iFrame = -1;
-		_uint iWeapon = -1;
+		_int iFrame = -1;
+		_int iWeapon = -1;
 	}EFFECTFRAMEDESC;
 
 public:
@@ -52,7 +52,7 @@ protected:
 	_bool	m_IsAttack = { false };
 
 	_uint m_iSkillCnt = 0;
-	vector<_uint> m_SkillFrames;
+	vector<_int> m_SkillFrames;
 
 	_uint m_iEffectCnt = 0;
 	vector<EffectFrameDesc> m_EffectFrames;

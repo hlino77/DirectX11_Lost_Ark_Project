@@ -66,6 +66,8 @@ HRESULT CSkill_GN_Gunkata::Initialize(void* pArg)
 	Proj_Desc.fRepulsion = 21.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
+	m_iUseMana = 59;
+
 	return S_OK;
 }
 

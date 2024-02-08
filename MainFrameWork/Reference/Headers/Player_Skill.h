@@ -61,6 +61,7 @@ public:
 	virtual const _float&			Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
 	virtual class CTexture*			Get_Skill_Texture();
 	virtual PROJECTILE_DESC			Get_Skill_Proj_Desc()	{ return m_SkillProjDesc; }
+	virtual const uint64&			Get_UseMana() { return m_iUseMana; }
 
 public:
 	virtual void			Set_SkillProjPos(Vec3 vPos) { m_SkillProjDesc.vAttackPos = vPos; }
@@ -95,6 +96,8 @@ protected:
 	_bool						  m_IsSkillSuccess = { false };
 	_bool						  m_IsSuperArmor = { false };
 	_bool						  m_IsAttack = { false };
+
+	uint64						  m_iUseMana = 0;
 
 	vector<class CState*>		  m_State_Skills;
 

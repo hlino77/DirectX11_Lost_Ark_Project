@@ -56,7 +56,7 @@ void CState_WDR_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
 
-	if (m_AttackFrames[m_iAttackCnt] <= (_uint)iAnimIndex)
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iAnimIndex)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();

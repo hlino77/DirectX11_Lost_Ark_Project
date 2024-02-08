@@ -45,9 +45,6 @@ HRESULT CUI_PartyUI::Initialize(void* pArg)
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
-	if (4 != m_vecPlayers.size())
-		m_vecPlayers.resize(4);
 	if (FAILED(UI_Set()))
 		return E_FAIL;
 
@@ -286,8 +283,6 @@ CGameObject* CUI_PartyUI::Clone(void* pArg)
 void CUI_PartyUI::Free()
 {
 	__super::Free();
-
-	m_vecPlayers.clear();
 
 	if(nullptr != m_pTextBox)
 		m_pTextBox->Set_Dead(true);

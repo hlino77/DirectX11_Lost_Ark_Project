@@ -72,6 +72,7 @@ private:
 
 	/* 생성 및 저장 */
 	void	Create_Npc(const _float& fTimeDelta);
+	void	Create_None_Npc();
 	HRESULT	Save_Npc(const _float& fTimeDelta);
 
 	void	Clear_Info();
