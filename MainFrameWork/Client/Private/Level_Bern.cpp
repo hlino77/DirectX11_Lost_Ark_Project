@@ -47,6 +47,9 @@ HRESULT CLevel_Bern::Initialize()
 
 	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState(LEVELSTATE::INITREADY);
 
+	CRenderer::Set_Fog_Time(0.f);
+
+
 	Send_UserInfo();
 
 	Ready_Renderer();
@@ -115,6 +118,10 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
+
+
+	CRenderer::Set_Add_Fog_Time(fTimeDelta);
+
 
 
 	return S_OK;
@@ -257,6 +264,15 @@ HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	
 	// IBL
 	CRenderer::Set_IBLTexture(0);
+
+	// Fog
+	CRenderer::Set_Fog_Color(Vec3(0.80f, 0.90f, 0.95f));
+	CRenderer::Set_Fog_StartHeight(-10.f);
+	CRenderer::Set_Fog_EndHeight(-35.f);
+	CRenderer::Set_Fog_Density(0.01f);
+	CRenderer::Set_Fog_ChangeSpeed(1.f);
+	CRenderer::Set_Fog_MinValue(0.5);
+	
 
 	Safe_Release(pGameInstance);
 

@@ -37,7 +37,17 @@ float	g_fBias;
 
 float	g_fShadowSizeRatio;
 float	g_fStaticShadowSizeRatio;
-float2	g_vWinSize = float2(1600.f, 900.f);
+float2	g_vWinSize = float2(1600.f, 900.f);	
+
+
+// For Fog
+float  g_fFogStartHeight =  0.f;
+float  g_fFogEndHeight   =  0.f;
+float  g_fFogDensity	 =  0.f; // Fog Power 
+float3 g_vFogColor       =  float3(0.f, 0.f, 0.f); // FogColor (R, G, B) Same == Gray
+float  g_fFogTime        =  0.f;
+float  g_fFogChangeSpeed =  0.f;
+float  g_fFogMinValue    =  0.f;
 
 
 sampler DefaultSampler = sampler_state {
@@ -179,103 +189,103 @@ float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 
 float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-    float4 vAlbedo = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
-    if (vAlbedo.a == 0.f)
-    {
-        float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
-        return vPriority;
-    }
-    vAlbedo = pow(vAlbedo, 2.2f);
-	
-    float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
-    float3	N = vNormal.xyz * 2.f - 1.f;
-    float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
-    
-    float fMetallic = vProperties.x /* 임시 */ /* * 0.8f*/;
-    float fRoughness = vProperties.y;
-    float fRimLight = vProperties.w;
+	float4 vAlbedo = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
+	if (vAlbedo.a == 0.f)
+	{
+		float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
+		return vPriority;
+	}
+	vAlbedo = pow(vAlbedo, 2.2f);
 
-    float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
-	
-    float fAO = 1.f;
-	
+	float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
+	float3	N = vNormal.xyz * 2.f - 1.f;
+	float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
+
+	float fMetallic = vProperties.x /* 임시 */ /* * 0.8f*/;
+	float fRoughness = vProperties.y;
+	float fRimLight = vProperties.w;
+
+	float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
+
+	float fAO = 1.f;
+
 	if (true == g_bSSAO)
-        fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
-    
+		fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
+
 	float4	vWorldPos;
-	
-    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
-    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
-    vWorldPos.z = vNormal.w;
-    vWorldPos.w = 1.f;
-	
-    float fViewZ = vNormalDepth.w * 1200.f;
-    vWorldPos = vWorldPos * fViewZ;
-    vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-    vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
-    float fDot = saturate(dot(normalize(g_vLightDir.xyz) * -1.f, vNormal.xyz));
+	vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+	vWorldPos.z = vNormal.w;
+	vWorldPos.w = 1.f;
 
-    float fNormalOffset = g_fBias;
+	float fViewZ = vNormalDepth.w * 1200.f;
+	vWorldPos = vWorldPos * fViewZ;
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
-    float fBias = max((fNormalOffset * 5.0f) * (1.0f - (fDot * -1.0f)), fNormalOffset);
-	
-    float fResultShadow = 1.0f;
+	float fDot = saturate(dot(normalize(g_vLightDir.xyz) * -1.f, vNormal.xyz));
 
-    if (g_bShadow > EPSILON)
-    {
-        vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
-        vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
+	float fNormalOffset = g_fBias;
 
-        float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
+	float fBias = max((fNormalOffset * 5.0f) * (1.0f - (fDot * -1.0f)), fNormalOffset);
 
-        if (fStaticShadow > 0.51f)
-        {
-            vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
-            vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
+	float fResultShadow = 1.0f;
 
-            float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
+	if (g_bShadow > EPSILON)
+	{
+		vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
+		vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
 
-            fResultShadow = min(fStaticShadow, fShadow);
-        }
-        else
-            fResultShadow = fStaticShadow;
-    }
-	
-    float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
-	
-    float3 F0 = float3(0.04f, 0.04f, 0.04f);
-    F0 = lerp(F0, vAlbedo.xyz, fMetallic); // 반사율 F0
+		float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
+
+		if (fStaticShadow > 0.51f)
+		{
+			vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
+			vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
+
+			float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
+
+			fResultShadow = min(fStaticShadow, fShadow);
+		}
+		else
+			fResultShadow = fStaticShadow;
+	}
+
+	float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
+
+	float3 F0 = float3(0.04f, 0.04f, 0.04f);
+	F0 = lerp(F0, vAlbedo.xyz, fMetallic); // 반사율 F0
 
 	// calculate per-light radiance
-    float3 L = normalize(-g_vLightDir);
-    float3 H = normalize(V + L);
-	
-    float3 vPBR_Color = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, L, H, fAO);
-		
+	float3 L = normalize(-g_vLightDir);
+	float3 H = normalize(V + L);
+
+	float3 vPBR_Color = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, L, H, fAO);
+
 	float3 vColor = float3(0.f, 0.f, 0.f);
-	
+
 	float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
-    vEmissive = pow(vEmissive, 2.2f);
-	
-    vColor = vPBR_Color * fResultShadow + vEmissive;
-	
-    //vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
-	
+	vEmissive = pow(vEmissive, 2.2f);
+
+	vColor = vPBR_Color * fResultShadow + vEmissive;
+
+	//vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
+
 	if (fRimLight != 0.0f)
 	{
-	    float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
+		float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
 		if (abs(fRimLight - 0.9f) < 0.03f)
 		{
 			vRimLightColor = float3(0.f, 0.2f, 0.45f);
 		}
-        if (abs(fRimLight - 0.95f) < 0.03f)
-        {
-            vRimLightColor = float3(0.f, 0.45f, 0.3f);
-        }
+		if (abs(fRimLight - 0.95f) < 0.03f)
+		{
+			vRimLightColor = float3(0.f, 0.45f, 0.3f);
+		}
 		if (abs(fRimLight - 0.8f) < 0.03f)
 		{
-			vRimLightColor = float3(0.18, 0.522, 0.514); 
+			vRimLightColor = float3(0.18, 0.522, 0.514);
 		}
 		if (abs(fRimLight - 0.7f) < 0.03f)
 		{
@@ -285,13 +295,41 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 		{
 			vRimLightColor = float3(0.f, 0.616f, 0.639f);
 		}
-		
+
 		ComputeRimLight(vRimLightColor, N, -V);
-	    vColor += vRimLightColor;
+		vColor += vRimLightColor;
 	}
-	
-	return float4(vColor, 1.f);
+
+
+#pragma region Fog
+
+	// Not Setting FogValue
+	if (g_fFogStartHeight == 0.f)
+	{
+		return float4(vColor, 1.f); // Basic Rendering (Not Use Fog)
+	}
+
+	float height = vWorldPos.y; 
+	float fogFactor = 0.0f;
+
+	if (height < g_fFogStartHeight) 
+	{
+		float heightDifference = g_fFogStartHeight - height;
+		
+		float densityModifier = sin(g_fFogTime * g_fFogChangeSpeed) * 0.5f + 0.5f;
+
+		densityModifier = (densityModifier * (1 - g_fFogMinValue)) + g_fFogMinValue;
+
+		fogFactor = 1.0f - exp( -heightDifference * g_fFogDensity * densityModifier);
+	}
+
+	float3 finalColorWithFog = lerp(vColor.rgb, g_vFogColor, fogFactor);
+	return float4(finalColorWithFog, 1.f);
+
+#pragma endregion
+
 }
+	
 
 technique11 DefaultTechnique
 {

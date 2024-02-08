@@ -200,10 +200,13 @@ protected:
 	unordered_map<wstring, _uint>	m_BoneIndex;
 	_float							m_fRootTargetDistance =0.f;
 	_float							m_fFontScale=0.4f;
+
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightColor = 1.f;
 	_float							m_fRimLightTime = 0.0f;
+
 	_bool							m_IsSetuponCell = true;
+
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CRenderer* m_pRendererCom = nullptr;
 	CBehaviorTree* m_pBehaviorTree = nullptr;

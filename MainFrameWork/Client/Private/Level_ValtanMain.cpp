@@ -131,6 +131,8 @@ HRESULT CLevel_ValtanMain::Tick(const _float& fTimeDelta)
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
 
+	CRenderer::Set_Add_Fog_Time(fTimeDelta);
+
 	return S_OK;
 }
 
@@ -224,6 +226,16 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.9f, 0.f, 100.2f));
 
 	CRenderer::Set_IBLTexture(0);
+
+
+	// Fog
+	CRenderer::Set_Fog_Color(Vec3(0.80f, 0.80f, 0.8f));
+	CRenderer::Set_Fog_StartHeight(-2.f);
+	CRenderer::Set_Fog_EndHeight(-57.f);
+	CRenderer::Set_Fog_Density(0.008f);
+	CRenderer::Set_Fog_ChangeSpeed(1.f);
+	CRenderer::Set_Fog_MinValue(0.5f);
+
 
 	Safe_Release(pGameInstance);
 

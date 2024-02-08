@@ -15,6 +15,14 @@ _bool CRenderer::m_bPBR_Switch = true;
 _int CRenderer::m_iSSAO_Switch = true;
 _int  CRenderer::m_iFxaa_Switch = true;
 
+_float CRenderer::m_fFogDensity      = 0.f;
+_float CRenderer::m_fFogStartHeight  = 0.f;
+_float CRenderer::m_fFogEndHeight    = 0.f;
+_float CRenderer::m_fFogTime		 = 0.f;
+_float CRenderer::m_fFogChangeSpeed  = 0.f;
+_float CRenderer::m_fFogMinValue     = 0.f;
+Vec3   CRenderer::m_vFogColor        = Vec3(0.f, 0.f, 0.f);
+
 CRenderer::CRenderer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
 	, m_pTarget_Manager(CTarget_Manager::GetInstance())
@@ -1198,6 +1206,31 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticShadowSizeRatio", &m_fStaticShadowTargetSizeRatio, sizeof(_float))))
 		return E_FAIL;
+
+
+	// For Fog
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogStartHeight", &m_fFogStartHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogEndHeight", &m_fFogEndHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogDensity", &m_fFogDensity, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_vFogColor", &m_vFogColor, sizeof(Vec3))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogTime", &m_fFogTime, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogChangeSpeed", &m_fFogChangeSpeed, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogMinValue", &m_fFogMinValue, sizeof(_float))))
+		return E_FAIL;
+
+
 
 	if (FAILED(m_pLight_Manager->Bind_LightDescription(m_pMRTShader)))
 		return E_FAIL;

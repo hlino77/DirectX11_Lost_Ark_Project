@@ -114,6 +114,8 @@ HRESULT CLevel_ChaosLevel2::Tick(const _float& fTimeDelta)
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
 
+	CRenderer::Set_Add_Fog_Time(fTimeDelta);
+
 	return S_OK;
 }
 
@@ -206,6 +208,14 @@ HRESULT CLevel_ChaosLevel2::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 100.f));
 
 	CRenderer::Set_IBLTexture(1);
+
+	// Fog
+	CRenderer::Set_Fog_Color(Vec3(0.8f, 0.4f, 0.3f));
+	CRenderer::Set_Fog_StartHeight(-10.f);
+	CRenderer::Set_Fog_EndHeight(-30.f);
+	CRenderer::Set_Fog_Density(0.03f);
+	CRenderer::Set_Fog_ChangeSpeed(1.2f);
+	CRenderer::Set_Fog_MinValue(0.3f);
 
 	Safe_Release(pGameInstance);
 

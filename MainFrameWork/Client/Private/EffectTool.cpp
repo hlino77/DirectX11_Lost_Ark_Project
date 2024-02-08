@@ -66,12 +66,8 @@ HRESULT CEffectTool::LateTick(const _float& fTimeDelta)
 	if (m_pCurrentEffect)
 	{
 		//Matrix& matCamWorld = m_pCamera->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
-		//////
-
 		//m_pCurrentEffect->Get_TransformCom()->Set_State(CTransform::STATE::STATE_POSITION, vCamPos + 3.f * vCamForward);
 		//m_pCamera->Get_TransformCom()->LookAt(Vec3::Zero);
-		
-
 	}
 
 	if (m_IsResetReserved)
@@ -85,7 +81,6 @@ HRESULT CEffectTool::LateTick(const _float& fTimeDelta)
 
 HRESULT CEffectTool::DebugRender()
 {
-
 	return S_OK;
 }
 
@@ -576,13 +571,15 @@ HRESULT CEffectTool::EffectsList()
 {
 	ImGui::Begin("All Effects");
 
-	if (ImGui::Button("Reset All"))
+	if (ImGui::Button("Time Reset All"))
 	{
 		for (auto& Effect : m_vecEffects)
 		{
 			Effect->Reset();
 		}
 	}
+
+	ImGui::NewLine();
 
 	if (ImGui::Button("Delete"))
 	{
@@ -601,7 +598,8 @@ HRESULT CEffectTool::EffectsList()
 			m_iSelectedEffectIndex = ::max(0, (_int)(m_vecEffects.size() - 1));
 	}
 
-	ImGui::SameLine();
+	ImGui::SameLine(0.f, 30.f);
+
 	if (ImGui::Button("Clear All"))
 	{
 		if (m_vecEffects.empty())
@@ -619,11 +617,14 @@ HRESULT CEffectTool::EffectsList()
 		m_iSelectedEffectIndex = 0;
 	}
 
+	ImGui::NewLine();
+	ImGui::NewLine();
+
 	//vector<const _char*> vecItems;
 	//m_vecEffects; // 이펙트가 자기 이름 저장하게 하고(오브젝트 아이디나)
 	//vecItems.push_back();
 
-	if (ImGui::BeginListBox("Effects", ImVec2(150, 100)))
+	if (ImGui::BeginListBox("Effects", ImVec2(200, 100)))
 	{
 		for (size_t i = 0; i < m_vecEffects.size(); i++)
 		{
@@ -690,12 +691,26 @@ HRESULT CEffectTool::DataFiles()
 	if (ImGui::Button("Save"))
 	{
 		if (FAILED(Save(m_szBundleNameBuf)))
+		{
 			MSG_BOX("Save Failed");
-	}ImGui::SameLine();
+		}
+		else
+		{
+			MSG_BOX("Save Success");
+		}
+	}
+	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
 		if (FAILED(Load()))
+		{
 			MSG_BOX("Load Failed");
+		}
+		else
+		{
+			MSG_BOX("Load Success");
+		}
+			
 	}
 
 	vector<const _char*> vecItems;

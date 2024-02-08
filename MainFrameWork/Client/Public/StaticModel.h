@@ -75,7 +75,7 @@ public:
 
 	void Add_NaviCellIndex(_uint CellIndex) { m_NaviCellIndex.push_back(CellIndex); }
 
-	void Send_Collision(_uint iLevel, _bool bActive);
+	void					Send_Collision(_uint iLevel, _bool bActive);
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() { return m_bRimLight; }
 
@@ -90,8 +90,6 @@ private:
 	CRenderer::RENDERGROUP			m_eRenderGroup = { CRenderer::RENDERGROUP::RENDER_END };
 	vector<CSphereCollider*>		m_StaticColliders;
 	vector<_uint>					m_NaviCellIndex;
-	_bool							m_bRimLight = false;
-	_float							m_fRimLightTime = 0.0f;
 	
 	// ShaderPass
 	_uint			m_iPass = 0;
@@ -104,7 +102,6 @@ private:
 	// Color
 	Vec3			m_BloomColor = {};
 
-	
 	// Grass
 	_bool			m_IsGrass = false;
 	_float			m_fWindChangeTime = 0.f;
@@ -113,14 +110,21 @@ private:
 	Vec3			m_TargetWindDir = { 0.f, 0.f, 0.f };
 	_float          m_fTargetWindPower = 0.f;
 
+	// Break
+	_bool			m_bBreak = false;
+	_float			m_fBreakDelayTime = 0.f;
 
+	// RimLight
+	_bool							m_bRimLight = false;
+	_float							m_fRimLightColor = 1.f;
+	_float							m_fRimLightTime = 0.1f;
 
 
 public:
+
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
-
 
 };
 
