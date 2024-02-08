@@ -4,6 +4,7 @@
 #include "Valtan_BT_Attack_Attack_Base.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CValtan_BT_Attack_Rush :
     public CValtan_BT_Attack_Attack_Base
@@ -19,6 +20,9 @@ private:
 private:
     _int   m_iLoop = 0;
 
+    CEffect* m_pEffectWarning = nullptr;
+
+    vector<CEffect*> m_EffectRush;
 public:
     static	CValtan_BT_Attack_Rush* Create(void* pArg);
     virtual void Free() override;

@@ -80,6 +80,8 @@ HRESULT CUI_EstherSkill::Initialize(void* pArg)
 
 	m_pPartyLeader = CServerSessionManager::GetInstance()->Get_Player();
 
+	m_vecUIParts.push_back(this);
+
 	return S_OK;
 }
 

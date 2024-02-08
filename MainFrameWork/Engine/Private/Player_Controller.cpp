@@ -417,6 +417,7 @@ void CPlayer_Controller::Get_MoveMessage(Vec3 vPos)
 	}
 
 	m_vNextMove = vPos; 
+	m_bMoveStop = false;
 	m_bStop = false; 
 	m_IsDir = false; 
 }
@@ -647,10 +648,10 @@ void CPlayer_Controller::Input(const _float& fTimeDelta)
 void CPlayer_Controller::Move(const _float& fTimeDelta)
 {
 	Vec3 vNext = m_vNextMove;
-	Vec3 vCur = m_vPrePos;
+	Vec3 vCur = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
 	vNext.y = 0.0f; vCur.y = 0.0f;
 
-	if (Vec3(vNext - vCur).Length() <= m_fMoveLength)
+	if (Vec3(vNext - vCur).Length() <= 0.05f)
 	{
 		m_bMoveStop = true;
 		return;
@@ -662,20 +663,18 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 
 	if (false == m_IsDir)
 	{
-		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
 		Vec3 vNextPos = m_vNextMove;
+		vNextPos.y = 0.f;
 
-		vPos.y = 0.f, vNextPos.y = 0.f;
-		Vec3 vDir = vNextPos - vPos;
+		Vec3 vDir = vNextPos - vCur;
 		m_pOwnerTransform->Move_ToPos(vDir, 12.f, m_fMoveSpeed, fTimeDelta);
 	}
 	else if (true == m_IsDir)
 	{
-		Vec3 vPos = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
 		Vec3 vNextPos = m_vNextMove;
+		vNextPos.y = 0.f;
 
-		vPos.y = 0.f, vNextPos.y = 0.f;
-		Vec3 vDir = vNextPos - vPos;
+		Vec3 vDir = vNextPos - vCur;
 		m_pOwnerTransform->Move_Dir(vDir, fTimeDelta, m_fMoveSpeed);
 	}
 }

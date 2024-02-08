@@ -487,7 +487,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fAnimSpeed = 0.4f;
+	AnimationDesc.fAnimSpeed = 0.3f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fAnimSpeed = 1.15f;
 
@@ -1865,7 +1865,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pBattleIdle)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pRush)))
 				return E_FAIL;
 
 		}

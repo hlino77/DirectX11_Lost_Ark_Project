@@ -331,6 +331,11 @@ void CBoss::Move_to_SpawnPosition()
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSpawnPosition);
 }
 
+void CBoss::Load_WorldMatrix(Matrix& matWorld)
+{
+	matWorld = m_pTransformCom->Get_WorldMatrix();
+}
+
 HRESULT CBoss::Ready_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

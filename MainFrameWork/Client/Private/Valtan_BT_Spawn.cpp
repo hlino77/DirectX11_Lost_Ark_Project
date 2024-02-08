@@ -18,7 +18,12 @@
 #include "Controller_WR.h"
 
 #include "Transform.h"
-
+#include "UI_Manager.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
+#include "GameInstance.h"
+#include "Effect_Particle.h"
+#include "Effect_Trail.h"
 
 CValtan_BT_Spawn::CValtan_BT_Spawn()
 {
@@ -30,14 +35,19 @@ void CValtan_BT_Spawn::OnStart()
 	m_bShoot = true;
 
 	Init_StartScene();
+
+	m_iCameraSequence = 0;
+	m_fCameraTurnSpeed = 0.0f;
+	m_fCamShakeTimeAcc = m_fCamShakeTimeDelay = 0.23f;
+
+	m_fLightningParticleTime = 0.05f;
+
+	Effect_SpawnStart();
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_fLoopTime < 4.f)
-	{
-		Update_StartCamera(fTimeDelta);
-	}
+	Update_StartCamera(fTimeDelta);
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Is_Render() == false && m_fLoopTime > 4.f)
 	{
@@ -64,6 +74,11 @@ void CValtan_BT_Spawn::OnEnd()
 	static_cast<CBoss*>(m_pGameObject)->Set_HpUIRender(true);
 
 	End_Scene();
+	
+	for (auto& Effect : m_BlackSmoke)
+	{
+		dynamic_cast<CEffect_Particle*>(Effect)->ParticleEnd();
+	}
 }
 
 Vec3 CValtan_BT_Spawn::Get_EndPos()
@@ -104,6 +119,10 @@ Vec3 CValtan_BT_Spawn::Get_EndPos()
 void CValtan_BT_Spawn::Init_StartScene()
 {
 	//플레이어
+	 
+	if (m_bFirstInit == true)
+		return;
+
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
 	pPlayer->Set_TargetPos(Get_EndPos());
@@ -134,19 +153,23 @@ void CValtan_BT_Spawn::Init_StartScene()
 
 	CCamera_Player* pCamera = pPlayer->Get_Camera();
 
-	pCamera->Set_FadeInOut(0.2f, false);
+	pCamera->Set_FadeInOut(0.1f, false);
 
 	pCamera->Set_Mode(CCamera_Player::CameraState::FREE);
 
 	Vec3 vTargetPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	vTargetPos.y += 2.0f;
+	vTargetPos.x += 0.5f;
 	pCamera->Set_TargetPos(vTargetPos);
 
 	Vec3 vOffset = Vec3(-0.01f, 0.0f, -1.0f);
+	vOffset.Normalize();
 	pCamera->Set_Offset(vOffset);
 
 	m_fCameraLength = 18.0f;
 	pCamera->Set_CameraLength(m_fCameraLength);
+
+	m_bFirstInit = true;
 
 }
 
@@ -154,11 +177,233 @@ void CValtan_BT_Spawn::Update_StartCamera(_float fTimeDelta)
 {
 	CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
-	m_fCameraLength -= 4.0f * fTimeDelta;
-	if (m_fCameraLength < 5.0f)
-		m_fCameraLength = 5.0f;
+	if (m_iCameraSequence == 0)
+	{
+		m_fCameraLength -= 4.0f * fTimeDelta;
+		if (m_fCameraLength < 5.0f)
+			m_fCameraLength = 5.0f;
 
-	pCamera->ZoomInOut(m_fCameraLength, 0.6f);
+		pCamera->ZoomInOut(m_fCameraLength, 0.6f);
+
+		if (m_fLoopTime > 4.0f)
+		{
+			Effect_Appear();
+			m_iCameraSequence = 1;
+		}
+			
+
+		Update_LightningParticle(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 1)
+	{
+		if (m_fCameraLength > 2.0f)
+		{
+			m_fCameraLength -= 0.5f * fTimeDelta;
+
+			if (m_fCameraLength < 2.0f)
+				m_fCameraLength = 2.0f;
+
+			pCamera->ZoomInOut(m_fCameraLength, 0.6f);
+		}
+
+		Vec3 vTargetPos = pCamera->Get_TargetPos();
+		vTargetPos.y += 0.1f * fTimeDelta;
+		if (vTargetPos.y > 3.0f)
+			vTargetPos.y = 3.0f;
+		pCamera->Set_TargetPos(vTargetPos);
+			
+
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+			m_iCameraSequence = 2;
+
+		Update_LightningParticle(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 2)
+	{
+		m_fCameraTurnSpeed += 0.2f * fTimeDelta;
+
+		if (m_fCameraTurnSpeed > 0.6f)
+		{
+			m_fCameraTurnSpeed = 0.6f;
+		}
+
+		Vec3 vOffset = pCamera->Get_Offset();
+		vOffset = XMVector3Rotate(vOffset, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), -m_fCameraTurnSpeed * fTimeDelta));
+		pCamera->Set_Offset(vOffset);
+
+		Vec3 vTargetPos = pCamera->Get_TargetPos();
+		vTargetPos.y += 0.1f * fTimeDelta;
+		if (vTargetPos.y > 3.0f)
+			vTargetPos.y = 3.0f;
+		pCamera->Set_TargetPos(vTargetPos);
+
+		if (m_fCameraLength > 2.0f)
+		{
+			m_fCameraLength -= 0.5f * fTimeDelta;
+
+			if (m_fCameraLength < 2.0f)
+				m_fCameraLength = 2.0f;
+
+			pCamera->ZoomInOut(m_fCameraLength, 0.6f);
+		}
+
+		if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 30)
+		{
+			m_iCameraSequence = 3;
+		}
+
+		Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 3)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vTargetPos = matWorld.Translation();
+		vTargetPos.y += 2.4f;
+		pCamera->Set_TargetPos(vTargetPos);
+
+		Vec3 vLook = matWorld.Backward();
+		Vec3 vRight = matWorld.Right();
+		Vec3 vUp(0.0f, 1.0f, 0.0f);
+
+		Vec3 vOffset = (vRight * 0.284f) + (vUp * -0.002f) + (vLook * 0.959f);
+		vOffset.Normalize();
+		pCamera->Set_Offset(vOffset);
+
+		pCamera->Set_CameraLength(1.76f);
+		m_iCameraSequence = 4;
+		m_fCameraTurnSpeed = 0.1f;
+
+		Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 4)
+	{
+		Vec3 vOffset = pCamera->Get_Offset();
+		vOffset = XMVector3Rotate(vOffset, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), -m_fCameraTurnSpeed * fTimeDelta));
+		pCamera->Set_Offset(vOffset);
+
+		if (m_iCurrAnimation == 2)
+		{
+			m_iCameraSequence = 5;
+		}
+
+		Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 5)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+		Vec3 vLook = matWorld.Backward();
+		Vec3 vRight = matWorld.Right();
+		Vec3 vUp(0.0f, 1.0f, 0.0f);
+
+		Vec3 vCameraTargetPos = pCamera->Get_TargetPos();
+		Vec3 vTargetPos = matWorld.Translation() + vRight * 0.163f + vLook * 0.251f;
+		vTargetPos.y += 2.0f;
+		vCameraTargetPos = Vec3::Lerp(vCameraTargetPos, vTargetPos, 5.0f * fTimeDelta);
+		pCamera->Set_TargetPos(vCameraTargetPos);
+
+		Vec3 vCameraOffset = pCamera->Get_Offset();
+		Vec3 vOffset = vUp * 0.878f + vLook * 0.479f;
+		vCameraOffset = Vec3::Lerp(vCameraOffset, vOffset, 5.0f * fTimeDelta);
+		vCameraOffset.Normalize();
+		pCamera->Set_Offset(vCameraOffset);
+
+		if (18 < m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex))
+		{
+			m_iCameraSequence = 6;
+		}
+
+		Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 6)
+	{
+		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		vPos.y += 2.5f;
+		pCamera->ZoomInOut(20.0f, 10.0f);
+		m_iCameraSequence = 7;
+		pCamera->Set_RadialBlur(0.4f, vPos, 0.2f, 0.1f);
+		pCamera->Set_Chromatic(0.4f, vPos, 0.2f, 0.1f);
+		pCamera->Cam_Shake(0.2f, 100.0f, 0.5f, 5.0f);
+		m_fCamShakeTimeAcc = 0.0f;
+
+		for (auto& Effect : m_SpawnFloor)
+		{
+			Effect->EffectEnd();
+		}
+
+		for (auto& Trail : m_Trails)
+		{
+			dynamic_cast<CEffect_Trail*>(Trail)->TrailEnd(1.0f);
+		}
+
+		Update_LightningParticle_AfterSpawn(fTimeDelta);
+
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		EFFECT_START(L"ValtanShouting", &tDesc);
+	}
+
+	else if (m_iCameraSequence == 7)
+	{
+	_uint iAnimFrame = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex);
+	
+	if (iAnimFrame < 90)
+	{
+		if (m_fCamShakeTimeAcc >= m_fCamShakeTimeDelay)
+		{
+			pCamera->Cam_Shake(0.2f, 100.0f, 0.5f, 5.0f);
+			m_fCamShakeTimeAcc = 0.0f;
+		}
+		else
+		{
+			m_fCamShakeTimeAcc += fTimeDelta;
+		}
+	}
+
+		if (iAnimFrame > 102)
+		{
+			pCamera->ZoomInOut(5.0f, 1.0f);
+			m_iCameraSequence = 8;
+		}
+
+		Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 8)
+	{
+	if (m_iCurrAnimation == 3)
+	{
+		Vec3 vTargetPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		vTargetPos.y += 2.1f;
+		pCamera->Set_TargetPos(vTargetPos);
+
+		Vec3 vOffset = Vec3(-0.01f, 0.0f, -1.0f);
+		vOffset.Normalize();
+		pCamera->Set_Offset(vOffset);
+
+		m_fCameraLength = 4.0f;
+		pCamera->Set_CameraLength(m_fCameraLength);
+		m_iCameraSequence = 9;
+	}
+	Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
+
+	else if (m_iCameraSequence == 9)
+	{
+	m_fCameraLength += 4.0f * fTimeDelta;
+	if (m_fCameraLength > 6.0f)
+		m_fCameraLength = 6.0f;
+
+	pCamera->ZoomInOut(m_fCameraLength, 0.8f);
+	Update_LightningParticle_AfterSpawn(fTimeDelta);
+	}
 }
 
 void CValtan_BT_Spawn::End_Scene()
@@ -184,7 +429,71 @@ void CValtan_BT_Spawn::End_Scene()
 	{
 		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Control_Active(true);
 	}
+
+	CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVELID::LEVEL_VALTANMAIN);
 }
+
+void CValtan_BT_Spawn::Update_LightningParticle(_float fTimeDelta)
+{
+	m_fLightningParticleAcc += fTimeDelta;
+	if (m_fLightningParticleAcc >= m_fLightningParticleTime)
+	{
+		Matrix matWorld = XMMatrixIdentity();
+		Vec3 vPos = Vec3(100.0f, 0.1f, 100.0f);
+		vPos.x += CGameInstance::GetInstance()->Random_Float(-2.0f, 2.0f);
+		vPos.z += CGameInstance::GetInstance()->Random_Float(-2.0f, 2.0f);
+		vPos.y -= CGameInstance::GetInstance()->Random_Float(0.0f, 0.5f);
+
+		matWorld.Translation(vPos);
+
+		wstring szParticleName = L"ValtanSpawnLightning";
+		szParticleName += to_wstring(rand() % 4 + 1);
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		
+		EFFECT_START(szParticleName, &tDesc);
+		m_fLightningParticleAcc = 0.0f;
+	}
+}
+
+void CValtan_BT_Spawn::Update_LightningParticle_AfterSpawn(_float fTimeDelta)
+{
+	m_fLightningParticleAcc += fTimeDelta;
+	if (m_fLightningParticleAcc >= m_fLightningParticleTime)
+	{
+		Matrix matWorld = XMMatrixIdentity();
+		Vec3 vPos = Vec3(100.0f, 0.1f, 100.0f);
+		vPos.x += CGameInstance::GetInstance()->Random_Float(-1.5f, 1.5f);
+		vPos.z += CGameInstance::GetInstance()->Random_Float(-1.5f, 1.5f);
+		vPos.y += CGameInstance::GetInstance()->Random_Float(-2.0f, 2.0f);
+
+		matWorld.Translation(vPos);
+
+		wstring szParticleName = L"ValtanSpawnLightning";
+		szParticleName += to_wstring(rand() % 4 + 1);
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+
+		EFFECT_START(szParticleName, &tDesc);
+		m_fLightningParticleAcc = 0.0f;
+	}
+}
+
+void CValtan_BT_Spawn::Effect_SpawnStart()
+{
+	Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+	matWorld.Translation(Vec3(100.0f, 0.1f, 100.0f));
+
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	tDesc.pPivotMatrix = &matWorld;
+
+	EFFECT_START_OUTLIST(L"ValtanSpawn1", &tDesc, m_SpawnFloor);
+	EFFECT_START_OUTLIST(L"ValtanSpawn2", &tDesc, m_SpawnFloor);
+	EFFECT_START_OUTLIST(L"ValtanSpawnBlack", &tDesc, m_BlackSmoke);
+}
+
 
 CValtan_BT_Spawn* CValtan_BT_Spawn::Create(void* pArg)
 {
@@ -201,4 +510,40 @@ CValtan_BT_Spawn* CValtan_BT_Spawn::Create(void* pArg)
 void CValtan_BT_Spawn::Free()
 {
 	__super::Free();
+}
+
+void CValtan_BT_Spawn::Effect_Appear()
+{
+	Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+	
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		EFFECT_START_OUTLIST(L"ValtanShowBlack", &tDesc, m_BlackSmoke);
+	}
+	{
+		CBoss* pBoss = dynamic_cast<CBoss*>(m_pGameObject);
+		auto func = bind(&CBoss::Load_WorldMatrix, pBoss, placeholders::_1);
+		TRAIL_START_OUTLIST(TEXT("ValtanSpawnTrail1"), func, m_Trails);
+	}
+
+	{
+		CBoss* pBoss = dynamic_cast<CBoss*>(m_pGameObject);
+		auto func = bind(&CBoss::Load_WorldMatrix, pBoss, placeholders::_1);
+		TRAIL_START_OUTLIST(TEXT("ValtanSpawnTrail2"), func, m_Trails);
+	}
+	
+
+	Vec3 vPos = matWorld.Translation();
+	vPos.z -= 3.0f;
+	vPos.x += 0.5f;
+	
+	matWorld.Translation(vPos);
+
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		EFFECT_START(L"ValtanShow", &tDesc);
+	}
 }

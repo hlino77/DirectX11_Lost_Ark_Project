@@ -507,9 +507,9 @@ HRESULT CBoss_Valtan::Ready_Components()
 	if (nullptr == m_pWeapon)
 		return E_FAIL;
 
-	m_vOriginScale.x = 1.2f;
-	m_vOriginScale.y = 1.2f;
-	m_vOriginScale.z = 1.2f;
+	m_vOriginScale.x = 1.f;
+	m_vOriginScale.y = 1.f;
+	m_vOriginScale.z = 1.f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 	return S_OK;
@@ -676,7 +676,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.fAnimSpeed = 0.4f;
+	AnimationDesc.fAnimSpeed = 0.3f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fAnimSpeed = 1.15f;
 
@@ -2101,7 +2101,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_BattleIdle";
 	CBT_Action* pBattleIdle = CCommon_BT_BattleIdle::Create(&ActionDesc);
 
-	m_pBehaviorTree->Init_PreviousAction(L"Action_Respawn");
+	m_pBehaviorTree->Init_PreviousAction(L"Action_BattleIdle");
 	return S_OK;
 }
 

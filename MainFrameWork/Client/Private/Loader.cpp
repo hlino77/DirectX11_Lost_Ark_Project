@@ -1767,6 +1767,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	Load_BossMapData(LEVEL_VALTANMAIN, TEXT("../Bin/Resources/MapData/Boss_End.data"));
 	pUIManager->Add_CurrFile();
 
+	Matrix ValtanScale = XMMatrixScaling(0.012f, 0.012f, 0.012f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	{
 		wstring strFileName = L"Boss_Valtan";
@@ -1774,7 +1775,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ValtanScale))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}

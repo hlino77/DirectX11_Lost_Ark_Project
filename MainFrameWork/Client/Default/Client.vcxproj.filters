@@ -22,38 +22,8 @@
     <Filter Include="01.Levels\99.Loading\Loader">
       <UniqueIdentifier>{04c05968-cb34-4cec-89e2-639b898c25fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects">
-      <UniqueIdentifier>{d435cd37-10c5-4f6c-a2f1-ee72504bbb59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\BackGround">
-      <UniqueIdentifier>{327a42a0-45f0-4b4d-b8cd-bb209baedc94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Camera">
-      <UniqueIdentifier>{91ff704d-cfae-4d8f-8be1-b64393bcf977}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster">
-      <UniqueIdentifier>{5b216187-dcb0-48f0-97da-18e9b63474c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI">
-      <UniqueIdentifier>{cd44dbcd-21a9-4927-95ba-b49e03de324b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss">
-      <UniqueIdentifier>{884e231c-766b-46da-8b74-832910bd8f31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill">
-      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect">
-      <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\ServerSelect">
       <UniqueIdentifier>{44dfca2f-bdb9-49ba-b981-3cfca469ecb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Zombie">
-      <UniqueIdentifier>{448c794f-4c90-4cfd-b61e-d8bd1efc4207}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger">
-      <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\98.Tool">
       <UniqueIdentifier>{4e23252b-8f1e-4aa3-a035-332256279a07}</UniqueIdentifier>
@@ -69,6 +39,153 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Zombie">
       <UniqueIdentifier>{50d83e71-1df7-44a6-8f18-38b2106e8b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie">
+      <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool">
+      <UniqueIdentifier>{45015364-1b26-40b4-b875-e68d85c67f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Plant">
+      <UniqueIdentifier>{1f94ef61-4420-4e3c-86ef-db9f4d9f088c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\ImGui">
+      <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\ImGui\ImGuiNode">
+      <UniqueIdentifier>{4cfeeb9c-a410-4729-9a90-d18e82726442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\ImGui\Include">
+      <UniqueIdentifier>{d8799a1a-61a4-4be2-bdda-2f67ce023693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\ImGui\node_examples">
+      <UniqueIdentifier>{c1d21703-2c0a-476f-a251-6001c56f3ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\02.VoidObject">
+      <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger">
+      <UniqueIdentifier>{d34d5a8a-a45d-416d-a6fb-8c6d8120e79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean">
+      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel1">
+      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel2">
+      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel3">
+      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Network">
+      <UniqueIdentifier>{f4d5c8ea-35ca-4bad-b50d-727a9f9a5344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Network\Protocol">
+      <UniqueIdentifier>{75ccef97-ae7f-480a-827d-edaa1f40fd79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Event">
+      <UniqueIdentifier>{9338aac2-f157-4c4d-9f44-0aa0463ceabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Event\99.Base">
+      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
+      <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Lobby">
+      <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\For_Npc">
+      <UniqueIdentifier>{1caa94d9-469c-4016-abe2-45d8eb992adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\For_Npc\NpcTool">
+      <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager">
+      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\UI_Manager">
+      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Chat_Manager">
+      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Damage_Manager">
+      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Manager\Mouse_Manager">
+      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles">
+      <UniqueIdentifier>{97b53119-8317-43a4-a8ee-44ae8e440ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Legacy">
+      <UniqueIdentifier>{269297ff-170b-42ad-86cd-e9138b42df83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\KSG">
+      <UniqueIdentifier>{66e51349-7e47-4d74-bfed-2715a16f0a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Party">
+      <UniqueIdentifier>{30ecc1fd-554f-43e3-b1db-c5fe418f0de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05. ValtanMain">
+      <UniqueIdentifier>{535409de-b4c2-4da9-be5e-de471e3115d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04. ValtanEnterance">
+      <UniqueIdentifier>{bb587fae-f286-4d49-b053-6f495306f69b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Event\00. ClientEvent_BernStart">
+      <UniqueIdentifier>{62627dad-f5f5-4bbe-bc60-f8ded35d43db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98.Tool\00.Tools\04. CameraTool">
+      <UniqueIdentifier>{0638af66-f470-40aa-ad10-8cba72592ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\02.Bern">
+      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects">
+      <UniqueIdentifier>{d435cd37-10c5-4f6c-a2f1-ee72504bbb59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround">
+      <UniqueIdentifier>{327a42a0-45f0-4b4d-b8cd-bb209baedc94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\00.MainLogo">
+      <UniqueIdentifier>{bd33ec5c-17e6-4421-bb73-177c645dafaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\01.Server_Select">
+      <UniqueIdentifier>{21159a71-e54f-496c-87ea-76a8e240f5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\02.Lobby">
+      <UniqueIdentifier>{9529f3c3-c5d7-4481-a8fe-47c752ed7086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera">
+      <UniqueIdentifier>{91ff704d-cfae-4d8f-8be1-b64393bcf977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Cut">
+      <UniqueIdentifier>{b358da5d-93c2-4c02-9059-bc6da855a16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Lobby">
+      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Player">
+      <UniqueIdentifier>{42f8f5bb-9fbf-49e3-aec8-c5b1eb090644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Free">
+      <UniqueIdentifier>{1126c00b-d82e-4136-b6f5-24f35ea37041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster">
+      <UniqueIdentifier>{5b216187-dcb0-48f0-97da-18e9b63474c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie">
+      <UniqueIdentifier>{448c794f-4c90-4cfd-b61e-d8bd1efc4207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie\Behavior">
+      <UniqueIdentifier>{b8418ea4-b113-42e1-821e-cf65a5c9a499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Zombie\Behavior\Attack2">
+      <UniqueIdentifier>{e88a829e-672f-45f6-9ff8-5f27545693fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Plant">
       <UniqueIdentifier>{83d20e1e-acb1-434c-80d1-8bc460628450}</UniqueIdentifier>
@@ -88,6 +205,27 @@
     <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz">
       <UniqueIdentifier>{53fcca97-5c6b-464a-92b2-eb11dcf4629f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Bound">
+      <UniqueIdentifier>{01f9e98c-16c2-438f-8537-bac245dcd9d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Twist">
+      <UniqueIdentifier>{0b473036-e2d5-4b82-9cb5-699082d87353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Bug">
+      <UniqueIdentifier>{c95c416d-8983-487c-8da7-854cc66610f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Earthquake">
+      <UniqueIdentifier>{25e4c81c-62c3-4ece-8630-3e924a9fa7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Fear">
+      <UniqueIdentifier>{be56f7c8-c2ee-4b50-80d7-53bcfaace5f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Shock">
+      <UniqueIdentifier>{1e606bf6-26dd-4284-a7e8-2718ca9a4944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Stun">
+      <UniqueIdentifier>{11e51978-dab3-4347-8c9c-d8bbc09c8a4d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Monster\Behavior\Action\03.Damage">
       <UniqueIdentifier>{a0e69d06-2055-4e88-89d7-3c492a773082}</UniqueIdentifier>
     </Filter>
@@ -100,11 +238,14 @@
     <Filter Include="02.GameObjects\Monster\Behavior\Action\08.BattleIdle">
       <UniqueIdentifier>{f39388f4-5b34-4404-928f-b91f2b8ee50f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Zombie\Behavior">
-      <UniqueIdentifier>{b8418ea4-b113-42e1-821e-cf65a5c9a499}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\00.Spawn">
+      <UniqueIdentifier>{605810bd-f2ab-44cd-b8ea-24cd06a3be14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Zombie\Behavior\Attack2">
-      <UniqueIdentifier>{e88a829e-672f-45f6-9ff8-5f27545693fa}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\09. Stand">
+      <UniqueIdentifier>{4c4ac32b-95e8-4bf6-850a-6161f4804ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Behavior\Action\05. Chase">
+      <UniqueIdentifier>{e91db7db-6f55-4c43-aec6-74ef7f395b77}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster\Ghoul">
       <UniqueIdentifier>{ef897b28-7647-4437-b533-cadd50b91aa6}</UniqueIdentifier>
@@ -112,14 +253,29 @@
     <Filter Include="02.GameObjects\Monster\Ghoul\Behavior">
       <UniqueIdentifier>{08f5b7f6-d899-4d48-9cf8-f72812c527fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\00.Spawn">
-      <UniqueIdentifier>{605810bd-f2ab-44cd-b8ea-24cd06a3be14}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Monster\Reaper">
+      <UniqueIdentifier>{d22c4054-87d3-46d7-b536-21ae70a07b6d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\BackGround\00.MainLogo">
-      <UniqueIdentifier>{bd33ec5c-17e6-4421-bb73-177c645dafaf}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Monster\Reaper\Behavior">
+      <UniqueIdentifier>{f036632a-bcb9-46ec-b747-1c475968ece3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\BackGround\01.Server_Select">
-      <UniqueIdentifier>{21159a71-e54f-496c-87ea-76a8e240f5e4}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Monster\Reaper\Part">
+      <UniqueIdentifier>{aa29f5c9-35d7-4ded-99ea-6ff7ec8d41fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Pawn">
+      <UniqueIdentifier>{de1036d5-160c-4cf2-a023-2938a50abdc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Pawn\Parts">
+      <UniqueIdentifier>{df7dec5f-17d6-4c99-9a3a-44a5aa73e70d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
+      <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Prison">
+      <UniqueIdentifier>{14a88773-3947-4a39-961a-84c6ab882d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI">
+      <UniqueIdentifier>{cd44dbcd-21a9-4927-95ba-b49e03de324b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\00.Server">
       <UniqueIdentifier>{927e237e-4653-4b1d-ab5d-52e7caca486f}</UniqueIdentifier>
@@ -133,29 +289,20 @@
     <Filter Include="02.GameObjects\UI\00.Server\02.Button">
       <UniqueIdentifier>{9bb4e4ac-40fe-41e0-aef9-c523645623db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\00.Server\02.Button\00.Entrance">
+      <UniqueIdentifier>{0e973ae8-e9b0-42c2-9edd-caf2fa6bebd9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\UI\00.Server\03.Logo">
       <UniqueIdentifier>{b4467900-bea6-41fe-86d2-aa91c3bfb825}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading">
       <UniqueIdentifier>{881725e4-f89d-4c27-b8d3-af772883dbff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\00.Server\02.Button\00.Entrance">
-      <UniqueIdentifier>{0e973ae8-e9b0-42c2-9edd-caf2fa6bebd9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading\00.Wnd">
       <UniqueIdentifier>{2278738a-fc63-4ebb-ad5d-179ee08817dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading\02.Bar">
       <UniqueIdentifier>{40f032eb-3265-49ec-9c7a-f2bd58229c53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\01.Loading\01.Label">
-      <UniqueIdentifier>{9e32a1c6-e79d-43cd-bd06-31d972a9fb62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\01.Loading\01.Label\00.Top">
-      <UniqueIdentifier>{426a42f1-5782-4d8a-8a52-63bfcd2de760}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\01.Loading\01.Label\01.Bottom">
-      <UniqueIdentifier>{b43b7e2c-8c07-4bbf-835e-551fe45fa96c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\01.Fill">
       <UniqueIdentifier>{9de9f183-47b7-4c0d-a917-14ea83acdda7}</UniqueIdentifier>
@@ -166,17 +313,17 @@
     <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\00.EmptyBar">
       <UniqueIdentifier>{38543f09-8f58-4ddb-9a24-0b501e5fbde8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Zombie">
-      <UniqueIdentifier>{20e1f4eb-1b83-4748-bebb-b36471fe14f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool">
-      <UniqueIdentifier>{45015364-1b26-40b4-b875-e68d85c67f94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Plant">
-      <UniqueIdentifier>{1f94ef61-4420-4e3c-86ef-db9f4d9f088c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\01.Loading\02.Bar\03.Shine">
       <UniqueIdentifier>{6e065a38-72b8-4fb0-8e11-da2e107f10e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\01.Label">
+      <UniqueIdentifier>{9e32a1c6-e79d-43cd-bd06-31d972a9fb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\01.Label\00.Top">
+      <UniqueIdentifier>{426a42f1-5782-4d8a-8a52-63bfcd2de760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\01.Label\01.Bottom">
+      <UniqueIdentifier>{b43b7e2c-8c07-4bbf-835e-551fe45fa96c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\02.Chat">
       <UniqueIdentifier>{fc107c88-52d3-4684-ba9f-8071c9904b52}</UniqueIdentifier>
@@ -208,23 +355,20 @@
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\00.Wing">
       <UniqueIdentifier>{f00043e3-8b09-4be3-b0d6-4c637320e64e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect">
+      <UniqueIdentifier>{9ec966f5-9d53-446e-a9b4-8c18a316c803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\03.Arrow">
+      <UniqueIdentifier>{e23563e4-d855-475c-b7f5-3cd86a44200f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame">
+      <UniqueIdentifier>{61b21050-e60f-46c4-84ac-5dce625c673c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\05.Skill_CoolTimeRect">
       <UniqueIdentifier>{084dc986-8fa5-4042-b41b-43973743ad35}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame">
       <UniqueIdentifier>{9d1acfa5-a9bb-4d45-941b-badf9ba274d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer">
-      <UniqueIdentifier>{dd3effc8-d895-48d3-8559-79aedd0b41fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect">
-      <UniqueIdentifier>{9ec966f5-9d53-446e-a9b4-8c18a316c803}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
-      <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\03.Arrow">
-      <UniqueIdentifier>{e23563e4-d855-475c-b7f5-3cd86a44200f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.MainFrame">
       <UniqueIdentifier>{4f5e29aa-4bd0-4827-a80d-fb3cfefe9a87}</UniqueIdentifier>
@@ -235,71 +379,155 @@
     <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.FrontFrame">
       <UniqueIdentifier>{167e488f-5f15-4e65-ba8a-d23075cdeb3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\01.Frame">
-      <UniqueIdentifier>{61b21050-e60f-46c4-84ac-5dce625c673c}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\UI\03.Identity\00.Gunslinger\03.Spark">
+      <UniqueIdentifier>{5062f4d4-9873-471b-a477-fd3906714b0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Reaper">
-      <UniqueIdentifier>{d22c4054-87d3-46d7-b536-21ae70a07b6d}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer">
+      <UniqueIdentifier>{dd3effc8-d895-48d3-8559-79aedd0b41fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Reaper\Behavior">
-      <UniqueIdentifier>{f036632a-bcb9-46ec-b747-1c475968ece3}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\00.Identity_Body">
+      <UniqueIdentifier>{e7fbf0f9-ac60-4499-8def-7e161ebb30ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Reaper\Part">
-      <UniqueIdentifier>{aa29f5c9-35d7-4ded-99ea-6ff7ec8d41fc}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge">
+      <UniqueIdentifier>{0f2861ff-8b38-4856-b862-189896bd649b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame">
+      <UniqueIdentifier>{fee6be2b-ab00-434f-b41e-d8ebf2ea73ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge">
+      <UniqueIdentifier>{fe644e52-6045-4635-8a7a-f7d2bd16ea09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\02.Shine">
+      <UniqueIdentifier>{75f81f70-544e-4b68-859c-9152ba3d47d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\02.Identity_Spark">
+      <UniqueIdentifier>{d847d767-30c3-476e-aba6-137739478e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine">
+      <UniqueIdentifier>{ed94756e-0c88-429c-80de-4a262f7bd78b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine\00.Eye_Shine">
+      <UniqueIdentifier>{35a5d918-a1e0-4699-9269-244347049e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\04.UI_WRIdentity_SkillFrame">
+      <UniqueIdentifier>{43f7cd0f-79d5-4c8a-93c1-4e8aa135cd1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\05.UI_WRIdentity_Boomb">
+      <UniqueIdentifier>{25d224f2-f387-4a15-b46a-72ce9b8afad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey">
+      <UniqueIdentifier>{f4247b1c-d42a-475c-94f8-08ae5c735a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer">
+      <UniqueIdentifier>{3a375cb1-475d-4cda-a444-c85bf524498b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\00.BackGround">
+      <UniqueIdentifier>{cf197a3f-61a2-453a-987c-87b79b48c4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\01.GaugeFrame">
+      <UniqueIdentifier>{982eb2fe-1bcc-4442-847b-16d25c86cd36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\02.Gauge">
+      <UniqueIdentifier>{1de7965e-7295-437c-86b1-68a8ecb75848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\03.Hammer">
+      <UniqueIdentifier>{1a51a241-0a4e-42a7-af92-26bbd33f322c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.Bubble">
+      <UniqueIdentifier>{dad4c1f6-5554-4d4b-a12a-7b4549028428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\05.BubblesFrame">
+      <UniqueIdentifier>{23af48b0-beb6-4531-a437-d9b09d4a53aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\04.Chain">
+      <UniqueIdentifier>{57962d16-85ac-491d-a5c4-0e88c76d876a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect">
+      <UniqueIdentifier>{082c682d-06db-4f6b-aaa9-0340f528e623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer">
+      <UniqueIdentifier>{12d43528-0cd8-4690-be8f-b0ab3e863c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\00.Hammer_Off">
+      <UniqueIdentifier>{ac992580-504e-4e00-a4da-a2be4d5171e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\01.Hammer_On">
+      <UniqueIdentifier>{e06913d6-587e-49b1-a019-c4dff8002042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\02.Horizon">
+      <UniqueIdentifier>{97abe618-37e5-4944-8630-59e09be58e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\01.Bubble">
+      <UniqueIdentifier>{6502945d-35c0-41e2-b559-6891129de3bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame">
+      <UniqueIdentifier>{271b4d89-d1be-45b0-8cda-9975becff6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard">
+      <UniqueIdentifier>{9d6a79e9-620d-45d7-836c-aef4d89804c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\02.Gauge">
+      <UniqueIdentifier>{82e352c7-010a-4a5c-963f-a429382703cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\00.BackGround">
+      <UniqueIdentifier>{230a873c-b3a3-4041-aa95-ba46e086fd3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp">
+      <UniqueIdentifier>{bbab1f58-8e8a-4150-be4d-abae5e7e6a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp\00.Roap">
+      <UniqueIdentifier>{2daee74a-debf-4510-9647-3fbab8c3d0ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp\01.Body">
+      <UniqueIdentifier>{53ce6378-6a1e-4fba-adec-451f6a3c83a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill">
+      <UniqueIdentifier>{c10ae4b9-4be5-4858-9dac-7a9eec24c8df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\00.Skill_Icon">
+      <UniqueIdentifier>{23950ebd-ab8a-43ab-b149-dd627a826ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\01.Skill_Frame">
+      <UniqueIdentifier>{88b56b4f-47f9-4960-b2de-1f7083e109b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi">
+      <UniqueIdentifier>{4759e86d-3d99-4812-a52d-ebe9145cf297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd">
+      <UniqueIdentifier>{2d1c2c56-aee4-403d-ac22-d184b4c2b5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player">
+      <UniqueIdentifier>{0397021f-e667-40ed-ada7-0fc8851e612e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\06.Speech_Bubble">
       <UniqueIdentifier>{9df4ac39-51a7-49d4-ad93-2125f11f7bb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\King">
-      <UniqueIdentifier>{407c6aef-d0fe-4bbf-9843-d62643e1d1ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\King\Parts">
-      <UniqueIdentifier>{fc0117df-bb6e-4e8a-b5c3-114510407a35}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\King\Behavior">
-      <UniqueIdentifier>{027bbc57-25c3-457f-a28a-e49c72a90544}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Pawn">
-      <UniqueIdentifier>{de1036d5-160c-4cf2-a023-2938a50abdc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Pawn\Parts">
-      <UniqueIdentifier>{df7dec5f-17d6-4c99-9a3a-44a5aa73e70d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Pawn\Behavior">
-      <UniqueIdentifier>{8910131e-050b-414e-aa5f-eb28cd60f429}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui">
-      <UniqueIdentifier>{0ebceb10-f6f3-4761-ae35-7713e63586d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\ImGuiNode">
-      <UniqueIdentifier>{4cfeeb9c-a410-4729-9a90-d18e82726442}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\Include">
-      <UniqueIdentifier>{d8799a1a-61a4-4be2-bdda-2f67ce023693}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\ImGui\node_examples">
-      <UniqueIdentifier>{c1d21703-2c0a-476f-a251-6001c56f3ca4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\02.VoidObject">
-      <UniqueIdentifier>{d4dbca9d-380d-485d-ad85-ebd8363496f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Projectile">
-      <UniqueIdentifier>{0e0d7d86-e55a-4b62-b8a0-64de959ce98c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Bound">
-      <UniqueIdentifier>{01f9e98c-16c2-438f-8537-bac245dcd9d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Twist">
-      <UniqueIdentifier>{0b473036-e2d5-4b82-9cb5-699082d87353}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\09. Stand">
-      <UniqueIdentifier>{4c4ac32b-95e8-4bf6-850a-6161f4804ad2}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\07.Damage_Font">
       <UniqueIdentifier>{63e99a96-3e18-476f-8e54-4718471e1b87}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\09.Mouse">
       <UniqueIdentifier>{e8823da1-14dd-4e47-bc4b-29336a0722e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\00.MouseCursor">
+      <UniqueIdentifier>{e5ef7062-0d09-40d8-b222-2d678d258545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility">
+      <UniqueIdentifier>{51e9e0bf-ac00-47bc-b39f-126b7e06306f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip">
+      <UniqueIdentifier>{ce70cde3-4ad2-431d-8a83-01f4cafd1b78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\01.Clone_Icon">
+      <UniqueIdentifier>{4a53fccf-94c0-4aa2-817d-c1b6d92a0e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\00.Frame">
+      <UniqueIdentifier>{01501335-1150-4a01-992b-febf016f5667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon">
+      <UniqueIdentifier>{88317a8f-6525-4a1b-9f48-6d3cb2ee5a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance">
+      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot">
       <UniqueIdentifier>{5cd5b028-2809-411b-8866-4b9f0c0f856c}</UniqueIdentifier>
@@ -309,15 +537,6 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\00.IconFrame">
       <UniqueIdentifier>{e6dac7eb-65c3-46b7-93f3-bcf094d280d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\05.QuickSlot\01.ItemUI">
-      <UniqueIdentifier>{bdd68a24-261b-4fd9-8bc4-c49f8677da8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\05.QuickSlot\01.ItemUI\00.IconFrame">
-      <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\00.MouseCursor">
-      <UniqueIdentifier>{e5ef7062-0d09-40d8-b222-2d678d258545}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\01.SpaceBar">
       <UniqueIdentifier>{a0daad75-5a5c-4b1c-87b4-cbd0a4cc7de6}</UniqueIdentifier>
@@ -334,11 +553,263 @@
     <Filter Include="02.GameObjects\UI\05.QuickSlot\00.SkillUI\02.HoldingBar\02.Shine">
       <UniqueIdentifier>{3e3c1bba-2833-4657-812a-defb34f94a6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\01.ItemUI">
+      <UniqueIdentifier>{bdd68a24-261b-4fd9-8bc4-c49f8677da8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\01.ItemUI\00.IconFrame">
+      <UniqueIdentifier>{c4eb3ae8-3f09-4d72-852c-fa3a308e89e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\05.QuickSlot\02.ETCSlot">
+      <UniqueIdentifier>{7bf0f105-e25d-4849-96e5-0d0c3085df11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\99.Base">
+      <UniqueIdentifier>{1f3b16a7-633f-4ceb-b80f-ad2be5eb5097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby">
+      <UniqueIdentifier>{2378bddd-d2f2-48d2-adda-b4de0e90e906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\00.NickName">
+      <UniqueIdentifier>{44c0d29d-fe62-4a8b-a71a-d497e876324d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\01.Stage_Name">
+      <UniqueIdentifier>{cfed0aef-97cb-4674-93fa-b9c837b63856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\04.Main_Charcter_Flag">
+      <UniqueIdentifier>{09e78b58-5fa5-4449-98b6-0145ed40ef66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\05.Expedition_Level">
+      <UniqueIdentifier>{bef9bcfb-c3ce-47df-ac29-d70fe8d97225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\02.Entrance_Server_Button">
+      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\10.Lobby\03.NickName_Change">
+      <UniqueIdentifier>{00fa55b2-ca37-44c3-a3a7-2cb1819add0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP">
+      <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP">
+      <UniqueIdentifier>{50d9aeef-578e-4720-9824-cdda2f7bfe38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\99.Shield">
+      <UniqueIdentifier>{dd58f161-b8e4-4de9-ac25-ec1d7aa85116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\00.Empty">
+      <UniqueIdentifier>{81dd785f-a4d5-4f73-a041-af3aea85a88d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\02.Frame">
+      <UniqueIdentifier>{eecbf04b-39f7-4454-bba9-763280cfe506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\01.Fill">
+      <UniqueIdentifier>{70ec6b31-cc32-4ae0-9516-601309ce1db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP">
+      <UniqueIdentifier>{259a876f-4aa3-41cc-81e4-2f1b3aed6576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\02.Frame">
+      <UniqueIdentifier>{fa2dfef5-d526-469e-8cf1-6bc4f2036c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\00.Empty">
+      <UniqueIdentifier>{0ceba15d-960d-41b1-b95a-fc55c8a0ec76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\01.Fill">
+      <UniqueIdentifier>{167bc56c-ded9-48f3-b764-492821bb9019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon">
+      <UniqueIdentifier>{384f8c92-4d10-4fed-b44f-b34fd059c5ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge">
+      <UniqueIdentifier>{368630c9-f27d-405d-8bbb-1080f51e9df6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame">
+      <UniqueIdentifier>{5d0167f9-f97e-44b2-a673-fdf2a18f3487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine">
+      <UniqueIdentifier>{b590642c-74d7-4b10-b6f5-38019c46d7f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\00.Spin">
+      <UniqueIdentifier>{cfe4419f-332e-4d09-9229-ec39e313c7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\01.Shine">
+      <UniqueIdentifier>{0e7a25b6-3491-459a-a5fb-05a12e2300c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\02.Gauge">
+      <UniqueIdentifier>{445ea6ee-7525-41ff-aac9-7ba96c15d250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\03.Gague_Cut">
+      <UniqueIdentifier>{039ee05e-7036-42a3-80e4-71addefe08b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\04.NameFrame">
+      <UniqueIdentifier>{81fa7011-c4fd-4652-8f8c-7036882b1082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\01.Timer">
+      <UniqueIdentifier>{53662c39-f3a0-4a74-a01a-434834142930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\99.Clear">
+      <UniqueIdentifier>{0a5f9a88-cf92-457b-8edc-6530ff01223c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory">
+      <UniqueIdentifier>{f1688ecf-426b-4cbb-a680-eada5ceb4dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\01.Equipment">
+      <UniqueIdentifier>{52789099-83e7-4264-9898-cfb381af383f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory">
+      <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory\01.ItemSlot">
+      <UniqueIdentifier>{5a43f205-2019-4763-94f9-8703d7838ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory\00.Wnd">
+      <UniqueIdentifier>{53b8c77f-90c5-4f16-85ba-bf01060a4d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\13.InGame_NamePlate">
+      <UniqueIdentifier>{dcec988b-44f4-46db-a206-537fe8e160f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\14.Monster_Hp">
+      <UniqueIdentifier>{04ee81fb-865f-41d5-b551-2c7d3e518f9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\15.Boss_Hp">
+      <UniqueIdentifier>{413137b5-cadc-4ac6-b627-5c409cdd5867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc">
+      <UniqueIdentifier>{85b1ea75-ce81-4b57-9835-6a4ba455d357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.ChaosDungeon">
+      <UniqueIdentifier>{0ae1f8be-9901-46aa-bae0-9b6f073b5202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd">
+      <UniqueIdentifier>{061aa157-a7f6-45fa-90ca-e4cb369f88d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\01.Item_Upgrade">
+      <UniqueIdentifier>{f906d942-fbe1-4f7d-9b5b-f7d68a9873e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\17.GroggyGauge">
+      <UniqueIdentifier>{25644510-e1fa-49e7-bd61-e48bb3168e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\18.PartyHPUI">
+      <UniqueIdentifier>{70edb11e-66ad-435d-9cf8-f534e47c0927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\18.PartyHPUI\00.HpWnd">
+      <UniqueIdentifier>{4e3c4266-3130-4b2e-abf2-9f017e9f0e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd">
+      <UniqueIdentifier>{602a4e7e-1e59-40e8-8f8e-ea02e8d509fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan">
+      <UniqueIdentifier>{e129429a-ef69-47c6-a0ab-627ac7bde14f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan\ValtanClear">
+      <UniqueIdentifier>{3de4f30a-4370-4665-8eff-41929df33665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan\ValtanEntrance">
+      <UniqueIdentifier>{7e3c3a60-9a6c-463c-9d95-d556e1f69cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\19.Valtan\Stage">
+      <UniqueIdentifier>{3929711e-c057-480c-a53f-982d0c69ba0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\20.Esther_Gauge">
+      <UniqueIdentifier>{2e51cbc3-7eaf-41fc-a5c7-b743285bb551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\21.DeadScene">
+      <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss">
+      <UniqueIdentifier>{884e231c-766b-46da-8b74-832910bd8f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King">
+      <UniqueIdentifier>{407c6aef-d0fe-4bbf-9843-d62643e1d1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Parts">
+      <UniqueIdentifier>{fc0117df-bb6e-4e8a-b5c3-114510407a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Behavior">
+      <UniqueIdentifier>{027bbc57-25c3-457f-a28a-e49c72a90544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\King\Skill">
+      <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Boss\Golem">
       <UniqueIdentifier>{136add4c-d43e-4b1f-9377-99dc0bcc6818}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Boss\Golem\Behavior">
       <UniqueIdentifier>{ee1340d2-7d86-4be1-a97e-46373784cd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Golem\Skill">
+      <UniqueIdentifier>{47f10e7a-f1c1-4c8e-add9-cc0cccf4b164}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Behavior">
+      <UniqueIdentifier>{286df5fa-51d0-4cf1-a6f7-b52e19cab103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Behavior\Action">
+      <UniqueIdentifier>{c755ec45-360a-450d-ac28-95c62701bd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Valtan">
+      <UniqueIdentifier>{a2450736-a999-44ae-b816-ad09c1e28a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Valtan\Behavior">
+      <UniqueIdentifier>{6d1e938d-b4a9-482a-b8cb-caaa2981fa98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Valtan\Parts">
+      <UniqueIdentifier>{be8098da-7f2b-4a0f-97c3-697f5ad0a24a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss\Valtan\Skill">
+      <UniqueIdentifier>{92545b1e-cf03-4e1d-9d88-887eb4ad7790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
+      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
+      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom">
+      <UniqueIdentifier>{1b2bfce2-e08c-4325-ac16-539cc018a7f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\SpiralChaser">
+      <UniqueIdentifier>{59cefdc3-02ec-456d-b61f-a802f63956f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\Grenade">
+      <UniqueIdentifier>{ee4d85e6-24fe-4039-9703-a75a7fe1eb7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\PerpectShotBullet">
+      <UniqueIdentifier>{b35f1e49-7123-445f-8d4d-11f9017a940a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\CrossHair">
+      <UniqueIdentifier>{a773b41a-a3e2-4a6c-b5da-f008a6ac5a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\DeathFireBomb">
+      <UniqueIdentifier>{c043dc7a-10ec-43ca-a95c-860b24b713d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
+      <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\EarthEaterParticle">
+      <UniqueIdentifier>{f9902078-6d24-4ee2-b229-c0918a76c5a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\EarthEaterDecal">
+      <UniqueIdentifier>{df0f2f17-9024-4334-adfc-16e40fe8c5f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
+      <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\WDIdenSpace">
+      <UniqueIdentifier>{1609fa11-940f-4220-a45e-e9e3ec409ecd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeOut">
+      <UniqueIdentifier>{70a04fdf-3c8b-49e3-a756-ed369c000777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeIn">
+      <UniqueIdentifier>{5211e478-f0c1-43f2-944d-00dd8a1d4b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Projectile">
+      <UniqueIdentifier>{0e0d7d86-e55a-4b62-b8a0-64de959ce98c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player">
       <UniqueIdentifier>{d26bf6ee-8989-439a-89bb-3c4c11da2bdc}</UniqueIdentifier>
@@ -433,6 +904,39 @@
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\DeadHard">
       <UniqueIdentifier>{2bfc460f-696a-42b8-9220-6f2c1f80ee07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Mode">
+      <UniqueIdentifier>{430e107f-3c75-49bb-872d-06a484d278e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stand">
+      <UniqueIdentifier>{31e77531-feec-43cb-9d33-3ab6332400e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Hit">
+      <UniqueIdentifier>{398d0dfb-086d-425f-96d0-5adbde3b3d33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Grab">
+      <UniqueIdentifier>{55a32f88-7551-49d5-ac58-f3e8cc1833cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Fall">
+      <UniqueIdentifier>{03722572-1d72-4bc5-a4c2-b7f797741c56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead">
+      <UniqueIdentifier>{71340d8b-4ca7-4708-a22d-e9511e44e015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start">
+      <UniqueIdentifier>{93733278-e8c8-4cf8-b472-e08b049b7c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End">
+      <UniqueIdentifier>{51622df5-3430-462c-a0cd-b4c62f4c1cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect">
+      <UniqueIdentifier>{fc63f46c-e5fd-4835-a976-cafcc4a2e188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
+      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Esther">
+      <UniqueIdentifier>{1b5aa6cb-02d2-4f60-a65e-3dc8a4b8d617}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Gunslinger\Part_GN">
       <UniqueIdentifier>{21fc9a1a-d931-47df-a231-c584c97fa9c5}</UniqueIdentifier>
     </Filter>
@@ -496,9 +1000,6 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity">
       <UniqueIdentifier>{44481fab-f0e0-414d-bf21-d8d92c60a453}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
-      <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Identity\Iden_Skill">
       <UniqueIdentifier>{e9ef2d6f-af19-423c-84d9-5ea97645a710}</UniqueIdentifier>
     </Filter>
@@ -511,32 +1012,74 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\SpiningSword">
       <UniqueIdentifier>{804efd1f-c3b6-401b-aab4-3cb7fb431f58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption">
+      <UniqueIdentifier>{77093d44-74f5-4463-be91-70593e1d913e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine">
+      <UniqueIdentifier>{f6ad96ab-1c21-4ac4-b898-6cd2593520bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact">
+      <UniqueIdentifier>{48265af2-1167-410f-a5d7-0205b67c085f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp">
+      <UniqueIdentifier>{aff96801-085e-49ba-bae1-8f16ddd4929a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade">
+      <UniqueIdentifier>{fd3dfb89-3de7-461f-837c-55da2f10bee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush">
+      <UniqueIdentifier>{839be27e-87a4-4c45-abef-f2439f78d3c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Mode">
+      <UniqueIdentifier>{1cb05851-1908-420d-8e92-23d8face3cde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Hit">
+      <UniqueIdentifier>{bed6d4e8-39df-4b6f-8e25-75cd0a8ba31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stand">
+      <UniqueIdentifier>{8aedbe45-acd0-4df8-8bf9-684cf2b070d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Grab">
+      <UniqueIdentifier>{e2ba8199-19f5-44ea-9ee5-fae46a86b03e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stop">
+      <UniqueIdentifier>{a4a466ce-67ee-46d1-9950-11cce2825be5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Fall">
+      <UniqueIdentifier>{391c6184-bad8-4b87-8059-c8122950573b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead">
+      <UniqueIdentifier>{36f97be6-4fde-406a-88a3-f6380ffbd785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start">
+      <UniqueIdentifier>{54af9d97-fc9e-49c2-8d03-8ab7174890f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
+      <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Resurrect">
+      <UniqueIdentifier>{0a3f237a-80d9-4901-9ea0-39532d41f0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Esther">
+      <UniqueIdentifier>{8295504d-23fe-4802-8893-902d6757f042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR">
+      <UniqueIdentifier>{089ffe45-be28-4f1d-857a-f0bdec54a3ea}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\FuriousClaw">
       <UniqueIdentifier>{19819387-9f50-4d40-b6f3-cbae6e32beba}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\SpiningSword">
       <UniqueIdentifier>{4e8070ba-ffd3-4a7d-9c68-fec68c177794}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\VoclanoEruption">
-      <UniqueIdentifier>{77093d44-74f5-4463-be91-70593e1d913e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\VoclanoEruption">
       <UniqueIdentifier>{0a7a39ec-e010-4531-8d62-4c5aaa382476}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\Guillotine">
-      <UniqueIdentifier>{f6ad96ab-1c21-4ac4-b898-6cd2593520bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\Guillotine">
       <UniqueIdentifier>{a48c34d7-b486-4445-9c4a-49784dde4007}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\BrutalImpact">
-      <UniqueIdentifier>{48265af2-1167-410f-a5d7-0205b67c085f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\BrutalImpact">
       <UniqueIdentifier>{90ea686b-07df-43b1-a097-f97ec7770c1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildStomp">
-      <UniqueIdentifier>{aff96801-085e-49ba-bae1-8f16ddd4929a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\WildStomp">
       <UniqueIdentifier>{f67fc9f4-3439-4145-9201-830842d52d8d}</UniqueIdentifier>
@@ -544,80 +1087,29 @@
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\FlashBlade">
       <UniqueIdentifier>{ce9619bd-0898-4bea-a4f1-33d2a7d2f37c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\FlashBlade">
-      <UniqueIdentifier>{fd3dfb89-3de7-461f-837c-55da2f10bee7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Slayer\Skill_WR\WildRush">
       <UniqueIdentifier>{025b0656-6b09-42f0-abe7-f4e4315884e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Skill\WildRush">
-      <UniqueIdentifier>{839be27e-87a4-4c45-abef-f2439f78d3c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\99.Base">
-      <UniqueIdentifier>{1f3b16a7-633f-4ceb-b80f-ad2be5eb5097}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\05. Chase">
-      <UniqueIdentifier>{e91db7db-6f55-4c43-aec6-74ef7f395b77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\King\Skill">
-      <UniqueIdentifier>{8a6a6446-b62e-41da-9160-dd8214983268}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby">
-      <UniqueIdentifier>{2378bddd-d2f2-48d2-adda-b4de0e90e906}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\00.NickName">
-      <UniqueIdentifier>{44c0d29d-fe62-4a8b-a71a-d497e876324d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility">
-      <UniqueIdentifier>{51e9e0bf-ac00-47bc-b39f-126b7e06306f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip">
-      <UniqueIdentifier>{ce70cde3-4ad2-431d-8a83-01f4cafd1b78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\00.Picked_Icon">
-      <UniqueIdentifier>{88317a8f-6525-4a1b-9f48-6d3cb2ee5a2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\01.Clone_Icon">
-      <UniqueIdentifier>{4a53fccf-94c0-4aa2-817d-c1b6d92a0e56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\01.ToolTip\00.Frame">
-      <UniqueIdentifier>{01501335-1150-4a01-992b-febf016f5667}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\00.Identity_Body">
-      <UniqueIdentifier>{e7fbf0f9-ac60-4499-8def-7e161ebb30ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge">
-      <UniqueIdentifier>{0f2861ff-8b38-4856-b862-189896bd649b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\02.Identity_Spark">
-      <UniqueIdentifier>{d847d767-30c3-476e-aba6-137739478e86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine">
-      <UniqueIdentifier>{ed94756e-0c88-429c-80de-4a262f7bd78b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Behavior">
-      <UniqueIdentifier>{286df5fa-51d0-4cf1-a6f7-b52e19cab103}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Behavior\Action">
-      <UniqueIdentifier>{c755ec45-360a-450d-ac28-95c62701bd4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Bug">
-      <UniqueIdentifier>{c95c416d-8983-487c-8da7-854cc66610f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Earthquake">
-      <UniqueIdentifier>{25e4c81c-62c3-4ece-8630-3e924a9fa7a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Fear">
-      <UniqueIdentifier>{be56f7c8-c2ee-4b50-80d7-53bcfaace5f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Shock">
-      <UniqueIdentifier>{1e606bf6-26dd-4284-a7e8-2718ca9a4944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Behavior\Action\02.Maz\Stun">
-      <UniqueIdentifier>{11e51978-dab3-4347-8c9c-d8bbc09c8a4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Select">
       <UniqueIdentifier>{70a0d08f-44e8-4e69-a9a1-ea96cf6b92e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Bard">
+      <UniqueIdentifier>{52feb653-c91e-4682-8482-704c974d39c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Destroyer">
+      <UniqueIdentifier>{dfe85bd2-5e8c-477a-831c-804f18537c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Gunslinger">
+      <UniqueIdentifier>{d502c6ff-6f13-48e8-80be-0e9a983449a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Slayer">
+      <UniqueIdentifier>{d797954d-9e20-41b8-a93d-89e3e640ab67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Tea">
+      <UniqueIdentifier>{d11ab814-f540-4a5c-a0f0-aeb6bce7f898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Select\Select_Doaga">
+      <UniqueIdentifier>{239bcda0-885b-4462-a10a-eb01fe450e3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Destroyer">
       <UniqueIdentifier>{9386f95b-4a3e-485e-840b-e48594287d0b}</UniqueIdentifier>
@@ -630,6 +1122,30 @@
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR">
       <UniqueIdentifier>{26d026f4-5c43-4f57-900f-0cab2479deed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\EndurePain">
+      <UniqueIdentifier>{bc2814b7-d33e-4058-a961-9ab7f161f0d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\EarthEater">
+      <UniqueIdentifier>{de47ef54-f61c-44f3-bf55-9188d7e7458f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\FullSwing">
+      <UniqueIdentifier>{89b286fb-1170-4fac-8be7-4e72fcf21399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PerfectSwing">
+      <UniqueIdentifier>{2c6845db-cc84-49b2-b80c-76137cf6fad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\SizemicHammer">
+      <UniqueIdentifier>{51631d04-f151-45be-b28c-3f59ae34fcff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\HeavyCrush">
+      <UniqueIdentifier>{e9b3e281-dcdf-42ba-8579-ead6d1db0758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerStrike">
+      <UniqueIdentifier>{a8bee650-2532-437d-8d90-fe2d383943f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerShoulder">
+      <UniqueIdentifier>{33ac6b7f-5d0d-4eb1-ac8a-af191c58a7c2}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR">
       <UniqueIdentifier>{59801178-babd-4604-994c-0ce74515d552}</UniqueIdentifier>
@@ -661,30 +1177,6 @@
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill">
       <UniqueIdentifier>{0de5baba-5b3e-46ab-b290-f217b349b303}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\EndurePain">
-      <UniqueIdentifier>{bc2814b7-d33e-4058-a961-9ab7f161f0d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\EarthEater">
-      <UniqueIdentifier>{de47ef54-f61c-44f3-bf55-9188d7e7458f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\FullSwing">
-      <UniqueIdentifier>{89b286fb-1170-4fac-8be7-4e72fcf21399}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PerfectSwing">
-      <UniqueIdentifier>{2c6845db-cc84-49b2-b80c-76137cf6fad3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\SizemicHammer">
-      <UniqueIdentifier>{51631d04-f151-45be-b28c-3f59ae34fcff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\HeavyCrush">
-      <UniqueIdentifier>{e9b3e281-dcdf-42ba-8579-ead6d1db0758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerStrike">
-      <UniqueIdentifier>{a8bee650-2532-437d-8d90-fe2d383943f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\Skill_WDR\PowerShoulder">
-      <UniqueIdentifier>{33ac6b7f-5d0d-4eb1-ac8a-af191c58a7c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\EndurePain">
       <UniqueIdentifier>{9f83da90-bc42-4086-8d2f-cd29329a9f0c}</UniqueIdentifier>
     </Filter>
@@ -709,20 +1201,41 @@
     <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Skill\PowerStrike">
       <UniqueIdentifier>{a72e37d8-f046-422e-82dc-f4bb8ed80dc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Hit">
+      <UniqueIdentifier>{b15e7100-f39d-4f40-b4c6-407e15222f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stand">
+      <UniqueIdentifier>{9b2801a0-ec57-48b8-bf2d-745690263283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Grab">
+      <UniqueIdentifier>{f36e52f9-eb14-4218-a1ec-04176ab6a5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stop">
+      <UniqueIdentifier>{faaa8751-57b7-49a2-acb8-42b463c46267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Fall">
+      <UniqueIdentifier>{41ccd759-1604-4728-98e7-7b214262e88a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead">
+      <UniqueIdentifier>{477e9f13-6a41-4d76-8f2f-4f2e1a5717ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start">
+      <UniqueIdentifier>{e5be5178-2b60-47de-8337-1d404a72d4b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End">
+      <UniqueIdentifier>{43ade263-450e-4087-864a-d1474bd83df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect">
+      <UniqueIdentifier>{4fff3bd5-bf1f-46f5-ade9-4b26270c36a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Esther">
+      <UniqueIdentifier>{dfcf3b41-f98f-4a23-85ab-264cdef357b5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard">
       <UniqueIdentifier>{3a3fafb1-85d2-44cc-9728-71532c6821e8}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG">
       <UniqueIdentifier>{bcf9e205-4d1f-48c9-a88c-afa54bf5c0cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Controller_MG">
-      <UniqueIdentifier>{adcbaeb4-585d-4360-83aa-86504b66c126}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG">
-      <UniqueIdentifier>{2dd291f2-183c-4610-a361-1786c5a760ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Part_MG">
-      <UniqueIdentifier>{363db636-7a39-4b43-a665-a958e9d6a005}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Idle">
       <UniqueIdentifier>{d1a6efbd-1b3c-4fc2-9e29-412838fa72ca}</UniqueIdentifier>
@@ -736,170 +1249,8 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Attack">
       <UniqueIdentifier>{e3619efa-a947-4266-bc87-5a7f443cbd8a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\00.GaugeFrame">
-      <UniqueIdentifier>{fee6be2b-ab00-434f-b41e-d8ebf2ea73ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\01.Gauge">
-      <UniqueIdentifier>{fe644e52-6045-4635-8a7a-f7d2bd16ea09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\01.Identity_Gauge\02.Shine">
-      <UniqueIdentifier>{75f81f70-544e-4b68-859c-9152ba3d47d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\04.UI_WRIdentity_SkillFrame">
-      <UniqueIdentifier>{43f7cd0f-79d5-4c8a-93c1-4e8aa135cd1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\05.UI_WRIdentity_Boomb">
-      <UniqueIdentifier>{25d224f2-f387-4a15-b46a-72ce9b8afad8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\03.Identity_Shine\00.Eye_Shine">
-      <UniqueIdentifier>{35a5d918-a1e0-4699-9269-244347049e79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\01.Slayer\06.BindingKey">
-      <UniqueIdentifier>{f4247b1c-d42a-475c-94f8-08ae5c735a4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Valtan">
-      <UniqueIdentifier>{a2450736-a999-44ae-b816-ad09c1e28a92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean">
-      <UniqueIdentifier>{955f10eb-bd65-4e8a-afc2-7e802dcf0297}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel1">
-      <UniqueIdentifier>{d0c2092e-f731-45cf-a388-b3eedd592c2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel2">
-      <UniqueIdentifier>{63511837-4629-4028-b408-bfb6964dcac0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\03.ChaosDungean\ChaosLevel3">
-      <UniqueIdentifier>{89a954b6-4f96-4aa2-ad75-79bd2e801c4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP">
-      <UniqueIdentifier>{0234cab9-4210-4923-b197-58cb525f52fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP">
-      <UniqueIdentifier>{50d9aeef-578e-4720-9824-cdda2f7bfe38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\99.Shield">
-      <UniqueIdentifier>{dd58f161-b8e4-4de9-ac25-ec1d7aa85116}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\00.Empty">
-      <UniqueIdentifier>{81dd785f-a4d5-4f73-a041-af3aea85a88d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\02.Frame">
-      <UniqueIdentifier>{eecbf04b-39f7-4454-bba9-763280cfe506}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\00.HP\01.Fill">
-      <UniqueIdentifier>{70ec6b31-cc32-4ae0-9516-601309ce1db4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP">
-      <UniqueIdentifier>{259a876f-4aa3-41cc-81e4-2f1b3aed6576}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\02.Frame">
-      <UniqueIdentifier>{fa2dfef5-d526-469e-8cf1-6bc4f2036c32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\00.Empty">
-      <UniqueIdentifier>{0ceba15d-960d-41b1-b95a-fc55c8a0ec76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.HP/MP\01.MP\01.Fill">
-      <UniqueIdentifier>{167bc56c-ded9-48f3-b764-492821bb9019}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="95.Network">
-      <UniqueIdentifier>{f4d5c8ea-35ca-4bad-b50d-727a9f9a5344}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="95.Network\Protocol">
-      <UniqueIdentifier>{75ccef97-ae7f-480a-827d-edaa1f40fd79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Event">
-      <UniqueIdentifier>{9338aac2-f157-4c4d-9f44-0aa0463ceabe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Event\99.Base">
-      <UniqueIdentifier>{85e13d89-1e7a-44ab-af0b-5cb50904d2ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer">
-      <UniqueIdentifier>{3a375cb1-475d-4cda-a444-c85bf524498b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\00.BackGround">
-      <UniqueIdentifier>{cf197a3f-61a2-453a-987c-87b79b48c4ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\01.GaugeFrame">
-      <UniqueIdentifier>{982eb2fe-1bcc-4442-847b-16d25c86cd36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\02.Gauge">
-      <UniqueIdentifier>{1de7965e-7295-437c-86b1-68a8ecb75848}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\03.Hammer">
-      <UniqueIdentifier>{1a51a241-0a4e-42a7-af92-26bbd33f322c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.Bubble">
-      <UniqueIdentifier>{dad4c1f6-5554-4d4b-a12a-7b4549028428}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\05.BubblesFrame">
-      <UniqueIdentifier>{23af48b0-beb6-4531-a437-d9b09d4a53aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\04.Chain">
-      <UniqueIdentifier>{57962d16-85ac-491d-a5c4-0e88c76d876a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect">
-      <UniqueIdentifier>{082c682d-06db-4f6b-aaa9-0340f528e623}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer">
-      <UniqueIdentifier>{12d43528-0cd8-4690-be8f-b0ab3e863c42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\00.Hammer_Off">
-      <UniqueIdentifier>{ac992580-504e-4e00-a4da-a2be4d5171e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\01.Hammer_On">
-      <UniqueIdentifier>{e06913d6-587e-49b1-a019-c4dff8002042}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\00.Hammer\02.Horizon">
-      <UniqueIdentifier>{97abe618-37e5-4944-8630-59e09be58e7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\08.Effect\01.Bubble">
-      <UniqueIdentifier>{6502945d-35c0-41e2-b559-6891129de3bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\02.Destroyer\06.SkillFrame">
-      <UniqueIdentifier>{271b4d89-d1be-45b0-8cda-9975becff6bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Valtan\Behavior">
-      <UniqueIdentifier>{6d1e938d-b4a9-482a-b8cb-caaa2981fa98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\03.EffectMannequin">
-      <UniqueIdentifier>{a3ba873f-142f-418c-8e09-990c71864a80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\01.Lobby">
-      <UniqueIdentifier>{c9c2b301-c7ed-4e27-b6c5-bbd1d521199a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Valtan\Parts">
-      <UniqueIdentifier>{be8098da-7f2b-4a0f-97c3-697f5ad0a24a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SoundShock">
-      <UniqueIdentifier>{7fea122d-09f8-4005-97dd-b5c9feba10a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\Sonatine">
-      <UniqueIdentifier>{8fe17b54-cf5e-4ca1-8313-fc0d6131f77c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfStome">
-      <UniqueIdentifier>{fa4d1efb-f13d-4dca-9f89-3736a5103caf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfLight">
-      <UniqueIdentifier>{b5c86fb2-3afd-49ce-ac20-0f8d17cf1cad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfWind">
-      <UniqueIdentifier>{5f699960-2da7-4c6a-955e-b8f871d1b9b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SonicVibe">
-      <UniqueIdentifier>{37cbf72a-45e7-47eb-9121-89bc2aed6f54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfHeaven">
-      <UniqueIdentifier>{663541b1-46d8-4772-abb6-a36c47cf0d9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfGuard">
-      <UniqueIdentifier>{f3d08776-3799-44c1-a499-90071d511900}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill">
       <UniqueIdentifier>{d23ddf6a-c4b2-4e1c-abc3-d35aef089335}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Identity">
-      <UniqueIdentifier>{81c214e5-a4e5-4136-ad9a-29999853ebee}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SongOfGuard">
       <UniqueIdentifier>{8cb247f5-75af-46b5-908a-0656d1525719}</UniqueIdentifier>
@@ -925,200 +1276,8 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Skill\SoundShock">
       <UniqueIdentifier>{0bf5c998-75eb-4bac-b900-729a2d1bc152}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard">
-      <UniqueIdentifier>{9d6a79e9-620d-45d7-836c-aef4d89804c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon">
-      <UniqueIdentifier>{384f8c92-4d10-4fed-b44f-b34fd059c5ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge">
-      <UniqueIdentifier>{368630c9-f27d-405d-8bbb-1080f51e9df6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\01.Timer">
-      <UniqueIdentifier>{53662c39-f3a0-4a74-a01a-434834142930}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\99.Clear">
-      <UniqueIdentifier>{0a5f9a88-cf92-457b-8edc-6530ff01223c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\00.Frame">
-      <UniqueIdentifier>{5d0167f9-f97e-44b2-a673-fdf2a18f3487}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine">
-      <UniqueIdentifier>{b590642c-74d7-4b10-b6f5-38019c46d7f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\02.Gauge">
-      <UniqueIdentifier>{445ea6ee-7525-41ff-aac9-7ba96c15d250}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\03.Gague_Cut">
-      <UniqueIdentifier>{039ee05e-7036-42a3-80e4-71addefe08b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\04.NameFrame">
-      <UniqueIdentifier>{81fa7011-c4fd-4652-8f8c-7036882b1082}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\00.Spin">
-      <UniqueIdentifier>{cfe4419f-332e-4d09-9229-ec39e313c7b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\11.Chaos_Dungeon\00.Gauge\01,Shine\01.Shine">
-      <UniqueIdentifier>{0e7a25b6-3491-459a-a5fb-05a12e2300c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\12.Inventory">
-      <UniqueIdentifier>{f1688ecf-426b-4cbb-a680-eada5ceb4dac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\05.QuickSlot\02.ETCSlot">
-      <UniqueIdentifier>{7bf0f105-e25d-4849-96e5-0d0c3085df11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Select_Bard">
-      <UniqueIdentifier>{52feb653-c91e-4682-8482-704c974d39c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Select_Destroyer">
-      <UniqueIdentifier>{dfe85bd2-5e8c-477a-831c-804f18537c68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Select_Gunslinger">
-      <UniqueIdentifier>{d502c6ff-6f13-48e8-80be-0e9a983449a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Select_Slayer">
-      <UniqueIdentifier>{d797954d-9e20-41b8-a93d-89e3e640ab67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Mode">
-      <UniqueIdentifier>{430e107f-3c75-49bb-872d-06a484d278e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Mode">
-      <UniqueIdentifier>{1cb05851-1908-420d-8e92-23d8face3cde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Tea">
-      <UniqueIdentifier>{d11ab814-f540-4a5c-a0f0-aeb6bce7f898}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\02.Gauge">
-      <UniqueIdentifier>{82e352c7-010a-4a5c-963f-a429382703cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\00.BackGround">
-      <UniqueIdentifier>{230a873c-b3a3-4041-aa95-ba46e086fd3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp">
-      <UniqueIdentifier>{bbab1f58-8e8a-4150-be4d-abae5e7e6a6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill">
-      <UniqueIdentifier>{c10ae4b9-4be5-4858-9dac-7a9eec24c8df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp\00.Roap">
-      <UniqueIdentifier>{2daee74a-debf-4510-9647-3fbab8c3d0ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\00.Skill_Icon">
-      <UniqueIdentifier>{23950ebd-ab8a-43ab-b149-dd627a826ffc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\03.Identity_Skill\01.Skill_Frame">
-      <UniqueIdentifier>{88b56b4f-47f9-4960-b2de-1f7083e109b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\01.Stage_Name">
-      <UniqueIdentifier>{cfed0aef-97cb-4674-93fa-b9c837b63856}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\04.Main_Charcter_Flag">
-      <UniqueIdentifier>{09e78b58-5fa5-4449-98b6-0145ed40ef66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\05.Expedition_Level">
-      <UniqueIdentifier>{bef9bcfb-c3ce-47df-ac29-d70fe8d97225}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\03.Bard\01.Harp\01.Body">
-      <UniqueIdentifier>{53ce6378-6a1e-4fba-adec-451f6a3c83a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Npc">
-      <UniqueIdentifier>{9ec8e60e-6851-433e-9b78-e9603bc749f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Npc\Function_Npc">
-      <UniqueIdentifier>{65d579a8-de2c-476f-b44b-014e0000bb55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Npc\Deco_Npc">
-      <UniqueIdentifier>{aaa31dd6-d2e7-4b8d-9ba1-d7c0d151c2d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\02.Entrance_Server_Button">
-      <UniqueIdentifier>{0cf6a703-b7f5-45ca-a9fd-4eceabac716f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\BackGround\02.Lobby">
-      <UniqueIdentifier>{9529f3c3-c5d7-4481-a8fe-47c752ed7086}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\10.Lobby\03.NickName_Change">
-      <UniqueIdentifier>{00fa55b2-ca37-44c3-a3a7-2cb1819add0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Npc\Npc_Part">
-      <UniqueIdentifier>{da97641d-adb7-4e67-a047-72a78f3ed6d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\For_Npc">
-      <UniqueIdentifier>{1caa94d9-469c-4016-abe2-45d8eb992adf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\For_Npc\NpcTool">
-      <UniqueIdentifier>{5ba864db-4b84-42e7-9a0d-3397341718cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\SkyDome">
-      <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96.Manager">
-      <UniqueIdentifier>{c37011bc-5412-406d-a7cf-28e2a3b42769}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96.Manager\UI_Manager">
-      <UniqueIdentifier>{5885a00a-971e-45d8-b75c-13aaa524031f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96.Manager\Chat_Manager">
-      <UniqueIdentifier>{f4514374-90b2-4af1-b99e-d48873302446}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96.Manager\Damage_Manager">
-      <UniqueIdentifier>{35ca4aec-da8d-4d3f-ba26-69d709458852}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96.Manager\Mouse_Manager">
-      <UniqueIdentifier>{0957d183-4f13-42d4-b082-e5c00f0d3048}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97.ShaderFiles">
-      <UniqueIdentifier>{97b53119-8317-43a4-a8ee-44ae8e440ad2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97.ShaderFiles\Legacy">
-      <UniqueIdentifier>{269297ff-170b-42ad-86cd-e9138b42df83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97.ShaderFiles\KSG">
-      <UniqueIdentifier>{66e51349-7e47-4d74-bfed-2715a16f0a29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Party">
-      <UniqueIdentifier>{30ecc1fd-554f-43e3-b1db-c5fe418f0de0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\13.InGame_NamePlate">
-      <UniqueIdentifier>{dcec988b-44f4-46db-a206-537fe8e160f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\14.Monster_Hp">
-      <UniqueIdentifier>{04ee81fb-865f-41d5-b551-2c7d3e518f9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\15.Boss_Hp">
-      <UniqueIdentifier>{413137b5-cadc-4ac6-b627-5c409cdd5867}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Golem\Skill">
-      <UniqueIdentifier>{47f10e7a-f1c1-4c8e-add9-cc0cccf4b164}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom">
-      <UniqueIdentifier>{1b2bfce2-e08c-4325-ac16-539cc018a7f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\SpiralChaser">
-      <UniqueIdentifier>{59cefdc3-02ec-456d-b61f-a802f63956f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\Grenade">
-      <UniqueIdentifier>{ee4d85e6-24fe-4039-9703-a75a7fe1eb7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\PerpectShotBullet">
-      <UniqueIdentifier>{b35f1e49-7123-445f-8d4d-11f9017a940a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\CrossHair">
-      <UniqueIdentifier>{a773b41a-a3e2-4a6c-b5da-f008a6ac5a8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\DeathFireBomb">
-      <UniqueIdentifier>{c043dc7a-10ec-43ca-a95c-860b24b713d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\16.Npc">
-      <UniqueIdentifier>{85b1ea75-ce81-4b57-9835-6a4ba455d357}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\16.Npc\00.ChaosDungeon">
-      <UniqueIdentifier>{0ae1f8be-9901-46aa-bae0-9b6f073b5202}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\16.Npc\00.ChaosDungeon\NewWnd">
-      <UniqueIdentifier>{061aa157-a7f6-45fa-90ca-e4cb369f88d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\16.Npc\01.Item_Upgrade">
-      <UniqueIdentifier>{f906d942-fbe1-4f7d-9b5b-f7d68a9873e8}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Identity">
+      <UniqueIdentifier>{81c214e5-a4e5-4136-ad9a-29999853ebee}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Hit">
       <UniqueIdentifier>{cdcd89c2-ee98-4c70-a4ca-2d48aeaf6dd4}</UniqueIdentifier>
@@ -1126,248 +1285,14 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Stand">
       <UniqueIdentifier>{efd57426-8592-4fec-830f-8032a6760e28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Hit">
-      <UniqueIdentifier>{b15e7100-f39d-4f40-b4c6-407e15222f4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stand">
-      <UniqueIdentifier>{9b2801a0-ec57-48b8-bf2d-745690263283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Hit">
-      <UniqueIdentifier>{bed6d4e8-39df-4b6f-8e25-75cd0a8ba31a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stand">
-      <UniqueIdentifier>{8aedbe45-acd0-4df8-8bf9-684cf2b070d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stand">
-      <UniqueIdentifier>{31e77531-feec-43cb-9d33-3ab6332400e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Hit">
-      <UniqueIdentifier>{398d0dfb-086d-425f-96d0-5adbde3b3d33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Npc\Function_Npc\Guide_Npc">
-      <UniqueIdentifier>{1eec1b39-c15a-49b0-9006-fcb46b51be6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss\Valtan\Skill">
-      <UniqueIdentifier>{92545b1e-cf03-4e1d-9d88-887eb4ad7790}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\05. ValtanMain">
-      <UniqueIdentifier>{535409de-b4c2-4da9-be5e-de471e3115d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\04. ValtanEnterance">
-      <UniqueIdentifier>{bb587fae-f286-4d49-b053-6f495306f69b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\SeismicHammer">
-      <UniqueIdentifier>{7f0d3e5d-f4ad-4bc9-9b64-469437b7ab79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Grab">
-      <UniqueIdentifier>{55a32f88-7551-49d5-ac58-f3e8cc1833cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Grab">
-      <UniqueIdentifier>{e2ba8199-19f5-44ea-9ee5-fae46a86b03e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Grab">
-      <UniqueIdentifier>{f36e52f9-eb14-4218-a1ec-04176ab6a5aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Grab">
       <UniqueIdentifier>{a6e9cf38-d696-408c-90af-c4d92c411914}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item">
-      <UniqueIdentifier>{701ae283-e9ab-474b-8f2c-35419b7844da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Consume">
-      <UniqueIdentifier>{414b9b1f-06ca-44be-900b-c532c66395c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip">
-      <UniqueIdentifier>{3af5e5a8-a895-41f2-881d-d3a3987d1afe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN">
-      <UniqueIdentifier>{334ef45a-50ce-4a49-bfbb-6a0b746d0e5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR">
-      <UniqueIdentifier>{a5f0eef2-24f2-4e5a-b8e0-bc4062a393c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR">
-      <UniqueIdentifier>{ea1f2198-831a-4f72-b8fc-af5ed4e3f1c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG">
-      <UniqueIdentifier>{3be75d0a-bcda-445e-90d3-2fd1665df9ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Gear">
-      <UniqueIdentifier>{a9b27471-2e91-45e9-8acf-52b975aa0a88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon">
-      <UniqueIdentifier>{b582a00c-903a-4fc2-a7de-9d02e3b5a4f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Gear">
-      <UniqueIdentifier>{0d38a128-52d1-46b7-9d71-0c010ef50d94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon">
-      <UniqueIdentifier>{74690754-429a-41dd-8710-0a19e8620f68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Gear">
-      <UniqueIdentifier>{d6b6fb9d-29d2-4c4d-9c8d-a4150569b75d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon">
-      <UniqueIdentifier>{34e26d76-f86d-4988-9ca2-12a285802eb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear">
-      <UniqueIdentifier>{1be6c7e0-2767-43ea-830f-854bce58d8c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon">
-      <UniqueIdentifier>{351f8000-06a2-4398-b662-0065f2bc855e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Body_Mococo">
-      <UniqueIdentifier>{a754160a-0e71-4d1d-bc3f-46f04f664814}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Mococo">
-      <UniqueIdentifier>{a27ef66c-1f43-4e90-a943-f370b2cc2142}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Mococo">
-      <UniqueIdentifier>{fa77ec56-a350-41fa-9c5f-11ab2ce69a7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Mococo">
-      <UniqueIdentifier>{d65fe386-71e0-4d3e-8efd-012ee631dfe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Mococo">
-      <UniqueIdentifier>{d434522d-efe9-4e4b-8c93-d0471d6ab828}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Mococo">
-      <UniqueIdentifier>{bbdeff4a-eaaa-413e-ae27-157494966ab7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\EarthEaterParticle">
-      <UniqueIdentifier>{f9902078-6d24-4ee2-b229-c0918a76c5a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\EarthEaterDecal">
-      <UniqueIdentifier>{df0f2f17-9024-4334-adfc-16e40fe8c5f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Body_Mococo">
-      <UniqueIdentifier>{a4911090-94de-43ee-9b63-d4a5521da709}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Mococo">
-      <UniqueIdentifier>{e384136e-8b0a-451b-9f2f-1b7108c41755}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Mococo">
-      <UniqueIdentifier>{ad8c724d-cdb0-49a8-8211-625d04649d7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo">
-      <UniqueIdentifier>{6766d5d1-210c-4e5b-a67c-f104036c8891}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Body_Mococo">
-      <UniqueIdentifier>{4e1a177b-4f8b-459c-bda0-6ace683a7984}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Mococo">
-      <UniqueIdentifier>{fe8db36b-6f41-4ff7-a4ec-d628860e79e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend">
-      <UniqueIdentifier>{949c3916-f2d3-425f-a210-6af8b118fd80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend">
-      <UniqueIdentifier>{1f40f748-0958-4904-b05c-92004bf27607}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Legend">
-      <UniqueIdentifier>{a9c109a1-d9e7-4da3-85af-a7ad0a30deeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Leg_Legend">
-      <UniqueIdentifier>{c6dbfff5-a850-4b18-ad18-358fb3882280}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Legend">
-      <UniqueIdentifier>{46fa5bf2-94c3-4cda-825f-b5feaa20046a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Legend">
-      <UniqueIdentifier>{51a1d0d7-4ad1-49fd-ac74-0cc50e0cc78c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Legend">
-      <UniqueIdentifier>{e7781af6-76c6-461f-a47b-e0607fc43b9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Legend">
-      <UniqueIdentifier>{77077713-91b4-49e5-96e5-d85fb0424f60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Body_Legend">
-      <UniqueIdentifier>{4235de12-37e2-4e77-a730-87770cca7ecf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Legend">
-      <UniqueIdentifier>{f847c93e-e6b9-4ab8-b75f-d7bba3ca0bfd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Leg_Legend">
-      <UniqueIdentifier>{e3bfbcd2-73e1-4513-99f6-6bfda71029ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Stop">
       <UniqueIdentifier>{509a66dc-2e7c-4187-9e9a-5215e419725b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Stop">
-      <UniqueIdentifier>{faaa8751-57b7-49a2-acb8-42b463c46267}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Stop">
-      <UniqueIdentifier>{a4a466ce-67ee-46d1-9950-11cce2825be5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Legend">
-      <UniqueIdentifier>{15867e89-e8e0-4433-a3e6-6e2206284092}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Body_Legend">
-      <UniqueIdentifier>{bff42251-a28a-494b-b5f6-30c5eed6c910}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend">
-      <UniqueIdentifier>{94b1b026-fe1d-4e17-bbc7-2b8e51dc0150}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Leg_Legend">
-      <UniqueIdentifier>{dfce9891-b186-4d90-82ff-0be2cb37fc4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster\Prison">
-      <UniqueIdentifier>{14a88773-3947-4a39-961a-84c6ab882d0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\SwordTrail">
-      <UniqueIdentifier>{f3c8e4b5-ceaa-476c-9a55-a8b35251adcf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\12.Inventory\01.Equipment">
-      <UniqueIdentifier>{52789099-83e7-4264-9898-cfb381af383f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory">
-      <UniqueIdentifier>{78189060-b91c-4039-9b47-bcff3594f137}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Fall">
-      <UniqueIdentifier>{391c6184-bad8-4b87-8059-c8122950573b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Fall">
-      <UniqueIdentifier>{03722572-1d72-4bc5-a4c2-b7f797741c56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Fall">
-      <UniqueIdentifier>{41ccd759-1604-4728-98e7-7b214262e88a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Fall">
       <UniqueIdentifier>{d12cb219-03f4-4ff4-ae7c-2567404d8180}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\17.GroggyGauge">
-      <UniqueIdentifier>{25644510-e1fa-49e7-bd61-e48bb3168e8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead">
-      <UniqueIdentifier>{36f97be6-4fde-406a-88a3-f6380ffbd785}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_Start">
-      <UniqueIdentifier>{54af9d97-fc9e-49c2-8d03-8ab7174890f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Dead\Dead_End">
-      <UniqueIdentifier>{d7baa234-be7f-4324-9b7a-f6dea432bc3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\WDIdenSpace">
-      <UniqueIdentifier>{1609fa11-940f-4220-a45e-e9e3ec409ecd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead">
-      <UniqueIdentifier>{71340d8b-4ca7-4708-a22d-e9511e44e015}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_Start">
-      <UniqueIdentifier>{93733278-e8c8-4cf8-b472-e08b049b7c9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Dead\Dead_End">
-      <UniqueIdentifier>{51622df5-3430-462c-a0cd-b4c62f4c1cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead">
-      <UniqueIdentifier>{477e9f13-6a41-4d76-8f2f-4f2e1a5717ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_Start">
-      <UniqueIdentifier>{e5be5178-2b60-47de-8337-1d404a72d4b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Dead\Dead_End">
-      <UniqueIdentifier>{43ade263-450e-4087-864a-d1474bd83df5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead">
       <UniqueIdentifier>{a53c1685-0427-4c0b-b40f-6b6f221743f4}</UniqueIdentifier>
@@ -1378,29 +1303,338 @@
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Dead\Dead_End">
       <UniqueIdentifier>{166e5202-24f4-4e72-8981-5d6e1845dc13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Resurrect">
-      <UniqueIdentifier>{0a3f237a-80d9-4901-9ea0-39532d41f0fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Resurrect">
-      <UniqueIdentifier>{fc63f46c-e5fd-4835-a976-cafcc4a2e188}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Resurrect">
-      <UniqueIdentifier>{4fff3bd5-bf1f-46f5-ade9-4b26270c36a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Resurrect">
       <UniqueIdentifier>{869ceaa7-dc79-4c25-a8d5-4045ed19ce72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Stop">
-      <UniqueIdentifier>{1690a42a-822d-4eeb-9fd7-c8504251e03c}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Esther">
+      <UniqueIdentifier>{485490d9-d72b-4b05-a3b1-29fe4f564927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Controller_MG">
+      <UniqueIdentifier>{adcbaeb4-585d-4360-83aa-86504b66c126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG">
+      <UniqueIdentifier>{2dd291f2-183c-4610-a361-1786c5a760ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SoundShock">
+      <UniqueIdentifier>{7fea122d-09f8-4005-97dd-b5c9feba10a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\Sonatine">
+      <UniqueIdentifier>{8fe17b54-cf5e-4ca1-8313-fc0d6131f77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfStome">
+      <UniqueIdentifier>{fa4d1efb-f13d-4dca-9f89-3736a5103caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfLight">
+      <UniqueIdentifier>{b5c86fb2-3afd-49ce-ac20-0f8d17cf1cad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfWind">
+      <UniqueIdentifier>{5f699960-2da7-4c6a-955e-b8f871d1b9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SonicVibe">
+      <UniqueIdentifier>{37cbf72a-45e7-47eb-9121-89bc2aed6f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfHeaven">
+      <UniqueIdentifier>{663541b1-46d8-4772-abb6-a36c47cf0d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Skill_MG\SongOfGuard">
+      <UniqueIdentifier>{f3d08776-3799-44c1-a499-90071d511900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Bard\Part_MG">
+      <UniqueIdentifier>{363db636-7a39-4b43-a665-a958e9d6a005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga">
+      <UniqueIdentifier>{36711d6a-b745-4d9e-8a51-26bfa1516248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Controller_SP">
+      <UniqueIdentifier>{794dfb4c-19b1-4e07-9bbe-117fa466ef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Part_SP">
+      <UniqueIdentifier>{b9b8cae9-6109-4d8f-aeb6-32183132bc0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP">
+      <UniqueIdentifier>{6597eeda-8445-4ac2-8a32-e0e76058f7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Inkpaddle">
+      <UniqueIdentifier>{51b2e187-97e3-41e1-87a7-4a211b90c400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\DimensionalShift">
+      <UniqueIdentifier>{9c6b05cd-19dd-420c-84ed-2ff4867c4488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Inkshot">
+      <UniqueIdentifier>{a1109284-eafa-40e3-90eb-5889105e45ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Onestroke">
+      <UniqueIdentifier>{6435950e-52d6-49f8-b610-e1b7abf6240c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Moondrawing">
+      <UniqueIdentifier>{9df161d2-0dc8-42b9-a7b5-ce7156b01ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\SkyKongKong">
+      <UniqueIdentifier>{3bd22954-e5fd-4bf3-8868-83358a24e84d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\SpiritHarmony">
+      <UniqueIdentifier>{64afcfd4-612f-400a-9a5b-95fb1a823fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Flyheaven">
+      <UniqueIdentifier>{ade536cd-b292-4c03-89b7-7ecbc62e3074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP">
+      <UniqueIdentifier>{eaa51ddf-4105-469a-aad0-8c1a885372db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Attack">
+      <UniqueIdentifier>{d24f3e98-c4c2-4934-9cb2-deeaad5e5602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dash">
+      <UniqueIdentifier>{c3a27d46-e1e3-4c23-b83f-293030390ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead">
+      <UniqueIdentifier>{29ce0a5b-bd5f-4f70-848b-2f4a53a7723d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_End">
+      <UniqueIdentifier>{aba23577-5b04-4159-a82e-89269b3b76c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_Start">
+      <UniqueIdentifier>{dd08e64a-77e2-4d2f-9fbf-6e6bb349736c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Esther">
+      <UniqueIdentifier>{cb2173e7-3830-43b2-8b96-fea4bff95ff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Fall">
+      <UniqueIdentifier>{c0d4bd50-f988-4b7f-a445-9ee95aeac4bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Grab">
+      <UniqueIdentifier>{54ae0d87-29f9-4e75-9f04-c7908fee27bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Hit">
+      <UniqueIdentifier>{95221768-1748-4d7c-af1d-f158d09609fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy">
+      <UniqueIdentifier>{b2e831fa-276a-4270-bc8e-2f763d34eea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Sun">
+      <UniqueIdentifier>{da08fe71-3df1-453c-b618-27c3a2b20ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon">
+      <UniqueIdentifier>{a7830927-7154-476c-89d5-53831e138db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Idle">
+      <UniqueIdentifier>{5833db1c-ceab-462e-ba75-9fd64b732953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Resurrect">
+      <UniqueIdentifier>{4a2510be-e688-4ae9-9626-c26c3ff04e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Run">
+      <UniqueIdentifier>{0b5057a8-6895-4c42-9495-c489e01a013c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill">
+      <UniqueIdentifier>{83f2e02d-1d24-4eca-990c-ed63231663f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkpaddle">
+      <UniqueIdentifier>{8cf3782f-f8ae-4ae3-8f65-e7ed4f2caa0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift">
+      <UniqueIdentifier>{6256a8d1-2b0a-4e00-a3fb-2c08c3e18b84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkshot">
+      <UniqueIdentifier>{f72890f6-34a3-4b4f-b188-a44607b849e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Onestorke">
+      <UniqueIdentifier>{843bf2e0-a5b3-4c5e-a4d8-5d558d8eacd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing">
+      <UniqueIdentifier>{c22961c7-5f3a-400e-aee5-7b9cfa828361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong">
+      <UniqueIdentifier>{96d1b419-a2ae-4b98-ae53-efc2557c2310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\SpiritHarmony">
+      <UniqueIdentifier>{63b7819b-25fd-4323-aa9a-ccf961c4b345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven">
+      <UniqueIdentifier>{bc45c164-d7b9-48a6-a1e6-4ba9805ae409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Stand">
+      <UniqueIdentifier>{7aa29481-6543-422f-a806-643ff79814fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Stop">
+      <UniqueIdentifier>{97fccf2f-b0f0-4e12-a091-706c02ffb3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc">
+      <UniqueIdentifier>{9ec8e60e-6851-433e-9b78-e9603bc749f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc">
+      <UniqueIdentifier>{65d579a8-de2c-476f-b44b-014e0000bb55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Guide_Npc">
+      <UniqueIdentifier>{1eec1b39-c15a-49b0-9006-fcb46b51be6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Deco_Npc">
+      <UniqueIdentifier>{aaa31dd6-d2e7-4b8d-9ba1-d7c0d151c2d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Npc_Part">
+      <UniqueIdentifier>{da97641d-adb7-4e67-a047-72a78f3ed6d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\SkyDome">
+      <UniqueIdentifier>{99a4bdb0-0c55-4f86-866f-19fe253e49cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item">
+      <UniqueIdentifier>{701ae283-e9ab-474b-8f2c-35419b7844da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Consume">
+      <UniqueIdentifier>{414b9b1f-06ca-44be-900b-c532c66395c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Item\Consume\TestItem">
       <UniqueIdentifier>{972a4c94-38bf-4676-9b76-76919e65077c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory\01.ItemSlot">
-      <UniqueIdentifier>{5a43f205-2019-4763-94f9-8703d7838ebd}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Item\Equip">
+      <UniqueIdentifier>{3af5e5a8-a895-41f2-881d-d3a3987d1afe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\12.Inventory\00.Inventory\00.Wnd">
-      <UniqueIdentifier>{53b8c77f-90c5-4f16-85ba-bf01060a4d01}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Item\Equip\GN">
+      <UniqueIdentifier>{334ef45a-50ce-4a49-bfbb-6a0b746d0e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear">
+      <UniqueIdentifier>{a9b27471-2e91-45e9-8acf-52b975aa0a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Body_Mococo">
+      <UniqueIdentifier>{a754160a-0e71-4d1d-bc3f-46f04f664814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Mococo">
+      <UniqueIdentifier>{a27ef66c-1f43-4e90-a943-f370b2cc2142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Body_Legend">
+      <UniqueIdentifier>{1f40f748-0958-4904-b05c-92004bf27607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Helmet_Legend">
+      <UniqueIdentifier>{a9c109a1-d9e7-4da3-85af-a7ad0a30deeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Gear\GN_Leg_Legend">
+      <UniqueIdentifier>{c6dbfff5-a850-4b18-ad18-358fb3882280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon">
+      <UniqueIdentifier>{b582a00c-903a-4fc2-a7de-9d02e3b5a4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Mococo">
+      <UniqueIdentifier>{fa77ec56-a350-41fa-9c5f-11ab2ce69a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\GN\Weapon\GN_WP_Legend">
+      <UniqueIdentifier>{949c3916-f2d3-425f-a210-6af8b118fd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR">
+      <UniqueIdentifier>{a5f0eef2-24f2-4e5a-b8e0-bc4062a393c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear">
+      <UniqueIdentifier>{1be6c7e0-2767-43ea-830f-854bce58d8c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Mococo">
+      <UniqueIdentifier>{ad8c724d-cdb0-49a8-8211-625d04649d7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Mococo">
+      <UniqueIdentifier>{6766d5d1-210c-4e5b-a67c-f104036c8891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Body_Legend">
+      <UniqueIdentifier>{46fa5bf2-94c3-4cda-825f-b5feaa20046a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Gear\WDR_Helmet_Legend">
+      <UniqueIdentifier>{51a1d0d7-4ad1-49fd-ac74-0cc50e0cc78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon">
+      <UniqueIdentifier>{351f8000-06a2-4398-b662-0065f2bc855e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Mococo">
+      <UniqueIdentifier>{d434522d-efe9-4e4b-8c93-d0471d6ab828}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WDR\Weapon\WDR_WP_Legend">
+      <UniqueIdentifier>{e7781af6-76c6-461f-a47b-e0607fc43b9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR">
+      <UniqueIdentifier>{ea1f2198-831a-4f72-b8fc-af5ed4e3f1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear">
+      <UniqueIdentifier>{d6b6fb9d-29d2-4c4d-9c8d-a4150569b75d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Body_Mococo">
+      <UniqueIdentifier>{4e1a177b-4f8b-459c-bda0-6ace683a7984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Mococo">
+      <UniqueIdentifier>{fe8db36b-6f41-4ff7-a4ec-d628860e79e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Body_Legend">
+      <UniqueIdentifier>{4235de12-37e2-4e77-a730-87770cca7ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Helmet_Legend">
+      <UniqueIdentifier>{f847c93e-e6b9-4ab8-b75f-d7bba3ca0bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Gear\WR_Leg_Legend">
+      <UniqueIdentifier>{e3bfbcd2-73e1-4513-99f6-6bfda71029ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon">
+      <UniqueIdentifier>{34e26d76-f86d-4988-9ca2-12a285802eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Mococo">
+      <UniqueIdentifier>{bbdeff4a-eaaa-413e-ae27-157494966ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\WR\Weapon\WR_WP_Legend">
+      <UniqueIdentifier>{77077713-91b4-49e5-96e5-d85fb0424f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG">
+      <UniqueIdentifier>{3be75d0a-bcda-445e-90d3-2fd1665df9ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear">
+      <UniqueIdentifier>{0d38a128-52d1-46b7-9d71-0c010ef50d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Body_Mococo">
+      <UniqueIdentifier>{a4911090-94de-43ee-9b63-d4a5521da709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Mococo">
+      <UniqueIdentifier>{e384136e-8b0a-451b-9f2f-1b7108c41755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Helmet_Legend">
+      <UniqueIdentifier>{15867e89-e8e0-4433-a3e6-6e2206284092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Body_Legend">
+      <UniqueIdentifier>{bff42251-a28a-494b-b5f6-30c5eed6c910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Gear\MG_Leg_Legend">
+      <UniqueIdentifier>{dfce9891-b186-4d90-82ff-0be2cb37fc4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon">
+      <UniqueIdentifier>{74690754-429a-41dd-8710-0a19e8620f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Mococo">
+      <UniqueIdentifier>{d65fe386-71e0-4d3e-8efd-012ee631dfe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\MG\Weapon\MG_WP_Legend">
+      <UniqueIdentifier>{94b1b026-fe1d-4e17-bbc7-2b8e51dc0150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP">
+      <UniqueIdentifier>{d294a1eb-aeef-4f34-a4a7-1381e1460497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear">
+      <UniqueIdentifier>{952df87c-fad4-42a7-94a9-10576fce7643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Body_Legend">
+      <UniqueIdentifier>{f579db05-a56b-4a4b-80b3-8e236afbbac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Legend">
+      <UniqueIdentifier>{68f5add8-33b3-4c87-b9ea-c1f2e28b967a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Leg_Legend">
+      <UniqueIdentifier>{1b33c94f-cc21-4139-b7e7-da77da7bb337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Body_Dino">
+      <UniqueIdentifier>{1ac0f5de-8dba-4a75-88d0-e985d649b011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Dino">
+      <UniqueIdentifier>{ba36b33f-b77a-4d1d-bfe4-6676ee1c5402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon">
+      <UniqueIdentifier>{b75f8c2d-31fd-46a3-9c85-ac401da3754d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Dino">
+      <UniqueIdentifier>{c8e7553b-5844-4c08-b17f-918f47203cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Legend">
+      <UniqueIdentifier>{c89b84a7-b699-4cfc-8fe1-1563b58d7cf1}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Esther">
       <UniqueIdentifier>{eda6854c-65e2-47c9-a926-0191a8e545b1}</UniqueIdentifier>
@@ -1426,24 +1660,6 @@
     <Filter Include="02.GameObjects\Esther\base_Skill">
       <UniqueIdentifier>{1cfa90dc-a4d4-4593-be72-f88b8adee960}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Slayer\State_WR\Esther">
-      <UniqueIdentifier>{8295504d-23fe-4802-8893-902d6757f042}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Gunslinger\State_GN\Esther">
-      <UniqueIdentifier>{1b5aa6cb-02d2-4f60-a65e-3dc8a4b8d617}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Destroyer\State_WDR\Esther">
-      <UniqueIdentifier>{dfcf3b41-f98f-4a23-85ab-264cdef357b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Bard\State_MG\Esther">
-      <UniqueIdentifier>{485490d9-d72b-4b05-a3b1-29fe4f564927}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
-      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
-      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Esther\Silian">
       <UniqueIdentifier>{deeb7405-1598-43d2-9c83-6dcd6f7ce2de}</UniqueIdentifier>
     </Filter>
@@ -1462,213 +1678,6 @@
     <Filter Include="02.GameObjects\Esther\Bahuntur\Skill">
       <UniqueIdentifier>{9dad8868-317f-4809-898e-1b9dd5dee401}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Camera\Cut">
-      <UniqueIdentifier>{b358da5d-93c2-4c02-9059-bc6da855a16a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Camera\Lobby">
-      <UniqueIdentifier>{ed76752a-9c28-4b73-8474-c8c54af56e57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Camera\Player">
-      <UniqueIdentifier>{42f8f5bb-9fbf-49e3-aec8-c5b1eb090644}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Camera\Free">
-      <UniqueIdentifier>{1126c00b-d82e-4136-b6f5-24f35ea37041}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi">
-      <UniqueIdentifier>{4759e86d-3d99-4812-a52d-ebe9145cf297}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\00.ManWnd">
-      <UniqueIdentifier>{2d1c2c56-aee4-403d-ac22-d184b4c2b5b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\03.Identity\04.Yinyanshi\01.Linked_Player">
-      <UniqueIdentifier>{0397021f-e667-40ed-ada7-0fc8851e612e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP">
-      <UniqueIdentifier>{d294a1eb-aeef-4f34-a4a7-1381e1460497}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Gear">
-      <UniqueIdentifier>{952df87c-fad4-42a7-94a9-10576fce7643}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon">
-      <UniqueIdentifier>{b75f8c2d-31fd-46a3-9c85-ac401da3754d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Body_Legend">
-      <UniqueIdentifier>{f579db05-a56b-4a4b-80b3-8e236afbbac0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Legend">
-      <UniqueIdentifier>{68f5add8-33b3-4c87-b9ea-c1f2e28b967a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Leg_Legend">
-      <UniqueIdentifier>{1b33c94f-cc21-4139-b7e7-da77da7bb337}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Body_Dino">
-      <UniqueIdentifier>{1ac0f5de-8dba-4a75-88d0-e985d649b011}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Gear\SP_Helmet_Dino">
-      <UniqueIdentifier>{ba36b33f-b77a-4d1d-bfe4-6676ee1c5402}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Dino">
-      <UniqueIdentifier>{c8e7553b-5844-4c08-b17f-918f47203cc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Equip\SP\Weapon\SP_WP_Legend">
-      <UniqueIdentifier>{c89b84a7-b699-4cfc-8fe1-1563b58d7cf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga">
-      <UniqueIdentifier>{36711d6a-b745-4d9e-8a51-26bfa1516248}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Controller_SP">
-      <UniqueIdentifier>{794dfb4c-19b1-4e07-9bbe-117fa466ef45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Part_SP">
-      <UniqueIdentifier>{b9b8cae9-6109-4d8f-aeb6-32183132bc0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP">
-      <UniqueIdentifier>{6597eeda-8445-4ac2-8a32-e0e76058f7ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP">
-      <UniqueIdentifier>{eaa51ddf-4105-469a-aad0-8c1a885372db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Attack">
-      <UniqueIdentifier>{d24f3e98-c4c2-4934-9cb2-deeaad5e5602}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dash">
-      <UniqueIdentifier>{c3a27d46-e1e3-4c23-b83f-293030390ee7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead">
-      <UniqueIdentifier>{29ce0a5b-bd5f-4f70-848b-2f4a53a7723d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Esther">
-      <UniqueIdentifier>{cb2173e7-3830-43b2-8b96-fea4bff95ff6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Fall">
-      <UniqueIdentifier>{c0d4bd50-f988-4b7f-a445-9ee95aeac4bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Grab">
-      <UniqueIdentifier>{54ae0d87-29f9-4e75-9f04-c7908fee27bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Hit">
-      <UniqueIdentifier>{95221768-1748-4d7c-af1d-f158d09609fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy">
-      <UniqueIdentifier>{b2e831fa-276a-4270-bc8e-2f763d34eea8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Idle">
-      <UniqueIdentifier>{5833db1c-ceab-462e-ba75-9fd64b732953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Resurrect">
-      <UniqueIdentifier>{4a2510be-e688-4ae9-9626-c26c3ff04e76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Run">
-      <UniqueIdentifier>{0b5057a8-6895-4c42-9495-c489e01a013c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill">
-      <UniqueIdentifier>{83f2e02d-1d24-4eca-990c-ed63231663f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Stand">
-      <UniqueIdentifier>{7aa29481-6543-422f-a806-643ff79814fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Stop">
-      <UniqueIdentifier>{97fccf2f-b0f0-4e12-a091-706c02ffb3c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Select\Select_Doaga">
-      <UniqueIdentifier>{239bcda0-885b-4462-a10a-eb01fe450e3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_End">
-      <UniqueIdentifier>{aba23577-5b04-4159-a82e-89269b3b76c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Dead\Dead_Start">
-      <UniqueIdentifier>{dd08e64a-77e2-4d2f-9fbf-6e6bb349736c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkpaddle">
-      <UniqueIdentifier>{8cf3782f-f8ae-4ae3-8f65-e7ed4f2caa0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Inkpaddle">
-      <UniqueIdentifier>{51b2e187-97e3-41e1-87a7-4a211b90c400}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\DimensionalShift">
-      <UniqueIdentifier>{6256a8d1-2b0a-4e00-a3fb-2c08c3e18b84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\DimensionalShift">
-      <UniqueIdentifier>{9c6b05cd-19dd-420c-84ed-2ff4867c4488}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Sun">
-      <UniqueIdentifier>{da08fe71-3df1-453c-b618-27c3a2b20ae2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Identitiy\Iden_Moon">
-      <UniqueIdentifier>{a7830927-7154-476c-89d5-53831e138db2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Inkshot">
-      <UniqueIdentifier>{a1109284-eafa-40e3-90eb-5889105e45ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Inkshot">
-      <UniqueIdentifier>{f72890f6-34a3-4b4f-b188-a44607b849e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Onestroke">
-      <UniqueIdentifier>{6435950e-52d6-49f8-b610-e1b7abf6240c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Onestorke">
-      <UniqueIdentifier>{843bf2e0-a5b3-4c5e-a4d8-5d558d8eacd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Moondrawing">
-      <UniqueIdentifier>{c22961c7-5f3a-400e-aee5-7b9cfa828361}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Moondrawing">
-      <UniqueIdentifier>{9df161d2-0dc8-42b9-a7b5-ce7156b01ee0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\SkyKongKong">
-      <UniqueIdentifier>{96d1b419-a2ae-4b98-ae53-efc2557c2310}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\SkyKongKong">
-      <UniqueIdentifier>{3bd22954-e5fd-4bf3-8868-83358a24e84d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\SpiritHarmony">
-      <UniqueIdentifier>{63b7819b-25fd-4323-aa9a-ccf961c4b345}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\SpiritHarmony">
-      <UniqueIdentifier>{64afcfd4-612f-400a-9a5b-95fb1a823fa3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\State_SP\Skill\Flyheaven">
-      <UniqueIdentifier>{bc45c164-d7b9-48a6-a1e6-4ba9805ae409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Player\Player_Doaga\Skill_SP\Flyheaven">
-      <UniqueIdentifier>{ade536cd-b292-4c03-89b7-7ecbc62e3074}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\18.PartyHPUI">
-      <UniqueIdentifier>{70edb11e-66ad-435d-9cf8-f534e47c0927}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\18.PartyHPUI\00.HpWnd">
-      <UniqueIdentifier>{4e3c4266-3130-4b2e-abf2-9f017e9f0e79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\18.PartyHPUI\01.EntranceWnd">
-      <UniqueIdentifier>{602a4e7e-1e59-40e8-8f8e-ea02e8d509fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\19.Valtan">
-      <UniqueIdentifier>{e129429a-ef69-47c6-a0ab-627ac7bde14f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\19.Valtan\ValtanClear">
-      <UniqueIdentifier>{3de4f30a-4370-4665-8eff-41929df33665}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\19.Valtan\ValtanEntrance">
-      <UniqueIdentifier>{7e3c3a60-9a6c-463c-9d95-d556e1f69cbe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\19.Valtan\Stage">
-      <UniqueIdentifier>{3929711e-c057-480c-a53f-982d0c69ba0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\20.Esther_Gauge">
-      <UniqueIdentifier>{2e51cbc3-7eaf-41fc-a5c7-b743285bb551}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\21.DeadScene">
-      <UniqueIdentifier>{081a0f67-d09f-4b6a-aa4a-31405a0ef46a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Event\00. ClientEvent_BernStart">
-      <UniqueIdentifier>{62627dad-f5f5-4bbe-bc60-f8ded35d43db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\98.Tool\00.Tools\04. CameraTool">
-      <UniqueIdentifier>{0638af66-f470-40aa-ad10-8cba72592ec5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\09.Mouse\01,Mouse_Utility\02.Party_Entrance">
-      <UniqueIdentifier>{3317ac00-3865-4c77-ac9f-ad2fd5e9b85d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\MapObject">
       <UniqueIdentifier>{72e88bee-794c-4ef6-a2c1-29f59ff6b7a8}</UniqueIdentifier>
     </Filter>
@@ -1677,15 +1686,6 @@
     </Filter>
     <Filter Include="02.GameObjects\MapObject\StaticModel">
       <UniqueIdentifier>{9d243d19-e43d-4011-8c58-5b57137b1450}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\02.Bern">
-      <UniqueIdentifier>{001c8170-e0a0-429b-96c3-38ac67fa7a9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeOut">
-      <UniqueIdentifier>{70a04fdf-3c8b-49e3-a756-ed369c000777}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Effect_Custom\FadeIn">
-      <UniqueIdentifier>{5211e478-f0c1-43f2-944d-00dd8a1d4b98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

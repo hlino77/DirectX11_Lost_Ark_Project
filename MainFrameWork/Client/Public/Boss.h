@@ -136,6 +136,7 @@ public:
 	_bool						Is_Dummy() { return m_bDummy; }
 	void						Set_Dummy(_bool bDummy) { m_bDummy = bDummy; }
 
+	void					Load_WorldMatrix(Matrix& matWorld);
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT	Ready_HpUI();

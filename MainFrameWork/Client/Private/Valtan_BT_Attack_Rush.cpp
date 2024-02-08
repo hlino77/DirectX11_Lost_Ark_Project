@@ -6,6 +6,8 @@
 #include "NavigationMgr.h"
 #include "ColliderSphere.h"
 #include <Boss_Valtan.h>
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_Rush::CValtan_BT_Attack_Rush()
 {
@@ -21,6 +23,9 @@ void CValtan_BT_Attack_Rush::OnStart()
 	else
 		__super::OnStart();
 	m_iLoop = 0;
+
+	m_pEffectWarning = nullptr;
+	m_EffectRush.clear();
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
@@ -32,6 +37,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 		m_iLoop++;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+
+		if (m_iLoop == 2)
+		{
+			vector<CEffect*> Effect;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"ValtanRushWarning", &tDesc, Effect);
+			m_pEffectWarning = Effect.front();
+		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2 && static_cast<CBoss*>(m_pGameObject)->Get_Armor() < 1)
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
@@ -50,9 +64,25 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 		}
 		m_iCurrAnimation = 1;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+
+		m_pEffectWarning->EffectEnd();
+		m_pEffectWarning = nullptr;
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, m_EffectRush);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iCurrAnimation == 1)
 	{
+		if (m_EffectRush.empty() == false)
+		{
+			Matrix& matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			for (auto& Effect : m_EffectRush)
+			{
+				Effect->Update_Pivot(matWorld);
+			}
+		}
+		
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
 		_float fOffset = 1.1f;
 
@@ -71,6 +101,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 			m_iCurrAnimation = 2;
 			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
+
+			for (auto& Effect : m_EffectRush)
+			{
+				Effect->EffectEnd();
+			}
+			m_EffectRush.clear();
 		}
 	}
 	return __super::OnUpdate(fTimeDelta);
@@ -88,6 +124,17 @@ void CValtan_BT_Attack_Rush::OnEnd()
 	m_iLoop = 0;
 	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+
+	if (m_iCurrAnimation == 1)
+	{
+		for (auto& Effect : m_EffectRush)
+		{
+			Effect->EffectEnd();
+		}
+		m_EffectRush.clear();
+
+
+	}
 }
 
 
