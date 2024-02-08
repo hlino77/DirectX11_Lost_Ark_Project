@@ -36,7 +36,6 @@ void CState_WDR_EndurePain::Enter_State()
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WDR_Controller()->Get_SkillChangeStatMessage(m_eSkillSelectKey);
-	m_pPlayer->Get_WDR_Controller()->Get_SkillUseManaMessage(m_eSkillSelectKey);
 
 	m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());

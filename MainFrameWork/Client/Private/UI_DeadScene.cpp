@@ -21,6 +21,11 @@ HRESULT CUI_DeadScene::Initialize_Prototype()
 
 HRESULT CUI_DeadScene::Initialize(void* pArg)
 {
+	if (FAILED(UI_Set()))
+		return E_FAIL;
+
+	m_strUITag = TEXT("UI_DeadScene");
+
 	return S_OK;
 }
 
@@ -34,6 +39,18 @@ void CUI_DeadScene::LateTick(_float fTimeDelta)
 
 HRESULT CUI_DeadScene::Render()
 {
+	return S_OK;
+}
+
+HRESULT CUI_DeadScene::UI_Set()
+{
+	CUI* pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+		_uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_DeadWnd")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		m_vecUIParts.push_back(pUI);
+
 	return S_OK;
 }
 

@@ -6,7 +6,7 @@ class CTextBox;
 END
 
 BEGIN(Client)
-
+class CPlayer;
 class CUI_DeadWnd :
     public CUI
 {
@@ -25,32 +25,32 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
 
+public:
+    void    Update_DeadWnd(_float fTimeDelta);
+    void    LateUpdate_DeadWnd(_float fTimeDelta);
+
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
     virtual HRESULT Bind_ShaderResources_AnimFrame();
     virtual HRESULT Bind_ShaderResources_ResurrectButton();
     virtual HRESULT Bind_ShaderResources_WathchingButton();
-    virtual HRESULT Bind_ShaderResources_NextButton();
-    virtual HRESULT Bind_ShaderResources_BackButton();
-    virtual HRESULT Bind_ShaderResources_ReturnkButton();
 
 private:
+    CPlayer* m_pControlPlayer = { nullptr };
+
     CTexture* m_pTexture_AnimEffect = { nullptr };
     CTexture* m_pTexture_Button = { nullptr };
 
     CTransform* m_pTransform_AnimEffect = { nullptr };
     CTransform* m_pTransform_WatchingButton = { nullptr };
     CTransform* m_pTransform_ResurrectButton = { nullptr };
-    CTransform* m_pTransform_NextButton = { nullptr };
-    CTransform* m_pTransform_ReturnButton = { nullptr };
 
     CTextBox* m_pTextBox = { nullptr };
     wstring m_strTextWnd;
     wstring m_strFont;
 
     _float  m_fAnimFrame = { 0.f };
-
 
     _bool   m_bWatchingMode = { false };
 

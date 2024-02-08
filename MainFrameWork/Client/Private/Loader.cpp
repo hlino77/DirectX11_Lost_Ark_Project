@@ -151,6 +151,8 @@
 #include "UI_Option_Sound.h"
 #include "UI_Option_Video.h"
 #include "UI_Option.h"
+#include "UI_DeadWnd.h"
+#include "UI_DeadScene.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -1050,6 +1052,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 
 	if (FAILED(Loading_OptionUI()))
+		return E_FAIL;
+
+	if (FAILED(Loading_DeadSceneUI()))
 		return E_FAIL;
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
@@ -3603,6 +3608,14 @@ HRESULT CLoader::Loading_DeadSceneUI()
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_DeadWnd"),
+		CUI_DeadWnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_DeadScene"),
+		CUI_DeadScene::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_DeadSceneUI"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/DeadSceneUI.png"))))

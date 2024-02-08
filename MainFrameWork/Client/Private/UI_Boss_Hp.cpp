@@ -385,6 +385,7 @@ void CUI_Boss_Hp::Initialize_Position()
 		m_fYHp = 60.f;
 
 		m_iHpCount = 10;
+		m_iPreCount = 10;
 		m_strOutputName = TEXT("몽환군단 룩");
 		m_strMonsterRank = TEXT("보스");
 	}
@@ -399,6 +400,7 @@ void CUI_Boss_Hp::Initialize_Position()
 		m_fYHp = 57.f;
 
 		m_iHpCount = 20;
+		m_iPreCount = 20;
 		m_strOutputName = TEXT("몽환군단 킹");
 		m_strMonsterRank = TEXT("보스");
 	}
@@ -413,6 +415,7 @@ void CUI_Boss_Hp::Initialize_Position()
 		m_fYHp = 55.f;
 
 		m_iHpCount = 160;
+		m_iPreCount = 160;
 		m_strOutputName = TEXT("마수군단장 발탄");
 		m_strMonsterRank = TEXT("군단장");
 	}
@@ -451,28 +454,32 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 	m_fGroggyRatio = (_float)m_iGroggyGauge / (_float)m_iMaxGroggyGauge;
 
 	m_iCurrHp = dynamic_cast<CBoss*>(m_pOwner)->Get_Hp();
-	if(0 <= (m_iHpCount - 1))
-		m_fHpRatio = ((_float)m_iCurrHp - (m_fDivideCountHp * (m_iHpCount - 1))) / m_fDivideCountHp;
-	else
-		m_fHpRatio = (_float)m_iCurrHp / m_fDivideCountHp;
+	
+	if(m_iCurrHp != m_iMaxHp)
+		m_fHpRatio = ((_float)m_iCurrHp - (m_fDivideCountHp * (_float)m_iHpCount)) / m_fDivideCountHp;
+		
 	Update_HpCut();
 	Update_LerpHp(fTimeDelta);
-	if (0.f >= m_fHpRatio)
+
+	m_iHpCount = (_uint)((_float)m_iCurrHp / m_fDivideCountHp);
+	if (m_iHpCount < m_iPreCount)
 	{
-		if (0 <= (m_iHpCount - 1))
-		{
-			m_iHpCount = (_uint)((_float)m_iCurrHp/ m_fDivideCountHp);
-			//m_iHpCount -= 1;
-		}
-		m_iCurrHpColor = m_iNextHpColor;
-		m_iNextHpColor++;
-		if(((_uint)HP_PURPLE < m_iNextHpColor)&& (1 < (m_iHpCount - 1)))
-			m_iNextHpColor = (_uint)HP_BLUE;
+		_int iSubtract = m_iPreCount - m_iHpCount;
+		m_iNextHpColor += iSubtract;
+		if(0 < (m_iNextHpColor - 1))
+			m_iCurrHpColor = m_iNextHpColor - 1;
+		else 
+			m_iCurrHpColor = (_uint)HP_PURPLE;
+
+		if ((_uint)HP_PURPLE < m_iNextHpColor)
+			m_iNextHpColor = m_iNextHpColor - (_uint)HP_PURPLE - 1;
+
 		else if (1 > (m_iHpCount - 1))
 		{
 			m_iCurrHpColor = (_uint)HP_RED;
 			m_iNextHpColor = (_uint)HP_END;
 		}
+		m_iPreCount = m_iHpCount;
 	}
 }
 
@@ -482,10 +489,8 @@ void CUI_Boss_Hp::Update_PreHp()
 	{
 		CUI_Manager::GetInstance()->Set_CurrHPUI(this);
 		_float	fPreRatio;
-		if (0 <= (m_iHpCount - 1))
-			fPreRatio = ((_float)m_iPreHp - (m_fDivideCountHp * (m_iHpCount - 1))) / m_fDivideCountHp;
-		else
-			fPreRatio = (_float)m_iPreHp / m_fDivideCountHp;
+
+		fPreRatio = ((_float)m_iPreHp - (m_fDivideCountHp * (_float)m_iHpCount)) / m_fDivideCountHp;
 		
 		m_iPreHp = m_iCurrHp;
 		m_tLerp.Init_Lerp(0.5f, fPreRatio, m_fHpRatio, LERP_MODE::SMOOTHERSTEP);

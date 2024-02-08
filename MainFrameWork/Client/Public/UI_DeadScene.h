@@ -2,7 +2,8 @@
 #include "UI.h"
 
 BEGIN(Client)
-
+class CUI_DeadWnd;
+class CUI_WatchingMode;
 class CUI_DeadScene :
     public CUI
 {
@@ -22,8 +23,15 @@ public:
     virtual void UI_Tick(_float fTimeDelta) override {}
 
 private:
+    HRESULT UI_Set();
+
+private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+
+private:
+    CUI_DeadWnd* m_pDeadWnd = { nullptr };
+    CUI_WatchingMode* m_pWatchingMode = { nullptr };
 
 public:
     static  CUI_DeadScene* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
