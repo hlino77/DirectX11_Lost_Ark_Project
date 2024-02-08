@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 #include "Model.h"
 
 CState_WR_WildRush_Stop::CState_WR_WildRush_Stop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -41,6 +43,7 @@ void CState_WR_WildRush_Stop::Enter_State()
 		m_iSkillCnt = 2;*/
 
 	m_iSkillCnt = 0;
+	m_bEffectStart = false;
 
 	m_pPlayer->Reserve_Animation(m_iWildRush, 0.05f, iPreFrame, 0, 0.f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
@@ -64,16 +67,28 @@ void CState_WR_WildRush_Stop::Exit_State()
 
 void CState_WR_WildRush_Stop::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildRush))
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildRush);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
+	if (false == m_bEffectStart && 6 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_WildRush"), &desc)
+
+		m_bEffectStart = true;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iWildRush))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (20 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildRush))
+	if (20 <= iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())
