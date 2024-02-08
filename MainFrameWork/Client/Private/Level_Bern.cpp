@@ -105,7 +105,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (m_bFirstEnter)
 	{
-		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
 
 	return S_OK;

@@ -106,19 +106,22 @@ HRESULT CNpc::Initialize(void* pArg)
 	m_pTransformCom->Set_WorldMatrix(m_NpcDesc.matStart);
 	m_tCullingSphere.Radius = 2.0f;
 
-	m_iIdleAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strIdleAnim, 1.0f);
-	if (m_iIdleAnimIndex == -1)
-		return E_FAIL;
-
-	if (TEXT("None") != m_NpcDesc.strActAnim)
+	if (nullptr != m_pModelCom)
 	{
-		m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strActAnim, 1.0f);
-		if (m_iActAnimIndex == -1)
+		m_iIdleAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strIdleAnim, 1.0f);
+		if (m_iIdleAnimIndex == -1)
 			return E_FAIL;
+
+		if (TEXT("None") != m_NpcDesc.strActAnim)
+		{
+			m_iActAnimIndex = m_pModelCom->Initailize_FindAnimation(m_NpcDesc.strActAnim, 1.0f);
+			if (m_iActAnimIndex == -1)
+				return E_FAIL;
+		}
+
+		m_pModelCom->Set_CurrAnim(m_iIdleAnimIndex);
+		m_iCurAnimIndex = m_iIdleAnimIndex;
 	}
-	
-	m_pModelCom->Set_CurrAnim(m_iIdleAnimIndex);
-	m_iCurAnimIndex = m_iIdleAnimIndex;
 
 	if ((_uint)LEVELID::LEVEL_BERN == m_NpcDesc.iCurLevel)
 	{
@@ -141,7 +144,7 @@ void CNpc::Tick(_float fTimeDelta)
 
 	Check_ChangeAnim(fTimeDelta);
 
-	if (true == m_bRender)
+	if (true == m_bRender && nullptr != m_pModelCom)
 	{
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	}
@@ -157,7 +160,7 @@ void CNpc::Tick(_float fTimeDelta)
 
 void CNpc::LateTick(_float fTimeDelta)
 {
-	if (true == m_bRender && m_PlayAnimation.valid())
+	if (true == m_bRender && m_PlayAnimation.valid() && nullptr != m_pModelCom)
 		m_PlayAnimation.get();
 
 	if (nullptr == m_pRendererCom)
@@ -319,12 +322,15 @@ HRESULT CNpc::Ready_Components()
 		return E_FAIL;
 
 	///* For.Com_Model */
-	wstring strComName = L"Prototype_Component_Model_" + m_NpcDesc.strNpcMq;
-	if (FAILED(__super::Add_Component(m_iCurrLevel, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
-		return E_FAIL;
+	if (TEXT("None") != m_NpcDesc.strNpcMq)
+	{
+		wstring strComName = L"Prototype_Component_Model_" + m_NpcDesc.strNpcMq;
+		if (FAILED(__super::Add_Component(m_iCurrLevel, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+			return E_FAIL;
 
-	m_iLeftBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
-	m_iRightBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+		m_iLeftBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_2"));
+		m_iRightBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_1"));
+	}
 
 	if (NPCTYPE::FUNCTION == (NPCTYPE)m_NpcDesc.iNpcType || (_uint)LEVELID::LEVEL_TOOL_NPC == m_iCurrLevel)
 	{
@@ -453,14 +459,20 @@ void CNpc::CullingObject()
 	m_bRender = true;
 	if (m_bRender)
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		if (nullptr != m_pModelCom)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+		}
 		m_pRendererCom->Add_DebugObject(this);
 	}
 }
 
 void CNpc::Set_EffectPos()
 {
+	if (nullptr == m_pModelCom)
+		return;
+
 	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
 	Matrix matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	matEffect *= m_pTransformCom->Get_WorldMatrix();

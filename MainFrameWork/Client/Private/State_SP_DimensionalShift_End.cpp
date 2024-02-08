@@ -58,7 +58,7 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDimensionalShift_End);
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		

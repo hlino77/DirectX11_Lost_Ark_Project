@@ -84,7 +84,7 @@ void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 		m_bEffectOn[1] = true;
 	}
 
-	if (m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();

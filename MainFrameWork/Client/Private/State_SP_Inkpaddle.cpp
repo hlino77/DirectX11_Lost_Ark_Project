@@ -70,7 +70,7 @@ void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)
 		m_bTrail = true;
 	}
 
-	if (m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_SP*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);

@@ -45,6 +45,7 @@ void CState_WDR_PowerShoulder_Start::Enter_State()
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WDR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
 	m_pPlayer->Get_WDR_Controller()->Get_AddMarbleMessage(2);
@@ -81,7 +82,7 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iPowerShoulder_Start);
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);

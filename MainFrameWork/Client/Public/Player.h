@@ -50,28 +50,6 @@ public:
 	}MODELDESC;
 
 public:
-	typedef struct tagStatDesc
-	{
-		uint64	iMaxHp;
-		uint64	iCurHp;
-
-		uint64	iMaxMp;
-		uint64	iCurMp;
-
-		uint64  iDefHP;
-
-		_uint	iAtkPower;
-
-		_uint	iCrit;
-		_uint	iSpecialization;
-		_uint	iDomination;
-		_uint	iSwiftness;
-		_uint	iEndurance;
-		_uint	iExpertise;
-
-	}STATDESC;
-
-public:
 	typedef struct SkillInfoTag
 	{
 		_float m_fCoolTime;
@@ -195,9 +173,6 @@ public:
 			m_IsHair = m_pModelPartCom[iPartIndex]->Is_HairTexture();
 	}
 
-	STATDESC						Get_PlayerStat_Desc() { return m_tPCStatDesc; }
-	void							Set_PlayerStat_Desc(STATDESC tStatDesc) { m_tPCStatDesc = tStatDesc; }
-
 	CModel*							Get_DefaultPart(_uint iPartIndex) { return m_pDefaultModel[iPartIndex]; }
 	
 	//D
@@ -303,7 +278,6 @@ protected:
 	_bool m_IsSafeZone = false;
 
 	/* 플레이어 변수 설정 */
-	STATDESC	m_tPCStatDesc;
 
 	Vec4	m_vHairColor_1 = { 0.f, 0.f, 0.f, 0.f };
 	Vec4	m_vHairColor_2 = { 0.f, 0.f, 0.f, 0.f };

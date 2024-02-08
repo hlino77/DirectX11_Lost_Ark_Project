@@ -20,6 +20,27 @@ public:
 		_uint iColLayer;
 	}COLLISIONSTAY;
 
+public:
+	typedef struct tagStatDesc
+	{
+		uint64	iMaxHp;
+		uint64	iCurHp;
+
+		uint64	iMaxMp;
+		uint64	iCurMp;
+
+		uint64  iDefHP;
+
+		_uint	iAtkPower;
+
+		_uint	iCrit;
+		_uint	iSpecialization;
+		_uint	iDomination;
+		_uint	iSwiftness;
+		_uint	iEndurance;
+		_uint	iExpertise;
+
+	}STATDESC;
 
 protected:
 	/* 원형을 생성할 때 */
@@ -177,6 +198,9 @@ public:
 
 	Vec3						Get_EffectPos() { return m_vEffectPos; }
 
+	STATDESC						Get_PlayerStat_Desc() { return m_tPCStatDesc; }
+	void							Set_PlayerStat_Desc(STATDESC tStatDesc) { m_tPCStatDesc = tStatDesc; }
+
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -270,6 +294,9 @@ protected:
 
 	// EffectPos
 	Vec3							m_vEffectPos;
+
+	// 스탯변수
+	STATDESC			m_tPCStatDesc;
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

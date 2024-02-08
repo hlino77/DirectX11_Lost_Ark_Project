@@ -1690,6 +1690,9 @@
     <Filter Include="02.GameObjects\Npc\Function_Npc\Upgrade_Npc">
       <UniqueIdentifier>{e7757667-bee8-4300-b8e6-bebbd122a804}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\90. Studio">
+      <UniqueIdentifier>{987128dc-6685-483e-bc20-10678336b0f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

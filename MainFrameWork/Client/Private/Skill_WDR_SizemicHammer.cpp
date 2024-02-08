@@ -57,6 +57,8 @@ HRESULT CSkill_WDR_SizemicHammer::Initialize(void* pArg)
 		m_vecSkillProjDesces.push_back(Proj_Desc);
 	}
 
+	m_iUseMana = 0;
+
 	return S_OK;
 }
 

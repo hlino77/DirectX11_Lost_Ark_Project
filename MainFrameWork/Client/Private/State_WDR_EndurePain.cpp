@@ -36,6 +36,8 @@ void CState_WDR_EndurePain::Enter_State()
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WDR_Controller()->Get_SkillChangeStatMessage(m_eSkillSelectKey);
+	m_pPlayer->Get_WDR_Controller()->Get_SkillUseManaMessage(m_eSkillSelectKey);
+
 	m_pPlayer->Get_WDR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
@@ -58,7 +60,7 @@ void CState_WDR_EndurePain::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iEndurePain);
 
-	if (m_SkillFrames[m_iSkillCnt] <= (_int)iAnimIndex)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimIndex)
 	{
 		m_iSkillCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);

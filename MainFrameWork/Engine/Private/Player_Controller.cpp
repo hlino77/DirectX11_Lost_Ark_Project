@@ -208,41 +208,113 @@ _bool CPlayer_Controller::Is_Skill()
 	if (-1.f == m_fCoolTime[SKILL_KEY::Q] && nullptr != m_pSkills[SKILL_KEY::Q] && (KEY_HOLD(KEY::Q) || KEY_TAP(KEY::Q)))
 	{
 		m_eSelectedSkill = SKILL_KEY::Q;
+
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::W] && nullptr != m_pSkills[SKILL_KEY::W] && (KEY_HOLD(KEY::W) || KEY_TAP(KEY::W)))
 	{
 		m_eSelectedSkill = SKILL_KEY::W;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::E] && nullptr != m_pSkills[SKILL_KEY::E] && (KEY_HOLD(KEY::E) || KEY_TAP(KEY::E)))
 	{
 		m_eSelectedSkill = SKILL_KEY::E;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::R] && nullptr != m_pSkills[SKILL_KEY::R] && (KEY_HOLD(KEY::R) || KEY_TAP(KEY::R)))
 	{
 		m_eSelectedSkill = SKILL_KEY::R;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::A] && nullptr != m_pSkills[SKILL_KEY::A] && (KEY_HOLD(KEY::A) || KEY_TAP(KEY::A)))
 	{
 		m_eSelectedSkill = SKILL_KEY::A;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::S] && nullptr != m_pSkills[SKILL_KEY::S] && (KEY_HOLD(KEY::S) || KEY_TAP(KEY::S)))
 	{
 		m_eSelectedSkill = SKILL_KEY::S;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::D] && nullptr != m_pSkills[SKILL_KEY::D] && (KEY_HOLD(KEY::D) || KEY_TAP(KEY::D)))
 	{
 		m_eSelectedSkill = SKILL_KEY::D;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 	else if (-1.f == m_fCoolTime[SKILL_KEY::F] && nullptr != m_pSkills[SKILL_KEY::F] && (KEY_HOLD(KEY::F) || KEY_TAP(KEY::F)))
 	{
 		m_eSelectedSkill = SKILL_KEY::F;
+		
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp -= m_pSkills[m_eSelectedSkill]->Get_UseMana();
+		if (0 >= tPcStat.iCurMp)
+		{
+			tPcStat.iCurMp = 0;
+			return false;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		return true;
 	}
 

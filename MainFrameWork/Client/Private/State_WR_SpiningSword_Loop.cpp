@@ -55,13 +55,13 @@ void CState_WR_SpiningSword_Loop::Exit_State()
 
 void CState_WR_SpiningSword_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_Loop))
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_Loop))
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (25 == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_Loop))
+	if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_Loop))
 		m_pPlayer->Set_State(TEXT("Skill_WR_SpiningSword_End"));
 
 	Vec3 vClickPos;

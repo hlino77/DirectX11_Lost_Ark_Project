@@ -168,7 +168,7 @@ HRESULT CMainApp::Render()
 	if (FAILED(CChat_Manager::GetInstance()->Render()))
 		return E_FAIL;
 
-	CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
+	//CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
 
 	if (FAILED(m_pGameInstance->Render_Debug()))
 		return E_FAIL;

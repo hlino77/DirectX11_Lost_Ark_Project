@@ -497,6 +497,10 @@ HRESULT CNpcTool::ModelView(const _float& fTimeDelta)
 	{
 		Save_Npc(fTimeDelta);
 	}
+	if (ImGui::Button("Create None NPC"))
+	{
+		Create_None_Npc();
+	}
 
 	ImGui::End();
 
@@ -1518,6 +1522,104 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 			if (TEXT("") == m_NpcCreateDesc.strNpcName)
 			{
 				m_NpcCreateDesc.strNpcName = TEXT("None");
+			}
+
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Upgrade_Npc"), &m_NpcCreateDesc);
+			if (nullptr == pInstance)
+				return;
+		}
+	}
+
+	m_vecNpcDesc.push_back(m_NpcCreateDesc);
+	Clear_Info();
+	m_pMannequin->Clear_MQ();
+}
+
+void CNpcTool::Create_None_Npc()
+{
+	if ((_uint)CNpc::NPCTYPE::DECO == m_NpcCreateDesc.iNpcType)
+	{
+		Matrix matStart;
+		memcpy(matStart.m[3], &m_vStartPos, sizeof(Vec3));
+
+		m_NpcCreateDesc.matStart = matStart;
+
+		if (TEXT("") == m_NpcCreateDesc.strNpcName)
+		{
+			m_NpcCreateDesc.strNpcName = TEXT("None");
+		}
+		if (TEXT("") == m_NpcCreateDesc.strLeftPart)
+		{
+			m_NpcCreateDesc.strLeftPart = TEXT("None");
+		}
+		if (TEXT("") == m_NpcCreateDesc.strRightPart)
+		{
+			m_NpcCreateDesc.strRightPart = TEXT("None");
+		}
+		if (TEXT("") == m_NpcCreateDesc.strNpcMq)
+		{
+			m_NpcCreateDesc.strNpcMq = TEXT("None");
+		}
+
+		CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+			TEXT("Prototype_GameObject_DecoNpc"), &m_NpcCreateDesc);
+		if (nullptr == pInstance)
+			return;
+	}
+	else if ((_uint)CNpc::NPCTYPE::FUNCTION == m_NpcCreateDesc.iNpcType)
+	{
+		if (TEXT("Guide_Chaos_Npc") == m_NpcCreateDesc.strNpcTag)
+		{
+			Matrix matStart;
+			memcpy(matStart.m[3], &m_vStartPos, sizeof(Vec3));
+
+			m_NpcCreateDesc.matStart = matStart;
+
+			if (TEXT("") == m_NpcCreateDesc.strNpcName)
+			{
+				m_NpcCreateDesc.strNpcName = TEXT("None");
+			}
+			if (TEXT("") == m_NpcCreateDesc.strLeftPart)
+			{
+				m_NpcCreateDesc.strLeftPart = TEXT("None");
+			}
+			if (TEXT("") == m_NpcCreateDesc.strRightPart)
+			{
+				m_NpcCreateDesc.strRightPart = TEXT("None");
+			}
+			if (TEXT("") == m_NpcCreateDesc.strNpcMq)
+			{
+				m_NpcCreateDesc.strNpcMq = TEXT("None");
+			}
+
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &m_NpcCreateDesc);
+			if (nullptr == pInstance)
+				return;
+		}
+		else if (TEXT("Upgrade_Npc") == m_NpcCreateDesc.strNpcTag)
+		{
+			Matrix matStart;
+			memcpy(matStart.m[3], &m_vStartPos, sizeof(Vec3));
+
+			m_NpcCreateDesc.matStart = matStart;
+
+			if (TEXT("") == m_NpcCreateDesc.strNpcName)
+			{
+				m_NpcCreateDesc.strNpcName = TEXT("None");
+			}
+			if (TEXT("") == m_NpcCreateDesc.strLeftPart)
+			{
+				m_NpcCreateDesc.strLeftPart = TEXT("None");
+			}
+			if (TEXT("") == m_NpcCreateDesc.strRightPart)
+			{
+				m_NpcCreateDesc.strRightPart = TEXT("None");
+			}
+			if (TEXT("") == m_NpcCreateDesc.strNpcMq)
+			{
+				m_NpcCreateDesc.strNpcMq = TEXT("None");
 			}
 
 			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
