@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 #include "Model.h"
 
 CState_WR_SpiningSword_End::CState_WR_SpiningSword_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -33,6 +35,11 @@ void CState_WR_SpiningSword_End::Enter_State()
 {
 	m_iSkillCnt = 0;
 
+	for (_int i = 0; i < 2; ++i)
+	{
+		m_bEffectStart[i] = false;
+	}
+
 	m_pPlayer->Reserve_Animation(m_iSpiningSword_End, 0.1f, 0, 0, 1.2f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iSpiningSword_End, 1.3f);
@@ -55,16 +62,52 @@ void CState_WR_SpiningSword_End::Exit_State()
 
 void CState_WR_SpiningSword_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_End))
+	_int iAnimFrmae = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_End);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrmae)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
+	if (false == m_bEffectStart[0])
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+
+		vector<CEffect*> Effects;
+
+		EFFECT_START_OUTLIST(L"Slayer_SpinningSword_Trail", &tDesc, Effects);
+
+		CEffect* pEffect[2] = { Effects[0], Effects[1] };
+
+		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Slash", pEffect[0]);
+		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Wind", pEffect[1]);
+
+		pEffect[0]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+		pEffect[0]->Set_Trace(true);
+
+		pEffect[1]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+		pEffect[1]->Set_Trace(true);
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 11 <= iAnimFrmae)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_SpinningSword_Smoke"), &tDesc)
+
+			m_bEffectStart[1] = true;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSpiningSword_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_End))
+	if (25 <= iAnimFrmae)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())

@@ -84,6 +84,8 @@ float4 CalculateEffectColor(in float2 vUV, in float2 vOriginUV, inout float fDis
         Sampler = LinearBorderSampler;
     else if (3 == iSamplerState)
         Sampler = LinearXWrapYBorderSampler;
+    else if (4 == iSamplerState)
+        Sampler = LinearXBorderYWrapSampler;
     
     if (EPSILON < NoisMaskEmisDslv.x)   // Noise
     {

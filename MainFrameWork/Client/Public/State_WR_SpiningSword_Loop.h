@@ -30,6 +30,9 @@ private:
 	//Animation
 	_int m_iSpiningSword_Loop = 0;
 
+	//Effect
+	_int m_bEffectStart[2] = { false, false };
+
 public:
 	static CState_WR_SpiningSword_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);
 	virtual void Free() override;
