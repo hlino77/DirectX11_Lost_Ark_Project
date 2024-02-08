@@ -640,6 +640,26 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
         if (nullptr == m_pUsingPlayer)
             return;
         Update_Items();
+
+        m_pCurrItemNameWnd->Set_Active(true);
+        m_pItemNameWnd->Set_Active(true);
+        m_pCurrGaugeWnd->Set_Active(true);
+        m_pResultWnd->Set_Active(false);
+        Print_FaceItemNameWnd();
+        Print_FaceItemGradeLevelWnd();
+        Print_HelemetItemNameWnd();
+        Print_HelmetItemGradeLevelWnd();
+        Print_ShoulderItemNameWnd();
+        Print_ShoulderItemGradeLevelWnd();
+        Print_BodyItemNameWnd();
+        Print_BodyItemGradeLevelWnd();
+        Print_ArmItemNameWnd();
+        Print_ArmItemGradeLevelWnd();
+        Print_LegItemNameWnd();
+        Print_LegItemGradeLevelWnd();
+        Print_WeaponItemNameWnd();
+        Print_WeaponItemGradeLevelWnd();
+        Print_CurrGauge();
     }
 }
 
@@ -3359,12 +3379,12 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_ItemIcon_Body()
     if (nullptr != m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)])
     {
         if (FAILED(m_pTexture_ItemIcon[(_uint)(CItem::PART::BODY)]->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-        return E_FAIL;
+            return E_FAIL;
     }
     else
     {
         if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-        return E_FAIL;
+            return E_FAIL;
     }
     return S_OK;
 }
@@ -3803,7 +3823,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
-     if (FAILED(Bind_ShaderResources_ItemIcon_Shoulder()))
+     if (FAILED(Bind_ShaderResources_ItemIcon_Body()))
          return E_FAIL;
      m_pShaderCom->Begin(0);
      m_pVIBufferCom->Render();

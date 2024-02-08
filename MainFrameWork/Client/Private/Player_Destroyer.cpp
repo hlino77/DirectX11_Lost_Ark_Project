@@ -151,6 +151,8 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
+	m_tPCStatDesc.iMaxMp = 100;
+	m_tPCStatDesc.iCurMp = 100;
 
 
 	return S_OK;
