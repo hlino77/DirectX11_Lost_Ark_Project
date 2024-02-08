@@ -53,6 +53,8 @@ HRESULT CSkill_GN_FocusShot::Initialize(void* pArg)
 	Proj_Desc.fRepulsion = 21.f;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
+	m_iUseMana = 95;
+
 	return S_OK;
 }
 

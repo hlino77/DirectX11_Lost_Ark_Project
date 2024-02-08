@@ -23,13 +23,13 @@ public:
 public:
 	typedef struct tagStatDesc
 	{
-		uint64	iMaxHp;
-		uint64	iCurHp;
+		int64	iMaxHp;
+		int64	iCurHp;
 
-		uint64	iMaxMp;
-		uint64	iCurMp;
+		int64	iMaxMp;
+		int64	iCurMp;
 
-		uint64  iDefHP;
+		int64   iDefHP;
 
 		_uint	iAtkPower;
 
@@ -198,7 +198,7 @@ public:
 
 	Vec3						Get_EffectPos() { return m_vEffectPos; }
 
-	STATDESC						Get_PlayerStat_Desc() { return m_tPCStatDesc; }
+	const STATDESC&						Get_PlayerStat_Desc() { return m_tPCStatDesc; }
 	void							Set_PlayerStat_Desc(STATDESC tStatDesc) { m_tPCStatDesc = tStatDesc; }
 
 protected:

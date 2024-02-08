@@ -39,7 +39,7 @@ HRESULT CSkill_GN_PerfectShot::Initialize(void* pArg)
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
-	
+	m_iUseMana = 100;
 
 	return S_OK;
 }

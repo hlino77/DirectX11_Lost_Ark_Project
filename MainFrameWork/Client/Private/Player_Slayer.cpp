@@ -158,6 +158,11 @@ HRESULT CPlayer_Slayer::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
+	m_tPCStatDesc.iMaxHp = 100000 + CGameInstance::GetInstance()->Random_Int(0, 7000);
+	m_tPCStatDesc.iCurHp = m_tPCStatDesc.iMaxHp;
+
+	m_tPCStatDesc.iMaxMp = 1100;
+	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
 
 	return S_OK;
 }
