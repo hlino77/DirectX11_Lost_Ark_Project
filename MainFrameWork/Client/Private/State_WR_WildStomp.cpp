@@ -4,6 +4,8 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Player_Skill.h"
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
 #include "Model.h"
 
 CState_WR_WildStomp::CState_WR_WildStomp(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -31,6 +33,7 @@ HRESULT CState_WR_WildStomp::Initialize()
 void CState_WR_WildStomp::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_bEffectStart = false;
 
 	m_pPlayer->Reserve_Animation(m_iWildStomp, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
@@ -57,10 +60,24 @@ void CState_WR_WildStomp::Exit_State()
 
 void CState_WR_WildStomp::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildStomp))
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildStomp);
+
+	if (m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (false == m_bEffectStart && 14 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_WildStomp"), &desc)
+
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, matPivot.Translation(), 0.25f, 0.04f);
+
+		m_bEffectStart = true;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iWildStomp))
