@@ -31,6 +31,14 @@ sampler LinearXWrapYBorderSampler = sampler_state
 	AddressW = BORDER;
 };
 
+sampler LinearXBorderYWrapSampler = sampler_state
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = BORDER;
+    AddressV = wrap;
+	AddressW = BORDER;
+};
+
 sampler AnisotropicClampSampler = sampler_state
 {
     Filter = ANISOTROPIC;

@@ -94,7 +94,6 @@ _float CSkill_WDR_EndurePain::Change_Player_Status()
 		m_pPlayer->Get_Camera()->Set_Chromatic(0.5f, matWorld.Translation(), 0.1f, 0.1f);
 	}
 		
-
 	pEffect->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
 	pEffect->Set_Trace(true);
 
