@@ -11,6 +11,9 @@
 #include "Utils.h"
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
+_bool CRenderer::m_bPBR_Switch = true;
+_int CRenderer::m_iSSAO_Switch = true;
+_int  CRenderer::m_iFxaa_Switch = true;
 
 CRenderer::CRenderer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
@@ -1213,17 +1216,11 @@ HRESULT CRenderer::Render_Deferred()
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
 		return E_FAIL;
 
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::N))
-		1 == m_iSSAO_Switch ? m_iSSAO_Switch = 0 : m_iSSAO_Switch = 1;
-
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_bSSAO", &m_iSSAO_Switch, sizeof(_int))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_HV"), "g_SSAOBlurTarget")))
 		return E_FAIL;
-
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::B))
-		m_bPBR_Switch = !m_bPBR_Switch;
 
 	if (m_bPBR_Switch)
 	{
@@ -1654,9 +1651,6 @@ HRESULT CRenderer::Render_FXAA()
 		return E_FAIL;
 	if (FAILED(m_pFxaaShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
-
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::M))
-		1 == m_iFxaa_Switch ? m_iFxaa_Switch = 0 : m_iFxaa_Switch = 1;
 
 	if (FAILED(m_pFxaaShader->Bind_RawValue("g_bFxaa", &m_iFxaa_Switch, sizeof(_int))))
 		return E_FAIL;

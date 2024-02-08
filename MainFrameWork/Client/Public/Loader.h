@@ -69,6 +69,8 @@ private:
 	HRESULT Loading_ChaosDungeon_UI();
 	HRESULT	Loading_Npc_UI();
 	HRESULT	Loading_Npc_UI_Texture();
+	HRESULT Loading_OptionUI();
+	HRESULT	Loading_DeadSceneUI();
 
 	HRESULT	Loading_PartyUI();
 	HRESULT	Loading_ValtanUI();

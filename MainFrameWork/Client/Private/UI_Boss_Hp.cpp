@@ -459,9 +459,11 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 	Update_LerpHp(fTimeDelta);
 	if (0.f >= m_fHpRatio)
 	{
-		if(0 <= (m_iHpCount-1))
-			m_iHpCount -= 1;
-	
+		if (0 <= (m_iHpCount - 1))
+		{
+			m_iHpCount = (_uint)((_float)m_iCurrHp/ m_fDivideCountHp);
+			//m_iHpCount -= 1;
+		}
 		m_iCurrHpColor = m_iNextHpColor;
 		m_iNextHpColor++;
 		if(((_uint)HP_PURPLE < m_iNextHpColor)&& (1 < (m_iHpCount - 1)))

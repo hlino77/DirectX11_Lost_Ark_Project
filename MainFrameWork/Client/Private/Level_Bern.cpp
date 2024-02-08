@@ -103,10 +103,10 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
-	if (m_bFirstEnter)
+	/*if (m_bFirstEnter)
 	{
 		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
-	}
+	}*/
 
 	return S_OK;
 }
@@ -398,6 +398,12 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
+
+	pUI = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_UI_Option"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(LEVEL_STATIC, static_cast<CUI*>(pUI));
 
 	Safe_Release(pGameInstance);
 	return S_OK;

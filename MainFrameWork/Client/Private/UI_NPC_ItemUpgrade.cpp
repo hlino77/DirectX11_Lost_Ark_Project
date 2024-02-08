@@ -641,8 +641,6 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
             return;
         Update_Items();
     }
-
-
 }
 
 void CUI_NPC_ItemUpgrade::Update_Items()

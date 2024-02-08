@@ -277,17 +277,14 @@ void CChat_Manager::Set_Active(_bool bActive)
         {
             Ready_ChatWindows();
         }
-
         //m_pChatWindow->Appear();
         m_pChatWindow->Set_Active(true);
-        //CUI_Manager::GetInstance()->Set_Player_Control(false);   
     }
     else
     {
         EndChat();
         //m_pChatWindow->Disappear();
         m_pChatWindow->Set_Active(false);
-       //CUI_Manager::GetInstance()->Set_Player_Control(true);
     }
        
 }
@@ -304,6 +301,7 @@ void CChat_Manager::OnOff()
         }
         else
             EndChat();
+
     }
     else
     {
@@ -394,6 +392,7 @@ void CChat_Manager::StartChat()
     ResetBlink();
     m_bSend = false;
     m_pInputWindow->Set_Active(true);
+    CUI_Manager::GetInstance()->Set_Player_Control(false);
 }
 
 void CChat_Manager::EndChat()
@@ -404,6 +403,7 @@ void CChat_Manager::EndChat()
     m_bCursur = false;
     m_bSend = false;
     m_pInputWindow->Set_Active(false);
+    CUI_Manager::GetInstance()->Set_Player_Control(true);
 }
 
 void CChat_Manager::Update_InputChat()
