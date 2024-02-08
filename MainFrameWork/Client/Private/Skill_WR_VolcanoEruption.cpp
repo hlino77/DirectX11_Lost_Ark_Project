@@ -48,6 +48,8 @@ HRESULT CSkill_WR_VolcanoEruption::Initialize(void* pArg)
 	Proj_Desc.bUseProjPos = true;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
+	m_iUseMana = 91;
+
 	return S_OK;
 }
 

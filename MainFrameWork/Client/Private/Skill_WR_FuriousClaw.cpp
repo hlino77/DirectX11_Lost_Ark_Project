@@ -50,6 +50,8 @@ HRESULT CSkill_WR_FuriousClaw::Initialize(void* pArg)
 	Proj_Desc.bUseFactor = false;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 
+	m_iUseMana = 91;
+
 	return S_OK;
 }
 
