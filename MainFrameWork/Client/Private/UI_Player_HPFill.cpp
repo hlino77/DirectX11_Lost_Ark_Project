@@ -31,7 +31,7 @@ HRESULT CUI_Player_HPFill::Initialize(void* pArg)
         m_pPlayer = static_cast<CGameObject*>(pArg);
         m_iMaxHp = (_uint)static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iMaxHp;
         m_iPlayerHp = (_int)static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iCurHp;
-        m_fCurrentRatio = m_iPlayerHp / m_iMaxHp;
+        m_fCurrentRatio = (_float)m_iPlayerHp / (_float)m_iMaxHp;
         m_fPreRatio = m_fCurrentRatio;
     }
 
@@ -79,7 +79,7 @@ void CUI_Player_HPFill::LateTick(_float fTimeDelta)
     {
         m_iMaxHp = (_uint)static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iMaxHp;
         m_iPlayerHp = (_int)static_cast<CPlayer*>(m_pPlayer)->Get_PlayerStat_Desc().iCurHp;
-        m_fCurrentRatio = m_iPlayerHp / m_iMaxHp;
+        m_fCurrentRatio = (_float)m_iPlayerHp / (_float)m_iMaxHp;
 
         if (m_fCurrentRatio != m_fPreRatio)
         {

@@ -4046,6 +4046,7 @@ void CUI_NPC_ItemUpgrade::Free()
     m_pItemNameWnd->Set_Dead(true);
     m_pCurrItemNameWnd->Set_Dead(true);
     m_pItemNameWnd->Set_Dead(true);
+    m_pCurrGaugeWnd->Set_Dead(true);
 
     Safe_Release(m_pTexture_None);
     Safe_Release(m_pTexture_HammerCap);

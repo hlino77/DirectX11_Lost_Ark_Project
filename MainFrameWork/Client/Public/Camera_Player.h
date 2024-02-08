@@ -2,8 +2,12 @@
 #include "Client_Defines.h"
 #include "Camera.h"
 
-BEGIN(Client)
+BEGIN(Engine)
+class CVIBuffer_Rect;
+class CTexture;
+END
 
+BEGIN(Client)
 
 class CCamera_Player final : public CCamera
 {
