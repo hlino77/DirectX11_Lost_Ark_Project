@@ -102,6 +102,12 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
+	m_tPCStatDesc.iMaxHp = 120000 + CGameInstance::GetInstance()->Random_Int(0, 7000);
+	m_tPCStatDesc.iCurHp = m_tPCStatDesc.iMaxHp;
+
+	m_tPCStatDesc.iMaxMp = 800;
+	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
+
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
 
@@ -145,11 +151,7 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
-	m_tPCStatDesc.iMaxHp = 120000 + CGameInstance::GetInstance()->Random_Int(0, 7000);
-	m_tPCStatDesc.iCurHp = m_tPCStatDesc.iMaxHp;
 
-	m_tPCStatDesc.iMaxMp = 800;
-	m_tPCStatDesc.iCurMp = m_tPCStatDesc.iMaxMp;
 
 	return S_OK;
 }
