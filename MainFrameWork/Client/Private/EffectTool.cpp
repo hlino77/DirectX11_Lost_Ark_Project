@@ -598,7 +598,7 @@ HRESULT CEffectTool::EffectsList()
 			m_iSelectedEffectIndex = ::max(0, (_int)(m_vecEffects.size() - 1));
 	}
 
-	ImGui::SameLine();
+	ImGui::SameLine(0.f, 30.f);
 
 	if (ImGui::Button("Clear All"))
 	{
