@@ -38,7 +38,7 @@ HRESULT CSkill_WDR_HeavyCrush::Initialize(void* pArg)
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
-	m_iUseMana = 0;
+	m_iUseMana = 41;
 
 	return S_OK;
 }
