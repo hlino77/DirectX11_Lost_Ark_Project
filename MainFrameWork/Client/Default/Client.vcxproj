@@ -632,6 +632,7 @@
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_DamageFont.h" />
     <ClInclude Include="..\Public\UI_DeadScene.h" />
+    <ClInclude Include="..\Public\UI_DeadWnd.h" />
     <ClInclude Include="..\Public\UI_EstherSkill.h" />
     <ClInclude Include="..\Public\UI_IdentitySP.h" />
     <ClInclude Include="..\Public\UI_ETCIcon_Frame.h" />
@@ -764,6 +765,10 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h" />
+    <ClInclude Include="..\Public\UI_Option.h" />
+    <ClInclude Include="..\Public\UI_OptionWnd.h" />
+    <ClInclude Include="..\Public\UI_Option_Sound.h" />
+    <ClInclude Include="..\Public\UI_Option_Video.h" />
     <ClInclude Include="..\Public\UI_PartyEntrance.h" />
     <ClInclude Include="..\Public\UI_PartyHPWnd.h" />
     <ClInclude Include="..\Public\UI_PartyUI.h" />
@@ -1313,6 +1318,7 @@
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_DamageFont.cpp" />
     <ClCompile Include="..\Private\UI_DeadScene.cpp" />
+    <ClCompile Include="..\Private\UI_DeadWnd.cpp" />
     <ClCompile Include="..\Private\UI_EstherSkill.cpp" />
     <ClCompile Include="..\Private\UI_IdentitySP.cpp" />
     <ClCompile Include="..\Private\UI_ETCIcon_Frame.cpp" />
@@ -1450,6 +1456,10 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp" />
+    <ClCompile Include="..\Private\UI_Option.cpp" />
+    <ClCompile Include="..\Private\UI_OptionWnd.cpp" />
+    <ClCompile Include="..\Private\UI_Option_Sound.cpp" />
+    <ClCompile Include="..\Private\UI_Option_Video.cpp" />
     <ClCompile Include="..\Private\UI_PartyEntrance.cpp" />
     <ClCompile Include="..\Private\UI_PartyHPWnd.cpp" />
     <ClCompile Include="..\Private\UI_PartyUI.cpp" />

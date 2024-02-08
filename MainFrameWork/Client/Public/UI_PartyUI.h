@@ -48,7 +48,6 @@ private:
     HRESULT Ready_NameTextBox(CPlayer* pOwner);
 
 private:
-    vector<CPlayer*> m_vecPlayers;
     //기본 텍스처클래스와 트랜스폼클래스는 메인파티Wnd 텍스처 사용
     CUI_PartyEntrance* m_pUI_PartyEntrance = { nullptr };
     _uint   m_iPartyIndex = { 0 };

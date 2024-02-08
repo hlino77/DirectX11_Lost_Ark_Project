@@ -51,6 +51,10 @@ public:
 
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
 
+	static void	Set_SSAO_Switch(_bool bSwitch) { m_iSSAO_Switch = bSwitch; }
+	static void	Set_PBR_Switch (_bool bSwitch) { m_bPBR_Switch = bSwitch; }
+	static void	Set_Fxaa_Switch(_bool bSwitch) { m_iFxaa_Switch = bSwitch; }
+
 private:
 	HRESULT Update_TextBox();
 	HRESULT	Render_MakeSRV();
@@ -131,8 +135,8 @@ private:
 	_bool	m_bRenderStaticShadow = false;
 
 	_bool	m_bTargetOnOff = false;
-	_bool	m_bPBR_Switch = true;
-	_int	m_iSSAO_Switch = true;
+	static _bool	m_bPBR_Switch;
+	static _int		m_iSSAO_Switch;
 
 	//Bloom
 	HRESULT	Ready_Bloom();
@@ -223,7 +227,7 @@ private:
 
 	// Fxaa3_11
 	CShader* m_pFxaaShader = nullptr;
-	_int	m_iFxaa_Switch = true;
+	static _int	m_iFxaa_Switch;
 
 	// Eshter Motion
 
