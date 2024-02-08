@@ -147,10 +147,6 @@
 #include "UI_ValtanClearWnd.h"
 #include "UI_EstherSkill.h"
 #include "UI_PartyEntrance.h"
-#include "UI_OptionWnd.h"
-#include "UI_Option_Sound.h"
-#include "UI_Option_Video.h"
-#include "UI_Option.h"
 #include "UI_DeadWnd.h"
 #include "UI_DeadScene.h"
 
@@ -1049,9 +1045,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 
 	if (FAILED(Loading_ValtanUI()))//완성 후 발탄맵으로 옮길 예정
-		return E_FAIL;
-
-	if (FAILED(Loading_OptionUI()))
 		return E_FAIL;
 
 	if (FAILED(Loading_DeadSceneUI()))
@@ -3511,89 +3504,6 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Next_Grade"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Next_Grade.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	Safe_Release(pUIManager);
-	Safe_Release(pGameInstance);
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_OptionUI()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
-	Safe_AddRef(pUIManager);
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_OptionWnd"),
-		CUI_OptionWnd::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_OptionSound"),
-		CUI_Option_Sound::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_OptionVideo"),
-		CUI_Option_Video::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Option"),
-		CUI_Option::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_Button"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Button%d.png",3))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_CheckBox"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Option_CheckBox%d.png",3))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_DetailButton"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/OptionDetailButton%d.png",2))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_Quit_Option"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/QuitOption%d.png", 2))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_OptionTag"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/OptionTag%d.png", 3))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_DragBar"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/DragBar.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_Line"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Line.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_DragLine"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/Option_DragLine.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_OptionWnd"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/OptionWnd.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Option_ValueTextWnd"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Option/ValueTextWnd.png"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

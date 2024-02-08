@@ -56,6 +56,15 @@ public:
 	static void	Set_SSAO_Switch(_bool bSwitch) { m_iSSAO_Switch = bSwitch; }
 	static void	Set_PBR_Switch (_bool bSwitch) { m_bPBR_Switch = bSwitch; }
 	static void	Set_Fxaa_Switch(_bool bSwitch) { m_iFxaa_Switch = bSwitch; }
+	// For Fog
+	static void Set_Fog_StartHeight(_float Height) { m_fFogStartHeight = Height; }
+	static void Set_Fog_EndHeight(_float Height) { m_fFogEndHeight = Height; }
+	static void Set_Fog_Density(_float Density) { m_fFogDensity = Density; }
+	static void Set_Fog_Color(Vec3 Color) { m_vFogColor = Color; }
+	static void Set_Fog_Time(_float fTime) { m_fFogTime = fTime; }
+	static void Set_Add_Fog_Time(_float fTime) { m_fFogTime += fTime; }
+	static void Set_Fog_ChangeSpeed(_float fSpeed) { m_fFogChangeSpeed = fSpeed; }
+	static void Set_Fog_MinValue(_float fMinValue) { m_fFogMinValue = fMinValue; }
 
 private:
 	HRESULT Update_TextBox();
@@ -106,7 +115,20 @@ private:
 	class CLight_Manager* m_pLight_Manager = { nullptr };
 
 	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
+	
+	// Deferred
 	CShader* m_pMRTShader = { nullptr };
+
+	// Deferred for Fog
+	static  Vec3    m_vFogColor;
+	static  _float 	m_fFogStartHeight;
+	static  _float  m_fFogEndHeight;
+	static  _float	m_fFogDensity;
+	static  _float  m_fFogTime;
+	static  _float  m_fFogChangeSpeed;
+	static  _float  m_fFogMinValue;
+
+	// PostProccess
 	CShader* m_pPostProccessor = { nullptr };
 
 	Matrix	m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
@@ -235,6 +257,9 @@ private:
 
 	// Screen Ton
 	_bool	m_bDeadScene = { false };
+
+
+
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

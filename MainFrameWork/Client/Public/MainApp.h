@@ -41,6 +41,7 @@ private:
 	HRESULT Ready_Prototype_Font();
 	HRESULT Ready_Prototype_Effect();
 	HRESULT Ready_Camera_Free();
+	HRESULT Loading_OptionUI();
 
 	HRESULT Ready_SoundManager();
 	HRESULT Ready_Event();

@@ -301,7 +301,6 @@ _bool CDeco_Npc::Check_True_All_Sequence_Npc()
 			return false;
 	}
 
-	m_bTalkStart = true;
 	return true;
 }
 

@@ -62,6 +62,8 @@ HRESULT CLevel_Lobby::Initialize()
 
 HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
+
+
 	CUI* pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Button_Entrance_to_Server"));
 	if (nullptr == pUI)
 		return E_FAIL;
@@ -272,7 +274,14 @@ HRESULT CLevel_Lobby::Ready_Layer_UI()
 		return E_FAIL;
 	else
 		CUI_Manager::GetInstance()->Add_UI((LEVELID)iLevelIndex, static_cast<CUI*>(pUI));
-	
+
+
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_UI_Option")));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI((LEVELID)LEVEL_STATIC, static_cast<CUI*>(pUI));
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

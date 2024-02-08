@@ -218,21 +218,6 @@ HRESULT CUI_DeadWnd::Bind_ShaderResources_WathchingButton()
 	return S_OK;
 }
 
-HRESULT CUI_DeadWnd::Bind_ShaderResources_NextButton()
-{
-	return S_OK;
-}
-
-HRESULT CUI_DeadWnd::Bind_ShaderResources_BackButton()
-{
-	return S_OK;
-}
-
-HRESULT CUI_DeadWnd::Bind_ShaderResources_ReturnkButton()
-{
-	return S_OK;
-}
-
 CUI_DeadWnd* CUI_DeadWnd::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUI_DeadWnd* pInstance = new CUI_DeadWnd(pDevice, pContext);
