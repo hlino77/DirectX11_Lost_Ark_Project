@@ -28,14 +28,31 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    virtual HRESULT Bind_ShaderResources_AnimFrame();
+    virtual HRESULT Bind_ShaderResources_ResurrectButton();
+    virtual HRESULT Bind_ShaderResources_WathchingButton();
+    virtual HRESULT Bind_ShaderResources_NextButton();
+    virtual HRESULT Bind_ShaderResources_BackButton();
+    virtual HRESULT Bind_ShaderResources_ReturnkButton();
 
 private:
     CTexture* m_pTexture_AnimEffect = { nullptr };
     CTexture* m_pTexture_Button = { nullptr };
 
     CTransform* m_pTransform_AnimEffect = { nullptr };
-    CTransform* m_pTransform_WatchButton = { nullptr };
-    CTransform* m_pTransform_Resurrect = { nullptr };
+    CTransform* m_pTransform_WatchingButton = { nullptr };
+    CTransform* m_pTransform_ResurrectButton = { nullptr };
+    CTransform* m_pTransform_NextButton = { nullptr };
+    CTransform* m_pTransform_ReturnButton = { nullptr };
+
+    CTextBox* m_pTextBox = { nullptr };
+    wstring m_strTextWnd;
+    wstring m_strFont;
+
+    _float  m_fAnimFrame = { 0.f };
+
+
+    _bool   m_bWatchingMode = { false };
 
 public:
     static  CUI_DeadWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
