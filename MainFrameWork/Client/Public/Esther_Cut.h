@@ -58,19 +58,20 @@ public:
 	virtual HRESULT			Render();
 
 public:
-	CEsther*				Get_OwnerEshter() { return m_pOwnerEsther; }
-	class CCamera_Cut*		Get_CutCamera() { return m_pCutCamera; }	
+	CEsther*				Get_OwnerEshter()							{ return m_pOwnerEsther; }
+	class CCamera_Cut*		Get_CutCamera()								{ return m_pCutCamera; }
+	CPartObject*			Get_Part()									{ return m_pPart; }
 
-	CShader*				Get_ShaderCom() { return m_pShaderCom; }
+	CShader*				Get_ShaderCom()								{ return m_pShaderCom; }
 
-	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
-	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
+	void					Set_AnimationSpeed(_float fSpeed)			{ m_fAnimationSpeed = fSpeed; }
+	_float					Get_AnimationSpeed()						{ return m_fAnimationSpeed; }
 
 public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false, _bool bIgnoreRoot = false);
 
-	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
-	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
+	const wstring&			Get_VoiceSoundKey()							{ return m_VoiceSoundKey; }
+	void					Set_VoiceSoundKey(const wstring& VoiceSound){ m_VoiceSoundKey = VoiceSound; }
 	void					Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
 	_bool					Stop_VoiceSound();
 
