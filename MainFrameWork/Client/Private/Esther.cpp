@@ -152,4 +152,5 @@ void CEsther::Free()
 
 	Safe_Release(m_pEsther_Cut);
 	Safe_Release(m_pEsther_Skill);
+	Safe_Release(m_pEsther_Scene);
 }

@@ -106,4 +106,6 @@ CGameObject* CEsther_Silian::Clone(void* pArg)
 void CEsther_Silian::Free()
 {
 	__super::Free();
+
+
 }

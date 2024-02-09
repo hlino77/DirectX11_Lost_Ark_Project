@@ -142,6 +142,7 @@ void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
 		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
+		m_bCutStart = true;
 	}
 }
 

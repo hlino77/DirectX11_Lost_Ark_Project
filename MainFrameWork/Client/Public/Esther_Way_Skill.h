@@ -45,6 +45,10 @@ private:
 
 	_uint					m_iAnimIndex;
 
+	_bool					m_bCutStart = false;
+
+	_bool					m_bActActive[6];
+
 public:
 	static CEsther_Way_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

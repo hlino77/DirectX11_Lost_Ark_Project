@@ -82,26 +82,32 @@ void CEsther_Silian_Skill::Ready()
 {
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
+	m_bCutStart = false;
+	m_bProjShot = false;
+
 	m_IsFinished = false;
 }
 
 void CEsther_Silian_Skill::Cut_Start(_float fTimeDelta)
 {
-	if (0 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (0 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
 		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
+		m_bCutStart = true;
 	}
 }
 
 void CEsther_Silian_Skill::Act1(_float fTimeDelta)
 {
-	if (95 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
-		&& true == m_pLeaderPlayer->Is_Control())
+	if (95 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+		&& true == m_pLeaderPlayer->Is_Control()
+		&& false == m_bProjShot)
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
 		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+		m_bProjShot = true;
 	}
 }
 
@@ -252,7 +258,7 @@ HRESULT CEsther_Silian_Skill::Ready_Projectile()
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 4.f);
 	Proj_Desc.vChildScale = Vec3(2.f, 0.6f, 4.f);
 	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 4.f);
-	Proj_Desc.iDamage = 3000;
+	Proj_Desc.iDamage = 6000;
 	Proj_Desc.iStagger = 300;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
 

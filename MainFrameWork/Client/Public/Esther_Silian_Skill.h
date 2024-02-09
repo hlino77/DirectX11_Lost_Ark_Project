@@ -39,6 +39,8 @@ private:
 private:
 	_uint					m_iAnimIndex;
 
+	_bool					m_bCutStart = false;
+	_bool					m_bProjShot = false;
 
 public:
 	static CEsther_Silian_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
