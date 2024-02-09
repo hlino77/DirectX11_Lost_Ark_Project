@@ -50,18 +50,38 @@ HRESULT CLevel_Studio::Initialize()
 
 HRESULT CLevel_Studio::Tick(const _float& fTimeDelta)
 {
-	m_pSilian->Tick(fTimeDelta);
-	m_pWay->Tick(fTimeDelta);
-	m_pBahuntur->Tick(fTimeDelta);
+	Start_Esther_Cut();
 
+	if (true == m_bCutStart[SA])
+	{
+		m_pSilian->Tick(fTimeDelta);
+	}
+	if (true == m_bCutStart[WY])
+	{
+		m_pWay->Tick(fTimeDelta);
+	}
+	if (true == m_bCutStart[BT])
+	{
+		m_pBahuntur->Tick(fTimeDelta);
+	}
+	
 	return S_OK;
 }
 
 HRESULT CLevel_Studio::LateTick(const _float& fTimeDelta)
 {
-	m_pSilian->LateTick(fTimeDelta);
-	m_pWay->LateTick(fTimeDelta);
-	m_pBahuntur->LateTick(fTimeDelta);
+	if (true == m_bCutStart[SA])
+	{
+		m_pSilian->LateTick(fTimeDelta);
+	}
+	if (true == m_bCutStart[WY])
+	{
+		m_pWay->LateTick(fTimeDelta);
+	}
+	if (true == m_bCutStart[BT])
+	{
+		m_pBahuntur->LateTick(fTimeDelta);
+	}
 	
 	return S_OK;
 }
@@ -142,7 +162,7 @@ HRESULT CLevel_Studio::Ready_Esther()
 
 HRESULT CLevel_Studio::Start_Esther_Cut()
 {
-	/*if (true == m_pSilian->Is_Finished())
+	if (true == m_pSilian->Is_Finished())
 	{
 		m_bCutStart[SA] = false;
 	}
@@ -153,21 +173,21 @@ HRESULT CLevel_Studio::Start_Esther_Cut()
 	if (true == m_pBahuntur->Is_Finished())
 	{
 		m_bCutStart[BT] = false;
-	}*/
+	}
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Q))
 	{
-		//m_bCutStart[SA] = true;
+		m_bCutStart[SA] = true;
 		m_pSilian->Ready();
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::W))
 	{
-		//m_bCutStart[WY] = true;
+		m_bCutStart[WY] = true;
 		m_pWay->Ready();
 	}
-	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::R))
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::E))
 	{
-		//m_bCutStart[BT] = true;
+		m_bCutStart[BT] = true;
 		m_pBahuntur->Ready();
 	}
 

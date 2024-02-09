@@ -78,7 +78,7 @@ void CEsther_Silian_Skill::Reset()
 
 void CEsther_Silian_Skill::Ready()
 {
-	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
+	m_pModelCom->Set_Enforce_CurrAnimFrame(0);
 
 	m_IsFinished = false;
 }

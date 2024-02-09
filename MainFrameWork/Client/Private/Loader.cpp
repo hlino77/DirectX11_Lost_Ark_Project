@@ -327,6 +327,9 @@ _int CLoader::Loading()
 	case LEVEL_VALTANMAIN:
 		hr = Loading_For_Level_ValtanMain();
 		break;
+	case LEVEL_STUDIO:
+		hr = Loading_For_Level_Stuio();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -1892,6 +1895,46 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_For_Level_Stuio()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	m_strLoading = TEXT("모델을 로딩 중 입니다.");
+	Loading_Model_For_Level_Studio();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part"),
+		CEsther_Part::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Part_forCut"),
+		CEsther_Part_forCut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Silian_Cut"),
+		CEsther_Silian_Cut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Way_Cut"),
+		CEsther_Way_Cut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Bahuntur_Cut"),
+		CEsther_Bahuntur_Cut::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Cut"),
+		CCamera_Cut::Create(m_pDevice, m_pContext, L"Cut_Camera"))))
+		return E_FAIL;
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 HRESULT CLoader::Load_NpcData()
 {
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
@@ -2120,8 +2163,8 @@ HRESULT CLoader::AutoLoad(const fs::path& strPath, LEVELID eLevel, Matrix Pivot)
 					if (FAILED(pGameInstance->Add_Prototype(eLevel, strComponentName,
 						CModel::Create(m_pDevice, m_pContext, strFilePath + L"/", strFileName, true, false, Pivot))))
 						return E_FAIL;
-					pUIManager->Add_CurrFile();
 
+					pUIManager->Add_CurrFile();
 				}
 			}
 		}
@@ -4886,6 +4929,115 @@ HRESULT CLoader::Loading_Model_For_Level_Tool_Npc()
 
 
 	RELEASE_INSTANCE(CGameInstance);
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Model_For_Level_Studio()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	Matrix		PivotMatrix = XMMatrixIdentity();
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+	Matrix		ScalePivotMatrix = XMMatrixIdentity();
+	ScalePivotMatrix._11 = 0.01f;
+	ScalePivotMatrix._22 = 0.01f;
+	ScalePivotMatrix._33 = 0.01f;
+	ScalePivotMatrix *= XMMatrixRotationY(XMConvertToRadians(-90.0f));
+
+	/* 에스더 마네킹 */
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESBT";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESSA";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+			}));
+	}
+
+	{
+		m_Futures.push_back(std::async([=]()->HRESULT
+			{
+				wstring strFileName = L"ESWY";
+				wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+				wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+				if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+				{
+					if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ScalePivotMatrix))))
+						return E_FAIL;
+				}
+
+				return S_OK;
+			}));
+	}
+
+	/* 에스더 */
+	wstring strPath = L"../Bin/Resources/Meshes/ES/Part/";
+	AutoLoad(strPath, LEVEL_STATIC);
+
+	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
+	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
+
+	while (true)
+	{
+		if (m_Futures.empty())
+			break;
+
+		for (auto iter = m_Futures.begin(); iter != m_Futures.end();)
+		{
+			if (iter->valid())
+			{
+				if (iter->wait_for(std::chrono::seconds(1)) == future_status::ready)
+				{
+					if (FAILED(iter->get()))
+						return E_FAIL;
+
+					iter = m_Futures.erase(iter);
+				}
+				else
+					++iter;
+			}
+			else
+				++iter;
+		}
+	}
+
+
+	m_strLoading = TEXT("로딩 끝.");
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
 	return S_OK;
 }
 

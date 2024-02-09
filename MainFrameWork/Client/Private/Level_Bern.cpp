@@ -106,10 +106,10 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
-	if (m_bFirstEnter)
+	/*if (m_bFirstEnter)
 	{
 		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
-	}
+	}*/
 
 	return S_OK;
 }

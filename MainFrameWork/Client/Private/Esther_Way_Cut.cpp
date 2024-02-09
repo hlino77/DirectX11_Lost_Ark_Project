@@ -92,7 +92,7 @@ void CEsther_Way_Cut::Ready()
 
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
-	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0, 1.f, false, false, false);
+	m_pModelCom->Set_Enforce_CurrAnimFrame(0);
 
 	m_pModelCom->Set_IgnoreRoot(true);
 
@@ -101,7 +101,7 @@ void CEsther_Way_Cut::Ready()
 
 void CEsther_Way_Cut::Act1(_float fTimeDelta)
 {
-	if (140 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) &&
+	if (145 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) &&
 		170 > m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_ANGRY];

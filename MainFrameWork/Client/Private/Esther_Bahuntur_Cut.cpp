@@ -45,7 +45,7 @@ HRESULT CEsther_Bahuntur_Cut::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
-	m_pModelCom->Set_Enforce_CurrAnimFrame(m_pModelCom->Get_Anim_MaxFrame(m_iAnimIndex));
+	m_pModelCom->Set_Enforce_CurrAnimFrame(20);
 	m_pModelCom->Play_Animation(0.0f);
 
 	for (size_t i = 0; i < 4; i++)
@@ -105,7 +105,7 @@ void CEsther_Bahuntur_Cut::Ready()
 
 	m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
 
-	Reserve_Animation(m_iAnimIndex, 0.1f, 25, 0);
+	m_pModelCom->Set_Enforce_CurrAnimFrame(25);
 
 	m_pModelCom->Set_IgnoreRoot(true);
 
