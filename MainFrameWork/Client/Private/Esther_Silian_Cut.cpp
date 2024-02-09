@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "PartObject.h"
 #include "Esther.h"
+#include "Effect.h"
+#include "Effect_Manager.h"
 #include "Camera_Cut.h"
 
 CEsther_Silian_Cut::CEsther_Silian_Cut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -75,6 +77,8 @@ void CEsther_Silian_Cut::Tick(_float fTimeDelta)
 	Act2(fTimeDelta);
 	Act3(fTimeDelta);
 
+	Effect(fTimeDelta);
+
 	m_pCutCamera->Tick(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
@@ -109,6 +113,11 @@ void CEsther_Silian_Cut::Reset()
 
 void CEsther_Silian_Cut::Ready()
 {
+	for (_int i = 0; i < 2; ++i)
+	{
+		m_bEffectStart[i] = false;
+	}
+
 	// ¸ðµ¨ ÃÊ±âÈ­
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 	m_pTransformCom->My_Rotation(Vec3(0.f, 180.f, 0.f));
@@ -208,6 +217,43 @@ void CEsther_Silian_Cut::Act3(_float fTimeDelta)
 	if (85 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_pModelPartCom[(_uint)MODEL_PART::FACE] = m_pModelPartCom[(_uint)MODEL_PART::FACE_S_ANGRY];
+	}
+}
+
+void CEsther_Silian_Cut::Effect(_float fTimeDelta)
+{
+	if (false == m_bEffectStart[0])
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = const_cast<Matrix&>(m_pPart->Get_Part_WorldMatrix());
+		tDesc.pPivotMatrix = &matPivot;
+
+		vector<CEffect*> Effects;
+
+		EFFECT_START_OUTLIST(L"Silian_SwordAura", &tDesc, Effects);
+
+		CEffect* pEffect[3] = { Effects[0], Effects[1], Effects[2] };
+
+		pEffect[0]->CB_UpdatePivot += bind(&CPartObject::Load_Part_WorldMatrix, m_pPart, placeholders::_1);
+		pEffect[0]->Set_Trace(true);
+
+		pEffect[1]->CB_UpdatePivot += bind(&CPartObject::Load_Part_WorldMatrix, m_pPart, placeholders::_1);
+		pEffect[1]->Set_Trace(true);
+
+		pEffect[2]->CB_UpdatePivot += bind(&CPartObject::Load_Part_WorldMatrix, m_pPart, placeholders::_1);
+		pEffect[2]->Set_Trace(true);
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 94 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Cut_EstherSkill_Silian_Trail"), &tDesc)
+
+		m_bEffectStart[1] = true;
 	}
 }
 

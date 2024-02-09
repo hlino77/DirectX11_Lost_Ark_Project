@@ -41,10 +41,13 @@ private:
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
 
+	void					Effect(_float fTimeDelta);
+
 private:
 	_uint					m_iAnimIndex;
 	_bool					m_bCut[4];
 
+	_bool					m_bEffectStart[2] = { false, false };
 
 public:
 	static CEsther_Silian_Cut* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

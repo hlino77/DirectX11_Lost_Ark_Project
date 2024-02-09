@@ -199,11 +199,13 @@ void CEffectTool::SelectBaseMesh()
 				_bool isSelected = (m_strCurrentMeshCategory.c_str() == m_vecMeshes[i].first);
 				if (ImGui::Selectable(m_vecMeshes[i].first.c_str(), isSelected))
 					m_strCurrentMeshCategory = m_vecMeshes[i].first;
+
 				if (isSelected)
 					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
 			}
 			ImGui::EndCombo();
 		}
+
 		SelectMesh(m_strCurrentMeshCategory);
 	}
 	ImGui::NewLine();
@@ -422,8 +424,20 @@ HRESULT CEffectTool::EffectTool()
 		m_IsResetReserved = true;
 		ImGui::SameLine();
 	}
+
 	if (ImGui::Button("CreateEffect"))
 		CreateEffect();
+
+	if (ImGui::Button("Update Textures"))
+	{
+		Update_New_Texture();
+	}
+
+	if (ImGui::Button("Update Meshes"))
+	{
+		Update_New_Meshes();
+	}
+
 
 	ShowCurrentMaterials();
 
@@ -759,6 +773,7 @@ HRESULT CEffectTool::CreateEffect()
 		tDesc.protoDissolveTexture = m_CurrentDissolve.first + fs::path(m_CurrentDissolve.second.first).generic_wstring() + TEXT(".png");
 
 	m_pCurrentEffect = static_cast<CVoidEffect*>(m_pGameInstance->Add_GameObject((_uint)LEVEL_TOOL, (_uint)LAYER_TYPE::LAYER_EFFECT, TEXT("Prototype_GameObject_VoidEffect"), &tDesc));
+	
 	if (nullptr == m_pCurrentEffect)
 		return E_FAIL;
 
@@ -804,6 +819,152 @@ HRESULT CEffectTool::Reset()
 
 	return S_OK;
 }
+
+HRESULT CEffectTool::Update_New_Texture()
+{
+	wstring textureDirectory = L"../Bin/Resources/Effects/FX_Textures/";
+	if (fs::exists(textureDirectory) && fs::is_directory(textureDirectory))
+	{
+		for (const auto& category : fs::directory_iterator(textureDirectory))
+		{
+			if (category.is_directory())
+			{
+				string strKey = category.path().stem().generic_string();
+
+				// Find 
+				auto itTexture = find_if(m_vecTextures.begin(), m_vecTextures.end(), [&strKey](const pair<string, vector<pair<wstring, ID3D11ShaderResourceView*>>>& element) { return element.first == strKey; });
+				if (itTexture == m_vecTextures.end())
+				{
+					
+					vector<pair<wstring, ID3D11ShaderResourceView*>> textures;
+					m_vecTextures.push_back(make_pair(strKey, textures));
+					itTexture = prev(m_vecTextures.end());
+				}
+
+				
+				for (const auto& textureFile : fs::directory_iterator(category))
+				{
+					wstring strTextureFileName = textureFile.path().stem();
+					if (textureFile.is_regular_file() && find_if(itTexture->second.begin(), itTexture->second.end(), [&strTextureFileName](const pair<wstring, ID3D11ShaderResourceView*>& elem) { return elem.first == strTextureFileName; }) == itTexture->second.end())
+					{
+				
+						ID3D11ShaderResourceView* pSRV = nullptr;
+						HRESULT hr = S_OK;
+						wstring fullPath = textureFile.path();
+
+						if (textureFile.path().extension() == L".dds")
+						{
+							hr = DirectX::CreateDDSTextureFromFile(m_pDevice, fullPath.c_str(), nullptr, &pSRV);
+						}
+						else
+						{
+							hr = DirectX::CreateWICTextureFromFile(m_pDevice, fullPath.c_str(), nullptr, &pSRV);
+						}
+
+						if (SUCCEEDED(hr))
+						{
+						
+							itTexture->second.push_back(make_pair(strTextureFileName, pSRV));
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
+
+	return S_OK;
+}
+
+HRESULT CEffectTool::Update_New_Meshes()
+{
+	wstring meshDirectory = L"../Bin/Resources/Effects/FX_Meshes/";
+	if (fs::exists(meshDirectory) && fs::is_directory(meshDirectory))
+	{
+		for (const auto& category : fs::directory_iterator(meshDirectory))
+		{
+			if (!category.is_directory()) continue;
+
+			string categoryKey = category.path().stem().generic_string();
+
+			for (const auto& subDir : fs::directory_iterator(category))
+			{
+				if (!subDir.is_directory()) continue;
+
+				string subDirKey = subDir.path().stem().generic_string();
+				wstring strFinalPath = subDir.path().wstring() +TEXT("/"); // fs::path()는 직접 .wstring()으로 변환 가능
+
+				// 바로 여기서 경로 내의 역슬래시를 슬래시로 변환합니다.
+				std::replace(strFinalPath.begin(), strFinalPath.end(), L'\\', L'/');
+
+				// 하위 폴더(모델)이 이미 존재하는지 확인
+				auto itCategory = find_if(m_vecMeshes.begin(), m_vecMeshes.end(), [&categoryKey](const pair<string, vector<string>>& element) {
+					return element.first == categoryKey;
+					});
+
+				bool subDirExists = false;
+				if (itCategory != m_vecMeshes.end())
+				{
+					auto& subDirs = itCategory->second;
+					subDirExists = find(subDirs.begin(), subDirs.end(), subDirKey) != subDirs.end();
+				}
+
+				if (!subDirExists)
+				{
+					// string에서 wstring으로 변환
+					int size_needed = MultiByteToWideChar(CP_UTF8, 0, &categoryKey[0], (int)categoryKey.size(), NULL, 0);
+					wstring wCategoryKey(size_needed, 0);
+					MultiByteToWideChar(CP_UTF8, 0, &categoryKey[0], (int)categoryKey.size(), &wCategoryKey[0], size_needed);
+
+					size_needed = MultiByteToWideChar(CP_UTF8, 0, &subDirKey[0], (int)subDirKey.size(), NULL, 0);
+					wstring wSubDirKey(size_needed, 0);
+					MultiByteToWideChar(CP_UTF8, 0, &subDirKey[0], (int)subDirKey.size(), &wSubDirKey[0], size_needed);
+
+					//wstring strComponentName = wCategoryKey + L"_" + wSubDirKey;
+
+
+					size_t lastSlashPos = strFinalPath.rfind(L'/');
+					if (lastSlashPos != std::wstring::npos && lastSlashPos != 0)
+					{
+						size_t secondLastSlashPos = strFinalPath.rfind(L'/', lastSlashPos - 1);
+						if (secondLastSlashPos != std::wstring::npos)
+						{
+							// 뒤에서 두 번째 슬래시 이후의 모든 내용을 제거합니다.
+							strFinalPath.erase(secondLastSlashPos + 1);
+						}
+					}
+
+
+					wstring strComponentName = L"Prototype_Component_Model_" + wSubDirKey;
+
+
+					// 모델 프로토타입 생성 및 게임 인스턴스에 추가
+					if (FAILED(CGameInstance::GetInstance()->Add_Prototype(LEVEL_STATIC, strComponentName,
+						CModel::Create(m_pDevice, m_pContext, strFinalPath, wSubDirKey, true, false))))
+					{
+						return E_FAIL; // 프로토타입 추가 실패 시 E_FAIL 반환
+					}
+
+					// 성공적으로 추가된 경우, m_vecMeshes에 정보 추가
+					if (itCategory == m_vecMeshes.end())
+					{
+						vector<string> newSubDirs = { subDirKey };
+						m_vecMeshes.push_back(make_pair(categoryKey, newSubDirs));
+					}
+					else
+					{
+						itCategory->second.push_back(subDirKey);
+					}
+				}
+			}
+		}
+	}
+
+	return S_OK;
+}
+
 
 HRESULT CEffectTool::Save(_char* szGroupName)
 {
@@ -1510,6 +1671,9 @@ HRESULT CEffectTool::LoadTextures()
 							return E_FAIL;
 
 						textures.push_back(make_pair(filename, pSRV));
+
+#pragma region Before Code
+
 						/*wstring filename = texture.path().stem();
 						wstring extension = texture.path().extension();
 
@@ -1519,6 +1683,8 @@ HRESULT CEffectTool::LoadTextures()
 
 						textures.push_back(make_pair(filename, pSRV));
 						Safe_Release(pTexture);*/
+#pragma endregion
+
 					}
 				}
 				m_vecTextures.push_back(make_pair(strKey, textures));
