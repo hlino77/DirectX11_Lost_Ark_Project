@@ -106,6 +106,10 @@ HRESULT CLevel_ChaosLevel3::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
+
+	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
+	CGameInstance::GetInstance()->PlayBGM(L"Albion's Rage.wav", CHANNEL_BGM, g_fVolume);
+
 	return S_OK;
 }
 

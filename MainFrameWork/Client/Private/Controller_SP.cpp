@@ -111,7 +111,7 @@ void CController_SP::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
-	m_iDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 20;
+	m_iDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 100;
 	// 데미지하락 및 밉라이트?
 	CPlayer::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 	tPcStat.iCurHp -= m_iDamaged;

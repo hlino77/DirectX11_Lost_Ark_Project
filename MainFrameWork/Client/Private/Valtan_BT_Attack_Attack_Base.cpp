@@ -113,7 +113,7 @@ void CValtan_BT_Attack_Attack_Base::Add_Stone(Vec3 vPosition)
 	pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPosition);
 	pSkill->Get_TransformCom()->LookAt_ForLandObject(Vec3(100.0f, 0.19f, 100.0f));
 	static_cast<CSkill*>(pSkill)->Set_Atk(50);
-	static_cast<CSkill*>(pSkill)->Set_Force(34.f);
+	static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 }
 
 
