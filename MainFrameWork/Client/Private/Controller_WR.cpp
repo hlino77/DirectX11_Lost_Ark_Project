@@ -138,7 +138,7 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 		{
 			m_fTimeAcc = 0.f;
 			m_IsIdentity = false;
-			m_fIdentityGage = 30.f;
+			m_fIdentityGage = -1.f;
 
 			CB_UpdateIdentityAuraPivot.clear();
 			static_cast<CPlayer*>(m_pOwner)->Delete_Effect(L"Slayer_Rage_Aura");

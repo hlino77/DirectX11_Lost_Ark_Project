@@ -322,7 +322,7 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Parts()
 	PartDesc_Weapon.strModel = TEXT("ESBT_WP");
 
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
-	m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, -90.f));
+	m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, 90.f));
 	PartDesc_Weapon.OffsetMatrix = m_pTransformCom->Get_WorldMatrix();
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 
