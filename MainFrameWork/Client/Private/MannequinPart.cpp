@@ -45,7 +45,6 @@ void CMannequinPart::Tick(_float fTimeDelta)
 		m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	}
 	
-
 	XMMATRIX	WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
 
 	WorldMatrix.r[0] = XMVector3Normalize(WorldMatrix.r[0]);

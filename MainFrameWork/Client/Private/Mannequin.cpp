@@ -260,6 +260,10 @@ CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMa
 		}
 		if (-1 == iBoneIndex)
 		{
+			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_weapon_00"));
+		}
+		if (-1 == iBoneIndex)
+		{
 			return nullptr;
 		}
 
@@ -282,6 +286,10 @@ CPartObject* CMannequin::Set_Part(_uint PartType, CModel* pModel, Matrix LocalMa
 		if (-1 == iBoneIndex)
 		{
 			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_wp_r_01"));
+		}
+		if (-1 == iBoneIndex)
+		{
+			iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_weapon_00"));
 		}
 		if (-1 == iBoneIndex)
 		{

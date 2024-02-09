@@ -107,6 +107,12 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 		ImGui::Checkbox("King", &m_CheckBoxStates[6]);
 		ImGui::SameLine();
 		ImGui::Checkbox("Valtan", &m_CheckBoxStates[7]);
+		ImGui::Spacing();
+		ImGui::Checkbox("Silian", &m_CheckBoxStates[8]);
+		ImGui::SameLine();
+		ImGui::Checkbox("Way", &m_CheckBoxStates[9]);
+		ImGui::SameLine();
+		ImGui::Checkbox("Bahuntur", &m_CheckBoxStates[10]);
 
 		// 선택된 체크박스 확인
 		for (int i = 0; i < CLASS_END; ++i)
@@ -127,22 +133,28 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 		{
 			if (false == m_CheckBoxStates[i]) continue;
 
-			if (i == 0)
+			if (i == CLASS::SLAYER)
 				m_eSelectClass = CLASS::SLAYER;
-			else if (i == 1)
+			else if (i == CLASS::GUNSLINGER)
 				m_eSelectClass = CLASS::GUNSLINGER;
-			else if (i == 2)
+			else if (i == CLASS::DESTROYER)
 				m_eSelectClass = CLASS::DESTROYER;
-			else if (i == 3)
+			else if (i == CLASS::BARD)
 				m_eSelectClass = CLASS::BARD;
-			else if (i == 4)
+			else if (i == CLASS::DOAGA)
 				m_eSelectClass = CLASS::DOAGA;
-			else if (i == 5)
+			else if (i == CLASS::GOLEM)
 				m_eSelectClass = CLASS::GOLEM;
-			else if (i == 6)
+			else if (i == CLASS::KING)
 				m_eSelectClass = CLASS::KING;
-			else if (i == 7)
+			else if (i == CLASS::VALTAN)
 				m_eSelectClass = CLASS::VALTAN;
+			else if (i == CLASS::ESSA)
+				m_eSelectClass = CLASS::ESSA;
+			else if (i == CLASS::ESWY)
+				m_eSelectClass = CLASS::ESWY;
+			else if (i == CLASS::ESBT)
+				m_eSelectClass = CLASS::ESBT;
 		}
 
 		ImGui::Spacing();
@@ -252,6 +264,10 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 		ImGui::Checkbox("KingSword", &m_WPCheckBoxStates[7]);
 		ImGui::SameLine();
 		ImGui::Checkbox("ValtanAxe", &m_WPCheckBoxStates[8]);
+		ImGui::Spacing();
+		ImGui::Checkbox("SilianSword", &m_WPCheckBoxStates[9]);
+		ImGui::SameLine();
+		ImGui::Checkbox("BahunturHammer", &m_WPCheckBoxStates[10]);
 		// 선택된 체크박스 확인
 		for (int i = 0; i < WEAPON_END; ++i)
 		{
@@ -289,6 +305,10 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 				m_eSelectWeapon = WEAPON::KINGSWORD;
 			else if (i == WEAPON::VALTANAXE)
 				m_eSelectWeapon = WEAPON::VALTANAXE;
+			else if (i == WEAPON::ESSASWORD)
+				m_eSelectWeapon = WEAPON::ESSASWORD;
+			else if (i == WEAPON::ESBTHAMMER)
+				m_eSelectWeapon = WEAPON::ESBTHAMMER;
 		}
 
 		ImGui::Spacing();
@@ -497,6 +517,18 @@ void CEffect_PcModel::SelectClass(CLASS eClass)
 		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[VALTAN]);
 		m_pCurrentPlayer = m_pMannequin;
 		break;
+	case Client::CEffect_PcModel::ESSA:
+		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[ESSA]);
+		m_pCurrentPlayer = m_pMannequin;
+		break;
+	case Client::CEffect_PcModel::ESWY:
+		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[ESWY]);
+		m_pCurrentPlayer = m_pMannequin;
+		break;
+	case Client::CEffect_PcModel::ESBT:
+		static_cast<CMannequin*>(m_pMannequin)->Set_ModelCom(m_pPcModels[ESBT]);
+		m_pCurrentPlayer = m_pMannequin;
+		break;
 	}
 
 	m_iCurrAnimation = 0;
@@ -572,6 +604,20 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[VALTANAXE], m_pTransformCom->Get_WorldMatrix());
 		static_cast<CMannequinPart*>(m_pCurrentWeapon)->Set_AnimState(true);
+		break;
+	case Client::CEffect_PcModel::ESSASWORD:
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		m_pTransformCom->My_Rotation(Vec3(30.f, 110.f, -20.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[ESSASWORD], m_pTransformCom->Get_WorldMatrix());
+		static_cast<CMannequinPart*>(m_pCurrentWeapon)->Set_AnimState(false);
+		break;
+	case Client::CEffect_PcModel::ESBTHAMMER:
+		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, 90.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
+		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[ESBTHAMMER], m_pTransformCom->Get_WorldMatrix());
+		static_cast<CMannequinPart*>(m_pCurrentWeapon)->Set_AnimState(false);
 		break;
 	}
 }
@@ -691,6 +737,45 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 		pInstance->Initialize(nullptr);
 
 		m_pPcModels[VALTAN] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"ESSA";
+		wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pPcModels[ESSA] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"ESWY";
+		wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pPcModels[ESWY] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"ESBT";
+		wstring strFilePath = L"../Bin/Resources/Meshes/ES/Anim/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pPcModels[ESBT] = pInstance;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -822,6 +907,32 @@ HRESULT CEffect_PcModel::Ready_PartsModels()
 		pInstance->Initialize(nullptr);
 
 		m_pWpModels[VALTANAXE] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"ESSA_WP";
+		wstring strFilePath = L"../Bin/Resources/Meshes/ES/Weapon/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pWpModels[ESSASWORD] = pInstance;
+	}
+
+	{
+		wstring strFileName = L"ESBT_WP";
+		wstring strFilePath = L"../Bin/Resources/Meshes/ES/Weapon/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		if (nullptr == pInstance)
+			return E_FAIL;
+		pInstance->Initialize(nullptr);
+
+		m_pWpModels[ESBTHAMMER] = pInstance;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

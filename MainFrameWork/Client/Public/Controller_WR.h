@@ -67,7 +67,7 @@ private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
-	_float	m_fIdentityGage = { 30.f };
+	_float	m_fIdentityGage = { 0.f };
 	_float	m_fMaxGage = { 30.f };
 	_float  m_fTimeAcc = { 0.f };
 
