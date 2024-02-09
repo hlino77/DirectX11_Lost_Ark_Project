@@ -190,6 +190,14 @@ HRESULT CLevel_Studio::Start_Esther_Cut()
 		m_bCutStart[BT] = true;
 		m_pBahuntur->Ready();
 	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::A))
+	{
+		m_pBahuntur->Set_ShotState(true);
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::S))
+	{
+		m_pBahuntur->Set_ShotState(false);
+	}
 
 	return S_OK;
 }

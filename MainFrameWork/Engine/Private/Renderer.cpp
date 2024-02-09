@@ -9,6 +9,8 @@
 #include "Texture.h"
 #include "Input_Device.h"
 #include "Utils.h"
+#include <string>
+
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
 _bool CRenderer::m_bPBR_Switch = true;
@@ -591,7 +593,8 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_UI()))
 		return E_FAIL;
 
-
+	if (FAILED(Render_Esther()))
+		return E_FAIL;
 
 	if (FAILED(Render_Mouse()))
 		return E_FAIL;
@@ -875,6 +878,19 @@ HRESULT CRenderer::Render_Outline()
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Esther()
+{
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_ESHTER])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_ESHTER].clear();
 
 	return S_OK;
 }
@@ -1706,6 +1722,13 @@ HRESULT CRenderer::Render_FXAA()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+	if (true == m_bScreenShot)
+	{
+		wstring strFinalPath = m_strScreenShotPath + to_wstring(m_iScreenShotFrame) + TEXT(".dds");
+		m_pTarget_Manager->Make_SRVTexture(strFinalPath, TEXT("Target_FinalProcessed"));
+		m_iScreenShotFrame++;
+	}
+
 	/*if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;*/
 
@@ -2112,6 +2135,15 @@ HRESULT CRenderer::Ready_SSR()
 	m_tSSR_Data[4].iSSRStepCount = 75;
 
 	return S_OK;
+}
+
+void CRenderer::Set_ScreenShot(_bool bShoot, wstring strPath)
+{
+	if(TEXT("") == strPath)
+		m_iScreenShotFrame = 0;
+
+	m_bScreenShot = bShoot;  
+	m_strScreenShotPath = strPath; 
 }
 
 CRenderer * CRenderer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

@@ -53,6 +53,8 @@ HRESULT CEsther_Bahuntur_Cut::Initialize(void* pArg)
 		m_bCut[i] = false;
 	}
 
+	m_iStartFrame = 20;
+	m_iEndFrame = 100;
 
 	return S_OK;
 }
@@ -82,6 +84,20 @@ void CEsther_Bahuntur_Cut::LateTick(_float fTimeDelta)
 {
 	if (true == m_IsFinished)
 		return;
+
+	if (true == m_bShot)
+	{
+		m_iCurFrame = m_pModelCom->Get_Anim_Frame(m_iAnimIndex);
+		if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame != m_iCurFrame)
+		{
+			m_iPreFrame = m_iCurFrame;
+			m_pRendererCom->Set_ScreenShot(true, TEXT("../Bin/Resources/Textures/Esther/ESBT/Bahuntur"));
+		}
+		else if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame == m_iCurFrame)
+		{
+			m_pRendererCom->Set_ScreenShot(false, TEXT("../Bin/Resources/Textures/Esther/ESBT/Bahuntur"));
+		}
+	}
 
 	__super::LateTick(fTimeDelta);
 }
@@ -113,6 +129,10 @@ void CEsther_Bahuntur_Cut::Ready()
 	{
 		m_bCut[i] = false;
 	}
+
+	m_iCurFrame = 0;
+	m_iPreFrame = -1;
+
 	m_IsFinished = false;
 }
 
@@ -177,6 +197,7 @@ void CEsther_Bahuntur_Cut::Check_Finish()
 {
 	if (100 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
+		m_pRendererCom->Set_ScreenShot(false);
 		m_IsFinished = true;
 	}
 }
@@ -260,7 +281,7 @@ HRESULT CEsther_Bahuntur_Cut::Ready_Parts()
 	PartDesc_Weapon.strModel = TEXT("ESBT_WP");
 
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
-	m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, 90.f));
+	m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, -90.f));
 	PartDesc_Weapon.OffsetMatrix = m_pTransformCom->Get_WorldMatrix();
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 

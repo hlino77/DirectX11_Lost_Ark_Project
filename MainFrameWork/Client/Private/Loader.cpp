@@ -232,6 +232,8 @@
 #include "Skill_RisingSun.h"
 #include "Skill_TeleportDoor.h"
 
+#include "Esther_Scene.h"
+
 #include "Esther_Way.h"
 #include "Esther_Way_Skill.h"
 #include "Esther_Way_Dochul.h"
@@ -1053,6 +1055,9 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_DeadSceneUI()))
 		return E_FAIL;
 
+	if (FAILED(Loading_Esther_Cut()))
+		return E_FAIL;
+	
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 	pUIManager->Add_CurrFile();
 	
@@ -1436,6 +1441,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_TeleportDoor"),
 		CSkill_TeleportDoor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Esther_Scene"),
+		CEsther_Scene::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3794,6 +3804,33 @@ HRESULT CLoader::Loading_ValtanUI()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_Esther_Cut()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Esther_Cut_Silian"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/Esther/ESSA/Silian%d.dds", 139))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Esther_Cut_Way"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/Esther/ESWY/Way%d.dds", 211))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Esther_Cut_Bahuntur"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/Esther/ESBT/Bahuntur%d.dds", 76))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	Safe_Release(pUIManager);
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
 
 HRESULT CLoader::Loading_Model_For_Level_Bern()
 {
@@ -5040,7 +5077,6 @@ HRESULT CLoader::Loading_Model_For_Level_Studio()
 
 	return S_OK;
 }
-
 
 HRESULT CLoader::Loading_SkillIcon()
 {

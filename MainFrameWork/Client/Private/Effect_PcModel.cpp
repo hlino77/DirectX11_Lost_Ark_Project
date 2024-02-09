@@ -614,7 +614,7 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 		break;
 	case Client::CEffect_PcModel::ESBTHAMMER:
 		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
-		m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, 90.f));
+		m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, -90.f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[ESBTHAMMER], m_pTransformCom->Get_WorldMatrix());
 		static_cast<CMannequinPart*>(m_pCurrentWeapon)->Set_AnimState(false);
@@ -632,6 +632,8 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
+	Matrix		ValtanPivotMatrix = XMMatrixIdentity();
+	ValtanPivotMatrix = XMMatrixScaling(0.012f, 0.012f, 0.012f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	CModel* pInstance = nullptr;
 	
@@ -731,7 +733,7 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ValtanPivotMatrix);
 		if (nullptr == pInstance)
 			return E_FAIL;
 		pInstance->Initialize(nullptr);

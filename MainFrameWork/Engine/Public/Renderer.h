@@ -21,7 +21,7 @@ public:
 	}MAKESRV;
 
 public:
-	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, RENDER_NONBLEND, RENDER_DECAL, RENDER_EFFECT, RENDER_EFFECTPARTICLE, RENDER_SHADOW, RENDER_BLEND, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_MOUSE, RENDER_OUTLINE,RENDER_END };
+	enum RENDERGROUP { UPDATE_TEXTBOX, RENDER_STATICSHADOW, RENDER_PRIORITY, RENDER_NONLIGHT, RENDER_LIGHT, RENDER_NONBLEND, RENDER_DECAL, RENDER_EFFECT, RENDER_EFFECTPARTICLE, RENDER_SHADOW, RENDER_BLEND, RENDER_ALPHABLEND, RENDER_WORLDUI, RENDER_UI, RENDER_TEXTBOX, RENDER_MOUSE, RENDER_OUTLINE, RENDER_ESHTER, RENDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -52,6 +52,8 @@ public:
 	HRESULT Bind_TextBoxSRV(CShader* pShader);
 
 	void	Set_DeadScene(_bool bSetDead) { m_bDeadScene = bSetDead; }
+
+	void	Set_ScreenShot(_bool bShoot, wstring strPath = TEXT(""));
 
 	static void	Set_SSAO_Switch(_bool bSwitch) { m_iSSAO_Switch = bSwitch; }
 	static void	Set_PBR_Switch (_bool bSwitch) { m_bPBR_Switch = bSwitch; }
@@ -100,6 +102,8 @@ private:
 	HRESULT Render_DebugObject();
 
 	HRESULT Render_Outline();
+
+	HRESULT Render_Esther();
 
 private:
 	//Debug
@@ -258,8 +262,10 @@ private:
 	// Screen Ton
 	_bool	m_bDeadScene = { false };
 
-
-
+	// ScreenShot
+	_bool	m_bScreenShot = { false };
+	wstring m_strScreenShotPath;
+	_uint	m_iScreenShotFrame = { 0 };
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

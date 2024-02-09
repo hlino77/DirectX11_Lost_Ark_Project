@@ -6,8 +6,8 @@
 #include "Player.h"
 #include "Esther.h"
 #include "Esther_Way_Cut.h"
-
 #include "Esther_Way_Dochul.h"
+#include "Esther_Scene.h"
 
 CEsther_Way_Skill::CEsther_Way_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -97,8 +97,7 @@ void CEsther_Way_Skill::Cut_Start(_float fTimeDelta)
 {
 	if (85 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
-		static_cast<CEsther_Way_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
-		static_cast<CEsther_Way_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
+		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 	}
 }
 

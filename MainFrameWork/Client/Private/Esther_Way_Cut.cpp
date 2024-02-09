@@ -47,6 +47,9 @@ HRESULT CEsther_Way_Cut::Initialize(void* pArg)
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	m_pModelCom->Play_Animation(0.0f);
 
+	m_iStartFrame = 0;
+	m_iEndFrame = m_pModelCom->Get_Anim_MaxFrame(m_iAnimIndex);
+
 	return S_OK;
 }
 
@@ -71,6 +74,20 @@ void CEsther_Way_Cut::LateTick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
+	if (true == m_bShot)
+	{
+		m_iCurFrame = m_pModelCom->Get_Anim_Frame(m_iAnimIndex);
+		if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame != m_iCurFrame)
+		{
+			m_iPreFrame = m_iCurFrame;
+			m_pRendererCom->Set_ScreenShot(true, TEXT("../Bin/Resources/Textures/Esther/ESWY/Way"));
+		}
+		else if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame == m_iCurFrame)
+		{
+			m_pRendererCom->Set_ScreenShot(false, TEXT("../Bin/Resources/Textures/Esther/ESWY/Way"));
+		}
+	}
+	
 	__super::LateTick(fTimeDelta);
 }
 
@@ -95,6 +112,9 @@ void CEsther_Way_Cut::Ready()
 	m_pModelCom->Set_Enforce_CurrAnimFrame(0);
 
 	m_pModelCom->Set_IgnoreRoot(true);
+
+	m_iCurFrame = 0;
+	m_iPreFrame = -1;
 
 	m_IsFinished = false;
 }
@@ -129,6 +149,8 @@ void CEsther_Way_Cut::Check_Finish()
 {
 	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
 	{
+		m_pRendererCom->Set_ScreenShot(false);
+
 		m_IsFinished = true;
 		m_bLerpActive = false;
 	}

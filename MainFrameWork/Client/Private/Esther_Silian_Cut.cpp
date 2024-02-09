@@ -52,6 +52,10 @@ HRESULT CEsther_Silian_Cut::Initialize(void* pArg)
 		m_bCut[i] = false;
 	}
 
+
+	m_iStartFrame = 0;
+	m_iEndFrame = m_pModelCom->Get_Anim_MaxFrame(m_iAnimIndex);
+
 	return S_OK;
 }
 
@@ -80,6 +84,20 @@ void CEsther_Silian_Cut::LateTick(_float fTimeDelta)
 {
 	if (true == m_IsFinished)
 		return;
+
+	if (true == m_bShot)
+	{
+		m_iCurFrame = m_pModelCom->Get_Anim_Frame(m_iAnimIndex);
+		if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame != m_iCurFrame)
+		{
+			m_iPreFrame = m_iCurFrame;
+			m_pRendererCom->Set_ScreenShot(true, TEXT("../Bin/Resources/Textures/Esther/ESSA/Silian"));
+		}
+		else if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame == m_iCurFrame)
+		{
+			m_pRendererCom->Set_ScreenShot(false, TEXT("../Bin/Resources/Textures/Esther/ESSA/Silian"));
+		}
+	}
 
 	__super::LateTick(fTimeDelta);
 }
@@ -116,6 +134,10 @@ void CEsther_Silian_Cut::Ready()
 	{
 		m_bCut[i] = false;
 	}
+
+	m_iCurFrame = 0;
+	m_iPreFrame = -1;
+
 	m_IsFinished = false;
 }
 
@@ -193,6 +215,7 @@ void CEsther_Silian_Cut::Check_Finish()
 {
 	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
 	{
+		m_pRendererCom->Set_ScreenShot(false);
 		m_IsFinished = true;
 	}
 }

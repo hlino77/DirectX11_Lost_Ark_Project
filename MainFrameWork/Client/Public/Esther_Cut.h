@@ -66,6 +66,8 @@ public:
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
 
+	_bool					Set_ShotState(_bool bShoot);
+
 public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false, _bool bIgnoreRoot = false);
 
@@ -118,6 +120,13 @@ protected:
 	/* 컬링 절두체 */
 	wstring			m_VoiceSoundKey;
 	_float			m_fVoiceSoundDelay;
+
+	/* 스크린샷 */
+	_uint					m_iStartFrame = { 0 };
+	_uint					m_iEndFrame = { 0 };
+	_int					m_iCurFrame = { 0 };
+	_int					m_iPreFrame = { -1 };
+	static _bool			m_bShot;
 
 public:
 	virtual void Free();

@@ -80,6 +80,8 @@ private:
 	HRESULT	Loading_Model_For_Level_Tool_Npc();
 	HRESULT Loading_Model_For_Level_Studio();
 
+	HRESULT Loading_Esther_Cut();
+
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVELID eNextLevel);
 	virtual void Free() override;

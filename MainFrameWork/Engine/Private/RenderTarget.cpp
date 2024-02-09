@@ -146,10 +146,6 @@ HRESULT CRenderTarget::Copy_SRV(ID3D11ShaderResourceView** pSRV)
 	return S_OK;
 }
 
-
-
-
-
 CRenderTarget * CRenderTarget::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const Vec4& vColor)
 {
 	CRenderTarget*	pInstance = new CRenderTarget(pDevice, pContext);

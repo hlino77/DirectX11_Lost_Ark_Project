@@ -47,6 +47,8 @@ void CCamera_Cut::Tick(_float fTimeDelta)
 		Tick_LookTarget(fTimeDelta);
 		break;
 	}
+
+	__super::Tick(fTimeDelta);
 }
 
 void CCamera_Cut::LateTick(_float fTimeDelta)

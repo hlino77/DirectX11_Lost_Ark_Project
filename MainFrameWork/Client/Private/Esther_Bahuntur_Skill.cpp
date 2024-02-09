@@ -10,6 +10,7 @@
 
 #include "Esther_Bahuntur_Skill_Ceiling.h"
 #include "Esther_Bahuntur_Skill_Floor.h"
+#include "Esther_Scene.h"
 
 CEsther_Bahuntur_Skill::CEsther_Bahuntur_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -140,10 +141,7 @@ void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 {
 	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
-		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
-		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
-
-		m_bCutStart = true;
+		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 	}
 }
 
@@ -322,7 +320,7 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Parts()
 	PartDesc_Weapon.strModel = TEXT("ESBT_WP");
 
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
-	m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, 90.f));
+	m_pTransformCom->My_Rotation(Vec3(-25.f, 120.f, -90.f));
 	PartDesc_Weapon.OffsetMatrix = m_pTransformCom->Get_WorldMatrix();
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
 
