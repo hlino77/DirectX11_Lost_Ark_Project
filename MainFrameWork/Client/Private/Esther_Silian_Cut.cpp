@@ -222,7 +222,7 @@ void CEsther_Silian_Cut::Act3(_float fTimeDelta)
 
 void CEsther_Silian_Cut::Effect(_float fTimeDelta)
 {
-	if (false == m_bEffectStart[0])
+	if (false == m_bEffectStart[0] && 10 < m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		Matrix& matPivot = const_cast<Matrix&>(m_pPart->Get_Part_WorldMatrix());
