@@ -190,13 +190,23 @@ HRESULT CLevel_Studio::Start_Esther_Cut()
 		m_bCutStart[BT] = true;
 		m_pBahuntur->Ready();
 	}
-	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::A))
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::O))
 	{
 		m_pBahuntur->Set_ShotState(true);
 	}
-	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::S))
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::P))
 	{
 		m_pBahuntur->Set_ShotState(false);
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::K))
+	{
+		m_pBahuntur->Set_ActionFrame(true);
+		m_pBahuntur->Set_TimeFrame(false);
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::L))
+	{
+		m_pBahuntur->Set_ActionFrame(false);
+		m_pBahuntur->Set_TimeFrame(true);
 	}
 
 	return S_OK;

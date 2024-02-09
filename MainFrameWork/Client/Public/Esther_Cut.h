@@ -68,6 +68,8 @@ public:
 	_float					Get_AnimationSpeed()						{ return m_fAnimationSpeed; }
 
 	_bool					Set_ShotState(_bool bShoot);
+	_bool					Set_ActionFrame(_bool bAction);
+	_bool					Set_TimeFrame(_bool bTime);
 
 public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false, _bool bIgnoreRoot = false);
@@ -127,6 +129,12 @@ protected:
 	_uint					m_iEndFrame = { 0 };
 	_int					m_iCurFrame = { 0 };
 	_int					m_iPreFrame = { -1 };
+
+	_float					m_fSaveFrameTime = { 0.0f };
+	_float					m_fSaveAcc = { 0.0f };
+
+	static _bool			m_bActionFrame;
+	static _bool			m_bTimeFrame;
 	static _bool			m_bShot;
 
 public:

@@ -76,15 +76,22 @@ void CEsther_Way_Cut::LateTick(_float fTimeDelta)
 
 	if (true == m_bShot)
 	{
-		m_iCurFrame = m_pModelCom->Get_Anim_Frame(m_iAnimIndex);
-		if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame != m_iCurFrame)
+		if (true == m_bActionFrame)
 		{
-			m_iPreFrame = m_iCurFrame;
-			m_pRendererCom->Set_ScreenShot(true, TEXT("../Bin/Resources/Textures/Esther/ESWY/Way"));
+			m_iCurFrame = m_pModelCom->Get_Anim_Frame(m_iAnimIndex);
+			if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame != m_iCurFrame)
+			{
+				m_iPreFrame = m_iCurFrame;
+				m_pRendererCom->Set_ScreenShot(true, TEXT("../Bin/Resources/Textures/Esther/ESWY/Way"));
+			}
+			else if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame == m_iCurFrame)
+			{
+				m_pRendererCom->Set_ScreenShot(false, TEXT("../Bin/Resources/Textures/Esther/ESWY/Way"));
+			}
 		}
-		else if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_iPreFrame == m_iCurFrame)
+		else if (true == m_bTimeFrame)
 		{
-			m_pRendererCom->Set_ScreenShot(false, TEXT("../Bin/Resources/Textures/Esther/ESWY/Way"));
+
 		}
 	}
 	

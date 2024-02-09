@@ -20,6 +20,8 @@
 #include "Camera_Cut.h"
 
 _bool	CEsther_Cut::m_bShot = false;
+_bool	CEsther_Cut::m_bTimeFrame = false;
+_bool	CEsther_Cut::m_bActionFrame = false;
 
 CEsther_Cut::CEsther_Cut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Esther_Cut", OBJ_TYPE::ESTHER)
@@ -161,8 +163,32 @@ _bool CEsther_Cut::Set_ShotState(_bool bShoot)
 		m_bShot = false;
 		MessageBox(g_hWnd, L"스크린샷 비활성화", L"확인", MB_OK);
 	}
+}
 
-	return _bool();
+_bool CEsther_Cut::Set_ActionFrame(_bool bAction)
+{
+	if (true == bAction)
+	{
+		m_bActionFrame = true;
+		MessageBox(g_hWnd, L"액션프레임저장 활성화", L"확인", MB_OK);
+	}
+	else
+	{
+		m_bActionFrame = false;
+	}
+}
+
+_bool CEsther_Cut::Set_TimeFrame(_bool bTime)
+{
+	if (true == bTime)
+	{
+		m_bTimeFrame = true;
+		MessageBox(g_hWnd, L"타임프레임저장 활성화", L"확인", MB_OK);
+	}
+	else
+	{
+		m_bTimeFrame = false;
+	}
 }
 
 void CEsther_Cut::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY, _bool bIgnoreRoot)

@@ -340,7 +340,7 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Projectile()
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER;
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 10.f;
+	Proj_Desc.fRadius = 15.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
 	Proj_Desc.iDamage = 1000;
 	Proj_Desc.iStagger = 0;

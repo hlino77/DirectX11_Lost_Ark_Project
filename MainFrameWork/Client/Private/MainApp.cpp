@@ -163,7 +163,7 @@ void CMainApp::Tick(_float fTimeDelta)
 HRESULT CMainApp::Render()
 {
 
-	m_pGameInstance->Clear_BackBuffer_View(Vec4(1.f, 0.f, 1.f, 1.f));
+	m_pGameInstance->Clear_BackBuffer_View(Vec4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	
