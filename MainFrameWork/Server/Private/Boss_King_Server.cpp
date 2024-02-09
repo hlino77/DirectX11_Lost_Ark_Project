@@ -63,7 +63,7 @@ HRESULT CBoss_King_Server::Initialize(void* pArg)
 		return E_FAIL;
 	m_vecAttackRanges.clear();
 	m_fMoveSpeed = 2.f;
-	m_vecAttackRanges.push_back(2.f);
+	m_vecAttackRanges.push_back(3.5f);
 	m_vecAttackRanges.push_back(3.5f);
 	m_IsSuperArmor = true;
 	m_fAttackRange = m_vecAttackRanges[0];
@@ -408,8 +408,8 @@ HRESULT CBoss_King_Server::Ready_BehaviourTree()
 
 	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
 	CBT_Composite* pSequenceNear = CBT_Composite::Create(&CompositeDesc);
-	if (FAILED(pSequenceNear->AddChild(pAttack1)))
-		return E_FAIL;
+	//if (FAILED(pSequenceNear->AddChild(pAttack1)))
+	//	return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack2)))
 		return E_FAIL;
 	if (FAILED(pSequenceNear->AddChild(pAttack3)))

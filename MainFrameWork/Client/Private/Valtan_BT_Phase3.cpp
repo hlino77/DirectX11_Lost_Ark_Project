@@ -45,6 +45,8 @@ void CValtan_BT_Phase3::OnEnd()
 	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUI(40, 529402339,L"찢겨진 마수의 군주");
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUIRender(true);
+	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
+	CGameInstance::GetInstance()->PlayBGM(L"Ravaged Tyrant of Beasts.wav", CHANNEL_BGM, g_fVolume);
 }
 
 void CValtan_BT_Phase3::On_FirstAnimStart()
