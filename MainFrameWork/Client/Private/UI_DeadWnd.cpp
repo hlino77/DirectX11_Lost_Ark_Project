@@ -62,13 +62,11 @@ HRESULT CUI_DeadWnd::Initialize(void* pArg)
 
 void CUI_DeadWnd::Tick(_float fTimeDelta)
 {
-
 }
 
 void CUI_DeadWnd::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-
 }
 
 HRESULT CUI_DeadWnd::Render()
