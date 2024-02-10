@@ -18,6 +18,7 @@
 
 #include "UI_NPC_ItemUpgrade.h"
 #include "ServerSessionManager.h"
+#include "UI_Manager.h"
 
 CUpgrade_Npc::CUpgrade_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CFunction_Npc(pDevice, pContext)

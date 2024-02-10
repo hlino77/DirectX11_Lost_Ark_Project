@@ -108,11 +108,11 @@ HRESULT CLevel_Bern::Initialize()
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
 	CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM, g_fVolume);
 
+
 	/*if (m_bFirstEnter)
 	{
 		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}*/
-
 
 	return S_OK;
 }
@@ -122,10 +122,7 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
 
-
 	CRenderer::Set_Add_Fog_Time(fTimeDelta);
-
-
 
 	return S_OK;
 }
@@ -417,13 +414,6 @@ HRESULT CLevel_Bern::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 	else
 		CUI_Manager::GetInstance()->Add_UI(LEVEL_BERN, static_cast<CUI*>(pUI));
-
-	/*pUI = pGameInstance->Add_GameObject(LEVEL_STATIC, _uint(eLayerType), TEXT("Prototype_GameObject_UI_DeadScene"));
-	if (nullptr == pUI)
-		return E_FAIL;
-	else
-		CUI_Manager::GetInstance()->Add_UI(LEVEL_STATIC, static_cast<CUI*>(pUI));*/
-
 
 	Safe_Release(pGameInstance);
 	return S_OK;

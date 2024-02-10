@@ -127,6 +127,12 @@ private:
     HRESULT Bind_ShaderResources_CurrUpgradeItem_Grade();
     HRESULT Bind_ShaderResources_CurrUpgradeItemIcon();
     HRESULT Bind_ShaderResources_MaxGaugeEffect();
+    HRESULT Bind_ShaderResources_IngredientWnd_L();
+    HRESULT Bind_ShaderResources_IngredientWnd();
+    HRESULT Bind_ShaderResources_IngredientWnd_R();
+    HRESULT Bind_ShaderResources_Ingredient_L();
+    HRESULT Bind_ShaderResources_Ingredient();
+    HRESULT Bind_ShaderResources_Ingredient_R();
     HRESULT Bind_ShaderResources_IngredientSlotL();
     HRESULT Bind_ShaderResources_IngredientSlot();
     HRESULT Bind_ShaderResources_IngredientSlotR();
@@ -184,6 +190,12 @@ private:
     HRESULT Bind_ShaderResources_GradeEffectWnd_Second();
     HRESULT Bind_ShaderResources_GradeEffectWnd_Third();
     HRESULT Bind_ShaderResources_GradeEffectWnd_Fourth();
+    HRESULT Bind_ShaderResources_GradeEffectWnd_Fifth();
+    HRESULT Bind_ShaderResources_GradeEffectWnd_Sixth();
+    HRESULT Bind_ShaderResources_GradeEffectWnd_Seventh();
+    HRESULT Bind_ShaderResources_DragLine();
+    HRESULT Bind_ShaderResources_DragBar();
+
 
 private:
     //BaseWnd_Texture
@@ -204,6 +216,10 @@ private:
     CTexture* m_pTexture_ItemGrade = { nullptr };
     CTexture* m_pTexture_Item = { nullptr };//클론해서 받아옴
     CTexture* m_pTexture_IngredientSlot = { nullptr };
+    CTexture* m_pTexture_UpgradeStone = { nullptr };
+    CTexture* m_pTexture_LeapStone = { nullptr };
+    CTexture* m_pTexture_FusionStone = { nullptr };
+    CTexture* m_pTexture_Fragment = { nullptr };
     CTexture* m_pTexture_NpcSpeech_BackGround = { nullptr };
     CTexture* m_pTexture_NpcSpeech_Wnd = { nullptr };
     CTexture* m_pTexture_QuitButton = { nullptr };
@@ -223,7 +239,11 @@ private:
 
     //Side_R_Texture
     CTexture* m_pTexture_SideWnd = { nullptr };//Wnd
+    CTexture* m_pTexture_DestructionStone = { nullptr };
+    CTexture* m_pTexture_GuardianStone = { nullptr };
     CTexture* m_pTexture_GradeEffectWnd = { nullptr };
+    CTexture* m_pTexture_DragLine = { nullptr };
+    CTexture* m_pTexture_DragBar = { nullptr };
 
     //ResultWnd_Texture
     CTexture* m_pTexture_ResultEffect_Success = { nullptr };
@@ -258,6 +278,8 @@ private:
     CTransform* m_pTransform_QuitButton = { nullptr };
     CTransform* m_pTransform_Result = { nullptr };
     CTransform* m_pTransform_MaxGaugeEffect = { nullptr };
+    CTransform* m_pTransform_Ingredient[3] = { nullptr };
+    CTransform* m_pTransform_IngredientWnd[3] = { nullptr };
 
     //Side_L_Pannel
     CTransform* m_pTransform_SidePannel = { nullptr };
@@ -292,10 +314,9 @@ private:
 
     //Side_R_Pannel
     CTransform* m_pTransform_SideWnd = { nullptr };
-    CTransform* m_pTransform_GradeEffect_First = { nullptr };
-    CTransform* m_pTransform_GradeEffect_Second = { nullptr };
-    CTransform* m_pTransform_GradeEffect_Third = { nullptr };
-    CTransform* m_pTransform_GradeEffect_Fourth = { nullptr };
+    CTransform* m_pTransform_GradeEffect[7] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+    CTransform* m_pTransform_DragLine = { nullptr };
+    CTransform* m_pTransform_DragBar = { nullptr };
 
     //ResultWnd_Transform
     CTransform* m_pTransform_ResultEffect = { nullptr };
@@ -335,6 +356,10 @@ private:
 
     _uint   m_iCurrItem = { SELECTED_END };
 
+    _uint   m_TextureIndex_UpgradeStone = { 0 };
+    _uint   m_TextureIndex_LeapStone = { 0 };
+    _uint   m_TextureIndex_FusionStone = { 0 };
+
     _float   m_fItemGrowthCurrGauge = { 0.f };
     _float   m_fItemGrowthMaxGauge = { 100.f };
     _float  m_fItemGrowthRatio = { 0.f };
@@ -371,6 +396,7 @@ private:
     CTextBox*   m_pCurrItemNameWnd = { nullptr };
     CTextBox*   m_pCurrGaugeWnd = { nullptr };
     CTextBox*   m_pResultWnd = { nullptr };
+    CTextBox*   m_pAmountWnd = { nullptr };
     wstring     m_strTagItemsNameWnd;
     wstring     m_strTagNameWnd;
     wstring     m_strUpgradeGagueTag;
@@ -386,7 +412,6 @@ private:
 private:
     _bool   m_bDeActive = false;
     _float  m_fDeActiveAcc = 0.0f;
-
 
 public:
     static  CUI_NPC_ItemUpgrade* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

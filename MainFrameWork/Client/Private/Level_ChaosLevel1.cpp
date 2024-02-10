@@ -102,7 +102,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
-
+	CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Dead_Start"));
 	return S_OK;
 }
 
@@ -349,6 +349,12 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PartyUI"));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
+
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_UI_DeadScene"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else

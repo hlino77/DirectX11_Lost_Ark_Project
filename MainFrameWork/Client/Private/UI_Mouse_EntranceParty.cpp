@@ -151,9 +151,14 @@ void CUI_Mouse_EntranceParty::Set_Active_EntrancePartyWnd(_bool bActive, CPlayer
 	if (nullptr == pControlPlayer)
 		return;
 	m_pInvitedPlayer = pPlayer;
-	if(TEXT("Idle") != pControlPlayer->Get_State())
-		pControlPlayer->Set_State(TEXT("Idle"));
 
+	if ((TEXT("Dead_Start") != pControlPlayer->Get_State())&&(TEXT("Dead_End") != pControlPlayer->Get_State()))
+	{
+		if (TEXT("Idle") != pControlPlayer->Get_State())
+		{
+			pControlPlayer->Set_State(TEXT("Idle"));
+		}
+	}
 	m_bActive = bActive;
 	m_pTextBox->Set_Active(bActive);	
 	Set_UIPosition(bActive);

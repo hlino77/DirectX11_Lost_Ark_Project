@@ -298,6 +298,7 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 				if (false == m_pController->Is_GrabState() && false == m_pController->Is_Dead())
 				{
 					m_pController->Get_GrabMessage(pOther->Get_Owner());
+					Show_Damage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), false);
 				}
 			}
 

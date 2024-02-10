@@ -318,6 +318,7 @@ void CUI_Option_Video::Update_OptionVideo(_float fTimeDelta, class CUI* pUI, POI
 	Create_DragBar();
 	Is_Picking_CheckButton(pt);
 	Is_Picking_DragBar(pt);
+	Update_DragBar();
 }
 
 void CUI_Option_Video::Set_Active_Option(_bool bOption)
@@ -395,6 +396,90 @@ void CUI_Option_Video::Cancle_Option()
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
 }
 
+void CUI_Option_Video::Update_DragBar()
+{
+	_float	MouseMoveX;
+	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
+
+	if (m_bHolding[0])
+	{
+		if ((m_fDragLineMinX <= m_fDragBarX_IBL) && (m_fDragLineMaxX >= m_fDragBarX_IBL))
+			m_fDragBarX_IBL += MouseMoveX * 0.5f;
+		if (m_fDragLineMinX > m_fDragBarX_IBL)
+			m_fDragBarX_IBL = m_fDragLineMinX;
+		if (m_fDragLineMaxX < m_fDragBarX_IBL)
+			m_fDragBarX_IBL = m_fDragLineMaxX;
+
+		m_fRatioX[0] = (m_fDragBarX_IBL - m_fDragLineMinX) / m_fDragLineSizeX;
+		m_iIndex_IBL = (_uint)(22.f * m_fRatioX[0]);
+		CRenderer::Set_IBLTexture(m_iIndex_IBL);
+		Print_OptionText();
+	}
+
+	else if (m_bHolding[1])
+	{
+		if ((m_fDragLineMinX <= m_fDragBarX_SSR) && (m_fDragLineMaxX >= m_fDragBarX_SSR))
+			m_fDragBarX_SSR += MouseMoveX * 0.5f;
+		if (m_fDragLineMinX > m_fDragBarX_SSR)
+			m_fDragBarX_SSR = m_fDragLineMinX;
+		if (m_fDragLineMaxX < m_fDragBarX_SSR)
+			m_fDragBarX_SSR = m_fDragLineMaxX;
+
+		m_fRatioX[1] = (m_fDragBarX_SSR - m_fDragLineMinX) / m_fDragLineSizeX;
+		m_iIndex_SSR = (_uint)(6.f * m_fRatioX[1]);
+		Print_OptionText();
+	}
+
+	else if (m_bHolding[2])
+	{
+		if ((m_fDragLineMinX <= m_fDragBarX_ScreenTone_Grayscale) && (m_fDragLineMaxX >= m_fDragBarX_ScreenTone_Grayscale))
+			m_fDragBarX_ScreenTone_Grayscale += MouseMoveX * 0.5f;
+		if (m_fDragLineMinX > m_fDragBarX_ScreenTone_Grayscale)
+			m_fDragBarX_ScreenTone_Grayscale = m_fDragLineMinX;
+		if (m_fDragLineMaxX < m_fDragBarX_ScreenTone_Grayscale)
+			m_fDragBarX_ScreenTone_Grayscale = m_fDragLineMaxX;
+
+		m_fRatioX[2] = (m_fDragBarX_ScreenTone_Grayscale - m_fDragLineMinX) / m_fDragLineSizeX;
+		m_fScreenTone_Grayscale = (_uint)(255.f * m_fRatioX[2]);
+		Print_OptionText();
+	}
+	
+	else if (m_bHolding[3])
+	{
+		if ((m_fDragLineMinX <= m_fDragBarX_ScreenTone_Contrast) && (m_fDragLineMaxX >= m_fDragBarX_ScreenTone_Contrast))
+			m_fDragBarX_ScreenTone_Contrast += MouseMoveX * 0.5f;
+		if (m_fDragLineMinX > m_fDragBarX_ScreenTone_Contrast)
+			m_fDragBarX_ScreenTone_Contrast = m_fDragLineMinX;
+		if (m_fDragLineMaxX < m_fDragBarX_ScreenTone_Contrast)
+			m_fDragBarX_ScreenTone_Contrast = m_fDragLineMaxX;
+
+		m_fRatioX[3] = (m_fDragBarX_ScreenTone_Contrast - m_fDragLineMinX) / m_fDragLineSizeX;
+		m_fScreenTone_Contrast = (_uint)(255.f * m_fRatioX[3]);
+		Print_OptionText();
+	}
+
+	else if (m_bHolding[4])
+	{
+		if ((m_fDragLineMinX <= m_fDragBarX_ScreenTone_Saturation) && (m_fDragLineMaxX >= m_fDragBarX_ScreenTone_Saturation))
+			m_fDragBarX_ScreenTone_Saturation += MouseMoveX * 0.5f;
+		if (m_fDragLineMinX > m_fDragBarX_ScreenTone_Saturation)
+			m_fDragBarX_ScreenTone_Saturation = m_fDragLineMinX;
+		if (m_fDragLineMaxX < m_fDragBarX_ScreenTone_Saturation)
+			m_fDragBarX_ScreenTone_Saturation = m_fDragLineMaxX;
+
+		m_fRatioX[4] = (m_fDragBarX_ScreenTone_Saturation - m_fDragLineMinX) / m_fDragLineSizeX;
+		m_fScreenTone_Saturation = (_uint)(255.f * m_fRatioX[4]);
+		Print_OptionText();
+	}
+	if (KEY_AWAY(KEY::LBTN))
+	{
+		for (size_t i = 0; i < 5; i++)
+		{
+			m_bHolding[i] = false;
+		}
+	}
+}
+
 void CUI_Option_Video::Create_DragBar()
 {
 	//IBL
@@ -435,111 +520,55 @@ void CUI_Option_Video::Is_Picking_DragBar(POINT pt)
 
 void CUI_Option_Video::Is_Picking_DragBar_IBL(POINT pt)
 {
-	_float	MouseMoveX;
-	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	if (PtInRect(&m_rcDragBar[0], pt))
 	{
 		if (KEY_HOLD(KEY::LBTN))
 		{
-			if((m_fDragLineMinX <= m_fDragBarX_IBL)&&(m_fDragLineMaxX >= m_fDragBarX_IBL))
-				m_fDragBarX_IBL += MouseMoveX * 0.8f;
-			if (m_fDragLineMinX > m_fDragBarX_IBL)
-				m_fDragBarX_IBL = m_fDragLineMinX;
-			if (m_fDragLineMaxX < m_fDragBarX_IBL)
-				m_fDragBarX_IBL = m_fDragLineMaxX;
-
-			m_fRatioX[0] = (m_fDragBarX_IBL - m_fDragLineMinX ) / m_fDragLineSizeX;
-			m_iIndex_IBL = (_uint)(22.f * m_fRatioX[0]);
-			CRenderer::Set_IBLTexture(m_iIndex_IBL);
-			Print_OptionText();
+			m_bHolding[0] = true;
 		}
 	}
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_SSR(POINT pt)
 {
-	_float	MouseMoveX;
-	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	if (PtInRect(&m_rcDragBar[1], pt))
 	{
 		if (KEY_HOLD(KEY::LBTN))
 		{
-			if ((m_fDragLineMinX <= m_fDragBarX_SSR) && (m_fDragLineMaxX >= m_fDragBarX_SSR))
-				m_fDragBarX_SSR += MouseMoveX * 0.8f;
-			if (m_fDragLineMinX > m_fDragBarX_SSR)
-				m_fDragBarX_SSR = m_fDragLineMinX;
-			if (m_fDragLineMaxX < m_fDragBarX_SSR)
-				m_fDragBarX_SSR = m_fDragLineMaxX;
-
-			m_fRatioX[1] = (m_fDragBarX_SSR - m_fDragLineMinX) / m_fDragLineSizeX;
-			m_iIndex_SSR = (_uint)(6.f * m_fRatioX[1]);
-			Print_OptionText();
+			m_bHolding[1] = true;
 		}
 	}
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_ScreenTone_GBar(POINT pt)
 {
-	_float	MouseMoveX;
-	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	if (PtInRect(&m_rcDragBar[2], pt))
 	{
 		if (KEY_HOLD(KEY::LBTN))
 		{
-			if ((m_fDragLineMinX <= m_fDragBarX_ScreenTone_Grayscale) && (m_fDragLineMaxX >= m_fDragBarX_ScreenTone_Grayscale))
-				m_fDragBarX_ScreenTone_Grayscale += MouseMoveX * 0.8f;
-			if (m_fDragLineMinX > m_fDragBarX_ScreenTone_Grayscale)
-				m_fDragBarX_ScreenTone_Grayscale = m_fDragLineMinX;
-			if (m_fDragLineMaxX < m_fDragBarX_ScreenTone_Grayscale)
-				m_fDragBarX_ScreenTone_Grayscale = m_fDragLineMaxX;
-
-			m_fRatioX[2] = (m_fDragBarX_ScreenTone_Grayscale - m_fDragLineMinX) / m_fDragLineSizeX;
-			m_fScreenTone_Grayscale = (_uint)(255.f * m_fRatioX[2]);
-			Print_OptionText();
+			m_bHolding[2] = true;
 		}
 	}
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_ScreenTone_CBar(POINT pt)
 {
-	_float	MouseMoveX;
-	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	if (PtInRect(&m_rcDragBar[3], pt))
 	{
 		if (KEY_HOLD(KEY::LBTN))
 		{
-			if ((m_fDragLineMinX <= m_fDragBarX_ScreenTone_Contrast) && (m_fDragLineMaxX >= m_fDragBarX_ScreenTone_Contrast))
-				m_fDragBarX_ScreenTone_Contrast += MouseMoveX * 0.8f;
-			if (m_fDragLineMinX > m_fDragBarX_ScreenTone_Contrast)
-				m_fDragBarX_ScreenTone_Contrast = m_fDragLineMinX;
-			if (m_fDragLineMaxX < m_fDragBarX_ScreenTone_Contrast)
-				m_fDragBarX_ScreenTone_Contrast = m_fDragLineMaxX;
-
-			m_fRatioX[3] = (m_fDragBarX_ScreenTone_Contrast - m_fDragLineMinX) / m_fDragLineSizeX;
-			m_fScreenTone_Contrast = (_uint)(255.f * m_fRatioX[3]);
-			Print_OptionText();
+			m_bHolding[3] = true;
 		}
 	}
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_ScreenTone_SBar(POINT pt)
 {
-	_float	MouseMoveX;
-	MouseMoveX = (_float)CGameInstance::GetInstance()->Get_DIMMoveState(DIMM::DIMM_X);
 	if (PtInRect(&m_rcDragBar[4], pt))
 	{
 		if (KEY_HOLD(KEY::LBTN))
 		{
-			if ((m_fDragLineMinX <= m_fDragBarX_ScreenTone_Saturation) && (m_fDragLineMaxX >= m_fDragBarX_ScreenTone_Saturation))
-				m_fDragBarX_ScreenTone_Saturation += MouseMoveX * 0.8f;
-			if (m_fDragLineMinX > m_fDragBarX_ScreenTone_Saturation)
-				m_fDragBarX_ScreenTone_Saturation = m_fDragLineMinX;
-			if (m_fDragLineMaxX < m_fDragBarX_ScreenTone_Saturation)
-				m_fDragBarX_ScreenTone_Saturation = m_fDragLineMaxX;
-
-			m_fRatioX[4] = (m_fDragBarX_ScreenTone_Saturation - m_fDragLineMinX) / m_fDragLineSizeX;
-			m_fScreenTone_Saturation = (_uint)(255.f * m_fRatioX[4]);
-			Print_OptionText();
+			m_bHolding[4] = true;
 		}
 	}
 }

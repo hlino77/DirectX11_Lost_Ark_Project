@@ -31,6 +31,7 @@
 #include "Item_Manager.h"
 
 #include "Party.h"
+#include "Damage_Manager.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
@@ -948,6 +949,10 @@ void CPlayer::Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pIte
 			break;
 		}
 	}
+}
+void CPlayer::Show_Damage(_uint iDamage, _bool IsCritical)
+{
+	CDamage_Manager::GetInstance()->Print_DamageFont(this, 0.4f, 1.2f, 2.0f, IsCritical, iDamage);
 }
 _bool CPlayer::Is_CancelState()
 {

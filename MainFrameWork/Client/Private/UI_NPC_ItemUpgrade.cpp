@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Item.h"
 #include "ServerSessionManager.h"
+#include "Camera_Player.h"
+#include "UI_Manager.h"
 
 CUI_NPC_ItemUpgrade::CUI_NPC_ItemUpgrade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -134,6 +136,16 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_BaseWnd()
     m_pTransform_IngredientSlotR->Set_Scale(Vec3(93.f * 0.8f, 104.f * 0.8f, 1.f));
     m_pTransform_IngredientSlotR->Set_State(CTransform::STATE_POSITION,
         Vec3(((m_fX + 100.f)) - g_iWinSizeX * 0.5f, -(m_fY + 155.f) + g_iWinSizeY * 0.5f, 0.03f));
+    for (size_t i = 0; i < 3; i++)
+    {
+        m_pTransform_Ingredient[i]->Set_Scale(Vec3(64.f * 0.7f, 64.f * 0.7f, 1.f));
+        m_pTransform_Ingredient[i]->Set_State(CTransform::STATE_POSITION,
+            Vec3(((m_fX - 100.f) + 100.f * i) - g_iWinSizeX * 0.5f, -(m_fY + 155.f) + g_iWinSizeY * 0.5f, 0.03f));
+
+        m_pTransform_IngredientWnd[i]->Set_Scale(Vec3(64.f * 0.8f, 64.f * 0.8f, 1.f));
+        m_pTransform_IngredientWnd[i]->Set_State(CTransform::STATE_POSITION,
+            Vec3(((m_fX - 100.f) + 100.f * i) - g_iWinSizeX * 0.5f, -(m_fY + 155.f) + g_iWinSizeY * 0.5f, 0.03f));
+    }
     //m_pTransform_SidePannel
     m_pTransform_SidePannel->Set_Scale(Vec3(450.f * 0.8f, 728.f * 0.8f, 1.f));
     m_pTransform_SidePannel->Set_State(CTransform::STATE_POSITION,
@@ -153,7 +165,7 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_BaseWnd()
     //m_pTransform_QuitButton
     m_pTransform_QuitButton->Set_Scale(Vec3(205.f * 0.8f, 48.f * 0.8f, 1.f));
     m_pTransform_QuitButton->Set_State(CTransform::STATE_POSITION,
-        Vec3((m_fX + 700.f) - g_iWinSizeX * 0.5f, -(g_iWinSizeY - 24.f) + g_iWinSizeY * 0.5f, 0.03f));
+        Vec3((m_fX + 700.f) - g_iWinSizeX * 0.5f, -(g_iWinSizeY - 50.f) + g_iWinSizeY * 0.5f, 0.03f));
     //m_pTransform_Result
     m_pTransform_Result->Set_Scale(Vec3(1092.f, 581.f, 1.f));
     m_pTransform_Result->Set_State(CTransform::STATE_POSITION,
@@ -314,22 +326,21 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_L()
 
 HRESULT CUI_NPC_ItemUpgrade::Initialize_Transform_SidePannel_R()
 {
-    //m_pTransform_GradeEffect_First
-    m_pTransform_GradeEffect_First->Set_Scale(Vec3(323.f * 0.9f, 60.f, 1.f));
-    m_pTransform_GradeEffect_First->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX + 370.f)) - g_iWinSizeX * 0.5f, -(m_fY - 190.f) + g_iWinSizeY * 0.5f, 0.03f));
-    //m_pTransform_GradeEffect_Second
-    m_pTransform_GradeEffect_Second->Set_Scale(Vec3(323.f * 0.9f, 60.f, 1.f));
-    m_pTransform_GradeEffect_Second->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX + 370.f)) - g_iWinSizeX * 0.5f, -(m_fY - 125.f) + g_iWinSizeY * 0.5f, 0.03f));
-    //m_pTransform_GradeEffect_Third
-    m_pTransform_GradeEffect_Third->Set_Scale(Vec3(323.f * 0.9f, 60.f, 1.f));
-    m_pTransform_GradeEffect_Third->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX + 370.f)) - g_iWinSizeX * 0.5f, -(m_fY - 60.f) + g_iWinSizeY * 0.5f, 0.03f));
-    //m_pTransform_GradeEffect_Fourth
-    m_pTransform_GradeEffect_Fourth->Set_Scale(Vec3(323.f * 0.9f, 60.f, 1.f));
-    m_pTransform_GradeEffect_Fourth->Set_State(CTransform::STATE_POSITION,
-        Vec3(((m_fX + 370.f)) - g_iWinSizeX * 0.5f, -(m_fY + 5.f) + g_iWinSizeY * 0.5f, 0.03f));
+    for (size_t i = 0; i < 7; i++)
+    {
+        m_pTransform_GradeEffect[i]->Set_Scale(Vec3(323.f * 0.9f, 60.f, 1.f));
+        m_pTransform_GradeEffect[i]->Set_State(CTransform::STATE_POSITION,
+            Vec3(((m_fX + 370.f)) - g_iWinSizeX * 0.5f, -(m_fY - 190.f + (65 * i)) + g_iWinSizeY * 0.5f, 0.03f));
+    }
+
+    //m_pTransform_DragLine
+    m_pTransform_DragLine->Set_Scale(Vec3(22.f * 0.9f, 199.f * 2.2f, 1.f));
+    m_pTransform_DragLine->Set_State(CTransform::STATE_POSITION,
+        Vec3(((m_fX + 530.f)) - g_iWinSizeX * 0.5f, -(m_fY) + g_iWinSizeY * 0.5f, 0.03f));
+    //m_pTransform_DragBar
+    m_pTransform_DragBar->Set_Scale(Vec3(18 * 0.8f, 199.f, 1.f));
+    m_pTransform_DragBar->Set_State(CTransform::STATE_POSITION,
+        Vec3(((m_fX + 530.f)) - g_iWinSizeX * 0.5f, -(m_fY)+g_iWinSizeY * 0.5f, 0.03f));
 
     return S_OK;
 }
@@ -378,6 +389,13 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
         m_fDeActiveAcc += fTimeDelta;
         if (0.5f <= m_fDeActiveAcc)
         {
+            CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.f, false);
+            CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
+            for (auto& iter : pUI->Get_UIParts())
+            {
+                iter->Set_Active(false);
+            }
+
             m_fDeActiveAcc = 0.0f;
             m_bDeActive = false;
             Reset_Player_Control();
@@ -517,6 +535,36 @@ HRESULT CUI_NPC_ItemUpgrade::Render()
     if (FAILED(Bind_ShaderResources_CurrUpgradeItemIcon()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_IngredientWnd_L()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_IngredientWnd()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_IngredientWnd_R()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_Ingredient_L()))
+        return E_FAIL;
+    m_pShaderCom->Begin(2);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_Ingredient()))
+        return E_FAIL;
+    m_pShaderCom->Begin(2);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_Ingredient_R()))
+        return E_FAIL;
+    m_pShaderCom->Begin(2);
     m_pVIBufferCom->Render();
 
     if (FAILED(Bind_ShaderResources_IngredientSlotL()))
@@ -660,6 +708,12 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
         Print_WeaponItemNameWnd();
         Print_WeaponItemGradeLevelWnd();
         Print_CurrGauge();
+    }
+    CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.f, false);
+    CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
+    for (auto& iter : pUI->Get_UIParts())
+    {
+        iter->Set_Active(false);
     }
 }
 
@@ -1155,10 +1209,10 @@ void CUI_NPC_ItemUpgrade::Update_Hammer_Aura(_float fTimeDelta)
 
 void CUI_NPC_ItemUpgrade::Update_Gague_Smoke(_float fTimeDelta)
 {
-    if (43.f >= m_fFrame_Smoke)
+    if (55.f >= m_fFrame_Smoke)
         m_fFrame_Smoke += min(1.0f, 20.f * fTimeDelta);
 
-    if (43.f < m_fFrame_Smoke)
+    if (55.f < m_fFrame_Smoke)
         m_fFrame_Smoke = 0.f;
 }
 
@@ -1476,8 +1530,8 @@ void CUI_NPC_ItemUpgrade::Print_CurrItemNameWnd()
         m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("-4"), m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f, ((98.f * 0.8f) * 0.5f) - 11.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
         m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd, m_strFont, m_strCurrItemName, Vec2((566.f * 0.8f) * 0.5f, ((98.f * 0.8f) * 0.5f) - 10.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, vGradeColor);
 
-        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("_CurrLevel"), m_strFont, to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel()) +TEXT(" ¥‹∞Ë"), Vec2((566.f * 0.8f) * 0.5f - 28.f, ((98.f * 0.8f) * 0.5f) + 12.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
-        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("_NextLevel"), m_strFont, to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel() + 1) + TEXT(" ¥‹∞Ë"), Vec2((566.f * 0.8f) * 0.66f, ((98.f * 0.8f) * 0.5f) + 12.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, Vec4(0.67f, 0.85f, 0.18f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("_CurrLevel"), m_strFont, to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel()) +TEXT(" ¥‹∞Ë"), Vec2((566.f * 0.8f) * 0.5f - 100.f, ((98.f * 0.8f) * 0.5f)), Vec2(0.5f, 0.5f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pCurrItemNameWnd->Set_Text(m_strTagNameWnd + TEXT("_NextLevel"), m_strFont, to_wstring(m_pCurrUpgradeItem->Get_UpgradeLevel() + 1) + TEXT(" ¥‹∞Ë"), Vec2((566.f * 0.8f) * 0.5f + 50.f, ((98.f * 0.8f) * 0.5f)), Vec2(0.5f, 0.5f), Vec2(0.f, 0.f), 0.f, Vec4(0.67f, 0.85f, 0.18f, 1.f));
     }
 }
 
@@ -1513,11 +1567,11 @@ void CUI_NPC_ItemUpgrade::Print_FaceItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f -1, (30.f * 3.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f +1, (30.f * 3.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f, (30.f * 3.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f, (30.f * 3.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.5f, (30.f * 3.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.4f -1, (30.f * 3.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.4f +1, (30.f * 3.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.4f, (30.f * 3.f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.4f, (30.f * 3.f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::FACE], Vec2((323.f * 0.9f) * 0.4f, (30.f * 3.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1533,7 +1587,7 @@ void CUI_NPC_ItemUpgrade::Print_FaceItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 3.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_FaceGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.4f, (30.f * 2.5f)), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -1565,11 +1619,11 @@ void CUI_NPC_ItemUpgrade::Print_HelemetItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f, (30.f * 5.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f, (30.f * 5.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.5f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.4f +1.f, (30.f * 5.2f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.4f -1.f, (30.f * 5.2f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.4f, (30.f * 5.2f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.4f, (30.f * 5.2f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::HELMET], Vec2((323.f * 0.9f) * 0.4f, (30.f * 5.2f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1585,7 +1639,7 @@ void CUI_NPC_ItemUpgrade::Print_HelmetItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 5.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_HelmetGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.4f, (30.f * 4.7f)), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -1617,11 +1671,11 @@ void CUI_NPC_ItemUpgrade::Print_ShoulderItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 7.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 7.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f, (30.f * 7.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f, (30.f * 7.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.5f, (30.f * 7.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.4f +1.f, (30.f * 7.1f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.4f -1.f, (30.f * 7.1f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.4f, (30.f * 7.1f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.4f, (30.f * 7.1f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::SHOULDER], Vec2((323.f * 0.9f) * 0.4f, (30.f * 7.1f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1637,7 +1691,7 @@ void CUI_NPC_ItemUpgrade::Print_ShoulderItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 7.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ShoulderGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.4f, (30.f * 6.6f)), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -1669,11 +1723,11 @@ void CUI_NPC_ItemUpgrade::Print_BodyItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 9.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 9.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f, (30.f * 9.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f, (30.f * 9.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.5f, (30.f * 9.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.4f +1.f, (30.f * 9.3f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.4f -1.f, (30.f * 9.3f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.4f, (30.f * 9.3f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.4f, (30.f * 9.3f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::BODY], Vec2((323.f * 0.9f) * 0.4f, (30.f * 9.3f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1689,7 +1743,7 @@ void CUI_NPC_ItemUpgrade::Print_BodyItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 9.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_BodyGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.4f, (30.f * 8.8f)), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -1721,11 +1775,11 @@ void CUI_NPC_ItemUpgrade::Print_ArmItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f +1.f, (30.f * 11.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f -1.f, (30.f * 11.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f, (30.f * 11.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f, (30.f * 11.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.5f, (30.f * 11.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.4f +1.f, (30.f * 12.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.4f -1.f, (30.f * 12.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.4f, (30.f * 12.f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.4f, (30.f * 12.f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::ARM], Vec2((323.f * 0.9f) * 0.4f, (30.f * 12.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1741,7 +1795,7 @@ void CUI_NPC_ItemUpgrade::Print_ArmItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 11.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_ArmGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.4f, (30.f * 11.f)), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -1773,11 +1827,11 @@ void CUI_NPC_ItemUpgrade::Print_LegItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f+1.f, (30.f * 13.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f-1.f, (30.f * 13.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 13.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 13.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 13.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f + 1.f, (30.f * 14.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f - 1.f, (30.f * 14.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f, (30.f * 14.f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f, (30.f * 14.f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f, (30.f * 14.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1793,7 +1847,7 @@ void CUI_NPC_ItemUpgrade::Print_LegItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 13.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_LegGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.4f, (30.f * 13.2f)), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -1825,11 +1879,11 @@ void CUI_NPC_ItemUpgrade::Print_WeaponItemNameWnd()
             vGradeColor = Vec4(0.83f, 0.24f, 0.f, 1.f);
             break;
         }
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f + 1.f, (30.f * 15.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f - 1.f, (30.f * 15.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) + 14.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) + 16.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) + 15.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, vGradeColor);
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-1"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f + 1.f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-2"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f - 1.f, (30.f * 5.f) + 15.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-3"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f, (30.f * 15.f) + 4.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem-4"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f, (30.f * 15.f) + 6.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.f, 0.f, 0.f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponItem"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), m_strItemsName[(_uint)CItem::PART::LEG], Vec2((323.f * 0.9f) * 0.4f, (30.f * 15.f) + 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, vGradeColor);
     }
 }
 
@@ -1845,7 +1899,7 @@ void CUI_NPC_ItemUpgrade::Print_WeaponItemGradeLevelWnd()
         else
             strItemGradeLevel = TEXT("");
 
-        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.55f, (30.f * 15.f) - 5.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
+        m_pItemNameWnd->Set_Text(m_strTagItemsNameWnd + TEXT("_WeaponGradeLevel"), TEXT("≥ÿΩºLv1∞ÌµÒBold"), strItemGradeLevel, Vec2((323.f * 0.9f) * 0.5f, (30.f * 15.f) - 5.f), Vec2(0.3f, 0.3f), Vec2(0.f, 0.f), 0.f, Vec4(0.86f, 0.65f, 0.3f, 1.f));
     }
 }
 
@@ -2014,6 +2068,22 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Ingredient"),
         TEXT("Com_Texture_IngredientSlot"), (CComponent**)&m_pTexture_IngredientSlot)))
         return E_FAIL;
+    //m_pTexture_UpgradeStone
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Upgrade_stone"),
+        TEXT("Com_Texture_UpgradeStone"), (CComponent**)&m_pTexture_UpgradeStone)))
+        return E_FAIL;
+    //m_pTexture_Fragment
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Fragment"),
+        TEXT("Com_Texture_Fragment"), (CComponent**)&m_pTexture_Fragment)))
+        return E_FAIL;
+    //m_pTexture_FusionStone
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Fusion_stone"),
+        TEXT("Com_Texture_FusionStone"), (CComponent**)&m_pTexture_FusionStone)))
+        return E_FAIL;
+    //m_pTexture_LeapStone
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_leap_stone"),
+        TEXT("Com_Texture_LeapStone"), (CComponent**)&m_pTexture_LeapStone)))
+        return E_FAIL;
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Upgrade_Side_Pannel"),
         TEXT("Com_Texture_SidePannel"), (CComponent**)&m_pTexture_SidePannel)))
         return E_FAIL;
@@ -2153,6 +2223,18 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components()
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
         TEXT("Com_Transform_ResultTextEffect"), (CComponent**)&m_pTransform_ResultTextEffect)))
         return E_FAIL;
+    //m_pTransform_Ingredient
+    //m_pTransform_IngredientWnd
+    for (size_t i = 0; i < 3; i++)
+    {
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+            TEXT("Com_Transform_Ingredient") + to_wstring(i), (CComponent**)&m_pTransform_Ingredient[i])))
+            return E_FAIL;
+
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+            TEXT("Com_Transform_IngredientWnd") + to_wstring(i), (CComponent**)&m_pTransform_IngredientWnd[i])))
+            return E_FAIL;
+    }
 
     if (FAILED(Ready_Components_SidePannel_L()))
         return E_FAIL;
@@ -2268,23 +2350,34 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_Components_SidePannel_L()
 
 HRESULT CUI_NPC_ItemUpgrade::Ready_Components_SidePannel_R()
 {
+    //m_pTexture_GradeEffectWnd
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_ListFrame"),
         TEXT("Com_Texturem_GradeEffectWnd"), (CComponent**)&m_pTexture_GradeEffectWnd)))
         return E_FAIL;
-
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-        TEXT("Com_Transform_GradeEffect_First"), (CComponent**)&m_pTransform_GradeEffect_First)))
+    //m_pTexture_DragLine
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_DragLine"),
+        TEXT("Com_Texturem_DragLine"), (CComponent**)&m_pTexture_DragLine)))
         return E_FAIL;
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-        TEXT("Com_Transform_GradeEffect_Second"), (CComponent**)&m_pTransform_GradeEffect_Second)))
+    //m_pTexture_DragBar
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_DragBar"),
+        TEXT("Com_Texturem_DragBar"), (CComponent**)&m_pTexture_DragBar)))
         return E_FAIL;
+  
+    //m_pTransform_GradeEffect
+    for (size_t i = 0; i < 7; i++)
+    {
+        if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
+            TEXT("Com_Transform_GradeEffect") + to_wstring(i), (CComponent**)&m_pTransform_GradeEffect[i])))
+            return E_FAIL;
+    }
+    //m_pTransform_DragLine
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-        TEXT("Com_Transform_GradeEffect_Third"), (CComponent**)&m_pTransform_GradeEffect_Third)))
+        TEXT("Com_Transform_DragLine"), (CComponent**)&m_pTransform_DragLine)))
         return E_FAIL;
+    //m_pTransform_DragBar
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
-        TEXT("Com_Transform_GradeEffect_Fourth"), (CComponent**)&m_pTransform_GradeEffect_Fourth)))
+        TEXT("Com_Transform_DragBar"), (CComponent**)&m_pTransform_DragBar)))
         return E_FAIL;
-    
     return S_OK;
 }
 
@@ -2666,6 +2759,108 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_MaxGaugeEffect()
         if (FAILED(m_pTexture_None->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
             return E_FAIL;
     }
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_IngredientWnd_L()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_IngredientWnd[0]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture",2)))
+        return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_IngredientWnd()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_IngredientWnd[1]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture",2)))
+        return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_IngredientWnd_R()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_IngredientWnd[2]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_ItemGrade->Set_SRV(m_pShaderCom, "g_DiffuseTexture", 2)))
+        return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_Ingredient_L()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_Ingredient[0]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_UpgradeStone->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_Ingredient()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_Ingredient[1]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_LeapStone->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_Ingredient_R()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_Ingredient[2]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+    if (FAILED(m_pTexture_FusionStone->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -3903,12 +4098,37 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_R()
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
+    if (FAILED(Bind_ShaderResources_GradeEffectWnd_Fifth()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_GradeEffectWnd_Sixth()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_GradeEffectWnd_Seventh()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_DragLine()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
+    if (FAILED(Bind_ShaderResources_DragBar()))
+        return E_FAIL;
+    m_pShaderCom->Begin(0);
+    m_pVIBufferCom->Render();
+
     return S_OK;
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_First()
 {
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect_First->Get_WorldMatrix())))
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[0]->Get_WorldMatrix())))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
@@ -3926,7 +4146,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_First()
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Second()
 {
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect_Second->Get_WorldMatrix())))
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[1]->Get_WorldMatrix())))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
@@ -3944,7 +4164,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Second()
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Third()
 {
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect_Third->Get_WorldMatrix())))
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[2]->Get_WorldMatrix())))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
@@ -3962,7 +4182,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Third()
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Fourth()
 {
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect_Fourth->Get_WorldMatrix())))
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[3]->Get_WorldMatrix())))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
@@ -3977,6 +4197,99 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Fourth()
     return E_FAIL;
 
     return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Fifth()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[4]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Sixth()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[5]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_GradeEffectWnd_Seventh()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_GradeEffect[6]->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (FAILED(m_pTexture_GradeEffectWnd->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_DragLine()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_DragLine->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (FAILED(m_pTexture_DragLine->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_DragBar()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_DragBar->Get_WorldMatrix())))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+        return E_FAIL;
+
+    if (FAILED(m_pTexture_DragBar->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+        return E_FAIL;
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_CurrItem()
@@ -4065,10 +4378,16 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    m_pItemNameWnd->Set_Dead(true);
-    m_pCurrItemNameWnd->Set_Dead(true);
-    m_pCurrGaugeWnd->Set_Dead(true);
-    m_pResultWnd->Set_Dead(true);
+    if(nullptr != m_pItemNameWnd)
+        m_pItemNameWnd->Set_Dead(true);
+    if (nullptr != m_pCurrItemNameWnd)
+        m_pCurrItemNameWnd->Set_Dead(true);
+    if (nullptr != m_pCurrGaugeWnd)
+        m_pCurrGaugeWnd->Set_Dead(true);
+    if (nullptr != m_pResultWnd)
+        m_pResultWnd->Set_Dead(true);
+    if(nullptr != m_pAmountWnd)
+        m_pAmountWnd->Set_Dead(true);
 
     Safe_Release(m_pTexture_None);
     Safe_Release(m_pTexture_HammerCap);
@@ -4103,6 +4422,10 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTexture_ResultCheckButton);
     Safe_Release(m_pTexture_ResultItem);
     Safe_Release(m_pTexture_ResultTextEffect);
+    Safe_Release(m_pTexture_Fragment);
+    Safe_Release(m_pTexture_UpgradeStone);
+    Safe_Release(m_pTexture_FusionStone);
+    Safe_Release(m_pTexture_LeapStone);
 
     Safe_Release(m_pTransform_HammerCap);
     Safe_Release(m_pTransform_HammerEffect);
@@ -4132,6 +4455,11 @@ void CUI_NPC_ItemUpgrade::Free()
     Safe_Release(m_pTransform_ResultItem);
     Safe_Release(m_pTransform_ResultCheckButton);
     Safe_Release(m_pTransform_ResultTextEffect);
+    for (size_t i = 0; i < 3; i++)
+    {
+        Safe_Release(m_pTransform_Ingredient[i]);
+        Safe_Release(m_pTransform_IngredientWnd[i]);
+    }
 
     Free_Side_Pannel_L();
     Free_Side_Pannel_R();
@@ -4184,9 +4512,12 @@ void CUI_NPC_ItemUpgrade::Free_Side_Pannel_R()
 {
     Safe_Release(m_pTexture_GradeEffectWnd);
 
-    Safe_Release(m_pTransform_GradeEffect_First);
-    Safe_Release(m_pTransform_GradeEffect_Second);
-    Safe_Release(m_pTransform_GradeEffect_Third);
-    Safe_Release(m_pTransform_GradeEffect_Fourth);
-
+    for (size_t i = 0; i < 7; i++)
+    {
+        Safe_Release(m_pTransform_GradeEffect[i]);
+    }
+    Safe_Release(m_pTexture_DragLine);
+    Safe_Release(m_pTexture_DragBar);
+    Safe_Release(m_pTransform_DragLine);
+    Safe_Release(m_pTransform_DragBar);
 }
