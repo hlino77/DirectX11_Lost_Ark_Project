@@ -19,6 +19,10 @@
 
 #include "Camera_Cut.h"
 
+_bool	CEsther_Cut::m_bShot = false;
+_bool	CEsther_Cut::m_bTimeFrame = false;
+_bool	CEsther_Cut::m_bActionFrame = false;
+
 CEsther_Cut::CEsther_Cut(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Esther_Cut", OBJ_TYPE::ESTHER)
 {
@@ -53,9 +57,6 @@ HRESULT CEsther_Cut::Initialize(void* pArg)
 void CEsther_Cut::Tick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-	if (nullptr != m_pPart)
-		m_pPart->Tick(fTimeDelta);
 }
 
 void CEsther_Cut::LateTick(_float fTimeDelta)
@@ -66,12 +67,15 @@ void CEsther_Cut::LateTick(_float fTimeDelta)
 	m_pModelCom->Set_ToRootPos(m_pTransformCom);
 
 	if (nullptr != m_pPart)
-		m_pPart->LateTick(fTimeDelta);
-
+		m_pPart->Tick(fTimeDelta);
+	
 	if (m_bRender)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 	}
+
+	if (nullptr != m_pPart)
+		m_pPart->LateTick(fTimeDelta);
 
 	if (m_bRimLight)
 	{
@@ -89,18 +93,8 @@ HRESULT CEsther_Cut::Render()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return S_OK;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &Get_TransformCom()->Get_WorldMatrix(), sizeof(Matrix))))
-		return E_FAIL;
-
-	GlobalDesc gDesc = {
-		m_pCutCamera->Get_TransformCom()->Get_WorldMatrixInverse(),
-		m_pCutCamera->Get_ProjMatrix(),
-		m_pCutCamera->Get_TransformCom()->Get_WorldMatrixInverse() * m_pCutCamera->Get_ProjMatrix(),
-		m_pCutCamera->Get_TransformCom()->Get_WorldMatrix()
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
-		return E_FAIL;
+	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
+		return S_OK;
 
 	_float fRimLight = (_float)m_bRimLight;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLight, sizeof(_float))))
@@ -155,6 +149,48 @@ HRESULT CEsther_Cut::Ready_Components()
 HRESULT CEsther_Cut::Ready_Parts()
 {
 	return S_OK;
+}
+
+void CEsther_Cut::Set_ShotState(_bool bShoot)
+{
+	if (true == bShoot)
+	{
+		m_bShot = true;
+		MessageBox(g_hWnd, L"스크린샷 활성화", L"확인", MB_OK);
+	}
+	else
+	{
+		m_bShot = false;
+		MessageBox(g_hWnd, L"스크린샷 비활성화", L"확인", MB_OK);
+	}
+}
+
+void CEsther_Cut::Set_ActionFrame(_bool bAction)
+{
+	if (true == bAction)
+	{
+		m_bActionFrame = true;
+		m_fSaveAcc = 0.0f;
+		MessageBox(g_hWnd, L"액션프레임저장 활성화", L"확인", MB_OK);
+	}
+	else
+	{
+		m_bActionFrame = false;
+		m_fSaveAcc = 0.0f;
+	}
+}
+
+void CEsther_Cut::Set_TimeFrame(_bool bTime)
+{
+	if (true == bTime)
+	{
+		m_bTimeFrame = true;
+		MessageBox(g_hWnd, L"타임프레임저장 활성화", L"확인", MB_OK);
+	}
+	else
+	{
+		m_bTimeFrame = false;
+	}
 }
 
 void CEsther_Cut::Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist, _bool bRootRot, _bool bReverse, _bool bUseY, _bool bIgnoreRoot)

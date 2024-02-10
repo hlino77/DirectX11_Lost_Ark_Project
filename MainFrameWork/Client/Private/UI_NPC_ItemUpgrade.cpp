@@ -49,10 +49,10 @@ HRESULT CUI_NPC_ItemUpgrade::Initialize(void* pArg)
     {
         m_pEquips[i] = { nullptr };
     }
-    Set_Active_UpGrade(true);
+
     if (FAILED(Initialize_TextBox()))
         return E_FAIL;
-
+    Set_Active_UpGrade(true);
 
     m_bActive = false;
 
@@ -818,6 +818,8 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         m_pItemNameWnd->Set_Active(false);
         m_pResultWnd->Set_Active(false);
         m_bDeActive = true;
+        CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
+        CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM, 0.5f);
     }
 }
 
@@ -4065,8 +4067,8 @@ void CUI_NPC_ItemUpgrade::Free()
 
     m_pItemNameWnd->Set_Dead(true);
     m_pCurrItemNameWnd->Set_Dead(true);
-    m_pItemNameWnd->Set_Dead(true);
     m_pCurrGaugeWnd->Set_Dead(true);
+    m_pResultWnd->Set_Dead(true);
 
     Safe_Release(m_pTexture_None);
     Safe_Release(m_pTexture_HammerCap);

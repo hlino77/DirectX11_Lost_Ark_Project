@@ -11,7 +11,9 @@ class ENGINE_DLL CPlayer_Controller abstract : public CComponent
 public:
 	enum SKILL_KEY { SPACE, Q, W, E, R, A, S, D, F, Z, _END };
 	enum HIT_TYPE { WEAK, DMG, DOWN, KNOCKDOWN, BOUND, TWIST, TYPE_END };
+
 	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, SILENCE, _END };
+	enum class BUFFEFFECT { HALFDAMAGE, MANAREFILL, STIIFIMMUNE, _END };
 
 public:
 	typedef struct tagControllerDesc
@@ -50,7 +52,7 @@ public:
 	_bool				Is_Interect();
 	_bool				Is_Dash();
 	_bool				Is_Attack();
-	_bool				Is_EstherSkill();
+	virtual _bool		Is_EstherSkill() PURE;
 
 	virtual void		Get_MoveMessage(Vec3 vPos);  
 	virtual void		Get_MoveSpeedMessage(_float fSpeed) { m_fMoveSpeed = fSpeed; }
@@ -90,6 +92,8 @@ public:
 	virtual void		Get_EstherGageAddMessage(_uint iGage) { m_iCurEstherGage += iGage; }
 	virtual void		Get_EstherMessage(_uint iIndex) { EstherSkill(iIndex); }
 
+	virtual void		Get_BuffMessage(_uint iBuffStatus, _float fAmount, _float fDurtaion);
+
 public:
 	_bool				Is_Stop() { return m_bMoveStop; }
 	_bool				Is_HitState() { return m_IsHitState; }
@@ -125,11 +129,12 @@ public:
 	HIT_TYPE				Get_HitType() { return m_eHitType; }
 	_float					Get_Forced() { return m_fForced; }
 	_uint					Get_Damaged() { return m_iDamaged; }
+	int64					Get_CalculateDamaged() { return m_iCalculateDamaged; }
 
 	CGameObject*			Get_Grabber() { return m_pGrabber; }
 	_bool					Is_GrabState() { return m_IsGrabState; }
 
-	_uint					Get_CurStatus() { return m_iStatusEffect; }
+	_bool					Get_StatusEffect_State(_uint iStatusEffect) { return m_bStatusEffect[iStatusEffect]; }
 
 	class CPlayer_Skill*	Find_Skill(wstring strSkillName) { return m_Skills.find(strSkillName)->second; }
 	const void				Set_SkilltoCtrl(wstring strSkillName, class CPlayer_Skill* pSkill) {  m_Skills.emplace(strSkillName, pSkill); }
@@ -157,6 +162,7 @@ protected:
 	virtual void			Skill_ChangeStat_CoolTime(const _float& fTimeDelta);
 	virtual void			Skill_Check_Collider();
 
+	/* 상태이상 */
 	virtual void			StatusEffect_Duration(const _float& fTimeDelta);
 	virtual void			Bug();
 	virtual void			Fear();
@@ -164,6 +170,12 @@ protected:
 	virtual void			Shock();
 	virtual void			Stun();
 	virtual void			Silence();
+
+	/* 버프 */
+	virtual void			BuffEffect_Duration(const _float& fTimeDelta);
+	virtual void			HalfDamage(_float fAmount);
+	virtual void			ManaRefill(_float fAmount);
+	virtual void			StiffImmune(_float fAmount);
 
 	virtual void			EstherSkill(_uint iIndex) {};
 	virtual void			Refill_Mana(_float fTimeDelta);
@@ -181,9 +193,15 @@ protected:
 	_bool					m_bMouseActive = { true };
 	_bool					m_bSkillKeyActive = { true };
 
-	_int					m_iStatusEffect = { -1 };
+	/* 상태이상 변수 */
 	_bool					m_bStatusEffect[(_uint)STATUSEFFECT::_END];
 	_float					m_fStatusDuration[(_uint)STATUSEFFECT::_END];
+
+	/* 버프 변수 */
+	_bool					m_bBuffEffect[(_uint)BUFFEFFECT::_END];
+	_float					m_fBuffDuration[(_uint)BUFFEFFECT::_END];
+	_float					m_fBuffAmount[(_uint)BUFFEFFECT::_END];
+
 
 	/* 플레이어 Tick 움직임 */
 	_bool					m_bStop = { false };
@@ -201,6 +219,7 @@ protected:
 	/* 플레이어 히트 변수*/
 	HIT_TYPE				m_eHitType = { HIT_TYPE::TYPE_END };
 	_uint					m_iDamaged = { 0 };
+	int64					m_iCalculateDamaged = { 0 };
 	_float					m_fForced = { 0.f };
 	Vec3					m_vHitColiPos;
 	_bool					m_IsHitState = { false };

@@ -186,6 +186,36 @@ void CController_MG::DebugRender()
 {
 }
 
+_bool CController_MG::Is_EstherSkill()
+{
+	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
+		return false;
+
+	if (m_iCurEstherGage < m_iMaxEstherGage)
+		return false;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 0;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 1;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 2;
+		return true;
+	}
+
+	return false;
+}
+
 void CController_MG::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
 	if (true == m_IsDead)

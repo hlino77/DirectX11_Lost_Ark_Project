@@ -30,6 +30,8 @@
 #include "Item.h"
 #include "Item_Manager.h"
 
+#include "Party.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Player", OBJ_TYPE::PLAYER)
 {
@@ -453,6 +455,21 @@ void CPlayer::Get_Picking_NonePlayer()
 	}
 	m_IsClickPlayer = false;
 	CUI_Manager::GetInstance()->Set_EntranceParty_Player(m_IsClickPlayer, nullptr);
+}
+
+_bool CPlayer::Is_PartyLeader()
+{
+	if (nullptr == m_pParty)
+		return false;
+
+	if (m_pParty->Get_PartyMembers().front() == m_iObjectID)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 HRESULT CPlayer::Add_Item(wstring strItemTag, CItem* pItem)

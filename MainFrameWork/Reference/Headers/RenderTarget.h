@@ -21,7 +21,7 @@ public:
 	HRESULT Clear();
 	HRESULT	Bind_SRV(class CShader* pShader, const _char* pConstantName);
 	HRESULT Make_TextureFile(const wstring& szPath);
-
+	HRESULT Make_WinTextureFile(const wstring& szPath);
 
 
 public:

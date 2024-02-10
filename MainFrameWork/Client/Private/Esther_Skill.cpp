@@ -59,9 +59,6 @@ void CEsther_Skill::Tick(_float fTimeDelta)
 	}
 
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
-
-	if (nullptr != m_pPart)
-		m_pPart->Tick(fTimeDelta);
 }
 
 void CEsther_Skill::LateTick(_float fTimeDelta)
@@ -70,6 +67,9 @@ void CEsther_Skill::LateTick(_float fTimeDelta)
 		m_PlayAnimation.get();
 
 	m_pModelCom->Set_ToRootPos(m_pTransformCom);
+
+	if (nullptr != m_pPart)
+		m_pPart->Tick(fTimeDelta);
 
 	CullingObject();
 

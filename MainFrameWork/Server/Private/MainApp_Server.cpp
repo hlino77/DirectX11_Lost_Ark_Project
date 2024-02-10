@@ -40,7 +40,8 @@ HRESULT CMainApp_Server::Initialize()
 	CServerPacketHandler::Init();
 
 	wstring strIP = L"127.0.0.1";//L"192.168.0.30";
-	ServerServiceRef service = std::make_shared<ServerService>(
+	ServerServiceRef service = std::make_shared<ServerService>
+		(
 		NetAddress(strIP, 7777),
 		std::make_shared<IocpCore>(),
 		std::make_shared<CGameSession>, // TODO : SessionManager µî

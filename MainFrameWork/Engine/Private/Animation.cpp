@@ -146,6 +146,8 @@ void CAnimation::Set_Enforce_Frame(_uint iFrame)
 	m_tKeyDesc.iNextFrame = (m_tKeyDesc.iCurrFrame + 1) % m_iFrameCount;
 	m_tKeyDesc.fRatio = 0.0f;
 	m_tKeyDesc.fSumTime = 0.0f;
+
+	m_bEnd = false;
 }
 
 HRESULT CAnimation::Make_KeyframeData(vector<shared_ptr<ModelKeyframe>>& KeyFrames)

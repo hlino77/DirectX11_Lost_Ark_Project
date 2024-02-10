@@ -26,6 +26,7 @@ HRESULT CState_SP_Fall::Initialize()
 
 void CState_SP_Fall::Enter_State()
 {
+	m_pController->Get_DeadMessage();
 	m_pController->Get_HitEndMessage();
 
 	m_pPlayer->Set_AnimationSpeed(0.0f);
@@ -56,7 +57,8 @@ void CState_SP_Fall::Enter_State()
 	tPcDesc.iCurHp = 0;
 	m_pPlayer->Set_PlayerStat_Desc(tPcDesc);
 
-	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
+	if (true == m_pPlayer->Is_Control())
+		m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
 }
 
 void CState_SP_Fall::Tick_State(_float fTimeDelta)

@@ -3,6 +3,7 @@
 #include "Player_Gunslinger.h"
 #include "Projectile.h"
 #include "Model.h"
+#include "Item.h"
 
 CSkill_GN_Gunkata::CSkill_GN_Gunkata(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_Gunkata"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -104,19 +105,79 @@ void CSkill_GN_Gunkata::Check_ColliderState()
 		if (8 >= static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 		{
 			m_SkillProjDesc = m_vecSkillProjDesces[2];
+
+			if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+			{
+				_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+				if (iItemLevel <= 10)
+				{
+					_uint iDamage = m_vecSkillProjDesces[2].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+				}
+				else
+				{
+					_uint iDamage = m_vecSkillProjDesces[2].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+				}
+			}
 		}
 		else if(8 < static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 		{
 			m_SkillProjDesc = m_vecSkillProjDesces[1];
+
+			if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+			{
+				_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+				if (iItemLevel <= 10)
+				{
+					_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+				}
+				else
+				{
+					_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+				}
+			}
 		}
 	}
 	else if (TEXT("Skill_GN_Gunkata_2") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[1];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 	else if (TEXT("Skill_GN_Gunkata_1") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[0];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 }
 

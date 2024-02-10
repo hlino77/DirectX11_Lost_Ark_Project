@@ -123,6 +123,36 @@ void CController_WR::DebugRender()
 {
 }
 
+_bool CController_WR::Is_EstherSkill()
+{
+	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
+		return false;
+
+	if (m_iCurEstherGage < m_iMaxEstherGage)
+		return false;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 0;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 1;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 2;
+		return true;
+	}
+
+	return false;
+}
+
 void CController_WR::Check_Iden_State(_float fTimeDelta)
 {
 	if (true == m_IsIdentity)
@@ -138,7 +168,7 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 		{
 			m_fTimeAcc = 0.f;
 			m_IsIdentity = false;
-			m_fIdentityGage = 30.f;
+			m_fIdentityGage = -1.f;
 
 			CB_UpdateIdentityAuraPivot.clear();
 			static_cast<CPlayer*>(m_pOwner)->Delete_Effect(L"Slayer_Rage_Aura");
@@ -284,10 +314,10 @@ void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
-	m_iDamaged = (CGameInstance::GetInstance()->Random_Int(_int((_float)m_iDamaged * 0.9f), _int((_float)m_iDamaged * 1.1f))) * 20;
+	m_iCalculateDamaged = (CGameInstance::GetInstance()->Random_Int(_int((_float)m_iDamaged * 0.9f), _int((_float)m_iDamaged * 1.1f))) * 100;
 	// 데미지하락 및 밉라이트?
 	CPlayer::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
-	tPcStat.iCurHp -= m_iDamaged;
+	tPcStat.iCurHp -= m_iCalculateDamaged;
 	if (0 >= tPcStat.iCurHp)
 	{
 		tPcStat.iCurHp = 0;
@@ -296,6 +326,12 @@ void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 		return;
 	}
 	m_pOwner->Set_PlayerStat_Desc(tPcStat);
+
+	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE])
+	{
+		m_eHitType = HIT_TYPE::TYPE_END;
+		return;
+	}
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{

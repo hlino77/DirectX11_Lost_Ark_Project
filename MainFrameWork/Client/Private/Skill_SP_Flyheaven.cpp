@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Model.h"
 #include "AsUtils.h"
+#include "Item.h"
 
 CSkill_SP_Flyheaven::CSkill_SP_Flyheaven(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Doaga* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_SP_Flyheaven"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -128,6 +129,20 @@ void CSkill_SP_Flyheaven::Exit()
 
 void CSkill_SP_Flyheaven::Check_ColliderState()
 {
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+		}
+		else
+		{
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+		}
+	}
 }
 
 HRESULT CSkill_SP_Flyheaven::Ready_Components()

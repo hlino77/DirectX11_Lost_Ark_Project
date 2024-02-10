@@ -10,6 +10,9 @@
 
 #include "Esther_Bahuntur_Skill_Ceiling.h"
 #include "Esther_Bahuntur_Skill_Floor.h"
+#include "Esther_Scene.h"
+
+#include "Player_Controller.h"
 
 CEsther_Bahuntur_Skill::CEsther_Bahuntur_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -140,9 +143,7 @@ void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 {
 	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
-		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
-		static_cast<CEsther_Bahuntur_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
-
+		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 		m_bCutStart = true;
 	}
 }
@@ -178,10 +179,19 @@ void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
 {
 	if (79 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart)
 	{
-		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
-		m_vecSkillProjDesces[0].vAttackPos = Vec3();
-		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
-		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+		{
+			CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
+			m_vecSkillProjDesces[0].vAttackPos = Vec3();
+			m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
+			pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+		}
+		
+		{
+			CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
+			m_vecSkillProjDesces[1].vAttackPos = Vec3();
+			m_vecSkillProjDesces[1].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
+			pSkill->InitProjectile(&m_vecSkillProjDesces[1]);
+		}
 
 		m_bProjStart = true;
 	}
@@ -336,16 +346,33 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Parts()
 
 HRESULT CEsther_Bahuntur_Skill::Ready_Projectile()
 {
-	PROJECTILE_DESC Proj_Desc;
-	Proj_Desc.pAttackOwner = this;
-	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
-	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER;
-	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 10.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
-	Proj_Desc.iDamage = 1000;
-	Proj_Desc.iStagger = 0;
-	m_vecSkillProjDesces.push_back(Proj_Desc);
+	{
+		PROJECTILE_DESC Proj_Desc;
+		Proj_Desc.pAttackOwner = this;
+		Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+		Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER;
+		Proj_Desc.fAttackTime = 0.05f;
+		Proj_Desc.fRadius = 15.f;
+		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
+		Proj_Desc.iStatusEffect = (_uint)CPlayer_Controller::BUFFEFFECT::HALFDAMAGE;
+		Proj_Desc.fRepulsion = 0.5f;
+		Proj_Desc.fStatusDuration = 20.f;
+		m_vecSkillProjDesces.push_back(Proj_Desc);
+	}
+	
+	{
+		PROJECTILE_DESC Proj_Desc;
+		Proj_Desc.pAttackOwner = this;
+		Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
+		Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER;
+		Proj_Desc.fAttackTime = 0.05f;
+		Proj_Desc.fRadius = 15.f;
+		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
+		Proj_Desc.iStatusEffect = (_uint)CPlayer_Controller::BUFFEFFECT::STIIFIMMUNE;
+		Proj_Desc.fRepulsion = 0.f;
+		Proj_Desc.fStatusDuration = 20.f;
+		m_vecSkillProjDesces.push_back(Proj_Desc);
+	}
 
 	return S_OK;
 }

@@ -19,6 +19,7 @@
 #include "Player.h"
 #include "Esther_Cut.h"
 #include "Esther_Skill.h"
+#include "Esther_Scene.h"
 
 
 CEsther::CEsther(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -69,6 +70,9 @@ void CEsther::Tick(_float fTimeDelta)
 
 	if (nullptr != m_pEsther_Cut)
 		m_pEsther_Cut->Tick(fTimeDelta);
+
+	if (nullptr != m_pEsther_Scene)
+		m_pEsther_Scene->Tick(fTimeDelta);
 }
 
 void CEsther::LateTick(_float fTimeDelta)
@@ -81,6 +85,9 @@ void CEsther::LateTick(_float fTimeDelta)
 
 	if (nullptr != m_pEsther_Cut)
 		m_pEsther_Cut->LateTick(fTimeDelta);
+
+	if (nullptr != m_pEsther_Scene)
+		m_pEsther_Scene->LateTick(fTimeDelta);
 }
 
 HRESULT CEsther::Render()
@@ -99,6 +106,7 @@ void CEsther::Leader_Active_Esther()
 
 		Vec3 vPos = m_pLeaderPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		vPos += vLook * 1.f;
+		m_pEsther_Skill->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 		m_pEsther_Skill->Get_TransformCom()->Set_WorldMatrix(m_pLeaderPlayer->Get_TransformCom()->Get_WorldMatrix());
 		m_pEsther_Skill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 
@@ -116,12 +124,11 @@ void CEsther::NonLeader_Active_Esther()
 
 void CEsther::Check_DeActive_Esther()
 {
-	if (nullptr != m_pEsther_Skill && nullptr != m_pEsther_Cut)
+	if (nullptr != m_pEsther_Skill && nullptr != m_pEsther_Scene)
 	{
 		if (true == m_pEsther_Skill->Is_Finished() &&
-			true == m_pEsther_Cut->Is_Finished())
+			false == m_pEsther_Scene->Is_PlayFrame())
 		{
-			m_pEsther_Cut->Reset();
 			m_pEsther_Skill->Reset();
 
 			m_bActive = false;
@@ -145,4 +152,5 @@ void CEsther::Free()
 
 	Safe_Release(m_pEsther_Cut);
 	Safe_Release(m_pEsther_Skill);
+	Safe_Release(m_pEsther_Scene);
 }

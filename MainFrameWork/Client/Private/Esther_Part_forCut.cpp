@@ -106,14 +106,7 @@ HRESULT CEsther_Part_forCut::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
 		return E_FAIL;
 
-	GlobalDesc gDesc = {
-		static_cast<CEsther_Cut*>(m_pOwner)->Get_CutCamera()->Get_TransformCom()->Get_WorldMatrixInverse(),
-		static_cast<CEsther_Cut*>(m_pOwner)->Get_CutCamera()->Get_ProjMatrix(),
-		static_cast<CEsther_Cut*>(m_pOwner)->Get_CutCamera()->Get_TransformCom()->Get_WorldMatrixInverse() * static_cast<CEsther_Cut*>(m_pOwner)->Get_CutCamera()->Get_ProjMatrix(),
-		static_cast<CEsther_Cut*>(m_pOwner)->Get_CutCamera()->Get_TransformCom()->Get_WorldMatrix()
-	};
-
-	if (FAILED(m_pShaderCom->Bind_CBuffer("GlobalBuffer", &gDesc, sizeof(GlobalDesc))))
+	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 
 	return S_OK;

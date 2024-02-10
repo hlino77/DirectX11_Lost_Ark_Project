@@ -58,19 +58,24 @@ public:
 	virtual HRESULT			Render();
 
 public:
-	CEsther*				Get_OwnerEshter() { return m_pOwnerEsther; }
-	class CCamera_Cut*		Get_CutCamera() { return m_pCutCamera; }	
+	CEsther*				Get_OwnerEshter()							{ return m_pOwnerEsther; }
+	class CCamera_Cut*		Get_CutCamera()								{ return m_pCutCamera; }
+	CPartObject*			Get_Part()									{ return m_pPart; }
 
-	CShader*				Get_ShaderCom() { return m_pShaderCom; }
+	CShader*				Get_ShaderCom()								{ return m_pShaderCom; }
 
-	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
-	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }
+	void					Set_AnimationSpeed(_float fSpeed)			{ m_fAnimationSpeed = fSpeed; }
+	_float					Get_AnimationSpeed()						{ return m_fAnimationSpeed; }
+
+	void					Set_ShotState(_bool bShoot);
+	void					Set_ActionFrame(_bool bAction);
+	void					Set_TimeFrame(_bool bTime);
 
 public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false, _bool bIgnoreRoot = false);
 
-	const wstring&			Get_VoiceSoundKey() { return m_VoiceSoundKey; }
-	void					Set_VoiceSoundKey(const wstring& VoiceSound) { m_VoiceSoundKey = VoiceSound; }
+	const wstring&			Get_VoiceSoundKey()							{ return m_VoiceSoundKey; }
+	void					Set_VoiceSoundKey(const wstring& VoiceSound){ m_VoiceSoundKey = VoiceSound; }
 	void					Set_VoiceSoundKey(const wstring& VoiceSound, _float fDelay) { m_VoiceSoundKey = VoiceSound; m_fVoiceSoundDelay = fDelay; }
 	_bool					Stop_VoiceSound();
 
@@ -118,6 +123,19 @@ protected:
 	/* 컬링 절두체 */
 	wstring			m_VoiceSoundKey;
 	_float			m_fVoiceSoundDelay;
+
+	/* 스크린샷 */
+	_uint					m_iStartFrame = { 0 };
+	_uint					m_iEndFrame = { 0 };
+	_int					m_iCurFrame = { 0 };
+	_int					m_iPreFrame = { -1 };
+
+	_float					m_fSaveFrameTime = { 0.0f };
+	_float					m_fSaveAcc = { 0.0f };
+
+	static _bool			m_bActionFrame;
+	static _bool			m_bTimeFrame;
+	static _bool			m_bShot;
 
 public:
 	virtual void Free();

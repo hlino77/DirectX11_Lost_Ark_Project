@@ -21,6 +21,7 @@ BEGIN(Client)
 class CPlayer;
 class CEsther_Skill;
 class CEsther_Cut;
+class CEsther_Scene;
 
 class CEsther abstract : public CGameObject
 {
@@ -48,6 +49,7 @@ public:
 public:
 	CEsther_Cut*					Get_Esther_Cut() { return m_pEsther_Cut; }
 	CEsther_Skill*					Get_Esther_Skill() { return m_pEsther_Skill; }
+	CEsther_Scene*					Get_Esther_Scene() { return m_pEsther_Scene; }
 
 	void							Set_LeaderPlayer(CPlayer* pPlayer) { m_pLeaderPlayer = pPlayer; }
 
@@ -65,6 +67,8 @@ protected:
 	/* Esther 정보 */
 	class CEsther_Cut*				m_pEsther_Cut = { nullptr };
 	class CEsther_Skill*			m_pEsther_Skill = { nullptr };
+	class CEsther_Scene*			m_pEsther_Scene = { nullptr };
+
 	_uint							m_iEstherType = { (_uint)ESTHERTYPE::_END };
 
 	/* 플레이어 정보*/

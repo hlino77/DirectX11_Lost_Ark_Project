@@ -20,6 +20,7 @@ public:
 	HRESULT Add_MRT(const wstring& strMRTTag, const wstring& strTargetTag);
 	HRESULT Bind_SRV(CShader* pShader, const wstring& strTargetTag, const _char* pConstantName);
 	HRESULT Make_SRVTexture(const wstring& szPath, const wstring& strTargetTag);
+	HRESULT Make_SRVWinTexture(const wstring & szPath, const wstring & strTargetTag);
 	HRESULT	Copy_SRV(const wstring& strTargetTag, ID3D11ShaderResourceView** pSRV);
 	HRESULT Clear_RenderTarget(const wstring& strTargetTag);
 

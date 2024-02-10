@@ -54,6 +54,9 @@ private:
 	HRESULT CreateEffect();
 	HRESULT Reset();
 
+	HRESULT Update_New_Texture();
+	HRESULT Update_New_Meshes();
+
 	HRESULT Save(_char* szFileName);
 	HRESULT Load();
 

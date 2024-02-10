@@ -2,6 +2,7 @@
 #include "..\Public\Skill_WR_BrutalImpact.h"
 #include "Player_Slayer.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_WR_BrutalImpact::CSkill_WR_BrutalImpact(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Slayer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WR_BrutalImpact"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -75,11 +76,41 @@ void CSkill_WR_BrutalImpact::Check_ColliderState()
 	{
 		m_SkillProjDesc.iDamage = 2000;
 		m_SkillProjDesc.fRepulsion = 25.f;
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 2000 * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 2000 * m_iUpgradedItem;
+			}
+		}
 	}
 	else
 	{
 		m_SkillProjDesc.iDamage = 1500;
 		m_SkillProjDesc.fRepulsion = 5.f;
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 1500 * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 1500 * m_iUpgradedItem;
+			}
+		}
 	}
 }
 

@@ -61,13 +61,14 @@ HRESULT CController_SP::Initialize(void* pArg)
 	PROJECTILE_DESC Proj_Iden_Desc;
 	Proj_Iden_Desc.pAttackOwner = m_pOwner;
 	Proj_Iden_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
-	Proj_Iden_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
+	Proj_Iden_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_PLAYER;
 	Proj_Iden_Desc.fAttackTime = 0.05f;
-	Proj_Iden_Desc.fRadius = 2.2f;
+	Proj_Iden_Desc.fRadius = 2.4f;
 	Proj_Iden_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
 	Proj_Iden_Desc.iDamage = 2;
-	Proj_Iden_Desc.iStatusEffect = (_uint)STATUSEFFECT::EARTHQUAKE;
-	Proj_Iden_Desc.fStatusDuration = 3.f;
+	Proj_Iden_Desc.iStatusEffect = (_uint)BUFFEFFECT::MANAREFILL;
+	Proj_Iden_Desc.fStatusDuration = 0.f;
+	Proj_Iden_Desc.fRepulsion = 0.2f;
 	Proj_Iden_Desc.bUseProjPos = true;
 	m_Attack_Desces[2] = Proj_Iden_Desc;
 	
@@ -104,6 +105,36 @@ void CController_SP::DebugRender()
 {
 }
 
+_bool CController_SP::Is_EstherSkill()
+{
+	/*if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
+		return false;*/
+
+	if (m_iCurEstherGage < m_iMaxEstherGage)
+		return false;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 0;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 1;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 2;
+		return true;
+	}
+
+	return false;
+}
+
 void CController_SP::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 {
 	if (true == m_IsDead)
@@ -111,10 +142,10 @@ void CController_SP::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
-	m_iDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 20;
+	m_iCalculateDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 100;
 	// 데미지하락 및 밉라이트?
 	CPlayer::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
-	tPcStat.iCurHp -= m_iDamaged;
+	tPcStat.iCurHp -= m_iCalculateDamaged;
 	if (0 >= tPcStat.iCurHp)
 	{
 		tPcStat.iCurHp = 0;
@@ -123,6 +154,12 @@ void CController_SP::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 		return;
 	}
 	m_pOwner->Set_PlayerStat_Desc(tPcStat);
+
+	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE])
+	{
+		m_eHitType = HIT_TYPE::TYPE_END;
+		return;
+	}
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{

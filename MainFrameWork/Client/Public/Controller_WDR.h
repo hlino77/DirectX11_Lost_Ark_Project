@@ -21,6 +21,8 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	virtual _bool		Is_EstherSkill() override;
+
 	/* 아덴 관련 함수 */
 	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();
@@ -62,7 +64,7 @@ private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
 	_bool	m_IsIdentity = { false };
-	_float	m_fIdentityGage = { 30.f };
+	_float	m_fIdentityGage = { 0.f };
 	_float	m_fMaxGage = { 30.f };
 	_float  m_fTimdeAcc = { 0.f };
 

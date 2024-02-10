@@ -6,8 +6,8 @@
 #include "Player.h"
 #include "Esther.h"
 #include "Esther_Way_Cut.h"
-
 #include "Esther_Way_Dochul.h"
+#include "Esther_Scene.h"
 
 CEsther_Way_Skill::CEsther_Way_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
@@ -52,6 +52,11 @@ HRESULT CEsther_Way_Skill::Initialize(void* pArg)
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	m_pModelCom->Play_Animation(0.0f);
 
+	for (size_t i = 0; i < 6; i++)
+	{
+		m_bActActive[i] = false;
+	}
+
 	return S_OK;
 }
 
@@ -90,22 +95,29 @@ void CEsther_Way_Skill::Ready()
 	//m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
 
+	for (size_t i = 0; i < 6; i++)
+	{
+		m_bActActive[i] = false;
+	}
+
+	m_bCutStart = false;
+
 	m_IsFinished = false;
 }
 
 void CEsther_Way_Skill::Cut_Start(_float fTimeDelta)
 {
-	if (85 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (85 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
-		static_cast<CEsther_Way_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Set_CurrLevel(m_pLeaderPlayer->Get_CurrLevel());
-		static_cast<CEsther_Way_Cut*>(m_pOwnerEsther->Get_Esther_Cut())->Ready();
+		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
+		m_bCutStart = true;
 	}
 }
 
 void CEsther_Way_Skill::Act1(_float fTimeDelta)
 {
 	/* 도철소환 */
-	if (50 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (50 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bActActive[0])
 	{
 		Vec3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
@@ -121,22 +133,28 @@ void CEsther_Way_Skill::Act1(_float fTimeDelta)
 		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act1(fTimeDelta);
+
+		m_bActActive[0] = true;
 	}
 	/* 충돌체 소환 */
 	if (55 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
-		&& true == m_pLeaderPlayer->Is_Control())
+		&& true == m_pLeaderPlayer->Is_Control() 
+		&& false == m_bActActive[1])
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
 		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+
+		m_bActActive[1] = true;
 	}
 }
 
 void CEsther_Way_Skill::Act2(_float fTimeDelta)
 {
 	/* 도철소환 */
-	if (90 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (90 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+		&& false == m_bActActive[2])
 	{
 		Vec3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
@@ -152,22 +170,27 @@ void CEsther_Way_Skill::Act2(_float fTimeDelta)
 		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act2(fTimeDelta);
+
+		m_bActActive[2] = true;
 	}
 	/* 충돌체 소환 */
 	if (95 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
-		&& true == m_pLeaderPlayer->Is_Control())
+		&& true == m_pLeaderPlayer->Is_Control()
+		&& false == m_bActActive[3])
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
 		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+
+		m_bActActive[3] = true;
 	}
 }
 
 void CEsther_Way_Skill::Act3(_float fTimeDelta)
 {
 	/* 도철소환 */
-	if (140 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (140 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bActActive[4])
 	{
 		Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
@@ -180,15 +203,20 @@ void CEsther_Way_Skill::Act3(_float fTimeDelta)
 		m_pSkillMesh->Get_TransformCom()->Set_Scale(Vec3(2.5f, 2.5f, 2.5f));
 
 		m_pSkillMesh->Call_Act3(fTimeDelta);
+
+		m_bActActive[4] = true;
 	}
 	/* 충돌체 소환 */
-	if (145 == m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
-		&& true == m_pLeaderPlayer->Is_Control())
+	if (145 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+		&& true == m_pLeaderPlayer->Is_Control()
+		&& false == m_bActActive[5])
 	{
 		CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 		m_vecSkillProjDesces[0].vAttackPos = Vec3();
 		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
+
+		m_bActActive[5] = true;
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "Esther_Silian_Cut.h"
 #include "Esther_Silian_Skill.h"
 #include "Player.h"
+#include "Esther_Scene.h"
 
 CEsther_Silian::CEsther_Silian(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther(pDevice, pContext)
@@ -34,10 +35,17 @@ HRESULT CEsther_Silian::Initialize(void* pArg)
 	SkillDesc.pOwnerEsther = this;
 	m_pEsther_Skill = static_cast<CEsther_Silian_Skill*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Silian_Skill"), &SkillDesc));
 
-	CEsther_Cut::ESTHERCUTDESC CutDesc;
+	CEsther_Scene::ESTHERSCENEDESC SceneDesc;
+	SceneDesc.fStartFrame = 0.f;
+	SceneDesc.fFinalFrame = 139.f;
+	SceneDesc.fFrameSpeed = 25.f;
+	SceneDesc.strTexutre = TEXT("Esther_Cut_Silian");
+	m_pEsther_Scene = static_cast<CEsther_Scene*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Scene"), &SceneDesc));
+
+	/*CEsther_Cut::ESTHERCUTDESC CutDesc;
 	CutDesc.pLeaderPlayer = m_pLeaderPlayer;
 	CutDesc.pOwnerEsther = this;
-	m_pEsther_Cut = static_cast<CEsther_Silian_Cut*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Silian_Cut"), &CutDesc));
+	m_pEsther_Cut = static_cast<CEsther_Silian_Cut*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Silian_Cut"), &CutDesc));*/
 
 	return S_OK;
 }
@@ -98,4 +106,6 @@ CGameObject* CEsther_Silian::Clone(void* pArg)
 void CEsther_Silian::Free()
 {
 	__super::Free();
+
+
 }

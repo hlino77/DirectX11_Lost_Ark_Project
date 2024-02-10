@@ -76,11 +76,13 @@ void CSkill_WDR_HeavyCrush::Check_ColliderState()
 		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
 		if (iItemLevel <= 10)
 		{
-			m_SkillProjDesc.iDamage * 1.f;
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
 		}
 		else
 		{
-			m_SkillProjDesc.iDamage * 1.5f;
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
 		}
 	}
 }

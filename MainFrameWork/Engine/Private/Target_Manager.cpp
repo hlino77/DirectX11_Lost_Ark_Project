@@ -66,6 +66,17 @@ HRESULT CTarget_Manager::Make_SRVTexture(const wstring& szPath, const wstring& s
 	return S_OK;
 }
 
+HRESULT CTarget_Manager::Make_SRVWinTexture(const wstring& szPath, const wstring& strTargetTag)
+{
+	CRenderTarget* pRenderTarget = Find_RenderTarget(strTargetTag);
+	if (nullptr == pRenderTarget)
+		return E_FAIL;
+
+	pRenderTarget->Make_WinTextureFile(szPath);
+
+	return S_OK;
+}
+
 HRESULT CTarget_Manager::Copy_SRV(const wstring& strTargetTag, ID3D11ShaderResourceView** pSRV)
 {
 	CRenderTarget* pRenderTarget = Find_RenderTarget(strTargetTag);

@@ -249,7 +249,7 @@ void CPlayer_Bard::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
 			{
-				if (false == m_pController->Is_GrabState())
+				if (false == m_pController->Is_GrabState() && false == m_pController->Is_Dead())
 				{
 					m_pController->Get_GrabMessage(pOther->Get_Owner());
 				}

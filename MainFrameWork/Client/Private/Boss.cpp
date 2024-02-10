@@ -229,6 +229,29 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 
 		}
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_ESTHER)
+		{
+			_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
+			Vec3 vPos = {};
+			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().bUseProjPos)
+			{
+				vPos = pOther->Get_Owner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			else
+			{
+				vPos = static_cast<CProjectile*>(pOther->Get_Owner())->Get_AttackOwner()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			}
+			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
+
+
+			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.5f)) + 1) * 26789;
+			_bool IsCritical = true;
+			iDamage *= 2;
+			
+			STATUSEFFECT eStatusEffect = STATUSEFFECT::EFFECTEND;
+			Send_Collision(iDamage, vPos, eStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStagger);
+			Show_Damage(iDamage, IsCritical);
+		}
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)
 	{

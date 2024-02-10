@@ -9,6 +9,8 @@
 #include "Texture.h"
 #include "Input_Device.h"
 #include "Utils.h"
+#include <string>
+
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
 _bool CRenderer::m_bPBR_Switch = true;
@@ -48,11 +50,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fStaticShadowTargetSizeRatio = 5.12f;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Priority"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Diffuse"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Outline"),
@@ -591,7 +593,8 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_UI()))
 		return E_FAIL;
 
-
+	if (FAILED(Render_Esther()))
+		return E_FAIL;
 
 	if (FAILED(Render_Mouse()))
 		return E_FAIL;
@@ -1669,6 +1672,14 @@ HRESULT CRenderer::Render_PostProcess()
 	/*if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendBloom"), "g_BlendedTarget")))
 		return E_FAIL;*/
 
+
+	if (true == m_bScreenShot)
+	{
+		wstring strFinalPath = m_strScreenShotPath + to_wstring(m_iScreenShotFrame) + TEXT(".dds");
+		m_pTarget_Manager->Make_SRVTexture(strFinalPath, TEXT("Target_FinalProcessed"));
+		m_iScreenShotFrame++;
+	}
+
 	RELEASE_INSTANCE(CPipeLine);
 
 	return S_OK;
@@ -1686,6 +1697,7 @@ HRESULT CRenderer::Render_FXAA()
 	if (FAILED(m_pFxaaShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
+	_int a = false;
 	if (FAILED(m_pFxaaShader->Bind_RawValue("g_bFxaa", &m_iFxaa_Switch, sizeof(_int))))
 		return E_FAIL;
 
@@ -1734,6 +1746,19 @@ HRESULT CRenderer::Render_UI()
 		Safe_Release(iter);
 	}
 	m_RenderObjects[RENDER_UI].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Esther()
+{
+	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_ESHTER])
+	{
+		if (FAILED(iter->Render()))
+			return E_FAIL;
+		Safe_Release(iter);
+	}
+	m_RenderObjects[RENDER_ESHTER].clear();
 
 	return S_OK;
 }
@@ -2112,6 +2137,15 @@ HRESULT CRenderer::Ready_SSR()
 	m_tSSR_Data[4].iSSRStepCount = 75;
 
 	return S_OK;
+}
+
+void CRenderer::Set_ScreenShot(_bool bShoot, wstring strPath)
+{
+	if(TEXT("") == strPath)
+		m_iScreenShotFrame = 0;
+
+	m_bScreenShot = bShoot;  
+	m_strScreenShotPath = strPath; 
 }
 
 CRenderer * CRenderer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

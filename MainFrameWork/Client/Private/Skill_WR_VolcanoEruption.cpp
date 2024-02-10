@@ -3,6 +3,7 @@
 #include "Player_Slayer.h"
 #include "Projectile.h"
 #include "Model.h"
+#include "Item.h"
 
 CSkill_WR_VolcanoEruption::CSkill_WR_VolcanoEruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Slayer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WR_VolcanoEruption"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -83,10 +84,40 @@ void CSkill_WR_VolcanoEruption::Check_ColliderState()
 	if (TEXT("Skill_WR_VolcanoEruption_Success") == static_cast<CPlayer_Slayer*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[1];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 	else
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[0];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Esther_Way_Cut.h"
 #include "Esther_Way_Skill.h"
+#include "Esther_Scene.h"
 
 CEsther_Way::CEsther_Way(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther(pDevice, pContext)
@@ -33,10 +34,18 @@ HRESULT CEsther_Way::Initialize(void* pArg)
 	SkillDesc.pOwnerEsther = this;
 	m_pEsther_Skill = static_cast<CEsther_Way_Skill*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Way_Skill"), &SkillDesc));
 
-	CEsther_Cut::ESTHERCUTDESC CutDesc;
+
+	CEsther_Scene::ESTHERSCENEDESC SceneDesc;
+	SceneDesc.fStartFrame = 0.f;
+	SceneDesc.fFinalFrame = 211.f;
+	SceneDesc.fFrameSpeed = 25.f;
+	SceneDesc.strTexutre = TEXT("Esther_Cut_Way");
+	m_pEsther_Scene = static_cast<CEsther_Scene*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Scene"), &SceneDesc));
+
+	/*CEsther_Cut::ESTHERCUTDESC CutDesc;
 	CutDesc.pLeaderPlayer = m_pLeaderPlayer;
 	CutDesc.pOwnerEsther = this;
-	m_pEsther_Cut = static_cast<CEsther_Way_Cut*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Way_Cut"), &CutDesc));
+	m_pEsther_Cut = static_cast<CEsther_Way_Cut*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Way_Cut"), &CutDesc));*/
 
 	return S_OK;
 }
