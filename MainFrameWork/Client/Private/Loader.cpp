@@ -213,6 +213,7 @@
 #include "Effect_Custom_EarthEaterSmallParticle.h"
 #include "Effect_Custom_EarthEaterDecal.h"
 #include "Effect_Custom_WDIdenSpace.h"
+#include "Effect_Custom_BreakObject.h"
 
 //NPC
 #include "tinyxml2.h"
@@ -938,7 +939,6 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 
 
 	//Effect
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_EarthEaterParticle"),
 		CEffect_Custom_EarthEaterParticle::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -954,6 +954,11 @@ HRESULT CLoader::Loading_For_Level_ServerSelect()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_WDIdenSpace"),
 		CEffect_Custom_WDIdenSpace::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Custom_BreakObject"),
+		CEffect_Custom_BreakObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 
@@ -1895,6 +1900,164 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 	}
+	
+
+	// Effect Custom   ======================================================================= BreakObject Use
+	{
+		wstring strFileName = L"Itr_02297_Cell_002";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_050";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_051";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_052";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_083";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_129";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_133";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_159";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_160";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_166";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02297_Cell_168";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
 
 	m_strLoading = TEXT("·Îµù ³¡.");
 	m_isFinished = true;
@@ -4394,7 +4557,8 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 
 	}
 
-	
+
+
 
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
@@ -5078,6 +5242,7 @@ HRESULT CLoader::Loading_Model_For_Level_Studio()
 	return S_OK;
 }
 
+
 HRESULT CLoader::Loading_SkillIcon()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -5535,7 +5700,7 @@ HRESULT CLoader::Loading_SkillIcon()
 
 	//Space
 	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"),//GN
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Skill_Space"), //GN
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Skill_Slot/GN_SkillIcon/Space%d.png",2))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();

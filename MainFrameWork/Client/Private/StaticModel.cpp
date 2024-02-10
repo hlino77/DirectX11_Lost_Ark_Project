@@ -8,6 +8,7 @@
 #include "ServerSessionManager.h"
 #include "Skill.h"
 #include "Effect_Manager.h"
+#include "Effect_Custom_BreakObject.h"
 
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
@@ -301,13 +302,30 @@ void CStaticModel::LateTick(_float fTimeDelta)
 	// BreakAble Object
 	if (true == m_bBreak)
 	{
+		CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
+		tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+		EFFECT_START(L"DustCloud0", &tEffectDesc);
+		EFFECT_START(L"DustCloud1", &tEffectDesc);
+		EFFECT_START(L"DustCloud2", &tEffectDesc);
+
+
+		CEffect_Custom_BreakObject::BreakObjectDesc BreakDesc;
+		BreakDesc.vPos = this->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		BreakDesc.pOwner = this;
+		BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02297_Cell_002";
+	
+
+		CGameObject* pObject = nullptr;
+		pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), 
+									(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+
 		m_bRimLight = true;
 
 		if (m_fRimLightTime <= 0.f)
 		{
 			Set_Active(false);
 		}
-
 
 	}
 
@@ -616,11 +634,6 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		//Set_Active(false);
 		m_bBreak = true; 
 
-
-		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
-		EFFECT_START(L"DustCloud0", &tDesc);
-
 	}
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)
 	{
@@ -637,12 +650,6 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			//Set_Active(false);
 			m_bBreak = true;
 
-
-			CEffect_Manager::EFFECTPIVOTDESC tDesc;
-			//tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
-			EFFECT_START(L"DustCloud0", &tDesc);
-
-			
 			for (auto& Collider : m_StaticColliders)
 			{
 				Collider->SetActive(false);

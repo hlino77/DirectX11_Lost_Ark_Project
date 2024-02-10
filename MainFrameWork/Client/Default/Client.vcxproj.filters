@@ -1929,6 +1929,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Esther\base_Scene">
       <UniqueIdentifier>{eac23d64-6302-4a38-a5fe-e2cdfbdcdba2}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\BreakObject">
+      <UniqueIdentifier>{73d67e7a-f6c2-41e1-be65-be4af67570e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

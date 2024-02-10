@@ -223,6 +223,7 @@
     <ClInclude Include="..\Public\Controller_WR.h" />
     <ClInclude Include="..\Public\Damage_Manager.h" />
     <ClInclude Include="..\Public\Deco_Npc.h" />
+    <ClInclude Include="..\Public\Effect_Custom_BreakObject.h" />
     <ClInclude Include="..\Public\Effect_Custom_CrossHair.h" />
     <ClInclude Include="..\Public\Effect_Custom_DeathFireBomb.h" />
     <ClInclude Include="..\Public\Effect_Custom_EarthEaterDecal.h" />
@@ -918,6 +919,7 @@
     <ClCompile Include="..\Private\Controller_WR.cpp" />
     <ClCompile Include="..\Private\Damage_Manager.cpp" />
     <ClCompile Include="..\Private\Deco_Npc.cpp" />
+    <ClCompile Include="..\Private\Effect_Custom_BreakObject.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_CrossHair.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_DeathFireBomb.cpp" />
     <ClCompile Include="..\Private\Effect_Custom_EarthEaterDecal.cpp" />
