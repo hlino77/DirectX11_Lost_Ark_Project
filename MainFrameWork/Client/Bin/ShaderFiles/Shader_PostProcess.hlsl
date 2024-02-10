@@ -156,6 +156,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
         vColor = float4(vEffectOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
     }
 	
+    /* 베이스 코드 */
     if (EPSILON < vEffectAlphaBlend.a)
     {
         vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), 1.f);
@@ -171,6 +172,32 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     vColor = pow(vColor, 1.f / 2.2f);
     
     return vColor;
+    
+    /* 텍스처 저장시 사용될 코드 */
+    //if (EPSILON < vEffectAlphaBlend.a)
+    //{
+    //    if(1 - EPSILON <= vColor.a)
+    //    {
+    //        vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), 1);
+    //    }
+    //    else
+    //    {
+    //        vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), vEffectAlphaBlend.a);
+    //    }
+    //}
+
+    //float4 vBloom = g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
+
+    //vColor.rgb += vBloom.rgb * vBloom.a;
+
+    //if (any(vBloom.rgb) && EPSILON > vColor.a)
+    //{
+    //    vColor.a = vBloom.r;
+    //}
+    
+    //vColor.rgb = pow(vColor.rgb, 1.f / 2.2f);
+    
+    //return vColor;
 }
 
 float4 PS_MAIN_CHROMATIC(PS_IN In) : SV_TARGET0
@@ -319,7 +346,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;

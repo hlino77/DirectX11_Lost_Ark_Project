@@ -31,7 +31,8 @@ void CState_SP_Resurrect::Enter_State()
 
 	m_pPlayer->Set_Invincible(true);
 
-	m_pPlayer->Get_RendererCom()->Set_DeadScene(false);
+	if (true == m_pPlayer->Is_Control())
+		m_pPlayer->Get_RendererCom()->Set_DeadScene(false);
 
 	CGameObject::STATDESC tPcStat = m_pPlayer->Get_PlayerStat_Desc();
 	tPcStat.iCurHp = tPcStat.iMaxHp;
@@ -47,6 +48,7 @@ void CState_SP_Resurrect::Tick_State(_float fTimeDelta)
 void CState_SP_Resurrect::Exit_State()
 {
 	m_pPlayer->Set_Invincible(false);
+	m_pController->Get_DeadEndMessage();
 }
 
 void CState_SP_Resurrect::Tick_State_Control(_float fTimeDelta)

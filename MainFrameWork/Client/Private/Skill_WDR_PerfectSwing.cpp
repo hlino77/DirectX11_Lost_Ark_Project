@@ -74,22 +74,39 @@ void CSkill_WDR_PerfectSwing::Check_ColliderState()
 	if (TEXT("Skill_WDR_PerfectSwing_Success") == static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc.iDamage = 3000;
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 3000 * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 3000 * m_iUpgradedItem;
+			}
+		}
 	}
 	else
 	{
 		m_SkillProjDesc.iDamage = 2000;
-	}
 
-	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
-	{
-		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
-		if (iItemLevel <= 10)
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
 		{
-			m_SkillProjDesc.iDamage * 1.f;
-		}
-		else
-		{
-			m_SkillProjDesc.iDamage * 1.5f;
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 2000 * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = 2000 * m_iUpgradedItem;
+			}
 		}
 	}
 }

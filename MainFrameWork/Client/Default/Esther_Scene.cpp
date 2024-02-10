@@ -75,7 +75,7 @@ HRESULT CEsther_Scene::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin("Esther_Scence");
 
 	m_pVIBufferCom->Render();
 

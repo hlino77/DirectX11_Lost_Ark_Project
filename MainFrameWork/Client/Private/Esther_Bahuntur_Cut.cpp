@@ -56,6 +56,8 @@ HRESULT CEsther_Bahuntur_Cut::Initialize(void* pArg)
 	m_iStartFrame = 20;
 	m_iEndFrame = 100;
 
+	m_fSaveFrameTime = 0.033f;
+
 	return S_OK;
 }
 
@@ -102,7 +104,18 @@ void CEsther_Bahuntur_Cut::LateTick(_float fTimeDelta)
 		}
 		else if (true == m_bTimeFrame)
 		{
+			m_fSaveAcc += fTimeDelta;
 
+			m_iCurFrame = m_pModelCom->Get_Anim_Frame(m_iAnimIndex);
+			if (m_iCurFrame >= m_iStartFrame && m_iCurFrame <= m_iEndFrame && m_fSaveFrameTime <= m_fSaveAcc)
+			{
+				m_fSaveAcc = 0.0f;
+				m_pRendererCom->Set_ScreenShot(true, TEXT("../Bin/Resources/Textures/Esther/ESBT/Bahuntur"));
+			}
+			else
+			{
+				m_pRendererCom->Set_ScreenShot(false, TEXT("../Bin/Resources/Textures/Esther/ESBT/Bahuntur"));
+			}
 		}
 	}
 

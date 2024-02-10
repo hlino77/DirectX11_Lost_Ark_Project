@@ -151,7 +151,7 @@ HRESULT CEsther_Cut::Ready_Parts()
 	return S_OK;
 }
 
-_bool CEsther_Cut::Set_ShotState(_bool bShoot)
+void CEsther_Cut::Set_ShotState(_bool bShoot)
 {
 	if (true == bShoot)
 	{
@@ -165,20 +165,22 @@ _bool CEsther_Cut::Set_ShotState(_bool bShoot)
 	}
 }
 
-_bool CEsther_Cut::Set_ActionFrame(_bool bAction)
+void CEsther_Cut::Set_ActionFrame(_bool bAction)
 {
 	if (true == bAction)
 	{
 		m_bActionFrame = true;
+		m_fSaveAcc = 0.0f;
 		MessageBox(g_hWnd, L"액션프레임저장 활성화", L"확인", MB_OK);
 	}
 	else
 	{
 		m_bActionFrame = false;
+		m_fSaveAcc = 0.0f;
 	}
 }
 
-_bool CEsther_Cut::Set_TimeFrame(_bool bTime)
+void CEsther_Cut::Set_TimeFrame(_bool bTime)
 {
 	if (true == bTime)
 	{

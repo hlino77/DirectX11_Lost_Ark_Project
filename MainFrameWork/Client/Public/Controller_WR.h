@@ -24,6 +24,8 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	virtual _bool		Is_EstherSkill() override;
+
 	/* 아덴 관련 함수 */
 	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();

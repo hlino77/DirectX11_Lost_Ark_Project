@@ -96,23 +96,40 @@ void CSkill_WDR_SizemicHammer::Check_ColliderState()
 		if (52 > static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 		{
 			m_SkillProjDesc = m_vecSkillProjDesces[0];
+
+			if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+			{
+				_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+				if (iItemLevel <= 10)
+				{
+					_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+				}
+				else
+				{
+					_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+				}
+			}
 		}
 		else if (52 <= static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_ModelCom()->Get_Anim_Frame(iAnimIndex))
 		{
 			m_SkillProjDesc = m_vecSkillProjDesces[1];
-		}
-	}
 
-	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
-	{
-		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
-		if (iItemLevel <= 10)
-		{
-			m_SkillProjDesc.iDamage * 1.f;
-		}
-		else
-		{
-			m_SkillProjDesc.iDamage * 1.5f;
+			if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+			{
+				_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+				if (iItemLevel <= 10)
+				{
+					_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+				}
+				else
+				{
+					_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+					m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+				}
+			}
 		}
 	}
 }

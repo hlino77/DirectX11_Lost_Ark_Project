@@ -36,7 +36,8 @@ void CState_GN_Dead_Start::Enter_State()
 
 	m_pPlayer->Reserve_Animation(m_iDead_Start, 0.1f, 0, 0);
 
-	m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
+	if (true == m_pPlayer->Is_Control())
+		m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
 }
 
 void CState_GN_Dead_Start::Tick_State(_float fTimeDelta)

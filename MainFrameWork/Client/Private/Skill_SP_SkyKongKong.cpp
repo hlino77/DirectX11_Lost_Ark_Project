@@ -2,6 +2,7 @@
 #include "..\Public\Skill_SP_SkyKongKong.h"
 #include "Player_Doaga.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_SP_SkyKongKong::CSkill_SP_SkyKongKong(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Doaga* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_SP_SkyKongKong"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -71,6 +72,20 @@ HRESULT CSkill_SP_SkyKongKong::Ready_Components()
 
 void CSkill_SP_SkyKongKong::Check_ColliderState()
 {
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+		}
+		else
+		{
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+		}
+	}
 }
 
 CSkill_SP_SkyKongKong* CSkill_SP_SkyKongKong::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Doaga* pPlayer, void* pArg)

@@ -96,6 +96,9 @@
 
 #include "Esther_Way.h"
 
+#include "Projectile.h"
+
+
 CPlayer_Slayer::CPlayer_Slayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlayer(pDevice, pContext)
 {
@@ -278,7 +281,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 			if ((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS == pOther->Get_ColLayer())
 			{
-				if (false == m_pController->Is_GrabState())
+				if (false == m_pController->Is_GrabState() && false == m_pController->Is_Dead())
 				{
 					m_pController->Get_GrabMessage(pOther->Get_Owner());
 				}
@@ -287,6 +290,19 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 			{
 				m_IsSafeZone = true;
+			}
+
+			if ((_uint)LAYER_COLLIDER::LAYER_BUFF_PLAYER == pOther->Get_ColLayer())
+			{
+				m_pController->Get_BuffMessage(static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect,
+					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion,
+					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+			}
+			if ((_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER == pOther->Get_ColLayer())
+			{
+				m_pController->Get_BuffMessage(static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect,
+					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion,
+					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
 			}
 
 			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())

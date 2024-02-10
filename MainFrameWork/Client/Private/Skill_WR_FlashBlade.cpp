@@ -2,6 +2,7 @@
 #include "..\Public\Skill_WR_FlashBlade.h"
 #include "Player_Slayer.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_WR_FlashBlade::CSkill_WR_FlashBlade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Slayer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_WR_FlashBlade"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -71,6 +72,20 @@ HRESULT CSkill_WR_FlashBlade::Ready_Components()
 
 void CSkill_WR_FlashBlade::Check_ColliderState()
 {
+	if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+	{
+		_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+		if (iItemLevel <= 10)
+		{
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+		}
+		else
+		{
+			_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+			m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+		}
+	}
 }
 
 CSkill_WR_FlashBlade* CSkill_WR_FlashBlade::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Slayer* pPlayer, void* pArg)

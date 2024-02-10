@@ -600,7 +600,7 @@ void CEffect_PcModel::SelectWeapon(PARTTYPE ePart, WEAPON eWeapon)
 		break;
 	case Client::CEffect_PcModel::VALTANAXE:
 		m_pTransformCom->Set_Scale(Vec3(1.f, 1.f, 1.f));
-		m_pTransformCom->My_Rotation(Vec3(60.5, -150.2f, 147.4f));
+		m_pTransformCom->My_Rotation(Vec3(49.6770355f, -171.7637627f, 117.160029f));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
 		m_pCurrentWeapon = static_cast<CMannequin*>(m_pMannequin)->Set_Part(ePart, m_pWpModels[VALTANAXE], m_pTransformCom->Get_WorldMatrix());
 		static_cast<CMannequinPart*>(m_pCurrentWeapon)->Set_AnimState(true);

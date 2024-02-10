@@ -37,7 +37,7 @@ HRESULT CEsther_Silian::Initialize(void* pArg)
 
 	CEsther_Scene::ESTHERSCENEDESC SceneDesc;
 	SceneDesc.fStartFrame = 0.f;
-	SceneDesc.fFinalFrame = 138.f;
+	SceneDesc.fFinalFrame = 139.f;
 	SceneDesc.fFrameSpeed = 25.f;
 	SceneDesc.strTexutre = TEXT("Esther_Cut_Silian");
 	m_pEsther_Scene = static_cast<CEsther_Scene*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Esther_Scene"), &SceneDesc));

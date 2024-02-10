@@ -22,6 +22,8 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	virtual _bool		Is_EstherSkill() override;
+
 	virtual _bool Is_Idle();
 	_uint	Is_GN_Identity();
 

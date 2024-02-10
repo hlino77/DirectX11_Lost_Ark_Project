@@ -99,6 +99,10 @@ protected:
 
 	uint64						  m_iUseMana = 0;
 
+	_float						  m_iDefaultItem = 1.f;
+	_float						  m_iUpgradedItem = 1.5f;
+
+
 	vector<class CState*>		  m_State_Skills;
 
 public:

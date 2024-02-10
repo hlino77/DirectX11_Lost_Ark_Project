@@ -100,6 +100,8 @@ void CEsther_Way_Skill::Ready()
 		m_bActActive[i] = false;
 	}
 
+	m_bCutStart = false;
+
 	m_IsFinished = false;
 }
 

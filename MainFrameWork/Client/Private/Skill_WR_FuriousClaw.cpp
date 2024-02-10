@@ -2,6 +2,7 @@
 #include "..\Public\Skill_WR_FuriousClaw.h"
 #include "Player_Slayer.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_WR_FuriousClaw::CSkill_WR_FuriousClaw(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Slayer* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_WR_FuriousClaw"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -85,10 +86,40 @@ void CSkill_WR_FuriousClaw::Check_ColliderState()
 	if (TEXT("Skill_WR_FuriousClaw_End") == static_cast<CPlayer_Slayer*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[1];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 	else
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[0];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 }
 

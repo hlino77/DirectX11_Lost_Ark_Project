@@ -3,6 +3,7 @@
 #include "Player_Gunslinger.h"
 #include "Projectile.h"
 #include "Model.h"
+#include "Item.h"
 
 CSkill_GN_FocusShot::CSkill_GN_FocusShot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Gunslinger* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("SKill_GN_FocusShot"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -88,10 +89,40 @@ void CSkill_GN_FocusShot::Check_ColliderState()
 	if (TEXT("Skill_GN_FocusShot_End") == static_cast<CPlayer_Gunslinger*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[1];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 	else
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[0];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 }
 

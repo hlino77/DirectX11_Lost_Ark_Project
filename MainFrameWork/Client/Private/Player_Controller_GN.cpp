@@ -118,6 +118,36 @@ void CPlayer_Controller_GN::DebugRender()
 {
 }
 
+_bool CPlayer_Controller_GN::Is_EstherSkill()
+{
+	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
+		return false;
+
+	if (m_iCurEstherGage < m_iMaxEstherGage)
+		return false;
+
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 0;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 1;
+		return true;
+	}
+	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
+	{
+		//m_iCurEstherGage = 0;
+		m_iEstherType = 2;
+		return true;
+	}
+
+	return false;
+}
+
 _bool CPlayer_Controller_GN::Is_Idle()
 {
 	if (false == __super::Is_Idle())
@@ -154,11 +184,10 @@ void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPo
 	__super::Get_HitMessage(iDamge, fForce, vPos);
 
 	// 데미지하락 및 밉라이트?
+
+	m_iCalculateDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 100;
 	CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
-
-	m_iDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 100;
-
-	tPcStat.iCurHp -= m_iDamaged;
+	tPcStat.iCurHp -= m_iCalculateDamaged;
 	if (0 >= tPcStat.iCurHp)
 	{
 		tPcStat.iCurHp = 0;
@@ -167,6 +196,12 @@ void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPo
 		return;
 	}
 	m_pOwner->Set_PlayerStat_Desc(tPcStat);
+
+	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE])
+	{
+		m_eHitType = HIT_TYPE::TYPE_END;
+		return;
+	}
 
 	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
 	{

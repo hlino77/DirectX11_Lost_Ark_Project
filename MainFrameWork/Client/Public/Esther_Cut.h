@@ -67,9 +67,9 @@ public:
 	void					Set_AnimationSpeed(_float fSpeed)			{ m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed()						{ return m_fAnimationSpeed; }
 
-	_bool					Set_ShotState(_bool bShoot);
-	_bool					Set_ActionFrame(_bool bAction);
-	_bool					Set_TimeFrame(_bool bTime);
+	void					Set_ShotState(_bool bShoot);
+	void					Set_ActionFrame(_bool bAction);
+	void					Set_TimeFrame(_bool bTime);
 
 public:
 	void					Reserve_Animation(_uint iAnimIndex, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fRootDist = 1.5f, _bool bRootRot = false, _bool bReverse = false, _bool bUseY = false, _bool bIgnoreRoot = false);

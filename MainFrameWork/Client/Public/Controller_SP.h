@@ -22,6 +22,8 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	virtual _bool		Is_EstherSkill() override;
+
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();
@@ -57,7 +59,7 @@ private:
 	_float	m_fIdentityGage = { 0.f };
 	_float	m_fMaxGage = { 100.f };
 
-	_uint	m_iMarbleCnt = { 3 };
+	_uint	m_iMarbleCnt = { 0 };
 	_uint	m_iMaxMarbleCnt = { 3 };
 
 	_int	m_iIdenSkill = { IDEN_END };

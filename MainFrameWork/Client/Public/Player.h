@@ -161,6 +161,7 @@ public:
 
 	CParty*							Get_Party() { return m_pParty; }
 	void							Set_Party(CParty* pParty) { m_pParty = pParty; }
+	_bool							Is_PartyLeader();
 
 	const _bool&					Is_ClickNpc() { return m_IsClickNpc; }
 	void							Set_ClickNpcState(_bool bClick) { m_IsClickNpc = bClick; }

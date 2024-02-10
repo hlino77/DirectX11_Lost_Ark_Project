@@ -200,6 +200,13 @@ HRESULT CEsther_Way_Dochul::Render()
 			return E_FAIL;
 	}
 
+	if (true == m_bRimLight)
+	{
+		_float fRimColor = 0.0f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimColor, sizeof(_float))))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 

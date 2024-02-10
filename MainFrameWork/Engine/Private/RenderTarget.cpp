@@ -1,6 +1,8 @@
 #include "..\Public\RenderTarget.h"
 #include "VIBuffer_Rect.h"
 #include "Shader.h"
+#include "guiddef.h"
+#include <wincodec.h>
 
 CRenderTarget::CRenderTarget(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: m_pDevice(pDevice)
@@ -66,8 +68,12 @@ HRESULT CRenderTarget::Make_TextureFile(const wstring& szPath)
 	return S_OK;
 }
 
+HRESULT CRenderTarget::Make_WinTextureFile(const wstring& szPath)
+{
+	SaveWICTextureToFile(m_pContext, m_pTexture2D, GUID_ContainerFormatPng, szPath.c_str());
 
-
+	return S_OK;
+}
 
 HRESULT CRenderTarget::Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY)
 {

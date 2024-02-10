@@ -2,6 +2,7 @@
 #include "..\Public\Skill_SP_Moondrawing.h"
 #include "Player_Doaga.h"
 #include "Projectile.h"
+#include "Item.h"
 
 CSkill_SP_Moondrawing::CSkill_SP_Moondrawing(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CPlayer_Doaga* pPlayer)
 	: CPlayer_Skill(pDevice, pContext, TEXT("Skill_SP_Moondrawing"), OBJ_TYPE::SKILL), m_pPlayer(pPlayer)
@@ -97,10 +98,40 @@ void CSkill_SP_Moondrawing::Check_ColliderState()
 	if (TEXT("Skill_SP_Moondrawing_Start") == static_cast<CPlayer_Doaga*>(m_pOwner)->Get_State())
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[0];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 	else
 	{
 		m_SkillProjDesc = m_vecSkillProjDesces[1];
+
+		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
+		{
+			_uint iItemLevel = static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON)->Get_UpgradeLevel();
+			if (iItemLevel <= 10)
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iDefaultItem;
+			}
+			else
+			{
+				_uint iDamage = m_vecSkillProjDesces[1].iDamage;
+				m_SkillProjDesc.iDamage = iDamage * m_iUpgradedItem;
+			}
+		}
 	}
 }
 

@@ -21,6 +21,8 @@ public:
 	virtual void	DebugRender() override;
 
 public:
+	virtual _bool		Is_EstherSkill() override;
+
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();

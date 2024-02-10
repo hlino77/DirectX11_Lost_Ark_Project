@@ -76,6 +76,7 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 	Skill_CoolTime(fTimeDelta);
 	Skill_ChangeStat_CoolTime(fTimeDelta);
 	StatusEffect_Duration(fTimeDelta);
+	BuffEffect_Duration(fTimeDelta);
 
 	/* Skill Collider */
 	Skill_Check_Collider();
@@ -427,6 +428,10 @@ void CPlayer_Controller::Get_GrabEndMessage()
 void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 {
 	m_iDamaged = iDamage;
+	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::HALFDAMAGE])
+	{
+		m_iDamaged *= m_fBuffAmount[(_uint)BUFFEFFECT::HALFDAMAGE];
+	}
 
 	m_vHitColiPos = vPos;
 
@@ -508,33 +513,6 @@ void CPlayer_Controller::Get_DirMessage(Vec3 vPos)
 	m_vNextMove = vPos; 
 	m_bStop = false; 
 	m_IsDir = true; 
-}
-
-_bool CPlayer_Controller::Is_EstherSkill()
-{
-	if (m_iCurEstherGage < m_iMaxEstherGage)
-		return false;
-
-	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
-	{
-		//m_iCurEstherGage = 0;
-		m_iEstherType = 0;
-		return true;
-	}
-	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
-	{
-		//m_iCurEstherGage = 0;
-		m_iEstherType = 1;
-		return true;
-	}
-	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
-	{
-		//m_iCurEstherGage = 0;
-		m_iEstherType = 2;
-		return true;
-	}
-
-	return false;
 }
 
 void CPlayer_Controller::Get_LerpLookMessage(Vec3 vAt, _float fSpeed)
@@ -661,37 +639,31 @@ void CPlayer_Controller::Get_StatusEffectMessage(_uint iStatus, _float fDurtaion
 	switch (iStatus)
 	{
 	case (_uint)STATUSEFFECT::BUG:
-		m_iStatusEffect = iStatus;
 		m_bStatusEffect[iStatus] = true;
 		m_fStatusDuration[iStatus] = fDurtaion;
 		Bug();
 		break;
 	case (_uint)STATUSEFFECT::FEAR:
-		m_iStatusEffect = iStatus;
 		m_bStatusEffect[iStatus] = true;
 		m_fStatusDuration[iStatus] = fDurtaion;
 		Fear();
 		break;
 	case (_uint)STATUSEFFECT::EARTHQUAKE:
-		m_iStatusEffect = iStatus;
 		m_bStatusEffect[iStatus] = true;
 		m_fStatusDuration[iStatus] = fDurtaion;
 		EarthQuake();
 		break;
 	case (_uint)STATUSEFFECT::SHOCK:
-		m_iStatusEffect = iStatus;
 		m_bStatusEffect[iStatus] = true;
 		m_fStatusDuration[iStatus] = fDurtaion;
 		Shock();
 		break;
 	case (_uint)STATUSEFFECT::STUN:
-		m_iStatusEffect = iStatus;
 		m_bStatusEffect[iStatus] = true;
 		m_fStatusDuration[iStatus] = fDurtaion;
 		Stun();
 		break;
 	case (_uint)STATUSEFFECT::SILENCE:
-		m_iStatusEffect = iStatus;
 		m_bStatusEffect[iStatus] = true;
 		m_fStatusDuration[iStatus] = fDurtaion;
 		Silence();
@@ -874,7 +846,6 @@ void CPlayer_Controller::StatusEffect_Duration(const _float& fTimeDelta)
 		{
 			m_bStatusEffect[i] = false;
 			m_fStatusDuration[i] = -1.f;
-			m_iStatusEffect = (_uint)STATUSEFFECT::_END;
 
 			switch (i)
 			{
@@ -970,6 +941,126 @@ void CPlayer_Controller::Silence()
 	else
 	{
 		m_bSkillKeyActive = false;
+	}
+}
+
+void CPlayer_Controller::Get_BuffMessage(_uint iBuffStatus, _float fAmount, _float fDurtaion)
+{
+	if (iBuffStatus == (_uint)BUFFEFFECT::_END)
+		return;
+
+	/* 시작시 이미 이펙트상태면 초기화 */
+	for (size_t i = 0; i < (_uint)BUFFEFFECT::_END; i++)
+	{
+		if (true == m_bBuffEffect[i])
+		{
+			m_bBuffEffect[i] = false;
+			m_fBuffDuration[i] = -1.f;
+			switch (i)
+			{
+			case (_uint)BUFFEFFECT::HALFDAMAGE:
+				HalfDamage(0.0f);
+				break;
+			case (_uint)BUFFEFFECT::MANAREFILL:
+				ManaRefill(0.0f);
+				break;
+			case (_uint)BUFFEFFECT::STIIFIMMUNE:
+				StiffImmune(0.0f);
+				break;
+			}
+		}
+	}
+
+	switch (iBuffStatus)
+	{
+	case (_uint)BUFFEFFECT::HALFDAMAGE:
+		m_bBuffEffect[iBuffStatus] = true;
+		m_fBuffDuration[iBuffStatus] = fDurtaion;
+		HalfDamage(fAmount);
+		break;
+	case (_uint)BUFFEFFECT::MANAREFILL:
+		m_bBuffEffect[iBuffStatus] = true;
+		m_fBuffDuration[iBuffStatus] = fDurtaion;
+		ManaRefill(fAmount);
+		break;
+	case (_uint)BUFFEFFECT::STIIFIMMUNE:
+		m_bBuffEffect[iBuffStatus] = true;
+		m_fBuffDuration[iBuffStatus] = fDurtaion;
+		StiffImmune(fAmount);
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlayer_Controller::BuffEffect_Duration(const _float& fTimeDelta)
+{
+	for (size_t i = 0; i < (_uint)BUFFEFFECT::_END; i++)
+	{
+		if (false == m_bBuffEffect[i]) continue;
+
+		m_fBuffDuration[i] -= fTimeDelta;
+
+		if (0.0f >= m_fBuffDuration[i])
+		{
+			m_bBuffEffect[i] = false;
+			m_fBuffDuration[i] = -1.f;
+
+			switch (i)
+			{
+			case (_uint)BUFFEFFECT::HALFDAMAGE:
+				HalfDamage(0.0f);
+				break;
+			case (_uint)BUFFEFFECT::MANAREFILL:
+				ManaRefill(0.0f);
+				break;
+			case (_uint)BUFFEFFECT::STIIFIMMUNE:
+				StiffImmune(0.0f);
+				break;
+			}
+		}
+	}
+}
+
+void CPlayer_Controller::HalfDamage(_float fAmount)
+{
+	if (-1.f == m_fBuffDuration[(_uint)BUFFEFFECT::HALFDAMAGE])
+	{
+		m_fBuffAmount[(_uint)BUFFEFFECT::HALFDAMAGE] = 0;
+	}
+	else
+	{
+		m_fBuffAmount[(_uint)BUFFEFFECT::HALFDAMAGE] = fAmount;
+	}
+}
+
+void CPlayer_Controller::ManaRefill(_float fAmount)
+{
+	if (-1.f == m_fBuffDuration[(_uint)BUFFEFFECT::MANAREFILL])
+	{
+		m_fBuffAmount[(_uint)BUFFEFFECT::MANAREFILL] = 0;
+	}
+	else
+	{
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurMp += tPcStat.iMaxMp * fAmount;
+		if (tPcStat.iCurMp >= tPcStat.iMaxMp)
+		{
+			tPcStat.iCurHp = tPcStat.iMaxMp;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+	}
+}
+
+void CPlayer_Controller::StiffImmune(_float fAmount)
+{
+	if (-1.f == m_fBuffDuration[(_uint)BUFFEFFECT::STIIFIMMUNE])
+	{
+		m_fBuffAmount[(_uint)BUFFEFFECT::STIIFIMMUNE] = 0;
+	}
+	else
+	{
+		m_fBuffAmount[(_uint)BUFFEFFECT::STIIFIMMUNE] = fAmount;
 	}
 }
 

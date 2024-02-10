@@ -54,7 +54,9 @@ void CState_SP_Identity_Moon_End::Exit_State()
 
 void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (m_AttackFrames[m_iAttackCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_End))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_End);
+
+	if (m_AttackFrames[m_iAttackCnt] != -1 && m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -66,7 +68,7 @@ void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)
 		m_pPlayer->Set_State(TEXT("Idle"));
 
 
-	if (25 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_End))
+	if (25 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
 
@@ -124,6 +126,16 @@ void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)
 
 void CState_SP_Identity_Moon_End::Tick_State_NoneControl(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_End);
+
+	if (m_AttackFrames[m_iAttackCnt] != -1 && m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
+	{
+		Effect_Shot();
+
+		m_iAttackCnt++;
+		static_cast<CController_SP*>(m_pController)->Get_AttackMessage();
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
