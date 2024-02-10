@@ -117,13 +117,14 @@ void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		//Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
 		Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
+		matPivot.Translation(matPivot.Backward());
 		tDesc.pPivotMatrix = &matPivot;
 		EFFECT_START(TEXT("EstherSkill_Silian"), &tDesc)
 
 		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
-		pCamera->Cam_Shake(0.15f, 80.0f, 1.0f, 5.0f);
-		pCamera->Set_Chromatic(0.5f, matPivot.Translation(), 0.1f, 0.1f);
+		pCamera->Cam_Shake(0.1f, 70.0f, 1.0f, 5.0f);
+		pCamera->Set_Chromatic(0.3f, matPivot.Translation(), 0.1f, 0.1f);
 
 		m_bEffectStart = true;
 	}
