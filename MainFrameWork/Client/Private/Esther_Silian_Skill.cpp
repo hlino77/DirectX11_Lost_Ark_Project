@@ -7,6 +7,9 @@
 #include "PartObject.h"
 #include "Esther.h"
 #include "Esther_Silian_Cut.h"
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
+#include "ServerSessionManager.h"
 #include "Esther_Scene.h"
 
 CEsther_Silian_Skill::CEsther_Silian_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -58,9 +61,10 @@ void CEsther_Silian_Skill::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	Cut_Start(fTimeDelta);
+	//Cut_Start(fTimeDelta);
 
 	Act1(fTimeDelta);
+	Effect(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 }
@@ -85,6 +89,7 @@ void CEsther_Silian_Skill::Ready()
 	m_bCutStart = false;
 	m_bProjShot = false;
 
+	m_bEffectStart = false;
 	m_IsFinished = false;
 }
 
@@ -108,6 +113,26 @@ void CEsther_Silian_Skill::Act1(_float fTimeDelta)
 		m_vecSkillProjDesces[0].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
 		m_bProjShot = true;
+	}
+}
+
+void CEsther_Silian_Skill::Effect(_float fTimeDelta)
+{
+	if (false == m_bEffectStart && 90 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		//Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
+		matPivot.Translation(matPivot.Backward());
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Silian"), &tDesc)
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		pCamera->Cam_Shake(0.1f, 70.0f, 1.0f, 5.0f);
+		pCamera->Set_Chromatic(0.3f, matPivot.Translation(), 0.15f, 0.1f);
+
+		m_bEffectStart = true;
 	}
 }
 

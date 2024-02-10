@@ -230,7 +230,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;*/
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	constexpr _float fTargetX = 128.f;
 	constexpr _float fTargetY = 72.f;
 	constexpr _float fTargetCX = 256.f;
@@ -271,7 +271,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 
-#endif
+//#endif
 
 	/* 이 렌더타겟들은 그려지는 객체로부터 값을 저장받는다. */
 	/* For.MRT_GameObjects */
