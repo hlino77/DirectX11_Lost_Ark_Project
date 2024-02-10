@@ -1923,9 +1923,12 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\21.DeadScene\00.DeadWnd">
       <UniqueIdentifier>{54de9de8-35dc-48fd-a1b2-cc556156c4e2}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\MapObject\ColMesh">
       <UniqueIdentifier>{519e433b-78b5-4f7a-a99b-cd1be82b8483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Custom\BreakObject">
+      <UniqueIdentifier>{73d67e7a-f6c2-41e1-be65-be4af67570e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -5100,10 +5103,11 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\ColMesh.h">
       <Filter>02.GameObjects\MapObject\ColMesh</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_BreakObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -8249,10 +8253,11 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\ColMesh.cpp">
       <Filter>02.GameObjects\MapObject\ColMesh</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_BreakObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
