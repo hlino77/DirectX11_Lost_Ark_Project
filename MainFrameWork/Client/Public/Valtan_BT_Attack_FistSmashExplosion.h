@@ -19,6 +19,9 @@ private:
 private:
     _bool   m_bShoot = {};
 
+    _bool m_bWarning = false;
+    _bool m_bLastAttack = false;
+    _float m_fLastAttackDelay = 0.0f;
 public:
     static	CValtan_BT_Attack_FistSmashExplosion* Create(void* pArg);
     virtual void Free() override;

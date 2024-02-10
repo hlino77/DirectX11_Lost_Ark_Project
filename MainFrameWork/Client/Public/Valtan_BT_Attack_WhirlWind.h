@@ -4,6 +4,7 @@
 #include "Valtan_BT_Attack_Attack_Base.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CValtan_BT_Attack_WhirlWind :
     public CValtan_BT_Attack_Attack_Base
@@ -18,6 +19,9 @@ private:
     virtual void		OnEnd()								override;
 
 
+    CEffect* m_pEffect = nullptr;
+
+    _bool m_bAttack = false;
 public:
     static	CValtan_BT_Attack_WhirlWind* Create(void* pArg);
     virtual void Free() override;

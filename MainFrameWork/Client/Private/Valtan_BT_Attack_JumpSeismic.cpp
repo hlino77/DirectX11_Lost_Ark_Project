@@ -10,6 +10,8 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect.h"
+#include "Effect_Manager.h"
 
 CValtan_BT_Attack_JumpSeismic::CValtan_BT_Attack_JumpSeismic()
 {
@@ -19,6 +21,7 @@ void CValtan_BT_Attack_JumpSeismic::OnStart()
 {
 	__super::OnStart();
 	m_bShoot = true;
+	m_bWhirlWind = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(const _float& fTimeDelta)
@@ -48,15 +51,48 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(const _float& fTimeD
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
+
+		{
+			Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			Vec3 vLook = matWorld.Backward();
+			Vec3 vPos = matWorld.Translation();
+			vPos += vLook * 1.5f;
+			matWorld.Translation(vPos);
+			Matrix matRot = Matrix::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XM_PI * 0.5f);
+			for (_uint i = 0; i < 4; ++i)
+			{
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &matWorld;
+				EFFECT_START(L"VTSeismic", &tDesc);
+
+				matWorld *= matRot;
+				matWorld.Translation(vPos);
+			}
+		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
 	{
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(3.5f);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
-		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
-		static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
+		if (m_bWhirlWind == true)
+		{
+			m_pWhirlWind->Update_Pivot(m_pGameObject->Get_TransformCom()->Get_WorldMatrix());
+		}
+		else
+		{
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(3.5f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
+			static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
+			static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
+
+			vector<CEffect*> Effects;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"VTSeismicWhirlWindTrail", &tDesc, Effects);
+			m_pWhirlWind = Effects.front();
+
+			m_bWhirlWind = true;
+		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 12)
 	{

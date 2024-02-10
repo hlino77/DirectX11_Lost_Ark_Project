@@ -4,6 +4,8 @@
 #include "Model.h"
 #include "Transform.h"
 #include "ColliderSphere.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_WhirlWind::CValtan_BT_Attack_WhirlWind()
 {
@@ -13,18 +15,30 @@ void CValtan_BT_Attack_WhirlWind::OnStart()
 {
 	__super::OnStart();
 
+	m_pEffect = nullptr;
+	m_bAttack = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(4.f);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
-		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
-		static_cast<CBoss*>(m_pGameObject)->Set_Force(45.f);
+		if (m_bAttack == false)
+		{
+			vector<CEffect*> Effects;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"ValtanWhirlWindTrail", &tDesc, Effects);
+			m_pEffect = Effects.front();
+
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(4.f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
+			static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
+			static_cast<CBoss*>(m_pGameObject)->Set_Force(45.f);
+			m_bAttack = true;
+		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 12)
 	{

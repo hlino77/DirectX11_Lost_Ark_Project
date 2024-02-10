@@ -4,6 +4,7 @@
 #include "Valtan_BT_Attack_Attack_Base.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CValtan_BT_Attack_JumpSeismic :
     public CValtan_BT_Attack_Attack_Base
@@ -18,7 +19,9 @@ private:
     virtual void		OnEnd()								override;
 private:
     _bool m_bShoot = {};
+    _bool m_bWhirlWind = false;
 
+    CEffect* m_pWhirlWind = nullptr;
 public:
     static	CValtan_BT_Attack_JumpSeismic* Create(void* pArg);
     virtual void Free() override;

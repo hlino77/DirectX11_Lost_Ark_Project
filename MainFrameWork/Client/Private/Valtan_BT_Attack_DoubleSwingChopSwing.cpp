@@ -11,6 +11,7 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
 
 CValtan_BT_Attack_DoubleSwingChopSwing::CValtan_BT_Attack_DoubleSwingChopSwing()
 {
@@ -21,12 +22,14 @@ void CValtan_BT_Attack_DoubleSwingChopSwing::OnStart()
 	__super::OnStart();
 	m_bShoot[0] = true;
 	m_bShoot[1] = true;
-
+	m_iEffectSequence = 0;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 49)
+	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex);
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 49 && iAnimFrame0 < 59)
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(2.f);
@@ -35,21 +38,31 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
 		static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 59)
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 59 && iAnimFrame0 < 66)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 67)
+
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 67 && iAnimFrame0 < 73)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 73)
+
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 73 && iAnimFrame0 < 92)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 92)
+
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 92 && iAnimFrame0 < 94)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 94)
+
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 45)
+
+	_uint iAnimFrame1 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex);
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && iAnimFrame1 >= 45 && iAnimFrame1 < 66)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 66)
+
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && iAnimFrame1 >= 66)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 94 && m_bShoot[0])
+
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 90.0f, 0.1f, 11.0f);
@@ -70,7 +83,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 			static_cast<CSkill_Valtan_DoughnutFirstHit*>(pSkill)->Set_DoughnutRadii(7.5f,3.3f);
 		}
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 68 && m_bShoot[1])
+
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && iAnimFrame1 >= 68 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
 		CSkill::ModelDesc ModelDesc = {};
@@ -101,6 +116,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 		}
 	}
 
+	Update_Effect();	
 
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -109,6 +125,68 @@ void CValtan_BT_Attack_DoubleSwingChopSwing::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+}
+
+void CValtan_BT_Attack_DoubleSwingChopSwing::Update_Effect()
+{
+	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex);
+	_uint iAnimFrame1 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex);
+
+	if (m_iEffectSequence == 0 && iAnimFrame0 >= 53)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Trail1", &tDesc);
+		m_iEffectSequence = 1;
+	}
+	else if (m_iEffectSequence == 1 && iAnimFrame0 >= 69)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Trail2", &tDesc);
+		m_iEffectSequence = 2;
+	}
+	else if (m_iEffectSequence == 2 && iAnimFrame0 >= 93)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Trail3", &tDesc);
+		m_iEffectSequence = 3;
+	}
+	else if (m_iEffectSequence == 3 && iAnimFrame0 >= 95)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Chop", &tDesc);
+		m_iEffectSequence = 4;
+	}
+	else if (m_iEffectSequence == 4 && iAnimFrame0 >= 102)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Warning1", &tDesc);
+		EFFECT_START(L"VTDSCS_Ring1", &tDesc);
+		m_iEffectSequence = 5;
+	}
+
+	else if (m_iEffectSequence == 5 && iAnimFrame1 >= 49)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Trail4", &tDesc);
+		m_iEffectSequence = 6;
+	}
+
+	else if (m_iEffectSequence == 6 && iAnimFrame1 >= 56)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTDSCS_Warning2", &tDesc);
+		EFFECT_START(L"VTDSCS_Warning3", &tDesc);
+		EFFECT_START(L"VTDSCS_Ring2", &tDesc);
+		EFFECT_START(L"VTDSCS_Ring3", &tDesc);
+		m_iEffectSequence = 7;
+	}
 }
 
 

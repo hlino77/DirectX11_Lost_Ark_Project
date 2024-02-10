@@ -40,6 +40,7 @@ public:
 
 	_bool	Get_RenderPostValtan() { return m_bRenderPostValtan; }
 
+	CPartObject* Get_Weapon() { return m_pWeapon; }
 private:
 	virtual HRESULT		Ready_Components();
 	virtual HRESULT		Ready_Coliders();

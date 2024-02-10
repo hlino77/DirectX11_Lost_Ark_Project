@@ -133,7 +133,9 @@ void CValtan_BT_Attack_Rush::OnEnd()
 		}
 		m_EffectRush.clear();
 
-
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"ValtanRushCrash", &tDesc);
 	}
 }
 

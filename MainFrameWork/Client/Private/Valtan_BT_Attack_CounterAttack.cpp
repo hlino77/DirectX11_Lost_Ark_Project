@@ -4,6 +4,10 @@
 #include "Transform.h"
 #include <Boss_Valtan.h>
 #include "ColliderSphere.h"
+#include "Effect.h"
+#include "Effect_Manager.h"
+#include "PartObject.h"
+#include "Effect_Particle.h"
 
 CValtan_BT_Attack_CounterAttack::CValtan_BT_Attack_CounterAttack()
 {
@@ -15,21 +19,54 @@ void CValtan_BT_Attack_CounterAttack::OnStart()
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
 	static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f, 0.7f);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
+
+	m_Particles.clear();
+	m_bParticle = false;
+	m_bAttack = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
-		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex )
 	{
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> SetActive(true);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_Radius(2.5f);
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
-		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)-> Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
-		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
-		static_cast<CBoss*>(m_pGameObject)->Set_Force(19.f);
+
+		Matrix matWorld = static_cast<CBoss_Valtan*>(m_pGameObject)->Get_Weapon()->Get_Part_WorldMatrix();
+		for (auto& Particle : m_Particles)
+		{
+			Particle->Update_Pivot(matWorld);
+		}
+
+		if (m_bParticle == false)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+			EFFECT_START_OUTLIST(L"VTCounterAttackCharge", &tDesc, m_Particles);
+			m_bParticle = true;
+		}
+	}
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex )
+	{
+		if (m_bAttack == false && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) > 4)
+		{
+			static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(2.5f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
+			static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
+			static_cast<CBoss*>(m_pGameObject)->Set_Force(19.f);
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"ValtanCounterAttackTrail", &tDesc);
+			m_bAttack = true;
+
+			for (auto& Particle : m_Particles)
+			{
+				dynamic_cast<CEffect_Particle*>(Particle)->ParticleEnd();
+			}
+		}	
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 10 )
 	{

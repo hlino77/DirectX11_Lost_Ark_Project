@@ -16,9 +16,12 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
+
+    void    Update_Effect();
 private:
     _bool m_bShoot[2] = {};
 
+    _uint m_iEffectSequence = 0;
 public:
     static	CValtan_BT_Attack_DoubleSwingChopSwing* Create(void* pArg);
     virtual void Free() override;

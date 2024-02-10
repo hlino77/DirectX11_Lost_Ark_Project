@@ -586,6 +586,8 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
+	Matrix		ValtanPivotMatrix;
+	ValtanPivotMatrix = XMMatrixScaling(0.012f, 0.012f, 0.012f) * XMMatrixRotationY(XMConvertToRadians(-90.0f));
 
 	CModel* pInstance = nullptr;
 	
@@ -685,7 +687,7 @@ HRESULT CEffect_PcModel::Ready_PcModels()
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, PivotMatrix);
+		pInstance = CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, ValtanPivotMatrix);
 		if (nullptr == pInstance)
 			return E_FAIL;
 		pInstance->Initialize(nullptr);

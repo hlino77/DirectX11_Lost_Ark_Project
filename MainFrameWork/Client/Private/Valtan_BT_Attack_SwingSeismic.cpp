@@ -20,7 +20,7 @@ void CValtan_BT_Attack_SwingSeismic::OnStart()
 		__super::OnStart(1);
 	else
 		__super::OnStart();
-	m_bShoot = true;		 
+	m_bShoot = true;		
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTimeDelta)

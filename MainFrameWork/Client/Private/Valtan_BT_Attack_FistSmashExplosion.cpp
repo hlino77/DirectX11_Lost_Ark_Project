@@ -9,6 +9,9 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
+
 
 CValtan_BT_Attack_FistSmashExplosion::CValtan_BT_Attack_FistSmashExplosion()
 {
@@ -18,10 +21,21 @@ void CValtan_BT_Attack_FistSmashExplosion::OnStart()
 {
 	__super::OnStart();
 	m_bShoot = true;
+	m_bWarning = false;
+	m_bLastAttack = false;
+	m_fLastAttackDelay = 0.5f;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_bWarning == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTFistSmashWarning", &tDesc);
+		m_bWarning = true;
+	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 31&& m_bShoot)
 	{
 		m_bShoot = false;
@@ -53,17 +67,45 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float&
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
 
-		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
-		if (pSkill != nullptr&& m_pGameObject->Get_NearTarget()!= nullptr)
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VTFistSmash", &tDesc);
+		EFFECT_START(L"VTFistSmashWarning2", &tDesc);
+		EFFECT_START(L"VTFistSmash2", &tDesc);
+		m_bWarning = true;
+
+
+	}
+
+	if (m_bLastAttack == false && m_bShoot == false)
+	{
+		m_fLastAttackDelay -= fTimeDelta;
+		if (m_fLastAttackDelay <= 0.0f)
 		{
-			Vec3 vPos = m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			Vec3 vLook = m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-			vLook.Normalize();
-			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
-			static_cast<CSkill*>(pSkill)->Set_BlinkTime(3.7f);
-			static_cast<CSkill*>(pSkill)->Set_LastTime(3.9f);
+			CSkill::ModelDesc ModelDesc = {};
+			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+			ModelDesc.iObjectID = -1;
+			ModelDesc.pOwner = m_pGameObject;
+
+			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereTerm", &ModelDesc);
+			if (pSkill != nullptr && m_pGameObject->Get_NearTarget() != nullptr)
+			{
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_WorldMatrix();
+				EFFECT_START(L"VTFistSmash3", &tDesc);
+
+				Vec3 vPos = m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+				Vec3 vLook = m_pGameObject->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+				vLook.Normalize();
+				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
+				static_cast<CSkill*>(pSkill)->Set_BlinkTime(3.6f);
+				static_cast<CSkill*>(pSkill)->Set_LastTime(3.8f);
+			}
+
+			m_bLastAttack = true;
 		}
 	}
 

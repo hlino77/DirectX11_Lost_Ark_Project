@@ -9,6 +9,8 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_RainingAxe::CValtan_BT_Attack_RainingAxe()
 {
@@ -74,6 +76,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
+
+						CEffect_Manager::EFFECTPIVOTDESC tDesc;
+						tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
+						EFFECT_START(L"VTAxeRainWarning", &tDesc);
 					}
 				}
 			vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -95,6 +101,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
+
+						CEffect_Manager::EFFECTPIVOTDESC tDesc;
+						tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
+						EFFECT_START(L"VTAxeRainWarning", &tDesc);
 					}
 				}
 		}
