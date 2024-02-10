@@ -109,10 +109,10 @@ HRESULT CLevel_Bern::Initialize()
 	CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM, g_fVolume);
 
 
-	/*if (m_bFirstEnter)
+	if (m_bFirstEnter)
 	{
-		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
-	}*/
+		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+	}
 
 	return S_OK;
 }

@@ -36,11 +36,16 @@ HRESULT CUI_DeadScene::Initialize(void* pArg)
 
 void CUI_DeadScene::Tick(_float fTimeDelta)
 {
+	if ((TEXT("Dead_Start") != CServerSessionManager::GetInstance()->Get_Player()->Get_State()) && (TEXT("Dead_End") != CServerSessionManager::GetInstance()->Get_Player()->Get_State()))
+		return;
+
 	Update_UIs(fTimeDelta);
 }
 
 void CUI_DeadScene::LateTick(_float fTimeDelta)
 {
+	if ((TEXT("Dead_Start") != CServerSessionManager::GetInstance()->Get_Player()->Get_State()) && (TEXT("Dead_End") != CServerSessionManager::GetInstance()->Get_Player()->Get_State()))
+		return;
 	Late_Update_UIs(fTimeDelta);
 }
 

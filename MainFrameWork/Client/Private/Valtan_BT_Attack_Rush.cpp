@@ -139,6 +139,12 @@ void CValtan_BT_Attack_Rush::OnEnd()
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"ValtanRushCrash", &tDesc);
 	}
+
+	if (m_pEffectWarning != nullptr)
+	{
+		m_pEffectWarning->EffectEnd();
+		m_pEffectWarning = nullptr;
+	}
 }
 
 
