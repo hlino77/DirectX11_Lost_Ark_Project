@@ -127,6 +127,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
 {
     float fDistortion = g_DistortionTarget.Sample(LinearClampSampler, In.vTexcoord).x;
     float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
+    //float4 vColor = float4(g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion)).rgb, 1.f);
     
     float4 vSSR = g_SSRTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
     
@@ -319,7 +320,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;

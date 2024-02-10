@@ -57,8 +57,6 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
 {
     PS_OUT_PBR Out = (PS_OUT_PBR) 0;
 
-    Out.vDiffuse = (vector) 1.f;
-
     Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
     if (0.2f >= Out.vDiffuse.a)
