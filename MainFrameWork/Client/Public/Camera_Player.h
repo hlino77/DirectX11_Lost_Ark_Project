@@ -78,6 +78,9 @@ public:
 
 	void		Set_FadeInOut(_float fSpeed, _bool bInOut, Vec4 vColor = Vec4());
 	void		Set_FadeIntensity(_float fIntensity) { m_fFadeIntensity = fIntensity; }
+
+	void	Set_Target(CGameObject* pTarget) { m_pTarget = pTarget; }
+
 protected:
 	virtual HRESULT Ready_Components() override;
 

@@ -4,6 +4,8 @@
 BEGIN(Client)
 class CUI_DeadWnd;
 class CUI_WatchingMode;
+class CPlayer;
+class CCamera_Player;
 class CUI_DeadScene :
     public CUI
 {
@@ -24,12 +26,16 @@ public:
 
 private:
     HRESULT UI_Set();
+    void    Update_UIs(_float fTimeDelta);
+    void    Late_Update_UIs(_float fTimeDelta);
 
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
 
 private:
+    _uint   m_DeadMode = { 0 };
+
     CUI_DeadWnd* m_pDeadWnd = { nullptr };
     CUI_WatchingMode* m_pWatchingMode = { nullptr };
 

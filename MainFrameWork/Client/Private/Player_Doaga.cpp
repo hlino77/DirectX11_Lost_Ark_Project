@@ -266,6 +266,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				if (false == m_pController->Is_GrabState())
 				{
 					m_pController->Get_GrabMessage(pOther->Get_Owner());
+					Show_Damage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), false);
 				}
 			}
 

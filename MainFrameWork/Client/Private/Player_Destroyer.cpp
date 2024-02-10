@@ -151,10 +151,6 @@ HRESULT CPlayer_Destroyer::Initialize(void* pArg)
 
 	CNavigationMgr::GetInstance()->Find_FirstCell(m_iCurrLevel, this);
 
-	m_tPCStatDesc.iMaxMp = 100;
-	m_tPCStatDesc.iCurMp = 100;
-
-
 	return S_OK;
 }
 
@@ -282,7 +278,10 @@ void CPlayer_Destroyer::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 			{
 				if (false == Is_Invincible())
+				{
 					m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
+					Show_Damage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), false);
+				}
 			}
 			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
 			{

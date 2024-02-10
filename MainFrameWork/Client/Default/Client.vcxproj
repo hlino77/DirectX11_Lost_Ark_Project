@@ -794,6 +794,7 @@
     <ClInclude Include="..\Public\UI_SpeechBubble.h" />
     <ClInclude Include="..\Public\UI_Tool.h" />
     <ClInclude Include="..\Public\UI_ValtanClearWnd.h" />
+    <ClInclude Include="..\Public\UI_WatchingMode.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity_BackGround.h" />
     <ClInclude Include="..\Public\UI_WDRIdentity_Bubble.h" />
@@ -1487,6 +1488,7 @@
     <ClCompile Include="..\Private\UI_SpeechBubble.cpp" />
     <ClCompile Include="..\Private\UI_Tool.cpp" />
     <ClCompile Include="..\Private\UI_ValtanClearWnd.cpp" />
+    <ClCompile Include="..\Private\UI_WatchingMode.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity_BackGround.cpp" />
     <ClCompile Include="..\Private\UI_WDRIdentity_Bubble.cpp" />

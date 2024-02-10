@@ -41,6 +41,7 @@ private:
     void    Is_Picking_CheckButton_SSAO(POINT pt);
     void    Is_Picking_CheckButton_Fxaa3_11(POINT pt);
 
+    void    Update_DragBar();
     void    Create_DragBar();
     void   Is_Picking_DragBar(POINT pt);
     void   Is_Picking_DragBar_IBL(POINT pt);
@@ -128,6 +129,8 @@ private:
     _float  m_fPreX_ScreenTone_Contrast = { 0.f };
     _float  m_fPreX_ScreenTone_Saturation = { 0.f };
     _float  m_fPreRatioX[5] = { 0.f, 0.f, 0.f, 0.f, 0.f };
+
+    _bool   m_bHolding[5] = { false, false, false, false, false };
 public:
     static  CUI_Option_Video* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

@@ -148,6 +148,7 @@
 #include "UI_EstherSkill.h"
 #include "UI_PartyEntrance.h"
 #include "UI_DeadWnd.h"
+#include "UI_WatchingMode.h"
 #include "UI_DeadScene.h"
 
 //Monsters
@@ -3408,7 +3409,7 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Smoking_Gauge"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Smoking_Gauge/Smoking_Gauge%d.png", 45))))
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Smoking_Gauge/Smoking_Gauge%d.png", 56))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
@@ -3507,6 +3508,36 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Upgrade_stone"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Ingredient/Upgrade_stone%d.png",2))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Fusion_stone"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Ingredient/Fusion_stone%d.png",2))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_leap_stone"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Ingredient/leap_stone%d.png",3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_Fragment"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/Ingredient/Fragment.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_DragLine"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/DragLine.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_DragBar"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/DragBar.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -3524,6 +3555,11 @@ HRESULT CLoader::Loading_DeadSceneUI()
 		CUI_DeadWnd::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_WatchingMode"),
+		CUI_WatchingMode::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_DeadScene"),
 		CUI_DeadScene::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -3540,6 +3576,21 @@ HRESULT CLoader::Loading_DeadSceneUI()
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_Button"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/Button%d.png", 3))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_Button_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/Button_Effect.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_CCTVWnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/CCTVWnd.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeadScene_Change_PlayerButton"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/DeadScene/Change_PlayerButton%d.png",3))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

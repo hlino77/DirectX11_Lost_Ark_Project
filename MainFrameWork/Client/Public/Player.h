@@ -233,7 +233,7 @@ protected:
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 	virtual void			Set_EffectPos() override;
 	void					Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pItem);
-
+	void					Show_Damage(_uint iDamage, _bool IsCritical);
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
 	

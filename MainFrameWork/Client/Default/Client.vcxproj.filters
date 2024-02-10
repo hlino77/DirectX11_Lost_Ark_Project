@@ -1923,9 +1923,12 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\21.DeadScene\00.DeadWnd">
       <UniqueIdentifier>{54de9de8-35dc-48fd-a1b2-cc556156c4e2}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\MapObject\ColMesh">
       <UniqueIdentifier>{519e433b-78b5-4f7a-a99b-cd1be82b8483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\21.DeadScene\01.CCTV">
+      <UniqueIdentifier>{74298378-abab-4c8e-af50-a0911aef90b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -5100,9 +5103,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Controller_GN.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\ColMesh.h">
       <Filter>02.GameObjects\MapObject\ColMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WatchingMode.h">
+      <Filter>02.GameObjects\UI\21.DeadScene\01.CCTV</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -8249,9 +8255,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Controller_GN.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\Controller_GN</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\ColMesh.cpp">
       <Filter>02.GameObjects\MapObject\ColMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WatchingMode.cpp">
+      <Filter>02.GameObjects\UI\21.DeadScene\01.CCTV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -386,6 +386,7 @@ void CUI_Boss_Hp::Initialize_Position()
 
 		m_iHpCount = 10;
 		m_iPreCount = 10;
+		m_iMaxCount = 10;
 		m_strOutputName = TEXT("몽환군단 룩");
 		m_strMonsterRank = TEXT("보스");
 	}
@@ -401,6 +402,7 @@ void CUI_Boss_Hp::Initialize_Position()
 
 		m_iHpCount = 20;
 		m_iPreCount = 20;
+		m_iMaxCount = 20;
 		m_strOutputName = TEXT("몽환군단 킹");
 		m_strMonsterRank = TEXT("보스");
 	}
@@ -416,6 +418,7 @@ void CUI_Boss_Hp::Initialize_Position()
 
 		m_iHpCount = 160;
 		m_iPreCount = 160;
+		m_iMaxCount = 160;
 		m_strOutputName = TEXT("마수군단장 발탄");
 		m_strMonsterRank = TEXT("군단장");
 	}
@@ -464,17 +467,20 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 	m_iHpCount = (_uint)((_float)m_iCurrHp / m_fDivideCountHp);
 	if (m_iHpCount < m_iPreCount)
 	{
-		_int iSubtract = m_iPreCount - m_iHpCount;
-		m_iNextHpColor += iSubtract;
-		if(0 < (m_iNextHpColor - 1))
-			m_iCurrHpColor = m_iNextHpColor - 1;
-		else 
-			m_iCurrHpColor = (_uint)HP_PURPLE;
+		if (m_iHpCount != m_iMaxCount - 1)
+		{
+			_int iSubtract = m_iPreCount - m_iHpCount;
+			m_iNextHpColor += iSubtract;
 
-		if ((_uint)HP_PURPLE < m_iNextHpColor)
-			m_iNextHpColor = m_iNextHpColor - (_uint)HP_PURPLE - 1;
+			if ((_uint)HP_PURPLE < m_iNextHpColor)
+				m_iNextHpColor = m_iNextHpColor - (_uint)HP_END;
 
-		else if (1 > (m_iHpCount - 1))
+			if (0 < (m_iNextHpColor - 1))
+				m_iCurrHpColor = m_iNextHpColor - 1;
+			else
+				m_iCurrHpColor = (_uint)HP_PURPLE;
+		}
+		if (1 > (m_iHpCount - 1))
 		{
 			m_iCurrHpColor = (_uint)HP_RED;
 			m_iNextHpColor = (_uint)HP_END;
@@ -515,6 +521,13 @@ void CUI_Boss_Hp::Update_BossName()
 void CUI_Boss_Hp::Set_Dead_BossHpUI()
 {
 	CUI_Manager::GetInstance()->SetDead_CurrHPUI(this);
+}
+
+void CUI_Boss_Hp::Set_HpCount(_int iHpCount)
+{
+	m_iHpCount = iHpCount;
+	m_iPreCount = iHpCount;
+	m_iMaxCount = iHpCount;
 }
 
 void CUI_Boss_Hp::Set_MaxHp(_int iMaxHp)
