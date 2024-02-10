@@ -43,6 +43,9 @@ public:
 
 	virtual void On_LastAnimEnd();
 
+	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex,wstring strSoundTag, _uint iSoiundChannel , _int iAnimFrame = -1);
+	void Add_Sound(wstring strSoundTag, _uint iSoiundChannel);
+
 	virtual    void		OnEnd();
 
 
@@ -50,10 +53,12 @@ public:
 	
 
 protected:
+	void Reset_Sound();
+	_int						m_iMaxSound = 20;
 	_int						m_iCurrAnimation = 0;
 	vector<ANIMATION_DESC>	m_vecAnimDesc;
 	_float						m_fFrame = 0.f;
-	_bool						m_bSoundOn[10] = {};
+	_bool*						m_bSoundOn;
 	wstring						m_strActionName;
 	_float						m_fLoopTime = 0.f;
 	_uint						m_iMaxAnimation = 0;

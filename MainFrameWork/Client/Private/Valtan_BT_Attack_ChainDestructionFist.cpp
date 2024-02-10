@@ -29,6 +29,8 @@ void CValtan_BT_Attack_ChainDestructionFist::OnStart()
 	m_bShoot[6] = true;
 	m_bShoot[7] = true;
 	m_bShoot[8] = true;
+	m_bShoot[9] = true;
+	m_bShoot[10] = true;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _float& fTimeDelta)
@@ -62,7 +64,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
@@ -81,6 +82,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 36 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#263 (334042417)", CHANNEL_EFFECT);
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#274 (200670410)", CHANNEL_EFFECT);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -103,6 +106,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 66 && m_bShoot[2])
 	{
 		m_bShoot[2] = false;
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#264 (944100163)", CHANNEL_EFFECT);
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#275 (247868684)", CHANNEL_EFFECT);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -125,6 +130,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 96 && m_bShoot[3])
 	{
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#262 (50890152)", CHANNEL_EFFECT);
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#276 (895471458)", CHANNEL_EFFECT);
 		m_bShoot[3] = false;
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -147,7 +154,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 126 && m_bShoot[4])
 	{
-		m_bShoot[4] = false;
+		m_bShoot[4] = false;	
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#263 (334042417)", CHANNEL_EFFECT);
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#255 (401940576)", CHANNEL_EFFECT);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -171,6 +180,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 6 && !m_pGameObject->Get_ModelCom()->IsNext() && m_bShoot[5])
 	{
 		m_bShoot[5] = false;
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#36 (407979323)", CHANNEL_EFFECT);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -195,6 +205,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 12 && !m_pGameObject->Get_ModelCom()->IsNext() && m_bShoot[6])
 	{
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#37 (464077464)", CHANNEL_EFFECT);
 		m_bShoot[6] = false;
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -219,13 +230,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex &&
-		m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[6].iAnimIndex) - 3 &&
-		!m_pGameObject->Get_ModelCom()->IsNext())
+		m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_bShoot[5] = true;
 		m_bShoot[6] = true;
-		if (m_iCurrAnimation == 7 || m_iCurrAnimation == 9)
+		if ((m_iCurrAnimation == 7&& m_bShoot[9])|| (m_iCurrAnimation == 9 && m_bShoot[10]))
 		{
+			if(m_bShoot[9])
+				m_bShoot[9] = false;
+			if (m_bShoot[10])
+				m_bShoot[10] = false;
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())
 				for (auto& Object : vecTargets)
@@ -247,6 +261,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 						pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(2.f);
 						static_cast<CSkill*>(pSkill)->Set_Atk(30);
 						static_cast<CSkill*>(pSkill)->Set_Force(42.f);
+						static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#262 (50890152).wav");
 					}
 				}
 			vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -270,12 +285,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 						pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(2.f);
 						static_cast<CSkill*>(pSkill)->Set_Atk(30);
 						static_cast<CSkill*>(pSkill)->Set_Force(42.f);
+						static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#262 (50890152).wav");
 					}
 				}
 		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[11].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[11].iAnimIndex) >= 31 && m_bShoot[7])
 	{
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#106 (917948767)", CHANNEL_EFFECT);
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#284 (865380591)", CHANNEL_EFFECT);
 		m_bShoot[7] = false;
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(1.f, 110.0f, 1.8f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
@@ -305,6 +323,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(30.f, 3.3f);
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#107 (1071718533).wav");
+			static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f);
+			static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
 		}
 
 		Vec3 vDir = -m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);;
@@ -326,6 +347,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[14].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[14].iAnimIndex) >= 20 && !m_pGameObject->Get_ModelCom()->IsNext() && m_bShoot[8])
 	{
 		m_bShoot[8] = false;
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#283 (267591526)", CHANNEL_EFFECT);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -344,7 +366,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			static_cast<CSkill*>(pSkill)->Set_Atk(20);
 			static_cast<CSkill*>(pSkill)->Set_Force(45.f);
 		}
-	}
+	}		
+	Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#465 (1004371698)", CHANNEL_EFFECT);
+	Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#252 (770162512)", CHANNEL_EFFECT, 27);
+	Add_Sound(1, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#254 (893264685)", CHANNEL_EFFECT,11);
+	Add_Sound(3, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#275 (247868684)", CHANNEL_EFFECT,23);
+	Add_Sound(3, 4, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#260 (516063166)", CHANNEL_EFFECT,23);
+	Add_Sound(5, 5, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#279 (278541855)", CHANNEL_EFFECT);
+	Add_Sound(15, 6, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#305 (20427736)", CHANNEL_EFFECT);
+	Add_Sound(15, 7, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#268 (165809185)", CHANNEL_EFFECT,40);
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

@@ -517,10 +517,33 @@ void CUI_Boss_Hp::Set_Dead_BossHpUI()
 	CUI_Manager::GetInstance()->SetDead_CurrHPUI(this);
 }
 
+void CUI_Boss_Hp::Set_HpCount(_int iHpCount)
+{
+	m_iPreCount = iHpCount;
+	m_iHpCount = iHpCount;
+}
+
 void CUI_Boss_Hp::Set_MaxHp(_int iMaxHp)
 {
 	CUI_Boss_Hp::m_iMaxHp = iMaxHp;
 	m_fDivideCountHp = (_float)m_iMaxHp / (_float)m_iHpCount;
+}
+
+void CUI_Boss_Hp::Set_CurrHpColor(_uint iHpColor)
+{
+	if (HP_PURPLE > iHpColor)
+	{
+		m_iCurrHpColor = iHpColor;
+		if(HP_PURPLE > m_iCurrHpColor + 1)
+			m_iNextHpColor = m_iCurrHpColor + 1;
+		else
+			m_iNextHpColor = HP_BLUE;
+	}
+	else
+	{
+		m_iCurrHpColor = HP_BLUE;
+		m_iNextHpColor = HP_SIAN;
+	}
 }
 
 void CUI_Boss_Hp::Update_BossHp()

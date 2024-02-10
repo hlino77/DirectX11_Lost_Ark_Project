@@ -42,8 +42,14 @@ void CSKill_Valtan_RainingAxe::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 	m_fBlinkTime -= fTimeDelta;
 	if (m_fBlinkTime < 0.f && m_fLastTime > 0.f)
+	{
+		if (m_strSoundTag.empty() == false && !m_bSoundOn)
+		{
+			CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
+			m_bSoundOn = true;
+		}
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive());
-
+	}
 	m_vOffset = Vec3::Lerp(Vec3(0.f, 0.9f, 0.f), Vec3(0.f, 20.f, CGameInstance::GetInstance()->Random_Float(-20.f, 0.f)),  max(0.f, m_fBlinkTime));
 }
 

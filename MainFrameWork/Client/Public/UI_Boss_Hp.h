@@ -39,9 +39,9 @@ public:
     void    Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
     void	Set_Active(_bool bActive);
     void    Set_Dead_BossHpUI(); 
-    void    Set_HpCount(_int iHpCount) { m_iHpCount = iHpCount; }
+    void    Set_HpCount(_int iHpCount);
     void    Set_MaxHp(_int  iMaxHp);
-    void    Set_CurrHpColor(_uint iHpColor) { m_iCurrHpColor = iHpColor; }//절대 6을 넘기지마!!!
+    void    Set_CurrHpColor(_uint iHpColor);
     void    Set_BossName(wstring strBossName) { m_strOutputName = strBossName; }
 
 private:

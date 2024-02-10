@@ -56,7 +56,8 @@ HRESULT CLevel_Lobby::Initialize()
 	Start_QuadTree();
 
 	m_bConnect = false;
-
+	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
+	CGameInstance::GetInstance()->PlayBGM(L"Sunrise Horizon.wav", CHANNEL_BGM, g_fVolume);
 	return S_OK;
 }
 

@@ -119,6 +119,8 @@ public:
 
 	_bool					Is_SafeZonePierce() { return m_bSafeZonePierce; }
 	void					Set_SafeZonePierce(_bool bSafeZonePierce) { m_bSafeZonePierce = bSafeZonePierce; }
+	
+	void					Set_SoundTag(wstring strSoundTag) { m_strSoundTag = strSoundTag; }
 protected:
 	virtual HRESULT			Ready_Components();
 
@@ -138,8 +140,8 @@ protected:
 	_bool							m_bSafeZonePierce = false;
 	CGameObject*					m_pSkillOwner = nullptr;
 protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
-
-
+	wstring							m_strSoundTag = {};
+	_bool							m_bSoundOn = false;
 public:
 	virtual void Free();
 

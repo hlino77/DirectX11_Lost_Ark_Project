@@ -310,9 +310,9 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_Components()
 	if (nullptr == m_pWeapon)
 		return E_FAIL;
 
-	m_vOriginScale.x = 1.2f;
-	m_vOriginScale.y = 1.2f;
-	m_vOriginScale.z = 1.2f;
+	m_vOriginScale.x = 1.f;
+	m_vOriginScale.y = 1.f;
+	m_vOriginScale.z = 1.f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 	return S_OK;
@@ -375,7 +375,7 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_BehaviourTree()
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.fRootDist = 1.5f;
 	//돌진&1패 이후 카운터 돌진
-	ActionDesc.strActionName = L"Action_Attack1";
+	ActionDesc.strActionName = L"Action_Rush";
 	CBT_Action* pAttack1 = CValtan_BT_Attack_Rush::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();

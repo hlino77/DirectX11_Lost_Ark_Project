@@ -229,7 +229,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		{
 
 		}
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER)
+		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_SKILL_ESTHER)
 		{
 			_int iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			Vec3 vPos = {};
@@ -345,6 +345,7 @@ void CBoss::Set_HpUI(_int iHpCount, _int  iMaxHp, wstring strBossName)
 	{
 		m_pBossHpUI->Set_HpCount(iHpCount);
 		m_pBossHpUI->Set_MaxHp(iMaxHp);
+		m_pBossHpUI->Set_CurrHpColor(0);
 		m_pBossHpUI->Set_BossName(strBossName);
 	}
 }
