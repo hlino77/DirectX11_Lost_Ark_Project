@@ -262,9 +262,9 @@ HRESULT CBoss_Valtan_Corpse::Ready_Components()
 	if (nullptr == m_pWeapon)
 		return E_FAIL;
 
-	m_vOriginScale.x = 1.2f;
-	m_vOriginScale.y = 1.2f;
-	m_vOriginScale.z = 1.2f;
+	m_vOriginScale.x = 1.f;
+	m_vOriginScale.y = 1.f;
+	m_vOriginScale.z = 1.f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 	return S_OK;

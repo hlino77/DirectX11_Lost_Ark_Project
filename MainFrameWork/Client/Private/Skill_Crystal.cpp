@@ -74,6 +74,11 @@ void CSkill_Crystal::Tick(_float fTimeDelta)
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER]->SetActive(false);
 			m_bRender = false;
+			if (m_strSoundTag.empty() == false && !m_bSoundOn)
+			{
+				CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
+				m_bSoundOn = true;
+			}
 		}
 		if (m_fExplosionDelay < -0.2f)
 			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(false);

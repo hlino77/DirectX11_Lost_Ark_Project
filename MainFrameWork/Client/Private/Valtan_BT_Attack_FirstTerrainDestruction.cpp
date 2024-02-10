@@ -162,6 +162,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 		}
 	}
+
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

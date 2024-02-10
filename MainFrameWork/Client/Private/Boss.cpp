@@ -345,6 +345,7 @@ void CBoss::Set_HpUI(_int iHpCount, _int  iMaxHp, wstring strBossName)
 	{
 		m_pBossHpUI->Set_HpCount(iHpCount);
 		m_pBossHpUI->Set_MaxHp(iMaxHp);
+		m_pBossHpUI->Set_CurrHpColor(0);
 		m_pBossHpUI->Set_BossName(strBossName);
 	}
 }

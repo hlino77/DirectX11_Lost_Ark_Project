@@ -3,6 +3,8 @@
 #include "Model.h"
 #include "BehaviorTree.h"
 #include "AsUtils.h"
+#include "GameInstance.h"
+
 CBT_Action::CBT_Action()
 {
 }
@@ -36,6 +38,7 @@ HRESULT CBT_Action::Initialize(void* pArg)
 	if (FAILED(pActionDesc->pBehaviorTree->Add_Action(pActionDesc->strActionName, this)))
 		return E_FAIL;
 	m_strActionName = pActionDesc->strActionName;
+	m_bSoundOn = new _bool[m_iMaxSound];
 	return S_OK;
 }
 
@@ -49,12 +52,9 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_fFrame = 0.f;
 	m_fLoopTime = 0;
 	m_iCurrAnimation = iAnimIndex;
-	for (size_t i = 0; i < 10; i++)
-	{
-		m_bSoundOn[i] = false;
-	}
 	m_bStart = true;
 	m_bEnd = true;
+	Reset_Sound();
 }
 
 CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
@@ -118,6 +118,36 @@ void CBT_Action::On_FirstAnimStart()
 void CBT_Action::On_LastAnimEnd()
 {
 
+}
+
+void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, wstring strSoundTag, _uint iSoiundChannel, _int iAnimFrame)
+{
+	if (iAnimFrame == -1)
+	{
+		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && !m_bSoundOn[iSoundOnIndex])
+		{
+			m_bSoundOn[iSoundOnIndex] = true;
+			CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
+		}
+	}
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
+	{
+		m_bSoundOn[iSoundOnIndex] = true;
+		CGameInstance::GetInstance()->PlaySoundFile(strSoundTag+ L".wav", iSoiundChannel);
+	}
+}
+
+void CBT_Action::Add_Sound(wstring strSoundTag, _uint iSoiundChannel)
+{
+	CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
+}
+
+void CBT_Action::Reset_Sound()
+{
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 }
 
 void CBT_Action::OnEnd()

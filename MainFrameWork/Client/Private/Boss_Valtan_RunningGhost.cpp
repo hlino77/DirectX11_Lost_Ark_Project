@@ -250,9 +250,9 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
 		return E_FAIL;
 
-	m_vOriginScale.x = 1.2f;
-	m_vOriginScale.y = 1.2f;
-	m_vOriginScale.z = 1.2f;
+	m_vOriginScale.x = 1.f;
+	m_vOriginScale.y = 1.f;
+	m_vOriginScale.z = 1.f;
 
 	m_pTransformCom->Set_Scale(m_vOriginScale);
 	return S_OK;
