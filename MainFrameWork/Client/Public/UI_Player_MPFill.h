@@ -43,7 +43,7 @@ private:
     CTextBox* m_pPlayerMpWnd = { nullptr };
     wstring   m_strWndTag;
     _int      m_iPlayerMp = { 0 };
-    _uint      m_iMaxMp = { 0 };
+    _int      m_iMaxMp = { 0 };
 
 public:
     static  CUI_Player_MPFill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

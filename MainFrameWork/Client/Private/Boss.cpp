@@ -317,6 +317,11 @@ void CBoss::Set_Die(_float fTime)
 		Set_DissolveOut(fTime);
 	if (m_pBossHpUI != nullptr)
 	{
+		if (LEVELID::LEVEL_CHAOS_3 == (_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex())
+			CUI_Manager::GetInstance()->Clear_ChaosGate();
+		else if (LEVELID::LEVEL_VALTANMAIN == (_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex())
+			CUI_Manager::GetInstance()->Clear_Valtan();
+
 		m_pBossHpUI->Set_Dead_BossHpUI();
 		m_pBossHpUI = nullptr;
 	}

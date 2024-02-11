@@ -19,6 +19,9 @@
 #include "Controller_WR.h"
 #include "Controller_SP.h"
 #include "ServerSessionManager.h"
+#include "UI_InGame_NamePlate.h"
+#include "UI_ChaosDungeon_Clear.h"
+#include "UI_ValtanClearWnd.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -336,6 +339,33 @@ void CUI_Manager::Set_UIs_Active(_bool bRender, LEVELID iLevelIndex)
 	for (auto iter : m_pUIList[iLevelIndex])
 	{
 		iter->Set_UIParts_Active(bRender);
+	}
+}
+
+void CUI_Manager::Set_RenderNickName(_bool bRender, LEVELID iLevelIndex)
+{
+	for (auto iter : m_pUIList[(_uint)iLevelIndex])
+	{
+		if (TEXT("NamePlate") == iter->Get_UITag())
+			static_cast<CUI_InGame_NamePlate*>(iter)->Set_TextOn(bRender);
+	}
+}
+
+void CUI_Manager::Clear_ChaosGate()
+{
+	for (auto iter : m_pUIList[(_uint)LEVEL_CHAOS_3])
+	{
+		if (TEXT("ChaosDungeon_Clear") == iter->Get_UITag())
+			static_cast<CUI_ChaosDungeon_Clear*>(iter)->Set_ClearUIStart(true);
+	}
+}
+
+void CUI_Manager::Clear_Valtan()
+{
+	for (auto iter : m_pUIList[(_uint)LEVEL_VALTANMAIN])
+	{
+		if (TEXT("ChaosDungeon_Clear") == iter->Get_UITag())
+			static_cast<CUI_ChaosDungeon_Clear*>(iter)->Set_ClearUIStart(true);
 	}
 }
 

@@ -196,8 +196,11 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     else if ((_uint)LAYER_TYPE::LAYER_PLAYER == m_pOwner->Get_Layer())
     {
         wstring szDamage;
-        szDamage = to_wstring(iDamage);
-    
+        if (0 != iDamage)
+            szDamage = to_wstring(iDamage);
+        else
+            szDamage = TEXT("");
+
         _uint iIndex = 1;
         for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
         {

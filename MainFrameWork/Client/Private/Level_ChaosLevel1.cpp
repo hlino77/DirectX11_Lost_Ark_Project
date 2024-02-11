@@ -102,7 +102,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
-	CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Dead_Start"));
+
 	return S_OK;
 }
 
