@@ -59,7 +59,7 @@ HRESULT CUI_WDRIdentity_Bubble::Initialize(void* pArg)
 		m_iBubbleCurrCount = static_cast<CPlayer_Destroyer*>(m_pPlayer)->
 		Get_WDR_Controller()->Get_MarbleCnt();
 
-	m_iBubblePreCount = m_iBubbleCurrCount;
+	m_iBubblePreCount = 0;
 	m_bRender = false;
 
 	return S_OK;

@@ -61,12 +61,13 @@ public://Party
 
 public://Cut_Scene
     void    Set_RenderUIs(_bool bRender, LEVELID iLevelIndex);
-    void Set_UIs_Active(_bool bRender, LEVELID iLevelIndex);
+    void    Set_UIs_Active(_bool bRender, LEVELID iLevelIndex);
     void    Set_RenderNickName(_bool bRender, LEVELID iLevelIndex);
 
 public:
     void    Clear_ChaosGate();
     void    Clear_Valtan();
+    void    Player_DeadScene(_bool bAvtice, LEVELID iLevelIndex);
 
 public:
     void    Set_Player_Control(_bool bControl);

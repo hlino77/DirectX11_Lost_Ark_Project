@@ -432,7 +432,7 @@ void CUI_ChaosDungeon_Clear::Update_Line(_float fTimeDelta)
 		}
 		else
 		{
-			m_fSizeX_Line_L = 0.1f;
+			m_fSizeX_Line_L = 0.f;
 			m_pTransform_Line_L->Set_Scale(Vec3(m_fSizeX_Line_L, 14.f, 1.f));
 			m_pTransform_Line_L->Set_State(CTransform::STATE_POSITION,
 				Vec3(m_fX_Line_L - g_iWinSizeX * 0.5f, -492.f + g_iWinSizeY * 0.5f, 0.f));
@@ -447,7 +447,7 @@ void CUI_ChaosDungeon_Clear::Update_Line(_float fTimeDelta)
 		}
 		else
 		{
-			m_fSizeX_Line_R = 0.1f;
+			m_fSizeX_Line_R = 0.f;
 			m_pTransform_Line_R->Set_Scale(Vec3(m_fSizeX_Line_R, 14.f, 1.f));
 			m_pTransform_Line_R->Set_State(CTransform::STATE_POSITION,
 				Vec3(m_fX_Line_R - g_iWinSizeX * 0.5f, -492.f + g_iWinSizeY * 0.5f, 0.f));

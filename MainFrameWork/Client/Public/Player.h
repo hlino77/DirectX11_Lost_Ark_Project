@@ -221,7 +221,7 @@ public:
 	_bool					Intersect_Mouse();
 
 	_bool					Is_CancelState();
-
+	void					Show_Damage(_uint iDamage, _bool IsCritical);
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
@@ -234,7 +234,7 @@ protected:
 	void					Update_Skill(SKILLINFO& tSkill, _float fTimeDelta);
 	virtual void			Set_EffectPos() override;
 	void					Add_Item_to_EmptySlot(const wstring& strItemTag, class CItem* pItem);
-	void					Show_Damage(_uint iDamage, _bool IsCritical);
+
 protected:
 	class CCamera_Player*			m_pCamera = nullptr;
 	

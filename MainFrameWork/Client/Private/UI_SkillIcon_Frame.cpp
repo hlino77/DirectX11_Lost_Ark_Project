@@ -160,7 +160,7 @@ HRESULT CUI_SkillIcon_Frame::Render()
     m_pShaderCom->Begin(2);
     m_pVIBufferCom->Render();
 
-    if(m_fCoolMaxTime > m_fResultCool)
+    if((m_bHaveSkill)&&(m_fCoolMaxTime > m_fResultCool))
         m_pCoolTimetWnd->Render();
 
     return S_OK;

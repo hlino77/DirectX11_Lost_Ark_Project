@@ -7,9 +7,6 @@
     <Filter Include="01.Utiltiy">
       <UniqueIdentifier>{a3529259-ffc5-412e-9d9a-1e872134cec1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utiltiy\99.Super">
-      <UniqueIdentifier>{27ae1524-ddaa-40e8-a2b1-7074a841dcc7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99.Defines">
       <UniqueIdentifier>{cd0b9cfb-78f2-4c46-84e0-e82bbe5dae30}</UniqueIdentifier>
     </Filter>
@@ -228,6 +225,9 @@
     </Filter>
     <Filter Include="01.Utiltiy\04.Component\02. Buffer\VIBuffer\Trail">
       <UniqueIdentifier>{30c7064b-c870-4c07-8250-3223064d14bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utiltiy\99.Super">
+      <UniqueIdentifier>{27ae1524-ddaa-40e8-a2b1-7074a841dcc7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

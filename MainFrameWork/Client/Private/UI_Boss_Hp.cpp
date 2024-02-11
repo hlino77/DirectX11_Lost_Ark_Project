@@ -473,12 +473,11 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 			m_iNextHpColor += iSubtract;
 
 			if (HP_PURPLE < m_iNextHpColor)
-				m_iNextHpColor = m_iNextHpColor - HP_END;
+				m_iNextHpColor = HP_BLUE;
 
 			if (HP_BLUE < (m_iNextHpColor - 1))
 			{
 				m_iCurrHpColor = m_iNextHpColor - 1;
-				m_iNextHpColor++;
 			}
 			else
 			{
@@ -486,7 +485,7 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 				m_iNextHpColor = HP_BLUE;
 			}
 		}
-		if (1 > (m_iHpCount - 1))
+		if (1 > (m_iPreCount - 1))
 		{
 			m_iCurrHpColor = HP_RED;
 			m_iNextHpColor = HP_END;
