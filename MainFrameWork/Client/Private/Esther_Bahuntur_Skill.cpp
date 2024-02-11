@@ -351,8 +351,8 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Projectile()
 		Proj_Desc.pAttackOwner = this;
 		Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 		Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER;
-		Proj_Desc.fAttackTime = 0.05f;
-		Proj_Desc.fRadius = 15.f;
+		Proj_Desc.fAttackTime = 0.1f;
+		Proj_Desc.fRadius = 20.f;
 		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
 		Proj_Desc.iStatusEffect = (_uint)CPlayer_Controller::BUFFEFFECT::HALFDAMAGE;
 		Proj_Desc.fRepulsion = 0.5f;
@@ -365,8 +365,8 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Projectile()
 		Proj_Desc.pAttackOwner = this;
 		Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::SPHERE;
 		Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER;
-		Proj_Desc.fAttackTime = 0.05f;
-		Proj_Desc.fRadius = 15.f;
+		Proj_Desc.fAttackTime = 0.1f;
+		Proj_Desc.fRadius = 20.f;
 		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
 		Proj_Desc.iStatusEffect = (_uint)CPlayer_Controller::BUFFEFFECT::STIIFIMMUNE;
 		Proj_Desc.fRepulsion = 0.f;

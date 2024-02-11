@@ -938,25 +938,8 @@ HRESULT CPlayer_Destroyer::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Helmet_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Body_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_WP_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
 	Safe_Release(pItem_Manager);
+
 	return S_OK;
 }
 

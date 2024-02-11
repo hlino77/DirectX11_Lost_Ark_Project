@@ -905,30 +905,6 @@ HRESULT CPlayer_Doaga::Ready_Item()
 	Add_Item(pItem->Get_ObjectTag(), pItem);
 	Use_Item(pItem->Get_ObjectTag(), 1, false);
 
-	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::SP_WP_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::SP_Helmet_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::SP_Body_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
-	pItem = pItemManager->GetInstance()->Get_Item(ITEMCODE::SP_Leg_Legend);
-	if (nullptr == pItem)
-		return E_FAIL;
-
-	Add_Item(pItem->Get_ObjectTag(), pItem);
-
 	Safe_Release(pItemManager);
 	return S_OK;
 }
