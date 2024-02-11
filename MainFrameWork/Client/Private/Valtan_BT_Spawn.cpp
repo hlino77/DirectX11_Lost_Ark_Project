@@ -85,7 +85,7 @@ void CValtan_BT_Spawn::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_Spawn(false);
 	static_cast<CBoss*>(m_pGameObject)->Set_HpUIRender(true);
 
-	CGameInstance::GetInstance()->PlayBGM(L"Commander of Beast Valtan.wav", CHANNEL_EFFECT, 0.2f);
+	CGameInstance::GetInstance()->PlayBGM(L"Commander of Beast Valtan.wav", CHANNEL_EFFECT);
 
 	End_Scene();
 	

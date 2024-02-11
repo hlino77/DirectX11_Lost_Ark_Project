@@ -48,6 +48,10 @@ public:
 	virtual HRESULT			Render();
 	virtual HRESULT			Render_ShadowDepth();
 
+	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex, wstring strSoundTag, _uint iSoiundChannel, _int iAnimFrame = 0);
+	
+	void Add_Sound(wstring strSoundTag, _uint iSoiundChannel);
+
 public:
 	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
@@ -71,6 +75,7 @@ public:
 	virtual HRESULT			Ready_Coliders() { return S_OK; }
 
 protected:
+
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_ModelPart();
 	virtual HRESULT			Ready_Parts();
@@ -91,7 +96,8 @@ protected:
 
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
-
+	_bool*							m_bSoundOn;
+	_uint							m_iNumSound;
 protected:
 	/* 플레이어 정보*/
 	CPlayer*						m_pLeaderPlayer = { nullptr };

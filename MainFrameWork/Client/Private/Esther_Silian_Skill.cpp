@@ -31,6 +31,7 @@ HRESULT CEsther_Silian_Skill::Initialize_Prototype()
 
 HRESULT CEsther_Silian_Skill::Initialize(void* pArg)
 {
+	m_iNumSound = 4;
 	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Silian_Skill");
@@ -61,8 +62,8 @@ void CEsther_Silian_Skill::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	//Cut_Start(fTimeDelta);
-
+	Cut_Start(fTimeDelta);
+	Add_Sound(m_iAnimIndex,0 ,L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#174 (521660491)", CHANNEL_EFFECT,10);
 	Act1(fTimeDelta);
 	Effect(fTimeDelta);
 
@@ -85,10 +86,10 @@ void CEsther_Silian_Skill::Reset()
 void CEsther_Silian_Skill::Ready()
 {
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
-
+	for (size_t i = 0; i < m_iNumSound; i++)
+		m_bSoundOn[i] = false;
 	m_bCutStart = false;
 	m_bProjShot = false;
-
 	m_bEffectStart = false;
 	m_IsFinished = false;
 }

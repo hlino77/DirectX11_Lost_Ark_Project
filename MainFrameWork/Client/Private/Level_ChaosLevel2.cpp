@@ -107,7 +107,7 @@ HRESULT CLevel_ChaosLevel2::Initialize()
 
 
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Sanctuary of Arcadia.wav", CHANNEL_BGM, g_fVolume);
+	CGameInstance::GetInstance()->PlayBGM(L"Sanctuary of Arcadia.wav", CHANNEL_BGM);
 
 	return S_OK;
 }
