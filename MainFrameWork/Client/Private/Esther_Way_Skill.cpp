@@ -7,6 +7,10 @@
 #include "Esther.h"
 #include "Esther_Way_Cut.h"
 #include "Esther_Way_Dochul.h"
+
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
+#include "ServerSessionManager.h"
 #include "Esther_Scene.h"
 
 CEsther_Way_Skill::CEsther_Way_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -72,6 +76,8 @@ void CEsther_Way_Skill::Tick(_float fTimeDelta)
 	Act2(fTimeDelta);
 	Act3(fTimeDelta);
 
+	Effect(fTimeDelta);
+
 	__super::Tick(fTimeDelta);
 	m_pSkillMesh->Tick(fTimeDelta);
 }
@@ -103,6 +109,11 @@ void CEsther_Way_Skill::Ready()
 	m_bCutStart = false;
 
 	m_IsFinished = false;
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		m_bEffectStart[i] = false;
+	}
 }
 
 void CEsther_Way_Skill::Cut_Start(_float fTimeDelta)
@@ -217,6 +228,95 @@ void CEsther_Way_Skill::Act3(_float fTimeDelta)
 		pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
 
 		m_bActActive[5] = true;
+	}
+}
+
+void CEsther_Way_Skill::Effect(_float fTimeDelta)
+{
+	if (false == m_bEffectStart[0])
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix matBahunturPivot = Get_TransformCom()->Get_WorldMatrix();
+		Matrix& matFloorPivot = Get_TransformCom()->Get_WorldMatrix();
+		matBahunturPivot.Translation(matFloorPivot.Translation());
+
+		tDesc.pPivotMatrix = &matBahunturPivot;
+		EFFECT_START(TEXT("EstherSkill_Appear"), &tDesc)
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 55 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Waye_Small1"), &tDesc)
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
+
+		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
+		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.11f, 0.05f);
+		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+
+		m_bEffectStart[1] = true;
+	}
+
+	if (false == m_bEffectStart[2] && 95 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Waye_Small1"), &tDesc)
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
+
+
+		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
+		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.11f, 0.05f);
+		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+
+		m_bEffectStart[2] = true;
+	}
+
+	if (false == m_bEffectStart[3] && 145 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Waye_Small2"), &tDesc)
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
+		
+		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
+		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.11f, 0.05f);
+		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+
+		m_bEffectStart[3] = true;
+	}
+	
+	if (false == m_bEffectStart[4] && 165 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Waye_Big"), &tDesc)
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
+
+		pCamera->Cam_Shake(0.05f, 20.0f, 0.2f, 5.5f);
+		pCamera->Set_RadialBlur(0.06f, vDochulCenter, 0.11f, 0.07f);
+		pCamera->Set_Chromatic(0.06f, vDochulCenter, 0.15f, 0.07f);
+
+		m_bEffectStart[4] = true;
 	}
 }
 

@@ -40,6 +40,8 @@ private:
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
 
+	void					Effect(_float fTimeDelta);
+
 private:
 	CEsther_Way_Dochul*		m_pSkillMesh = { nullptr };
 
@@ -48,6 +50,8 @@ private:
 	_bool					m_bCutStart = false;
 
 	_bool					m_bActActive[6];
+
+	_bool					m_bEffectStart[5] = { false, false, false, false, false };
 
 public:
 	static CEsther_Way_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
