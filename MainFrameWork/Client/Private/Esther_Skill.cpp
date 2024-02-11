@@ -48,6 +48,7 @@ HRESULT CEsther_Skill::Initialize(void* pArg)
 	m_pRigidBody->SetMass(2.0f);
 	m_tCullingSphere.Radius = 2.0f;
 
+	m_bSoundOn = new _bool[m_iNumSound];
 	return S_OK;
 }
 
@@ -115,6 +116,20 @@ HRESULT CEsther_Skill::Render_ShadowDepth()
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 	return S_OK;
+}
+
+void CEsther_Skill::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, wstring strSoundTag, _uint iSoiundChannel, _int iAnimFrame)
+{
+	if (m_pModelCom->Get_CurrAnim() == iAnimIndex && m_pModelCom->Get_Anim_Frame(iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
+	{
+		m_bSoundOn[iSoundOnIndex] = true;
+		CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
+	}
+}
+
+void CEsther_Skill::Add_Sound(wstring strSoundTag, _uint iSoiundChannel)
+{
+	CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
 }
 
 HRESULT CEsther_Skill::Ready_Components()

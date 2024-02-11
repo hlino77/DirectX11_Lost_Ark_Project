@@ -189,7 +189,7 @@ HRESULT CLevel_ChaosLevel1::Ready_Lights()
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Albion's Rage.wav", CHANNEL_BGM, g_fVolume);
+	CGameInstance::GetInstance()->PlayBGM(L"Albion's Rage.wav", CHANNEL_BGM);
 
 	Safe_Release(pGameInstance);
 
