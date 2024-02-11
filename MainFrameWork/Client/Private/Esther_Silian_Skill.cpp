@@ -61,7 +61,7 @@ void CEsther_Silian_Skill::Tick(_float fTimeDelta)
 	if (true == m_IsFinished)
 		return;
 
-	//Cut_Start(fTimeDelta);
+	Cut_Start(fTimeDelta);
 
 	Act1(fTimeDelta);
 	Effect(fTimeDelta);
@@ -121,7 +121,6 @@ void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 	if (false == m_bEffectStart && 90 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		//Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
 		Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
 		matPivot.Translation(matPivot.Backward());
 		tDesc.pPivotMatrix = &matPivot;

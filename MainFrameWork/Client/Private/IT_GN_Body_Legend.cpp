@@ -34,7 +34,7 @@ HRESULT CIT_GN_Body_Legend::Initialize(void* pArg)
 	m_vecUseEquipSlot.push_back((_uint)PART::SHOULDER);
 	m_vecUseEquipSlot.push_back((_uint)PART::ARM);
 
-	m_tStatChangeDesc.iHp = 100;
+	m_tStatChangeDesc.iHp = 1000;
 
 	return S_OK;
 }
@@ -63,6 +63,7 @@ HRESULT CIT_GN_Body_Legend::Use_Item(CPlayer* pOwner)
 	tPcStat.iCurHp += m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+
 	for (auto& i : m_vecUseEquipSlot)
 	{
 		if (nullptr != pOwner->Get_EquipItem(i))

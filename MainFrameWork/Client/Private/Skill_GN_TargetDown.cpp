@@ -35,6 +35,7 @@ HRESULT CSkill_GN_TargetDown::Initialize(void* pArg)
 	Proj_Desc.iDamage = 1500;
 	Proj_Desc.iStagger = 25;
 	Proj_Desc.fRepulsion = 1.8f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
 	m_iUseMana = 111;
