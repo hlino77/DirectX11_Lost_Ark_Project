@@ -437,6 +437,8 @@ HRESULT CNpc::Ready_NamePlate()
 
 	if (m_pNamePlate == nullptr)
 		return E_FAIL;
+	else
+		CUI_Manager::GetInstance()->Add_UI((LEVELID)m_iCurrLevel, m_pNamePlate);
 
 	Safe_Release(pGameInstance);
 

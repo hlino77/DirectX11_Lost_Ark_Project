@@ -26,6 +26,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
+    void    Set_TextOn(_bool bOn) { m_bTextOn = bOn; }
 
 private:
     virtual HRESULT Ready_Components();
@@ -49,7 +50,7 @@ private:
     wstring m_strTag;
     CTextBox* m_pInGameNameWnd = nullptr;
     _bool   m_bTextOn = false;
-
+    
 public:
     static  CUI_InGame_NamePlate* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
