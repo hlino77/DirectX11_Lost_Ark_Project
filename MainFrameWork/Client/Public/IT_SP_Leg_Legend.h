@@ -23,6 +23,8 @@ public:
 	virtual HRESULT				Use_Item(CPlayer* pOwner) override;
 	virtual HRESULT				Disuse_Item(CPlayer* pOwner, _bool bUseDefault) override;
 
+	virtual void				Upgrade_Item() override;
+
 private:
 	virtual HRESULT				Ready_Components();
 

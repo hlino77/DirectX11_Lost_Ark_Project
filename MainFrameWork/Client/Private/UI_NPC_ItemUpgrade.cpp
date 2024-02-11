@@ -827,6 +827,12 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
         SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
         if (50 < SuccessPercent)
         {
+            CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+
+            m_pCurrUpgradeItem->Disuse_Item(pPlayer, true);
+            m_pCurrUpgradeItem->Upgrade_Item();
+            m_pCurrUpgradeItem->Use_Item(pPlayer);
+
             m_pCurrUpgradeItem->Growth_UpgradeLevel();
             Print_FaceItemGradeLevelWnd();
             Print_HelmetItemGradeLevelWnd();
@@ -4290,6 +4296,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_DragBar()
 
     if (FAILED(m_pTexture_DragBar->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
+
+    return S_OK;
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_CurrItem()

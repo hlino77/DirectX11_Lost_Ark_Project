@@ -32,7 +32,7 @@ HRESULT CIT_SP_Leg_Legend::Initialize(void* pArg)
 
 	m_vecUseEquipSlot.push_back((_uint)PART::LEG);
 
-	m_tStatChangeDesc.iHp = 100;
+	m_tStatChangeDesc.iHp = 1000;
 
 	return S_OK;
 }
@@ -103,9 +103,14 @@ HRESULT CIT_SP_Leg_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 		pOwner->Set_ModelPart(i, pOwner->Get_DefaultPart(i));
 		pOwner->Set_EquipItem(i, nullptr);
 	}
-	if (pOwner->Is_Control())
+	if (pOwner->Is_Control() && false == bUseDefault)
 		pOwner->Add_Item(m_strObjectTag, this);
 	return S_OK;
+}
+
+void CIT_SP_Leg_Legend::Upgrade_Item()
+{
+	m_tStatChangeDesc.iHp += 200;
 }
 
 HRESULT CIT_SP_Leg_Legend::Ready_Components()

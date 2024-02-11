@@ -29,7 +29,7 @@ HRESULT CIT_WDR_WP_Legend::Initialize(void* pArg)
 	m_strItemName = TEXT("전설의 모코코 망치");
 	m_strItemDescript = TEXT("");
 
-	m_tStatChangeDesc.iAtkPower = 100;
+	m_tStatChangeDesc.iAtkPower = 500;
 
 	return S_OK;
 }
@@ -82,10 +82,15 @@ HRESULT CIT_WDR_WP_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(nullptr);
 	pOwner->Set_EquipItem((_uint)PART::WEAPON, nullptr);
-	if (pOwner->Is_Control())
+	if (pOwner->Is_Control() && false == bUseDefault)
 		pOwner->Add_Item(m_strObjectTag, this);
 
 	return S_OK;
+}
+
+void CIT_WDR_WP_Legend::Upgrade_Item()
+{
+	m_tStatChangeDesc.iAtkPower += 100;
 }
 
 HRESULT CIT_WDR_WP_Legend::Ready_Components()

@@ -103,8 +103,13 @@ HRESULT CIT_MG_Body_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 		pOwner->Set_ModelPart(i, pOwner->Get_DefaultPart(i));
 		pOwner->Set_EquipItem(i, nullptr);
 	}
-	pOwner->Add_Item(m_strObjectTag, this);
+	if (pOwner->Is_Control() && false == bUseDefault)
+		pOwner->Add_Item(m_strObjectTag, this);
 	return S_OK;
+}
+
+void CIT_MG_Body_Mococo::Upgrade_Item()
+{
 }
 
 HRESULT CIT_MG_Body_Mococo::Ready_Components()
