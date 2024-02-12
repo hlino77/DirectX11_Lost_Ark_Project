@@ -49,7 +49,6 @@ void CState_GN_Attack_Hand1::Enter_State()
 	{
 		PLAYSOUND(TEXT("GN_Laugh_605"), CHANNELID::CHANNEL_EFFECT, SOUNDLOOP::NOLOOP);
 	}
-		
 
 	m_iAttackCnt = 0;
 	m_iEffectCnt = 0;
