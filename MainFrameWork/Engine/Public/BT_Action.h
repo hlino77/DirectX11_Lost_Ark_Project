@@ -43,7 +43,8 @@ public:
 
 	virtual void On_LastAnimEnd();
 
-	//void Add_Sound(_int iAnimIndex, _int iSoundOnIndex,wstring strSoundTag, _uint iSoiundChannel , _int iAnimFrame = 0,_bool bUseLoopChannel = false);
+
+	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, _int iAnimFrame = 0, FMOD_CHANNEL** pChannel = nullptr);	
 	void Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 
 
