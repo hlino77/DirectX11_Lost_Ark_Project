@@ -36,7 +36,11 @@ HRESULT CSkill_GN_Grenade::Initialize(void* pArg)
 	Proj_Desc.iDamage = 800;
 	Proj_Desc.iStagger = 0;
 	Proj_Desc.fRepulsion = 0.f;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
+
 	m_SkillProjDesc = Proj_Desc;
+
+
 
 	m_iUseMana = 39;
 

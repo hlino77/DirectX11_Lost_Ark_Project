@@ -308,7 +308,6 @@ void CAnimModel::Break_Floor()
 	{
 		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
 	}
-
 	m_bPlayAnim = !m_bPlayAnim;
 }
 
@@ -320,8 +319,7 @@ void CAnimModel::Break_OutWall()
 	{
 		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 	}
-
-
+	m_bPlayAnim = !m_bPlayAnim;
 }
 
 

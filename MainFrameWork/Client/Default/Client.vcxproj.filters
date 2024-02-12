@@ -1929,10 +1929,10 @@
     </Filter>
     <Filter Include="02.GameObjects\Esther\base_Scene">
       <UniqueIdentifier>{eac23d64-6302-4a38-a5fe-e2cdfbdcdba2}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Custom\BreakObject">
       <UniqueIdentifier>{73d67e7a-f6c2-41e1-be65-be4af67570e8}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\UI\21.DeadScene\01.CCTV">
       <UniqueIdentifier>{74298378-abab-4c8e-af50-a0911aef90b1}</UniqueIdentifier>
     </Filter>
@@ -5119,6 +5119,9 @@
     <ClInclude Include="..\Public\UI_WatchingMode.h">
       <Filter>02.GameObjects\UI\21.DeadScene\01.CCTV</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Custom_BreakObject.h">
+      <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -8273,6 +8276,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_WatchingMode.cpp">
       <Filter>02.GameObjects\UI\21.DeadScene\01.CCTV</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Custom_BreakObject.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

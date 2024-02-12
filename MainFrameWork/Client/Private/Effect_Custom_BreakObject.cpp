@@ -6,18 +6,16 @@
 #include "Boss_Valtan.h"
 #include "StaticModel.h"
 #include "AnimModel.h"
-
+#include "GameObject.h"
 
 CEffect_Custom_BreakObject::CEffect_Custom_BreakObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: Super(pDevice, pContext)
 {
-
 }
 
 CEffect_Custom_BreakObject::CEffect_Custom_BreakObject(const CEffect_Custom_BreakObject& rhs)
 	: Super(rhs)
 {
-
 }
 
 HRESULT CEffect_Custom_BreakObject::Initialize_Prototype(EFFECTDESC* pDesc)
@@ -27,46 +25,102 @@ HRESULT CEffect_Custom_BreakObject::Initialize_Prototype(EFFECTDESC* pDesc)
 
 HRESULT CEffect_Custom_BreakObject::Initialize(void* pArg)
 {
-
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
 	BreakObjectDesc* pDesc = static_cast<BreakObjectDesc*>(pArg);
-	m_pTransformCom->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, pDesc->vPos);
-	m_vStartPos = pDesc->vPos;
-	m_vTargetPos = pDesc->vTargetPos;
+	
+	m_WorldMatrix = pDesc->WorldMatrix;
+	
+
 	m_strModelName = pDesc->strModelName;
+
+	m_pTransformCom->Set_WorldMatrix(m_WorldMatrix);
+	m_vStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	m_bBreakStart = false;
 
-	m_fLifeTime = 2.f;
+	m_fLifeTime = 0.f;
 	m_fTimeAcc = 0.0f;
 
 	if (pDesc->pOwner)
 	{
 		m_pOwner = pDesc->pOwner;
 	}
+	 
+	m_pTarget = CGameInstance::GetInstance()->Find_GameObject(LEVEL_VALTANMAIN, _uint(LAYER_TYPE::LAYER_BOSS), TEXT("Boss_Valtan"));
+
 	
-	Init_Projectile_Motion();
+	m_AttackStyle = 0;
+
+
+#pragma region ITR_02315_Cell 
+
+	if (m_strModelName == TEXT("Itr_02315_Cell_000") || m_strModelName == TEXT("Itr_02315_Cell_022") || m_strModelName == TEXT("Itr_02315_Cell_063") ||
+		m_strModelName == TEXT("Itr_02315_Cell_102") || m_strModelName == TEXT("Itr_02315_Cell_108") || m_strModelName == TEXT("Itr_02315_Cell_160") ||
+		m_strModelName == TEXT("Itr_02315_Cell_162") || m_strModelName == TEXT("Itr_02315_Cell_201") || m_strModelName == TEXT("Itr_02315_Cell_240") ||
+		m_strModelName == TEXT("Itr_02315_Cell_327") || m_strModelName == TEXT("Itr_02315_Cell_451")
+		)
+
+	{
+		m_AttackStyle = 1;
+	}
+
+#pragma endregion
+
+#pragma region ITR_02316_Cell
+
+	if (m_strModelName == TEXT("Itr_02316_Cell_000") || m_strModelName == TEXT("Itr_02316_Cell_247") || m_strModelName == TEXT("Itr_02316_Cell_444") ||
+		m_strModelName == TEXT("Itr_02316_Cell_508") || m_strModelName == TEXT("Itr_02316_Cell_565") || m_strModelName == TEXT("Itr_02316_Cell_619") ||
+		m_strModelName == TEXT("Itr_02316_Cell_821") || m_strModelName == TEXT("Itr_02316_Cell_871") || m_strModelName == TEXT("Itr_02316_Cell_876") ||
+		m_strModelName == TEXT("Itr_02316_Cell_915")
+		)
+	{
+		m_AttackStyle = 1;
+	}
+
+#pragma endregion
+
 
 	return S_OK;
 }
 
 void CEffect_Custom_BreakObject::Tick(_float fTimeDelta)
 {
-	m_pTransformCom->Turn_Speed(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), -10.0f, fTimeDelta);
+	m_fTimeAcc += fTimeDelta;
 
-	if (true == m_bBreakStart)
+	if (m_fTimeAcc < 0.2f) 
 	{
-		Effect_BreakObject();
-		Set_Active(false);
-		Set_Dead(true);
+		m_bRimLight = true;
 		return;
 	}
-	else
+
+	m_bRimLight = false;
+
+	CTransform* pTargetTransform = m_pTarget->Get_TransformCom();
+	Vec3 TargetPos = pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+
+	// Spread Random -> Dir
+	if (m_AttackStyle == 0)
 	{
-		Update_BreakPos(fTimeDelta);
+		Spread_Random_Dir(fTimeDelta);
 	}
+
+	// Target Pos -> Dir
+	if (m_AttackStyle == 1)
+	{
+		Spread_Random_Dir(fTimeDelta);
+		//Exponential_Lerp(fTimeDelta);
+	}
+
+	if (m_fTimeAcc >= 1.f)
+	{
+		Set_Active(false);
+		Set_Dead(true);
+	}
+
+
 }
 
 void CEffect_Custom_BreakObject::LateTick(_float fTimeDelta)
@@ -79,11 +133,31 @@ void CEffect_Custom_BreakObject::LateTick(_float fTimeDelta)
 
 HRESULT CEffect_Custom_BreakObject::Render()
 {
+
 	if (FAILED(m_pShaderCom->Push_GlobalWVP()))
 		return E_FAIL;
 
+	if (true == m_bRimLight)
+	{
+		_float fRimLightColor = (_float)m_bRimLight;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+			return E_FAIL;
+	}
+	else
+	{
+		_float fRimLightColor = 0.f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+			return E_FAIL;
+	}
+
 	if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 		return E_FAIL;
+
+
+	_float fRimLightColor = 0.f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -95,7 +169,6 @@ HRESULT CEffect_Custom_BreakObject::Ready_Components()
 
 HRESULT CEffect_Custom_BreakObject::Ready_Components(void* pArg)
 {
-
 	BreakObjectDesc* pDesc = static_cast<BreakObjectDesc*>(pArg);
 
 	if (FAILED(Super::Ready_Components()))
@@ -108,84 +181,10 @@ HRESULT CEffect_Custom_BreakObject::Ready_Components(void* pArg)
 
 	/* For.Com_Model */
 	wstring strComName = pDesc->strModelName;
-
 	if (FAILED(__super::Add_Component(LEVEL_VALTANMAIN, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
 	return S_OK;
-}
-
-void CEffect_Custom_BreakObject::Init_Projectile_Motion()
-{
-
-	srand(static_cast<unsigned int>(time(0))); // Random 
-
-	// Standard Value  : 0.15f
-	_float fMin_Time = 0.12f;
-	_float fMax_Time = 0.18f;
-
-	// Standard Value : 1.f
-	_float fMin_Height = 0.7f;
-	_float fMax_Height = 1.2f;
-
-	Vec3 vTargetPos = m_vTargetPos;
-	_float fEndHeight = vTargetPos.y - m_vStartPos.y;
-
-	// Random Value
-	_float fRandom_Time = fMin_Time + static_cast<_float>(rand()) / (static_cast<_float>(RAND_MAX / (fMax_Time - fMin_Time)));
-	_float fRandom_Height = fMin_Height + static_cast<_float>(rand()) / (static_cast<_float>(RAND_MAX / (fMax_Height - fMin_Height)));
-
-
-	m_fGravity = 2.0f * fRandom_Height / (fRandom_Time * fRandom_Time);
-
-	m_fVelocityY = sqrtf(2.0f * m_fGravity * fRandom_Height);
-
-	_float a = m_fGravity;
-	_float b = -2.0f * m_fVelocityY;
-	_float c = 2.0f * fEndHeight;
-
-	m_fEndTime = (-b + sqrtf(b * b - 4.0f * a * c)) / (2.0f * a);
-
-	m_fVelocityX = -(m_vStartPos.x - vTargetPos.x) / m_fEndTime;
-	m_fVelocityZ = -(m_vStartPos.z - vTargetPos.z) / m_fEndTime;
-
-	m_fTimeAcc = 0.0f;
-
-}
-
-void CEffect_Custom_BreakObject::Update_BreakPos(_float fTimedelta)
-{
-	m_fTimeAcc += fTimedelta;
-
-	m_fTimeAcc = min(m_fTimeAcc, m_fEndTime);
-
-	Vec3 vPos;
-
-	vPos.x = m_vStartPos.x + m_fVelocityX * m_fTimeAcc;
-	vPos.y = m_vStartPos.y + (m_fVelocityY * m_fTimeAcc) - (0.5f * m_fGravity * m_fTimeAcc * m_fTimeAcc);
-	vPos.z = m_vStartPos.z + m_fVelocityZ * m_fTimeAcc;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-
-
-	_float fDistance = (m_vTargetPos - vPos).Length();
-	if (fDistance < 0.1f)
-	{
-		m_bBreakStart = true;		
-	}
-
-}
-
-void CEffect_Custom_BreakObject::Effect_BreakObject()
-{
-	Matrix matWorld = XMMatrixIdentity();
-	Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos.y += 0.5f;
-	matWorld.Translation(vPos);
-
-	CEffect_Manager::EFFECTPIVOTDESC desc;
-	desc.pPivotMatrix = &matWorld;
 }
 
 
@@ -203,6 +202,44 @@ CEffect_Custom_BreakObject* CEffect_Custom_BreakObject::Create(ID3D11Device* pDe
 	return pInstance;
 }
 
+
+void CEffect_Custom_BreakObject::Spread_Random_Dir(_float fTimeDelta)
+{
+	_float initialSpeed = 10.0f;
+	_float gravity = -9.8f * 0.1; // Power Custom
+	_float airResistance = 0.1f;
+
+
+	if (false == m_bSetDir)
+	{
+		_float fSpeed = initialSpeed * exp(-airResistance * (m_fTimeAcc - 0.1f));
+
+		// Random Vector Dir
+		_float fRandomAngle = static_cast<float>((rand() % 360) * (3.141592 / 180.0));
+		Vec3 fRandomDirection = Vec3(cos(fRandomAngle), 0.0f, sin(fRandomAngle));
+
+		// Move Dir Create
+		m_RandomMoveDirection = Vec3(fRandomDirection.x * fSpeed, m_vStartPos.y, fRandomDirection.z * fSpeed);
+
+		m_bSetDir = true;
+	}
+
+	// Gravity
+	float timeSinceStart = m_fTimeAcc - 0.1f;
+	float verticalDisplacement = 0.5f * gravity * pow(timeSinceStart, 2); // s = ut + 0.5at^2 
+
+	//Position Move
+	m_vStartPos += m_RandomMoveDirection * fTimeDelta; // x, z
+	m_vStartPos.y += verticalDisplacement;	   // Gravity -> y	
+
+	// Bind World Position
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vStartPos);
+
+}
+
+void CEffect_Custom_BreakObject::Exponential_Lerp(float fTimeDelta)
+{
+}
 
 CGameObject* CEffect_Custom_BreakObject::Clone(void* pArg)
 {
