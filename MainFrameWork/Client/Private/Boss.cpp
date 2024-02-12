@@ -291,7 +291,7 @@ void CBoss::Follow_ServerPos(_float fDistance, _float fLerpSpeed)
 
 void CBoss::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
 {
-	m_pTransformCom->LookAt_Lerp(vDir, 5.0f, fTimeDelta);
+	m_pTransformCom->LookAt_Lerp_ForLand(vDir, 5.0f, fTimeDelta);
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
 }
 
@@ -358,6 +358,34 @@ void CBoss::Move_to_SpawnPosition()
 void CBoss::Load_WorldMatrix(Matrix& matWorld)
 {
 	matWorld = m_pTransformCom->Get_WorldMatrix();
+}
+
+void CBoss::Set_Weapon_Render(_bool IsRender)
+{
+	if (m_pWeapon != nullptr)
+	{
+		m_pWeapon->Set_Render(IsRender);
+	}
+}
+
+void CBoss::Set_Weapon_RimLight(_float fTime, _float fColor)
+{
+	if (m_pWeapon != nullptr)
+	{
+		m_pWeapon->Set_RimLight(fTime, fColor);
+	}
+}
+
+void CBoss::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed)
+{
+	if (m_pWeapon != nullptr)
+	{
+		if (m_pWeapon->Get_ModelCom()->Initailize_FindAnimation(strAnimName, fAnimspeed) > m_pWeapon->Get_ModelCom()->Get_MaxAnimIndex())
+			strAnimName = L"att_battle_8_01_loop";
+		m_pWeapon->Get_ModelCom()->Reserve_NextAnimation(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fChangeTime,
+			iStartFrame, iChangeFrame);
+		m_pWeapon->Get_ModelCom()->Set_Anim_Speed(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fAnimspeed);
+	}
 }
 
 HRESULT CBoss::Ready_Components()

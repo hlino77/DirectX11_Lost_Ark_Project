@@ -187,7 +187,7 @@ HRESULT CSkill::Ready_Components()
 
 void CSkill::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
 {
-	m_pTransformCom->LookAt_Lerp(vDir, 5.0f, fTimeDelta);
+	m_pTransformCom->LookAt_Lerp_ForLand(vDir, 5.0f, fTimeDelta);
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
 }
 

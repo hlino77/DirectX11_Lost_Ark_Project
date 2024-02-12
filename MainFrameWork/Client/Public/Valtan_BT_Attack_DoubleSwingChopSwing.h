@@ -20,7 +20,7 @@ private:
     void    Update_Effect();
 private:
     _bool m_bShoot[2] = {};
-
+    _float m_fDounutRadii[2] = { 8.f , 6.3f };
     _uint m_iEffectSequence = 0;
 public:
     static	CValtan_BT_Attack_DoubleSwingChopSwing* Create(void* pArg);

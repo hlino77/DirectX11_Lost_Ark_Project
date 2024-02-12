@@ -236,9 +236,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		m_bShoot[6] = true;
 		if ((m_iCurrAnimation == 7&& m_bShoot[9])|| (m_iCurrAnimation == 9 && m_bShoot[10]))
 		{
-			if(m_bShoot[9])
+			if(m_iCurrAnimation == 7 && m_bShoot[9])
 				m_bShoot[9] = false;
-			if (m_bShoot[10])
+			if ((m_iCurrAnimation == 9 && m_bShoot[10]))
 				m_bShoot[10] = false;
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())

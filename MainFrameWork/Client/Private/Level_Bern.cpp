@@ -107,7 +107,7 @@ HRESULT CLevel_Bern::Initialize()
 	CChat_Manager::GetInstance()->Set_Active(true);
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
 	CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM);
-
+	CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BGM, 0.2f);
 
 	if (m_bFirstEnter)
 	{

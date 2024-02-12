@@ -110,6 +110,8 @@ void CBoss_Valtan_CounterGhost::LateTick(_float fTimeDelta)
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_BODY_BOSS]->Set_Center_ToBone();
 	if (m_pWeapon != nullptr)
 		m_pWeapon->LateTick(fTimeDelta);
+	if (m_IsCounterSkill)
+		m_pWeapon->Set_RimLight(0.1f, 0.9f);
 }
 
 HRESULT CBoss_Valtan_CounterGhost::Render()

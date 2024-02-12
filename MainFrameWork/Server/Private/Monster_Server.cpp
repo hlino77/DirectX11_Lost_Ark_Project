@@ -187,7 +187,7 @@ HRESULT CMonster_Server::Ready_Components()
 
 void CMonster_Server::Move_Dir(Vec3 vDir, _float fSpeed, _float fTimeDelta)
 {
-	m_pTransformCom->LookAt_Lerp(vDir, 5.0f, fTimeDelta);
+	m_pTransformCom->LookAt_Lerp_ForLand(vDir, 5.0f, fTimeDelta);
 	m_pTransformCom->Go_Straight(fSpeed, fTimeDelta);
 }
 
@@ -595,7 +595,7 @@ void CMonster_Server::LookAt_Target_Direction_Lerp(_float fTimeDelta)
 	Vec3 vTargetPosition = m_pNearTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vCurrentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	if ((vTargetPosition - vCurrentPosition).Length() > 0.05f)
-		m_pTransformCom->LookAt_Lerp(vTargetPosition- vCurrentPosition, 4.0f, fTimeDelta);
+		m_pTransformCom->LookAt_Lerp_ForLand(vTargetPosition- vCurrentPosition, 4.0f, fTimeDelta);
 }
 
 void CMonster_Server::LookAt_Target_Direction()

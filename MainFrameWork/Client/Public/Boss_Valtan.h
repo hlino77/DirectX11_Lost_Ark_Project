@@ -34,13 +34,11 @@ public:
 	virtual void Update_Dissolve(_float fTimeDelta);
 
 public:
-	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
-	void Set_Weapon_Render(_bool IsRender);
-	void Set_Weapon_RimLight(_float fTime, _float fColor);
+
 
 	_bool	Get_RenderPostValtan() { return m_bRenderPostValtan; }
 
-	CPartObject* Get_Weapon() { return m_pWeapon; }
+
 private:
 	virtual HRESULT		Ready_Components();
 	virtual HRESULT		Ready_Coliders();
@@ -50,7 +48,6 @@ private:
 private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 private:
-	CPartObject*					m_pWeapon = nullptr;
 	Vec3							m_vSummonPositions[3] = {};
 	_float							m_fSummonTime = 0.f;
 	_bool							m_bRenderPostValtan = true;

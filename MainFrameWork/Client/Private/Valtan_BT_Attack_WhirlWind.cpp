@@ -32,7 +32,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(const _float& fTimeDel
 			m_pEffect = Effects.front();
 
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(4.f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(4.5f);
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
 			static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
@@ -43,6 +43,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(const _float& fTimeDel
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 12)
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	}
+	{
+		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT);
+		Add_Sound(1, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)", CHANNEL_EFFECT);
+		Add_Sound(2, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", CHANNEL_EFFECT); 
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

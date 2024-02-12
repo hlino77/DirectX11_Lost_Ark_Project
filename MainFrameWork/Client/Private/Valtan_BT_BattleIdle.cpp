@@ -15,14 +15,7 @@ void CValtan_BT_BattleIdle::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_BattleIdle::OnUpdate(const _float& fTimeDelta)
 {
-	if (static_cast<CMonster*>(m_pGameObject)->Is_Hit())
-		return BT_FAIL;
-	m_pGameObject->Get_TransformCom()->Turn_Speed(Vec3(0.f,1.f,0.f), XMConvertToRadians(180.f),fTimeDelta);
-
-	m_fIdletime += fTimeDelta;
-	if (m_fIdletime> 1.f)
-		return BT_SUCCESS;
-
+	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	return BT_RUNNING;
 }
 
