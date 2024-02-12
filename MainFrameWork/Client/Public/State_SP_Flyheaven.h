@@ -38,6 +38,11 @@ private:
 	vector<CEffect*> m_Trails;
 
 	_bool m_bTrail = false;
+
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
 public:
 	static CState_SP_Flyheaven* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

@@ -34,6 +34,10 @@ private:
 	_int m_iSkyKongKong_Loop = 0;
 	_uint m_iContinueCnt = 0;
 
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
 public:
 	static CState_SP_SkyKongKong_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

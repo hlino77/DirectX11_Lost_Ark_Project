@@ -33,6 +33,11 @@ HRESULT CState_SP_Flyheaven::Initialize()
 
 void CState_SP_Flyheaven::Enter_State()
 {
+
+
+
+
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iFlyheaven, 0.1f, 0, 0);
