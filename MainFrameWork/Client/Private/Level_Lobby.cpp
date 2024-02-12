@@ -58,12 +58,15 @@ HRESULT CLevel_Lobby::Initialize()
 	m_bConnect = false;
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
 	CGameInstance::GetInstance()->PlayBGM(L"Sunrise Horizon.wav", CHANNEL_BGM);
+	CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BGM,
+		CUI_Manager::GetInstance()->Get_ChannelVolume(CHANNEL_BGM));
 	return S_OK;
 }
 
 HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
-
+	if (KEY_TAP(KEY::A))
+		CGameInstance::GetInstance()->PlayBGM(L"Sunrise Horizon.wav", CHANNEL_BGM);
 
 	CUI* pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Button_Entrance_to_Server"));
 	if (nullptr == pUI)

@@ -195,7 +195,6 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     }
     else if ((_uint)LAYER_TYPE::LAYER_PLAYER == m_pOwner->Get_Layer())
     {
-
         wstring szDamage;
         if (0 != iDamage)
         {
@@ -214,8 +213,6 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
         }
         else
             szDamage = TEXT("");
-
-    
         Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
         Vec2 vOrigin = vMeasure * 0.5f;
     

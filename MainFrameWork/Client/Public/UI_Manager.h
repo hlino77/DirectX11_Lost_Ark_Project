@@ -55,9 +55,9 @@ public://Mouse
     void    Set_EntranceParty_Player(_bool  bEntrance, class CPlayer* pPlayer);
 
 public://Party
-    void    Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer);
+    void    Set_Active_EntranceParty(class CPlayer* pPartyLeader, class CPlayer* pPlayer);
     void    Set_Add_PartyInfo(vector<_uint> vecPartys);
-    CPlayer* Get_PartyLeader();
+    class CPlayer* Get_PartyLeader();
 
 public://Cut_Scene
     void    Set_RenderUIs(_bool bRender, LEVELID iLevelIndex);

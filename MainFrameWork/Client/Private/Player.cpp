@@ -825,17 +825,22 @@ HRESULT CPlayer::Ready_NamePlate()
 	{
 		m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(LEVELID::LEVEL_STATIC,
 			(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
+
+		if (m_pNamePlate == nullptr)
+			return E_FAIL;
+		else
+			CUI_Manager::GetInstance()->Add_UI(LEVEL_STATIC, m_pNamePlate);
 	}
 	else
 	{
 		m_pNamePlate = static_cast<CUI_InGame_NamePlate*>(pGameInstance->Add_GameObject(m_iCurrLevel,
 			(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_NamePlate"), this));
-	}
 
-	if (m_pNamePlate == nullptr)
-		return E_FAIL;
-	else
-		CUI_Manager::GetInstance()->Add_UI((LEVELID)LEVEL_STATIC, m_pNamePlate);
+		if (m_pNamePlate == nullptr)
+			return E_FAIL;
+		else
+			CUI_Manager::GetInstance()->Add_UI((LEVELID)m_iCurrLevel, m_pNamePlate);
+	}
 
 	Safe_Release(pGameInstance);
 

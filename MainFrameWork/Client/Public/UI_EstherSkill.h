@@ -71,8 +71,6 @@ private:
     _bool   m_bSkillUse = { false };
     _bool   m_bDecreaseEffect = { false };
 
-    LERP_FLOAT  m_tLerp = {};
-
 public:
     static  CUI_EstherSkill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

@@ -122,8 +122,8 @@ HRESULT CLevel_ValtanMain::Initialize()
 	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeIntensity(1.0f);
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_VALTANMAIN);
+	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
-	//CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
 
 	return S_OK;
 }

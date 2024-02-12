@@ -88,8 +88,16 @@ void CUI_EstherSkill::Tick(_float fTimeDelta)
 {
 	if (nullptr != CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
 	{
-		auto& iter = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().begin();
-		m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, (*iter)));
+		for (auto& iter : CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers())
+		{
+			m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject((_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+				(_uint)LAYER_TYPE::LAYER_PLAYER, iter));
+			if (nullptr != m_pPartyLeader)
+				break;
+			else
+				m_pPartyLeader = nullptr;
+		}
+
 		if (nullptr == m_pPartyLeader)
 		{
 			if (CServerSessionManager::GetInstance()->Get_Player()->Is_PartyLeader())
@@ -198,37 +206,25 @@ void CUI_EstherSkill::Update_EstherGauge(_float fTimeDelta)
 	if (nullptr == m_pPartyLeader)
 		return;
 
-	if (false == m_tLerp.bActive)
+
+	if (TEXT("Gunslinger") == m_pPartyLeader->Get_ObjectTag())
 	{
-		if (TEXT("Gunslinger") == m_pPartyLeader->Get_ObjectTag())
-		{
-			m_fCurrGauge = static_cast<CPlayer_Gunslinger*>(m_pPartyLeader)->Get_GN_Controller()->Get_CurrEstherGauge();
-		}
-		else if (TEXT("WR") == m_pPartyLeader->Get_ObjectTag())
-		{
-			m_fCurrGauge = static_cast<CPlayer_Slayer*>(m_pPartyLeader)->Get_WR_Controller()->Get_CurrEstherGauge();
-		}
-		else if (TEXT("WDR") == m_pPartyLeader->Get_ObjectTag())
-		{
-			m_fCurrGauge = static_cast<CPlayer_Destroyer*>(m_pPartyLeader)->Get_WDR_Controller()->Get_CurrEstherGauge();
-		}
-		else if (TEXT("SP") == m_pPartyLeader->Get_ObjectTag())
-		{
-			m_fCurrGauge = static_cast<CPlayer_Doaga*>(m_pPartyLeader)->Get_SP_Controller()->Get_CurrEstherGauge();
-		}
+		m_fCurrGauge = static_cast<CPlayer_Gunslinger*>(m_pPartyLeader)->Get_GN_Controller()->Get_CurrEstherGauge();
+	}
+	else if (TEXT("WR") == m_pPartyLeader->Get_ObjectTag())
+	{
+		m_fCurrGauge = static_cast<CPlayer_Slayer*>(m_pPartyLeader)->Get_WR_Controller()->Get_CurrEstherGauge();
+	}
+	else if (TEXT("WDR") == m_pPartyLeader->Get_ObjectTag())
+	{
+		m_fCurrGauge = static_cast<CPlayer_Destroyer*>(m_pPartyLeader)->Get_WDR_Controller()->Get_CurrEstherGauge();
+	}
+	else if (TEXT("SP") == m_pPartyLeader->Get_ObjectTag())
+	{
+		m_fCurrGauge = static_cast<CPlayer_Doaga*>(m_pPartyLeader)->Get_SP_Controller()->Get_CurrEstherGauge();
 	}
 
-	if (m_bSkillUse)
-	{
-		m_tLerp.Init_Lerp(2.f, m_fMaxGauge, 0.f, LERP_MODE::SMOOTHSTEP);//지속시간, 시작값, 끝나는 값, 러프모드 : 
-		m_bSkillUse = false;
-	}
-
-	if (true == m_tLerp.bActive)
-	{
-		m_fCurrGauge = m_tLerp.Update_Lerp(fTimeDelta);
-		m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
-	}
+	m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
 }
 
 void CUI_EstherSkill::Update_ShineEffect(_float  fTimeDelta)

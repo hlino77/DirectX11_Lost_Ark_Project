@@ -422,7 +422,6 @@ _float CUI_Manager::Get_ChannelVolume(_uint iChannelID)
 			return static_cast<CUI_Option*>(iter)->Get_ChannelSound(iChannelID);
 		}
 	}
-
 	return 0.f;
 }
 
