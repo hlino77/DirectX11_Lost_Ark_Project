@@ -47,7 +47,7 @@ void CState_GN_Attack_Hand1::Enter_State()
 {
 	if (true == m_pPlayer->Is_Control())
 	{
-		PLAYSOUND(TEXT("GN_Laugh_605"), CHANNELID::CHANNEL_EFFECT, SOUNDLOOP::NOLOOP);
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Laugh_605"), 1.f);
 	}
 
 	m_iAttackCnt = 0;

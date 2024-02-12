@@ -28,6 +28,7 @@
 #include "ItemCode.h"
 
 #include "UI_Manager.h"
+#include "Sound_Manager.h"
 
 #define _CLIENT
 

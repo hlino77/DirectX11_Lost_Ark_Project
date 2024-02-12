@@ -9,10 +9,14 @@ public:
 	typedef struct tagSoundDesc
 	{
 		tagSoundDesc() {}
-		tagSoundDesc(_int iFrameIndex, wstring strName) : iFrame(iFrameIndex), strName(strName) {}
+		tagSoundDesc(_int iFrameIndex, wstring strName, wstring strGroup, _float fVolume = 1.f) 
+			: iFrame(iFrameIndex), strName(strName), strGroup(strGroup), fVolume(fVolume) {}
 
 		_int iFrame = -1;
+		_float fVolume = 1.f;
+		wstring strGroup;
 		wstring strName;
+
 	}SOUNDDESC;
 
 public:
