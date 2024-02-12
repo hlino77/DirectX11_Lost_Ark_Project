@@ -36,6 +36,8 @@ void CState_WDR_Esther_Silian::Enter_State()
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
 	m_pPlayer->Get_WDR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+	m_pPlayer->Get_WDR_Controller()->Get_EshterGageUseMessage();
+
 	m_pPlayer->Set_SuperiorArmorState(true);
 
 	m_pPlayer->Set_Several_Weapon_RenderState(CPartObject::PARTS::WEAPON_1, false);

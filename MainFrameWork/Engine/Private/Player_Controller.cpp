@@ -83,8 +83,9 @@ void CPlayer_Controller::Tick(_float fTimeDelta)
 	if (true == m_bStop)
 		Look_Lerp(fTimeDelta);
 
-	/* Refill Mana*/
+	/* Refill */
 	Refill_Mana(fTimeDelta);
+	Esther_Refill(fTimeDelta);
 
 	/* CoolTime */
 	Skill_CoolTime(fTimeDelta);
@@ -1098,6 +1099,15 @@ void CPlayer_Controller::Refill_Mana(_float fTimeDelta)
 			tPcDesc.iCurMp = tPcDesc.iMaxMp;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcDesc);
+	}
+}
+
+void CPlayer_Controller::Get_EstherGageAddMessage(_uint iGage)
+{
+	m_iCurEstherGage += iGage;
+	if (m_iCurEstherGage >= m_iMaxEstherGage)
+	{
+		m_iCurEstherGage = m_iMaxEstherGage;
 	}
 }
 

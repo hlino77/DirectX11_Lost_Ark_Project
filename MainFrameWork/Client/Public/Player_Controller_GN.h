@@ -59,6 +59,7 @@ private:
 	void			Change_Iden_Collider(GN_IDENTITY eIndex);
 
 	virtual void	EstherSkill(_uint iIndex) override;
+	virtual void	Esther_Refill(_float fTimeDelta) override;
 
 private:
 	GN_IDENTITY				m_eIdentity = { GN_IDENTITY::HAND };

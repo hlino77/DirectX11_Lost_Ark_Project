@@ -89,7 +89,8 @@ public:
 
 	virtual void		Get_CheckLengthMessage(_float fCheckLength, CGameObject* pOther);
 
-	virtual void		Get_EstherGageAddMessage(_uint iGage) { m_iCurEstherGage += iGage; }
+	virtual void		Get_EstherGageAddMessage(_uint iGage);
+	virtual void		Get_EshterGageUseMessage() { m_iCurEstherGage = 0; }
 	virtual void		Get_EstherMessage(_uint iIndex) { EstherSkill(iIndex); }
 	virtual _uint		Get_MaxEstherGauge() { return	m_iMaxEstherGage; }
 	virtual _uint		Get_CurrEstherGauge() { return	m_iCurEstherGage; }
@@ -179,7 +180,11 @@ protected:
 	virtual void			ManaRefill(_float fAmount);
 	virtual void			StiffImmune(_float fAmount);
 
+	/* 에스더 */
 	virtual void			EstherSkill(_uint iIndex) {};
+	virtual void			Esther_Refill(_float fTimeDelta) {};
+
+	/* 마나 */
 	virtual void			Refill_Mana(_float fTimeDelta);
 
 protected:
@@ -242,8 +247,13 @@ protected:
 
 	/* 에스더 스킬 */
 	_uint					m_iEstherType;
+
+	_float					m_fEstherAcc = { 0.0f };
+	_float					m_fEstherFillTime = { 5.f };
+	_uint					m_iEstherFill = { 5 };
+
 	_uint					m_iMaxEstherGage = { 100 };
-	_uint					m_iCurEstherGage = { 100 };
+	_uint					m_iCurEstherGage = { 0 };
 	vector<CGameObject*>	m_vecEsther;
 
 	/* 쿨 타임 */
