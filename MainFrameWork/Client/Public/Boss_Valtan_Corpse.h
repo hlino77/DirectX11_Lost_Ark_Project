@@ -18,8 +18,8 @@ public:
 		PART2,
 		GHOST,
 		PARTS_END
-
 	};
+
 	CBoss_Valtan_Corpse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CBoss_Valtan_Corpse(const CBoss_Valtan_Corpse& rhs);
 	virtual ~CBoss_Valtan_Corpse() = default;

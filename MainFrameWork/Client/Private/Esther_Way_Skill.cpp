@@ -107,7 +107,7 @@ void CEsther_Way_Skill::Ready()
 
 void CEsther_Way_Skill::Cut_Start(_float fTimeDelta)
 {
-	if (85 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
+	if (0 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
 		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 		m_bCutStart = true;

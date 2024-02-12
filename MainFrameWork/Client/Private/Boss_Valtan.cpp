@@ -204,6 +204,7 @@ HRESULT CBoss_Valtan::Render()
 	if (m_bRimLight)
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
 			return E_FAIL;
+
 	Color vValtanBloom = Color(0.4f, 1.6f, 1.3f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vValtanBloom, sizeof(Color))))
 		return E_FAIL;
@@ -489,13 +490,14 @@ HRESULT CBoss_Valtan::Ready_Components()
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Parts2"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::PART2])))
 		return E_FAIL;
 
-	strComName = L"Prototype_Component_Model_Boss_Valtan_Ghost";
+	strComName = L"Prototype_Component_Model_Boss_Valtan_Color_Ghost";
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
 		return E_FAIL;
 
 	strComName = L"Prototype_Component_Model_Boss_Valtan_PostDeath";
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_PostDeath"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::POSTDEATH])))
 		return E_FAIL;
+
 	CPartObject::PART_DESC			PartDesc_Weapon;
 	PartDesc_Weapon.pOwner = this;
 	PartDesc_Weapon.ePart = CPartObject::PARTS::WEAPON_1;

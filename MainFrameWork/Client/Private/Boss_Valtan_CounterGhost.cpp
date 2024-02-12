@@ -90,6 +90,9 @@ HRESULT CBoss_Valtan_CounterGhost::Initialize(void* pArg)
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
 	Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+
+	m_IsAlphaBlend = true;
+
 	return S_OK;
 }
 
@@ -104,6 +107,7 @@ void CBoss_Valtan_CounterGhost::Tick(_float fTimeDelta)
 void CBoss_Valtan_CounterGhost::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+
 	if (m_iPhase == 3)
 		Move_to_SpawnPosition();
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Center_ToBone();
@@ -155,13 +159,17 @@ HRESULT CBoss_Valtan_CounterGhost::Render()
 			return E_FAIL;
 
 	}
+	if (m_bRimLight)
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
+			return E_FAIL;
+	
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
 	_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::GHOST]->Get_NumMeshes();
 
 	for (_uint j = 0; j < iNumMeshes; ++j)
 	{
-		if (FAILED(m_pModelPartCom[(_uint)PARTS::GHOST]->Render_SingleMesh(m_pShaderCom, j)))
+		if (FAILED(m_pModelPartCom[(_uint)PARTS::GHOST]->Render_Alpha(m_pShaderCom, j)))
 			return E_FAIL;
 
 	}
@@ -196,6 +204,14 @@ HRESULT CBoss_Valtan_CounterGhost::Render()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
 			return E_FAIL;
 	}
+	if (m_bRimLight)
+	{
+		_float fResetRimLight = 0.0f;
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fResetRimLight, sizeof(_float))))
+			return E_FAIL;
+	}
+		
+
 	return S_OK;
 }
 
@@ -214,6 +230,8 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_Coliders()
 
 		m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pCollider);
 	}
+
+
 	{
 		CCollider::ColliderInfo tColliderInfo;
 		tColliderInfo.m_bActive = false;
@@ -292,10 +310,8 @@ HRESULT CBoss_Valtan_CounterGhost::Ready_Components()
 	if (FAILED(__super::Add_Component(pGameInstance->Get_CurrLevelIndex(), strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
-
 	Safe_Release(pGameInstance);
-	strComName = L"Prototype_Component_Model_Boss_Valtan_Ghost";
+	strComName = L"Prototype_Component_Model_Boss_Valtan_Color_Ghost";
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
 		return E_FAIL;
 

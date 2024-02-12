@@ -272,31 +272,28 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 					Show_Damage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), false);
 				}
 			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 			{
 				m_IsSafeZone = true;
 			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_BUFF_PLAYER == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_BUFF_PLAYER == pOther->Get_ColLayer())
 			{
 				m_pController->Get_BuffMessage(static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
 			}
-			if ((_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER == pOther->Get_ColLayer())
 			{
 				m_pController->Get_BuffMessage(static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
 			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 			{
 				if (false == Is_Invincible())
 					m_pController->Get_HitMessage(static_cast<CMonster*>(pOther->Get_Owner())->Get_Atk(), 0.f);
 			}
-			if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS == pOther->Get_ColLayer())
 			{
 				if (false == Is_Invincible())
 				{
@@ -305,7 +302,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 					m_pController->Get_HitMessage(static_cast<CBoss*>(pOther->Get_Owner())->Get_Atk(), static_cast<CBoss*>(pOther->Get_Owner())->Get_Force(), vPos);
 				}
 			}
-			if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS == pOther->Get_ColLayer())
 			{
 				if (false == Is_Invincible())
 				{
@@ -331,24 +328,27 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 					}
 				}
 			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
 				if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 				{
 					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
 			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer() && true == m_IsClickNpc)
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
-
+				if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+				{
+					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pOther);
+				}
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer() && true == m_IsClickNpc)
+			{
 				m_pController->Set_Control_Active(false);
 				Set_State(TEXT("Idle"));
 			}
 		}
-
-		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
@@ -360,7 +360,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 			
 		}
-		if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
 			if (TEXT("Identity_Moon_End") != Get_State())
 			{
@@ -384,6 +384,13 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 			}
 		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+			{
+				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pOther);
+			}
+		}
 	}
 }
 
@@ -398,12 +405,26 @@ void CPlayer_Doaga::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
 		}
+		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+			{
+				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
+			}
+		}
 	}
 	else
 	{
 		if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 		{
 			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
+			{
+				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
+			}
+		}
+		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
@@ -420,13 +441,12 @@ void CPlayer_Doaga::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 			if ((_uint)LAYER_COLLIDER::LAYER_SAFEZONE == pOther->Get_ColLayer())
 			{
 				m_IsSafeZone = false;
-			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
+			} 
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
 				if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 				{
-					Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pOther);
+					Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
 
 				if (TEXT("Stop") == Get_State())
@@ -434,8 +454,14 @@ void CPlayer_Doaga::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 					Set_State(TEXT("Idle"));
 				}
 			}
-
-			if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			{
+				if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+				{
+					Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pOther);
+				}
+			}
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_NPC == pOther->Get_ColLayer())
 			{
 				m_pController->Set_Control_Active(true);
 			}
@@ -447,7 +473,14 @@ void CPlayer_Doaga::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 		{
 			if (TEXT("Skill_Crystal") == pOther->Get_Owner()->Get_ObjectTag())
 			{
-				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER, pOther);
+				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
+			}
+		}
+		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		{
+			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+			{
+				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS, pOther);
 			}
 		}
 	}

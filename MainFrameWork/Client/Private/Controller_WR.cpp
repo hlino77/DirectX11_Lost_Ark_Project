@@ -377,6 +377,9 @@ void CController_WR::Get_GrabMessage(CGameObject* pGrabber)
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
+
+	m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE] = false;
+	m_fBuffDuration[(_uint)BUFFEFFECT::STIIFIMMUNE] = -1;
 }
 
 void CController_WR::Get_GrabEndMessage()
@@ -388,7 +391,7 @@ void CController_WR::Get_DeadMessage()
 {
 	__super::Get_DeadMessage();
 
-	m_fIdentityGage = -1.0f;
+	m_fIdentityGage = 0.0f;
 }
 
 void CController_WR::Get_WR_IdentityMessage()

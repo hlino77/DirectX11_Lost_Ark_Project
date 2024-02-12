@@ -743,7 +743,7 @@ HRESULT CModel::Render_Alpha(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
-	if (FAILED(Render(pShader, iMeshIndex, "Outline")))
+	if (FAILED(Render(pShader, iMeshIndex, "Alphablend")))
 		return E_FAIL;
 
 	return S_OK;

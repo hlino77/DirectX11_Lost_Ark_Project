@@ -2,6 +2,10 @@
 #include "Client_Defines.h"
 #include "PartObject.h"
 
+BEGIN(Engine)
+class CModel;
+END
+
 BEGIN(Client)
 
 class CWeapon_Boss_Valtan final : public CPartObject
@@ -30,7 +34,10 @@ private:
 	_float							m_fAnimationSpeed = 1.0f;
 	Vec3							m_vRotations;
 	std::future<HRESULT>			m_PlayAnimation;
-	CModel* m_pModel_PostDeathCom = {};
+
+	CModel* m_pModel_PostDeathCom = { nullptr };
+	CModel* m_pModel_GhostCom = { nullptr };
+
 public:
 	static CWeapon_Boss_Valtan* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

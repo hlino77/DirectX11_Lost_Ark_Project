@@ -318,6 +318,9 @@ void CController_WDR::Get_GrabMessage(CGameObject* pGrabber)
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
+
+	m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE] = false;
+	m_fBuffDuration[(_uint)BUFFEFFECT::STIIFIMMUNE] = -1;
 }
 
 void CController_WDR::Get_GrabEndMessage()
@@ -331,6 +334,7 @@ void CController_WDR::Get_DeadMessage()
 
 	m_fIdentityGage = 0.0f;
 	m_iMarbleCnt = 0;
+	m_IsIdentity = false;
 }
 
 void CController_WDR::Get_WDR_IdentityMessage()

@@ -487,8 +487,71 @@ float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
     vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    
     if (g_bDissolve == true)
-        ComputeDissolveColor(vColor, In.vTexUV);
+    {
+        if (false == (ComputeDissolveColor(vColor, In.vTexUV)))
+            discard;
+    }
+    
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+    
+    if (1.f == SpecMaskEmisExtr.z)
+    {
+        float3 vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+        if (true == any(vEmissive))
+        {
+            vColor.rgb = vEmissive * g_vBloomColor.rgb;
+        }
+    }
+    
+    if (g_fRimLight != 0.0f)
+    {
+        
+        float3 N = In.vNormal.xyz * 2.f - 1.f;
+        float3 V = normalize(CameraPosition() - In.vWorldPos.xyz);
+        
+        float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
+        if (abs(g_fRimLight - 0.9f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.2f, 0.45f);
+        }
+        if (abs(g_fRimLight - 0.95f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.45f, 0.3f);
+        }
+        if (abs(g_fRimLight - 0.8f) < 0.03f)
+        {
+            vRimLightColor = float3(0.18, 0.522, 0.514);
+        }
+        if (abs(g_fRimLight - 0.7f) < 0.03f)
+        {
+            vRimLightColor = float3(0.4f, 1.f, 0.8f);
+        }
+        if (abs(g_fRimLight - 0.6f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.616f, 0.639f);
+        }
+
+        ComputeRimLight(vRimLightColor, N, -V);
+        vColor.rgb += vRimLightColor;
+    }
+    
+    return vColor;
+}
+
+float4 PS_CAMOUTLINE(VS_OUT_OUTLINE In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    
+    if (g_bDissolve == true)
+    {
+        if (false == (ComputeDissolveColor(vColor, In.vTexUV)))
+            discard;
+    }
+    
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
 
     float4 vDir = float4(CameraPosition(), 1.f) - In.vWorldPos;
@@ -583,7 +646,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_CHANGECOLOR();
     }
 
-    pass Outline // 5
+    pass Alphablend // 5
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -592,6 +655,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_ALPHABLEND();
+    }
+
+    pass Outline // 5
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_CAMOUTLINE();
     }
 
     pass SubOutline // 5
