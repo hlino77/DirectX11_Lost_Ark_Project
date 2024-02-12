@@ -120,7 +120,7 @@ void CEsther_Way_Skill::Cut_Start(_float fTimeDelta)
 {
 	if (0 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
-		Add_Sound(L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#193 (217283684)", CHANNEL_EFFECT);
+		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#193 (217283684)", 1.f);
 		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 		m_bCutStart = true;
 	}

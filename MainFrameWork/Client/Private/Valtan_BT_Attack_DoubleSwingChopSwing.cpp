@@ -64,7 +64,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 
 	//if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94 && m_bShoot[0])
 	//{
-	//	Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#103 (562236440)", CHANNEL_EFFECT);
+	//	Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#103 (562236440)", 1.f);
 	//	m_bShoot[0] = false;
 	//	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 90.0f, 0.1f, 11.0f);
 	//	CSkill::ModelDesc ModelDesc = {};
@@ -136,11 +136,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 		}
 	}
 	{
-		Add_Sound(0, 0, L"Voice", CHANNEL_EFFECT);
-		Add_Sound(0, 4, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)", CHANNEL_EFFECT);		
-		Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#101 (278609772)", CHANNEL_EFFECT, 49);
-		Add_Sound(0, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#102 (856646398)", CHANNEL_EFFECT, 67);
-		Add_Sound(1, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#105 (220501608)", CHANNEL_EFFECT, 45);
+		Add_Sound(0, 0,L"Effect", L"Voice", 1.f);
+		Add_Sound(0, 4,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)", 1.f);		
+		Add_Sound(0, 1,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#101 (278609772)", 1.f, 49);
+		Add_Sound(0, 2,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#102 (856646398)", 1.f, 67);
+		Add_Sound(1, 3,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#105 (220501608)", 1.f, 45);
 	}
 	Update_Effect();
 

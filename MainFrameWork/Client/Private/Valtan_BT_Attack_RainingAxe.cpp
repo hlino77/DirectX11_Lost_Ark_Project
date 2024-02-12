@@ -67,7 +67,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				EFFECT_START(L"VTAxeRainEndWarning", &tDesc);
 			}
 			if (CGameInstance::GetInstance()->Random_Coin(0.5f))
-				Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#117 (516386150)", CHANNEL_EFFECT);
+ 				Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#117 (516386150)", CHANNEL_EFFECT);
 			else
 				Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#118 (282820102)", CHANNEL_EFFECT);
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);

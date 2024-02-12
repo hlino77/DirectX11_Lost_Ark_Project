@@ -24,7 +24,7 @@
 #include "GameInstance.h"
 #include "Effect_Particle.h"
 #include "Effect_Trail.h"
-
+#include "Sound_Manager.h"
 #include "UI_Manager.h"
 
 CValtan_BT_Spawn::CValtan_BT_Spawn()
@@ -43,8 +43,8 @@ void CValtan_BT_Spawn::OnStart()
 	m_fCamShakeTimeAcc = m_fCamShakeTimeDelay = 0.23f;
 
 	m_fLightningParticleTime = 0.05f;
-	CGameInstance::GetInstance()->PlaySoundFile(L"RiseValtan.wav", CHANNEL_EFFECT);
-	//CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, 1.f);
+	CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"RiseValtan.wav", 1.f);
+	//CGameInstance::GetInstance()->SetChannelVolume(1.f, 1.f);
 	Effect_SpawnStart();
 }
 
@@ -66,12 +66,12 @@ CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex&& m_bSoundOn[0] == false)
 	{
 		m_bSoundOn[0] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(L"Scream.wav", CHANNEL_EFFECT);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"Scream.wav", 1.f);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_bSoundOn[1] == false)
 	{
 		m_bSoundOn[1] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(L"IamCommanderOfBeastValtan.wav", CHANNEL_EFFECT);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"IamCommanderOfBeastValtan.wav", 1.f);
 	}
 	if (m_iCurrAnimation == 4|| m_iCurrAnimation == 3)
 	{
@@ -87,7 +87,7 @@ void CValtan_BT_Spawn::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_Spawn(false);
 	static_cast<CBoss*>(m_pGameObject)->Set_HpUIRender(true);
 
-	CGameInstance::GetInstance()->PlayBGM(L"Commander of Beast Valtan.wav", CHANNEL_EFFECT);
+	CSound_Manager::GetInstance()->PlayBGM(L"BGM",L"Commander of Beast Valtan.wav", 1.f);
 	End_Scene();
 	
 	for (auto& Effect : m_BlackSmoke)

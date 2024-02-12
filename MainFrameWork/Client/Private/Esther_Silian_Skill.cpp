@@ -64,7 +64,7 @@ void CEsther_Silian_Skill::Tick(_float fTimeDelta)
 
 	Cut_Start(fTimeDelta);
 
-	Add_Sound(m_iAnimIndex,0 ,L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#174 (521660491)", CHANNEL_EFFECT,10);
+	Add_Sound(m_iAnimIndex,0 , L"Effect", L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#174 (521660491)", 1.f,10);
 
 	Act1(fTimeDelta);
 	Effect(fTimeDelta);
