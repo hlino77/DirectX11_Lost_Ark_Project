@@ -4,12 +4,13 @@
 #include "Player_Gunslinger.h"
 #include "Player_Slayer.h"
 #include "Player_Destroyer.h"
-#include "Player_Bard.h"
+#include "Player_Doaga.h"
 #include "Player_Controller_GN.h"
-#include "Controller_MG.h"
+#include "Controller_SP.h"
 #include "Controller_WDR.h"
 #include "Controller_WR.h"
 #include "ServerSessionManager.h"
+#include "Party.h"
 
 CUI_EstherSkill::CUI_EstherSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -78,7 +79,15 @@ HRESULT CUI_EstherSkill::Initialize(void* pArg)
 	m_fCurrGauge = m_fMaxGauge;
 	m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
 
-	m_pPartyLeader = CServerSessionManager::GetInstance()->Get_Player();
+	auto& iter = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().begin();
+	m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, *iter));
+	if (nullptr == m_pPartyLeader)
+	{
+		if (CServerSessionManager::GetInstance()->Get_Player()->Is_PartyLeader())
+			m_pPartyLeader = CServerSessionManager::GetInstance()->Get_Player();
+		else
+			return E_FAIL;
+	}
 
 	m_vecUIParts.push_back(this);
 
@@ -177,13 +186,36 @@ void CUI_EstherSkill::Update_UseEshterSkill()
 	}
 	else if (TEXT("SP") == m_pPartyLeader->Get_ObjectTag())
 	{
-		m_bSkillUse = static_cast<CPlayer_Bard*>(m_pPartyLeader)->Get_MG_Controller()->Is_EstherSkill();
+		m_bSkillUse = static_cast<CPlayer_Doaga*>(m_pPartyLeader)->Get_SP_Controller()->Is_EstherSkill();
 	}
 
 }
 
 void CUI_EstherSkill::Update_EstherGauge(_float fTimeDelta)
 {
+	if (nullptr == m_pPartyLeader)
+		return;
+
+	if (false == m_tLerp.bActive)
+	{
+		if (TEXT("Gunslinger") == m_pPartyLeader->Get_ObjectTag())
+		{
+			m_fCurrGauge = static_cast<CPlayer_Gunslinger*>(m_pPartyLeader)->Get_GN_Controller()->Get_CurrEstherGauge();
+		}
+		else if (TEXT("WR") == m_pPartyLeader->Get_ObjectTag())
+		{
+			m_fCurrGauge = static_cast<CPlayer_Slayer*>(m_pPartyLeader)->Get_WR_Controller()->Get_CurrEstherGauge();
+		}
+		else if (TEXT("WDR") == m_pPartyLeader->Get_ObjectTag())
+		{
+			m_fCurrGauge = static_cast<CPlayer_Destroyer*>(m_pPartyLeader)->Get_WDR_Controller()->Get_CurrEstherGauge();
+		}
+		else if (TEXT("SP") == m_pPartyLeader->Get_ObjectTag())
+		{
+			m_fCurrGauge = static_cast<CPlayer_Doaga*>(m_pPartyLeader)->Get_SP_Controller()->Get_CurrEstherGauge();
+		}
+	}
+
 	if (m_bSkillUse)
 	{
 		m_tLerp.Init_Lerp(2.f, m_fMaxGauge, 0.f, LERP_MODE::SMOOTHSTEP);//지속시간, 시작값, 끝나는 값, 러프모드 : 
