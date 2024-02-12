@@ -3,7 +3,6 @@
 /* 클라이언트에 존재하는 모든 클래스가 인클루드해야할 내용을 담는다. */
 #include <process.h>
 
-
 namespace Client
 {
 	enum LEVELID 
@@ -103,6 +102,8 @@ namespace Client
 		CHANNEL_END = 29
 	};
 
+	enum class SOUNDLOOP { NOLOOP, LOOP, SOUNDLOOPEND };
+
 	enum class CHR_CLASS { GUNSLINGER, SLAYER, DESTROYER, BARD, DOAGA, CLASSEND };
 
 	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, SILENCE ,  EFFECTEND };
@@ -132,6 +133,22 @@ namespace Client
 #define TRAIL_START(name, pivotGetter)						CEffect_Manager::GetInstance()->Trail_Start(name, pivotGetter);
 #define TRAIL_START_OUTLIST(name, pivotGetter, effectlist)	CEffect_Manager::GetInstance()->Trail_Start(name, pivotGetter, effectlist);
 #define EFFECT_LATE_START(name, pivotDescLate)				CEffect_Manager::GetInstance()->Effect_LateStart(name, pivotDescLate);
+
+#define PLAYSOUND(sound, channel, Loop)																\
+wstring SoundName = sound;																			\
+if (SOUNDLOOP::NOLOOP == Loop)																		\
+{																									\
+	CGameInstance::GetInstance()->PlaySoundFile(SoundName + L".wav", channel);						\
+}																									\
+else																								\
+{																									\
+    _float fVol = CUI_Manager::GetInstance()->Get_ChannelVolume(channel);							\
+	CGameInstance::GetInstance()->PlaySoundFile_LoopChannel(SoundName + L".wav", fVol);				\
+}																									
+
+#define STOPSOUND(sound)									\
+wstring SoundName = sound;									\
+CGameInstance::GetInstance()->Find_Stop_Sound(SoundName);
 
 extern _float g_fVolume;
 extern HWND g_hWnd;

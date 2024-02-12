@@ -33,6 +33,9 @@ HRESULT CState_GN_Attack_Hand3::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC(22, (_uint)CPartObject::PARTS::WEAPON_1));
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
+	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("GN_Shout_596")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
@@ -40,6 +43,7 @@ void CState_GN_Attack_Hand3::Enter_State()
 {
 	m_iAttackCnt = 0;
 	m_iEffectCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Hand3, 0.1f, 0, 0);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -64,6 +68,13 @@ void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		PLAYSOUND(m_SoundFrames[m_iSoundCnt].strName, CHANNELID::CHANNEL_EFFECT, SOUNDLOOP::NOLOOP);
+
+		m_iSoundCnt++;
 	}
 
 	if (-1 != m_EffectFrames[m_iEffectCnt].iFrame && m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
