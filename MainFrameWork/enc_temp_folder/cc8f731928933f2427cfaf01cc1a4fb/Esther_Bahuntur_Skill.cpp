@@ -226,7 +226,7 @@ void CEsther_Bahuntur_Skill::Effect(_float fTimeDelta)
 		matBahunturPivot.Translation(matFloorPivot.Translation());
 
 		tDesc.pPivotMatrix = &matBahunturPivot;
-		EFFECT_START(TEXT("EstherSkill_Bahuntur_Appear"), &tDesc)
+		EFFECT_START(TEXT("EstherSkill_Appear"), &tDesc)
 		EFFECT_START(TEXT("EstherSkill_Bahuntur"), &tDesc)
 
 		m_bEffectStart[0] = true;

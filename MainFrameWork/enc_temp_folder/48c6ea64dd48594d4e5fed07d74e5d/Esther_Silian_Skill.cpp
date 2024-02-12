@@ -125,7 +125,7 @@ void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
 		tDesc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("EstherSkill_Silian_Appear"), &tDesc)
+		EFFECT_START(TEXT("EstherSkill_Appear"), &tDesc)
 
 		m_bEffectStart[0] = true;
 	}

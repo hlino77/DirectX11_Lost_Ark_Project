@@ -241,7 +241,7 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 		matBahunturPivot.Translation(matFloorPivot.Translation());
 
 		tDesc.pPivotMatrix = &matBahunturPivot;
-		EFFECT_START(TEXT("EstherSkill_Waye_Appear"), &tDesc)
+		EFFECT_START(TEXT("EstherSkill_Appear"), &tDesc)
 
 		m_bEffectStart[0] = true;
 	}
