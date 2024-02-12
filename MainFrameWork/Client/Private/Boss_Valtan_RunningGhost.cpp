@@ -72,6 +72,9 @@ HRESULT CBoss_Valtan_RunningGhost::Initialize(void* pArg)
 	m_fFontScale = 0.55f;
 	m_bRender = false;
 	m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.2f, 0, 0);
+
+	m_IsAlphaBlend = true;
+
 	return S_OK;
 }
 
@@ -141,7 +144,14 @@ HRESULT CBoss_Valtan_RunningGhost::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	m_pModelPartCom[(_uint)PARTS::GHOST]->Render(m_pShaderCom);
+	_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::GHOST]->Get_NumMeshes();
+
+	for (_uint j = 0; j < iNumMeshes; ++j)
+	{
+		if (FAILED(m_pModelPartCom[(_uint)PARTS::GHOST]->Render_Alpha(m_pShaderCom, j)))
+			return E_FAIL;
+
+	}
 
 
 	if (m_bDissolveIn || m_bDissolveOut)
@@ -246,7 +256,7 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Components()
 
 
 	Safe_Release(pGameInstance);
-	strComName = L"Prototype_Component_Model_Boss_Valtan_Ghost";
+	strComName = L"Prototype_Component_Model_Boss_Valtan_Color_Ghost";
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName, TEXT("Com_Model_Valtan_Ghost"), (CComponent**)&m_pModelPartCom[(_uint)PARTS::GHOST])))
 		return E_FAIL;
 

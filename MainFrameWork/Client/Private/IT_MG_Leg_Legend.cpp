@@ -79,6 +79,7 @@ HRESULT CIT_MG_Leg_Legend::Use_Item(CPlayer* pOwner)
 			pOwner->Set_ModelPart(i, nullptr);
 		}
 	}
+
 	Set_EquipWearing(true);
 	return S_OK;
 }
@@ -100,8 +101,13 @@ HRESULT CIT_MG_Leg_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 		pOwner->Set_ModelPart(i, pOwner->Get_DefaultPart(i));
 		pOwner->Set_EquipItem(i, nullptr);
 	}
-	pOwner->Add_Item(m_strObjectTag, this);
+	if (pOwner->Is_Control() && false == bUseDefault)
+		pOwner->Add_Item(m_strObjectTag, this);
 	return S_OK;
+}
+
+void CIT_MG_Leg_Legend::Upgrade_Item()
+{
 }
 
 HRESULT CIT_MG_Leg_Legend::Ready_Components()

@@ -29,7 +29,7 @@ HRESULT CIT_WR_WP_Mococo::Initialize(void* pArg)
 	m_strItemName = TEXT("모코코 대검");
 	m_strItemDescript = TEXT("");
 
-	m_tStatChangeDesc.iAtkPower = 100;
+	m_tStatChangeDesc.iAtkPower = 500;
 
 	return S_OK;
 }
@@ -80,9 +80,16 @@ HRESULT CIT_WR_WP_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 
 	static_cast<CPartObject*>(pOwner->Get_Parts(CPartObject::PARTS::WEAPON_1))->Change_ModelCom(nullptr);
 	pOwner->Set_EquipItem((_uint)PART::WEAPON, nullptr);
-	if (pOwner->Is_Control())
+
+	if (pOwner->Is_Control() && false == bUseDefault)
 		pOwner->Add_Item(m_strObjectTag, this);
+
 	return S_OK;
+}
+
+void CIT_WR_WP_Mococo::Upgrade_Item()
+{
+	m_tStatChangeDesc.iAtkPower += 100;
 }
 
 HRESULT CIT_WR_WP_Mococo::Ready_Components()
@@ -92,6 +99,7 @@ HRESULT CIT_WR_WP_Mococo::Ready_Components()
 	wstring strComName = L"Prototype_Component_Model_WR_WP_Mococo";
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, strComName, TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
+
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Slayer_Mococo_Weapon"),
 		TEXT("Com_Texture"), (CComponent**)&m_pItemTextureCom)))

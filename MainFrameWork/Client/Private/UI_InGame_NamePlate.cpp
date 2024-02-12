@@ -77,6 +77,9 @@ void CUI_InGame_NamePlate::LateTick(_float fTimeDelta)
 
 HRESULT CUI_InGame_NamePlate::Render()
 {
+	if(m_bTextOn)
+		m_pInGameNameWnd->Render();
+
 	return S_OK;
 }
 
@@ -111,11 +114,16 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 
 		m_pInGameNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION
 			, Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.2f));
-	
-		if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z)&&(1.f >= vHostPos.z)))
-			m_pInGameNameWnd->Set_Render(true);
+
+		if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z) && (1.f >= vHostPos.z)))
+		{
+			if (m_bTextOn)
+				m_pInGameNameWnd->Set_Render(true);
+		}
 		else
+		{
 			m_pInGameNameWnd->Set_Render(false);
+		}
 	}
 }
 
@@ -161,7 +169,6 @@ HRESULT CUI_InGame_NamePlate::Ready_TextBox(const wstring& strName)
 			Safe_Release(pGameInstance);
 			return E_FAIL;
 		}
-
 		m_pInGameNameWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
 		m_pInGameNameWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
 	}

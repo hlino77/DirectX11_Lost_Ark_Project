@@ -26,7 +26,7 @@ public:
 
 	HRESULT Find_Stop_Sound(const wstring& strSoundKey);
 
-	HRESULT PlayBGM(const wstring& strSoundKey, _uint iChannel, _float fVolume);
+	HRESULT PlayBGM(const wstring& strSoundKey, _uint iChannel);
 	HRESULT StopSound(_uint iChannel);
 	HRESULT StopSoundAll();
 	HRESULT SetChannelVolume(_uint iChannel, _float fVolume);

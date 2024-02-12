@@ -28,7 +28,7 @@ HRESULT CLevel_ServerSelect::Initialize()
 
 	g_fVolume = 0.5f;
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Sailing-the-Dream.wav", CHANNEL_BGM, g_fVolume);
+	CGameInstance::GetInstance()->PlayBGM(L"Sailing-the-Dream.wav", CHANNEL_BGM);
 
 	return S_OK;
 }

@@ -88,8 +88,8 @@ private:
     _int        m_iHpCount = { 0 };
     _int        m_iPreCount = { 0 };
     _int        m_iMaxCount = { 0 };
-    _uint       m_iNextHpColor = { 0 };
-    _uint       m_iCurrHpColor = { 0 };
+    _int        m_iNextHpColor = { 0 };
+    _int        m_iCurrHpColor = { 0 };
     _float      m_fDivideCountHp = { 0.f };
     _float      m_fHpRatio = { 0.f };
     _float      m_fHpLerpRatio = { 0.f };

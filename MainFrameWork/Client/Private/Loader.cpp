@@ -1848,6 +1848,17 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	}
 
 	{
+		wstring strFileName = L"Boss_Valtan_Color_Ghost";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
 		wstring strFileName = L"Boss_Valtan_PostDeath";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
@@ -1860,6 +1871,17 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 
 	{
 		wstring strFileName = L"Wp_Boss_Valtan";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, XMMatrixScaling(0.01f, 0.01f, 0.01f)))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+	}
+
+	{
+		wstring strFileName = L"Wp_Boss_Color_Valtan";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
 		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 

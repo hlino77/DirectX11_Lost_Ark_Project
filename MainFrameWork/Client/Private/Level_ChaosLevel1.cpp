@@ -102,7 +102,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
-	CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Dead_Start"));
+
 	return S_OK;
 }
 
@@ -189,7 +189,7 @@ HRESULT CLevel_ChaosLevel1::Ready_Lights()
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Albion's Rage.wav", CHANNEL_BGM, g_fVolume);
+	CGameInstance::GetInstance()->PlayBGM(L"Albion's Rage.wav", CHANNEL_BGM);
 
 	Safe_Release(pGameInstance);
 
@@ -591,6 +591,8 @@ void CLevel_ChaosLevel1::Set_CheckGruop()
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER_BUFF);
+	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BUFF_PLAYER);
+	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER);
 	CCollisionManager::GetInstance()->CheckGroup((_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER, (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS);

@@ -614,9 +614,9 @@ HRESULT CGameInstance::PlaySoundFile(const wstring& strSoundKey, _uint iChannel)
 	return m_pSoundMgr->PlaySoundFile(strSoundKey, iChannel);
 }
 
-HRESULT CGameInstance::PlayBGM(const wstring& strSoundKey, _uint iChannel, _float fVolume)
+HRESULT CGameInstance::PlayBGM(const wstring& strSoundKey, _uint iChannel)
 {
-	return m_pSoundMgr->PlayBGM(strSoundKey, iChannel, fVolume);
+	return m_pSoundMgr->PlayBGM(strSoundKey, iChannel);
 }
 
 HRESULT CGameInstance::StopSound(_uint iChannel)

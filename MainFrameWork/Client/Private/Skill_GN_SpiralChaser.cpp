@@ -45,8 +45,8 @@ HRESULT CSkill_GN_SpiralChaser::Initialize(void* pArg)
 	Proj_Spawn_Desc.iStagger = 0;
 	Proj_Spawn_Desc.fRepulsion = 0.f;
 	Proj_Spawn_Desc.bUseProjPos = true;
-	m_SkillProjDesc = Proj_Spawn_Desc;
 	m_vecSkillProjDesces.push_back(Proj_Spawn_Desc);
+	m_SkillProjDesc = Proj_Spawn_Desc;
 
 	m_iUseMana = 46;
 

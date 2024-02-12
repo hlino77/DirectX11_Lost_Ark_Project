@@ -26,6 +26,9 @@
 #include <Camera_Player.h>
 #include "ServerSessionManager.h"
 #include "Player.h"
+#include "Item.h"
+#include "Item_Manager.h"
+
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -317,6 +320,138 @@ void CBoss::Set_Die(_float fTime)
 		Set_DissolveOut(fTime);
 	if (m_pBossHpUI != nullptr)
 	{
+		if (LEVELID::LEVEL_CHAOS_3 == (_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex())
+		{
+			CUI_Manager::GetInstance()->Clear_ChaosGate();
+
+			CItem* pItem = nullptr;
+			
+			CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+
+			CGameObject::STATDESC tStat = pPlayer->Get_PlayerStat_Desc();
+			tStat.iCurHp = tStat.iMaxHp;
+			tStat.iCurMp = tStat.iMaxMp;
+			pPlayer->Set_PlayerStat_Desc(tStat);
+
+			wstring ObjectTag = pPlayer->Get_ObjectTag();
+			if (TEXT("Gunslinger") == ObjectTag)
+			{
+				CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::GN_Helmet_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::GN_Body_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::GN_Leg_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::GN_WP_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				Safe_Release(pItem_Manager);
+			}
+			else if (TEXT("WR") == ObjectTag)
+			{
+				CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WR_Helmet_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WR_Body_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WR_Leg_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WR_WP_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				Safe_Release(pItem_Manager);
+			}
+			else if (TEXT("WDR") == ObjectTag)
+			{
+				CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Helmet_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_Body_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::WDR_WP_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				Safe_Release(pItem_Manager);
+			}
+			else if (TEXT("SP") == ObjectTag)
+			{
+				CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::SP_Helmet_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::SP_Body_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::SP_Leg_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				pItem = pItem_Manager->Get_Item(ITEMCODE::SP_WP_Legend);
+				if (nullptr == pItem)
+					return;
+
+				pPlayer->Add_Item(pItem->Get_ObjectTag(), pItem);
+
+				Safe_Release(pItem_Manager);
+			}
+		}
+		else if (LEVELID::LEVEL_VALTANMAIN == (_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex())
+			CUI_Manager::GetInstance()->Clear_Valtan();
+
 		m_pBossHpUI->Set_Dead_BossHpUI();
 		m_pBossHpUI = nullptr;
 	}

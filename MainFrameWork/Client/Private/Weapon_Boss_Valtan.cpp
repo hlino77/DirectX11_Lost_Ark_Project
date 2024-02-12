@@ -59,8 +59,15 @@ void CWeapon_Boss_Valtan::LateTick(_float fTimeDelta)
 	}
 	if (true == Is_Render() && true == m_pOwner->Is_Render())
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
+		if (false == static_cast<CBoss*>(m_pOwner)->Is_Dummy())
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_NONBLEND, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
+		}
+		else
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_ALPHABLEND, this);
+		}
 	}
 	if (m_bRimLight)
 	{
@@ -78,12 +85,15 @@ HRESULT CWeapon_Boss_Valtan::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
+
 	if (FAILED(m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom)))
 		return E_FAIL;	
+
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &m_fRimLightColor, sizeof(_float))))
 			return E_FAIL;
 
 	_int	iDissolve = false;
+
 	if (!static_cast<CBoss*>(m_pOwner)->Is_Dummy() && static_cast<CBoss_Valtan*>(m_pOwner)->Get_RenderPostValtan())
 	{
 		if (static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
@@ -124,9 +134,58 @@ HRESULT CWeapon_Boss_Valtan::Render()
 				return E_FAIL;
 		}
 	}
+	else if(true == static_cast<CBoss*>(m_pOwner)->Is_Dummy())
+	{
+		if (static_cast<CMonster*>(m_pOwner)->Get_DissolveOut() || static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
+		{
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
+				return E_FAIL;
+
+			_float g_fDissolveAmount = static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime();
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+			_float fDissolveDensity = 3.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pOwner)->Get_DissolveTexture()->Get_SRV())))
+				return E_FAIL;
+		}
+
+		_uint		iNumMeshes = m_pModel_GhostCom->Get_NumMeshes();
+
+		for (_uint j = 0; j < iNumMeshes; ++j)
+		{
+			if (FAILED(m_pModel_GhostCom->Render_Alpha(m_pShaderCom, j)))
+				return E_FAIL;
+
+		}
+	}
+	else if (3 == static_cast<CBoss*>(m_pOwner)->Get_Phase())
+	{
+		if (static_cast<CMonster*>(m_pOwner)->Get_DissolveOut() || static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
+		{
+			iDissolve = true;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
+				return E_FAIL;
+
+			_float g_fDissolveAmount = static_cast<CMonster*>(m_pOwner)->Get_Dissolvetime() / static_cast<CMonster*>(m_pOwner)->Get_fMaxDissolvetime();
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &g_fDissolveAmount, sizeof(_float))))
+				return E_FAIL;
+			_float fDissolveDensity = 3.f;
+			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveDensity", &fDissolveDensity, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", static_cast<CMonster*>(m_pOwner)->Get_DissolveTexture()->Get_SRV())))
+				return E_FAIL;
+		}
+
+		if (FAILED(m_pModel_GhostCom->Render(m_pShaderCom)))
+			return E_FAIL;
+	}
 	else
 	{
-
 		if (static_cast<CMonster*>(m_pOwner)->Get_DissolveOut() || static_cast<CMonster*>(m_pOwner)->Get_DissolveIn())
 		{
 			iDissolve = true;
@@ -147,6 +206,8 @@ HRESULT CWeapon_Boss_Valtan::Render()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom)))
 			return E_FAIL;
 	}
+
+	/* ÃÊ±âÈ­ */
 	iDissolve = false;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_bDissolve", &iDissolve, sizeof(_bool))))
 		return E_FAIL;
@@ -228,6 +289,12 @@ HRESULT CWeapon_Boss_Valtan::Ready_Components()
 	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName,
 		TEXT("Com_Model_PostDeath"), (CComponent**)&m_pModel_PostDeathCom)))
 		return E_FAIL;
+
+	strComName = L"Prototype_Component_Model_Wp_Boss_Color_Valtan";
+	if (FAILED(__super::Add_Component(CGameInstance::GetInstance()->Get_CurrLevelIndex(), strComName,
+		TEXT("Com_Model_Ghost"), (CComponent**)&m_pModel_GhostCom)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

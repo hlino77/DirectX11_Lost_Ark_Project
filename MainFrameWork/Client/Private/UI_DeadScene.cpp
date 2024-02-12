@@ -164,6 +164,4 @@ CGameObject* CUI_DeadScene::Clone(void* pArg)
 void CUI_DeadScene::Free()
 {
 	__super::Free();
-	m_pWatchingMode->Set_Dead(true);
-	m_pDeadWnd->Set_Dead(true);
 }

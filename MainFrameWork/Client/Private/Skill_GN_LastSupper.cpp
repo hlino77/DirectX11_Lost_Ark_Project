@@ -37,6 +37,7 @@ HRESULT CSkill_GN_LastSupper::Initialize(void* pArg)
 	Proj_Desc.iStagger = 30;
 	Proj_Desc.fRepulsion = 21.f;
 	Proj_Desc.IsCounter = true;
+	m_vecSkillProjDesces.push_back(Proj_Desc);
 	m_SkillProjDesc = Proj_Desc;
 
 	m_iUseMana = 111;

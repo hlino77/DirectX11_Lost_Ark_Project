@@ -381,7 +381,6 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
         
     }
         
-
     __super::Tick(fTimeDelta);
 
     if (true == m_bDeActive)
@@ -393,7 +392,7 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
             CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
             for (auto& iter : pUI->Get_UIParts())
             {
-                iter->Set_Active(false);
+                iter->Set_Active(true);
             }
 
             m_fDeActiveAcc = 0.0f;
@@ -711,9 +710,12 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
     }
     CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.f, false);
     CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
-    for (auto& iter : pUI->Get_UIParts())
+    if (nullptr != pUI)
     {
-        iter->Set_Active(false);
+        for (auto& iter : pUI->Get_UIParts())
+        {
+            iter->Set_Active(false);
+        }
     }
 }
 
@@ -827,6 +829,12 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
         SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
         if (50 < SuccessPercent)
         {
+            CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+
+            m_pCurrUpgradeItem->Disuse_Item(pPlayer, true);
+            m_pCurrUpgradeItem->Upgrade_Item();
+            m_pCurrUpgradeItem->Use_Item(pPlayer);
+
             m_pCurrUpgradeItem->Growth_UpgradeLevel();
             Print_FaceItemGradeLevelWnd();
             Print_HelmetItemGradeLevelWnd();
@@ -873,7 +881,7 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         m_pResultWnd->Set_Active(false);
         m_bDeActive = true;
         CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-        CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM, 0.5f);
+        CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM);
     }
 }
 
@@ -936,9 +944,9 @@ void CUI_NPC_ItemUpgrade::Is_Picking_UpgradeButton(POINT pt)
 void CUI_NPC_ItemUpgrade::Create_Rect_QuitButton()
 {
     m_rcQuitButton.left = LONG((m_fX + 700.f) - ((205.f * 0.8f) / 2));
-    m_rcQuitButton.top = LONG((g_iWinSizeY - 24.f) - ((48.f * 0.8f) / 2));
+    m_rcQuitButton.top = LONG((g_iWinSizeY - 50.f) - ((48.f * 0.8f) / 2));
     m_rcQuitButton.right = LONG((m_fX + 700.f) + ((205.f * 0.8f) / 2));
-    m_rcQuitButton.bottom = LONG((g_iWinSizeY - 24.f) + ((48.f * 0.8f) / 2));
+    m_rcQuitButton.bottom = LONG((g_iWinSizeY - 50.f) + ((48.f * 0.8f) / 2));
 }
 
 void CUI_NPC_ItemUpgrade::Is_Picking_QuitButton(POINT pt)
@@ -3984,14 +3992,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+
      if (FAILED(Bind_ShaderResources_ItemIcon_Helemt()))
          return E_FAIL;
      m_pShaderCom->Begin(0);
      m_pVIBufferCom->Render();
-    if (FAILED(Bind_ShaderResources_UpgradeIcon_Helemt()))
+    
+     if (FAILED(Bind_ShaderResources_UpgradeIcon_Helemt()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+    
     if (FAILED(Bind_ShaderResources_EquipIcon_Helemt()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -4002,14 +4013,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
-     if (FAILED(Bind_ShaderResources_ItemIcon_Shoulder()))
+    
+    if (FAILED(Bind_ShaderResources_ItemIcon_Shoulder()))
          return E_FAIL;
      m_pShaderCom->Begin(0);
      m_pVIBufferCom->Render();
-    if (FAILED(Bind_ShaderResources_UpgradeIcon_Shoulder()))
+    
+     if (FAILED(Bind_ShaderResources_UpgradeIcon_Shoulder()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+    
     if (FAILED(Bind_ShaderResources_EquipIcon_Shoulder()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -4020,14 +4034,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
-     if (FAILED(Bind_ShaderResources_ItemIcon_Body()))
+    
+    if (FAILED(Bind_ShaderResources_ItemIcon_Body()))
          return E_FAIL;
      m_pShaderCom->Begin(0);
      m_pVIBufferCom->Render();
-    if (FAILED(Bind_ShaderResources_UpgradeIcon_Body()))
+    
+     if (FAILED(Bind_ShaderResources_UpgradeIcon_Body()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+    
     if (FAILED(Bind_ShaderResources_EquipIcon_Body()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -4038,14 +4055,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
-     if (FAILED(Bind_ShaderResources_ItemIcon_Arm()))
+    
+    if (FAILED(Bind_ShaderResources_ItemIcon_Arm()))
          return E_FAIL;
      m_pShaderCom->Begin(0);
      m_pVIBufferCom->Render();
-    if (FAILED(Bind_ShaderResources_UpgradeIcon_Arm()))
+    
+     if (FAILED(Bind_ShaderResources_UpgradeIcon_Arm()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+    
     if (FAILED(Bind_ShaderResources_EquipIcon_Arm()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -4056,14 +4076,17 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_L()
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
-     if (FAILED(Bind_ShaderResources_ItemIcon_Leg()))
+    
+    if (FAILED(Bind_ShaderResources_ItemIcon_Leg()))
          return E_FAIL;
      m_pShaderCom->Begin(0);
      m_pVIBufferCom->Render();
-    if (FAILED(Bind_ShaderResources_UpgradeIcon_Leg()))
+    
+     if (FAILED(Bind_ShaderResources_UpgradeIcon_Leg()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
+    
     if (FAILED(Bind_ShaderResources_EquipIcon_Leg()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
@@ -4290,6 +4313,8 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_DragBar()
 
     if (FAILED(m_pTexture_DragBar->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
         return E_FAIL;
+
+    return S_OK;
 }
 
 HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_CurrItem()

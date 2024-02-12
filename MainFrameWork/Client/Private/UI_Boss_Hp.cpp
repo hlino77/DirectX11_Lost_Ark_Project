@@ -472,18 +472,24 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 			_int iSubtract = m_iPreCount - m_iHpCount;
 			m_iNextHpColor += iSubtract;
 
-			if ((_uint)HP_PURPLE < m_iNextHpColor)
-				m_iNextHpColor = m_iNextHpColor - (_uint)HP_END;
+			if (HP_PURPLE < m_iNextHpColor)
+				m_iNextHpColor = m_iNextHpColor - HP_END;
 
-			if (0 < (m_iNextHpColor - 1))
+			if (HP_BLUE < (m_iNextHpColor - 1))
+			{
 				m_iCurrHpColor = m_iNextHpColor - 1;
+				m_iNextHpColor++;
+			}
 			else
-				m_iCurrHpColor = (_uint)HP_PURPLE;
+			{
+				m_iCurrHpColor = HP_PURPLE;
+				m_iNextHpColor = HP_BLUE;
+			}
 		}
 		if (1 > (m_iHpCount - 1))
 		{
-			m_iCurrHpColor = (_uint)HP_RED;
-			m_iNextHpColor = (_uint)HP_END;
+			m_iCurrHpColor = HP_RED;
+			m_iNextHpColor = HP_END;
 		}
 		m_iPreCount = m_iHpCount;
 	}

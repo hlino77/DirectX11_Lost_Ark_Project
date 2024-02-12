@@ -41,10 +41,11 @@ private:
     _float  m_fPreRatio = { 1.f };
     class CGameObject* m_pPlayer = { nullptr };
 
-    CTextBox* m_pPlayerHpWnd = { nullptr };
-    wstring m_strWndTag;
-    _int      m_iPlayerHp = { 0 };
-    _uint       m_iMaxHp = { 0 };
+    CTextBox*   m_pPlayerHpWnd = { nullptr };
+    wstring     m_strWndTag;
+    _int        m_iPlayerHp = { 0 };
+	_int       m_iMaxHp = { 0 };
+	_int       m_iOringinMaxHp = { 0 };
 
 public:
     static  CUI_Player_HPFill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

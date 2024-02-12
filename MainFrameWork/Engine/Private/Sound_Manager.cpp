@@ -130,7 +130,7 @@ HRESULT CSound_Manager::Find_Stop_Sound(const wstring& strSoundKey)
 }
 
 
-HRESULT CSound_Manager::PlayBGM(const wstring& strSoundKey, _uint iChannel, _float fVolume)
+HRESULT CSound_Manager::PlayBGM(const wstring& strSoundKey, _uint iChannel)
 {
 	if (nullptr == m_pSystem)
 		return E_FAIL;
@@ -142,7 +142,6 @@ HRESULT CSound_Manager::PlayBGM(const wstring& strSoundKey, _uint iChannel, _flo
 
 	FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
 	FMOD_Channel_SetMode(m_pChannelArr[iChannel], FMOD_LOOP_NORMAL);
-	FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
 	FMOD_System_Update(m_pSystem);
 
 	return S_OK;

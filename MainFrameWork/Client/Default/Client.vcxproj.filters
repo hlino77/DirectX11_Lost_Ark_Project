@@ -1962,9 +1962,6 @@
     <ClInclude Include="..\Public\Level_Bern.h">
       <Filter>01.Levels\02.Bern</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Level_Loading.h">
-      <Filter>01.Levels\99.Loading</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01.Levels\99.Loading\Loader</Filter>
     </ClInclude>
@@ -5121,6 +5118,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_BreakObject.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01.Levels\99.Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

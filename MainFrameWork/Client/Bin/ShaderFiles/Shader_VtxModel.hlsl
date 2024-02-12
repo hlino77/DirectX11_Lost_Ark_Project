@@ -1,5 +1,6 @@
 #include "Client_Shader_Light.hlsl"
 #include "Client_Shader_InOut.hlsl"
+
 bool    g_bDissolve = false;
 
 // For Grass
@@ -49,6 +50,26 @@ VS_OUT VS_GRASS(STATIC_IN In)
     Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix)).xyz;
     Out.vProjPos = Out.vPosition;
 
+    return Out;
+}
+
+VS_OUT_OUTLINE VS_MAIN_WORLD(STATIC_IN In)
+{
+    VS_OUT_OUTLINE Out = (VS_OUT_OUTLINE) 0;
+
+    matrix matWVP;
+	
+    matWVP = mul(WorldMatrix, ViewProj);
+	
+    Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), WorldMatrix));
+    Out.vNormalV = normalize(mul(Out.vNormal, ViewMatrix).xyz);
+
+    Out.vTexUV = In.vTexUV;
+    Out.vTangent = normalize(mul(float4(In.vTangent, 0.f), WorldMatrix)).xyz;
+    Out.vProjPos = Out.vPosition;
+    Out.vWorldPos = mul(float4(In.vPosition, 1.f), WorldMatrix);
+	
     return Out;
 }
 
@@ -332,6 +353,63 @@ float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
+float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+    
+    if (g_bDissolve == true)
+    {
+        if (false == (ComputeDissolveColor(vColor, In.vTexUV)))
+            discard;
+    }
+    
+    ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
+    
+    if (1.f == SpecMaskEmisExtr.z)
+    {
+        float3 vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
+        if (true == any(vEmissive))
+        {
+            vColor.rgb = vEmissive * g_vBloomColor.rgb;
+        }
+    }
+    
+    if (g_fRimLight != 0.0f)
+    {
+        float3 N = In.vNormal.xyz * 2.f - 1.f;
+        float3 V = normalize(CameraPosition() - In.vWorldPos.xyz);
+        
+        float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
+        if (abs(g_fRimLight - 0.9f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.2f, 0.45f);
+        }
+        if (abs(g_fRimLight - 0.95f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.45f, 0.3f);
+        }
+        if (abs(g_fRimLight - 0.8f) < 0.03f)
+        {
+            vRimLightColor = float3(0.18, 0.522, 0.514);
+        }
+        if (abs(g_fRimLight - 0.7f) < 0.03f)
+        {
+            vRimLightColor = float3(0.4f, 1.f, 0.8f);
+        }
+        if (abs(g_fRimLight - 0.6f) < 0.03f)
+        {
+            vRimLightColor = float3(0.f, 0.616f, 0.639f);
+        }
+
+        ComputeRimLight(vRimLightColor, N, -V);
+        vColor.rgb += vRimLightColor;
+    }
+    
+    return vColor;
+}
+
 technique11 DefaultTechnique
 {
     pass PBR // 0
@@ -409,6 +487,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_GRASS();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_PBR();
+    }
+
+    pass Alphablend // 7
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN_WORLD();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_ALPHABLEND();
     }
 
 }

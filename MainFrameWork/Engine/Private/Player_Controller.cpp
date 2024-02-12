@@ -25,6 +25,13 @@ CPlayer_Controller::CPlayer_Controller(const CPlayer_Controller& rhs)
 		m_bStatusEffect[i] = rhs.m_bStatusEffect[i];
 		m_fStatusDuration[i] = rhs.m_fStatusDuration[i];
 	}
+
+	for (size_t i = 0; i < (_uint)BUFFEFFECT::_END; i++)
+	{
+		m_bBuffEffect[i] = rhs.m_bBuffEffect[i];
+		m_fBuffDuration[i] = rhs.m_fBuffDuration[i];
+		m_fBuffAmount[i] = rhs.m_fBuffAmount[i];
+	}
 }
 
 HRESULT CPlayer_Controller::Initialize_Prototype()
@@ -42,6 +49,13 @@ HRESULT CPlayer_Controller::Initialize_Prototype()
 	{
 		m_bStatusEffect[i] = false;
 		m_fStatusDuration[i] = -1.f;
+	}
+
+	for (size_t i = 0; i < (_uint)BUFFEFFECT::_END; i++)
+	{
+		m_bBuffEffect[i] = false;
+		m_fBuffDuration[i] = -1.f;
+		m_fBuffAmount[i] = 0.0f;
 	}
 
 	return S_OK;
@@ -1046,7 +1060,7 @@ void CPlayer_Controller::ManaRefill(_float fAmount)
 		tPcStat.iCurMp += tPcStat.iMaxMp * fAmount;
 		if (tPcStat.iCurMp >= tPcStat.iMaxMp)
 		{
-			tPcStat.iCurHp = tPcStat.iMaxMp;
+			tPcStat.iCurMp = tPcStat.iMaxMp;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 	}

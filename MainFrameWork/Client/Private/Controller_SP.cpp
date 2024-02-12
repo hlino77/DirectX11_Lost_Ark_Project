@@ -68,7 +68,7 @@ HRESULT CController_SP::Initialize(void* pArg)
 	Proj_Iden_Desc.iDamage = 2;
 	Proj_Iden_Desc.iStatusEffect = (_uint)BUFFEFFECT::MANAREFILL;
 	Proj_Iden_Desc.fStatusDuration = 0.f;
-	Proj_Iden_Desc.fRepulsion = 0.2f;
+	Proj_Iden_Desc.fRepulsion = 0.3f;
 	Proj_Iden_Desc.bUseProjPos = true;
 	m_Attack_Desces[2] = Proj_Iden_Desc;
 	
@@ -205,6 +205,9 @@ void CController_SP::Get_GrabMessage(CGameObject* pGrabber)
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
+
+	m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE] = false;
+	m_fBuffDuration[(_uint)BUFFEFFECT::STIIFIMMUNE] = -1;
 }
 
 void CController_SP::Get_GrabEndMessage()

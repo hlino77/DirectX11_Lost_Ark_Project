@@ -40,8 +40,6 @@ HRESULT CSkill_GN_Grenade::Initialize(void* pArg)
 
 	m_SkillProjDesc = Proj_Desc;
 
-
-
 	m_iUseMana = 39;
 
 	return S_OK;
