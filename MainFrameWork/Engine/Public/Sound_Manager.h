@@ -1,7 +1,9 @@
 #pragma once
 #include "Base.h"
 #include "Lock.h"
+#include <filesystem>
 
+namespace fs = std::filesystem;
 
 BEGIN(Engine)
 
@@ -36,7 +38,8 @@ public:
 	HRESULT Add_SoundTrack(const wstring& strSoundTrack, const wstring& strSoundKey);
 	const wstring& Get_RandomSoundKey(const wstring& strSoundTrack);
 private:
-	HRESULT LoadSoundFile();
+	HRESULT LoadDirectory(const fs::path& strPath);
+	HRESULT LoadSoundFile(const fs::path& strPath);
 
 private:
 	FMOD_SYSTEM*	m_pSystem = { nullptr };

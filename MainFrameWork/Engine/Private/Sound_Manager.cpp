@@ -1,7 +1,9 @@
 #include "Sound_Manager.h"
 #include "PipeLine.h"
 #include "AsUtils.h"
+#include <filesystem>
 
+namespace fs = std::filesystem;
 
 IMPLEMENT_SINGLETON(CSound_Manager)
 
@@ -19,7 +21,8 @@ HRESULT CSound_Manager::Ready_Sound()
 	if (nullptr == m_pSystem)
 		return E_FAIL;
 
-	if (FAILED(LoadSoundFile()))
+	wstring strLoadpath = (L"../Bin/Resources/Sounds/");
+	if (FAILED(LoadDirectory(strLoadpath)))
 		return E_FAIL;
 
 	return S_OK;
@@ -239,45 +242,50 @@ const wstring& CSound_Manager::Get_RandomSoundKey(const wstring& strSoundTrack)
 	return iter->second[iSoundIndex];
 }
 
-HRESULT CSound_Manager::LoadSoundFile()
+HRESULT CSound_Manager::LoadDirectory(const fs::path& strPath)
 {
-	_finddata_t fd;
-
-	long long handle = _findfirst("../Bin/Resources/Sounds/*.*", &fd);
-
-	if (handle == -1)
-		return E_FAIL;
-
-	_int iResult = 0;
-
-	wstring strCurPath = TEXT("../Bin/Resources/Sounds/");
-	
-	while (iResult != -1)
+	for (const auto& entry : fs::directory_iterator(strPath))
 	{
-		wstring strFileName = wstring(fd.name, fd.name + strlen(fd.name));
-		wstring strFullPath = strCurPath + strFileName;
-
-		_int iRequiredSize = WideCharToMultiByte(CP_UTF8, 0, strFullPath.c_str(), -1, NULL, 0, NULL, NULL);
-		if (iRequiredSize > 0)
+		if (fs::is_directory(entry))
 		{
-			char* szFullPath = new char[iRequiredSize];
-			int result = WideCharToMultiByte(CP_UTF8, 0, strFullPath.c_str(), -1, szFullPath, iRequiredSize, NULL, NULL);
-
-			FMOD_SOUND* pSound = nullptr;
-			FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
-
-			Safe_Delete_Array(szFullPath);
-
-			if (eRes == FMOD_OK)
-				m_Sounds.emplace(strFileName, pSound);
+			LoadDirectory(entry);
 		}
+		else if (fs::is_regular_file(entry))
+		{
+			if (L".wav" == entry.path().extension())
+			{
+				if (FAILED(LoadSoundFile(entry.path())))
+				{
+					return E_FAIL;
+				}
+			}
+		}
+	}
 
-		iResult = _findnext(handle, &fd);
+	return S_OK;
+}
+
+HRESULT CSound_Manager::LoadSoundFile(const fs::path& strPath)
+{
+	wstring strFileName = strPath.filename();
+	wstring strFullPath = strPath;
+
+	_int iRequiredSize = WideCharToMultiByte(CP_UTF8, 0, strFullPath.c_str(), -1, NULL, 0, NULL, NULL);
+	if (iRequiredSize > 0)
+	{
+		char* szFullPath = new char[iRequiredSize];
+		int result = WideCharToMultiByte(CP_UTF8, 0, strFullPath.c_str(), -1, szFullPath, iRequiredSize, NULL, NULL);
+
+		FMOD_SOUND* pSound = nullptr;
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+
+		Safe_Delete_Array(szFullPath);
+
+		if (eRes == FMOD_OK)
+			m_Sounds.emplace(strFileName, pSound);
 	}
 
 	FMOD_System_Update(m_pSystem);
-
-	_findclose(handle);
 
 	return S_OK;
 }
