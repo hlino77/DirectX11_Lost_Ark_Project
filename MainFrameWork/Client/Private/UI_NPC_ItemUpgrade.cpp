@@ -7,6 +7,7 @@
 #include "ServerSessionManager.h"
 #include "Camera_Player.h"
 #include "UI_Manager.h"
+#include "Sound_Manager.h"
 
 CUI_NPC_ItemUpgrade::CUI_NPC_ItemUpgrade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -881,8 +882,8 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         m_pResultWnd->Set_Active(false);
         m_bDeActive = true;
 
-        //CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-        //CSound_Manager::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM);
+        CSound_Manager::GetInstance()->Stop_Channel_Sound(L"");
+      //  CSound_Manager::GetInstance()->PlayBGM(L"CastleBern.wav",);
     }
 }
 

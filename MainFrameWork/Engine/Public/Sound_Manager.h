@@ -43,6 +43,15 @@ public:
 
 	void	Add_Channel(const wstring & szChannelTag, FMOD_CHANNEL* pChannel);
 
+	void	Pause_Channel(const wstring & szChannelTag);
+	void	Pause_Channel(FMOD_CHANNEL * pChannel);
+
+
+	void	Resume_Channel(const wstring & szChannelTag);
+	void	Resume_Channel(FMOD_CHANNEL * pChannel);
+
+	FMOD_CHANNEL* Find_Channel(const wstring & szChannelTag);
+
 	void	Stop_SoundAll();
 
 	HRESULT Add_SoundTrack(const wstring& strSoundTrack, const wstring& strSoundKey);
