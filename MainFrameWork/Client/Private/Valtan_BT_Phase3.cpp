@@ -7,6 +7,7 @@
 #include "GameInstance.h"
 #include <Boss_Valtan.h>
 #include "ServerSessionManager.h"
+#include "Sound_Manager.h"
 
 CValtan_BT_Phase3::CValtan_BT_Phase3()
 {
@@ -30,7 +31,7 @@ void CValtan_BT_Phase3::OnStart()
 	wstring szMonsterName = L"Prototype_GameObject_" + szComponentName;
 	CBoss* pCorpse = dynamic_cast<CBoss*>(CGameInstance::GetInstance()->Add_GameObject(Desc.iLevel, Desc.iLayer, szMonsterName, &Desc));
 	pCorpse->Get_TransformCom()->LookAt_Dir(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK));
-	Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#161 (23475606)", CHANNEL_EFFECT);
+	Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#161 (23475606)", 1.f);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(const _float& fTimeDelta)
@@ -46,8 +47,8 @@ void CValtan_BT_Phase3::OnEnd()
 	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUI(40, 529402339,L"찢겨진 마수의 군주");
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUIRender(true);
-	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-}
+	//CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
+	//CSound_Manager::GetInstance()->Stop_Channel_Sound();
 
 void CValtan_BT_Phase3::On_FirstAnimStart()
 {

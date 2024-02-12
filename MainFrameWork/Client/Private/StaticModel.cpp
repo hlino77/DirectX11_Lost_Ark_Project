@@ -10,6 +10,8 @@
 #include "Effect_Manager.h"
 #include "Effect_Custom_BreakObject.h"
 
+#include "Sound_Manager.h"
+
 CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType)
 	: CGameObject(pDevice, pContext, L"StaticModel", eObjType)
 {
@@ -318,7 +320,9 @@ void CStaticModel::LateTick(_float fTimeDelta)
 
 		if (false == m_bBreakSound)
 		{
-			CGameInstance::GetInstance()->PlaySoundFile(L"HitWall.wav", CHANNEL_EFFECT);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"HitWall.wav", 1.f);
+			//CGameInstance::GetInstance()->PlaySoundFile(L"HitWall.wav", CHANNEL_EFFECT);
+
 			m_bBreakSound = true;
 		}
 

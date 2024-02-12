@@ -130,9 +130,6 @@ void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& s
 	}
 }
 
-
-
-
 void CBT_Action::Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel)
 {
 	CSound_Manager::GetInstance()->PlaySoundFile(szChannelGroup, strSoundKey + L".wav", fVolume, pChannel);

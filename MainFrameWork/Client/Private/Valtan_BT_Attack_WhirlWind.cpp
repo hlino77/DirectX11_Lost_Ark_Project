@@ -45,9 +45,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(const _float& fTimeDel
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	}
 	{
-		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT);
-		Add_Sound(1, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)", CHANNEL_EFFECT);
-		Add_Sound(2, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", CHANNEL_EFFECT); 
+		Add_Sound(0, 0,L"Effect",  L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", 1.f);
+		Add_Sound(1, 1,L"Effect",  L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)", 1.f);
+		Add_Sound(2, 2,L"Effect",  L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", 1.f);
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

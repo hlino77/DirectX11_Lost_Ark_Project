@@ -49,9 +49,15 @@ private:
 	vector<CEffect*> m_StartParticle;
 
 	//Camera
-
 	Vec3 m_vCameraTargetPos;
 	Vec3 m_vRadialPos;
+
+
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
+
 public:
 	static CState_SP_Onestroke* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

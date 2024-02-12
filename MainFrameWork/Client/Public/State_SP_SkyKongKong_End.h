@@ -30,6 +30,10 @@ private:
 	//Animation
 	_int m_iSkyKongKong_End = 0;
 
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
 public:
 	static CState_SP_SkyKongKong_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

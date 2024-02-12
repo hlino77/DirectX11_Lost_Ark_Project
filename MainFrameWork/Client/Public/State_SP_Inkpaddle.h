@@ -39,6 +39,11 @@ private:
 	_bool m_bTrail = false;
 
 	vector<CEffect*> m_Trails;
+
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
 public:
 	static CState_SP_Inkpaddle* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;
