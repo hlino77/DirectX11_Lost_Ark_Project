@@ -403,7 +403,7 @@ private:
     wstring     m_strResultWndTag;
     wstring     m_strFont;
     wstring     m_strItemsName[SELECTED_END];
-    wstring   m_strCurrItemName = TEXT("환상의 모코코 헤드");
+    wstring   m_strCurrItemName = TEXT("");
 
     CGameObject* m_pUsingPlayer = { nullptr };
     CItem* m_pEquips[SELECTED_END];

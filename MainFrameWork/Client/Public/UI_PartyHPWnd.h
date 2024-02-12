@@ -35,6 +35,7 @@ public:
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
     void    Set_PlayerDesc(PARTYHP_DESC tDesc);
+    void    Set_PartyLeader(_bool bLeader) { m_bPartyLeader = bLeader; }
 
 private:
     void    Update_PlayeHp();

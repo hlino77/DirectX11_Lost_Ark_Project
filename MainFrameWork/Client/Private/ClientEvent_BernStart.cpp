@@ -78,8 +78,8 @@ void CClientEvent_BernStart::Enter_Event()
 	}
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_BERN);
+	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
-	//CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_BERN);
 
 	Safe_Release(pGameInstance);
 }
@@ -114,8 +114,8 @@ void CClientEvent_BernStart::Exit_Event()
 	}
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVELID::LEVEL_BERN);
+	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_STATIC);
-	//CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_BERN);
 
 	Safe_Release(pGameInstance);
 }

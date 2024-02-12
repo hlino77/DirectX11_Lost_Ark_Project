@@ -143,6 +143,8 @@ void CUI_PartyUI::Add_PartyInfo(vector<_uint> vecPlayersId)
 				tDesc.iPartyIndex = iPartyIndex;
 				tDesc.strObjectTag = tDesc.pPlayer->Get_ObjectTag();
 				static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+				if (0 == iPartyIndex)
+					static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PartyLeader(true);
 			}
 			else
 			{
@@ -150,6 +152,8 @@ void CUI_PartyUI::Add_PartyInfo(vector<_uint> vecPlayersId)
 				tDesc.iPartyIndex = iPartyIndex;
 				tDesc.strObjectTag = TEXT("");
 				static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+				if (0 == iPartyIndex)
+					static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PartyLeader(true);
 			}
 		}
 		else if (iter == (CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID()))
@@ -158,6 +162,8 @@ void CUI_PartyUI::Add_PartyInfo(vector<_uint> vecPlayersId)
 			tDesc.iPartyIndex = iPartyIndex;
 			tDesc.strObjectTag = tDesc.pPlayer->Get_ObjectTag();
 			static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PlayerDesc(tDesc);
+			if (0 == iPartyIndex)
+				static_cast<CUI_PartyHPWnd*>((*iterUI))->Set_PartyLeader(true);
 		}
 		else
 		{
