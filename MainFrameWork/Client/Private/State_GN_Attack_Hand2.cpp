@@ -49,7 +49,7 @@ void CState_GN_Attack_Hand2::Enter_State()
 {
 	if (true == m_pPlayer->Is_Control())
 	{
-		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Laugh_598"), 1.f);
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Laugh_598.wav"), 1.f);
 	}
 	
 
