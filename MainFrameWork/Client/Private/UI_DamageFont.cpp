@@ -195,22 +195,26 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     }
     else if ((_uint)LAYER_TYPE::LAYER_PLAYER == m_pOwner->Get_Layer())
     {
+
         wstring szDamage;
         if (0 != iDamage)
+        {
             szDamage = to_wstring(iDamage);
+
+            _uint iIndex = 1;
+            for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
+            {
+                if ((iIndex % 3) == 0)
+                {
+                    szDamage.insert(i, L",");
+                }
+
+                ++iIndex;
+            }
+        }
         else
             szDamage = TEXT("");
 
-        _uint iIndex = 1;
-        for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
-        {
-            if ((iIndex % 3) == 0)
-            {
-                szDamage.insert(i, L",");
-            }
-    
-            ++iIndex;
-        }
     
         Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
         Vec2 vOrigin = vMeasure * 0.5f;

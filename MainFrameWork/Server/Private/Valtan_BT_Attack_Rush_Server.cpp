@@ -42,6 +42,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeD
 		m_iCurrAnimation = 1;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[1].iAnimIndex, m_vecAnimDesc[1].fChangeTime,	m_vecAnimDesc[1].iStartFrame, m_vecAnimDesc[1].iChangeFrame);
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iCurrAnimation == 1)
 	{
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 3.f, fTimeDelta);
@@ -50,8 +51,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeD
 			fOffset = 1.1f;
 		else
 			fOffset = 2.f;
-		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, fOffset))
+
+		if (CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, fOffset) && m_fLoopTime >= 0.1f)
 		{
+
 			static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Rush(false);
 			m_iCurrAnimation=2;
 			m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[2].iAnimIndex, m_vecAnimDesc[2].fChangeTime,
