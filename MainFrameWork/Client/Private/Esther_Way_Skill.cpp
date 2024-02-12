@@ -110,7 +110,7 @@ void CEsther_Way_Skill::Ready()
 
 	m_IsFinished = false;
 
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < 6; i++)
 	{
 		m_bEffectStart[i] = false;
 	}
@@ -236,35 +236,26 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 	if (false == m_bEffectStart[0])
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		Matrix matBahunturPivot = Get_TransformCom()->Get_WorldMatrix();
-		Matrix& matFloorPivot = Get_TransformCom()->Get_WorldMatrix();
-		matBahunturPivot.Translation(matFloorPivot.Translation());
+		Matrix& matWayePivot = Get_TransformCom()->Get_WorldMatrix();
 
-		tDesc.pPivotMatrix = &matBahunturPivot;
+		tDesc.pPivotMatrix = &matWayePivot;
 		EFFECT_START(TEXT("EstherSkill_Waye_Appear"), &tDesc)
 
 		m_bEffectStart[0] = true;
 	}
-
-	if (false == m_bEffectStart[1] && 55 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	
+	if (false == m_bEffectStart[1] && 17 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
-		tDesc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("EstherSkill_Waye_Small1"), &tDesc)
+		Matrix& matWayePivot = Get_TransformCom()->Get_WorldMatrix();
 
-		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
-
-		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
-
-		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
-		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.11f, 0.05f);
-		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+		tDesc.pPivotMatrix = &matWayePivot;
+		EFFECT_START(TEXT("EstherSkill_Waye_Start"), &tDesc)
 
 		m_bEffectStart[1] = true;
 	}
 
-	if (false == m_bEffectStart[2] && 95 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (false == m_bEffectStart[2] && 55 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
@@ -275,15 +266,33 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 
-
 		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
-		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.11f, 0.05f);
+		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.1f, 0.06f);
 		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
 
 		m_bEffectStart[2] = true;
 	}
 
-	if (false == m_bEffectStart[3] && 145 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (false == m_bEffectStart[3] && 95 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Waye_Small1"), &tDesc)
+
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
+
+
+		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
+		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.1f, 0.06f);
+		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+
+		m_bEffectStart[3] = true;
+	}
+
+	if (false == m_bEffectStart[4] && 145 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
@@ -295,13 +304,13 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 		
 		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
-		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.11f, 0.05f);
+		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.1f, 0.06f);
 		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
 
-		m_bEffectStart[3] = true;
+		m_bEffectStart[4] = true;
 	}
 	
-	if (false == m_bEffectStart[4] && 165 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (false == m_bEffectStart[5] && 165 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
@@ -312,11 +321,11 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 
-		pCamera->Cam_Shake(0.05f, 20.0f, 0.2f, 5.5f);
-		pCamera->Set_RadialBlur(0.06f, vDochulCenter, 0.11f, 0.07f);
-		pCamera->Set_Chromatic(0.06f, vDochulCenter, 0.15f, 0.07f);
+		pCamera->Cam_Shake(0.05f, 25.0f, 0.25f, 5.f);
+		pCamera->Set_RadialBlur(0.08f, vDochulCenter, 0.1f, 0.1f);
+		pCamera->Set_Chromatic(0.08f, vDochulCenter, 0.13f, 0.1f);
 
-		m_bEffectStart[4] = true;
+		m_bEffectStart[5] = true;
 	}
 }
 
