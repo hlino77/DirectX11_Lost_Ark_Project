@@ -271,7 +271,7 @@ _bool CNpc::Stop_VoiceSound()
 {
 	if (m_fVoiceSoundDelay == 0.0f)
 	{
-		CGameInstance::GetInstance()->Find_Stop_Sound(m_VoiceSoundKey);
+		//CGameInstance::GetInstance()->Find_Stop_Sound(m_VoiceSoundKey);
 		return true;
 	}
 

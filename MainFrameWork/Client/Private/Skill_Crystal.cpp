@@ -87,7 +87,7 @@ void CSkill_Crystal::Tick(_float fTimeDelta)
 			m_bRender = false;
 			if (m_strSoundTag.empty() == false && !m_bSoundOn)
 			{
-				CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
+				CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", m_strSoundTag, 1.f);
 				m_bSoundOn = true;
 			}
 

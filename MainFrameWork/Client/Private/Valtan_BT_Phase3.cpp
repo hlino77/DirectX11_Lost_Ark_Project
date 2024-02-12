@@ -45,14 +45,15 @@ void CValtan_BT_Phase3::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_MaxHp(529402339);
 	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
-	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUI(40, 529402339,L"찢겨진 마수의 군주");
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUI(40, 529402339, L"찢겨진 마수의 군주");
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUIRender(true);
 	//CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
 	//CSound_Manager::GetInstance()->Stop_Channel_Sound();
+}
 
 void CValtan_BT_Phase3::On_FirstAnimStart()
 {
-	(m_pGameObject)->Set_Render(true);
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Render(true);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_Render(true);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUIRender(false);
 }

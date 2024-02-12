@@ -43,7 +43,7 @@ void CSkill_Valtan_DoughnutTerm2sec::Tick(_float fTimeDelta)
 	{
 		if (m_strSoundTag.empty() == false && !m_bSoundOn)
 		{
-			CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", m_strSoundTag, 1.f);
 			m_bSoundOn = true;
 		}
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive());

@@ -9,6 +9,7 @@
 #include "Effect_Manager.h"
 #include "Effect_Trail.h"
 #include "AsUtils.h"
+#include "Sound_Manager.h"
 
 CSKill_Valtan_RainingAxe::CSKill_Valtan_RainingAxe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -108,7 +109,7 @@ void CSKill_Valtan_RainingAxe::Tick(_float fTimeDelta)
 		{
 			if (m_strSoundTag.empty() == false && !m_bSoundOn)
 			{
-				CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
+				CSound_Manager::GetInstance()->PlaySoundFile(L"Effect",m_strSoundTag, 1.f);
 				m_bSoundOn = true;
 			}
 

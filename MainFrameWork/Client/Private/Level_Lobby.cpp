@@ -66,7 +66,7 @@ HRESULT CLevel_Lobby::Initialize()
 HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 {
 	if (KEY_TAP(KEY::A))
-		CGameInstance::GetInstance()->PlayBGM(L"Sunrise Horizon.wav", CHANNEL_BGM);
+		CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
 
 	CUI* pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Button_Entrance_to_Server"));
 	if (nullptr == pUI)

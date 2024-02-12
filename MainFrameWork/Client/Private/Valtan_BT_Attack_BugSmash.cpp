@@ -59,8 +59,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 44 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;	
-		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#274 (200670410).wav", CHANNEL_EFFECT);
-		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#139 (195687587).wav", CHANNEL_EFFECT);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#274 (200670410).wav", 1.f);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#139 (195687587).wav", 1.f);
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.2f, 30.0f, 0.1f, 10.0f);
 		vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 		if (!vecTargets.empty())
@@ -138,7 +138,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 		if (m_bSoundOn[8] == false)
 		{
 			m_bSoundOn[8] = true;
-			CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#139 (195687587).wav", CHANNEL_EFFECT);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect",L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#139 (195687587).wav", 1.f);
 		}
 		if (m_pGameObject->Get_NearTarget() == nullptr)
 		{
@@ -148,7 +148,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 			ModelDesc.iObjectID = -1;
 			ModelDesc.pOwner = m_pGameObject;
-			CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#173 (340544007).wav", CHANNEL_EFFECT);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#173 (340544007).wav", 1.f);
 			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
 			if (pSkill != nullptr)
 			{
@@ -171,8 +171,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && !m_bSoundOn[2])
 	{
 		m_bSoundOn[2] = true;
-		CSound_Manager::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551).wav", CHANNEL_EFFECT);
-		CSound_Manager::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#162 (147083337).wav", CHANNEL_EFFECT);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551).wav", 1.f);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#162 (147083337).wav", 1.f);
 	}
 
 	Add_Sound(3, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)", CHANNEL_EFFECT);
