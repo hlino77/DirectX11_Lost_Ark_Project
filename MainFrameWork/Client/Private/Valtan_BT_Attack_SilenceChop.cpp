@@ -44,10 +44,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
 	}
+
 	if (m_bOutSide && m_iCurrAnimation == 2)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.05f, 0.7f);
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 7 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
@@ -85,6 +87,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 			}
 		}
 	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

@@ -213,6 +213,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
         }
         else
             szDamage = TEXT("");
+
         Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
         Vec2 vOrigin = vMeasure * 0.5f;
     

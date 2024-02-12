@@ -38,7 +38,7 @@ HRESULT CSkill_Valtan_SeismicWave::Initialize(void* pArg)
 void CSkill_Valtan_SeismicWave::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Radius() + fTimeDelta * 10.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Radius() + fTimeDelta * 20.f);
 	CSphereColliderGroup* pChildCollider = dynamic_cast<CSphereColliderGroup*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -46,16 +46,16 @@ void CSkill_Valtan_SeismicWave::Tick(_float fTimeDelta)
 		switch (i)
 		{
 		case 0:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, 8.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, 20.f) * fTimeDelta);
 			break;
 		case 1:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, -8.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(0.f, 0.f, -20.f) * fTimeDelta);
 			break;
 		case 2:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(8.f, 0.f, 0.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(20.f, 0.f, 0.f) * fTimeDelta);
 			break;
 		case 3:
-			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(-8.f, 0.f, 0.f) * fTimeDelta);
+			pChildSphereCollider->Set_Offset(pChildSphereCollider->Get_Offset() + Vec3(-20.f, 0.f, 0.f) * fTimeDelta);
 			break;
 		default:
 			break;

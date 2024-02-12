@@ -83,6 +83,8 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::Q))
+		m_bTest = !m_bTest;
 }
 
 void CBoss::LateTick(_float fTimeDelta)
@@ -191,6 +193,8 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				IsCritical = true;
 				iDamage *= 2;
 			}
+			if(m_bTest)
+				iDamage *= 10;
 			Send_Collision(iDamage, vPos, STATUSEFFECT::EFFECTEND, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration,0);
 			Show_Damage(iDamage, IsCritical);
 		}
@@ -221,7 +225,9 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			{
 				IsCritical = true;
 				iDamage *= 2;
-			}
+			}		
+			if (m_bTest)
+				iDamage *= 10;
 			STATUSEFFECT eStatusEffect = STATUSEFFECT::EFFECTEND;
 			if (static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().IsCounter)
 				eStatusEffect = STATUSEFFECT::COUNTER;
@@ -250,7 +256,8 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.5f)) + 1) * 26789;
 			_bool IsCritical = true;
 			iDamage *= 2;
-			
+			if (m_bTest)
+				iDamage *= 10;
 			STATUSEFFECT eStatusEffect = STATUSEFFECT::EFFECTEND;
 			Send_Collision(iDamage, vPos, eStatusEffect, fForce, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration, static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStagger);
 			Show_Damage(iDamage, IsCritical);

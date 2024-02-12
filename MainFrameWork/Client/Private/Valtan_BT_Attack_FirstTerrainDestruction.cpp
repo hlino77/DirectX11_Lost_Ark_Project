@@ -39,7 +39,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(XMVector3Normalize(m_vLandPosition - static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition()));
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vLandPosition);
-
+		m_pGameObject->Set_Render(false);
 		if (m_bTerrainWarning == false)
 		{
 			Matrix matWorld = XMMatrixIdentity();
@@ -50,7 +50,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 			m_bTerrainWarning = true;
 		}
 	}
-
+	if (m_iCurrAnimation == 2)
+		m_pGameObject->Set_Render(true);
 	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex)
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
@@ -65,7 +66,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 			m_pWhirlWind = Effects.front();
 
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(3.5f);
+			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(4.f);
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
 			m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
 			static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
@@ -99,6 +100,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 9 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;	
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#220 (262642769)", CHANNEL_EFFECT);
+		
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(1.1f, 150.0f, 1.5f, 13.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -176,7 +179,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[10].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[10].iAnimIndex) >= 22 && m_bShoot[1])
 	{
-		m_bShoot[1] = false;		
+		m_bShoot[1] = false;	
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#225 (910655979)", CHANNEL_EFFECT);
 		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(1.f, 0.7f);
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(1.f, 0.7f);
 		CSkill::ModelDesc ModelDesc = {};
@@ -192,7 +196,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(30.f);
-			static_cast<CSkill*>(pSkill)->Set_Atk(50);
+			static_cast<CSkill*>(pSkill)->Set_Atk(350);
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 		}
 
@@ -213,6 +217,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[13].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[13].iAnimIndex) >= 15 && m_bShoot[2])
 	{
 		m_bShoot[2] = false;
+		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", CHANNEL_EFFECT);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -225,7 +230,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 		{
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill*>(pSkill)->Set_Atk(50);
+			static_cast<CSkill*>(pSkill)->Set_Atk(550);
 			static_cast<CSkill*>(pSkill)->Set_Force(51.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(20.f, -20.f);
 			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
@@ -242,6 +247,21 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction::OnUpdate(const _f
 		m_bLastAttack = true;
 	}
 
+	{
+		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#214 (730847021)", CHANNEL_EFFECT);
+		Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)",  CHANNEL_EFFECT, 46);
+		Add_Sound(2, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#226 (1020706137)", CHANNEL_EFFECT, 6);
+		Add_Sound(2, 6, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#221 (561982981)", CHANNEL_EFFECT,8);
+		Add_Sound(3, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT);
+		Add_Sound(4, 4, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)", CHANNEL_EFFECT);
+		Add_Sound(5, 5, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", CHANNEL_EFFECT);
+		Add_Sound(6, 7, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", CHANNEL_EFFECT,20);
+		Add_Sound(6, 8, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#129 (1000748334)", CHANNEL_EFFECT,41);
+		Add_Sound(7, 9, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#218 (780723437)", CHANNEL_EFFECT);
+		Add_Sound(9, 10, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#211 (636266057) Cut", CHANNEL_EFFECT,37); 
+		Add_Sound(11, 11, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#217 (1053313532)", CHANNEL_EFFECT);
+		Add_Sound(11, 12, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2 [146]", CHANNEL_EFFECT,22);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

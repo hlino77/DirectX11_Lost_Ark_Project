@@ -28,6 +28,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(const _floa
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
+
 	if (m_iCurrAnimation == 2 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 31 && m_bShoot)
 	{
 		m_bShoot = false;		

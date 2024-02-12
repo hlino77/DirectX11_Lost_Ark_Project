@@ -183,6 +183,8 @@ protected:
 	_uint	m_iMaxGroggyCount = 0;
 	_bool							m_bDbgCout = false;
 	_float							m_fTimeCount = 0.f;
+	_bool							m_bTest = false;
+
 	//HPUI
 	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };
 	BOSS_TYPE m_eBossType = { BOSS_TYPE::BOSS_END };

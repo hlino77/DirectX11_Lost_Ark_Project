@@ -43,6 +43,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_NearTarget_Position());
 	}
+
 	if (m_iCurrAnimation == 2)
 		m_pGameObject->Set_Render(true);
 	
@@ -65,7 +66,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 				EFFECT_START(L"VTAxeRainEndWarning", &tDesc);
 			}
-
+			if (CGameInstance::GetInstance()->Random_Coin(0.5f))
+				Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#117 (516386150)", CHANNEL_EFFECT);
+			else
+				Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#118 (282820102)", CHANNEL_EFFECT);
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())
 				for (auto& Object : vecTargets)
@@ -80,6 +84,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 					tDesc.vTargetPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 
 					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &tDesc);
+					if (CGameInstance::GetInstance()->Random_Coin(0.5f))
+						static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#121 (557856096).wav");
+					else
+						static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#122 (225164104).wav");
 				}
 			vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())
@@ -98,6 +106,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				}
 		}
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 8 && m_bShoot)
 	{
 		m_bShoot = false;	
@@ -117,7 +126,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				vLook.Normalize();
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(8.f);
+				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(11.f);
 			}
 
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -149,6 +158,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 			}
 		}
 	}
+	//Sound
+	{
+		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", CHANNEL_EFFECT);
+		Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", CHANNEL_EFFECT, 24);
+		Add_Sound(2, 2,L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785).wav", CHANNEL_EFFECT,7);
+		Add_Sound(2, 3,L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#42 (236377491)", CHANNEL_EFFECT,7);		
+	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

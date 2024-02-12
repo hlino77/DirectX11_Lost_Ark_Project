@@ -9,6 +9,8 @@
 #include "PartObject.h"
 #include "Effect_Particle.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+
 CValtan_BT_Attack_CounterAttack::CValtan_BT_Attack_CounterAttack()
 {
 }
@@ -106,7 +108,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack::OnUpdate(const _float& fTim
 	}
 	Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#83 (499068403)", CHANNEL_EFFECT);
 	Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)", CHANNEL_EFFECT, 39); 
-	Add_Sound(0, 4, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT, 39, true);
+	Add_Sound(0, 4, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT, 39, true, CUI_Manager::GetInstance()->Get_ChannelVolume(CHANNEL_EFFECT));
 	Add_Sound(2, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#85 (208205469)", CHANNEL_EFFECT); 
 	Add_Sound(2, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#90 (338015342)", CHANNEL_EFFECT);
 	return BT_RUNNING;
