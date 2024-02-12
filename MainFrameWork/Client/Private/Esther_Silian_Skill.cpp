@@ -96,7 +96,6 @@ void CEsther_Silian_Skill::Ready()
 	for (_int i = 0; i < 3; ++i)
 		m_bEffectStart[i] = false;
 
-	m_bEffectStart = false;
 	m_IsFinished = false;
 }
 
