@@ -118,9 +118,13 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     m_bCriticalHit = IsCritical;
     Vec2 vTextPos(300.0f, 40.0f);
     Vec3 vHostPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-    vHostPos.y += fOffsetY;
-    m_fOffSetY = fOffsetY;
-
+    if (TEXT("") == pMonster->Get_ObjectTag())
+    {
+        vHostPos.y += fOffsetY;
+        m_fOffSetY = fOffsetY;
+    }
+    else
+        m_fOffSetY = 0.f;
     Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
     Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 
