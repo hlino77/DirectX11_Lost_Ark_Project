@@ -245,8 +245,15 @@ void CStaticModel::Tick(_float fTimeDelta)
 			//Set_Dead(true);
 			//Set_Active(false);
 			m_bBreak = true;
+
+			for (auto& Collider : m_StaticColliders)
+			{
+				Collider->SetActive(false);
+				//Collider->Get_Child()->SetActive(false);
+			}
 		}
 	}
+
 
 	// Collider Active Setting
 	if (false == m_bActive)
@@ -255,7 +262,7 @@ void CStaticModel::Tick(_float fTimeDelta)
 		for (auto& Collider : m_StaticColliders)
 		{
 			Collider->SetActive(false);
-			Collider->Get_Child()->SetActive(false);
+			//Collider->Get_Child()->SetActive(false);
 		}
 	}
 
@@ -1196,7 +1203,7 @@ void CStaticModel::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			for (auto& Collider : m_StaticColliders)
 			{
 				Collider->SetActive(false);
-				Collider->Get_Child()->SetActive(false);
+				//Collider->Get_Child()->SetActive(false);
 			}
 		}
 

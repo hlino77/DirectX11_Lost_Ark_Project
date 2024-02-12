@@ -55,12 +55,14 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 					iter->Get_ModelName() == TEXT("Wall04"))
 				{
 					static_cast<CAnimModel*>(iter)->Set_PlayAnim(true);
+					static_cast<CAnimModel*>(iter)->Break_OutWall();
 					
-					if (false == m_bSendServerNaviInfo && iter->Get_ModelName() == TEXT("Wall02"))
+					/*if (false == m_bSendServerNaviInfo && iter->Get_ModelName() == TEXT("Wall02"))
 					{
 						static_cast<CAnimModel*>(iter)->Break_OutWall();
 						m_bSendServerNaviInfo = true;
-					}
+					}*/
+
 				}
 			}
 
