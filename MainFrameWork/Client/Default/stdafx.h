@@ -27,6 +27,8 @@
 #include "TypeLessValue.h"
 #include "ItemCode.h"
 
+#include "UI_Manager.h"
+
 #define _CLIENT
 
 #ifdef UNICODE                                                                                      

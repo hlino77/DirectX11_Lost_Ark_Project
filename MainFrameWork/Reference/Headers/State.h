@@ -6,6 +6,16 @@ BEGIN(Engine)
 class ENGINE_DLL CState abstract : public CBase
 {
 public:
+	typedef struct tagSoundDesc
+	{
+		tagSoundDesc() {}
+		tagSoundDesc(_int iFrameIndex, wstring strName) : iFrame(iFrameIndex), strName(strName) {}
+
+		_int iFrame = -1;
+		wstring strName;
+	}SOUNDDESC;
+
+public:
 	CState(const wstring& strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController);
 	virtual ~CState() = default;
 
@@ -28,6 +38,9 @@ protected:
 
 	class CStateMachine*		m_pStateMachine = { nullptr };
 	class CPlayer_Controller*	m_pController = { nullptr };
+
+	_uint m_iSoundCnt = 0;
+	vector<SOUNDDESC> m_SoundFrames;
 
 public:
 	virtual void Free() override;

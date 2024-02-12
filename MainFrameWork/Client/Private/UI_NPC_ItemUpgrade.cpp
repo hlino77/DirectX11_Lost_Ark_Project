@@ -1496,6 +1496,13 @@ HRESULT CUI_NPC_ItemUpgrade::Ready_TextBox()
             Vec3(m_fX - g_iWinSizeX * 0.5f, -(g_iWinSizeY * 0.5f) + g_iWinSizeY * 0.5f, 0.01f));
 
     }
+
+    if (nullptr == m_pAmountWnd)
+    {
+
+
+
+    }
     Safe_Release(pGameInstance);
     return S_OK;
 }

@@ -9,7 +9,7 @@ class CState_GN_Attack_Hand1 final : public CState
 	typedef struct EffectFrameDesc
 	{
 		EffectFrameDesc() {};
-		EffectFrameDesc(_uint iFrameIndex, _uint iWeaponIndex) : iFrame(iFrameIndex), iWeapon(iWeaponIndex) {}
+		EffectFrameDesc(_int iFrameIndex, _int iWeaponIndex) : iFrame(iFrameIndex), iWeapon(iWeaponIndex) {}
 
 		_int iFrame = -1;
 		_int iWeapon = -1;

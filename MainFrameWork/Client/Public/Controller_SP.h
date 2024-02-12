@@ -52,6 +52,7 @@ private:
 	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
 
 	virtual void	EstherSkill(_uint iIndex) override;
+	virtual void	Esther_Refill(_float fTimeDelta) override;
 
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];

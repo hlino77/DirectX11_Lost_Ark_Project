@@ -11,6 +11,8 @@
 #include "Effect_Manager.h"
 #include "GameInstance.h"
 #include "Camera_Player.h"
+#include "Sound_Manager.h"
+
 
 CState_GN_Attack_Hand1::CState_GN_Attack_Hand1(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -43,6 +45,12 @@ HRESULT CState_GN_Attack_Hand1::Initialize()
 
 void CState_GN_Attack_Hand1::Enter_State()
 {
+	if (true == m_pPlayer->Is_Control())
+	{
+		PLAYSOUND(TEXT("GN_Laugh_605"), CHANNELID::CHANNEL_EFFECT, SOUNDLOOP::NOLOOP);
+	}
+		
+
 	m_iAttackCnt = 0;
 	m_iEffectCnt = 0;
 

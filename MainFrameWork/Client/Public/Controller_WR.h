@@ -64,7 +64,10 @@ private:
 
 
 	void			UpdateIdentityAuraPivot();
+
 	virtual void	EstherSkill(_uint iIndex) override;
+	virtual void	Esther_Refill(_float fTimeDelta) override;
+
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 

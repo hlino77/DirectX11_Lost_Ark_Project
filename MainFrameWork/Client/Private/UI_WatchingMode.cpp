@@ -352,16 +352,26 @@ void CUI_WatchingMode::Is_Picking_NextButton(POINT pt)
 			if ((m_iPartyIndex + 1) == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
 			{
 				if ((m_iPartyIndex + 2) < CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size())
-					m_iPartyIndex = 1;
+				{
+					if (1 != CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+						m_iPartyIndex = 1;
+					else
+						m_iPartyIndex = 2;
+				}
 				else
 					m_iPartyIndex += 2;
 			}
 			else
 			{
-				if ((m_iPartyIndex + 1) > CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size())
-					m_iPartyIndex = 1;
+				if ((m_iPartyIndex + 1) < CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size())
+					m_iPartyIndex += 1;
 				else
-					m_iPartyIndex++;
+				{
+					if (1 != CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+						m_iPartyIndex = 1;
+					else
+						m_iPartyIndex = 2;
+				}
 			}
 			Find_IndexPartyMember();
 			Print_TextBox();

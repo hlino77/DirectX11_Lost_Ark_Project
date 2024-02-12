@@ -314,6 +314,25 @@ void CController_SP::Skill_CoolTime(const _float& fTimeDelta)
 	__super::Skill_CoolTime(fTimeDelta);
 }
 
+void CController_SP::Esther_Refill(_float fTimeDelta)
+{
+	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader() ||
+		m_pOwner->Get_CurrLevel() != LEVELID::LEVEL_VALTANMAIN)
+		return;
+
+	m_fEstherAcc += fTimeDelta;
+	if (m_fEstherAcc >= m_fEstherFillTime)
+	{
+		m_fEstherAcc = 0.0f;
+
+		m_iCurEstherGage += m_iEstherFill;
+		if (m_iCurEstherGage >= m_iMaxEstherGage)
+		{
+			m_iCurEstherGage = m_iMaxEstherGage;
+		}
+	}
+}
+
 void CController_SP::EstherSkill(_uint iIndex)
 {
 	for (auto& pEsther : m_vecEsther)

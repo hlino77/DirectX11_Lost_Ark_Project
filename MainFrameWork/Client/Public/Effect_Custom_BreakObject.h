@@ -46,7 +46,7 @@ private:
 
 
 	void	Spread_Random_Dir(float fTimeDelta);
-	void	Exponential_Lerp(float fTimeDelta);
+	void	Target_Random_Dir(Vec3 TargetPosition, float fTimeDelta);
 
 
 private:

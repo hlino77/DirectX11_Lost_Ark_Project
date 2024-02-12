@@ -93,6 +93,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
 	m_bTest = true;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	m_vecAttackRanges.clear();
@@ -1882,7 +1883,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pImposter)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pRush)))
 				return E_FAIL;
 		}
 

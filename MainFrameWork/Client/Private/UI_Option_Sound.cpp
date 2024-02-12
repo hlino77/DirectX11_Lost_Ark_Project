@@ -88,9 +88,9 @@ HRESULT CUI_Option_Sound::Initialize(void* pArg)
 	{
 		m_fDragBarX[i] = m_fDragLineMinX + (m_fDragLineSizeX* m_fSoundRatio[i]);
 		m_fSoundRatio[i] = m_fVolume[i];
-		if (4 > i)
-			CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i]);
 	}
+	for (size_t i = 0; i < 4; i++)
+			CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i + 1]);
 
 	return S_OK;
 }

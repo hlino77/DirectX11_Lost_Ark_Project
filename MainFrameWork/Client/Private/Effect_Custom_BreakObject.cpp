@@ -110,8 +110,7 @@ void CEffect_Custom_BreakObject::Tick(_float fTimeDelta)
 	// Target Pos -> Dir
 	if (m_AttackStyle == 1)
 	{
-		Spread_Random_Dir(fTimeDelta);
-		//Exponential_Lerp(fTimeDelta);
+		Target_Random_Dir(TargetPos, fTimeDelta);
 	}
 
 	if (m_fTimeAcc >= 1.f)
@@ -237,9 +236,50 @@ void CEffect_Custom_BreakObject::Spread_Random_Dir(_float fTimeDelta)
 
 }
 
-void CEffect_Custom_BreakObject::Exponential_Lerp(float fTimeDelta)
+
+void CEffect_Custom_BreakObject::Target_Random_Dir(Vec3 TargetPosition, float fTimeDelta)
 {
+	_float initialSpeed = 10.0f;
+	_float gravity = -9.8f * 0.1; // Power Custom
+	_float airResistance = 0.1f;
+
+
+	Vec3 DirectionToTarget = TargetPosition - m_vStartPos;
+	DirectionToTarget.Normalize();
+
+	Vec3 vUp = Vec3(0.0f, 1.0f, 0.0f); // Standard
+
+	Vec3 PerpendicularVector = DirectionToTarget.Cross(vUp);
+	PerpendicularVector.Normalize();
+
+	Vec3 AnotherPerpendicularVector = DirectionToTarget.Cross(PerpendicularVector);
+	AnotherPerpendicularVector.Normalize();
+
+	if (false == m_bSetDir)
+	{
+
+		_float fRandomAngle = static_cast<float>((rand() % 360) * (3.141592 / 180.0));
+		Vec3 RandomDirection = DirectionToTarget * cos(fRandomAngle) + PerpendicularVector * sin(fRandomAngle) + AnotherPerpendicularVector * sin(fRandomAngle);
+
+		m_RandomMoveDirection = RandomDirection * initialSpeed;
+
+		m_bSetDir = true;
+	}
+
+	// Gravity
+	float timeSinceStart = m_fTimeAcc - 0.1f;
+	float verticalDisplacement = 0.5f * gravity * pow(timeSinceStart, 2); // s = ut + 0.5at^2 
+
+	//Position Move
+	m_vStartPos += m_RandomMoveDirection * fTimeDelta; // x, z
+	m_vStartPos.y += verticalDisplacement;	   // Gravity -> y	
+
+	// Bind World Position
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vStartPos);
+
 }
+
+
 
 CGameObject* CEffect_Custom_BreakObject::Clone(void* pArg)
 {

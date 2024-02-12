@@ -47,6 +47,12 @@ HRESULT CState_GN_Attack_Hand2::Initialize()
 
 void CState_GN_Attack_Hand2::Enter_State()
 {
+	if (true == m_pPlayer->Is_Control())
+	{
+		PLAYSOUND(TEXT("GN_Laugh_598"), CHANNELID::CHANNEL_EFFECT, SOUNDLOOP::NOLOOP);
+	}
+	
+
 	m_iAttackCnt = 0;
 	m_iEffectCnt = 0;
 
