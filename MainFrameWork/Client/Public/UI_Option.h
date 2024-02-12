@@ -27,6 +27,7 @@ private:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    _float  Get_ChannelSound(_uint iChannel);
 
 private:
     virtual HRESULT Ready_Components();

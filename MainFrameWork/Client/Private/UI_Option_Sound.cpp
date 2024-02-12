@@ -202,6 +202,21 @@ HRESULT CUI_Option_Sound::Render()
 	return S_OK;
 }
 
+_float CUI_Option_Sound::Get_ChannelSound(_uint iChannel)
+{
+	if (false == m_bCheckVolume[0])
+	{
+		return 0.f;
+	}
+	else
+	{
+		if (true == m_bCheckVolume[iChannel + 1])
+			return m_fVolume[iChannel + 1];
+		else
+			return 0.f;
+	}
+}
+
 void CUI_Option_Sound::Is_SoundOptionMode(_uint iMode)
 {
 	if (0 == iMode)

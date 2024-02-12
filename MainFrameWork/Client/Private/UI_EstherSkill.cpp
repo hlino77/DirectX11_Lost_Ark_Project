@@ -79,16 +79,6 @@ HRESULT CUI_EstherSkill::Initialize(void* pArg)
 	m_fCurrGauge = m_fMaxGauge;
 	m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
 
-	auto& iter = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().begin();
-	m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, *iter));
-	if (nullptr == m_pPartyLeader)
-	{
-		if (CServerSessionManager::GetInstance()->Get_Player()->Is_PartyLeader())
-			m_pPartyLeader = CServerSessionManager::GetInstance()->Get_Player();
-		else
-			return E_FAIL;
-	}
-
 	m_vecUIParts.push_back(this);
 
 	return S_OK;
@@ -96,6 +86,18 @@ HRESULT CUI_EstherSkill::Initialize(void* pArg)
 
 void CUI_EstherSkill::Tick(_float fTimeDelta)
 {
+	if (nullptr != CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
+	{
+		auto& iter = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().begin();
+		m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject((_uint)LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER, (*iter)));
+		if (nullptr == m_pPartyLeader)
+		{
+			if (CServerSessionManager::GetInstance()->Get_Player()->Is_PartyLeader())
+				m_pPartyLeader = CServerSessionManager::GetInstance()->Get_Player();
+			else
+				m_pPartyLeader = nullptr;
+		}
+	}
 	__super::Tick(fTimeDelta);
 	Update_EstherGauge(fTimeDelta);
 }

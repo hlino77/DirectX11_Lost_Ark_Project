@@ -155,6 +155,11 @@ void CUI_Option::LateUpdate_OptionWnd(_float fTimeDelta)
 	}
 }
 
+_float CUI_Option::Get_ChannelSound(_uint iChannel)
+{
+	return m_pOptionSound->Get_ChannelSound(iChannel);
+}
+
 HRESULT CUI_Option::Ready_Components()
 {
 	return S_OK;

@@ -25,6 +25,7 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    _float  Get_ChannelSound(_uint iChannel);
 
 public:
     void    Is_SoundOptionMode(_uint iMode);

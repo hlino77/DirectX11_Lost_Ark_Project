@@ -123,7 +123,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
-	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
+	//CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
 
 	return S_OK;
 }
