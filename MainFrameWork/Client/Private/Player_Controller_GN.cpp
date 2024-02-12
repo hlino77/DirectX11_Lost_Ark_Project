@@ -195,9 +195,15 @@ void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPo
 		tPcStat.iCurHp = 0;
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 		static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Dead_Start"));
+		static_cast<CPlayer*>(m_pOwner)->Send_Hp();
 		return;
 	}
-	m_pOwner->Set_PlayerStat_Desc(tPcStat);
+	else
+	{
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+		static_cast<CPlayer*>(m_pOwner)->Send_Hp();
+	}
+	
 
 	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE])
 	{

@@ -61,6 +61,7 @@ HRESULT CIT_WDR_Helmet_Mococo::Use_Item(CPlayer* pOwner)
 	tPcStat.iCurHp += m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+	static_cast<CPlayer*>(pOwner)->Send_Hp();
 
 	for (auto& i : m_vecUseEquipSlot)
 	{
@@ -95,6 +96,7 @@ HRESULT CIT_WDR_Helmet_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	tPcStat.iCurHp -= m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+	static_cast<CPlayer*>(pOwner)->Send_Hp();
 
 	for (auto& i : m_vecUseEquipSlot)
 	{

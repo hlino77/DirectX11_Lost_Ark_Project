@@ -450,10 +450,14 @@ void CPlayer::Get_Picking_NonePlayer()
 
 _bool CPlayer::Is_PartyLeader()
 {
-	if (nullptr == m_pParty)
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr == pPlayer)
 		return false;
 
-	if (m_pParty->Get_PartyMembers().front() == m_iObjectID)
+	if (nullptr == pPlayer->Get_Party())
+		return false;
+
+	if (pPlayer->Get_Party()->Get_PartyMembers().front() == m_iObjectID)
 	{
 		return true;
 	}

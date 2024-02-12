@@ -61,6 +61,8 @@ HRESULT CIT_GN_Helmet_Mococo::Use_Item(CPlayer* pOwner)
 	tPcStat.iCurHp += m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+	static_cast<CPlayer*>(pOwner)->Send_Hp();
+
 	if (nullptr != pOwner->Get_EquipItem(m_vecUseEquipSlot.front()))
 	{
 		pOwner->Get_EquipItem(m_vecUseEquipSlot.front())->Disuse_Item(pOwner, false);
@@ -93,6 +95,7 @@ HRESULT CIT_GN_Helmet_Mococo::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	tPcStat.iCurHp -= m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+	static_cast<CPlayer*>(pOwner)->Send_Hp();
 
 	for (auto& i : m_vecUseEquipSlot)
 	{

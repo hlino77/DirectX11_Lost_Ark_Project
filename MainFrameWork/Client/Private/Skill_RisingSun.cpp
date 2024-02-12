@@ -160,6 +160,7 @@ void CSkill_RisingSun::Buff_Player(_uint iPlayerID)
 			pPcStat.iCurHp = pPcStat.iMaxHp;
 		}
 		pPlayer->Set_PlayerStat_Desc(pPcStat);
+		pPlayer->Send_Hp();
 	}
 }
 

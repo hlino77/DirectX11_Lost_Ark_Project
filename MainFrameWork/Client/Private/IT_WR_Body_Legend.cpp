@@ -63,6 +63,7 @@ HRESULT CIT_WR_Body_Legend::Use_Item(CPlayer* pOwner)
 	tPcStat.iCurHp += m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+	static_cast<CPlayer*>(pOwner)->Send_Hp();
 
 	for (auto& i : m_vecUseEquipSlot)
 	{
@@ -97,6 +98,7 @@ HRESULT CIT_WR_Body_Legend::Disuse_Item(CPlayer* pOwner, _bool bUseDefault)
 	tPcStat.iCurHp -= m_tStatChangeDesc.iHp;
 
 	pOwner->Set_PlayerStat_Desc(tPcStat);
+	static_cast<CPlayer*>(pOwner)->Send_Hp();
 
 	for (auto& i : m_vecUseEquipSlot)
 	{
