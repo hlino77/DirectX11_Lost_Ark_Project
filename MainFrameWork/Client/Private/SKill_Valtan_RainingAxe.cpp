@@ -6,6 +6,9 @@
 #include "CollisionManager.h"
 #include <ColliderDoughnut.h>
 #include <Boss.h>
+#include "Effect_Manager.h"
+#include "Effect_Trail.h"
+#include "AsUtils.h"
 
 CSKill_Valtan_RainingAxe::CSKill_Valtan_RainingAxe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -27,38 +30,110 @@ HRESULT CSKill_Valtan_RainingAxe::Initialize_Prototype()
 
 HRESULT CSKill_Valtan_RainingAxe::Initialize(void* pArg)
 {
-	if (FAILED(__super::Initialize(pArg)))
+	RainAxeDesc* pDesc = static_cast<RainAxeDesc*>(pArg);
+	if (FAILED(__super::Initialize(&pDesc->tSkillDesc)))
 		return E_FAIL;
-	m_fLastTime = 1.6f;
-	m_fBlinkTime = 1.4f;
+	m_fLastTime = 0.6f;
+	m_fBlinkTime = 0.4f;
 	m_SkillDesc.iAtk = 20;
 	m_SkillDesc.fForce = 12.f;
-	m_vOffset = { 0.f,5.f,-3.f};
 
+	m_vOffsetTargetPos = m_vTargetPos = pDesc->vTargetPos;
+
+	Vec3 vOffset;
+	vOffset.x = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+	vOffset.z = CGameInstance::GetInstance()->Get_RandomFloat(-1.0f, 1.0f);
+	vOffset.y = CGameInstance::GetInstance()->Get_RandomFloat(0.6f, 1.0f);
+	vOffset.Normalize();
+	vOffset *= 20.0f;
+
+	Vec3 vDir = -vOffset;
+	vDir.y = 0.0f;
+	vDir.Normalize();
+
+	m_vOffsetTargetPos.y += 1.0f;
+	m_vOffsetTargetPos += -vDir * 0.6f;
+
+	m_vStartPos = m_vTargetPos + vOffset;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vStartPos);
+	m_pTransformCom->LookAt(m_vStartPos + vDir);
+	
+	m_pTransformCom->Turn_Axis(m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_UP), XM_PI);
+	m_pTransformCom->Turn_Axis(m_pTransformCom->Get_TransformCom()->Get_State(CTransform::STATE_RIGHT), -XM_PI * 0.75f);
+	m_OriginWorldMatrix = m_pTransformCom->Get_WorldMatrix();
+
+	m_bAttack = false;
+
+	m_fWaiting = 1.0f;
+
+	auto func = bind(&CSKill_Valtan_RainingAxe::Load_EffectPivotMatrix, this, placeholders::_1);
+	TRAIL_START_OUTLIST(L"VTRainAxeTrail", func, m_Trails);
+
+	{
+		Matrix matWorld = XMMatrixIdentity();
+		matWorld.Translation(m_vTargetPos);
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &matWorld;
+		EFFECT_START(L"VTAxeRainWarning", &tDesc);
+	}
+
+	m_fMaxRadian = XM_PI * 2.0f * 5.0f;
 
 	return S_OK;
 }
 
 void CSKill_Valtan_RainingAxe::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
-	m_fBlinkTime -= fTimeDelta;
-	if (m_fBlinkTime < 0.f && m_fLastTime > 0.f)
+	if (m_fWaiting > 0.0f)
 	{
-		if (m_strSoundTag.empty() == false && !m_bSoundOn)
-		{
-			CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
-			m_bSoundOn = true;
-		}
-		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(!m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->IsActive());
+		m_fWaiting -= fTimeDelta;
+		return;
 	}
-	m_vOffset = Vec3::Lerp(Vec3(0.f, 0.9f, 0.f), Vec3(0.f, 20.f, CGameInstance::GetInstance()->Random_Float(-20.f, 0.f)),  max(0.f, m_fBlinkTime));
+
+	__super::Tick(fTimeDelta);
+
+	if (m_bAttack == false)
+	{
+		m_fBlinkTime -= fTimeDelta;
+		m_fBlinkTime = max(0.0f, m_fBlinkTime);
+		_float fTimeRatio = 1.0f - m_fBlinkTime / 0.4f;
+		Vec3 vPos = Vec3::Lerp(m_vStartPos, m_vOffsetTargetPos, fTimeRatio);
+		_float fRadian = CAsUtils::Lerpf(0.0f, m_fMaxRadian, fTimeRatio);
+
+		m_pTransformCom->Set_WorldMatrix(m_OriginWorldMatrix);
+		m_pTransformCom->Turn_Axis(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), -fRadian);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+		if (m_fBlinkTime <= 0.0f)
+		{
+			if (m_strSoundTag.empty() == false && !m_bSoundOn)
+			{
+				CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
+				m_bSoundOn = true;
+			}
+
+			m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
+
+			m_bAttack = true;
+
+			Matrix matWorld = XMMatrixIdentity();
+			matWorld.Translation(m_vTargetPos);
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+			EFFECT_START(L"VTRainAxeExplosion", &tDesc);
+
+			for (auto& Trail : m_Trails)
+			{
+				dynamic_cast<CEffect_Trail*>(Trail)->TrailEnd(1.0f);
+			}
+		}
+	}
 }
 
 void CSKill_Valtan_RainingAxe::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
-	m_WorldMatrix = Matrix::CreateRotationY(XMConvertToRadians(180.f))* Matrix::CreateRotationX(XMConvertToRadians(-210.f+ max(0.f, m_fBlinkTime) * -1440.f))* Matrix::CreateTranslation(m_vOffset) * m_pTransformCom->Get_WorldMatrix();
+	
 	if (m_bRender)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
@@ -71,7 +146,7 @@ HRESULT CSKill_Valtan_RainingAxe::Render()
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_WorldMatrix, sizeof(Matrix))))
+	if (FAILED(m_pShaderCom->Bind_CBuffer("TransformBuffer", &m_pTransformCom->Get_WorldMatrix(), sizeof(Matrix))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
@@ -148,6 +223,12 @@ HRESULT CSKill_Valtan_RainingAxe::Ready_Coliders()
 		}
 	}
 	return S_OK;
+}
+
+void CSKill_Valtan_RainingAxe::Load_EffectPivotMatrix(Matrix& matWorld)
+{
+	matWorld = XMMatrixIdentity();
+	matWorld.Translation(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
 HRESULT CSKill_Valtan_RainingAxe::Ready_Components()

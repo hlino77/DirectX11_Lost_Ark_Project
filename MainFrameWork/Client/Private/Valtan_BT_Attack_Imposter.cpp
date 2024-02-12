@@ -12,6 +12,8 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_Imposter::CValtan_BT_Attack_Imposter()
 {
@@ -24,6 +26,8 @@ void CValtan_BT_Attack_Imposter::OnStart()
 	m_bShoot[1] = true;
 	m_bShoot[2] = true;
 	m_bShoot[3] = true;
+
+	m_bWarning[0] = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelta)
@@ -52,6 +56,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	
+	if (m_bWarning[0] == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_ImpWarning", &tDesc);
+		m_bWarning[0] = true;
+	}
+	
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 73 && m_bShoot[0])
 	{
@@ -75,6 +87,20 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 		}
 
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vEffectPos = vPos;
+		vPos.x -= 0.3f;
+		vPos.z -= 2.0f;
+
+		matWorld.Translation(vEffectPos);
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+			EFFECT_START(L"VT_ImpStart1", &tDesc);
+		}
+		
+
+
 		for (size_t i = 0; i < 6; i++)
 		{
 			vLook.Normalize();
@@ -89,6 +115,13 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 				static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(15.f,-15.f);
 			}
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+			EFFECT_START(L"VT_ImpStart2", &tDesc);
+
+			matWorld *= Matrix::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(60.0f));
+			matWorld.Translation(vEffectPos);
 		}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 73 && m_bShoot[3])

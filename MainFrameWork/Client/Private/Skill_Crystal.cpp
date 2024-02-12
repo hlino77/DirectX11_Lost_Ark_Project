@@ -8,7 +8,8 @@
 #include "NavigationMgr.h"
 #include <ColliderOBB.h>
 #include "Skill.h"
-
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CSkill_Crystal::CSkill_Crystal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CSkill(pDevice, pContext)
@@ -48,6 +49,8 @@ HRESULT CSkill_Crystal::Initialize(void* pArg)
 	m_bExplosion = false;
 	m_fExplosionDelay = 1.5f;
 	m_bRender = false;
+	m_bWarning = false;
+	m_bExplosionEffect = false;
 	return S_OK;
 }
 
@@ -67,6 +70,14 @@ void CSkill_Crystal::Tick(_float fTimeDelta)
 	}
 	if (m_bExplosion)
 	{
+		if (m_bWarning == false)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+			EFFECT_START(L"VT_FTStoneWarning", &tDesc);
+			m_bWarning = true;
+		}
+
 		m_fExplosionDelay -= fTimeDelta;
 		if (m_fExplosionDelay <= 0.f)
 		{
@@ -78,6 +89,14 @@ void CSkill_Crystal::Tick(_float fTimeDelta)
 			{
 				CGameInstance::GetInstance()->PlaySoundFile(m_strSoundTag, CHANNEL_EFFECT);
 				m_bSoundOn = true;
+			}
+
+			if (m_bExplosionEffect == false)
+			{
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+				EFFECT_START(L"VT_FTStoneExplosion", &tDesc);
+				m_bExplosionEffect = true;
 			}
 		}
 		if (m_fExplosionDelay < -0.2f)

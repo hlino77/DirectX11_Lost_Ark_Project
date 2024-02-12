@@ -8,6 +8,8 @@
 #include "Player.h"
 #include "Camera_Player.h"
 #include <Skill.h>
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_DoubleJumpWave::CValtan_BT_Attack_DoubleJumpWave()
 {
@@ -18,11 +20,32 @@ void CValtan_BT_Attack_DoubleJumpWave::OnStart()
 	__super::OnStart();
 	m_bShoot[0] = true;
 	m_bShoot[1] = true;
+
+	m_bEffect[0] = false;
+	m_bEffect[1] = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTimeDelta)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 95 && m_bShoot[0])
+	if (m_bEffect[0] == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 93)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_DJW_Trail", &tDesc);
+
+		m_bEffect[0] = true;
+	}
+
+	if (m_bEffect[1] == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 22)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_DJW_Trail", &tDesc);
+
+		m_bEffect[1] = true;
+	}
+
+	if (m_bShoot[0] && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 95)
 	{
 		m_bShoot[0] = false;
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 50.0f, 0.1f, 10.0f);
@@ -46,6 +69,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 			static_cast<CMonster*>(m_pGameObject)->Set_Die(0.5f);
 			static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.3f);
 		}
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_DJW_Chop", &tDesc);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 24 && m_bShoot[1])
 	{
@@ -66,6 +93,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_DJW_Chop", &tDesc);
 	}
 	if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy() == false )
 		if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex) < 10 || m_pGameObject->Get_ModelCom()->IsNext())

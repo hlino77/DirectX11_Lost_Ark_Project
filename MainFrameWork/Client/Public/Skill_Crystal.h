@@ -48,10 +48,13 @@ private:
 private:
 	_float							m_fCellHeight = 0.f;
 	_bool							m_bExplosion = false;
+	_bool							m_bWarning = false;
 	_float							m_fExplosionDelay = 0.f;
 	_bool							m_IsSetuponCell = false;
 	_bool							m_bRimLight = false;
 	_float							m_fRimLightTime = 0.0f;
+
+	_bool							m_bExplosionEffect = false;
 
 public:
 	static CSkill_Crystal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

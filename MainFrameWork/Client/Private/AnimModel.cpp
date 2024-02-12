@@ -321,7 +321,7 @@ void CAnimModel::Break_OutWall()
 		CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, true);
 	}
 
-
+	m_bPlayAnim = !m_bPlayAnim;
 }
 
 

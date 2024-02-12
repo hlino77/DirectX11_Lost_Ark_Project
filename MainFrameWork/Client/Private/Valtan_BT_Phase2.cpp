@@ -12,6 +12,8 @@
 #include "AsUtils.h"
 
 #include "NavigationMgr.h"
+#include "Effect_Manager.h"
+
 
 CValtan_BT_Phase2::CValtan_BT_Phase2()
 {
@@ -61,6 +63,10 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 					}
 				}
 			}
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_Phase2", &tDesc);
 
 			m_bBreak = true;
 		}

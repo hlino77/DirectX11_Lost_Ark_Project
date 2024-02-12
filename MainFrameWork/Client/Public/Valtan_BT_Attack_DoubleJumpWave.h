@@ -18,7 +18,7 @@ private:
     virtual void		OnEnd()								override;
 private:
     _bool   m_bShoot[2] = {};
-
+    _bool   m_bEffect[2] = {};
 public:
     static	CValtan_BT_Attack_DoubleJumpWave* Create(void* pArg);
     virtual void Free() override;

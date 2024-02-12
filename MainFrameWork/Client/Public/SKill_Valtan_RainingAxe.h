@@ -11,9 +11,17 @@ END
 
 
 BEGIN(Client)
+class CEffect;
 
 class CSKill_Valtan_RainingAxe : public CSkill
 {
+public:
+	struct RainAxeDesc
+	{
+		CSkill::ModelDesc tSkillDesc;
+		Vec3 vTargetPos;
+	};
+
 private:
 	CSKill_Valtan_RainingAxe(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CSKill_Valtan_RainingAxe(const CSKill_Valtan_RainingAxe& rhs);
@@ -36,14 +44,22 @@ public:
 
 	virtual HRESULT					Ready_Coliders()override;
 
-
+	void	Load_EffectPivotMatrix(Matrix& matWorld);
 private:
 	virtual HRESULT			Ready_Components();
 
 private:
-	Vec3 m_vOffset = {};
-	Matrix m_WorldMatrix = XMMatrixIdentity();
+	Matrix m_OriginWorldMatrix = XMMatrixIdentity();
 
+	_bool m_bAttack = false;
+
+	_float m_fWaiting = 0.0f;
+
+	vector<CEffect*> m_Trails;
+	Vec3 m_vOffsetTargetPos;
+	Vec3 m_vStartPos;
+
+	_float m_fMaxRadian;
 public:
 	static	CSKill_Valtan_RainingAxe* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CGameObject* Clone(void* pArg);

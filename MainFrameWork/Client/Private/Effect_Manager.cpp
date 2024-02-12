@@ -470,6 +470,7 @@ HRESULT CEffect_Manager::Trail_Start(wstring strTrailBundle, std::function<void(
 				m_hashEffectPools[EffectTag].pop();
 			}
 			
+			pTrail->CB_UpdatePivot.clear();
 			pTrail->CB_UpdatePivot += PivotGetter;
 			pTrail->Reset();
 			pTrail->Tick(0.0f);
@@ -505,6 +506,7 @@ HRESULT CEffect_Manager::Trail_Start(wstring strTrailBundle, std::function<void(
 				m_hashEffectPools[EffectTag].pop();
 			}
 
+			pTrail->CB_UpdatePivot.clear();
 			pTrail->CB_UpdatePivot += PivotGetter;
 			pTrail->Reset();
 			pTrail->Tick(0.0f);

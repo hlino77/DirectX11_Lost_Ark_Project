@@ -11,6 +11,8 @@
 #include "Camera_Player.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "SKill_Valtan_RainingAxe.h"
+
 
 CValtan_BT_Attack_RainingAxe::CValtan_BT_Attack_RainingAxe()
 {
@@ -48,13 +50,20 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 	{
 		m_fAttackTerm += fTimeDelta;
 
-		if (m_fAttackTerm > 1.f && m_iAttackCount >0)
+		if (m_fAttackTerm > 1.f && m_iAttackCount > 0)
 		{
 			m_iAttackCount--;
 			m_fAttackTerm = 0.f;
 			if (m_iAttackCount == 0)
 			{
 				m_fLoopTime = m_vecAnimDesc[1].fMaxLoopTime - 2.f;
+			}
+
+			if (m_iAttackCount == 2)
+			{
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+				EFFECT_START(L"VTAxeRainEndWarning", &tDesc);
 			}
 
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -66,21 +75,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 					ModelDesc.iObjectID = -1;
 					ModelDesc.pOwner = m_pGameObject;
 
+					CSKill_Valtan_RainingAxe::RainAxeDesc tDesc;
+					tDesc.tSkillDesc = ModelDesc;
+					tDesc.vTargetPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &ModelDesc);
-					if (pSkill != nullptr)
-					{
-						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = Vec3(1.f, 0.f, 0.f);
-						vLook.Normalize();	
-						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
-
-						CEffect_Manager::EFFECTPIVOTDESC tDesc;
-						tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
-						EFFECT_START(L"VTAxeRainWarning", &tDesc);
-					}
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &tDesc);
 				}
 			vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())
@@ -91,21 +90,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 					ModelDesc.iObjectID = -1;
 					ModelDesc.pOwner = m_pGameObject;
 
+					CSKill_Valtan_RainingAxe::RainAxeDesc tDesc;
+					tDesc.tSkillDesc = ModelDesc;
+					tDesc.vTargetPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 
-					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &ModelDesc);
-					if (pSkill != nullptr)
-					{
-						Vec3 vPos = Object->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-						Vec3 vLook = Vec3(1.f,0.f,0.f);
-						vLook.Normalize();
-						pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-						pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-						pSkill->Get_TransformCom()->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(CGameInstance::GetInstance()->Random_Float(0.f, 360.f)));
-
-						CEffect_Manager::EFFECTPIVOTDESC tDesc;
-						tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
-						EFFECT_START(L"VTAxeRainWarning", &tDesc);
-					}
+					CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_SKill_Valtan_RainingAxe", &tDesc);
 				}
 		}
 	}
@@ -130,6 +119,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(8.f);
 			}
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VTAxeRainEnd1", &tDesc);
 		}
 		else
 		{

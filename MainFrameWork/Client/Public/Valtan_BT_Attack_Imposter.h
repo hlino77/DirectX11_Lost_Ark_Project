@@ -19,6 +19,7 @@ private:
 private:
     _bool     m_bShoot[4] = {};
 
+    _bool       m_bWarning[1];
 public:
     static	CValtan_BT_Attack_Imposter* Create(void* pArg);
     virtual void Free() override;
