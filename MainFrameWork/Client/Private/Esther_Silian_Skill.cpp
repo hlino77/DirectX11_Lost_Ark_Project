@@ -89,7 +89,9 @@ void CEsther_Silian_Skill::Ready()
 	m_bCutStart = false;
 	m_bProjShot = false;
 
-	m_bEffectStart = false;
+	for (_int i = 0; i < 3; ++i)
+		m_bEffectStart[i] = false;
+
 	m_IsFinished = false;
 }
 
@@ -118,21 +120,39 @@ void CEsther_Silian_Skill::Act1(_float fTimeDelta)
 
 void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 {
-	if (false == m_bEffectStart && 90 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	if (false == m_bEffectStart[0] && 13 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		//Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
-		Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
-		matPivot.Translation(matPivot.Backward());
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("EstherSkill_Silian_Appear"), &tDesc)
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 90 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = Get_TransformCom()->Get_WorldMatrix();
+		//Matrix matPivot = Get_TransformCom()->Get_WorldMatrix();
 		tDesc.pPivotMatrix = &matPivot;
 		EFFECT_START(TEXT("EstherSkill_Silian"), &tDesc)
 
 		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
-		pCamera->Cam_Shake(0.1f, 70.0f, 1.0f, 5.0f);
-		pCamera->Set_Chromatic(0.3f, matPivot.Translation(), 0.15f, 0.1f);
+		pCamera->Cam_Shake(0.05f, 8.0f, 0.1f, 5.0f);
 
-		m_bEffectStart = true;
+		m_bEffectStart[1] = true;
+	}
+
+	if (false == m_bEffectStart[2] && 112 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+
+		pCamera->Cam_Shake(0.1f, 60.0f, 0.8f, 5.5f);
+		pCamera->Set_Chromatic(0.2f, Get_TransformCom()->Get_WorldMatrix().Translation(), 0.15f, 0.1f);
+
+		m_bEffectStart[2] = true;
 	}
 }
 

@@ -39,7 +39,7 @@ public:
 
 public:
 
-	CShader* Get_ShaderCom() { return m_pShaderCom; }
+	CShader*				Get_ShaderCom() { return m_pShaderCom; }
 
 	void					Set_AnimationSpeed(_float fSpeed) { m_fAnimationSpeed = fSpeed; }
 	_float					Get_AnimationSpeed() { return m_fAnimationSpeed; }

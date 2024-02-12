@@ -14,6 +14,10 @@
 
 #include "Player_Controller.h"
 
+#include "Effect_Manager.h"
+#include "Camera_Player.h"
+#include "ServerSessionManager.h"
+
 CEsther_Bahuntur_Skill::CEsther_Bahuntur_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CEsther_Skill(pDevice, pContext)
 {
@@ -80,6 +84,7 @@ void CEsther_Bahuntur_Skill::Tick(_float fTimeDelta)
 	Act2(fTimeDelta);
 	Act3(fTimeDelta);
 	Act4(fTimeDelta);
+	Effect(fTimeDelta);
 
 	__super::Tick(fTimeDelta);
 	m_pSkillCeiling->Tick(fTimeDelta);
@@ -132,6 +137,9 @@ void CEsther_Bahuntur_Skill::Ready()
 	m_fTimeAcc = 0.0f;
 	m_fAnimationSpeed = 0.f;
 	Reserve_Animation(m_iAnimIndex, 0.1f, 10, 0);
+
+	for (_int i = 0; i < 2; ++i)
+		m_bEffectStart[i] = false;
 
 	m_bEndStart = false;
 	m_bCutStart = false;
@@ -205,6 +213,33 @@ void CEsther_Bahuntur_Skill::Act4(_float fTimeDelta)
 		m_pSkillFloor->Call_Act1(fTimeDelta);
 
 		m_bEndStart = true;
+	}
+}
+
+void CEsther_Bahuntur_Skill::Effect(_float fTimeDelta)
+{
+	if (false == m_bEffectStart[0])
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix matBahunturPivot = Get_TransformCom()->Get_WorldMatrix();
+		Matrix& matFloorPivot = m_pSkillFloor->Get_TransformCom()->Get_WorldMatrix();
+		matBahunturPivot.Translation(matFloorPivot.Translation());
+
+		tDesc.pPivotMatrix = &matBahunturPivot;
+		EFFECT_START(TEXT("EstherSkill_Bahuntur_Appear"), &tDesc)
+		EFFECT_START(TEXT("EstherSkill_Bahuntur"), &tDesc)
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 73 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+		Vec3 vEffectCenter = m_pSkillFloor->Get_TransformCom()->Get_WorldMatrix().Translation();
+		pCamera->Set_RadialBlur(0.7f, vEffectCenter, 0.1f, 0.12f);
+		pCamera->Set_Chromatic(0.12f, vEffectCenter, 0.15f, 0.12f);
+
+		m_bEffectStart[1] = true;
 	}
 }
 

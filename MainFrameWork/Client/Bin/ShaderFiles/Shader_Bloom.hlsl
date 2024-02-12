@@ -144,7 +144,7 @@ cbuffer PerFrame
 	
 cbuffer BlurIntensity
 {
-    float g_fBlurIntensity = 1.08f;
+    float g_fBlurIntensity = 1.11f;
     float3 padding1;
 };
 

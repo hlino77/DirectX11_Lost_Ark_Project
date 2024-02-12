@@ -38,6 +38,7 @@ private:
 	void					Act2(_float fTimeDelta);
 	void					Act3(_float fTimeDelta);
 	void					Act4(_float fTimeDelta);
+	void					Effect(_float fTimeDelta);
 
 private:
 	class CEsther_Bahuntur_Skill_Floor*		m_pSkillFloor = { nullptr };
@@ -51,7 +52,9 @@ private:
 	_bool					m_bEndStart = { false };
 
 	_float					m_fTimeAcc = { 0.0f };
+
 	_float					m_fAnimTime = { 1.5f };
+	_bool					m_bEffectStart[2] = { false, false };
 
 public:
 	static CEsther_Bahuntur_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
