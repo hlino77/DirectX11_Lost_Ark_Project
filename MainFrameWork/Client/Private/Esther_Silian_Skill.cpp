@@ -140,7 +140,7 @@ void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 
 		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
-		pCamera->Cam_Shake(0.08f, 10.0f, 0.15f, 3.0f);
+		pCamera->Cam_Shake(0.05f, 8.0f, 0.1f, 5.0f);
 
 		m_bEffectStart[1] = true;
 	}
