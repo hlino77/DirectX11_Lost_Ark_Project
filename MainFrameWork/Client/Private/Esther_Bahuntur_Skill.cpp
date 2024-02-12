@@ -151,7 +151,7 @@ void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 {
 	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
-		Add_Sound(L"WWISEDEFAULTBANK_PC_COMMON_ESTHER [133]", CHANNEL_EFFECT);
+		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_PC_COMMON_ESTHER [133]", 1.f);
 		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 		m_bCutStart = true;
 	}

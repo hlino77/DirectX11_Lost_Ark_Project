@@ -13,10 +13,11 @@
 #include "NavigationMgr.h"
 #include "Skill.h"
 #include "Pool.h"
-
 #include "Player.h"
 #include "Esther.h"
 #include "PartObject.h"
+
+#include "Sound_Manager.h"
 
 CEsther_Skill::CEsther_Skill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"Eshter_Skill", OBJ_TYPE::ESTHER)
@@ -118,18 +119,19 @@ HRESULT CEsther_Skill::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CEsther_Skill::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, wstring strSoundTag, _uint iSoiundChannel, _int iAnimFrame)
+
+void CEsther_Skill::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, _int iAnimFrame)
 {
 	if (m_pModelCom->Get_CurrAnim() == iAnimIndex && m_pModelCom->Get_Anim_Frame(iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
 	{
 		m_bSoundOn[iSoundOnIndex] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
+		CSound_Manager::GetInstance()->PlaySoundFile(szChannelGroup, strSoundKey + L".wav", fVolume);
 	}
 }
 
-void CEsther_Skill::Add_Sound(wstring strSoundTag, _uint iSoiundChannel)
+void CEsther_Skill::Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume)
 {
-	CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
+	CSound_Manager::GetInstance()->PlaySoundFile(szChannelGroup, strSoundKey + L".wav", fVolume);
 }
 
 HRESULT CEsther_Skill::Ready_Components()

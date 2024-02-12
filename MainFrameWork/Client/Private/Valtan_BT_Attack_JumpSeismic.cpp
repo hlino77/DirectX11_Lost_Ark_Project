@@ -36,8 +36,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(const _float& fTimeD
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 37 && m_bShoot)
 	{
 		m_bShoot = false;
-		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#219 (428196320)", CHANNEL_EFFECT);
-		Add_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#221 (561982981)", CHANNEL_EFFECT);
+		Add_Sound(L"Effect",L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#219 (428196320)", 1.f);
+		Add_Sound(L"Effect",L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#221 (561982981)", 1.f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -102,10 +102,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(const _float& fTimeD
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	}	
 	{
-		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", CHANNEL_EFFECT);
-		Add_Sound(1, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT);
-		Add_Sound(2, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)", CHANNEL_EFFECT);
-		Add_Sound(3, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", CHANNEL_EFFECT);
+		Add_Sound(0, 0,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", 1.f);
+		Add_Sound(1, 1,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", 1.f);
+		Add_Sound(2, 2,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)", 1.f);
+		Add_Sound(3, 3,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)", 1.f);
 	}
 		
 		
