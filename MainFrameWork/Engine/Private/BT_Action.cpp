@@ -4,6 +4,7 @@
 #include "BehaviorTree.h"
 #include "AsUtils.h"
 #include "GameInstance.h"
+#include "Sound_Manager.h"
 
 CBT_Action::CBT_Action()
 {
@@ -120,26 +121,26 @@ void CBT_Action::On_LastAnimEnd()
 
 }
 
-void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, wstring strSoundTag, _uint iSoiundChannel, _int iAnimFrame,_bool bUseLoopChannel)
-{
-	if (bUseLoopChannel)
-	{
-		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && !m_bSoundOn[iSoundOnIndex])
-		{
-			m_bSoundOn[iSoundOnIndex] = true;
-			CGameInstance::GetInstance()->PlaySoundFile_LoopChannel(strSoundTag + L".wav", 0.5f);
-		}
-	}
-	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
-	{
-		m_bSoundOn[iSoundOnIndex] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(strSoundTag+ L".wav", iSoiundChannel);
-	}
-}
+//void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, wstring strSoundTag, _uint iSoiundChannel, _int iAnimFrame,_bool bUseLoopChannel)
+//{
+//	if (bUseLoopChannel)
+//	{
+//		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && !m_bSoundOn[iSoundOnIndex])
+//		{
+//			m_bSoundOn[iSoundOnIndex] = true;
+//			CGameInstance::GetInstance()->PlaySoundFile_LoopChannel(strSoundTag + L".wav", 0.5f);
+//		}
+//	}
+//	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
+//	{
+//		m_bSoundOn[iSoundOnIndex] = true;
+//		CGameInstance::GetInstance()->PlaySoundFile(strSoundTag+ L".wav", iSoiundChannel);
+//	}
+//}
 
-void CBT_Action::Add_Sound(wstring strSoundTag, _uint iSoiundChannel)
+void CBT_Action::Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel)
 {
-	CGameInstance::GetInstance()->PlaySoundFile(strSoundTag + L".wav", iSoiundChannel);
+	CSound_Manager::GetInstance()->PlaySoundFile(szChannelGroup, strSoundKey, fVolume, pChannel);
 }
 
 void CBT_Action::Reset_Sound()

@@ -60,6 +60,7 @@
 #include "QuadTreeMgr.h"
 #include "Item_Manager.h"
 #include "ClientEvent_BernStart.h"
+#include "Sound_Manager.h"
 
 namespace fs = std::filesystem;
 
@@ -211,8 +212,6 @@ HRESULT CMainApp::Initialize_Client()
 	if (FAILED(CEventMgr::GetInstance()->Reserve_EventMgr(m_pDevice, m_pContext)))
 		return E_FAIL;
 	if (FAILED(CPhysXMgr::GetInstance()->ReserveManager()))
-		return E_FAIL;
-	if (FAILED(CGameInstance::GetInstance()->Initialize_LoopChannel(CHANNELID::CHANNEL_LOOPSTART, CHANNEL_END)))
 		return E_FAIL;
 	if (FAILED(CChat_Manager::GetInstance()->Reserve_Manager(g_hWnd, m_pDevice, m_pContext)))
 		return E_FAIL;
@@ -716,11 +715,11 @@ HRESULT CMainApp::Loading_OptionUI()
 
 HRESULT CMainApp::Ready_SoundManager()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CSound_Manager::GetInstance()->Add_ChannelGroup("BGM", 0.5f);
+	CSound_Manager::GetInstance()->Add_ChannelGroup("UI", 0.5f);
+	CSound_Manager::GetInstance()->Add_ChannelGroup("Ambient", 0.5f);
+	CSound_Manager::GetInstance()->Add_ChannelGroup("Effect", 0.5f);
 
-	pGameInstance->Initialize_LoopChannel(CHANNEL_LOOPSTART, CHANNEL_END);
-
-	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

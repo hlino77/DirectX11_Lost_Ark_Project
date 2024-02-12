@@ -12,6 +12,7 @@
 #include "NpcTool.h"
 #include "CameraTool.h"
 #include "GameInstance.h"
+#include "Sound_Manager.h"
 
 CLevel_Tool_Npc::CLevel_Tool_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -93,7 +94,7 @@ HRESULT CLevel_Tool_Npc::Exit()
 	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
 		return E_FAIL;
 
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 
 	Safe_Release(pGameInstance);
 

@@ -609,66 +609,6 @@ void CGameInstance::InputText(wstring& szInputText)
 	m_pText_Manager->InputText(szInputText);
 }
 
-HRESULT CGameInstance::PlaySoundFile(const wstring& strSoundKey, _uint iChannel)
-{
-	return m_pSoundMgr->PlaySoundFile(strSoundKey, iChannel);
-}
-
-HRESULT CGameInstance::PlayBGM(const wstring& strSoundKey, _uint iChannel)
-{
-	return m_pSoundMgr->PlayBGM(strSoundKey, iChannel);
-}
-
-HRESULT CGameInstance::StopSound(_uint iChannel)
-{
-	return m_pSoundMgr->StopSound(iChannel);
-}
-
-HRESULT CGameInstance::StopSoundAll()
-{
-	return m_pSoundMgr->StopSoundAll();
-}
-
-HRESULT CGameInstance::SetChannelVolume(_uint iChannel, _float fVolume)
-{
-	return m_pSoundMgr->SetChannelVolume(iChannel, fVolume);
-}
-
-HRESULT CGameInstance::CheckPlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume)
-{
-	return m_pSoundMgr->CheckPlaySoundFile(strSoundKey, iChannel, fVolume);
-}
-
-HRESULT CGameInstance::Initialize_LoopChannel(_uint iStart, _uint iEnd)
-{
-	return m_pSoundMgr->Initialize_LoopChannel(iStart, iEnd);
-}
-
-
-HRESULT CGameInstance::PlaySoundFile_LoopChannel(const wstring& strSoundKey, _float fVolume)
-{
-	return m_pSoundMgr->PlaySoundFile_LoopChannel(strSoundKey, fVolume);
-}
-
-HRESULT CGameInstance::PlaySound_Distance_LoopChannel(const wstring& strSoundKey, _float fVolume, Vec3 vPos, _float fRange)
-{
-	return m_pSoundMgr->PlaySound_Distance_LoopChannel(strSoundKey, fVolume, vPos, fRange);
-}
-
-HRESULT CGameInstance::Find_Stop_Sound(const wstring& strSoundKey)
-{
-	return m_pSoundMgr->Find_Stop_Sound(strSoundKey);
-}
-
-HRESULT CGameInstance::Add_SoundTrack(const wstring& strSoundTrack, const wstring& strSoundKey)
-{
-	return m_pSoundMgr->Add_SoundTrack(strSoundTrack, strSoundKey);
-}
-
-const wstring& CGameInstance::Get_RandomSoundKey(const wstring& strSoundTrack)
-{
-	return m_pSoundMgr->Get_RandomSoundKey(strSoundTrack);
-}
 
 _float CGameInstance::Get_RandomFloat(_float fMin, _float fMax)
 {

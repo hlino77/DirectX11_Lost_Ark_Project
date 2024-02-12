@@ -5,7 +5,7 @@
 
 BEGIN(Engine)
 
-class CSound_Manager final : public CBase
+class ENGINE_DLL CSound_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CSound_Manager)
 
@@ -13,25 +13,29 @@ private:
 	CSound_Manager();
 	virtual ~CSound_Manager() = default;
 
-
-	
 public:
 	HRESULT Ready_Sound();
-	HRESULT	Initialize_LoopChannel(_uint iStart, _uint iEnd);
+	HRESULT Add_ChannelGroup(const string& strChannelGroupName, _float fVolume);
+
 public:
-	HRESULT PlaySoundFile(const wstring& strSoundKey, _uint iChannel);
+	HRESULT PlaySoundFile(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
+	HRESULT PlayBGM(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 
-	HRESULT PlaySoundFile_LoopChannel(const wstring& strSoundKey, _float fVolume);
-	HRESULT	PlaySound_Distance_LoopChannel(const wstring& strSoundKey, _float fVolume, Vec3 vPos, _float fRange);
+	void	Set_ChannelGroupVolume(const wstring& szChannelGroup, _float fVolume);
+	_float	Get_ChannelGroupVolume(const wstring& szChannelGroup);
 
-	HRESULT Find_Stop_Sound(const wstring& strSoundKey);
+	void	Stop_Channel_Sound(FMOD_CHANNEL* pChannel);
+	void	Stop_Channel_Sound(const wstring & szChannelTag);
 
-	HRESULT PlayBGM(const wstring& strSoundKey, _uint iChannel);
-	HRESULT StopSound(_uint iChannel);
-	HRESULT StopSoundAll();
-	HRESULT SetChannelVolume(_uint iChannel, _float fVolume);
-	HRESULT CheckPlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume);
+	void	Set_Channel_Volume(FMOD_CHANNEL * pChannel, _float fVolume);
+	_float	Get_Channel_Volume(FMOD_CHANNEL * pChannel);
 
+	void	Set_Channel_Volume(const wstring & szChannelTag, _float fVolume);
+	_float	Get_Channel_Volume(const wstring & szChannelTag);
+
+	void	Add_Channel(const wstring & szChannelTag, FMOD_CHANNEL* pChannel);
+
+	void	Stop_SoundAll();
 
 	HRESULT Add_SoundTrack(const wstring& strSoundTrack, const wstring& strSoundKey);
 	const wstring& Get_RandomSoundKey(const wstring& strSoundTrack);
@@ -41,16 +45,12 @@ private:
 private:
 	FMOD_SYSTEM*	m_pSystem = { nullptr };
 
-	FMOD_CHANNEL*	m_pChannelArr[30];
-
-	map<const wstring, FMOD_SOUND*> m_Sounds;
-
-
-	list<_uint> m_LoopChannelList;
-	_uint m_iLoopChannelSize;
-
+	map<wstring, FMOD_CHANNELGROUP*> m_ChannelGroups;
 	map<wstring, vector<wstring>> m_SoundTrack;
 
+	map<wstring, FMOD_SOUND*> m_Sounds;
+
+	map<wstring, FMOD_CHANNEL*> m_Channels;
 	USE_LOCK
 public:
 	virtual void Free();

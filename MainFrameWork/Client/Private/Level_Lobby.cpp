@@ -24,6 +24,7 @@
 #include "Pool.h"
 #include "Effect_Custom_EarthEaterParticle.h"
 #include "Effect_Custom_EarthEaterSmallParticle.h"
+#include "Sound_Manager.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -56,8 +57,9 @@ HRESULT CLevel_Lobby::Initialize()
 	Start_QuadTree();
 
 	m_bConnect = false;
-	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Sunrise Horizon.wav", CHANNEL_BGM);
+
+	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
+
 	return S_OK;
 }
 
@@ -141,7 +143,7 @@ HRESULT CLevel_Lobby::Exit()
 
 	Safe_Release(pGameInstance);
 
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_LOBBY);
 	CGameInstance::GetInstance()->Reset_Lights();
 	CGameInstance::GetInstance()->Delete_GameObject(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_CAMERA, m_pCamera);

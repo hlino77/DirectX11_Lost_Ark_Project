@@ -880,6 +880,7 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         m_pItemNameWnd->Set_Active(false);
         m_pResultWnd->Set_Active(false);
         m_bDeActive = true;
+
         CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
         CGameInstance::GetInstance()->PlayBGM(L"CastleBern.wav", CHANNEL_BGM);
     }

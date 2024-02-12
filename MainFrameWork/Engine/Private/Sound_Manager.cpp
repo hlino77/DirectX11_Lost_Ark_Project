@@ -7,14 +7,14 @@ IMPLEMENT_SINGLETON(CSound_Manager)
 
 CSound_Manager::CSound_Manager()
 {
-	ZeroMemory(m_pChannelArr, sizeof(m_pChannelArr));
+
 }
 
 HRESULT CSound_Manager::Ready_Sound()
 {
 	FMOD_System_Create(&m_pSystem, FMOD_VERSION);
 
-	FMOD_System_Init(m_pSystem, 30, FMOD_INIT_NORMAL, NULL);
+	FMOD_System_Init(m_pSystem, 200, FMOD_INIT_NORMAL, NULL);
 
 	if (nullptr == m_pSystem)
 		return E_FAIL;
@@ -25,183 +25,164 @@ HRESULT CSound_Manager::Ready_Sound()
 	return S_OK;
 }
 
-HRESULT CSound_Manager::Initialize_LoopChannel(_uint iStart, _uint iEnd)
+HRESULT CSound_Manager::Add_ChannelGroup(const string& strChannelGroupName, _float fVolume)
 {
-	for (_uint i = iStart; i <= iEnd; ++i)
-		m_LoopChannelList.push_back(i);
+	if (m_ChannelGroups.find(CAsUtils::ToWString(strChannelGroupName)) == m_ChannelGroups.end())
+		return E_FAIL;
 
-	m_iLoopChannelSize = (_uint)m_LoopChannelList.size();
+	FMOD_CHANNELGROUP* pChannelGroup = nullptr;
+	FMOD_System_CreateChannelGroup(m_pSystem, strChannelGroupName.c_str(), &pChannelGroup);
+	FMOD_ChannelGroup_SetVolume(pChannelGroup, fVolume);
 
+	m_ChannelGroups.emplace(CAsUtils::ToWString(strChannelGroupName), pChannelGroup);
+
+	FMOD_System_Update(m_pSystem);
 	return S_OK;
 }
 
-HRESULT CSound_Manager::PlaySoundFile(const wstring& strSoundKey, _uint iChannel)
-{
-	auto iter = m_Sounds.find(strSoundKey);
 
-	if (iter == m_Sounds.end())
+HRESULT CSound_Manager::PlaySoundFile(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel)
+{
+	auto& Sounditer = m_Sounds.find(strSoundKey);
+
+	if (Sounditer == m_Sounds.end())
 		return E_FAIL;
 
-	FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
+	auto& Groupiter = m_ChannelGroups.find(szChannelGroup);
 
+	FMOD_System_PlaySound(m_pSystem, Sounditer->second, Groupiter->second, FALSE, pChannel);
+	FMOD_Channel_SetVolume(*pChannel, fVolume);
 	FMOD_System_Update(m_pSystem);
 
 	return S_OK;
 }
 
-
-HRESULT CSound_Manager::PlaySoundFile_LoopChannel(const wstring& strSoundKey, _float fVolume)
+HRESULT CSound_Manager::PlayBGM(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel)
 {
-	WRITE_LOCK
+	auto& Sounditer = m_Sounds.find(strSoundKey);
 
-	auto iter = m_Sounds.find(strSoundKey);
-
-	if (iter == m_Sounds.end())
+	if (Sounditer == m_Sounds.end())
 		return E_FAIL;
 
+	auto& Groupiter = m_ChannelGroups.find(szChannelGroup);
 
-	for (_uint i = 0; i < m_iLoopChannelSize; ++i)
+	FMOD_System_PlaySound(m_pSystem, Sounditer->second, Groupiter->second, FALSE, pChannel);
+	FMOD_Channel_SetVolume(*pChannel, fVolume);
+	FMOD_Channel_SetMode(*pChannel, FMOD_LOOP_NORMAL);
+	FMOD_System_Update(m_pSystem);
+
+	return S_OK;
+}
+void CSound_Manager::Set_ChannelGroupVolume(const wstring& szChannelGroup, _float fVolume)
+{
+	auto& iter = m_ChannelGroups.find(szChannelGroup);
+
+	if (iter == m_ChannelGroups.end())
+		return;
+
+	FMOD_ChannelGroup_SetVolume(iter->second, fVolume);
+}
+
+_float CSound_Manager::Get_ChannelGroupVolume(const wstring& szChannelGroup)
+{
+	auto& iter = m_ChannelGroups.find(szChannelGroup);
+
+	if (iter == m_ChannelGroups.end())
+		return -1.0f;
+
+	_float fVolume;
+	FMOD_ChannelGroup_GetVolume(iter->second, &fVolume);
+
+	return fVolume;
+}
+
+void CSound_Manager::Stop_Channel_Sound(FMOD_CHANNEL* pChannel)
+{
+	if (pChannel == nullptr)
+		return;
+
+	FMOD_Channel_Stop(pChannel);
+}
+
+void CSound_Manager::Stop_Channel_Sound(const wstring& szChannelTag)
+{
+	auto& iter = m_Channels.find(szChannelTag);
+
+	if (iter == m_Channels.end())
+		return;
+
+	FMOD_BOOL bPlaying = false;
+	FMOD_Channel_IsPlaying(iter->second, &bPlaying);
+
+	if (bPlaying == true)
 	{
-		_uint iChannel = m_LoopChannelList.front();
-		m_LoopChannelList.pop_front();
-		m_LoopChannelList.push_back(iChannel);
+		FMOD_Channel_Stop(iter->second);
+	}
+}
 
+void CSound_Manager::Set_Channel_Volume(FMOD_CHANNEL* pChannel, _float fVolume)
+{
+	if (pChannel == nullptr)
+		return;
 
-		FMOD_BOOL    bPlay = FALSE;
-		FMOD_RESULT bResult = FMOD_Channel_IsPlaying(m_pChannelArr[iChannel], &bPlay);
+	FMOD_Channel_SetVolume(pChannel, fVolume);
+}
 
-		if (bPlay == FALSE)
-		{
-			FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
-			FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
-			FMOD_System_Update(m_pSystem);
+_float CSound_Manager::Get_Channel_Volume(FMOD_CHANNEL* pChannel)
+{
+	if (pChannel == nullptr)
+		return -1.0f;
 
-			return S_OK;
-		}
+	_float fVolume;
+	FMOD_Channel_GetVolume(pChannel, &fVolume);
+
+	return fVolume;
+}
+
+void CSound_Manager::Set_Channel_Volume(const wstring& szChannelTag, _float fVolume)
+{
+	auto& iter = m_Channels.find(szChannelTag);
+
+	if (iter == m_Channels.end())
+		return;
+
+	FMOD_Channel_SetVolume(iter->second, fVolume);
+}
+
+_float CSound_Manager::Get_Channel_Volume(const wstring& szChannelTag)
+{
+	auto& iter = m_Channels.find(szChannelTag);
+
+	if (iter == m_Channels.end())
+		return -1.0f;
+
+	_float fVolume;
+
+	FMOD_Channel_GetVolume(iter->second, &fVolume);
+
+	return fVolume;
+}
+
+void CSound_Manager::Add_Channel(const wstring& szChannelTag, FMOD_CHANNEL* pChannel)
+{
+	auto& iter = m_Channels.find(szChannelTag);
+
+	if (iter != m_Channels.end())
+	{
+		Stop_Channel_Sound(iter->second);
 	}
 
-	_uint iChannel = m_LoopChannelList.front();
-	m_LoopChannelList.pop_front();
-	m_LoopChannelList.push_back(iChannel);
-
-	FMOD_Channel_Stop(m_pChannelArr[iChannel]);
-	FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
-	FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
-	FMOD_System_Update(m_pSystem);
-
-	return S_OK;
+	m_Channels[szChannelTag] = pChannel;
 }
 
-HRESULT CSound_Manager::PlaySound_Distance_LoopChannel(const wstring& strSoundKey, _float fVolume, Vec3 vPos, _float fRange)
+void CSound_Manager::Stop_SoundAll()
 {
-
-	Vec3 vCamPos = CPipeLine::GetInstance()->Get_CamPosition();
-
-	_float fDistance = (vCamPos - vPos).Length();
-
-
-	if (fDistance > fRange)
-		return S_OK;
-
-	_float fDistanceVolume = min(fVolume * (1.0f - (fDistance / fRange)) * 1.25f, fVolume);
-	
-
-	return PlaySoundFile_LoopChannel(strSoundKey, fDistanceVolume);
-}
-
-HRESULT CSound_Manager::Find_Stop_Sound(const wstring& strSoundKey)
-{
-	string strSoundName = CAsUtils::ToString(strSoundKey);
-
-	for (auto& ChannelIndex : m_LoopChannelList)
+	for (auto& iter : m_ChannelGroups)
 	{
-		FMOD_SOUND* pSound = nullptr;
-		if (FMOD_Channel_GetCurrentSound(m_pChannelArr[ChannelIndex], &pSound) == FMOD_OK)
-		{
-			char szName[MAX_PATH];
-			FMOD_Sound_GetName(pSound, szName, MAX_PATH);
-
-			if (strSoundName == szName)
-				FMOD_Channel_Stop(m_pChannelArr[ChannelIndex]);
-		}
+		FMOD_ChannelGroup_Stop(iter.second);
 	}
-
-	return S_OK;
 }
 
-
-HRESULT CSound_Manager::PlayBGM(const wstring& strSoundKey, _uint iChannel)
-{
-	if (nullptr == m_pSystem)
-		return E_FAIL;
-
-	auto iter = m_Sounds.find(strSoundKey);
-
-	if (iter == m_Sounds.end())
-		return E_FAIL;
-
-	FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
-	FMOD_Channel_SetMode(m_pChannelArr[iChannel], FMOD_LOOP_NORMAL);
-	FMOD_System_Update(m_pSystem);
-
-	return S_OK;
-} 
-
-HRESULT CSound_Manager::StopSound(_uint iChannel)
-{
-	if (nullptr == m_pSystem)
-		return E_FAIL;
-
-	FMOD_Channel_Stop(m_pChannelArr[iChannel]);
-
-	return S_OK;
-}
-
-HRESULT CSound_Manager::StopSoundAll()
-{
-	if (nullptr == m_pSystem)
-		return E_FAIL;
-
-	for (auto iter : m_pChannelArr)
-		FMOD_Channel_Stop(iter);
-
-	return S_OK;
-}
-
-HRESULT CSound_Manager::SetChannelVolume(_uint iChannel, _float fVolume)
-{
-	if (nullptr == m_pSystem)
-		return E_FAIL;
-
-	FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
-
-	FMOD_System_Update(m_pSystem);
-
-	return S_OK;
-}
-
-HRESULT CSound_Manager::CheckPlaySoundFile(const wstring& strSoundKey, _uint iChannel, _float fVolume)
-{
-	auto iter = m_Sounds.find(strSoundKey);
-
-	if (iter == m_Sounds.end())
-		return E_FAIL;
-
-	FMOD_BOOL    bPlay = FALSE;
-	FMOD_RESULT bResult = FMOD_Channel_IsPlaying(m_pChannelArr[iChannel], &bPlay);
-
-	if (bResult != FMOD_OK)
-	{
-		FMOD_Channel_Stop(m_pChannelArr[iChannel]);
-		FMOD_System_PlaySound(m_pSystem, iter->second, NULL, FALSE, &m_pChannelArr[iChannel]);
-	}
-
-	FMOD_Channel_SetVolume(m_pChannelArr[iChannel], fVolume);
-
-	FMOD_System_Update(m_pSystem);
-
-	return S_OK;
-}
 
 HRESULT CSound_Manager::Add_SoundTrack(const wstring& strSoundTrack, const wstring& strSoundKey)
 {

@@ -10,6 +10,7 @@
 #include "AsUtils.h"
 #include "StaticModel.h"
 #include "GameInstance.h"
+#include "Sound_Manager.h"
 
 CLevel_Tool::CLevel_Tool(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -101,7 +102,7 @@ HRESULT CLevel_Tool::Exit()
 
 	Safe_Release(pGameInstance);
 
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 
 	return S_OK;
 }

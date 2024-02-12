@@ -36,6 +36,22 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter_Server::OnUpdate(const _float& fT
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 
+	if (m_iCurrAnimation == 4 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 106)
+	{
+		if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) < 130)
+		{
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 1.15f);
+		}
+		else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 130 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) < 140)
+		{
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 0.2f);
+		}
+		else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 140)
+		{
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 1.15f);
+		}
+	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

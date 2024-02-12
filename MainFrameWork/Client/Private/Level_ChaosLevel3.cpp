@@ -32,7 +32,7 @@
 
 #include "QuadTreeMgr.h"
 #include <filesystem>
-
+#include "Sound_Manager.h"
 
 CLevel_ChaosLevel3::CLevel_ChaosLevel3(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -107,8 +107,7 @@ HRESULT CLevel_ChaosLevel3::Initialize()
 	CChat_Manager::GetInstance()->Set_Active(true);
 
 
-	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Albion's Rage.wav", CHANNEL_BGM);
+	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Albion's Rage.wav", 0.5f);
 
 	return S_OK;
 }
@@ -150,7 +149,7 @@ HRESULT CLevel_ChaosLevel3::Exit()
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_CHAOS_3);
 	CGameInstance::GetInstance()->Reset_Lights();
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	//CUI_Tool::GetInstance()->Set_ToolMode(false);
 

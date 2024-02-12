@@ -9,6 +9,7 @@
 #include "UI_ServerGrid.h"
 #include "UI_ServerEntranceButton.h"
 #include "UI_Manager.h"
+#include "Sound_Manager.h"
 
 CLevel_ServerSelect::CLevel_ServerSelect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -27,8 +28,8 @@ HRESULT CLevel_ServerSelect::Initialize()
 	m_bConnect = false;
 
 	g_fVolume = 0.5f;
-	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-	CGameInstance::GetInstance()->PlayBGM(L"Sailing-the-Dream.wav", CHANNEL_BGM);
+
+	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sailing-the-Dream.wav", 0.5f);
 
 	return S_OK;
 }
@@ -46,7 +47,7 @@ HRESULT CLevel_ServerSelect::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_ServerSelect::Exit()
 {
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 
 
 	return S_OK;

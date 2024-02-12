@@ -14,6 +14,7 @@
 #include "Camera_Player.h"
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "AsUtils.h"
 
 CValtan_BT_Attack_Imposter::CValtan_BT_Attack_Imposter()
 {
@@ -28,10 +29,16 @@ void CValtan_BT_Attack_Imposter::OnStart()
 	m_bShoot[3] = true;
 
 	m_bWarning[0] = false;
+	m_bShoutEffect = false;
+	m_bJumpEffect = false;
+
+	m_iCameraSequence = 0;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelta)
 {
+	Update_Camera(fTimeDelta);
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
@@ -40,22 +47,48 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 	}
 	if (m_iCurrAnimation == 2)
 		m_pGameObject->Set_Render(true);
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 48)
+	if (m_bShoutEffect == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 43)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f, 0.6f);
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_ImpShouting", &tDesc);
+
+		m_bShoutEffect = true;
 	}
-	if (m_iCurrAnimation == 4 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 108)
+	if (m_iCurrAnimation == 4 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 106)
 	{
 		if (static_cast<CBoss*>(m_pGameObject)->Is_SetuponCell() == true)
 		{
 			static_cast<CBoss*>(m_pGameObject)->Set_SetuponCell(false);
 			static_cast<CBoss*>(m_pGameObject)->Set_Weapon_Render(false);
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 1.15f);
 		}
+
 		if(m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 112)
-			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta*6.f);
+			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta * 6.f);
 		else
-			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta*2.f);
+			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta * 2.f);
+
+		if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 130 && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) < 140)
+		{
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 0.2f);
+		}
+		else if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 140)
+		{
+			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 1.15f);
+		}
+
+		if (m_bJumpEffect == false)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_ImpJump", &tDesc);
+
+			m_bJumpEffect = true;
+		}
 	}
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
@@ -228,6 +261,150 @@ void CValtan_BT_Attack_Imposter::OnEnd()
 			dynamic_cast<CSkill_Crystal*>(pGameObject)->Set_Explosion(true);
 		}
 	}
+}
+
+void CValtan_BT_Attack_Imposter::Update_Camera(_float fTimeDelta)
+{
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimDesc[4].iAnimIndex)
+	{
+		return;
+	}
+
+	CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
+	_uint iAnimFrame = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex);
+
+	if (m_iCameraSequence == 0)
+	{
+		pCamera->Set_Mode(CCamera_Player::CameraState::FREE);
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vTargetPos = matWorld.Translation();
+		vTargetPos.y += 2.0f;
+		vTargetPos += matWorld.Right() * 0.5f;
+		
+		Vec3 vOffset = (matWorld.Backward() * 0.5f) + matWorld.Right() - (matWorld.Up() * 0.2f);
+		vOffset.Normalize();
+
+		pCamera->Set_TargetPos(vTargetPos);
+		pCamera->Set_Offset(vOffset);
+		pCamera->Set_CameraLength(3.0f);
+
+		m_iCameraSequence = 1;
+	}
+	else if (m_iCameraSequence == 1)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+		Vec3 vOffset = pCamera->Get_Offset();
+		Vec3 vTargetOffset = matWorld.Backward() - matWorld.Right() + (matWorld.Up() * 0.5f);
+		vTargetOffset.Normalize();
+		
+		vOffset = Vec3::Lerp(vOffset, vTargetOffset, 1.0f * fTimeDelta);
+
+		pCamera->Set_Offset(vOffset);
+
+		if (iAnimFrame >= 43)
+		{
+			m_iCameraSequence = 2;
+		}
+	}
+	else if (m_iCameraSequence == 2)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+		Vec3 vOffset = matWorld.Backward() - (matWorld.Right() * 0.5f) + matWorld.Up()* 0.7f;
+		pCamera->Set_Offset(vOffset);
+		pCamera->Set_CameraLength(7.0f);
+		pCamera->ZoomInOut(20.0f, 5.0f);
+
+		pCamera->Set_RadialBlur(0.2f, matWorld.Translation(), 0.05f, 0.1f);
+		m_iCameraSequence = 3;
+	}
+	else if (m_iCameraSequence == 3)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+		Vec3 vOffset = pCamera->Get_Offset();
+		vOffset = XMVector3Rotate(vOffset, Quaternion::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), 0.5f * fTimeDelta));
+		pCamera->Set_Offset(vOffset);
+
+		if (iAnimFrame >= 81)
+		{
+			m_iCameraSequence = 4;
+		}
+	}
+	else if (m_iCameraSequence == 4)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vTargetPos = matWorld.Translation();
+
+		Vec3 vOffset = (matWorld.Backward() * 1.0f) - (matWorld.Right() * 0.1f) + (matWorld.Up() * 2.0f);
+		vOffset.Normalize();
+
+		pCamera->Set_TargetPos(vTargetPos);
+		pCamera->Set_Offset(vOffset);
+		pCamera->Set_CameraLength(5.0f);
+
+		m_iCameraSequence = 5;
+	}
+	else if (m_iCameraSequence == 5)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+		Vec3 vOffset = pCamera->Get_Offset();
+		Vec3 vTargetOffset = matWorld.Backward() + matWorld.Up();
+		vTargetOffset.Normalize();
+
+		vOffset = Vec3::Lerp(vOffset, vTargetOffset, 1.0f * fTimeDelta);
+
+		pCamera->Set_Offset(vOffset);
+
+		if (iAnimFrame >= 108)
+		{
+			m_iCameraSequence = 6;
+		}
+	}
+	else if (m_iCameraSequence == 6)
+	{
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+		m_vCamPos = matWorld.Translation() + (matWorld.Backward() * 2.0f) + Vec3(0.0f, 0.3f, 0.0f);
+		m_vCamTargetPos = matWorld.Translation();
+
+		Vec3 vOffset = m_vCamPos - m_vCamTargetPos;
+		_float fLength = vOffset.Length();
+		vOffset.Normalize();
+		
+		pCamera->Set_Offset(vOffset);
+		pCamera->Set_CameraLength(fLength);
+		pCamera->Set_TargetPos(m_vCamTargetPos);
+
+		m_iCameraSequence = 7;
+	}
+
+	if (m_iCameraSequence == 7)
+	{
+		m_vCamTargetPos.y = CAsUtils::Lerpf(m_vCamTargetPos.y, 20.0f, 3.0f * fTimeDelta);
+
+		Vec3 vOffset = m_vCamPos - m_vCamTargetPos;
+		_float fLength = vOffset.Length();
+		vOffset.Normalize();
+
+		pCamera->Set_Offset(vOffset);
+		pCamera->Set_CameraLength(fLength);
+		pCamera->Set_TargetPos(m_vCamTargetPos);
+
+		if(iAnimFrame >= 142)
+			m_iCameraSequence = 8;
+	}
+	else if (m_iCameraSequence == 8)
+	{
+		pCamera->Set_Mode(CCamera_Player::CameraState::DEFAULT);
+		pCamera->Set_DefaultOffset();
+		pCamera->DefaultLength(100.0f);
+		m_iCameraSequence = 9;
+	}
+
+
 }
 
 

@@ -381,16 +381,6 @@ void CPlayer::Set_NickName(const wstring& szNickName)
 	m_szNickName = szNickName;
 }
 
-_bool CPlayer::Stop_VoiceSound()
-{
-	if (m_fVoiceSoundDelay == 0.0f)
-	{
-		CGameInstance::GetInstance()->Find_Stop_Sound(m_VoiceSoundKey);
-		return true;
-	}
-
-	return false;
-}
 
 _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 {

@@ -35,6 +35,7 @@
 #include "QuadTreeMgr.h"
 #include <filesystem>
 #include "Party.h"
+#include "Sound_Manager.h"
 
 
 CLevel_ValtanMain::CLevel_ValtanMain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -166,7 +167,7 @@ HRESULT CLevel_ValtanMain::Exit()
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_VALTANMAIN);
 	CGameInstance::GetInstance()->Reset_Lights();
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 	CChat_Manager::GetInstance()->Set_Active(false);
 	//CUI_Tool::GetInstance()->Set_ToolMode(false);
 

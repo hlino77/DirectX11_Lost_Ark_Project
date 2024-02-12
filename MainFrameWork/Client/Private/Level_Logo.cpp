@@ -8,6 +8,7 @@
 #include "ThreadManager.h"
 #include "ServerSessionManager.h"
 #include "UI.h"
+#include "Sound_Manager.h"
 
 CLevel_Logo::CLevel_Logo(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -65,7 +66,7 @@ HRESULT CLevel_Logo::LateTick(const _float& fTimeDelta)
 
 HRESULT CLevel_Logo::Exit()
 {
-	CGameInstance::GetInstance()->StopSoundAll();
+	CSound_Manager::GetInstance()->Stop_SoundAll();
 
 	return S_OK;
 }

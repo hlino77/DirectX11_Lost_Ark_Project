@@ -115,7 +115,7 @@ void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
 {
 	if (m_fCameraLength != m_fTargetCameraLength)
 	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, min(1.0f, m_fZoomSpeed * fTimeDelta));
 
 		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
 		{
@@ -213,7 +213,7 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 {
 	if (m_fCameraLength != m_fTargetCameraLength)
 	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, m_fZoomSpeed * fTimeDelta);
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fTargetCameraLength, min(1.0f, m_fZoomSpeed * fTimeDelta));
 
 		if (fabs(m_fTargetCameraLength - m_fCameraLength) <= 0.001f)
 		{
@@ -311,7 +311,7 @@ void CCamera_Player::Tick_ResetCamera(_float fTimeDelta)
 {
 	if (m_fCameraLength != m_fDefaultLength)
 	{
-		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fDefaultLength, m_fResetSpeed * fTimeDelta);
+		m_fCameraLength = CAsUtils::Lerpf(m_fCameraLength, m_fDefaultLength, min(1.0f, m_fResetSpeed * fTimeDelta));
 
 		if (fabs(m_fDefaultLength - m_fCameraLength) <= 0.001f)
 		{

@@ -1260,12 +1260,13 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
-
 	AnimationDesc.strAnimName = TEXT("att_battle_12_05");
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 1.0f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.15f;
 
 	AnimationDesc.strAnimName = TEXT("att_battle_12_06");
 	AnimationDesc.iStartFrame = 0;
