@@ -259,6 +259,8 @@ void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 	// 데미지하락 및 밉라이트?
 	CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 	tPcStat.iCurHp -= m_iCalculateDamaged;
+	if (m_pOwner->Is_Control())
+		static_cast<CPlayer*>(m_pOwner)->Show_Damage(m_iCalculateDamaged, false);
 	if (0 >= tPcStat.iCurHp)
 	{
 		tPcStat.iCurHp = 0;
@@ -270,7 +272,6 @@ void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 
 	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE])
 	{
-		m_eHitType = HIT_TYPE::TYPE_END;
 		return;
 	}
 
@@ -321,6 +322,9 @@ void CController_WDR::Get_GrabMessage(CGameObject* pGrabber)
 
 	m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE] = false;
 	m_fBuffDuration[(_uint)BUFFEFFECT::STIIFIMMUNE] = -1;
+
+	m_eHitType = HIT_TYPE::TYPE_END;
+
 }
 
 void CController_WDR::Get_GrabEndMessage()

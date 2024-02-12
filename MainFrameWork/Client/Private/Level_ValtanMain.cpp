@@ -123,7 +123,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
-	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
+	//CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
 
 	return S_OK;
 }
@@ -370,12 +370,14 @@ HRESULT CLevel_ValtanMain::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	/*pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_UI_DeadScene"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_UI_DeadScene"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));*/
-
+	{
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
+		CUI_Manager::GetInstance()->Player_DeadScene(false, eLevel);
+	}
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_UI_EstherSkill"));
 	if (nullptr == pUI)
 		return E_FAIL;

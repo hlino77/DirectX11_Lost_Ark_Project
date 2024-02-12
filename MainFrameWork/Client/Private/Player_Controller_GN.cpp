@@ -188,6 +188,8 @@ void CPlayer_Controller_GN::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPo
 	m_iCalculateDamaged = (CGameInstance::GetInstance()->Random_Int(m_iDamaged, _int((_float)m_iDamaged * 1.2f))) * 100;
 	CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
 	tPcStat.iCurHp -= m_iCalculateDamaged;
+	if (m_pOwner->Is_Control())
+		static_cast<CPlayer*>(m_pOwner)->Show_Damage(m_iCalculateDamaged, false);
 	if (0 >= tPcStat.iCurHp)
 	{
 		tPcStat.iCurHp = 0;

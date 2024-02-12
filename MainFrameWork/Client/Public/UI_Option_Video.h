@@ -131,6 +131,7 @@ private:
     _float  m_fPreRatioX[5] = { 0.f, 0.f, 0.f, 0.f, 0.f };
 
     _bool   m_bHolding[5] = { false, false, false, false, false };
+
 public:
     static  CUI_Option_Video* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

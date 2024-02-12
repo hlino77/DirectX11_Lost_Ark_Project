@@ -22,6 +22,8 @@
 #include "UI_InGame_NamePlate.h"
 #include "UI_ChaosDungeon_Clear.h"
 #include "UI_ValtanClearWnd.h"
+#include "UI_DeadScene.h";
+#include "UI_Option.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -338,7 +340,8 @@ void CUI_Manager::Set_UIs_Active(_bool bRender, LEVELID iLevelIndex)
 {
 	for (auto iter : m_pUIList[iLevelIndex])
 	{
-		iter->Set_UIParts_Active(bRender);
+		if((TEXT("UI_DeadScene") != iter->Get_UITag()) && (string::npos == iter->Get_UITag().find(TEXT("Clear"))))
+			iter->Set_UIParts_Active(bRender);
 	}
 }
 
@@ -369,6 +372,22 @@ void CUI_Manager::Clear_Valtan()
 	}
 }
 
+void CUI_Manager::Player_DeadScene(_bool bAvtice, LEVELID iLevelIndex)
+{
+	for (auto iter : m_pUIList[(_uint)iLevelIndex])
+	{
+		if (TEXT("UI_DeadScene") == iter->Get_UITag())
+		{	
+			for (auto & iterDst : iter->Get_UIParts())
+			{
+				iterDst->Set_Active(bAvtice);
+			}
+			iter->Set_Active(bAvtice);
+		}
+	}
+
+}
+
 void CUI_Manager::Set_Player_Control(_bool bControl)
 {
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
@@ -392,6 +411,19 @@ void CUI_Manager::Set_Player_Control(_bool bControl)
 		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Key_Active(bControl);
 	}
 
+}
+
+_float CUI_Manager::Get_ChannelVolume(_uint iChannelID)
+{
+	for (auto iter : m_pUIList[(_uint)LEVEL_STATIC])
+	{
+		if (TEXT("UI_Option") == iter->Get_UITag())
+		{
+			return static_cast<CUI_Option*>(iter)->Get_ChannelSound(iChannelID);
+		}
+	}
+
+	return 0.f;
 }
 
 void CUI_Manager::Free()

@@ -794,7 +794,7 @@ HRESULT CUI_Option_Video::Ready_TextBox()
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		Safe_AddRef(pGameInstance);
 		CTextBox::TEXTBOXDESC tTextDesc;
-		tTextDesc.szTextBoxTag = CServerSessionManager::GetInstance()->Get_NickName() + TEXT("s_SoundOption");
+		tTextDesc.szTextBoxTag = CServerSessionManager::GetInstance()->Get_NickName() + TEXT("s_VideoOption");
 		m_strWndTag = tTextDesc.szTextBoxTag;
 		tTextDesc.vSize = Vec2(m_fSizeX, m_fSizeY);
 		m_pOptionTextWnd = static_cast<CTextBox*>(pGameInstance->

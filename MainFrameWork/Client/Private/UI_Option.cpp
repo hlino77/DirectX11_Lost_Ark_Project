@@ -75,14 +75,25 @@ HRESULT CUI_Option::UI_Set()
 	}
 
 	pUI = static_cast<CUI*>(pInstance->Add_GameObject(LEVEL_STATIC
-		, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_OptionVideo")));
+		, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_OptionVideo"), m_pOptionWnd));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
 	{
 		m_pOptionVideo = static_cast<CUI_Option_Video*>(pUI);
 		m_pOptionVideo->Set_Active_Option(true);
-		m_vecUIParts.push_back(pUI);
+		m_vecUIParts.push_back(m_pOptionVideo);
+	}
+
+	pUI = static_cast<CUI*>(pInstance->Add_GameObject(LEVEL_STATIC
+		, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_UI_OptionSound"), m_pOptionWnd));
+	if (nullptr == pUI)
+		return E_FAIL;
+	else
+	{
+		m_pOptionSound = static_cast<CUI_Option_Sound*>(pUI);
+		m_pOptionSound->Set_Active_Option(true);
+		m_vecUIParts.push_back(m_pOptionSound);
 	}
 
 	return S_OK;
@@ -104,11 +115,14 @@ void CUI_Option::Update_OptionWnd(_float fTimeDelta)
 	if (0 == m_pOptionWnd->Get_OptionMode())
 	{
 		m_pOptionVideo->Is_VideoOptionMode(0);
+		m_pOptionSound->Is_SoundOptionMode(0);
 		m_pOptionVideo->Update_OptionVideo(fTimeDelta, m_pOptionWnd, pt);
 	}
 	else if (1 == m_pOptionWnd->Get_OptionMode())
 	{
 		m_pOptionVideo->Is_VideoOptionMode(1);
+		m_pOptionSound->Is_SoundOptionMode(1);
+		m_pOptionSound->Update_OptionSound(fTimeDelta, m_pOptionWnd, pt);
 	}		
 }
 
@@ -117,26 +131,33 @@ void CUI_Option::LateUpdate_OptionWnd(_float fTimeDelta)
 	if (m_pOptionWnd->Get_ApplyButton())
 	{
 		m_pOptionVideo->Apply_Option();
+		m_pOptionSound->Apply_Option();
 		m_pOptionWnd->Set_ApplyButton(false);
 	}
 
 	if (m_pOptionWnd->Get_CancleButton())
 	{
 		m_pOptionVideo->Cancle_Option();
+		m_pOptionSound->Cancle_Option();
 		m_pOptionWnd->Set_CancleButton(false);
 	}
 
 	if (m_pOptionWnd->Get_QuitButton())
 	{
 		m_pOptionVideo->Cancle_Option();
+		m_pOptionSound->Cancle_Option();
 		for (auto & iter : m_vecUIParts)
 		{
 			iter->Set_Active(false);
 		}
 		m_pOptionWnd->Set_QuitButton(false);
 		m_bOption = false;
-		//Reset_Player_Control();
 	}
+}
+
+_float CUI_Option::Get_ChannelSound(_uint iChannel)
+{
+	return m_pOptionSound->Get_ChannelSound(iChannel);
 }
 
 HRESULT CUI_Option::Ready_Components()
@@ -162,6 +183,7 @@ void CUI_Option::Option_OnOff()
 		if (!m_bOption)
 		{
 			m_pOptionVideo->Cancle_Option();
+			m_pOptionSound->Cancle_Option();
 			for (auto& iter : m_vecUIParts)
 			{
 				iter->Set_Active(false);

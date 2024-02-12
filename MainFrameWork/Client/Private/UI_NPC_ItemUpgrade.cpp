@@ -4136,7 +4136,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_R()
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
 
-    if (FAILED(Bind_ShaderResources_DragLine()))
+    /*if (FAILED(Bind_ShaderResources_DragLine()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
     m_pVIBufferCom->Render();
@@ -4144,7 +4144,7 @@ HRESULT CUI_NPC_ItemUpgrade::Bind_ShaderResources_SidePannel_R()
     if (FAILED(Bind_ShaderResources_DragBar()))
         return E_FAIL;
     m_pShaderCom->Begin(0);
-    m_pVIBufferCom->Render();
+    m_pVIBufferCom->Render();*/
 
     return S_OK;
 }

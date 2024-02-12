@@ -91,6 +91,8 @@ public:
 
 	virtual void		Get_EstherGageAddMessage(_uint iGage) { m_iCurEstherGage += iGage; }
 	virtual void		Get_EstherMessage(_uint iIndex) { EstherSkill(iIndex); }
+	virtual _uint		Get_MaxEstherGauge() { return	m_iMaxEstherGage; }
+	virtual _uint		Get_CurrEstherGauge() { return	m_iCurEstherGage; }
 
 	virtual void		Get_BuffMessage(_uint iBuffStatus, _float fAmount, _float fDurtaion);
 

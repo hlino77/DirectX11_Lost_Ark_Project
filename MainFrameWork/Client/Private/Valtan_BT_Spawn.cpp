@@ -25,6 +25,8 @@
 #include "Effect_Particle.h"
 #include "Effect_Trail.h"
 
+#include "UI_Manager.h"
+
 CValtan_BT_Spawn::CValtan_BT_Spawn()
 {
 }
@@ -42,7 +44,8 @@ void CValtan_BT_Spawn::OnStart()
 
 	m_fLightningParticleTime = 0.05f;
 	CGameInstance::GetInstance()->PlaySoundFile(L"RiseValtan.wav", CHANNEL_EFFECT);
-	CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, 1.f);
+	//CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, 1.f);
+	CGameInstance::GetInstance()->SetChannelVolume(CUI_Manager::GetInstance()->Get_ChannelVolume(CHANNEL_EFFECT), 1.f);
 	Effect_SpawnStart();
 }
 
@@ -446,7 +449,7 @@ void CValtan_BT_Spawn::End_Scene()
 
 	CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_STATIC);
-	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_VALTANMAIN);
+	//CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_VALTANMAIN);
 }
 
 void CValtan_BT_Spawn::Update_LightningParticle(_float fTimeDelta)
