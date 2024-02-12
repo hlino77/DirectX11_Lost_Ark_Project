@@ -55,6 +55,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack_1::OnUpdate(const _float& fT
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	}
+	{
+		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#86 (411020145)", CHANNEL_EFFECT);
+		Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#90 (338015342)", CHANNEL_EFFECT);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

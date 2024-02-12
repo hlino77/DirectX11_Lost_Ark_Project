@@ -45,14 +45,30 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f, 0.6f);
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
 	}
+	if (m_iCurrAnimation == 4 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 108)
+	{
+		if (static_cast<CBoss*>(m_pGameObject)->Is_SetuponCell() == true)
+		{
+			static_cast<CBoss*>(m_pGameObject)->Set_SetuponCell(false);
+			static_cast<CBoss*>(m_pGameObject)->Set_Weapon_Render(false);
+		}
+		if(m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 112)
+			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta*6.f);
+		else
+			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta*2.f);
+	}
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
+		if (static_cast<CBoss*>(m_pGameObject)->Is_SetuponCell() == false)
+			static_cast<CBoss*>(m_pGameObject)->Set_SetuponCell(true);
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 		m_pGameObject->Set_Render(false);
 	}
 	if (m_iCurrAnimation == 6)
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_Weapon_Render(true);
 		m_pGameObject->Set_Render(true);
-
+	}
 	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	
@@ -153,26 +169,27 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+		CGameObject* pSkill =  CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(30.f);
-			static_cast<CSkill*>(pSkill)->Set_Atk(50);
-			static_cast<CSkill*>(pSkill)->Set_Force(33.f);
-		}
-		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
-		if (pSkill != nullptr)
-		{
-			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill*>(pSkill)->Set_Atk(9999);
+			static_cast<CSkill*>(pSkill)->Set_Atk(99999);
 			static_cast<CSkill*>(pSkill)->Set_Force(35.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
 		}
+		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(30.f);
+			static_cast<CSkill*>(pSkill)->Set_Atk(450);
+			static_cast<CSkill*>(pSkill)->Set_Force(33.f);
+		}
+	
 	}
 	
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[10].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[10].iAnimIndex) >= 3 && m_bShoot[2])
@@ -190,7 +207,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		{
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill*>(pSkill)->Set_Atk(50);
+			static_cast<CSkill*>(pSkill)->Set_Atk(550);
 			static_cast<CSkill*>(pSkill)->Set_Force(51.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(20.f, -20.f);
 			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);

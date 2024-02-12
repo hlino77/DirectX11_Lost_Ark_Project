@@ -8,7 +8,7 @@
 #include "Effect_Manager.h"
 #include "PartObject.h"
 #include "Effect_Particle.h"
-
+#include "GameInstance.h"
 CValtan_BT_Attack_CounterAttack::CValtan_BT_Attack_CounterAttack()
 {
 }
@@ -104,12 +104,22 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack::OnUpdate(const _float& fTim
 			static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[m_iCurrAnimation].strAnimName, m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fAnimSpeed);
 		}
 	}
+	Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#83 (499068403)", CHANNEL_EFFECT);
+	Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)", CHANNEL_EFFECT, 39); 
+	Add_Sound(0, 4, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", CHANNEL_EFFECT, 39, true);
+	Add_Sound(2, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#85 (208205469)", CHANNEL_EFFECT); 
+	Add_Sound(2, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#90 (338015342)", CHANNEL_EFFECT);
 	return BT_RUNNING;
 }
 
 void CValtan_BT_Attack_CounterAttack::OnEnd()
 {
 	__super::OnEnd();
+	for (auto& Particle : m_Particles)
+	{
+		dynamic_cast<CEffect_Particle*>(Particle)->ParticleEnd();
+	}
+	CGameInstance::GetInstance()->Find_Stop_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)");
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 

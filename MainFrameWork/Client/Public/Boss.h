@@ -15,6 +15,7 @@ class CPipeLine;
 class CSphereCollider;
 class CHierarchyNode;
 class CCollider;
+class CPartObject;
 END
 
 
@@ -33,6 +34,13 @@ public:
 		Vec3	vPos;
 	}MODELDESC;
 
+	enum class BOSS_TYPE
+	{
+		GOLEM,
+		KING,
+		VAlTAN,
+		BOSS_END
+	};
 
 
 protected:
@@ -132,11 +140,18 @@ public:
 	_uint						Get_MaxGroggyGauge() { return m_iMaxGroggyGauge; }
 	_int						Get_CurrGroggyGauge() { return m_iGroggyGauge; }
 
+	void				Set_BossType(BOSS_TYPE eBossType) { m_eBossType = eBossType; }
+	BOSS_TYPE			Get_BossType() { return m_eBossType; }
 
 	_bool						Is_Dummy() { return m_bDummy; }
 	void						Set_Dummy(_bool bDummy) { m_bDummy = bDummy; }
-
 	void					Load_WorldMatrix(Matrix& matWorld);
+
+	CPartObject* Get_Weapon() { return m_pWeapon; }
+virtual	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
+virtual	void Set_Weapon_Render(_bool IsRender);
+virtual	void Set_Weapon_RimLight(_float fTime, _float fColor);
+
 protected:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT	Ready_HpUI();
@@ -148,6 +163,8 @@ protected:
 	virtual HRESULT			Ready_BehaviourTree();
 
 protected:
+	CPartObject* m_pWeapon = nullptr;
+
 	_uint m_iBaseAtk = 0;
 	_float m_fBaseForce = 0;
 
@@ -168,7 +185,7 @@ protected:
 	_float							m_fTimeCount = 0.f;
 	//HPUI
 	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };
-
+	BOSS_TYPE m_eBossType = { BOSS_TYPE::BOSS_END };
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

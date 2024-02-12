@@ -73,6 +73,7 @@ HRESULT CBoss_Valtan::Initialize_Prototype()
 
 HRESULT CBoss_Valtan::Initialize(void* pArg)
 {
+	m_eBossType =  BOSS_TYPE::VAlTAN;
 	m_iMaxGroggyGauge = 2000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 8214139495;
@@ -274,42 +275,26 @@ HRESULT CBoss_Valtan::Render()
 			if (FAILED(m_pShaderCom->Bind_Texture("g_DissolveTexture", m_pDissolveTexture->Get_SRV())))
 				return E_FAIL;
 
-			_uint		iNumMeshes = m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Get_NumMeshes();
-
-			for (_uint j = 0; j < iNumMeshes; ++j)
-			{
-				if (FAILED(m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Render_SingleMesh(m_pShaderCom, j)))
-					return E_FAIL;
-			}
+			if (FAILED(m_pModelPartCom[(_uint)PARTS::POSTDEATH]->Render(m_pShaderCom)))
+				return E_FAIL;
 
 			iDissolve = true;
 			if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &iDissolve, sizeof(_int))))
 				return E_FAIL;
+
 			fDissolveAmount = (m_fDissolvetime / m_fMaxDissolvetime);
 			if (FAILED(m_pShaderCom->Bind_RawValue("g_fDissolveAmount", &fDissolveAmount, sizeof(_float))))
 				return E_FAIL;
-			iNumMeshes = m_pModelPartCom[(_uint)PARTS::BODY]->Get_NumMeshes();
 
-			for (_uint j = 0; j < iNumMeshes; ++j)
-			{
-				if (FAILED(m_pModelPartCom[(_uint)PARTS::BODY]->Render_SingleMesh(m_pShaderCom, j)))
-					return E_FAIL;
-			}
-			iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART1]->Get_NumMeshes();
+			if (FAILED(m_pModelPartCom[(_uint)PARTS::BODY]->Render(m_pShaderCom)))
+				return E_FAIL;
 
-			for (_uint j = 0; j < iNumMeshes; ++j)
-			{
-				if (FAILED(m_pModelPartCom[(_uint)PARTS::PART1]->Render_SingleMesh(m_pShaderCom, j)))
-					return E_FAIL;
-			}
+			if (FAILED(m_pModelPartCom[(_uint)PARTS::PART1]->Render(m_pShaderCom)))
+				return E_FAIL;
 
-			iNumMeshes = m_pModelPartCom[(_uint)PARTS::PART2]->Get_NumMeshes();
+			if (FAILED(m_pModelPartCom[(_uint)PARTS::PART2]->Render(m_pShaderCom)))
+				return E_FAIL;
 
-			for (_uint j = 0; j < iNumMeshes; ++j)
-			{
-				if (FAILED(m_pModelPartCom[(_uint)PARTS::PART2]->Render_SingleMesh(m_pShaderCom, j)))
-					return E_FAIL;
-			}
 			iDissolve = false;
 			if (FAILED(m_pShaderCom->Bind_RawValue("g_bReverseDissolve", &iDissolve, sizeof(_int))))
 				return E_FAIL;
@@ -368,6 +353,9 @@ HRESULT CBoss_Valtan::Render()
 		if (FAILED(m_pShaderCom->Bind_RawValue("g_vBloomColor", &vDissolveColor, sizeof(Vec4))))
 			return E_FAIL;
 	}
+	_float fRimLightColor = 0.f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -455,24 +443,7 @@ return S_OK;
 }
 
 
-void CBoss_Valtan::Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed)
-{
-	if (m_pWeapon->Get_ModelCom()->Initailize_FindAnimation(strAnimName, fAnimspeed) > m_pWeapon->Get_ModelCom()->Get_MaxAnimIndex())
-		strAnimName = L"att_battle_8_01_loop";
-	m_pWeapon->Get_ModelCom()->Reserve_NextAnimation(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName), fChangeTime,
-		iStartFrame, iChangeFrame);
-	m_pWeapon->Get_ModelCom()->Set_Anim_Speed(m_pWeapon->Get_ModelCom()->Find_AnimIndex(strAnimName) ,fAnimspeed);
-}
 
-void CBoss_Valtan::Set_Weapon_Render(_bool IsRender)
-{
-	m_pWeapon->Set_Render(IsRender);
-}
-
-void CBoss_Valtan::Set_Weapon_RimLight(_float fTime, _float fColor)
-{
-	m_pWeapon->Set_RimLight(fTime, fColor);
-}
 
 HRESULT CBoss_Valtan::Ready_Components()
 {
@@ -704,7 +675,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.5f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 3.f;
+	AnimationDesc.fMaxLoopTime = 4.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 	AnimationDesc.fRootDist = 1.5f;

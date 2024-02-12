@@ -158,42 +158,32 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-				static_cast<CSkill*>(pSkill)->Set_Atk(99999999);
+				static_cast<CSkill*>(pSkill)->Set_Atk(99999);
 				static_cast<CSkill*>(pSkill)->Set_Force(50.f);
 			}
 		}
 
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && !m_bSoundOn[0])
-	{
-		m_bSoundOn[0] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708).wav", CHANNEL_EFFECT);
-	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 24 && !m_bSoundOn[1])
-	{
-		m_bSoundOn[1] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365).wav", CHANNEL_EFFECT);
-	}
+	Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", CHANNEL_EFFECT);
+
+	Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", CHANNEL_EFFECT,24);
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && !m_bSoundOn[2])
 	{
 		m_bSoundOn[2] = true;
 		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551).wav", CHANNEL_EFFECT);
 		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#162 (147083337).wav", CHANNEL_EFFECT);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && !m_bSoundOn[3])
-	{
-		m_bSoundOn[3] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587).wav", CHANNEL_EFFECT);
-	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && !m_bSoundOn[4])
-	{
-		m_bSoundOn[4] = true;
-		CGameInstance::GetInstance()->PlaySoundFile(L"IwillSmashYouBugs.wav", CHANNEL_EFFECT);
-	}
+
+	Add_Sound(3, 3, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)", CHANNEL_EFFECT);
+
+	Add_Sound(5, 4, L"IwillSmashYouBugs", CHANNEL_EFFECT);
+
 	if (m_pGameObject->Get_NearTarget() == nullptr && !m_pGameObject->Get_ModelCom()->IsNext())
-		Add_Sound(14, 5, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#468 (401443118)", CHANNEL_EFFECT);
-	
+		Add_Sound(14, 5, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#468 (401443118)", CHANNEL_EFFECT);	
+
 	Add_Sound(8, 6, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)", CHANNEL_EFFECT);
+
 	Add_Sound(8, 7, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#135 (936435461)", CHANNEL_EFFECT);
 
 	return __super::OnUpdate(fTimeDelta);

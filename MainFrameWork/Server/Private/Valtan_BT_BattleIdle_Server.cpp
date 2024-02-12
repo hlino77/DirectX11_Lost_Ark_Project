@@ -19,7 +19,7 @@ CBT_Node::BT_RETURN CValtan_BT_BattleIdle_Server::OnUpdate(const _float& fTimeDe
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
-	m_pGameObject->Get_TransformCom()->Turn_Speed(Vec3(0.f,1.f,0.f), XMConvertToRadians(180.f),fTimeDelta);
+	static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 
 	m_fIdletime += fTimeDelta;
 	if (m_fIdletime> 2.f)

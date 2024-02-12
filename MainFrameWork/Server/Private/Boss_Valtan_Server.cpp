@@ -1883,7 +1883,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			// 테스트용
 			if (FAILED(pSequenceNormalAttack->AddChild(pImposter)))
 				return E_FAIL;
-
 		}
 
 

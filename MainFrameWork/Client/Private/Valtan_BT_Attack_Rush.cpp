@@ -8,6 +8,17 @@
 #include <Boss_Valtan.h>
 #include "Effect_Manager.h"
 #include "Effect.h"
+#include "ServerSessionManager.h"
+#include <Player_Gunslinger.h>
+#include <Player_Slayer.h>
+#include <Player_Destroyer.h>
+#include <Player_Bard.h>
+#include <Player_Doaga.h>
+#include "Controller_MG.h"
+#include "Controller_WDR.h"
+#include "Controller_WR.h"
+#include "Controller_SP.h"
+#include "Player_Controller_GN.h"
 
 CValtan_BT_Attack_Rush::CValtan_BT_Attack_Rush()
 {
@@ -37,7 +48,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 		m_iLoop++;
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
-
 		if (m_iLoop == 2)
 		{
 			vector<CEffect*> Effect;
@@ -67,7 +77,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 
 		m_pEffectWarning->EffectEnd();
 		m_pEffectWarning = nullptr;
-
+		Add_Sound(L"Voice2", CHANNEL_EFFECT); 
+		Add_Sound( L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#288 (673586812)", CHANNEL_EFFECT);
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, m_EffectRush);
@@ -108,8 +119,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 			{
 				Effect->EffectEnd();
 			}
-			m_EffectRush.clear();
+			m_EffectRush.clear();                                              
 		}
+	}
+	{
+		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", CHANNEL_EFFECT, 12);
+		if(m_bSoundOn[0]&&m_iLoop== 1)
+			Add_Sound(0, 1, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", CHANNEL_EFFECT, 12);
+		if (m_bSoundOn[1] && m_iLoop == 2)
+			Add_Sound(0, 2, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", CHANNEL_EFFECT, 12);
+
 	}
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -127,7 +146,7 @@ void CValtan_BT_Attack_Rush::OnEnd()
 	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 
-	if (m_iCurrAnimation == 1)
+	if (m_iCurrAnimation == 1&& !static_cast<CBoss*>(m_pGameObject)->Is_Dummy() && static_cast<CBoss*>(m_pGameObject)->Get_GroggyGauge()>0)
 	{
 		for (auto& Effect : m_EffectRush)
 		{
@@ -138,6 +157,33 @@ void CValtan_BT_Attack_Rush::OnEnd()
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"ValtanRushCrash", &tDesc);
+
+		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::VAlTAN)
+		{
+			CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+			if (nullptr == pPlayer)
+				return;
+			_float fEstherGauge = 20.f;
+			if (pPlayer->Is_PartyLeader())
+			{
+				if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+				{
+					static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Get_EstherGageAddMessage(fEstherGauge);
+				}
+				else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+				{
+					static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_EstherGageAddMessage(fEstherGauge);
+				}
+				else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+				{
+					static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Get_EstherGageAddMessage(fEstherGauge);
+				}
+				else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+				{
+					static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Get_EstherGageAddMessage(fEstherGauge);
+				}
+			}
+		}
 	}
 
 	if (m_pEffectWarning != nullptr)

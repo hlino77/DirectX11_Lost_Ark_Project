@@ -51,6 +51,7 @@ HRESULT CBoss_King::Initialize_Prototype()
 
 HRESULT CBoss_King::Initialize(void* pArg)
 {
+	m_eBossType = BOSS_TYPE::KING;
 	m_iMaxGroggyGauge = 400;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 4800000000;
