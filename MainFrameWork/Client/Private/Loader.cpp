@@ -1904,6 +1904,14 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 	
 
 	// Effect Custom   ======================================================================= BreakObject Use
+	
+	Matrix		BreakObjectPivotMatrix = XMMatrixIdentity();
+	BreakObjectPivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+
+#pragma region Itr_02297_Cell
+
+
 	{
 		wstring strFileName = L"Itr_02297_Cell_002";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
@@ -1912,7 +1920,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -1926,7 +1934,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -1940,7 +1948,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -1954,7 +1962,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -1969,7 +1977,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -1983,7 +1991,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -1997,7 +2005,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -2011,7 +2019,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -2025,7 +2033,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -2039,7 +2047,7 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
@@ -2053,11 +2061,1864 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
 		{
 			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false))))
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
 				return E_FAIL;
 			pUIManager->Add_CurrFile();
 		}
 	}
+#pragma endregion
+
+#pragma region Itr_02306_Cell
+
+	{
+		wstring strFileName = L"Itr_02306_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02306_Cell_002";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_003";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02306_Cell_232";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02306_Cell_268";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_451";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_761";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_919";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1090";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1367";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1511";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1786";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1847";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1848";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	{
+		wstring strFileName = L"Itr_02306_Cell_1851";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+	
+#pragma endregion
+
+#pragma region Itr_02307_Cell
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_287";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_431";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_748";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_782";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_783";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_785";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_789";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02307_Cell_790";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+
+
+#pragma endregion
+
+#pragma region Itr_02308_Cell	
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_009";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_024";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_025";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_026";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_027";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_051";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_056";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_078";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_081";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_087";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_102";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_103";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_106";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_113";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_124";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_127";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_134";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_143";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_150";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02308_Cell_151";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+#pragma endregion
+
+#pragma region Itr_02309_Cell
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_106";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1111";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1143";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1178";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1212";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1222";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1256";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1266";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1276";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1344";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1401";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1486";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1507";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1570";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1590";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02309_Cell_1696";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+#pragma endregion
+
+#pragma region Itr_02310_Cell
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_001";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_002";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_003";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_004";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_005";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_006";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_007";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_008";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_009";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_010";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_011";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_710";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_711";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_747";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_748";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_752";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_765";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_840";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_863";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_880";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_898";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_941";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_959";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_1150";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_1168";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_1179";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_1181";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02310_Cell_1236";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+#pragma endregion
+
+#pragma region Itr_02311_Cell
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_004";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_136";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_251";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_314";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_318";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_330";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_332";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_1152";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_1763";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_1832";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_1841";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_1860";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2019";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2080";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2107";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2159";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2194";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2243";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02311_Cell_2372";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+#pragma endregion
+
+#pragma region Itr_02315_Cell
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_022";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_063";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_102";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_108";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_160";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_162";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_201";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02315_Cell_240";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+#pragma endregion
+
+#pragma region Itr_02316_Cell
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_000";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_247";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_444";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_508";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_565";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_619";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_821";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_871";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_876";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+	{
+		wstring strFileName = L"Itr_02316_Cell_915";
+		wstring strFilePath = L"../Bin/Resources/Meshes/";
+		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+		{
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+				return E_FAIL;
+			pUIManager->Add_CurrFile();
+		}
+	}
+
+
+
+#pragma endregion
 
 
 	m_strLoading = TEXT("·Îµù ³¡.");

@@ -15,8 +15,10 @@ class CEffect_Custom_BreakObject : public CEffect
 public:
 	struct BreakObjectDesc
 	{
-		Vec3 vPos = {};
-		Vec3 vTargetPos = {};
+		Matrix PivotMatrix = {};
+		Matrix WorldMatrix = {};
+		Vec3   vPos = {};
+
 		class CGameObject* pOwner = nullptr;
 		wstring strModelName = {};
 	};
@@ -41,22 +43,36 @@ private:
 
 	virtual HRESULT Ready_Components() override;
 	HRESULT Ready_Components(void* pArg);
-	void	Init_Projectile_Motion();
-	void	Update_BreakPos(_float fTimedelta);
-	void	Effect_BreakObject();
+
+
+	void	Spread_Random_Dir(float fTimeDelta);
+	void	Exponential_Lerp(float fTimeDelta);
 
 
 private:
-	_bool				m_bBreakStart = false;
-	class CGameObject*	m_pOwner = nullptr;
-	wstring				m_strModelName = {};
 
+	class CGameObject*	m_pOwner  = nullptr;  // StaticModel 
+	class CGameObject*  m_pTarget = nullptr;  // Valtan
+	wstring				m_strModelName = {};  // Object Name
+
+	Matrix	 m_WorldMatrix = {};
 	Vec3	 m_vStartPos = {};
+
 	_float	 m_fVelocityX, m_fVelocityY, m_fVelocityZ = 0.f;
 	_float	 m_fGravity = {};
 	_float	 m_fEndTime = {};
+	_uint	 m_AttackStyle = {};
+
+	_bool	m_bBreakStart = false;
 
 
+	// 	RandomDir
+	_bool  m_bSetDir = false;
+	Vec3   m_RandomMoveDirection = {};
+
+	// RimLight
+	_float	m_fRimLightTime = {};
+	_bool   m_bRimLight = false;
 
 public:
 	static CEffect_Custom_BreakObject* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

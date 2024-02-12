@@ -113,6 +113,11 @@ private:
 	// Break
 	_bool			m_bBreak = false;
 	_float			m_fBreakDelayTime = 0.f;
+	_bool			m_bBreakEffect = false;
+	_bool			m_bBreakCustomEffect = false;
+
+	// Sound
+	_bool			m_bBreakSound = false;
 
 	// RimLight
 	_bool							m_bRimLight = false;

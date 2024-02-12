@@ -113,21 +113,17 @@ HRESULT CStaticModel::Initialize(void* pArg)
 
 #pragma endregion
 
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Desc->vPosition);
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
-
 
 	if (m_szModelName == TEXT("Elevator01d_Edit_Glass") || m_szModelName == TEXT("Ehgeiz_A_Bossfloor01b_Top"))
 	{
 		m_bInstance = false;
 		m_iPass = 1;
 	}
-
 
 	if (m_bInstance)
 	{
@@ -144,8 +140,8 @@ HRESULT CStaticModel::Initialize(void* pArg)
 	}
 
 	m_eRenderGroup = CRenderer::RENDERGROUP::RENDER_NONBLEND;
-
     return S_OK;
+
 }
 
 void CStaticModel::Tick(_float fTimeDelta)
@@ -302,23 +298,569 @@ void CStaticModel::LateTick(_float fTimeDelta)
 	// BreakAble Object
 	if (true == m_bBreak)
 	{
-		CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
-		tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
-		EFFECT_START(L"DustCloud0", &tEffectDesc);
-		EFFECT_START(L"DustCloud1", &tEffectDesc);
-		EFFECT_START(L"DustCloud2", &tEffectDesc);
+		if (false == m_bBreakEffect)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tEffectDesc;
+			tEffectDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+			EFFECT_START(L"DustCloud0", &tEffectDesc);
+			EFFECT_START(L"DustCloud1", &tEffectDesc);
+			EFFECT_START(L"DustCloud2", &tEffectDesc);
+
+			m_bBreakEffect = true;
+		}
+
+		if (false == m_bBreakSound)
+		{
+			CGameInstance::GetInstance()->PlaySoundFile(L"HitWall.wav", CHANNEL_EFFECT);
+			m_bBreakSound = true;
+		}
+
+		if (false == m_bBreakCustomEffect)
+		{
+			m_bBreakCustomEffect = true;
+
+			CEffect_Custom_BreakObject::BreakObjectDesc BreakDesc;
+			BreakDesc.WorldMatrix = this->m_pTransformCom->Get_WorldMatrix();
+			BreakDesc.pOwner = this;
 
 
-		CEffect_Custom_BreakObject::BreakObjectDesc BreakDesc;
-		BreakDesc.vPos = this->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		BreakDesc.pOwner = this;
-		BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02297_Cell_002";
-	
+#pragma region ITR_022306_GiYurk Break
 
-		CGameObject* pObject = nullptr;
-		pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), 
-									(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+			if (m_szModelName == TEXT("ITR_022306_GiYurk"))
+			{
+				CGameObject* pObject = nullptr;
 
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_000";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_002";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_003";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_232";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_268";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_451";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_761";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_919";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1090";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1367";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1511";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1786";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1847";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1848";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02306_Cell_1851";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+			}
+
+
+#pragma endregion
+
+#pragma region ITR_02307_Pillar_Small Break
+
+			if (m_szModelName == TEXT("ITR_02307_Pillar_Small"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_000";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_287";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_431";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_748";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_782";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_783";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_785";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_790";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+			}
+
+#pragma endregion
+
+#pragma region ITR_02308_Wall_Small Break
+
+			if (m_szModelName == TEXT("ITR_02308_Wall_Small"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_000";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_287";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_431";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_748";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_782";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_783";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_785";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_789";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02307_Cell_790";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+			}
+
+#pragma endregion
+
+#pragma region ITR_02309_Wall Break
+
+			if (m_szModelName == TEXT("ITR_02309_Wall"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_000";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_106";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1111";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1143";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1178";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1212";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1222";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1256";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1266";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1276";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1344";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1401";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1486";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1507";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1570";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1590";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02309_Cell_1696";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+			}
+
+#pragma endregion
+
+#pragma region ITR_02310_Cube Break
+
+			if (m_szModelName == TEXT("ITR_02310_Cube"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_001";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_002";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_003";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_004";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_005";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_006";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_007";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_008";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_009";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_010";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_011";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_711";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_747";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_748";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_752";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_765";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_840";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_863";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_880";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_898";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_941";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_959";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_1150";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_1168";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_1179";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_1181";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02310_Cell_1236";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+			}
+
+#pragma endregion
+
+#pragma region ITR_02311_BigCube Break
+
+			if (m_szModelName == TEXT("ITR_02311_BigCube"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_004";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_136";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_251";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_314";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_318";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_330";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_332";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_1152";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_1763";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_1832";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_1841";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_1860";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2019";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2080";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2107";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2159";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2194";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2243";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02311_Cell_2372";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+			}
+
+
+#pragma endregion
+
+#pragma region ITR_02315_FrontWall1 Break
+
+			if (m_szModelName == TEXT("ITR_02315_FrontWall1"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_000";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_022";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_063";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_102";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_108";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_160";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_162";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_201";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02315_Cell_240";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+			}
+#pragma endregion
+
+#pragma region ITR_02316_FrontWall2 Break
+
+			if (m_szModelName == TEXT("ITR_02316_FrontWall2"))
+			{
+				CGameObject* pObject = nullptr;
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_000";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_247";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_444";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_508";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_565";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_619";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_821";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_871";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_876";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+				BreakDesc.strModelName = L"Prototype_Component_Model_Itr_02316_Cell_915";
+				pObject = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(),
+					(_uint)LAYER_TYPE::LAYER_EFFECT, L"Prototype_GameObject_Effect_Custom_BreakObject", &BreakDesc);
+
+			}
+
+#pragma endregion
+
+
+		}
 
 		m_bRimLight = true;
 
@@ -328,6 +870,7 @@ void CStaticModel::LateTick(_float fTimeDelta)
 		}
 
 	}
+
 
 	// RimLight 
 	if (m_bRimLight)
