@@ -92,7 +92,7 @@ void CUI_EstherSkill::Tick(_float fTimeDelta)
 		{
 			m_pPartyLeader = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject((_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex(),
 				(_uint)LAYER_TYPE::LAYER_PLAYER, iter));
-			if (nullptr != m_pPartyLeader)
+			if ((nullptr != m_pPartyLeader)&&(m_pPartyLeader->Is_PartyLeader()))
 				break;
 			else
 				m_pPartyLeader = nullptr;
