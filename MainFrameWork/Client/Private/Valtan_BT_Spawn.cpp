@@ -45,7 +45,6 @@ void CValtan_BT_Spawn::OnStart()
 	m_fLightningParticleTime = 0.05f;
 	CGameInstance::GetInstance()->PlaySoundFile(L"RiseValtan.wav", CHANNEL_EFFECT);
 	//CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, 1.f);
-	CGameInstance::GetInstance()->SetChannelVolume(CUI_Manager::GetInstance()->Get_ChannelVolume(CHANNEL_EFFECT), 1.f);
 	Effect_SpawnStart();
 }
 
@@ -89,7 +88,6 @@ void CValtan_BT_Spawn::OnEnd()
 	static_cast<CBoss*>(m_pGameObject)->Set_HpUIRender(true);
 
 	CGameInstance::GetInstance()->PlayBGM(L"Commander of Beast Valtan.wav", CHANNEL_EFFECT);
-	CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, 0.2f);
 	End_Scene();
 	
 	for (auto& Effect : m_BlackSmoke)
