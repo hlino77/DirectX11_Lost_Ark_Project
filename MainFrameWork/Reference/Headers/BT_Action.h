@@ -46,6 +46,7 @@ public:
 	//void Add_Sound(_int iAnimIndex, _int iSoundOnIndex,wstring strSoundTag, _uint iSoiundChannel , _int iAnimFrame = 0,_bool bUseLoopChannel = false);
 	void Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 
+
 	virtual    void		OnEnd();
 
 
