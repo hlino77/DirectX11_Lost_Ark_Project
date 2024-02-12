@@ -1307,9 +1307,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.IsRootRot = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.IsRootRot = false;
+
 	//110줄 임포스터
 	ActionDesc.strActionName = L"Action_Imposter";
 	CBT_Action* pImposter = CValtan_BT_Attack_Imposter_Server::Create(&ActionDesc);
@@ -1418,9 +1417,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.IsRootRot = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.IsRootRot = false;
 	//88번 지형파괴
 	ActionDesc.strActionName = L"Action_FirstTerrainDestruction";
 	CBT_Action* pFirstTerrainDestruction = CValtan_BT_Attack_FirstTerrainDestruction_Server::Create(&ActionDesc);
@@ -1485,7 +1482,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	//7
 	AnimationDesc.strAnimName = TEXT("att_battle_16_05");
 	AnimationDesc.iStartFrame = 20;
-	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
@@ -1532,9 +1529,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
-	AnimationDesc.IsRootRot = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.IsRootRot = false;
+
 	//30줄 지형파괴
 	ActionDesc.strActionName = L"Action_SecondTerrainDestruction";
 	CBT_Action* pSecondTerrainDestruction = CValtan_BT_Attack_SecondTerrainDestruction_Server::Create(&ActionDesc);
@@ -1881,8 +1877,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pImposter)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pJumpSeismic)))
 				return E_FAIL;
+
 		}
 
 
@@ -2007,9 +2004,6 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 
 		if (FAILED(pSequenceNormalAttack->AddChild(pRainingAxe)))
-			return E_FAIL;
-
-		if (FAILED(pSequenceNormalAttack->AddChild(pTrunningPizza)))
 			return E_FAIL;
 
 		pSequenceNormalAttack->ShuffleChild();

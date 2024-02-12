@@ -36,8 +36,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 		if(!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 			static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 50)
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+
 	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy()&&m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) < 56 && m_bShoot)
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
 
@@ -66,6 +68,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 			static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.5f);
 		}
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 55 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_iCurrAnimation++;
@@ -82,6 +85,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 55 && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 			static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

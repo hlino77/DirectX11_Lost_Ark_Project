@@ -1551,7 +1551,6 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.IsRootRot = false;
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
@@ -1664,7 +1663,6 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.IsRootRot = false;
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;
@@ -1730,7 +1728,7 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	//7
 	AnimationDesc.strAnimName = TEXT("att_battle_16_05");
 	AnimationDesc.iStartFrame = 20;
-	AnimationDesc.fChangeTime = 0.4f;
+	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
@@ -1778,7 +1776,6 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
-	AnimationDesc.IsRootRot = false;
 
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
 	AnimationDesc.iStartFrame = 0;

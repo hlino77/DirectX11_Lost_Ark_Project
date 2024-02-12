@@ -22,6 +22,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex&& m_fLoopTime < m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime - 0.5f)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(true);
@@ -29,11 +30,13 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-spine")));
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 		m_pGameObject->Get_TransformCom()->Turn_Speed(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(280.f), fTimeDelta);
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 20 && m_bShoot)
 	{
 		m_bShoot = false;
@@ -53,6 +56,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
 	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

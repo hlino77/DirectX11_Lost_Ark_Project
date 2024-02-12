@@ -43,6 +43,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop < 2)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 2)
 	{
 		m_iLoop++;
@@ -59,6 +60,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2 && static_cast<CBoss*>(m_pGameObject)->Get_Armor() < 1)
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 3)
 	{
 		m_iLoop++;
@@ -83,6 +85,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, m_EffectRush);
 	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iCurrAnimation == 1)
 	{
 		if (m_EffectRush.empty() == false)
@@ -122,6 +125,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 			m_EffectRush.clear();                                              
 		}
 	}
+
 	{
 		Add_Sound(0, 0, L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", CHANNEL_EFFECT, 12);
 		if(m_bSoundOn[0]&&m_iLoop== 1)
