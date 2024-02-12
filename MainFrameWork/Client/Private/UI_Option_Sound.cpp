@@ -4,6 +4,7 @@
 #include "TextBox.h"
 #include "ServerSessionManager.h"
 #include "Player.h"
+#include "Sound_Manager.h"
 
 CUI_Option_Sound::CUI_Option_Sound(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -83,13 +84,16 @@ HRESULT CUI_Option_Sound::Initialize(void* pArg)
 	if (FAILED(Initialize_TextBox()))
 		return E_FAIL;
 
+	m_fSoundRatio[0] = 0.5f;
+	m_fSoundRatio[1] = CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("BGM"));
+	m_fSoundRatio[2] = CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI"));
+	m_fSoundRatio[3] = CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("Ambient"));
+	m_fSoundRatio[4] = CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("Effect"));
 	for (size_t i = 0; i < 5; i++)
 	{
+		m_fVolume[i] = m_fSoundRatio[i];
 		m_fDragBarX[i] = m_fDragLineMinX + (m_fDragLineSizeX* m_fSoundRatio[i]);
-		m_fSoundRatio[i] = m_fVolume[i];
 	}
-	for (size_t i = 0; i < 4; i++)
-			CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i + 1]);
 
 	return S_OK;
 }
@@ -258,20 +262,29 @@ void CUI_Option_Sound::Set_Active_Option(_bool bOption)
 	}
 	if (true == m_bCheckVolume[0])
 	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			if (true == m_bCheckVolume[i + 1])
-				CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i + 1]);
-			else
-				CGameInstance::GetInstance()->SetChannelVolume(i, 0);
-		}
+		if (true == m_bCheckVolume[1])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		if (true == m_bCheckVolume[2])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		if (true == m_bCheckVolume[3])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		if (true == m_bCheckVolume[4])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	else
 	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			CGameInstance::GetInstance()->SetChannelVolume(i, 0);
-		}
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	Print_OptionText();
 	m_pTextBox->Set_Active(true);
@@ -289,20 +302,29 @@ void CUI_Option_Sound::Apply_Option()
 	}
 	if (true == m_bCheckVolume[0])
 	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			if (true == m_bCheckVolume[i + 1])
-				CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i + 1]);
-			else
-				CGameInstance::GetInstance()->SetChannelVolume(i, 0);
-		}
+		if (true == m_bCheckVolume[1])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		if (true == m_bCheckVolume[2])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		if (true == m_bCheckVolume[3])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		if (true == m_bCheckVolume[4])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	else
 	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			CGameInstance::GetInstance()->SetChannelVolume(i, 0);
-		}
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	Print_OptionText();
 }
@@ -320,20 +342,29 @@ void CUI_Option_Sound::Cancle_Option()
 	}
 	if (true == m_bCheckVolume[0])
 	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			if (true == m_bCheckVolume[i + 1])
-				CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i + 1]);
-			else
-				CGameInstance::GetInstance()->SetChannelVolume(i, 0);
-		}
+		if (true == m_bCheckVolume[1])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		if (true == m_bCheckVolume[2])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		if (true == m_bCheckVolume[3])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		if (true == m_bCheckVolume[4])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	else
 	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			CGameInstance::GetInstance()->SetChannelVolume(i, 0);
-		}
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	Print_OptionText();
 }
@@ -812,17 +843,29 @@ void CUI_Option_Sound::Is_Picking_CheckButton_Master(POINT pt)
 			m_bCheckVolume[0] = !m_bCheckVolume[0];
 			if (false == m_bCheckVolume[0])
 			{
-				for (size_t i = 0; i < 4; i++)
-				{
-					CGameInstance::GetInstance()->SetChannelVolume(i, 0.f);
-				}
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 			}
 			else
 			{
-				for (size_t i = 0; i < 4; i++)
-				{
-					CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i+1]);
-				}
+				if (true == m_bCheckVolume[1])
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
+				else
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+				if (true == m_bCheckVolume[2])
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+				else
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+				if (true == m_bCheckVolume[3])
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
+				else
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+				if (true == m_bCheckVolume[4])
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
+				else
+					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 			}
 		}
 	}
@@ -850,10 +893,10 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BGM(POINT pt)
 			m_bCheckVolume[1] = !m_bCheckVolume[1];
 			if (false == m_bCheckVolume[1])
 			{
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BGM, 0.f);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
 			}
 			else
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BGM, m_fVolume[1]);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
 		}
 	}
 	else
@@ -879,9 +922,11 @@ void CUI_Option_Sound::Is_Picking_CheckButton_UI(POINT pt)
 		{
 			m_bCheckVolume[2] = !m_bCheckVolume[2];
 			if (false == m_bCheckVolume[2])
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_UI, 0.f);
+			{
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+			}
 			else
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_UI, m_fVolume[2]);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
 		}
 	}
 	else
@@ -907,9 +952,11 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BACKGROUND(POINT pt)
 		{
 			m_bCheckVolume[3] = !m_bCheckVolume[3];
 			if (false == m_bCheckVolume[3])
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BACKGROUND, 0.f);
+			{
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+			}
 			else
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BACKGROUND, m_fVolume[3]);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
 		}
 	}
 	else
@@ -934,9 +981,11 @@ void CUI_Option_Sound::Is_Picking_CheckButton_EFFECT(POINT pt)
 		{
 			m_bCheckVolume[4] = !m_bCheckVolume[4];
 			if (false == m_bCheckVolume[4])
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, 0.f);
+			{
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
+			}
 			else
-				CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, m_fVolume[4]);
+				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
 		}
 	}
 	else
@@ -975,9 +1024,23 @@ void CUI_Option_Sound::Update_DragBar()
 		{
 			m_fSoundRatio[i] = (m_fDragBarX[i] - m_fDragLineMinX) / m_fDragLineSizeX;
 			m_fVolume[i] = m_fSoundRatio[i];
-			if(4 > i)
-				CGameInstance::GetInstance()->SetChannelVolume(i, m_fVolume[i]);
 		}
+		if (true == m_bCheckVolume[1])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+		if (true == m_bCheckVolume[2])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+		if (true == m_bCheckVolume[3])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+		if (true == m_bCheckVolume[4])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 	else if (m_bHolding[1])
 	{
@@ -991,7 +1054,10 @@ void CUI_Option_Sound::Update_DragBar()
 		m_fSoundRatio[1] = (m_fDragBarX[1] - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fVolume[1] = m_fSoundRatio[1];
 		Print_OptionText();
-		CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BGM, m_fVolume[1]);
+		if (true == m_bCheckVolume[1])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
 	}
 	else if (m_bHolding[2])
 	{
@@ -1005,7 +1071,10 @@ void CUI_Option_Sound::Update_DragBar()
 		m_fSoundRatio[2] = (m_fDragBarX[2] - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fVolume[2] = m_fSoundRatio[2];
 		Print_OptionText();
-		CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_UI, m_fVolume[2]);
+		if (true == m_bCheckVolume[2])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
 	}
 	else if (m_bHolding[3])
 	{
@@ -1019,7 +1088,10 @@ void CUI_Option_Sound::Update_DragBar()
 		m_fSoundRatio[3] = (m_fDragBarX[3] - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fVolume[3] = m_fSoundRatio[3];
 		Print_OptionText();
-		CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_BACKGROUND, m_fVolume[3]);
+		if (true == m_bCheckVolume[3])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
 	}
 	else if (m_bHolding[4])
 	{
@@ -1033,7 +1105,10 @@ void CUI_Option_Sound::Update_DragBar()
 		m_fSoundRatio[4] = (m_fDragBarX[4] - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fVolume[4] = m_fSoundRatio[4];
 		Print_OptionText();
-		CGameInstance::GetInstance()->SetChannelVolume(CHANNEL_EFFECT, m_fVolume[4]);
+		if (true == m_bCheckVolume[4])
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
+		else
+			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
 	}
 
 	if (KEY_AWAY(KEY::LBTN))
