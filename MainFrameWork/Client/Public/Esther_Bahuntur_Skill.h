@@ -54,7 +54,7 @@ private:
 	_float					m_fTimeAcc = { 0.0f };
 
 	_float					m_fAnimTime = { 1.5f };
-	_bool					m_bEffectStart[2] = { false, false };
+	_bool					m_bEffectStart[3] = { false, false, false };
 
 public:
 	static CEsther_Bahuntur_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
