@@ -30,7 +30,7 @@ HRESULT CSound_Manager::Ready_Sound()
 
 HRESULT CSound_Manager::Add_ChannelGroup(const string& strChannelGroupName, _float fVolume)
 {
-	if (m_ChannelGroups.find(CAsUtils::ToWString(strChannelGroupName)) == m_ChannelGroups.end())
+	if (m_ChannelGroups.find(CAsUtils::ToWString(strChannelGroupName)) != m_ChannelGroups.end())
 		return E_FAIL;
 
 	FMOD_CHANNELGROUP* pChannelGroup = nullptr;
@@ -53,9 +53,19 @@ HRESULT CSound_Manager::PlaySoundFile(const wstring& szChannelGroup, const wstri
 
 	auto& Groupiter = m_ChannelGroups.find(szChannelGroup);
 
-	FMOD_System_PlaySound(m_pSystem, Sounditer->second, Groupiter->second, FALSE, pChannel);
-	FMOD_Channel_SetVolume(*pChannel, fVolume);
+	if (Groupiter == m_ChannelGroups.end())
+		return E_FAIL;
+
+	FMOD_CHANNEL* pNewChannel = nullptr;
+
+	FMOD_System_PlaySound(m_pSystem, Sounditer->second, Groupiter->second, FALSE, &pNewChannel);
+	FMOD_Channel_SetVolume(pNewChannel, fVolume);
 	FMOD_System_Update(m_pSystem);
+
+	if (pChannel != nullptr)
+	{
+		*pChannel = pNewChannel;
+	}
 
 	return S_OK;
 }
@@ -69,11 +79,35 @@ HRESULT CSound_Manager::PlayBGM(const wstring& szChannelGroup, const wstring& st
 
 	auto& Groupiter = m_ChannelGroups.find(szChannelGroup);
 
-	FMOD_System_PlaySound(m_pSystem, Sounditer->second, Groupiter->second, FALSE, pChannel);
-	FMOD_Channel_SetVolume(*pChannel, fVolume);
-	FMOD_Channel_SetMode(*pChannel, FMOD_LOOP_NORMAL);
+	if (Groupiter == m_ChannelGroups.end())
+		return E_FAIL;
+
+	FMOD_CHANNEL* pNewChannel = nullptr;
+
+	FMOD_System_PlaySound(m_pSystem, Sounditer->second, Groupiter->second, FALSE, &pNewChannel);
+	FMOD_Channel_SetVolume(pNewChannel, fVolume);
+	FMOD_Channel_SetMode(pNewChannel, FMOD_LOOP_NORMAL);
 	FMOD_System_Update(m_pSystem);
 
+	if (pChannel != nullptr)
+	{
+		*pChannel = pNewChannel;
+	}
+
+	return S_OK;
+}
+HRESULT CSound_Manager::PlaySoundFile_AddChannel(const wstring& szChannelTag, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume)
+{
+	FMOD_CHANNEL* pChannel = nullptr;
+	PlaySoundFile(szChannelGroup, strSoundKey, fVolume, &pChannel);
+	Add_Channel(szChannelTag, pChannel);
+	return S_OK;
+}
+HRESULT CSound_Manager::PlayBGM_AddChannel(const wstring& szChannelTag, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume)
+{
+	FMOD_CHANNEL* pChannel = nullptr;
+	PlayBGM(szChannelGroup, strSoundKey, fVolume, &pChannel);
+	Add_Channel(szChannelTag, pChannel);
 	return S_OK;
 }
 void CSound_Manager::Set_ChannelGroupVolume(const wstring& szChannelGroup, _float fVolume)

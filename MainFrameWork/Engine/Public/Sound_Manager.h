@@ -23,6 +23,9 @@ public:
 	HRESULT PlaySoundFile(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 	HRESULT PlayBGM(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 
+	HRESULT PlaySoundFile_AddChannel(const wstring & szChannelTag, const wstring & szChannelGroup, const wstring & strSoundKey, _float fVolume);
+	HRESULT PlayBGM_AddChannel(const wstring & szChannelTag, const wstring & szChannelGroup, const wstring & strSoundKey, _float fVolume);
+
 	void	Set_ChannelGroupVolume(const wstring& szChannelGroup, _float fVolume);
 	_float	Get_ChannelGroupVolume(const wstring& szChannelGroup);
 

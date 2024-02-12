@@ -107,7 +107,6 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
-
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"CastleBern.wav", 0.5f);
 
 	if (m_bFirstEnter)
