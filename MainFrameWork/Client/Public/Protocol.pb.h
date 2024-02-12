@@ -3701,8 +3701,9 @@ class S_HP final :
   enum : int {
     kIObjectIDFieldNumber = 1,
     kILevelFieldNumber = 2,
-    kILayerFieldNumber = 3,
     kIHPFieldNumber = 4,
+    kIMaxHPFieldNumber = 5,
+    kILayerFieldNumber = 3,
   };
   // int32 iObjectID = 1;
   void clear_iobjectid();
@@ -3722,6 +3723,24 @@ class S_HP final :
   void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int64 iHP = 4;
+  void clear_ihp();
+  ::PROTOBUF_NAMESPACE_ID::int64 ihp() const;
+  void set_ihp(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_ihp() const;
+  void _internal_set_ihp(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int64 iMaxHP = 5;
+  void clear_imaxhp();
+  ::PROTOBUF_NAMESPACE_ID::int64 imaxhp() const;
+  void set_imaxhp(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_imaxhp() const;
+  void _internal_set_imaxhp(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
   // int32 iLayer = 3;
   void clear_ilayer();
   ::PROTOBUF_NAMESPACE_ID::int32 ilayer() const;
@@ -3729,15 +3748,6 @@ class S_HP final :
   private:
   ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilayer() const;
   void _internal_set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 iHP = 4;
-  void clear_ihp();
-  ::PROTOBUF_NAMESPACE_ID::int32 ihp() const;
-  void set_ihp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ihp() const;
-  void _internal_set_ihp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_HP)
@@ -3749,8 +3759,9 @@ class S_HP final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::int32 iobjectid_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  ::PROTOBUF_NAMESPACE_ID::int64 ihp_;
+  ::PROTOBUF_NAMESPACE_ID::int64 imaxhp_;
   ::PROTOBUF_NAMESPACE_ID::int32 ilayer_;
-  ::PROTOBUF_NAMESPACE_ID::int32 ihp_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -8169,24 +8180,44 @@ inline void S_HP::set_ilayer(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:Protocol.S_HP.iLayer)
 }
 
-// int32 iHP = 4;
+// int64 iHP = 4;
 inline void S_HP::clear_ihp() {
-  ihp_ = 0;
+  ihp_ = int64_t{0};
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_HP::_internal_ihp() const {
+inline ::PROTOBUF_NAMESPACE_ID::int64 S_HP::_internal_ihp() const {
   return ihp_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_HP::ihp() const {
+inline ::PROTOBUF_NAMESPACE_ID::int64 S_HP::ihp() const {
   // @@protoc_insertion_point(field_get:Protocol.S_HP.iHP)
   return _internal_ihp();
 }
-inline void S_HP::_internal_set_ihp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void S_HP::_internal_set_ihp(::PROTOBUF_NAMESPACE_ID::int64 value) {
   
   ihp_ = value;
 }
-inline void S_HP::set_ihp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void S_HP::set_ihp(::PROTOBUF_NAMESPACE_ID::int64 value) {
   _internal_set_ihp(value);
   // @@protoc_insertion_point(field_set:Protocol.S_HP.iHP)
+}
+
+// int64 iMaxHP = 5;
+inline void S_HP::clear_imaxhp() {
+  imaxhp_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 S_HP::_internal_imaxhp() const {
+  return imaxhp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 S_HP::imaxhp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_HP.iMaxHP)
+  return _internal_imaxhp();
+}
+inline void S_HP::_internal_set_imaxhp(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  imaxhp_ = value;
+}
+inline void S_HP::set_imaxhp(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_imaxhp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_HP.iMaxHP)
 }
 
 // -------------------------------------------------------------------

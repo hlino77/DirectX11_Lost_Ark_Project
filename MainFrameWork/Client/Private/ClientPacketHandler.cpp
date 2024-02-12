@@ -433,8 +433,11 @@ bool Handel_S_HP_Client(PacketSessionRef& session, Protocol::S_HP& pkt)
 		Safe_Release(pGameInstance);
 		return true;
 	}
-
-	pObject->Set_Hp(pkt.ihp());
+	
+	CGameObject::STATDESC tDesc = pObject->Get_PlayerStat_Desc();
+	tDesc.iCurHp = pkt.ihp();
+	tDesc.iMaxHp = pkt.imaxhp();
+	pObject->Set_PlayerStat_Desc(tDesc);
 
 	Safe_Release(pGameInstance);
 

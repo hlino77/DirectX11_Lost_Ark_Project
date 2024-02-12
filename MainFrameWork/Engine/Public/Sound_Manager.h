@@ -35,6 +35,9 @@ public:
 	void	Set_Channel_Volume(const wstring & szChannelTag, _float fVolume);
 	_float	Get_Channel_Volume(const wstring & szChannelTag);
 
+	_bool	Is_Channel_Playing(const wstring & szChannelTag);
+	_bool	Is_Channel_Playing(FMOD_CHANNEL* pChannel);
+
 	void	Add_Channel(const wstring & szChannelTag, FMOD_CHANNEL* pChannel);
 
 	void	Stop_SoundAll();

@@ -317,8 +317,9 @@ constexpr S_HP::S_HP(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : iobjectid_(0)
   , ilevel_(0)
-  , ilayer_(0)
-  , ihp_(0){}
+  , ihp_(int64_t{0})
+  , imaxhp_(int64_t{0})
+  , ilayer_(0){}
 struct S_HPDefaultTypeInternal {
   constexpr S_HPDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -717,6 +718,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::S_HP, ilevel_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_HP, ilayer_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_HP, ihp_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_HP, imaxhp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_CREATE_PLAYER, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -857,19 +859,19 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 163, -1, sizeof(::Protocol::S_EVENT)},
   { 170, -1, sizeof(::Protocol::S_SKILLEXPLOSION)},
   { 176, -1, sizeof(::Protocol::S_HP)},
-  { 185, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
-  { 200, -1, sizeof(::Protocol::S_CHAT)},
-  { 208, -1, sizeof(::Protocol::S_MONSTERSTATE)},
-  { 220, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
-  { 227, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
-  { 235, -1, sizeof(::Protocol::S_IDENTITY)},
-  { 244, -1, sizeof(::Protocol::S_PARTY)},
-  { 252, -1, sizeof(::Protocol::S_NPC)},
-  { 260, -1, sizeof(::Protocol::S_NAVIGATION)},
-  { 268, -1, sizeof(::Protocol::S_CREATE_SKILL)},
-  { 278, -1, sizeof(::Protocol::S_BUFF_SKILL)},
-  { 286, -1, sizeof(::Protocol::S_PLAYERTELEPORT)},
-  { 294, -1, sizeof(::Protocol::S_CHANGEEQUIP)},
+  { 186, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
+  { 201, -1, sizeof(::Protocol::S_CHAT)},
+  { 209, -1, sizeof(::Protocol::S_MONSTERSTATE)},
+  { 221, -1, sizeof(::Protocol::S_PLAYERLEVELMOVE)},
+  { 228, -1, sizeof(::Protocol::S_DELETEGAMEOBJECT)},
+  { 236, -1, sizeof(::Protocol::S_IDENTITY)},
+  { 245, -1, sizeof(::Protocol::S_PARTY)},
+  { 253, -1, sizeof(::Protocol::S_NPC)},
+  { 261, -1, sizeof(::Protocol::S_NAVIGATION)},
+  { 269, -1, sizeof(::Protocol::S_CREATE_SKILL)},
+  { 279, -1, sizeof(::Protocol::S_BUFF_SKILL)},
+  { 287, -1, sizeof(::Protocol::S_PLAYERTELEPORT)},
+  { 295, -1, sizeof(::Protocol::S_CHANGEEQUIP)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -958,41 +960,41 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "hake\030\001 \001(\002\022\022\n\nfShakeTime\030\002 \001(\002\"+\n\007S_EVEN"
   "T\022\020\n\010iEventID\030\001 \001(\005\022\016\n\006iState\030\002 \001(\005\"9\n\020S"
   "_SKILLEXPLOSION\022%\n\007tObject\030\001 \001(\0132\024.Proto"
-  "col.ObjectInfo\"F\n\004S_HP\022\021\n\tiObjectID\030\001 \001("
+  "col.ObjectInfo\"V\n\004S_HP\022\021\n\tiObjectID\030\001 \001("
   "\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\013\n\003iHP"
-  "\030\004 \001(\005\"\331\001\n\017S_CREATE_PLAYER\022\021\n\tiObjectID\030"
-  "\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iClass\030\003 \001(\005\022\021\n"
-  "\tbControll\030\004 \001(\010\022\024\n\010matWorld\030\005 \003(\002B\002\020\001\022\023"
-  "\n\013strNickName\030\006 \001(\014\022\026\n\nvTargetPos\030\007 \003(\002B"
-  "\002\020\001\022\020\n\010strState\030\010 \001(\t\022\024\n\014iWeaponIndex\030\t "
-  "\001(\005\022\025\n\tItemCodes\030\n \003(\005B\002\020\001\";\n\006S_CHAT\022\021\n\t"
-  "iObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006szCha"
-  "t\030\003 \001(\014\"\242\001\n\016S_MONSTERSTATE\022\021\n\tiObjectID\030"
-  "\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\020\n"
-  "\010strState\030\004 \001(\t\022\032\n\022iTargetObjectLayer\030\005 "
-  "\001(\005\022\027\n\017iTargetObjectID\030\006 \001(\005\022\026\n\nvTargetP"
-  "os\030\007 \003(\002B\002\020\001\";\n\021S_PLAYERLEVELMOVE\022\022\n\niCu"
-  "rrLevel\030\001 \001(\005\022\022\n\niNextLevel\030\002 \001(\005\"G\n\022S_D"
-  "ELETEGAMEOBJECT\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iL"
-  "evel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\"U\n\nS_IDENTITY"
-  "\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006i"
-  "Layer\030\003 \001(\005\022\024\n\014iWeaponIndex\030\004 \001(\005\"\227\001\n\007S_"
-  "PARTY\022,\n\014tCreateParty\030\001 \003(\0132\026.Protocol.C"
-  "reate_Party\022(\n\ntJoinParty\030\002 \003(\0132\024.Protoc"
-  "ol.Join_Party\0224\n\020tInvitationParty\030\003 \003(\0132"
-  "\032.Protocol.Invitation_Party\">\n\005S_NPC\022\021\n\t"
-  "iPlayerID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\022\n\nstrNP"
-  "CName\030\003 \001(\t\"C\n\014S_NAVIGATION\022\016\n\006iLevel\030\001 "
-  "\001(\005\022\017\n\007bActive\030\002 \001(\010\022\022\n\006iIndex\030\003 \003(\005B\002\020\001"
-  "\"m\n\016S_CREATE_SKILL\022\021\n\tiPlayerID\030\001 \001(\005\022\016\n"
-  "\006iLevel\030\002 \001(\005\022\020\n\010iSkillID\030\003 \001(\005\022\022\n\niSkil"
-  "lType\030\004 \001(\005\022\022\n\006Matrix\030\005 \003(\002B\002\020\001\"C\n\014S_BUF"
-  "F_SKILL\022\016\n\006iLevel\030\001 \001(\005\022\021\n\tiPlayerID\030\002 \001"
-  "(\005\022\020\n\010iSkillID\030\003 \001(\005\"I\n\020S_PLAYERTELEPORT"
-  "\022\016\n\006iLevel\030\001 \001(\005\022\021\n\tiPlayerID\030\002 \001(\005\022\022\n\006M"
-  "atrix\030\003 \003(\002B\002\020\001\"I\n\rS_CHANGEEQUIP\022\016\n\006iLev"
-  "el\030\001 \001(\005\022\021\n\tiPlayerID\030\002 \001(\005\022\025\n\tItemCodes"
-  "\030\003 \003(\005B\002\020\001b\006proto3"
+  "\030\004 \001(\003\022\016\n\006iMaxHP\030\005 \001(\003\"\331\001\n\017S_CREATE_PLAY"
+  "ER\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n"
+  "\006iClass\030\003 \001(\005\022\021\n\tbControll\030\004 \001(\010\022\024\n\010matW"
+  "orld\030\005 \003(\002B\002\020\001\022\023\n\013strNickName\030\006 \001(\014\022\026\n\nv"
+  "TargetPos\030\007 \003(\002B\002\020\001\022\020\n\010strState\030\010 \001(\t\022\024\n"
+  "\014iWeaponIndex\030\t \001(\005\022\025\n\tItemCodes\030\n \003(\005B\002"
+  "\020\001\";\n\006S_CHAT\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLeve"
+  "l\030\002 \001(\005\022\016\n\006szChat\030\003 \001(\014\"\242\001\n\016S_MONSTERSTA"
+  "TE\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n"
+  "\006iLayer\030\003 \001(\005\022\020\n\010strState\030\004 \001(\t\022\032\n\022iTarg"
+  "etObjectLayer\030\005 \001(\005\022\027\n\017iTargetObjectID\030\006"
+  " \001(\005\022\026\n\nvTargetPos\030\007 \003(\002B\002\020\001\";\n\021S_PLAYER"
+  "LEVELMOVE\022\022\n\niCurrLevel\030\001 \001(\005\022\022\n\niNextLe"
+  "vel\030\002 \001(\005\"G\n\022S_DELETEGAMEOBJECT\022\021\n\tiObje"
+  "ctID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\016\n\006iLayer\030\003 \001"
+  "(\005\"U\n\nS_IDENTITY\022\021\n\tiObjectID\030\001 \001(\005\022\016\n\006i"
+  "Level\030\002 \001(\005\022\016\n\006iLayer\030\003 \001(\005\022\024\n\014iWeaponIn"
+  "dex\030\004 \001(\005\"\227\001\n\007S_PARTY\022,\n\014tCreateParty\030\001 "
+  "\003(\0132\026.Protocol.Create_Party\022(\n\ntJoinPart"
+  "y\030\002 \003(\0132\024.Protocol.Join_Party\0224\n\020tInvita"
+  "tionParty\030\003 \003(\0132\032.Protocol.Invitation_Pa"
+  "rty\">\n\005S_NPC\022\021\n\tiPlayerID\030\001 \001(\005\022\016\n\006iLeve"
+  "l\030\002 \001(\005\022\022\n\nstrNPCName\030\003 \001(\t\"C\n\014S_NAVIGAT"
+  "ION\022\016\n\006iLevel\030\001 \001(\005\022\017\n\007bActive\030\002 \001(\010\022\022\n\006"
+  "iIndex\030\003 \003(\005B\002\020\001\"m\n\016S_CREATE_SKILL\022\021\n\tiP"
+  "layerID\030\001 \001(\005\022\016\n\006iLevel\030\002 \001(\005\022\020\n\010iSkillI"
+  "D\030\003 \001(\005\022\022\n\niSkillType\030\004 \001(\005\022\022\n\006Matrix\030\005 "
+  "\003(\002B\002\020\001\"C\n\014S_BUFF_SKILL\022\016\n\006iLevel\030\001 \001(\005\022"
+  "\021\n\tiPlayerID\030\002 \001(\005\022\020\n\010iSkillID\030\003 \001(\005\"I\n\020"
+  "S_PLAYERTELEPORT\022\016\n\006iLevel\030\001 \001(\005\022\021\n\tiPla"
+  "yerID\030\002 \001(\005\022\022\n\006Matrix\030\003 \003(\002B\002\020\001\"I\n\rS_CHA"
+  "NGEEQUIP\022\016\n\006iLevel\030\001 \001(\005\022\021\n\tiPlayerID\030\002 "
+  "\001(\005\022\025\n\tItemCodes\030\003 \003(\005B\002\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -1000,7 +1002,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 3298, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 3314, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 34,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -6455,16 +6457,16 @@ S_HP::S_HP(const S_HP& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&iobjectid_, &from.iobjectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&ihp_) -
-    reinterpret_cast<char*>(&iobjectid_)) + sizeof(ihp_));
+    static_cast<size_t>(reinterpret_cast<char*>(&ilayer_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(ilayer_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_HP)
 }
 
 void S_HP::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&iobjectid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&ihp_) -
-    reinterpret_cast<char*>(&iobjectid_)) + sizeof(ihp_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&ilayer_) -
+    reinterpret_cast<char*>(&iobjectid_)) + sizeof(ilayer_));
 }
 
 S_HP::~S_HP() {
@@ -6494,8 +6496,8 @@ void S_HP::Clear() {
   (void) cached_has_bits;
 
   ::memset(&iobjectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&ihp_) -
-      reinterpret_cast<char*>(&iobjectid_)) + sizeof(ihp_));
+      reinterpret_cast<char*>(&ilayer_) -
+      reinterpret_cast<char*>(&iobjectid_)) + sizeof(ilayer_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -6526,10 +6528,17 @@ const char* S_HP::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 iHP = 4;
+      // int64 iHP = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           ihp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int64 iMaxHP = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          imaxhp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -6580,10 +6589,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_ilayer(), target);
   }
 
-  // int32 iHP = 4;
+  // int64 iHP = 4;
   if (this->ihp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_ihp(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(4, this->_internal_ihp(), target);
+  }
+
+  // int64 iMaxHP = 5;
+  if (this->imaxhp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(5, this->_internal_imaxhp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -6616,18 +6631,25 @@ size_t S_HP::ByteSizeLong() const {
         this->_internal_ilevel());
   }
 
+  // int64 iHP = 4;
+  if (this->ihp() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_ihp());
+  }
+
+  // int64 iMaxHP = 5;
+  if (this->imaxhp() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_imaxhp());
+  }
+
   // int32 iLayer = 3;
   if (this->ilayer() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_ilayer());
-  }
-
-  // int32 iHP = 4;
-  if (this->ihp() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_ihp());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -6667,11 +6689,14 @@ void S_HP::MergeFrom(const S_HP& from) {
   if (from.ilevel() != 0) {
     _internal_set_ilevel(from._internal_ilevel());
   }
-  if (from.ilayer() != 0) {
-    _internal_set_ilayer(from._internal_ilayer());
-  }
   if (from.ihp() != 0) {
     _internal_set_ihp(from._internal_ihp());
+  }
+  if (from.imaxhp() != 0) {
+    _internal_set_imaxhp(from._internal_imaxhp());
+  }
+  if (from.ilayer() != 0) {
+    _internal_set_ilayer(from._internal_ilayer());
   }
 }
 
@@ -6697,8 +6722,8 @@ void S_HP::InternalSwap(S_HP* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_HP, ihp_)
-      + sizeof(S_HP::ihp_)
+      PROTOBUF_FIELD_OFFSET(S_HP, ilayer_)
+      + sizeof(S_HP::ilayer_)
       - PROTOBUF_FIELD_OFFSET(S_HP, iobjectid_)>(
           reinterpret_cast<char*>(&iobjectid_),
           reinterpret_cast<char*>(&other->iobjectid_));

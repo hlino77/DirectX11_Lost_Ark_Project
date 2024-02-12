@@ -1152,10 +1152,11 @@ void CPlayer::Send_Hp()
 {
 	Protocol::S_HP pkt;
 
-	pkt.set_ilevel(CGameInstance::GetInstance()->Get_CurrLevelIndex());
+	pkt.set_ilevel(m_iCurrLevel);
 	pkt.set_ilayer(m_iLayer);
 	pkt.set_iobjectid(m_iObjectID);
-	pkt.set_ihp((int32)m_iHp);
+	pkt.set_ihp(m_tPCStatDesc.iCurHp);
+	pkt.set_imaxhp(m_tPCStatDesc.iMaxHp);
 
 	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);

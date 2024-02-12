@@ -308,24 +308,6 @@ bool Handel_S_HP_Server(PacketSessionRef& session, Protocol::S_HP& pkt)
 	SendBufferRef pBuffer = CServerPacketHandler::MakeSendBuffer(pkt);
 	CGameSessionManager::GetInstance()->Broadcast_Others(pBuffer, session->GetSessionID());
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-
-
-	CGameObject* pObject = pGameInstance->Find_GameObject(pkt.ilevel(), pkt.ilayer(), pkt.iobjectid());
-
-	if (pObject == nullptr)
-	{
-		Safe_Release(pGameInstance);
-		return true;
-	}
-
-
-	pObject->Set_Hp(pkt.ihp());
-
-	Safe_Release(pGameInstance);
-
 	return true;
 }
 

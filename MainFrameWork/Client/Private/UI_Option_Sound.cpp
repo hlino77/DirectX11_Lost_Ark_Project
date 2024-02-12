@@ -16,7 +16,6 @@ CUI_Option_Sound::CUI_Option_Sound(const CUI& rhs)
 {
 }
 
-
 HRESULT CUI_Option_Sound::Initialize_Prototype()
 {
 	return S_OK;

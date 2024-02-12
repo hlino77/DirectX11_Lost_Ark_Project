@@ -166,6 +166,29 @@ _float CSound_Manager::Get_Channel_Volume(const wstring& szChannelTag)
 	return fVolume;
 }
 
+_bool CSound_Manager::Is_Channel_Playing(const wstring& szChannelTag)
+{
+	auto& iter = m_Channels.find(szChannelTag);
+
+	if (iter == m_Channels.end())
+		return false;
+
+	FMOD_BOOL bPlaying;
+
+	FMOD_Channel_IsPlaying(iter->second, &bPlaying);
+
+	return bPlaying;
+}
+
+_bool CSound_Manager::Is_Channel_Playing(FMOD_CHANNEL* pChannel)
+{
+	FMOD_BOOL bPlaying;
+
+	FMOD_Channel_IsPlaying(pChannel, &bPlaying);
+
+	return pChannel;
+}
+
 void CSound_Manager::Add_Channel(const wstring& szChannelTag, FMOD_CHANNEL* pChannel)
 {
 	auto& iter = m_Channels.find(szChannelTag);
