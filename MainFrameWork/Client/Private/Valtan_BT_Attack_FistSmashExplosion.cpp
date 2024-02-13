@@ -39,6 +39,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float&
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 31&& m_bShoot)
 	{
 		m_bShoot = false;
+		Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#106 (917948767)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.2f, 100.0f, 0.5f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -55,6 +56,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float&
 			vPos += vLook * 0.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			static_cast<CSkill*>(pSkill)->Set_SphereRadius(5.5f);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutTerm2sec", &ModelDesc);
@@ -64,7 +66,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float&
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);		
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#112 (934806095).wav");
+			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(12.5f, 3.5f);
 		}
 
 
@@ -101,13 +105,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float&
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
-				static_cast<CSkill*>(pSkill)->Set_BlinkTime(3.6f);
-				static_cast<CSkill*>(pSkill)->Set_LastTime(3.8f);
+				static_cast<CSkill*>(pSkill)->Set_BlinkTime(3.4f);
+				static_cast<CSkill*>(pSkill)->Set_LastTime(3.6f);
+				static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#37 (464077464).wav");
 			}
 
 			m_bLastAttack = true;
 		}
 	}
+	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#307 (599260869)");
 
 	return __super::OnUpdate(fTimeDelta);
 }

@@ -148,9 +148,12 @@ public:
 	void					Load_WorldMatrix(Matrix& matWorld);
 	CBehaviorTree*			Get_BehaviorTree() { return m_pBehaviorTree; }
 	CPartObject* Get_Weapon() { return m_pWeapon; }
-virtual	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
-virtual	void Set_Weapon_Render(_bool IsRender);
-virtual	void Set_Weapon_RimLight(_float fTime, _float fColor);
+	virtual	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
+	virtual	void Set_Weapon_Render(_bool IsRender);
+	virtual	void Set_Weapon_RimLight(_float fTime, _float fColor);
+
+	Vec2					Get_DoughnutRadii() { return m_vDoughnutRadii; }
+
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -181,10 +184,13 @@ protected:
 	_uint	m_iHitCount = 0;
 	_uint	m_iGroggyCount = 0;
 	_uint	m_iMaxGroggyCount = 0;
+
+	//Test¿ë
 	_bool							m_bDbgCout = false;
 	_float							m_fTimeCount = 0.f;
 	_bool							m_bTest = false;
-
+	Vec2							m_vDoughnutRadii = {5.f,10.f};
+	
 	//HPUI
 	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };
 	BOSS_TYPE m_eBossType = { BOSS_TYPE::BOSS_END };

@@ -52,6 +52,8 @@ public:
 	virtual	void	OnCollisionStay(const _uint iColLayer, class CCollider* pOther) override;
 	virtual	void	OnCollisionExit(const _uint iColLayer, class CCollider* pOther) override;
 
+	void Set_SphereRadius(_float fRadius);
+
 	void Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius);
 
 	void Set_PizzaRadii(_float OutsideRadius, _float InsideRadius);

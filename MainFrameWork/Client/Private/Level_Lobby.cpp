@@ -62,7 +62,7 @@ HRESULT CLevel_Lobby::Initialize()
 
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
-	
+
 	return S_OK;
 }
 

@@ -43,8 +43,11 @@ public:
 
 	virtual void On_LastAnimEnd();
 
-	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, _int iAnimFrame = 0, FMOD_CHANNEL** pChannel = nullptr);	
-	void Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
+	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame = 0, _float fVolume = 0.5f, FMOD_CHANNEL** pChannel = nullptr);
+	void Add_Sound_Channel(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame = 0, _float fVolume = 0.5f);
+
+	void Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume = 0.5f, FMOD_CHANNEL** pChannel = nullptr);
+	void Add_Sound_Channel(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume = 0.5f);
 
 
 	virtual    void		OnEnd();
@@ -56,9 +59,11 @@ public:
 	ANIMATION_DESC Get_CurrentAnimDesc() { return m_vecAnimDesc[m_iCurrAnimation]; }
 
 protected:
+	void						Reset_Sound();
+
 	_int						m_iMaxSound = 20;
 	_int						m_iCurrAnimation = 0;
-	vector<ANIMATION_DESC>	m_vecAnimDesc;
+	vector<ANIMATION_DESC>		m_vecAnimDesc;
 	_float						m_fFrame = 0.f;
 	_bool*						m_bSoundOn;
 	wstring						m_strActionName;

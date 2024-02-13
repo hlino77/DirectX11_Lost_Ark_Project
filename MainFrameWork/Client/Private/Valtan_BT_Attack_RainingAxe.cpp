@@ -67,9 +67,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				EFFECT_START(L"VTAxeRainEndWarning", &tDesc);
 			}
 			if (CGameInstance::GetInstance()->Random_Coin(0.5f))
-				Add_Sound( L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#117 (516386150)", 1.f );
+				Add_Sound( L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#117 (516386150)");
 			else
-				Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#118 (282820102)", 1.f);
+				Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#118 (282820102)");
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())
 				for (auto& Object : vecTargets)
@@ -158,12 +158,13 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 			}
 		}
 	}
+
 	//Sound
 	{
-		Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", 1.f);
-		Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", 1.f, 24);
-		Add_Sound(2, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785).wav", 1.f, 7);
-		Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#42 (236377491)", 1.f, 7);
+		Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)");
+		Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", 24);
+		Add_Sound(2, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785).wav", 7);
+		Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#42 (236377491)", 7);
 	}
 
 	return __super::OnUpdate(fTimeDelta);

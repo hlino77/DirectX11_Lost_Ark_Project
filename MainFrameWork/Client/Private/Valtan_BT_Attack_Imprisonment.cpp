@@ -44,6 +44,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment::OnUpdate(const _float& fTime
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(7.5f);
 			static_cast<CSkill*>(pSkill)->Set_Force(-16.f);
+			static_cast<CSkill*>(pSkill)->Set_Atk(0);
 		}
 
 	}
@@ -68,19 +69,24 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment::OnUpdate(const _float& fTime
 				{
 					Vec3 vPos = pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 					Vec3 vLook = pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+					vPos.y = 1.f;
 					vLook.Normalize();
 					pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 					pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 					pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
-					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
-					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f);
-					static_cast<CSkill*>(pSkill)->Set_Force(10.f);
+					static_cast<CSkill*>(pSkill)->Set_LastTime(1.7f);
+					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.5f);
+					static_cast<CSkill*>(pSkill)->Set_Atk(300);
+					static_cast<CSkill*>(pSkill)->Set_Force(32.f);
+					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#174 (382422605).wav");
 				}
 				pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)->SetActive(false);
 
 			}
 		}
 	}
+	Add_Sound_Channel(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#168 (479550205)");
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

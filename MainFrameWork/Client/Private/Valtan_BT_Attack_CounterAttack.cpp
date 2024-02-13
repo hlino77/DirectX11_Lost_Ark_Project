@@ -106,11 +106,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack::OnUpdate(const _float& fTim
 			static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[m_iCurrAnimation].strAnimName, m_vecAnimDesc[m_iCurrAnimation].fChangeTime, m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fAnimSpeed);
 		}
 	}
-	Add_Sound(0, 0,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#83 (499068403)", 1.f);
-	Add_Sound(0, 1,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)", 1.f, 39);
-	Add_Sound(0, 4,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", 1.f, 39);
-	Add_Sound(2, 3,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#85 (208205469)", 1.f);
-	Add_Sound(2, 2,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#90 (338015342)", 1.f);
+	Add_Sound_Channel(0, 0,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#83 (499068403)");
+	Add_Sound_Channel(0, 1,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)",  39);
+	Add_Sound_Channel(0, 4,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)", 39);
+	Add_Sound(2, 3,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#85 (208205469)");
+	Add_Sound(2, 2,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#90 (338015342)");
 	return BT_RUNNING;
 }
 
@@ -121,7 +121,9 @@ void CValtan_BT_Attack_CounterAttack::OnEnd()
 	{
 		dynamic_cast<CEffect_Particle*>(Particle)->ParticleEnd();
 	}
-	//CGameInstance::GetInstance()->Find_Stop_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)");
+	CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#83 (499068403)");
+	CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)");
+	CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)");
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 

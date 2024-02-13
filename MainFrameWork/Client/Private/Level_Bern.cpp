@@ -109,7 +109,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
-	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"CastleBern.wav", 0.5f);
+	CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
 
 	if (m_bFirstEnter)
 	{
@@ -155,7 +155,6 @@ HRESULT CLevel_Bern::Exit()
 	
 	if (FAILED(pGameInstance->Clear_LightShadowTexture()))
 		return E_FAIL;
-	
 	CPhysXMgr::GetInstance()->Reset();
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_BERN);
 	CGameInstance::GetInstance()->Reset_Lights();

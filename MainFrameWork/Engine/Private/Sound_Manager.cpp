@@ -239,6 +239,46 @@ void CSound_Manager::Add_Channel(const wstring& szChannelTag, FMOD_CHANNEL* pCha
 	m_Channels[szChannelTag] = pChannel;
 }
 
+void CSound_Manager::Pause_Channel(const wstring& szChannelTag)
+{
+	FMOD_CHANNEL* pChannel = Find_Channel(szChannelTag);
+	if (pChannel != nullptr)
+	{
+		FMOD_Channel_SetPaused(pChannel, true);
+	}
+
+}
+
+void CSound_Manager::Pause_Channel(FMOD_CHANNEL* pChannel)
+{
+	FMOD_Channel_SetPaused(pChannel, true);
+}
+
+void CSound_Manager::Resume_Channel(const wstring& szChannelTag)
+{
+	FMOD_CHANNEL* pChannel = Find_Channel(szChannelTag);
+	if (pChannel != nullptr)
+	{
+		FMOD_Channel_SetPaused(pChannel, false);
+	}
+
+}
+
+void CSound_Manager::Resume_Channel(FMOD_CHANNEL* pChannel)
+{
+		FMOD_Channel_SetPaused(pChannel, false);
+}
+
+FMOD_CHANNEL* CSound_Manager::Find_Channel(const wstring& szChannelTag)
+{
+	auto& iter = m_Channels.find(szChannelTag);
+
+	if (iter != m_Channels.end())
+		return iter->second;
+	else
+		return nullptr;
+}
+
 void CSound_Manager::Stop_SoundAll()
 {
 	for (auto& iter : m_ChannelGroups)

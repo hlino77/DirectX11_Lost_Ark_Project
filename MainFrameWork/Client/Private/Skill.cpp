@@ -97,12 +97,14 @@ void CSkill::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 {
 	
 }
+void CSkill::Set_SphereRadius( _float fRadius)
+{
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(fRadius);
+}
 
 void CSkill::Set_DoughnutRadii(_float OutsideRadius, _float InsideRadius)
 {
 	if (m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child()->GetColliderType() != ColliderType::Doughnut)
-		return;
-	if (OutsideRadius <= InsideRadius)
 		return;
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(OutsideRadius);
 
