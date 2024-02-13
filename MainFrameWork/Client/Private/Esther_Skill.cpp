@@ -120,7 +120,7 @@ HRESULT CEsther_Skill::Render_ShadowDepth()
 }
 
 
-void CEsther_Skill::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, _int iAnimFrame)
+void CEsther_Skill::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame, _float fVolume)
 {
 	if (m_pModelCom->Get_CurrAnim() == iAnimIndex && m_pModelCom->Get_Anim_Frame(iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
 	{

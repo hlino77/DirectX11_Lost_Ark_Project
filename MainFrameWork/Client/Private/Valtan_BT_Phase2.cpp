@@ -182,15 +182,15 @@ CBT_Node::BT_RETURN CValtan_BT_Phase2::OnUpdate(const _float& fTimeDelta)
 		fLength += m_fCameraSpeed * fTimeDelta;
 		pCamera->Set_CameraLength(fLength);
 	}
-	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", 1.f, 23);
-	Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", 1.f, 23);
+	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", 23);
+	Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", 23);
 				
-	Add_Sound(2, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551)", 1.f, 9);
-	Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#392 (75108078)", 1.f, 9);
-	Add_Sound(2, 6, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)", 1.f, 9);
+	Add_Sound(2, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551)",  9);
+	Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#392 (75108078)",  9);
+	Add_Sound(2, 6, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)",  9);
 				
-	Add_Sound(3, 4, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#50 (428724023)", 1.f, 41);
-	Add_Sound(3, 5, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#237 (128183717)", 1.f, 65);
+	Add_Sound(3, 4, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#50 (428724023)",  41);
+	Add_Sound(3, 5, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#237 (128183717)",  65);
 	
 	return __super::OnUpdate(fTimeDelta);
 }

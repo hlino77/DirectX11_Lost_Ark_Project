@@ -74,7 +74,7 @@ HRESULT CBoss_Valtan_Corpse::Initialize(void* pArg)
 	m_iPhase = 1;
 	m_fFontScale = 0.55f;
 	m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_19_06"), 0.1f), 0.f, 0, 0);
-	Set_DissolveOut(4.f);
+	Set_DissolveOut(6.f);
 	return S_OK;
 }
 

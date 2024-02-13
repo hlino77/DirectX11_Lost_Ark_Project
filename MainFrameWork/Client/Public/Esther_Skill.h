@@ -48,9 +48,9 @@ public:
 	virtual HRESULT			Render();
 	virtual HRESULT			Render_ShadowDepth();
 
-	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, _int iAnimFrame);
+	void Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame=0, _float fVolume=0.5f);
 
-	void Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume);
+	void Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume = 0.5f);
 
 
 public:

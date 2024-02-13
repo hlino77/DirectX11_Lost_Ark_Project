@@ -121,7 +121,7 @@ void CBT_Action::On_LastAnimEnd()
 
 }
 
-void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume,_int iAnimFrame, FMOD_CHANNEL** pChannel)
+void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame, _float fVolume, FMOD_CHANNEL** pChannel)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
 	{
@@ -130,9 +130,23 @@ void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& s
 	}
 }
 
+void CBT_Action::Add_Sound_Channel(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame, _float fVolume)
+{
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
+	{
+		m_bSoundOn[iSoundOnIndex] = true;
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(strSoundKey, szChannelGroup, strSoundKey + L".wav", fVolume);
+	}
+}
+
 void CBT_Action::Add_Sound(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel)
 {
 	CSound_Manager::GetInstance()->PlaySoundFile(szChannelGroup, strSoundKey + L".wav", fVolume, pChannel);
+}
+
+void CBT_Action::Add_Sound_Channel(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume)
+{
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(strSoundKey, szChannelGroup, strSoundKey + L".wav", fVolume);
 }
 
 void CBT_Action::Reset_Sound()

@@ -882,8 +882,8 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         m_pResultWnd->Set_Active(false);
         m_bDeActive = true;
 
-        CSound_Manager::GetInstance()->Stop_Channel_Sound(L"");
-      //  CSound_Manager::GetInstance()->PlayBGM(L"CastleBern.wav",);
+        CSound_Manager::GetInstance()->Stop_Channel_Sound(L"RomanticWeapon");
+        CSound_Manager::GetInstance()->Resume_Channel(L"CastleBern");
     }
 }
 

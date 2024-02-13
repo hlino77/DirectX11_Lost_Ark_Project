@@ -164,27 +164,27 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 		}
 
 	}
-	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", 1.f);
+	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)");
 
-	Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", 1.f, 24);
+	Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#153 (153317365)", 24);
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && !m_bSoundOn[2])
 	{
 		m_bSoundOn[2] = true;
-		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551).wav", 1.f);
-		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#162 (147083337).wav", 1.f);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#154 (178464551).wav", 0.5f);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#162 (147083337).wav", 0.5f);
 	}
 
-	Add_Sound(3, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)", CHANNEL_EFFECT);
+	Add_Sound(3, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)");
 
-	Add_Sound(5, 4, L"Effect", L"IwillSmashYouBugs", CHANNEL_EFFECT);
+	Add_Sound(5, 4, L"Effect", L"IwillSmashYouBugs");
 
 	if (m_pGameObject->Get_NearTarget() == nullptr && !m_pGameObject->Get_ModelCom()->IsNext())
-		Add_Sound(14, 5, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#468 (401443118)", CHANNEL_EFFECT);
+		Add_Sound(14, 5, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#468 (401443118)");
 
-	Add_Sound(8, 6, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)", CHANNEL_EFFECT);
+	Add_Sound(8, 6, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)");
 
-	Add_Sound(8, 7, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#135 (936435461)", CHANNEL_EFFECT);
+	Add_Sound(8, 7, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#135 (936435461)");
 
 	return __super::OnUpdate(fTimeDelta);
 }

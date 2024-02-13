@@ -84,8 +84,9 @@ void CUpgrade_Npc::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 	{
 		m_pUpgradeUI->Set_Active_UpGrade(true);
 		static_cast<CPlayer*>(pOther->Get_Owner())->Set_ClickNpcState(false);
-		//CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
-		//CGameInstance::GetInstance()->PlayBGM(L"RomanticWeapon.wav", CHANNEL_BGM);
+
+		CSound_Manager::GetInstance()->Pause_Channel(L"CastleBern");
+		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"RomanticWeapon", L"BGM", L"RomanticWeapon.wav", 0.5f);
 	}
 }
 
