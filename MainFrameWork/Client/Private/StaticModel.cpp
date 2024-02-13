@@ -320,7 +320,9 @@ void CStaticModel::LateTick(_float fTimeDelta)
 
 		if (false == m_bBreakSound)
 		{
-			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"HitWall.wav", 1.f);
+			if(false == CSound_Manager::GetInstance()->Is_Channel_Playing(L"HitWall.wav"))
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(L"HitWall.wav", L"Effect", L"HitWall.wav", 0.7f);
+
 			//CGameInstance::GetInstance()->PlaySoundFile(L"HitWall.wav", CHANNEL_EFFECT);
 
 			m_bBreakSound = true;

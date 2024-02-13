@@ -224,12 +224,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 				static_cast<CSkill*>(pSkill)->Set_Atk(99999);
 				static_cast<CSkill*>(pSkill)->Set_Force(50.f);
 			}
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_BugGrabExplosion2", &tDesc);
 		}
 		else
 		{
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
-			EFFECT_START(L"VT_BugGrabExplosion2", &tDesc);
+			EFFECT_START(L"VT_BugGrabExplosion1", &tDesc);
 		}
 
 		m_bShoot[1] = false;

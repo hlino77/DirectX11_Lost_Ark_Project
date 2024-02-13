@@ -59,7 +59,6 @@ public:
 	ANIMATION_DESC Get_CurrentAnimDesc() { return m_vecAnimDesc[m_iCurrAnimation]; }
 
 protected:
-	void						Reset_Sound();
 
 	_int						m_iMaxSound = 20;
 	_int						m_iCurrAnimation = 0;
