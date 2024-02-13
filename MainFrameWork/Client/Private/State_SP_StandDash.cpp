@@ -21,6 +21,7 @@ HRESULT CState_SP_StandDash::Initialize()
 	else
 		m_TickFunc = &CState_SP_StandDash::Tick_State_NoneControl;
 
+
 	return S_OK;
 }
 
@@ -31,6 +32,7 @@ void CState_SP_StandDash::Enter_State()
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
+
 }
 
 void CState_SP_StandDash::Tick_State(_float fTimeDelta)

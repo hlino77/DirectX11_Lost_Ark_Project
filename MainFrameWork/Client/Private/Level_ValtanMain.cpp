@@ -233,7 +233,7 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 
 	// Fog
 	CRenderer::Set_Fog_Color(Vec3(0.80f, 0.80f, 0.8f));
-	CRenderer::Set_Fog_StartHeight(-2.f);
+	CRenderer::Set_Fog_StartHeight(1.f);
 	CRenderer::Set_Fog_EndHeight(-57.f);
 	CRenderer::Set_Fog_Density(0.008f);
 	CRenderer::Set_Fog_ChangeSpeed(1.f);
