@@ -77,6 +77,8 @@ void CState_SP_SkyKongKong_Start::Exit_State()
 		{
 			m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 		}
+		
+		StopStateSound();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())

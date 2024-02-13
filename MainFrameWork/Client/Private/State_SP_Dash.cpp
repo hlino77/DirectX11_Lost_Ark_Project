@@ -53,6 +53,11 @@ void CState_SP_Dash::Tick_State(_float fTimeDelta)
 void CState_SP_Dash::Exit_State()
 {
 	m_pController->Get_DashEndMessage(3.f);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Dash::Tick_State_Control(_float fTimeDelta)

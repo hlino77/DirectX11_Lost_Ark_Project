@@ -76,7 +76,10 @@ void CState_SP_SkyKongKong_Loop::Exit_State()
 	{
 		TrailEnd();
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+		StopStateSound();
 	}
+
+	
 }
 
 void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)

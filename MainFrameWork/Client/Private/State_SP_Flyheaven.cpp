@@ -75,6 +75,11 @@ void CState_SP_Flyheaven::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	TrailEnd();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)

@@ -102,6 +102,11 @@ void CState_SP_Onestroke::Exit_State()
 
 	if(m_pPlayer->Is_Control())
 		Reset_Camera();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Onestroke::Tick_State_Control(_float fTimeDelta)

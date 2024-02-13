@@ -60,6 +60,11 @@ void CState_SP_DimensionalShift_End::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	TrailEnd();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)

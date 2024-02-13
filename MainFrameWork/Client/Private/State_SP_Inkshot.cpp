@@ -85,6 +85,11 @@ void CState_SP_Inkshot::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	Charge_End();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)

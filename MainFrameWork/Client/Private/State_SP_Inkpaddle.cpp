@@ -78,8 +78,10 @@ void CState_SP_Inkpaddle::Exit_State()
 
 	TrailEnd();
 
-	
-
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)

@@ -78,6 +78,11 @@ void CState_SP_DimensionalShift_Start::Exit_State()
 	{
 		TrailEnd();
 	}
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_DimensionalShift_Start::Tick_State_Control(_float fTimeDelta)
