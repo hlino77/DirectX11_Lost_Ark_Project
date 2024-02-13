@@ -272,6 +272,7 @@
     <ClInclude Include="..\Public\Golem_BT_Attack_Jump.h" />
     <ClInclude Include="..\Public\Golem_BT_Attack_Swipe.h" />
     <ClInclude Include="..\Public\Guide_Chaos_Npc.h" />
+    <ClInclude Include="..\Public\Guide_Valtan_Npc.h" />
     <ClInclude Include="..\Public\ImGUI\imnodes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -416,6 +417,7 @@
     <ClInclude Include="..\Public\SkyDome.h" />
     <ClInclude Include="..\Public\IT_SP_Helmet_Dino.h" />
     <ClInclude Include="..\Public\IT_SP_Helmet_Legend.h" />
+    <ClInclude Include="..\Public\SkyFloor.h" />
     <ClInclude Include="..\Public\State_GN_Dead_End.h" />
     <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
     <ClInclude Include="..\Public\State_GN_Esther_Bahuntur.h" />
@@ -768,6 +770,7 @@
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_NPC_ChaosDungeon_NewWnd.h" />
     <ClInclude Include="..\Public\UI_NPC_ItemUpgrade.h" />
+    <ClInclude Include="..\Public\UI_NPC_Valtan_NewWnd.h" />
     <ClInclude Include="..\Public\UI_Option.h" />
     <ClInclude Include="..\Public\UI_OptionWnd.h" />
     <ClInclude Include="..\Public\UI_Option_Sound.h" />
@@ -969,6 +972,7 @@
     <ClCompile Include="..\Private\Golem_BT_Attack_Jump.cpp" />
     <ClCompile Include="..\Private\Golem_BT_Attack_Swipe.cpp" />
     <ClCompile Include="..\Private\Guide_Chaos_Npc.cpp" />
+    <ClCompile Include="..\Private\Guide_Valtan_Npc.cpp" />
     <ClCompile Include="..\Private\Item.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\Private\Item_TestItem.cpp" />
@@ -1106,6 +1110,7 @@
     <ClCompile Include="..\Private\SkyDome.cpp" />
     <ClCompile Include="..\Private\IT_SP_Helmet_Dino.cpp" />
     <ClCompile Include="..\Private\IT_SP_Helmet_Legend.cpp" />
+    <ClCompile Include="..\Private\SkyFloor.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_Esther_Bahuntur.cpp" />
@@ -1464,6 +1469,7 @@
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ChaosDungeon_NewWnd.cpp" />
     <ClCompile Include="..\Private\UI_NPC_ItemUpgrade.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_Valtan_NewWnd.cpp" />
     <ClCompile Include="..\Private\UI_Option.cpp" />
     <ClCompile Include="..\Private\UI_OptionWnd.cpp" />
     <ClCompile Include="..\Private\UI_Option_Sound.cpp" />

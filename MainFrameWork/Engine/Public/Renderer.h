@@ -46,6 +46,17 @@ public:
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
 	static void	Set_IBLTexture(_int iIndex) { m_iIBLTextureIndex = iIndex; }
 
+	static void	Set_SSRLevel(_int iLevel) { m_iSSRLevel = iLevel; }
+	static void	Set_GrayScale(_float fGrayScale) { m_tScreenTone_Data.fGrayScale = fGrayScale; }
+	static void	Set_Contrast(_float fContrast) { m_tScreenTone_Data.fContrast = fContrast; }
+	static void	Set_Saturation(_float fSaturation) { m_tScreenTone_Data.fSaturation = fSaturation; }
+
+	_int	Get_IBLTexture() { return m_iIBLTextureIndex; }
+	_int	Get_SSRLevel() { return m_iSSRLevel; }
+	_float	Get_GrayScale() { return m_tScreenTone_Data.fGrayScale; }
+	_float	Get_Contrast() { return m_tScreenTone_Data.fContrast; }
+	_float	Get_Saturation() { return m_tScreenTone_Data.fSaturation; }
+
 	void	Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity);
 	void	Set_ChromaticData(Vec3 vWorldPos, _float fIntensity);
 
@@ -58,6 +69,10 @@ public:
 	static void	Set_SSAO_Switch(_bool bSwitch) { m_iSSAO_Switch = bSwitch; }
 	static void	Set_PBR_Switch (_bool bSwitch) { m_bPBR_Switch = bSwitch; }
 	static void	Set_Fxaa_Switch(_bool bSwitch) { m_iFxaa_Switch = bSwitch; }
+	
+	_bool	Get_SSAO_Switch() {return m_iSSAO_Switch; }
+	_bool	Get_PBR_Switch() { return m_bPBR_Switch; }
+	_bool	Get_Fxaa_Switch() {return m_iFxaa_Switch; }
 	// For Fog
 	static void Set_Fog_StartHeight(_float Height) { m_fFogStartHeight = Height; }
 	static void Set_Fog_EndHeight(_float Height) { m_fFogEndHeight = Height; }
@@ -235,6 +250,8 @@ private:
 		Vec2	vPadding;
 	} m_tSSR_Data[5];
 
+	static _uint	m_iSSRLevel;
+
 	// Chromatic Aberration
 	struct ChromaticBlur_Data
 	{
@@ -259,13 +276,29 @@ private:
 
 	// Eshter Motion
 
-	// Screen Ton
+	// Screen Tone
+	struct ScreenTone_Data
+	{
+		_float	fGrayScale = 1.f;
+		_float	fContrast = 1.f;
+		_float	fSaturation = 1.f;
+		_float	fPadding;
+	};
+
+	static ScreenTone_Data m_tScreenTone_Data;
+	ScreenTone_Data m_tScreenTone_BackUp;
+
 	_bool	m_bDeadScene = { false };
+	_bool	m_bDeadSceneStart = { false };
 
 	// ScreenShot
 	_bool	m_bScreenShot = { false };
 	wstring m_strScreenShotPath;
 	_uint	m_iScreenShotFrame = { 0 };
+
+	static  _float  m_fGrayScale;
+	static  _float  m_fContrast;
+	static  _float  m_fSaturation;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

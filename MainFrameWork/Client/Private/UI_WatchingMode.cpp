@@ -291,17 +291,34 @@ void CUI_WatchingMode::Is_Picking_BackButton(POINT pt)
 				return;
 			if ((m_iPartyIndex - 1) == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
 			{
-				if ((m_iPartyIndex - 2) <= 0)
-					m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size();
+				if ((m_iPartyIndex - 2) < 1)
+				{
+					if (CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size()
+						== CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() - 1;
+					else
+						m_iPartyIndex --;
+				}
 				else
 					m_iPartyIndex -= 2;
 			}
 			else
 			{
-				if ((m_iPartyIndex - 1) <= 0)
-					m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size();
+				if ((m_iPartyIndex - 1) < 1)
+				{
+					if (CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() !=
+						CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size();
+					else
+						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() - 1;
+				}
 				else
-					m_iPartyIndex--;
+				{
+					if (1 < CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+						m_iPartyIndex--;
+					else
+						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size();
+				}
 			}
 			Find_IndexPartyMember();
 			Print_TextBox();

@@ -312,8 +312,8 @@ void CBoss::Add_Colider(_int iColIndex , CSphereCollider* pCollider)
 
 void CBoss::Set_EffectPos()
 {
-	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));
-	Matrix matEffect;
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectname"));//b_effectworldzero
+	Matrix matEffect; 
 	if (TEXT("Boss_Valtan") == m_strObjectTag)
 	{
 		matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * XMMatrixScaling(0.012f, 0.012f, 0.012f);
@@ -324,6 +324,10 @@ void CBoss::Set_EffectPos()
 	}
 	matEffect *= m_pTransformCom->Get_WorldMatrix();
 	memcpy(&m_vEffectPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
+	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
 }
 
 void CBoss::Set_Die(_float fTime)

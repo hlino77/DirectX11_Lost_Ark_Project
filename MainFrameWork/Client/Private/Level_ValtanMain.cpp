@@ -36,6 +36,7 @@
 #include <filesystem>
 #include "Party.h"
 #include "Sound_Manager.h"
+#include "SkyFloor.h"
 
 
 CLevel_ValtanMain::CLevel_ValtanMain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -125,7 +126,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
-
+	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
 }
 
@@ -226,10 +227,54 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
-	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(117.9f, 0.f, 100.2f));
+	pSkyDome->Get_TransformCom()->Set_Scale(Vec3(500.f, 500.f, 500.f));
+	pSkyDome->Get_TransformCom()->Rotation(Vec3::UnitX, XMConvertToRadians(90.f));
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 100.f));
 
-	CRenderer::Set_IBLTexture(0);
+	//CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"));
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
 
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -78.f, 100.f));
+	//
+	//CSkyFloor::SkyFloorDescription desc;
+
+	//// 첫 번째
+	//desc.vTileCount = Vec2(2.f, 2.f);
+	//desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
+	//desc.fAlpha = 0.4f;
+	//pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
+
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -208.f, 100.f));
+
+	//// 두 번째
+	//desc.vTileCount = Vec2(4.f, 4.f);
+	//desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
+	//desc.fAlpha = 0.4f;
+	//pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
+
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -205.f, 100.f));
+
+	//// 세 번째
+	//desc.vTileCount = Vec2(5.f, 5.f);
+	//desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
+	//desc.fAlpha = 0.4f;
+	//pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
+
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -202.f, 100.f));
+
+
+	CRenderer::Set_IBLTexture(22);
 
 	// Fog
 	CRenderer::Set_Fog_Color(Vec3(0.80f, 0.80f, 0.8f));

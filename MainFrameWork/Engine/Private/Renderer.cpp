@@ -13,9 +13,12 @@
 
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
+_uint CRenderer::m_iSSRLevel = 0;
 _bool CRenderer::m_bPBR_Switch = true;
 _int CRenderer::m_iSSAO_Switch = true;
 _int  CRenderer::m_iFxaa_Switch = true;
+
+CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 1.f, 1.f, 1.f };
 
 _float CRenderer::m_fFogDensity      = 0.f;
 _float CRenderer::m_fFogStartHeight  = 0.f;
@@ -977,7 +980,7 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
 		return E_FAIL;
 #else
-	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[m_iSSRLevel], sizeof(SSR_Data))))
 		return E_FAIL;
 #endif
 
@@ -1652,7 +1655,7 @@ HRESULT CRenderer::Render_PostProcess()
 	}
 
 	// µ¥µå½Å
-	if(true == m_bDeadScene)
+	//if(true == m_bDeadScene)
 	{
 		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DeadScene"))))
 			return E_FAIL;
@@ -1663,12 +1666,37 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
 			return E_FAIL;
 
+		if (true == m_bDeadScene)
+		{
+			if (false == m_bDeadSceneStart)
+			{
+				m_tScreenTone_BackUp = m_tScreenTone_Data;
+				m_bDeadSceneStart = true;
+			}
+
+			m_tScreenTone_Data.fGrayScale = 0.2f;
+			m_tScreenTone_Data.fContrast = 1.f;
+			m_tScreenTone_Data.fSaturation = 1.f;
+		}
+		else
+		{
+			if (true == m_bDeadSceneStart)
+			{
+				m_tScreenTone_Data = m_tScreenTone_BackUp;
+				m_bDeadSceneStart = false;
+			}
+		}
+
+		if (FAILED(m_pPostProccessor->Bind_CBuffer("ScreenTone", &m_tScreenTone_Data, sizeof(ScreenTone_Data))))
+			return E_FAIL;
+
 		if (FAILED(m_pVIBuffer->Render()))
 			return E_FAIL;
 
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 	}
+
 	/*if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendBloom"), "g_BlendedTarget")))
 		return E_FAIL;*/
 
@@ -1703,7 +1731,8 @@ HRESULT CRenderer::Render_FXAA()
 
 	if (false == m_bDeadScene)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
+		//if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
 			return E_FAIL;
 	}
 	else

@@ -34,6 +34,8 @@ public:
     void    Apply_Option();
     void    Cancle_Option();
 
+    void    Set_LevelCustomOption();
+
 private:
     void    Create_CheckButton();
     void    Is_Picking_CheckButton(POINT pt);

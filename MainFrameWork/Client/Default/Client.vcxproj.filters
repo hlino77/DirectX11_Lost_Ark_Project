@@ -325,21 +325,6 @@
     <Filter Include="02.GameObjects\UI\01.Loading\01.Label\01.Bottom">
       <UniqueIdentifier>{b43b7e2c-8c07-4bbf-835e-551fe45fa96c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat">
-      <UniqueIdentifier>{fc107c88-52d3-4684-ba9f-8071c9904b52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\00.Frame">
-      <UniqueIdentifier>{12bfe108-ff9a-4c0e-9dae-9438daf6eafa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\02.ChatState">
-      <UniqueIdentifier>{fa2e7891-c91d-432c-814f-c339e14e7fce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\03.ChatSmaller">
-      <UniqueIdentifier>{343dd946-a341-42dd-8612-8e7ba8e2b29e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\01.WriteFrame">
-      <UniqueIdentifier>{6c5db175-013f-4762-a321-82bdcbb8b1aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\98.Tool">
       <UniqueIdentifier>{6fbf163b-9091-4320-9d94-f8085750cdcc}</UniqueIdentifier>
     </Filter>
@@ -1936,6 +1921,27 @@
     <Filter Include="02.GameObjects\UI\21.DeadScene\01.CCTV">
       <UniqueIdentifier>{74298378-abab-4c8e-af50-a0911aef90b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat">
+      <UniqueIdentifier>{fc107c88-52d3-4684-ba9f-8071c9904b52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\00.Frame">
+      <UniqueIdentifier>{12bfe108-ff9a-4c0e-9dae-9438daf6eafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\02.ChatState">
+      <UniqueIdentifier>{fa2e7891-c91d-432c-814f-c339e14e7fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\03.ChatSmaller">
+      <UniqueIdentifier>{343dd946-a341-42dd-8612-8e7ba8e2b29e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\01.WriteFrame">
+      <UniqueIdentifier>{6c5db175-013f-4762-a321-82bdcbb8b1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\16.Npc\02.Valtan">
+      <UniqueIdentifier>{6f08bead-a541-4ac1-99f2-e3641debece9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Npc\Function_Npc\Valtan_Npc">
+      <UniqueIdentifier>{4b3adb89-3f1f-4967-a1a5-f5c1e57c8452}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2137,15 +2143,6 @@
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
-    <ClInclude Include="..\Public\UI_ChatFrame.h">
-      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
-      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
-      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
@@ -2188,7 +2185,6 @@
     <ClInclude Include="..\Public\State_GN_Idle.h" />
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
-    <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h" />
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h" />
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h" />
@@ -2286,9 +2282,6 @@
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
     </ClInclude>
@@ -2297,9 +2290,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
       <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
-      <Filter>02.GameObjects\UI\03.Identity</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_WF_Front.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\02.FrontFrame</Filter>
@@ -2426,9 +2416,6 @@
     <ClInclude Include="..\Public\Zombie_BT_Attack2.h" />
     <ClInclude Include="..\Public\UI_IdentityGN_BackGroundShine.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\00.BackGround\02.ShineEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
-      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_IdentityGN_MainFrame.h">
       <Filter>02.GameObjects\UI\03.Identity\00.Gunslinger\01.WeaponFrame\00.MainFrame</Filter>
@@ -5118,9 +5105,35 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_BreakObject.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01.Levels\99.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkyFloor.h">
+      <Filter>02.GameObjects\SkyDome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatFrame.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\00.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\02.ChatState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\03.ChatSmaller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\01.WriteFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_ChatWriteFrame.h" />
+    <ClInclude Include="..\Public\UI_NPC_Valtan_NewWnd.h">
+      <Filter>02.GameObjects\UI\16.Npc\02.Valtan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Guide_Valtan_Npc.h">
+      <Filter>02.GameObjects\Npc\Function_Npc\Valtan_Npc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5323,18 +5336,6 @@
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
-    <ClCompile Include="..\Private\UI_ChatFrame.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
@@ -5379,7 +5380,6 @@
     <ClCompile Include="..\Private\State_GN_Idle.cpp" />
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
-    <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp" />
     <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp" />
     <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp" />
@@ -5478,9 +5478,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -8279,6 +8276,31 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_BreakObject.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkyFloor.cpp">
+      <Filter>02.GameObjects\SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatFrame.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\00.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\02.ChatState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\03.ChatSmaller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\01.WriteFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_NPC_Valtan_NewWnd.cpp">
+      <Filter>02.GameObjects\UI\16.Npc\02.Valtan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Guide_Valtan_Npc.cpp">
+      <Filter>02.GameObjects\Npc\Function_Npc\Valtan_Npc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

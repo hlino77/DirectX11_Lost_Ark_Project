@@ -29,6 +29,8 @@
 #include "Damage_Manager.h"
 #include "UI_SpaceBar_Icon.h"
 
+#include "SkyFloor.h"
+
 #include <filesystem>
 #include "QuadTreeMgr.h"
 #include "Engine_Defines.h"
@@ -113,7 +115,7 @@ HRESULT CLevel_Bern::Initialize()
 	{
 		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
-
+	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
 }
 
@@ -259,11 +261,47 @@ HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
-	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(150.f, 0.f, 80.f));
+	pSkyDome->Get_TransformCom()->Set_Scale(Vec3(500.f, 500.f, 500.f));
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, 0.f, 100.f));
 	//pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 50.f, 50.f));
 	
+	CSkyFloor::SkyFloorDescription desc;
+
+	// 첫 번째
+	desc.vTileCount = Vec2(2.f, 2.f);
+	desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
+	desc.fAlpha = 0.4f;
+	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	if (nullptr == pSkyFloor)
+		return E_FAIL;
+
+	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -208.f, 100.f));
+
+	// 두 번째
+	desc.vTileCount = Vec2(4.f, 4.f);
+	desc.vFloorUVoffset = Vec2(0.0042f, 0.0042f);
+	desc.fAlpha = 0.4f;
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	if (nullptr == pSkyFloor)
+		return E_FAIL;
+
+	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -205.f, 100.f));
+	
+	// 세 번째
+	desc.vTileCount = Vec2(5.f, 5.f);
+	desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
+	desc.fAlpha = 0.4f;
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	if (nullptr == pSkyFloor)
+		return E_FAIL;
+
+	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -202.f, 100.f));
+
 	// IBL
-	CRenderer::Set_IBLTexture(0);
+	CRenderer::Set_IBLTexture(19);
 
 	// Fog
 	CRenderer::Set_Fog_Color(Vec3(0.80f, 0.90f, 0.95f));

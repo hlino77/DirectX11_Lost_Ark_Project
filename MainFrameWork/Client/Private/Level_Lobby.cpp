@@ -22,9 +22,11 @@
 #include "UI_Lobby_EntranceServer_Button.h"
 #include "UI_Lobby_NickNameChange.h"
 #include "Pool.h"
+#include "Renderer.h"
 #include "Effect_Custom_EarthEaterParticle.h"
 #include "Effect_Custom_EarthEaterSmallParticle.h"
 #include "Sound_Manager.h"
+#include "Renderer.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -59,7 +61,8 @@ HRESULT CLevel_Lobby::Initialize()
 	m_bConnect = false;
 
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
-
+	CUI_Manager::GetInstance()->Set_LevelCustomOption();
+	
 	return S_OK;
 }
 
@@ -84,7 +87,7 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 			CServerSessionManager::GetInstance()->Set_NickName(static_cast<CUI_Lobby_NickNameChange*>(pUI)->Get_NickName());//(L"HellowWorld");
 
 
-			SetWindowText(g_hWnd, TEXT("¼­¹ö¿¡ Á¢¼ÓÁßÀÔ´Ï´Ù."));
+			SetWindowText(g_hWnd, TEXT("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½."));
 
 			CClientPacketHandler::Init();
 
@@ -93,7 +96,7 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 			ClientServiceRef service = make_shared<ClientService>(
 				NetAddress(SERVER_IP, SERVER_PORT),
 				make_shared<IocpCore>(),
-				make_shared<CServerSession>, // TODO : SessionManager µî
+				make_shared<CServerSession>, // TODO : SessionManager ï¿½ï¿½
 				1);
 
 			ASSERT_CRASH(service->Start());
@@ -210,7 +213,7 @@ HRESULT CLevel_Lobby::Ready_EffectPool()
 
 HRESULT CLevel_Lobby::Ready_Layer_BackGround(const LAYER_TYPE eLayerType)
 {
-	/* ¿øÇü°´Ã¼¸¦ º¹Á¦ÇÏ¿© »çº»°´Ã¼¸¦ »ý¼ºÇÏ°í ·¹ÀÌ¾î¿¡ Ãß°¡ÇÑ´Ù. */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½çº»ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ì¾î¿¡ ï¿½ß°ï¿½ï¿½Ñ´ï¿½. */
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 	_uint iLevelIndex = (_uint)pGameInstance->Get_CurrLevelIndex();

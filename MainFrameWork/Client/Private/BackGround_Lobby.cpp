@@ -56,7 +56,7 @@ HRESULT CBackGround_Lobby::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(24);
 
 	m_pVIBufferCom->Render();
 

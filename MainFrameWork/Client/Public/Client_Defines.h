@@ -134,11 +134,26 @@ namespace Client
 #define TRAIL_START_OUTLIST(name, pivotGetter, effectlist)	CEffect_Manager::GetInstance()->Trail_Start(name, pivotGetter, effectlist);
 #define EFFECT_LATE_START(name, pivotDescLate)				CEffect_Manager::GetInstance()->Effect_LateStart(name, pivotDescLate);																									
 
+#define PLAYSOUND(sound, channel, Loop)																\
+wstring SoundName = sound;																			\
+if (SOUNDLOOP::NOLOOP == Loop)																		\
+{																									\
+	CGameInstance::GetInstance()->PlaySoundFile(SoundName + L".wav", channel);						\
+}																									\
+else																								\
+{																									\
+    _float fVol = CUI_Manager::GetInstance()->Get_ChannelVolume(channel);							\
+	CGameInstance::GetInstance()->PlaySoundFile_LoopChannel(SoundName + L".wav", fVol);				\
+}																									
+
+#define STOPSOUND(sound)									\
+wstring SoundName = sound;									\
+CGameInstance::GetInstance()->Find_Stop_Sound(SoundName);
+
 extern _float g_fVolume;
 extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;
 using namespace Client;
-
 
 #define SERVER_IP		L"127.0.0.1" //L"192.168.0.30"
 #define SERVER_PORT		7777

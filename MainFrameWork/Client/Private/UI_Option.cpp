@@ -160,6 +160,11 @@ _float CUI_Option::Get_ChannelSound(_uint iChannel)
 	return m_pOptionSound->Get_ChannelSound(iChannel);
 }
 
+void CUI_Option::Set_LevelCustomOption()
+{
+	m_pOptionVideo->Set_LevelCustomOption();
+}
+
 HRESULT CUI_Option::Ready_Components()
 {
 	return S_OK;

@@ -17,7 +17,7 @@ public:
 		_bool bAddChannel = false;
 		wstring strGroup;
 		wstring strName;
-
+		
 	}SOUNDDESC;
 
 public:

@@ -267,9 +267,9 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 
-		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
-		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.1f, 0.06f);
-		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+		pCamera->Cam_Shake(0.1f, 80.f, 0.2f, 5.0f);
+		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.15f, 0.08f);
+		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.08f);
 
 		m_bEffectStart[2] = true;
 	}
@@ -285,10 +285,9 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 
-
-		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
-		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.1f, 0.06f);
-		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+		pCamera->Cam_Shake(0.1f, 80.f, 0.2f, 5.0f);
+		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.15f, 0.08f);
+		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.08f);
 
 		m_bEffectStart[3] = true;
 	}
@@ -303,10 +302,10 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
-		
-		pCamera->Cam_Shake(0.03f, 8.f, 0.03f, 5.0f);
-		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.1f, 0.06f);
-		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.06f);
+
+		pCamera->Cam_Shake(0.1f, 80.f, 0.25f, 5.0f);
+		pCamera->Set_RadialBlur(0.05f, vDochulCenter, 0.15f, 0.08f);
+		pCamera->Set_Chromatic(0.05f, vDochulCenter, 0.15f, 0.08f);
 
 		m_bEffectStart[4] = true;
 	}
@@ -322,9 +321,9 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 
-		pCamera->Cam_Shake(0.05f, 25.0f, 0.25f, 5.f);
-		pCamera->Set_RadialBlur(0.08f, vDochulCenter, 0.1f, 0.1f);
-		pCamera->Set_Chromatic(0.08f, vDochulCenter, 0.13f, 0.1f);
+		pCamera->Cam_Shake(0.3f, 100.0f, 0.45f, 5.5f);
+		pCamera->Set_RadialBlur(0.1f, vDochulCenter, 0.1f, 0.08f);
+		pCamera->Set_Chromatic(0.1f, vDochulCenter, 0.13f, 0.1f);
 
 		m_bEffectStart[5] = true;
 	}

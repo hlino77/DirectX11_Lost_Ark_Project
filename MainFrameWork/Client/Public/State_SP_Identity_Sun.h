@@ -4,7 +4,7 @@
 #include "Player_Controller.h"
 
 BEGIN(Client)
-
+class CEffect;
 class CState_SP_Identity_Sun final : public CState
 {
 public:
