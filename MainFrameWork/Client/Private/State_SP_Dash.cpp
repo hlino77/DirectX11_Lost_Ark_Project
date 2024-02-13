@@ -21,6 +21,11 @@ HRESULT CState_SP_Dash::Initialize()
 	else
 		m_TickFunc = &CState_SP_Dash::Tick_State_NoneControl;
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_142.wav"))); // Skill Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_224.wav"))); // Player Sound 
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
@@ -31,6 +36,12 @@ void CState_SP_Dash::Enter_State()
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
+
+	// Skill Sound 
+	CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	
+	// Player Sound
+	CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
 
 }
 

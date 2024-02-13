@@ -23,11 +23,27 @@ HRESULT CState_SP_DimensionalShift_Start::Initialize()
 	else
 		m_TickFunc = &CState_SP_DimensionalShift_Start::Tick_State_NoneControl;
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_246.wav"))); // Player 
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_SP_DimensionalShift_Start::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
+
+
+
 	m_pPlayer->Reserve_Animation(m_iDimensionalShift_Start, 0.1f, 0, 0);
 
 	m_pPlayer->Get_SP_Controller()->Get_StopMessage();

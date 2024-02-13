@@ -34,6 +34,12 @@ private:
 	_int m_iDimensionalShift_End = 0;
 
 	_bool m_bEffect = false;
+
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+	_float m_EffectSoundAcctime = 0.f;
+
 public:
 	static CState_SP_DimensionalShift_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

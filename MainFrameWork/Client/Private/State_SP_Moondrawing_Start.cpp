@@ -25,6 +25,7 @@ HRESULT CState_SP_Moondrawing_Start::Initialize()
 	m_SkillFrames.push_back(13);
 	m_SkillFrames.push_back(-1);
 
+
 	return S_OK;
 }
 
