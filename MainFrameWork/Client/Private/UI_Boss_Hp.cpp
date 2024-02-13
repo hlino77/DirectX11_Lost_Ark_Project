@@ -485,7 +485,7 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 				m_iNextHpColor = HP_BLUE;
 			}
 		}
-		if (1 > (m_iHpCount - 1))
+		if (0 >= (m_iHpCount - 1))
 		{
 			m_iCurrHpColor = HP_RED;
 			m_iNextHpColor = HP_END;

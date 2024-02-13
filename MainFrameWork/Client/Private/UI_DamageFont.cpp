@@ -58,9 +58,15 @@ void CUI_DamageFont::LateTick(_float fTimeDelta)
         m_fDuration += fTimeDelta;
 
         Vec3 vHostPos = m_pOwner->Get_EffectPos();
-
+         
         m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
-        m_vHostPos += m_vOffset;
+        if(TEXT("Boss_Valtan") != m_pOwner->Get_ObjectTag())
+            m_vHostPos += m_vOffset;
+        else
+        {
+            m_vHostPos.x += m_vOffset.x;
+            m_vHostPos.y -= 350.f;
+        }
         m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
 
         if (1.f < m_fDuration)
@@ -118,19 +124,8 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     m_bCriticalHit = IsCritical;
     Vec2 vTextPos(300.0f, 40.0f);
     Vec3 vHostPos = m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-    if (TEXT("") == pMonster->Get_ObjectTag())
-    {
-        vHostPos.y += fOffsetY;
-        m_fOffSetY = fOffsetY;
-    }
-    else
-        m_fOffSetY = 0.f;
-    Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
-    Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 
-    vHostPos = XMVector3TransformCoord(vHostPos, ViewMatrix);
-    vHostPos = XMVector3TransformCoord(vHostPos, ProjMatrix);
-    m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
+    //m_vHostPos = Vec2(vHostPos.x * (g_iWinSizeX * 0.5f), vHostPos.y * (g_iWinSizeY * 0.5f));
 
     Vec2 vOffSet;
     vOffSet.x = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
@@ -231,7 +226,7 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     // m_fRandomX = CGameInstance::GetInstance()->Get_RandomFloat(-1.f, 1.f);
     
     m_pDamageFontWnd->Get_TransformCom()->Set_Scale(Vec3(m_vTextBoxMaxScale.x, m_vTextBoxMaxScale.y, 0.f));
-    m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
+    //m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
     
     Set_Active(true);
 }
