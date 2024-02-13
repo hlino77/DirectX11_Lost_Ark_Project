@@ -645,7 +645,7 @@ HRESULT CLoader::Loading_For_Level_Tool()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyDome"),
 		CSkyDome::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyFloor"),
 		CSkyFloor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1094,12 +1094,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Effects/FX_Textures/Noise/fx_a_noise_003.png"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyFloorNoise"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyDome/SkyFloor/fx_d_noise_004.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
 
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
@@ -6399,93 +6393,6 @@ HRESULT CLoader::Loading_Model_For_Level_Bern()
 	strPath = L"../Bin/Resources/Meshes/ES/Weapon/";
 	AutoLoad(strPath, LEVEL_STATIC, PivotMatrix);
 
-	/* SkyDome */
-	{
-		//wstring strFileName = L"SkyDome0";
-		wstring strFilePath = L"../Bin/Resources/SkyDome/";
-		//wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		Matrix matPivot = Matrix::Identity;
-		XMStoreFloat4x4(&matPivot, XMMatrixRotationZ(XMConvertToRadians(270.0f)));
-
-		for (_int i = 0; i < 12; ++i)
-		{
-			wstring strFileName = L"SkyDome" + ::to_wstring(i);
-			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-			if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-			{
-				if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-					return E_FAIL;
-				pUIManager->Add_CurrFile();
-			}
-		}
-
-		XMStoreFloat4x4(&matPivot, XMMatrixRotationX(XMConvertToRadians(90.0f)));
-		wstring strComponentName = L"Prototype_Component_Model_SkyFloor";
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, L"SkyFloor", true, false, matPivot))))
-				return E_FAIL;
-			pUIManager->Add_CurrFile();
-		}
-
-		/*if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-				return E_FAIL;
-			pUIManager->Add_CurrFile();
-		}
-
-		strFileName = L"SkyDome1";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-				return E_FAIL;
-			pUIManager->Add_CurrFile();
-		}
-
-		strFileName = L"SkyDome2";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-				return E_FAIL;
-			pUIManager->Add_CurrFile();
-		}
-
-		strFileName = L"SkyDome3";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-				return E_FAIL;
-			pUIManager->Add_CurrFile();
-		}
-
-		strFileName = L"SkyDome4";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
-
-		if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
-		{
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-				return E_FAIL;
-			pUIManager->Add_CurrFile();
-		}*/
-	}
 	//Custom Effect
 	{
 		wstring strFileName = L"Effect_Custom_SpiralChaser";

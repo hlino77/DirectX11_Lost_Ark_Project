@@ -208,43 +208,39 @@ HRESULT CLevel_ChaosLevel2::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
-	pSkyDome->Get_TransformCom()->Set_Scale(Vec3(500.f, 500.f, 500.f));
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 100.f));
 
 	CSkyFloor::SkyFloorDescription desc;
 
 	// 첫 번째
 	desc.vTileCount = Vec2(2.f, 2.f);
-	desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
+	desc.vFloorUVoffset = Vec2(0.005f, 0.005f);
 	desc.fAlpha = 0.4f;
-	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -208.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -138.f, 100.f));
 
 	// 두 번째
 	desc.vTileCount = Vec2(4.f, 4.f);
-	desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
+	desc.vFloorUVoffset = Vec2(0.0047f, 0.0047f);
 	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -205.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -136.f, 100.f));
 
 	// 세 번째
 	desc.vTileCount = Vec2(5.f, 5.f);
-	desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
+	desc.vFloorUVoffset = Vec2(0.005f, 0.005f);
 	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_CHAOS_2, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -202.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -134.f, 100.f));
 
 	CRenderer::Set_IBLTexture(5);
 

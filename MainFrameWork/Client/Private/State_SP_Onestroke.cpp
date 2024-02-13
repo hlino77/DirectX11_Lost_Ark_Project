@@ -338,9 +338,9 @@ void CState_SP_Onestroke::Init_Camera()
 	Vec3 vTargetPos = vPos;
 	vTargetPos.y += 0.7f;
 
-	Vec3 vOffset = vLook * 1.0f + vRight * 0.5f + vUp * 1.0f;
+	Vec3 vOffset = vLook * 1.0f + vRight * 0.5f + vUp * 1.0f; // 초기 위치 인듯
 	pCamera->Set_Mode(CCamera_Player::CameraState::FREE);
-	pCamera->Set_TargetPos(vTargetPos);
+	pCamera->Set_TargetPos(vTargetPos);		// 첨에 보는 위치 인듯
 	pCamera->Set_Offset(vOffset);
 	pCamera->Set_CameraLength(3.0f);
 
@@ -361,7 +361,7 @@ void CState_SP_Onestroke::Update_Camera(_uint iAnimFrame, _float fTimeDelta)
 
 	if (iAnimFrame < 35)
 	{
-		Vec3 vTargetOffset = vRight * 1.0f + vLook * -0.5f + vUp * -0.1f;
+		Vec3 vTargetOffset = vRight * 1.0f + vLook * -0.5f + vUp * -0.1f; // 목표 위치 인듯
 
 		Vec3 vOffset = pCamera->Get_Offset();
 		vOffset = Vec3::Lerp(vOffset, vTargetOffset, 3.0f * fTimeDelta);
