@@ -146,7 +146,7 @@ public:
 	_bool						Is_Dummy() { return m_bDummy; }
 	void						Set_Dummy(_bool bDummy) { m_bDummy = bDummy; }
 	void					Load_WorldMatrix(Matrix& matWorld);
-
+	CBehaviorTree*			Get_BehaviorTree() { return m_pBehaviorTree; }
 	CPartObject* Get_Weapon() { return m_pWeapon; }
 virtual	void Reserve_WeaponAnimation(wstring strAnimName, _float fChangeTime, _int iStartFrame, _int iChangeFrame, _float fAnimspeed);
 virtual	void Set_Weapon_Render(_bool IsRender);

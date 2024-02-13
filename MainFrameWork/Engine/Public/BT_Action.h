@@ -52,9 +52,10 @@ public:
 
 	virtual void		Reset()		override { m_eReturn = RETURN_END; }
 	
+	void Reset_Sound();
+	ANIMATION_DESC Get_CurrentAnimDesc() { return m_vecAnimDesc[m_iCurrAnimation]; }
 
 protected:
-	void Reset_Sound();
 	_int						m_iMaxSound = 20;
 	_int						m_iCurrAnimation = 0;
 	vector<ANIMATION_DESC>	m_vecAnimDesc;

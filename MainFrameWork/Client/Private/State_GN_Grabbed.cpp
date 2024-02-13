@@ -5,6 +5,7 @@
 #include "Player_Gunslinger.h"
 #include "Player_Controller_GN.h"
 #include "Model.h"
+#include "Boss_Valtan.h"
 
 CState_GN_Grabbed::CState_GN_Grabbed(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -82,6 +83,9 @@ void CState_GN_Grabbed::To_GrabPos(_float fTimeDelta)
 	WorldMatrix._43 *= 0.01f;
 	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
+
+
+
 
 	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
 	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));

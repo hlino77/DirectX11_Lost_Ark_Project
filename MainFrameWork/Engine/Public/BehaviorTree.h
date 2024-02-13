@@ -24,6 +24,8 @@ public:
 
 	HRESULT Change_Action(wstring strActionName);
 
+	CBT_Action* Get_CurrentAction();
+
 	void			SetRoot(class CBT_Composite * pComposite) { m_pRootNode = pComposite; }
 	HRESULT			Init_PreviousAction(wstring strAction, _int iAnimIndex = 0);
 	void			ResetAll();

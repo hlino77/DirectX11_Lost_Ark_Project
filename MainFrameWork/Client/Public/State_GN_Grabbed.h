@@ -32,6 +32,7 @@ private:
 private:
 	//Animation
 	_int m_iGrabbed = 0;
+	_bool m_bFirstGrab = false;
 
 	Matrix m_SaveMatrix;
 
