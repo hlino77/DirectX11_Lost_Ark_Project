@@ -26,7 +26,7 @@ HRESULT CState_GN_Attack_Hand3::Initialize()
 		m_TickFunc = &CState_GN_Attack_Hand3::Tick_State_NoneControl;
 
 
-	/* ÀÏ¹Ý°ø°Ý ÇÁ·¹ÀÓ */
+	/* ï¿½Ï¹Ý°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	m_AttackFrames.push_back(21);
 	m_AttackFrames.push_back(-1);
 
@@ -37,6 +37,7 @@ HRESULT CState_GN_Attack_Hand3::Initialize()
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK; 
+
 }
 
 void CState_GN_Attack_Hand3::Enter_State()
@@ -72,6 +73,7 @@ void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 
 	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
 	{
+
 		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
 		{
 			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
@@ -80,6 +82,7 @@ void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 		{
 			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
 		}
+		PLAYSOUND(m_SoundFrames[m_iSoundCnt].strName, CHANNELID::CHANNEL_EFFECT, SOUNDLOOP::NOLOOP);
 
 		m_iSoundCnt++;
 	}

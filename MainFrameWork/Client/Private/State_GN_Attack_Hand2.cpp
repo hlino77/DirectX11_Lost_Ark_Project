@@ -25,7 +25,7 @@ HRESULT CState_GN_Attack_Hand2::Initialize()
 	else
 		m_TickFunc = &CState_GN_Attack_Hand2::Tick_State_NoneControl;
 
-	/* ÀÏ¹Ý°ø°Ý ÇÁ·¹ÀÓ */
+	/* ï¿½Ï¹Ý°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	m_AttackFrames.push_back(8);
 	m_AttackFrames.push_back(11);
 	m_AttackFrames.push_back(14);
