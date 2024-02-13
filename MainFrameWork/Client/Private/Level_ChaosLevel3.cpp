@@ -217,18 +217,18 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	desc.vTileCount = Vec2(2.f, 2.f);
 	desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
 	desc.fAlpha = 0.4f;
-	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_CHAOS_3, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
 	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -208.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -208.f, 100.f));
 
 	// µÎ ¹øÂ°
 	desc.vTileCount = Vec2(4.f, 4.f);
 	desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
 	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_CHAOS_3, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
@@ -239,7 +239,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	desc.vTileCount = Vec2(5.f, 5.f);
 	desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
 	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_CHAOS_3, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
