@@ -24,6 +24,7 @@
 #include "UI_ValtanClearWnd.h"
 #include "UI_DeadScene.h";
 #include "UI_Option.h"
+#include "Renderer.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -34,6 +35,8 @@ CUI_Manager::CUI_Manager()
 HRESULT CUI_Manager::Reserve_Manager()
 {
 	m_pUIList = new  list<class CUI*>[(_uint)LEVELID::LEVEL_END];
+
+
 
 	return S_OK;
 }
@@ -423,6 +426,17 @@ _float CUI_Manager::Get_ChannelVolume(_uint iChannelID)
 		}
 	}
 	return 0.f;
+}
+
+void CUI_Manager::Set_LevelCustomOption()
+{
+	for (auto iter : m_pUIList[(_uint)LEVEL_STATIC])
+	{
+		if (TEXT("UI_Option") == iter->Get_UITag())
+		{
+			static_cast<CUI_Option*>(iter)->Set_LevelCustomOption();
+		}
+	}
 }
 
 void CUI_Manager::Free()

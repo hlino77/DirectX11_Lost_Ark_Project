@@ -467,7 +467,7 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 	m_iHpCount = (_uint)((_float)m_iCurrHp / m_fDivideCountHp);
 	if (m_iHpCount < m_iPreCount)
 	{
-		if (m_iHpCount != m_iMaxCount - 1)
+		if (m_iHpCount < m_iMaxCount - 1)
 		{
 			_int iSubtract = m_iPreCount - m_iHpCount;
 			m_iNextHpColor += iSubtract;

@@ -26,6 +26,7 @@
 #include "Effect_Custom_EarthEaterParticle.h"
 #include "Effect_Custom_EarthEaterSmallParticle.h"
 #include "Sound_Manager.h"
+#include "Renderer.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -60,6 +61,8 @@ HRESULT CLevel_Lobby::Initialize()
 	m_bConnect = false;
 
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
+	CUI_Manager::GetInstance()->Set_LevelCustomOption();
+	
 	return S_OK;
 }
 

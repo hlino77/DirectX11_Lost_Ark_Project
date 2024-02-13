@@ -639,6 +639,26 @@ void CUI_Option_Video::MovingWnd(CUI* pUI, _float fMoveX)
 	}
 }
 
+void CUI_Option_Video::Set_LevelCustomOption()
+{
+	m_bOption_PBR = m_pRendererCom->Get_PBR_Switch();
+	m_bOption_SSAO = m_pRendererCom->Get_SSAO_Switch();
+	m_bOption_Fxaa3_11 = m_pRendererCom->Get_Fxaa_Switch();
+	
+	m_iIndex_IBL = m_pRendererCom->Get_IBLTexture();
+	m_fRatioX[0] = m_iIndex_IBL / 22.f;
+
+	m_fRatioX[1] = m_pRendererCom->Get_SSRLevel();
+	m_iIndex_SSR = (_uint)(4.f * m_fRatioX[1]);
+
+	m_fRatioX[2] = m_pRendererCom->Get_GrayScale();
+	m_fRatioX[3] = m_pRendererCom->Get_Contrast();
+	m_fRatioX[4] = m_pRendererCom->Get_Saturation();
+	m_fScreenTone_Grayscale =  255.f * m_fRatioX[2];
+	m_fScreenTone_Contrast = 255.f * m_fRatioX[3];
+	m_fScreenTone_Saturation = 255.f * m_fRatioX[4];
+}
+
 void CUI_Option_Video::Create_CheckButton()
 {
 	m_rcCheckButton[0].left = LONG((m_fX - 78.f) - (21.f / 2));

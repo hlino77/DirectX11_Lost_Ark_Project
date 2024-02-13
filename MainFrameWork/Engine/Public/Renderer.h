@@ -51,6 +51,12 @@ public:
 	static void	Set_Contrast(_float fContrast) { m_tScreenTone_Data.fContrast = fContrast; }
 	static void	Set_Saturation(_float fSaturation) { m_tScreenTone_Data.fSaturation = fSaturation; }
 
+	_int	Get_IBLTexture() { return m_iIBLTextureIndex; }
+	_int	Get_SSRLevel() { return m_iSSRLevel; }
+	_float	Get_GrayScale() { return m_tScreenTone_Data.fGrayScale; }
+	_float	Get_Contrast() { return m_tScreenTone_Data.fContrast; }
+	_float	Get_Saturation() { return m_tScreenTone_Data.fSaturation; }
+
 	void	Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity);
 	void	Set_ChromaticData(Vec3 vWorldPos, _float fIntensity);
 
@@ -63,6 +69,10 @@ public:
 	static void	Set_SSAO_Switch(_bool bSwitch) { m_iSSAO_Switch = bSwitch; }
 	static void	Set_PBR_Switch (_bool bSwitch) { m_bPBR_Switch = bSwitch; }
 	static void	Set_Fxaa_Switch(_bool bSwitch) { m_iFxaa_Switch = bSwitch; }
+	
+	_bool	Get_SSAO_Switch() {return m_iSSAO_Switch; }
+	_bool	Get_PBR_Switch() { return m_bPBR_Switch; }
+	_bool	Get_Fxaa_Switch() {return m_iFxaa_Switch; }
 	// For Fog
 	static void Set_Fog_StartHeight(_float Height) { m_fFogStartHeight = Height; }
 	static void Set_Fog_EndHeight(_float Height) { m_fFogEndHeight = Height; }

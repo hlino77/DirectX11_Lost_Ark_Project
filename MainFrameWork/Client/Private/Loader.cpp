@@ -151,6 +151,7 @@
 #include "UI_DeadWnd.h"
 #include "UI_WatchingMode.h"
 #include "UI_DeadScene.h"
+#include "UI_NPC_Valtan_NewWnd.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -221,6 +222,7 @@
 #include "tinyxml2.h"
 #include "Deco_Npc.h"
 #include "Guide_Chaos_Npc.h"
+#include "Guide_Valtan_Npc.h"
 #include "Upgrade_Npc.h"
 #include "Npc_Part.h"
 
@@ -1049,7 +1051,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
-	pUIManager->Set_MaxFiles(446);
+	pUIManager->Set_MaxFiles(701);
 
 	if (FAILED(Loading_QuickSlot()))
 		return E_FAIL;
@@ -1058,9 +1060,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 
 	if(FAILED(Loading_PartyUI()))
-		return E_FAIL;
-
-	if (FAILED(Loading_ValtanUI()))//완성 후 발탄맵으로 옮길 예정
 		return E_FAIL;
 
 	if (FAILED(Loading_DeadSceneUI()))
@@ -1449,6 +1448,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Valtan_Npc"),
+		CGuide_Valtan_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NpcPart"),
 		CNpc_Part::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1554,7 +1558,7 @@ HRESULT CLoader::Loading_For_Level_Bern()
 
 	if (FAILED(Load_NpcData()))
 		return E_FAIL;
-
+	pUIManager->Add_CurrFile();
 
 	m_strLoading = TEXT("로딩 끝.");
 	m_isFinished = true;
@@ -1720,7 +1724,7 @@ HRESULT CLoader::Loading_For_Level_Chaos3()
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
 
-	pUIManager->Set_MaxFiles(7);
+	pUIManager->Set_MaxFiles(25);
 
 	Matrix		PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
@@ -1809,7 +1813,10 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
-	pUIManager->Set_MaxFiles(10);
+	pUIManager->Set_MaxFiles(150);
+
+	if (FAILED(Loading_ValtanUI()))
+		return E_FAIL;
 
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_VALTANMAIN, L"Boss_End.Navi");
 	pUIManager->Add_CurrFile();
@@ -5365,6 +5372,11 @@ HRESULT CLoader::Loading_Npc_UI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ValtanEntrance"),
+		CUI_NPC_ValtanEntrance_Wnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	Safe_Release(pUIManager);
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -5650,6 +5662,11 @@ HRESULT CLoader::Loading_Npc_UI_Texture()
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Item_Upgrade_DragBar"),
 		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/Item_Upgrade/DragBar.png"))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Npc_Valtan_Entrance_Wnd"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Npc/ChaosDungeon_Entrance/NewWnd/Valtan_Entrance_Wnd.png"))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

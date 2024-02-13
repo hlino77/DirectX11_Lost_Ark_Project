@@ -108,7 +108,7 @@ HRESULT CLevel_ChaosLevel2::Initialize()
 	CChat_Manager::GetInstance()->Set_Active(true);
 
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sanctuary of Arcadia.wav", 0.5f);
-
+	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
 }
 

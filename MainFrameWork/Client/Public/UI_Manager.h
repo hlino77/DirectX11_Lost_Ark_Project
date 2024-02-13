@@ -72,8 +72,9 @@ public:
 public:
     void    Set_Player_Control(_bool bControl);
 
-public:
+public://Option
     _float  Get_ChannelVolume(_uint iChannelID);
+    void Set_LevelCustomOption();
 
 private:
     list<class CUI*>*    m_pUIList;

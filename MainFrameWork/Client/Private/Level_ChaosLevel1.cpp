@@ -104,7 +104,7 @@ HRESULT CLevel_ChaosLevel1::Initialize()
 	Start_QuadTree();
 
 	CChat_Manager::GetInstance()->Set_Active(true);
-
+	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
 }
 

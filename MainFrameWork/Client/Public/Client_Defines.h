@@ -155,6 +155,5 @@ extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;
 using namespace Client;
 
-
 #define SERVER_IP		L"127.0.0.1" //L"192.168.0.30"
 #define SERVER_PORT		7777

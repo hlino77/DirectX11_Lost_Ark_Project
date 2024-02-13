@@ -48,9 +48,9 @@ private:
 	HRESULT Loading_For_Level_Tool();
 	HRESULT	Loading_For_Level_Tool_Npc();
 	HRESULT Loading_For_Level_ServerSelect();
-	HRESULT Loading_For_Level_Lobby();
 	HRESULT Loading_For_Level_Bern();
 	HRESULT Loading_For_Level_Chaos1();
+	HRESULT Loading_For_Level_Lobby();
 	HRESULT Loading_For_Level_Chaos2();
 	HRESULT Loading_For_Level_Chaos3();
 	HRESULT Loading_For_Level_ValtanMain();
