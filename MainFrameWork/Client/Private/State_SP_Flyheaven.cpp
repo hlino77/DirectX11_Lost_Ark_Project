@@ -28,15 +28,27 @@ HRESULT CState_SP_Flyheaven::Initialize()
 	m_SkillFrames.push_back(30);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_241.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("SP_89.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_SP_Flyheaven::Enter_State()
 {
+	m_iSoundCnt = 0.f;
 
 
+	if (m_pPlayer->Is_Control())
+	{
+		// Player Sound
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
 
-
+	}
+	
 
 	m_iSkillCnt = 0;
 
@@ -53,6 +65,7 @@ void CState_SP_Flyheaven::Enter_State()
 
 void CState_SP_Flyheaven::Tick_State(_float fTimeDelta)
 {
+
 	m_TickFunc(*this, fTimeDelta);
 }
 
@@ -62,17 +75,39 @@ void CState_SP_Flyheaven::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	TrailEnd();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 {
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt+1].iFrame && m_SoundFrames[m_iSoundCnt+1].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+		
+		}
+		else if(true == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	
 	if (m_bTrail == false)
 	{
 		Effect_Trail();
 		m_bTrail = true;
 	}
-
-	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven);
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{

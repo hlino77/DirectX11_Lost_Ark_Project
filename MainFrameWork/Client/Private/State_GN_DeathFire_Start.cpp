@@ -54,6 +54,10 @@ HRESULT CState_GN_DeathFire_Start::Initialize()
 	m_SkillFrames.push_back(98);
 
 	m_SkillFrames.push_back(-1);
+	
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Yell_631.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_DeathFire_85.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
 
 	if (m_pPlayer->Is_Control())
 	{
@@ -74,6 +78,7 @@ HRESULT CState_GN_DeathFire_Start::Initialize()
 void CState_GN_DeathFire_Start::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iDeathFire_Start, 0.1f, 0, 0);
 
@@ -98,6 +103,8 @@ void CState_GN_DeathFire_Start::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
+
+	StopStateSound();
 }
 
 void CState_GN_DeathFire_Start::Tick_State_Control(_float fTimeDelta)
@@ -106,6 +113,7 @@ void CState_GN_DeathFire_Start::Tick_State_Control(_float fTimeDelta)
 	m_fSkillTimeAcc += fTimeDelta;
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
+
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		if (iAnimFrame < 90)
@@ -118,6 +126,21 @@ void CState_GN_DeathFire_Start::Tick_State_Control(_float fTimeDelta)
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDeathFire_Start))
 		m_pPlayer->Set_State(TEXT("Skill_GN_DeathFire_Success"));

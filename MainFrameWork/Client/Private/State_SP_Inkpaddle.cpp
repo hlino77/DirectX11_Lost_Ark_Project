@@ -28,11 +28,27 @@ HRESULT CState_SP_Inkpaddle::Initialize()
 	m_SkillFrames.push_back(17);
 	m_SkillFrames.push_back(-1);
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_219.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(100, TEXT("Effect"), TEXT("SP_116.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_SP_Inkpaddle::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+	}
+	
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iInkpaddle, 0.1f, 0, 0);
@@ -45,6 +61,9 @@ void CState_SP_Inkpaddle::Enter_State()
 
 	m_bEffect = false;
 	m_bTrail = false;
+
+
+
 }
 
 void CState_SP_Inkpaddle::Tick_State(_float fTimeDelta)
@@ -58,6 +77,11 @@ void CState_SP_Inkpaddle::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	TrailEnd();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Inkpaddle::Tick_State_Control(_float fTimeDelta)

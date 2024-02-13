@@ -27,11 +27,19 @@ HRESULT CState_SP_DimensionalShift_End::Initialize()
 	m_SkillFrames.push_back(20);
 	m_SkillFrames.push_back(-1);
 
+
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_65.wav"))); // Player 
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_DimensionalShift_End::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iDimensionalShift_End, 0.1f, 0, 0);
@@ -52,6 +60,11 @@ void CState_SP_DimensionalShift_End::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	TrailEnd();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
@@ -84,8 +97,25 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 	if (m_bEffect == false)
 	{
 		Effect_Decal();
+
 		m_bEffect = true;
 	}
+
+	if (false == m_EffectSound)
+	{
+		m_EffectSoundAcctime += fTimeDelta;
+
+		if (m_EffectSoundAcctime >= 1.f)
+		{
+			m_EffectSoundAcctime = 0.f;
+			m_EffectSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+		}
+	}
+
+
+
 
 	if (30 <= iAnimFrame)
 	{

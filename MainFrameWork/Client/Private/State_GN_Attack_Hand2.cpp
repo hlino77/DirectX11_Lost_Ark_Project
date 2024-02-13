@@ -42,19 +42,21 @@ HRESULT CState_GN_Attack_Hand2::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC(20, (_uint)CPartObject::PARTS::WEAPON_2));
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
+	m_SoundFrames.push_back(SOUNDDESC(6, TEXT("Effect"), TEXT("GN_Laugh_598.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(6, TEXT("Effect"), TEXT("GN_Hand_173.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(6, TEXT("Effect"), TEXT("GN_Shot_13.wav"), 0.3f));
+	m_SoundFrames.push_back(SOUNDDESC(12, TEXT("Effect"), TEXT("GN_Shot_13.wav"), 0.3f));
+	m_SoundFrames.push_back(SOUNDDESC(18, TEXT("Effect"), TEXT("GN_Shot_13.wav"), 0.3f));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Attack_Hand2::Enter_State()
 {
-	if (true == m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Laugh_598"), 1.f);
-	}
-	
-
 	m_iAttackCnt = 0;
 	m_iEffectCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Hand2, 0.1f, 0, 0);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -69,6 +71,10 @@ void CState_GN_Attack_Hand2::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Hand2::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Attack_Hand2::Tick_State_Control(_float fTimeDelta)
@@ -85,6 +91,20 @@ void CState_GN_Attack_Hand2::Tick_State_Control(_float fTimeDelta)
 	{
 		Effect_Shot();
 		m_iEffectCnt++;
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_pController->Is_Attack() &&

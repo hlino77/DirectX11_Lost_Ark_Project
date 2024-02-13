@@ -33,10 +33,11 @@ HRESULT CState_GN_Attack_Hand3::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC(22, (_uint)CPartObject::PARTS::WEAPON_1));
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
-	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("Effect"), TEXT("GN_Shout_596")));
+	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("Effect"), TEXT("GN_Shout_596.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("Effect"), TEXT("GN_Hand_34.wav")));
 	m_SoundFrames.push_back(SOUNDDESC());
 
-	return S_OK;
+	return S_OK; 
 }
 
 void CState_GN_Attack_Hand3::Enter_State()
@@ -58,6 +59,10 @@ void CState_GN_Attack_Hand3::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Hand3::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
@@ -72,7 +77,14 @@ void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)
 
 	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
 	{
-		CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
 
 		m_iSoundCnt++;
 	}

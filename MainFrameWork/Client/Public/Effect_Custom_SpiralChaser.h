@@ -48,6 +48,9 @@ private:
 
 	class CPlayer_Gunslinger* m_pPlayer = nullptr;
 	_uint m_iSkillKey = 0;
+
+	_bool	m_bSoundStart = { false };
+
 public:
 	static CEffect_Custom_SpiralChaser* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

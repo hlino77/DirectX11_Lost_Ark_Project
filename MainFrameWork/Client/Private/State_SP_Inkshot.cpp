@@ -28,11 +28,31 @@ HRESULT CState_SP_Inkshot::Initialize()
 	m_SkillFrames.push_back(20);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_118.wav"))); // Skill   0
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_119.wav"))); // Skill   1
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_215.wav"))); // Player  2
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_212.wav"))); // Player  3
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_Inkshot::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		//// Skill Sound 
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+		//// Player Sound
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
+
+	}
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iInkshot, 0.1f, 0, 0);
@@ -45,24 +65,63 @@ void CState_SP_Inkshot::Enter_State()
 
 	m_bEffect = false;
 	m_bChargeEffect = false;
+
+
+
 }
 
 void CState_SP_Inkshot::Tick_State(_float fTimeDelta)
 {
 	m_TickFunc(*this, fTimeDelta);
+
 }
 
 void CState_SP_Inkshot::Exit_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
 	Charge_End();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot);
+
+
+	if ( true == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt + 0].strName))
+	{
+		if (false == m_EffectSound)
+		{
+			m_EffectSoundAccTime += fTimeDelta;
+
+			if (m_EffectSoundAccTime >= 0.5f)
+			{
+				m_EffectSoundAccTime = 0.f;
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+				m_EffectSound = true;
+			}
+		}
+	}
+
+	if (false == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt + 2].strName))
+	{
+		if (false == m_PlayerSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 3].strGroup, m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].fVolume);
+			m_PlayerSound = true;
+		}
+	}
+
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{

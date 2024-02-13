@@ -36,6 +36,10 @@ private:
 	_uint m_iAttackCnt = 0;
 	vector<_int> m_AttackFrames;
 
+	// Sound
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
 public:
 	static CState_SP_Identity_Moon_End* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Doaga* pOwner);
 	virtual void Free() override;

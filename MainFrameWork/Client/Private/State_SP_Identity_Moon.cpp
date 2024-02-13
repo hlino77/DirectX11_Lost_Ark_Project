@@ -24,17 +24,32 @@ HRESULT CState_SP_Identity_Moon::Initialize()
 	else
 		m_TickFunc = &CState_SP_Identity_Moon::Tick_State_NoneControl;
 
+
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_2.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_Identity_Moon::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
+
 	m_pPlayer->Reserve_Animation(m_iIdentity_Moon_Start, 0.1f, 0, 0);
 
 	m_pPlayer->Get_SP_Controller()->Get_StopMessage();
 	m_pPlayer->Get_SP_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 
-	m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
+	//m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
 	m_pPlayer->Set_SuperArmorState(true);
 
 	static_cast<CController_SP*>(m_pController)->Set_Attack_Desc(2);
@@ -55,6 +70,12 @@ void CState_SP_Identity_Moon::Exit_State()
 	{
 		TrailEnd();
 	}
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 }
 
 void CState_SP_Identity_Moon::Tick_State_Control(_float fTimeDelta)

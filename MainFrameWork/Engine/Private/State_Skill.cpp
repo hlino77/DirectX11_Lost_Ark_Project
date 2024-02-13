@@ -55,4 +55,5 @@ void CState_Skill::Bind_SkillKey(CPlayer_Controller::SKILL_KEY eKey)
 void CState_Skill::Free()
 {
 	__super::Free();
+
 }

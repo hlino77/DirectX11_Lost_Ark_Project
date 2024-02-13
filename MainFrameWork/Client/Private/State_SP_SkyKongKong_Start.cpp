@@ -28,11 +28,27 @@ HRESULT CState_SP_SkyKongKong_Start::Initialize()
 	m_SkillFrames.push_back(18);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_270.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_181.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_182.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_SkyKongKong_Start::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+	}
+
+
 	m_iSkillCnt = 0;
 	m_bComboContinue = false;
 
@@ -40,7 +56,6 @@ void CState_SP_SkyKongKong_Start::Enter_State()
 
 	m_pPlayer->Get_SP_Controller()->Get_StopMessage();
 	m_pPlayer->Get_SP_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
-
 
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
 
@@ -62,6 +77,8 @@ void CState_SP_SkyKongKong_Start::Exit_State()
 		{
 			m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 		}
+		
+		StopStateSound();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -71,6 +88,16 @@ void CState_SP_SkyKongKong_Start::Exit_State()
 void CState_SP_SkyKongKong_Start::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSkyKongKong_Start);
+
+	if (false == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt+1].strName))
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt+2].strName, m_SoundFrames[m_iSoundCnt+2].strGroup, m_SoundFrames[m_iSoundCnt+2].strName, m_SoundFrames[m_iSoundCnt+2].fVolume);
+			m_EffectSound = true;
+		}
+	}
+
 
 	if (m_bTrail == false)
 	{

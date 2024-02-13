@@ -27,11 +27,29 @@ HRESULT CState_SP_SkyKongKong_Loop::Initialize()
 	m_SkillFrames.push_back(13);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_282.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_183.wav"))); // Skill
+
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_SP_SkyKongKong_Loop::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt+1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+	}
+
+
 	m_iSkillCnt = 0;
 	m_bComboContinue = false;
 
@@ -58,7 +76,10 @@ void CState_SP_SkyKongKong_Loop::Exit_State()
 	{
 		TrailEnd();
 		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
+		StopStateSound();
 	}
+
+	
 }
 
 void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)

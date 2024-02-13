@@ -25,6 +25,7 @@ HRESULT CState_SP_Moondrawing_Start::Initialize()
 	m_SkillFrames.push_back(13);
 	m_SkillFrames.push_back(-1);
 
+
 	return S_OK;
 }
 
@@ -56,6 +57,12 @@ void CState_SP_Moondrawing_Start::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 }
 
 void CState_SP_Moondrawing_Start::Tick_State_Control(_float fTimeDelta)

@@ -34,11 +34,21 @@ HRESULT CState_SP_Attack2::Initialize()
 	m_AttackFrames.push_back(12);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_11.wav"))); // Player  3
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_SP_Attack2::Enter_State()
 {
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	}
+
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_2, 0.2f, 0, 0, 1.f);
