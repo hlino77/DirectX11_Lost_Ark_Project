@@ -67,12 +67,16 @@ HRESULT CBehaviorTree::Change_Action(wstring strActionName)
 	const auto& iter = m_hashActions.find(strActionName);
 	if (iter == m_hashActions.end())
 	{ 
-		cout << "Action	" << CAsUtils::ToString(strActionName) << "	not Found" << endl;
 		return E_FAIL;
 	}
 	m_PreviousAction->second->OnEnd();
 	m_PreviousAction->second->Reset();
 	return S_OK;
+}
+
+CBT_Action* CBehaviorTree::Get_CurrentAction()
+{
+	return static_cast<CBT_Action*>(m_PreviousAction->second);
 }
 
 HRESULT CBehaviorTree::Init_PreviousAction(wstring strAction, _int iAnimIndex)
