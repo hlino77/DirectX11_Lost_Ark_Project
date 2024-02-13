@@ -28,11 +28,26 @@ HRESULT CState_SP_Identity_Moon_End::Initialize()
 	m_AttackFrames.push_back(1);
 	m_AttackFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_3.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_Identity_Moon_End::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
+
+
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iIdentity_Moon_End, 0.1f, 0, 0);
@@ -48,8 +63,13 @@ void CState_SP_Identity_Moon_End::Tick_State(_float fTimeDelta)
 void CState_SP_Identity_Moon_End::Exit_State()
 {
 	m_pPlayer->Set_SuperArmorState(false);
-
 	TrailEnd();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 }
 
 void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)

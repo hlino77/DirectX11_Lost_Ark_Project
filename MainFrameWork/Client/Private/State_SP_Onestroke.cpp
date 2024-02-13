@@ -115,11 +115,18 @@ void CState_SP_Onestroke::Tick_State_Control(_float fTimeDelta)
 
 	if (false == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt + 1].strName))
 	{
+
 		if (false == m_EffectSound)
 		{
-			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
+			m_EffectSoundAccTime += fTimeDelta;
 
-			m_EffectSound = true;
+			if (m_EffectSoundAccTime >= 0.1f)
+			{
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
+
+				m_EffectSound = true;
+				m_EffectSoundAccTime = 0.f;
+			}
 		}
 
 	}

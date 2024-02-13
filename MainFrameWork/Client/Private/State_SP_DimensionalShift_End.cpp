@@ -107,13 +107,10 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 
 		if (m_EffectSoundAcctime >= 1.f)
 		{
-			m_EffectSound == true;
-
-			if (m_pPlayer->Is_Control())
-			{
-				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-			}
 			m_EffectSoundAcctime = 0.f;
+			m_EffectSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
 		}
 	}
 
