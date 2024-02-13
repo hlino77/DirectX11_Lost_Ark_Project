@@ -96,6 +96,7 @@ cbuffer ScreenTone
     float g_fGrayScale = 0.2f;
     float g_fContrastValue = 1.f;
     float g_fSaturation = 1.f;
+    float g_fPadding;
 }
 
 float4 PS_MAIN_SCREENTONE(PS_IN In) : SV_TARGET0

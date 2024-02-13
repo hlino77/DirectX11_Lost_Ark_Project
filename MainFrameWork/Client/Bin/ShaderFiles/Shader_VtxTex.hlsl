@@ -559,6 +559,15 @@ PS_OUT PS_MAIN_ESTHER(PS_IN In)
    return Out;
 }
 
+PS_OUT PS_MAIN_GAMMA(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    Out.vColor = pow(g_DiffuseTexture.Sample(LinearSampler, In.vTexUV), 2.2f);
+	
+   return Out;
+}
+
 
 technique11 DefaultTechnique
 {
@@ -827,5 +836,16 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_ESTHER();
+    }
+
+	pass Gamma	// No. 24
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_GAMMA();
     }
 }

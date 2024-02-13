@@ -46,6 +46,11 @@ public:
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
 	static void	Set_IBLTexture(_int iIndex) { m_iIBLTextureIndex = iIndex; }
 
+	static void	Set_SSRLevel(_int iLevel) { m_iSSRLevel = iLevel; }
+	static void	Set_GrayScale(_float fGrayScale) { m_tScreenTone_Data.fGrayScale = fGrayScale; }
+	static void	Set_Contrast(_float fContrast) { m_tScreenTone_Data.fContrast = fContrast; }
+	static void	Set_Saturation(_float fSaturation) { m_tScreenTone_Data.fSaturation = fSaturation; }
+
 	void	Set_RadialBlurData(Vec3 vWorldPos, _float fIntensity);
 	void	Set_ChromaticData(Vec3 vWorldPos, _float fIntensity);
 
@@ -235,6 +240,8 @@ private:
 		Vec2	vPadding;
 	} m_tSSR_Data[5];
 
+	static _uint	m_iSSRLevel;
+
 	// Chromatic Aberration
 	struct ChromaticBlur_Data
 	{
@@ -259,13 +266,27 @@ private:
 
 	// Eshter Motion
 
-	// Screen Ton
+	// Screen Tone
+	struct ScreenTone_Data
+	{
+		_float	fGrayScale = 0.2f;
+		_float	fContrast = 1.f;
+		_float	fSaturation = 1.f;
+		_float	fPadding;
+	};
+
+	static ScreenTone_Data m_tScreenTone_Data;
+
 	_bool	m_bDeadScene = { false };
 
 	// ScreenShot
 	_bool	m_bScreenShot = { false };
 	wstring m_strScreenShotPath;
 	_uint	m_iScreenShotFrame = { 0 };
+
+	static  _float  m_fGrayScale;
+	static  _float  m_fContrast;
+	static  _float  m_fSaturation;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

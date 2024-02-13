@@ -22,6 +22,7 @@
 #include "UI_Lobby_EntranceServer_Button.h"
 #include "UI_Lobby_NickNameChange.h"
 #include "Pool.h"
+#include "Renderer.h"
 #include "Effect_Custom_EarthEaterParticle.h"
 #include "Effect_Custom_EarthEaterSmallParticle.h"
 
@@ -58,6 +59,9 @@ HRESULT CLevel_Lobby::Initialize()
 	m_bConnect = false;
 	CGameInstance::GetInstance()->StopSound(CHANNEL_BGM);
 	CGameInstance::GetInstance()->PlayBGM(L"Sunrise Horizon.wav", CHANNEL_BGM);
+
+	CRenderer::Set_IBLTexture(4);
+
 	return S_OK;
 }
 

@@ -13,9 +13,12 @@
 
 
 _uint CRenderer::m_iIBLTextureIndex = 0;
+_uint CRenderer::m_iSSRLevel = 0;
 _bool CRenderer::m_bPBR_Switch = true;
 _int CRenderer::m_iSSAO_Switch = true;
 _int  CRenderer::m_iFxaa_Switch = true;
+
+CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 0.2f, 1.f, 1.f };
 
 _float CRenderer::m_fFogDensity      = 0.f;
 _float CRenderer::m_fFogStartHeight  = 0.f;
@@ -977,7 +980,7 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
 		return E_FAIL;
 #else
-	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[0], sizeof(SSR_Data))))
+	if (FAILED(m_pSSRShader->Bind_CBuffer("SSR_Data", &m_tSSR_Data[m_iSSRLevel], sizeof(SSR_Data))))
 		return E_FAIL;
 #endif
 
@@ -1661,6 +1664,9 @@ HRESULT CRenderer::Render_PostProcess()
 			return E_FAIL;
 
 		if (FAILED(m_pPostProccessor->Begin("ScreenTone")))
+			return E_FAIL;
+
+		if (FAILED(m_pPostProccessor->Bind_CBuffer("ScreenTone", &m_tScreenTone_Data, sizeof(ScreenTone_Data))))
 			return E_FAIL;
 
 		if (FAILED(m_pVIBuffer->Render()))

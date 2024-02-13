@@ -427,6 +427,8 @@ void CUI_Option_Video::Update_DragBar()
 
 		m_fRatioX[1] = (m_fDragBarX_SSR - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_iIndex_SSR = (_uint)(6.f * m_fRatioX[1]);
+
+		CRenderer::Set_SSRLevel(m_iIndex_SSR);
 		Print_OptionText();
 	}
 
@@ -441,6 +443,8 @@ void CUI_Option_Video::Update_DragBar()
 
 		m_fRatioX[2] = (m_fDragBarX_ScreenTone_Grayscale - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fScreenTone_Grayscale = (_uint)(255.f * m_fRatioX[2]);
+
+		CRenderer::Set_GrayScale(m_fScreenTone_Grayscale);
 		Print_OptionText();
 	}
 	
@@ -455,6 +459,8 @@ void CUI_Option_Video::Update_DragBar()
 
 		m_fRatioX[3] = (m_fDragBarX_ScreenTone_Contrast - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fScreenTone_Contrast = (_uint)(255.f * m_fRatioX[3]);
+
+		CRenderer::Set_Contrast(m_fScreenTone_Contrast);
 		Print_OptionText();
 	}
 
@@ -469,6 +475,8 @@ void CUI_Option_Video::Update_DragBar()
 
 		m_fRatioX[4] = (m_fDragBarX_ScreenTone_Saturation - m_fDragLineMinX) / m_fDragLineSizeX;
 		m_fScreenTone_Saturation = (_uint)(255.f * m_fRatioX[4]);
+
+		CRenderer::Set_Saturation(m_fScreenTone_Saturation);
 		Print_OptionText();
 	}
 	if (KEY_AWAY(KEY::LBTN))
