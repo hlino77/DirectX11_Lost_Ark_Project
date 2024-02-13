@@ -240,44 +240,33 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	/* SkyDome */
 	{
-		wstring strFileName = L"SkyDome0";
 		wstring strFilePath = L"../Bin/Resources/SkyDome/";
-		wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
 		Matrix matPivot = Matrix::Identity;
-		XMStoreFloat4x4(&matPivot, XMMatrixScaling(3.f, 3.f, 3.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(1000.f, 1000.f, 1000.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
 
-		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		for (_int i = 0; i < 12; ++i)
+		{
+			wstring strFileName = L"SkyDome" + ::to_wstring(i);
+			wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
 
-		strFileName = L"SkyDome1";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
+			if (SUCCEEDED(m_pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+			{
+				if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
+					return E_FAIL;
+			}
+		}
 
-		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		XMStoreFloat4x4(&matPivot, XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+		wstring strComponentName = L"Prototype_Component_Model_SkyFloor";
 
-		strFileName = L"SkyDome2";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-
-		strFileName = L"SkyDome3";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-
-		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
-
-		strFileName = L"SkyDome4";
-		strComponentName = L"Prototype_Component_Model_" + strFileName;
-		XMStoreFloat4x4(&matPivot, XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)) * XMMatrixRotationY(XMConvertToRadians(180.0f)));
-		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
-			return E_FAIL;
+		if (SUCCEEDED(m_pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+		{
+			if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+				CModel::Create(m_pDevice, m_pContext, strFilePath, L"SkyFloor", true, false, matPivot))))
+				return E_FAIL;
+		}
 	}
 
 	/* For.Prototype_Component_Renderer */
