@@ -34,7 +34,7 @@ HRESULT CState_SP_Attack3::Initialize()
 	m_AttackFrames.push_back(18);
 	m_AttackFrames.push_back(-1);
 
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_12.wav"))); // Player  3
+	m_SoundFrames.push_back(SOUNDDESC(10, TEXT("Effect"), TEXT("SP_12.wav"))); // Player  3
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
@@ -42,10 +42,8 @@ HRESULT CState_SP_Attack3::Initialize()
 
 void CState_SP_Attack3::Enter_State()
 {
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-	}
+	m_EffectSound = false;
+	m_PlayerSound = false; 
 
 	m_iAttackCnt = 0;
 
@@ -71,6 +69,18 @@ void CState_SP_Attack3::Exit_State()
 void CState_SP_Attack3::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3);
+
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+	}
+
+
 
 	if (m_bEffect == false && iAnimFrame > 16)
 	{
