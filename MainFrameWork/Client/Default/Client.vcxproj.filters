@@ -5118,9 +5118,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Custom_BreakObject.h">
       <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01.Levels\99.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkyFloor.h">
+      <Filter>02.GameObjects\SkyDome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -8279,6 +8282,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Custom_BreakObject.cpp">
       <Filter>02.GameObjects\Effect\Effect_Custom\BreakObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkyFloor.cpp">
+      <Filter>02.GameObjects\SkyDome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

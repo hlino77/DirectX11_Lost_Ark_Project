@@ -9,6 +9,7 @@
 #include <filesystem>
 #include "AsUtils.h"
 #include "StaticModel.h"
+#include "SkyFloor.h"
 #include "GameInstance.h"
 #include "Sound_Manager.h"
 
@@ -148,7 +149,42 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
-	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(0.f, 0.f, 0.f));
+	pSkyDome->Get_TransformCom()->Set_Scale(Vec3(500.f, 500.f, 500.f));
+
+	CSkyFloor::SkyFloorDescription desc;
+
+	// 첫 번째
+	desc.vTileCount = Vec2(2.f, 2.f);
+	desc.vFloorUVoffset = Vec2(0.006f, 0.006f);
+	desc.fAlpha = 0.5f;
+	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(LAYER_TYPE::LAYER_SKYBOX), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	if (nullptr == pSkyFloor)
+		return E_FAIL;
+
+	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -210.f, 100.f));
+
+	// 두 번째
+	desc.vTileCount = Vec2(4.f, 4.f);
+	desc.vFloorUVoffset = Vec2(0.008f, 0.008f);
+	desc.fAlpha = 0.5f;
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(LAYER_TYPE::LAYER_SKYBOX), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	if (nullptr == pSkyFloor)
+		return E_FAIL;
+
+	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -207.5f, 100.f));
+
+	// 세 번째
+	desc.vTileCount = Vec2(5.f, 5.f);
+	desc.vFloorUVoffset = Vec2(0.01f, 0.01f);
+	desc.fAlpha = 0.5f;
+	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(LAYER_TYPE::LAYER_SKYBOX), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	if (nullptr == pSkyFloor)
+		return E_FAIL;
+
+	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -205.f, 100.f));
 
 	CRenderer::Set_IBLTexture(22);
 
