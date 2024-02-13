@@ -22,6 +22,12 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Init_Camera();
+	void	Update_Camera(_uint iAnimFrame, _float fTimeDelta);
+
+	void	Reset_Camera();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_Guillotine_Loop&, _float)> m_TickFunc;
@@ -32,6 +38,9 @@ private:
 
 	//
 	_bool m_bEffectStart = false;
+
+	//Camera
+	Vec3 m_vCameraTargetPos;
 
 public:
 	static CState_WR_Guillotine_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Slayer* pOwner);

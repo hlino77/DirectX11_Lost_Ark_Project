@@ -41,6 +41,9 @@ void CState_WR_Guillotine_Start::Enter_State()
 	m_pPlayer->Get_WR_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
 	m_pPlayer->Get_WR_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
+
+	if (m_pPlayer->Is_Control())
+		Init_Camera();
 }
 
 void CState_WR_Guillotine_Start::Tick_State(_float fTimeDelta)
@@ -52,10 +55,15 @@ void CState_WR_Guillotine_Start::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (m_pPlayer->Is_Control())
+		Reset_Camera();
 }
 
 void CState_WR_Guillotine_Start::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGuillotine_Start);
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGuillotine_Start))
 		m_pPlayer->Set_State(TEXT("Skill_WR_Guillotine_Loop"));
 
@@ -73,6 +81,8 @@ void CState_WR_Guillotine_Start::Tick_State_Control(_float fTimeDelta)
 
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);
+
+	Update_Camera(iAnimFrame, fTimeDelta);
 }
 
 void CState_WR_Guillotine_Start::Tick_State_NoneControl(_float fTimeDelta)
@@ -81,6 +91,63 @@ void CState_WR_Guillotine_Start::Tick_State_NoneControl(_float fTimeDelta)
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);
 
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_Guillotine_Start::Init_Camera()
+{
+	CCamera_Player* pCamera = m_pPlayer->Get_Camera();
+
+	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vLook = m_pPlayer->Get_TargetPos() - vPos;
+	vLook.y = 0.0f;
+	vLook.Normalize();
+	Vec3 vRight = Vec3::Up.Cross(vLook);
+	vRight.Normalize();
+
+	m_vCameraTargetPos = vPos + vLook * 1.f;
+
+	Vec3 vTargetPos = vPos;
+	vTargetPos.y += 0.7f;
+
+	Vec3 vOffset = vLook * -3.f + vRight * 2.1f; // 초기 위치 인듯
+
+	pCamera->Set_Mode(CCamera_Player::CameraState::FREE);
+	pCamera->Set_TargetPos(vTargetPos);		// 시작시점에 보는 위치 인듯
+	pCamera->Set_Offset(vOffset);
+	pCamera->Set_CameraLength(1.25f);
+
+	//pCamera->ZoomInOut(1.5f, 2.0f);
+}
+
+void CState_WR_Guillotine_Start::Update_Camera(_uint iAnimFrame, _float fTimeDelta)
+{
+	CCamera_Player* pCamera = m_pPlayer->Get_Camera();
+
+	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+	Vec3 vLook = m_vCameraTargetPos - vPos;
+	vLook.y = 0.0f;
+	vLook.Normalize();
+	Vec3 vRight = Vec3::Up.Cross(vLook);
+	vRight.Normalize();
+
+	Vec3 vTargetOffset = vLook * 5.0f + Vec3::Up * 0.85f; // 카메라가 도착할 최종 목표 위치 인듯
+	vTargetOffset.Normalize();
+		
+	Vec3 vOffset = pCamera->Get_Offset();
+	vOffset = Vec3::Lerp(vOffset, vTargetOffset, 6.f * fTimeDelta);
+	pCamera->Set_Offset(vOffset);
+
+	Vec3 vTargetPos = vPos + vLook * 1.5f + Vec3::Up * 0.85f;
+	Vec3 vCameraTargetPos = pCamera->Get_TargetPos();
+	vCameraTargetPos = Vec3::Lerp(vCameraTargetPos, vTargetPos, 3.0f * fTimeDelta);
+	pCamera->Set_TargetPos(vCameraTargetPos); // 여기서 심어주면 다음 프레임 시작때 볼 위치가 되는 듯
+}
+
+void CState_WR_Guillotine_Start::Reset_Camera()
+{
+	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
+	m_pPlayer->Get_Camera()->Set_DefaultOffset();
+	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 }
 
 CState_WR_Guillotine_Start* CState_WR_Guillotine_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
