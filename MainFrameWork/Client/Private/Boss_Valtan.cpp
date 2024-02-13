@@ -439,11 +439,25 @@ HRESULT CBoss_Valtan::Ready_Coliders()
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_Offset(Vec3(0.f, 1.3f, -1.1f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-l-hand")));
 
-return S_OK;
+	return S_OK;
 }
 
 
 
+
+void CBoss_Valtan::Load_GrabMatrix(Matrix& matWorld)
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("bip001-l-hand"));
+	Matrix BoneMatrix = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * m_pModelCom->Get_PivotMatrix();
+
+	BoneMatrix.Right(XMVector3Normalize(BoneMatrix.Right()));
+	BoneMatrix.Up(XMVector3Normalize(BoneMatrix.Up()));
+	BoneMatrix.Backward(XMVector3Normalize(BoneMatrix.Backward()));
+
+	BoneMatrix *= m_pTransformCom->Get_WorldMatrix();
+
+	matWorld.Translation(BoneMatrix.Translation() + BoneMatrix.Up() * 0.5f);
+}
 
 HRESULT CBoss_Valtan::Ready_Components()
 {

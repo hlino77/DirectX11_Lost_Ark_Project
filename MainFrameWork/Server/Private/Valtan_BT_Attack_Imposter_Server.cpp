@@ -10,6 +10,7 @@
 
 CValtan_BT_Attack_Imposter_Server::CValtan_BT_Attack_Imposter_Server()
 {
+	m_vTargetPos = Vec3(100.0f, 0.19f, 100.0f);
 }
 
 void CValtan_BT_Attack_Imposter_Server::OnStart()
@@ -28,6 +29,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter_Server::OnUpdate(const _float& fT
 	}
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
+		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vTargetPos);
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 

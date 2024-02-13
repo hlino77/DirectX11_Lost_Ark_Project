@@ -12,6 +12,11 @@
 #include "Player.h"
 #include "Camera_Player.h"
 #include "Sound_Manager.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
+#include "Effect_Particle.h"
+#include "Effect_Trail.h"
+
 CValtan_BT_Attack_BugSmash::CValtan_BT_Attack_BugSmash()
 {
 }
@@ -21,10 +26,39 @@ void CValtan_BT_Attack_BugSmash::OnStart()
 	__super::OnStart();
 	m_bShoot[0] =true;
 	m_bShoot[1] = true;
+	m_SmokeEffects.clear();
+	m_ChargeEffects.clear();
+
+	m_fChargeTrailAcc = 0.0f;
+	m_fChargeTrailTime = 0.05f;
+
+	m_pRushWarning = nullptr;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_SmokeEffects.empty() == false)
+	{
+		Matrix matWorld = Get_GrabMatrix();
+
+		for (auto& Effect : m_SmokeEffects)
+		{
+			Effect->Update_Pivot(matWorld);
+		}
+	}
+
+	Update_ChargeTrail(fTimeDelta);
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex)
+	{
+		if (m_SmokeEffects.empty())
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &Get_GrabMatrix();
+			EFFECT_START_OUTLIST(L"VT_BugSmoke", &tDesc, m_SmokeEffects);
+		}
+	}
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
@@ -36,13 +70,23 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 	if ( m_iCurrAnimation == 6 || m_iCurrAnimation == 5&& m_fLoopTime > 1.f)
 		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f, 0.6f);
 
-	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex)
+	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_fLoopTime <= 1.0f && m_pGameObject->Get_ModelCom()->IsNext() == false)
 	{
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_fLoopTime > 1.f && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+	{
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
 
+		if (m_pRushWarning == nullptr)
+		{
+			vector<CEffect*> Effects;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"VT_BugRushWarning", &tDesc, Effects);
+			m_pRushWarning = Effects.front();
+		}
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime  && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 
@@ -56,8 +100,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 		m_fLoopTime = 0;
 		return BT_RUNNING;
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 44 && m_bShoot[0])
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 43 && m_bShoot[0])
 	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_BugStart", &tDesc);
+
 		m_bShoot[0] = false;	
 		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#274 (200670410).wav", 1.f);
 		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#139 (195687587).wav", 1.f);
@@ -83,10 +131,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 					pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 					static_cast<CSkill*>(pSkill)->Set_Atk(30);
 					static_cast<CSkill*>(pSkill)->Set_Force(42.f);
-					static_cast<CSkill*>(pSkill)->Set_BlinkTime(0.5f);
-					static_cast<CSkill*>(pSkill)->Set_LastTime(0.7f);
+					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.0f);
+					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
 					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#249 (953298922).wav");
+
+					CEffect_Manager::EFFECTPIVOTDESC tDesc;
+					tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
+					EFFECT_START(L"VT_BugStart2", &tDesc);
 				}
+
 			}
 		vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
 		if (!vecTargets.empty())
@@ -109,14 +162,24 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 					pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(2.f);
 					static_cast<CSkill*>(pSkill)->Set_Atk(30);
 					static_cast<CSkill*>(pSkill)->Set_Force(42.f);
-					static_cast<CSkill*>(pSkill)->Set_BlinkTime(0.5f);
-					static_cast<CSkill*>(pSkill)->Set_LastTime(0.7f);
+					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.0f);
+					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
 					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#249 (953298922).wav");
+
+					CEffect_Manager::EFFECTPIVOTDESC tDesc;
+					tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
+					EFFECT_START(L"VT_BugStart2", &tDesc);
 				}
 			}
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[8].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
+		if (m_pRushWarning != nullptr)
+		{
+			m_pRushWarning->EffectEnd();
+			m_pRushWarning = nullptr;
+		}
+
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(true);
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_Radius(1.4f);
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
@@ -133,7 +196,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[14].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[14].iAnimIndex) >= 49 && m_bShoot[1]&& !m_pGameObject->Get_ModelCom()->IsNext())
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[14].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[14].iAnimIndex) >= 44 && m_bShoot[1] && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		if (m_bSoundOn[8] == false)
 		{
@@ -142,7 +205,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 		}
 		if (m_pGameObject->Get_NearTarget() == nullptr)
 		{
-			m_bShoot[1] = false;
+			
 			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(2.5f, 110.0f, 1.f, 11.0f);
 			CSkill::ModelDesc ModelDesc = {};
 			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -162,7 +225,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 				static_cast<CSkill*>(pSkill)->Set_Force(50.f);
 			}
 		}
+		else
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_BugGrabExplosion2", &tDesc);
+		}
 
+		m_bShoot[1] = false;
 	}
 	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)", 1.f);
 
@@ -210,6 +280,74 @@ void CValtan_BT_Attack_BugSmash::OnEnd()
 		static_cast<CSkill*>(pSkill)->Set_Force(10.f);
 	}
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+
+	Smoke_End();
+}
+
+Matrix CValtan_BT_Attack_BugSmash::Get_GrabMatrix()
+{
+	_uint iBoneIndex = m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand"));
+	Matrix Pivot = m_pGameObject->Get_ModelCom()->Get_PivotMatrix();
+	XMMATRIX BoneMatrix = m_pGameObject->Get_ModelCom()->Get_CombinedMatrix(iBoneIndex) * Pivot;
+
+	BoneMatrix.r[0] = XMVector3Normalize(BoneMatrix.r[0]);
+	BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
+	BoneMatrix.r[2] = XMVector3Normalize(BoneMatrix.r[2]);
+
+	BoneMatrix *= m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+	Matrix matWorld = BoneMatrix;
+
+	return matWorld;
+}
+
+void CValtan_BT_Attack_BugSmash::Update_ChargeTrail(_float fTimeDelta)
+{
+	for (auto& iter = m_ChargeEffects.begin(); iter != m_ChargeEffects.end();)
+	{
+		if ((*iter)->Is_Active())
+		{
+			++iter;
+		}
+		else
+		{
+			iter = m_ChargeEffects.erase(iter);
+		}
+	}
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex ||
+		m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex ||
+		m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex)
+	{
+		m_fChargeTrailAcc += fTimeDelta;
+		if (m_fChargeTrailAcc >= m_fChargeTrailTime)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			Matrix matWorld = Matrix::CreateFromYawPitchRoll(pGameInstance->Random_Float(0.0f, 6.28f), pGameInstance->Random_Float(0.0f, 6.28f), pGameInstance->Random_Float(0.0f, 6.28f));
+			Matrix matBone = Get_GrabMatrix();
+			matWorld.Translation(matBone.Translation() + matBone.Up() * 0.5f);
+
+			auto& func = bind(&CBoss_Valtan::Load_GrabMatrix, static_cast<CBoss_Valtan*>(m_pGameObject), placeholders::_1);
+
+			wstring szEffectName = L"VT_BugCharge";
+			szEffectName += to_wstring(rand() % 2 + 1);
+
+			TRAIL_START_OUTLIST(szEffectName, func, m_ChargeEffects);
+			m_ChargeEffects.back()->Update_Pivot(matWorld);
+
+			Safe_Release(pGameInstance);
+
+			m_fChargeTrailAcc = 0.0f;
+		}
+	}
+}
+
+void CValtan_BT_Attack_BugSmash::Smoke_End()
+{
+	for (auto& Effect : m_SmokeEffects)
+	{
+		dynamic_cast<CEffect_Particle*>(Effect)->ParticleEnd();
+	}
+	m_SmokeEffects.clear();
 }
 
 

@@ -38,13 +38,13 @@ public:
 
 	_bool	Get_RenderPostValtan() { return m_bRenderPostValtan; }
 
-
+	void	Load_GrabMatrix(Matrix& matWorld);
 private:
 	virtual HRESULT		Ready_Components();
 	virtual HRESULT		Ready_Coliders();
 	virtual	HRESULT		Ready_BehaviourTree();
 
-
+	
 private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 private:

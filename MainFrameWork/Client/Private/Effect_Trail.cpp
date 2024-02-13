@@ -115,6 +115,8 @@ void CEffect_Trail::TrailEnd(_float fRemainTime)
 	m_bRevolution_Lerp = false;
 }
 
+
+
 HRESULT CEffect_Trail::Ready_Components()
 {
 	if (FAILED(Super::Ready_Components()))

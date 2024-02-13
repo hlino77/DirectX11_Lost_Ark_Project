@@ -220,7 +220,7 @@ _bool CSound_Manager::Is_Channel_Playing(FMOD_CHANNEL* pChannel)
 
 	FMOD_Channel_IsPlaying(pChannel, &bPlaying);
 
-	return pChannel;
+	return bPlaying;
 }
 
 void CSound_Manager::Add_Channel(const wstring& szChannelTag, FMOD_CHANNEL* pChannel)

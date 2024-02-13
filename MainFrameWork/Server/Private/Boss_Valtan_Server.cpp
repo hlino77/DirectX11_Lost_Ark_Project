@@ -1879,7 +1879,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pJumpSeismic)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pBugSmash)))
 				return E_FAIL;
 
 		}

@@ -4,6 +4,7 @@
 #include "Valtan_BT_Attack_Attack_Base.h"
 
 BEGIN(Client)
+class CEffect;
 
 class CValtan_BT_Attack_Imposter :
     public CValtan_BT_Attack_Attack_Base
@@ -29,6 +30,14 @@ private:
     Vec3        m_vCamPos, m_vCamTargetPos;
 
     _bool       m_bJumpEffect = false;
+    vector<CEffect*> m_WarningEffect1;
+
+    _bool       m_bLastTrail = false;
+    _bool       m_bLastAttack = false;
+
+    CEffect*    m_pLastWarning = nullptr;
+
+    Vec3        m_vTargetPos;
 public:
     static	CValtan_BT_Attack_Imposter* Create(void* pArg);
     virtual void Free() override;
