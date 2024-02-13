@@ -64,8 +64,12 @@ void CUI_DamageFont::LateTick(_float fTimeDelta)
             m_vHostPos += m_vOffset;
         else
         {
-            m_vHostPos.x += m_vOffset.x;
+            if (0.f < m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_LOOK).x)//¿À¸¥ÂÊ
+                m_vHostPos.x += 50.f;
+            else if (0.f > m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_LOOK).x)//¿ÞÂÊ
+                m_vHostPos.x -= 50.f;
             m_vHostPos.y -= 350.f;
+            m_vHostPos += m_vOffset;
         }
         m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
 

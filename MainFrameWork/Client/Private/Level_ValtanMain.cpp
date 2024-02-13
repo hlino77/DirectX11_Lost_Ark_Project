@@ -35,12 +35,9 @@
 #include "QuadTreeMgr.h"
 #include <filesystem>
 #include "Party.h"
-<<<<<<< HEAD
 #include "Sound_Manager.h"
-
-=======
 #include "SkyFloor.h"
->>>>>>> origin/feature/ksg
+
 
 CLevel_ValtanMain::CLevel_ValtanMain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
@@ -234,47 +231,47 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	pSkyDome->Get_TransformCom()->Rotation(Vec3::UnitX, XMConvertToRadians(90.f));
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 100.f));
 
-	CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"));
-	if (nullptr == pSkyFloor)
-		return E_FAIL;
+	//CGameObject* pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"));
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -78.f, 100.f));
-	
-	CSkyFloor::SkyFloorDescription desc;
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -78.f, 100.f));
+	//
+	//CSkyFloor::SkyFloorDescription desc;
 
-	// 첫 번째
-	desc.vTileCount = Vec2(2.f, 2.f);
-	desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
-	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
-	if (nullptr == pSkyFloor)
-		return E_FAIL;
+	//// 첫 번째
+	//desc.vTileCount = Vec2(2.f, 2.f);
+	//desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
+	//desc.fAlpha = 0.4f;
+	//pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -208.f, 100.f));
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -208.f, 100.f));
 
-	// 두 번째
-	desc.vTileCount = Vec2(4.f, 4.f);
-	desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
-	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
-	if (nullptr == pSkyFloor)
-		return E_FAIL;
+	//// 두 번째
+	//desc.vTileCount = Vec2(4.f, 4.f);
+	//desc.vFloorUVoffset = Vec2(0.0043f, 0.0043f);
+	//desc.fAlpha = 0.4f;
+	//pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -205.f, 100.f));
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -205.f, 100.f));
 
-	// 세 번째
-	desc.vTileCount = Vec2(5.f, 5.f);
-	desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
-	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
-	if (nullptr == pSkyFloor)
-		return E_FAIL;
+	//// 세 번째
+	//desc.vTileCount = Vec2(5.f, 5.f);
+	//desc.vFloorUVoffset = Vec2(0.0045f, 0.0045f);
+	//desc.fAlpha = 0.4f;
+	//pSkyFloor = pGameInstance->Add_GameObject(LEVEL_VALTANMAIN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
+	//if (nullptr == pSkyFloor)
+	//	return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -202.f, 100.f));
+	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
+	//pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -202.f, 100.f));
 
 
 	CRenderer::Set_IBLTexture(22);

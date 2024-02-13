@@ -325,21 +325,6 @@
     <Filter Include="02.GameObjects\UI\01.Loading\01.Label\01.Bottom">
       <UniqueIdentifier>{b43b7e2c-8c07-4bbf-835e-551fe45fa96c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat">
-      <UniqueIdentifier>{fc107c88-52d3-4684-ba9f-8071c9904b52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\00.Frame">
-      <UniqueIdentifier>{12bfe108-ff9a-4c0e-9dae-9438daf6eafa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\02.ChatState">
-      <UniqueIdentifier>{fa2e7891-c91d-432c-814f-c339e14e7fce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\03.ChatSmaller">
-      <UniqueIdentifier>{343dd946-a341-42dd-8612-8e7ba8e2b29e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\02.Chat\01.WriteFrame">
-      <UniqueIdentifier>{6c5db175-013f-4762-a321-82bdcbb8b1aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\98.Tool">
       <UniqueIdentifier>{6fbf163b-9091-4320-9d94-f8085750cdcc}</UniqueIdentifier>
     </Filter>
@@ -1936,6 +1921,21 @@
     <Filter Include="02.GameObjects\UI\21.DeadScene\01.CCTV">
       <UniqueIdentifier>{74298378-abab-4c8e-af50-a0911aef90b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat">
+      <UniqueIdentifier>{fc107c88-52d3-4684-ba9f-8071c9904b52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\00.Frame">
+      <UniqueIdentifier>{12bfe108-ff9a-4c0e-9dae-9438daf6eafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\02.ChatState">
+      <UniqueIdentifier>{fa2e7891-c91d-432c-814f-c339e14e7fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\03.ChatSmaller">
+      <UniqueIdentifier>{343dd946-a341-42dd-8612-8e7ba8e2b29e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\01.Loading\02.Chat\01.WriteFrame">
+      <UniqueIdentifier>{6c5db175-013f-4762-a321-82bdcbb8b1aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2138,13 +2138,13 @@
     <ClInclude Include="..\Public\State_GN_Run.h" />
     <ClInclude Include="..\Public\Weapon_Shot_2.h" />
     <ClInclude Include="..\Public\UI_ChatFrame.h">
-      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\00.Frame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatSmallerButton.h">
-      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\03.ChatSmaller</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatLanguageIcon.h">
-      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\02.ChatState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
@@ -5327,16 +5327,16 @@
     <ClCompile Include="..\Private\State_GN_Run.cpp" />
     <ClCompile Include="..\Private\Weapon_Shot_2.cpp" />
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\00.Frame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatWriteFrame.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\01.WriteFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatSmallerButton.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\03.ChatSmaller</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\03.ChatSmaller</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatLanguageIcon.cpp">
-      <Filter>02.GameObjects\UI\02.Chat\02.ChatState</Filter>
+      <Filter>02.GameObjects\UI\01.Loading\02.Chat\02.ChatState</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>

@@ -90,17 +90,17 @@ HRESULT CUI_Option_Video::Initialize(void* pArg)
 	m_pTransform_OptionDragBar[0]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fDragBarX_IBL) - g_iWinSizeX * 0.5f, -(m_fY - 14.f) + g_iWinSizeY * 0.5f, 0.f));
 
-	m_fDragBarX_SSR = (m_fX + 62.f) - (m_fDragLineSizeX * 0.5f);
+	m_fDragBarX_SSR = (m_fX + 62.f) + (m_fDragLineSizeX * 0.5f);
 	m_pTransform_OptionDragBar[1]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fDragBarX_SSR)-g_iWinSizeX * 0.5f, -(m_fY - 33.f) + g_iWinSizeY * 0.5f, 0.f));
 
-	m_fDragBarX_ScreenTone_Grayscale = (m_fX + 62.f) - (m_fDragLineSizeX * 0.5f);
+	m_fDragBarX_ScreenTone_Grayscale = (m_fX + 62.f) + (m_fDragLineSizeX * 0.5f);
 	m_pTransform_OptionDragBar[2]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fDragBarX_ScreenTone_Grayscale)-g_iWinSizeX * 0.5f, -(m_fY + 93.f) + g_iWinSizeY * 0.5f, 0.f));
-	m_fDragBarX_ScreenTone_Contrast = (m_fX + 62.f) - (m_fDragLineSizeX * 0.5f);
+	m_fDragBarX_ScreenTone_Contrast = (m_fX + 62.f) + (m_fDragLineSizeX * 0.5f);
 	m_pTransform_OptionDragBar[3]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fDragBarX_ScreenTone_Contrast)-g_iWinSizeX * 0.5f, -(m_fY + 119.f) + g_iWinSizeY * 0.5f, 0.f));
-	m_fDragBarX_ScreenTone_Saturation = (m_fX + 62.f) - (m_fDragLineSizeX * 0.5f);
+	m_fDragBarX_ScreenTone_Saturation = (m_fX + 62.f) + (m_fDragLineSizeX * 0.5f);
 	m_pTransform_OptionDragBar[4]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fDragBarX_ScreenTone_Saturation)-g_iWinSizeX * 0.5f, -(m_fY + 145.f) + g_iWinSizeY * 0.5f, 0.f));
 
@@ -338,7 +338,7 @@ void CUI_Option_Video::Set_Active_Option(_bool bOption)
 		m_fPreRatioX[i] = m_fRatioX[i];
 
 	m_iIndex_IBL = (_uint)(22.f * m_fRatioX[0]);
-	m_iIndex_SSR = (_uint)(5.f *  m_fRatioX[1]);
+	m_iIndex_SSR = (_uint)(4.f *  m_fRatioX[1]);
 	m_fScreenTone_Grayscale = (_uint)(255.f * m_fRatioX[2]);
 	m_fScreenTone_Contrast = (_uint)(255.f * m_fRatioX[3]);
 	m_fScreenTone_Saturation = (_uint)(255.f * m_fRatioX[4]);
@@ -362,7 +362,7 @@ void CUI_Option_Video::Apply_Option()
 		m_fPreRatioX[i] = m_fRatioX[i];
 
 	m_iIndex_IBL = (_uint)(22.f * m_fRatioX[0]);
-	m_iIndex_SSR = (_uint)(5.f * m_fRatioX[1]);
+	m_iIndex_SSR = (_uint)(4.f * m_fRatioX[1]);
 	m_fScreenTone_Grayscale = (_uint)(255.f * m_fRatioX[2]);
 	m_fScreenTone_Contrast = (_uint)(255.f *m_fRatioX[3]);
 	m_fScreenTone_Saturation = (_uint)(255.f * m_fRatioX[4]);
@@ -386,7 +386,7 @@ void CUI_Option_Video::Cancle_Option()
 		m_fRatioX[i] = m_fPreRatioX[i];
 
 	m_iIndex_IBL = (_uint)(22.f * m_fRatioX[0]);
-	m_iIndex_SSR = (_uint)(5.f * m_fRatioX[1]);
+	m_iIndex_SSR = (_uint)(4.f * m_fRatioX[1]);
 	m_fScreenTone_Grayscale = (_uint)(255.f * m_fRatioX[2]);
 	m_fScreenTone_Contrast = (_uint)(255.f * m_fRatioX[3]);
 	m_fScreenTone_Saturation = (_uint)(255.f * m_fRatioX[4]);
@@ -426,7 +426,7 @@ void CUI_Option_Video::Update_DragBar()
 			m_fDragBarX_SSR = m_fDragLineMaxX;
 
 		m_fRatioX[1] = (m_fDragBarX_SSR - m_fDragLineMinX) / m_fDragLineSizeX;
-		m_iIndex_SSR = (_uint)(5.f * m_fRatioX[1]);
+		m_iIndex_SSR = (_uint)(4.f * m_fRatioX[1]);
 
 		CRenderer::Set_SSRLevel(m_iIndex_SSR);
 		Print_OptionText();
