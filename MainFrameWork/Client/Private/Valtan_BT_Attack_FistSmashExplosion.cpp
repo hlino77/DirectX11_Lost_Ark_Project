@@ -68,9 +68,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float&
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);		
 			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#112 (934806095).wav");
-			Vec2 vDoughnutRadii = static_cast<CBoss*>(m_pGameObject)->Get_DoughnutRadii();
 			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(12.5f, 3.5f);
-			cout << vDoughnutRadii.x << ": " << vDoughnutRadii.y << endl;
 		}
 
 

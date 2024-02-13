@@ -203,11 +203,11 @@ void CValtan_BT_Attack_BugSmash::OnEnd()
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
-		pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(2.f);
+		pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
 		pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 		pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		static_cast<CSkill*>(pSkill)->Set_Atk(0);
-		static_cast<CSkill*>(pSkill)->Set_Force(10.f);
+		static_cast<CSkill*>(pSkill)->Set_Force(20.f);
 	}
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }

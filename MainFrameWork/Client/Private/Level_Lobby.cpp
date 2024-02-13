@@ -58,7 +58,7 @@ HRESULT CLevel_Lobby::Initialize()
 
 	m_bConnect = false;
 
-	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
+	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 1.f);
 
 	return S_OK;
 }

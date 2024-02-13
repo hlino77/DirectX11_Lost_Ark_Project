@@ -44,7 +44,6 @@ void CValtan_BT_Spawn::OnStart()
 
 	m_fLightningParticleTime = 0.05f;
 	CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"RiseValtan.wav", 0.5f);
-	//CGameInstance::GetInstance()->SetChannelVolume(1.f, 1.f);
 	Effect_SpawnStart();
 }
 
@@ -61,7 +60,7 @@ CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 30 && static_cast<CMonster*>(m_pGameObject)->Get_DissolveIn() == false&& m_bShoot)
 	{
 		m_bShoot = false;
-		static_cast<CMonster*>(m_pGameObject)->Set_DissolveIn(4.f);
+		static_cast<CMonster*>(m_pGameObject)->Set_DissolveIn(3.f);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex&& m_bSoundOn[0] == false)
 	{

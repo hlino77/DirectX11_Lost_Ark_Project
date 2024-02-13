@@ -28,8 +28,8 @@ HRESULT CSkill_Valtan_Breath::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 	m_fLastTime = 0.5f;
-	m_SkillDesc.iAtk = 30;
-	m_SkillDesc.fForce = 47.f;
+	m_SkillDesc.iAtk = 100;
+	m_SkillDesc.fForce = 49.9f;
     return S_OK;
 }
 
@@ -100,7 +100,7 @@ HRESULT CSkill_Valtan_Breath::Ready_Coliders()
 
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.1f, 0.f));
 	pChildCollider->Set_Far(7.5f);
-	pChildCollider->Set_Near(0.5f);
+	pChildCollider->Set_Near(0.f);
 	pChildCollider->Set_Slopes(Vec4(1.f, -0.05f, tanf(XMConvertToRadians(60.f)), tanf(XMConvertToRadians(-60.f))));
 	pChildCollider->SetActive(true);
 	for (auto& Collider : m_Coliders)
