@@ -269,15 +269,17 @@ private:
 	// Screen Tone
 	struct ScreenTone_Data
 	{
-		_float	fGrayScale = 0.2f;
+		_float	fGrayScale = 1.f;
 		_float	fContrast = 1.f;
 		_float	fSaturation = 1.f;
 		_float	fPadding;
 	};
 
 	static ScreenTone_Data m_tScreenTone_Data;
+	ScreenTone_Data m_tScreenTone_BackUp;
 
 	_bool	m_bDeadScene = { false };
+	_bool	m_bDeadSceneStart = { false };
 
 	// ScreenShot
 	_bool	m_bScreenShot = { false };
