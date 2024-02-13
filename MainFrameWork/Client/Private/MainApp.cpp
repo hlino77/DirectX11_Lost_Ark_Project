@@ -269,6 +269,10 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		}
 	}
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyFloorNoise"),
+		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyDome/SkyFloor/fx_d_noise_004.png"))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Renderer */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), m_pRenderer_Com = CRenderer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

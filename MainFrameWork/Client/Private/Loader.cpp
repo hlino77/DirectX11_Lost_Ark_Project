@@ -1096,12 +1096,6 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyFloorNoise"),
-		CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyDome/SkyFloor/fx_d_noise_004.png"))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-
 	if (FAILED(Loading_ChaosDungeon_UI()))
 		return E_FAIL;
 

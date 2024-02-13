@@ -148,6 +148,8 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 	if (nullptr == pSkyDome)
 		return E_FAIL;
 
+	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(-17.f, -0.2f, 2.f));
+
 	CSkyFloor::SkyFloorDescription desc;
 
 	// 첫 번째
@@ -158,7 +160,7 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -138.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(-17.f, -138.2f, 2.f));
 
 	// 두 번째
 	desc.vTileCount = Vec2(4.f, 4.f);
@@ -168,7 +170,7 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -136.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(-17.f, -136.2f, 2.f));
 
 	// 세 번째
 	desc.vTileCount = Vec2(5.f, 5.f);
@@ -178,9 +180,9 @@ HRESULT CLevel_Tool::Ready_Layer_SkyBox()
 	if (nullptr == pSkyFloor)
 		return E_FAIL;
 
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -134.f, 100.f));
+	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(1-7.f, -134.2f, 2.f));
 
-	CRenderer::Set_IBLTexture(22);
+	CRenderer::Set_IBLTexture(2);
 
 	Safe_Release(pGameInstance);
 
