@@ -85,13 +85,6 @@ HRESULT CUI_ValtanClearWnd::Initialize(void* pArg)
 void CUI_ValtanClearWnd::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//if (KEY_TAP(KEY::H))
-	//{
-	//	m_bValtanClear = !m_bValtanClear;
-	//}
-
-	//if ((m_bTextOn)&&(KEY_TAP(KEY::LBTN)))
-	//	m_bActive = false;
 }
 
 void CUI_ValtanClearWnd::LateTick(_float fTimeDelta)
@@ -172,6 +165,7 @@ void CUI_ValtanClearWnd::Update_BackGroundAlpha(_float fTimeDelta)
 		{
 			m_fBackGroundAlpha = 1.f;
 			m_bClearAnim = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Clear.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 
 	}

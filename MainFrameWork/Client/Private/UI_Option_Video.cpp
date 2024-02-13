@@ -4,6 +4,7 @@
 #include "TextBox.h"
 #include "ServerSessionManager.h"
 #include "Renderer.h"
+#include "Sound_Manager.h"
 
 CUI_Option_Video::CUI_Option_Video(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -346,6 +347,9 @@ void CUI_Option_Video::Set_Active_Option(_bool bOption)
 	CRenderer::Set_PBR_Switch(m_bOption_PBR);
 	CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+	CRenderer::Set_GrayScale(m_fRatioX[2]);
+	CRenderer::Set_Contrast(m_fRatioX[3]);
+	CRenderer::Set_Saturation(m_fRatioX[4]);
 }
 
 void CUI_Option_Video::Apply_Option()
@@ -370,6 +374,9 @@ void CUI_Option_Video::Apply_Option()
 	CRenderer::Set_PBR_Switch(m_bOption_PBR);
 	CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+	CRenderer::Set_GrayScale(m_fRatioX[2]);
+	CRenderer::Set_Contrast(m_fRatioX[3]);
+	CRenderer::Set_Saturation(m_fRatioX[4]);
 }
 
 void CUI_Option_Video::Cancle_Option()
@@ -394,6 +401,9 @@ void CUI_Option_Video::Cancle_Option()
 	CRenderer::Set_PBR_Switch(m_bOption_PBR);
 	CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+	CRenderer::Set_GrayScale(m_fRatioX[2]);
+	CRenderer::Set_Contrast(m_fRatioX[3]);
+	CRenderer::Set_Saturation(m_fRatioX[4]);
 }
 
 void CUI_Option_Video::Update_DragBar()
@@ -484,6 +494,8 @@ void CUI_Option_Video::Update_DragBar()
 		for (size_t i = 0; i < 5; i++)
 		{
 			m_bHolding[i] = false;
+			m_bSound[i + 3] = false;
+			m_bDragSound[i] = false;
 		}
 	}
 }
@@ -530,55 +542,115 @@ void CUI_Option_Video::Is_Picking_DragBar_IBL(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[0], pt))
 	{
+		if (!m_bSound[3])
+		{
+			m_bSound[3] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[0] = true;
+			if (!m_bDragSound[0])
+			{
+				m_bDragSound[0] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[3] = false;
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_SSR(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[1], pt))
 	{
+		if (!m_bSound[4])
+		{
+			m_bSound[4] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[1] = true;
+			if (!m_bDragSound[1])
+			{
+				m_bDragSound[1] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[4] = false;
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_ScreenTone_GBar(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[2], pt))
 	{
+		if (!m_bSound[5])
+		{
+			m_bSound[5] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[2] = true;
+			if (!m_bDragSound[2])
+			{
+				m_bDragSound[2] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[5] = false;
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_ScreenTone_CBar(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[3], pt))
 	{
+		if (!m_bSound[6])
+		{
+			m_bSound[6] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[3] = true;
+			if (!m_bDragSound[3])
+			{
+				m_bDragSound[3] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[6] = false;
 }
 
 void CUI_Option_Video::Is_Picking_DragBar_ScreenTone_SBar(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[4], pt))
 	{
+		if (!m_bSound[7])
+		{
+			m_bSound[7] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[4] = true;
+			if (!m_bDragSound[4])
+			{
+				m_bDragSound[4] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[7] = false;
 }
 
 void CUI_Option_Video::MovingWnd(CUI* pUI, _float fMoveX)
@@ -690,22 +762,27 @@ void CUI_Option_Video::Is_Picking_CheckButton_PBR(POINT pt)
 		m_iTextureIndex_PBR = 2;
 	else
 		m_iTextureIndex_PBR = 0;
-
 	if (PtInRect(&m_rcCheckButton[0], pt))
 	{
-
+		if (!m_bSound[0])
+		{
+			m_bSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex_PBR)
 			m_iTextureIndex_PBR = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bOption_PBR = !m_bOption_PBR;
 			CRenderer::Set_PBR_Switch(m_bOption_PBR);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		if (2 != m_iTextureIndex_PBR)
 			m_iTextureIndex_PBR = 0;
+		m_bSound[0] = false;
 	}
 }
 
@@ -718,18 +795,25 @@ void CUI_Option_Video::Is_Picking_CheckButton_SSAO(POINT pt)
 
 	if (PtInRect(&m_rcCheckButton[1], pt))
 	{
+		if (!m_bSound[1])
+		{
+			m_bSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex_SSAO)
 			m_iTextureIndex_SSAO = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bOption_SSAO = !m_bOption_SSAO;
 			CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		if (2 != m_iTextureIndex_SSAO)
 			m_iTextureIndex_SSAO = 0;
+		m_bSound[1] = false;
 	}
 }
 
@@ -742,18 +826,25 @@ void CUI_Option_Video::Is_Picking_CheckButton_Fxaa3_11(POINT pt)
 
 	if (PtInRect(&m_rcCheckButton[2], pt))
 	{
+		if (!m_bSound[2])
+		{
+			m_bSound[2] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex_Fxaa3_11)
 			m_iTextureIndex_Fxaa3_11 = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bOption_Fxaa3_11 = !m_bOption_Fxaa3_11;
 			CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		if (2 != m_iTextureIndex_Fxaa3_11)
 			m_iTextureIndex_Fxaa3_11 = 0;
+		m_bSound[2] = false;
 	}
 }
 

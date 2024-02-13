@@ -91,12 +91,11 @@ void CUI_ChaosDungeon_Clear::Tick(_float fTimeDelta)
 		if (22.f > m_fFrame)
 			m_fFrame += 22.f * fTimeDelta;
 		else if (22.f < m_fFrame)
+		{
 			m_fFrame = 22.f;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Clear.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 	}
-
-	if (KEY_TAP(KEY::B))
-		m_bStart = !m_bStart;
-
 }
 
 void CUI_ChaosDungeon_Clear::LateTick(_float fTimeDelta)

@@ -121,6 +121,11 @@ private:
     CTextBox* m_pTextBox = { nullptr };
     wstring m_strTextWnd;
     wstring m_strFont;
+    
+
+    _bool   m_bCheckSound[5] = { false,false,false,false,false };
+    _bool   m_bSound[5] = { false,false,false,false,false };
+    _bool   m_bClickSound[5] = {false,false,false,false,false };
 
 public:
     static  CUI_Option_Sound* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

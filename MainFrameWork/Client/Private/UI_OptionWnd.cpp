@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "TextBox.h"
 #include "ServerSessionManager.h"
+#include "Sound_Manager.h"
 
 CUI_OptionWnd::CUI_OptionWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -186,6 +187,12 @@ void CUI_OptionWnd::Moving_Wnd(POINT pt)
 
 		m_pOptionTextWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
 			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+		if (KEY_AWAY(KEY::LBTN))
+		{
+			m_bMovingWnd = false;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 	}
 }
 
@@ -229,8 +236,6 @@ void CUI_OptionWnd::Is_Picking_MovingWnd(POINT pt)
 	{
 		if (KEY_HOLD(KEY::LBTN))
 			m_bMovingWnd = true;
-		else
-			m_bMovingWnd = false;
 	}
 	else
 	{
@@ -243,15 +248,22 @@ void CUI_OptionWnd::Is_Picking_ApplyButton(POINT pt)
 	if (PtInRect(&m_rcApplyButton, pt))
 	{
 		m_iTextureIndex_Button[0] = 1;
+		if (!m_bSound[0])
+		{
+			m_bSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_iTextureIndex_Button[0] = 2;
 			m_bApplyButton = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		m_iTextureIndex_Button[0]= 0;
+		m_bSound[0] = false;
 	}
 }
 
@@ -259,16 +271,23 @@ void CUI_OptionWnd::Is_Picking_CancleButton(POINT pt)
 {
 	if (PtInRect(&m_rcCancleButton, pt))
 	{
+		if (!m_bSound[1])
+		{
+			m_bSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iTextureIndex_Button[1] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_iTextureIndex_Button[1] = 2;
 			m_bCancleButton = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		m_iTextureIndex_Button[1] = 0;
+		m_bSound[1] = false;
 	}
 }
 
@@ -276,15 +295,22 @@ void CUI_OptionWnd::Is_Picking_QuitButton(POINT pt)
 {
 	if (PtInRect(&m_rcQuitButton, pt))
 	{
+		if (!m_bSound[2])
+		{
+			m_bSound[2] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iTextureIndex_Button[2] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bQuitButton = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		m_iTextureIndex_Button[2] = 0;
+		m_bSound[2] = false;
 	}
 }
 
@@ -294,39 +320,51 @@ void CUI_OptionWnd::Is_Picking_ObjectTag(POINT pt)
 	{
 		if (0 != m_iOptionMode)
 			m_iTextureIndex_OptionTag[0] = 1;
+		if (!m_bSound[3])
+		{
+			m_bSound[3] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_iOptionMode = 0;
 			m_iTextureIndex_OptionTag[0] = 2;
 			m_iTextureIndex_OptionTag[1] = 0;
 			m_strNowOption = TEXT("비디오");
-
 			Print_OptionText();
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		if (0 != m_iOptionMode)
 			m_iTextureIndex_OptionTag[0] = 0;
+		m_bSound[3] = false;
 	}
 	if (PtInRect(&m_rcObjectTag[1], pt))
 	{
 		if (1 != m_iOptionMode)
 			m_iTextureIndex_OptionTag[1] = 1;
+		if (!m_bSound[4])
+		{
+			m_bSound[4] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_iOptionMode = 1;
 			m_iTextureIndex_OptionTag[0] = 0;
 			m_iTextureIndex_OptionTag[1] = 2;
 			m_strNowOption = TEXT("오디오");
-
 			Print_OptionText();
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 	else
 	{
 		if (1 != m_iOptionMode)
 			m_iTextureIndex_OptionTag[1] = 0;
+		m_bSound[4] = false;
 	}
 }
 
